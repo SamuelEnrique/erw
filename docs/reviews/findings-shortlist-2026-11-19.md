@@ -347,7 +347,7 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The one thing that would make it wrong:** The Carolinas region is EIA's grouping of authorities (Duke's two and others), held only for hours when every authority reported; a missing authority drops the hour.
 - **Tables and license:** `eia930_ba_demand_hourly` (public; eia:gridmonitor/sixMonthFiles)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/events/elliott-2022-car.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/events/elliott-2022-car.reproduce.py)
-- **Second route:** not yet done (part E)
+- **Second route:** No second route in the warehouse: the Carolinas region exists only in EIA-930; Duke figures cover Duke alone.
 - **Why it matters, as a fact:** Winter Storm Elliott brought the first rolling blackouts in the Carolinas; the figure is how far that week's highest hour stood above the same days in other years.
 - **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
 
@@ -362,7 +362,7 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The one thing that would make it wrong:** EIA's weighted average of what owners paid on delivery, spot and long-term contracts together; 2025 is preliminary in EIA's report.
 - **Tables and license:** `eia_uranium_marketing_annual` (public; eia:uranium_marketing_annual)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/uranium-price-us-uranium-price.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/uranium-price-us-uranium-price.reproduce.py)
-- **Second route:** not yet done (part E)
+- **Second route:** Agree: EIA Uranium Marketing Annual Report 2025 prints 58.46 USD a pound for 2025; the draft 58.46 (search result, page not opened).
 - **Why it matters, as a fact:** The price US reactor owners pay for uranium is a fuel cost of every US nuclear plant.
 - **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
 
@@ -377,7 +377,7 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The one thing that would make it wrong:** Origin as reported by owners in EIA's survey; 2025 is preliminary.
 - **Tables and license:** `eia_uranium_marketing_annual` (public; eia:uranium_marketing_annual)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/us-origin-uranium-us-uranium-origin.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/us-origin-uranium-us-uranium-origin.reproduce.py)
-- **Second route:** not yet done (part E)
+- **Second route:** Agree at the publisher precision: EIA prints 7 percent US-origin for 2025; the draft 7.2 (search result, page not opened).
 - **Why it matters, as a fact:** The share says how much of the uranium bought for US reactors was mined in the United States.
 - **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
 
@@ -392,7 +392,7 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The one thing that would make it wrong:** EIA's international estimates in short tons; the IEA counts in tonnes of coal equivalent, so the two do not match unit for unit.
 - **Tables and license:** `eia_world_coal_annual` (public; eia:international_bulk)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/wc-consumption-wc-ind.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/wc-consumption-wc-ind.reproduce.py)
-- **Second route:** not yet done (part E)
+- **Second route:** Agree: EIA international data as republished by The Global Economy give 1,371.1 million short tons for 2024; the same source as the draft, so not independent.
 - **Why it matters, as a fact:** India's coal demand reached an all-time high in 2024, up about 5.5 percent (IEA, Global Energy Review 2025).
 - **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
 
@@ -407,23 +407,23 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The one thing that would make it wrong:** EIA's power-sector CO2 over its net generation, through 2022 (the table's latest year); 2023 onward is not in it.
 - **Tables and license:** `eia_co2_state_annual` (public; eia:co2-emissions/co2-emissions-aggregates); `eia_state_generation_monthly` (public; eia:electricity/electric-power-operational-data)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/emissions_climate/power-co2-per-mwh-co2mwh-us.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/emissions_climate/power-co2-per-mwh-co2mwh-us.reproduce.py)
-- **Second route:** not yet done (part E)
+- **Second route:** No second route in the warehouse: EIA power-sector CO2 and generation are the only sources for 2022; EIA published 387 kg per MWh for 2020, a year the draft does not compare.
 - **Why it matters, as a fact:** CO2 per MWh of the US power sector is the average emissions factor of grid power.
 - **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
 
-### 27. Co2 by country: co2 from natural gas: China
+### 27. Enrichment of us origin: the United States
 
-- **Reader:** an investor in energy
-- **The sentence:** The CO2 from natural gas of China was 831.9 million t CO2 in 2024, against 30.8 million t CO2 in 1980, the first full year the ERW holds.
-- **The figure:** 831.927 million t CO2 in 2024, against 30.8395 in 1980, as this machine's run printed them (the draft's own: 831.927 and 30.8395)
-- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/emissions_climate/co2-gas-co2-chn.png
-- **Compared with:** the same measure in 1980
-- **Already known?** Known in part: Climate Change Tracker (https://climatechangetracker.org/nations/greenhouse-gas-emissions/china/sources-of-co2-emissions) gives China gas CO2 of about 890 million tonnes in 2024, a record; ours, EIA international data, 831.9 million t in 2024 against 30.8 in 1980 (a different source and method). Seen in search results, page not opened.
-- **The one thing that would make it wrong:** EIA's international estimate; Climate Change Tracker gives about 890 million tonnes for 2024, by another method.
-- **Tables and license:** `eia_world_energy_co2_annual` (public; eia:international_bulk)
-- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/emissions_climate/co2-gas-co2-chn.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/emissions_climate/co2-gas-co2-chn.reproduce.py)
-- **Second route:** not yet done (part E)
-- **Why it matters, as a fact:** China's CO2 from gas is the gas share of the world's largest emitter.
+- **Reader:** the energy lead of an AI lab
+- **The sentence:** The share of the enrichment bought for US reactors that was done in the US was 22.8 percent of enrichment services in 2025, against 13.9 percent of enrichment services in 2003, the first year EIA's report holds.
+- **The figure:** 22.8346 percent of enrichment services in 2025, against 13.8831 in 2003, as this machine's run printed them (the draft's own: 22.8346 and 13.8831)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/us-enrichment-share-us-enrich-origin.png
+- **Compared with:** the same measure in 2003
+- **Already known?** Known: EIA's Uranium Marketing Annual Report 2025 (https://www.eia.gov/uranium/marketing/) gives a US-origin share of enrichment of 23 percent in 2025; ours 22.8 percent. The draft repeats EIA's own figure. Seen in search results, page not opened.
+- **The one thing that would make it wrong:** Origin as reported by owners in EIA's survey; 2025 is preliminary.
+- **Tables and license:** `eia_uranium_marketing_annual` (public; eia:uranium_marketing_annual)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/us-enrichment-share-us-enrich-origin.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/us-enrichment-share-us-enrich-origin.reproduce.py)
+- **Second route:** Agree: EIA Uranium Marketing Annual Report 2025 gives a US-origin enrichment share of 23 percent; the draft 22.8 (search result, page not opened).
+- **Why it matters, as a fact:** The share of the enrichment bought for US reactors that was done in the United States; EIA prints 23 percent for 2025.
 - **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
 
 ### 28. What a region burns: coal: Georgia and Alabama (the core of EIA's Southeast region)
@@ -437,7 +437,7 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The one thing that would make it wrong:** EIA's state generation summed for two states, not EIA's whole Southeast region; utility-scale generation only.
 - **Tables and license:** `eia_state_generation_monthly` (public; eia:electricity/electric-power-operational-data)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/regions/coal-share-st-se-cow.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/regions/coal-share-st-se-cow.reproduce.py)
-- **Second route:** not yet done (part E)
+- **Second route:** No second route found for Georgia and Alabama together.
 - **Why it matters, as a fact:** Georgia and Alabama are Southern Company's home states; the share is coal's place in their power.
 - **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
 
@@ -452,7 +452,7 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The one thing that would make it wrong:** EIA's state net generation; small-scale solar is not in the denominator.
 - **Tables and license:** `eia_state_generation_monthly` (public; eia:electricity/electric-power-operational-data)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/regions/gas-share-st-fla-ng.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/regions/gas-share-st-fla-ng.reproduce.py)
-- **Second route:** not yet done (part E)
+- **Second route:** In part: EIA state profile gives about 75 percent for 2024; the draft table gives 2025 (73.0); the two years differ.
 - **Why it matters, as a fact:** Florida burns gas for most of its power, so its power demand is a large and steady draw on gas.
 - **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
 
@@ -467,38 +467,38 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The one thing that would make it wrong:** Utility-scale only, from EIA's state data; rooftop solar is left out of both share and total.
 - **Tables and license:** `eia_state_generation_monthly` (public; eia:electricity/electric-power-operational-data)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/regions/solar-share-st-sw-sun.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/regions/solar-share-st-sw-sun.reproduce.py)
-- **Second route:** not yet done (part E)
+- **Second route:** No second route found for Arizona and New Mexico together.
 - **Why it matters, as a fact:** Arizona and New Mexico are the core of EIA's Southwest region; utility-scale solar's share of their generation.
 - **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
 
-### 31. Homes against industry: the United States
+### 31. What businesses buy: the United States
 
 - **Reader:** the energy lead of an AI lab
-- **The sentence:** The residential electricity price in the United States above the industrial price was 87.7 USD per MWh in 2025, against 35.4 USD per MWh in 2001, the first full year the ERW holds.
-- **The figure:** 87.7 USD per MWh in 2025, against 35.425 in 2001, as this machine's run printed them (the draft's own: 87.7 and 35.425)
-- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/tariffs_policy/res-over-ind-res-ind-gap-us.png
+- **The sentence:** Retail electricity sales to the commercial sector in the United States were 1,503.3 TWh in 2025, against 1,083.1 TWh in 2001, the first full year the ERW holds.
+- **The figure:** 1,503.31 TWh in 2025, against 1,083.07 in 2001, as this machine's run printed them (the draft's own: 1,503.31 and 1,083.07)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/tariffs_policy/commercial-sales-com-sales-us.png
 - **Compared with:** the same measure in 2001
-- **Already known?** Known: EIA's 2025 averages, residential 17.30 and industrial 8.62 cents a kWh (EIA Electric Power Monthly table 5.6.A, https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_6_a), a gap of 86.8 USD per MWh against ours of 87.7; Berkeley Lab's Retail Price Trends, 2026 edition (https://eta-publications.lbl.gov/sites/default/files/2026-07/retail_price_trends_2026_edition_julyupdate.pdf), describes the gap widening. Seen in search results, pages not opened.
-- **The one thing that would make it wrong:** EIA's average revenue per MWh by sector, not a tariff rate; nominal dollars.
-- **Tables and license:** `eia_retail_electricity_prices` (public; eia:electricity/retail-sales)
-- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/tariffs_policy/res-over-ind-res-ind-gap-us.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/tariffs_policy/res-over-ind-res-ind-gap-us.reproduce.py)
-- **Second route:** not yet done (part E)
-- **Why it matters, as a fact:** The gap between what households and industry pay per MWh is the spread a large load's tariff sits within.
-- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+- **Already known?** Known: EIA Electric Power Monthly table 5.1 (https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_1, opened 19 November 2026) prints 1,503,310 thousand MWh of commercial sales for 2025 and 1,450,941 for 2024; the draft repeats EIA own total and sets it against 2001 (1,083.1 TWh).
+- **The one thing that would make it wrong:** EIA's 2025 months are preliminary; EIA notes that 2023 to 2024 changes in commercial and industrial sales largely reflect better reporting of data centers and crypto mining (table 2.8).
+- **Tables and license:** `eia_retail_sales_monthly` (public; eia:electricity/retail-sales)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/tariffs_policy/commercial-sales-com-sales-us.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/tariffs_policy/commercial-sales-com-sales-us.reproduce.py)
+- **Second route:** Agree: EIA Electric Power Monthly table 5.1 (https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_1, opened 19 November 2026) gives 1,503,310 thousand MWh of commercial sales for 2025; the draft 1,503.3 TWh.
+- **Why it matters, as a fact:** Commercial sales are the class most US data centers are billed in; EIA's own table 5.1 prints the same total.
+- **The audit's row:** checks 1 fixed, 2 pass, 3 pass; changed: the sentence: "was" made "were" after the plural subject (the chart's line under the title, drawn into the PNG, still has the old words)
 
-### 32. Minutes without power: Nebraska
+### 32. Europe's electricity: coal and manufactured gases: Greece
 
-- **Reader:** the energy lead of an AI lab
-- **The sentence:** The average minutes of interruption a customer saw in Nebraska (customer-weighted SAIDI, major event days included) was 543 minutes a customer in 2025, against 68 minutes a customer in 2015, the first year EIA's reliability table holds.
-- **The figure:** 542.785 minutes a customer in 2025, against 67.9333 in 2015, as this machine's run printed them (the draft's own: 542.785 and 67.9333)
-- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/tariffs_policy/saidi-saidi-ne.png
-- **Compared with:** the same measure in 2015
-- **Already known?** Known in part: EIA's Electric Power Annual table 11.3 (https://www.eia.gov/electricity/annual/html/epa_11_03.html) prints SAIDI by state with and without major events; its 2025 Nebraska figure was not visible in the search result. Ours: 542.8 minutes a customer in 2025 against 67.9 in 2015, major event days included. Seen in search results, page not opened.
-- **The one thing that would make it wrong:** Major event days are included, so one storm year can carry the figure; utilities that do not report are left out.
-- **Tables and license:** `eia861_utility_reliability` (public; eia:eia861:reliability)
-- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/tariffs_policy/saidi-saidi-ne.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/tariffs_policy/saidi-saidi-ne.reproduce.py)
-- **Second route:** not yet done (part E)
-- **Why it matters, as a fact:** Minutes of interruption per customer is the reliability a load connected to that grid would have seen.
+- **Reader:** an investor in energy
+- **The sentence:** The share of coal and manufactured gases in the net electricity production of Greece was 5.3 percent in 2025, against 31.8 percent in 2017, the first full year the ERW holds.
+- **The figure:** 5.29206 percent in 2025, against 31.8315 in 2017, as this machine's run printed them (the draft's own: 5.29206 and 31.8315)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-coal-eu-el.png
+- **Compared with:** the same measure in 2017
+- **Already known?** Known: Ember European Electricity Review 2026 (https://ember-energy.org/EER2026) says Greece cut coal to about 5 percent of its electricity in 2025; ours, from Eurostat net production, 5.3 percent. The draft repeats Ember headline. Seen in search results, page not opened.
+- **The one thing that would make it wrong:** Eurostat's 2025 months are provisional; coal here includes manufactured gases.
+- **Tables and license:** `eurostat_electricity_monthly` (public; eurostat:nrg_cb_pem_nrg_cb_em)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-coal-eu-el.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-coal-eu-el.reproduce.py)
+- **Second route:** Agree at the publishers precision: Ember gives about 5 percent and CCPI 5.4 percent for Greece coal in 2025; the draft 5.3 from Eurostat (search results, pages not opened).
+- **Why it matters, as a fact:** Greece cut coal from about a third of its electricity to about a twentieth in eight years; Ember prints the same 2025 share.
 - **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
 
 ### 33. Cooling degree days: Texas (EIA's region)
@@ -512,7 +512,7 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The one thing that would make it wrong:** Computed from the ERW's hourly temperature for EIA's Texas region (a population-weighted set of stations), not NOAA's official degree days.
 - **Tables and license:** `region_weather_hourly` (public; erw:region_weather_hourly)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/weather/cdd-wd-tex.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/weather/cdd-wd-tex.reproduce.py)
-- **Second route:** not yet done (part E)
+- **Second route:** No second route in the warehouse: the population-weighted regional temperature is the only hourly temperature for EIA regions.
 - **Why it matters, as a fact:** Cooling degree days are the heat that drives Texas summer demand.
 - **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
 
@@ -527,7 +527,7 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The one thing that would make it wrong:** Eurostat's monthly figures for 2025 are provisional and revised.
 - **Tables and license:** `eurostat_electricity_monthly` (public; eurostat:nrg_cb_pem_nrg_cb_em)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-solar-eu-eu27-2020.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-solar-eu-eu27-2020.reproduce.py)
-- **Second route:** not yet done (part E)
+- **Second route:** Agree at the publisher precision: Ember gives 13 percent for EU solar in 2025; the draft 13.0 from Eurostat (search result, page not opened).
 - **Why it matters, as a fact:** Solar's share of EU electricity, from Eurostat's own net production.
 - **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
 
@@ -542,7 +542,7 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The one thing that would make it wrong:** Eurostat's monthly balance; the April 2025 Iberian blackout month is in the year.
 - **Tables and license:** `eurostat_electricity_monthly` (public; eurostat:nrg_cb_pem_nrg_cb_em)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-net-imports-eu-pt.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-net-imports-eu-pt.reproduce.py)
-- **Second route:** not yet done (part E)
+- **Second route:** In part: Portuguese sources give imports at 17 percent of demand in 2025; the draft 17.7 percent of electricity available (Eurostat), a different base.
 - **Why it matters, as a fact:** Portugal's net imports, nearly all from Spain, are the share of its power it does not make.
 - **The audit's row:** checks 1 fixed, 2 pass, 3 pass; changed: the sentence: "was" made "were" after the plural subject (the chart's line under the title, drawn into the PNG, still has the old words)
 
@@ -557,7 +557,7 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The one thing that would make it wrong:** Eurostat's 2025 months are provisional; Finland's own statistics differ by a few tenths.
 - **Tables and license:** `eurostat_electricity_monthly` (public; eurostat:nrg_cb_pem_nrg_cb_em)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-wind-eu-fi.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-wind-eu-fi.reproduce.py)
-- **Second route:** not yet done (part E)
+- **Second route:** Agree: Renewables Finland gives 27.9 percent for 2025; the draft 27.9 from Eurostat (search result, page not opened).
 - **Why it matters, as a fact:** Wind's share of Finland's electricity, from Eurostat.
 - **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
 
@@ -572,7 +572,7 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The one thing that would make it wrong:** EIA's international estimates; other producers' figures are estimated and revised.
 - **Tables and license:** `eia_world_oil_monthly` (public; eia:international_bulk)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/oil_products_world/us-liquids-share-us-world-liquids.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/oil_products_world/us-liquids-share-us-world-liquids.reproduce.py)
-- **Second route:** not yet done (part E)
+- **Second route:** No second route found: no publisher printing the US share of world liquids.
 - **Why it matters, as a fact:** The US share of world petroleum and other liquids production includes natural gas plant liquids, where the US leads.
 - **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
 
@@ -587,7 +587,7 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The one thing that would make it wrong:** EIA's international data; 2024 is the latest year in the table.
 - **Tables and license:** `eia_world_oil_gas_annual` (public; eia:international_bulk)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/gas/wog-gas-exports-wog-usa.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/gas/wog-gas-exports-wog-usa.reproduce.py)
-- **Second route:** not yet done (part E)
+- **Second route:** Agree: EIA Natural Gas Annual table 9 gives 4,367 Bcf of LNG and 3,339 Bcf by pipeline in 2024, 7,706 together; the draft 7,707 (search result, page not opened).
 - **Why it matters, as a fact:** US dry gas exports by pipeline and as LNG together.
 - **The audit's row:** checks 1 fixed, 2 pass, 3 pass; changed: the sentence: "was" made "were" after the plural subject (the chart's line under the title, drawn into the PNG, still has the old words)
 
@@ -602,34 +602,34 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The one thing that would make it wrong:** The NRC's daily power status in percent of each reactor's licensed power, averaged over reactors and days, not weighted by size.
 - **Tables and license:** `nrc_reactor_status` (public; nrc:power_reactor_status)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/markets_operations/reactor-power-rp-us.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/markets_operations/reactor-power-rp-us.reproduce.py)
-- **Second route:** not yet done (part E)
+- **Second route:** Agree within 0.3 point: NukeWorker from the NRC daily reports gives 91.38 percent for 2025, EIA a 91 percent capacity factor; the draft 91.1.
 - **Why it matters, as a fact:** The mean daily power level of the US fleet is the share of nuclear capacity that ran on an average day.
 - **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
 
-### 40. Building power: US private electric power construction
+### 40. Coal by country: exports: Indonesia
 
 - **Reader:** an investor in energy
-- **The sentence:** The value of private electric power construction put in place in the US was 128.04 USD billion in 2025, against 16.39 USD billion in 1993, the first full year the ERW holds.
-- **The figure:** 128.041 USD billion in 2025, against 16.386 in 1993, as this machine's run printed them (the draft's own: 128.041 and 16.386)
-- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/queues_deals_datacenters/power-construction-us-power-build.png
-- **Compared with:** the same measure in 1993
-- **Already known?** Known: the figure is the Census Bureau's own private power construction series (FRED, https://fred.stlouisfed.org/series/PRPWRCON); its seasonally adjusted annual rate was about 144 billion USD in December 2025. Ours, the 2025 months summed, 128.04 billion USD. Seen in search results, pages not opened.
-- **The one thing that would make it wrong:** Census revises the series each July; nominal dollars.
-- **Tables and license:** `census_c30_construction_monthly` (public; census:c30_construction_spending)
-- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/queues_deals_datacenters/power-construction-us-power-build.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/queues_deals_datacenters/power-construction-us-power-build.reproduce.py)
-- **Second route:** not yet done (part E)
-- **Why it matters, as a fact:** Census's value put in place counts money spent on private power construction in the year.
-- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+- **The sentence:** The coal exports of Indonesia were 614.8 million short tons in 2024, against 0.4 million short tons in 1980, the first full year the ERW holds.
+- **The figure:** 614.82 million short tons in 2024, against 0.423883 in 1980, as this machine's run printed them (the draft's own: 614.82 and 0.423883)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/wc-exports-wc-idn.png
+- **Compared with:** the same measure in 1980
+- **Already known?** Known: Statistics Indonesia, via The Coal Hub (https://thecoalhub.com/indonesian-coal-exports-up-by-over-8-percent.html) and Reuters reports, gives a record 557.8 million tonnes exported in 2024 (about 615 million short tons) and calls Indonesia the largest thermal coal exporter; ours, EIA international data, 614.8 million short tons. Seen in search results, page not opened.
+- **The one thing that would make it wrong:** EIA's international estimate in short tons; Indonesia's ministry gives about 555 million tonnes and another of its counts 433 million, by other definitions.
+- **Tables and license:** `eia_world_coal_annual` (public; eia:international_bulk)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/wc-exports-wc-idn.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/wc-exports-wc-idn.reproduce.py)
+- **Second route:** Agree: Statistics Indonesia gives 557.76 million tonnes exported in 2024, which is 614.8 million short tons; the draft 614.8 (search result, page not opened).
+- **Why it matters, as a fact:** Indonesia is the largest exporter of thermal coal (Reuters, via The Coal Hub); Statistics Indonesia's record 557.76 million tonnes for 2024 is the same figure in other units.
+- **The audit's row:** checks 1 fixed, 2 pass, 3 pass; changed: the sentence: "was" made "were" after the plural subject (the chart's line under the title, drawn into the PNG, still has the old words)
 
 ## By family
 
 | Family | On the sheet |
 |---|---:|
 | authorities | 2 |
-| coal_uranium_metals | 3 |
+| coal_uranium_metals | 5 |
 | cross_family | 1 |
 | demand | 2 |
-| emissions_climate | 2 |
+| emissions_climate | 1 |
 | events | 2 |
 | gas | 2 |
 | generation_pipeline | 1 |
@@ -638,10 +638,10 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 | oil_products_world | 2 |
 | other_us | 2 |
 | prices | 5 |
-| queues_deals_datacenters | 2 |
+| queues_deals_datacenters | 1 |
 | regions | 3 |
-| tariffs_policy | 2 |
+| tariffs_policy | 1 |
 | trade | 2 |
 | weather | 1 |
-| world_power | 3 |
+| world_power | 4 |
 
