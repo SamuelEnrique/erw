@@ -165,6 +165,9 @@ ba_supply_monthly,share_days,series variable,count
 ba_supply_monthly,thin_month,series variable,count
 ba_supply_monthly,total_interchange_all_days_mwh,series variable,MWh
 ba_supply_monthly,total_interchange_days,series variable,count
+ba_trade_partners,exchange_gross_mwh,series variable,MWh
+ba_trade_partners,net_import_mwh,series variable,MWh
+ba_trade_partners,net_import_share_of_demand_pct,series variable,pct
 battery_sourced_ranges,capex,series variable,USD/kW
 battery_sourced_ranges,energy_capital_cost,series variable,USD/kWh
 battery_sourced_ranges,fixed_om,series variable,USD/kW-year
@@ -3433,6 +3436,14 @@ eia930_generation_latest,net_generation_unknown_mw,series variable,MW
 eia930_generation_latest,net_generation_unknown_storage_mw,series variable,MW
 eia930_generation_latest,net_generation_wind_mw,series variable,MW
 eia930_generation_latest,net_generation_wind_with_battery_mw,series variable,MW
+eia930_region_fuel_hourly,net_generation_coal_mw,series variable,MW
+eia930_region_fuel_hourly,net_generation_hydro_mw,series variable,MW
+eia930_region_fuel_hourly,net_generation_natural_gas_mw,series variable,MW
+eia930_region_fuel_hourly,net_generation_nuclear_mw,series variable,MW
+eia930_region_fuel_hourly,net_generation_other_mw,series variable,MW
+eia930_region_fuel_hourly,net_generation_solar_mw,series variable,MW
+eia930_region_fuel_hourly,net_generation_storage_mw,series variable,MW
+eia930_region_fuel_hourly,net_generation_wind_mw,series variable,MW
 eia930_region_hourly,demand_forecast_mw,series variable,MW
 eia930_region_hourly,demand_mw,series variable,MW
 eia930_region_hourly,net_generation_mw,series variable,MW
@@ -3454,6 +3465,7 @@ eia_aeo_emm_regions,value,series variable,MWh
 eia_aeo_emm_regions,value,series variable,TBtu
 eia_aeo_emm_regions,value,series variable,USD/MMBtu
 eia_aeo_emm_regions,value,series variable,USD/kWh
+eia_aeo_industrial,consumption,series variable,TBtu
 eia_annual_crosscheck_ba,eia923_net_generation_mwh,series variable,MWh
 eia_annual_crosscheck_ba,eia930_hours,series variable,count
 eia_annual_crosscheck_ba,eia930_net_generation_mwh,series variable,MWh
@@ -3934,6 +3946,9 @@ eia_retail_fuel_prices,retail_price,series variable,USD/gal
 eia_retail_sales_monthly,customers,series variable,count
 eia_retail_sales_monthly,retail_sales,series variable,MWh
 eia_sector_energy_consumption_monthly,energy_consumption,series variable,TBtu
+eia_seds_industrial_annual,consumption,series variable,TBtu
+eia_seds_industrial_annual,expenditures,series variable,USD
+eia_seds_industrial_annual,price,series variable,USD/MMBtu
 eia_seds_residential_annual,consumption,series variable,TBtu
 eia_seds_residential_annual,expenditures,series variable,USD
 eia_seds_residential_annual,population,series variable,count
@@ -6451,6 +6466,9 @@ ine_es_dwellings_electricity_2021,dwellings_occasional_use,series variable,count
 ine_es_dwellings_electricity_2021,dwellings_over_10000_kwh,series variable,count
 ine_es_dwellings_electricity_2021,dwellings_total,series variable,count
 ine_es_dwellings_electricity_2021,median_annual_consumption,series variable,MWh
+interchange_event_pairs,interchange_mwh,series variable,MWh
+interchange_pair_daily,interchange_mwh,series variable,MWh
+interchange_pair_monthly,interchange_mwh,series variable,MWh
 interconnection_agreements_by_grid,active_mw,series variable,MW
 interconnection_agreements_by_grid,active_projects,series variable,count
 interconnection_agreements_by_grid,mw_signed,series variable,MW

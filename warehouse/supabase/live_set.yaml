@@ -304,6 +304,9 @@ catalogue_hold:
   - interchange_pair_monthly
   - ba_trade_partners
   - interchange_event_pairs
+  # session 8003 (chain 501, step D2): energy use by industry; the page reads site/data/industry.json, not the live set
+  - eia_seds_industrial_annual
+  - eia_aeo_industrial
   # session 489: the public tables of sessions 485 to 496 and 507, held on the data machine and in the archive, not loaded, and
   # not on Redivis (an upload is a person's, and the account's free 10 GB is full, session 363): not in the live
   # catalogue, so /data does not name tables it cannot link

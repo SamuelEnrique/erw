@@ -474,7 +474,9 @@ SECTOR_RULES = [
     (r"^usdm_drought_state_weekly$", "power"),  # session 2058: the U.S. Drought Monitor by state
     (r"^blm_oil_gas_statistics_annual$", "oil;gas"),  # session 2106: BLM's federal onshore leases, permits and wells by state and fiscal year
     (r"^cec_total_system_generation_annual$", "power"),  # session 2109: the Energy Commission's in-state generation, imports and total system power
-    (r"^eia_seds_residential_annual$", "power;gas;oil"),  # session 2108: SEDS's residential expenditures by source and state
+    (r"^eia_seds_residential_annual$", "power;gas;oil"),
+    (r"^eia_seds_industrial_annual$", "power;gas;oil;coal"),  # session 8003: SEDS's industrial consumption and expenditures by source and state
+    (r"^eia_aeo_industrial$", "power;gas;oil;coal"),  # session 8003: the AEO's industrial sub-sector tables (projections)  # session 2108: SEDS's residential expenditures by source and state
     (r"^noaa_uscrn_solar_monthly$", "power"),  # session 2107: NOAA USCRN's monthly solar radiation near CAISO's and ERCOT's solar
     (r"^treasury_1603_awards$", "power;deals"),  # session 2112: the Treasury's Section 1603 awards
     (r"^usaspending_doe_obligations$", "power;deals"),  # session 2188: USAspending.gov, DOE's budget, obligations and award obligations by category, a fiscal year

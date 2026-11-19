@@ -475,7 +475,16 @@ def main(argv=None):
                         "region_grids": sorted(g for g, rg in GRIDS.items() if rg == r["region"]),
                         "generation_only": r["generation_only"], "active": r["active"], "retired": r["retired"],
                         "first_hour": ip.utc_iso(span["min"]) if span is not None else None,
-                        "last_hour": ip.utc_iso(span["max"]) if span is not None else None, "files": files})
+                        "last_hour": ip.utc_iso(span["max"]) if span is not None else None, "files": files,
+                        "us": True, "files_eia930": True})
+        # session 8004 (data request 324 of the old laptop): the authorities across the border that EIA-930's ties name,
+        # Canada's and Mexico's, so every code of trade_matrix.json has a name; they file no Form EIA-930
+        for c, r in sorted(ref.items()):
+            if r["us"] or r["region"] not in ("CAN", "MEX"):
+                continue
+            bas.append({"code": c, "name": r["name"], "region": r["region"], "tz": r["tz"], "grid": None, "region_grids": [],
+                        "generation_only": r["generation_only"], "active": r["active"], "retired": r["retired"],
+                        "first_hour": None, "last_hour": None, "files": [], "us": False, "files_eia930": False})
         regs = []
         for r in REGIONS:
             d = demand_of[r].dropna()

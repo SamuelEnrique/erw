@@ -65,7 +65,7 @@ class PageFile(unittest.TestCase):
             self.assertIn(k, d)
         p = d["region_pairs"][0]
         self.assertEqual(set(p), {"a", "b", "year", "a_report_mwh", "b_report_mwh", "mean_mwh", "gap_mwh", "hours_a", "hours_b",
-                                  "hours_both", "direction"})
+                                  "hours_both", "months_held", "months_in_year", "direction"})
         self.assertLess(p["a"], p["b"])
 
 

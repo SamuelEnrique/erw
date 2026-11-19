@@ -671,13 +671,21 @@
   },
   "ba_boundaries": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "ba_supply_monthly": {
    "status": "public",
    "pages": [
     "/data",
     "/grid"
+   ]
+  },
+  "ba_trade_partners": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "battery_sourced_ranges": {
@@ -1894,6 +1902,12 @@
     "/grid"
    ]
   },
+  "eia930_region_fuel_hourly": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
   "eia930_region_hourly": {
    "status": "public",
    "pages": [
@@ -1963,6 +1977,12 @@
    ]
   },
   "eia_aeo_emm_regions": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "eia_aeo_industrial": {
    "status": "public",
    "pages": [
     "/data"
@@ -2540,6 +2560,12 @@
    "pages": [
     "/data",
     "/demand"
+   ]
+  },
+  "eia_seds_industrial_annual": {
+   "status": "public",
+   "pages": [
+    "/data"
    ]
   },
   "eia_seds_residential_annual": {
@@ -3473,6 +3499,24 @@
    ]
   },
   "ine_es_dwellings_electricity_2021": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "interchange_event_pairs": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "interchange_pair_daily": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
+  "interchange_pair_monthly": {
    "status": "public",
    "pages": [
     "/data"
@@ -4874,7 +4918,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 519
+   "public": 527
   },
   "/data/faults": {
    "label": "Known faults in source data",

@@ -277,11 +277,18 @@ def main(argv=None):
                                                            mean=("value", "sum"), gap=("x_gap_mwh", "sum"),
                                                            ha=("x_hours_a", "sum"), hb=("x_hours_b", "sum"), hab=("x_hours_both", "sum")).reset_index()
 
+    # session 8004 (data request 325 of the old laptop): how many Eastern months of the year hold a report from either side,
+    # and how many months of that year the file holds (2018 begins in July; the running year ends at the newest month)
+    held_m = mr[(mr["x_hours_a"] + mr["x_hours_b"]) > 0].groupby(["x_level", "x_a", "x_b", "year"])["ts_utc"].nunique()
+    all_months = sorted(mr["ts_utc"].str.slice(0, 7).unique())
+    in_year = pd.Series([m[:4] for m in all_months]).value_counts()
+
     def pairs_of(level):
         z = yr[yr["x_level"] == level]
         return [{"a": r.x_a, "b": r.x_b, "year": int(r.year), "a_report_mwh": round(float(r.a), 1) if r.ha else None,
                  "b_report_mwh": round(float(r.b), 1) if r.hb else None, "mean_mwh": round(float(r.mean), 1),
                  "gap_mwh": round(float(r.gap), 1) if r.hab else None, "hours_a": int(r.ha), "hours_b": int(r.hb), "hours_both": int(r.hab),
+                 "months_held": int(held_m.get((r.x_level, r.x_a, r.x_b, r.year), 0)), "months_in_year": int(in_year.get(str(int(r.year)), 0)),
                  "direction": "a_to_b" if r.mean > 0 else ("b_to_a" if r.mean < 0 else "none")} for r in z.itertuples()]
     part = {}
     for (ba, year), g in pt.groupby(["ba", "year"]):
@@ -293,7 +300,7 @@ def main(argv=None):
             part.setdefault(ba, {}).setdefault(str(int(r.year)), {"by_gross": [], "by_net": []})["net_import_share_of_demand_pct"] = round(100 * float(r.ni) / float(r.dem), 3)
     regions = sorted(set(yr.loc[yr["x_level"] == "region", "x_a"]) | set(yr.loc[yr["x_level"] == "region", "x_b"]))
     doc = {"built": retrieved, "tables": ["interchange_pair_monthly", "ba_trade_partners"], "method": "docs/methods/interchange_pairs.md",
-           "license": "public", "years": sorted(int(y) for y in yr["year"].unique()), "regions": regions,
+           "license": "public", "years": sorted(int(y) for y in yr["year"].unique()), "first_month": all_months[0], "upto": all_months[-1], "regions": regions,
            "region_pairs": pairs_of("region"), "ba_pairs": pairs_of("ba"), "partners": dict(sorted(part.items()))}
     site = os.path.join(a.out_dir, "site", "trade_matrix.json") if a.out_dir else os.path.join(ROOT, "site", "data", "regions", "trade_matrix.json")
     os.makedirs(os.path.dirname(site), exist_ok=True)

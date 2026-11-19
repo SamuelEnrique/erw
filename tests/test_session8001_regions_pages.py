@@ -155,7 +155,7 @@ class Contract(unittest.TestCase):
         self.assertEqual([r["code"] for r in d["regions"]], rp.REGIONS)
         tva = [b for b in d["bas"] if b["code"] == "TVA"][0]
         self.assertEqual(set(tva), {"code", "name", "region", "tz", "grid", "region_grids", "generation_only", "active",
-                                    "retired", "first_hour", "last_hour", "files"})
+                                    "retired", "first_hour", "last_hour", "files", "us", "files_eia930"})
 
     def test_texas_mix_equals_ercots(self):
         a = json.load(open(os.path.join(SITE, "mix", "tex.json"), encoding="utf-8"))
