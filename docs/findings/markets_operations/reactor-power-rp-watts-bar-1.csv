@@ -1,0 +1,12 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate reactor_power, region rp_watts_bar_1 (the Watts Bar 1 reactor)
+# Computed 2026-11-19T13:04:14Z by warehouse/analysis/findings/deep/markets_operations.py (reactor_power); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's mean daily power level (percent of full power), the observations it rests on, and whether the year is full
+# Tables: nrc_reactor_status
+region,year,value,n_observations,full_year
+rp_watts_bar_1,2020,90.05464480874316,366.0,1
+rp_watts_bar_1,2021,89.6109589041096,365.0,1
+rp_watts_bar_1,2022,99.35342465753425,365.0,1
+rp_watts_bar_1,2023,91.62191780821918,365.0,1
+rp_watts_bar_1,2024,84.6120218579235,366.0,1
+rp_watts_bar_1,2025,68.51780821917808,365.0,1
+rp_watts_bar_1,2026,90.01863354037268,322.0,0

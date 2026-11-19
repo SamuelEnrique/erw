@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate eu_share_nuclear, region eu_eu27_2020 (the European Union (27))
+# Computed 2026-11-19T13:14:44Z by warehouse/analysis/findings/deep/world_power.py (eu_share_nuclear); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: nuclear's share of the country's net production (percent), the observations it rests on, and whether the year is full
+# Tables: eurostat_electricity_monthly
+region,year,value,n_observations,full_year
+eu_eu27_2020,2016,27.4052994352741,12.0,1
+eu_eu27_2020,2017,26.2689583891338,12.0,1
+eu_eu27_2020,2018,26.33003656136299,12.0,1
+eu_eu27_2020,2019,26.733893377486734,12.0,1
+eu_eu27_2020,2020,24.83130153482427,12.0,1
+eu_eu27_2020,2021,25.53100427626117,12.0,1
+eu_eu27_2020,2022,21.86512569264366,12.0,1
+eu_eu27_2020,2023,22.843538123475916,12.0,1
+eu_eu27_2020,2024,23.530685254822053,12.0,1
+eu_eu27_2020,2025,23.281734282669408,12.0,1
