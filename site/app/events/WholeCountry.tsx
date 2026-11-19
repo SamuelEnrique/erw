@@ -5,8 +5,8 @@ import { LineChart, type Line } from "@/components/LineChart";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ToolTable } from "@/components/tool/ToolPage";
 import {
-  GRID_NAME, REACHED_PCT, REGION_CODES, REGION_NAME, SOURCES, baselineOf, drawnByDay, eventRegionsFile, gwh, pairs, points, reached, regionOf, signedGwh,
-  signedPct, signedWhole, summarize, utcHour, whole, NEW_REGIONS,
+  ABROAD, GRID_NAME, REACHED_PCT, REGION_CODES, REGION_NAME, SOURCES, STORAGE_FROM, baselineFirstHour, baselineOf, drawnByDay, eventRegionsFile, gwh, lineGap,
+  localHour, pairs, points, reached, regionOf, regionZones, signedGwh, signedPct, signedWhole, summarize, utcHour, whole, NEW_REGIONS,
   type Against, type EventRegionsFile, type RegionSummary,
 } from "@/lib/countryfiles";
 import { LICENSE_NEEDED, licenseNeeded, licenseTitle } from "@/lib/license";
@@ -62,12 +62,17 @@ export function RegionsReached({ event }: { event: string }) {
     const rows = summarize(file).filter((r) => !REGIONS_HELD.includes(r.code));
     const hit = reached(rows);
     const withDemand = rows.filter((r) => r.demand && r.demand.pct !== null);
-    const list = withDemand.map((r) => `${r.name} ${signedPct(r.demand!.pct!)}`).join("; ");
+    // session 8470 (the real files): a region's percent says on how many hours it rests where that is fewer than the
+    // window's, and a region left out of the count is named with the reason
+    const n = file.hours.n;
+    const list = withDemand.map((r) => `${r.name} ${signedPct(r.demand!.pct!)}${r.demand!.hours < n ? ` (${whole(r.demand!.hours)} of ${whole(n)} hours)` : ""}`).join("; ");
+    const left = rows.filter((r) => !(r.demand && r.demand.pct !== null));
+    const leftWords = left.length ? ` Not counted, the file holding no hour of their demand with its baseline in the window: ${left.map((r) => r.name).join(", ")}.` : "";
     body = (
       <>
         Reached <strong><N k={`reached|${event}|n`}>{String(hit.length)}</N></strong> of <N k={`reached|${event}|of`}>{String(withDemand.length)}</N> regions:{" "}
         <Hint words={hit.length ? hit.map((r) => r.name).join(", ") : "none"}
-          why={`A region is counted when its demand over the window (${file.start} to ${file.end}) stood ${REACHED_PCT} percent or more from the baseline, above or below. Default: ${REACHED_PCT} percent, this page's own choice (session 8410); no publisher's threshold stands behind it. Demand over the window against the baseline, percent: ${list}. Source: EIA Form EIA-930, by region.`} />.{" "}
+          why={`A region is counted when its demand over the window (${file.start} to ${file.end}) stood ${REACHED_PCT} percent or more from the baseline, above or below. Default: ${REACHED_PCT} percent, this page's own choice (session 8410); no publisher's threshold stands behind it. Demand over the window against the baseline, percent: ${list}.${leftWords} Source: EIA Form EIA-930, by region.`} />.{" "}
         <Link href={`/events/${event.replace(/_/g, "-")}#whole-country`}>The whole country</Link>
       </>
     );
@@ -81,15 +86,16 @@ function Charts({ file, code, mark }: { file: EventRegionsFile; code: string; ma
   if (!r) return <div data-wc-charts={mark} data-wc-region={code}><h4 className="mb-1 text-base">{name}</h4><p className="text-sm"><NOT why={`The file holds no hours for ${name} in this window.`} /></p></div>;
   const h = file.hours;
   const by = drawnByDay(h) ? "day (the mean of the day's held hours, UTC days)" : "hour (UTC)";
+  const gap = lineGap(h);  // session 8470: an hour (or a day) the file does not hold breaks the line
   const demand: Line[] = [
-    { label: "The event", color: "accent", points: points(r.demand_mw, h) },
-    { label: "The baseline", color: "muted", points: points(r.baseline?.demand_mw, h) },
+    { label: "The event", color: "accent", gap, points: points(r.demand_mw, h) },
+    { label: "The baseline", color: "muted", gap, points: points(r.baseline?.demand_mw, h) },
   ];
   const imports: Line[] = [
-    { label: "The event", color: "accent", points: points(r.net_imports_mw, h) },
-    { label: "The baseline", color: "muted", points: points(r.baseline?.net_imports_mw, h) },
+    { label: "The event", color: "accent", gap, points: points(r.net_imports_mw, h) },
+    { label: "The baseline", color: "muted", gap, points: points(r.baseline?.net_imports_mw, h) },
   ];
-  const gen: Line[] = SOURCES.map((s) => ({ label: s.label, color: s.color, points: points(r.gen?.[s.key], h) })).filter((l) => l.points.length);
+  const gen: Line[] = SOURCES.map((s) => ({ label: s.label, color: s.color, gap, points: points(r.gen?.[s.key], h) })).filter((l) => l.points.length);
   const none = (what: string) => <p className="text-sm"><NOT why={`The file holds no ${what} for ${name} in this window.`} /></p>;
   return (
     <div data-wc-charts={mark} data-wc-region={code} className="min-w-0">
@@ -135,6 +141,15 @@ export function WholeCountry({ event, path, file, q, first, second, firstWhy }: 
   const pick = (code: string) => `${path}?region=${code.toLowerCase()}#whole-country`;
   const cell = (code: string, v: ReactNode | null, missing: string): ReactNode => (held(code) ? <Held why={held(code)!} /> : v ?? <NOT why={missing} />);
   const tables = file.tables ?? [];
+  // session 8470 (the real files): the hour in the region's own time on hover, from index.json's time zones
+  const zones = regionZones();
+  const when = (code: string, at: string): ReactNode => {
+    const tz = zones[code], local = tz ? localHour(at, tz) : null;
+    return local ? <span title={`In the region's own time (${tz}, from index.json): ${local}.`} data-wc-local={code}>{utcHour(at)}</span> : utcHour(at);
+  };
+  // session 8470: EIA's files carry no storage column before July 2024, so a window or a baseline before it holds none
+  const baseFirst = baselineFirstHour(file);
+  const noStorage = (name: string) => `The file holds no storage for ${name} with its baseline in this window.${file.hours.start < STORAGE_FROM || (baseFirst !== null && baseFirst < STORAGE_FROM) ? ` EIA's six-month files carry no storage columns before July 2024, and this window${file.hours.start < STORAGE_FROM ? "" : "'s baseline"} reaches back before then.` : ""}`;
 
   const regionRows = rows.map((r) => ({
     key: r.code, highlight: r.code === a || r.code === b,
@@ -143,7 +158,7 @@ export function WholeCountry({ event, path, file, q, first, second, firstWhy }: 
       cell(r.code, r.demand ? <span title={againstTip(`${r.name}, demand`, r.demand)}><N k={`wc|${r.code}|demand_gwh`}>{gwh(r.demand.mwh)}</N></span> : null, `The file holds no hour of demand for ${r.name} with its baseline.`),
       cell(r.code, r.demand && r.demand.pct !== null ? <span title={againstTip(`${r.name}, demand`, r.demand)}><N k={`wc|${r.code}|demand_pct`}>{signedPct(r.demand.pct)}</N></span> : null, `No baseline is held for ${r.name}'s demand.`),
       cell(r.code, r.peak ? <N k={`wc|${r.code}|peak_mw`}>{whole(r.peak.mw)}</N> : null, `The file holds no hour of demand for ${r.name}.`),
-      cell(r.code, r.peak ? utcHour(r.peak.at) : null, `The file holds no hour of demand for ${r.name}.`),
+      cell(r.code, r.peak ? when(r.code, r.peak.at) : null, `The file holds no hour of demand for ${r.name}.`),
       cell(r.code, r.peak && r.peak.base_mw !== null ? <N k={`wc|${r.code}|peak_base_mw`}>{whole(r.peak.base_mw)}</N> : null, `The baseline does not hold that hour for ${r.name}.`),
       cell(r.code, r.imports ? <span title={`${r.name}: net imports averaged ${signedWhole(r.imports.mean_mw)} MW over the window and ${signedWhole(r.imports.base_mean_mw)} MW in the baseline, over the ${whole(r.imports.hours)} hours both hold. Above zero the region imported; below zero it exported.`}><N k={`wc|${r.code}|imports_mw`}>{signedWhole(r.imports.mean_mw)}</N></span> : null, `The file holds no net imports for ${r.name} with their baseline.`),
       cell(r.code, r.imports ? <N k={`wc|${r.code}|imports_base_mw`}>{signedWhole(r.imports.base_mean_mw)}</N> : null, `The file holds no net imports for ${r.name} with their baseline.`),
@@ -157,7 +172,7 @@ export function WholeCountry({ event, path, file, q, first, second, firstWhy }: 
       <Link key="n" href={pick(r.code)} title={regionWords(r)}>{r.name}</Link>,
       ...SOURCES.map((s) => {
         const x = r.sources[s.key];
-        return cell(r.code, x ? <span title={againstTip(`${r.name}, ${s.label.toLowerCase()}`, x)}><N k={`wc|${r.code}|gen|${s.key}`}>{signedGwh(x.diff_mwh)}</N></span> : null, `The file holds no ${s.label.toLowerCase()} for ${r.name} with its baseline in this window.`);
+        return cell(r.code, x ? <span title={againstTip(`${r.name}, ${s.label.toLowerCase()}`, x)}><N k={`wc|${r.code}|gen|${s.key}`}>{signedGwh(x.diff_mwh)}</N></span> : null, s.key === "storage" ? noStorage(r.name) : `The file holds no ${s.label.toLowerCase()} for ${r.name} with its baseline in this window.`);
       }),
       cell(r.code, r.generation ? <span title={againstTip(`${r.name}, net generation`, r.generation)}><N k={`wc|${r.code}|gen|net`}>{signedGwh(r.generation.diff_mwh)}</N></span> : null, `The file holds no net generation for ${r.name} with its baseline.`),
     ],
@@ -168,10 +183,18 @@ export function WholeCountry({ event, path, file, q, first, second, firstWhy }: 
   const pairRows = ps.map((p) => {
     const h = held(p.a) ?? held(p.b);
     const blank = (v: ReactNode) => (h ? <Held why={h} /> : v);
+    // session 8470 (the real files): a pair with Canada or Mexico says whose report it is; a pair whose every held hour
+    // is 0 MW says so; the pairs of the regions drawn below are marked as the region tables mark them
+    const abroad = [p.a, p.b].filter((c) => ABROAD.includes(c));
+    const pairWhy = [
+      abroad.length ? `${abroad.map(nm).join(" and ")} file${abroad.length > 1 ? "" : "s"} no Form EIA-930, so this flow is the US region's own report of its interchange with ${abroad.length > 1 ? "them" : "it"}.` : "",
+      p.zero ? `Every one of the ${whole(p.hours)} held hours of the window is 0 MW in the file for this pair${p.base && !p.base.zero ? ", while the baseline's hours are not" : ""}.` : "",
+    ].filter(Boolean).join(" ");
+    const first = <span key="s" data-wc-pair={p.key} {...(abroad.length ? { "data-wc-abroad": "1" } : {})} {...(p.zero ? { "data-wc-zero": "1" } : {})}>{p.sent ? nm(p.sent) : `${nm(p.a)} and ${nm(p.b)}: no net flow`}</span>;
     return {
-      key: p.key,
+      key: p.key, highlight: [p.a, p.b].includes(a) || (!!b && [p.a, p.b].includes(b)),
       cells: [
-        <span key="s" data-wc-pair={p.key}>{p.sent ? nm(p.sent) : `${nm(p.a)} and ${nm(p.b)}: no net flow`}</span>,
+        pairWhy ? <span key="s" title={pairWhy} className="cursor-help">{first}</span> : first,
         p.took ? nm(p.took) : "",
         blank(<N k={`wc|pair|${p.key}|mean_mw`}>{whole(Math.abs(p.mean_mw))}</N>),
         blank(<N k={`wc|pair|${p.key}|gwh`}>{gwh(Math.abs(p.mwh))}</N>),

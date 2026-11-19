@@ -145,7 +145,10 @@ for (const [slug, pfile] of PAGES) {
   const ev = slug.replace(/-/g, "_");
   const at = page.indexOf(`<section data-whole-country="${ev}"`), dec = page.indexOf("data-decisions=");
   ok(at > 0 && (page.match(/data-whole-country="/g) ?? []).length === 1 && at < dec, `${slug}: the section is on the page once, above the decisions block`);
+  // session 8470: one check a page whether or not the data machine's file is on the site (the count stays the same, so
+  // the floor of tests/test_session8410_events_regions.py holds with the real files in place)
   if (!hasFile(ev)) ok(/data-wc-state="not-built"/.test(page), `${slug}: with no file on the site, not built yet and no figure`);
+  else ok(/data-wc-state="drawn"/.test(page) && Object.keys(figs(page.slice(at))).some((k) => k.startsWith("wc|")), `${slug}: with its file on the site, drawn with its figures`);
 }
 process.env.ERW_REGIONS_DIR = tmp;
 try {

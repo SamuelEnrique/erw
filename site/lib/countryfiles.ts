@@ -153,8 +153,14 @@ export type PairSummary = {
   key: string; a: string; b: string; hours: number; mean_mw: number; mwh: number;
   /** who sent and who took over the window, by the sign of the window's sum; both null when the sum is zero */
   sent: string | null; took: string | null;
-  base: { hours: number; mean_mw: number; mwh: number; sent: string | null; took: string | null } | null;
+  /** session 8470: every held hour of the window is 0 MW (EIA's reports of the tie say 0, as the real files show for
+   *  Central and Southwest in February 2021 and January 2025) */
+  zero: boolean;
+  base: { hours: number; mean_mw: number; mwh: number; sent: string | null; took: string | null; zero: boolean } | null;
 };
+/** Neighbours outside the lower 48 that the files name in pairs (Canada, Mexico): they file no Form EIA-930, so a
+ *  pair's flow with them is the US region's own report (session 8470, found on the real files). */
+export const ABROAD = ["CAN", "MEX"];
 /** Each pair of regions of the file, largest energy over the window first: power from the first code to the second is
  *  positive in the file, so the sign of the window's sum says which sent and which took. The baseline beside it. */
 export function pairs(file: EventRegionsFile): PairSummary[] {
@@ -167,7 +173,7 @@ export function pairs(file: EventRegionsFile): PairSummary[] {
       const xs = (arr ?? []).filter(num);
       if (!xs.length) return null;
       const sum = xs.reduce((s, v) => s + v, 0);
-      return { hours: xs.length, mean_mw: sum / xs.length, mwh: sum * step, sent: sum > 0 ? a : sum < 0 ? b : null, took: sum > 0 ? b : sum < 0 ? a : null };
+      return { hours: xs.length, mean_mw: sum / xs.length, mwh: sum * step, sent: sum > 0 ? a : sum < 0 ? b : null, took: sum > 0 ? b : sum < 0 ? a : null, zero: xs.every((v) => v === 0) };
     };
     const ev = side(p.flow_mw);
     if (!ev) continue;
@@ -203,6 +209,50 @@ export function points(arr: Arr | undefined, hours: Hours, byDayOver = 21): { t:
   return [...days.entries()].sort((x, y) => x[0] - y[0]).map(([t, g]) => ({ t, v: g.s / g.n }));
 }
 export const drawnByDay = (hours: Hours, byDayOver = 21) => hours.n * (hours.step_hours || 1) > byDayOver * 24;
+/** Session 8470: the distance in seconds beyond which two points of a chart are not joined (LineChart's `gap`), so hours
+ *  the file does not hold are a break in the line, not a straight line across them (as /storage draws EIA's hours,
+ *  session 7542): one step of the file by hour, one day by day. */
+export const lineGap = (hours: Hours, byDayOver = 21) => (drawnByDay(hours, byDayOver) ? 86_400 : (hours.step_hours || 1) * 3_600);
+
+/** Session 8470: each region's time zone, from `index.json` (the contract's section 2), or an empty map while that file
+ *  is not on the site. */
+export function regionZones(): Record<string, string> {
+  const ix = readRegionFile<{ regions?: { code?: string; tz?: string }[] }>("index.json");
+  const out: Record<string, string> = {};
+  for (const r of ix?.regions ?? []) if (r?.code && r.tz) out[r.code] = r.tz;
+  return out;
+}
+/** "2022-12-23 19:00 CST": the file's UTC hour in a time zone (IANA name), or null when the zone cannot be read. */
+export function localHour(ts: string, tz: string): string | null {
+  try {
+    const parts = new Intl.DateTimeFormat("en-US", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZoneName: "short" }).formatToParts(new Date(ts));
+    const p = (t: string) => parts.find((x) => x.type === t)?.value ?? "";
+    return `${p("year")}-${p("month")}-${p("day")} ${p("hour")}:${p("minute")} ${p("timeZoneName")}`;
+  } catch {
+    return null;
+  }
+}
+
+/** EIA's six-month files carry storage columns from July 2024 (the contract's section 4): the first UTC hour a file can
+ *  hold storage. */
+export const STORAGE_FROM = "2024-07-01T00:00:00Z";
+/** Session 8470: the earliest hour the file's baseline reaches back to (its window's first hour less the largest
+ *  offset: days, or calendar years written as words), or null when the file names no offset. */
+export function baselineFirstHour(file: EventRegionsFile): string | null {
+  const { offsets } = baselineOf(file);
+  const t0 = Date.parse(file.hours.start);
+  let first: number | null = null;
+  for (const o of offsets) {
+    let t: number | null = null;
+    if (typeof o === "number") t = t0 - o * 86_400_000;
+    else {
+      const y = /^(\d+)\s+calendar year/.exec(o);
+      if (y) { const d = new Date(t0); d.setUTCFullYear(d.getUTCFullYear() - Number(y[1])); t = d.getTime(); }
+    }
+    if (t !== null && (first === null || t < first)) first = t;
+  }
+  return first === null ? null : new Date(first).toISOString().replace(".000Z", "Z");
+}
 
 /** Whole megawatts and megawatt-hours with thousands separators; gigawatt-hours with one decimal; a signed percent. */
 export const whole = (v: number) => Math.round(v).toLocaleString("en-US");
