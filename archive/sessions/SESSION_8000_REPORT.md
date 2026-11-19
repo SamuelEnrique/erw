@@ -59,3 +59,18 @@ Energy Research Warehouse (ERW). Chain 501 of 19 November 2026, lab-desktop, dat
 ## Needs the key
 
 - None.
+
+## The landings (production reads)
+
+- **The desk's stack landed at `ce36c2541`** (task/c501-desk-a, run 44530420905: the checks, then the suite again because main moved). Snapshots `c501-deska-before` and `c501-deska-after`: 0 differences on the 25 pages.
+- Read on production with the internal cookie at 1280 and 390 px: `/demand?view=country` shows "The whole country" tab, Tennessee beside the Carolinas, "From 2019 to 2025, average demand went from 18,190 MW to 19,490 MW, a change of +7.15 percent, and the highest hour from 29,568 MW to 35,086 MW (+18.66 percent)", the figures of `demand/ten.json`; `/grid?view=network&shape=map` shows the thirteen EIA regions as a second row of buttons under the seven grids; `/events/uri-2021` at 390 px draws without sideways scroll; `/supply?view=country` opened on the page's head (the whole-country section is lower and was not read in view).
+
+## Later in session 8009
+
+- **Data request 328** (the old laptop): a record's first and last local days, held only in part, were written as whole days; now a day is whole only with every hour of its calendar day. Fixed in `region_files.py`, demand files rebuilt.
+- **Data request 329**: the seven grids' authority files carry `alike` (equal to `demand_growth.json` in every whole year, California's included); the method note says which demand and that no hour is moved.
+- **Data request 542** (the portable laptop): the coal fields in the map's layer form and `site/data/resources/manifest_added.json`, a new file in the manifest's form; `manifest.json` unchanged.
+- **Data request 543**: the live set stood at 15 and 16 November because the daily run's test step stopped on 18 November at test 7014 (under `health.py` its skip exits 75, and the test expected 0); the test now sets `ERW_SKIP_EXIT` aside. On `wip/c501-desk-b`.
+- **The mix files' rule**: the first build tested each authority's sources against its net generation; one small authority a few megawatts off then left its whole region out, and the Mid-Atlantic's mix held 40 months, the Southwest's 36. `eia930_region_fuel_hourly` now applies `mix_profile`'s rule to the region (15 percent for the Mid-Atlantic, as PJM): 6,730,507 rows; the Mid-Atlantic holds 95 months, the Southwest 85, California 98. Texas still equals ERCOT.
+- **D3**: Meta's 2025 data index and Microsoft's 2026 fact sheet added: 23 figures from 9 publications. Google's environmental reports sit in a folder `www.gstatic.com` disallows: not read.
+- **A slip, put right**: a `git stash pop` in the stack's worktree took the data machine's stash of 18 November (its uncommitted news and deals tables) from the shared stash list; it was stashed again at once with the same files (`git stash list`, entry 0).
