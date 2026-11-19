@@ -20,7 +20,7 @@ The chain file: `queue/done/503-day-19-november-oldlaptop-rulings-evidence-whole
   - The wording faults the groups found in the entries themselves (23, 75, 77, 94, 107): done, corrected with a section at the list's foot (`27e616d3a`).
   - The terms of use of every host a page was read from (the rule asks for them as well as the robots file; the taxes group read none): in work, session 8403, `runs/c503/terms_check.md`. An entry that rests alone on a host whose terms forbid automated access goes back to "no basis to recommend"; then the hosts record goes to `docs/reviews/rulings-evidence-hosts-2026-11-19.md`.
 - A3, the 12 figures that do not agree: done (`86e038f0c`), session 8402. Each traced; entries 48, 118, 119 and 127 corrected in their own lines; one request to the data machine (row 320 of `docs/state/data_requests_done_line.md`).
-- A4, the six screenshot faults (rows 341, 345, 357, 362, 363, 366): in work, session 8401 (one worktree a branch, `erw-c503-*`)
+- A4, the six screenshot faults (rows 341, 345, 357, 362, 363, 366): done (`c0668e4e2`), session 8401. Four fixed on their branches with a test, pushed, back to `wanted` (341 `e313c0d4f`, 362 `e0d5fc2ac`, 366 `9b4d3f1c8`, 363 `3858e0432`); 357 is a data fault (request row 321; a second small one, row 322); 345 is the hold as it stands. Report: `archive/sessions/SESSION_8401_REPORT.md`.
 - A5, the sheet for one sitting: done (`1bd09b3cb`), `docs/reviews/rulings-one-sitting-2026-11-19.md`, session 8400. Built by `runs/c503/build_sheet.py` from the list; run it again if a recommendation moves (the terms check).
 - Reports: `archive/sessions/SESSION_8400_REPORT.md`, `SESSION_8402_REPORT.md`.
 
@@ -39,4 +39,8 @@ The chain file: `queue/done/503-day-19-november-oldlaptop-rulings-evidence-whole
 
 ## Part E
 
-- not started
+- The events pages' new views, session 8440, branch `wip/8440-events-regions-done` (`59a1f2e76`, pushed; made from `wip/8410-events-regions`):
+  - the replication `replication/events/replicate_regions.py` with `site/scripts/events-regions-figures.mjs`: done, 203 of 203 on the fixture; on the site as it stands it says no file is there.
+  - the reader's five cases written (`docs/reviews/events-regions-read-2026-11-19.md` on the branch); three gaps found before any file.
+  - waiting for the files `site/data/regions/events/<event>.json` (not on origin/main): the read of the five cases on the page, the replication's count on real files, the Stata do-file's expected values, the cross-check against published figures. First step when a file lands: merge origin/main into the branch, run the two commands the method note gives, then read the five cases.
+- `/demand` and `/supply`: after parts C and D hand back.
