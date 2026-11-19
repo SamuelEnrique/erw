@@ -60,6 +60,28 @@ export function hoverPairs(v: unknown): [string, string][] | undefined {
   return out.length ? out : undefined;
 }
 
+/** Session 8618 (data request 553): the data machine's file of hover fields for layers whose entry names none
+ *  (data/resources/hover_fields_added.json: `layers`, by a layer's id, each with `hover_fields` in the pair form, the
+ *  words the publisher's own description of the column). */
+export type HoverFieldsAdded = { built_at_utc?: string; layers?: Record<string, { hover_fields?: unknown } | null | undefined> };
+
+/** A list of layers with the added hover fields put in: a layer whose own entry names fields keeps them (the list of
+ *  layers wins), a layer that names none takes the added file's, and a layer the file does not hold, or holds with
+ *  nothing the page can read as a field, is left as it is. The file is not there on most days and that is no fault:
+ *  the list comes back unchanged. Nothing else of a layer is touched. */
+export function withHoverFields<M extends Manifest>(manifest: M, added: HoverFieldsAdded | null | undefined): M {
+  const by = added && typeof added === "object" && added.layers && typeof added.layers === "object" ? added.layers : null;
+  if (!by) return manifest;
+  return {
+    ...manifest,
+    layers: (manifest.layers ?? []).map((l) => {
+      if (!l || hoverPairs(l.hover_fields)) return l;
+      const pairs = hoverPairs(by[l.id]?.hover_fields);
+      return pairs ? { ...l, hover_fields: pairs } : l;
+    }),
+  };
+}
+
 /** Every file a layer names, in the manifest's order: a grid's levels, or the one file of its shapes or points. */
 export function filesOf(l: Layer): string[] {
   const out: string[] = [];
