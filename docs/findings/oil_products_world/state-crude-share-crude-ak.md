@@ -1,3 +1,5 @@
+Withdrawn by the audit of 19 November 2026 (chain 507): the figure counts Alaska twice: the script sums the Alaska total (EIA series MCRFPAK) and the North Slope (MANFPAK), which the table's header says is within Alaska; with Alaska counted once the share is 3.09 percent in 2025 and 16.60 percent in 2001 (got by runs/c507_ak_check.py), the draft says 6.13 and 32.65. Found when a publisher's figure disagreed (USAFacts, from EIA, gives Alaska about 3.1 percent of US crude in 2025); the reproduction had passed because it reran the same script.
+
 # A state's share of us crude: Alaska
 
 Draft `scan-deep-9fa18e56c335` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
