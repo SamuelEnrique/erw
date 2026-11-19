@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { EventStudy } from "@/components/EventStudy";
 import { EventDecisions } from "../Decisions";
+import { WholeCountrySection, type PageProps } from "../WholeCountry";
 import { EventWindow, N, day, find, pickOf } from "../EventWindow";
 
 // Session 39: the August 2020 heat wave in CAISO, event caiso_heat_2020 of event_window_daily (docs/methods/events.md).
@@ -13,7 +14,7 @@ const EV = "caiso_heat_2020";
 const RCA = "https://www.caiso.com/Documents/Final-Root-Cause-Analysis-Mid-August-2020-Extreme-Heat-Wave.pdf";
 const E = "eia930:CISO";
 
-export default function CaisoHeat2020() {
+export default function CaisoHeat2020({ searchParams }: PageProps = {}) {
   return (
     <Brand>
     <div>
@@ -54,6 +55,9 @@ export default function CaisoHeat2020() {
     {/* session 47: the event study */}
     <EventStudy event="caiso_heat_2020" grids={["eia930:CISO"]} primary="eia930:CISO" />
     {/* session 7531: the page's decisions (Decisions.tsx), each with its default and source on hover */}
+    {/* session 8410 (chain 503): EIA's thirteen regions across the event, from the data machine's file (WholeCountry.tsx) */}
+    <WholeCountrySection event="caiso_heat_2020" path="/events/caiso-heat-2020" first="CAL" searchParams={searchParams}
+      firstWhy="California is drawn first: the page above is about CAISO, which is among California's balancing authorities." />
     <EventDecisions event="caiso_heat_2020" />
     </div>
     </Brand>

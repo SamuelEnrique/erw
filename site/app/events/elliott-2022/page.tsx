@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { EventStudy } from "@/components/EventStudy";
 import { EventDecisions } from "../Decisions";
+import { WholeCountrySection, type PageProps } from "../WholeCountry";
 import { EventWindow, N, day, find, pickOf } from "../EventWindow";
 
 // Session 39: Winter Storm Elliott, December 2022, event elliott_2022 of event_window_daily (docs/methods/events.md):
@@ -14,7 +15,7 @@ const FERC = "https://www.ferc.gov/sites/default/files/2024-02/24_Winter-Storm_E
 const PJM = "https://www.pjm.com/-/media/DotCom/library/reports-notices/special-reports/2023/20230717-winter-storm-elliott-event-analysis-and-recommendation-report.pdf";
 const inWin = (d: string) => d >= "2022-12-19" && d <= "2022-12-29";
 
-export default function Elliott2022() {
+export default function Elliott2022({ searchParams }: PageProps = {}) {
   return (
     <Brand>
     <div>
@@ -78,6 +79,9 @@ export default function Elliott2022() {
     {/* session 47: the event study */}
     <EventStudy event="elliott_2022" grids={["eia930:PJM", "eia930:ERCO", "eia930:ISNE", "eia930:MISO", "eia930:NYIS", "eia930:SWPP"]} primary="eia930:PJM" price />
     {/* session 7531: the page's decisions (Decisions.tsx), each with its default and source on hover */}
+    {/* session 8410 (chain 503): EIA's thirteen regions across the event, from the data machine's file (WholeCountry.tsx) */}
+    <WholeCountrySection event="elliott_2022" path="/events/elliott-2022" first="TEN" second="CAR" searchParams={searchParams}
+      firstWhy="Tennessee and the Carolinas are drawn first: the page above quotes FERC and NERC that the balancing authorities that shed firm load were in the southeast, among them TVA and Duke." />
     <EventDecisions event="elliott_2022" />
     </div>
     </Brand>
