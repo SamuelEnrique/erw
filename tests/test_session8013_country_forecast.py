@@ -20,7 +20,8 @@ def src(*p):
 class TheSection(unittest.TestCase):
     def test_one_new_section_before_the_list_of_places(self):
         s = src("components", "demand", "Country.tsx")
-        i = s.index("<CountryForecast slots=")
+        i = s.index("{forecast && withFile.length ? <CountryForecast slots={withFile.map(")
+        self.assertIn("fileOf={demandPlaceFile} forecast />", s)
         j = s.index('<ToolSection title="Every region and balancing authority" id="places"')
         self.assertLess(i, j)
         self.assertEqual(s.count("<CountryForecast"), 1)
