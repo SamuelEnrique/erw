@@ -858,7 +858,9 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
         </section>
       </aside>
 
-      <div className="min-w-0">
+      {/* session 8603: beside the switches the map stays in view while the list is read (the list, with a line under each
+          switch, is longer than the map); on a narrow screen, where the two are one column, it scrolls with the page as before */}
+      <div className="min-w-0 lg:sticky lg:top-2 lg:self-start" data-map-column="1">
         <div className="mb-2 flex flex-wrap items-center gap-1.5" data-map-buttons="1">
           <button type="button" className={btn} onClick={() => zoom(1.6)} aria-label="Zoom in" data-map-button="in">+</button>
           <button type="button" className={btn} onClick={() => zoom(1 / 1.6)} aria-label="Zoom out" data-map-button="out">-</button>

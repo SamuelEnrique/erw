@@ -38,7 +38,7 @@ export const RESOURCE_DECISIONS: ResourceDecision[] = [
     def: "The file's own area of each outline.",
     source: "EIA, Tight Oil and Shale Gas Plays (ShalePlays_US_EIA_Dec2021.shp), field Area_sq_mi; EIA, Review of Emerging Resources: U.S. Shale Gas and Shale Oil Plays, July 2011, page 29 of the file. The two set side by side: replication/resources/crosscheck_published.csv." },
   { key: "simplified", session: "session 146",
-    text: "A shape's outline is simplified for the web, to 0.01 degrees for most layers, and no feature is dropped. A point is drawn at the publisher's own coordinates.",
+    text: "A shape's outline is drawn with fewer points than the publisher's, within 0.01 degrees of it for most layers, and no feature is dropped. A point is drawn at the publisher's own coordinates.",
     def: "As each layer's entry of the list of layers says under \"reduction\".",
     source: "site/data/resources/manifest.json, `reduction`; the Method note under the map prints it for each layer." },
   { key: "one-tab", session: "session 239",
