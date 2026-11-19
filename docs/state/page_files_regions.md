@@ -185,9 +185,20 @@ Samples (first build): the Carolinas and the Southeast in 2025, and TVA's partne
 {"by_gross": ["MISO", "PJM", "SOCO", "LGEE", "AECI", "DUK", "CPLW"], "by_net": ["MISO", "PJM", "SOCO", "LGEE", "AECI", "DUK", "CPLW"], "net_import_share_of_demand_pct": 4.868}
 ```
 
-## 8. `site/data/resources/<layer>.json` (step D1)
+## 8. The natural resource map's layers (step D1)
 
-Added with the layers of step D1; see the dated line under "Changes".
+The page "Where the resources are" already reads twelve resource layers and two offshore ones from `site/data/resources/layers/` through `site/data/resources/manifest.json` (session 146, `docs/methods/resource_layers.md`); under chain 501's rule those files are not changed, and a page reads them where they are. Step D1 adds one layer file and one table:
+
+| File or table | Form | Meaning |
+|---|---|---|
+| `site/data/resources/coal_fields.json` | GeoJSON FeatureCollection, WGS 84, coordinates to 3 decimals, under 2 MB | the USGS coal fields of the conterminous United States (Open-File Report 2012-1205, East 2013): 602 polygons |
+| `features[].properties` | `province`, `name`, `age`, `rank` (text, as USGS gives them), `area_km2` (km2, before simplification) | one coal field |
+| top level | `built`, `tables` (`resource_layer_features`), `method`, `license` (`public`), `source`, `source_url`, `retrieved_at`, `source_sha256`, `simplify_tolerance_deg` | as section 1 |
+| table `resource_layer_features` | entities, one row a cell, site or area | every cell (0.05 degrees) of the wind speed and the two solar grids, every site and area of the other resource layers, and the coal fields, each with `x_layer`, `x_value`, `x_unit`, `lat`, `lon` (`docs/methods/resource_layers_table.md`) |
+
+Sample `properties` (first build, 544,878 bytes at a tolerance of 0.005 degrees): `{"province": "Interior", "name": "Northern Region", "age": "Pennsylvanian-Permian", "rank": "Medium and High Volatile Bituminous", "area_km2": 29776.9}`.
+
+Not drawn (no source this machine may read): uranium and critical-mineral deposits (USGS's `mrdata.usgs.gov` robots file disallows every path to every agent; ScienceBase disallows Claude by name).
 
 ## 9. `site/data/industry.json` (step D2)
 
@@ -228,3 +239,4 @@ Samples (first build): June 2025 of `monthly.by_source`; Chemicals (NAICS 325) i
 - 19 November 2026, session 8004 (data request 327, section 3): the demand files also carry, in `weather`, `train` (the fit's years, 2019 to 2021), `metrics`, `labels`, `features` (the fit's terms), `degrees_from` (words for where the degrees come from) and `weather_table`; on an authority's file, `region`; and `alike.grid_file`. `growth.last_year` and `growth.ytd_through` are `null` for an authority whose demand stops before 2019 (its `growth.years` is empty). `alike.why` is a clause, not a sentence. The folder `demand/` is about 17 MB (13 region files and 58 authority files) on the first build.
 - 19 November 2026, session 8004 (data request 324, section 2): `bas[]` also lists the Canadian and Mexican authorities of EIA's reference tables, which file no Form EIA-930 (`region` `CAN` or `MEX`, `first_hour` and `last_hour` `null`, `files` empty), so every code of `trade_matrix.json` has a name. Every `bas[]` item now carries `us` (EIA's "U.S. BA") and `files_eia930` (true for the lower 48's authorities, false for those across the border).
 - 19 November 2026, session 8004 (data requests 323, 325 and 326, sections 5 and 7): each object of `region_pairs[]` and `ba_pairs[]` also carries `hours_a`, `hours_b`, `hours_both` (hours each side reported, and both), `months_held` (the Eastern months of the year holding a report from either side) and `months_in_year` (the months of that year the file holds); the file carries `first_month` and `upto`. `direction` is `none` when `mean_mwh` is exactly zero. `mean_mwh` is the sum of the year's monthly values of `interchange_pair_monthly`, each the mean of the two reports over the hours both reported, or the one side's report where the other reported no hour that month. A year is the sum of EIA's Eastern months of that year, as in the trade files. `trade/<region>.json` also carries `hours_in_month`; its hours arrays hold `0`, a count, for a month a side reported nothing, while its report arrays hold `null` there. A side that files nothing with EIA (Canada, Mexico) is a `null` report with `0` hours in both files. For a region pair the two files are meant to agree to the MWh: a pair's `a_report_mwh` for a year is minus the sum of that year's `neighbors.<b>.net_imports_mwh` in `trade/<a>.json`, and `b_report_mwh` the sum of `neighbors.<a>.net_imports_mwh` in `trade/<b>.json` (both are sums of the same hourly reports of `eia930_region_pair_hourly` over the same months; the first build agrees exactly for the Carolinas and the Southeast in 2019, 2025 and 2026). A difference is a fault.
+- 19 November 2026, session 8006: section 8 written (the coal fields' file and the resource table; the existing layer files are read where they are).

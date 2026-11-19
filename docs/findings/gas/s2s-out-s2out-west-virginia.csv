@@ -1,0 +1,38 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate s2s_out, region s2out_west_virginia (West Virginia)
+# Computed 2026-11-19T12:48:34Z by warehouse/analysis/findings/deep/gas.py (s2s_out); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the summed capacity of the pipeline crossings out of the state (bcf a day), the observations it rests on, and whether the year is full
+# Tables: eia_state_to_state_capacity
+region,year,value,n_observations,full_year
+s2out_west_virginia,1990,7.868,1.0,1
+s2out_west_virginia,1994,8.167,1.0,1
+s2out_west_virginia,1995,8.212,1.0,1
+s2out_west_virginia,1996,8.237,1.0,1
+s2out_west_virginia,1997,8.484,1.0,1
+s2out_west_virginia,1998,8.586,1.0,1
+s2out_west_virginia,1999,8.586,1.0,1
+s2out_west_virginia,2000,8.586,1.0,1
+s2out_west_virginia,2001,8.586,1.0,1
+s2out_west_virginia,2002,8.686,1.0,1
+s2out_west_virginia,2003,8.686,1.0,1
+s2out_west_virginia,2004,8.903,1.0,1
+s2out_west_virginia,2005,8.903,1.0,1
+s2out_west_virginia,2006,8.956,1.0,1
+s2out_west_virginia,2007,9.004,1.0,1
+s2out_west_virginia,2008,9.154,1.0,1
+s2out_west_virginia,2009,9.304,1.0,1
+s2out_west_virginia,2010,9.381,1.0,1
+s2out_west_virginia,2011,9.381,1.0,1
+s2out_west_virginia,2012,10.589,1.0,1
+s2out_west_virginia,2013,11.033,1.0,1
+s2out_west_virginia,2014,12.118,1.0,1
+s2out_west_virginia,2015,14.568999999999999,1.0,1
+s2out_west_virginia,2016,16.467,1.0,1
+s2out_west_virginia,2017,17.107,1.0,1
+s2out_west_virginia,2018,21.749,1.0,1
+s2out_west_virginia,2019,22.609,1.0,1
+s2out_west_virginia,2020,23.076,1.0,1
+s2out_west_virginia,2021,23.076,1.0,1
+s2out_west_virginia,2022,23.076,1.0,1
+s2out_west_virginia,2023,23.076,1.0,1
+s2out_west_virginia,2024,25.376,1.0,1
+s2out_west_virginia,2025,25.376,1.0,1

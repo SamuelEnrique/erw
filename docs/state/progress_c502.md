@@ -12,8 +12,8 @@ Chain file: `queue/done/502-day-19-november-desktop-window2-findings-industry.md
 - Part A, family 5, balancing authorities: done, 19 drafts in `docs/findings/authorities/`, 19 of 19 reproduce, loaded; code `wip/8202-findings` (1dac16e73); two duplicates of chain 164 (scan-deep-52399852db2c, scan-deep-31425ae0f32b) wait for Samuel; session 8205.
 - Part A, family 6, large loads: done, 15 drafts in `docs/findings/large_load/` (3 tariffs public, 12 waits license needed), 15 of 15 reproduce, loaded; code `wip/8202-findings` (5d98357ac); session 8206.
 - Part A, family 7, the rest: done. Forecasts (FERC 714): 18 drafts in `docs/findings/forecasts/`, 18 of 18 reproduce, loaded; code `wip/8202-findings` (5edc09d21); session 8207.
-- Part B, energy use by industry: waiting (`site/data/industry.json` not on main at session 8200).
-- Part C, energy per AI query as published: waiting (`ai_energy_published` not in coverage at session 8200).
+- Part B, energy use by industry: waiting (`site/data/industry.json` not on main, last checked 13:26 UTC, session 8226).
+- Part C, energy per AI query as published: waiting (`ai_energy_published` not in coverage, last checked 13:26 UTC, session 8226).
 - Part A done: 158 drafts in seven families (session 8207).
 - Part D, first pass: 20 drafts (emissions_climate 9, coal_uranium_metals 5, gas 6), every draft of the three families reproduces; code `wip/8202-findings` (3406b3257); session 8208.
 - Part D, second pass: other_us, 17 drafts from EIA-861M (retail choice states not read), 17 of 17 reproduce; code `wip/8202-findings` (28b5704b1); session 8209.
@@ -22,3 +22,16 @@ Chain file: `queue/done/502-day-19-november-desktop-window2-findings-industry.md
 - Part D, fifth pass: demand, 18 drafts (SEDS state consumption), every demand draft reproduces; code `wip/8202-findings` (5b998982f); session 8212.
 - Part D, sixth pass: tariffs_policy, 12 drafts (SEDS prices and spending), every tariffs_policy draft reproduces; code `wip/8202-findings` (baab8fe13); session 8213. First round done: every family holds at least 13 drafts.
 - Part D, second round, coal_uranium_metals: 12 drafts (coal by country, EIA international), 25 of 25 in the family reproduce; code `wip/8202-findings` (4d676095f); session 8214.
+- Part D, second round, large_load 1 draft (waits by size, internal) and emissions_climate 12 drafts (CO2 by country from 1980), both families reproduce in full; code `wip/8202-findings` (c3a7fa5da); session 8215.
+- Part D, second round, weather: 3 drafts (degree days), 18 of 18 reproduce; code `wip/8202-findings` (30b477cec); session 8216.
+- Part D, second round, gas: 10 drafts (pipeline capacity between states), 27 of 27 reproduce; code `wip/8202-findings` (0258ae10b); session 8217.
+- Part D, second round, oil_products_world: 12 drafts (US exports by product and destination), 30 of 30 reproduce; code `wip/8202-findings` (0596b3be6); session 8218.
+- Part D, second round, forecasts: 12 drafts (revisions of the forecast of five years ahead), 30 of 30 reproduce; code `wip/8202-findings` (04106bd55); session 8219.
+- Part D, second round, authorities: 7 drafts (peak season, load factor), 26 of 26 reproduce; code `wip/8202-findings` (ed384eb87); session 8220.
+- Part D, second round, other_us 2 drafts (earthquakes) and markets_operations 3 drafts (reactor power), both families reproduce in full; code `wip/8202-findings` (caff6b853); session 8221.
+- Part D, second round, cross_family: 8 drafts (utilities' sales against their own FERC 714 forecasts), 25 of 25 reproduce; code `wip/8202-findings` (68c824ce0); session 8222.
+- Part D, a new family world_power: 16 drafts (Europe's electricity, Eurostat), 16 of 16 reproduce; code `wip/8202-findings` (04eb70c9e); session 8223.
+- Part D, oil_products_world: 3 drafts (the Gulf's federal offshore oil, gas and leases, BOEM), 33 of 33 reproduce; code `wip/8202-findings` (3b11b27e5); session 8224.
+- Part D, world_power: 3 drafts (France's grid, RTE), 3 of 3 reproduce; code `wip/8202-findings` (914604047); session 8225.
+- Part D, oil_products_world 8 and gas 8 drafts (oil and gas by country, EIA international), both families reproduce in full; code `wip/8202-findings` (d71d3091a); session 8226.
+- Paused after session 8226 (13:30 UTC), mid part D: 364 drafts. On restart: check parts B and C first, then part D goes on over the families with the fewest drafts (large_load 16, weather 18, world_power 19, markets_operations 20), largest unread tables first (`runs/c502/unread.py` lists them). Code `wip/8202-findings` at `42e88f11a`, landing row 2 requested. The resume file stays in queue/next.
