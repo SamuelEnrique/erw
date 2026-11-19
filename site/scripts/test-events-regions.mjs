@@ -102,6 +102,49 @@ ok(!/min-w-\[|w-\[\d{3,}px\]/.test(html) && (html.match(/class="overflow-x-auto"
 const longHtml = draw({ file: long, event: "covid_2020", path: "/events/covid-2020", first: "CAL", second: undefined });
 ok(longHtml.includes("Drawn by day") && html.includes("Drawn by hour"), "a long window says it is drawn by day");
 
+// ---- session 8470: what the data machine's real files showed (read untracked on 19 November); each check on the fixture
+const clone = (v) => JSON.parse(JSON.stringify(v));
+const L = await import("../components/LineChart.tsx");
+ok(C.lineGap(file.hours) === 3600 && C.lineGap(long.hours) === 86400 && L.gapped([{ t: 0, v: 1 }, { t: 3600, v: 2 }, { t: 10800, v: 3 }], 3600).map((p) => p.v).join() === "1,2,,3"
+  && (fs.readFileSync(here("../app/events/WholeCountry.tsx"), "utf-8").match(/gap, points: points\(/g) ?? []).length === 5,
+  "an hour (or a day) the file does not hold breaks every line of the charts, not a straight line across it");
+ok(C.localHour("2022-12-24T01:00:00Z", "America/Chicago") === "2022-12-23 19:00 CST" && C.localHour("2022-09-07T00:00:00Z", "America/Los_Angeles") === "2022-09-06 17:00 PDT" && C.localHour("2022-12-24T01:00:00Z", "Nowhere/Zone") === null,
+  "a file's UTC hour in a region's own time zone, or none when the zone cannot be read");
+const zdir = fs.mkdtempSync(path.join(os.tmpdir(), "erw-zones-"));
+try {
+  process.env.ERW_REGIONS_DIR = zdir;
+  const noZones = draw({ file });
+  fs.writeFileSync(path.join(zdir, "index.json"), JSON.stringify({ regions: [{ code: "TEN", tz: "America/Chicago" }, { code: "CAR" }] }));
+  const zoned = draw({ file });
+  ok(C.regionZones().TEN === "America/Chicago" && !("CAR" in C.regionZones()) && /title="In the region&#x27;s own time \(America\/Chicago, from index.json\): \d{4}-\d\d-\d\d \d\d:00 CST\." data-wc-local="TEN"/.test(zoned)
+    && !zoned.includes('data-wc-local="CAR"') && !noZones.includes("data-wc-local=") && pageText(zoned).includes("Hover a time for the same hour in the region's own time") && !pageText(noZones).includes("Hover a time"),
+    "the highest hour's time gives the region's own time on hover where index.json names its zone, and nothing where it does not");
+} finally { delete process.env.ERW_REGIONS_DIR; fs.rmSync(zdir, { recursive: true, force: true }); }
+ok(C.baselineFirstHour(file) === "2020-12-21T05:00:00Z" && C.baselineFirstHour({ ...file, baseline_offsets_days: ["2 calendar year(s)", "1 calendar year(s)"] }) === "2020-12-19T05:00:00Z" && C.baselineFirstHour({ ...file, baseline: "", baseline_offsets_days: [] }) === null,
+  "the first hour a baseline reaches back to, by days or by calendar years, or none");
+const noStore = clone(file); delete noStore.regions.TEN.gen.storage; delete noStore.regions.TEN.baseline.gen.storage;
+const late = eventFixture({ first: "2025-01-20T05:00:00Z", start: "2025-01-20", end: "2025-01-21" }); delete late.regions.TEN.gen.storage;
+const lateNear = { ...clone(late), baseline_offsets_days: [7] };
+const storeWords = (f) => (pageText(draw({ file: f })).match(/The file holds no storage for Tennessee[^\]]*/) ?? [""])[0];
+ok(/before July 2024, and this window reaches back before then/.test(storeWords(noStore)) && /before July 2024, and this window's baseline reaches back before then/.test(storeWords(late)) && storeWords(lateNear) !== "" && !/July 2024/.test(storeWords(lateNear)),
+  "storage not held says why when the window or its baseline is before EIA's storage columns (July 2024), and only then");
+ok(pair["FLA-SE"].zero === true && pair["FLA-SE"].base.zero === false && pair["CAR-TEN"].zero === false && html.includes('data-wc-pair="FLA-SE" data-wc-zero="1"')
+  && text.includes(`Every one of the ${N} held hours of the window is 0 MW in the file for this pair, while the baseline's hours are not.`), "a pair whose every held hour is 0 MW says so on hover");
+const abroadFile = clone(file); abroadFile.pairs["CAN-MIDW"] = { flow_mw: Array(N).fill(100), baseline_mw: Array(N).fill(50) };
+const abroadHtml = draw({ file: abroadFile });
+ok(abroadHtml.includes('data-wc-pair="CAN-MIDW" data-wc-abroad="1"') && pageText(abroadHtml).includes("Canada files no Form EIA-930, so this flow is the US region's own report of its interchange with it.") && !html.includes("data-wc-abroad="),
+  "a pair with Canada or Mexico says the flow is the US region's own report");
+const trOf = (h, k) => (new RegExp(`<tr[^>]*>(?=(?:(?!</tr>)[\\s\\S])*data-wc-pair="${k}")`).exec(h) ?? [""])[0];
+ok(/bg-paper/.test(trOf(html, "CAR-TEN")) && /bg-paper/.test(trOf(html, "SE-TEN")) && trOf(html, "FLA-SE") !== "" && !/bg-paper/.test(trOf(html, "FLA-SE")), "the pairs of the two regions drawn below are marked as the region rows are");
+const shortRows = C.shortSources(rows, N);
+const gasShort = clone(file); for (let h = 0; h < 10; h++) gasShort.regions.TEN.gen.natural_gas[h] = null;
+const gasHtml = draw({ file: gasShort });
+ok(shortRows.length === 1 && shortRows[0].code === "SW" && shortRows[0].hours === N - 6 && C.shortSources(rows, N, ["SW"]).length === 0 && html.includes('data-wc-short-sources="SW"')
+  && text.includes(`Fewer hours than the window's ${N}: Southwest's sources rest on ${N - 6} hours.`) && gasHtml.includes('data-wc-short-sources="SW,TEN"')
+  && pageText(gasHtml).includes(`Tennessee's sources rest on ${N - 10} hours (its net generation on ${N})`) && !draw({ file: long, event: "covid_2020", path: "/events/covid-2020", first: "CAL", second: undefined }).includes("data-wc-short-sources=\"CAL"),
+  "a region whose sources rest on fewer hours than the window's is named under the sources table, with its net generation's hours");
+ok(text.includes(`${N} steps of 1 hour each, from 2022-12-19 05:00 UTC`) && text.includes("An hour the file does not hold has no point, and the line breaks there"), "the hours' words read plainly");
+
 // ---- held, and not built
 const heldFile = eventFixture({ license: "internal" });
 const heldHtml = draw({ file: heldFile });
@@ -164,6 +207,8 @@ try {
   const lf = figs(line);
   ok(lf["reached|elliott_2022|n"] === "2" && lf["reached|elliott_2022|of"] === "12" && /Carolinas, Tennessee/.test(line) && /Default: 5 percent/.test(line) && /Source: EIA Form EIA-930/.test(line), "index: Elliott's row says 2 of 12 regions, names them, and gives the rule, its default and its source on hover");
   ok(/href="\/events\/elliott-2022#whole-country"/.test(line), "index: the row links to the section");
+  ok(pageText(line).includes(`(${N - 6} of ${N} hours)`) && /Not counted, the file holding no hour of their demand with its baseline in the window: Northwest\./.test(pageText(line)),
+    "index: a region's percent says on how many hours it rests where fewer than the window's, and a region left out is named");
 } finally { delete process.env.ERW_REGIONS_DIR; fs.rmSync(tmp, { recursive: true, force: true }); }
 
 console.log(`${n - failed} of ${n} passed`);

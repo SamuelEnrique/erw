@@ -6,7 +6,7 @@ import { SiteLink as Link } from "@/components/SiteLink";
 import { ToolTable } from "@/components/tool/ToolPage";
 import {
   ABROAD, GRID_NAME, REACHED_PCT, REGION_CODES, REGION_NAME, SOURCES, STORAGE_FROM, baselineFirstHour, baselineOf, drawnByDay, eventRegionsFile, gwh, lineGap,
-  localHour, pairs, points, reached, regionOf, regionZones, signedGwh, signedPct, signedWhole, summarize, utcHour, whole, NEW_REGIONS,
+  localHour, pairs, points, reached, regionOf, regionZones, shortSources, signedGwh, signedPct, signedWhole, summarize, utcHour, whole, NEW_REGIONS,
   type Against, type EventRegionsFile, type RegionSummary,
 } from "@/lib/countryfiles";
 import { LICENSE_NEEDED, licenseNeeded, licenseTitle } from "@/lib/license";
@@ -143,6 +143,8 @@ export function WholeCountry({ event, path, file, q, first, second, firstWhy }: 
   const tables = file.tables ?? [];
   // session 8470 (the real files): the hour in the region's own time on hover, from index.json's time zones
   const zones = regionZones();
+  // session 8470: regions whose sources rest on fewer hours than the window's are named under the sources table
+  const short = why ? [] : shortSources(rows, file.hours.n, REGIONS_HELD);
   const when = (code: string, at: string): ReactNode => {
     const tz = zones[code], local = tz ? localHour(at, tz) : null;
     return local ? <span title={`In the region's own time (${tz}, from index.json): ${local}.`} data-wc-local={code}>{utcHour(at)}</span> : utcHour(at);
@@ -212,7 +214,7 @@ export function WholeCountry({ event, path, file, q, first, second, firstWhy }: 
         EIA&apos;s thirteen regions of the lower 48 over {file.start} to {file.end}, each against{" "}
         <Hint words="the baseline" why={`${base.words ? `The file's own words: ${base.words}.` : "The file names no rule."}${base.offsets.length ? (base.offsets.every((o) => typeof o === "number") ? ` Offsets in days: ${base.offsets.join(", ")}.` : ` Offsets: ${base.offsets.join(", ")}.`) : ""}${file.window ? ` The window's hours, in the file's words: ${file.window}.` : ""} For each hour of the window the baseline is the mean of the same hour at each offset that holds it. Source: the event's window and baseline days as the page above uses them (docs/methods/events.md).`} />.{" "}
         <Hint words="Six regions are new to the site" why={`${NEW_REGIONS.map((c) => REGION_NAME[c]).join(", ")}: none of the seven grids of the sections above is in them, so no page drew them before 19 November 2026.`} />.{" "}
-        <Hint words="How a figure here is formed" why={`Each figure is a sum or a mean over the hours of the window that the file holds for both the event and the baseline; MW over an hour is MWh, shown as GWh (1,000 MWh). Hours are the file's, in UTC, ${whole(file.hours.n)} of ${step} hour${step > 1 ? "s" : ""} from ${utcHour(file.hours.start)}. Nothing is filled or estimated. A region's figure is EIA's sum of its balancing authorities, so it is not the figure of a grid above even where they cover nearly the same ground.`} />
+        <Hint words="How a figure here is formed" why={`Each figure is a sum or a mean over the hours of the window that the file holds for both the event and the baseline; MW over an hour is MWh, shown as GWh (1,000 MWh). Hours are the file's, in UTC: ${whole(file.hours.n)} steps of ${step} hour${step > 1 ? "s" : ""} each, from ${utcHour(file.hours.start)}. Nothing is filled or estimated. A region's figure is EIA's sum of its balancing authorities, so it is not the figure of a grid above even where they cover nearly the same ground.`} />
       </p>
 
       <h3 className="mb-1 mt-4 text-base" id="wc-regions">Each region across the event</h3>
@@ -222,7 +224,7 @@ export function WholeCountry({ event, path, file, q, first, second, firstWhy }: 
           <Head key="d" mark="demand" words="Demand, GWh" why="The region's demand summed over the hours of the window that the event and the baseline both hold. Source: EIA Form EIA-930, demand by region." />,
           <Head key="p" mark="pct" words="On the baseline, percent" why="Demand over the window less the baseline's over the same hours, as a percent of the baseline's." />,
           <Head key="k" mark="peak" words="Highest hour, MW" why="The highest hour of demand the file holds for the region in the window." />,
-          <Head key="w" mark="when" words="When" why="The start of that hour, in UTC as the file writes it." />,
+          <Head key="w" mark="when" words="When" why={`The start of that hour, in UTC as the file writes it.${Object.keys(zones).length ? " Hover a time for the same hour in the region's own time." : ""}`} />,
           <Head key="b" mark="peakbase" words="Baseline that hour, MW" why="The baseline's demand at the same hour of the window: the mean of that hour at each baseline offset. The sections above take each baseline day's own highest hour, so this is not the same comparison." />,
           <Head key="i" mark="imports" words="Net imports, mean MW" why="The mean of the region's net imports over the hours both hold: EIA's total interchange with its sign turned, so above zero the region imported and below zero it exported." />,
           <Head key="j" mark="importsbase" words="Baseline, mean MW" why="The same mean over the baseline's hours." />,
@@ -235,6 +237,12 @@ export function WholeCountry({ event, path, file, q, first, second, firstWhy }: 
         head={["Region", ...SOURCES.map((s) => <Head key={s.key} mark={`src-${s.key}`} words={s.label} why={`${s.label}: the region's generation from this source over the window less the baseline's, over the hours both hold. ${s.key === "storage" ? "Storage is negative while it charges. " : ""}${s.key === "hydro" ? "Hydro includes pumped storage. " : ""}${s.key === "other" ? "Other is petroleum, geothermal, other and unknown sources. " : ""}Hover a cell for the two sums. Source: EIA Form EIA-930, generation by energy source.`} />),
           <Head key="net" mark="src-net" words="Net generation" why="The region's net generation over the window less the baseline's, over the hours both hold." />]}
         rows={sourceRows} />
+      {short.length ? (
+        <p className="mt-1 max-w-3xl text-sm" data-wc-short-sources={short.map((s) => s.code).join(",")}>
+          Fewer hours than the window&apos;s {whole(file.hours.n)}: {short.map((s) => `${s.name}'s sources rest on ${whole(s.hours)} hours${s.net !== null && s.net > s.hours ? ` (its net generation on ${whole(s.net)})` : ""}`).join("; ")}.{" "}
+          <Hint words="Why" why="EIA's files leave some hours of a region's generation by source empty while they hold its net generation, so the sources in that row are summed over fewer hours and do not add up to the net generation beside them. Nothing is filled: each cell's hover gives the hours it rests on. Source: EIA Form EIA-930, generation by energy source." />
+        </p>
+      ) : null}
 
       <h3 className="mb-1 mt-6 text-base" id="wc-pairs">Power between regions, pair by pair</h3>
       {ps.length ? (
@@ -268,7 +276,7 @@ export function WholeCountry({ event, path, file, q, first, second, firstWhy }: 
         );
       })()}
       <p className="mt-3 text-sm">
-        <Hint words={drawnByDay(file.hours) ? "Drawn by day" : "Drawn by hour"} why={drawnByDay(file.hours) ? "The window is longer than 21 days, so each point is the mean of a UTC day's held hours. The tables above are from every held hour." : "Each point is one hour of the file, in UTC. An hour the file does not hold has no point."} />
+        <Hint words={drawnByDay(file.hours) ? "Drawn by day" : "Drawn by hour"} why={drawnByDay(file.hours) ? "The window is longer than 21 days, so each point is the mean of a UTC day's held hours, and a day with no held hour breaks the line. The tables above are from every held hour." : "Each point is one hour of the file, in UTC. An hour the file does not hold has no point, and the line breaks there."} />
       </p>
       <p className="mt-2 text-xs text-muted" data-wc-source="1">
         Source: EIA Form EIA-930 (public domain), by region{tables.length ? <>; ERW table{tables.length > 1 ? "s" : ""} {tables.map((t, i) => <span key={t}>{i ? ", " : ""}<Link href={`/data#${t}`} className="font-mono" gate="plain">{t}</Link></span>)}</> : null}

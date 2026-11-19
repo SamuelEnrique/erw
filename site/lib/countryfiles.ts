@@ -141,6 +141,22 @@ export function summarize(file: EventRegionsFile): RegionSummary[] {
   });
 }
 
+/** Session 8470 (the real files): the regions whose generation by source rests on fewer hours than the window's (EIA's
+ *  files leave a region's fuel columns empty for some hours while its net generation is there: the Southwest over Winter
+ *  Storm Elliott, 114 of 267 hours), with the fewest hours any of its sources rests on and the hours of its net
+ *  generation. A region held aside (`skip`) is left out. */
+export function shortSources(rows: RegionSummary[], n: number, skip: string[] = []): { code: string; name: string; hours: number; net: number | null }[] {
+  const out: { code: string; name: string; hours: number; net: number | null }[] = [];
+  for (const r of rows) {
+    if (skip.includes(r.code)) continue;
+    const hs = Object.values(r.sources).filter((x): x is Against => !!x).map((x) => x.hours);
+    if (!hs.length) continue;
+    const least = Math.min(...hs);
+    if (least < n) out.push({ code: r.code, name: r.name, hours: least, net: r.generation ? r.generation.hours : null });
+  }
+  return out;
+}
+
 /** The share of the baseline by which a region's demand over the window must differ from it to be counted as reached,
  *  in percent, either way. The session's own default (8410): no publisher's threshold stands behind it. */
 export const REACHED_PCT = 5;
