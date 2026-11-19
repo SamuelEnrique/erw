@@ -1,6 +1,6 @@
 # Chain 504, the portable laptop, 19 November 2026: where it stands
 
-Energy Research Warehouse (ERW). Sessions 8600 to 8617 so far (10:40 to 19:24 UTC). Written at 16:13 UTC and kept current; the last line says when. Model spend USD 0. Nothing published; `site/lib/release.ts` not touched; every page in review.
+Energy Research Warehouse (ERW). Sessions 8600 to 8618 so far (10:40 to 19:36 UTC). Written at 16:13 UTC and kept current; the last line says when. Model spend USD 0. Nothing published; `site/lib/release.ts` not touched; every page in review.
 
 ## Read these first
 
@@ -33,7 +33,7 @@ Energy Research Warehouse (ERW). Sessions 8600 to 8617 so far (10:40 to 19:24 UT
 ## Waiting at the landing desk (`docs/state/landing_request_portable.md`)
 
 - Row 42, `wip/8602-grid-regions` at `6ebefa10a` (main merged in). Landed through `c527a0bb7` (stacks e and f, the second at 18:28 UTC); what came after waits for the desk's next gate.
-- Row 43, `wip/8603-resources` at `5659bf6ae` (main merged in). Landed through `4e2b2b54c` (stacks e and f); what came after waits for the desk's next gate.
+- Row 43, `wip/8603-resources` at `ac830f2d8` (main merged in). Landed through `4e2b2b54c` (stacks e and f); what came after waits for the desk's next gate.
 
 ## Asked of the data machine (`docs/state/data_requests_done_line.md`)
 
@@ -42,7 +42,7 @@ Energy Research Warehouse (ERW). Sessions 8600 to 8617 so far (10:40 to 19:24 UT
 - 544, 549, 551: the region files (months left out, zeros for a source never reported, hours that differ from EIA's). Answered or done on its branches.
 - 542: coal done; uranium and critical minerals not fetched.
 - 552: the coal fields' unit and one sentence. Requested.
-- 553: plain words and units for the hover of the wind sites and the hot-water systems (they read as raw column names). Done by the data machine on its stack g, not landed yet.
+- 553: plain words and units for the hover of the wind sites and the hot-water systems (they read as raw column names). Done by the data machine in a file of its own, on its stack h; the page reads that file since session 8618 (row 43). Not yet seen in a browser.
 
 ## Needs the key
 
@@ -67,6 +67,7 @@ Energy Research Warehouse (ERW). Sessions 8600 to 8617 so far (10:40 to 19:24 UT
 15. The resource map's page has two headings of level 1 when the method note under the map is open; the level of a shown document belongs in the site's shared renderer. Default: left.
 16. On a phone the foot of the 3D scene gives the drawing library's hint for a mouse ("Left-click: rotate ..."). Default: left (the centerpiece's own).
 17. The network panel's "Close" is 24 px tall on a phone; the brand asks 44. Default: left (the centerpiece's own).
+18. A wind site's name in the hover is a number, the source's `sc_point_gid`. Say "site 72732"? Default: the number as it was.
 
 ## Not done
 
@@ -77,7 +78,8 @@ Energy Research Warehouse (ERW). Sessions 8600 to 8617 so far (10:40 to 19:24 UT
 ## To finish (the laptop ran short of memory at about 19:00 UTC)
 
 - The system stopped the whole suite (after 4 of 33 batches) and the two local servers. I did not start them again.
+- Not seen in a browser at all: the hover's new words for the wind sites and the hot-water systems (session 8618), which need a build with the data machine's file.
 - Not proven on this laptop since: the whole suite on either branch; a browser check of the resources head `5659bf6ae` on a build. The landing gate runs both.
 - To run them: from a branch's root, `ERW_LOCK_EXEMPT=1 .venv\Scripts\python.exe scripts\suite_batches.py --batch 40`; then `runs\c504_rebuild.ps1`, serve, and `node scripts/check-resources.mjs http://localhost:3505` (expect 102 of 105).
 
-Last written: 19:24 UTC, session 8617.
+Last written: 19:36 UTC, session 8618.
