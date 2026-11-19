@@ -22,7 +22,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { withBrowser } from "./browser.mjs";
-import { ALIKE, latestHour, newestTradeMonth, readAlike, readIndex, readMix, readTrade, regionHref, tradeMonth, whySentence } from "../lib/gridregions.ts";
+import { ALIKE, latestHour, monthsNotHeld, newestTradeMonth, partMonth, readAlike, readIndex, readMix, readTrade, regionHref, storageNote, tradeMonth, whySentence } from "../lib/gridregions.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3504").replace(/\/$/, "");
 const shots = process.argv[3] ?? null;
@@ -86,7 +86,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
     check(s.search === `?region=${slug}` && s.h1.startsWith(pick.name) && s.on === pick.name && s.gridOn === null && s.tab === "Mix" && s.tabs.length === 4 && s.tabs.every((t) => t[1].includes(`region=${slug}`)) && s.title.includes(pick.name),
       `a region chosen is in the address (${s.search}), in the title ("${s.h1}") and in the picker, with the tool's four tabs`);
     const fig = await evaluate(`({ now: document.querySelector('[data-region-now]')?.getAttribute('data-region-now') ?? null, figures: Object.fromEntries([...document.querySelectorAll('[data-region-figure]')].map((e) => [e.getAttribute('data-region-figure'), e.innerText.replace(/\\s+/g, ' ').trim()])),
-      rows: [...document.querySelectorAll('[data-region-table="now"] tbody tr')].map((r) => [...r.children].map((c) => c.innerText.trim())), svgs: document.querySelectorAll('[data-region-view="mix"] svg').length, hours: Number(document.querySelector('[data-region-hours]')?.getAttribute('data-region-hours') ?? 0),
+      rows: [...document.querySelectorAll('[data-region-table="now"] tbody tr')].map((r) => [...r.children].map((c) => c.innerText.trim())), svgs: document.querySelectorAll('[data-region-view="mix"] [data-chart] svg, [data-region-view="mix"] [data-chart] canvas, [data-region-view="mix"] #years svg').length, hours: Number(document.querySelector('[data-region-hours]')?.getAttribute('data-region-hours') ?? 0),
       period: document.querySelector('[data-region-view]').getAttribute('data-region-period'), shares: [...document.querySelectorAll('[data-region-table="shares"] tbody tr')].map((r) => [...r.children].map((c) => c.innerText.trim())),
       rest: [...document.querySelectorAll('[data-region-table="rest"] tbody tr')].map((r) => ({ part: r.children[0].innerText.trim(), words: r.querySelector('[data-missing]')?.innerText ?? null, why: r.querySelector('[data-missing]')?.getAttribute('title') ?? '' })) })`);
     if (now) {
@@ -107,8 +107,31 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
     await sleep(400);
     const card = await evaluate(`(() => { const d = document.querySelector('#day'); const t = [...d.querySelectorAll('div')].filter((e) => /Natural gas|Demand/.test(e.innerText) && /MW/.test(e.innerText) && /\\d\\d:00/.test(e.innerText)).sort((a, b) => a.innerText.length - b.innerText.length)[0]; return t ? t.innerText.replace(/\\s+/g, ' ').slice(0, 160) : null; })()`);
     check(!!card, `the average day's chart answers the mouse with the hour and each source's megawatts (${card ?? "no card"})`);
+    // session 8605: the hour by hour chart draws one column an hour, and the mouse reads the file's megawatts of the hour under it
+    if (now) {
+      const hc = await evaluate(`(() => { const s = document.querySelector('[data-region-hours-chart] svg'); if (!s) return null; s.scrollIntoView({ block: 'center' }); const b = s.getBoundingClientRect();
+        return { x: b.left + b.width * 0.5, y: b.top + b.height * 0.5, layers: [...s.querySelectorAll('[data-hours-layer]')].map((p) => p.getAttribute('data-hours-layer')), demand: !!s.querySelector('[data-hours-demand]') }; })()`);
+      let hcard = null;
+      if (hc) {
+        await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: hc.x, y: hc.y });
+        await sleep(400);
+        hcard = await evaluate(`(() => { const c = document.querySelector('[data-hours-card]'); return c ? { ms: Number(c.getAttribute('data-hours-card')), text: c.innerText.replace(/\\s+/g, ' ') } : null; })()`);
+        await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: 5, y: 5 });
+      }
+      const hi = hcard ? Math.round((hcard.ms - Date.parse(mixFile.hourly.hours.start)) / 3_600_000) : -1;
+      const say = (k) => { const v = mixFile.hourly[k]?.[hi]; return v === null || v === undefined ? "not held" : `${whole(Math.round(v) || 0)} MW`; };
+      check(!!hc && hc.demand && hc.layers.includes("nuclear") && !!hcard && hi >= 0 && hcard.text.includes(`Nuclear: ${say("nuclear")}`) && hcard.text.includes(`Demand: ${say("demand")}`) && hcard.text.includes(`Hydro: ${say("hydro")}`),
+        `the hour by hour chart draws a column an hour for ${hc?.layers.length ?? 0} sources with demand as a line; under the mouse, the file's megawatts of that hour (${hcard ? hcard.text.slice(0, 150) : "no card"})`);
+    }
+    // session 8605: the months the file does not hold are counted under the chips and named on hover
+    {
+      const gaps = monthsNotHeld(mixFile);
+      const line = await evaluate(`(() => { const p = document.querySelector('[data-months-not-held]'); return p ? { n: Number(p.getAttribute('data-months-not-held')), text: p.innerText.trim(), tip: p.querySelector('[title]')?.getAttribute('title') ?? '' } : null; })()`);
+      check(gaps.missing.length ? !!line && line.n === gaps.missing.length && line.text.startsWith(`${gaps.missing.length} of the ${gaps.span} months`) && line.tip.includes("90 percent") && line.tip.split(", ").length >= gaps.missing.length : line === null,
+        gaps.missing.length ? `the months the file does not hold are counted under the chips and named on hover, with the rule (${line?.text ?? "no line"})` : "the file holds every month of its span, and no line says otherwise");
+    }
     // a month chosen is in the address
-    const other = Object.keys(mixFile.months).sort().reverse()[1];
+    const other =Object.keys(mixFile.months).sort().reverse()[1];
     if (other) {
       await evaluate(`document.querySelector('[data-chip="Month:${other}"]').click()`);
       await wait(`document.querySelector('[data-region-view]')?.getAttribute('data-region-period') === '${other}'`, 20000, "the other month");
@@ -127,6 +150,11 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
       const mwh = (v) => (v === null ? "not held" : `${v > 0 ? "+" : v < 0 ? "-" : ""}${whole(Math.abs(v))}`);
       check(t.month === month && t.rows.length === m.rows.length + 1 && m.rows.every((r, i) => t.rows[i][0].endsWith(r.code) && t.rows[i][1] === mwh(r.own) && t.rows[i][2] === mwh(r.theirs) && t.rows[i][3] === mwh(r.gap)) && t.rows[m.rows.length][1] === mwh(m.total) && t.heads === 4,
         `the trade of ${month}: one row a neighbour with the file's own report, the neighbour's and the gap (${t.rows.slice(0, 3).map((r) => `${r[0]} ${r[1]}`).join("; ")}), a figure not held blank, never zero; every column head says its rule on hover`);
+      // session 8605: a month the reports hold in part is said, beside the table and under the chart
+      const part = partMonth(trade, month), lastPart = partMonth(trade, trade.months[trade.months.length - 1]);
+      const said = await evaluate(`({ table: document.querySelector('[data-part-month]')?.innerText ?? null, chart: document.querySelector('[data-part-month-chart]')?.innerText ?? null })`);
+      check((part ? !!said.table && said.table.includes(`${whole(part.hours)} of its ${whole(part.of)} hours`) : said.table === null) && (lastPart ? !!said.chart && said.chart.includes(`${whole(lastPart.hours)} of its ${whole(lastPart.of)} hours`) : said.chart === null),
+        `a month the reports hold in part is said so, with the file's hours (${said.table ?? "the month shown is whole"}${said.chart ? `; ${said.chart}` : ""})`);
       await shot(`region_${slug}_trade_1280.png`);
     }
 
@@ -165,6 +193,15 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
     await open(`/grid?region=${none.code.toLowerCase()}`);
     const a = await evaluate(`({ state: document.querySelector('[data-region-view]')?.getAttribute('data-region-mix'), words: document.querySelector('[data-region-view] [data-missing]')?.innerText ?? null, why: document.querySelector('[data-region-view] [data-missing]')?.getAttribute('title') ?? '', digits: (document.querySelector('[data-region-view]').innerText.match(/\\d/g) || []).length })`);
     check(a.state === "absent" && a.words === "not built yet" && a.why.includes(`mix/${none.code.toLowerCase()}.json`) && a.digits === 0, `${none.name}'s mix file is not on the site: the tab says "not built yet", its hover names the file, and no figure is drawn`);
+  }
+  // session 8605: where a region's balancing authority files no battery series, the Storage row says so on hover
+  {
+    const withNone = index.regions.find((r) => storageNote(r) && readMix(json(`mix/${r.code.toLowerCase()}.json`)));
+    if (withNone) {
+      await open(`/grid?region=${withNone.code.toLowerCase()}`);
+      const tips = await evaluate(`[...document.querySelectorAll('[data-storage-note]')].map((e) => e.getAttribute('title'))`);
+      check(tips.length >= 1 && tips.every((t) => t === storageNote(withNone)), `${withNone.name}'s Storage row says on hover who files no battery series ("${(tips[0] ?? "no hover").slice(0, 110)}")`);
+    }
   }
   // a region beside the grid it nearly is
   for (const [codeA, g] of Object.entries(ALIKE)) {
