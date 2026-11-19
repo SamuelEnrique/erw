@@ -250,6 +250,62 @@ What this map is not:
 
 **What the colors are not.** A region's color is one number for the whole balancing authority: the carbon intensity of what was generated inside it in the period shown. It is not the intensity of the power used at any place inside the boundary (imports are not in it), it does not vary within the region, and a large region is not a large number: area on the map is land, not load or generation. A boundary is a planning footprint as its publisher drew it, not a service-territory survey and not a line any wire follows.
 
+## The map made whole (session 8601)
+
+Session 8601 (chain 504, 19 November 2026) added to the map and took nothing from it. The Network shape is as it was: the map's code and its boundary file are still fetched only when "Map" is chosen (384 ms from the click to the regions drawn, on the build of that night), and nothing the map needs is computed while the network is the shape shown.
+
+**Which boundary file.** The map asks first for the whole country's boundary file, `site/data/regions/ba_boundaries.json` (the contract `docs/state/page_files_regions.md`, section 1: a GeoJSON FeatureCollection, one feature a balancing authority, written by the data machine from a publisher's layer), through the address `/grid/boundaries`. That address is under `/grid`, so the release gate covers it as it covers the page. Until the server holds the file the address answers `{ "held": false }` and the map draws the file it has drawn since session 193, the ERW's own derivation from counties, with its label. A file that is the contract's draws with one line under the map that names its source and the day it was retrieved, and no derived label. A file that is not the contract's whole (no source, no retrieval time, a feature with no code or no polygon) is an error and draws nothing.
+
+**The point inside a shape.** A tie begins and ends at one point inside each balancing authority. The county file gives that point; the contract's file gives none, so the reader finds one (`insidePoint` in `site/lib/networkMap.ts`): the centroid of the shape's largest ring when it lies inside the shape, else the middle of the longest stretch inside the shape on a level line across that ring at half, a quarter or three quarters of its height. It is a place to draw from, not a place on the ground: no substation, no load center.
+
+**A grid with no boundary is listed, not dropped.** Under the map, inside its frame: "Not on the map: no boundary in the file", then each such balancing authority by name. A name has the same hover and the same click as a region. Its ties cannot be drawn on the map (a line needs two points); the Network shape draws them, and the map's key says how many of the hour's ties it could draw.
+
+**A region's hover.** The name and, for the hour or day shown: the carbon intensity of generation (as the panel writes it), demand, net imports or exports over the ties that reported (`netOf`, the panel's own sum and the figure under the network), the batteries when the switch is on, the hour, and the tables. A figure that is not held says so.
+
+**A tie's hover.** Both names in the direction of flow, the megawatts (a day's are its average), the hour or day, and which side reported it. The snapshot's rule is the pair rule above: the flow is the report of the balancing authority whose code sorts first, and in an hour it did not report, the other's with the sign turned. The snapshot does not record which of the two it was in a given hour, so the hover says the rule and ends "The file does not mark which". When a snapshot carries, for a pair, the list of frames read from the second side (`links[].other`), the hover names the side (data request 541 of `docs/state/data_requests_done_line.md`). The hover takes the tie whose line is nearest the pointer, within four screen pixels of its edge, and not at its two ends, where a grid's ties meet and the grid answers. A finger has no hover: a tap on a tie shows the same words.
+
+**Width and motion.** A tie's width is the rule's own (0.4 plus 3 times the square root of its share of the period's largest flow), now in screen pixels at every zoom. On a frame narrower than 748 px (a phone, or the map beside an open panel) the widths, the dash and the ring shrink with the frame, to six tenths at most: at full size the arrowheads of the West ran into each other on a phone. The key under the map draws three of those widths with their megawatts: the period's largest flow, a quarter of it and a sixteenth. The dash still runs from the exporter to the importer, faster as the flow is larger, and stands still where the reader asks for less motion.
+
+**Batteries.** With the Batteries switch on, the map draws the network's ring at the point inside each balancing authority whose batteries are reported for the hour: the same rule (half full at rest, full when discharging at the period's most, nearly empty when charging at its most), over a faint whole circle so an emptier ring can be read. The Prices ring stays in the Network shape; the panel holds its numbers on the map.
+
+**Moving and zooming.** The wheel zooms about the pointer (a wheel that would zoom out of the whole map scrolls the page), two fingers zoom about the point between them, a drag moves a map that is zoomed, and three buttons zoom in, zoom out and show the whole map. From one to twelve times; the map cannot be pulled off its frame. At rest one finger scrolls the page.
+
+**The color.** As before: the region has its sphere's color, one call on one range (`colorOf(view.intensity(id, hour), lo, hi)`). In the live week that is the latest hour of carbon intensity held, for the seven grids that hold one; in a story or the replay, each day's own. 37 of the 44 regions drawn from the county file are grey, "not held": the warehouse computes a carbon intensity for the seven ISO balancing authorities only (data request 540 of `docs/state/data_requests_done_line.md`).
+
+**A fault found and fixed.** The brand's rule for a button that is not pressed gave a switch that is on (`role="switch"`, `aria-checked="true"`: Batteries, Prices) ink letters on its own ink ground, so "Batteries: on" could not be read, in the Network shape too. `site/app/tokens.css` now leaves such a switch its own white letters.
+
+**Held by** `tests/test_session8601.py` (the reader, the sums, the words, the arithmetic, the sources) and `site/scripts/check-grid-map.mjs` on a built site (the network unopened, the time, the megawatts and the colors of the two shapes set against each other, the hovers, the ring, a story switched in its middle, the zoom, the list, a phone).
+
+## The thirteen regions in the Grid tool (session 8602)
+
+Session 8602 (chain 504, 19 November 2026). Until then the tool's picker held the seven grids and the Lower 48. It now also holds EIA's thirteen regions of the lower 48 (California, Carolinas, Central, Florida, Mid-Atlantic, Midwest, New England, Northwest, New York, Southeast, Southwest, Tennessee, Texas), six of which no page of the site had drawn: the Southeast, Florida, the Carolinas, Tennessee, the Northwest and the Southwest, none of whose balancing authorities is one of the seven grids.
+
+**What a region is.** One of the thirteen regions of EIA's hourly grid monitor (Form EIA-930), with the balancing authorities EIA's reference tables place in it. The page draws no region of its own making. The regions, their authorities and every figure come from the whole country's page files, `site/data/regions/`, which the data machine builds (`warehouse/derived/region_files.py`, `docs/methods/regions_pages.md`); their shapes are the contract `docs/state/page_files_regions.md`. The site's code only reads them (`site/lib/regionsdata.ts`) and does the small arithmetic of `site/lib/gridregions.ts`: the hour of a position in an hourly array, the newest hour that holds a net generation, a source's share of that hour, one month of a trade file.
+
+**The address.** A region has its own word: `/grid?region=se&view=mix`. The grid's word (`grid=`) and the function that reads an address for a grid (`gridPick`) are untouched, so every address the tool had reads as it did. A region is in view only when the address names one the index holds; otherwise the page is the grid's page, as before.
+
+**Until a file is on the site.** Under the grid picker a row "EIA region" lists the regions of `index.json`. Until that file is on the server the row reads "not built yet", its hover names the file, and no region can be chosen. A region whose own file is missing says "not built yet" on that tab, with the file's name on hover, and draws no figure.
+
+**The Mix tab for a region** (`mix/<region>.json`, the form of the seven grids' `site/data/mix/*.json`):
+
+- The latest hour held: the newest hour of the file's 35 days that holds a net generation; its demand, net generation and net imports, and each of the eight sources with its megawatts and its share of that hour's net generation (megawatts over net generation, to a hundredth of a percent).
+- Generation by source hour by hour for those 35 days, with demand, in UTC.
+- The average day of any month or year the file holds, by local hour (the stacked areas and the demand line a grid has), and the shares of the period by source with their megawatt-hours and the days held.
+- One calendar month year after year: net load (demand less wind and solar) by hour, each year's midday low (09:00 to 16:00), evening high (from 16:00) and the ramp between them, by the functions the seven grids' tab uses (`site/lib/mix2.ts`).
+- "The rest of the Mix tab": the seven parts a grid's tab has that a region's file does not hold (a hub price beside the mix, wind and solar forecasts, the records, how hard the system works, availability by source, carbon intensity and temperature beside the mix, the table by state and since 2001). Each is drawn, blank, as "not held for this region", with its reason on hover. None is hidden and none is filled.
+
+A region's days and local hours are counted in the time zone its file names (the zone of most of its demand). Demand is the sum of the region's balancing authorities that file demand, for an hour every one of them holds; net imports are EIA's total interchange with its sign turned (positive: the region imports). Those are the data machine's rules, said on the page's hovers.
+
+**The Gravity tab for a region** (`trade/<region>.json`): for a month, one row a neighbouring region (and Canada or Mexico): the region's net imports from it by the region's own report, the same flow as the neighbour reported it, the gap between the two over the hours both reported, and the hours each side held; then the total, which the file writes only when every neighbour's own report holds at least half the month's hours. A figure a side did not report is blank, never zero. A chart draws each neighbour's monthly net imports for the last 36 months. Months are EIA's Eastern months. Neither side's report is adjusted to the other.
+
+**The Network tab for a region:** the network as for the Lower 48, under a list of the region's balancing authorities; a name opens that authority's panel. When the index is on the site, every panel and every hover on the map names the authority's EIA region, and the panel's line opens the region in the tool. **The Clean tab** draws its three parts blank: the warehouse computes no carbon intensity for a region.
+
+**A region beside the grid that covers nearly its ground** (Texas and ERCOT, New York and NYISO, New England and ISO-NE, the Mid-Atlantic and PJM): the region's hover in the picker carries the first sentence of the data machine's own account of why the two differ (`alike.why` in `demand/<region>.json`). Both stand; the page does not choose between them.
+
+**Ask is not changed.** With a region in view the panel is the Lower 48's, says so, and reads no region's page file.
+
+**Held by** `tests/test_session8602.py` (the address, the readers on the tests' own fixture, the page's hand-over, the seven grids' blocks as they were) and `site/scripts/check-grid-regions.mjs` on a built site, which reads the same files the server reads and checks the page's figures against them.
+
 ## The gravity shape (session 266)
 
 The owner named it on 14 October 2026: a third shape of the network, "Gravity", beside "Map" and "Network" at the top of
