@@ -50,3 +50,7 @@ Session 7706 (samueloldlaptop, claimed in `docs/state/ruling_alternative_claims.
 Faults seen on a build of a branch, from `docs/state/browser_reads_wanted.md`; none is fixed here.
 
 - Browser row 341 (session 7800): `wip/alt-impact-26` (browser row 341): at 390 px the page is 409 px wide with the column "B less A" (production 390); the figures at 1280 are the record's (+USD 1.1 million, +16.6 million, +8.9 million).
+
+## The screenshot faults of 17 November, read against the branch (session 8401, chain 503, 19 November 2026)
+
+- Browser row 341 (session 8401): fixed on `wip/alt-impact-26` at `e313c0d4f`: under 640 px the A and B table's figures break at their spaces (three cells of about 95 px could not hold "+USD 16.6 million" on one line, which ended at 409 px); not seen in a browser, the row is `wanted` again.
