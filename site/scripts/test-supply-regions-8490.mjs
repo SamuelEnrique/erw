@@ -107,6 +107,16 @@ ok(order.join(",") === "2025-01,2025-02,2025-03,2025-04,2025-05,2025-06,2025-07,
 ok(/<span data-wc-month="2025" title="The year&#x27;s shares and net generation run over the 11 months of 2025 the file holds; Jun 2025 is not held, and nothing is filled for it\.">2025, 11 months<\/span>/.test(carMixHtml), "the year's row says on hover which month is not held; its face is as before");
 ok(!/data-wc-month-gap/.test(p25.slice(p25.indexOf('data-wc-mix="a" data-wc-region="TEN"'), p25.indexOf('data-wc-mix="b"'))), "a region whose file holds every month of the year draws no such row");
 
+// a year inside the file's span with no month held (the Southwest in 2024 on the real files): the hover says why
+const sw = { ...fixtureReaders().mix("SW"), first: "2019-01", upto: "2026-10" };
+for (const k of Object.keys(sw.months)) if (k.startsWith("2024")) delete sw.months[k];
+const swPage = draw({ region: "sw", b: "none", year: "2024" }, { ...fixtureReaders(), mix: (c) => (c === "SW" ? sw : fixtureReaders().mix(c)) });
+const swMix = swPage.slice(swPage.indexOf('data-wc-mix="a" data-wc-region="SW"'));
+ok(/title="The file holds no month of 2024 for Southwest: its months run from Jan 2019 to [A-Z][a-z]{2} 20\d\d\. The builder writes a month only when at least 90 percent of its days are complete, [^"]*no month of 2024 inside that span is\. Nothing is filled\./.test(swMix),
+  "a year the mix file holds no month of, inside its span: the hover gives the builder's rule");
+const swOut = draw({ region: "sw", b: "none", year: "2018" });
+ok(!/no month of 2018 inside that span/.test(swOut), "a year before the file's first month: the hover as before, no rule added");
+
 // ---- nothing else moved
 const base = draw({ region: "ten", b: "car" });
 const f = figs(base);

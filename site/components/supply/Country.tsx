@@ -370,7 +370,7 @@ function Mix({ code, file, year, mark }: { code: string; file: MixFile | null; y
             <Head key="d" mark="mix-days" words="Days held" why="The days of the month whose every hour the file holds, of the days in the month." />,
           ]}
           rows={tableRows} />
-      ) : <p className="text-sm"><NOT why={`The file holds no month of ${year} for ${name}${all.length ? `: its months run from ${monthWords(all[0])} to ${monthWords(all[all.length - 1])}` : ""}.`} /></p>}
+      ) : <p className="text-sm"><NOT why={`The file holds no month of ${year} for ${name}${all.length ? `: its months run from ${monthWords(all[0])} to ${monthWords(all[all.length - 1])}` : ""}.${gaps.length ? ` The builder writes a month only when at least 90 percent of its days are complete, every local hour of the day held in Form EIA-930's generation by source (storage aside), and no month of ${year} inside that span is. Nothing is filled. Source: docs/methods/regions_pages.md.` : ""}`} /></p>}
     </>,
   );
 }
