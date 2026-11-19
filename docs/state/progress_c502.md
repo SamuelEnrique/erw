@@ -5,7 +5,7 @@ Chain file: `queue/done/502-day-19-november-desktop-window2-findings-industry.md
 - Chain file saved and pushed: done (1fa529436), session 8200.
 - Resume file: done (2208e5b80), session 8200.
 - Part A, the ground: done, `docs/reviews/findings-hunt-plan-2026-11-19.md`, session 8200.
-- Part A, family 1, who trades with whom: in progress, session 8201.
+- Part A, family 1, who trades with whom: done, 34 drafts in `docs/findings/trade/` (6349e6206), 34 of 34 reproduce, loaded to scanner_drafts; code `wip/8201-findings` (84d106e33), landing row 1 requested; session 8201.
 - Part A, family 2, the six regions: not started.
 - Part A, family 3, demand against temperature: not started.
 - Part A, family 4, the nine events: not started.
