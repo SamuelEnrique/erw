@@ -273,7 +273,9 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
       <div>
       {/* the map keeps its own proportions; a derived file's label stands under it, inside the frame, and covers no region */}
       <div className="relative" style={style}>
-      <svg ref={svg} viewBox={`0 0 ${W} ${H}`} className="h-full w-full" role="img" preserveAspectRatio="xMidYMid meet" style={{ touchAction: t.k > MAP_ZOOM[0] ? "none" : "pan-y", cursor: t.k > MAP_ZOOM[0] ? "grab" : undefined }}
+      {/* session 8609 (the accessibility read): a group, not an image. An image's children are hidden from assistive
+          technology, and each region here is a button a keyboard reaches (Enter or Space opens its panel, focus shows its figures) */}
+      <svg ref={svg} viewBox={`0 0 ${W} ${H}`} className="h-full w-full" role="group" preserveAspectRatio="xMidYMid meet" style={{ touchAction: t.k > MAP_ZOOM[0] ? "none" : "pan-y", cursor: t.k > MAP_ZOOM[0] ? "grab" : undefined }}
         onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up} onPointerLeave={(e) => { if (!e.currentTarget.hasPointerCapture(e.pointerId)) up(e); setHover((h) => (h?.kind === "flow" ? null : h)); }}
         onClick={choose}
         aria-label="A map of the US balancing authorities, each region colored by the carbon intensity of its generation, with the power they exchange; hover a region for its name and figures, click it for its panel">
@@ -357,10 +359,11 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
           <div className="mb-1 cursor-help text-ink" title={`These ${noShape.length} balancing authorities of the network have no boundary in the file the map draws, so they have no region here. Each keeps its hover and its panel; its ties are drawn in the Network view. ${drawnFlows.length} of the ${flows.length} ties moving power in the ${unit} shown have both ends on the map.`}>
             Not on the map: no boundary in the file ({noShape.length})
           </div>
+          {/* session 8609 (the accessibility read): each name is 24 px tall, the least a finger's target may be (WCAG 2.2, target size); they were 16 */}
           <ul className="flex flex-wrap gap-x-3 gap-y-0.5">
             {noShape.map((n) => (
               <li key={n.id}>
-                <button type="button" className={`text-left underline decoration-dotted underline-offset-2 ${pick === n.id ? "text-accent" : "text-ink"}`} data-listed={n.id} onClick={() => onPick(n.id)}
+                <button type="button" className={`inline-flex min-h-6 items-center text-left underline decoration-dotted underline-offset-2 ${pick === n.id ? "text-accent" : "text-ink"}`} data-listed={n.id} onClick={() => onPick(n.id)}
                   onPointerEnter={() => setHover({ kind: "listed", id: n.id, x: -1, y: -1, right: false, low: false })} onPointerLeave={() => setHover(null)}
                   onFocus={() => setHover({ kind: "listed", id: n.id, x: -1, y: -1, right: false, low: false })} onBlur={() => setHover(null)}>{n.name}</button>
               </li>

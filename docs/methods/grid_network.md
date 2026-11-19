@@ -295,6 +295,13 @@ Session 8601 (chain 504, 19 November 2026) added to the map and took nothing fro
 
 Held by `tests/test_session8606.py` (the rules on typed pairs, the kept runs, an altered figure caught, the block's lines) and one more check of `site/scripts/check-grid-map.mjs`.
 
+**The accessibility read (session 8609).** The map, the Network view beside it and the region tabs were read with the axe-core engine on a built site, in the internal view, at 1280 and 390 px (`site/scripts/a11y-axe.mjs`: WCAG 2.0, 2.1 and 2.2, levels A and AA; not a gate). The region tabs broke no rule. The map broke two, both fixed at their cause:
+
+- *Controls nested in an image.* The map's frame was an image (`role="img"`) and its regions are buttons; what is inside an image is hidden from assistive technology. The frame is now a labelled group, and each region is a button with its name that a keyboard reaches: focus shows its figures, Enter or Space opens its panel.
+- *Target size.* The ten names under the map ("Not on the map") were buttons 16 px tall. Each is 24 px tall, the least WCAG 2.2 allows a pointer's target.
+
+After the two, the read finds nothing on the map or on the Network view at either width. The read does not cover what an engine cannot judge: the order a keyboard takes through 60 regions (the file's, largest first), and whether a screen reader's words for a region are enough; those are a person's to try. Held by `tests/test_session8609.py` and two checks of `site/scripts/check-grid-map.mjs` (the names' height; a region reached and opened with the keyboard alone).
+
 ## The thirteen regions in the Grid tool (session 8602)
 
 Session 8602 (chain 504, 19 November 2026). Until then the tool's picker held the seven grids and the Lower 48. It now also holds EIA's thirteen regions of the lower 48 (California, Carolinas, Central, Florida, Mid-Atlantic, Midwest, New England, Northwest, New York, Southeast, Southwest, Tennessee, Texas), six of which no page of the site had drawn: the Southeast, Florida, the Carolinas, Tennessee, the Northwest and the Southwest, none of whose balancing authorities is one of the seven grids.

@@ -337,6 +337,21 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
   await evaluate(`document.querySelector('[data-map-decisions]')?.scrollIntoView({ block: 'start' })`);
   await sleep(300);
   await shot("map_390_decisions.png");
+  // session 8609, the accessibility read: the names under the map are tall enough for a finger; the map is a group of
+  // buttons a keyboard reaches: a region focused shows its figures, and Enter opens its panel
+  const kbd = await evaluate(`(() => { const m = document.querySelector('[data-map-state="held"]'); const svg = m.querySelector('svg[aria-label^="A map of"]'); const listed = [...m.querySelectorAll('[data-listed]')].map((b) => Math.round(b.getBoundingClientRect().height));
+    const r = m.querySelector('[data-region]'); return { role: svg?.getAttribute('role'), listed, region: r ? [r.getAttribute('role'), r.getAttribute('tabindex'), r.getAttribute('aria-label'), r.getAttribute('data-region')] : null }; })()`);
+  check(kbd.role === "group" && kbd.listed.length > 0 && kbd.listed.every((h) => h >= 24) && !!kbd.region && kbd.region[0] === "button" && kbd.region[1] === "0" && !!kbd.region[2],
+    `the map is a group of buttons, each region with its name (${kbd.region?.[2] ?? "none"}); the ${kbd.listed.length} names under it are ${Math.min(...kbd.listed)} px tall or more`);
+  await evaluate(`document.querySelector('[data-map-state="held"] [data-region]').focus()`);
+  await sleep(400);
+  const focused = await evaluate(`(() => { const n = document.querySelector('[data-map-hover-name]'); return n ? [...n.parentElement.children].map((c) => c.innerText.replace(/\\s+/g, ' ').trim()) : null; })()`);
+  await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
+  await send("Input.dispatchKeyEvent", { type: "keyUp", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
+  await sleep(900);
+  const opened = await evaluate(`new URLSearchParams(window.location.search).get('node')`);
+  check(!!focused && focused[0] === kbd.region[2] && focused.some((l) => /^Net (imports|exports)|^No tie reported/.test(l)) && opened === kbd.region[3],
+    `with the keyboard alone: a region focused shows its name and figures (${(focused ?? []).slice(0, 3).join(" | ").slice(0, 120)}), and Enter opens its panel (node=${opened})`);
   return bad ? 1 : 0;
 });
 if (code === null) { console.log("not proven here: no browser on this machine (the pure checks above stand)"); process.exit(bad ? 1 : 0); }
