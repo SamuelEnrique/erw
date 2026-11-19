@@ -29,15 +29,18 @@ DOCS = os.path.abspath(os.path.join(HERE, "..", "..", "..", "..", "docs", "findi
 
 def problems(do, py):
     out = []
-    head_do = next((ln for ln in do.split("\n")[:2] if ln.startswith("* Expected:")), None)
-    head_py = next((ln for ln in py.split("\n")[:2] if ln.startswith("# Expected:")), None)
+    head_do = next((ln for ln in do.split("\n")[:2] if ln.startswith("* Expected")), None)
+    head_py = next((ln for ln in py.split("\n")[:2] if ln.startswith("# Expected")), None)
     if not head_do or not head_py or head_do[1:] != head_py[1:]:
         out.append("the expected line is not the Python script's")
     if "///" in do or "/*" in do:
         out.append("a line continuation or a block comment")
     blocks = do.strip("\n").split("\n\n")
-    if any("\n" in b for b in blocks):
+    # session 8201 (chain 502): a loop is one block, its commands with no empty line between them (the owner's rule)
+    loops = [b for b in blocks if re.match(r"^(foreach|forvalues) .*\{$", b.split("\n")[0]) and b.rstrip().endswith("}")]
+    if any("\n" in b for b in blocks if b not in loops):
         out.append("a block holds two lines")
+    do = "\n\n".join(b for b in blocks if b not in loops) + "\n" if loops else do
     for b in blocks:
         if b.startswith("import delimited") and ("stringcols(_all)" not in b or "varnames(1)" not in b):
             out.append("an import that does not read every column as a string")
@@ -47,7 +50,9 @@ def problems(do, py):
         out.append("gsort with a descending key")
     if re.search(r"[{}]", do.replace("{this file}", "")):
         out.append("a brace left from the code")
-    if not do.rstrip().endswith("list year measure n, noobs"):
+    # session 8206 (chain 502): a claim with no years (a figure across filings) ends by displaying its named figures
+    last = do.rstrip().split("\n")[-1]
+    if not (do.rstrip().endswith("list year measure n, noobs") or ("Expected figures:" in do and last.startswith("display "))):
         out.append("it does not end by listing year, measure and n")
     if "destring" not in do:
         out.append("no destring at all")
@@ -56,7 +61,8 @@ def problems(do, py):
 
 def main():
     bad, n = 0, 0
-    for do_path in sorted(glob.glob(os.path.join(DOCS, "*", "*.reproduce.do"))):
+    root = sys.argv[1] if len(sys.argv) > 1 else os.path.join(DOCS, "*")   # session 8201: a folder may be named
+    for do_path in sorted(glob.glob(os.path.join(root, "*.reproduce.do"))):
         n += 1
         py_path = do_path[:-3] + ".py"
         p = problems(open(do_path, encoding="utf-8").read(), open(py_path, encoding="utf-8").read() if os.path.exists(py_path) else "")
