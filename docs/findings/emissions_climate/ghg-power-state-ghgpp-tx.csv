@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ghg_power_state, region ghgpp_tx (the power plants of Texas that report to EPA)
+# Computed 2026-11-19T12:11:34Z by warehouse/analysis/findings/deep/emissions_climate.py (ghg_power_state); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the direct emissions the state's reporting power plants reported (million t CO2e), the observations it rests on, and whether the year is full
+# Tables: epa_ghgrp_facility_emissions
+region,year,value,n_observations,full_year
+ghgpp_tx,2015,230.6886515355059,1.0,1
+ghgpp_tx,2016,227.6668160211451,1.0,1
+ghgpp_tx,2017,232.86662548733312,1.0,1
+ghgpp_tx,2018,223.80285383665384,1.0,1
+ghgpp_tx,2019,212.2977089725945,1.0,1
+ghgpp_tx,2020,194.40475429717657,1.0,1
+ghgpp_tx,2021,200.11303922305305,1.0,1
+ghgpp_tx,2022,207.08966232791732,1.0,1
+ghgpp_tx,2023,202.13471493716557,1.0,1

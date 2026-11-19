@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate summer_growth, region pa_107 (Oglethorpe Power Company (FERC 714 planning area 107))
+# Computed 2026-11-19T12:04:21Z by warehouse/analysis/findings/deep/forecasts.py (summer_growth); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the yearly growth a filing forecasts for the area's summer peak, from its first forecast year to its tenth (percent a year), the observations it rests on, and whether the year is full
+# Tables: ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+pa_107,2006,4.645821857498156,1.0,1
+pa_107,2007,4.259890729737692,1.0,1
+pa_107,2008,3.5251433586245495,1.0,1
+pa_107,2009,2.896125708799313,1.0,1
+pa_107,2010,2.706154992136267,1.0,1
+pa_107,2011,2.3741760826280656,1.0,1
+pa_107,2012,2.299007007727849,1.0,1
+pa_107,2013,2.277592403617046,1.0,1
+pa_107,2014,2.0735257984656474,1.0,1
+pa_107,2015,2.0319968342373373,1.0,1
+pa_107,2016,1.8762716902632537,1.0,1
+pa_107,2017,1.8054573594897372,1.0,1
+pa_107,2018,1.7565175464362648,1.0,1
+pa_107,2019,1.5026135906504479,1.0,1
+pa_107,2020,1.510108917522901,1.0,1
+pa_107,2021,1.4292479578428718,1.0,1
+pa_107,2022,1.423645333957957,1.0,1
+pa_107,2023,1.4083368838317956,1.0,1
+pa_107,2024,1.5833198220030154,1.0,1
+pa_107,2025,1.6898282235515039,1.0,1

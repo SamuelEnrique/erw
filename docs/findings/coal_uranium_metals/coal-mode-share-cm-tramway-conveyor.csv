@@ -1,0 +1,23 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate coal_mode_share, region cm_tramway_conveyor (coal delivered by tramway or conveyor)
+# Computed 2026-11-19T12:11:37Z by warehouse/analysis/findings/deep/coal_uranium_metals.py (coal_mode_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: a mode's share of the coal power plants received (percent), the observations it rests on, and whether the year is full
+# Tables: eia_coal_receipts_annual
+region,year,value,n_observations,full_year
+cm_tramway_conveyor,2008,6.881990797936026,1.0,1
+cm_tramway_conveyor,2009,5.9407833736015085,1.0,1
+cm_tramway_conveyor,2010,7.217731031109817,1.0,1
+cm_tramway_conveyor,2011,7.114552540400116,1.0,1
+cm_tramway_conveyor,2012,7.925264538527702,1.0,1
+cm_tramway_conveyor,2013,9.058970549381831,1.0,1
+cm_tramway_conveyor,2014,8.16800680237526,1.0,1
+cm_tramway_conveyor,2015,9.184146488551455,1.0,1
+cm_tramway_conveyor,2016,10.719422160991222,1.0,1
+cm_tramway_conveyor,2017,10.235084014123048,1.0,1
+cm_tramway_conveyor,2018,9.527786437622698,1.0,1
+cm_tramway_conveyor,2019,9.108281455463887,1.0,1
+cm_tramway_conveyor,2020,10.041632699409742,1.0,1
+cm_tramway_conveyor,2021,10.301709077206672,1.0,1
+cm_tramway_conveyor,2022,10.00698778269145,1.0,1
+cm_tramway_conveyor,2023,9.039549064326565,1.0,1
+cm_tramway_conveyor,2024,9.553087453006691,1.0,1
+cm_tramway_conveyor,2025,8.589189932161426,1.0,1
