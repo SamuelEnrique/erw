@@ -141,6 +141,12 @@ def mix_tab(code, mix, page, t):
         if f"{key}_mwh" not in p:
             t.same(code, f"{upto}: {label} is not in the period and not in the table", label in drawn, False)
             continue
+        if p[f"{key}_mwh"] is None:
+            # session 8011 (chain 501's desk, data request 551): a source the region never prints is null in the file,
+            # drawn blank; a row the page draws for it holds no figure to compute again
+            row = drawn.get(label)
+            t.same(code, f"{upto}: {label} is not printed by the region, so no MWh is drawn", num(row[2]) if row else None, None)
+            continue
         row = drawn.get(label)
         if not row:
             t.same(code, f"{upto}: {label} in the table", False, True)
@@ -149,9 +155,9 @@ def mix_tab(code, mix, page, t):
         t.check(code, f"{upto}: {label}, share, percent (its MWh over the period's net generation)", num(row[1]), None if not total else p[f"{key}_mwh"] / total * 100, 0.056)
     t.check(code, f"{upto}: net generation, MWh", num(drawn.get("Net generation", ["", "", None])[2]), total, 0.5)
     shown = [r[0] for r in page["shares_rows"][:-1]]
-    by_share = sorted(shown, key=lambda label: -float(p.get(next(k for k, lab in SOURCES if lab == label) + "_share_pct", 0)))
-    t.same(code, f"{upto}: the table's order is by share, largest first", [float(p.get(next(k for k, lab in SOURCES if lab == label) + "_share_pct", 0)) for label in shown],
-           [float(p.get(next(k for k, lab in SOURCES if lab == label) + "_share_pct", 0)) for label in by_share])
+    by_share = sorted(shown, key=lambda label: -float(p.get(next(k for k, lab in SOURCES if lab == label) + "_share_pct") or 0))
+    t.same(code, f"{upto}: the table's order is by share, largest first", [float(p.get(next(k for k, lab in SOURCES if lab == label) + "_share_pct") or 0) for label in shown],
+           [float(p.get(next(k for k, lab in SOURCES if lab == label) + "_share_pct") or 0) for label in by_share])
     days = f"{int(p['days_held']):,} days held" + (f" of {int(p['days_in_month'])}" if isinstance(p.get("days_in_month"), (int, float)) else "") + "."
     t.same(code, f"{upto}: the days held", page.get("days_line"), days)
     # the months not held
