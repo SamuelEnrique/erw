@@ -161,6 +161,22 @@ class EventBaseline(unittest.TestCase):
         # Eastern midnight of the first day to Pacific midnight after the last: 24 + 3 hours
         self.assertEqual(doc["hours"]["n"], 27)
 
+    def test_each_sides_report_beside_the_flow(self):
+        # session 8010 (data request 545): flow_mw_a and flow_mw_b beside flow_mw when the pair carries both sides
+        e = dict(event="x", title="x", start="2025-01-20", end="2025-01-20", baseline="b", years_back=None, offsets=[364])
+        idx = pd.date_range("2024-01-01T00:00Z", "2025-02-01T00:00Z", freq="h")
+        a, b = pd.Series(10.0, index=idx), pd.Series(12.0, index=idx)
+        keys = {"demand_mw": a, "net_generation_mw": a, "net_imports_mw": a, "gen": {k: a for k in rp.SOURCES}}
+        doc = rp.event_doc(e, {"TEN": keys}, {"CAR-SE": (a, a, b)})
+        p = doc["pairs"]["CAR-SE"]
+        self.assertEqual((p["flow_mw"][0], p["flow_mw_a"][0], p["flow_mw_b"][0]), (10, 10, 12))
+
+    def test_weather_coverage_counts_each_local_year(self):
+        idx = pd.date_range("2024-01-01T06:00Z", periods=48, freq="h")
+        cov = rp.weather_coverage(pd.DataFrame({"temperature_f": 50.0}, index=idx), "America/Chicago")
+        self.assertEqual(cov["2024"]["hours_held"], 48)
+        self.assertEqual(cov["2024"]["hours_in_year"], 8784)
+
 
 @unittest.skipUnless(os.path.exists(os.path.join(SITE, "index.json")), "the page files are written on the data machine")
 class Contract(unittest.TestCase):

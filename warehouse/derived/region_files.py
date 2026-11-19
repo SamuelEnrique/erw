@@ -228,6 +228,18 @@ def weather_frame(region, weather):
     return w
 
 
+def weather_coverage(weather, tz):
+    """{year: {hours_held, hours_in_year, share_pct}}: the hours of each local year the region's weather holds."""
+    t = weather["temperature_f"].dropna()
+    loc = t.index.tz_convert(tz)
+    out = {}
+    for y in sorted(set(loc.year)):
+        n = int(((pd.Timestamp(f"{y + 1}-01-01", tz=tz) - pd.Timestamp(f"{y}-01-01", tz=tz)) / pd.Timedelta(hours=1)))
+        held = int((loc.year == y).sum())
+        out[str(int(y))] = {"hours_held": held, "hours_in_year": n, "share_pct": round(100 * held / n, 1)}
+    return out
+
+
 def demand_doc(code, name, tz, level, raw, basis, summed, weather=None, prior=None, with_weather=False):
     full = hourly_index(raw)
     used = dg.screened(full)
@@ -258,6 +270,9 @@ def demand_doc(code, name, tz, level, raw, basis, summed, weather=None, prior=No
                               "through": res["through"], "newest": res["newest"],
                               "train": list(dw.TRAIN), "metrics": list(dw.METRICS), "labels": dw.LABEL,
                               "weather_table": "region_weather_hourly",
+                              # session 8010 (data request 546): how many of each local year's hours the region's weather holds,
+                              # so a page can say why a figure under the 95 percent rule is not written
+                              "coverage": weather_coverage(weather, tz),
                               "features": list(dw.FEATURES), "degrees_from": "the region's weighted temperature (base 65 F)"}
         elif prior and "weather" in prior:
             doc["weather"] = prior["weather"]
@@ -428,7 +443,16 @@ def event_doc(e, region_series, pair_series):
         b["gen"] = {s: arr(base(keys["gen"][s])) for s in SOURCES}
         d["baseline"] = b
         regions[r] = d
-    pairs = {p: {"flow_mw": arr(s.reindex(hours).to_numpy(dtype=float)), "baseline_mw": arr(base(s))} for p, s in pair_series.items()}
+    # session 8010 (data request 545 of the old laptop): each side's report beside the flow, so a page can say which
+    # side's report makes a pair's total differ from a region's own net imports: flow_mw_a the first region's report
+    # (power from A to B), flow_mw_b the second's with its sign turned to the same direction
+    pairs = {}
+    for p, sv in pair_series.items():
+        s, sa, sb = sv if isinstance(sv, tuple) else (sv, None, None)
+        pairs[p] = {"flow_mw": arr(s.reindex(hours).to_numpy(dtype=float)), "baseline_mw": arr(base(s))}
+        if sa is not None:
+            pairs[p]["flow_mw_a"] = arr(sa.reindex(hours).to_numpy(dtype=float))
+            pairs[p]["flow_mw_b"] = arr(sb.reindex(hours).to_numpy(dtype=float))
     return {**common(["eia930_region_hourly", "eia930_ba_demand_hourly", "eia930_region_fuel_hourly", "eia930_region_pair_hourly"]),
             "event": e["event"], "title": e["title"], "start": e["start"], "end": e["end"],
             "baseline": e["baseline"], "baseline_offsets_days": offsets,
@@ -575,7 +599,9 @@ def main(argv=None):
                      "gen": {s: series(fuel, f"eia930:{r}", f"net_generation_{s}_mw") for s in SOURCES}}
         ps = {}
         for ent, g in pairs.groupby("entity"):
-            ps[ent.split(":")[1]] = pd.Series(g["value"].to_numpy(dtype=float), index=pd.DatetimeIndex(g["ts"])).sort_index()
+            ix = pd.DatetimeIndex(g["ts"])
+            ps[ent.split(":")[1]] = tuple(pd.Series(g[c].to_numpy(dtype=float), index=ix).sort_index()
+                                          for c in ("value", "x_first_report", "x_second_report"))
         for e in events_list():
             sizes[f"events/{e['event']}.json"] = write(site, f"events/{e['event']}.json", event_doc(e, rs, ps))
         print(f"{now()} events", flush=True)
