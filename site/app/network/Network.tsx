@@ -34,6 +34,7 @@ import { clampDay, dayFrame, easternHours, eveningDay, newestBatteryFrame, parse
 import { netOf, parseShape, reportedBy, withShape, type Shape } from "@/lib/networkMap";
 import type { MapFigures, MapFrame } from "./NetworkMap";
 import { useBaRegions } from "@/components/grid/BaRegions";
+import { AuthorityFacts } from "@/components/grid/AuthorityFacts";
 import { netFromPage, netToPage } from "@/lib/gridtool";
 import { GRAVITY_CENTER, GRAVITY_GRIDS, netImportAt } from "@/lib/networkGravity";
 
@@ -697,6 +698,8 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
                 ) : null}
               </div>
             ) : null}
+            {/* session 8013 (chain 505, part C): the authority's own facts and its region's sum, under what the panel shows; only where the whole country's index is held (the Grid tool), so /network's panel is as it was */}
+            {baRegions?.[pick.id] ? <AuthorityFacts code={pick.id} region={baRegions[pick.id].code} /> : null}
           </aside>
         ) : null}
       </div>
