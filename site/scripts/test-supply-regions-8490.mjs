@@ -64,6 +64,12 @@ const st = /<span title="([^"]*)" data-wc-head="mix-storage"/.exec(page);
 ok(st && st[1].includes("Storage is below zero in a month it charged more than it discharged. Form EIA-930 carries storage from 1 July 2024 (UTC)") && (page.match(/data-wc-head="mix-storage"/g) ?? []).length === 2,
   "the hover of Storage in each region's mix table carries them");
 
+// ---- row 18: a figure that rounds to zero reads "0.0", never "-0.0" or "+0.0" (Southwest and Central, December 2024;
+// Tennessee's wind share in 2025, on the real files)
+ok(S.gwh(-40) === "0.0" && S.gwh(40) === "0.0" && S.gwh(-50) === "-0.1" && S.gwh(1234567) === "1,234.6", "GWh: a flow under 50 MWh either way reads 0.0; others as before");
+ok(S.signedGwh(-40) === "0.0" && S.signedGwh(40) === "0.0" && S.signedGwh(0) === "0.0" && S.signedGwh(60) === "+0.1" && S.signedGwh(-60) === "-0.1", "signed GWh: no sign on a figure that rounds to zero, the sign kept on every other");
+ok(T.pct1(-0.04) === "0.0" && T.pct1(0.04) === "0.0" && T.pct1(-0.06) === "-0.1" && T.pct1(22.24) === "22.2", "a percent that rounds to zero reads 0.0; others as before");
+
 // ---- nothing else moved
 const base = draw({ region: "ten", b: "car" });
 const f = figs(base);

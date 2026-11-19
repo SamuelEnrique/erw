@@ -216,6 +216,6 @@ export function defaultYear(years: string[], built?: string): string | null {
 export const yearOf = (v: string | undefined, years: string[]) => (v && years.includes(v) ? v : null);
 
 /** A percent to one decimal, and a month in words ("Aug 2025"). */
-export const pct1 = (v: number) => v.toFixed(1);
+export const pct1 = (v: number) => { const s = v.toFixed(1); return s === "-0.0" ? "0.0" : s; };   // session 8490: no "-0.0" (Tennessee's wind in 2025, the Carolinas' storage)
 const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 export const monthWords = (m: string) => `${MON[Number(m.slice(5, 7)) - 1] ?? m.slice(5, 7)} ${m.slice(0, 4)}`;

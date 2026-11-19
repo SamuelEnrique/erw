@@ -4,7 +4,7 @@ import { Hint } from "@/components/demand/Hint";
 import { LineChart, type Line } from "@/components/LineChart";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ToolTable } from "@/components/tool/ToolPage";
-import { GRID_NAME, NEW_REGIONS, REGION_CODES, REGION_GRIDS, REGION_NAME, SOURCES, gwh, regionOf, signedGwh, whole } from "@/lib/countryfiles";
+import { GRID_NAME, NEW_REGIONS, REGION_CODES, REGION_GRIDS, REGION_NAME, SOURCES, gwh as gwhOf, regionOf, whole } from "@/lib/countryfiles";
 import {
   FIRST_MONTH, LARGE_GAP_PCT, READERS, defaultYear, inOrder, mixMonths, mixYear, monthCell, monthPoints, monthWords, monthsOfYear, neighboursOfYear, pairsOfYear,
   partnersOfYear, pct1, placeName, sharePoints, totalOfYear, yearOf, yearsOf,
@@ -59,6 +59,11 @@ const NotBuilt = ({ file, what }: { file: string; what: string }) => (
 
 const GAP_RULE = `A gap of ${LARGE_GAP_PCT} percent or more of the mean size of the two reports is marked as large. Default: ${LARGE_GAP_PCT} percent, this page's own choice (session 8430); no publisher's threshold stands behind it.`;
 const SOURCE_WORDS = "Source: EIA Form EIA-930, interchange as each side filed it.";
+/** MWh as GWh to one decimal, and with its sign above zero. Session 8490, on the real files: a flow under 50 MWh read
+ *  "-0.0" or "+0.0" (Southwest and Central, December 2024); a figure that rounds to zero now reads "0.0". The shared
+ *  formatter of lib/countryfiles.ts is not changed, so no other page moves. */
+export const gwh = (mwh: number) => { const s = gwhOf(mwh); return s === "-0.0" ? "0.0" : s; };
+export const signedGwh = (mwh: number) => { const s = gwh(mwh); return s === "0.0" || mwh <= 0 ? s : `+${s}`; };
 /** Session 8490, on the real files: storage is blank in Form EIA-930 before 1 July 2024 (UTC), June 2024 as a local
  *  month holds only its last hours, and every region held in 2024 reads exactly zero for months after (the Mid-Atlantic
  *  in every month), which a reader took for a region with no batteries. */
