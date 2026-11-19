@@ -100,30 +100,30 @@ ghg-power-state-ghgpp-il,emissions_climate,yes,pass,"got 2015 79.703, 2023 38.42
 ghg-power-state-ghgpp-in,emissions_climate,yes,pass,"got 2015 92.6813, 2023 62.4928; the draft says 92.6813, 62.4928 (tolerance 0.1509)",runs/archive_restore/epa_ghgrp_facility_emissions.csv,1
 ghg-power-state-ghgpp-ky,emissions_climate,yes,pass,"got 2015 76.957, 2023 50.3886; the draft says 76.957, 50.3886 (tolerance 0.1328)",runs/archive_restore/epa_ghgrp_facility_emissions.csv,1
 ghg-power-state-ghgpp-tx,emissions_climate,yes,pass,"got 2015 230.689, 2023 202.135; the draft says 230.689, 202.135 (tolerance 0.1428)",runs/archive_restore/epa_ghgrp_facility_emissions.csv,1
-caiso-heat-2022-cal,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-caiso-heat-2022-fla,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-caiso-heat-2022-nw,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-cold-2025-car,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-cold-2025-fla,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-cold-2025-mida,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-cold-2025-ten,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-cold-2025-tex,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-cold-2026-cent,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-cold-2026-fla,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-cold-2026-se,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-cold-2026-ten,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-cold-2026-tex,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-covid-2020-car,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-covid-2020-fla,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-covid-2020-mida,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-covid-2020-se,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-covid-2020-ten,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-east-heat-2025-car,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-east-heat-2025-mida,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-east-heat-2025-midw,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-east-heat-2025-ne,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-east-heat-2025-ten,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
-elliott-2022-car,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
+caiso-heat-2022-cal,events,yes,pass,"got 2018 48414, 2022 63622; the draft says 48414, 63622 (tolerance 76.04)",runs/c506/tables_by_draft/caiso-heat-2022-cal/eia930_ba_demand_hourly.csv,2
+caiso-heat-2022-fla,events,yes,pass,"got 2018 44347, 2022 50172; the draft says 44347, 50172 (tolerance 29.12)",runs/c506/tables_by_draft/caiso-heat-2022-fla/eia930_ba_demand_hourly.csv,3
+caiso-heat-2022-nw,events,yes,not checked,a table larger than 200 MB for this machine's memory: eia930_ba_demand_hourly 318 MB,,
+cold-2025-car,events,yes,pass,"got 2019 40888, 2025 47130; the draft says 40888, 47130 (tolerance 31.21)",runs/c506/tables_by_draft/cold-2025-car/eia930_ba_demand_hourly.csv,2
+cold-2025-fla,events,yes,pass,"got 2019 33094, 2025 43974; the draft says 33094, 43974 (tolerance 54.4)",runs/c506/tables_by_draft/cold-2025-fla/eia930_ba_demand_hourly.csv,3
+cold-2025-mida,events,yes,pass,"got 2019 132175, 2025 144420; the draft says 132175, 144420 (tolerance 61.23)",runs/c506/tables_by_draft/cold-2025-mida/eia930_ba_demand_hourly.csv,1
+cold-2025-ten,events,yes,pass,"got 2019 27801, 2025 35086; the draft says 27801, 35086 (tolerance 36.43)",runs/c506/tables_by_draft/cold-2025-ten/eia930_ba_demand_hourly.csv,1
+cold-2025-tex,events,yes,pass,"got 2019 54656, 2025 77426; the draft says 54656, 77426 (tolerance 113.9)",runs/c506/tables_by_draft/cold-2025-tex/eia930_ba_demand_hourly.csv,1
+cold-2026-cent,events,yes,pass,"got 2019 40344, 2026 45653; the draft says 40344, 45653 (tolerance 26.55)",runs/c506/tables_by_draft/cold-2026-cent/eia930_ba_demand_hourly.csv,1
+cold-2026-fla,events,yes,pass,"got 2021 32499, 2026 52211; the draft says 32499, 52211 (tolerance 98.56)",runs/c506/tables_by_draft/cold-2026-fla/eia930_ba_demand_hourly.csv,3
+cold-2026-se,events,yes,pass,"got 2019 41445, 2026 47809; the draft says 41445, 47809 (tolerance 31.82)",runs/c506/tables_by_draft/cold-2026-se/eia930_ba_demand_hourly.csv,1
+cold-2026-ten,events,yes,pass,"got 2019 27755, 2026 32685; the draft says 27755, 32685 (tolerance 24.65)",runs/c506/tables_by_draft/cold-2026-ten/eia930_ba_demand_hourly.csv,1
+cold-2026-tex,events,yes,pass,"got 2019 54656, 2026 75599; the draft says 54656, 75599 (tolerance 104.7)",runs/c506/tables_by_draft/cold-2026-tex/eia930_ba_demand_hourly.csv,1
+covid-2020-car,events,yes,pass,"got 2019 23021.1, 2020 20643.8; the draft says 23021.1, 20643.8 (tolerance 11.89)",runs/c506/tables_by_draft/covid-2020-car/eia930_ba_demand_hourly.csv,2
+covid-2020-fla,events,yes,pass,"got 2021 26751.6, 2020 26518.1; the draft says 26751.6, 26518.1 (tolerance 1.168)",runs/c506/tables_by_draft/covid-2020-fla/eia930_ba_demand_hourly.csv,3
+covid-2020-mida,events,yes,pass,"got 2019 83192.4, 2020 76468.8; the draft says 83192.4, 76468.8 (tolerance 33.62)",runs/c506/tables_by_draft/covid-2020-mida/eia930_ba_demand_hourly.csv,1
+covid-2020-se,events,yes,pass,"got 2019 25476.7, 2020 22943.6; the draft says 25476.7, 22943.6 (tolerance 12.67)",runs/c506/tables_by_draft/covid-2020-se/eia930_ba_demand_hourly.csv,1
+covid-2020-ten,events,yes,pass,"got 2019 16628.1, 2020 14970.1; the draft says 16628.1, 14970.1 (tolerance 8.29)",runs/c506/tables_by_draft/covid-2020-ten/eia930_ba_demand_hourly.csv,1
+east-heat-2025-car,events,yes,pass,"got 2019 39320, 2025 44754; the draft says 39320, 44754 (tolerance 27.17)",runs/c506/tables_by_draft/east-heat-2025-car/eia930_ba_demand_hourly.csv,2
+east-heat-2025-mida,events,yes,pass,"got 2019 136567, 2025 160560; the draft says 136567, 160560 (tolerance 120)",runs/c506/tables_by_draft/east-heat-2025-mida/eia930_ba_demand_hourly.csv,1
+east-heat-2025-midw,events,yes,pass,"got 2019 113477, 2025 127603; the draft says 113477, 127603 (tolerance 70.63)",runs/c506/tables_by_draft/east-heat-2025-midw/eia930_ba_demand_hourly.csv,1
+east-heat-2025-ne,events,yes,pass,"got 2019 19408, 2025 25898; the draft says 19408, 25898 (tolerance 32.45)",runs/c506/tables_by_draft/east-heat-2025-ne/eia930_ba_demand_hourly.csv,1
+east-heat-2025-ten,events,yes,pass,"got 2019 27092, 2025 31240; the draft says 27092, 31240 (tolerance 20.74)",runs/c506/tables_by_draft/east-heat-2025-ten/eia930_ba_demand_hourly.csv,1
+elliott-2022-car,events,yes,pass,"got 2018 33078, 2022 44630; the draft says 33078, 44630 (tolerance 57.76)",runs/c506/tables_by_draft/elliott-2022-car/eia930_ba_demand_hourly.csv,2
 elliott-2022-fla,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
 elliott-2022-nw,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
 elliott-2022-se,events,yes,not checked,table not on this machine: eia930_ba_demand_hourly,,
@@ -361,9 +361,9 @@ eu-share-solar-eu-nl,world_power,yes,pass,"got 2017 1.68399, 2025 19.3672; the d
 eu-share-wind-eu-eu27-2020,world_power,yes,pass,"got 2016 10.001, 2025 17.7395; the draft says 10.001, 17.7395 (tolerance 0.03869)",runs/archive_restore/eurostat_electricity_monthly.csv,1
 eu-share-wind-eu-fi,world_power,yes,pass,"got 2016 4.6214, 2025 27.9164; the draft says 4.6214, 27.9164 (tolerance 0.1165)",runs/archive_restore/eurostat_electricity_monthly.csv,1
 eu-share-wind-eu-nl,world_power,yes,pass,"got 2016 7.15844, 2025 24.3137; the draft says 7.15844, 24.3137 (tolerance 0.08578)",runs/archive_restore/eurostat_electricity_monthly.csv,1
-fr-mean-gas-fr,world_power,yes,not checked,"the table split for this draft holds no row (the split's filter missed the draft's rows), so a run on it proves nothing",,
-fr-mean-solar-fr,world_power,yes,not checked,"the table split for this draft holds no row (the split's filter missed the draft's rows), so a run on it proves nothing",,
-fr-mean-wind-fr,world_power,yes,not checked,"the table split for this draft holds no row (the split's filter missed the draft's rows), so a run on it proves nothing",,
+fr-mean-gas-fr,world_power,yes,not checked,table not on this machine: rte_eco2mix_france_halfhourly,,
+fr-mean-solar-fr,world_power,yes,not checked,table not on this machine: rte_eco2mix_france_halfhourly,,
+fr-mean-wind-fr,world_power,yes,not checked,table not on this machine: rte_eco2mix_france_halfhourly,,
 appalachia-share-app-coal,coal_uranium_metals,no,pass,"got 2001 38.2344, 2024 30.7703; the draft says 38.2344, 30.7703 (tolerance 0.03732)",runs/archive_restore/eia_coal_production_annual.csv,1
 power-coal-price-us-power-coal,coal_uranium_metals,no,pass,"got 2001 24.68, 2025 45.85; the draft says 24.68, 45.85 (tolerance 0.1059)",runs/archive_restore,1
 tons-per-employee-us-tons-employee,coal_uranium_metals,no,pass,"got 2001 14628.6, 2024 11632.8; the draft says 14628.6, 11632.8 (tolerance 14.98)",runs/archive_restore/eia_coal_production_annual.csv,1

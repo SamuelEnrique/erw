@@ -6,6 +6,7 @@ census_c30_construction_monthly,82760,82760,82760,equal
 census_cbp_hosting_annual,1836,1836,1836,equal
 census_qss_utilities_hosting_quarterly,784,784,784,equal
 eia861_utility_reliability,90705,90705,90705,equal
+eia861_utility_sales,433115,433115,433115,equal
 eia861m_utility_sales_monthly,1051488,1051488,1051488,equal
 eia923_plant_fuel_annual,872492,872492,872492,equal
 eia930_subba_demand_hourly_2019,687952,687952,687952,equal
@@ -21,6 +22,7 @@ eia_coal_production_annual,22630,22630,22630,equal
 eia_coal_receipts_annual,270547,270547,270547,equal
 eia_crude_production_state_monthly,25644,25644,25644,equal
 eia_crude_quality_monthly,15968,15968,15968,equal
+eia_gas_balance_annual,11274,11274,11274,equal
 eia_gas_consumption_state_monthly,63420,63420,63420,equal
 eia_gas_interstate_annual,29470,29470,29470,equal
 eia_gas_prices_state_monthly,72550,72550,72550,equal
