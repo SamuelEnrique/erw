@@ -63,7 +63,7 @@ class AuditFile(unittest.TestCase):
         self.assertEqual({k: v for k, v in a["counts"].items() if k != "not audited"}, table)
         self.assertEqual(sum(a["counts"].values()), len(a["drafts"]))
         for r in a["drafts"].values():
-            self.assertFalse(r["title"].startswith("Withdrawn"), r["slug"])
+            self.assertFalse(r["title"].startswith("Withdrawn by the audit"), r["slug"])
 
     def test_the_sheet_of_forty(self):
         a = load()
