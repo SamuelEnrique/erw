@@ -11,16 +11,18 @@ The chain file: `queue/done/503-day-19-november-oldlaptop-rulings-evidence-whole
 ## Part A: the evidence behind the rulings
 
 - A1 and A2, the 88 entries, five groups looked up side by side, each entry's block merged into the ranked list in the list's order as it arrives:
-  - taxes (entries 17, 32, 34, 35, 36, 38, 42, 43, 45, 50, 51, 52, 54, 66, 88, 97, 112, 124): in work, session 8400 (the entries merged so far are in the list)
-  - storage (6, 12, 13, 16, 18, 25, 46, 47, 67, 78, 83, 99, 106, 107, 109, 127): in work, session 8400
+  - taxes (entries 17, 32, 34, 35, 36, 38, 42, 43, 45, 50, 51, 52, 54, 66, 88, 97, 112, 124): done, all 18 in the list (keep 10, switch 6, no basis 2), session 8400
+  - storage (6, 12, 13, 16, 18, 25, 46, 47, 67, 78, 83, 99, 106, 107, 109, 127): done, all 16 in the list (keep 2, switch 6, no basis 8), session 8400
   - prices (7, 21, 44, 53, 73, 77, 86, 87, 89, 98, 105, 111, 113, 117, 118, 122): done, all 16 in the list (keep 5, switch 5, no basis 6), session 8400
   - grid (2, 23, 24, 26, 49, 59, 61, 62, 69, 82, 94, 95, 110, 116, 119, 129): done, all 16 in the list (keep 5, switch 5, no basis 6), session 8400
-  - trackers (3, 5, 8, 14, 20, 28, 29, 31, 37, 48, 55, 57, 58, 64, 74, 75, 80, 81, 92, 120, 121, 128): in work, session 8400
-  - The blocks are written one file an entry under `runs/c503/evidence/` on this machine and merged by `runs/c503/merge_evidence.py` (it skips an entry that already holds its block); a restarted session runs it first, then looks up only the entries its printout says wait for a file.
-  - Still to do when all 88 are in: the wording faults the groups found in the entries themselves (entry 23 says EIA runs "above" the operator where it runs under; entry 77 gives ICE's fee as PJM's; entry 94 says load zones for weather zones; entry 7's line is older than its method note), each corrected with one line at the list's foot.
+  - trackers (3, 5, 8, 14, 20, 28, 29, 31, 37, 48, 55, 57, 58, 64, 74, 75, 80, 81, 92, 120, 121, 128): done, all 22 in the list (keep 11, switch 6, no basis 5), session 8400
+  - All 88 are in the list (`27e616d3a`): keep 33, switch 28, still no basis 27. The whole list: switch 54, keep 48, no basis 27 (before: 26, 15, 88).
+  - The wording faults the groups found in the entries themselves (23, 75, 77, 94, 107): done, corrected with a section at the list's foot (`27e616d3a`).
+  - The terms of use of every host a page was read from (the rule asks for them as well as the robots file; the taxes group read none): in work, session 8403, `runs/c503/terms_check.md`. An entry that rests alone on a host whose terms forbid automated access goes back to "no basis to recommend"; then the hosts record goes to `docs/reviews/rulings-evidence-hosts-2026-11-19.md`.
 - A3, the 12 figures that do not agree: done (`86e038f0c`), session 8402. Each traced; entries 48, 118, 119 and 127 corrected in their own lines; one request to the data machine (row 320 of `docs/state/data_requests_done_line.md`).
 - A4, the six screenshot faults (rows 341, 345, 357, 362, 363, 366): in work, session 8401 (one worktree a branch, `erw-c503-*`)
-- A5, the sheet for one sitting: not started (after all 88 are in)
+- A5, the sheet for one sitting: done (`1bd09b3cb`), `docs/reviews/rulings-one-sitting-2026-11-19.md`, session 8400. Built by `runs/c503/build_sheet.py` from the list; run it again if a recommendation moves (the terms check).
+- Reports: `archive/sessions/SESSION_8400_REPORT.md`, `SESSION_8402_REPORT.md`.
 
 ## Part B: the events pages for the whole country
 
@@ -29,11 +31,11 @@ The chain file: `queue/done/503-day-19-november-oldlaptop-rulings-evidence-whole
 
 ## Part C: `/demand` for the whole country
 
-- not started
+- in work, session 8420: worktree `C:\Users\lossa\Documents\erw-8420`, branch `wip/8420-demand-regions` (made from `wip/8410-events-regions`, which holds the shared library `site/lib/countryfiles.ts`). Brief: `runs/c503/brief_build.md`. Hand-back: `runs/c503/8420/handback.md`. Rows kept for it: browser reads 383 to 392, landing row 52.
 
 ## Part D: `/supply` for the whole country
 
-- not started
+- in work, session 8430: worktree `C:\Users\lossa\Documents\erw-8430`, branch `wip/8430-supply-regions` (from the same branch). Hand-back: `runs/c503/8430/handback.md`. Rows kept for it: browser reads 393 to 402, landing row 53.
 
 ## Part E
 
