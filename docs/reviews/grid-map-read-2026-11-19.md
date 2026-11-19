@@ -161,7 +161,7 @@ Two site gaps fixed at their cause, each with a test in `tests/test_session8613.
 
 ## A finger on a phone (session 8614)
 
-Session 8614, 19 November 2026, about 17:50 to 18:00 UTC. The read of the resource map found that a finger's tap showed no value there, and that every read at 390 px so far had pointed with a mouse. The Grid tool's two new views were then tapped with a finger at 390 px on a build (`runs/c504_finger_tap.mjs`).
+Session 8614, 19 November 2026, about 17:47 to 17:53 UTC. The read of the resource map found that a finger's tap showed no value there, and that every read at 390 px so far had pointed with a mouse. The Grid tool's two new views were then tapped with a finger at 390 px on a build (`runs/c504_finger_tap.mjs`).
 
 - **The map of balancing authorities.** Built for a finger since session 8601: a tap on a region opens its panel, a finger on a tie shows the tie's figures, two fingers zoom. Its check uses fingers. Nothing to change.
 - **The hour by hour chart of a region.** A tap showed nothing (row 42).
