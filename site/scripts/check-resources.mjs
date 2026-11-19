@@ -249,6 +249,16 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
     await click(`[data-toggle="${id}"]`);
     await ready([id]);
     await settledAfter(t0);
+    // session 8614: the map writes what it has drawn (data-drawn) when the view comes to rest, 160 ms after the last
+    // file of the layer arrives. The toggle's own rest, before the file, already passes settledAfter, so the record
+    // can be read before the rest that names the layer. A layer that is read is given up to four seconds for the
+    // record to name it; a layer that never does still fails below. (The record that stayed wrong, "0 cells in view"
+    // with the layer on the canvas, was the page's: see "frames held back" further down.)
+    for (let i = 0; i < 20; i += 1) {
+      const s = await stateOf(id);
+      if (!s || s.state !== "ready" || ((await mapData()).drawn[id] ?? 0) > 0) break;
+      await sleep(200);
+    }
     const st = await stateOf(id), m = await mapData(), h = await hash();
     const legendKey = l ? id : id.startsWith("plants") ? "plants" : id;
     const legend = await evaluate(`(() => { const el = document.querySelector('[data-legend="${legendKey}"]'); return el ? { unit: el.dataset.unit, text: el.innerText } : null; })()`);
@@ -261,6 +271,32 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
     if (h === off) left.push(id);
   }
   check(left.length === 0 && new Set(offs).size === 1, `each toggle, switched off again, takes its marks off the map, and the map with nothing on is the same picture after each (${new Set(offs).size} ${new Set(offs).size === 1 ? "picture" : "pictures"} over ${offs.length} toggles)${left.length ? ` (still drawn: ${left.join(", ")})` : ""}`);
+
+  // session 8614, frames held back: the record at rest (data-drawn, data-level) is written by a timer and the frame it
+  // describes is drawn by requestAnimationFrame. Where the frame comes later than the timer (a busy machine, a tab in
+  // the background) the record was written first and stayed wrong: one run in three of this check read "0 cells in
+  // view" or the coarser level with the layer on the canvas. Here every frame is held back 400 ms, longer than the
+  // rest's 160 ms, and the record must still name the layer and the level the zoom calls for.
+  {
+    const g = LAYERS.find((x) => x.kind === "grid");
+    if (!g) console.log("note: no grid layer on this machine; the record at rest was not tried with frames held back");
+    else {
+      await go(`${base}/map?tab=resources&on=`);
+      await wait(`Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map with every layer off");
+      await sleep(400);
+      await evaluate(`(() => { const held = new Map(); let n = 0;
+        window.requestAnimationFrame = (f) => { n += 1; const k = n; held.set(k, setTimeout(() => { held.delete(k); f(performance.now()); }, 400)); return k; };
+        window.cancelAnimationFrame = (k) => { clearTimeout(held.get(k)); held.delete(k); };
+        return true; })()`);
+      await click(`[data-toggle="${g.id}"]`);
+      await ready([g.id]);
+      await sleep(1200);
+      const m = await mapData(), st = await stateOf(g.id);
+      const want = levelAt((g.levels ?? []).filter((v) => diskPath(v.file)), scaleOf(m.box, m.z));
+      check((m.drawn[g.id] ?? 0) > 0 && st?.level === want.cell_deg,
+        `with every frame held back 400 ms, the record at rest still names ${g.id} (${m.drawn[g.id] ?? 0} cells in view) and its level (${st?.level ?? "none"}, the zoom calls for ${want.cell_deg})`);
+    }
+  }
 
   // grids: the value under the pointer, at three zooms
   for (const l of LAYERS.filter((x) => x.kind === "grid")) {
@@ -553,6 +589,78 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
         const m2 = await mapData(), [x, y] = pixelOf(m2.box, m2, spot.lon, spot.lat), h = await hoverAt(x, y);
         check(h && two.every((l) => h.rows.some((r) => r.id === l.id)), `where two layers are on the hover lists each (${(h?.rows ?? []).map((r) => `${r.id}: ${r.text}`).join(" | ")})`);
       }
+    }
+  }
+
+  // session 8615, the keyboard (docs/brand.md: whatever a hover card says is also reachable by keyboard): the Tab key
+  // brings the map into focus and the card reads the place at the map's centre, marked by a ring; an arrow key moves
+  // the map and the card reads the new centre; the mouse takes the reading back.
+  {
+    const g = LAYERS.find((x) => x.kind === "grid");
+    if (!g) console.log("note: no grid layer on this machine; the keyboard's reading was not tried");
+    else {
+      await go("about:blank");
+      await go(`${base}/map?tab=resources&on=${g.id}`);
+      await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map for the keyboard");
+      await ready([g.id]);
+      // the page's outline: one heading of level 1, with the method document open too (its own title is read as level 4)
+      const outline = await evaluate(`(() => { const lv = (h) => Number(h.getAttribute('aria-level') ?? h.tagName[1]); const hs = [...document.querySelectorAll('h1, h2, h3, h4, h5, h6')].map((h) => [lv(h), h.tagName, h.innerText.trim().slice(0, 40), !!h.closest('[data-method-doc-under]')]);
+        return { one: hs.filter((h) => h[0] === 1).map((h) => h[2]), doc: hs.filter((h) => h[3]).length, docMin: Math.min(...hs.filter((h) => h[3]).map((h) => h[0])), docH1: hs.filter((h) => h[3] && h[1] === 'H1').length }; })()`);
+      check(outline.one.length === 1 && outline.doc > 0 && outline.docMin >= 4, `the page has one heading of level 1 ("${outline.one.join('", "')}"); the method document's ${outline.doc} headings are read from level ${outline.docMin} down, its own title among them (${outline.docH1} h1 tag kept for its look)`);
+      const key = async (k, code, vk) => { for (const type of ["keyDown", "keyUp"]) await send("Input.dispatchKeyEvent", { type: type === "keyDown" ? "rawKeyDown" : "keyUp", key: k, code, windowsVirtualKeyCode: vk }); };
+      const card = () => evaluate(`(() => { const h = document.querySelector('[data-hover]'), m = document.querySelector('[data-centre-mark]'), el = document.querySelector('[data-map]'), c = el.querySelector('canvas'); const b = c.getBoundingClientRect(), r = m?.getBoundingClientRect();
+        return { focus: document.activeElement === c, keys: h?.dataset.hoverKeys ?? null, live: h?.getAttribute('aria-live') ?? null, lon: h ? Number(h.dataset.hoverLon) : null, lat: h ? Number(h.dataset.hoverLat) : null, layers: h ? [...h.querySelectorAll('[data-hover-layer]')].map((x) => x.dataset.hoverLayer) : [],
+          text: h ? h.innerText.replace(/\\s+/g, ' ').slice(0, 80) : '', mark: r ? [Math.round(r.left + r.width / 2 - b.left), Math.round(r.top + r.height / 2 - b.top)] : null, middle: [Math.round(b.width / 2), Math.round(b.height / 2)], centre: [Number(el.dataset.lon), Number(el.dataset.lat)] }; })()`);
+      // the last of the map's buttons takes the focus, and the Tab key goes on from it to the map
+      await evaluate(`(() => { const b = [...document.querySelectorAll('[data-map-button]')].pop(); b.focus(); return true; })()`);
+      await key("Tab", "Tab", 9);
+      await sleep(400);
+      const a = await card();
+      check(a.focus && a.keys === "1" && a.live === "polite" && a.layers.includes(g.id) && Math.abs(a.lon - a.centre[0]) < 0.01 && Math.abs(a.lat - a.centre[1]) < 0.01 && a.mark && Math.abs(a.mark[0] - a.middle[0]) <= 1 && Math.abs(a.mark[1] - a.middle[1]) <= 1,
+        `the Tab key brings the map into focus and the card reads its centre, marked by a ring (${a.text || "no card"}${a.focus ? "" : "; the map does not hold the focus"})`);
+      await key("ArrowRight", "ArrowRight", 39);
+      await sleep(900);
+      const b2 = await card();
+      check(b2.keys === "1" && b2.centre[0] > a.centre[0] + 1 && Math.abs(b2.lon - b2.centre[0]) < 0.01 && b2.layers.includes(g.id), `the right arrow moves the map east (its centre from ${a.centre[0].toFixed(2)} to ${b2.centre[0].toFixed(2)}) and the card reads the new centre (${b2.text || "no card"})`);
+      const m = await mapData();
+      await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: m.box.left + m.box.w * 0.3, y: m.box.top + m.box.h * 0.3 });
+      await sleep(400);
+      const c3 = await card();
+      check(c3.keys === "0" && c3.live === "off" && c3.mark === null && c3.lon < b2.centre[0], `the mouse takes the reading back: the card reads under the pointer and is not announced (${c3.text || "no card"})`);
+    }
+  }
+
+  // session 8614, a finger on a phone: until this session a tap put the card up and the finger's lift took it off some
+  // 10 ms later (the lift is also the touch pointer's leave), so no value could be read on a phone, and every check
+  // above points with a mouse. Here the map is tapped with a finger at 390 px: the card must be there after the lift,
+  // name the layer, take the map's width and stay inside the screen; a drag of the finger takes it off.
+  {
+    const g = LAYERS.find((x) => x.kind === "grid");
+    if (!g) console.log("note: no grid layer on this machine; the finger's tap was not tried");
+    else {
+      await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
+      await send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 1 });
+      await go("about:blank");
+      await go(`${base}/map?tab=resources&on=${g.id}`);
+      await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map on a phone");
+      await ready([g.id]);
+      const at = await evaluate(`(() => { const c = document.querySelector('[data-map] canvas'); c.scrollIntoView({ block: 'center' }); const b = c.getBoundingClientRect(); return { x: Math.round(b.left + b.width / 2), y: Math.round(b.top + b.height / 2) }; })()`);
+      const card = () => evaluate(`(() => { const h = document.querySelector('[data-hover]'); if (!h) return null; const b = h.getBoundingClientRect(); return { left: b.left, right: b.right, wide: h.dataset.hoverWide, layers: [...h.querySelectorAll('[data-hover-layer]')].map((r) => r.dataset.hoverLayer), text: h.innerText.replace(/\\s+/g, ' ').slice(0, 90), screen: window.innerWidth, page: document.documentElement.scrollWidth }; })()`);
+      await send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: at.x, y: at.y }] });
+      await sleep(120);
+      await send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+      await sleep(700);
+      const c = await card();
+      check(c && c.layers.includes(g.id) && c.wide === "1" && c.left >= 0 && c.right <= c.screen && c.page <= c.screen,
+        `on a phone (390 px) a finger's tap shows the value and it stays after the finger lifts (${c ? `${c.text}; the card from ${Math.round(c.left)} to ${Math.round(c.right)} of ${c.screen} px` : "no card 700 ms after the lift"})`);
+      await send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: at.x, y: at.y }] });
+      for (let i = 1; i <= 5; i += 1) { await send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: at.x + i * 12, y: at.y }] }); await sleep(40); }
+      await send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+      await sleep(500);
+      const m = await mapData();
+      check((await card()) === null && m.lon < -95.75, `a drag of the finger moves the map (its centre to ${m.lon.toFixed(2)}) and takes the card off`);
+      await send("Emulation.setTouchEmulationEnabled", { enabled: false });
+      await send("Emulation.clearDeviceMetricsOverride");
     }
   }
 

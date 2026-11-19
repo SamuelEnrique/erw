@@ -36,3 +36,50 @@ The question of each case: can the reader get the answer without leaving the pag
 ## What the read changed on the page
 
 One site gap fixed at its cause with a test (row 1). Two rows are the data machine's, in one request (552). Two are rulings with the default taken (6 and 7).
+
+## A second read (session 8614)
+
+Session 8614, 19 November 2026, about 17:36 to 17:47 UTC, on a build of `wip/8603-resources` with main's coal layer, by `runs/c504_resources_read2.mjs` (what the page said: `runs/c504_resources_read2.out`; pictures `docs/reviews/resources-2026-11-19/case6*.png` to `case10*.png`). The same five readers, on the layers and the controls the first read did not touch. The phone was then read with a finger, not a mouse (`runs/c504_phone_tap.mjs`, `runs/c504_phone_card.mjs`).
+
+### The five cases
+
+6. **The transmission planner.** "Offshore wind off New Jersey: which lease is where, how large, and what of the planning areas?" The lease areas and the planning areas at 39.3 N, 74.0 W, then "Zoom out" twice.
+7. **The power trader.** "The Columbia at The Dalles: how much hydropower is not built, at dams that have none and on streams that have no dam?" Non-powered dams and new stream-reach development at 45.7 N, 121.2 W.
+8. **The student.** "How much sun in Alaska and in Hawaii, against Kansas?" Global horizontal irradiance and the three place buttons, at 1280 and 390 px.
+9. **The siting analyst.** "Northern Nevada: how favorable is the ground for geothermal, and which geothermal plants already run there?" The two favorability layers, operating plants, and the plants' fuel switches with geothermal alone.
+10. **The battery developer.** "West Texas: how good is the wind at the sites the laboratory models, and what is planned there?" Wind capacity factor, biomass and planned plants at 32.5 N, 101.5 W, the move buttons, a phone.
+
+### What each reader got
+
+- **Case 6.** Answered. At the centre: lease OCS-A 0570, Atlantic Shores Offshore Wind Project 2, a commercial lease of 43,439 acres, with BOEM's dates. The planning areas' legend says they were rescinded on 30 July 2025. At sea the hover names no state, which is right.
+- **Case 7.** Answered. At the centre: the Lower Klickitat River watershed, 18.3 MW of new stream-reach potential in 17 reaches, with the years the estimate was published. 94 dams and 240 watersheds in view.
+- **Case 8.** Answered for Kansas (4.603 kWh/m2/day) and for Hawaii's land. For Alaska the map is blank north of 60 degrees north and the hover says "no value in the source here"; why is in the method note under the map and not where the reader points (row 9).
+- **Case 9.** Answered. Class 2 at the centre, class 1 to the north-west; with geothermal alone the address holds `fuel=geothermal`, the count reads 164 operating units, and a sweep of the map names NGP Blue Mountain I, 15.0 MW.
+- **Case 10.** Answered in figures, not in words: "72732: 0.4359 ratio; resource: 8.35; capacity ac mw: 282; area developable sq km: 128.3" (row 10). On a phone, not answered at all as the page stood: a finger's tap showed nothing (row 11).
+
+### The rows
+
+| # | Case | What the reader met | What it is | State |
+|---:|---|---|---|---|
+| 9 | 8 | With a sun layer on, "Alaska" shows the state blank north of 60 degrees north; the hover there reads "no value in the source here" | The source's file for Alaska ends at 60 degrees north. The layer's entry under the map says so ("Alaska south of 60 degrees north"); the hover does not | ruling: for Samuel (should the hover say where the source's file ends?). Default taken: left as it is |
+| 10 | 10, 9 | A wind site's hover reads "72732: 0.4359 ratio; resource: 8.35; capacity ac mw: 282; area developable sq km: 128.3"; a hot-water system's reads "Temp C Li", "Vol km3 Mn" | Data: two point layers name no hover fields in the list of layers, so the page falls back on the file's column names. The words and units are the publisher's and are not the page's to make up | data machine: request 553 (the fields' words and units for `wind_capacity_factor` and `geothermal_hydrothermal_sites`, as the hydropower layers have them) |
+| 11 | 10, 8 | On a phone a tap on the map showed nothing. Measured: the card was put up 166 ms after the finger went down and taken off 11 ms later | Site fault, on production since the page was built: a finger that lifts is also a pointer that leaves the map, and the leave took the card off. Every earlier read at 390 px pointed with a mouse | fixed (session 8614): a touch's leave is let pass; the card of a tap stays until the next tap, a drag, or a press of a map button. The check taps with a finger at 390 px |
+| 12 | 10 | On a phone the card stood beside the finger as a column some 160 px wide, longer than the screen with three layers on | Site gap: the card's place was made for a mouse on a wide map | fixed (session 8614): on a map narrower than 480 px the card takes the map's width, under or over the finger; with five layers on it is 782 px tall and is read to its end by scrolling, the card staying |
+| 13 | all | The check failed two layers on some runs ("0 cells in view" with the layer on the canvas) | Site fault in the map's own record of what it drew, read by the check and by no reader: the record was written by a timer before a late frame | fixed (session 8614): the rest draws a pending frame before it writes the record. The check holds frames back 400 ms |
+| 14 | 6 | At sea, and on a thin strip of coast, the hover names no state ("37.89 N, 75.28 W") | The state outlines are land, simplified | not a fault |
+
+### What the second read changed on the page
+
+Three site faults fixed at their cause, each with a test in `tests/test_session8614_resources.py` (rows 11, 12 and 13). One row is the data machine's (request 553). One ruling with the default taken (row 9). On a build: `check-resources.mjs` 99 of 102, the three that fail the datacenter overlay's license hold.
+
+## The keyboard (session 8615)
+
+Session 8615, 19 November 2026, about 17:56 to 18:03 UTC, on a build. The brand asks that whatever a hover card says be reachable by keyboard (`docs/brand.md`, the hover card). The map was read with the Tab key and the arrow keys alone (picture `docs/reviews/resources-2026-11-19/keyboard_centre_1280.png`).
+
+| # | Case | What the reader met | What it is | State |
+|---:|---|---|---|---|
+| 15 | all | With the keyboard, the arrow keys moved the map and plus and minus zoomed it, and no value could be read from it | Site gap since the page was built: a value came up only under a pointer | fixed (session 8615): when the map takes the keyboard's focus the card reads the place at the map's centre, marked by a small ring, and reads it again after each move or zoom; it is announced as it changes; a pointer takes the reading back. The check does it with the Tab key and an arrow |
+| 16 | all | A reason given on hover as a plain tooltip (the greyed "not held" beside a layer that is not held, a figure drawn blank) does not come up under a finger; a phone has no hover | The site's way of giving a reason everywhere: the browser's own tooltip, which a touch screen never shows (about 1,100 such tooltips across the site's pages, 12 in this map) | ruling: for Samuel (a site-wide matter: should a reason on hover also open on a tap?). Default taken: left as the site has it |
+| 17 | all | With the method note under the map open, a screen reader finds two headings of level 1: the page's and the method document's own title | Site gap of session 146: the document is shown inside the page with its headings as written (found by `runs/c504_a11y_probe.mjs`, which also found every control named, every field labelled, no id used twice and no level skipped) | fixed (session 8615): the document's headings keep their look and are read at their place in the page's outline, under the fold's own heading (its title at level 4) |
+
+Two site gaps fixed at their cause, each with a test in `tests/test_session8615_resources.py` (rows 15 and 17). One ruling with the default taken (row 16). On a build: `check-resources.mjs` 103 of 106, the three that fail the datacenter overlay's license hold.
