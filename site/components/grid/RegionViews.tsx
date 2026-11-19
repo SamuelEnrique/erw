@@ -18,10 +18,11 @@ import { Lines } from "@/components/mix/Charts";
 import { Missing } from "@/components/mix/Now";
 import { Chips } from "@/components/mix/views";
 import { SiteLink as Link } from "@/components/SiteLink";
+import { RegionHours } from "@/components/grid/RegionHours";
 import { CategoryChart } from "@/components/svgchart";
 import { ToolPicker } from "@/components/tool/Choose";
 import { SourceLine } from "@/components/tool/ToolPage";
-import { ALIKE, MIX_SOURCES, NEW_REGIONS, lastHours, latestHour, monthsOf, neighborName, newestTradeMonth, regionHref, tradeMonth, whySentence,
+import { ALIKE, MIX_SOURCES, NEW_REGIONS, lastHours, latestHour, monthsNotHeld, monthsOf, neighborName, newestTradeMonth, partMonth, regionHref, storageNote, tradeMonth, whySentence,
   type Alike, type IndexRegion, type RegionCode, type RegionIndex, type RegionMix, type RegionTrade, type RegionView } from "@/lib/gridregions";
 import * as mix from "@/lib/mix2";
 import { HOURS, n0, n1 } from "@/lib/mixpage";
@@ -108,6 +109,11 @@ export function RegionMixView({ region, mixFile, period, cal }: { region: IndexR
   const href = (more: Record<string, string | undefined>) => `${regionHref(code, "mix", { period: asked && asked !== mixFile.upto ? asked : undefined, cal: cal ?? undefined, ...more })}`;
   const across = calAsked ? mix.acrossYears(mixFile as unknown as mix.GridFile, calAsked) : [];
   const tables = mixFile.tables?.length ? mixFile.tables : ["eia930_region_fuel_hourly"];
+  // session 8605, the reader's read on the real files: the months the file does not hold are said under the chips, and
+  // the Storage row says when one of the region's balancing authorities files no battery series
+  const gaps = monthsNotHeld(mixFile);
+  const battery = storageNote(region);
+  const named = (key: string) => (key === "storage" && battery ? <span title={battery} className="cursor-help border-b border-dotted border-muted" data-storage-note="1">{label(key)}</span> : label(key));
   return (
     <div data-region-view="mix" data-region-mix={code} data-region-period={asked ?? ""}>
       {/* the latest hour held: what the Now blocks are for a grid */}
@@ -126,7 +132,7 @@ export function RegionMixView({ region, mixFile, period, cal }: { region: IndexR
               ))}
             </dl>
             <Table name="now" caption={`Generation by source in ${region.name}, ${utc(now.ts)}`} head={["Source", "MW", <Head key="s" tip="The source's megawatts over the hour's net generation, the sum of the eight sources.">Share of net generation</Head>]}
-              rows={now.sources.map((s) => ({ key: s.key, cells: [<span key="n"><span className="mr-1.5 inline-block h-2.5 w-2.5" style={{ background: color(s.key) }} />{label(s.key)}</span>,
+              rows={now.sources.map((s) => ({ key: s.key, cells: [<span key="n"><span className="mr-1.5 inline-block h-2.5 w-2.5" style={{ background: color(s.key) }} />{named(s.key)}</span>,
                 s.mw === null ? <NH key="m" words="not held" why={`${label(s.key)} is not held for ${region.name} in this hour.`} /> : n0(s.mw), s.share_pct === null ? "" : `${n1(s.share_pct)}%`] }))} />
           </div>
         ) : <p className="text-sm"><NH why={`The region's file (${file("mix", code)}) carries no hourly part, or no hour of it holds a net generation.`} /></p>}
@@ -134,10 +140,14 @@ export function RegionMixView({ region, mixFile, period, cal }: { region: IndexR
       {/* the last days hour by hour */}
       <Block title={hours ? `Generation by source, hour by hour: the last ${Math.round(hours.x.length / 24)} days` : "Generation by source, hour by hour"} id="hours">
         {hours ? (
+          // session 8605 (seen on the Carolinas' real file): a chart of its own, one column an hour. Solar, hydro and storage
+          // are below zero for hundreds of the hours (the night, pumping, charging); the average day's chart drew a line
+          // down to zero at each crossing (over 35 days, a comb) and the time chart filled the plot with the crossing
+          // sources. Here a source above zero is stacked up from zero and one below zero down from it (lib/mix2.ts `stack`).
           <div data-chart="stack" data-region-hours={hours.x.length}>
-            <CategoryChart id={`erw-region-hours-${code}`} x={hours.x} unit="MW" label={`${region.name}, generation by source by hour, UTC`} height={320} every={24 * 14}
-              series={[...mix.SOURCES.filter((s) => (MIX_SOURCES as readonly string[]).includes(s.key) && hours.get(s.key).some((v) => v !== null)).map((s) => ({ name: s.label, color: s.color, values: hours.get(s.key), kind: "area" as const, stack: "mix" })),
-                ...(hours.get("demand").some((v) => v !== null) ? [{ name: "Demand", color: "var(--color-ink)", values: hours.get("demand"), kind: "line" as const, width: 1.6 }] : [])]} />
+            <RegionHours id={`erw-region-hours-${code}`} t={hours.t} tz={mixFile.tz} label={`${region.name}, generation by source by hour, the last ${Math.round(hours.x.length / 24)} days, UTC`}
+              layers={mix.SOURCES.filter((s) => (MIX_SOURCES as readonly string[]).includes(s.key) && hours.get(s.key).some((v) => v !== null)).map((s) => ({ key: s.key, label: s.label, color: s.color, values: hours.get(s.key) }))}
+              demand={hours.get("demand").some((v) => v !== null) ? hours.get("demand") : undefined} />
           </div>
         ) : <p className="text-sm"><NH why={`The region's file (${file("mix", code)}) carries no hourly part.`} /></p>}
       </Block>
@@ -146,6 +156,21 @@ export function RegionMixView({ region, mixFile, period, cal }: { region: IndexR
         <div className="mb-2 space-y-1">
           <Chips label="Month" items={months.slice(0, 13).map((m) => ({ key: m, label: mix.periodName(m), href: href({ period: m === mixFile.upto ? undefined : m }), on: m === asked }))} />
           <Chips label="Year" items={years.map((y) => ({ key: y, label: y, href: href({ period: y }), on: y === asked }))} />
+          {gaps.missing.length ? (
+            <p className="text-xs" data-months-not-held={gaps.missing.length}>
+              <span className="cursor-help border-b border-dotted border-muted" title={`Not held: ${gaps.missing.map((k) => mix.periodName(k)).join(", ")}. A month is written when at least 90 percent of its days hold every hour of every source; a month short of that is left out of the file, never drawn as zero (${mixFile.method ?? "docs/methods/regions_pages.md"}).`}>
+                {n0(gaps.missing.length)} of the {n0(gaps.span)} months from {mix.periodName(mixFile.first.length === 7 ? mixFile.first : monthsOf(mixFile).slice(-1)[0])} to {mix.periodName(mixFile.upto)} {gaps.missing.length === 1 ? "is" : "are"} not held
+              </span>
+              {gaps.missing.length <= 3 ? <>: {gaps.missing.map((k) => mix.periodName(k)).join(", ")}</> : null}.
+            </p>
+          ) : null}
+          {gaps.after.length ? (
+            <p className="text-xs" data-months-after={gaps.after.length}>
+              <span className="cursor-help border-b border-dotted border-muted" title={`The file was built on ${mixFile.built.slice(0, 10)}. A month is written when at least 90 percent of its days hold every hour of every source; ${gaps.after.map((k) => mix.periodName(k)).join(", ")} ${gaps.after.length === 1 ? "is" : "are"} short of that and left out of the file (${mixFile.method ?? "docs/methods/regions_pages.md"}).`}>
+                {gaps.after.length === 1 ? <>{mix.periodName(gaps.after[0])} is not held</> : <>No month from {mix.periodName(gaps.after[0])} to {mix.periodName(gaps.after[gaps.after.length - 1])} is held</>}
+              </span>: the newest month held is {mix.periodName(mixFile.upto)}.
+            </p>
+          ) : null}
         </div>
         {p ? (
           <div data-chart="stack">
@@ -158,7 +183,7 @@ export function RegionMixView({ region, mixFile, period, cal }: { region: IndexR
       <Block title={`Shares of generation by source, ${asked ? mix.periodName(asked) : ""}`} id="shares">
         {p ? (
           <Table name="shares" caption={`Shares of generation by source, ${region.name}`} head={["Source", <Head key="s" tip="The source's energy over the period's net generation.">Share</Head>, "MWh"]}
-            rows={[...mix.shares(p).filter((s) => p[`${s.key}_mwh`] !== undefined).map((s) => ({ key: s.key, cells: [<span key="n"><span className="mr-1.5 inline-block h-2.5 w-2.5" style={{ background: s.color }} />{s.label}</span>, `${n1(s.share)}%`, n0(s.mwh)] })),
+            rows={[...mix.shares(p).filter((s) => p[`${s.key}_mwh`] !== undefined).map((s) => ({ key: s.key, cells: [<span key="n"><span className="mr-1.5 inline-block h-2.5 w-2.5" style={{ background: s.color }} />{named(s.key)}</span>, `${n1(s.share)}%`, n0(s.mwh)] })),
               { key: "all", on: true, cells: ["Net generation", "", typeof p.net_generation_mwh === "number" ? n0(p.net_generation_mwh) : <NH key="g" words="not held" why="The period carries no total." />] }]} />
         ) : <p className="text-sm"><NH words="not held" why={`${region.name} holds no ${asked ? mix.periodName(asked) : "such period"}.`} /></p>}
         {p ? <p className="mt-1 text-sm">{n0(p.days_held)} days held{typeof p.days_in_month === "number" ? <> of {p.days_in_month}</> : null}.</p> : null}
@@ -204,6 +229,9 @@ export function RegionTradeView({ region, trade, month }: { region: IndexRegion;
   const asked = month && trade.months.includes(month) ? month : newest;
   const m = asked ? tradeMonth(trade, asked) : null;
   const last = trade.months.slice(-36);
+  // session 8605: a month still in progress (or one a side reported in part) is said, beside the table and under the chart
+  const part = asked ? partMonth(trade, asked) : null;
+  const lastPart = last.length ? partMonth(trade, last[last.length - 1]) : null;
   const codes = Object.keys(trade.neighbors).sort();
   const cut = (v: (number | null)[]) => v.slice(-36).map((x) => (x === undefined ? null : x));
   const mwh = (v: number | null, what: string) => (v === null ? <NH words="not held" why={what} /> : signed(v));
@@ -213,7 +241,7 @@ export function RegionTradeView({ region, trade, month }: { region: IndexRegion;
         <div className="mb-2"><Chips label="Month" items={trade.months.slice(-13).reverse().map((x) => ({ key: x, label: mix.periodName(x), href: regionHref(code, "gravity", { month: x === newest ? undefined : x }), on: x === asked }))} /></div>
         {m ? (
           <Table name="trade" caption={`Net imports of ${region.name} from each neighbour, ${asked}`}
-            head={["Neighbour", <Head key="o" tip={`Net imports from the neighbour over the month as ${region.name}'s own balancing authorities reported them, MWh: positive when the region imported, negative when it exported.`}>Net imports, own report, MWh</Head>,
+            head={["Neighbour", <Head key="o" tip={`Net imports from the neighbour over the month as the region's own balancing authorities reported them, MWh: positive when the region imported, negative when it exported.`}>Net imports, own report, MWh</Head>,
               <Head key="t" tip="The same flow as the neighbour's balancing authorities reported it, with the same sign.">The neighbour&apos;s report, MWh</Head>,
               <Head key="g" tip="The region's own report less the neighbour's, over the hours both reported. Two sides of one tie need not agree.">Gap, MWh</Head>,
               <Head key="h" tip="The hours of the month each side reported, and the hours both did.">Hours: own, theirs, both</Head>]}
@@ -221,12 +249,14 @@ export function RegionTradeView({ region, trade, month }: { region: IndexRegion;
               mwh(r.gap, "No hour of the month was reported by both sides."), `${r.hoursOwn === null ? "" : n0(r.hoursOwn)}, ${r.hoursTheir === null ? "" : n0(r.hoursTheir)}, ${r.hoursBoth === null ? "" : n0(r.hoursBoth)}`] })),
               { key: "all", on: true, cells: ["All neighbours", mwh(m.total, "A month's total is written only when every neighbour's own report holds at least half the month's hours."), "", "", ""] }]} />
         ) : <p className="text-sm"><NH words="not held" why="No month of the file holds a report." /></p>}
-        <p className="mt-1 text-sm">EIA&apos;s months are Eastern months.</p>
+        <p className="mt-1 text-sm">EIA&apos;s months are Eastern months.{part ? <> <span data-part-month={asked ?? ""}>{mix.periodName(asked ?? "")} is a part of a month here: the region&apos;s own reports hold at most {n0(part.hours)} of its {n0(part.of)} hours.</span></> : null}</p>
       </Block>
       <Block title={`Net imports from each neighbour by month, ${last[0] ?? ""} to ${last[last.length - 1] ?? ""}`} id="trade-months">
-        <Lines x={last} unit="MWh" zero every={6} name={`erw-region-trade-${code}`} label={`${region.name}, net imports from each neighbour by month, own report`}
+        {/* session 8605: a label a year (every sixth month lay on one another at 390 px, and so did the chart's own thinning) */}
+        <Lines x={last} unit="MWh" zero every={12} name={`erw-region-trade-${code}`} label={`${region.name}, net imports from each neighbour by month, own report`}
           series={[...codes.map((c, i) => ({ name: neighborName(c), color: LINE_COLORS[(i + 1) % LINE_COLORS.length], values: cut(trade.neighbors[c].net_imports_mwh), width: 1.2 })),
             { name: "All neighbours", color: "var(--color-ink)", values: cut(trade.net_imports_mwh), width: 2.2 }]} />
+        {lastPart ? <p className="mt-1 text-sm" data-part-month-chart={last[last.length - 1]}>The last point, {mix.periodName(last[last.length - 1])}, is a part of a month: at most {n0(lastPart.hours)} of its {n0(lastPart.of)} hours.</p> : null}
       </Block>
       <SourceLine tables={trade.tables?.length ? trade.tables : ["eia930_region_pair_hourly"]} note={<>Form EIA-930, public domain (EIA). Built {trade.built.slice(0, 16).replace("T", " ")} UTC. Method: <code className="font-mono">{trade.method || "docs/methods/regions_pages.md"}</code>.</>} />
     </div>
