@@ -1,6 +1,6 @@
 # Chain 504, the portable laptop, 19 November 2026: where it stands
 
-Energy Research Warehouse (ERW). Sessions 8600 to 8619 so far (10:40 to 19:49 UTC). Written at 16:13 UTC and kept current; the last line says when. Model spend USD 0. Nothing published; `site/lib/release.ts` not touched; every page in review.
+Energy Research Warehouse (ERW). Sessions 8600 to 8621 so far (10:40 to 20:01 UTC). Written at 16:13 UTC and kept current; the last line says when. Model spend USD 0. Nothing published; `site/lib/release.ts` not touched; every page in review.
 
 ## Read these first
 
@@ -16,7 +16,7 @@ Energy Research Warehouse (ERW). Sessions 8600 to 8619 so far (10:40 to 19:49 UT
 - **Part A, the browser reads.** About forty rows settled over the day; 5 left, each waiting for the old laptop's next landing (418 to 422).
 - **Part B, the map of balancing authorities.** Done to the done line. Landed through session 8605 (the desk's stack d, 16:50 UTC) and read on production at 1280 and 390 px: main's own check 49 of 49. The rest waits at the desk.
   - The toggle Map, Network, Gravity in the address; regions colored on the spheres' scale; ties with width and motion; hovers; the same controls; a phone.
-  - Opens in 0.4 to 0.8 s after "Map" is chosen, and is not loaded before.
+  - Not loaded before "Map" is chosen. On production it opens about 0.2 s after the press (0.9 s the first time) and 0.7 to 1.1 s from a cold open of its address, at both widths.
   - Replication 439 of 439. Cross-check: each of 159 pairs is the report EIA publishes, to 1 MW.
   - Accessibility: two faults found and fixed (a keyboard and a screen reader now reach each region).
 - **Part C, the thirteen regions in the Grid tool.** Done to the done line on the data machine's real files.
@@ -25,15 +25,15 @@ Energy Research Warehouse (ERW). Sessions 8600 to 8619 so far (10:40 to 19:49 UT
   - On production through session 8605: main's own check 25 of 25.
 - **Part D, the natural resource map.** Done to the done line. The coal fields are on production since stack e (18:10 UTC): 602 fields, in square miles. Main's own check there: 94 of 97, the three the datacenter overlay's license hold.
   - On the branch since: a finger's tap, the keyboard's reading of the map's centre. Both packs say what changed since they were written.
-  - Replication of two layers: the plays 556 of 556, the basins 199 of 199 (session 8619); their cross-checks; ten decisions; a sign-off block.
+  - Replication of three layers: the plays 556 of 556, the basins 199 of 199 (session 8619), the non-powered dams 34,014 of 34,014 (session 8621); their cross-checks; ten decisions; a sign-off block.
   - Uranium and critical minerals: not fetched (the two hosts refuse automated reading).
 - **The 3D network under a finger** (session 8617, on production at 390 px): it works; a tap on a sphere opens its panel.
 - **Part E, the readers' reads.** Six reads, five readers each: the map twice, the regions twice (42 rows together), the resource map twice (17 rows). The phone read with a finger, the resource map with the keyboard, the new views probed for a screen reader. Every site fault fixed at its cause with a test.
 
 ## Waiting at the landing desk (`docs/state/landing_request_portable.md`)
 
-- Row 42, `wip/8602-grid-regions` at `6ebefa10a` (main merged in). Landed through `c527a0bb7` (stacks e and f, the second at 18:28 UTC); what came after waits for the desk's next gate.
-- Row 43, `wip/8603-resources` at `60edf1b72` (main merged in). Landed through `4e2b2b54c` (stacks e and f); what came after waits for the desk's next gate.
+- Row 42, `wip/8602-grid-regions` at `cd7a504d4` (main merged in). Landed through `c527a0bb7` (stacks e and f, the second at 18:28 UTC); what came after waits for the desk's next gate.
+- Row 43, `wip/8603-resources` at `333a1915b` (main merged in). Landed through `4e2b2b54c` (stacks e and f); what came after waits for the desk's next gate.
 
 ## Asked of the data machine (`docs/state/data_requests_done_line.md`)
 
@@ -69,6 +69,7 @@ Energy Research Warehouse (ERW). Sessions 8600 to 8619 so far (10:40 to 19:49 UT
 16. On a phone the foot of the 3D scene gives the drawing library's hint for a mouse ("Left-click: rotate ..."). Default: left (the centerpiece's own).
 17. The network panel's "Close" is 24 px tall on a phone; the brand asks 44. Default: left (the centerpiece's own).
 18. A wind site's name in the hover is a number, the source's `sc_point_gid`. Say "site 72732"? Default: the number as it was.
+19. A dam's hover gives the publisher's annual generation; its monthly figures, not shown, do not sum to it. Say so under the map? Default: left.
 
 ## Not done
 
@@ -78,9 +79,9 @@ Energy Research Warehouse (ERW). Sessions 8600 to 8619 so far (10:40 to 19:49 UT
 
 ## To finish (the laptop ran short of memory at about 19:00 UTC)
 
-- The system stopped the whole suite (after 4 of 33 batches) and the two local servers. I did not start them again.
+- The system stopped the whole suite (after 4 of 33 batches) and the two local servers. I did not start them again. Memory came back at about 19:48 UTC (3.4 GB free); they stay stopped until you say.
 - Not seen in a browser at all: the hover's new words for the wind sites and the hot-water systems (session 8618), which need a build with the data machine's file.
 - Not proven on this laptop since: the whole suite on either branch; a browser check of the resources head `5659bf6ae` on a build. The landing gate runs both.
 - To run them: from a branch's root, `ERW_LOCK_EXEMPT=1 .venv\Scripts\python.exe scripts\suite_batches.py --batch 40`; then `runs\c504_rebuild.ps1`, serve, and `node scripts/check-resources.mjs http://localhost:3505` (expect 102 of 105).
 
-Last written: 19:49 UTC, session 8619.
+Last written: 20:01 UTC, session 8621.
