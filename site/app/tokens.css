@@ -1315,3 +1315,17 @@ body:has(.brand-a) > footer :focus-visible {
 .brand-a [data-llr] .overflow-x-auto table td .tip:is(:hover, :focus-within) {
   z-index: auto;
 }
+/* session 8401 (chain 503), browser row 366; ruling alternative 2 of /supply (wip/alt-supply-2, not a default on main).
+   The box of two grids side by side is fog, and its table now scrolls inside a frame of its own. A frame's fade
+   ("a table wider than its frame", above) covers its ends in white, the page's colour, and keeps a table's first head
+   cell in place on white: inside the fog box both are the box's colour, so no white band stands in it */
+.brand-a [data-burn-ab] .overflow-x-auto {
+  background:
+    linear-gradient(to right, var(--color-paper), var(--color-paper)) left center / 28px 100% no-repeat local,
+    linear-gradient(to left, var(--color-paper), var(--color-paper)) right center / 28px 100% no-repeat local,
+    linear-gradient(to right, rgba(46, 45, 41, 0.14), rgba(46, 45, 41, 0)) left center / 14px 100% no-repeat scroll,
+    linear-gradient(to left, rgba(46, 45, 41, 0.14), rgba(46, 45, 41, 0)) right center / 14px 100% no-repeat scroll;
+}
+.brand-a [data-burn-ab] .overflow-x-auto table th:first-child {
+  background: var(--color-paper);
+}

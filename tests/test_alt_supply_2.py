@@ -14,6 +14,7 @@ EIA-930's, which the page draws on main; no hold is lifted.
 
 import json
 import os
+import re
 import subprocess
 import unittest
 
@@ -41,6 +42,38 @@ class PjmAgainstMiso(unittest.TestCase):
     def test_coal(self):
         c = self.p["coal"]
         self.assertEqual((c["weeks"], c["week"], round(c["a"], 1), round(c["b"], 1), round(c["meanA"], 1), round(c["meanB"], 1)), (50, "2026-10-30", 154.8, 217.4, 227.8, 272.7))
+
+
+class OnAPhone(unittest.TestCase):
+    """Session 8401 (chain 503), browser row 366: at 390 px the page was 490 px wide. The box's table (six cells a row,
+    each figure on one line) stood in no frame; it scrolls inside its own now, as the burn table above it does. The page
+    drawn whole holds the same (site/scripts/test-alt-supply-ab-frame.mjs)."""
+
+    def test_every_table_of_the_page_scrolls_inside_its_own_frame(self):
+        with open(os.path.join(SITE, "app", "supply", "page.tsx"), encoding="utf-8") as fh:
+            s = fh.read()
+        self.assertRegex(s, r'<div className="overflow-x-auto">\s*<table className="border-collapse text-sm tabular-nums">')
+        self.assertEqual(s.count("<table"), 2)
+        self.assertEqual(len(re.findall(r'<div className="overflow-x-auto">\s*<table\b', s)), 2)
+
+    def test_the_frame_in_the_fog_box_fades_on_the_box_colour(self):
+        """A frame's fade covers its ends in white and keeps the first head cell on white (site/app/tokens.css); the box
+        is fog (bg-paper), so inside it both take the box's colour."""
+        with open(os.path.join(SITE, "app", "supply", "page.tsx"), encoding="utf-8") as fh:
+            s = fh.read()
+        with open(os.path.join(SITE, "app", "tokens.css"), encoding="utf-8") as fh:
+            css = fh.read()
+        self.assertRegex(s, r'<div id="ab" className="[^"]*\bbg-paper\b[^"]*" data-burn-ab=')
+        frame = re.search(r"\.brand-a \[data-burn-ab\] \.overflow-x-auto \{([^}]*)\}", css)
+        self.assertIsNotNone(frame, "no rule for the frame inside the box")
+        self.assertEqual(frame.group(1).count("var(--color-paper), var(--color-paper)"), 2)
+        self.assertNotIn("#FFFFFF", frame.group(1))
+        self.assertRegex(css, r"\.brand-a \[data-burn-ab\] \.overflow-x-auto table th:first-child \{\s*background: var\(--color-paper\);")
+
+    def test_the_page_drawn_with_two_grids(self):
+        p = subprocess.run(["node", "--import", "./scripts/battery-awards-page-register.mjs", "scripts/test-alt-supply-ab-frame.mjs"], cwd=SITE, capture_output=True, text=True, encoding="utf-8", timeout=600)
+        self.assertEqual(p.returncode, 0, p.stdout[-1500:] + p.stderr[-1500:])
+        self.assertIn("5 of 5 passed", p.stdout)
 
 
 if __name__ == "__main__":

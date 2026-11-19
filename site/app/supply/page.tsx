@@ -149,7 +149,11 @@ function Table({ group, c, ab = null }: { group: Group; c: Choice; ab?: { a: str
             ))}
             <button type="submit" className="border border-rule bg-white px-2 py-1">Side by side</button>
           </form>
+          {/* session 8401 (browser row 366): the table scrolls inside its own frame, as the burn table above does; without
+              one its six cells a row, each figure on one line, made the page 490 px wide on a 390 px phone. The frame's
+              fade is on the box's own colour (app/tokens.css, [data-burn-ab]) */}
           {ab ? (ab.rows.length ? (
+            <div className="overflow-x-auto">
             <table className="border-collapse text-sm tabular-nums">
               <thead><tr className="text-[10px] uppercase tracking-wide text-muted">
                 <th className="py-1 pr-3 text-left font-normal">Fuel</th>
@@ -171,6 +175,7 @@ function Table({ group, c, ab = null }: { group: Group; c: Choice; ab?: { a: str
                 ))}
               </tbody>
             </table>
+            </div>
           ) : <p>The two grids hold no common week of any fuel.</p>) : null}
         </div>
       ) : null}
