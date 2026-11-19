@@ -24,3 +24,5 @@ henry-hub-volatility-us-henry-hub,none found,No second route in the warehouse: H
 gasoline-crack-crack-gasoline,none found,No second route in the warehouse: both spot series are only in eia_fuel_spot_prices.
 tariff-min-bill-pct,agree,"Agree with the publisher: Berkeley Lab review of rate designs for large loads (August 2026) gives a median minimum bill of 80 percent of contracted demand, as ours."
 ba-co2-intensity-ba-erco,none found,No second route in the warehouse: EIA-930 emissions estimates are the only hourly CO2 by authority.
+cold-2026-tex,agree,"Agree: ERCOT own system load (ercot_zone_load_hourly) gives a highest hour of 75,572 MW from 23 January to 2 February 2026 and a mean of 56,899 MW over the same days of 2019 to 2025 (32.8 percent above), against the draft 75,599 MW and 32.9 percent from EIA-930; ERCOT monthly overview prints 75,572 MW."
+east-heat-2025-mida,in part,"In part: PJM preliminary peak of 162,401 MW on 24 June 2025 against the draft 160,560 MW (EIA-930 Mid-Atlantic region): 1.1 percent apart, PJM integrated peak against EIA-930 hourly demand; the warehouse holds no PJM load of its own to set beside it."

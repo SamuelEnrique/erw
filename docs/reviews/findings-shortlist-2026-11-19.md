@@ -19,7 +19,7 @@ The 364 drafts of 19 November (chain 502), check 2: pass 255; not checked 108; f
 
 The sentence as the draft now says it; the figure as this machine's run printed it; the chart's file; what it is compared with; whether a publisher already printed it (part C: "seen in search results" means the page was not opened); the one thing that would make it wrong; the tables and their license; the do-file for the Stata run; the second route (part E); one line on why it matters as a fact. Readers: an investor in energy, a power trader, the energy lead of an AI lab. No more than six from one family.
 
-## The 20
+## The 40
 
 ### 1. A sub-region's mean hour: Dominion Virginia Power zone (DOM, a sub-region of PJM)
 
@@ -321,20 +321,327 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **Why it matters, as a fact:** A day with a 50 USD gap between its dearest and cheapest hour is a day a battery can earn on.
 - **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
 
+### 21. The late january 2026 cold: Texas (EIA's region)
+
+- **Reader:** a power trader
+- **The sentence:** The highest hour of demand in Texas (EIA's region) from 23 January 2026 to 2 February 2026, the days /events gives to the late January 2026 cold, was 75,599 MW, 32.9 percent above the mean of the same days' highest hours in the other 7 years held, 2019 to 2025 (56,873 MW).
+- **The figure:** 75,599 MW in 2026, against 54,656 in 2019, as this machine's run printed them (the draft's own: 75,599 and 54,656)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/events/cold-2026-tex.png
+- **Compared with:** the same measure in 2019, the same days' highest hours in 2019 to 2025
+- **Already known?** Known: ERCOT Monthly Operational Overview, January 2026 (https://www.ercot.com/files/docs/2026/02/18/ERCOT-Monthly-Operational-Overview-January-2026.pdf) gives a preliminary January peak of 75,572 MW on 26 January 2026, below the winter record of about 80,500 MW of February 2025; ours 75,599 MW. Ours adds the comparison with the same days of 2019 to 2025. Seen in search results, page not opened.
+- **The one thing that would make it wrong:** The window is the days the ERW's /events page gives to the cold; a wider or narrower window moves the peak and the comparison years.
+- **Tables and license:** `eia930_ba_demand_hourly` (public; eia:gridmonitor/sixMonthFiles)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/events/cold-2026-tex.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/events/cold-2026-tex.reproduce.py)
+- **Second route:** Agree: ERCOT own system load (ercot_zone_load_hourly) gives a highest hour of 75,572 MW from 23 January to 2 February 2026 and a mean of 56,899 MW over the same days of 2019 to 2025 (32.8 percent above), against the draft 75,599 MW and 32.9 percent from EIA-930; ERCOT monthly overview prints 75,572 MW.
+- **Why it matters, as a fact:** The highest hour in a cold spell is what the grid had to meet; ERCOT's own load gives the same hour within 0.04 percent.
+- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+
+### 22. Winter storm elliott: the Carolinas (EIA's region)
+
+- **Reader:** an investor in energy
+- **The sentence:** The highest hour of demand in the Carolinas (EIA's region) from 19 December 2022 to 29 December 2022, the days /events gives to Winter Storm Elliott, was 44,630 MW, 24.3 percent above the mean of the same days' highest hours in the other 7 years held, 2018 to 2025 (35,902 MW).
+- **The figure:** 44,630 MW in 2022, against 33,078 in 2018, as this machine's run printed them (the draft's own: 44,630 and 33,078)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/events/elliott-2022-car.png
+- **Compared with:** the same measure in 2018, the same days' highest hours in 2018 to 2025
+- **Already known?** Known in part: Utility Dive (https://www.utilitydive.com/news/duke-energy-apologizes-for-winter-storm-outages-as-ferc-nerc-open-investig/639583/) reports Duke rolling blackouts in the Carolinas during Elliott, the first there, and a FERC and NERC inquiry; no publisher found printing the Carolinas region highest hour against the same days of other years. Ours: 44,630 MW, 24.3 percent above the mean of 2018 to 2025. Seen in search results, page not opened.
+- **The one thing that would make it wrong:** The Carolinas region is EIA's grouping of authorities (Duke's two and others), held only for hours when every authority reported; a missing authority drops the hour.
+- **Tables and license:** `eia930_ba_demand_hourly` (public; eia:gridmonitor/sixMonthFiles)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/events/elliott-2022-car.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/events/elliott-2022-car.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** Winter Storm Elliott brought the first rolling blackouts in the Carolinas; the figure is how far that week's highest hour stood above the same days in other years.
+- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+
+### 23. What us reactors pay for uranium: the United States
+
+- **Reader:** an investor in energy
+- **The sentence:** The average price US reactor owners paid for uranium was 58.46 USD per pound U3O8e in 2025, against 10.81 USD per pound U3O8e in 2003, the first year EIA's report holds.
+- **The figure:** 58.46 USD per pound U3O8e in 2025, against 10.81 in 2003, as this machine's run printed them (the draft's own: 58.46 and 10.81)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/uranium-price-us-uranium-price.png
+- **Compared with:** the same measure in 2003
+- **Already known?** Known: EIA's Uranium Marketing Annual Report 2025 (https://www.eia.gov/uranium/marketing/, July 2026) gives the weighted-average price of 58.46 USD a pound U3O8e for 2025, 11 percent above 2024; the draft repeats EIA's headline. Seen in search results, page not opened.
+- **The one thing that would make it wrong:** EIA's weighted average of what owners paid on delivery, spot and long-term contracts together; 2025 is preliminary in EIA's report.
+- **Tables and license:** `eia_uranium_marketing_annual` (public; eia:uranium_marketing_annual)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/uranium-price-us-uranium-price.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/uranium-price-us-uranium-price.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** The price US reactor owners pay for uranium is a fuel cost of every US nuclear plant.
+- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+
+### 24. Uranium of us origin: the United States
+
+- **Reader:** the energy lead of an AI lab
+- **The sentence:** The share of the uranium bought for US reactors that was of US origin was 7.2 percent of uranium purchased in 2025, against 18.0 percent of uranium purchased in 2003, the first year EIA's report holds.
+- **The figure:** 7.24947 percent of uranium purchased in 2025, against 18.0365 in 2003, as this machine's run printed them (the draft's own: 7.24947 and 18.0365)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/us-origin-uranium-us-uranium-origin.png
+- **Compared with:** the same measure in 2003
+- **Already known?** Known: EIA's Today in Energy (https://www.eia.gov/todayinenergy/detail.php?id=68044, 2026) says US-origin material was 7 percent of deliveries in 2025; ours 7.2 percent. The draft repeats EIA's own figure. Seen in search results, page not opened.
+- **The one thing that would make it wrong:** Origin as reported by owners in EIA's survey; 2025 is preliminary.
+- **Tables and license:** `eia_uranium_marketing_annual` (public; eia:uranium_marketing_annual)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/us-origin-uranium-us-uranium-origin.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/us-origin-uranium-us-uranium-origin.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** The share says how much of the uranium bought for US reactors was mined in the United States.
+- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+
+### 25. Coal by country: consumption: India
+
+- **Reader:** an investor in energy
+- **The sentence:** The coal consumption of India was 1,371.1 million short tons in 2024, against 107.8 million short tons in 1980, the first full year the ERW holds.
+- **The figure:** 1,371.12 million short tons in 2024, against 107.796 in 1980, as this machine's run printed them (the draft's own: 1,371.12 and 107.796)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/wc-consumption-wc-ind.png
+- **Compared with:** the same measure in 1980
+- **Already known?** Known: the figure is EIA's own international series (republished by The Global Economy, https://www.theglobaleconomy.com/India/coal_production/, 1,371 million short tons for 2024); the IEA's Global Energy Review 2025 (https://www.iea.org/reports/global-energy-review-2025/coal) calls India's 2024 coal demand an all-time high. Seen in search results, pages not opened.
+- **The one thing that would make it wrong:** EIA's international estimates in short tons; the IEA counts in tonnes of coal equivalent, so the two do not match unit for unit.
+- **Tables and license:** `eia_world_coal_annual` (public; eia:international_bulk)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/wc-consumption-wc-ind.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/wc-consumption-wc-ind.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** India's coal demand reached an all-time high in 2024, up about 5.5 percent (IEA, Global Energy Review 2025).
+- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+
+### 26. The power sector's co2 per mwh: the United States
+
+- **Reader:** the energy lead of an AI lab
+- **The sentence:** The power sector's CO2 per MWh generated in the United States was 362 kg CO2 per MWh in 2022, against 604 kg CO2 per MWh in 2001, the first year this measure counts.
+- **The figure:** 362.127 kg CO2 per MWh in 2022, against 604.462 in 2001, as this machine's run printed them (the draft's own: 362.127 and 604.462)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/emissions_climate/power-co2-per-mwh-co2mwh-us.png
+- **Compared with:** the same measure in 2001
+- **Already known?** Known in part: EIA Today in Energy (https://www.eia.gov/todayinenergy/detail.php?id=53819) gives the carbon intensity of US generation at 854 pounds per MWh (387 kg) in 2020, down 18 percent from 2016; ours, from EIA power-sector CO2 and generation, 362 kg per MWh in 2022 against 604 in 2001. Seen in search results, page not opened.
+- **The one thing that would make it wrong:** EIA's power-sector CO2 over its net generation, through 2022 (the table's latest year); 2023 onward is not in it.
+- **Tables and license:** `eia_co2_state_annual` (public; eia:co2-emissions/co2-emissions-aggregates); `eia_state_generation_monthly` (public; eia:electricity/electric-power-operational-data)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/emissions_climate/power-co2-per-mwh-co2mwh-us.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/emissions_climate/power-co2-per-mwh-co2mwh-us.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** CO2 per MWh of the US power sector is the average emissions factor of grid power.
+- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+
+### 27. Co2 by country: co2 from natural gas: China
+
+- **Reader:** an investor in energy
+- **The sentence:** The CO2 from natural gas of China was 831.9 million t CO2 in 2024, against 30.8 million t CO2 in 1980, the first full year the ERW holds.
+- **The figure:** 831.927 million t CO2 in 2024, against 30.8395 in 1980, as this machine's run printed them (the draft's own: 831.927 and 30.8395)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/emissions_climate/co2-gas-co2-chn.png
+- **Compared with:** the same measure in 1980
+- **Already known?** Known in part: Climate Change Tracker (https://climatechangetracker.org/nations/greenhouse-gas-emissions/china/sources-of-co2-emissions) gives China gas CO2 of about 890 million tonnes in 2024, a record; ours, EIA international data, 831.9 million t in 2024 against 30.8 in 1980 (a different source and method). Seen in search results, page not opened.
+- **The one thing that would make it wrong:** EIA's international estimate; Climate Change Tracker gives about 890 million tonnes for 2024, by another method.
+- **Tables and license:** `eia_world_energy_co2_annual` (public; eia:international_bulk)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/emissions_climate/co2-gas-co2-chn.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/emissions_climate/co2-gas-co2-chn.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** China's CO2 from gas is the gas share of the world's largest emitter.
+- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+
+### 28. What a region burns: coal: Georgia and Alabama (the core of EIA's Southeast region)
+
+- **Reader:** an investor in energy
+- **The sentence:** Coal's share of the net generation of Georgia and Alabama (the core of EIA's Southeast region) was 14.4 percent in 2025, against 60.2 percent in 2001, the first full year the ERW holds.
+- **The figure:** 14.4272 percent in 2025, against 60.2307 in 2001, as this machine's run printed them (the draft's own: 14.4272 and 60.2307)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/regions/coal-share-st-se-cow.png
+- **Compared with:** the same measure in 2001
+- **Already known?** Known in part: Southern Company's key non-financial metrics (https://www.southerncompany.com/content/dam/southerncompany/sustainability/pdfs/key-non-financial-metrics.pdf) give coal at 17 to 20 percent of its system's generation in recent years; no publisher found printing Georgia and Alabama together by year. Ours, from EIA's state generation: 14.4 percent in 2025 against 60.2 percent in 2001. Seen in search results, page not opened.
+- **The one thing that would make it wrong:** EIA's state generation summed for two states, not EIA's whole Southeast region; utility-scale generation only.
+- **Tables and license:** `eia_state_generation_monthly` (public; eia:electricity/electric-power-operational-data)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/regions/coal-share-st-se-cow.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/regions/coal-share-st-se-cow.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** Georgia and Alabama are Southern Company's home states; the share is coal's place in their power.
+- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+
+### 29. What a region burns: natural gas: Florida (the state)
+
+- **Reader:** a power trader
+- **The sentence:** Natural gas's share of the net generation of Florida (the state) was 73.0 percent in 2025, against 22.8 percent in 2001, the first full year the ERW holds.
+- **The figure:** 72.9527 percent in 2025, against 22.8179 in 2001, as this machine's run printed them (the draft's own: 72.9527 and 22.8179)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/regions/gas-share-st-fla-ng.png
+- **Compared with:** the same measure in 2001
+- **Already known?** Known: EIA state profile for Florida (https://www.eia.gov/state/?sid=FL) gives natural gas about 75 percent of 2024 generation, and EIA Today in Energy (https://www.eia.gov/todayinenergy/detail.php?id=60221) 31 percent in 2002 and 75 percent in 2022; ours 73.0 percent in 2025 against 22.8 in 2001. Seen in search results, pages not opened.
+- **The one thing that would make it wrong:** EIA's state net generation; small-scale solar is not in the denominator.
+- **Tables and license:** `eia_state_generation_monthly` (public; eia:electricity/electric-power-operational-data)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/regions/gas-share-st-fla-ng.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/regions/gas-share-st-fla-ng.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** Florida burns gas for most of its power, so its power demand is a large and steady draw on gas.
+- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+
+### 30. What a region generates: solar: Arizona and New Mexico (the core of EIA's Southwest region)
+
+- **Reader:** an investor in energy
+- **The sentence:** Utility-scale solar's share of the net generation of Arizona and New Mexico (the core of EIA's Southwest region) was 14.0 percent in 2025, against 0.0 percent in 2001, the first full year the ERW holds.
+- **The figure:** 13.9626 percent in 2025, against 0.000396 in 2001, as this machine's run printed them (the draft's own: 13.9626 and 0.000396)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/regions/solar-share-st-sw-sun.png
+- **Compared with:** the same measure in 2001
+- **Already known?** Known in part: Ember (https://ember-energy.org/latest-insights/solar-met-61-of-us-electricity-demand-growth-in-2025/) gives New Mexico solar rising from 7 to 17 percent over the 24 months to October 2025 (all solar); Climate Central gives wind and solar about 20 percent in Arizona. No publisher found printing utility-scale solar for Arizona and New Mexico together. Ours: 14.0 percent in 2025 against 0.0 in 2001. Seen in search results, pages not opened.
+- **The one thing that would make it wrong:** Utility-scale only, from EIA's state data; rooftop solar is left out of both share and total.
+- **Tables and license:** `eia_state_generation_monthly` (public; eia:electricity/electric-power-operational-data)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/regions/solar-share-st-sw-sun.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/regions/solar-share-st-sw-sun.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** Arizona and New Mexico are the core of EIA's Southwest region; utility-scale solar's share of their generation.
+- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+
+### 31. Homes against industry: the United States
+
+- **Reader:** the energy lead of an AI lab
+- **The sentence:** The residential electricity price in the United States above the industrial price was 87.7 USD per MWh in 2025, against 35.4 USD per MWh in 2001, the first full year the ERW holds.
+- **The figure:** 87.7 USD per MWh in 2025, against 35.425 in 2001, as this machine's run printed them (the draft's own: 87.7 and 35.425)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/tariffs_policy/res-over-ind-res-ind-gap-us.png
+- **Compared with:** the same measure in 2001
+- **Already known?** Known: EIA's 2025 averages, residential 17.30 and industrial 8.62 cents a kWh (EIA Electric Power Monthly table 5.6.A, https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_6_a), a gap of 86.8 USD per MWh against ours of 87.7; Berkeley Lab's Retail Price Trends, 2026 edition (https://eta-publications.lbl.gov/sites/default/files/2026-07/retail_price_trends_2026_edition_julyupdate.pdf), describes the gap widening. Seen in search results, pages not opened.
+- **The one thing that would make it wrong:** EIA's average revenue per MWh by sector, not a tariff rate; nominal dollars.
+- **Tables and license:** `eia_retail_electricity_prices` (public; eia:electricity/retail-sales)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/tariffs_policy/res-over-ind-res-ind-gap-us.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/tariffs_policy/res-over-ind-res-ind-gap-us.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** The gap between what households and industry pay per MWh is the spread a large load's tariff sits within.
+- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+
+### 32. Minutes without power: Nebraska
+
+- **Reader:** the energy lead of an AI lab
+- **The sentence:** The average minutes of interruption a customer saw in Nebraska (customer-weighted SAIDI, major event days included) was 543 minutes a customer in 2025, against 68 minutes a customer in 2015, the first year EIA's reliability table holds.
+- **The figure:** 542.785 minutes a customer in 2025, against 67.9333 in 2015, as this machine's run printed them (the draft's own: 542.785 and 67.9333)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/tariffs_policy/saidi-saidi-ne.png
+- **Compared with:** the same measure in 2015
+- **Already known?** Known in part: EIA's Electric Power Annual table 11.3 (https://www.eia.gov/electricity/annual/html/epa_11_03.html) prints SAIDI by state with and without major events; its 2025 Nebraska figure was not visible in the search result. Ours: 542.8 minutes a customer in 2025 against 67.9 in 2015, major event days included. Seen in search results, page not opened.
+- **The one thing that would make it wrong:** Major event days are included, so one storm year can carry the figure; utilities that do not report are left out.
+- **Tables and license:** `eia861_utility_reliability` (public; eia:eia861:reliability)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/tariffs_policy/saidi-saidi-ne.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/tariffs_policy/saidi-saidi-ne.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** Minutes of interruption per customer is the reliability a load connected to that grid would have seen.
+- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+
+### 33. Cooling degree days: Texas (EIA's region)
+
+- **Reader:** a power trader
+- **The sentence:** The mean cooling degree days a day in Texas (EIA's region) (base 65 F, from its hourly temperature) was 9.94 degree days a day in 2024, against 8.93 degree days a day in 2019, the first full year the ERW holds.
+- **The figure:** 9.9366 degree days a day in 2024, against 8.93395 in 2019, as this machine's run printed them (the draft's own: 9.9366 and 8.93395)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/weather/cdd-wd-tex.png
+- **Compared with:** the same measure in 2019
+- **Already known?** Known in part: ERCOT's Summer 2024 operational review (https://ercot.com/files/docs/2024/10/03/7-summer-2024-operational-and-market-review.pdf) ranks June to August 2024 the sixth hottest Texas summer since 1895, cooler than 2022 and 2023; no publisher found printing cooling degree days from EIA's regional hourly temperature. Ours: 9.94 degree days a day in 2024 against 8.93 in 2019. Seen in search results, page not opened.
+- **The one thing that would make it wrong:** Computed from the ERW's hourly temperature for EIA's Texas region (a population-weighted set of stations), not NOAA's official degree days.
+- **Tables and license:** `region_weather_hourly` (public; erw:region_weather_hourly)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/weather/cdd-wd-tex.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/weather/cdd-wd-tex.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** Cooling degree days are the heat that drives Texas summer demand.
+- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+
+### 34. Europe's electricity: solar: the European Union (27)
+
+- **Reader:** an investor in energy
+- **The sentence:** The share of solar in the net electricity production of the European Union (27) was 13.0 percent in 2025, against 3.8 percent in 2017, the first full year the ERW holds.
+- **The figure:** 13.0051 percent in 2025, against 3.79508 in 2017, as this machine's run printed them (the draft's own: 13.0051 and 3.79508)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-solar-eu-eu27-2020.png
+- **Compared with:** the same measure in 2017
+- **Already known?** Known: Ember's European Electricity Review 2026 (https://ember-energy.org/EER2026, January 2026) gives solar 13 percent of EU electricity in 2025 (369 TWh), from 11.1 percent in 2024; ours, from Eurostat's net production, is 13.0 percent. The draft repeats Ember's headline. Seen in search results, page not opened.
+- **The one thing that would make it wrong:** Eurostat's monthly figures for 2025 are provisional and revised.
+- **Tables and license:** `eurostat_electricity_monthly` (public; eurostat:nrg_cb_pem_nrg_cb_em)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-solar-eu-eu27-2020.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-solar-eu-eu27-2020.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** Solar's share of EU electricity, from Eurostat's own net production.
+- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+
+### 35. Europe's electricity: net imports: Portugal
+
+- **Reader:** a power trader
+- **The sentence:** The net imports of electricity of Portugal as a percent of the electricity available to it were 17.7 percent in 2025, against -10.0 percent in 2016, the first full year the ERW holds.
+- **The figure:** 17.6645 percent in 2025, against -9.97587 in 2016, as this machine's run printed them (the draft's own: 17.6645 and -9.97587)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-net-imports-eu-pt.png
+- **Compared with:** the same measure in 2016
+- **Already known?** Known: Portuguese reports of 2025 (Energia Estrategica, https://energiaestrategica.com/renewables-set-new-record-in-portugal-covering-nearly-70-of-power-demand-in-2025/) say imports covered 17 percent of Portugal demand in 2025, down from 20 in 2024; ours, from Eurostat, 17.7 percent of electricity available. Seen in search results, page not opened.
+- **The one thing that would make it wrong:** Eurostat's monthly balance; the April 2025 Iberian blackout month is in the year.
+- **Tables and license:** `eurostat_electricity_monthly` (public; eurostat:nrg_cb_pem_nrg_cb_em)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-net-imports-eu-pt.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-net-imports-eu-pt.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** Portugal's net imports, nearly all from Spain, are the share of its power it does not make.
+- **The audit's row:** checks 1 fixed, 2 pass, 3 pass; changed: the sentence: "was" made "were" after the plural subject (the chart's line under the title, drawn into the PNG, still has the old words)
+
+### 36. Europe's electricity: wind: Finland
+
+- **Reader:** an investor in energy
+- **The sentence:** The share of wind in the net electricity production of Finland was 27.9 percent in 2025, against 4.6 percent in 2016, the first full year the ERW holds.
+- **The figure:** 27.9164 percent in 2025, against 4.6214 in 2016, as this machine's run printed them (the draft's own: 27.9164 and 4.6214)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-wind-eu-fi.png
+- **Compared with:** the same measure in 2016
+- **Already known?** Known: Ember (https://ember-energy.org/latest-insights/european-electricity-review-2026/2025-at-a-glance/) gives wind 27 percent of Finnish electricity in 2025, a record; Renewables Finland (https://suomenuusiutuvat.fi/en/wind-power-statistics-2025/) 27.9 percent. Ours, Eurostat net production: 27.9 percent. Seen in search results, pages not opened.
+- **The one thing that would make it wrong:** Eurostat's 2025 months are provisional; Finland's own statistics differ by a few tenths.
+- **Tables and license:** `eurostat_electricity_monthly` (public; eurostat:nrg_cb_pem_nrg_cb_em)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-wind-eu-fi.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-wind-eu-fi.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** Wind's share of Finland's electricity, from Eurostat.
+- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+
+### 37. The us share of world oil: the United States
+
+- **Reader:** an investor in energy
+- **The sentence:** The US share of world petroleum and other liquids production was 22.3 percent of world production in 2025, against 14.5 percent of world production in 1993, the first full year the ERW holds.
+- **The figure:** 22.3223 percent of world production in 2025, against 14.4734 in 1993, as this machine's run printed them (the draft's own: 22.3223 and 14.4734)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/oil_products_world/us-liquids-share-us-world-liquids.png
+- **Compared with:** the same measure in 1993
+- **Already known?** Known in part: EIA's Today in Energy (https://www.eia.gov/todayinenergy/detail.php?id=67844, July 2026) gives US crude output of 13.6 million barrels a day in 2025, about 40 percent above Russia and Saudi Arabia; no publisher found printing the US share of world petroleum and other liquids. Ours: 22.3 percent in 2025 against 14.5 percent in 1993. Seen in search results, page not opened.
+- **The one thing that would make it wrong:** EIA's international estimates; other producers' figures are estimated and revised.
+- **Tables and license:** `eia_world_oil_monthly` (public; eia:international_bulk)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/oil_products_world/us-liquids-share-us-world-liquids.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/oil_products_world/us-liquids-share-us-world-liquids.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** The US share of world petroleum and other liquids production includes natural gas plant liquids, where the US leads.
+- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+
+### 38. By country: dry natural gas exports: the United States
+
+- **Reader:** an investor in energy
+- **The sentence:** The dry natural gas exports of the United States were 7,707 billion cubic feet in 2024, against 49 billion cubic feet in 1980, the first full year the ERW holds.
+- **The figure:** 7,707.04 billion cubic feet in 2024, against 48.731 in 1980, as this machine's run printed them (the draft's own: 7,707.04 and 48.731)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/gas/wog-gas-exports-wog-usa.png
+- **Compared with:** the same measure in 1980
+- **Already known?** Known: EIA Natural Gas Annual table 9 (https://www.eia.gov/naturalgas/Annual/pdf/table_009.pdf) gives 2024 LNG exports of 4,367 Bcf and pipeline exports of 3,339 Bcf (7,706 together); EIA Today in Energy (https://www.eia.gov/todayinenergy/detail.php?id=64844) calls the US the largest LNG exporter in 2024. Ours, EIA international data, 7,707 Bcf. Seen in search results, pages not opened.
+- **The one thing that would make it wrong:** EIA's international data; 2024 is the latest year in the table.
+- **Tables and license:** `eia_world_oil_gas_annual` (public; eia:international_bulk)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/gas/wog-gas-exports-wog-usa.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/gas/wog-gas-exports-wog-usa.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** US dry gas exports by pipeline and as LNG together.
+- **The audit's row:** checks 1 fixed, 2 pass, 3 pass; changed: the sentence: "was" made "were" after the plural subject (the chart's line under the title, drawn into the PNG, still has the old words)
+
+### 39. How hard reactors run: the US reactor fleet
+
+- **Reader:** the energy lead of an AI lab
+- **The sentence:** The mean daily power level of the US reactor fleet was 91.1 percent of full power in 2025, against 89.4 percent of full power in 2020, the first full year the ERW holds.
+- **The figure:** 91.0813 percent of full power in 2025, against 89.4421 in 2020, as this machine's run printed them (the draft's own: 91.0813 and 89.4421)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/markets_operations/reactor-power-rp-us.png
+- **Compared with:** the same measure in 2020
+- **Already known?** Known: EIA's nuclear explainer (https://www.eia.gov/energyexplained/nuclear/us-nuclear-industry.php) gives a 2025 capacity factor of 91 percent, and NukeWorker (https://www.nukeworker.com/outages/industry_stats.php), from the NRC's daily power reports, 91.38 percent; ours, the mean daily power level from the same NRC reports, 91.1 percent. Seen in search results, pages not opened.
+- **The one thing that would make it wrong:** The NRC's daily power status in percent of each reactor's licensed power, averaged over reactors and days, not weighted by size.
+- **Tables and license:** `nrc_reactor_status` (public; nrc:power_reactor_status)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/markets_operations/reactor-power-rp-us.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/markets_operations/reactor-power-rp-us.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** The mean daily power level of the US fleet is the share of nuclear capacity that ran on an average day.
+- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+
+### 40. Building power: US private electric power construction
+
+- **Reader:** an investor in energy
+- **The sentence:** The value of private electric power construction put in place in the US was 128.04 USD billion in 2025, against 16.39 USD billion in 1993, the first full year the ERW holds.
+- **The figure:** 128.041 USD billion in 2025, against 16.386 in 1993, as this machine's run printed them (the draft's own: 128.041 and 16.386)
+- **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/queues_deals_datacenters/power-construction-us-power-build.png
+- **Compared with:** the same measure in 1993
+- **Already known?** Known: the figure is the Census Bureau's own private power construction series (FRED, https://fred.stlouisfed.org/series/PRPWRCON); its seasonally adjusted annual rate was about 144 billion USD in December 2025. Ours, the 2025 months summed, 128.04 billion USD. Seen in search results, pages not opened.
+- **The one thing that would make it wrong:** Census revises the series each July; nominal dollars.
+- **Tables and license:** `census_c30_construction_monthly` (public; census:c30_construction_spending)
+- **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/queues_deals_datacenters/power-construction-us-power-build.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/queues_deals_datacenters/power-construction-us-power-build.reproduce.py)
+- **Second route:** not yet done (part E)
+- **Why it matters, as a fact:** Census's value put in place counts money spent on private power construction in the year.
+- **The audit's row:** checks 1 pass, 2 pass, 3 pass; nothing changed
+
 ## By family
 
 | Family | On the sheet |
 |---|---:|
 | authorities | 2 |
+| coal_uranium_metals | 3 |
 | cross_family | 1 |
 | demand | 2 |
-| gas | 1 |
+| emissions_climate | 2 |
+| events | 2 |
+| gas | 2 |
 | generation_pipeline | 1 |
 | large_load | 1 |
-| markets_operations | 1 |
-| oil_products_world | 1 |
+| markets_operations | 2 |
+| oil_products_world | 2 |
 | other_us | 2 |
 | prices | 5 |
-| queues_deals_datacenters | 1 |
+| queues_deals_datacenters | 2 |
+| regions | 3 |
+| tariffs_policy | 2 |
 | trade | 2 |
+| weather | 1 |
+| world_power | 3 |
 
