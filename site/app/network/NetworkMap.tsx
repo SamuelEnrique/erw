@@ -25,6 +25,7 @@
 //   so a short tie is not hidden under a long one; under a finger, which has no hover, a tap on a tie shows it.
 import { geoAlbersUsa, geoContains, geoPath, type GeoPermissibleObjects } from "d3-geo";
 import { useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from "react";
+import { MapDecisions } from "./MapDecisions";
 import { MAP_HOME, MAP_ZOOM, arcPath, batteryFill, clampMapView, derivedLabel, flowTip, flowWidth, nearestLine, onTheLine, readBoundaries, readGeoBoundaries, ringPath, whole, zoomMapAt, type Held, type MapView } from "@/lib/networkMap";
 
 export const BOUNDARY_FILE = "/network/ba_boundaries.json";
@@ -388,6 +389,8 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
           Boundaries: {held.file.provenance.source}, retrieved {(held.file.provenance.retrieved_utc ?? "").slice(0, 10)}{held.file.provenance.simplification.tolerance_degrees ? <>, simplified to {held.file.provenance.simplification.tolerance_degrees} degrees for the web</> : null}.
         </p>
       )}
+      {/* session 8606: the done line's decisions block, inside the map's own frame (the Network shape is as it was) */}
+      <MapDecisions />
     </div>
   );
 }

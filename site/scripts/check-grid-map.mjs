@@ -328,6 +328,15 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
   await shot("map_390_zoomed.png");
   const sizes = await evaluate(`[...document.querySelectorAll('[data-map-zoom-buttons] button')].map((b) => { const r = b.getBoundingClientRect(); return [Math.round(r.width), Math.round(r.height)]; })`);
   check(sizes.length === 3 && sizes.every((s) => s[0] >= 32 && s[1] >= 32), `the three zoom buttons can be pressed with a finger (${sizes.map((s) => s.join(" by ")).join(", ")} px)`);
+  // session 8606, the done line: the map's decisions block, closed to start, inside the map's frame, whole on a phone
+  const fold = await evaluate(`(() => { const d = document.querySelector('[data-map-decisions]'); if (!d) return null; const inMap = !!d.closest('[data-map-state="held"]'); const closed = !d.open; d.open = true;
+    const lines = [...d.querySelectorAll('[data-map-decision]')].map((li) => li.innerText.replace(/\\s+/g, ' ').trim()); const r = d.getBoundingClientRect();
+    return { n: Number(d.getAttribute('data-map-decisions')), inMap, closed, lines, sourced: lines.filter((l) => /Source: /.test(l)).length, right: Math.round(r.right), screen: document.documentElement.clientWidth, wide: document.documentElement.scrollWidth }; })()`);
+  check(!!fold && fold.closed && fold.inMap && fold.n === fold.lines.length && fold.n >= 9 && fold.sourced === fold.n && fold.right <= fold.screen && fold.wide <= fold.screen,
+    `"Decisions on this map" is closed to start, inside the map's frame; opened, its ${fold?.n ?? 0} lines each give a rule and a source and nothing is wider than the screen (${(fold?.lines[2] ?? "no line").slice(0, 110)})`);
+  await evaluate(`document.querySelector('[data-map-decisions]')?.scrollIntoView({ block: 'start' })`);
+  await sleep(300);
+  await shot("map_390_decisions.png");
   return bad ? 1 : 0;
 });
 if (code === null) { console.log("not proven here: no browser on this machine (the pure checks above stand)"); process.exit(bad ? 1 : 0); }

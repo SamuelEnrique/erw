@@ -1,0 +1,1354 @@
+# ERW, the Grid tool's thirteen regions: every figure of the page computed again from its files (replication/grid/replicate_regions.py)
+# Source: site/data/regions/index.json, mix/<region>.json, trade/<region>.json (Form EIA-930, public domain), built 2026-11-19T12:16:11Z
+# Source URL: https://www.eia.gov/electricity/gridmonitor/ (the files' own source); the page's figures: replication/grid/regions_page_figures.json
+# Retrieved: the page read 2026-11-19T14:42:10Z
+region,figure,page,computed,tolerance,met
+CAL,the latest hour held,2026-11-17T07:00:00Z,2026-11-17T07:00:00Z,,yes
+CAL,"latest hour: Demand, MW",27649.0,27649.0,0.5,yes
+CAL,"latest hour: Net generation, MW",21635.0,21635.0,0.5,yes
+CAL,"latest hour: Net imports, MW",5141.0,5141.0,0.5,yes
+CAL,latest hour: the sources listed,"['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']","['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']",,yes
+CAL,"latest hour: Natural gas, MW",12453.0,12453.0,0.5,yes
+CAL,"latest hour: Natural gas, share of net generation, percent",57.6,57.5595,0.056,yes
+CAL,"latest hour: Coal, MW",-5.0,-5.0,0.5,yes
+CAL,"latest hour: Coal, share of net generation, percent",-0.0,-0.0231,0.056,yes
+CAL,"latest hour: Nuclear, MW",2202.0,2202.0,0.5,yes
+CAL,"latest hour: Nuclear, share of net generation, percent",10.2,10.178,0.056,yes
+CAL,"latest hour: Wind, MW",4597.0,4597.0,0.5,yes
+CAL,"latest hour: Wind, share of net generation, percent",21.3,21.248,0.056,yes
+CAL,"latest hour: Solar, MW",-52.0,-52.0,0.5,yes
+CAL,"latest hour: Solar, share of net generation, percent",-0.2,-0.2404,0.056,yes
+CAL,"latest hour: Hydro, MW",1351.0,1351.0,0.5,yes
+CAL,"latest hour: Hydro, share of net generation, percent",6.2,6.2445,0.056,yes
+CAL,"latest hour: Storage, MW",6.0,6.0,0.5,yes
+CAL,"latest hour: Storage, share of net generation, percent",0.0,0.0277,0.056,yes
+CAL,"latest hour: Other, MW",1083.0,1083.0,0.5,yes
+CAL,"latest hour: Other, share of net generation, percent",5.0,5.0058,0.056,yes
+CAL,hours drawn in the hour by hour chart,840.0,840.0,0,yes
+CAL,the period drawn,2026-10,2026-10,,yes
+CAL,"2026-10: Natural gas, MWh",9451666.0,9451666.0,0.5,yes
+CAL,"2026-10: Natural gas, share, percent (its MWh over the period's net generation)",51.7,51.7283,0.056,yes
+CAL,"2026-10: Coal, MWh",-829.0,-829.0,0.5,yes
+CAL,"2026-10: Coal, share, percent (its MWh over the period's net generation)",-0.0,-0.0045,0.056,yes
+CAL,"2026-10: Nuclear, MWh",1006457.0,1006457.0,0.5,yes
+CAL,"2026-10: Nuclear, share, percent (its MWh over the period's net generation)",5.5,5.5083,0.056,yes
+CAL,"2026-10: Wind, MWh",1301739.0,1301739.0,0.5,yes
+CAL,"2026-10: Wind, share, percent (its MWh over the period's net generation)",7.1,7.1243,0.056,yes
+CAL,"2026-10: Solar, MWh",4232183.0,4232183.0,0.5,yes
+CAL,"2026-10: Solar, share, percent (its MWh over the period's net generation)",23.2,23.1624,0.056,yes
+CAL,"2026-10: Hydro, MWh",1557394.0,1557394.0,0.5,yes
+CAL,"2026-10: Hydro, share, percent (its MWh over the period's net generation)",8.5,8.5235,0.056,yes
+CAL,"2026-10: Storage, MWh",-1257.0,-1257.0,0.5,yes
+CAL,"2026-10: Storage, share, percent (its MWh over the period's net generation)",-0.0,-0.0069,0.056,yes
+CAL,"2026-10: Other, MWh",724396.0,724396.0,0.5,yes
+CAL,"2026-10: Other, share, percent (its MWh over the period's net generation)",4.0,3.9646,0.056,yes
+CAL,"2026-10: net generation, MWh",18271749.0,18271749.0,0.5,yes
+CAL,"2026-10: the table's order is by share, largest first","[51.73, 23.16, 8.52, 7.12, 5.51, 3.96, -0.0, -0.01]","[51.73, 23.16, 8.52, 7.12, 5.51, 3.96, -0.0, -0.01]",,yes
+CAL,2026-10: the days held,28 days held of 31.,28 days held of 31.,,yes
+CAL,months not held of the months from the first to the newest,"[22, 83]","[22, 83]",,yes
+CAL,the whole months since the newest held,None,None,,yes
+CAL,October across the years: the years,"['2021', '2022', '2023', '2024', '2026']","['2021', '2022', '2023', '2024', '2026']",,yes
+CAL,"October 2021: midday low of net load, MW",16066.0,16065.6,0.5,yes
+CAL,October 2021: its hour,12:00,12:00,,yes
+CAL,"October 2021: evening high, MW",31989.0,31988.6,0.5,yes
+CAL,October 2021: its hour,18:00,18:00,,yes
+CAL,"October 2021: ramp, MW",15923.0,15923.0,0.5,yes
+CAL,October 2021: days held,30.0,30.0,0,yes
+CAL,"October 2022: midday low of net load, MW",16944.0,16944.0,0.5,yes
+CAL,October 2022: its hour,12:00,12:00,,yes
+CAL,"October 2022: evening high, MW",33804.0,33803.6,0.5,yes
+CAL,October 2022: its hour,19:00,19:00,,yes
+CAL,"October 2022: ramp, MW",16860.0,16859.6,0.5,yes
+CAL,October 2022: days held,31.0,31.0,0,yes
+CAL,"October 2023: midday low of net load, MW",14197.0,14197.3,0.5,yes
+CAL,October 2023: its hour,12:00,12:00,,yes
+CAL,"October 2023: evening high, MW",33944.0,33943.7,0.5,yes
+CAL,October 2023: its hour,19:00,19:00,,yes
+CAL,"October 2023: ramp, MW",19746.0,19746.4,0.5,yes
+CAL,October 2023: days held,29.0,29.0,0,yes
+CAL,"October 2024: midday low of net load, MW",16290.0,16289.9,0.5,yes
+CAL,October 2024: its hour,12:00,12:00,,yes
+CAL,"October 2024: evening high, MW",34695.0,34694.7,0.5,yes
+CAL,October 2024: its hour,19:00,19:00,,yes
+CAL,"October 2024: ramp, MW",18405.0,18404.8,0.5,yes
+CAL,October 2024: days held,30.0,30.0,0,yes
+CAL,"October 2026: midday low of net load, MW",17916.0,17916.3,0.5,yes
+CAL,October 2026: its hour,10:00,10:00,,yes
+CAL,"October 2026: evening high, MW",37103.0,37102.6,0.5,yes
+CAL,October 2026: its hour,18:00,18:00,,yes
+CAL,"October 2026: ramp, MW",19186.0,19186.3,0.5,yes
+CAL,October 2026: days held,28.0,28.0,0,yes
+CAL,trade: the month drawn,2026-11,2026-11,,yes
+CAL,"trade 2026-11: the neighbours, by the size of the region's own report","['SW', 'NW', 'MEX']","['SW', 'NW', 'MEX']",,yes
+CAL,"trade 2026-11: net imports from SW, own report, MWh",1221813.0,1221813.0,0.5,yes
+CAL,"trade 2026-11: net imports from SW, the neighbour's report, MWh",954837.0,954837.0,0.5,yes
+CAL,"trade 2026-11: gap with SW, MWh",58957.0,58957.0,0.5,yes
+CAL,"trade 2026-11: hours with SW: own, theirs, both","363, 291, 290","363, 291, 290",,yes
+CAL,"trade 2026-11: net imports from NW, own report, MWh",380766.0,380766.0,0.5,yes
+CAL,"trade 2026-11: net imports from NW, the neighbour's report, MWh",380215.0,380215.0,0.5,yes
+CAL,"trade 2026-11: gap with NW, MWh",908.0,908.0,0.5,yes
+CAL,"trade 2026-11: hours with NW: own, theirs, both","335, 339, 335","335, 339, 335",,yes
+CAL,"trade 2026-11: net imports from MEX, own report, MWh",-13068.0,-13068.0,0.5,yes
+CAL,"trade 2026-11: net imports from MEX, the neighbour's report, MWh",not held,not held,0.5,yes
+CAL,"trade 2026-11: gap with MEX, MWh",not held,not held,0.5,yes
+CAL,"trade 2026-11: hours with MEX: own, theirs, both","363, 0, 0","363, 0, 0",,yes
+CAL,"trade 2026-11: all neighbours, MWh",not held,not held,0.5,yes
+CAL,trade 2026-11: the line on a part of a month,November 2026 is a part of a month here: the region's own reports hold at most 363 of its 721 hours.,November 2026 is a part of a month here: the region's own reports hold at most 363 of its 721 hours.,,yes
+CAR,the latest hour held,2026-11-17T04:00:00Z,2026-11-17T04:00:00Z,,yes
+CAR,"latest hour: Demand, MW",26107.0,26107.0,0.5,yes
+CAR,"latest hour: Net generation, MW",25775.0,25775.0,0.5,yes
+CAR,"latest hour: Net imports, MW",343.0,343.0,0.5,yes
+CAR,latest hour: the sources listed,"['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']","['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']",,yes
+CAR,"latest hour: Natural gas, MW",8724.0,8724.0,0.5,yes
+CAR,"latest hour: Natural gas, share of net generation, percent",33.9,33.8468,0.056,yes
+CAR,"latest hour: Coal, MW",4244.0,4244.0,0.5,yes
+CAR,"latest hour: Coal, share of net generation, percent",16.5,16.4656,0.056,yes
+CAR,"latest hour: Nuclear, MW",11158.0,11158.0,0.5,yes
+CAR,"latest hour: Nuclear, share of net generation, percent",43.3,43.29,0.056,yes
+CAR,"latest hour: Wind, MW",0.0,0.0,0.5,yes
+CAR,"latest hour: Wind, share of net generation, percent",0.0,0.0,0.056,yes
+CAR,"latest hour: Solar, MW",-15.0,-15.0,0.5,yes
+CAR,"latest hour: Solar, share of net generation, percent",-0.1,-0.0582,0.056,yes
+CAR,"latest hour: Hydro, MW",380.0,380.0,0.5,yes
+CAR,"latest hour: Hydro, share of net generation, percent",1.5,1.4743,0.056,yes
+CAR,"latest hour: Storage, MW",-4.0,-4.0,0.5,yes
+CAR,"latest hour: Storage, share of net generation, percent",-0.0,-0.0155,0.056,yes
+CAR,"latest hour: Other, MW",1288.0,1288.0,0.5,yes
+CAR,"latest hour: Other, share of net generation, percent",5.0,4.9971,0.056,yes
+CAR,hours drawn in the hour by hour chart,840.0,840.0,0,yes
+CAR,the period drawn,2026-10,2026-10,,yes
+CAR,"2026-10: Natural gas, MWh",4493510.0,4493510.0,0.5,yes
+CAR,"2026-10: Natural gas, share, percent (its MWh over the period's net generation)",26.6,26.5721,0.056,yes
+CAR,"2026-10: Coal, MWh",2539860.0,2539860.0,0.5,yes
+CAR,"2026-10: Coal, share, percent (its MWh over the period's net generation)",15.0,15.0193,0.056,yes
+CAR,"2026-10: Nuclear, MWh",8157950.0,8157950.0,0.5,yes
+CAR,"2026-10: Nuclear, share, percent (its MWh over the period's net generation)",48.2,48.2416,0.056,yes
+CAR,"2026-10: Wind, MWh",0.0,0.0,0.5,yes
+CAR,"2026-10: Wind, share, percent (its MWh over the period's net generation)",0.0,0.0,0.056,yes
+CAR,"2026-10: Solar, MWh",932436.0,932436.0,0.5,yes
+CAR,"2026-10: Solar, share, percent (its MWh over the period's net generation)",5.5,5.5139,0.056,yes
+CAR,"2026-10: Hydro, MWh",249583.0,249583.0,0.5,yes
+CAR,"2026-10: Hydro, share, percent (its MWh over the period's net generation)",1.5,1.4759,0.056,yes
+CAR,"2026-10: Storage, MWh",-3612.0,-3612.0,0.5,yes
+CAR,"2026-10: Storage, share, percent (its MWh over the period's net generation)",-0.0,-0.0214,0.056,yes
+CAR,"2026-10: Other, MWh",540880.0,540880.0,0.5,yes
+CAR,"2026-10: Other, share, percent (its MWh over the period's net generation)",3.2,3.1985,0.056,yes
+CAR,"2026-10: net generation, MWh",16910607.0,16910607.0,0.5,yes
+CAR,"2026-10: the table's order is by share, largest first","[48.24, 26.57, 15.02, 5.51, 3.2, 1.48, 0.0, -0.02]","[48.24, 26.57, 15.02, 5.51, 3.2, 1.48, 0.0, -0.02]",,yes
+CAR,2026-10: the days held,31 days held of 31.,31 days held of 31.,,yes
+CAR,months not held of the months from the first to the newest,"[1, 70]","[1, 70]",,yes
+CAR,the whole months since the newest held,None,None,,yes
+CAR,October across the years: the years,"['2021', '2022', '2023', '2024', '2025', '2026']","['2021', '2022', '2023', '2024', '2025', '2026']",,yes
+CAR,"October 2021: midday low of net load, MW",20651.0,20651.4,0.5,yes
+CAR,October 2021: its hour,10:00,10:00,,yes
+CAR,"October 2021: evening high, MW",25619.0,25619.2,0.5,yes
+CAR,October 2021: its hour,19:00,19:00,,yes
+CAR,"October 2021: ramp, MW",4968.0,4967.8,0.5,yes
+CAR,October 2021: days held,31.0,31.0,0,yes
+CAR,"October 2022: midday low of net load, MW",18969.0,18968.7,0.5,yes
+CAR,October 2022: its hour,12:00,12:00,,yes
+CAR,"October 2022: evening high, MW",23922.0,23921.7,0.5,yes
+CAR,October 2022: its hour,19:00,19:00,,yes
+CAR,"October 2022: ramp, MW",4953.0,4953.0,0.5,yes
+CAR,October 2022: days held,31.0,31.0,0,yes
+CAR,"October 2023: midday low of net load, MW",19084.0,19083.5,0.5,yes
+CAR,October 2023: its hour,11:00,11:00,,yes
+CAR,"October 2023: evening high, MW",24987.0,24986.5,0.5,yes
+CAR,October 2023: its hour,19:00,19:00,,yes
+CAR,"October 2023: ramp, MW",5903.0,5903.0,0.5,yes
+CAR,October 2023: days held,31.0,31.0,0,yes
+CAR,"October 2024: midday low of net load, MW",19240.0,19240.3,0.5,yes
+CAR,October 2024: its hour,11:00,11:00,,yes
+CAR,"October 2024: evening high, MW",25200.0,25199.8,0.5,yes
+CAR,October 2024: its hour,19:00,19:00,,yes
+CAR,"October 2024: ramp, MW",5960.0,5959.5,0.5,yes
+CAR,October 2024: days held,31.0,31.0,0,yes
+CAR,"October 2025: midday low of net load, MW",19780.0,19780.4,0.5,yes
+CAR,October 2025: its hour,11:00,11:00,,yes
+CAR,"October 2025: evening high, MW",25317.0,25317.1,0.5,yes
+CAR,October 2025: its hour,19:00,19:00,,yes
+CAR,"October 2025: ramp, MW",5537.0,5536.7,0.5,yes
+CAR,October 2025: days held,31.0,31.0,0,yes
+CAR,"October 2026: midday low of net load, MW",20234.0,20234.3,0.5,yes
+CAR,October 2026: its hour,10:00,10:00,,yes
+CAR,"October 2026: evening high, MW",26480.0,26479.8,0.5,yes
+CAR,October 2026: its hour,19:00,19:00,,yes
+CAR,"October 2026: ramp, MW",6246.0,6245.5,0.5,yes
+CAR,October 2026: days held,31.0,31.0,0,yes
+CAR,trade: the month drawn,2026-11,2026-11,,yes
+CAR,"trade 2026-11: the neighbours, by the size of the region's own report","['SE', 'MIDA', 'TEN']","['SE', 'MIDA', 'TEN']",,yes
+CAR,"trade 2026-11: net imports from SE, own report, MWh",589669.0,589669.0,0.5,yes
+CAR,"trade 2026-11: net imports from SE, the neighbour's report, MWh",635470.0,635470.0,0.5,yes
+CAR,"trade 2026-11: gap with SE, MWh",-83.0,-83.0,0.5,yes
+CAR,"trade 2026-11: hours with SE: own, theirs, both","336, 362, 336","336, 362, 336",,yes
+CAR,"trade 2026-11: net imports from MIDA, own report, MWh",-561386.0,-561386.0,0.5,yes
+CAR,"trade 2026-11: net imports from MIDA, the neighbour's report, MWh",-388607.0,-388607.0,0.5,yes
+CAR,"trade 2026-11: gap with MIDA, MWh",19402.0,19402.0,0.5,yes
+CAR,"trade 2026-11: hours with MIDA: own, theirs, both","336, 228, 228","336, 228, 228",,yes
+CAR,"trade 2026-11: net imports from TEN, own report, MWh",30513.0,30513.0,0.5,yes
+CAR,"trade 2026-11: net imports from TEN, the neighbour's report, MWh",30782.0,30782.0,0.5,yes
+CAR,"trade 2026-11: gap with TEN, MWh",0.0,0.0,0.5,yes
+CAR,"trade 2026-11: hours with TEN: own, theirs, both","336, 362, 336","336, 362, 336",,yes
+CAR,"trade 2026-11: all neighbours, MWh",not held,not held,0.5,yes
+CAR,trade 2026-11: the line on a part of a month,November 2026 is a part of a month here: the region's own reports hold at most 336 of its 721 hours.,November 2026 is a part of a month here: the region's own reports hold at most 336 of its 721 hours.,,yes
+CENT,the latest hour held,2026-11-17T05:00:00Z,2026-11-17T05:00:00Z,,yes
+CENT,"latest hour: Demand, MW",31305.0,31305.0,0.5,yes
+CENT,"latest hour: Net generation, MW",32000.0,32000.0,0.5,yes
+CENT,"latest hour: Net imports, MW",-380.0,-380.0,0.5,yes
+CENT,latest hour: the sources listed,"['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']","['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']",,yes
+CENT,"latest hour: Natural gas, MW",6601.0,6601.0,0.5,yes
+CENT,"latest hour: Natural gas, share of net generation, percent",20.6,20.6281,0.056,yes
+CENT,"latest hour: Coal, MW",6143.0,6143.0,0.5,yes
+CENT,"latest hour: Coal, share of net generation, percent",19.2,19.1969,0.056,yes
+CENT,"latest hour: Nuclear, MW",1223.0,1223.0,0.5,yes
+CENT,"latest hour: Nuclear, share of net generation, percent",3.8,3.8219,0.056,yes
+CENT,"latest hour: Wind, MW",17741.0,17741.0,0.5,yes
+CENT,"latest hour: Wind, share of net generation, percent",55.4,55.4406,0.056,yes
+CENT,"latest hour: Solar, MW",0.0,0.0,0.5,yes
+CENT,"latest hour: Solar, share of net generation, percent",0.0,0.0,0.056,yes
+CENT,"latest hour: Hydro, MW",262.0,262.0,0.5,yes
+CENT,"latest hour: Hydro, share of net generation, percent",0.8,0.8188,0.056,yes
+CENT,"latest hour: Storage, MW",0.0,0.0,0.5,yes
+CENT,"latest hour: Storage, share of net generation, percent",0.0,0.0,0.056,yes
+CENT,"latest hour: Other, MW",30.0,30.0,0.5,yes
+CENT,"latest hour: Other, share of net generation, percent",0.1,0.0938,0.056,yes
+CENT,hours drawn in the hour by hour chart,840.0,840.0,0,yes
+CENT,the period drawn,2026-10,2026-10,,yes
+CENT,"2026-10: Natural gas, MWh",6359752.0,6359752.0,0.5,yes
+CENT,"2026-10: Natural gas, share, percent (its MWh over the period's net generation)",26.0,26.0281,0.056,yes
+CENT,"2026-10: Coal, MWh",5939060.0,5939060.0,0.5,yes
+CENT,"2026-10: Coal, share, percent (its MWh over the period's net generation)",24.3,24.3064,0.056,yes
+CENT,"2026-10: Nuclear, MWh",904555.0,904555.0,0.5,yes
+CENT,"2026-10: Nuclear, share, percent (its MWh over the period's net generation)",3.7,3.702,0.056,yes
+CENT,"2026-10: Wind, MWh",9918030.0,9918030.0,0.5,yes
+CENT,"2026-10: Wind, share, percent (its MWh over the period's net generation)",40.6,40.5908,0.056,yes
+CENT,"2026-10: Solar, MWh",557255.0,557255.0,0.5,yes
+CENT,"2026-10: Solar, share, percent (its MWh over the period's net generation)",2.3,2.2806,0.056,yes
+CENT,"2026-10: Hydro, MWh",666069.0,666069.0,0.5,yes
+CENT,"2026-10: Hydro, share, percent (its MWh over the period's net generation)",2.7,2.726,0.056,yes
+CENT,"2026-10: Storage, MWh",32480.0,32480.0,0.5,yes
+CENT,"2026-10: Storage, share, percent (its MWh over the period's net generation)",0.1,0.1329,0.056,yes
+CENT,"2026-10: Other, MWh",56966.0,56966.0,0.5,yes
+CENT,"2026-10: Other, share, percent (its MWh over the period's net generation)",0.2,0.2331,0.056,yes
+CENT,"2026-10: net generation, MWh",24434167.0,24434167.0,0.5,yes
+CENT,"2026-10: the table's order is by share, largest first","[40.59, 26.03, 24.31, 3.7, 2.73, 2.28, 0.23, 0.13]","[40.59, 26.03, 24.31, 3.7, 2.73, 2.28, 0.23, 0.13]",,yes
+CENT,2026-10: the days held,31 days held of 31.,31 days held of 31.,,yes
+CENT,months not held of the months from the first to the newest,"[6, 98]","[6, 98]",,yes
+CENT,the whole months since the newest held,None,None,,yes
+CENT,October across the years: the years,"['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']","['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']",,yes
+CENT,"October 2018: midday low of net load, MW",21813.0,21813.1,0.5,yes
+CENT,October 2018: its hour,09:00,09:00,,yes
+CENT,"October 2018: evening high, MW",23599.0,23598.9,0.5,yes
+CENT,October 2018: its hour,19:00,19:00,,yes
+CENT,"October 2018: ramp, MW",1786.0,1785.8,0.5,yes
+CENT,October 2018: days held,31.0,31.0,0,yes
+CENT,"October 2019: midday low of net load, MW",18756.0,18755.9,0.5,yes
+CENT,October 2019: its hour,09:00,09:00,,yes
+CENT,"October 2019: evening high, MW",20164.0,20163.5,0.5,yes
+CENT,October 2019: its hour,19:00,19:00,,yes
+CENT,"October 2019: ramp, MW",1408.0,1407.6,0.5,yes
+CENT,October 2019: days held,31.0,31.0,0,yes
+CENT,"October 2020: midday low of net load, MW",19312.0,19311.6,0.5,yes
+CENT,October 2020: its hour,09:00,09:00,,yes
+CENT,"October 2020: evening high, MW",21846.0,21846.3,0.5,yes
+CENT,October 2020: its hour,18:00,18:00,,yes
+CENT,"October 2020: ramp, MW",2535.0,2534.7,0.5,yes
+CENT,October 2020: days held,31.0,31.0,0,yes
+CENT,"October 2021: midday low of net load, MW",17335.0,17334.9,0.5,yes
+CENT,October 2021: its hour,09:00,09:00,,yes
+CENT,"October 2021: evening high, MW",20540.0,20540.1,0.5,yes
+CENT,October 2021: its hour,17:00,17:00,,yes
+CENT,"October 2021: ramp, MW",3205.0,3205.2,0.5,yes
+CENT,October 2021: days held,31.0,31.0,0,yes
+CENT,"October 2022: midday low of net load, MW",18571.0,18570.5,0.5,yes
+CENT,October 2022: its hour,09:00,09:00,,yes
+CENT,"October 2022: evening high, MW",20562.0,20562.1,0.5,yes
+CENT,October 2022: its hour,18:00,18:00,,yes
+CENT,"October 2022: ramp, MW",1992.0,1991.6,0.5,yes
+CENT,October 2022: days held,31.0,31.0,0,yes
+CENT,"October 2023: midday low of net load, MW",17299.0,17298.5,0.5,yes
+CENT,October 2023: its hour,09:00,09:00,,yes
+CENT,"October 2023: evening high, MW",19276.0,19275.5,0.5,yes
+CENT,October 2023: its hour,18:00,18:00,,yes
+CENT,"October 2023: ramp, MW",1977.0,1977.0,0.5,yes
+CENT,October 2023: days held,31.0,31.0,0,yes
+CENT,"October 2024: midday low of net load, MW",17296.0,17295.8,0.5,yes
+CENT,October 2024: its hour,09:00,09:00,,yes
+CENT,"October 2024: evening high, MW",24137.0,24136.8,0.5,yes
+CENT,October 2024: its hour,16:00,16:00,,yes
+CENT,"October 2024: ramp, MW",6841.0,6841.0,0.5,yes
+CENT,October 2024: days held,31.0,31.0,0,yes
+CENT,"October 2025: midday low of net load, MW",20060.0,20060.0,0.5,yes
+CENT,October 2025: its hour,09:00,09:00,,yes
+CENT,"October 2025: evening high, MW",23105.0,23104.7,0.5,yes
+CENT,October 2025: its hour,17:00,17:00,,yes
+CENT,"October 2025: ramp, MW",3045.0,3044.7,0.5,yes
+CENT,October 2025: days held,31.0,31.0,0,yes
+CENT,"October 2026: midday low of net load, MW",18806.0,18805.8,0.5,yes
+CENT,October 2026: its hour,09:00,09:00,,yes
+CENT,"October 2026: evening high, MW",23041.0,23041.3,0.5,yes
+CENT,October 2026: its hour,18:00,18:00,,yes
+CENT,"October 2026: ramp, MW",4236.0,4235.5,0.5,yes
+CENT,October 2026: days held,31.0,31.0,0,yes
+CENT,trade: the month drawn,2026-11,2026-11,,yes
+CENT,"trade 2026-11: the neighbours, by the size of the region's own report","['TEX', 'MIDW', 'CAN', 'NW', 'SW']","['TEX', 'MIDW', 'CAN', 'NW', 'SW']",,yes
+CENT,"trade 2026-11: net imports from TEX, own report, MWh",-118689.0,-118689.0,0.5,yes
+CENT,"trade 2026-11: net imports from TEX, the neighbour's report, MWh",-60266.0,-60266.0,0.5,yes
+CENT,"trade 2026-11: gap with TEX, MWh",-62380.0,-62380.0,0.5,yes
+CENT,"trade 2026-11: hours with TEX: own, theirs, both","337, 362, 337","337, 362, 337",,yes
+CENT,"trade 2026-11: net imports from MIDW, own report, MWh",-27873.0,-27873.0,0.5,yes
+CENT,"trade 2026-11: net imports from MIDW, the neighbour's report, MWh",-29088.0,-29088.0,0.5,yes
+CENT,"trade 2026-11: gap with MIDW, MWh",1215.0,1215.0,0.5,yes
+CENT,"trade 2026-11: hours with MIDW: own, theirs, both","337, 337, 337","337, 337, 337",,yes
+CENT,"trade 2026-11: net imports from CAN, own report, MWh",23070.0,23070.0,0.5,yes
+CENT,"trade 2026-11: net imports from CAN, the neighbour's report, MWh",not held,not held,0.5,yes
+CENT,"trade 2026-11: gap with CAN, MWh",not held,not held,0.5,yes
+CENT,"trade 2026-11: hours with CAN: own, theirs, both","337, 0, 0","337, 0, 0",,yes
+CENT,"trade 2026-11: net imports from NW, own report, MWh",not held,not held,0.5,yes
+CENT,"trade 2026-11: net imports from NW, the neighbour's report, MWh",-47845.0,-47845.0,0.5,yes
+CENT,"trade 2026-11: gap with NW, MWh",not held,not held,0.5,yes
+CENT,"trade 2026-11: hours with NW: own, theirs, both","0, 338, 0","0, 338, 0",,yes
+CENT,"trade 2026-11: net imports from SW, own report, MWh",0.0,0.0,0.5,yes
+CENT,"trade 2026-11: net imports from SW, the neighbour's report, MWh",0.0,0.0,0.5,yes
+CENT,"trade 2026-11: gap with SW, MWh",0.0,0.0,0.5,yes
+CENT,"trade 2026-11: hours with SW: own, theirs, both","337, 339, 313","337, 339, 313",,yes
+CENT,"trade 2026-11: all neighbours, MWh",not held,not held,0.5,yes
+CENT,trade 2026-11: the line on a part of a month,November 2026 is a part of a month here: the region's own reports hold at most 337 of its 721 hours.,November 2026 is a part of a month here: the region's own reports hold at most 337 of its 721 hours.,,yes
+FLA,the latest hour held,2026-11-11T04:00:00Z,2026-11-11T04:00:00Z,,yes
+FLA,"latest hour: Demand, MW",25515.0,25515.0,0.5,yes
+FLA,"latest hour: Net generation, MW",25103.0,25103.0,0.5,yes
+FLA,"latest hour: Net imports, MW",412.0,412.0,0.5,yes
+FLA,latest hour: the sources listed,"['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']","['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']",,yes
+FLA,"latest hour: Natural gas, MW",19836.0,19836.0,0.5,yes
+FLA,"latest hour: Natural gas, share of net generation, percent",79.0,79.0184,0.056,yes
+FLA,"latest hour: Coal, MW",1241.0,1241.0,0.5,yes
+FLA,"latest hour: Coal, share of net generation, percent",4.9,4.9436,0.056,yes
+FLA,"latest hour: Nuclear, MW",3860.0,3860.0,0.5,yes
+FLA,"latest hour: Nuclear, share of net generation, percent",15.4,15.3766,0.056,yes
+FLA,"latest hour: Wind, MW",0.0,0.0,0.5,yes
+FLA,"latest hour: Wind, share of net generation, percent",0.0,0.0,0.056,yes
+FLA,"latest hour: Solar, MW",0.0,0.0,0.5,yes
+FLA,"latest hour: Solar, share of net generation, percent",0.0,0.0,0.056,yes
+FLA,"latest hour: Hydro, MW",15.0,15.0,0.5,yes
+FLA,"latest hour: Hydro, share of net generation, percent",0.1,0.0598,0.056,yes
+FLA,"latest hour: Storage, MW",-1.0,-1.0,0.5,yes
+FLA,"latest hour: Storage, share of net generation, percent",-0.0,-0.004,0.056,yes
+FLA,"latest hour: Other, MW",152.0,152.0,0.5,yes
+FLA,"latest hour: Other, share of net generation, percent",0.6,0.6055,0.056,yes
+FLA,hours drawn in the hour by hour chart,840.0,840.0,0,yes
+FLA,the period drawn,2026-09,2026-09,,yes
+FLA,"2026-09: Natural gas, MWh",17651485.0,17651485.0,0.5,yes
+FLA,"2026-09: Natural gas, share, percent (its MWh over the period's net generation)",71.3,71.2462,0.056,yes
+FLA,"2026-09: Coal, MWh",1668864.0,1668864.0,0.5,yes
+FLA,"2026-09: Coal, share, percent (its MWh over the period's net generation)",6.7,6.736,0.056,yes
+FLA,"2026-09: Nuclear, MWh",2736204.0,2736204.0,0.5,yes
+FLA,"2026-09: Nuclear, share, percent (its MWh over the period's net generation)",11.0,11.0441,0.056,yes
+FLA,"2026-09: Wind, MWh",0.0,0.0,0.5,yes
+FLA,"2026-09: Wind, share, percent (its MWh over the period's net generation)",0.0,0.0,0.056,yes
+FLA,"2026-09: Solar, MWh",2152797.0,2152797.0,0.5,yes
+FLA,"2026-09: Solar, share, percent (its MWh over the period's net generation)",8.7,8.6893,0.056,yes
+FLA,"2026-09: Hydro, MWh",11519.0,11519.0,0.5,yes
+FLA,"2026-09: Hydro, share, percent (its MWh over the period's net generation)",0.1,0.0465,0.056,yes
+FLA,"2026-09: Storage, MWh",-1780.0,-1780.0,0.5,yes
+FLA,"2026-09: Storage, share, percent (its MWh over the period's net generation)",-0.0,-0.0072,0.056,yes
+FLA,"2026-09: Other, MWh",556251.0,556251.0,0.5,yes
+FLA,"2026-09: Other, share, percent (its MWh over the period's net generation)",2.3,2.2452,0.056,yes
+FLA,"2026-09: net generation, MWh",24775340.0,24775340.0,0.5,yes
+FLA,"2026-09: the table's order is by share, largest first","[71.25, 11.04, 8.69, 6.74, 2.25, 0.05, 0.0, -0.01]","[71.25, 11.04, 8.69, 6.74, 2.25, 0.05, 0.0, -0.01]",,yes
+FLA,2026-09: the days held,30 days held of 30.,30 days held of 30.,,yes
+FLA,months not held of the months from the first to the newest,"[35, 97]","[35, 97]",,yes
+FLA,the whole months since the newest held,October 2026 is not held: the newest month held is September 2026.,October 2026 is not held: the newest month held is September 2026.,,yes
+FLA,September across the years: the years,"['2018', '2021', '2022', '2024', '2025', '2026']","['2018', '2021', '2022', '2024', '2025', '2026']",,yes
+FLA,"September 2018: midday low of net load, MW",30360.0,30359.9,0.5,yes
+FLA,September 2018: its hour,09:00,09:00,,yes
+FLA,"September 2018: evening high, MW",41892.0,41892.1,0.5,yes
+FLA,September 2018: its hour,16:00,16:00,,yes
+FLA,"September 2018: ramp, MW",11532.0,11532.2,0.5,yes
+FLA,September 2018: days held,27.0,27.0,0,yes
+FLA,"September 2021: midday low of net load, MW",27501.0,27500.5,0.5,yes
+FLA,September 2021: its hour,09:00,09:00,,yes
+FLA,"September 2021: evening high, MW",38374.0,38373.7,0.5,yes
+FLA,September 2021: its hour,16:00,16:00,,yes
+FLA,"September 2021: ramp, MW",10873.0,10873.2,0.5,yes
+FLA,September 2021: days held,28.0,28.0,0,yes
+FLA,"September 2022: midday low of net load, MW",28035.0,28034.6,0.5,yes
+FLA,September 2022: its hour,09:00,09:00,,yes
+FLA,"September 2022: evening high, MW",38880.0,38880.1,0.5,yes
+FLA,September 2022: its hour,17:00,17:00,,yes
+FLA,"September 2022: ramp, MW",10846.0,10845.5,0.5,yes
+FLA,September 2022: days held,29.0,29.0,0,yes
+FLA,"September 2024: midday low of net load, MW",28700.0,28700.4,0.5,yes
+FLA,September 2024: its hour,09:00,09:00,,yes
+FLA,"September 2024: evening high, MW",41695.0,41694.6,0.5,yes
+FLA,September 2024: its hour,18:00,18:00,,yes
+FLA,"September 2024: ramp, MW",12994.0,12994.2,0.5,yes
+FLA,September 2024: days held,30.0,30.0,0,yes
+FLA,"September 2025: midday low of net load, MW",24934.0,24933.8,0.5,yes
+FLA,September 2025: its hour,09:00,09:00,,yes
+FLA,"September 2025: evening high, MW",39990.0,39990.0,0.5,yes
+FLA,September 2025: its hour,19:00,19:00,,yes
+FLA,"September 2025: ramp, MW",15056.0,15056.2,0.5,yes
+FLA,September 2025: days held,27.0,27.0,0,yes
+FLA,"September 2026: midday low of net load, MW",26015.0,26014.5,0.5,yes
+FLA,September 2026: its hour,09:00,09:00,,yes
+FLA,"September 2026: evening high, MW",39945.0,39945.4,0.5,yes
+FLA,September 2026: its hour,19:00,19:00,,yes
+FLA,"September 2026: ramp, MW",13931.0,13930.9,0.5,yes
+FLA,September 2026: days held,30.0,30.0,0,yes
+FLA,trade: the month drawn,2026-11,2026-11,,yes
+FLA,"trade 2026-11: the neighbours, by the size of the region's own report",['SE'],['SE'],,yes
+FLA,"trade 2026-11: net imports from SE, own report, MWh",152859.0,152859.0,0.5,yes
+FLA,"trade 2026-11: net imports from SE, the neighbour's report, MWh",164656.0,164656.0,0.5,yes
+FLA,"trade 2026-11: gap with SE, MWh",186.0,186.0,0.5,yes
+FLA,"trade 2026-11: hours with SE: own, theirs, both","336, 362, 336","336, 362, 336",,yes
+FLA,"trade 2026-11: all neighbours, MWh",not held,not held,0.5,yes
+FLA,trade 2026-11: the line on a part of a month,November 2026 is a part of a month here: the region's own reports hold at most 336 of its 721 hours.,November 2026 is a part of a month here: the region's own reports hold at most 336 of its 721 hours.,,yes
+MIDA,the latest hour held,2026-11-17T04:00:00Z,2026-11-17T04:00:00Z,,yes
+MIDA,"latest hour: Demand, MW",93003.0,93003.0,0.5,yes
+MIDA,"latest hour: Net generation, MW",93842.0,93842.0,0.5,yes
+MIDA,"latest hour: Net imports, MW",-82.0,-82.0,0.5,yes
+MIDA,latest hour: the sources listed,"['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']","['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']",,yes
+MIDA,"latest hour: Natural gas, MW",38766.0,38766.0,0.5,yes
+MIDA,"latest hour: Natural gas, share of net generation, percent",41.3,41.3099,0.056,yes
+MIDA,"latest hour: Coal, MW",16135.0,16135.0,0.5,yes
+MIDA,"latest hour: Coal, share of net generation, percent",17.2,17.1938,0.056,yes
+MIDA,"latest hour: Nuclear, MW",30847.0,30847.0,0.5,yes
+MIDA,"latest hour: Nuclear, share of net generation, percent",32.9,32.8712,0.056,yes
+MIDA,"latest hour: Wind, MW",3077.0,3077.0,0.5,yes
+MIDA,"latest hour: Wind, share of net generation, percent",3.3,3.2789,0.056,yes
+MIDA,"latest hour: Solar, MW",11.0,11.0,0.5,yes
+MIDA,"latest hour: Solar, share of net generation, percent",0.0,0.0117,0.056,yes
+MIDA,"latest hour: Hydro, MW",1057.0,1057.0,0.5,yes
+MIDA,"latest hour: Hydro, share of net generation, percent",1.1,1.1264,0.056,yes
+MIDA,"latest hour: Storage, MW",0.0,0.0,0.5,yes
+MIDA,"latest hour: Storage, share of net generation, percent",0.0,0.0,0.056,yes
+MIDA,"latest hour: Other, MW",3949.0,3949.0,0.5,yes
+MIDA,"latest hour: Other, share of net generation, percent",4.2,4.2081,0.056,yes
+MIDA,hours drawn in the hour by hour chart,840.0,840.0,0,yes
+MIDA,the period drawn,2026-10,2026-10,,yes
+MIDA,"2026-10: Natural gas, MWh",23990813.0,23990813.0,0.5,yes
+MIDA,"2026-10: Natural gas, share, percent (its MWh over the period's net generation)",38.5,38.5296,0.056,yes
+MIDA,"2026-10: Coal, MWh",9622909.0,9622909.0,0.5,yes
+MIDA,"2026-10: Coal, share, percent (its MWh over the period's net generation)",15.5,15.4545,0.056,yes
+MIDA,"2026-10: Nuclear, MWh",20057240.0,20057240.0,0.5,yes
+MIDA,"2026-10: Nuclear, share, percent (its MWh over the period's net generation)",32.2,32.2122,0.056,yes
+MIDA,"2026-10: Wind, MWh",2215302.0,2215302.0,0.5,yes
+MIDA,"2026-10: Wind, share, percent (its MWh over the period's net generation)",3.6,3.5578,0.056,yes
+MIDA,"2026-10: Solar, MWh",2585040.0,2585040.0,0.5,yes
+MIDA,"2026-10: Solar, share, percent (its MWh over the period's net generation)",4.2,4.1516,0.056,yes
+MIDA,"2026-10: Hydro, MWh",992668.0,992668.0,0.5,yes
+MIDA,"2026-10: Hydro, share, percent (its MWh over the period's net generation)",1.6,1.5942,0.056,yes
+MIDA,"2026-10: Storage, MWh",0.0,0.0,0.5,yes
+MIDA,"2026-10: Storage, share, percent (its MWh over the period's net generation)",0.0,0.0,0.056,yes
+MIDA,"2026-10: Other, MWh",2802034.0,2802034.0,0.5,yes
+MIDA,"2026-10: Other, share, percent (its MWh over the period's net generation)",4.5,4.5001,0.056,yes
+MIDA,"2026-10: net generation, MWh",62266006.0,62266006.0,0.5,yes
+MIDA,"2026-10: the table's order is by share, largest first","[38.53, 32.21, 15.45, 4.5, 4.15, 3.56, 1.59, 0.0]","[38.53, 32.21, 15.45, 4.5, 4.15, 3.56, 1.59, 0.0]",,yes
+MIDA,2026-10: the days held,30 days held of 31.,30 days held of 31.,,yes
+MIDA,months not held of the months from the first to the newest,"[57, 97]","[57, 97]",,yes
+MIDA,the whole months since the newest held,None,None,,yes
+MIDA,October across the years: the years,"['2018', '2019', '2025', '2026']","['2018', '2019', '2025', '2026']",,yes
+MIDA,"October 2018: midday low of net load, MW",84260.0,84259.9,0.5,yes
+MIDA,October 2018: its hour,09:00,09:00,,yes
+MIDA,"October 2018: evening high, MW",90434.0,90433.9,0.5,yes
+MIDA,October 2018: its hour,19:00,19:00,,yes
+MIDA,"October 2018: ramp, MW",6174.0,6174.0,0.5,yes
+MIDA,October 2018: days held,31.0,31.0,0,yes
+MIDA,"October 2019: midday low of net load, MW",78881.0,78881.2,0.5,yes
+MIDA,October 2019: its hour,09:00,09:00,,yes
+MIDA,"October 2019: evening high, MW",84924.0,84924.1,0.5,yes
+MIDA,October 2019: its hour,19:00,19:00,,yes
+MIDA,"October 2019: ramp, MW",6043.0,6042.9,0.5,yes
+MIDA,October 2019: days held,31.0,31.0,0,yes
+MIDA,"October 2025: midday low of net load, MW",75089.0,75089.4,0.5,yes
+MIDA,October 2025: its hour,11:00,11:00,,yes
+MIDA,"October 2025: evening high, MW",88259.0,88259.3,0.5,yes
+MIDA,October 2025: its hour,19:00,19:00,,yes
+MIDA,"October 2025: ramp, MW",13170.0,13169.9,0.5,yes
+MIDA,October 2025: days held,31.0,31.0,0,yes
+MIDA,"October 2026: midday low of net load, MW",75930.0,75930.0,0.5,yes
+MIDA,October 2026: its hour,11:00,11:00,,yes
+MIDA,"October 2026: evening high, MW",91801.0,91801.1,0.5,yes
+MIDA,October 2026: its hour,19:00,19:00,,yes
+MIDA,"October 2026: ramp, MW",15871.0,15871.1,0.5,yes
+MIDA,October 2026: days held,30.0,30.0,0,yes
+MIDA,trade: the month drawn,2026-11,2026-11,,yes
+MIDA,"trade 2026-11: the neighbours, by the size of the region's own report","['NY', 'MIDW', 'CAR', 'TEN']","['NY', 'MIDW', 'CAR', 'TEN']",,yes
+MIDA,"trade 2026-11: net imports from NY, own report, MWh",-595806.0,-595806.0,0.5,yes
+MIDA,"trade 2026-11: net imports from NY, the neighbour's report, MWh",-739194.0,-739194.0,0.5,yes
+MIDA,"trade 2026-11: gap with NY, MWh",92049.0,92049.0,0.5,yes
+MIDA,"trade 2026-11: hours with NY: own, theirs, both","336, 361, 336","336, 361, 336",,yes
+MIDA,"trade 2026-11: net imports from MIDW, own report, MWh",-471694.0,-471694.0,0.5,yes
+MIDA,"trade 2026-11: net imports from MIDW, the neighbour's report, MWh",-887973.0,-887973.0,0.5,yes
+MIDA,"trade 2026-11: gap with MIDW, MWh",360572.0,360572.0,0.5,yes
+MIDA,"trade 2026-11: hours with MIDW: own, theirs, both","336, 361, 336","336, 361, 336",,yes
+MIDA,"trade 2026-11: net imports from CAR, own report, MWh",388607.0,388607.0,0.5,yes
+MIDA,"trade 2026-11: net imports from CAR, the neighbour's report, MWh",561386.0,561386.0,0.5,yes
+MIDA,"trade 2026-11: gap with CAR, MWh",19402.0,19402.0,0.5,yes
+MIDA,"trade 2026-11: hours with CAR: own, theirs, both","228, 336, 228","228, 336, 228",,yes
+MIDA,"trade 2026-11: net imports from TEN, own report, MWh",247551.0,247551.0,0.5,yes
+MIDA,"trade 2026-11: net imports from TEN, the neighbour's report, MWh",346710.0,346710.0,0.5,yes
+MIDA,"trade 2026-11: gap with TEN, MWh",-66602.0,-66602.0,0.5,yes
+MIDA,"trade 2026-11: hours with TEN: own, theirs, both","336, 362, 336","336, 362, 336",,yes
+MIDA,"trade 2026-11: all neighbours, MWh",not held,not held,0.5,yes
+MIDA,trade 2026-11: the line on a part of a month,November 2026 is a part of a month here: the region's own reports hold at most 336 of its 721 hours.,November 2026 is a part of a month here: the region's own reports hold at most 336 of its 721 hours.,,yes
+MIDW,the latest hour held,2026-11-17T04:00:00Z,2026-11-17T04:00:00Z,,yes
+MIDW,"latest hour: Demand, MW",78796.0,78796.0,0.5,yes
+MIDW,"latest hour: Net generation, MW",81452.0,81452.0,0.5,yes
+MIDW,"latest hour: Net imports, MW",-659.0,-659.0,0.5,yes
+MIDW,latest hour: the sources listed,"['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']","['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']",,yes
+MIDW,"latest hour: Natural gas, MW",30130.0,30130.0,0.5,yes
+MIDW,"latest hour: Natural gas, share of net generation, percent",37.0,36.9911,0.056,yes
+MIDW,"latest hour: Coal, MW",20803.0,20803.0,0.5,yes
+MIDW,"latest hour: Coal, share of net generation, percent",25.5,25.5402,0.056,yes
+MIDW,"latest hour: Nuclear, MW",8896.0,8896.0,0.5,yes
+MIDW,"latest hour: Nuclear, share of net generation, percent",10.9,10.9218,0.056,yes
+MIDW,"latest hour: Wind, MW",20663.0,20663.0,0.5,yes
+MIDW,"latest hour: Wind, share of net generation, percent",25.4,25.3683,0.056,yes
+MIDW,"latest hour: Solar, MW",12.0,12.0,0.5,yes
+MIDW,"latest hour: Solar, share of net generation, percent",0.0,0.0147,0.056,yes
+MIDW,"latest hour: Hydro, MW",631.0,631.0,0.5,yes
+MIDW,"latest hour: Hydro, share of net generation, percent",0.8,0.7747,0.056,yes
+MIDW,"latest hour: Storage, MW",-35.0,-35.0,0.5,yes
+MIDW,"latest hour: Storage, share of net generation, percent",-0.0,-0.043,0.056,yes
+MIDW,"latest hour: Other, MW",352.0,352.0,0.5,yes
+MIDW,"latest hour: Other, share of net generation, percent",0.4,0.4322,0.056,yes
+MIDW,hours drawn in the hour by hour chart,840.0,840.0,0,yes
+MIDW,the period drawn,2026-10,2026-10,,yes
+MIDW,"2026-10: Natural gas, MWh",21303309.0,21303309.0,0.5,yes
+MIDW,"2026-10: Natural gas, share, percent (its MWh over the period's net generation)",37.1,37.1339,0.056,yes
+MIDW,"2026-10: Coal, MWh",15973132.0,15973132.0,0.5,yes
+MIDW,"2026-10: Coal, share, percent (its MWh over the period's net generation)",27.8,27.8429,0.056,yes
+MIDW,"2026-10: Nuclear, MWh",6729542.0,6729542.0,0.5,yes
+MIDW,"2026-10: Nuclear, share, percent (its MWh over the period's net generation)",11.7,11.7303,0.056,yes
+MIDW,"2026-10: Wind, MWh",8439972.0,8439972.0,0.5,yes
+MIDW,"2026-10: Wind, share, percent (its MWh over the period's net generation)",14.7,14.7118,0.056,yes
+MIDW,"2026-10: Solar, MWh",3895958.0,3895958.0,0.5,yes
+MIDW,"2026-10: Solar, share, percent (its MWh over the period's net generation)",6.8,6.7911,0.056,yes
+MIDW,"2026-10: Hydro, MWh",595538.0,595538.0,0.5,yes
+MIDW,"2026-10: Hydro, share, percent (its MWh over the period's net generation)",1.0,1.0381,0.056,yes
+MIDW,"2026-10: Storage, MWh",-13116.0,-13116.0,0.5,yes
+MIDW,"2026-10: Storage, share, percent (its MWh over the period's net generation)",-0.0,-0.0229,0.056,yes
+MIDW,"2026-10: Other, MWh",444492.0,444492.0,0.5,yes
+MIDW,"2026-10: Other, share, percent (its MWh over the period's net generation)",0.8,0.7748,0.056,yes
+MIDW,"2026-10: net generation, MWh",57368827.0,57368827.0,0.5,yes
+MIDW,"2026-10: the table's order is by share, largest first","[37.13, 27.84, 14.71, 11.73, 6.79, 1.04, 0.77, -0.02]","[37.13, 27.84, 14.71, 11.73, 6.79, 1.04, 0.77, -0.02]",,yes
+MIDW,2026-10: the days held,31 days held of 31.,31 days held of 31.,,yes
+MIDW,months not held of the months from the first to the newest,"[3, 87]","[3, 87]",,yes
+MIDW,the whole months since the newest held,None,None,,yes
+MIDW,October across the years: the years,"['2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']","['2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']",,yes
+MIDW,"October 2019: midday low of net load, MW",68433.0,68432.6,0.5,yes
+MIDW,October 2019: its hour,09:00,09:00,,yes
+MIDW,"October 2019: evening high, MW",71506.0,71506.3,0.5,yes
+MIDW,October 2019: its hour,18:00,18:00,,yes
+MIDW,"October 2019: ramp, MW",3074.0,3073.7,0.5,yes
+MIDW,October 2019: days held,31.0,31.0,0,yes
+MIDW,"October 2020: midday low of net load, MW",64195.0,64194.9,0.5,yes
+MIDW,October 2020: its hour,09:00,09:00,,yes
+MIDW,"October 2020: evening high, MW",68619.0,68618.9,0.5,yes
+MIDW,October 2020: its hour,18:00,18:00,,yes
+MIDW,"October 2020: ramp, MW",4424.0,4424.0,0.5,yes
+MIDW,October 2020: days held,30.0,30.0,0,yes
+MIDW,"October 2021: midday low of net load, MW",66781.0,66780.5,0.5,yes
+MIDW,October 2021: its hour,09:00,09:00,,yes
+MIDW,"October 2021: evening high, MW",72468.0,72468.1,0.5,yes
+MIDW,October 2021: its hour,18:00,18:00,,yes
+MIDW,"October 2021: ramp, MW",5688.0,5687.6,0.5,yes
+MIDW,October 2021: days held,31.0,31.0,0,yes
+MIDW,"October 2022: midday low of net load, MW",60898.0,60898.1,0.5,yes
+MIDW,October 2022: its hour,09:00,09:00,,yes
+MIDW,"October 2022: evening high, MW",66230.0,66230.4,0.5,yes
+MIDW,October 2022: its hour,18:00,18:00,,yes
+MIDW,"October 2022: ramp, MW",5332.0,5332.3,0.5,yes
+MIDW,October 2022: days held,31.0,31.0,0,yes
+MIDW,"October 2023: midday low of net load, MW",62301.0,62300.6,0.5,yes
+MIDW,October 2023: its hour,09:00,09:00,,yes
+MIDW,"October 2023: evening high, MW",68921.0,68920.8,0.5,yes
+MIDW,October 2023: its hour,18:00,18:00,,yes
+MIDW,"October 2023: ramp, MW",6620.0,6620.2,0.5,yes
+MIDW,October 2023: days held,31.0,31.0,0,yes
+MIDW,"October 2024: midday low of net load, MW",55703.0,55702.9,0.5,yes
+MIDW,October 2024: its hour,09:00,09:00,,yes
+MIDW,"October 2024: evening high, MW",68837.0,68837.4,0.5,yes
+MIDW,October 2024: its hour,18:00,18:00,,yes
+MIDW,"October 2024: ramp, MW",13135.0,13134.5,0.5,yes
+MIDW,October 2024: days held,31.0,31.0,0,yes
+MIDW,"October 2025: midday low of net load, MW",55749.0,55749.1,0.5,yes
+MIDW,October 2025: its hour,09:00,09:00,,yes
+MIDW,"October 2025: evening high, MW",71755.0,71755.2,0.5,yes
+MIDW,October 2025: its hour,18:00,18:00,,yes
+MIDW,"October 2025: ramp, MW",16006.0,16006.1,0.5,yes
+MIDW,October 2025: days held,31.0,31.0,0,yes
+MIDW,"October 2026: midday low of net load, MW",54277.0,54277.0,0.5,yes
+MIDW,October 2026: its hour,09:00,09:00,,yes
+MIDW,"October 2026: evening high, MW",75205.0,75205.0,0.5,yes
+MIDW,October 2026: its hour,18:00,18:00,,yes
+MIDW,"October 2026: ramp, MW",20928.0,20928.0,0.5,yes
+MIDW,October 2026: days held,31.0,31.0,0,yes
+MIDW,trade: the month drawn,2026-11,2026-11,,yes
+MIDW,"trade 2026-11: the neighbours, by the size of the region's own report","['MIDA', 'TEN', 'CAN', 'CENT', 'SE']","['MIDA', 'TEN', 'CAN', 'CENT', 'SE']",,yes
+MIDW,"trade 2026-11: net imports from MIDA, own report, MWh",887973.0,887973.0,0.5,yes
+MIDW,"trade 2026-11: net imports from MIDA, the neighbour's report, MWh",471694.0,471694.0,0.5,yes
+MIDW,"trade 2026-11: gap with MIDA, MWh",360572.0,360572.0,0.5,yes
+MIDW,"trade 2026-11: hours with MIDA: own, theirs, both","361, 336, 336","361, 336, 336",,yes
+MIDW,"trade 2026-11: net imports from TEN, own report, MWh",-704405.0,-704405.0,0.5,yes
+MIDW,"trade 2026-11: net imports from TEN, the neighbour's report, MWh",-743047.0,-743047.0,0.5,yes
+MIDW,"trade 2026-11: gap with TEN, MWh",38642.0,38642.0,0.5,yes
+MIDW,"trade 2026-11: hours with TEN: own, theirs, both","362, 362, 362","362, 362, 362",,yes
+MIDW,"trade 2026-11: net imports from CAN, own report, MWh",486922.0,486922.0,0.5,yes
+MIDW,"trade 2026-11: net imports from CAN, the neighbour's report, MWh",not held,not held,0.5,yes
+MIDW,"trade 2026-11: gap with CAN, MWh",not held,not held,0.5,yes
+MIDW,"trade 2026-11: hours with CAN: own, theirs, both","361, 0, 0","361, 0, 0",,yes
+MIDW,"trade 2026-11: net imports from CENT, own report, MWh",29088.0,29088.0,0.5,yes
+MIDW,"trade 2026-11: net imports from CENT, the neighbour's report, MWh",27873.0,27873.0,0.5,yes
+MIDW,"trade 2026-11: gap with CENT, MWh",1215.0,1215.0,0.5,yes
+MIDW,"trade 2026-11: hours with CENT: own, theirs, both","337, 337, 337","337, 337, 337",,yes
+MIDW,"trade 2026-11: net imports from SE, own report, MWh",-1149.0,-1149.0,0.5,yes
+MIDW,"trade 2026-11: net imports from SE, the neighbour's report, MWh",-39562.0,-39562.0,0.5,yes
+MIDW,"trade 2026-11: gap with SE, MWh",38279.0,38279.0,0.5,yes
+MIDW,"trade 2026-11: hours with SE: own, theirs, both","361, 362, 361","361, 362, 361",,yes
+MIDW,"trade 2026-11: all neighbours, MWh",not held,not held,0.5,yes
+MIDW,trade 2026-11: the line on a part of a month,November 2026 is a part of a month here: the region's own reports hold at most 362 of its 721 hours.,November 2026 is a part of a month here: the region's own reports hold at most 362 of its 721 hours.,,yes
+NE,the latest hour held,2026-11-17T04:00:00Z,2026-11-17T04:00:00Z,,yes
+NE,"latest hour: Demand, MW",12033.0,12033.0,0.5,yes
+NE,"latest hour: Net generation, MW",11121.0,11121.0,0.5,yes
+NE,"latest hour: Net imports, MW",911.0,911.0,0.5,yes
+NE,latest hour: the sources listed,"['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']","['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']",,yes
+NE,"latest hour: Natural gas, MW",7091.0,7091.0,0.5,yes
+NE,"latest hour: Natural gas, share of net generation, percent",63.8,63.7623,0.056,yes
+NE,"latest hour: Coal, MW",0.0,0.0,0.5,yes
+NE,"latest hour: Coal, share of net generation, percent",0.0,0.0,0.056,yes
+NE,"latest hour: Nuclear, MW",2081.0,2081.0,0.5,yes
+NE,"latest hour: Nuclear, share of net generation, percent",18.7,18.7123,0.056,yes
+NE,"latest hour: Wind, MW",920.0,920.0,0.5,yes
+NE,"latest hour: Wind, share of net generation, percent",8.3,8.2726,0.056,yes
+NE,"latest hour: Solar, MW",3.0,3.0,0.5,yes
+NE,"latest hour: Solar, share of net generation, percent",0.0,0.027,0.056,yes
+NE,"latest hour: Hydro, MW",391.0,391.0,0.5,yes
+NE,"latest hour: Hydro, share of net generation, percent",3.5,3.5159,0.056,yes
+NE,"latest hour: Storage, MW",4.0,4.0,0.5,yes
+NE,"latest hour: Storage, share of net generation, percent",0.0,0.036,0.056,yes
+NE,"latest hour: Other, MW",631.0,631.0,0.5,yes
+NE,"latest hour: Other, share of net generation, percent",5.7,5.674,0.056,yes
+NE,hours drawn in the hour by hour chart,840.0,840.0,0,yes
+NE,the period drawn,2026-10,2026-10,,yes
+NE,"2026-10: Natural gas, MWh",4311254.0,4311254.0,0.5,yes
+NE,"2026-10: Natural gas, share, percent (its MWh over the period's net generation)",52.5,52.5208,0.056,yes
+NE,"2026-10: Coal, MWh",0.0,0.0,0.5,yes
+NE,"2026-10: Coal, share, percent (its MWh over the period's net generation)",0.0,0.0,0.056,yes
+NE,"2026-10: Nuclear, MWh",2015583.0,2015583.0,0.5,yes
+NE,"2026-10: Nuclear, share, percent (its MWh over the period's net generation)",24.6,24.5544,0.056,yes
+NE,"2026-10: Wind, MWh",904170.0,904170.0,0.5,yes
+NE,"2026-10: Wind, share, percent (its MWh over the period's net generation)",11.0,11.0148,0.056,yes
+NE,"2026-10: Solar, MWh",182669.0,182669.0,0.5,yes
+NE,"2026-10: Solar, share, percent (its MWh over the period's net generation)",2.2,2.2253,0.056,yes
+NE,"2026-10: Hydro, MWh",401428.0,401428.0,0.5,yes
+NE,"2026-10: Hydro, share, percent (its MWh over the period's net generation)",4.9,4.8903,0.056,yes
+NE,"2026-10: Storage, MWh",26886.0,26886.0,0.5,yes
+NE,"2026-10: Storage, share, percent (its MWh over the period's net generation)",0.3,0.3275,0.056,yes
+NE,"2026-10: Other, MWh",366663.0,366663.0,0.5,yes
+NE,"2026-10: Other, share, percent (its MWh over the period's net generation)",4.5,4.4668,0.056,yes
+NE,"2026-10: net generation, MWh",8208653.0,8208653.0,0.5,yes
+NE,"2026-10: the table's order is by share, largest first","[52.52, 24.55, 11.01, 4.89, 4.47, 2.23, 0.33, 0.0]","[52.52, 24.55, 11.01, 4.89, 4.47, 2.23, 0.33, 0.0]",,yes
+NE,2026-10: the days held,30 days held of 31.,30 days held of 31.,,yes
+NE,months not held of the months from the first to the newest,None,None,,yes
+NE,the whole months since the newest held,None,None,,yes
+NE,October across the years: the years,"['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']","['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']",,yes
+NE,"October 2018: midday low of net load, MW",12623.0,12623.3,0.5,yes
+NE,October 2018: its hour,14:00,14:00,,yes
+NE,"October 2018: evening high, MW",14340.0,14339.5,0.5,yes
+NE,October 2018: its hour,18:00,18:00,,yes
+NE,"October 2018: ramp, MW",1716.0,1716.2,0.5,yes
+NE,October 2018: days held,31.0,31.0,0,yes
+NE,"October 2019: midday low of net load, MW",11910.0,11910.1,0.5,yes
+NE,October 2019: its hour,12:00,12:00,,yes
+NE,"October 2019: evening high, MW",13716.0,13715.9,0.5,yes
+NE,October 2019: its hour,18:00,18:00,,yes
+NE,"October 2019: ramp, MW",1806.0,1805.8,0.5,yes
+NE,October 2019: days held,31.0,31.0,0,yes
+NE,"October 2020: midday low of net load, MW",11557.0,11557.1,0.5,yes
+NE,October 2020: its hour,13:00,13:00,,yes
+NE,"October 2020: evening high, MW",13587.0,13586.8,0.5,yes
+NE,October 2020: its hour,18:00,18:00,,yes
+NE,"October 2020: ramp, MW",2030.0,2029.7,0.5,yes
+NE,October 2020: days held,30.0,30.0,0,yes
+NE,"October 2021: midday low of net load, MW",11340.0,11340.1,0.5,yes
+NE,October 2021: its hour,11:00,11:00,,yes
+NE,"October 2021: evening high, MW",13772.0,13772.3,0.5,yes
+NE,October 2021: its hour,18:00,18:00,,yes
+NE,"October 2021: ramp, MW",2432.0,2432.2,0.5,yes
+NE,October 2021: days held,31.0,31.0,0,yes
+NE,"October 2022: midday low of net load, MW",10451.0,10450.6,0.5,yes
+NE,October 2022: its hour,12:00,12:00,,yes
+NE,"October 2022: evening high, MW",13390.0,13389.5,0.5,yes
+NE,October 2022: its hour,18:00,18:00,,yes
+NE,"October 2022: ramp, MW",2939.0,2938.9,0.5,yes
+NE,October 2022: days held,31.0,31.0,0,yes
+NE,"October 2023: midday low of net load, MW",10251.0,10251.1,0.5,yes
+NE,October 2023: its hour,11:00,11:00,,yes
+NE,"October 2023: evening high, MW",13632.0,13632.2,0.5,yes
+NE,October 2023: its hour,18:00,18:00,,yes
+NE,"October 2023: ramp, MW",3381.0,3381.1,0.5,yes
+NE,October 2023: days held,31.0,31.0,0,yes
+NE,"October 2024: midday low of net load, MW",9233.0,9233.0,0.5,yes
+NE,October 2024: its hour,12:00,12:00,,yes
+NE,"October 2024: evening high, MW",13297.0,13296.7,0.5,yes
+NE,October 2024: its hour,18:00,18:00,,yes
+NE,"October 2024: ramp, MW",4064.0,4063.7,0.5,yes
+NE,October 2024: days held,31.0,31.0,0,yes
+NE,"October 2025: midday low of net load, MW",9214.0,9213.5,0.5,yes
+NE,October 2025: its hour,12:00,12:00,,yes
+NE,"October 2025: evening high, MW",13313.0,13313.0,0.5,yes
+NE,October 2025: its hour,18:00,18:00,,yes
+NE,"October 2025: ramp, MW",4100.0,4099.5,0.5,yes
+NE,October 2025: days held,31.0,31.0,0,yes
+NE,"October 2026: midday low of net load, MW",7911.0,7911.2,0.5,yes
+NE,October 2026: its hour,12:00,12:00,,yes
+NE,"October 2026: evening high, MW",12589.0,12588.7,0.5,yes
+NE,October 2026: its hour,18:00,18:00,,yes
+NE,"October 2026: ramp, MW",4678.0,4677.5,0.5,yes
+NE,October 2026: days held,30.0,30.0,0,yes
+NE,trade: the month drawn,2026-11,2026-11,,yes
+NE,"trade 2026-11: the neighbours, by the size of the region's own report","['NY', 'CAN']","['NY', 'CAN']",,yes
+NE,"trade 2026-11: net imports from NY, own report, MWh",412906.0,412906.0,0.5,yes
+NE,"trade 2026-11: net imports from NY, the neighbour's report, MWh",411083.0,411083.0,0.5,yes
+NE,"trade 2026-11: gap with NY, MWh",1823.0,1823.0,0.5,yes
+NE,"trade 2026-11: hours with NY: own, theirs, both","361, 361, 361","361, 361, 361",,yes
+NE,"trade 2026-11: net imports from CAN, own report, MWh",-89620.0,-89620.0,0.5,yes
+NE,"trade 2026-11: net imports from CAN, the neighbour's report, MWh",not held,not held,0.5,yes
+NE,"trade 2026-11: gap with CAN, MWh",not held,not held,0.5,yes
+NE,"trade 2026-11: hours with CAN: own, theirs, both","361, 0, 0","361, 0, 0",,yes
+NE,"trade 2026-11: all neighbours, MWh",323286.0,323286.0,0.5,yes
+NE,trade 2026-11: the line on a part of a month,November 2026 is a part of a month here: the region's own reports hold at most 361 of its 721 hours.,November 2026 is a part of a month here: the region's own reports hold at most 361 of its 721 hours.,,yes
+NW,the latest hour held,2026-11-16T07:00:00Z,2026-11-16T07:00:00Z,,yes
+NW,"latest hour: Demand, MW",37368.0,37368.0,0.5,yes
+NW,"latest hour: Net generation, MW",39395.0,39395.0,0.5,yes
+NW,"latest hour: Net imports, MW",-1986.0,-1986.0,0.5,yes
+NW,latest hour: the sources listed,"['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']","['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']",,yes
+NW,"latest hour: Natural gas, MW",10352.0,10352.0,0.5,yes
+NW,"latest hour: Natural gas, share of net generation, percent",26.3,26.2774,0.056,yes
+NW,"latest hour: Coal, MW",8227.0,8227.0,0.5,yes
+NW,"latest hour: Coal, share of net generation, percent",20.9,20.8834,0.056,yes
+NW,"latest hour: Nuclear, MW",1146.0,1146.0,0.5,yes
+NW,"latest hour: Nuclear, share of net generation, percent",2.9,2.909,0.056,yes
+NW,"latest hour: Wind, MW",8657.0,8657.0,0.5,yes
+NW,"latest hour: Wind, share of net generation, percent",22.0,21.9749,0.056,yes
+NW,"latest hour: Solar, MW",-10.0,-10.0,0.5,yes
+NW,"latest hour: Solar, share of net generation, percent",-0.0,-0.0254,0.056,yes
+NW,"latest hour: Hydro, MW",10239.0,10239.0,0.5,yes
+NW,"latest hour: Hydro, share of net generation, percent",26.0,25.9906,0.056,yes
+NW,"latest hour: Storage, MW",-187.0,-187.0,0.5,yes
+NW,"latest hour: Storage, share of net generation, percent",-0.5,-0.4747,0.056,yes
+NW,"latest hour: Other, MW",971.0,971.0,0.5,yes
+NW,"latest hour: Other, share of net generation, percent",2.5,2.4648,0.056,yes
+NW,hours drawn in the hour by hour chart,840.0,840.0,0,yes
+NW,the period drawn,2025-12,2025-12,,yes
+NW,"2025-12: Natural gas, MWh",7102643.0,7102643.0,0.5,yes
+NW,"2025-12: Natural gas, share, percent (its MWh over the period's net generation)",21.4,21.4363,0.056,yes
+NW,"2025-12: Coal, MWh",4494191.0,4494191.0,0.5,yes
+NW,"2025-12: Coal, share, percent (its MWh over the period's net generation)",13.6,13.5638,0.056,yes
+NW,"2025-12: Nuclear, MWh",787838.0,787838.0,0.5,yes
+NW,"2025-12: Nuclear, share, percent (its MWh over the period's net generation)",2.4,2.3778,0.056,yes
+NW,"2025-12: Wind, MWh",6350755.0,6350755.0,0.5,yes
+NW,"2025-12: Wind, share, percent (its MWh over the period's net generation)",19.2,19.1671,0.056,yes
+NW,"2025-12: Solar, MWh",1138596.0,1138596.0,0.5,yes
+NW,"2025-12: Solar, share, percent (its MWh over the period's net generation)",3.4,3.4364,0.056,yes
+NW,"2025-12: Hydro, MWh",12389581.0,12389581.0,0.5,yes
+NW,"2025-12: Hydro, share, percent (its MWh over the period's net generation)",37.4,37.3927,0.056,yes
+NW,"2025-12: Storage, MWh",53047.0,53047.0,0.5,yes
+NW,"2025-12: Storage, share, percent (its MWh over the period's net generation)",0.2,0.1601,0.056,yes
+NW,"2025-12: Other, MWh",817012.0,817012.0,0.5,yes
+NW,"2025-12: Other, share, percent (its MWh over the period's net generation)",2.5,2.4658,0.056,yes
+NW,"2025-12: net generation, MWh",33133663.0,33133663.0,0.5,yes
+NW,"2025-12: the table's order is by share, largest first","[37.39, 21.44, 19.17, 13.56, 3.44, 2.47, 2.38, 0.16]","[37.39, 21.44, 19.17, 13.56, 3.44, 2.47, 2.38, 0.16]",,yes
+NW,2025-12: the days held,29 days held of 31.,29 days held of 31.,,yes
+NW,months not held of the months from the first to the newest,"[11, 60]","[11, 60]",,yes
+NW,the whole months since the newest held,No month from January 2026 to October 2026 is held: the newest month held is December 2025.,No month from January 2026 to October 2026 is held: the newest month held is December 2025.,,yes
+NW,December across the years: the years,"['2021', '2022', '2024', '2025']","['2021', '2022', '2024', '2025']",,yes
+NW,"December 2021: midday low of net load, MW",34352.0,34351.5,0.5,yes
+NW,December 2021: its hour,13:00,13:00,,yes
+NW,"December 2021: evening high, MW",39912.0,39912.3,0.5,yes
+NW,December 2021: its hour,17:00,17:00,,yes
+NW,"December 2021: ramp, MW",5561.0,5560.8,0.5,yes
+NW,December 2021: days held,31.0,31.0,0,yes
+NW,"December 2022: midday low of net load, MW",37131.0,37130.8,0.5,yes
+NW,December 2022: its hour,13:00,13:00,,yes
+NW,"December 2022: evening high, MW",43445.0,43444.5,0.5,yes
+NW,December 2022: its hour,17:00,17:00,,yes
+NW,"December 2022: ramp, MW",6314.0,6313.7,0.5,yes
+NW,December 2022: days held,31.0,31.0,0,yes
+NW,"December 2024: midday low of net load, MW",33560.0,33559.6,0.5,yes
+NW,December 2024: its hour,13:00,13:00,,yes
+NW,"December 2024: evening high, MW",41108.0,41108.2,0.5,yes
+NW,December 2024: its hour,17:00,17:00,,yes
+NW,"December 2024: ramp, MW",7549.0,7548.6,0.5,yes
+NW,December 2024: days held,31.0,31.0,0,yes
+NW,"December 2025: midday low of net load, MW",30134.0,30133.7,0.5,yes
+NW,December 2025: its hour,13:00,13:00,,yes
+NW,"December 2025: evening high, MW",38864.0,38863.9,0.5,yes
+NW,December 2025: its hour,17:00,17:00,,yes
+NW,"December 2025: ramp, MW",8730.0,8730.2,0.5,yes
+NW,December 2025: days held,29.0,29.0,0,yes
+NW,trade: the month drawn,2026-11,2026-11,,yes
+NW,"trade 2026-11: the neighbours, by the size of the region's own report","['SW', 'CAL', 'CENT', 'CAN']","['SW', 'CAL', 'CENT', 'CAN']",,yes
+NW,"trade 2026-11: net imports from SW, own report, MWh",-419381.0,-419381.0,0.5,yes
+NW,"trade 2026-11: net imports from SW, the neighbour's report, MWh",-343364.0,-343364.0,0.5,yes
+NW,"trade 2026-11: gap with SW, MWh",4799.0,4799.0,0.5,yes
+NW,"trade 2026-11: hours with SW: own, theirs, both","337, 267, 240","337, 267, 240",,yes
+NW,"trade 2026-11: net imports from CAL, own report, MWh",-380215.0,-380215.0,0.5,yes
+NW,"trade 2026-11: net imports from CAL, the neighbour's report, MWh",-380766.0,-380766.0,0.5,yes
+NW,"trade 2026-11: gap with CAL, MWh",908.0,908.0,0.5,yes
+NW,"trade 2026-11: hours with CAL: own, theirs, both","339, 335, 335","339, 335, 335",,yes
+NW,"trade 2026-11: net imports from CENT, own report, MWh",47845.0,47845.0,0.5,yes
+NW,"trade 2026-11: net imports from CENT, the neighbour's report, MWh",not held,not held,0.5,yes
+NW,"trade 2026-11: gap with CENT, MWh",not held,not held,0.5,yes
+NW,"trade 2026-11: hours with CENT: own, theirs, both","338, 0, 0","338, 0, 0",,yes
+NW,"trade 2026-11: net imports from CAN, own report, MWh",15238.0,15238.0,0.5,yes
+NW,"trade 2026-11: net imports from CAN, the neighbour's report, MWh",not held,not held,0.5,yes
+NW,"trade 2026-11: gap with CAN, MWh",not held,not held,0.5,yes
+NW,"trade 2026-11: hours with CAN: own, theirs, both","364, 0, 0","364, 0, 0",,yes
+NW,"trade 2026-11: all neighbours, MWh",not held,not held,0.5,yes
+NW,trade 2026-11: the line on a part of a month,November 2026 is a part of a month here: the region's own reports hold at most 364 of its 721 hours.,November 2026 is a part of a month here: the region's own reports hold at most 364 of its 721 hours.,,yes
+NY,the latest hour held,2026-11-17T04:00:00Z,2026-11-17T04:00:00Z,,yes
+NY,"latest hour: Demand, MW",15291.0,15291.0,0.5,yes
+NY,"latest hour: Net generation, MW",14200.0,14200.0,0.5,yes
+NY,"latest hour: Net imports, MW",1088.0,1088.0,0.5,yes
+NY,latest hour: the sources listed,"['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']","['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']",,yes
+NY,"latest hour: Natural gas, MW",7370.0,7370.0,0.5,yes
+NY,"latest hour: Natural gas, share of net generation, percent",51.9,51.9014,0.056,yes
+NY,"latest hour: Coal, MW",0.0,0.0,0.5,yes
+NY,"latest hour: Coal, share of net generation, percent",0.0,0.0,0.056,yes
+NY,"latest hour: Nuclear, MW",3344.0,3344.0,0.5,yes
+NY,"latest hour: Nuclear, share of net generation, percent",23.6,23.5493,0.056,yes
+NY,"latest hour: Wind, MW",1000.0,1000.0,0.5,yes
+NY,"latest hour: Wind, share of net generation, percent",7.0,7.0423,0.056,yes
+NY,"latest hour: Solar, MW",0.0,0.0,0.5,yes
+NY,"latest hour: Solar, share of net generation, percent",0.0,0.0,0.056,yes
+NY,"latest hour: Hydro, MW",2284.0,2284.0,0.5,yes
+NY,"latest hour: Hydro, share of net generation, percent",16.1,16.0845,0.056,yes
+NY,"latest hour: Storage, MW",0.0,0.0,0.5,yes
+NY,"latest hour: Storage, share of net generation, percent",0.0,0.0,0.056,yes
+NY,"latest hour: Other, MW",202.0,202.0,0.5,yes
+NY,"latest hour: Other, share of net generation, percent",1.4,1.4225,0.056,yes
+NY,hours drawn in the hour by hour chart,840.0,840.0,0,yes
+NY,the period drawn,2026-10,2026-10,,yes
+NY,"2026-10: Natural gas, MWh",4482535.0,4482535.0,0.5,yes
+NY,"2026-10: Natural gas, share, percent (its MWh over the period's net generation)",46.8,46.7845,0.056,yes
+NY,"2026-10: Coal, MWh",0.0,0.0,0.5,yes
+NY,"2026-10: Coal, share, percent (its MWh over the period's net generation)",0.0,0.0,0.056,yes
+NY,"2026-10: Nuclear, MWh",2367259.0,2367259.0,0.5,yes
+NY,"2026-10: Nuclear, share, percent (its MWh over the period's net generation)",24.7,24.7072,0.056,yes
+NY,"2026-10: Wind, MWh",574710.0,574710.0,0.5,yes
+NY,"2026-10: Wind, share, percent (its MWh over the period's net generation)",6.0,5.9983,0.056,yes
+NY,"2026-10: Solar, MWh",0.0,0.0,0.5,yes
+NY,"2026-10: Solar, share, percent (its MWh over the period's net generation)",0.0,0.0,0.056,yes
+NY,"2026-10: Hydro, MWh",1892516.0,1892516.0,0.5,yes
+NY,"2026-10: Hydro, share, percent (its MWh over the period's net generation)",19.8,19.7523,0.056,yes
+NY,"2026-10: Storage, MWh",0.0,0.0,0.5,yes
+NY,"2026-10: Storage, share, percent (its MWh over the period's net generation)",0.0,0.0,0.056,yes
+NY,"2026-10: Other, MWh",264219.0,264219.0,0.5,yes
+NY,"2026-10: Other, share, percent (its MWh over the period's net generation)",2.8,2.7577,0.056,yes
+NY,"2026-10: net generation, MWh",9581239.0,9581239.0,0.5,yes
+NY,"2026-10: the table's order is by share, largest first","[46.78, 24.71, 19.75, 6.0, 2.76, 0.0, 0.0, 0.0]","[46.78, 24.71, 19.75, 6.0, 2.76, 0.0, 0.0, 0.0]",,yes
+NY,2026-10: the days held,31 days held of 31.,31 days held of 31.,,yes
+NY,months not held of the months from the first to the newest,None,None,,yes
+NY,the whole months since the newest held,None,None,,yes
+NY,October across the years: the years,"['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']","['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']",,yes
+NY,"October 2018: midday low of net load, MW",17140.0,17139.5,0.5,yes
+NY,October 2018: its hour,09:00,09:00,,yes
+NY,"October 2018: evening high, MW",18394.0,18393.5,0.5,yes
+NY,October 2018: its hour,18:00,18:00,,yes
+NY,"October 2018: ramp, MW",1254.0,1254.0,0.5,yes
+NY,October 2018: days held,31.0,31.0,0,yes
+NY,"October 2019: midday low of net load, MW",16227.0,16226.8,0.5,yes
+NY,October 2019: its hour,09:00,09:00,,yes
+NY,"October 2019: evening high, MW",17392.0,17392.0,0.5,yes
+NY,October 2019: its hour,18:00,18:00,,yes
+NY,"October 2019: ramp, MW",1165.0,1165.2,0.5,yes
+NY,October 2019: days held,31.0,31.0,0,yes
+NY,"October 2020: midday low of net load, MW",15680.0,15679.6,0.5,yes
+NY,October 2020: its hour,09:00,09:00,,yes
+NY,"October 2020: evening high, MW",16921.0,16921.1,0.5,yes
+NY,October 2020: its hour,18:00,18:00,,yes
+NY,"October 2020: ramp, MW",1242.0,1241.5,0.5,yes
+NY,October 2020: days held,31.0,31.0,0,yes
+NY,"October 2021: midday low of net load, MW",15814.0,15814.1,0.5,yes
+NY,October 2021: its hour,09:00,09:00,,yes
+NY,"October 2021: evening high, MW",17359.0,17358.6,0.5,yes
+NY,October 2021: its hour,18:00,18:00,,yes
+NY,"October 2021: ramp, MW",1545.0,1544.5,0.5,yes
+NY,October 2021: days held,31.0,31.0,0,yes
+NY,"October 2022: midday low of net load, MW",14742.0,14742.3,0.5,yes
+NY,October 2022: its hour,13:00,13:00,,yes
+NY,"October 2022: evening high, MW",16708.0,16707.5,0.5,yes
+NY,October 2022: its hour,18:00,18:00,,yes
+NY,"October 2022: ramp, MW",1965.0,1965.2,0.5,yes
+NY,October 2022: days held,31.0,31.0,0,yes
+NY,"October 2023: midday low of net load, MW",15088.0,15088.0,0.5,yes
+NY,October 2023: its hour,10:00,10:00,,yes
+NY,"October 2023: evening high, MW",17138.0,17138.0,0.5,yes
+NY,October 2023: its hour,18:00,18:00,,yes
+NY,"October 2023: ramp, MW",2050.0,2050.0,0.5,yes
+NY,October 2023: days held,31.0,31.0,0,yes
+NY,"October 2024: midday low of net load, MW",14081.0,14080.5,0.5,yes
+NY,October 2024: its hour,12:00,12:00,,yes
+NY,"October 2024: evening high, MW",16792.0,16792.4,0.5,yes
+NY,October 2024: its hour,18:00,18:00,,yes
+NY,"October 2024: ramp, MW",2712.0,2711.9,0.5,yes
+NY,October 2024: days held,30.0,30.0,0,yes
+NY,"October 2025: midday low of net load, MW",13954.0,13953.8,0.5,yes
+NY,October 2025: its hour,12:00,12:00,,yes
+NY,"October 2025: evening high, MW",16884.0,16884.4,0.5,yes
+NY,October 2025: its hour,18:00,18:00,,yes
+NY,"October 2025: ramp, MW",2931.0,2930.6,0.5,yes
+NY,October 2025: days held,31.0,31.0,0,yes
+NY,"October 2026: midday low of net load, MW",13089.0,13089.4,0.5,yes
+NY,October 2026: its hour,12:00,12:00,,yes
+NY,"October 2026: evening high, MW",16730.0,16730.3,0.5,yes
+NY,October 2026: its hour,18:00,18:00,,yes
+NY,"October 2026: ramp, MW",3641.0,3640.9,0.5,yes
+NY,October 2026: days held,31.0,31.0,0,yes
+NY,trade: the month drawn,2026-11,2026-11,,yes
+NY,"trade 2026-11: the neighbours, by the size of the region's own report","['MIDA', 'NE', 'CAN']","['MIDA', 'NE', 'CAN']",,yes
+NY,"trade 2026-11: net imports from MIDA, own report, MWh",739194.0,739194.0,0.5,yes
+NY,"trade 2026-11: net imports from MIDA, the neighbour's report, MWh",595806.0,595806.0,0.5,yes
+NY,"trade 2026-11: gap with MIDA, MWh",92049.0,92049.0,0.5,yes
+NY,"trade 2026-11: hours with MIDA: own, theirs, both","361, 336, 336","361, 336, 336",,yes
+NY,"trade 2026-11: net imports from NE, own report, MWh",-411083.0,-411083.0,0.5,yes
+NY,"trade 2026-11: net imports from NE, the neighbour's report, MWh",-412906.0,-412906.0,0.5,yes
+NY,"trade 2026-11: gap with NE, MWh",1823.0,1823.0,0.5,yes
+NY,"trade 2026-11: hours with NE: own, theirs, both","361, 361, 361","361, 361, 361",,yes
+NY,"trade 2026-11: net imports from CAN, own report, MWh",219862.0,219862.0,0.5,yes
+NY,"trade 2026-11: net imports from CAN, the neighbour's report, MWh",not held,not held,0.5,yes
+NY,"trade 2026-11: gap with CAN, MWh",not held,not held,0.5,yes
+NY,"trade 2026-11: hours with CAN: own, theirs, both","361, 0, 0","361, 0, 0",,yes
+NY,"trade 2026-11: all neighbours, MWh",547973.0,547973.0,0.5,yes
+NY,trade 2026-11: the line on a part of a month,November 2026 is a part of a month here: the region's own reports hold at most 361 of its 721 hours.,November 2026 is a part of a month here: the region's own reports hold at most 361 of its 721 hours.,,yes
+SE,the latest hour held,2026-11-17T05:00:00Z,2026-11-17T05:00:00Z,,yes
+SE,"latest hour: Demand, MW",24964.0,24964.0,0.5,yes
+SE,"latest hour: Net generation, MW",26981.0,26981.0,0.5,yes
+SE,"latest hour: Net imports, MW",-2014.0,-2014.0,0.5,yes
+SE,latest hour: the sources listed,"['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']","['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']",,yes
+SE,"latest hour: Natural gas, MW",14193.0,14193.0,0.5,yes
+SE,"latest hour: Natural gas, share of net generation, percent",52.6,52.6037,0.056,yes
+SE,"latest hour: Coal, MW",5000.0,5000.0,0.5,yes
+SE,"latest hour: Coal, share of net generation, percent",18.5,18.5316,0.056,yes
+SE,"latest hour: Nuclear, MW",8309.0,8309.0,0.5,yes
+SE,"latest hour: Nuclear, share of net generation, percent",30.8,30.7957,0.056,yes
+SE,"latest hour: Wind, MW",0.0,0.0,0.5,yes
+SE,"latest hour: Wind, share of net generation, percent",0.0,0.0,0.056,yes
+SE,"latest hour: Solar, MW",-1.0,-1.0,0.5,yes
+SE,"latest hour: Solar, share of net generation, percent",-0.0,-0.0037,0.056,yes
+SE,"latest hour: Hydro, MW",-572.0,-572.0,0.5,yes
+SE,"latest hour: Hydro, share of net generation, percent",-2.1,-2.12,0.056,yes
+SE,"latest hour: Storage, MW",-2.0,-2.0,0.5,yes
+SE,"latest hour: Storage, share of net generation, percent",-0.0,-0.0074,0.056,yes
+SE,"latest hour: Other, MW",54.0,54.0,0.5,yes
+SE,"latest hour: Other, share of net generation, percent",0.2,0.2001,0.056,yes
+SE,hours drawn in the hour by hour chart,840.0,840.0,0,yes
+SE,the period drawn,2026-10,2026-10,,yes
+SE,"2026-10: Natural gas, MWh",9523560.0,9523560.0,0.5,yes
+SE,"2026-10: Natural gas, share, percent (its MWh over the period's net generation)",47.4,47.3658,0.056,yes
+SE,"2026-10: Coal, MWh",4047281.0,4047281.0,0.5,yes
+SE,"2026-10: Coal, share, percent (its MWh over the period's net generation)",20.1,20.1293,0.056,yes
+SE,"2026-10: Nuclear, MWh",5002433.0,5002433.0,0.5,yes
+SE,"2026-10: Nuclear, share, percent (its MWh over the period's net generation)",24.9,24.8798,0.056,yes
+SE,"2026-10: Wind, MWh",0.0,0.0,0.5,yes
+SE,"2026-10: Wind, share, percent (its MWh over the period's net generation)",0.0,0.0,0.056,yes
+SE,"2026-10: Solar, MWh",1133688.0,1133688.0,0.5,yes
+SE,"2026-10: Solar, share, percent (its MWh over the period's net generation)",5.6,5.6384,0.056,yes
+SE,"2026-10: Hydro, MWh",202817.0,202817.0,0.5,yes
+SE,"2026-10: Hydro, share, percent (its MWh over the period's net generation)",1.0,1.0087,0.056,yes
+SE,"2026-10: Storage, MWh",-7125.0,-7125.0,0.5,yes
+SE,"2026-10: Storage, share, percent (its MWh over the period's net generation)",-0.0,-0.0354,0.056,yes
+SE,"2026-10: Other, MWh",203763.0,203763.0,0.5,yes
+SE,"2026-10: Other, share, percent (its MWh over the period's net generation)",1.0,1.0134,0.056,yes
+SE,"2026-10: net generation, MWh",20106417.0,20106417.0,0.5,yes
+SE,"2026-10: the table's order is by share, largest first","[47.37, 24.88, 20.13, 5.64, 1.01, 1.01, 0.0, -0.04]","[47.37, 24.88, 20.13, 5.64, 1.01, 1.01, 0.0, -0.04]",,yes
+SE,2026-10: the days held,31 days held of 31.,31 days held of 31.,,yes
+SE,months not held of the months from the first to the newest,"[16, 98]","[16, 98]",,yes
+SE,the whole months since the newest held,None,None,,yes
+SE,October across the years: the years,"['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']","['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']",,yes
+SE,"October 2018: midday low of net load, MW",25181.0,25181.0,0.5,yes
+SE,October 2018: its hour,09:00,09:00,,yes
+SE,"October 2018: evening high, MW",29382.0,29382.3,0.5,yes
+SE,October 2018: its hour,16:00,16:00,,yes
+SE,"October 2018: ramp, MW",4201.0,4201.3,0.5,yes
+SE,October 2018: days held,29.0,29.0,0,yes
+SE,"October 2019: midday low of net load, MW",24566.0,24566.0,0.5,yes
+SE,October 2019: its hour,09:00,09:00,,yes
+SE,"October 2019: evening high, MW",28602.0,28601.7,0.5,yes
+SE,October 2019: its hour,18:00,18:00,,yes
+SE,"October 2019: ramp, MW",4036.0,4035.7,0.5,yes
+SE,October 2019: days held,28.0,28.0,0,yes
+SE,"October 2020: midday low of net load, MW",22922.0,22921.7,0.5,yes
+SE,October 2020: its hour,09:00,09:00,,yes
+SE,"October 2020: evening high, MW",27271.0,27271.0,0.5,yes
+SE,October 2020: its hour,18:00,18:00,,yes
+SE,"October 2020: ramp, MW",4349.0,4349.3,0.5,yes
+SE,October 2020: days held,31.0,31.0,0,yes
+SE,"October 2021: midday low of net load, MW",23406.0,23406.2,0.5,yes
+SE,October 2021: its hour,09:00,09:00,,yes
+SE,"October 2021: evening high, MW",28144.0,28144.4,0.5,yes
+SE,October 2021: its hour,18:00,18:00,,yes
+SE,"October 2021: ramp, MW",4738.0,4738.2,0.5,yes
+SE,October 2021: days held,31.0,31.0,0,yes
+SE,"October 2022: midday low of net load, MW",20761.0,20760.8,0.5,yes
+SE,October 2022: its hour,10:00,10:00,,yes
+SE,"October 2022: evening high, MW",24787.0,24787.2,0.5,yes
+SE,October 2022: its hour,18:00,18:00,,yes
+SE,"October 2022: ramp, MW",4026.0,4026.4,0.5,yes
+SE,October 2022: days held,31.0,31.0,0,yes
+SE,"October 2023: midday low of net load, MW",20699.0,20699.2,0.5,yes
+SE,October 2023: its hour,09:00,09:00,,yes
+SE,"October 2023: evening high, MW",25584.0,25584.4,0.5,yes
+SE,October 2023: its hour,18:00,18:00,,yes
+SE,"October 2023: ramp, MW",4885.0,4885.2,0.5,yes
+SE,October 2023: days held,31.0,31.0,0,yes
+SE,"October 2024: midday low of net load, MW",20923.0,20923.0,0.5,yes
+SE,October 2024: its hour,09:00,09:00,,yes
+SE,"October 2024: evening high, MW",27125.0,27125.4,0.5,yes
+SE,October 2024: its hour,18:00,18:00,,yes
+SE,"October 2024: ramp, MW",6202.0,6202.4,0.5,yes
+SE,October 2024: days held,28.0,28.0,0,yes
+SE,"October 2025: midday low of net load, MW",21238.0,21237.8,0.5,yes
+SE,October 2025: its hour,09:00,09:00,,yes
+SE,"October 2025: evening high, MW",27297.0,27297.1,0.5,yes
+SE,October 2025: its hour,18:00,18:00,,yes
+SE,"October 2025: ramp, MW",6059.0,6059.3,0.5,yes
+SE,October 2025: days held,31.0,31.0,0,yes
+SE,"October 2026: midday low of net load, MW",21207.0,21206.8,0.5,yes
+SE,October 2026: its hour,09:00,09:00,,yes
+SE,"October 2026: evening high, MW",28086.0,28086.4,0.5,yes
+SE,October 2026: its hour,18:00,18:00,,yes
+SE,"October 2026: ramp, MW",6880.0,6879.6,0.5,yes
+SE,October 2026: days held,31.0,31.0,0,yes
+SE,trade: the month drawn,2026-11,2026-11,,yes
+SE,"trade 2026-11: the neighbours, by the size of the region's own report","['CAR', 'FLA', 'TEN', 'MIDW']","['CAR', 'FLA', 'TEN', 'MIDW']",,yes
+SE,"trade 2026-11: net imports from CAR, own report, MWh",-635470.0,-635470.0,0.5,yes
+SE,"trade 2026-11: net imports from CAR, the neighbour's report, MWh",-589669.0,-589669.0,0.5,yes
+SE,"trade 2026-11: gap with CAR, MWh",-83.0,-83.0,0.5,yes
+SE,"trade 2026-11: hours with CAR: own, theirs, both","362, 336, 336","362, 336, 336",,yes
+SE,"trade 2026-11: net imports from FLA, own report, MWh",-164656.0,-164656.0,0.5,yes
+SE,"trade 2026-11: net imports from FLA, the neighbour's report, MWh",-152859.0,-152859.0,0.5,yes
+SE,"trade 2026-11: gap with FLA, MWh",186.0,186.0,0.5,yes
+SE,"trade 2026-11: hours with FLA: own, theirs, both","362, 336, 336","362, 336, 336",,yes
+SE,"trade 2026-11: net imports from TEN, own report, MWh",65136.0,65136.0,0.5,yes
+SE,"trade 2026-11: net imports from TEN, the neighbour's report, MWh",64872.0,64872.0,0.5,yes
+SE,"trade 2026-11: gap with TEN, MWh",264.0,264.0,0.5,yes
+SE,"trade 2026-11: hours with TEN: own, theirs, both","362, 362, 362","362, 362, 362",,yes
+SE,"trade 2026-11: net imports from MIDW, own report, MWh",39562.0,39562.0,0.5,yes
+SE,"trade 2026-11: net imports from MIDW, the neighbour's report, MWh",1149.0,1149.0,0.5,yes
+SE,"trade 2026-11: gap with MIDW, MWh",38279.0,38279.0,0.5,yes
+SE,"trade 2026-11: hours with MIDW: own, theirs, both","362, 361, 361","362, 361, 361",,yes
+SE,"trade 2026-11: all neighbours, MWh",-695428.0,-695428.0,0.5,yes
+SE,trade 2026-11: the line on a part of a month,November 2026 is a part of a month here: the region's own reports hold at most 362 of its 721 hours.,November 2026 is a part of a month here: the region's own reports hold at most 362 of its 721 hours.,,yes
+SW,the latest hour held,2026-11-16T15:00:00Z,2026-11-16T15:00:00Z,,yes
+SW,"latest hour: Demand, MW",12180.0,12180.0,0.5,yes
+SW,"latest hour: Net generation, MW",15529.0,15529.0,0.5,yes
+SW,"latest hour: Net imports, MW",-3731.0,-3731.0,0.5,yes
+SW,latest hour: the sources listed,"['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']","['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']",,yes
+SW,"latest hour: Natural gas, MW",6279.0,6279.0,0.5,yes
+SW,"latest hour: Natural gas, share of net generation, percent",40.4,40.434,0.056,yes
+SW,"latest hour: Coal, MW",1575.0,1575.0,0.5,yes
+SW,"latest hour: Coal, share of net generation, percent",10.1,10.1423,0.056,yes
+SW,"latest hour: Nuclear, MW",3075.0,3075.0,0.5,yes
+SW,"latest hour: Nuclear, share of net generation, percent",19.8,19.8017,0.056,yes
+SW,"latest hour: Wind, MW",480.0,480.0,0.5,yes
+SW,"latest hour: Wind, share of net generation, percent",3.1,3.091,0.056,yes
+SW,"latest hour: Solar, MW",4204.0,4204.0,0.5,yes
+SW,"latest hour: Solar, share of net generation, percent",27.1,27.0719,0.056,yes
+SW,"latest hour: Hydro, MW",261.0,261.0,0.5,yes
+SW,"latest hour: Hydro, share of net generation, percent",1.7,1.6807,0.056,yes
+SW,"latest hour: Storage, MW",-383.0,-383.0,0.5,yes
+SW,"latest hour: Storage, share of net generation, percent",-2.5,-2.4664,0.056,yes
+SW,"latest hour: Other, MW",38.0,38.0,0.5,yes
+SW,"latest hour: Other, share of net generation, percent",0.2,0.2447,0.056,yes
+SW,hours drawn in the hour by hour chart,825.0,825.0,0,yes
+SW,the period drawn,2026-08,2026-08,,yes
+SW,"2026-08: Natural gas, MWh",6723993.0,6723993.0,0.5,yes
+SW,"2026-08: Natural gas, share, percent (its MWh over the period's net generation)",48.8,48.7489,0.056,yes
+SW,"2026-08: Coal, MWh",1661744.0,1661744.0,0.5,yes
+SW,"2026-08: Coal, share, percent (its MWh over the period's net generation)",12.1,12.0476,0.056,yes
+SW,"2026-08: Nuclear, MWh",2627298.0,2627298.0,0.5,yes
+SW,"2026-08: Nuclear, share, percent (its MWh over the period's net generation)",19.1,19.0479,0.056,yes
+SW,"2026-08: Wind, MWh",700444.0,700444.0,0.5,yes
+SW,"2026-08: Wind, share, percent (its MWh over the period's net generation)",5.1,5.0782,0.056,yes
+SW,"2026-08: Solar, MWh",1836980.0,1836980.0,0.5,yes
+SW,"2026-08: Solar, share, percent (its MWh over the period's net generation)",13.3,13.3181,0.056,yes
+SW,"2026-08: Hydro, MWh",306831.0,306831.0,0.5,yes
+SW,"2026-08: Hydro, share, percent (its MWh over the period's net generation)",2.2,2.2245,0.056,yes
+SW,"2026-08: Storage, MWh",-88680.0,-88680.0,0.5,yes
+SW,"2026-08: Storage, share, percent (its MWh over the period's net generation)",-0.6,-0.6429,0.056,yes
+SW,"2026-08: Other, MWh",24498.0,24498.0,0.5,yes
+SW,"2026-08: Other, share, percent (its MWh over the period's net generation)",0.2,0.1776,0.056,yes
+SW,"2026-08: net generation, MWh",13793108.0,13793108.0,0.5,yes
+SW,"2026-08: the table's order is by share, largest first","[48.75, 19.05, 13.32, 12.05, 5.08, 2.22, 0.18, -0.64]","[48.75, 19.05, 13.32, 12.05, 5.08, 2.22, 0.18, -0.64]",,yes
+SW,2026-08: the days held,28 days held of 31.,28 days held of 31.,,yes
+SW,months not held of the months from the first to the newest,"[40, 76]","[40, 76]",,yes
+SW,the whole months since the newest held,No month from September 2026 to October 2026 is held: the newest month held is August 2026.,No month from September 2026 to October 2026 is held: the newest month held is August 2026.,,yes
+SW,August across the years: the years,"['2020', '2021', '2022', '2025', '2026']","['2020', '2021', '2022', '2025', '2026']",,yes
+SW,"August 2020: midday low of net load, MW",14730.0,14730.1,0.5,yes
+SW,August 2020: its hour,09:00,09:00,,yes
+SW,"August 2020: evening high, MW",21639.0,21639.4,0.5,yes
+SW,August 2020: its hour,17:00,17:00,,yes
+SW,"August 2020: ramp, MW",6909.0,6909.3,0.5,yes
+SW,August 2020: days held,31.0,31.0,0,yes
+SW,"August 2021: midday low of net load, MW",12977.0,12977.3,0.5,yes
+SW,August 2021: its hour,09:00,09:00,,yes
+SW,"August 2021: evening high, MW",19053.0,19052.8,0.5,yes
+SW,August 2021: its hour,17:00,17:00,,yes
+SW,"August 2021: ramp, MW",6076.0,6075.5,0.5,yes
+SW,August 2021: days held,31.0,31.0,0,yes
+SW,"August 2022: midday low of net load, MW",12756.0,12756.3,0.5,yes
+SW,August 2022: its hour,09:00,09:00,,yes
+SW,"August 2022: evening high, MW",18089.0,18089.0,0.5,yes
+SW,August 2022: its hour,17:00,17:00,,yes
+SW,"August 2022: ramp, MW",5333.0,5332.7,0.5,yes
+SW,August 2022: days held,31.0,31.0,0,yes
+SW,"August 2025: midday low of net load, MW",11733.0,11733.0,0.5,yes
+SW,August 2025: its hour,09:00,09:00,,yes
+SW,"August 2025: evening high, MW",21040.0,21040.1,0.5,yes
+SW,August 2025: its hour,18:00,18:00,,yes
+SW,"August 2025: ramp, MW",9307.0,9307.1,0.5,yes
+SW,August 2025: days held,31.0,31.0,0,yes
+SW,"August 2026: midday low of net load, MW",11241.0,11241.4,0.5,yes
+SW,August 2026: its hour,09:00,09:00,,yes
+SW,"August 2026: evening high, MW",20741.0,20741.3,0.5,yes
+SW,August 2026: its hour,18:00,18:00,,yes
+SW,"August 2026: ramp, MW",9500.0,9499.9,0.5,yes
+SW,August 2026: days held,28.0,28.0,0,yes
+SW,trade: the month drawn,2026-11,2026-11,,yes
+SW,"trade 2026-11: the neighbours, by the size of the region's own report","['CAL', 'NW', 'CENT']","['CAL', 'NW', 'CENT']",,yes
+SW,"trade 2026-11: net imports from CAL, own report, MWh",-954837.0,-954837.0,0.5,yes
+SW,"trade 2026-11: net imports from CAL, the neighbour's report, MWh",-1221813.0,-1221813.0,0.5,yes
+SW,"trade 2026-11: gap with CAL, MWh",58957.0,58957.0,0.5,yes
+SW,"trade 2026-11: hours with CAL: own, theirs, both","291, 363, 290","291, 363, 290",,yes
+SW,"trade 2026-11: net imports from NW, own report, MWh",343364.0,343364.0,0.5,yes
+SW,"trade 2026-11: net imports from NW, the neighbour's report, MWh",419381.0,419381.0,0.5,yes
+SW,"trade 2026-11: gap with NW, MWh",4799.0,4799.0,0.5,yes
+SW,"trade 2026-11: hours with NW: own, theirs, both","267, 337, 240","267, 337, 240",,yes
+SW,"trade 2026-11: net imports from CENT, own report, MWh",0.0,0.0,0.5,yes
+SW,"trade 2026-11: net imports from CENT, the neighbour's report, MWh",0.0,0.0,0.5,yes
+SW,"trade 2026-11: gap with CENT, MWh",0.0,0.0,0.5,yes
+SW,"trade 2026-11: hours with CENT: own, theirs, both","339, 337, 313","339, 337, 313",,yes
+SW,"trade 2026-11: all neighbours, MWh",not held,not held,0.5,yes
+SW,trade 2026-11: the line on a part of a month,November 2026 is a part of a month here: the region's own reports hold at most 339 of its 721 hours.,November 2026 is a part of a month here: the region's own reports hold at most 339 of its 721 hours.,,yes
+TEN,the latest hour held,2026-11-17T05:00:00Z,2026-11-17T05:00:00Z,,yes
+TEN,"latest hour: Demand, MW",18344.0,18344.0,0.5,yes
+TEN,"latest hour: Net generation, MW",16689.0,16689.0,0.5,yes
+TEN,"latest hour: Net imports, MW",1653.0,1653.0,0.5,yes
+TEN,latest hour: the sources listed,"['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']","['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']",,yes
+TEN,"latest hour: Natural gas, MW",7682.0,7682.0,0.5,yes
+TEN,"latest hour: Natural gas, share of net generation, percent",46.0,46.0303,0.056,yes
+TEN,"latest hour: Coal, MW",2417.0,2417.0,0.5,yes
+TEN,"latest hour: Coal, share of net generation, percent",14.5,14.4826,0.056,yes
+TEN,"latest hour: Nuclear, MW",6041.0,6041.0,0.5,yes
+TEN,"latest hour: Nuclear, share of net generation, percent",36.2,36.1975,0.056,yes
+TEN,"latest hour: Wind, MW",0.0,0.0,0.5,yes
+TEN,"latest hour: Wind, share of net generation, percent",0.0,0.0,0.056,yes
+TEN,"latest hour: Solar, MW",-5.0,-5.0,0.5,yes
+TEN,"latest hour: Solar, share of net generation, percent",-0.0,-0.03,0.056,yes
+TEN,"latest hour: Hydro, MW",504.0,504.0,0.5,yes
+TEN,"latest hour: Hydro, share of net generation, percent",3.0,3.02,0.056,yes
+TEN,"latest hour: Storage, MW",0.0,0.0,0.5,yes
+TEN,"latest hour: Storage, share of net generation, percent",0.0,0.0,0.056,yes
+TEN,"latest hour: Other, MW",50.0,50.0,0.5,yes
+TEN,"latest hour: Other, share of net generation, percent",0.3,0.2996,0.056,yes
+TEN,hours drawn in the hour by hour chart,840.0,840.0,0,yes
+TEN,the period drawn,2026-10,2026-10,,yes
+TEN,"2026-10: Natural gas, MWh",3743913.0,3743913.0,0.5,yes
+TEN,"2026-10: Natural gas, share, percent (its MWh over the period's net generation)",30.5,30.5241,0.056,yes
+TEN,"2026-10: Coal, MWh",1900763.0,1900763.0,0.5,yes
+TEN,"2026-10: Coal, share, percent (its MWh over the period's net generation)",15.5,15.4969,0.056,yes
+TEN,"2026-10: Nuclear, MWh",5100486.0,5100486.0,0.5,yes
+TEN,"2026-10: Nuclear, share, percent (its MWh over the period's net generation)",41.6,41.5842,0.056,yes
+TEN,"2026-10: Wind, MWh",0.0,0.0,0.5,yes
+TEN,"2026-10: Wind, share, percent (its MWh over the period's net generation)",0.0,0.0,0.056,yes
+TEN,"2026-10: Solar, MWh",325079.0,325079.0,0.5,yes
+TEN,"2026-10: Solar, share, percent (its MWh over the period's net generation)",2.7,2.6504,0.056,yes
+TEN,"2026-10: Hydro, MWh",1179158.0,1179158.0,0.5,yes
+TEN,"2026-10: Hydro, share, percent (its MWh over the period's net generation)",9.6,9.6137,0.056,yes
+TEN,"2026-10: Storage, MWh",0.0,0.0,0.5,yes
+TEN,"2026-10: Storage, share, percent (its MWh over the period's net generation)",0.0,0.0,0.056,yes
+TEN,"2026-10: Other, MWh",16040.0,16040.0,0.5,yes
+TEN,"2026-10: Other, share, percent (its MWh over the period's net generation)",0.1,0.1308,0.056,yes
+TEN,"2026-10: net generation, MWh",12265439.0,12265439.0,0.5,yes
+TEN,"2026-10: the table's order is by share, largest first","[41.58, 30.52, 15.5, 9.61, 2.65, 0.13, 0.0, 0.0]","[41.58, 30.52, 15.5, 9.61, 2.65, 0.13, 0.0, 0.0]",,yes
+TEN,2026-10: the days held,31 days held of 31.,31 days held of 31.,,yes
+TEN,months not held of the months from the first to the newest,"[11, 100]","[11, 100]",,yes
+TEN,the whole months since the newest held,None,None,,yes
+TEN,October across the years: the years,"['2018', '2019', '2020', '2022', '2024', '2025', '2026']","['2018', '2019', '2020', '2022', '2024', '2025', '2026']",,yes
+TEN,"October 2018: midday low of net load, MW",17169.0,17169.1,0.5,yes
+TEN,October 2018: its hour,09:00,09:00,,yes
+TEN,"October 2018: evening high, MW",18836.0,18836.2,0.5,yes
+TEN,October 2018: its hour,18:00,18:00,,yes
+TEN,"October 2018: ramp, MW",1667.0,1667.1,0.5,yes
+TEN,October 2018: days held,28.0,28.0,0,yes
+TEN,"October 2019: midday low of net load, MW",16231.0,16231.4,0.5,yes
+TEN,October 2019: its hour,09:00,09:00,,yes
+TEN,"October 2019: evening high, MW",17872.0,17871.9,0.5,yes
+TEN,October 2019: its hour,18:00,18:00,,yes
+TEN,"October 2019: ramp, MW",1641.0,1640.5,0.5,yes
+TEN,October 2019: days held,31.0,31.0,0,yes
+TEN,"October 2020: midday low of net load, MW",15689.0,15688.5,0.5,yes
+TEN,October 2020: its hour,09:00,09:00,,yes
+TEN,"October 2020: evening high, MW",16941.0,16940.6,0.5,yes
+TEN,October 2020: its hour,18:00,18:00,,yes
+TEN,"October 2020: ramp, MW",1252.0,1252.1,0.5,yes
+TEN,October 2020: days held,31.0,31.0,0,yes
+TEN,"October 2022: midday low of net load, MW",15699.0,15699.1,0.5,yes
+TEN,October 2022: its hour,11:00,11:00,,yes
+TEN,"October 2022: evening high, MW",16770.0,16770.2,0.5,yes
+TEN,October 2022: its hour,19:00,19:00,,yes
+TEN,"October 2022: ramp, MW",1071.0,1071.1,0.5,yes
+TEN,October 2022: days held,31.0,31.0,0,yes
+TEN,"October 2024: midday low of net load, MW",15928.0,15928.2,0.5,yes
+TEN,October 2024: its hour,09:00,09:00,,yes
+TEN,"October 2024: evening high, MW",18457.0,18456.9,0.5,yes
+TEN,October 2024: its hour,17:00,17:00,,yes
+TEN,"October 2024: ramp, MW",2529.0,2528.7,0.5,yes
+TEN,October 2024: days held,31.0,31.0,0,yes
+TEN,"October 2025: midday low of net load, MW",16305.0,16305.1,0.5,yes
+TEN,October 2025: its hour,09:00,09:00,,yes
+TEN,"October 2025: evening high, MW",18700.0,18700.0,0.5,yes
+TEN,October 2025: its hour,18:00,18:00,,yes
+TEN,"October 2025: ramp, MW",2395.0,2394.9,0.5,yes
+TEN,October 2025: days held,31.0,31.0,0,yes
+TEN,"October 2026: midday low of net load, MW",16297.0,16297.2,0.5,yes
+TEN,October 2026: its hour,09:00,09:00,,yes
+TEN,"October 2026: evening high, MW",20152.0,20152.0,0.5,yes
+TEN,October 2026: its hour,17:00,17:00,,yes
+TEN,"October 2026: ramp, MW",3855.0,3854.8,0.5,yes
+TEN,October 2026: days held,31.0,31.0,0,yes
+TEN,trade: the month drawn,2026-11,2026-11,,yes
+TEN,"trade 2026-11: the neighbours, by the size of the region's own report","['MIDW', 'MIDA', 'SE', 'CAR']","['MIDW', 'MIDA', 'SE', 'CAR']",,yes
+TEN,"trade 2026-11: net imports from MIDW, own report, MWh",743047.0,743047.0,0.5,yes
+TEN,"trade 2026-11: net imports from MIDW, the neighbour's report, MWh",704405.0,704405.0,0.5,yes
+TEN,"trade 2026-11: gap with MIDW, MWh",38642.0,38642.0,0.5,yes
+TEN,"trade 2026-11: hours with MIDW: own, theirs, both","362, 362, 362","362, 362, 362",,yes
+TEN,"trade 2026-11: net imports from MIDA, own report, MWh",-346710.0,-346710.0,0.5,yes
+TEN,"trade 2026-11: net imports from MIDA, the neighbour's report, MWh",-247551.0,-247551.0,0.5,yes
+TEN,"trade 2026-11: gap with MIDA, MWh",-66602.0,-66602.0,0.5,yes
+TEN,"trade 2026-11: hours with MIDA: own, theirs, both","362, 336, 336","362, 336, 336",,yes
+TEN,"trade 2026-11: net imports from SE, own report, MWh",-64872.0,-64872.0,0.5,yes
+TEN,"trade 2026-11: net imports from SE, the neighbour's report, MWh",-65136.0,-65136.0,0.5,yes
+TEN,"trade 2026-11: gap with SE, MWh",264.0,264.0,0.5,yes
+TEN,"trade 2026-11: hours with SE: own, theirs, both","362, 362, 362","362, 362, 362",,yes
+TEN,"trade 2026-11: net imports from CAR, own report, MWh",-30782.0,-30782.0,0.5,yes
+TEN,"trade 2026-11: net imports from CAR, the neighbour's report, MWh",-30513.0,-30513.0,0.5,yes
+TEN,"trade 2026-11: gap with CAR, MWh",0.0,0.0,0.5,yes
+TEN,"trade 2026-11: hours with CAR: own, theirs, both","362, 336, 336","362, 336, 336",,yes
+TEN,"trade 2026-11: all neighbours, MWh",300683.0,300683.0,0.5,yes
+TEN,trade 2026-11: the line on a part of a month,November 2026 is a part of a month here: the region's own reports hold at most 362 of its 721 hours.,November 2026 is a part of a month here: the region's own reports hold at most 362 of its 721 hours.,,yes
+TEX,the latest hour held,2026-11-17T05:00:00Z,2026-11-17T05:00:00Z,,yes
+TEX,"latest hour: Demand, MW",48040.0,48040.0,0.5,yes
+TEX,"latest hour: Net generation, MW",47574.0,47574.0,0.5,yes
+TEX,"latest hour: Net imports, MW",463.0,463.0,0.5,yes
+TEX,latest hour: the sources listed,"['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']","['Natural gas', 'Coal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Storage', 'Other']",,yes
+TEX,"latest hour: Natural gas, MW",29912.0,29912.0,0.5,yes
+TEX,"latest hour: Natural gas, share of net generation, percent",62.9,62.8747,0.056,yes
+TEX,"latest hour: Coal, MW",7597.0,7597.0,0.5,yes
+TEX,"latest hour: Coal, share of net generation, percent",16.0,15.9688,0.056,yes
+TEX,"latest hour: Nuclear, MW",3871.0,3871.0,0.5,yes
+TEX,"latest hour: Nuclear, share of net generation, percent",8.1,8.1368,0.056,yes
+TEX,"latest hour: Wind, MW",7387.0,7387.0,0.5,yes
+TEX,"latest hour: Wind, share of net generation, percent",15.5,15.5274,0.056,yes
+TEX,"latest hour: Solar, MW",0.0,0.0,0.5,yes
+TEX,"latest hour: Solar, share of net generation, percent",0.0,0.0,0.056,yes
+TEX,"latest hour: Hydro, MW",94.0,94.0,0.5,yes
+TEX,"latest hour: Hydro, share of net generation, percent",0.2,0.1976,0.056,yes
+TEX,"latest hour: Storage, MW",-1287.0,-1287.0,0.5,yes
+TEX,"latest hour: Storage, share of net generation, percent",-2.7,-2.7053,0.056,yes
+TEX,"latest hour: Other, MW",0.0,0.0,0.5,yes
+TEX,"latest hour: Other, share of net generation, percent",0.0,0.0,0.056,yes
+TEX,hours drawn in the hour by hour chart,840.0,840.0,0,yes
+TEX,the period drawn,2026-10,2026-10,,yes
+TEX,"2026-10: Natural gas, MWh",18691874.0,18691874.0,0.5,yes
+TEX,"2026-10: Natural gas, share, percent (its MWh over the period's net generation)",45.0,45.0375,0.056,yes
+TEX,"2026-10: Coal, MWh",4671814.0,4671814.0,0.5,yes
+TEX,"2026-10: Coal, share, percent (its MWh over the period's net generation)",11.3,11.2566,0.056,yes
+TEX,"2026-10: Nuclear, MWh",3328219.0,3328219.0,0.5,yes
+TEX,"2026-10: Nuclear, share, percent (its MWh over the period's net generation)",8.0,8.0192,0.056,yes
+TEX,"2026-10: Wind, MWh",8668614.0,8668614.0,0.5,yes
+TEX,"2026-10: Wind, share, percent (its MWh over the period's net generation)",20.9,20.8868,0.056,yes
+TEX,"2026-10: Solar, MWh",6273932.0,6273932.0,0.5,yes
+TEX,"2026-10: Solar, share, percent (its MWh over the period's net generation)",15.1,15.1169,0.056,yes
+TEX,"2026-10: Hydro, MWh",22063.0,22063.0,0.5,yes
+TEX,"2026-10: Hydro, share, percent (its MWh over the period's net generation)",0.1,0.0532,0.056,yes
+TEX,"2026-10: Storage, MWh",-192845.0,-192845.0,0.5,yes
+TEX,"2026-10: Storage, share, percent (its MWh over the period's net generation)",-0.5,-0.4647,0.056,yes
+TEX,"2026-10: Other, MWh",39204.0,39204.0,0.5,yes
+TEX,"2026-10: Other, share, percent (its MWh over the period's net generation)",0.1,0.0945,0.056,yes
+TEX,"2026-10: net generation, MWh",41502875.0,41502875.0,0.5,yes
+TEX,"2026-10: the table's order is by share, largest first","[45.04, 20.89, 15.12, 11.26, 8.02, 0.09, 0.05, -0.46]","[45.04, 20.89, 15.12, 11.26, 8.02, 0.09, 0.05, -0.46]",,yes
+TEX,2026-10: the days held,31 days held of 31.,31 days held of 31.,,yes
+TEX,months not held of the months from the first to the newest,"[1, 100]","[1, 100]",,yes
+TEX,the whole months since the newest held,None,None,,yes
+TEX,October across the years: the years,"['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']","['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']",,yes
+TEX,"October 2018: midday low of net load, MW",31984.0,31983.7,0.5,yes
+TEX,October 2018: its hour,09:00,09:00,,yes
+TEX,"October 2018: evening high, MW",38335.0,38335.1,0.5,yes
+TEX,October 2018: its hour,16:00,16:00,,yes
+TEX,"October 2018: ramp, MW",6351.0,6351.4,0.5,yes
+TEX,October 2018: days held,31.0,31.0,0,yes
+TEX,"October 2019: midday low of net load, MW",31275.0,31275.3,0.5,yes
+TEX,October 2019: its hour,09:00,09:00,,yes
+TEX,"October 2019: evening high, MW",39098.0,39097.6,0.5,yes
+TEX,October 2019: its hour,16:00,16:00,,yes
+TEX,"October 2019: ramp, MW",7822.0,7822.3,0.5,yes
+TEX,October 2019: days held,31.0,31.0,0,yes
+TEX,"October 2020: midday low of net load, MW",30253.0,30252.9,0.5,yes
+TEX,October 2020: its hour,09:00,09:00,,yes
+TEX,"October 2020: evening high, MW",39491.0,39491.2,0.5,yes
+TEX,October 2020: its hour,16:00,16:00,,yes
+TEX,"October 2020: ramp, MW",9238.0,9238.3,0.5,yes
+TEX,October 2020: days held,31.0,31.0,0,yes
+TEX,"October 2021: midday low of net load, MW",28715.0,28715.0,0.5,yes
+TEX,October 2021: its hour,09:00,09:00,,yes
+TEX,"October 2021: evening high, MW",38652.0,38651.7,0.5,yes
+TEX,October 2021: its hour,18:00,18:00,,yes
+TEX,"October 2021: ramp, MW",9937.0,9936.7,0.5,yes
+TEX,October 2021: days held,31.0,31.0,0,yes
+TEX,"October 2022: midday low of net load, MW",28075.0,28074.7,0.5,yes
+TEX,October 2022: its hour,09:00,09:00,,yes
+TEX,"October 2022: evening high, MW",39717.0,39716.7,0.5,yes
+TEX,October 2022: its hour,18:00,18:00,,yes
+TEX,"October 2022: ramp, MW",11642.0,11642.0,0.5,yes
+TEX,October 2022: days held,31.0,31.0,0,yes
+TEX,"October 2023: midday low of net load, MW",29697.0,29697.0,0.5,yes
+TEX,October 2023: its hour,09:00,09:00,,yes
+TEX,"October 2023: evening high, MW",42304.0,42304.4,0.5,yes
+TEX,October 2023: its hour,19:00,19:00,,yes
+TEX,"October 2023: ramp, MW",12607.0,12607.4,0.5,yes
+TEX,October 2023: days held,31.0,31.0,0,yes
+TEX,"October 2024: midday low of net load, MW",25660.0,25659.7,0.5,yes
+TEX,October 2024: its hour,10:00,10:00,,yes
+TEX,"October 2024: evening high, MW",48374.0,48373.5,0.5,yes
+TEX,October 2024: its hour,18:00,18:00,,yes
+TEX,"October 2024: ramp, MW",22714.0,22713.8,0.5,yes
+TEX,October 2024: days held,31.0,31.0,0,yes
+TEX,"October 2025: midday low of net load, MW",23407.0,23406.7,0.5,yes
+TEX,October 2025: its hour,10:00,10:00,,yes
+TEX,"October 2025: evening high, MW",50296.0,50295.6,0.5,yes
+TEX,October 2025: its hour,19:00,19:00,,yes
+TEX,"October 2025: ramp, MW",26889.0,26888.9,0.5,yes
+TEX,October 2025: days held,31.0,31.0,0,yes
+TEX,"October 2026: midday low of net load, MW",24289.0,24288.7,0.5,yes
+TEX,October 2026: its hour,10:00,10:00,,yes
+TEX,"October 2026: evening high, MW",50079.0,50078.6,0.5,yes
+TEX,October 2026: its hour,19:00,19:00,,yes
+TEX,"October 2026: ramp, MW",25790.0,25789.9,0.5,yes
+TEX,October 2026: days held,31.0,31.0,0,yes
+TEX,trade: the month drawn,2026-11,2026-11,,yes
+TEX,"trade 2026-11: the neighbours, by the size of the region's own report","['CENT', 'MEX']","['CENT', 'MEX']",,yes
+TEX,"trade 2026-11: net imports from CENT, own report, MWh",60266.0,60266.0,0.5,yes
+TEX,"trade 2026-11: net imports from CENT, the neighbour's report, MWh",118689.0,118689.0,0.5,yes
+TEX,"trade 2026-11: gap with CENT, MWh",-62380.0,-62380.0,0.5,yes
+TEX,"trade 2026-11: hours with CENT: own, theirs, both","362, 337, 337","362, 337, 337",,yes
+TEX,"trade 2026-11: net imports from MEX, own report, MWh",-1063.0,-1063.0,0.5,yes
+TEX,"trade 2026-11: net imports from MEX, the neighbour's report, MWh",not held,not held,0.5,yes
+TEX,"trade 2026-11: gap with MEX, MWh",not held,not held,0.5,yes
+TEX,"trade 2026-11: hours with MEX: own, theirs, both","362, 0, 0","362, 0, 0",,yes
+TEX,"trade 2026-11: all neighbours, MWh",59203.0,59203.0,0.5,yes
+TEX,trade 2026-11: the line on a part of a month,November 2026 is a part of a month here: the region's own reports hold at most 362 of its 721 hours.,November 2026 is a part of a month here: the region's own reports hold at most 362 of its 721 hours.,,yes

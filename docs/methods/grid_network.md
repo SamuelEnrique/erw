@@ -286,6 +286,15 @@ Session 8601 (chain 504, 19 November 2026) added to the map and took nothing fro
 
 **Held by** `tests/test_session8604.py` (the evening's day on a typed week, the hover's words, the sources); and, for the map as a whole, `tests/test_session8601.py` (the reader, the sums, the words, the arithmetic, the sources) and `site/scripts/check-grid-map.mjs` on a built site (the network unopened, the time, the megawatts and the colors of the two shapes set against each other, the hovers, the ring, a story switched in its middle, the zoom, the list, a phone).
 
+**The map's done line (session 8606): its replication, its cross-check and its decisions block.**
+
+- *Replication.* `replication/grid/map_figures.mjs` reads from a built page what the map draws (the hour the week opens on, the regions and the authorities listed, every tie drawn with its megawatts and its direction, the width key, and the hover of each of the 60 regions) and keeps the snapshot the page drew (`map_snapshot.json`). `replication/grid/replicate_map.py` computes each of those again from the snapshot and the boundary file, with none of the page's code, and compares: 439 of 439 figures met on 19 November 2026 (`map_figures_met.csv`). The rules it applies are this note's: the hour is the newest every reporting pair holds; a tie is a pair whose flow is held and not zero, from its exporter to its importer; a region's net exchange is the sum of its pairs signed from its side, a zero flow counted as a tie; a tie is on the map when both its ends have a boundary. Not compared: a region's demand in the hover, which the page reads from the live set and not from the snapshot, and the two lines that are geometry at the pointer (the state, the other footprints).
+- *Cross-check.* `replication/grid/crosscheck_map.py` reads EIA's own series for the same hour in two requests (the open data API, `electricity/rto/interchange-data` and `region-data` type TI) and writes `crosscheck_map.csv`. For 2026-11-17 04:00 UTC (EIA's period `T05`, the hour's end): each of the snapshot's 159 pairs is the report EIA publishes, to 1 MW, by the pair rule (the first authority by code; the second's with its sign turned where the first filed nothing).
+- *What the cross-check shows a reader should know.* A region's net exchange on the map is the sum of its pairs, each read from one side. It is not the authority's own total interchange as it files it with EIA. For the same hour the two are the same to 1 MW for 39 of the 60 authorities EIA holds a total for and differ for 21: PJM's pairs sum to 811 MW exported and its own total is 82 MW exported; CAISO's pairs sum to 4,119 MW imported and its own total is 5,076 MW. The difference is the two sides of a tie not agreeing, which the pair rule settles one way. The map's decisions block says so. Whether the hover should carry the authority's own total beside the sum is for the owner's ruling; the default is the sum, as the Network view has had it.
+- *Decisions block.* "Decisions on this map (9)", a fold inside the map's own frame (`site/app/network/MapDecisions.tsx`), closed to start: each line a choice that moves what is drawn, with its rule and its source. The Network shape's markup is not touched by it.
+
+Held by `tests/test_session8606.py` (the rules on typed pairs, the kept runs, an altered figure caught, the block's lines) and one more check of `site/scripts/check-grid-map.mjs`.
+
 ## The thirteen regions in the Grid tool (session 8602)
 
 Session 8602 (chain 504, 19 November 2026). Until then the tool's picker held the seven grids and the Lower 48. It now also holds EIA's thirteen regions of the lower 48 (California, Carolinas, Central, Florida, Mid-Atlantic, Midwest, New England, Northwest, New York, Southeast, Southwest, Tennessee, Texas), six of which no page of the site had drawn: the Southeast, Florida, the Carolinas, Tennessee, the Northwest and the Southwest, none of whose balancing authorities is one of the seven grids.
@@ -316,6 +325,19 @@ A region's days and local hours are counted in the time zone its file names (the
 **Ask is not changed.** With a region in view the panel is the Lower 48's, says so, and reads no region's page file.
 
 **Held by** `tests/test_session8602.py` (the address, the readers on the tests' own fixture, the page's hand-over, the seven grids' blocks as they were) and `site/scripts/check-grid-regions.mjs` on a built site, which reads the same files the server reads and checks the page's figures against them.
+
+**The regions against EIA's own regional series (session 8606, the cross-check of the done line).** The region files are summed by the data machine from the balancing authorities' rows of EIA's six-month files. EIA also publishes each region's own hourly series through its open data API (Form EIA-930: `electricity/rto/region-data` for demand, net generation and total interchange, `electricity/rto/fuel-type-data` for net generation by energy source, the region's code as respondent). `replication/grid/crosscheck_regions.py` sets the two side by side for three hours of each of the thirteen regions (the latest hour the file holds, the same hour seven days earlier, and the hour of the file's 35 days in which "other" is lowest), folding EIA's codes as the contract folds them, and writes every row to `replication/grid/crosscheck_regions.csv` with its address (the key is not part of it). Read on 19 November 2026 at 14:37 UTC:
+
+- The file's hour is EIA's period at the hour's end: an hour the file starts at 04:00 UTC is EIA's period `T05`. Read the other way, no region's demand agrees.
+- 383 of the 430 figures compared are EIA's to 1 MW. Demand: 32 of 38. Net imports: 32 of 36. The eight sources: 270 of 282. The sum of the sources: 32 of 37.
+- Net generation agrees in 17 of 37: the file's is the sum of its eight sources, and EIA's is the total the authorities report, which is not always the sum of EIA's own codes (the Central region by 315 and 424 MW in two hours, the Mid-Atlantic by up to 495 MW).
+- Four hours differ by more than 100 MW in a figure that should agree (the Carolinas at 2026-10-31 17:00 UTC, the Southwest at 2026-11-02 13:00 and 2026-11-16 15:00), the largest the Southeast at 2026-11-11 19:00 UTC (demand 23,757 MW in the file, 24,859 MW in EIA's series). Data request 551 holds them.
+- Where EIA returns no code for a region's source (battery storage for New York and the Mid-Atlantic, wind for the Carolinas and Florida, coal for New England), the file writes 0. Data request 551 asks whether those should be blank.
+- California's "other" is EIA's own: in the hour to 2026-11-08 19:00 UTC, EIA's code OTH for California is minus 10,253 MW and its battery code BAT minus 151 MW, and the file's "other" (petroleum, geothermal, other and unknown together) is minus 9,070 MW, the same as EIA's four codes summed. The page says nothing on what is inside EIA's "other".
+
+A cross-check, not a replication: it reads EIA's published figure for the same hour, not the files the data machine summed. `tests/test_session8606.py` holds the folding to the contract's words and the output's form.
+
+**The region tabs' replication (session 8606).** `replication/grid/regions_figures.mjs` reads from a built page the figures the Mix and trade tabs draw for each of the thirteen regions; `replication/grid/replicate_regions.py` computes each again from the region files with none of the page's code (the latest hour and its shares, the newest month's energy and shares, the days held, the months not held, the calendar month across the years with its midday low, evening high and ramp, the newest month of trade with its hours, the line on a part of a month) and compares: 1,349 of 1,349 figures met on 19 November 2026 (`regions_figures_met.csv`). It replicates the page from its files; the files from the warehouse's tables are the data machine's (`docs/methods/regions_pages.md`). When the region files are rebuilt, the page is to be read again before the comparison: the script says so and stops. The page's decisions block for a region ("Decisions on this page") carries five more lines since this session: the hour by hour chart's rule, the months' rule, the part of a month, storage, and what the cross-check found.
 
 ## The gravity shape (session 266)
 
@@ -607,6 +629,21 @@ Session 1743 added this block, which the note lacked. The battery's (session 152
 - the rulings of 18 October 2026 the page's decisions block carries (1a, 2c, 3c, 4b, 6a).
 
 It leaves open what the section "Cross-checks" lists as not compared, and the "Checked against" line the page does not carry.
+
+- Signed off by:
+- Date:
+- Items left open ruled, and how:
+
+## Sign-off: the map and the thirteen regions
+
+Session 8606 (chain 504) added this block for the two parts of the tool built on 19 November 2026. A session never signs it. Signing it accepts, as their rules:
+- the map draws the network's own megawatts on the balancing authorities' published footprints, the hour, the pair rule and the colors being the Network view's;
+- a region's net exchange is the sum of its pairs, each read from one side, and is not the authority's own total interchange (section "The map's done line");
+- an authority with no boundary in the file is listed, not placed by hand; state lines are drawn and names stay on hover;
+- a region is one of EIA's thirteen, drawn from the data machine's files with nothing filled: a part not held is blank with its reason, a month not held is absent and counted, a part of a month is shown as held;
+- hour by hour, a source below zero is drawn down from zero; the Storage row says who files no battery series and its figure is not changed.
+
+It leaves open the rulings the signature pack lists (`docs/reviews/grid-map-regions-signature-pack-2026-11-19.md`), each with its default taken, and the data requests 540, 541, 544, 549 and 551.
 
 - Signed off by:
 - Date:
