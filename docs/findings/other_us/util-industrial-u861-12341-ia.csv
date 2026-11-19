@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate util_industrial, region u861_12341_ia (MidAmerican Energy Co in IA)
+# Computed 2026-11-19T12:15:31Z by warehouse/analysis/findings/deep/other_us.py (util_industrial); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's retail sales to industrial customers (TWh), the observations it rests on, and whether the year is full
+# Tables: eia861m_utility_sales_monthly
+region,year,value,n_observations,full_year
+u861_12341_ia,2017,12.181642091,12.0,1
+u861_12341_ia,2018,12.834116503,12.0,1
+u861_12341_ia,2019,13.381338706000001,12.0,1
+u861_12341_ia,2020,13.872082344,12.0,1
+u861_12341_ia,2021,15.106993050000002,12.0,1
+u861_12341_ia,2022,15.729634649,12.0,1
+u861_12341_ia,2023,16.512295237,12.0,1
+u861_12341_ia,2024,16.992820412,12.0,1
+u861_12341_ia,2025,19.377447434,12.0,1
+u861_12341_ia,2026,12.094590096000001,7.0,0

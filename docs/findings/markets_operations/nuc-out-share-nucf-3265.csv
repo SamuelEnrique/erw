@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate nuc_out_share, region nucf_3265 (the Oconee nuclear plant)
+# Computed 2026-11-19T12:24:27Z by warehouse/analysis/findings/deep/markets_operations.py (nuc_out_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: a facility's mean share of its capacity on outage over the year (percent), the observations it rests on, and whether the year is full
+# Tables: eia_nuclear_outages_facility_daily
+region,year,value,n_observations,full_year
+nucf_3265,2007,9.57351598173516,365.0,1
+nucf_3265,2008,11.233151183970854,366.0,1
+nucf_3265,2009,8.114155251141552,365.0,1
+nucf_3265,2010,7.795433789954337,365.0,1
+nucf_3265,2011,10.331506849315069,365.0,1
+nucf_3265,2012,9.009107468123863,366.0,1
+nucf_3265,2013,7.334532264600786,365.0,1
+nucf_3265,2014,6.527334663926393,365.0,1
+nucf_3265,2015,2.997462699205743,365.0,1
+nucf_3265,2016,6.5477029071241715,366.0,1
+nucf_3265,2017,3.7501680363319085,365.0,1
+nucf_3265,2018,6.199654522805327,365.0,1
+nucf_3265,2019,3.525983679631526,365.0,1
+nucf_3265,2020,5.794338804836076,366.0,1
+nucf_3265,2021,2.7895329407255844,365.0,1
+nucf_3265,2022,7.248859478140812,365.0,1
+nucf_3265,2023,2.643703357233129,365.0,1
+nucf_3265,2024,5.926942038983468,366.0,1
+nucf_3265,2025,3.017206413280347,365.0,1
+nucf_3265,2026,2.7828012867234806,294.0,0

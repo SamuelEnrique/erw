@@ -1,0 +1,33 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate gas_net_receipts, region gn_fl (Florida)
+# Computed 2026-11-19T12:11:33Z by warehouse/analysis/findings/deep/gas.py (gas_net_receipts); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the state's net interstate receipts of natural gas (Bcf), the observations it rests on, and whether the year is full
+# Tables: eia_gas_interstate_annual
+region,year,value,n_observations,full_year
+gn_fl,1997,503.126,1.0,1
+gn_fl,1998,472.632,1.0,1
+gn_fl,1999,508.613,1.0,1
+gn_fl,2000,523.997,1.0,1
+gn_fl,2001,528.462,1.0,1
+gn_fl,2002,699.152,1.0,1
+gn_fl,2003,695.75,1.0,1
+gn_fl,2004,734.265,1.0,1
+gn_fl,2005,774.283,1.0,1
+gn_fl,2006,889.71,1.0,1
+gn_fl,2007,915.006,1.0,1
+gn_fl,2008,939.799,1.0,1
+gn_fl,2009,1063.977,1.0,1
+gn_fl,2010,1143.135,1.0,1
+gn_fl,2011,1208.317,1.0,1
+gn_fl,2012,1294.62,1.0,1
+gn_fl,2013,1208.598,1.0,1
+gn_fl,2014,1233.331,1.0,1
+gn_fl,2015,1354.71,1.0,1
+gn_fl,2016,1397.569,1.0,1
+gn_fl,2017,1402.427,1.0,1
+gn_fl,2018,1486.464,1.0,1
+gn_fl,2019,1548.085,1.0,1
+gn_fl,2020,1595.511,1.0,1
+gn_fl,2021,1540.172,1.0,1
+gn_fl,2022,1634.58,1.0,1
+gn_fl,2023,1667.996,1.0,1
+gn_fl,2024,1731.368,1.0,1

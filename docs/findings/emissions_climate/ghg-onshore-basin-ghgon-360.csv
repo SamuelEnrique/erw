@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ghg_onshore_basin, region ghgon_360 (onshore oil and gas production in the Anadarko Basin)
+# Computed 2026-11-19T12:11:35Z by warehouse/analysis/findings/deep/emissions_climate.py (ghg_onshore_basin); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the emissions reported for onshore oil and gas production in the basin (million t CO2e), the observations it rests on, and whether the year is full
+# Tables: epa_ghgrp_facility_emissions
+region,year,value,n_observations,full_year
+ghgon_360,2015,10.955733454,1.0,1
+ghgon_360,2016,10.207362781699999,1.0,1
+ghgon_360,2017,11.337897564000006,1.0,1
+ghgon_360,2018,11.1254366207,1.0,1
+ghgon_360,2019,9.3809745305,1.0,1
+ghgon_360,2020,7.737932512,1.0,1
+ghgon_360,2021,6.614663156000001,1.0,1
+ghgon_360,2022,6.898868994000001,1.0,1
+ghgon_360,2023,6.164427982000001,1.0,1

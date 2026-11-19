@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate nuc_out_share, region nucf_6023 (the Byron Generating Station nuclear plant)
+# Computed 2026-11-19T12:24:27Z by warehouse/analysis/findings/deep/markets_operations.py (nuc_out_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: a facility's mean share of its capacity on outage over the year (percent), the observations it rests on, and whether the year is full
+# Tables: eia_nuclear_outages_facility_daily
+region,year,value,n_observations,full_year
+nucf_6023,2007,8.177756507725185,365.0,1
+nucf_6023,2008,5.975505709054827,366.0,1
+nucf_6023,2009,3.755204148127387,365.0,1
+nucf_6023,2010,3.0080927723084465,365.0,1
+nucf_6023,2011,10.013222436324142,365.0,1
+nucf_6023,2012,8.301944013528434,366.0,1
+nucf_6023,2013,3.6728624181060154,365.0,1
+nucf_6023,2014,6.557698910415864,365.0,1
+nucf_6023,2015,6.202058087797359,365.0,1
+nucf_6023,2016,5.390890947968639,366.0,1
+nucf_6023,2017,7.2891967908068525,365.0,1
+nucf_6023,2018,3.0309419472375017,365.0,1
+nucf_6023,2019,2.7348828083943526,365.0,1
+nucf_6023,2020,5.74833256467234,366.0,1
+nucf_6023,2021,3.2857928712279945,365.0,1
+nucf_6023,2022,4.217567039544709,365.0,1
+nucf_6023,2023,5.6445468457038075,365.0,1
+nucf_6023,2024,3.726554933913764,366.0,1
+nucf_6023,2025,3.0641472201115154,365.0,1
+nucf_6023,2026,10.334676854854441,294.0,0

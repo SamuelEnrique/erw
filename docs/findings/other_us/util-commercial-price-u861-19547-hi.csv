@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate util_commercial_price, region u861_19547_hi (Hawaiian Electric Co Inc in HI)
+# Computed 2026-11-19T12:15:34Z by warehouse/analysis/findings/deep/other_us.py (util_commercial_price); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's commercial revenue over commercial sales (USD per MWh), the observations it rests on, and whether the year is full
+# Tables: eia861m_utility_sales_monthly
+region,year,value,n_observations,full_year
+u861_19547_hi,2017,250.1378426390504,12.0,1
+u861_19547_hi,2018,281.6462764913462,12.0,1
+u861_19547_hi,2019,279.1049043261228,12.0,1
+u861_19547_hi,2020,268.40233209732975,12.0,1
+u861_19547_hi,2021,294.3638616592944,12.0,1
+u861_19547_hi,2022,395.80186803511475,12.0,1
+u861_19547_hi,2023,382.72722214228673,12.0,1
+u861_19547_hi,2024,370.2554608163793,12.0,1
+u861_19547_hi,2025,346.65978307995107,12.0,1
+u861_19547_hi,2026,412.6297819173336,7.0,0

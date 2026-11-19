@@ -1,0 +1,27 @@
+* Expected: 2015 3.209127, 2023 1.445788, change -1.763339 (million t CO2e); tolerance 0.5 percent of the change.
+
+* ERW findings hunt (chain 502): reproduce candidate ghg_onshore_basin for ghgon_535 from the ERW's public tables.
+
+* Input: the table's CSV as the public download holds it (Redivis: the variable names on the first line). From the ERW's own file, delete the lines that begin with # first.
+
+clear all
+
+import delimited "epa_ghgrp_facility_emissions.csv", varnames(1) stringcols(_all) clear
+
+keep if variable == "emissions_onshore_production" & lower(substr(x_basin, 1, 6)) == "535 - "
+
+destring value, replace force
+
+drop if missing(value)
+
+generate int year = real(substr(ts_utc, 1, 4))
+
+collapse (sum) measure = value, by(year)
+
+replace measure = measure / 1000000
+
+generate byte n = 1
+
+sort year
+
+list year measure n, noobs

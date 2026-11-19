@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ghg_power_state, region ghgpp_il (the power plants of Illinois that report to EPA)
+# Computed 2026-11-19T12:11:34Z by warehouse/analysis/findings/deep/emissions_climate.py (ghg_power_state); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the direct emissions the state's reporting power plants reported (million t CO2e), the observations it rests on, and whether the year is full
+# Tables: epa_ghgrp_facility_emissions
+region,year,value,n_observations,full_year
+ghgpp_il,2015,79.703008128,1.0,1
+ghgpp_il,2016,69.012897534,1.0,1
+ghgpp_il,2017,65.82588336299999,1.0,1
+ghgpp_il,2018,69.004224189,1.0,1
+ghgpp_il,2019,59.505202507999996,1.0,1
+ghgpp_il,2020,42.77162860399999,1.0,1
+ghgpp_il,2021,53.05602560899999,1.0,1
+ghgpp_il,2022,48.766953468,1.0,1
+ghgpp_il,2023,38.428308339999994,1.0,1
