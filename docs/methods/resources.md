@@ -95,6 +95,62 @@ described, one entry a layer, in `site/data/resources/manifest.json`.
   - The count of rows drawn and not drawn, in all and for each grid, is computed from the live set each time
     the overlay is read; none of it is written into the page.
 
+## Session 8603 (19 November 2026): the switches' lines, the kinds named, a replication, a cross-check, the decisions
+
+Chain 504 set the map beside the owner's list of 7 October 2026 as that chain gives it: one simple map of every kind of energy resource as switches (sun, wind, geothermal heat, hydropower potential, oil and gas, coal, uranium, critical minerals), the resource itself and not what is built on it; a switch a layer; several on at once; a hover with the place, the value, its unit and its source; a short line under each switch. The map had most of it since sessions 146 and 159 (read in a browser at 1280 and 390 px on 19 November: three layers on at once, the hover with latitude and longitude, the value, the unit, the vintage and the publisher). It was not built again. What this session added:
+
+- **A line under each switch** that says what the layer measures in plain words (`MEASURE` in `site/lib/resources.ts`), written from each layer's "What it is" below, not from the publisher's field names. A layer the table does not know says its own line when its entry of the list of layers carries one (`measure`), else the source's label of its value.
+- **Coal, uranium and critical minerals are named.** Each has a group and a switch. No layer of the three is among the files, so each switch is greyed and says so on hover; nothing is drawn in its place. The day a layer of one of them is in the list of layers (its group written "coal", "uranium" or "critical minerals"), its switch is the layer's and the greyed one is gone, with no change of code. The data machine's chain of the same day names the layers it will write (coal fields, uranium, critical mineral deposits).
+- **The map stays a tab of the project map** (`/map?tab=resources`; `/resources` opens it), as the owner's menu of 12 October 2026 has it. It is in review, as every page is.
+
+### Replication: tight oil and shale gas plays (`oil_gas_plays`)
+
+`replication/resources/replicate.py` reads the publisher's file as the publisher serves it and recomputes every figure the map holds for the layer. It is written from this note and the publisher's file, with Python's standard library alone (it reads the shapefile's table and its outlines itself).
+
+- **The file:** <https://www.eia.gov/maps/map_data/TightOil_ShaleGas_Plays_Lower48_EIA.zip>, 323,424 bytes. Its sha256 on 19 November 2026 is the one the layer recorded on 7 October (`c09b3bd2982754cf...`): it is the same file. EIA's robots file allows every path; its terms are "Public domain and use of EIA content".
+- **Result: 556 of 556 figures are the publisher's.** The count of plays (50); for each play its name, its area in square miles (the hover's figure, the source's `Area_sq_mi`) and the nine fields of the source the layer keeps; the smallest, mean and largest area (184.8, 10,280.3 and 59,054.2 square miles). `replication/resources/oil_gas_plays_figures.csv` holds every figure, the map's and the publisher's.
+- **Stata:** `replication/resources/replicate.do` prints the five headline figures from the same table. It has not been run (Stata is not on the machine that wrote it).
+
+Why this layer and not the geothermal one, which is smaller: the geothermal files are on ScienceBase, whose robots file names Claude's agents and disallows every path for them, so that host was not read by the session that wrote this (19 November 2026). The layer itself was fetched on 7 October by the data machine's connector under the terms recorded below.
+
+### Cross-check 1: the publisher's area against the area of its own outline
+
+For each play the script computes the area of the publisher's outline on the WGS 84 ellipsoid (the file's own coordinate system) and sets it beside the publisher's `Area_sq_mi`. The 50 areas sum to 514,017 square miles by the publisher's field and 514,014 by its outlines, 0.001 percent apart; every play agrees within 0.04 percent (the largest gap: Floyd-Neal, 5,191.3 against 5,189.3). So the figure the hover shows is the area of the shape the map draws. `replication/resources/crosscheck.csv`.
+
+### Cross-check 2: against areas the same publisher printed earlier
+
+EIA's "Review of Emerging Resources: U.S. Shale Gas and Shale Oil Plays" (July 2011) states an area for several plays. Set beside the layer (`replication/resources/crosscheck_published.csv`, with the review's words and the page of its file):
+
+| Play | The map, square miles | The 2011 review, square miles | Difference | Why |
+|---|---:|---:|---:|---|
+| Marcellus | 58,326.4 | 95,000 | -36,673.6 | the review: the whole formation as the USGS estimated it; the file: the general area of the play |
+| New Albany | 12,564.7 | 43,500 | -30,935.3 | the review: the play's total area, 1,600 of it active |
+| Antrim | 43,796.0 | 12,000 | +31,796.0 | the review: the developed and undeveloped area as it counts them; the file's outline is 41 percent of the Michigan basin |
+| Haynesville-Bossier | 11,166.7 | 9,000 | +2,166.7 | the file outlines the Haynesville and the Bossier together |
+| Fayetteville | 5,852.7 | 9,000 | -3,147.3 | the review counts the central and the western Fayetteville |
+| Woodford-Caney (Arkoma) | 2,892.5 | 2,900 | -7.5 | the two agree |
+| Woodford (Ardmore) | 1,200.3 | 1,800 | -599.7 | the review: a consultant's estimate of the total area |
+| Barnett | 26,311.4 | 6,458 | +19,853.4 | the review: two sections as the USGS estimated them; the file's outline is 75 percent of the Fort Worth basin |
+| Bakken | 25,929.2 | 6,522 | +19,407.2 | the review: the acreage companies had leased in 2011 |
+
+No figure is adjusted to match. The two documents answer different questions under the same names: the 2011 review counts an assessed, leased or active area for its resource estimates, and the 2021 file draws "general areas for shale plays". What follows for a reader is said on the page: a play's area is the area of the outline drawn, not the formation's extent and not a measure of oil or gas (the decision "outline-area").
+
+### Decisions (session 8603)
+
+The page's fold "Decisions on this page" under the map (`site/app/resources/Decisions.tsx`) carries nine choices, each with its default and its source on hover; `tests/test_session8603.py` holds this list and the page's to one list.
+
+| Key | The choice | Default |
+|---|---|---|
+| `one-file` | Each switch is one publisher's file, drawn as published; layers are never added or blended | One layer, one file, one publisher |
+| `the-resource` | The layers are the resource itself; what is built or planned is a separate set of switches | The resource first; the overlays off until switched on |
+| `kinds-named` | Every kind the list names has a switch; a kind with no layer is greyed and says why | A greyed switch with its reason on hover |
+| `plain-line` | The line under a switch is the page's own plain words; the publisher's description is in this note | One short sentence a layer |
+| `opens-on-wind` | The map opens with the wind speed at 100 meters on | Wind speed at 100 m |
+| `grid-level` | A grid layer is drawn at the finest of its cell sizes whose cell is at least three quarters of a screen pixel | Three quarters of a pixel |
+| `outline-area` | A play's or a basin's area is the publisher's figure for its outline, not the formation's extent | The file's own area |
+| `simplified` | A shape's outline is simplified for the web and no feature is dropped | As each layer's `reduction` says |
+| `one-tab` | The resource map is a tab of the project map, and `/resources` opens it | A tab of `/map` |
+
 <!-- The sections below are written from the manifest by resource_layers.py --method-doc -->
 
 ## Wind speed at 100 m (`wind_speed_100m`)

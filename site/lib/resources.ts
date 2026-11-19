@@ -23,6 +23,8 @@ export type Layer = {
   point_spacing_km?: number; columns_meaning?: Record<string, string>;
   /** Session 159: fields of the source the hover lists under a feature's value, each with the words to show for it. */
   hover_fields?: [string, string][];
+  /** Session 8603: one short line that says what the layer measures, in plain words, when the list of layers carries one (lib/resources.ts measureLine). */
+  measure?: string;
 };
 export type Missing = { id?: string; group?: string; title?: string; reason?: string; why?: string };
 export type Manifest = { built_at_utc?: string; layers: Layer[]; missing?: Missing[] };
@@ -53,6 +55,13 @@ export const GROUPS = [
   { id: "hydropower", label: "Hydropower", color: "--color-fuel-hydro" },
   { id: "biomass", label: "Biomass", color: "--color-fuel-nuclear" },
   { id: "offshore_wind", label: "Offshore wind", color: "--color-fuel-storage" },
+  // session 8603 (chain 504; the owner's list of 7 October 2026 as chain 504 gives it: sun, wind, geothermal heat,
+  // hydropower potential, oil and gas, coal, uranium, critical minerals): the three kinds the map did not name. They
+  // stand after the seven it had, so no switch moved. Until a layer of the kind is among the files, its switch is
+  // greyed with its reason (EXPECTED below), as "Gross capacity factor" has been since session 159.
+  { id: "coal", label: "Coal", color: "--color-fuel-coal" },
+  { id: "uranium", label: "Uranium", color: "--color-accent" },
+  { id: "critical_minerals", label: "Critical minerals", color: "--color-muted" },
 ] as const;
 const OTHER_COLOR = "--color-fuel-coal";
 
@@ -60,6 +69,9 @@ const OTHER_COLOR = "--color-fuel-coal";
 export function groupId(written: string): string {
   const g = (written ?? "").toLowerCase().replace(/[^a-z]+/g, "_").replace(/^_|_$/g, "");
   if (/offshore/.test(g)) return "offshore_wind";
+  if (/coal/.test(g)) return "coal";                                       // session 8603; before oil and gas, so "coalbed gas" would be coal's
+  if (/uranium/.test(g)) return "uranium";
+  if (/mineral|lithium|rare_earth/.test(g)) return "critical_minerals";
   if (/oil|gas|basin|play|petroleum/.test(g)) return "oil_gas";
   if (/hydro(?!thermal)/.test(g)) return "hydropower";
   if (/geotherm|hydrothermal/.test(g)) return "geothermal";
@@ -70,7 +82,7 @@ export function groupId(written: string): string {
 }
 export const groupColor = (group: string) => GROUPS.find((g) => g.id === group)?.color ?? OTHER_COLOR;
 
-export const EXPECTED: { group: string; label: string; match: RegExp }[] = [
+export const EXPECTED: { group: string; label: string; match: RegExp; /** session 8603: why the layer is not held, when more can be said than that it is not */ why?: string }[] = [
   { group: "wind", label: "Wind speed at 100 m", match: /speed/ },
   { group: "wind", label: "Gross capacity factor", match: /capacity.?factor|(^|[^a-z])cf([^a-z]|$)/ },
   { group: "solar", label: "Global horizontal irradiance", match: /ghi|global.?horizontal/ },
@@ -83,7 +95,37 @@ export const EXPECTED: { group: string; label: string; match: RegExp }[] = [
   { group: "biomass", label: "Biomass", match: /bio|billion/ },
   { group: "offshore_wind", label: "Lease areas", match: /lease/ },
   { group: "offshore_wind", label: "Planning areas", match: /planning/ },
+  { group: "coal", label: "Coal fields", match: /coal/, why: "No layer of coal fields is among the resource files of the site yet (site/data/resources). The publishers named for it are the U.S. Geological Survey and the Energy Information Administration; nothing is drawn in its place." },
+  { group: "uranium", label: "Uranium", match: /uranium/, why: "No layer of uranium is among the resource files of the site yet (site/data/resources). The publishers named for it are the U.S. Geological Survey and the Energy Information Administration; nothing is drawn in its place." },
+  { group: "critical_minerals", label: "Critical mineral deposits", match: /mineral|lithium|rare/, why: "No layer of critical mineral deposits is among the resource files of the site yet (site/data/resources). The publisher named for it is the U.S. Geological Survey; nothing is drawn in its place." },
 ];
+
+// Session 8603: under each switch, one short line that says what the layer measures, in plain words. The words are
+// written here from each layer's section of the method note (docs/methods/resources.md, "What it is"), not from the
+// publisher's field names. A layer this table does not know (one the data side adds later) says its own line when its
+// entry of the list of layers carries one (`measure`), and otherwise the source's own label of its value.
+export const MEASURE: Record<string, string> = {
+  wind_speed_100m: "The average speed of the wind 100 meters above the ground, modelled over 2007 to 2013.",
+  wind_capacity_factor: "The share of its full output a wind turbine of 2035 would average at each site, by the laboratory's model.",
+  solar_ghi: "The sunlight a flat, level surface receives in an average day.",
+  solar_dni: "The direct sunlight a surface kept facing the sun receives in an average day.",
+  geothermal_hydrothermal_sites: "Each natural hot-water system already found, and the electric power it is estimated to be able to supply.",
+  geothermal_hydrothermal_favorability: "How likely the ground is to hold a hot-water system not yet found, in classes.",
+  geothermal_egs_favorability: "How well deep hot rock suits an engineered geothermal reservoir, from class 1 (most) to class 5 (least).",
+  oil_gas_basins: "The outline of each basin of sedimentary rock that holds a shale play, and its area.",
+  oil_gas_plays: "The general area of each tight oil and shale gas play, and its area.",
+  hydropower_npd: "The power each existing dam with no generator could supply if one were added.",
+  hydropower_nsd: "The power that could be built on stretches of river with no dam today, summed by watershed.",
+  biomass: "The crop, forest and mill residues and urban wood waste a county yields in a year.",
+  offshore_wind_leases: "The outline of each ocean lease issued for wind, and its area: a right to propose a project, not a wind farm.",
+  offshore_wind_planning_areas: "Ocean areas the bureau was studying for wind leases until it rescinded them on July 30, 2025.",
+};
+/** The line under a layer's switch: this table's, else the layer's own `measure`, else the source's label of its value, else nothing. */
+export function measureLine(l: Pick<Layer, "id" | "value_label"> & { measure?: string }): string {
+  const own = MEASURE[l.id] ?? l.measure ?? l.value_label ?? "";
+  const line = own.trim();
+  return line && !/[.!?]$/.test(line) ? `${line}.` : line;
+}
 export const NOT_HELD = "not held";
 const NO_REASON = "This layer is not among the resource layers the warehouse holds yet.";
 
@@ -106,7 +148,7 @@ export function toggleGroups(m: Manifest): ToggleGroup[] {
       if (held.some((l) => e.match.test(words(l)))) continue;
       const said = missing.find((x) => !used.has(x) && e.match.test(words(x)));
       if (said) used.add(said);
-      items.push({ held: false, key: `${id}:${e.label}`, label: said?.title ?? e.label, reason: said?.reason ?? said?.why ?? NO_REASON });
+      items.push({ held: false, key: `${id}:${e.label}`, label: said?.title ?? e.label, reason: said?.reason ?? said?.why ?? e.why ?? NO_REASON });
     }
     for (const x of missing) {
       if (used.has(x) || held.some((l) => l.id === x.id)) continue;
