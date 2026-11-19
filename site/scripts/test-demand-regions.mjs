@@ -284,6 +284,12 @@ ok(c19 && c19.days === 3 && c19.whole === 1 && C.wholeDaysOfYear(d0, "2019", fil
   && V.dayCount(files.car, "2019") === "" && !gridHtml.includes("an hour of a region is written only"),
   "row 20: a region's 'no growth since' says its hour rule and its whole days of the base year; an authority's does not");
 
+// row 21 (the decisions, part E step 5): the two rules a reader could set another way say their default and whose rule it is
+const dec = ent(draw());
+ok(dec.includes("Default: an hour only when every authority active that hour holds it, the data machine's rule (docs/methods/regions_pages.md); nothing is filled.")
+  && dec.includes("Default: within 25 percent of the median of the two hours before and the two after, and from a third of to three times the place's median hour, the as-metered view's rule (session 97, docs/methods/demand_growth.md)."),
+  "row 21: the region's hour rule and the screen of hours say their default and whose rule it is");
+
 // ---- the reader: a fixture is never read from the site's own folder; the whole page
 ok(process.env.ERW_REGIONS_DIR === undefined, "ERW_REGIONS_DIR is not set as the test starts");
 const onSite = (rel) => fs.existsSync(here(`../data/regions/${rel}`));
