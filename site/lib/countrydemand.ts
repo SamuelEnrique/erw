@@ -146,6 +146,15 @@ export function wholeDayMwh(d: Daily, i: number, tz?: string | null): number | n
   return len !== null && num(h) && h !== len ? null : e;
 }
 
+/** Session 8480 (row 20): how many days of a year the file holds a whole day's demand on, of the days of that year it
+ *  holds. Null without a day of the year. */
+export function wholeDaysOfYear(d: Daily | undefined, year: string, tz?: string | null): { whole: number; days: number } | null {
+  if (!d?.days?.length) return null;
+  let whole = 0, days = 0;
+  d.days.forEach((x, i) => { if (x.startsWith(`${year}-`)) { days++; if (wholeDayMwh(d, i, tz) !== null) whole++; } });
+  return days ? { whole, days } : null;
+}
+
 /** The positions of the days drawn: every day, or the days of one year. */
 function drawn(d: Daily, days: string): number[] {
   const out: number[] = [];

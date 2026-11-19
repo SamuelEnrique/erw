@@ -248,6 +248,42 @@ const cutHtml = ent(renderToStaticMarkup(createElement(V.Country, { q: { a: "ten
 ok(!(`cd|a|new|${lastDay}|gwh` in fcut) && `cd|a|new|${lastDay}|mw` in fcut && cutHtml.includes(`Tennessee, ${lastDay}: 23 of the day's 24 hours are used, so no demand of the whole day is given. The file writes a demand for the day; the page does not count it as a whole day's`)
   && fcut["cd|a|day|held"] === String(sumAll.held - 1), "the newest day on 23 hours reads not held, with the hours of the day and why; the count of days held leaves it out");
 
+// ---- session 8480 (the read on the real files, rows 15 to 20)
+// row 15: a blank weather figure says the share the builder asks, how much weather the table holds, and how many years are held
+const wn = V.weatherNoneWhy("Southeast", "the summer peak", "2025", 0, 5);
+ok(wn.startsWith("The file of Southeast holds no figure of the summer peak for 2025. It holds 0 of the 5 years of this figure.") && wn.includes("at least 95 percent of its hours")
+  && wn.includes("80 to 99 percent of each region's hours") && wn.includes("(docs/methods/regions_pages.md)") && !wn.includes("gives the share"), "row 15: a blank weather figure's hover gives the share, the table's coverage and the count held");
+const yrs = Object.keys(ten.weather.years), y0 = yrs[0];
+const holey = { ...ten, weather: { ...ten.weather, years: { ...ten.weather.years, [y0]: Object.fromEntries(Object.keys(ten.weather.years[y0]).map((m) => [m, null])) } } };
+const holeyHtml = ent(renderToStaticMarkup(createElement(V.Country, { q: { a: "ten", b: "none" }, index, fileOf: () => holey })));
+ok(holeyHtml.includes(`holds no figure of the year's energy for ${y0}. It holds ${yrs.filter((y) => ten.weather.years[y]?.energy).length - (ten.weather.years[y0]?.energy ? 1 : 0)} of the ${yrs.length} years of this figure.`) && !holeyHtml.includes("gives the share"),
+  "row 15: drawn, the blank year's cells carry the hover with the count of years held");
+// row 16: a region's hover names an authority of its sum that EIA gives as retired, with its date
+const se = draw({ a: "se", b: "none" });
+ok(ent(se).includes("Each authority is counted from its start to its retirement, and an hour needs every one active that hour (docs/methods/regions_pages.md): AEC is counted to 2021-09-01, when EIA gives it as retired.")
+  && !ent(draw({ a: "ten", b: "none" })).includes("counted from its start to its retirement"), "row 16: the Southeast's hover names AEC, retired 2021-09-01; Tennessee's, with none retired, says nothing of it");
+// row 17: the year so far is never named by the file's key in a hover
+for (const [label, html] of [["Tennessee and the Carolinas", draw()], ["the fixture's Gridforce", draw({ a: "ba-grid", b: "ten" })], ["the Southeast", se]]) {
+  ok(!/for ytd\b/.test(ent(html)), `row 17: no hover of ${label} says "for ytd"`);
+}
+const gridHtml = ent(draw({ a: "ba-grid", b: "ten" }));
+ok(/holds no such figure for \d{4}, January to [A-Z][a-z]+: a growth needs the same measure in 2019/.test(gridHtml), "row 17: the year so far of a place with no base year is named by its year and months");
+// row 18: the head of the newest days says EIA revises its hourly values
+ok(ent(draw()).includes("EIA's hourly values are revised after they are first filed, and the file holds them as they stood when it was built (docs/methods/eia930_all_demand.md)."), "row 18: the newest days say the values are revised");
+// row 19: an authority's weather hover names the region whose file holds the view
+ok(ent(draw({ a: "ba-tva", b: "none" })).includes("holds none. EIA places it in its region Tennessee, whose file holds the weather view: choose Tennessee as a place."), "row 19: TVA's weather hover sends the reader to Tennessee");
+// row 20: a region with no whole base year says the region's hour rule and its whole days of that year
+// the fixture's days begin in December 2024: three days of 2019 are put before them (one whole, one on 23 of 24 hours, one blank)
+const d0 = files.car.daily, early = ["2019-01-01", "2019-01-02", "2019-01-03"];
+const lateCar = { ...files.car, growth: { ...files.car.growth, years: Object.fromEntries(Object.entries(files.car.growth.years).filter(([y]) => y !== "2019")) },
+  daily: { days: [...early, ...d0.days], demand_mwh: [500000, 480000, null, ...d0.demand_mwh], peak_mw: [25000, 24000, null, ...d0.peak_mw], peak_at: [null, null, null, ...d0.peak_at], hours: [24, 23, 0, ...d0.hours] } };
+const lateHtml = ent(renderToStaticMarkup(createElement(V.Country, { q: { a: "car", b: "none" }, index, fileOf: () => lateCar })));
+const c19 = C.wholeDaysOfYear(lateCar.daily, "2019", lateCar.tz);
+ok(c19 && c19.days === 3 && c19.whole === 1 && C.wholeDaysOfYear(d0, "2019", files.car.tz) === null
+  && lateHtml.includes("an hour of a region is written only when every one of its balancing authorities active that hour holds it (docs/methods/regions_pages.md): in 2019 the file holds a whole day's demand on 1 of the 3 days it holds.")
+  && V.dayCount(files.car, "2019") === "" && !gridHtml.includes("an hour of a region is written only"),
+  "row 20: a region's 'no growth since' says its hour rule and its whole days of the base year; an authority's does not");
+
 // ---- the reader: a fixture is never read from the site's own folder; the whole page
 ok(process.env.ERW_REGIONS_DIR === undefined, "ERW_REGIONS_DIR is not set as the test starts");
 const onSite = (rel) => fs.existsSync(here(`../data/regions/${rel}`));
