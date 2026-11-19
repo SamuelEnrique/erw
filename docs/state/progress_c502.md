@@ -20,3 +20,4 @@ Chain file: `queue/done/502-day-19-november-desktop-window2-findings-industry.md
 - Part D, third pass: cross_family, 9 drafts (the actual year against the FERC 714 forecast of three and five years before), every cross_family draft reproduces; code `wip/8202-findings` (91827ba93); session 8210.
 - Part D, fourth pass: markets_operations, 10 drafts (nuclear outages, coal stocks), every markets_operations draft reproduces; code `wip/8202-findings` (cc42ddbde); session 8211.
 - Part D, fifth pass: demand, 18 drafts (SEDS state consumption), every demand draft reproduces; code `wip/8202-findings` (5b998982f); session 8212.
+- Part D, sixth pass: tariffs_policy, 12 drafts (SEDS prices and spending), every tariffs_policy draft reproduces; code `wip/8202-findings` (baab8fe13); session 8213. First round done: every family holds at least 13 drafts.

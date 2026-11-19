@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate seds_price_ind, region sd_hi (Hawaii)
+# Computed 2026-11-19T12:30:31Z by warehouse/analysis/findings/deep/tariffs_policy.py (seds_price_ind); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the state's average electricity price to its industrial sector (USD per MWh), the observations it rests on, and whether the year is full
+# Tables: eia_seds_state_energy
+region,year,value,n_observations,full_year
+sd_hi,1990,75.71228,1.0,1
+sd_hi,1991,77.1112,1.0,1
+sd_hi,1992,78.33952,1.0,1
+sd_hi,1993,89.46264,1.0,1
+sd_hi,1994,88.16608,1.0,1
+sd_hi,1995,92.70404,1.0,1
+sd_hi,1996,100.27868,1.0,1
+sd_hi,1997,103.213,1.0,1
+sd_hi,1998,94.13708,1.0,1
+sd_hi,1999,97.03728,1.0,1
+sd_hi,2000,116.86099999999999,1.0,1
+sd_hi,2001,116.75863999999999,1.0,1
+sd_hi,2002,110.17348,1.0,1
+sd_hi,2003,121.94488,1.0,1
+sd_hi,2004,133.51156,1.0,1
+sd_hi,2005,157.87324,1.0,1
+sd_hi,2006,179.57356,1.0,1
+sd_hi,2007,183.77032,1.0,1
+sd_hi,2008,260.47208,1.0,1
+sd_hi,2009,181.41604,1.0,1
+sd_hi,2010,219.45983999999996,1.0,1
+sd_hi,2011,284.01487999999995,1.0,1
+sd_hi,2012,308.20596,1.0,1
+sd_hi,2013,298.68648,1.0,1
+sd_hi,2014,302.16672,1.0,1
+sd_hi,2015,230.58295999999999,1.0,1
+sd_hi,2016,206.93779999999998,1.0,1
+sd_hi,2017,229.18403999999998,1.0,1
+sd_hi,2018,261.018,1.0,1
+sd_hi,2019,257.53776,1.0,1
+sd_hi,2020,244.50391999999997,1.0,1
+sd_hi,2021,271.18576,1.0,1
+sd_hi,2022,367.1312,1.0,1
+sd_hi,2023,352.76668,1.0,1
+sd_hi,2024,341.30235999999996,1.0,1

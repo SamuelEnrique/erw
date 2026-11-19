@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate seds_price_ind, region sd_ak (Alaska)
+# Computed 2026-11-19T12:30:32Z by warehouse/analysis/findings/deep/tariffs_policy.py (seds_price_ind); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the state's average electricity price to its industrial sector (USD per MWh), the observations it rests on, and whether the year is full
+# Tables: eia_seds_state_energy
+region,year,value,n_observations,full_year
+sd_ak,1990,79.05604,1.0,1
+sd_ak,1991,82.16095999999999,1.0,1
+sd_ak,1992,77.4524,1.0,1
+sd_ak,1993,81.92212,1.0,1
+sd_ak,1994,83.66224,1.0,1
+sd_ak,1995,83.79871999999999,1.0,1
+sd_ak,1996,84.65172,1.0,1
+sd_ak,1997,74.82516,1.0,1
+sd_ak,1998,71.652,1.0,1
+sd_ak,1999,73.15328,1.0,1
+sd_ak,2000,75.64404,1.0,1
+sd_ak,2001,76.12172,1.0,1
+sd_ak,2002,76.49704,1.0,1
+sd_ak,2003,78.61247999999999,1.0,1
+sd_ak,2004,83.32104,1.0,1
+sd_ak,2005,92.94287999999999,1.0,1
+sd_ak,2006,115.39384,1.0,1
+sd_ak,2007,126.31224,1.0,1
+sd_ak,2008,141.73448,1.0,1
+sd_ak,2009,131.46436,1.0,1
+sd_ak,2010,141.46152,1.0,1
+sd_ak,2011,157.08847999999998,1.0,1
+sd_ak,2012,168.21159999999998,1.0,1
+sd_ak,2013,158.3168,1.0,1
+sd_ak,2014,156.64491999999998,1.0,1
+sd_ak,2015,145.24884,1.0,1
+sd_ak,2016,152.1752,1.0,1
+sd_ak,2017,163.40068,1.0,1
+sd_ak,2018,171.04356,1.0,1
+sd_ak,2019,169.43991999999997,1.0,1
+sd_ak,2020,158.86272,1.0,1
+sd_ak,2021,168.51868,1.0,1
+sd_ak,2022,184.31624,1.0,1
+sd_ak,2023,187.01172,1.0,1
+sd_ak,2024,193.1192,1.0,1
