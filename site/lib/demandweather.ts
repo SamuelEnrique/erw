@@ -48,15 +48,20 @@ export const signed = (v: number) => `${v > 0 ? "+" : ""}${one(v)}`;
  *  /demand/weather, which now redirects here: next.config.ts). */
 export const href = (figure: string, year: string | number) => `/demand?view=weather&figure=${figure}&year=${year}`;
 
+/** Session 8420 (chain 503, part C): the grid objects alone, and which of them are read. The view of the whole country
+ *  (components/demand/Country.tsx) gives these functions the `weather` objects of one or two regions' page files, which
+ *  have the form of a grid object here, with their own codes as `order`. Without `order` each function reads the seven
+ *  grids as before; nothing the weather view reads moved. */
+export type Grids = Pick<WeatherFile, "grids">;
 /** The years after the fit's, in order. */
-export function years(f: WeatherFile): string[] {
-  return [...new Set(ORDER.flatMap((b) => Object.keys(f.grids[b].years)))].sort();
+export function years(f: Grids, order: readonly string[] = ORDER): string[] {
+  return [...new Set(order.flatMap((b) => Object.keys(f.grids[b].years)))].sort();
 }
 /** The newest year that is whole (the newest of all is partial unless its last day is 31 December). */
-export function lastWholeYear(f: WeatherFile): string {
-  const ys = years(f);
-  const newest = Math.max(...ORDER.map((b) => f.grids[b].newest));
-  const partial = ORDER.some((b) => f.grids[b].newest === newest && f.grids[b].through < "12-31");
+export function lastWholeYear(f: Grids, order: readonly string[] = ORDER): string {
+  const ys = years(f, order);
+  const newest = Math.max(...order.map((b) => f.grids[b].newest));
+  const partial = order.some((b) => f.grids[b].newest === newest && f.grids[b].through < "12-31");
   return partial ? String(ys.filter((y) => Number(y) < newest).pop() ?? ys[ys.length - 1]) : String(newest);
 }
 /** The figure and the year the address asks for, or the year's energy in the last whole year. */
@@ -66,7 +71,7 @@ export function choices(f: WeatherFile, q: Record<string, string | undefined>) {
   const year = q.year && ys.includes(q.year) ? q.year : lastWholeYear(f);
   return { figure, year };
 }
-export const figureOf = (f: WeatherFile, ba: string, year: string, key: string): Figure | null => f.grids[ba].years[year]?.[key] ?? null;
+export const figureOf = (f: Grids, ba: string, year: string, key: string): Figure | null => f.grids[ba].years[year]?.[key] ?? null;
 
 /** What a figure's remainder may be called: a finding only when it is larger than its uncertainty. */
 export function reading(g: Figure | null): "not held" | "a finding" | "smaller than its uncertainty" | "beyond the weather the fit saw" {

@@ -10,11 +10,15 @@
 // Session 239: a third view, consumption: what /consumption showed (electricity sold by state and sector, EIA-861M, and
 // the energy the industrial and commercial sectors use), at ?view=consumption. /consumption redirects to it
 // (next.config.ts). The three are the tabs of the page (lib/tabs.ts, components/tool/Tabs.tsx).
-export const VIEWS = [["metered", "As metered"], ["weather", "With the weather taken out"], ["consumption", "Consumption"]] as const;
+// Session 8420 (chain 503, part C): a fourth view, the whole country: each of EIA's thirteen regions of the lower 48 and
+// every balancing authority, any two side by side, from the data machine's page files (site/data/regions/, read by
+// lib/countrydemand.ts; drawn by components/demand/Country.tsx), at ?view=country with ?a, ?b, ?days, ?figure and ?year.
+// The three views before it, their addresses and what they draw did not move (scripts/test-demand-pin.mjs).
+export const VIEWS = [["metered", "As metered"], ["weather", "With the weather taken out"], ["consumption", "Consumption"], ["country", "The whole country"]] as const;
 export type View = (typeof VIEWS)[number][0];
 
-/** The view an address asks for: anything but "weather" or "consumption" is the page as metered. */
-export const viewOf = (q: Record<string, string | undefined>): View => (q.view === "weather" ? "weather" : q.view === "consumption" ? "consumption" : "metered");
+/** The view an address asks for: anything but "weather", "consumption" or "country" is the page as metered. */
+export const viewOf = (q: Record<string, string | undefined>): View => (q.view === "weather" ? "weather" : q.view === "consumption" ? "consumption" : q.view === "country" ? "country" : "metered");
 /** The address of a view with nothing else chosen. */
 export const viewHref = (view: View) => (view === "metered" ? "/demand" : `/demand?view=${view}`);
 /** The Method note of each view. */
@@ -22,6 +26,7 @@ export const viewHref = (view: View) => (view === "metered" ? "/demand" : `/dema
 export const METHODS: Record<Exclude<View, "consumption">, { href: string; name: string }> = {
   metered: { href: "/data/methods/demand_growth", name: "demand growth" },
   weather: { href: "/data/methods/demand_weather", name: "demand growth with the weather taken out" },
+  country: { href: "/data/methods/demand_growth", name: "demand growth, the whole country" },   // session 8420: the note's section "The whole country"
 };
 
 // Session 7543 (chain 304, part C, docs/reviews/demand-read-2026-11-16.md): words of two hovers of the page, here
