@@ -35,6 +35,7 @@ import { netOf, parseShape, reportedBy, withShape, type Shape } from "@/lib/netw
 import type { MapFigures, MapFrame } from "./NetworkMap";
 import { useBaRegions } from "@/components/grid/BaRegions";
 import { AuthorityFacts } from "@/components/grid/AuthorityFacts";
+import { PriceControls, priceLine, priceRange as mapPriceRange, priceValue, usePricesMap, type PriceMeasure } from "@/components/grid/MapPrice";
 import { netFromPage, netToPage } from "@/lib/gridtool";
 import { GRAVITY_CENTER, GRAVITY_GRIDS, netImportAt } from "@/lib/networkGravity";
 
@@ -161,6 +162,12 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
   const [playing, setPlaying] = useState(false);
   const [pick, setPick] = useState<NetNode | null>(null);
   const [batteriesOn, setBatteriesOn] = useState(false);
+  // session 8013 (chain 505, part E3): the map's areas colored by price instead of carbon, a choice the reader makes (carbon opens)
+  const [mapPrice, setMapPrice] = useState(false);
+  const [priceMeasure, setPriceMeasure] = useState<PriceMeasure>("day_avg");
+  const pricesFile = usePricesMap(mapPrice && !!baRegions);
+  const pricedMap = mapPrice && baRegions && pricesFile && pricesFile !== "none" ? pricesFile : null;
+  const pricedRange = pricedMap ? mapPriceRange(pricedMap, priceMeasure) : null;
   const [noGl, setNoGl] = useState(false);
   const [loading, setLoading] = useState<string | null>(null);
   const [failed, setFailed] = useState<string | null>(null);
@@ -583,9 +590,11 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
           </span>
         ) : null}
       </div>
+      {/* session 8013 (chain 505, part E3): the map's areas by carbon (as it opens) or by price, in the Grid tool only */}
+      {shape === "map" && baRegions ? <PriceControls on={mapPrice} setOn={setMapPrice} measure={priceMeasure} setMeasure={setPriceMeasure} m={pricesFile} /> : null}
       <div className={`grid grid-cols-[minmax(0,1fr)] gap-3 ${pick ? "lg:grid-cols-[minmax(0,1fr)_340px]" : ""}`}>
         {shape === "map" ? (
-          <NetworkMap nodes={snap.nodes} flows={mapFlows} maxMw={maxMw} colorOf={(id) => colorOf(view.intensity(id, hour), lo, hi)} pick={pick?.id ?? null} neighbours={mapNeighbours}
+          <NetworkMap nodes={snap.nodes} flows={mapFlows} maxMw={maxMw} colorOf={pricedMap ? (id) => colorOf(priceValue(pricedMap, id, priceMeasure), pricedRange?.[0] ?? 0, pricedRange?.[1] ?? 1) : (id) => colorOf(view.intensity(id, hour), lo, hi)} priceOf={pricedMap ? (id) => priceLine(pricedMap, id, priceMeasure) : undefined} pick={pick?.id ?? null} neighbours={mapNeighbours}
             onPick={(id) => setPick(snap.nodes.find((n) => n.id === id) ?? null)}
             frame={mapFrame} figures={mapFigures} battery={batteriesOn ? mapBattery : undefined} batteryNewest={mapBatteryNewest} sideOf={mapSide} />
         ) : shape === "gravity" && gravity ? (

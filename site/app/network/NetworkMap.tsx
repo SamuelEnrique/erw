@@ -49,7 +49,7 @@ type Hover = { kind: "region" | "listed" | "flow"; id: string; x: number; y: num
 /** Session 8604: a state's outline, for the thin lines that let a reader find a place, and for the state a hover names. */
 type StateShape = { name: string; d: string; feature: GeoPermissibleObjects };
 
-export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onPick, frame, figures, battery, batteryNewest, sideOf }: {
+export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onPick, frame, figures, battery, batteryNewest, sideOf, priceOf }: {
   nodes: MapNode[]; flows: MapFlow[]; maxMw: number;
   /** the color the grid's sphere has for the hour shown (Network.tsx colorOf: the same measure, the same scale) */
   colorOf: (id: string) => string;
@@ -66,6 +66,8 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
   batteryNewest?: { when: string; grids: number } | null;
   /** session 8601: which side's report a pair's flow is in the frame shown (lib/networkMap.ts reportedBy) */
   sideOf?: (a: string, b: string) => "first" | "second" | null;
+  /** session 8013 (chain 505, part E3): given while the areas are colored by price: the hover line of an area's price (components/grid/MapPrice.tsx) */
+  priceOf?: (id: string) => string;
 }) {
   const [held, setHeld] = useState<Held>({ state: "loading" });
   const [hover, setHover] = useState<Hover | null>(null);
@@ -248,6 +250,7 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
     const lines: string[] = [];
     if (fig) {
       lines.push(`Carbon intensity of generation: ${fig.intensity !== null ? `${fig.intensityShown ?? whole(fig.intensity)} kg CO2/MWh` : "not held"}`);
+      if (priceOf) lines.push(priceOf(hover.id));
       lines.push(`Demand: ${fig.demand !== null ? `${whole(fig.demand)} MW${unit === "day" ? " on average" : ""}` : `not held for this ${unit}`}`);
       lines.push(fig.net !== null && fig.ties ? `Net ${fig.net >= 0 ? "imports" : "exports"}: ${whole(Math.abs(fig.net))} MW over ${fig.ties} tie${fig.ties === 1 ? "" : "s"}` : `No tie reported this ${unit}`);
       if (battery) { const b = battery(hover.id); lines.push(`Batteries: ${!b ? "not reported for this period" : b.mw === null ? `not reported for this ${unit}` : b.mw >= 0 ? `discharging ${whole(b.mw)} MW` : `charging ${whole(-b.mw)} MW`}`); }

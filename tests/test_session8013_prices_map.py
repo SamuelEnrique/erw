@@ -68,3 +68,26 @@ class TheFile(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TheLayer(unittest.TestCase):
+    """Part E3: the map's areas by carbon (as it opens) or by price, in the Grid tool only."""
+
+    def src(self, *p):
+        with open(os.path.join(REPO, "site", *p), encoding="utf-8") as f:
+            return f.read()
+
+    def test_carbon_opens_and_price_is_a_choice(self):
+        n = self.src("app", "network", "Network.tsx")
+        self.assertIn("const [mapPrice, setMapPrice] = useState(false);", n)
+        self.assertIn('{shape === "map" && baRegions ? <PriceControls', n)
+
+    def test_a_held_grid_is_blank_and_says_license_needed(self):
+        c = self.src("components", "grid", "MapPrice.tsx")
+        self.assertIn('if (b.state === "held") return "Price: license needed";', c)
+        self.assertIn('b && b.state === "shown" ? b[k] : null', c)
+
+    def test_the_route_serves_the_file_or_says_not_held(self):
+        r = self.src("app", "grid", "prices-map", "route.ts")
+        self.assertIn('export const dynamic = "force-static";', r)
+        self.assertIn("held: false", r)
