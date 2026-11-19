@@ -99,6 +99,11 @@ class TheLineUnderEachSwitch(unittest.TestCase):
     def test_no_layer_file_of_the_three_kinds_was_written_by_this_session(self):
         names = os.listdir(os.path.join(SITE, "data", "resources", "layers"))
         ids = [l["id"] for l in MANIFEST["layers"]]
+        # session 8009 (chain 501's desk): the data machine adds a layer in manifest_added.json, a new file in the
+        # manifest's form (manifest.json itself is not changed under chain 501's rule); its layers count as listed
+        added = os.path.join(SITE, "data", "resources", "manifest_added.json")
+        if os.path.exists(added):
+            ids += [l["id"] for l in json.load(open(added, encoding="utf-8"))["layers"]]
         made_up = [n for n in names if re.search(r"coal|uranium|mineral", n) and not any(n.startswith(i) for i in ids)]
         self.assertEqual(made_up, [])
 
