@@ -1,6 +1,6 @@
 # The whole country's page files (`site/data/regions/`)
 
-Session 8001, chain 501 part B, 19 November 2026. Builder: `warehouse/derived/regions_pages.py`. The files' shapes, keys and units: `docs/state/page_files_regions.md` (the contract the three other windows code against). No table is written and no request is made; every figure is computed from tables in `warehouse/output`.
+Session 8001, chain 501 part B, 19 November 2026. Builder: `warehouse/derived/region_files.py`. The files' shapes, keys and units: `docs/state/page_files_regions.md` (the contract the three other windows code against). No table is written and no request is made; every figure is computed from tables in `warehouse/output`.
 
 ## Inputs
 
@@ -50,7 +50,7 @@ The nine events of `/events`, their windows and baselines from `warehouse/derive
 
 ## Build
 
-    python warehouse/derived/regions_pages.py --weather       # every file
-    python warehouse/derived/regions_pages.py                 # every file, each keeping the weather object it had
+    python warehouse/derived/region_files.py --weather       # every file
+    python warehouse/derived/region_files.py                 # every file, each keeping the weather object it had
 
 The data machine's daily run calls the second form after the EIA-930 tables are brought to the newest hour (`docs/machines.md`).

@@ -1,5 +1,5 @@
 """Session 8001 (chain 501, steps B3 to B7): the energy-source rule of warehouse/connectors/eia930_region_fuel_hourly.py
-and the rules of warehouse/derived/regions_pages.py (a region's demand, the trade signs, the event baseline), on small
+and the rules of warehouse/derived/region_files.py (a region's demand, the trade signs, the event baseline), on small
 frames written here, and the contract's keys on the files where the data machine has written them.
 
 Energy Research Warehouse (ERW). docs/methods/eia930_region_fuel_hourly.md, docs/methods/regions_pages.md,
@@ -20,7 +20,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "derived"))
 import eia930_region_fuel_hourly as fuel  # noqa: E402
-import regions_pages as rp  # noqa: E402
+import region_files as rp  # noqa: E402
 
 SITE = os.path.join(ROOT, "site", "data", "regions")
 
