@@ -1,0 +1,66 @@
+# The natural resource map: a signature pack for Samuel (19 November 2026)
+
+Energy Research Warehouse (ERW). Written by session 8609 of chain 504 (`queue/done/504-night-19-november-portable-grid-map-whole-country.md`), the portable laptop, for one sitting. It is in the form of the trackers' pack (`docs/reviews/trackers-signature-pack-2026-11-16.md`), and stands beside the pack of the Grid tool's map and regions (`docs/reviews/grid-map-regions-signature-pack-2026-11-19.md`, on `wip/8602-grid-regions`).
+
+- **What a signature is.** You fill the three lines of the block "Sign-off" in `docs/methods/resources.md` and commit it, or say it in a prompt and a session writes your words there. A session never signs.
+- **What you sign accepts** the rules the block lists, at the defaults of the rulings below. It does not freeze the layers: the data side adds them.
+- **Nothing here is published.** The map is a tab of `/map`, in review, as every page is. Signing does not open it. The datacenter overlay stays held for its license.
+- **Where it is.** Branch `wip/8603-resources` (landing request row 43). The coal fields are the data machine's layer, on its own branch; the two land in either order.
+- **About fifteen minutes.** The replication is Python and runs in seconds; its Stata do-file has not been run.
+
+---
+
+## 1. What you sign
+
+`docs/methods/resources.md`, section "Sign-off".
+
+**The choices that matter most** (on the page: "Decisions on this page (10)" under the map, each with its default and its source on hover):
+
+| Choice | Default | Source |
+|---|---|---|
+| What a switch is | One publisher's file, drawn as published; layers are never added or blended | the list of layers, one section a layer in the method note |
+| What the map shows | The resource itself; plants, the queue and datacenters are separate switches, off until switched on | session 146 |
+| A kind with no layer | Its switch is greyed and says why; nothing is drawn in its place | the owner's list of 7 October 2026: uranium and critical minerals today |
+| An outline's area | The area of the shape drawn, not the formation's extent and not a measure of oil, gas or coal | the publisher's own figure, or the data side's from the outline |
+| Two lists of layers | Read as one; the first list wins a name | the data machine's second list (data request 542) |
+
+## 2. Replication (`python replication/resources/replicate.py`; exit 0)
+
+- The layer of tight oil and shale gas plays against the publisher's own file (EIA, 323,424 bytes, the same sha256 as on 7 October): **556 of 556 figures are the publisher's** (50 plays; each one's name, area and nine fields; the smallest, mean and largest area).
+- Written from the method note and the publisher's file with Python's standard library alone.
+- `replication/resources/replicate.do` prints the five headline figures in Stata. It has not been run.
+
+## 3. Cross-checks (no figure adjusted)
+
+| Our figure | Published figure | Source | Gap | Why |
+|---|---|---|---|---|
+| The 50 plays' areas, summed: 514,017 square miles | 514,014 square miles, the area of the publisher's own outlines on the WGS 84 ellipsoid | computed from the same file | 0.001 percent | the hover's figure is the area of the shape the map draws |
+| Woodford-Caney (Arkoma): 2,892.5 square miles | 2,900 | EIA, "Review of Emerging Resources", July 2011 | -7.5 | the two agree |
+| Marcellus: 58,326.4 | 95,000 | the same | -36,673.6 | the review: the whole formation; the file: the play's general area |
+| Barnett: 26,311.4 | 6,458 | the same | +19,853.4 | the review: two sections as the USGS estimated them |
+| Bakken: 25,929.2 | 6,522 | the same | +19,407.2 | the review: the acreage leased in 2011 |
+
+Nine plays are set beside the 2011 review in `replication/resources/crosscheck_published.csv`. The two documents answer different questions under the same names, which is why the page says an area is the outline's.
+
+## 4. What to look at (five minutes, in the internal view, after the landings)
+
+1. `/resources`: rest the mouse on the map: the first line ends with the state.
+2. Switch "Coal fields" on, rest the mouse on West Virginia: the field, its area, its age and rank.
+3. Rest the mouse on "not held" beside "Uranium deposits": the reason.
+4. "Decisions on this page" under the map: ten lines.
+5. The reader's read: `docs/reviews/resources-read-2026-11-19.md` (five cases, eight rows).
+
+## 5. For your ruling (each has its default taken; nothing waits on you)
+
+| # | The question | Default taken |
+|---:|---|---|
+| 1 | Uranium and critical mineral deposits: the two USGS hosts that serve them refuse automated reading (ScienceBase names Claude). A person could download the two files by hand and give them to the data machine | Not fetched; the two switches greyed with that reason |
+| 2 | A wind or sun layer's hover repeats its vintage sentence with every value. It could stand once, in the legend | Left as it is |
+| 3 | The coal fields' area is in square kilometres where the basins' and plays' are in square miles (data request 552 asks the data machine) | Each as its file gives it; nothing converted on the page |
+| 4 | Only one layer is replicated (the plays). The geothermal layers are on a host that refuses Claude's agents; the coal fields' source is a 230 MB archive the data machine fetched | One layer, as chain 504 asked |
+
+## 6. What is not done
+
+- No layer of uranium or of critical mineral deposits.
+- The datacenter overlay is held for its license and draws nothing.
+- The accessibility read (axe-core on a build, 1280 and 390 px) found no rule broken on the tab. What an engine cannot judge, a keyboard's path over a canvas map, was not tried by a person.

@@ -169,6 +169,34 @@ Seen on a build with the data machine's two files copied in from its branch (`wi
 
 The area in that hover is the data machine's, computed on a sphere from the source's polygon; it is the outline's area and not a measure of coal in place, as the layer's own note says. Held by `tests/test_session8607.py`.
 
+## Session 8608 (19 November 2026): the reader's read, and the state in the hover
+
+Five cases a reader would bring were taken on a build that holds the coal layer (`docs/reviews/resources-read-2026-11-19.md`: a transmission planner on the wind of the Plains, a power trader on the Permian's basin and plays, a student on Appalachia's coal, an AI lab's siting analyst at Phoenix, a battery developer on central Nevada's sun). Four were answered on the page and one half answered (the datacenters are held for a license). The read's one site gap is fixed:
+
+- **The hover names the state under the pointer.** It gave a latitude and a longitude and no place. After the coordinates it now says the state ("33.45 N, 112.07 W, in Arizona"), found among the states' outlines the map already draws (the Census Bureau's cartographic boundaries as `us-atlas` holds them; `stateAt` in `site/lib/resources.ts`). A point at sea, or in no state's outline, names none: the nearest state is never given. No layer's value is touched by it.
+
+Left as they are, each a row of the read: the coal fields' area is in square kilometres where the basins' and plays' are in square miles, and the coal fields' "What it is not" begins with a file's name (both the data machine's, data request 552); a wind or sun layer's hover repeats its vintage sentence with every value (for the owner's ruling). Held by `tests/test_session8608.py`.
+
+## Session 8611 (19 November 2026): the map against the brand
+
+Measured in a browser on a build at 390 and 1280 px against `docs/brand.md`. Two things did not follow it and now do: on a phone the map's nine controls (zoom in and out, the four moves, the three places) are 44 px in both directions, where they were 24 px tall at every width (section 3); and the hover card is fog with a rule-colored edge and no shadow, where it was white with a shadow (sections 3 and 6). Left as it is: the small "i" beside each decision, 16 px, which is the site's shared button on every page with a decisions fold. No figure is touched. Held by `tests/test_session8611_resources.py`.
+
+## Sign-off
+
+Session 8609 (chain 504) added this block; the note had none. A session never signs it. Signing it accepts, as the map's rules:
+- each switch is one publisher's file, drawn as published; nothing is computed across layers, and two layers that are on are never added or blended;
+- the layers are the resource itself; what is built or planned is a separate set of switches;
+- every kind the owner's list names has a switch, and a kind with no layer is greyed and says why (uranium and critical minerals today);
+- a play's, a basin's or a coal field's area is the area of the outline drawn, not the formation's extent and not a measure of what is in the ground;
+- the layers come in two lists read as one, the first winning a name;
+- the hover gives the place (coordinates and the state), the value, its unit, the vintage and the publisher.
+
+It leaves open the rulings the signature pack lists (`docs/reviews/resources-signature-pack-2026-11-19.md`), each with its default taken, and data requests 542 (uranium and critical minerals) and 552.
+
+- Signed off by:
+- Date:
+- Items left open ruled, and how:
+
 <!-- The sections below are written from the manifest by resource_layers.py --method-doc -->
 
 ## Wind speed at 100 m (`wind_speed_100m`)
