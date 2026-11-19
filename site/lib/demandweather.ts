@@ -65,10 +65,10 @@ export function lastWholeYear(f: Grids, order: readonly string[] = ORDER): strin
   return partial ? String(ys.filter((y) => Number(y) < newest).pop() ?? ys[ys.length - 1]) : String(newest);
 }
 /** The figure and the year the address asks for, or the year's energy in the last whole year. */
-export function choices(f: Grids, q: Record<string, string | undefined>, order: readonly string[] = ORDER) {
+export function choices(f: WeatherFile, q: Record<string, string | undefined>) {
   const figure = FIGURES.find((x) => x.slug === q.figure) ?? FIGURES[0];
-  const ys = years(f, order);
-  const year = q.year && ys.includes(q.year) ? q.year : lastWholeYear(f, order);
+  const ys = years(f);
+  const year = q.year && ys.includes(q.year) ? q.year : lastWholeYear(f);
   return { figure, year };
 }
 export const figureOf = (f: Grids, ba: string, year: string, key: string): Figure | null => f.grids[ba].years[year]?.[key] ?? null;

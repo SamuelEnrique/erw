@@ -16,7 +16,7 @@ import {
 import { GRID_NAME, NEW_REGIONS, REGION_NAME, gwh } from "@/lib/countryfiles";
 import { byHour, byMonth, cells, extremes, hourName, localHour, monthName, signed, slugOf, whole, wholeYears, yearToDate, type Area, type Period } from "@/lib/demandgrowth";
 import { METHODS } from "@/lib/demandpage";
-import { FIGURES, choices as weatherChoices, figureOf, one, reading, signed as signed1, type Figure, type Grid } from "@/lib/demandweather";
+import { FIGURES, figureOf, lastWholeYear, one, reading, signed as signed1, years as weatherYears, type Figure, type Grid } from "@/lib/demandweather";
 import { LICENSE_NEEDED, licenseNeeded, licenseTitle } from "@/lib/license";
 
 // Session 8420 (chain 503, part C): "The whole country", the fourth view of /demand (lib/demandpage.ts, ?view=country).
@@ -138,8 +138,10 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
   const train = wSlots.length ? trainOf(wSlots[0].file!.weather) : [];
   const wf = { train, grids };
   const wOrder = wSlots.map((s) => s.key);
-  const wc = wSlots.length ? weatherChoices(wf, { figure: q.figure, year: q.year }, wOrder) : null;
-  const figure = wc?.figure ?? FIGURES.find((f) => f.slug === q.figure) ?? FIGURES[0];
+  // the weather view's own choice (lib/demandweather.ts, choices), over the places that hold a weather object
+  const figure = FIGURES.find((f) => f.slug === q.figure) ?? FIGURES[0];
+  const wAll = wSlots.length ? weatherYears(wf, wOrder) : [];
+  const wc = wSlots.length ? { figure, year: q.year && wAll.includes(q.year) ? q.year : lastWholeYear(wf, wOrder) } : null;
   const carried = { days, figure: q.figure && FIGURES.some((f) => f.slug === q.figure) ? q.figure : undefined, year: q.year && /^\d{4}$/.test(q.year) ? q.year : undefined };
   const pick = (p: Place) => countryHref({ a: p, b: b && !samePlace(b, p) ? b : "none", ...carried });
   const cell = (s: Slot, v: ReactNode | null | undefined, missing: string): ReactNode => (s.state === "held" ? <Held why={s.why} /> : v ?? <NOT why={missing} />);
@@ -228,7 +230,7 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
 
   // ---- with the weather taken out: the weather view's own chart and table, for the regions that hold it
   const t0 = train[0], t1 = train[train.length - 1];
-  const wYears = wc ? [...new Set(wOrder.flatMap((key) => Object.keys(grids[key].years)))].sort() : [];
+  const wYears = wAll;
   const wHref = (f: string, y: string) => countryHref({ a, b: b ?? "none", days, figure: f, year: y }, "weather");
   const noWeatherWhy = (s: Slot) => (s.state !== "drawn" ? s.why
     : s.place.level === "ba" ? `The weather view is built for EIA's regions, not for a single balancing authority: the file of ${s.name} holds none.`
@@ -314,7 +316,7 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
               head={["Place",
                 <Head key="d" mark="days" words="Days with a whole day's demand" why="How many of the days drawn hold a whole day's demand (every hour of the day used), of the days drawn." />,
                 <Head key="f" mark="from" words="From" why="The first day drawn: the first local day the file holds, or the first of the year chosen." />,
-                <Head key="t" mark="to" words="To" why="The last day drawn." />,
+                <Head key="t" mark="to" words="To" why="The last day drawn: the last local day the file holds, or the last of the year chosen." />,
                 <Head key="m" mark="top" words="Most in a day, GWh" why="The day of most demand among the days drawn that hold a whole day's demand, in GWh (1,000 MWh). Computed here from the file's days." />,
                 <Head key="mo" mark="topon" words="On" why="That day, a local day of the place." />,
                 <Head key="l" mark="low" words="Least in a day, GWh" why="The day of least demand among the days drawn that hold a whole day's demand. Computed here from the file's days." />,
@@ -408,7 +410,7 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
               rows={weatherRows} />
             {wc ? (
               <Fold title="The check: years the fit had not seen">
-                <p className="mb-3"><Hint words="What this check is" why={`Each of ${train.join(", ")} is left out in turn; the fit is made on the others and the left-out year is read against them. A place whose customers did not change should come back near zero. What comes back is the method's miss plus whatever really changed that year. The largest of them, in absolute value, is the uncertainty in the table above.`} /></p>
+                <p className="mb-3"><Hint words="What this check is" why={`Each of ${train.join(", ")} is left out in turn; the fit is made on the others and the left-out year is read against them. A place whose customers did not change comes back near zero. What comes back is the method's miss plus whatever really changed that year. The largest of them, in absolute value, is the uncertainty in the table above.`} /></p>
                 <ToolTable minWidth={640} caption={`${figure.name}: growth the weather does not explain in a year left out of the fit, percent`}
                   head={["Place", ...train.map((y) => `${y} left out`), "Error on an hour left out, percent", "On a day left out"]}
                   rows={wSlots.map((s) => { const w = s.file!.weather!; const none = `The file of ${s.name} does not hold it.`; return { key: s.mark, cells: [s.name,
@@ -481,7 +483,7 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
                 <Head key="d" mark="bademand" words="Files demand" why="EIA's 'Generation Only BA' files no demand: no demand file is written for it." />,
                 <Head key="a" mark="baactive" words="Active" why="EIA's 'Active BA', and its retirement date when it has one." />,
                 <Head key="f" mark="bafirst" words="Held from" why="The first hour held, UTC (demand, or net generation for a generation-only authority)." />,
-                <Head key="l" mark="balast" words="To" why="The last hour held, UTC." />]}
+                <Head key="l" mark="balast" words="To" why="The last hour held, UTC (demand, or net generation for a generation-only authority)." />]}
               rows={index.bas.map((x) => {
                 const p: Place = { level: "ba", code: x.code };
                 const has = !x.generation_only && (!x.files || x.files.includes("demand"));

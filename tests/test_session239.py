@@ -41,7 +41,7 @@ PAGES = {
     "/storage": ("tab", ["fleet", "buildout", "owners"], {"buildout": ("storage/buildout/view.tsx", "BuildoutView"), "owners": ("storage/owners/view.tsx", "OwnersView")}),
     "/severance": ("tab", ["calculator", "lease"], {"lease": ("severance/lease/view.tsx", "LeaseView")}),
     "/prices": ("tab", ["now", "ercot"], {"ercot": ("explorer/ercot-peak-premium/view.tsx", "PeakPremiumView")}),
-    "/demand": ("view", ["metered", "weather", "consumption"], {"consumption": ("consumption/view.tsx", "ConsumptionView")}),
+    "/demand": ("view", ["metered", "weather", "consumption", "country"], {"consumption": ("consumption/view.tsx", "ConsumptionView")}),  # session 8420: The whole country, a new tab (no page folded into it)
     "/deals": ("tab", ["deals", "tracker", "companies"], {"tracker": ("deals/v2/view.tsx", "TrackerView"), "companies": ("companies/view.tsx", "CompaniesView")}),
     "/map": ("tab", ["projects", "resources", "queues"], {"resources": ("resources/view.tsx", "ResourcesView")}),  # session 349: Queues, a new tab (no page folded into it)
 }

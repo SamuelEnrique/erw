@@ -84,6 +84,8 @@ const nextConfig: NextConfig = {
   // session 3304: the company pages read site/data/companies (lib/companydata.ts): the index, and one shard a company
   outputFileTracingIncludes: { "/cost-of-power": ["./data/datacenter/*.json"], "/datacenters": ["./data/datacenter/*.json"], "/cost-of-power/seller": ["./data/seller/hubs/**/*.json"],
     "/companies": ["./data/companies/index.json"], "/companies/rows": ["./data/companies/index.json"], "/companies/rows/python": ["./data/companies/index.json"], "/companies/rows/stata": ["./data/companies/index.json"],
+    // session 8420: /demand?view=country reads the whole country's page files of demand at request time (lib/countrydemand.ts)
+    "/demand": ["./data/regions/index.json", "./data/regions/demand/**/*.json"],
     "/companies/[id]": ["./data/companies/**/*.json"], "/companies/[id]/rows": ["./data/companies/**/*.json"], "/companies/[id]/rows/python": ["./data/companies/**/*.json"], "/companies/[id]/rows/stata": ["./data/companies/**/*.json"] },
   // session 23: Energy Week became the Energy Roundup; the old addresses keep working
   async redirects() {
