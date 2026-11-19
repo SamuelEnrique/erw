@@ -55,7 +55,7 @@ class TheCheckAndTheRead(unittest.TestCase):
         self.assertIn("## A finger on a phone (session 8614)", r)
         rows = [int(x) for x in re.findall(r"^\| (\d+) \|", r, flags=re.M)]
         self.assertEqual(rows, list(range(1, len(rows) + 1)))
-        self.assertEqual(rows[-1], 42)
+        self.assertGreaterEqual(rows[-1], 42)   # later sessions add rows after it (session 8617: rows 43 and 44)
         self.assertRegex(r, r"(?m)^\| 42 \|.*\| fixed \(session 8614\)")
 
     def test_no_em_dash(self):

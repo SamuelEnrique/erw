@@ -96,6 +96,8 @@ Energy Research Warehouse (ERW). Written by session 8606 of chain 504 (`queue/do
 | 11 | The chart of trade draws the newest 36 months whatever month is chosen: should it follow the year chosen? | The newest 36, as its title says; older months are in the table |
 | 12 | **Site-wide:** a reason given on hover is the browser's own tooltip, which a finger never opens (about 1,100 on the site; the regions' tabs give their reasons this way too) | Left as the site has it |
 | 13 | The shared Chart and Table switch is 22 px tall; the brand asks 24 | Left: it is on every chart of the site |
+| 14 | On a phone the 3D scene's foot reads "Left-click: rotate, Mouse-wheel/middle-click: zoom, Right-click: pan": the drawing library's hint, written for a mouse | Left: it is the centerpiece's own |
+| 15 | The panel's "Close" is 24 px tall on a phone; the brand asks 44 | Left: the panel is the centerpiece's own |
 
 ## 3a. Since this pack was first written (sessions 8609 to 8616, the same day)
 
