@@ -108,6 +108,15 @@ class TheSource(unittest.TestCase):
     def test_the_pages_stay_in_review(self):
         self.assertIn('"/events": "review"', src("site", "lib", "release.ts"))
 
+    def test_the_build_is_told_to_carry_the_files(self):
+        """The files are read by names built at request time; the config names their folders for each page that reads them."""
+        config = src("site", "next.config.ts")
+        for line in ('"/events": ["./data/regions/events/*.json"]', '"/events/*": ["./data/regions/events/*.json"]',
+                     '"/demand": ["./data/regions/index.json", "./data/regions/demand/**/*.json"]',
+                     '"/supply": ["./data/regions/index.json", "./data/regions/trade/*.json", "./data/regions/trade_matrix.json", "./data/regions/mix/*.json"]'):
+            self.assertIn(line, config)
+        self.assertIn('outputFileTracingIncludes: { "/cost-of-power": ["./data/datacenter/*.json"]', config)
+
     def test_no_estimate_and_no_ledger_in_the_section(self):
         code = src("site", "app", "events", "WholeCountry.tsx") + src("site", "lib", "countryfiles.ts")
         shown = re.sub(r"//.*|/\*\*?[\s\S]*?\*/", "", code)

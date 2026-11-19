@@ -84,7 +84,13 @@ const nextConfig: NextConfig = {
   // session 3304: the company pages read site/data/companies (lib/companydata.ts): the index, and one shard a company
   outputFileTracingIncludes: { "/cost-of-power": ["./data/datacenter/*.json"], "/datacenters": ["./data/datacenter/*.json"], "/cost-of-power/seller": ["./data/seller/hubs/**/*.json"],
     "/companies": ["./data/companies/index.json"], "/companies/rows": ["./data/companies/index.json"], "/companies/rows/python": ["./data/companies/index.json"], "/companies/rows/stata": ["./data/companies/index.json"],
-    "/companies/[id]": ["./data/companies/**/*.json"], "/companies/[id]/rows": ["./data/companies/**/*.json"], "/companies/[id]/rows/python": ["./data/companies/**/*.json"], "/companies/[id]/rows/stata": ["./data/companies/**/*.json"] },
+    "/companies/[id]": ["./data/companies/**/*.json"], "/companies/[id]/rows": ["./data/companies/**/*.json"], "/companies/[id]/rows/python": ["./data/companies/**/*.json"], "/companies/[id]/rows/stata": ["./data/companies/**/*.json"],
+    // session 8410 (chain 503): the page files of the whole country (site/data/regions, lib/countryfiles.ts) are read by
+    // names built at request time, so the trace cannot see them: the events index and the nine event pages read an
+    // event's file, /demand the index and the demand files, /supply the index, the trade files, the matrix and the mix
+    "/events": ["./data/regions/events/*.json"], "/events/*": ["./data/regions/events/*.json"],
+    "/demand": ["./data/regions/index.json", "./data/regions/demand/**/*.json"],
+    "/supply": ["./data/regions/index.json", "./data/regions/trade/*.json", "./data/regions/trade_matrix.json", "./data/regions/mix/*.json"] },
   // session 23: Energy Week became the Energy Roundup; the old addresses keep working
   async redirects() {
     return [
