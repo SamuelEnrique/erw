@@ -33,3 +33,4 @@ Chain file: `queue/done/502-day-19-november-desktop-window2-findings-industry.md
 - Part D, a new family world_power: 16 drafts (Europe's electricity, Eurostat), 16 of 16 reproduce; code `wip/8202-findings` (04eb70c9e); session 8223.
 - Part D, oil_products_world: 3 drafts (the Gulf's federal offshore oil, gas and leases, BOEM), 33 of 33 reproduce; code `wip/8202-findings` (3b11b27e5); session 8224.
 - Part D, world_power: 3 drafts (France's grid, RTE), 3 of 3 reproduce; code `wip/8202-findings` (914604047); session 8225.
+- Part D, oil_products_world 8 and gas 8 drafts (oil and gas by country, EIA international), both families reproduce in full; code `wip/8202-findings` (d71d3091a); session 8226.
