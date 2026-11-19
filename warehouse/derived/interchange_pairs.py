@@ -13,8 +13,8 @@ docs/state/page_files_regions.md, section 7.
     interchange_pair_daily     entity eia930:<A>-<B> (A before B by code), variable interchange_mwh, freq P1D, ts_utc the
                                Eastern day at 00:00:00Z
     interchange_pair_monthly   the same by Eastern month, freq P1M
-    ba_trade_partners          entity eia930:<BA>, freq P1Y: exchange_gross_mwh and net_import_mwh with each partner
-                               (x_partner, x_rank_gross, x_rank_net), and net_import_share_of_demand_pct
+    ba_trade_partners          freq P1Y: exchange_gross_mwh and net_import_mwh, entity eia930:<BA>-<partner> (x_ba, x_partner,
+                               x_rank_gross, x_rank_net), and net_import_share_of_demand_pct, entity eia930:<BA>
     interchange_event_pairs    entity eia930:<A>-<B>, variable interchange_mwh, one row an event and a year (x_event,
                                x_year, x_role event or other_year), freq PT1H summed over the window (ts_utc its start)
 
@@ -51,7 +51,7 @@ YEARS = range(2018, 2027)
 ET = "America/New_York"
 PAIR_COLS = ["entity", "variable", "ts_utc", "value", "unit", "freq", "source", "x_level", "x_a", "x_b", "x_basis",
              "x_a_report_mwh", "x_b_report_mwh", "x_gap_mwh", "x_hours_a", "x_hours_b", "x_hours_both", "x_direction"]
-PARTNER_COLS = ["entity", "variable", "ts_utc", "value", "unit", "freq", "source", "x_partner", "x_rank_gross", "x_rank_net", "x_hours"]
+PARTNER_COLS = ["entity", "variable", "ts_utc", "value", "unit", "freq", "source", "x_ba", "x_partner", "x_rank_gross", "x_rank_net", "x_hours"]
 EVENT_COLS = ["entity", "variable", "ts_utc", "value", "unit", "freq", "source", "x_level", "x_a", "x_b", "x_event", "x_year",
               "x_role", "x_window_end", "x_basis", "x_a_report_mwh", "x_b_report_mwh", "x_gap_mwh", "x_hours_a", "x_hours_b",
               "x_hours_both", "x_direction"]
@@ -214,7 +214,7 @@ def main(argv=None):
     pt["rank_net"] = pt.groupby(["ba", "year"])["net"].transform(lambda s: s.abs().rank(ascending=False, method="min")).astype(int)
     rows = []
     for r in pt.itertuples():
-        base = dict(entity=f"eia930:{r.ba}", ts_utc=f"{int(r.year)}-01-01T00:00:00Z", unit="MWh", freq="P1Y", source=SOURCE,
+        base = dict(entity=f"eia930:{r.ba}-{r.partner}", x_ba=r.ba, ts_utc=f"{int(r.year)}-01-01T00:00:00Z", unit="MWh", freq="P1Y", source=SOURCE,
                     x_partner=r.partner, x_rank_gross=r.rank_gross, x_rank_net=r.rank_net, x_hours=int(r.n))
         rows.append({**base, "variable": "exchange_gross_mwh", "value": round(float(r.gross), 1)})
         rows.append({**base, "variable": "net_import_mwh", "value": round(float(r.net), 1)})
@@ -233,7 +233,7 @@ def main(argv=None):
         if r.dem > 0:
             rows.append(dict(entity=r.entity, variable="net_import_share_of_demand_pct", ts_utc=f"{int(r.year)}-01-01T00:00:00Z",
                              value=round(100 * float(r.ni) / float(r.dem), 3), unit="pct", freq="P1Y", source=SOURCE,
-                             x_partner="", x_rank_gross="", x_rank_net="", x_hours=int(r.n)))
+                             x_ba=r.entity.split(":")[1], x_partner="", x_rank_gross="", x_rank_net="", x_hours=int(r.n)))
     p_rows = pd.DataFrame(rows)[PARTNER_COLS].sort_values(["entity", "ts_utc", "variable", "x_partner"]).reset_index(drop=True)
     common = [
         f"Retrieved: {run_id} (UTC) by warehouse/derived/interchange_pairs.py",
@@ -256,10 +256,10 @@ def main(argv=None):
         "Shape: series (docs/datastandard.md v0). entity eia930:<A>-<B>, variable interchange_mwh, MWh, freq P1M, ts_utc the first day of the Eastern month at 00:00:00Z. " + rule])
     out["ba_trade_partners"] = (p_rows, [
         "Energy Research Warehouse (ERW): each balancing authority's trading partners by year, ranked by gross and by net exchange, and its share of demand met by net imports (session 8002, chain 501)",
-        "Shape: series (docs/datastandard.md v0). entity eia930:<BA>, freq P1Y, ts_utc the first day of the Eastern year. exchange_gross_mwh: the sum of the absolute "
+        "Shape: series (docs/datastandard.md v0). freq P1Y, ts_utc the first day of the Eastern year. Partner rows: entity eia930:<BA>-<partner> from the authority's side (x_ba, x_partner). exchange_gross_mwh: the sum of the absolute "
         "hourly flows with x_partner by the authority's own report; net_import_mwh: the same flows signed, positive when it received power; x_rank_gross and x_rank_net "
         "rank its partners within the year (net by size, whichever direction); x_hours the hours it reported. net_import_share_of_demand_pct: its total interchange "
-        "with the sign turned, summed over the hours it holds both that and its demand, over its demand in the same hours, percent (below zero: a net exporter). Method: docs/methods/interchange_pairs.md."])
+        "with the sign turned, summed over the hours it holds both that and its demand, over its demand in the same hours, percent (below zero: a net exporter); entity eia930:<BA>. Method: docs/methods/interchange_pairs.md."])
     out["interchange_event_pairs"] = (e_rows, [
         "Energy Research Warehouse (ERW): each pair of balancing authorities and of regions over the window of each of the nine events of /events, beside the same calendar hours of every other year held (session 8002, chain 501)",
         "Shape: series (docs/datastandard.md v0). entity eia930:<A>-<B>, variable interchange_mwh, MWh summed over the window, freq PT1H (hourly data summed), ts_utc the window's first hour, "

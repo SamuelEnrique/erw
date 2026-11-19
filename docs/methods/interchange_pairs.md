@@ -30,9 +30,9 @@ Days and months are Eastern (America/New_York), as in `ba_supply_monthly`.
 
 ## `ba_trade_partners`
 
-For each balancing authority and Eastern year, from its own reports only: with each partner, the gross exchange (the sum of the absolute hourly flows) and the net imports (the same flows signed, positive when it received power), and each partner's rank within the year by gross and by net (net ranked by size, whichever direction). `x_hours` is how many hours it reported for that tie.
+For each balancing authority and Eastern year, from its own reports only (one row a partner, `entity` `eia930:<authority>-<partner>`, with `x_ba` and `x_partner`): with each partner, the gross exchange (the sum of the absolute hourly flows) and the net imports (the same flows signed, positive when it received power), and each partner's rank within the year by gross and by net (net ranked by size, whichever direction). `x_hours` is how many hours it reported for that tie.
 
-`net_import_share_of_demand_pct`: the authority's total interchange with its sign turned, summed over the hours it holds both that and its demand, over its demand in the same hours, percent. Below zero, the authority sent out more than it took in over those hours. It is a ratio of two sums the authority reported, not a measure of what any import displaced.
+`net_import_share_of_demand_pct` (`entity` `eia930:<authority>`): the authority's total interchange with its sign turned, summed over the hours it holds both that and its demand, over its demand in the same hours, percent. Below zero, the authority sent out more than it took in over those hours. It is a ratio of two sums the authority reported, not a measure of what any import displaced.
 
 ## `interchange_event_pairs`
 
