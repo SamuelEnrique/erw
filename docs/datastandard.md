@@ -67,7 +67,7 @@ One row per physical or corporate thing: a plant, a project, a datacenter, a cou
 | Column | Required | Type | Rules |
 |---|---|---|---|
 | `entity_id` | yes | string | `namespace:native_id`, same rule as `series.entity`. Unique within the table |
-| `entity_type` | yes | string | `plant`, `generator`, `project`, `datacenter`, `substation`, `utility`, `company`, `counterparty`, and since session 896 (Decision 54) `equipment`, since session 982 (Decision 57) `dam`, since session 2007 (Decision 58) `platform`, since session 3302 (Decision 76) `company_alias` and `company_link`, since session 7802 (Decision 79) `county` |
+| `entity_type` | yes | string | `plant`, `generator`, `project`, `datacenter`, `substation`, `utility`, `company`, `counterparty`, and since session 896 (Decision 54) `equipment`, since session 982 (Decision 57) `dam`, since session 2007 (Decision 58) `platform`, since session 3302 (Decision 76) `company_alias` and `company_link`, since session 7802 (Decision 79) `county`, since session 8000 (Decision 80) `balancing_authority` |
 | `name` | yes | string | Name as the source writes it |
 | `geo` | no | string | ISO 3166-2 code |
 | `lat` | no | float | WGS84 decimal degrees |
@@ -266,6 +266,7 @@ What was chosen, and why:
 77. **Session 3758: a table that keeps its revisions says so, and is keyed by vintage.** Rule 5 and the key rule allow a `series` table to keep more than one revision of an observation. Such a table says so in a header line beginning `Revisions: kept, one row per vintage`; the validator then keys it by `(entity, variable, ts_utc, vintage)` and refuses a row with no `vintage`. The first is `ferc714_planning_area_forecasts`: each planning area forecasts the same year in up to ten filings, and the movement between filings is the table's use (`ferc714_forecast_growth`). A table without the line keeps one row per key, as before.
 78. **Session 7022: MWh/MW-day.** Energy per megawatt of capacity per day joins the unit vocabulary: `ercot_storage_rt_offers_monthly` writes what the storage fleet offered to sell in a month as MWh per MW of the fleet per day held, so months of different lengths and fleets of different sizes compare. It is not `MWh/MW` (Decision 34), which is a month's energy per MW; the form follows `USD/MW-day`.
 79. **Session 7802: county.** `county` joins the `entity_type` vocabulary for a county or county equivalent of the Census Bureau, its `entity_id` `census:county:<five-digit FIPS>`, the same entity the series `census_county_population` writes. `eia_county_region` maps each county of the lower 48 to its balancing authority and EIA region: the county is the thing described, so it is the entity, not a utility or a region.
+80. **Session 8000: balancing authority.** `balancing_authority` joins the `entity_type` vocabulary for a balancing authority and the area it balances, its `entity_id` `eia930:<EIA-930 code>`, the entity EIA-930's series already name. `ba_boundaries` (HIFLD's Control Areas layer) describes the area: `lat` and `lon` are its centroid, `geo` the state of its address, and the polygon itself is kept in the saved raw file and, simplified, in `site/data/regions/ba_boundaries.json`, since no table shape holds a polygon. A polygon the source gives no EIA-930 code keeps the publisher's own identifier, `hifld:control_area:<ID>`.
 
 Deferred to a later version:
 
