@@ -274,7 +274,16 @@ Session 8601 (chain 504, 19 November 2026) added to the map and took nothing fro
 
 **A fault found and fixed.** The brand's rule for a button that is not pressed gave a switch that is on (`role="switch"`, `aria-checked="true"`: Batteries, Prices) ink letters on its own ink ground, so "Batteries: on" could not be read, in the Network shape too. `site/app/tokens.css` now leaves such a switch its own white letters.
 
-**Held by** `tests/test_session8601.py` (the reader, the sums, the words, the arithmetic, the sources) and `site/scripts/check-grid-map.mjs` on a built site (the network unopened, the time, the megawatts and the colors of the two shapes set against each other, the hovers, the ring, a story switched in its middle, the zoom, the list, a phone).
+**After the reader's read (session 8604, `docs/reviews/grid-map-read-2026-11-19.md`).** Five cases a reader would bring were taken on the map in a browser, and seven things changed:
+
+- A tie's hover names the one table its megawatts come from (the interchange table of the view: `eia930_all_interchange` in the live week, `eia930_daily_interchange` in the replay, `eia930_event_hourly_interchange` in a story), and its two names stand once, in its head; who reported is said by code.
+- The states' outlines are drawn as thin lines over the regions (the Census Bureau's cartographic boundaries as `us-atlas` holds them, the file the project map draws). They name nothing and answer no pointer; a region's hover says the state under the pointer. A balancing authority's footprint follows no state line, and without them nothing on the map said where a place is.
+- Where published footprints lie on one another (Salt River Project, Arizona Public Service and the Western Area Power Administration's Desert Southwest region all hold Phoenix), the hover of the one on top names the others: "Also covers this point". The smaller footprint is drawn on top, as before. An overlap is the publisher's, not an error of the map: a footprint is a planning area, and two authorities can plan for the same ground.
+- "California's evening" shows the newest whole Pacific day of the live week for which California's batteries are reported (`eveningDay` in `site/lib/networkV3.ts`: a day counts when all but one of its hours hold a report). A newer whole day with no report is passed over and named in the line under the controls. With no report in the week at all it is the newest whole day, as it was before this session. This holds in the Network shape too. The cause it answers: the live set's battery table can end a day or two before the week's interchange.
+- With a grid chosen that is none of the seven, the fold "neighbours, last twelve months" says the twelve months are not held for it. It used to say "Click a grid, or choose one above". In the Network shape too.
+- When the whole country's index is on the site, the panel says an authority's local time from the index's time zone; until then, as before, only the seven grids have one.
+
+**Held by** `tests/test_session8604.py` (the evening's day on a typed week, the hover's words, the sources); and, for the map as a whole, `tests/test_session8601.py` (the reader, the sums, the words, the arithmetic, the sources) and `site/scripts/check-grid-map.mjs` on a built site (the network unopened, the time, the megawatts and the colors of the two shapes set against each other, the hovers, the ring, a story switched in its middle, the zoom, the list, a phone).
 
 ## The thirteen regions in the Grid tool (session 8602)
 

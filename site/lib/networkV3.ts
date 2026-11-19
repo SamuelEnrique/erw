@@ -183,3 +183,35 @@ export function trace(links: NetLink[], from: number, to: number, id: string, ho
   for (let h = from; h < to; h += 1) if (mine.some((l) => l.mw[h] !== null && l.mw[h] !== undefined)) held += 1;
   return { id, inMwh, outMwh, frames: Math.max(0, to - from), rows, held };
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Session 8604 (chain 504, the reader's read of the map, row 4): which day "California's evening" shows.
+// Until then it was the newest whole Pacific day of the live week, whatever that day held. The live set's battery
+// table can end a day or two before the week's interchange does, and then the story about California's batteries drew
+// none: every hour read "Not reported for this hour". The day is now the newest whole Pacific day for which the
+// batteries are reported; a newer whole day that holds no report is passed over and named. With no day reported at
+// all, the newest whole day, as before.
+
+/** The whole Pacific days of a week of hours, newest first: each day's positions in `hours`. A day is whole when its
+ * hours are all there (23, 24 or 25 of them, in a row) and it is neither the week's first hours nor its last. */
+export function wholePacificDays(hours: string[]): { day: string; idx: number[] }[] {
+  const dayOf = (ts: string) => new Intl.DateTimeFormat("en-CA", { timeZone: "America/Los_Angeles" }).format(new Date(ts));
+  const out: { day: string; idx: number[] }[] = [];
+  for (const d of [...new Set(hours.map(dayOf))].reverse()) {
+    const idx = hours.map((t, i) => (dayOf(t) === d ? i : -1)).filter((i) => i >= 0);
+    const contiguous = idx.length >= 23 && idx[idx.length - 1] - idx[0] + 1 === idx.length;
+    if (contiguous && idx.length >= 23 && idx[0] > 0 && idx[idx.length - 1] < hours.length - 1) out.push({ day: d, idx });
+  }
+  return out;
+}
+
+/** The day the story shows: the newest whole day whose hours hold a battery report (all but one of them at the least),
+ * with the newer whole days passed over; with no such day, the newest whole day. Null when the week holds no whole day. */
+export function eveningDay(hours: string[], batteries: (number | null)[] | undefined): { day: string; idx: number[]; passed: string[] } | null {
+  const days = wholePacificDays(hours);
+  if (!days.length) return null;
+  const held = (idx: number[]) => !!batteries && idx.filter((i) => batteries[i] !== null && batteries[i] !== undefined).length >= idx.length - 1;
+  const at = days.findIndex((d) => held(d.idx));
+  if (at < 0) return { ...days[0], passed: [] };
+  return { ...days[at], passed: days.slice(0, at).map((d) => d.day) };
+}
