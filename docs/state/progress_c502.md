@@ -25,3 +25,4 @@ Chain file: `queue/done/502-day-19-november-desktop-window2-findings-industry.md
 - Part D, second round, large_load 1 draft (waits by size, internal) and emissions_climate 12 drafts (CO2 by country from 1980), both families reproduce in full; code `wip/8202-findings` (c3a7fa5da); session 8215.
 - Part D, second round, weather: 3 drafts (degree days), 18 of 18 reproduce; code `wip/8202-findings` (30b477cec); session 8216.
 - Part D, second round, gas: 10 drafts (pipeline capacity between states), 27 of 27 reproduce; code `wip/8202-findings` (0258ae10b); session 8217.
+- Part D, second round, oil_products_world: 12 drafts (US exports by product and destination), 30 of 30 reproduce; code `wip/8202-findings` (0596b3be6); session 8218.
