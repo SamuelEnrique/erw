@@ -158,3 +158,16 @@ Session 8613, 19 November 2026, about 16:42 to 16:50 UTC, on a build of `wip/860
 ### What the second read of the regions changed on the page
 
 Two site gaps fixed at their cause, each with a test in `tests/test_session8613.py` (rows 39 and 40). On a build of the real files: `check-grid-regions.mjs` 28 of 28; the replication read again, 1,375 of 1,375.
+
+## A finger on a phone (session 8614)
+
+Session 8614, 19 November 2026, about 17:47 to 17:53 UTC. The read of the resource map found that a finger's tap showed no value there, and that every read at 390 px so far had pointed with a mouse. The Grid tool's two new views were then tapped with a finger at 390 px on a build (`runs/c504_finger_tap.mjs`).
+
+- **The map of balancing authorities.** Built for a finger since session 8601: a tap on a region opens its panel, a finger on a tie shows the tie's figures, two fingers zoom. Its check uses fingers. Nothing to change.
+- **The hour by hour chart of a region.** A tap showed nothing (row 42).
+
+| # | Case | What the reader met | What it is | State |
+|---:|---|---|---|---|
+| 42 | 15 | On a phone a tap on the hour by hour chart showed no card; the hour's figures could be read only in the chart's Table | Site fault of session 8605: the card came up on a pointer's move, and a tap is a press and a lift with no move; the lift is also the touch pointer's leave | fixed (session 8614): a finger's press reads the hour, and a touch's leave is let pass, so the card stays until the next tap. The check taps with a finger at 390 px (picture `region_car_mix_390_tap.png`) |
+
+One site fault fixed at its cause with a test in `tests/test_session8614.py`. On a build: `check-grid-regions.mjs` 30 of 30, `check-grid-map.mjs` 53 of 53.
