@@ -103,6 +103,7 @@ const fixture = read("../../tests/fixtures/session180/ba_boundaries_fixture.json
 const snap = read("../data/grid_network.json");
 const y21 = read("../public/network/daily_2021.json");
 const heldFile = fs.existsSync(new URL("../public/network/ba_boundaries.json", import.meta.url)) ? read("../public/network/ba_boundaries.json") : null;
+const wholeCountry = fs.existsSync(new URL("../data/regions/ba_boundaries.json", import.meta.url)) ? read("../data/regions/ba_boundaries.json") : null;   // session 8601
 const MAP = `(() => { const m = document.querySelector('[data-map-state]'); const t = document.querySelector('[data-shape-toggle]'); const d = document.querySelector('[data-network-view]');
   return { shape: t?.getAttribute('data-shape-toggle') ?? null, pressed: [...(t?.querySelectorAll('button[aria-pressed="true"]') ?? [])].map((b) => b.innerText.trim()).join(','),
     buttons: [...(t?.querySelectorAll('button') ?? [])].map((b) => b.innerText.trim()).join(','), state: m?.getAttribute('data-map-state') ?? null, regions: document.querySelectorAll('[data-region]').length,
@@ -133,7 +134,15 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   s = await wait(`(() => { const s = ${MAP}; return s.state && s.state !== 'loading' ? s : null; })()`, 20000, "the map's frame");
   check(s.shape === "map" && s.pressed === "Map" && !s.canvas && s.search === "?shape=map", `"Map" shows the map in place of the canvas and the address holds it (${s.search}; canvas ${s.canvas})`);
   // held: the page draws what the site's boundary file holds, and says so when there is none
-  if (!heldFile) {
+  // session 8601: when the site holds the whole country's boundary file (data/regions/ba_boundaries.json, the contract
+  // docs/state/page_files_regions.md), that is the file the map draws: a publisher's layer, named under the map, with
+  // no derived label; until then, the file of session 193 as below
+  if (wholeCountry) {
+    const want = [...new Set(wholeCountry.features.map((f) => f.properties.code))].filter((code) => snap.nodes.some((x) => x.id === code)).length;
+    const lab = await evaluate(`(() => { const m = document.querySelector('[data-map-state]'); return { derived: m?.getAttribute('data-map-derived'), label: !!document.querySelector('[data-map-derived-label]'), source: document.querySelector('[data-map-source-label]')?.innerText ?? '' }; })()`);
+    check(s.state === "held" && s.regions === want && s.said === want && s.matched === wholeCountry.features.length, `the regions drawn (${s.regions}) are the grids of the network in the whole country's boundary file (${wholeCountry.features.length} boundaries), one each`);
+    check(lab.derived === "0" && !lab.label && lab.source.includes(wholeCountry.source) && lab.source.includes(wholeCountry.retrieved_at.slice(0, 10)), `the file is a publisher's layer: no derived label, and its source and day stand under the map ("${lab.source.slice(0, 90)}...")`);
+  } else if (!heldFile) {
     check(s.state === "absent" && s.regions === 0 && s.said === 0 && s.matched === 0 && s.text.includes("The boundary file is not yet held") && s.text.includes("no region is drawn"),
       `the site holds no boundary file, and the map says so and draws no region (state ${s.state}, ${s.regions} regions): "${s.text.slice(0, 60)}..."`);
   } else {
