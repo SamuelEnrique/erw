@@ -129,7 +129,9 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
   /** session 237: the component is a view of the Grid tool (/grid). `keep` is the page's own query, which stays at the
    *  head of the address; the component's "view" and "grid" are written as "net" and "node" after it (lib/gridtool.ts).
    *  `node`: the balancing authority whose panel opens when the address names none (the grid chosen on the page). */
-  page?: { keep: string; node: string | null; /** session 299: the shape the page's tab is (the Gravity tab), when the address says nothing */ shape?: Shape } }) {
+  page?: { keep: string; node: string | null; /** session 299: the shape the page's tab is (the Gravity tab), when the address says nothing */ shape?: Shape;
+    /** session 8602: each balancing authority's EIA region, when the whole country's index is on the server (lib/gridregions.ts regionOfBa); without it the panel and the map's hover are as they were */
+    regions?: Record<string, { code: string; name: string }> } }) {
   const ownSearch = useCallback((search: string) => (page ? netFromPage(search, page.node) : search), [page]);
   const box = useRef<HTMLDivElement>(null);
   const graph = useRef<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -486,7 +488,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
     tables: isDayView ? "eia930_daily_interchange, eia930_daily_demand, carbon_intensity_daily" : view.kind === "live" ? "eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly" : "eia930_event_hourly_interchange, carbon_intensity_daily" };
   const mapFigures = (id: string): MapFigures => {
     const c = view.intensity(id, hour);
-    return { intensity: c, intensityShown: c === null ? undefined : view.kind === "live" ? shown(c) : String(fmt(c)), demand: view.demand(id, hour), ...netOf(view.links, id, hour) };
+    return { intensity: c, intensityShown: c === null ? undefined : view.kind === "live" ? shown(c) : String(fmt(c)), demand: view.demand(id, hour), ...netOf(view.links, id, hour), region: page?.regions?.[id]?.name };
   };
   const mapBattery = (id: string) => (view.batteryReported(id) ? { mw: view.battery(id, hour), max: batteryMax[id] ?? 0 } : null);
   const mapSide = (a: string, b: string) => reportedBy(view.links.find((l) => l.a === a && l.b === b)?.other, hour);
@@ -587,6 +589,8 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
               <div>
                 <div className="font-serif text-lg text-accent">{pick.name}</div>
                 <div className="font-mono text-xs text-muted">{pick.id}{pick.iso ? <> &middot; <Link href={`/grid?grid=${GRID_SLUG[pick.iso]}`}>{pick.iso}&apos;s grid page</Link></> : null}</div>
+                {/* session 8602: the EIA region the authority is in, a link that opens the region in the tool */}
+                {page?.regions?.[pick.id] ? <div className="text-xs" data-panel-region={page.regions[pick.id].code}>EIA region: <Link href={`/grid?region=${page.regions[pick.id].code.toLowerCase()}`}>{page.regions[pick.id].name}</Link></div> : null}
               </div>
               <button type="button" onClick={() => setPick(null)} className="border border-rule px-2 py-0.5 text-xs" aria-label="Close the panel">Close</button>
             </div>

@@ -276,6 +276,36 @@ Session 8601 (chain 504, 19 November 2026) added to the map and took nothing fro
 
 **Held by** `tests/test_session8601.py` (the reader, the sums, the words, the arithmetic, the sources) and `site/scripts/check-grid-map.mjs` on a built site (the network unopened, the time, the megawatts and the colors of the two shapes set against each other, the hovers, the ring, a story switched in its middle, the zoom, the list, a phone).
 
+## The thirteen regions in the Grid tool (session 8602)
+
+Session 8602 (chain 504, 19 November 2026). Until then the tool's picker held the seven grids and the Lower 48. It now also holds EIA's thirteen regions of the lower 48 (California, Carolinas, Central, Florida, Mid-Atlantic, Midwest, New England, Northwest, New York, Southeast, Southwest, Tennessee, Texas), six of which no page of the site had drawn: the Southeast, Florida, the Carolinas, Tennessee, the Northwest and the Southwest, none of whose balancing authorities is one of the seven grids.
+
+**What a region is.** One of the thirteen regions of EIA's hourly grid monitor (Form EIA-930), with the balancing authorities EIA's reference tables place in it. The page draws no region of its own making. The regions, their authorities and every figure come from the whole country's page files, `site/data/regions/`, which the data machine builds (`warehouse/derived/regions_pages.py`, `docs/methods/regions_pages.md`); their shapes are the contract `docs/state/page_files_regions.md`. The site's code only reads them (`site/lib/regionsdata.ts`) and does the small arithmetic of `site/lib/gridregions.ts`: the hour of a position in an hourly array, the newest hour that holds a net generation, a source's share of that hour, one month of a trade file.
+
+**The address.** A region has its own word: `/grid?region=se&view=mix`. The grid's word (`grid=`) and the function that reads an address for a grid (`gridPick`) are untouched, so every address the tool had reads as it did. A region is in view only when the address names one the index holds; otherwise the page is the grid's page, as before.
+
+**Until a file is on the site.** Under the grid picker a row "EIA region" lists the regions of `index.json`. Until that file is on the server the row reads "not built yet", its hover names the file, and no region can be chosen. A region whose own file is missing says "not built yet" on that tab, with the file's name on hover, and draws no figure.
+
+**The Mix tab for a region** (`mix/<region>.json`, the form of the seven grids' `site/data/mix/*.json`):
+
+- The latest hour held: the newest hour of the file's 35 days that holds a net generation; its demand, net generation and net imports, and each of the eight sources with its megawatts and its share of that hour's net generation (megawatts over net generation, to a hundredth of a percent).
+- Generation by source hour by hour for those 35 days, with demand, in UTC.
+- The average day of any month or year the file holds, by local hour (the stacked areas and the demand line a grid has), and the shares of the period by source with their megawatt-hours and the days held.
+- One calendar month year after year: net load (demand less wind and solar) by hour, each year's midday low (09:00 to 16:00), evening high (from 16:00) and the ramp between them, by the functions the seven grids' tab uses (`site/lib/mix2.ts`).
+- "The rest of the Mix tab": the seven parts a grid's tab has that a region's file does not hold (a hub price beside the mix, wind and solar forecasts, the records, how hard the system works, availability by source, carbon intensity and temperature beside the mix, the table by state and since 2001). Each is drawn, blank, as "not held for this region", with its reason on hover. None is hidden and none is filled.
+
+A region's days and local hours are counted in the time zone its file names (the zone of most of its demand). Demand is the sum of the region's balancing authorities that file demand, for an hour every one of them holds; net imports are EIA's total interchange with its sign turned (positive: the region imports). Those are the data machine's rules, said on the page's hovers.
+
+**The Gravity tab for a region** (`trade/<region>.json`): for a month, one row a neighbouring region (and Canada or Mexico): the region's net imports from it by the region's own report, the same flow as the neighbour reported it, the gap between the two over the hours both reported, and the hours each side held; then the total, which the file writes only when every neighbour's own report holds at least half the month's hours. A figure a side did not report is blank, never zero. A chart draws each neighbour's monthly net imports for the last 36 months. Months are EIA's Eastern months. Neither side's report is adjusted to the other.
+
+**The Network tab for a region:** the network as for the Lower 48, under a list of the region's balancing authorities; a name opens that authority's panel. When the index is on the site, every panel and every hover on the map names the authority's EIA region, and the panel's line opens the region in the tool. **The Clean tab** draws its three parts blank: the warehouse computes no carbon intensity for a region.
+
+**A region beside the grid that covers nearly its ground** (Texas and ERCOT, New York and NYISO, New England and ISO-NE, the Mid-Atlantic and PJM): the region's hover in the picker carries the first sentence of the data machine's own account of why the two differ (`alike.why` in `demand/<region>.json`). Both stand; the page does not choose between them.
+
+**Ask is not changed.** With a region in view the panel is the Lower 48's, says so, and reads no region's page file.
+
+**Held by** `tests/test_session8602.py` (the address, the readers on the tests' own fixture, the page's hand-over, the seven grids' blocks as they were) and `site/scripts/check-grid-regions.mjs` on a built site, which reads the same files the server reads and checks the page's figures against them.
+
 ## The gravity shape (session 266)
 
 The owner named it on 14 October 2026: a third shape of the network, "Gravity", beside "Map" and "Network" at the top of

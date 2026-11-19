@@ -64,7 +64,7 @@ export async function RegionTool({ sp, index, region, view, node }: { sp: Query;
       <ToolPage>
         <div data-grid-tool="region" data-grid-region={code} data-grid-tool-view={view}>
           <ToolHeader crumb="The grid" title={`${region.name}: an EIA region`}
-            lead={<>{LEAD[view](region)}{fresh ? <> <span title="Until the whole country's files (19 November 2026) the site drew the seven grids and the Lower 48. None of the seven grids is among this region's balancing authorities." className="cursor-help border-b border-dotted border-muted" data-region-new="1">None of the seven grids is among them.</span></> : null}</>}
+            lead={<>{LEAD[view](region)}{fresh ? <> <span title="Until the whole country's files (19 November 2026) the site drew the seven grids and the Lower 48. None of the seven grids is among this region's balancing authorities." className="cursor-help border-b border-dotted border-muted" data-region-new="1">None of the seven grids is among its balancing authorities.</span></> : null}</>}
             under={tables.length ? <TableLicenses tables={tables} /> : undefined} />
           <ToolPicker label="Grid" items={GRID_CHOICES.map((g) => ({ key: g.slug, label: g.label, href: gridHref(g.slug, view), on: false, title: g.name }))} />
           <RegionPicker index={index} on={code} view={view} alike={alikeOf(index)} />
@@ -74,7 +74,8 @@ export async function RegionTool({ sp, index, region, view, node }: { sp: Query;
               {view === "network" ? (
                 <div data-region-view="network">
                   <RegionAuthorities region={region} index={index} node={node} />
-                  <NetworkView keep={`?region=${slug}&view=network`} node={node} />
+                  {/* keyed by the authority chosen: the network restores its view from the address once, when it is first drawn, so a new choice from the list above draws it anew with that panel open */}
+                  <NetworkView key={node ?? "none"} keep={`?region=${slug}&view=network`} node={node} />
                 </div>
               ) : null}
               {view === "mix" ? <RegionMixView region={region} mixFile={mixFile} period={one(sp.period) ?? null} cal={one(sp.cal) ?? null} /> : null}

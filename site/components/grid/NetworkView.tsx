@@ -14,6 +14,8 @@ import { ISO_BA, liveExtras, supplyRows } from "@/app/network/data";
 import { GravityFigures, NetworkFigures } from "@/components/grid/NetworkFigures";
 import type { GridChoice } from "@/lib/gridtool";
 import { shownHour } from "@/lib/gridKeys";
+import { regionOfBa } from "@/lib/gridregions";
+import { regionsIndex } from "@/lib/regionsdata";
 
 // Session 168 (the owner's instruction of 8 October 2026): version 3 is the network page. This file is version 3's page
 // (app/network/v3/page.tsx, sessions 93, 109 and 124), moved to the tool's own address; /network/v3 redirects here
@@ -54,6 +56,9 @@ export async function NetworkView({ keep, node, shape, grid }: { /** the page's 
   const supply: Record<string, Supply> = {};
   if (!bad) for (const [, ba] of isos) { const s = supplyOf(reads.flatMap((r) => (r.ok ? r.data : [])), ba); if (s) supply[ba] = s; }
   const complete = completeHour(snap.hours, snap.links);
+  // session 8602: each balancing authority's EIA region, for the panel's line and the map's hover; nothing when the whole country's index is not on the server
+  const regionIndex = regionsIndex();
+  const regions = regionIndex ? regionOfBa(regionIndex) : undefined;
   // carried over from the page that stood here until session 168: the newest hour of all, and of the seven ISOs' demand
   const newest = snap.hours[snap.hours.length - 1];
   const demandTs = snap.nodes.filter((n) => n.iso && n.demand_ts).map((n) => n.demand_ts as string).reduce((a, b) => (b > a ? b : a), "");
@@ -62,7 +67,7 @@ export async function NetworkView({ keep, node, shape, grid }: { /** the page's 
     <div data-grid-network="1">
       <p className="mb-4 max-w-3xl text-base leading-relaxed">The {snap.nodes.length} balancing authorities that report to EIA-930 and the power they exchange. Watch a story, replay any day since {index.first.slice(0, 4)}, or
           click a grid to see who supplies it and trace the power two steps back. The address holds what you are looking at: copy it to share the view.</p>
-      <Network snap={snap} supply={supply} live={extras} v3={{ index, complete }} page={{ keep, node, shape }} />
+      <Network snap={snap} supply={supply} live={extras} v3={{ index, complete }} page={{ keep, node, shape, regions }} />
       {/* session 266: the two-day lag, under the chart, computed from the snapshot (net|lag in lib/network.ts) */}
       {(() => { const shownHour = complete.hour ?? newest; const lag = Math.round((Date.parse(snap.built) - Date.parse(shownHour)) / 3_600_000);
         // session 299 (the owner's ruling 3c of 18 October 2026): both ages: against the snapshot's refresh (checkable, the key) and against the clock when this page was drawn (not a key: the clock is not a table)

@@ -38,7 +38,7 @@ const project = (p: [number, number]) => projection(p) as [number, number] | nul
 export type MapNode = { id: string; name: string };
 export type MapFlow = { source: string; target: string; mw: number; a: string; b: string };
 /** Session 8601: a grid's figures for the frame shown, from the network's own view (the panel's numbers). */
-export type MapFigures = { intensity: number | null; /** the intensity as the panel writes it for this view (two decimals in the live week, whole in a story or a day) */ intensityShown?: string; demand: number | null; /** the sum of its ties, positive when it imports; null when no tie reported */ net: number | null; ties: number };
+export type MapFigures = { intensity: number | null; /** the intensity as the panel writes it for this view (two decimals in the live week, whole in a story or a day) */ intensityShown?: string; demand: number | null; /** the sum of its ties, positive when it imports; null when no tie reported */ net: number | null; ties: number; /** session 8602: the EIA region the grid is in, when the whole country's index is held */ region?: string };
 /** Session 8601: the frame shown, in the words of the slider's own line, and the tables its figures come from. */
 export type MapFrame = { when: string; unit: "hour" | "day"; tables: string };
 
@@ -222,6 +222,7 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
       lines.push(`Demand: ${fig.demand !== null ? `${whole(fig.demand)} MW${unit === "day" ? " on average" : ""}` : `not held for this ${unit}`}`);
       lines.push(fig.net !== null && fig.ties ? `Net ${fig.net >= 0 ? "imports" : "exports"}: ${whole(Math.abs(fig.net))} MW over ${fig.ties} tie${fig.ties === 1 ? "" : "s"}` : `No tie reported this ${unit}`);
       if (battery) { const b = battery(hover.id); lines.push(`Batteries: ${!b ? "not reported for this period" : b.mw === null ? `not reported for this ${unit}` : b.mw >= 0 ? `discharging ${whole(b.mw)} MW` : `charging ${whole(-b.mw)} MW`}`); }
+      if (fig.region) lines.push(`EIA region: ${fig.region}`);
       if (hover.kind === "listed") lines.push("No boundary in the file: its ties are drawn in the Network view.");
       if (frame) lines.push(frame.when);
     }
