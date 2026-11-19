@@ -31,7 +31,7 @@ import { Num } from "@/components/Num";
 import { shown } from "@/lib/format";
 import { HEADLINE, MEASURES, SPREAD, type Measure, type Supply } from "@/lib/basupply";
 import { clampDay, dayFrame, easternHours, parseShared, priceWeight, sharedQuery, trace as tracePower, type Daily, type DailyIndex, type ViewKey, PAUSED_PRICE, PAUSED_WORDS, monthSpan, type Complete } from "@/lib/networkV3";
-import { parseShape, reportedBy, withShape, type Shape } from "@/lib/networkMap";
+import { netOf, parseShape, reportedBy, withShape, type Shape } from "@/lib/networkMap";
 import type { MapFigures, MapFrame } from "./NetworkMap";
 import { netFromPage, netToPage } from "@/lib/gridtool";
 import { GRAVITY_CENTER, GRAVITY_GRIDS, netImportAt } from "@/lib/networkGravity";
@@ -485,10 +485,8 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
     unit: isDayView ? "day" : "hour",
     tables: isDayView ? "eia930_daily_interchange, eia930_daily_demand, carbon_intensity_daily" : view.kind === "live" ? "eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly" : "eia930_event_hourly_interchange, carbon_intensity_daily" };
   const mapFigures = (id: string): MapFigures => {
-    let net = 0, n = 0;
-    for (const l of view.links) { if (l.a !== id && l.b !== id) continue; const v = l.mw[hour]; if (v === null || v === undefined) continue; net += l.a === id ? -v : v; n += 1; }
     const c = view.intensity(id, hour);
-    return { intensity: c, intensityShown: c === null ? undefined : view.kind === "live" ? shown(c) : String(fmt(c)), demand: view.demand(id, hour), net: n ? net : null, ties: n };
+    return { intensity: c, intensityShown: c === null ? undefined : view.kind === "live" ? shown(c) : String(fmt(c)), demand: view.demand(id, hour), ...netOf(view.links, id, hour) };
   };
   const mapBattery = (id: string) => (view.batteryReported(id) ? { mw: view.battery(id, hour), max: batteryMax[id] ?? 0 } : null);
   const mapSide = (a: string, b: string) => reportedBy(view.links.find((l) => l.a === a && l.b === b)?.other, hour);

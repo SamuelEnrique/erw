@@ -167,6 +167,20 @@ export function readGeoBoundaries(v: unknown): Held {
     nodes: regions.length + without.length, matched: regions.length, nodes_without_shape: without.map((id) => ({ id, name: id })), shapes_without_node: strays, regions } };
 }
 
+/** A grid's net imports in one frame, over the ties that reported in it: the panel's own sum (app/network/Network.tsx,
+ * `ties` and `netImport`; lib/network.ts netValue's net|import), positive when the grid imports. `net` is null when no
+ * tie reported. The map's hover reads this, so the hover, the panel and the figures under the network are one number. */
+export function netOf(links: { a: string; b: string; mw: (number | null)[] }[], id: string, frame: number): { net: number | null; ties: number } {
+  let net = 0, ties = 0;
+  for (const l of links) {
+    if (l.a !== id && l.b !== id) continue;
+    const v = l.mw[frame];
+    if (v === null || v === undefined) continue;
+    net += l.a === id ? -v : v; ties += 1;
+  }
+  return { net: ties ? net || 0 : null, ties };
+}
+
 /** Which side's report a tie's flow is, in one frame. The snapshot's rule (data/grid_network.json, `rule`): a pair's
  * flow is read from the balancing authority whose code sorts first; in a frame it did not report, from the other's
  * with the sign turned. `other` is the list of frames read from the second side, when the file carries one; without
@@ -187,6 +201,28 @@ export function flowTip(f: { from: string; to: string; fromName: string; toName:
       : `Reported by ${f.aName} (${f.a}), the first of the two by code; where it filed nothing for this ${f.unit}, by ${f.bName} (${f.b}). The file does not mark which.`;
   return { head: `${f.fromName} (${f.from}) to ${f.toName} (${f.to})`, lines: [`${whole(f.mw)} MW${f.unit === "day" ? " on average over the day" : ""}`, f.when, said] };
 }
+
+/** The tie whose line is nearest a point, and how far it is, in the drawing's own units; null with no tie. The hover
+ * takes the nearest line, not the one drawn last, so of two ties that run close together each is reached on its own
+ * side, and a short tie is never hidden under a long one. */
+export function nearestLine(p: [number, number], lines: { from: [number, number]; to: [number, number] }[]): { index: number; distance: number; /** how far along the line its nearest point is, 0 to 1 */ along: number; length: number } | null {
+  let index = -1, distance = Infinity, along = 0, length = 0;
+  lines.forEach((l, i) => {
+    const dx = l.to[0] - l.from[0], dy = l.to[1] - l.from[1], len2 = dx * dx + dy * dy;
+    const u = len2 ? Math.max(0, Math.min(1, ((p[0] - l.from[0]) * dx + (p[1] - l.from[1]) * dy) / len2)) : 0;
+    const d = Math.hypot(p[0] - (l.from[0] + u * dx), p[1] - (l.from[1] + u * dy));
+    if (d < distance) { distance = d; index = i; along = u; length = Math.sqrt(len2); }
+  });
+  return index < 0 ? null : { index, distance, along, length };
+}
+
+/** Does a tie take the hover at its nearest point? Not at its two ends: there the pointer is on a grid's own point,
+ * where all its ties meet, and the grid answers. An end is the last `end` units of the line, and never more than a
+ * quarter of it, so a short tie still has a middle. */
+export const onTheLine = (near: { along: number; length: number }, end: number) => {
+  const cut = Math.min(end, near.length / 4), at = near.along * near.length;
+  return at >= cut && at <= near.length - cut;
+};
 
 /** How full the batteries' ring is: the network's own rule (app/network/Network.tsx, nodeObject): half full at rest,
  * full when discharging at the period's most, nearly empty when charging at its most. */

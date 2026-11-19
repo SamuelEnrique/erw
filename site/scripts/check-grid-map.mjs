@@ -25,7 +25,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { withBrowser } from "./browser.mjs";
-import { MAP_HOME, arcPath, batteryFill, clampMapView, derivedLabel, flowTip, insidePoint, insideRings, readGeoBoundaries, reportedBy, whole, zoomMapAt } from "../lib/networkMap.ts";
+import { MAP_HOME, arcPath, batteryFill, clampMapView, derivedLabel, flowTip, insidePoint, insideRings, nearestLine, onTheLine, readGeoBoundaries, reportedBy, whole, zoomMapAt } from "../lib/networkMap.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3504").replace(/\/$/, "");
 const shots = process.argv[3] ?? null;
@@ -54,6 +54,11 @@ check(tip(null).head === "ERCOT (ERCO) to Southwest Power Pool (SWPP)" && tip(nu
 check(tip("first").lines[2] === "Reported by ERCOT (ERCO)." && tip("second").lines[2] === "Reported by Southwest Power Pool (SWPP): ERCOT (ERCO) filed nothing for this hour." && tip(null, "day").lines[0] === "220 MW on average over the day",
   "a tie's hover names the side that reported it when the file marks it, and a day's megawatts are an average");
 check(reportedBy(undefined, 3) === null && reportedBy([3], 3) === "second" && reportedBy([2], 3) === "first", "which side reported: unknown without the file's mark, the second side in a marked frame, the first otherwise");
+const lines = [{ from: [0, 0], to: [100, 0] }, { from: [40, 1], to: [60, 1] }, { from: [0, 50], to: [0, 60] }];
+check(nearestLine([50, 0], lines)?.index === 0 && nearestLine([50, 0.9], lines)?.index === 1 && nearestLine([50, 0.9], lines)?.distance < 0.11 && nearestLine([-5, 0], lines)?.distance === 5 && nearestLine([1, 1], []) === null,
+  "the hover takes the nearest line: of two ties that run together, each is reached on its own side, and a short one is not hidden under a long one");
+check(onTheLine({ along: 0.5, length: 100 }, 8) && !onTheLine({ along: 0.05, length: 100 }, 8) && !onTheLine({ along: 0.97, length: 100 }, 8) && onTheLine({ along: 0.5, length: 6 }, 8) && !onTheLine({ along: 0.1, length: 6 }, 8),
+  "a tie does not take the hover at its two ends, where a grid's ties meet and the grid answers; a short tie keeps its middle");
 check(batteryFill(100, 100) === 1 && batteryFill(-100, 100) === 0.02 && batteryFill(0, 100) === 0.5 && batteryFill(50, 0) === 1, "the batteries' ring is full when discharging at the period's most, half at rest, nearly empty when charging at its most");
 check(arcPath(10, 10, 5, 0.25) === "M10,5A5,5 0 0 1 15,10" && arcPath(10, 10, 5, 0.75) === "M10,5A5,5 0 1 1 5,10" && arcPath(10, 10, 5, 1).split("A").length === 3, "the ring's arc starts at the top and runs clockwise; a whole ring is two halves");
 check(same(zoomMapAt(MAP_HOME, 2, 100, 100, 975, 610), { k: 2, x: -100, y: -100 }) && same(zoomMapAt({ k: 2, x: -100, y: -100 }, 0.25, 100, 100, 975, 610), MAP_HOME)
@@ -74,9 +79,9 @@ const SCENE = `(() => { const g = document.querySelector('[aria-label^="A 3D net
 const TOP = `window.scrollTo(0, Math.max(0, document.querySelector('[data-shape-toggle]').getBoundingClientRect().top + window.scrollY - 8))`;
 const pointOn = (sel) => `(() => { const e = document.querySelector(${JSON.stringify(sel)}); if (!e) return null; const b = e.getBoundingClientRect();
   for (let i = 1; i < 24; i += 1) for (let j = 1; j < 24; j += 1) { const x = b.left + (b.width * i) / 24, y = b.top + (b.height * j) / 24; if (document.elementFromPoint(x, y) === e) return { x, y }; } return null; })()`;
-const pointOnLine = (sel) => `(() => { const e = document.querySelector(${JSON.stringify(sel)}); if (!e) return null; const m = e.getScreenCTM();
-  const p = (t) => { const q = new DOMPoint(Number(e.getAttribute('x1')) + (Number(e.getAttribute('x2')) - Number(e.getAttribute('x1'))) * t, Number(e.getAttribute('y1')) + (Number(e.getAttribute('y2')) - Number(e.getAttribute('y1'))) * t).matrixTransform(m); return { x: q.x, y: q.y }; };
-  for (const t of [0.5, 0.45, 0.55, 0.4, 0.6, 0.35, 0.65, 0.3, 0.7, 0.25, 0.75, 0.2, 0.8, 0.15, 0.85, 0.1, 0.9]) { const q = p(t); if (document.elementFromPoint(q.x, q.y) === e) return q; } return null; })()`;
+// a point of the screen on a tie's own line, a share of the way along it
+const pointOnLine = (sel, share) => `(() => { const e = document.querySelector(${JSON.stringify(sel)}); if (!e) return null; const m = e.getScreenCTM();
+  const q = new DOMPoint(Number(e.getAttribute('x1')) + (Number(e.getAttribute('x2')) - Number(e.getAttribute('x1'))) * ${share}, Number(e.getAttribute('y1')) + (Number(e.getAttribute('y2')) - Number(e.getAttribute('y1'))) * ${share}).matrixTransform(m); return { x: q.x, y: q.y }; })()`;
 const hex = `((c) => { const s = document.createElement('span'); s.style.color = c; document.body.appendChild(s); const v = getComputedStyle(s).color.match(/\\d+/g).slice(0, 3).map((x) => Number(x).toString(16).padStart(2, '0')).join(''); s.remove(); return v; })`;
 const WIDE = `document.documentElement.scrollWidth <= window.innerWidth`;
 
@@ -154,13 +159,21 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
   // hovers: a tie (the largest the map draws)
   await evaluate(TOP);
   await sleep(300);
-  // every tie answers somewhere along its own line (a short one lies on top of the long ones that cross it)
-  const reach = await evaluate(`(() => { const out = []; for (const e of document.querySelectorAll('[data-flow-hit]')) { const m = e.getScreenCTM(); let ok = false;
-    for (let i = 1; i < 40 && !ok; i += 1) { const t = i / 40; const q = new DOMPoint(Number(e.getAttribute('x1')) + (Number(e.getAttribute('x2')) - Number(e.getAttribute('x1'))) * t, Number(e.getAttribute('y1')) + (Number(e.getAttribute('y2')) - Number(e.getAttribute('y1'))) * t).matrixTransform(m);
-      ok = document.elementFromPoint(q.x, q.y) === e; } if (!ok) out.push(e.getAttribute('data-flow-hit')); } return out; })()`);
+  // every tie answers somewhere along its own line: the hover takes the nearest line, so a short tie is not hidden under a long one
+  const reach = [];
+  for (const [pair] of drawn) {
+    let ok = false;
+    for (const share of [0.5, 0.3, 0.7, 0.15, 0.85]) {
+      const q = await evaluate(pointOnLine(`[data-flow="${pair}"] line`, share));
+      await mouse("mouseMoved", q);
+      await sleep(30);
+      if ((await evaluate(`document.querySelector('[data-map-flow-hover]')?.getAttribute('data-map-flow-hover') ?? null`)) === pair) { ok = true; break; }
+    }
+    if (!ok) reach.push(pair);
+  }
   check(reach.length === 0, `every one of the ${drawn.length} ties can be reached by the mouse somewhere along its line${reach.length ? ` (not: ${reach.join(", ")})` : ""}`);
   const big = drawn.slice().sort((a, b) => b[1] - a[1])[0];
-  p = await evaluate(pointOnLine(`[data-flow-hit="${big[0]}"]`));
+  p = await evaluate(pointOnLine(`[data-flow="${big[0]}"] line`, 0.5));
   await mouse("mouseMoved", { x: 5, y: 5 });
   await mouse("mouseMoved", p);
   const fh = await wait(`(() => { const h = document.querySelector('[data-map-flow-hover]'); return h ? { id: h.getAttribute('data-map-flow-hover'), mw: Number(h.getAttribute('data-mw')), text: h.innerText } : null; })()`, 5000, "a tie's hover");
@@ -171,12 +184,35 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
   await shot("map_1280_hover_flow.png");
   await mouse("mouseMoved", { x: 5, y: 5 });
 
-  // batteries on the map
-  await evaluate(clickText("Batteries: off"));
-  const rings = await wait(`(() => { const r = [...document.querySelectorAll('[data-battery-ring]')]; return r.length ? r.map((e) => [e.getAttribute('data-battery-ring'), Number(e.getAttribute('data-battery-mw')), Number(e.getAttribute('data-battery-fill'))]) : null; })()`, 8000, "the batteries' rings on the map");
-  check(rings.length > 0 && rings.every((r) => regionIds.has(r[0]) && r[2] >= 0.02 && r[2] <= 1) && (await evaluate(`document.querySelector('[data-map-key]').innerText.includes('Ring: batteries reported')`)),
-    `the Batteries switch draws a ring on the map for each grid whose batteries are reported in the hour (${rings.map((r) => `${r[0]} ${whole(r[1])} MW`).join(", ")}), and the key says what the ring is`);
-  await shot("map_1280_batteries.png");
+  // batteries on the map: "California's evening" turns the switch on over a whole Pacific day; the hours are stepped until one reports a battery
+  await evaluate(clickText("California's evening"));
+  await wait(`document.querySelector('[data-network-view]')?.getAttribute('data-network-view') === 'evening'`, 15000, "California's evening");
+  await sleep(500);
+  await evaluate(clickText("Pause"));
+  const RINGS = `(() => { const r = [...document.querySelectorAll('[data-battery-ring]')]; return r.length ? r.map((e) => [e.getAttribute('data-battery-ring'), Number(e.getAttribute('data-battery-mw')), Number(e.getAttribute('data-battery-fill'))]) : null; })()`;
+  let rings = null;
+  for (let i = 0; i < 26 && !rings; i += 1) {
+    rings = await evaluate(RINGS);
+    if (!rings) { await evaluate(`(() => { const el = document.querySelector('input[type="range"]'); if (Number(el.value) >= Number(el.max)) return false; Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(el, String(Number(el.value) + 1)); el.dispatchEvent(new Event('input', { bubbles: true })); return true; })()`); await sleep(120); }
+  }
+  const sw = await evaluate(`(() => { const b = [...document.querySelectorAll('button[role="switch"]')].find((x) => x.innerText.startsWith('Batteries')); const s = getComputedStyle(b); return { text: b.innerText.trim(), color: s.color, ground: s.backgroundColor, on: b.getAttribute('aria-checked') }; })()`);
+  check(sw.on === "true" && sw.text === "Batteries: on" && sw.color !== sw.ground, `the switch that is on can be read: its label is ${sw.color} on ${sw.ground} (it was ink on ink under the brand's button rule)`);
+  const switchOn = await evaluate(`document.querySelector('button[role="switch"]').getAttribute('aria-checked') === 'true' && !!document.querySelector('[data-map-batteries]')`);
+  if (!rings) console.log(`     not proven here: the live week holds no hour of that day with a battery reported (the switch is ${switchOn ? "on and the map's layer is there" : "off"})`);
+  else {
+    check(switchOn && rings.every((r) => regionIds.has(r[0]) && r[2] >= 0.02 && r[2] <= 1) && (await evaluate(`document.querySelector('[data-map-key]').innerText.includes('Ring: batteries reported')`)),
+      `the Batteries switch draws a ring on the map for each grid whose batteries are reported in the hour (${rings.map((r) => `${r[0]} ${whole(r[1])} MW, ring ${Math.round(r[2] * 100)} percent full`).join(", ")}), and the key says what the ring is`);
+    await evaluate(TOP);
+    await sleep(300);
+    p = await evaluate(pointOn(`[data-region="${rings[0][0]}"]`));
+    await mouse("mouseMoved", { x: 5, y: 5 });
+    await mouse("mouseMoved", p);
+    const bh = await wait(`document.querySelector('[data-map-hover="${rings[0][0]}"]')?.innerText ?? null`, 5000, "the hover of a grid with a ring");
+    check(new RegExp(`Batteries: (discharging|charging) ${whole(Math.abs(rings[0][1]))} MW`).test(bh), `the hover of a grid with a ring gives its batteries' megawatts (${bh.split("\n").find((l) => l.startsWith("Batteries"))})`);
+    await shot("map_1280_batteries.png");
+    await mouse("mouseMoved", { x: 5, y: 5 });
+  }
+  await evaluate(clickText("Close"));
   await evaluate(clickText("Batteries: on"));
 
   // a story, switched in its middle
@@ -242,6 +278,15 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
   await shot("map_390.png");
   const c = await evaluate(`(() => { const e = document.querySelector('[data-map-state] svg'); e.scrollIntoView({ block: 'center' }); const b = e.getBoundingClientRect(); return { x: b.left + b.width / 2, y: b.top + b.height / 2 }; })()`);
   const touch = (type, pts) => send("Input.dispatchTouchEvent", { type, touchPoints: pts.map((q, i) => ({ x: q.x, y: q.y, id: i + 1, radiusX: 2, radiusY: 2, force: 1 })) });
+  // a finger has no hover: a tap on a tie shows the tie's figures
+  const tie = await evaluate(`[...document.querySelectorAll('[data-flow]')].sort((a, b) => Number(b.getAttribute('data-mw')) - Number(a.getAttribute('data-mw')))[0].getAttribute('data-flow')`);
+  const tp = await evaluate(pointOnLine(`[data-flow="${tie}"] line`, 0.5));
+  await touch("touchStart", [tp]);
+  await touch("touchEnd", []);
+  const tapped = await wait(`document.querySelector('[data-map-flow-hover]')?.innerText ?? null`, 5000, "a tie's figures under a finger").catch(() => null);
+  check(!!tapped && / MW/.test(tapped) && /Reported by /.test(tapped) && !(await evaluate(`!!document.querySelector('[data-panel]')`)) && (await evaluate(WIDE)), `a tap on a tie shows its figures and opens no panel (${(tapped ?? "nothing shown").split("\n").slice(0, 2).join(" | ")})`);
+  await shot("map_390_tie.png");
+  await evaluate(`document.querySelector('[data-map-state] svg').scrollIntoView({ block: 'center' })`);
   await touch("touchStart", [{ x: c.x - 20, y: c.y }, { x: c.x + 20, y: c.y }]);
   for (let i = 1; i <= 8; i += 1) await touch("touchMove", [{ x: c.x - 20 - 8 * i, y: c.y }, { x: c.x + 20 + 8 * i, y: c.y }]);
   await touch("touchEnd", []);

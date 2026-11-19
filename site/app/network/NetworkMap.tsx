@@ -20,10 +20,12 @@
 // - Hovering a region gives its name and its figures for the frame shown; hovering a tie gives both names, the
 //   megawatts, the frame and which side reported it.
 // - The Batteries switch draws the network's ring on the map, at the point inside each region its ties meet at.
-// - The map is moved and zoomed: the wheel, a double click, two fingers, a drag once it is zoomed, and three buttons.
+// - The map is moved and zoomed: the wheel, two fingers, a drag once it is zoomed, and three buttons.
+// - A tie answers along its own line: the hover takes the nearest line to the pointer (lib/networkMap.ts nearestLine),
+//   so a short tie is not hidden under a long one; under a finger, which has no hover, a tap on a tie shows it.
 import { geoAlbersUsa } from "d3-geo";
-import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
-import { MAP_HOME, MAP_ZOOM, arcPath, batteryFill, clampMapView, derivedLabel, flowTip, flowWidth, readBoundaries, readGeoBoundaries, ringPath, whole, zoomMapAt, type Held, type MapView } from "@/lib/networkMap";
+import { useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from "react";
+import { MAP_HOME, MAP_ZOOM, arcPath, batteryFill, clampMapView, derivedLabel, flowTip, flowWidth, nearestLine, onTheLine, readBoundaries, readGeoBoundaries, ringPath, whole, zoomMapAt, type Held, type MapView } from "@/lib/networkMap";
 
 export const BOUNDARY_FILE = "/network/ba_boundaries.json";
 /** session 8601: the whole country's boundary file, behind the release gate; it answers { held: false } until the server holds the file */
@@ -65,6 +67,17 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
   const ptrs = useRef(new Map<number, { x: number; y: number }>());
   const pinch = useRef<{ d: number; from: MapView; px: number; py: number } | null>(null);
   const dragged = useRef(false);
+  const finger = useRef(false);   // the last press was a finger's: a tap on a tie shows the tie
+  const [px, setPx] = useState(W / 748);   // the drawing's units to a screen pixel; the frame's own once it is measured
+  useEffect(() => {
+    const el = svg.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const read = () => { const w = el.getBoundingClientRect().width; if (w > 0) setPx(Math.max(W / w, H / (el.getBoundingClientRect().height || 1))); };
+    read();
+    const seen = new ResizeObserver(read);
+    seen.observe(el);
+    return () => seen.disconnect();
+  }, [held.state]);
   useEffect(() => {
     let alive = true;
     const derivedFile = () => fetch(BOUNDARY_FILE)
@@ -135,10 +148,21 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
     return { kind, id, x: e.clientX - b.left, y: e.clientY - b.top, right: e.clientX - b.left > b.width / 2, low: e.clientY - b.top > b.height / 2 };
   };
   const moving = () => ptrs.current.size > 0 && dragged.current;
+  // the tie under the pointer: the nearest line within reach (half its width, and four screen pixels for a mouse, twelve for a finger)
+  const flowAt = (e: { clientX: number; clientY: number }, reach: number): MapFlow | null => {
+    const m = svg.current?.getScreenCTM();
+    if (!m || !drawnFlows.length) return null;
+    const [bx, by] = toBox(e.clientX, e.clientY);
+    const near = nearestLine([(bx - t.x) / t.k, (by - t.y) / t.k], drawnFlows.map((f) => ({ from: at.get(f.source) as [number, number], to: at.get(f.target) as [number, number] })));
+    // not at a tie's ends (eight screen pixels): there the pointer is on a grid's own point, and the grid answers
+    if (!near || !onTheLine(near, 8 / (t.k * m.a))) return null;
+    const f = drawnFlows[near.index];
+    return near.distance * t.k * m.a <= reach + flowWidth(f.mw, maxMw) / 2 ? f : null;
+  };
   // two fingers zoom about the point between them; one finger, or the mouse held down, moves a map that is zoomed
   const down = (e: ReactPointerEvent<SVGSVGElement>) => {
     ptrs.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
-    dragged.current = false;
+    dragged.current = false; finger.current = e.pointerType === "touch";
     if (ptrs.current.size === 2) {
       const [p, q] = [...ptrs.current.values()];
       const [px, py] = toBox((p.x + q.x) / 2, (p.y + q.y) / 2);
@@ -147,7 +171,14 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
   };
   const move = (e: ReactPointerEvent<SVGSVGElement>) => {
     const was = ptrs.current.get(e.pointerId);
-    if (!was) return;
+    if (!was) {
+      // no button held: a tie near the pointer takes the hover from the region under it (the region's own handler ran first)
+      if (e.pointerType === "touch") return;
+      const f = flowAt(e, 4);
+      const here = f ? place(e, "flow", `${f.a}-${f.b}`) : null;
+      setHover((h) => here ?? (h?.kind === "flow" ? null : h));
+      return;
+    }
     ptrs.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (ptrs.current.size === 2 && pinch.current) {
       const [p, q] = [...ptrs.current.values()], g = pinch.current;
@@ -163,7 +194,15 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
   };
   const up = (e: ReactPointerEvent<SVGSVGElement>) => { ptrs.current.delete(e.pointerId); if (ptrs.current.size < 2) pinch.current = null; };
   const zoomBy = (factor: number) => setT((v) => zoomMapAt(v, factor, W / 2, H / 2, W, H));
-  const choose = (id: string) => { if (!dragged.current) onPick(id); };
+  // a click or a tap on the map: a finger on a tie shows the tie's figures (a finger has no hover); anything else on a region opens its panel
+  const choose = (e: ReactMouseEvent<SVGSVGElement>) => {
+    if (dragged.current) return;
+    const f = finger.current ? flowAt(e, 12) : null;
+    if (f) { setHover(place(e, "flow", `${f.a}-${f.b}`)); return; }
+    const id = (e.target as Element).getAttribute?.("data-region");
+    if (id) onPick(id);
+    else if (finger.current) setHover(null);
+  };
 
   // session 8601: the words of the hover, from the network's own figures for the frame shown
   const card = (() => {
@@ -187,7 +226,10 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
     }
     return { attr: { "data-map-hover": hover.id }, head: names.get(hover.id) ?? hover.id, lines, source: fig && frame ? frame.tables : "" };
   })();
-  const ring = 10 / Math.sqrt(t.k);
+  // session 8601: one screen pixel in the drawing's own units, at the zoom shown: a line's width, the dash and the ring
+  // are sizes on the screen (a tie's width is the rule's own pixels on a phone as on a desk, zoomed or not)
+  const u = px / t.k;
+  const ring = 10 * u;
   return (
     <div className={`${frameBox} self-start bg-paper`} data-map-state="held" data-map-regions={regions.length} data-map-matched={held.file.matched}
       data-map-flows={drawnFlows.length} data-map-flows-all={flows.length} data-map-no-shape={noShape.map((n) => n.id).join(",")} data-map-sha={held.file.provenance.raw_sha256}
@@ -196,8 +238,8 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
       {/* the map keeps its own proportions; a derived file's label stands under it, inside the frame, and covers no region */}
       <div className="relative" style={style}>
       <svg ref={svg} viewBox={`0 0 ${W} ${H}`} className="h-full w-full" role="img" preserveAspectRatio="xMidYMid meet" style={{ touchAction: t.k > MAP_ZOOM[0] ? "none" : "pan-y", cursor: t.k > MAP_ZOOM[0] ? "grab" : undefined }}
-        onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up} onPointerLeave={(e) => { if (!e.currentTarget.hasPointerCapture(e.pointerId)) up(e); }}
-        onDoubleClick={(e) => { const [px, py] = toBox(e.clientX, e.clientY); setT((v) => zoomMapAt(v, 2, px, py, W, H)); }}
+        onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up} onPointerLeave={(e) => { if (!e.currentTarget.hasPointerCapture(e.pointerId)) up(e); setHover((h) => (h?.kind === "flow" ? null : h)); }}
+        onClick={choose}
         aria-label="A map of the US balancing authorities, each region colored by the carbon intensity of its generation, with the power they exchange; hover a region for its name and figures, click it for its panel">
         <defs>
           <marker id="erw-flow-head" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L8,4L0,8Z" fill="var(--color-accent)" /></marker>
@@ -209,9 +251,9 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
             const dim = pick !== null && pick !== r.id && !neighbours.has(r.id);
             const fill = colorOf(r.id);
             return (
-              <path key={r.id} d={r.d} fillRule="evenodd" fill={fill} fillOpacity={dim ? 0.22 : 0.9} stroke={pick === r.id ? "var(--color-ink)" : "var(--color-panel)"} strokeWidth={(pick === r.id ? 1.6 : 0.6) / t.k}
-                data-region={r.id} data-fill={fill} data-dim={dim ? "1" : "0"} className="cursor-pointer" tabIndex={0} role="button" aria-label={names.get(r.id)}
-                onClick={() => choose(r.id)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onPick(r.id); } }}
+              <path key={r.id} d={r.d} fillRule="evenodd" fill={fill} fillOpacity={dim ? 0.22 : 0.9} stroke={pick === r.id ? "var(--color-ink)" : "var(--color-panel)"} strokeWidth={(pick === r.id ? 1.6 : 0.6) * u}
+                data-region={r.id} data-fill={fill} data-dim={dim ? "1" : "0"} className="erw-region cursor-pointer" tabIndex={0} role="button" aria-label={names.get(r.id)}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onPick(r.id); } }}
                 onPointerMove={(e) => { if (!moving()) setHover(place(e, "region", r.id)); }}
                 onPointerLeave={() => setHover(null)} onFocus={() => setHover({ kind: "region", id: r.id, x: -1, y: -1, right: false, low: false })} onBlur={() => setHover(null)} />
             );
@@ -221,23 +263,14 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
           {drawnFlows.map((f) => {
             const s = at.get(f.source) as [number, number], e = at.get(f.target) as [number, number];
             const dim = pick !== null && f.a !== pick && f.b !== pick;
-            const w = flowWidth(f.mw, maxMw) / t.k;
+            const w = flowWidth(f.mw, maxMw) * u;
             return (
               <g key={`${f.a}-${f.b}`} data-flow={`${f.source}>${f.target}`} data-mw={f.mw}>
                 <line x1={s[0]} y1={s[1]} x2={e[0]} y2={e[1]} stroke={dim ? "var(--color-rule)" : "var(--color-muted)"} strokeOpacity={pick ? 0.6 : 0.45} strokeWidth={w} markerEnd={`url(#${dim ? "erw-flow-head-dim" : "erw-flow-head"})`} />
-                {dim ? null : <line x1={s[0]} y1={s[1]} x2={e[0]} y2={e[1]} stroke="var(--color-accent)" strokeWidth={Math.max(1 / t.k, w * 0.5)} strokeDasharray={`${2 / t.k} ${10 / t.k}`} strokeLinecap="round"
-                  className="erw-flow-dash" style={{ animationDuration: `${Math.max(0.6, 2.4 - 1.8 * (f.mw / (maxMw || 1)))}s`, ["--erw-dash" as string]: -12 / t.k }} />}
+                {dim ? null : <line x1={s[0]} y1={s[1]} x2={e[0]} y2={e[1]} stroke="var(--color-accent)" strokeWidth={Math.max(u, w * 0.5)} strokeDasharray={`${2 * u} ${10 * u}`} strokeLinecap="round"
+                  className="erw-flow-dash" style={{ animationDuration: `${Math.max(0.6, 2.4 - 1.8 * (f.mw / (maxMw || 1)))}s`, ["--erw-dash" as string]: -12 * u }} />}
               </g>
             );
-          })}
-        </g>
-        {/* session 8601: each tie answers to the mouse along its own line, a little wider than it is drawn */}
-        <g fill="none" stroke="transparent" pointerEvents="stroke">
-          {/* the longest first, so a short tie lies on top of the long ones that cross it and can be reached */}
-          {drawnFlows.slice().sort((p, q) => { const d = (f: MapFlow) => { const s = at.get(f.source) as [number, number], e = at.get(f.target) as [number, number]; return Math.hypot(s[0] - e[0], s[1] - e[1]); }; return d(q) - d(p); }).map((f) => {
-            const s = at.get(f.source) as [number, number], e = at.get(f.target) as [number, number];
-            return <line key={`${f.a}-${f.b}`} x1={s[0]} y1={s[1]} x2={e[0]} y2={e[1]} strokeWidth={Math.max(7, flowWidth(f.mw, maxMw) + 4) / t.k} data-flow-hit={`${f.source}>${f.target}`}
-              onPointerMove={(ev) => { if (!moving()) setHover(place(ev, "flow", `${f.a}-${f.b}`)); }} onPointerLeave={() => setHover(null)} />;
           })}
         </g>
         {/* session 8601: the Batteries switch on the map: the network's ring (fuller as they discharge, emptier as they charge), over a faint whole circle */}
@@ -249,9 +282,9 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
               const dim = pick !== null && pick !== r.id && !neighbours.has(r.id);
               return (
                 <g key={r.id} data-battery-ring={r.id} data-battery-mw={b.mw} data-battery-fill={batteryFill(b.mw, b.max)} opacity={dim ? 0.25 : 1}>
-                  <circle cx={p[0]} cy={p[1]} r={ring} stroke="var(--color-panel)" strokeWidth={3.2 / t.k} />
-                  <circle cx={p[0]} cy={p[1]} r={ring} stroke="var(--color-rule)" strokeWidth={1.2 / t.k} />
-                  <path d={arcPath(p[0], p[1], ring, batteryFill(b.mw, b.max))} stroke="var(--color-ink)" strokeWidth={2.2 / t.k} />
+                  <circle cx={p[0]} cy={p[1]} r={ring} stroke="var(--color-panel)" strokeWidth={4.5 * u} />
+                  <circle cx={p[0]} cy={p[1]} r={ring} stroke="var(--color-rule)" strokeWidth={1.5 * u} />
+                  <path d={arcPath(p[0], p[1], ring, batteryFill(b.mw, b.max))} stroke="var(--color-ink)" strokeWidth={2.5 * u} />
                 </g>
               );
             })}
@@ -273,7 +306,7 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
         </div>
       ) : null}
       {/* the dash runs from the exporter to the importer, faster as the flow is larger; still where the reader asks for less motion */}
-      <style>{`@keyframes erw-flow { to { stroke-dashoffset: var(--erw-dash, -12); } } .erw-flow-dash { animation: erw-flow 1.2s linear infinite; } @media (prefers-reduced-motion: reduce) { .erw-flow-dash { animation: none; } }`}</style>
+      <style>{`@keyframes erw-flow { to { stroke-dashoffset: var(--erw-dash, -12); } } .erw-flow-dash { animation: erw-flow 1.2s linear infinite; } .erw-region:focus { outline: none; } .erw-region:focus-visible { stroke: var(--color-ink); } @media (prefers-reduced-motion: reduce) { .erw-flow-dash { animation: none; } }`}</style>
       </div>
       {/* session 8601: the grids with no shape in the file, by name, in the map's own frame, right under it: at 1280 px a
           column beside the map took a quarter of the map's width (seen in the browser), so the names run in lines */}
