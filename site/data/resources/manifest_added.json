@@ -1,5 +1,5 @@
 {
- "built_at_utc": "2026-11-19T13:50:58Z",
+ "built_at_utc": "2026-11-19T16:51:29Z",
  "note": "Layers added after manifest.json, in its form; manifest.json is not changed (chain 501). A page reads both.",
  "layers": [
   {
@@ -17,8 +17,8 @@
    "source_file": "usgs_coal_fields/GIS.zip",
    "source_bytes": 230322811,
    "source_sha256": "e491215d0a937cae48cc5e9a2763ea43c85a4d11c183ec7c5b1ac559d2a585a5",
-   "unit": "square kilometres",
-   "value_label": "area of the coal field (computed on a sphere from the source's polygon)",
+   "unit": "square miles",
+   "value_label": "area of the coal field (computed on a sphere from the source's polygon, square kilometres over 2.589988110336; AREA_KM2 holds the square kilometres)",
    "publisher": "U.S. Geological Survey (USGS)",
    "source_title": "Coal fields of the conterminous United States, National Coal Resource Assessment updated version (Open-File Report 2012-1205, East 2013), Updated Coal Fields/Coal_Fields.shp",
    "vintage": "2013",
@@ -26,7 +26,7 @@
    "source_resolution": "polygons, the report's map at 1:5,000,000",
    "reduction": "each polygon simplified to 0.01 degrees with its topology kept (Douglas-Peucker, one feature at a time); coordinates to 3 decimals; no feature dropped",
    "file": "coal_fields.json",
-   "bytes": 454540,
+   "bytes": 460988,
    "features": 602,
    "bounds": [
     -124.359,
@@ -42,8 +42,8 @@
    "stats": {
     "n": 602,
     "min": 0.0,
-    "mean": 2626.5171096345516,
-    "max": 485744.1
+    "mean": 1014.1041528239202,
+    "max": 187546.8
    },
    "hover_fields": [
     "PROVINCE",
@@ -52,7 +52,8 @@
     "RANK"
    ],
    "acknowledgment": "Source: U.S. Geological Survey, Open-File Report 2012-1205 (2013)",
-   "notes_for_method": "docs/methods/resource_layers_table.md. An outline of where coal fields lie and their rank, not a measure of coal in place or of what can be mined."
+   "notes_for_method": "An outline of where coal fields lie and their rank, not a measure of coal in place or of what can be mined.",
+   "method_note": "docs/methods/resource_layers_table.md"
   }
  ],
  "missing": [
