@@ -317,6 +317,17 @@ A region's days and local hours are counted in the time zone its file names (the
 
 **Held by** `tests/test_session8602.py` (the address, the readers on the tests' own fixture, the page's hand-over, the seven grids' blocks as they were) and `site/scripts/check-grid-regions.mjs` on a built site, which reads the same files the server reads and checks the page's figures against them.
 
+**The regions against EIA's own regional series (session 8606, the cross-check of the done line).** The region files are summed by the data machine from the balancing authorities' rows of EIA's six-month files. EIA also publishes each region's own hourly series through its open data API (Form EIA-930: `electricity/rto/region-data` for demand, net generation and total interchange, `electricity/rto/fuel-type-data` for net generation by energy source, the region's code as respondent). `replication/grid/crosscheck_regions.py` sets the two side by side for three hours of each of the thirteen regions (the latest hour the file holds, the same hour seven days earlier, and the hour of the file's 35 days in which "other" is lowest), folding EIA's codes as the contract folds them, and writes every row to `replication/grid/crosscheck_regions.csv` with its address (the key is not part of it). Read on 19 November 2026 at 14:37 UTC:
+
+- The file's hour is EIA's period at the hour's end: an hour the file starts at 04:00 UTC is EIA's period `T05`. Read the other way, no region's demand agrees.
+- 383 of the 430 figures compared are EIA's to 1 MW. Demand: 32 of 38. Net imports: 32 of 36. The eight sources: 270 of 282. The sum of the sources: 32 of 37.
+- Net generation agrees in 17 of 37: the file's is the sum of its eight sources, and EIA's is the total the authorities report, which is not always the sum of EIA's own codes (the Central region by 315 and 424 MW in two hours, the Mid-Atlantic by up to 495 MW).
+- Four hours differ by more than 100 MW in a figure that should agree (the Carolinas at 2026-10-31 17:00 UTC, the Southwest at 2026-11-02 13:00 and 2026-11-16 15:00), the largest the Southeast at 2026-11-11 19:00 UTC (demand 23,757 MW in the file, 24,859 MW in EIA's series). Data request 551 holds them.
+- Where EIA returns no code for a region's source (battery storage for New York and the Mid-Atlantic, wind for the Carolinas and Florida, coal for New England), the file writes 0. Data request 551 asks whether those should be blank.
+- California's "other" is EIA's own: in the hour to 2026-11-08 19:00 UTC, EIA's code OTH for California is minus 10,253 MW and its battery code BAT minus 151 MW, and the file's "other" (petroleum, geothermal, other and unknown together) is minus 9,070 MW, the same as EIA's four codes summed. The page says nothing on what is inside EIA's "other".
+
+A cross-check, not a replication: it reads EIA's published figure for the same hour, not the files the data machine summed. `tests/test_session8606.py` holds the folding to the contract's words and the output's form.
+
 ## The gravity shape (session 266)
 
 The owner named it on 14 October 2026: a third shape of the network, "Gravity", beside "Map" and "Network" at the top of
