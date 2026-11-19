@@ -19,3 +19,4 @@ Chain file: `queue/done/502-day-19-november-desktop-window2-findings-industry.md
 - Part D, second pass: other_us, 17 drafts from EIA-861M (retail choice states not read), 17 of 17 reproduce; code `wip/8202-findings` (28b5704b1); session 8209.
 - Part D, third pass: cross_family, 9 drafts (the actual year against the FERC 714 forecast of three and five years before), every cross_family draft reproduces; code `wip/8202-findings` (91827ba93); session 8210.
 - Part D, fourth pass: markets_operations, 10 drafts (nuclear outages, coal stocks), every markets_operations draft reproduces; code `wip/8202-findings` (cc42ddbde); session 8211.
+- Part D, fifth pass: demand, 18 drafts (SEDS state consumption), every demand draft reproduces; code `wip/8202-findings` (5b998982f); session 8212.

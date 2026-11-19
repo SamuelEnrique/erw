@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate seds_gas_power, region sd_pa (Pennsylvania)
+# Computed 2026-11-19T12:27:15Z by warehouse/analysis/findings/deep/demand.py (seds_gas_power); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the natural gas the state's electric power sector consumed (TBtu), the observations it rests on, and whether the year is full
+# Tables: eia_seds_state_energy
+region,year,value,n_observations,full_year
+sd_pa,1990,13.972,1.0,1
+sd_pa,1991,7.534,1.0,1
+sd_pa,1992,13.303,1.0,1
+sd_pa,1993,23.75,1.0,1
+sd_pa,1994,29.903,1.0,1
+sd_pa,1995,40.618,1.0,1
+sd_pa,1996,26.449,1.0,1
+sd_pa,1997,20.974,1.0,1
+sd_pa,1998,31.126,1.0,1
+sd_pa,1999,32.496,1.0,1
+sd_pa,2000,21.298,1.0,1
+sd_pa,2001,23.39,1.0,1
+sd_pa,2002,51.662,1.0,1
+sd_pa,2003,42.848,1.0,1
+sd_pa,2004,79.01,1.0,1
+sd_pa,2005,83.531,1.0,1
+sd_pa,2006,104.4,1.0,1
+sd_pa,2007,148.31300000000002,1.0,1
+sd_pa,2008,145.766,1.0,1
+sd_pa,2009,216.642,1.0,1
+sd_pa,2010,252.182,1.0,1
+sd_pa,2011,314.973,1.0,1
+sd_pa,2012,406.963,1.0,1
+sd_pa,2013,378.099,1.0,1
+sd_pa,2014,404.325,1.0,1
+sd_pa,2015,456.219,1.0,1
+sd_pa,2016,520.118,1.0,1
+sd_pa,2017,544.924,1.0,1
+sd_pa,2018,557.75,1.0,1
+sd_pa,2019,696.798,1.0,1
+sd_pa,2020,859.1610000000001,1.0,1
+sd_pa,2021,882.142,1.0,1
+sd_pa,2022,915.384,1.0,1
+sd_pa,2023,983.23,1.0,1
+sd_pa,2024,1032.211,1.0,1

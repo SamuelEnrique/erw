@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate seds_gas_power, region sd_us (the United States)
+# Computed 2026-11-19T12:27:13Z by warehouse/analysis/findings/deep/demand.py (seds_gas_power); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the natural gas the state's electric power sector consumed (TBtu), the observations it rests on, and whether the year is full
+# Tables: eia_seds_state_energy
+region,year,value,n_observations,full_year
+sd_us,1990,3333.0260000000003,1.0,1
+sd_us,1991,3399.114,1.0,1
+sd_us,1992,3534.751,1.0,1
+sd_us,1993,3559.399,1.0,1
+sd_us,1994,3999.649,1.0,1
+sd_us,1995,4326.582,1.0,1
+sd_us,1996,3881.836,1.0,1
+sd_us,1997,4146.566,1.0,1
+sd_us,1998,4697.5070000000005,1.0,1
+sd_us,1999,4923.553,1.0,1
+sd_us,2000,5317.691,1.0,1
+sd_us,2001,5495.837,1.0,1
+sd_us,2002,5789.323,1.0,1
+sd_us,2003,5259.1810000000005,1.0,1
+sd_us,2004,5608.613,1.0,1
+sd_us,2005,6035.81,1.0,1
+sd_us,2006,6393.82,1.0,1
+sd_us,2007,7028.34,1.0,1
+sd_us,2008,6849.356,1.0,1
+sd_us,2009,7043.916,1.0,1
+sd_us,2010,7550.276,1.0,1
+sd_us,2011,7733.627,1.0,1
+sd_us,2012,9312.82,1.0,1
+sd_us,2013,8397.689,1.0,1
+sd_us,2014,8384.516,1.0,1
+sd_us,2015,9945.33,1.0,1
+sd_us,2016,10325.03,1.0,1
+sd_us,2017,9578.309,1.0,1
+sd_us,2018,10951.81,1.0,1
+sd_us,2019,11687.077,1.0,1
+sd_us,2020,12023.067,1.0,1
+sd_us,2021,11611.875,1.0,1
+sd_us,2022,12492.281,1.0,1
+sd_us,2023,13371.852,1.0,1
+sd_us,2024,13940.333,1.0,1
