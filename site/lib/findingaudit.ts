@@ -9,7 +9,7 @@ import file from "@/data/findings_audit.json";
 import type { AuditVerdict, CheckState, KnownState } from "@/lib/findingauditwords";
 
 export type AuditCheck = { name: string; state: CheckState; why: string };
-export type SheetPlace = { rank: number; reader: string; figure: string; compared: string; risk: string; why: string; do_text: string };
+export type SheetPlace = { rank: number; reader: string; figure: string; compared: string; risk: string; why: string; do_text: string; headline?: string };
 export type AuditRow = {
   slug: string; family: string; title: string; sentence: string;
   files: { do: string; py: string; md: string; png: string };

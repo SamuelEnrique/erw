@@ -105,7 +105,7 @@ def sheet_entries():
             raise ValueError(f"sheet entry {rank}: no do-file")
         out.append({"rank": rank, "title": title, "slug": do.group(2), "family": do.group(1), "reader": field("Reader"),
                     "figure": field("The figure"), "compared": field("Compared with"), "risk": field("The one thing that would make it wrong"),
-                    "why": field("Why it matters, as a fact")})
+                    "why": field("Why it matters, as a fact"), "headline": field("A publisher's own headline")})
     if [e["rank"] for e in out] != list(range(1, len(out) + 1)):
         raise ValueError("the sheet's ranks are not 1 to N in order")
     return out
@@ -169,7 +169,7 @@ def build():
         e = on_sheet.get(slug)
         if e:
             do_path = os.path.join(ROOT, *row["files"]["do"].split("/"))
-            row["sheet"] = {k: e[k] for k in ("rank", "reader", "figure", "compared", "risk", "why")}
+            row["sheet"] = {k: e[k] for k in ("rank", "reader", "figure", "compared", "risk", "why", "headline")}
             row["sheet"]["do_text"] = open(do_path, encoding="utf-8").read().replace("\r\n", "\n")
         drafts[f["id"]] = row
     missing = [e["slug"] for e in sheet if e["slug"] not in files]

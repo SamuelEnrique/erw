@@ -92,6 +92,7 @@ export function SheetHead({ id, row }: { id: string; row: AuditRow }) {
         <dt>The figure</dt><dd data-sheet-figure={id}>{s.figure}</dd>
         <dt>Compared with</dt><dd>{s.compared}</dd>
         <dt>What would make it wrong</dt><dd data-sheet-risk={id}>{s.risk}</dd>
+        {s.headline ? <><dt>A publisher&apos;s own figure</dt><dd data-sheet-headline={id}>{s.headline}</dd></> : null}
       </dl>
       <details className="mt-2 text-xs" data-sheet-do={id}>
         <summary className="cursor-pointer">

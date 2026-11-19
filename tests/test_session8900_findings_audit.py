@@ -81,6 +81,9 @@ class AuditFile(unittest.TestCase):
             self.assertEqual(r["sheet"]["do_text"], disk)
             fam[r["family"]] = fam.get(r["family"], 0) + 1
         self.assertLessEqual(max(fam.values()), 6)
+        # a finding that repeats a publisher's own headline says so on the sheet, and the page carries it
+        doc = open(os.path.join(ROOT, "docs", "reviews", "findings-shortlist-2026-11-19.md"), encoding="utf-8").read()
+        self.assertEqual(doc.count("**A publisher's own headline:** yes"), sum(1 for i in a["sheet"] if a["drafts"][i]["sheet"].get("headline")))
 
     def test_no_em_dash(self):
         self.assertNotIn(chr(0x2014), open(FILE, encoding="utf-8").read())
