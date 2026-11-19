@@ -46,7 +46,7 @@ function useFacts(stem: string | null) {
 function Row({ label, block, children, data }: { label: string; block: Block; children: ReactNode; data: string }) {
   return (
     <div data-facts-block={data}>
-      <dt className="cursor-help text-xs text-muted" title={tip(block)}>{label} <span className="text-[10px]">({block.vintage ?? "vintage not given"})</span></dt>
+      <dt className="cursor-help text-xs text-muted" title={tip(block)}>{label}{block.vintage ? <span className="text-[10px]"> ({block.vintage})</span> : null}</dt>
       <dd>{children}</dd>
     </div>
   );
@@ -93,7 +93,7 @@ function Body({ f }: { f: Facts }) {
           </>
         )}
       </Row>
-      <Row label={`What it generates${f.burns.months?.length ? `, ${f.burns.months[0]} to ${f.burns.months.at(-1)}` : ""}`} block={f.burns} data="burns">
+      <Row label="What it generates" block={f.burns} data="burns">
         {shares.length ? <>{shares.slice(0, 4).map(([k, v]) => `${word(k)} ${pct(v)}%`).join(", ")}{shares.length > 4 ? ", and others" : ""}.</> : <Why b={f.burns} />}
         {co2 ? (
           <span className="block text-xs" data-facts-co2={typeof co2.intensity_kg_per_mwh === "number" ? co2.intensity_kg_per_mwh : "none"} title={tip(co2)}>
