@@ -29,6 +29,7 @@ Energy Research Warehouse (ERW). Written by session 8609 of chain 504 (`queue/do
 - The layer of tight oil and shale gas plays against the publisher's own file (EIA, 323,424 bytes, the same sha256 as on 7 October): **556 of 556 figures are the publisher's** (50 plays; each one's name, area and nine fields; the smallest, mean and largest area).
 - Written from the method note and the publisher's file with Python's standard library alone.
 - A second layer since (session 8619, `python replication/resources/replicate_basins.py`): the sedimentary basins against EIA's own file (440,871 bytes, the same sha256 as on 7 October): **199 of 199 figures are the publisher's** (32 basins); every basin's published area is within 0.2 percent of the area of its own outline.
+- A third (session 8621, `python replication/resources/replicate_dams.py`): hydropower at non-powered dams against Oak Ridge's own table (1,594,027 bytes, the same sha256): **34,014 of 34,014 figures are the publisher's** (2,616 dams, every row). Their capacities sum to 3,939.3 MW; the laboratory's readme says "nearly 4 GW".
 - `replication/resources/replicate.do` prints the five headline figures in Stata. It has not been run.
 
 ## 3. Cross-checks (no figure adjusted)
@@ -60,7 +61,8 @@ Nine plays are set beside the 2011 review in `replication/resources/crosscheck_p
 | 1 | Uranium and critical mineral deposits: the two USGS hosts that serve them refuse automated reading (ScienceBase names Claude). A person could download the two files by hand and give them to the data machine | Not fetched; the two switches greyed with that reason |
 | 2 | A wind or sun layer's hover repeats its vintage sentence with every value. It could stand once, in the legend | Left as it is |
 | 3 | The coal fields' area was in square kilometres where the basins' and plays' are in square miles (data request 552) | Settled by the data machine the same day: square miles, with the square kilometres beside it. Nothing for you to rule |
-| 4 | Two layers are replicated (the plays, and since session 8619 the basins). The geothermal layers are on a host that refuses Claude's agents; the coal fields' source is a 230 MB archive the data machine fetched | Two layers; chain 504 asked for one |
+| 4 | Three layers are replicated (the plays; since sessions 8619 and 8621 the basins and the non-powered dams). The geothermal layers are on a host that refuses Claude's agents; the coal fields' source is a 230 MB archive the data machine fetched | Three layers; chain 504 asked for one |
+| 9 | A dam's hover lists "Annual average generation, MWh", the publisher's annual figure. The publisher's twelve monthly figures, which the map does not show, do not sum to it (0.44 percent apart in all; each is its own average over 1980 to 2015). Say so in the layer's entry under the map? | Left: the map shows no month, and the method note says it |
 | 5 | With a sun layer on, Alaska is blank north of 60 degrees north (the source's file ends there). Should the hover say so where the reader points? | Left; the layer's entry under the map says it |
 | 6 | A card that stays after a tap on a phone: a close mark? | None; the next tap, a drag or a map button takes it off |
 | 7 | **Site-wide:** a reason given on hover ("not held" beside a greyed layer) is the browser's own tooltip, which a finger never opens (about 1,100 on the site, 12 on this map) | Left as the site has it |
