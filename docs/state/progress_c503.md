@@ -31,7 +31,11 @@ The chain file: `queue/done/503-day-19-november-oldlaptop-rulings-evidence-whole
 
 ## Part C: `/demand` for the whole country
 
-- in work, session 8420: worktree `C:\Users\lossa\Documents\erw-8420`, branch `wip/8420-demand-regions` (made from `wip/8410-events-regions`, which holds the shared library `site/lib/countryfiles.ts`). Brief: `runs/c503/brief_build.md`. Hand-back: `runs/c503/8420/handback.md`. Rows kept for it: browser reads 383 to 392, landing row 52.
+- `/demand` for the whole country, session 8420: done on `wip/8420-demand-regions` at `fc0d257f5` (pushed; made from `wip/8410-events-regions` and merged with it again, the one conflict in `site/next.config.ts` settled with part B's lines, which hold `/demand`'s). Landing requested, row 52; browser reads wanted, rows 383 to 391; one request to the data machine, row 327 (the contract's section 3). Report: `archive/sessions/SESSION_8420_REPORT.md` on the branch.
+  - the view: a fourth view "The whole country" (`/demand?view=country`): any of the thirteen regions or any balancing authority, two side by side: demand by day, year by year, where the growth is, a region's weather view, a region beside its grid with the data machine's own sentence on the difference, a table of every region and authority with the six new regions named. The page's own charts are reused (moved unchanged into `site/components/demand/Growth.tsx`).
+  - add, never change: the pin of 50 addresses, 101 of 101; the view's test 93 of 93; pytest 92 passed after the merge (887 over 65 files before it). Two older tests follow the new tab (`tests/test_session152.py`, `tests/test_session239.py`).
+  - waiting for the files `site/data/regions/index.json`, `demand/<region>.json`, `demand/ba/<code>.json` (not on origin/main): until then each place reads "not built yet". First step when they land: the view's test on the real files (its last block), then browser rows 385 to 391. If `site/data/demand_growth.json` or `demand_weather.json` is rebuilt before landing, the pin says DATA MOVED: row 52's block gives the two commands to pin again from main.
+  - for Samuel's ruling, defaults taken: Tennessee and the Carolinas drawn first; every day held drawn; the tab's name and its place as fourth; New England, New York and the Midwest drawn; generation-only authorities listed.
 
 ## Part D: `/supply` for the whole country
 
