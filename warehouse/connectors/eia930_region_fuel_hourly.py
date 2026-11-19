@@ -27,11 +27,11 @@ the column as reported:
                  before July 2024 EIA counts batteries under Other Fuel Sources, so storage is blank, not zero)
     other        All Petroleum Products, Other Fuel Sources and Unknown Fuel Sources; from July 2024 Geothermal too
 
-A balancing authority's hour is HELD when its net generation (adjusted, else reported) is held, at least one source is
-held, and its sources add up to its net generation within 5 percent of it, or within 1 MW for a small one (the rule of
-mix_profile.hours_of at the level of one authority). A source the authority does not print that hour counts as zero in
-the sum. A region's hour is written when every balancing authority the file lists in that region for that hour is held
-(x_bas: how many); otherwise nothing is written for the region and hour, and the log counts it. Nothing is filled or
+A region's hour is HELD (session 8009) when every balancing authority the file lists in that region for that hour holds
+its net generation (adjusted, else reported), the region's net generation is above zero, and the region's sources add up
+to it within 5 percent (15 percent for the Mid-Atlantic, whose grid is PJM): the rule of mix_profile.hours_of, applied to
+the region as the seven grids' mix files apply it to a grid. A source no authority prints that hour counts as zero. x_bas:
+how many authorities were summed. Otherwise nothing is written for the region and hour, and the log counts it. Nothing is filled or
 scaled. ts_utc is the hour's start (the file's UTC Time at End of Hour minus one hour); the last day and a half of each
 file is carried into the next, as eia930_region_hourly.py does, so an hour split between two files is summed whole.
 """
@@ -67,7 +67,8 @@ MAP = {"coal": "coal", "natural gas": "natural_gas", "nuclear": "nuclear", "all 
        "battery storage": "storage", "other energy storage": "storage", "unknown energy storage": "storage",
        "geothermal": "other", "other fuel sources": "other", "unknown fuel sources": "other"}
 NG_REP, NG_ADJ = "Net Generation (MW)", "Net Generation (MW) (Adjusted)"
-TOL_SHARE, TOL_MW = 0.05, 1.0
+TOL_SHARE = 0.05
+TOL_REGION = {"MIDA": 0.15}   # PJM's tolerance in mix_profile (LOOSE), for the region whose grid it is
 CARRY = pd.Timedelta(hours=30)
 COLS = ["entity", "variable", "ts_utc", "value", "unit", "freq", "source", "ba", "x_bas", "x_file"]
 RAW_READ = ip.RAW_DIR
@@ -145,15 +146,22 @@ def region_rows(d, file_tag, after, log):
     d = d[d["region"].isin(REGIONS)].copy()
     if after is not None:
         d = d[d["ts"] > after]
-    src = d[SOURCES]
-    total = src.sum(axis=1, min_count=1)
-    held = d["ng"].notna() & total.notna() & ((total - d["ng"]).abs() <= np.maximum(TOL_SHARE * d["ng"].abs(), TOL_MW))
-    d["held"] = held
+    # session 8009: the rule of mix_profile.hours_of applied to the region, as the seven grids' mix files apply it to a
+    # grid (the first build applied it to each authority, and a small authority's sources a few megawatts off its net
+    # generation left whole months of the Mid-Atlantic, the Northwest and the Southwest out): a region's hour is held when
+    # every authority listed in it holds its net generation, the region's net generation is above zero, and the region's
+    # sources add up to it within 5 percent (15 percent for the Mid-Atlantic, whose grid is PJM, as mix_profile's LOOSE)
+    d["has_ng"] = d["ng"].notna()
     g = d.groupby(["region", "ts"])
     agg = g[SOURCES].sum(min_count=1)
-    agg["n"], agg["n_held"] = g.size(), g["held"].sum()
-    full = agg[agg["n_held"] == agg["n"]].reset_index()
-    short = int((agg["n_held"] < agg["n"]).sum())
+    agg["ng"] = g["ng"].sum(min_count=1)
+    agg["n"], agg["n_ng"] = g.size(), g["has_ng"].sum()
+    agg = agg.reset_index()
+    total = agg[SOURCES].sum(axis=1, min_count=1)
+    tol = agg["region"].map(TOL_REGION).fillna(TOL_SHARE)
+    ok = (agg["n_ng"] == agg["n"]) & (agg["ng"] > 0) & total.notna() & ((total - agg["ng"]).abs() <= tol * agg["ng"])
+    full = agg[ok]
+    short = int((~ok).sum())
     storage_cols = bool(d["has_storage_cols"].any()) if len(d) else False
     parts = []
     for s in SOURCES:

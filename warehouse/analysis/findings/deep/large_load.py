@@ -160,16 +160,71 @@ def wait_claims(in_dir):
     return out
 
 
+SIZES = ["under 20 MW", "20 to under 100 MW", "100 to under 300 MW", "300 MW and over"]
+MONTH_DAYS = 30.4375
+
+
+def wait_size_claims(in_dir):
+    """Session 8214: by size class, from large_load_waits (internal), the summary's rule (the median of the shorter and of
+    the longer end of the measured ranges, five or more measured): requests of 300 MW and over against under 20 MW."""
+    import statistics
+    w = h.read("large_load_waits", in_dir, ["entity", "interval", "size_class", "label", "days_at_least", "days_at_most", "request_id", "last_copy_date"],
+               ["days_at_least", "days_at_most"])
+    m = w[w["label"] == "measured"]
+    out = []
+    for (pub, iv), g in m.groupby(["entity", "interval"]):
+        if iv not in WAITS:
+            continue
+        cls = {}
+        for s in SIZES:
+            x = g[g["size_class"] == s].drop_duplicates("request_id")
+            lo, hi = x["days_at_least"].dropna().tolist(), x["days_at_most"].dropna().tolist()
+            if len(lo) >= 5 and len(hi) >= 5:
+                cls[s] = (statistics.median(lo) / MONTH_DAYS, statistics.median(hi) / MONTH_DAYS, len(x))
+        big, small, mid = cls.get(SIZES[3]), cls.get(SIZES[0]), cls.get(SIZES[1])
+        if not big or not small:
+            continue
+        up = big[0] > small[1]                          # the large class's range lies above the small class's
+        down = big[1] < small[0]
+        tests = [{"name": "five or more measured in each class", "passed": True, "words": f"{big[2]} of 300 MW and over, {small[2]} under 20 MW"},
+                 {"name": "each range ordered", "passed": big[0] <= big[1] and small[0] <= small[1], "words": "the shorter end below the longer in both"},
+                 {"name": "the two ranges do not overlap", "passed": bool(up or down),
+                  "words": f"300 MW and over: {common.fmt(big[0], 1)} to {common.fmt(big[1], 1)} months; under 20 MW: {common.fmt(small[0], 1)} to {common.fmt(small[1], 1)}"},
+                 {"name": "the next class lies on the same side", "passed": bool(mid and ((up and mid[1] >= small[0]) or (down and mid[0] <= small[1]))),
+                  "words": (f"20 to under 100 MW: {common.fmt(mid[0], 1)} to {common.fmt(mid[1], 1)} months" if mid else "fewer than five measured from 20 to under 100 MW")},
+                 {"name": "requests still waiting are not in the medians", "passed": True, "words": "lower bounds and two-copy requests are counted apart, as in the summary"}]
+        name = PUB.get(pub, pub)
+        fact = (f"License needed (large_load_waits, internal): at {name}, the median time {WAITS[iv]} was at least {common.fmt(big[0], 1)} and at most "
+                f"{common.fmt(big[1], 1)} months for the {big[2]} measured large-load requests of 300 MW and over, against at least {common.fmt(small[0], 1)} and at most "
+                f"{common.fmt(small[1], 1)} months for the {small[2]} under 20 MW, in its dated lists to {g['last_copy_date'].max()}.")
+        out.append({"key": "waitsize_" + re.sub(r"[^a-z0-9]+", "_", f"{pub[:30]}_{iv}".lower()).strip("_"), "kind": "wait_size", "title": f"LICENSE NEEDED: LARGE-LOAD WAITS BY SIZE, {name.upper()}",
+                    "fact": fact, "unit": "months", "nd": 1, "pub": pub, "iv": iv, "cls": cls, "n": big[2] + small[2], "tests": tests,
+                    "a": big[0], "b": big[1], "c": small[0], "d": small[1], "tables": ["large_load_waits"], "license": "license needed: large_load_waits is internal",
+                    "limits": ("Bounds, not figures: a request's wait is known only between the dated copies that show it; the size is the request's first megawatts as "
+                               "printed; the publisher's terms keep the table internal; no request is named.")})
+    return out
+
+
 # ---------------------------------------------------------------------------------------------------------------------
 # reproduction, card, draft
 # ---------------------------------------------------------------------------------------------------------------------
 def figs_of(c):
+    if c["kind"] == "wait_size":
+        return {"large_at_least": c["a"], "large_at_most": c["b"], "small_at_least": c["c"], "small_at_most": c["d"]}
     if c["kind"] == "wait":
         return {"median_at_least": c["a"], "median_at_most": c["b"], "requests": c["req"]}
     return {"median": c["median"], "lowest": c["lo"], "highest": c["hi"], "filings": float(c["n"])}
 
 
 def reproduce_py(c):
+    if c["kind"] == "wait_size":
+        body = (f"import statistics\n\nd = read(sys.argv[1], ['entity', 'interval', 'size_class', 'label', 'days_at_least', 'days_at_most', 'request_id'])\n"
+                f"d = d[(d['entity'] == {c['pub']!r}) & (d['interval'] == {c['iv']!r}) & (d['label'] == 'measured')].copy()\n"
+                "for c in ('days_at_least', 'days_at_most'):\n    d[c] = pd.to_numeric(d[c], errors='coerce')\n"
+                "for key, size in (('large', '300 MW and over'), ('small', 'under 20 MW')):\n    x = d[d['size_class'] == size].drop_duplicates('request_id')\n"
+                f"    print(key + '_at_least', round(statistics.median(x['days_at_least'].dropna()) / {MONTH_DAYS}, 6))\n"
+                f"    print(key + '_at_most', round(statistics.median(x['days_at_most'].dropna()) / {MONTH_DAYS}, 6))\n")
+        return h.py_doc(c["key"], c["pub"], c["tables"], f"The bounds of the median wait, {c['iv']}, at {c['pub']}, for requests of 300 MW and over and under 20 MW (months of {MONTH_DAYS} days).") + h.PY_READ + body
     if c["kind"] == "wait":
         body = (f"d = read(sys.argv[1], ['variable', 'value', 'x_publisher', 'x_interval'])\nd = d[(d['x_publisher'] == {c['pub']!r}) & (d['x_interval'] == {c['iv']!r})]\n"
                 "for k in ('median_at_least', 'median_at_most', 'requests'):\n    print(k, float(d[d['variable'] == k]['value'].iloc[0]))\n")
@@ -188,6 +243,13 @@ def reproduce_do(c):
     head = [f"* ERW findings hunt (chain {builder.CHAIN}): reproduce {c['key']} from the ERW's table {c['tables'][0]}.",
             "* Input: the table's CSV as the download holds it (Redivis: the variable names on the first line). From the ERW's own file, delete the lines that begin with # first.",
             "clear all", f'import delimited "{c["tables"][0]}.csv", varnames(1) stringcols(_all) clear']
+    if c["kind"] == "wait_size":
+        lines = head + [f'keep if entity == "{c["pub"]}" & interval == "{c["iv"]}" & label == "measured"', "destring days_at_least days_at_most, replace force"]
+        for key, size in (("large", "300 MW and over"), ("small", "under 20 MW")):
+            lines += ["preserve", f'keep if size_class == "{size}"', "duplicates drop request_id, force", "quietly summarize days_at_least, detail",
+                      f'display "{key}_at_least " r(p50) / {MONTH_DAYS}', "quietly summarize days_at_most, detail", f'display "{key}_at_most " r(p50) / {MONTH_DAYS}', "restore"]
+        lines += ['display "done"']
+        return common.do_file(lines)
     if c["kind"] == "wait":
         lines = head + [f'keep if x_publisher == "{c["pub"]}" & x_interval == "{c["iv"]}"', "destring value, replace force", "list variable value, noobs",
                         [f"foreach k in median_at_least median_at_most requests {{", "quietly summarize value if variable == \"`k'\"", "display \"`k' \" r(mean)", "}"],
@@ -206,6 +268,13 @@ def did_of(c):
 
 
 def chart(c):
+    if c["kind"] == "wait_size":
+        cut = {"under 20 MW": "under 20", "20 to under 100 MW": "20 to 100", "100 to under 300 MW": "100 to 300", "300 MW and over": "300 and over"}
+        ks = [s for s in SIZES if s in c["cls"]]
+        return {"kind": "flag_line", "x": [cut[s] for s in ks], "x_label": "the request's size, MW; the median wait's bounds, months",
+                "series": [{"name": "at least", "type": "line", "unit": "months", "values": [common.round6(c["cls"][s][0]) for s in ks]},
+                           {"name": "at most", "type": "line", "unit": "months", "values": [common.round6(c["cls"][s][1]) for s in ks]}],
+                "mark": {"x": "300 and over", "value": common.round6(c["b"]), "label": "300 MW and over, at most"}, "ref_lines": [], "y_left_label": "months", "decimals": 1}
     if c["kind"] == "wait":
         cut = {"request to energized": "to energized", "request to agreement": "to agreement", "request to study": "to study", "in stage": "in a stage",
                "in stage, then withdrawn": "stage, withdrawn", "request to withdrawal": "to withdrawal"}
@@ -250,6 +319,8 @@ def build(c, out_dir, docs_root=None):
     card["hunt"]["caption"] = caption
     if c["kind"] == "wait":
         csv = ["variable,value", f"median_at_least,{c['a']!r}", f"median_at_most,{c['b']!r}", f"requests,{c['req']!r}", f"measured,{c['meas']!r}", f"lower_bounds,{c['lb']!r}"]
+    elif c["kind"] == "wait_size":
+        csv = ["size_class,median_at_least_months,median_at_most_months,measured"] + [f"{s},{v[0]!r},{v[1]!r},{v[2]}" for s, v in c["cls"].items()]
     else:
         csv = ["filing,value"] + [f"\"{lb}\",{v!r}" for lb, v in zip(c["labels"], c["values"])]
     csv = [f"# Energy Research Warehouse (ERW): findings hunt (chain {builder.CHAIN}), {c['key']}", f"# Computed {common.now_iso()} by warehouse/analysis/findings/deep/large_load.py",
@@ -296,14 +367,17 @@ def card_region(c):
     return "US" if c["kind"] == "xsec" else c["pub"]
 
 
-def run(in_dir, dry_run=True, log=print):
+def run(in_dir, dry_run=True, log=print, only_size=False):
     now = dt.datetime.now(dt.timezone.utc)
-    out_dir = os.path.join(builder.OUT, now.strftime("%Y-%m-%d"), FAMILY)
+    out_dir = os.path.join(builder.OUT, now.strftime("%Y-%m-%d"), FAMILY + ("_size" if only_size else ""))
     os.makedirs(out_dir, exist_ok=True)
-    # session 8206: utility_large_load_queue_totals holds its figures as printed text only (its mw column is empty), so
-    # queue_claim finds no row; it is kept for the day the column is filled and run only when it has rows
-    q = h.read("utility_large_load_queue_totals", in_dir, ["mw"], ["mw"])
-    cs = tariff_claims(in_dir) + ([queue_claim(in_dir)] if (q["mw"] > 0).sum() >= 5 else []) + wait_claims(in_dir)
+    if only_size:                                         # session 8214: the size comparisons alone
+        cs = wait_size_claims(in_dir)
+    else:
+        # session 8206: utility_large_load_queue_totals holds its figures as printed text only (its mw column is empty), so
+        # queue_claim finds no row; it is kept for the day the column is filled and run only when it has rows
+        q = h.read("utility_large_load_queue_totals", in_dir, ["mw"], ["mw"])
+        cs = tariff_claims(in_dir) + ([queue_claim(in_dir)] if (q["mw"] > 0).sum() >= 5 else []) + wait_claims(in_dir) + wait_size_claims(in_dir)
     passing = [c for c in cs if all(t["passed"] for t in c["tests"])]
     built = [build(c, out_dir, docs_root=os.path.join(out_dir, "docs") if dry_run else None) for c in passing]
     loaded = list(hunt.load_drafts(built, log)) if built and not dry_run else []
@@ -319,11 +393,12 @@ def run(in_dir, dry_run=True, log=print):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="The findings hunt of chain 502, family large_load")
     ap.add_argument("--in-dir", default=None)
+    ap.add_argument("--only-size", action="store_true", help="session 8214: only the waits by size class")
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--dry-run", action="store_true")
     g.add_argument("--load", action="store_true")
     a = ap.parse_args(argv)
-    run(a.in_dir or common.DEFAULT_IN_DIR, dry_run=not a.load)
+    run(a.in_dir or common.DEFAULT_IN_DIR, dry_run=not a.load, only_size=a.only_size)
     return 0
 
 

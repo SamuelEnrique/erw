@@ -798,6 +798,8 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
                 <label key={it.layer.id} className="block py-0.5 text-sm" data-layer={it.layer.id} data-kind={it.layer.kind} data-state={stateOf(it.layer.id)} data-level={levels[it.layer.id] ?? ""}>
                   <input type="checkbox" className={check} checked={on.includes(it.layer.id)} onChange={() => toggle(it.layer.id)} data-toggle={it.layer.id} />
                   {it.layer.title}{on.includes(it.layer.id) ? note(it.layer.id) : null}
+                  {/* session 8603: one short line under the switch that says what the layer measures, in plain words (lib/resources.ts MEASURE) */}
+                  {R.measureLine(it.layer) ? <span className="block pb-1 pl-6 text-xs leading-snug text-ink" data-measure={it.layer.id}>{R.measureLine(it.layer)}</span> : null}
                 </label>
               ) : (
                 <label key={it.key} className="block cursor-help py-0.5 text-sm text-muted" title={it.reason} data-missing={it.key}>
@@ -856,7 +858,9 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
         </section>
       </aside>
 
-      <div className="min-w-0">
+      {/* session 8603: beside the switches the map stays in view while the list is read (the list, with a line under each
+          switch, is longer than the map); on a narrow screen, where the two are one column, it scrolls with the page as before */}
+      <div className="min-w-0 lg:sticky lg:top-2 lg:self-start" data-map-column="1">
         <div className="mb-2 flex flex-wrap items-center gap-1.5" data-map-buttons="1">
           <button type="button" className={btn} onClick={() => zoom(1.6)} aria-label="Zoom in" data-map-button="in">+</button>
           <button type="button" className={btn} onClick={() => zoom(1 / 1.6)} aria-label="Zoom out" data-map-button="out">-</button>

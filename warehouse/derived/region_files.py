@@ -203,7 +203,13 @@ def daily(used, raw, tz):
     v = df.dropna()
     idx = v.groupby("day")["v"].idxmax()
     days = list(n_hours.index)
-    whole = {d_: bool(n_used[d_] == n_hours[d_]) for d_ in days}
+    # session 8009 (data request 328 of the old laptop): a day is whole when every hour of the local calendar day is used,
+    # 23, 24 or 25 of them, not every hour the record happens to hold of it: the first and last local days of a record
+    # hold only part of themselves and are not whole
+    def day_hours(d_):
+        a = pd.Timestamp(d_, tz=tz)
+        return int(((a + pd.DateOffset(days=1)) - a) / pd.Timedelta(hours=1))   # a calendar day: 23, 24 or 25 hours
+    whole = {d_: bool(n_used[d_] == day_hours(d_)) for d_ in days}
     return {"days": days,
             "demand_mwh": [round(float(s[d_]), 1) if whole[d_] else None for d_ in days],
             "peak_mw": [round(float(mx[d_]), 1) if whole[d_] else None for d_ in days],
@@ -220,6 +226,18 @@ def weather_frame(region, weather):
     w["cooling_degrees_f"] = (w["temperature_f"] - 65.0).clip(lower=0)
     w["dew_point_f"] = np.nan
     return w
+
+
+def weather_coverage(weather, tz):
+    """{year: {hours_held, hours_in_year, share_pct}}: the hours of each local year the region's weather holds."""
+    t = weather["temperature_f"].dropna()
+    loc = t.index.tz_convert(tz)
+    out = {}
+    for y in sorted(set(loc.year)):
+        n = int(((pd.Timestamp(f"{y + 1}-01-01", tz=tz) - pd.Timestamp(f"{y}-01-01", tz=tz)) / pd.Timedelta(hours=1)))
+        held = int((loc.year == y).sum())
+        out[str(int(y))] = {"hours_held": held, "hours_in_year": n, "share_pct": round(100 * held / n, 1)}
+    return out
 
 
 def demand_doc(code, name, tz, level, raw, basis, summed, weather=None, prior=None, with_weather=False):
@@ -252,6 +270,9 @@ def demand_doc(code, name, tz, level, raw, basis, summed, weather=None, prior=No
                               "through": res["through"], "newest": res["newest"],
                               "train": list(dw.TRAIN), "metrics": list(dw.METRICS), "labels": dw.LABEL,
                               "weather_table": "region_weather_hourly",
+                              # session 8010 (data request 546): how many of each local year's hours the region's weather holds,
+                              # so a page can say why a figure under the 95 percent rule is not written
+                              "coverage": weather_coverage(weather, tz),
                               "features": list(dw.FEATURES), "degrees_from": "the region's weighted temperature (base 65 F)"}
         elif prior and "weather" in prior:
             doc["weather"] = prior["weather"]
@@ -271,6 +292,10 @@ def mix_doc(region, name, tz, fuel, net_gen, interchange, demand):
     full = pd.date_range(idx.min(), idx.max(), freq="h")
     f = pd.DataFrame({s: srcs[s].reindex(full) for s in SOURCES})
     held = f.drop(columns=["storage"]).notna().all(axis=1)
+    # session 8011 (data request 551 of the portable laptop): a source no authority of the region ever prints (every
+    # held hour zero, July 2018 on: New York's and the Mid-Atlantic's storage, Florida's and the Carolinas' wind, New
+    # England's coal) is drawn blank, not as 0 MW: its averages, energy and share are null, and it stays out of no sum
+    absent = [s_ for s_ in SOURCES if srcs[s_].notna().any() and (srcs[s_].fillna(0) == 0).all()]
     f["demand"] = demand.reindex(full)
     f["net_generation"] = f[SOURCES].sum(axis=1, min_count=1).where(held)
     f["net_imports"] = (-interchange).reindex(full)
@@ -291,10 +316,10 @@ def mix_doc(region, name, tz, fuel, net_gen, interchange, demand):
         r = {"avg": {}, "side": "eia930"}
         for k in SOURCES + ["demand", "net_generation"]:
             by = c.groupby("hour")[k].mean()
-            r["avg"][k] = [round(float(by.get(h, np.nan)), 1) if pd.notna(by.get(h, np.nan)) else None for h in range(24)]
+            r["avg"][k] = [None] * 24 if k in absent else [round(float(by.get(h, np.nan)), 1) if pd.notna(by.get(h, np.nan)) else None for h in range(24)]
         tot = float(c["net_generation"].sum())
         for s in SOURCES:
-            mwh = float(c[s].sum()) if c[s].notna().any() else None
+            mwh = float(c[s].sum()) if c[s].notna().any() and s not in absent else None
             r[f"{s}_mwh"] = mwh
             r[f"{s}_share_pct"] = round(100 * mwh / tot, 2) if mwh is not None and tot else None
         r["net_generation_mwh"], r["days_held"], r["days_in_month"] = tot, float(days_held), float(days_in)
@@ -309,10 +334,10 @@ def mix_doc(region, name, tz, fuel, net_gen, interchange, demand):
              "days_held": int(c["day"].nunique())}
         for k in SOURCES + ["demand", "net_generation"]:
             by = c.groupby("hour")[k].mean()
-            r["avg"][k] = [round(float(by.get(h, np.nan)), 1) if pd.notna(by.get(h, np.nan)) else None for h in range(24)]
+            r["avg"][k] = [None] * 24 if k in absent else [round(float(by.get(h, np.nan)), 1) if pd.notna(by.get(h, np.nan)) else None for h in range(24)]
         tot = float(c["net_generation"].sum())
         for s in SOURCES:
-            mwh = float(c[s].sum()) if c[s].notna().any() else None
+            mwh = float(c[s].sum()) if c[s].notna().any() and s not in absent else None
             r[f"{s}_mwh"] = mwh
             r[f"{s}_share_pct"] = round(100 * mwh / tot, 2) if mwh is not None and tot else None
         r["net_generation_mwh"] = tot
@@ -327,11 +352,11 @@ def mix_doc(region, name, tz, fuel, net_gen, interchange, demand):
         h = f[(f.index >= start.tz_convert("UTC")) & (f.index < end.tz_convert("UTC"))]
         hourly = {"hours": {"start": ip.utc_iso(h.index.min()), "step_hours": 1, "n": int(len(h))}}
         for k in SOURCES + ["demand", "net_generation", "net_imports"]:
-            hourly[k] = [None if pd.isna(v) else round(float(v), 1) for v in h[k]]
+            hourly[k] = [None] * len(h) if k in absent else [None if pd.isna(v) else round(float(v), 1) for v in h[k]]
     ms = sorted(months)
     return {**common(["eia930_region_fuel_hourly", "eia930_region_hourly", "eia930_ba_demand_hourly"]),
             "grid": region.lower(), "name": name, "tz": tz, "join": None, "first": ms[0] if ms else None, "upto": ms[-1] if ms else None,
-            "sources": SOURCES, "months": months, "years": years, "hourly": hourly}
+            "sources": SOURCES, "sources_not_printed": absent, "months": months, "years": years, "hourly": hourly}
 
 
 # ------------------------------------------------------------------------------------------------ trade
@@ -422,7 +447,16 @@ def event_doc(e, region_series, pair_series):
         b["gen"] = {s: arr(base(keys["gen"][s])) for s in SOURCES}
         d["baseline"] = b
         regions[r] = d
-    pairs = {p: {"flow_mw": arr(s.reindex(hours).to_numpy(dtype=float)), "baseline_mw": arr(base(s))} for p, s in pair_series.items()}
+    # session 8010 (data request 545 of the old laptop): each side's report beside the flow, so a page can say which
+    # side's report makes a pair's total differ from a region's own net imports: flow_mw_a the first region's report
+    # (power from A to B), flow_mw_b the second's with its sign turned to the same direction
+    pairs = {}
+    for p, sv in pair_series.items():
+        s, sa, sb = sv if isinstance(sv, tuple) else (sv, None, None)
+        pairs[p] = {"flow_mw": arr(s.reindex(hours).to_numpy(dtype=float)), "baseline_mw": arr(base(s))}
+        if sa is not None:
+            pairs[p]["flow_mw_a"] = arr(sa.reindex(hours).to_numpy(dtype=float))
+            pairs[p]["flow_mw_b"] = arr(sb.reindex(hours).to_numpy(dtype=float))
     return {**common(["eia930_region_hourly", "eia930_ba_demand_hourly", "eia930_region_fuel_hourly", "eia930_region_pair_hourly"]),
             "event": e["event"], "title": e["title"], "start": e["start"], "end": e["end"],
             "baseline": e["baseline"], "baseline_offsets_days": offsets,
@@ -528,6 +562,18 @@ def main(argv=None):
                     continue
                 doc = demand_doc(c, x["name"], x["tz"] or tz_of[x["region"]], "ba", s, "ba", None)
                 doc["region"] = x["region"]
+                if c in GRIDS:   # session 8009 (data request 329): one of the seven grids, beside its own file's yearly averages
+                    ga = grids_growth.get(c, {}).get("years", {})
+                    yrs = {}
+                    for y, row in doc["growth"]["years"].items():
+                        a_, b_ = row.get("avg_demand_mw"), ga.get(y, {}).get("avg_demand_mw")
+                        if a_ is not None and b_ is not None:
+                            yrs[y] = {"region_avg_demand_mw": a_, "grid_avg_demand_mw": b_, "difference_pct": round(100 * (a_ - b_) / b_, 2)}
+                    doc["alike"] = {"grid": c, "grid_file": "site/data/demand_growth.json", "years": yrs,
+                                    "why": ("this file reads the authority's demand from EIA's six-month files (eia930_ba_demand_hourly: EIA's "
+                                            "adjusted demand where the file prints it, else as reported); the grid's file reads EIA's workbook "
+                                            "of that one authority, with California's late hours of November 2023 to December 2025 set back; "
+                                            "this file moves no hour")}
                 sizes[f"demand/ba/{c.lower()}.json"] = write(site, f"demand/ba/{c.lower()}.json", doc)
             print(f"{now()} demand of the authorities", flush=True)
     fuel = None
@@ -557,7 +603,9 @@ def main(argv=None):
                      "gen": {s: series(fuel, f"eia930:{r}", f"net_generation_{s}_mw") for s in SOURCES}}
         ps = {}
         for ent, g in pairs.groupby("entity"):
-            ps[ent.split(":")[1]] = pd.Series(g["value"].to_numpy(dtype=float), index=pd.DatetimeIndex(g["ts"])).sort_index()
+            ix = pd.DatetimeIndex(g["ts"])
+            ps[ent.split(":")[1]] = tuple(pd.Series(g[c].to_numpy(dtype=float), index=ix).sort_index()
+                                          for c in ("value", "x_first_report", "x_second_report"))
         for e in events_list():
             sizes[f"events/{e['event']}.json"] = write(site, f"events/{e['event']}.json", event_doc(e, rs, ps))
         print(f"{now()} events", flush=True)

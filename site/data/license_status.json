@@ -621,6 +621,12 @@
     "/data"
    ]
   },
+  "ai_energy_published": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
   "ai_power_regions": {
    "status": "license needed",
    "hold": "by grid",
@@ -1905,7 +1911,8 @@
   "eia930_region_fuel_hourly": {
    "status": "public",
    "pages": [
-    "/data"
+    "/data",
+    "/grid"
    ]
   },
   "eia930_region_hourly": {
@@ -1917,7 +1924,8 @@
   "eia930_region_pair_hourly": {
    "status": "public",
    "pages": [
-    "/data"
+    "/data",
+    "/grid"
    ]
   },
   "eia930_subba_demand_hourly": {
@@ -4403,6 +4411,12 @@
     "/data"
    ]
   },
+  "resource_layer_features": {
+   "status": "public",
+   "pages": [
+    "/data"
+   ]
+  },
   "rrc_lease_production_monthly": {
    "status": "public",
    "pages": [
@@ -4918,7 +4932,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 527
+   "public": 529
   },
   "/data/faults": {
    "label": "Known faults in source data",
@@ -5086,7 +5100,7 @@
     "price_board_peak_offpeak"
    ],
    "internal": 0,
-   "public": 30
+   "public": 32
   },
   "/demand": {
    "label": "Demand growth",

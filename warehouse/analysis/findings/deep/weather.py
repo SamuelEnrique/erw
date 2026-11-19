@@ -118,6 +118,25 @@ def _temp(name):
 
 
 winter_temp, summer_temp, min_temp, max_temp = (_temp(n) for n in ("winter_temp", "summer_temp", "min_temp", "max_temp"))
+BASE_F = 65.0                  # session 8216: degree days, the National Weather Service's base
+
+
+def _degree_days(cooling):
+    def f(in_dir=None):
+        w = h.weather(in_dir).dropna(subset=["value"]).copy()
+        w["year"] = w["ts_utc"].str[:4].astype(int)
+        w["dd"] = ((w["value"] - BASE_F) if cooling else (BASE_F - w["value"])).clip(lower=0) / 24
+        rows, tabs = [], {}
+        for code, g in w.groupby("code"):
+            k = f"wd_{code.lower()}"
+            for y, s in g.groupby("year"):
+                rows.append(hm._row(k, words(code), y, float(s["dd"].mean() * 24), len(s)))     # a day's mean over the hours held: no hour filled
+            tabs[k] = ["region_weather_hourly"]
+        return {"rows": rows, "tables": tabs}
+    return f
+
+
+cdd, hdd = _degree_days(True), _degree_days(False)
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -153,6 +172,12 @@ def reproduce_py(name, region):
         what = {"winter_temp": "The mean temperature (F) of the year's January, February and December hours", "summer_temp": "The mean temperature (F) of the year's June to August hours",
                 "min_temp": "The year's coldest hour (F)", "max_temp": "The year's hottest hour (F)"}[name]
         return h.py_doc(name, region, ["region_weather_hourly"], f"{what}, {h.REG[code]}.") + h.PY_READ + body
+    if name in ("cdd", "hdd"):
+        expr = f"(s['temp'] - {BASE_F})" if name == "cdd" else f"({BASE_F} - s['temp'])"
+        body = head + ("w['year'] = w['ts_utc'].str[:4].astype(int)\nfor y, s in w.groupby('year'):\n"
+                       f"    print(y, round(float({expr}.clip(lower=0).mean()), 6), len(s))\n")
+        what = f"The mean {'cooling' if name == 'cdd' else 'heating'} degree days a day (base {BASE_F:g} F) of {h.REG[code]}: over the hours held, the mean of the hour's degrees {'above' if name == 'cdd' else 'below'} the base."
+        return h.py_doc(name, region, ["region_weather_hourly"], what) + h.PY_READ + body
     cmp_ = f"<= {COLD_F}" if name == "cold_hours" else f">= {HOT_F}"
     body = head + f"w['year'] = w['ts_utc'].str[:4].astype(int)\nfor y, s in w.groupby('year'):\n    print(y, int((s['temp'] {cmp_}).sum()), len(s))\n"
     return h.py_doc(name, region, ["region_weather_hourly"], f"The hours of the year with {h.REG[code]}'s temperature {cmp_} F.") + h.PY_READ + body
@@ -183,6 +208,10 @@ def reproduce_do(name, region):
         if months:
             lines += ["generate int month = real(substr(ts_utc, 6, 2))", "keep if " + " | ".join(f"month == {m}" for m in months)]
         lines += [f"collapse ({how}) measure = temp (count) n = temp, by(year)"]
+    elif name in ("cdd", "hdd"):
+        expr = f"temp - {BASE_F:g}" if name == "cdd" else f"{BASE_F:g} - temp"
+        lines = h.do_head(name, region, ["region_weather_hourly"]) + weather_lines + ["generate int year = real(substr(ts_utc, 1, 4))", f"generate double dd = max({expr}, 0)",
+                                                                                     "collapse (mean) measure = dd (count) n = temp, by(year)"]
     else:
         cond = f"temp <= {COLD_F}" if name == "cold_hours" else f"temp >= {HOT_F}"
         lines = h.do_head(name, region, ["region_weather_hourly"]) + weather_lines + ["generate int year = real(substr(ts_utc, 1, 4))", f"generate byte hit = {cond}",
@@ -230,6 +259,14 @@ CANDIDATES = [
     C("max_temp", FAMILY, max_temp, "F", 1, 8000, 3.0, "THE YEAR'S HOTTEST HOUR", "the year's hottest hour",
       lambda w: f"the hottest hour of the year in {w}", "The region's population-weighted temperature, one hour; a weighted mean is milder than its hottest station.",
       reproduce("max_temp"), consequence=1),
+    C("cdd", FAMILY, cdd, "degree days a day", 2, 8000, 0.3, "COOLING DEGREE DAYS", f"the mean cooling degree days a day (base {BASE_F:g} F)",
+      lambda w: f"the mean cooling degree days a day in {w} (base {BASE_F:g} F, from its hourly temperature)",
+      "The region's population-weighted temperature, hours every chosen station holds; a mean over the hours held, so a year with missing hours is not understated.",
+      reproduce("cdd"), consequence=2),
+    C("hdd", FAMILY, hdd, "degree days a day", 2, 8000, 0.5, "HEATING DEGREE DAYS", f"the mean heating degree days a day (base {BASE_F:g} F)",
+      lambda w: f"the mean heating degree days a day in {w} (base {BASE_F:g} F, from its hourly temperature)",
+      "The region's population-weighted temperature, hours every chosen station holds; a mean over the hours held, so a year with missing hours is not understated.",
+      reproduce("hdd"), consequence=2),
 ]
 for _P in CANDIDATES:
     if _P["unit"] == "MW":
