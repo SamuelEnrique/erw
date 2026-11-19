@@ -50,14 +50,16 @@ function Fig({ v, src, k, digits }: { v: number | null; src: string; k: string; 
 }
 const whole = (v: number) => Math.round(v).toLocaleString("en-US");
 const usd = (v: number) => `$${v.toFixed(2)}`;
-const billions = (v: number) => `$${(v / 1e9).toLocaleString("en-US", { maximumFractionDigits: 1 })} bn`;
+const billions = (v: number) => `$${(v / 1e9).toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} bn`;
+/** The chart's short names of the Monthly Energy Review's sources; the table and the hover keep EIA's own words. */
+const SHORT: Record<string, string> = { total: "Total", end_use_total: "End use", natural_gas: "Natural gas", petroleum: "Petroleum", electricity_retail_sales: "Electricity sold", electrical_system_losses: "Electrical losses", renewables: "Renewables", coal: "Coal" };
 const twh = (v: number) => (v / 1e6).toLocaleString("en-US", { maximumFractionDigits: 1 });
 const stateName = (st: string) => (st === "US" ? "United States" : STATES[st] ?? st);
 const monthWords = (m: string) => new Date(Date.UTC(Number(m.slice(0, 4)), Number(m.slice(5, 7)) - 1, 1)).toLocaleString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
 
 function Form({ children, anchor, keep }: { children: ReactNode; anchor: string; keep: Record<string, string> }) {
   return (
-    <form method="get" action={`/industry#${anchor}`} className="mb-3 flex flex-wrap items-end gap-3 text-sm" data-industry-form={anchor}>
+    <form method="get" action={`/industry#${anchor}`} className="mb-3 flex flex-wrap items-end gap-3 text-sm [&_label]:max-w-full [&_select]:max-w-full" data-industry-form={anchor}>
       {Object.entries(keep).map(([k, v]) => <input key={k} type="hidden" name={k} value={v} />)}
       {children}
       <button type="submit" className="border border-rule bg-white px-3 py-1 text-sm">Show</button>
@@ -98,7 +100,7 @@ export default async function IndustryPage({ searchParams }: { searchParams: Pro
   const cb = pick(one(q, "cb"), caseKeys, caseKeys.includes("higheldmd") ? "higheldmd" : caseKeys[1]);
   const keep = (omit: string[]) => Object.fromEntries(Object.entries({ from, region, a: ia, b: ib, year: String(year), src, sa, sb, oi, os, ca, cb }).filter(([k]) => !omit.includes(k)));
 
-  const monthlyLines: Line[] = MONTHLY_KEYS.map((k, i) => ({ label: F.monthly.labels[k] ?? k, color: COLORS[i % COLORS.length], points: monthlyPoints(F, k, Number(from)) })).filter((l) => l.points.length);
+  const monthlyLines: Line[] = MONTHLY_KEYS.map((k, i) => ({ label: SHORT[k] ?? F.monthly.labels[k] ?? k, color: COLORS[i % COLORS.length], points: monthlyPoints(F, k, Number(from)) })).filter((l) => l.points.length);
   const yearAgo = last ? `${Number(last.slice(0, 4)) - 1}${last.slice(4)}` : null;
   const top = usRanked[0];
   const choices = industryChoices(F);
@@ -205,11 +207,11 @@ export default async function IndustryPage({ searchParams }: { searchParams: Pro
         <ToolTable
           minWidth={640}
           caption={`States by industrial ${srcLabel.toLowerCase()} consumption, ${year}`}
-          head={["State", `${srcLabel} (TBtu)`, "Total (TBtu)", "Average price (USD per MMBtu)", "Expenditures"]}
+          head={["State", `${srcLabel} (TBtu)`, ...(src === "total" ? [] : ["Total (TBtu)"]), "Average price (USD per MMBtu)", "Expenditures"]}
           rows={byState.map((r, i) => ({ key: r.st, cells: [
             <span key="n" data-state-rank={i + 1}>{i + 1}. {stateName(r.st)}</span>,
             <Fig key="v" v={r.value} src={SRC.seds} k={`s-${r.st}`} />,
-            <Fig key="t" v={r.total} src={SRC.seds} k={`st-${r.st}`} />,
+            ...(src === "total" ? [] : [<Fig key="t" v={r.total} src={SRC.seds} k={`st-${r.st}`} />]),
             <Fig key="p" v={r.price} src={`The industrial sector's total average price, nominal dollars. ${SRC.seds}`} k={`sp-${r.st}`} digits={usd} />,
             <Fig key="e" v={r.expenditures} src={`The industrial sector's total expenditures, nominal dollars. ${SRC.seds}`} k={`se-${r.st}`} digits={billions} />,
           ] }))}
@@ -249,7 +251,7 @@ export default async function IndustryPage({ searchParams }: { searchParams: Pro
           <AutoSubmitSelect name="cb" value={cb} options={caseKeys.map((k) => ({ value: k, label: F.outlook.cases[k] }))} label="Case B" />
           <Hint words="The cases drawn first" why="Case A is the Counterfactual Baseline case and Case B is the High Electricity Demand case: the page's own choice. AEO2026 names no Reference case." />
         </Form>
-        <ChartFrame title={`${os}, ${F.outlook.unit} a year`} tip={<Hint words=" (source)" why={SRC.aeo} />}>
+        <ChartFrame title={`${os.split(" : ").join(": ")}, ${F.outlook.unit} a year`} tip={<Hint words=" (source)" why={SRC.aeo} />}>
           <LineChart lines={outLines} unit={F.outlook.unit} x="year" ariaLabel={`EIA's projection of ${os} in two cases`} />
         </ChartFrame>
         <ToolTable
