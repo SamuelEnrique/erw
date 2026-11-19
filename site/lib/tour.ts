@@ -92,16 +92,16 @@ export const NEW_STOPS: Stop[] = [
     headings: ["The project map", "What is built or planned", "How the map is drawn"],
   },
   {
-    href: "/industry", title: "Where energy goes", seconds: 35, landed: false,
+    href: "/industry", title: "Where energy goes", seconds: 35, landed: true,
     line: "Energy by industry, by fuel and by state: who uses the country's energy, as the publishers count it.",
-    look: "Read the page's first table, then pick a state.",
-    headings: [],
+    look: "Read \"The industrial sector, month by month\", then \"States, year by year\".",
+    headings: ["The industrial sector, month by month", "States, year by year"],
   },
   {
-    href: "/ai-energy", title: "Energy per AI query", seconds: 30, landed: false,
+    href: "/ai-energy", title: "Energy per AI query", seconds: 30, landed: true,
     line: "The energy a query to an AI model uses, as each publisher printed it, with who measured it and how.",
-    look: "Read the published figures, each with its source.",
-    headings: [],
+    look: "Read \"Every figure, as printed\", then \"The publishers\".",
+    headings: ["Every figure, as printed", "The publishers"],
   },
 ];
 
