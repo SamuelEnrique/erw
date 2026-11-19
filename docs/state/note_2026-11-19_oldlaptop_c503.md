@@ -1,4 +1,4 @@
-# Note of chain 503 (the old laptop, sessions 8400 to 8460, 19 November 2026)
+# Note of chain 503 (the old laptop, sessions 8400 to 8500, 19 November 2026)
 
 Energy Research Warehouse (ERW). The chain file: `queue/done/503-day-19-november-oldlaptop-rulings-evidence-whole-country-pages.md`. Model spend USD 0. Nothing landed, no table written, no page opened to visitors, no hold lifted, no ruling taken. The step-by-step record is `docs/state/progress_c503.md`.
 
@@ -34,7 +34,25 @@ Each page's new views are on a branch, held by tests and by the page drawn to HT
 - **Waiting for the files, for each page:** the five cases read start to finish; the replication's count on real files; the Stata do-file's five headline figures (none was written with made-up values); the cross-check against published figures. The first steps are in the progress file, page by page.
 - **Found for the data machine before its files land** (rows of `docs/state/data_requests_done_line.md`): **328, a fault of its builder: a record's first and last local day are written as whole days on however many hours the record holds**; 323, 324 to 327 and 329: keys the builder writes that the contract does not list, names for authorities across the border, the months a pair's year holds, how the seven grids' authority files stand against `demand_growth.json`.
 
+## Part E on the real files (sessions 8470, 8480, 8490; written at the chain's last session)
+
+- **The page files landed on origin/main** in `af1962719` (the data machine's chain 501), byte for byte the copies the three pages were first read against. Each branch merged origin/main; none commits a page file of its own.
+- **Each page's pin still holds** (run again by the main session from each branch's head): no figure the three pages show today for the seven grids moved.
+
+| Page | Branch, head (landing row) | Replication on the real files | Five cases | Gaps found on the real files, fixed with a test | Stata do-file | Cross-check |
+|---|---|---|---|---|---|---|
+| events | `wip/8440-events-regions-done`, `c7a96eea1` (51) | 2,434 of 2,434 over the nine events | all five answered on the page | rows 5 to 18 of the read; five fixes (the Northwest's sources over Uri, the pairs against net imports on hover, the 21-day switch's hover, ERCOT as Texas's one authority, storage before July 2024) | written; its five steps done in Python give each expected value to the last digit (Stata not on this machine) | Texas over Uri: 69,215 MW against ERCOT's preliminary 69,222 MW (ERCOT's settled 69,812 MW came later); California, 6 September 2022: 63,622 MW against CAISO's 52,061 MW, because EIA's California region holds four authorities beside CAISO; Tennessee and the Mid-Atlantic: no public figure could be read (TVA's robots file answered 403; PJM's terms not found, so nothing read) |
+| `/demand` | `wip/8450-demand-regions-done`, `34c53f280` (52) | 449,440 of 449,440 over 783 views of 71 places; the seven grids as authorities against the as-metered file: 47 of 49 yearly averages equal (CAISO 2023 and 2025 differ by 0.1 and 0.4 MW) | 1, 2, 3 and 5 answered; **4 (the Southeast beside Florida, weather taken out) cannot be:** only 53 of 256 regional weather figures are in the files | rows 12 to 25; 12 to 21 fixed (a day counts as whole only on every hour of its local day: request 328 holds for two days, LGEE's 1 July 2018 and MISO's 16 November 2026) | written with five figures (the Southeast's 2025 average stands in for the weather figure the files lack) | ERCOT and EIA's Today in Energy within 0.4 percent; SRP's records 1.8 and 2.8 percent below the page in 2024 and 2025, and 12 percent below its 2023 peak hour (request 548); TVA, Duke Energy and APS refused |
+| `/supply` | `wip/8460-supply-regions-done`, `1e3a9e95b` (53) | 43,552 of 43,552 over 27 files with `--same-flow`; the same flow in two files 375 of 375 | all five answered | rows 16 to 27; six fixes (the months a pair's year holds, the storage hover, "0.0" for a figure rounding to zero, the mean's hover, the hours behind a percent, a mix month left out drawn as "not held yet") | written with five figures (needs Stata 16 with Python, the files being JSON) | Texas's 2025 shares within 0.4 points of ERCOT's fact sheet; September 2024 within 0.5 percent; EIA's Short-Term Energy Outlook puts ERCOT's solar 14 percent below ours, wind within 1.4 percent; trade with Canada and Mexico differs from Form EIA-111 by definition, Mexico's sign opposite (cause named, not confirmed) |
+
+- **New rows for the data machine:** 545 (both sides' report a pair in the event files: the Midwest's pairs give +9,619 MW against net imports of +5,427 MW over Uri), 546 (the regions' weather hours), 547 (Seminole's 2019), 548 (SRP's hours of 22 and 23 July 2023), 549 (mix months left out, by region), 550 (the Mid-Atlantic's 7,098 hours with the Carolinas against 8,735).
+- **New browser reads wanted:** rows 418 to 422, one or two a page, each at 1280 and 390 px.
+- **No screenshot was taken:** this machine cannot build the site.
+- **Hosts read for the cross-checks:** each page's read document holds its table of hosts with robots and terms cells. Not asked: FERC, NERC, CAISO (on `/supply`) and the paused hosts. Not read: SPP (its terms point to an acceptable use policy not read), PJM (terms page not found).
+
 ## What waits for Samuel, each with the default taken
+
+- **From the reads on the real files:** charts of the event pages in each region's own time (default UTC: the chart is shared by every page); a peak hour set against the baseline at that hour, not the baseline days' own peak (default that hour); the 95 percent rule for the regions' weather figures (default kept, which leaves most of them blank); a region's hour needs every one of its authorities, which leaves Florida without a whole 2019 (default kept); the screen of hours that let SRP's 2023 hour through (default the 25 percent rule kept); "12 of 12 months" beside a report holding 81 percent of the hours (default months on the face, hours on hover); Texas's 2025 solar share over the 11 months held (default the share over the months held, the count shown).
 
 - **The rulings themselves:** the sheet for one sitting. Default: nothing changes until he rules.
 - **Berkeley Lab's two addresses.** The lab's programme site answered HTTP 403; its queue report was read at the lab's publications address, which the repository's own method note gives. Default: used. If that is a second door to a host that refused, entries 20 and 92 go back to "no basis to recommend".
@@ -59,10 +77,12 @@ Each page's new views are on a branch, held by tests and by the page drawn to HT
 - **A file written over in a worktree:** `site/lib/regions.ts` (session 18's) was overwritten by a new library of the same name, seen at once, restored from git before any commit; the new library is `site/lib/countryfiles.ts`.
 - **Terms of use read late:** the research agents read robots files and not every host's terms; a check the same day read them (above).
 - **One commit made before its check finished:** the config line was committed while a scratch check of it had failed on its own pattern; the file was then parsed and found whole (15 keys, no error).
+- **A session's agents stopped by the harness:** the session of 13:16 UTC started the three pages' agents in the background and ended its own turn; the harness stops background agents 10 minutes after the last turn, so the three were cut off at 13:30 UTC with small edits uncommitted. The next session ran them in the foreground, and they finished the uncommitted edits first. Twice before that, sessions were closed by the chain worker after 30 minutes with no commit.
 
 ## Where the chain stopped
 
-- **It is not finished.** Every step that needs no file of the data machine is done; what is left of part E waits for the files. A watch for them was stopped by the harness when the machine ran low on memory and was not started again. The resume file `queue/next/530-resume-chain-503.md` is left in place and the queue step was not run. `docs/state/progress_c503.md` says, step by step, how a session continues once a file is on origin/main.
+- **Finished (session 8500, 19 November about 14:20 UTC).** Part E is done on the real files for all three pages; the resume file `queue/next/533-resume-chain-503.md` is removed and the queue step run. What is left is landing rows 51, 52 and 53 (row 51 first), the browser reads, the data requests, and Samuel's rulings.
+- **What stood earlier in the day:** it was not finished. Every step that needs no file of the data machine is done; what is left of part E waits for the files. A watch for them was stopped by the harness when the machine ran low on memory and was not started again. The resume file `queue/next/530-resume-chain-503.md` is left in place and the queue step was not run. `docs/state/progress_c503.md` says, step by step, how a session continues once a file is on origin/main.
 
 ## On this machine
 
