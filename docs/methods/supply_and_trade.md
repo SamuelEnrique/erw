@@ -315,6 +315,45 @@ the pin, with the clock standing still, so a weekly rebuild of `site/data/supply
   (`tests/test_session8460_supply_regions_replication.py`). The count on the real files, the Stata do-file's five
   headline figures and the cross-check against published figures are written when the files land
   (`docs/reviews/supply-regions-read-2026-11-19.md` says what waits).
+- **On the real files (session 8490, 19 November 2026).** The data machine's page files (`trade/<region>.json`,
+  `trade_matrix.json`, `mix/<region>.json`, `index.json`, built 19 November 2026 between 12:03 and 12:16 UTC) are on
+  origin/main since `af1962719`. The replication on them, after the changes below: **43,552 of 43,552 figures over 27
+  files** (13 trade, 13 mix, 1 matrix); with `--same-flow`, 375 of 375 pairs' years agree with the trade files within
+  0.05 GWh. What the read of the five cases changed, each a hover or a row with nothing on the face moved for a month
+  the file holds (`site/scripts/test-supply-regions-8490.mjs`, 34 of 34; session 8430's test 108 of 108; the pin 208
+  of 208):
+  - A figure that rounds to zero reads `0.0`, never `-0.0` or `+0.0` (the section's own formatter; the shared one of
+    `site/lib/countryfiles.ts` is not changed).
+  - **The mean of a pair** is the file's mean of the two reports over the hours both reported, so it can stand outside
+    the two reports beside it, each of which runs over its own side's hours: 53 of 160 pairs of regions and 240 of
+    1,323 pairs of balancing authorities (Tennessee and the Carolinas in 2025: 94.2 and 91.1 GWh, a mean of 91.0). Its
+    cell now says so on hover; where one side alone reported, that the mean is that side's report.
+  - **The percent of a gap**, when the two sides' hours differ, adds after its source that the two reports run over
+    different hours and can differ by more than the gap (the Northwest and California in 2024: 9,622.6 GWh over 8,784
+    hours beside 7,817.0 over 8,000, a gap of 4.7 GWh, 0.1 percent). The words session 8430's test holds stand
+    unchanged before it.
+  - **A mix month the file leaves out.** The builder writes a month only when at least 90 percent of its days are
+    complete (`docs/methods/regions_pages.md`), and many are not: Texas has no December 2025, the Mid-Atlantic no month
+    from September 2020 to February 2025, the Southwest none in 2024. The table drew only the months held; a month of
+    the file's span it does not hold now stands in its place as a row, not held yet, with the rule on hover, and the
+    year's row says on hover which months its shares leave out. A year with no month held says the rule too. A year's
+    share is still taken over the months held, so Texas's solar share of 2025 (14.1 percent) is of 11 months.
+  - The Stata do-file `replication/supply/replicate_regions.do` holds the five headline figures with their expected
+    values: Tennessee's net imports from all neighbours in 2025 (+8,309.7 GWh); the Carolinas' own report of their
+    net imports from Tennessee in 2025, Tennessee's report and the percent (+91.1, +94.2, 0.0); the Southeast and
+    Tennessee in 2025 (mean 2,877.5 GWh, gap +0.3); the Northwest's net imports from Canada in 2024 (-7,769.7 GWh,
+    exactly -7,769,650 MWh); Texas's solar share in 2025 (14.1 percent). Stata is not installed on the machine that
+    wrote it; it has not been run.
+  - **The cross-check** (the table, its sources and each host's robots file and terms are in
+    `docs/reviews/supply-regions-read-2026-11-19.md`): Texas's shares of 2025 stand within 0.4 points of ERCOT's own
+    fact sheet for every source (solar 14.1 against 13.9, gas 41.2 against 41.1), its net generation of September 2024
+    within 0.6 percent of ERCOT's monthly overview. EIA's own estimates of ERCOT's solar from its Short-Term Energy
+    Outlook stand lower: 45 TWh against our 52.4 for January to September 2025 (14 percent less), 56 TWh for the whole
+    of 2025 against our 63.5 for its first 11 months; its wind for January to September stands within 1.5 percent. Trade with Canada and Mexico differs from EIA's Form EIA-111 by definition: EIA-111 counts power that
+    crosses the border, Form EIA-930 the interchange of balancing authorities. The lower 48's net trade with Mexico
+    reads as exports here (-1,616.9 GWh in 2024) and as imports there (3,959.5 GWh); the likeliest reason, not
+    confirmed here, is plants in Mexico scheduled inside a United States balancing authority, which would be imports in
+    one form and generation in the other. No figure was adjusted.
 
 ## The cross-checks (session 7018, chain 301)
 
