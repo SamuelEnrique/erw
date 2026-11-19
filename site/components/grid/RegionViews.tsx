@@ -135,7 +135,7 @@ export function RegionMixView({ region, mixFile, period, cal }: { region: IndexR
       <Block title={hours ? `Generation by source, hour by hour: the last ${Math.round(hours.x.length / 24)} days` : "Generation by source, hour by hour"} id="hours">
         {hours ? (
           <div data-chart="stack" data-region-hours={hours.x.length}>
-            <CategoryChart id={`erw-region-hours-${code}`} x={hours.x} unit="MW" label={`${region.name}, generation by source by hour, UTC`} height={320} every={24 * 7}
+            <CategoryChart id={`erw-region-hours-${code}`} x={hours.x} unit="MW" label={`${region.name}, generation by source by hour, UTC`} height={320} every={24 * 14}
               series={[...mix.SOURCES.filter((s) => (MIX_SOURCES as readonly string[]).includes(s.key) && hours.get(s.key).some((v) => v !== null)).map((s) => ({ name: s.label, color: s.color, values: hours.get(s.key), kind: "area" as const, stack: "mix" })),
                 ...(hours.get("demand").some((v) => v !== null) ? [{ name: "Demand", color: "var(--color-ink)", values: hours.get("demand"), kind: "line" as const, width: 1.6 }] : [])]} />
           </div>
