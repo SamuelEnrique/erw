@@ -787,7 +787,8 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
   const fuelsHeld = plants ? plants.techs.filter((t, i) => plants.t.includes(i)).map((t) => t.slug) : [];
   const plantCount = (operating: boolean) => (plants ? plants.st.reduce((a, s, i) => a + ((s === 0) === operating && (!fuel || fuel.includes(plants.techs[plants.t[i]].slug)) ? 1 : 0), 0) : 0);
   const check = "mr-2 align-middle accent-[var(--color-accent)]";
-  const btn = "border border-rule bg-white px-2 py-0.5 text-sm leading-tight hover:text-accent";
+  // session 8611 (docs/brand.md, section 3): a target a finger presses is 44 px tall on a phone; these were 24 at every width
+  const btn = "inline-flex min-h-11 min-w-11 items-center justify-center border border-rule bg-white px-2 py-0.5 text-sm leading-tight hover:text-accent sm:min-h-6 sm:min-w-0";
   const hint = "cursor-help border-b border-dotted border-muted";
 
   return (
@@ -879,7 +880,8 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
           <canvas ref={canvas} className="block w-full cursor-crosshair touch-none" role="img" tabIndex={0} aria-label="Map of the United States with the resource layers that are switched on; the legend below names each"
             onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp} onKeyDown={onKey} onDoubleClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); moved(R.zoomAbout(view.current, size.current.w, size.current.h, e.clientX - r.left, e.clientY - r.top, 2)); }} />
           {hover ? (
-            <div className="pointer-events-none absolute z-10 max-w-xs border border-rule bg-white px-3 py-2 text-sm shadow-sm" data-hover="1" data-hover-lon={hover.lon} data-hover-lat={hover.lat}
+            // session 8611 (docs/brand.md, sections 3 and 6): the hover card is fog with a rule-colored edge and no shadow (it was white with a shadow)
+            <div className="pointer-events-none absolute z-10 max-w-xs border border-rule bg-paper px-3 py-2 text-sm" data-hover="1" data-hover-lon={hover.lon} data-hover-lat={hover.lat}
               style={{ left: hover.x > hover.w * 0.6 ? undefined : hover.x + 14, right: hover.x > hover.w * 0.6 ? hover.w - hover.x + 14 : undefined, top: hover.y > hover.h * 0.6 ? undefined : hover.y + 14, bottom: hover.y > hover.h * 0.6 ? hover.h - hover.y + 14 : undefined }}>
               <div className="text-xs tabular-nums text-muted">{Math.abs(hover.lat).toFixed(2)} {hover.lat >= 0 ? "N" : "S"}, {Math.abs(hover.lon).toFixed(2)} {hover.lon >= 0 ? "E" : "W"}{hover.state ? <>, in <span data-hover-state={hover.state}>{hover.state}</span></> : null}</div>
               {hover.rows.length === 0 ? <div className="text-muted">No layer has anything here.</div> : hover.rows.map((r, i) => (

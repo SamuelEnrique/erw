@@ -177,6 +177,10 @@ Five cases a reader would bring were taken on a build that holds the coal layer 
 
 Left as they are, each a row of the read: the coal fields' area is in square kilometres where the basins' and plays' are in square miles, and the coal fields' "What it is not" begins with a file's name (both the data machine's, data request 552); a wind or sun layer's hover repeats its vintage sentence with every value (for the owner's ruling). Held by `tests/test_session8608.py`.
 
+## Session 8611 (19 November 2026): the map against the brand
+
+Measured in a browser on a build at 390 and 1280 px against `docs/brand.md`. Two things did not follow it and now do: on a phone the map's nine controls (zoom in and out, the four moves, the three places) are 44 px in both directions, where they were 24 px tall at every width (section 3); and the hover card is fog with a rule-colored edge and no shadow, where it was white with a shadow (sections 3 and 6). Left as it is: the small "i" beside each decision, 16 px, which is the site's shared button on every page with a decisions fold. No figure is touched. Held by `tests/test_session8611_resources.py`.
+
 ## Sign-off
 
 Session 8609 (chain 504) added this block; the note had none. A session never signs it. Signing it accepts, as the map's rules:
