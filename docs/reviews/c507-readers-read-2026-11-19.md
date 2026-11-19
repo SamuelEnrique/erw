@@ -28,4 +28,12 @@ Five cases, read on `wip/8902-tour`: (1) the first page; (2) stop 8, the grid's 
 
 ## Part C: a teacher setting a problem set for Monday
 
-Written when the four new sets are back (`wip/8901-problem-sets`).
+Five cases, read on `wip/8901-problem-sets` from its own report and its node test's drawn pages: (1) choose a set on the index on Friday; (2) print the teacher's copy; (3) read the resource set's answers aloud; (4) the trade set's question on 2019, where the two sides disagree on the direction; (5) the energy-by-industry set, whose page is not on main.
+
+| # | Case | What the reader meets | State |
+|---:|---|---|---|
+| 11 | 1 | The four new sets have no dated edition: a figure may move between Friday and Monday when the data machine rebuilds a page file | waits: data request 561 (a dated edition with the nine sets) |
+| 12 | 2 | No teacher's copy of the four yet (it is drawn from an edition); the live page shows the worked answers behind each question's click | waits: data request 561 |
+| 13 | 3 | Figures shown to two decimals however large: 15,244,926.85 MWh a year, 315,802,780.06 dry metric tons a year | for Samuel's ruling, default kept: `lib/format.ts` `shown()` is the site's one display rule and `check-values.mjs` reads it; a rule by size would move every set's figures |
+| 14 | 4 | Mid-Atlantic says 2,437,201 MWh went to Tennessee in 2019; Tennessee says it sent 6,612,970 MWh the other way: the question asks which way each said the power ran, and the answer says both | no gap: the disagreement is the lesson the set names |
+| 15 | 5 | `/industry` is not on main, so the set links its method page; the figures carry their page file on hover and come in the set's CSV | for Samuel's ruling, default kept: the set stays listed; its page link is added when `/industry` lands (as the tour's held stop) |
