@@ -31,6 +31,11 @@ Chain file: https://github.com/SamuelEnrique/erw/blob/main/queue/done/506-day-19
 9. Share of hours New England exported on net: 27.8 percent in 2025 against 0.05 in 2019.
 10. CAISO's battery fleet against its ten highest days' demand: 46.6 percent in 2025 against 0.6 in 2019.
 
+## Seen in part C and E (after the sheet)
+
+- EIA's international series, which the world drafts read, differ from the countries' own statistics by 5 to 9 percent in places: China's 2024 coal output (EIA 7.5 percent below China's statistics bureau), China's gas output (EIA 5 percent above China's energy administration), Indonesia's CO2 (EIA 9 percent above Our World in Data). A world draft quoted beside a national figure needs its source named.
+- EIA notes that 2023 to 2024 changes in commercial and industrial sales largely reflect better reporting of data centers and crypto mining: the commercial-sales findings carry that as their risk.
+
 ## What waits for Samuel
 
 - The Stata run of the forty do-files (read here, not run: no Stata on this machine).
