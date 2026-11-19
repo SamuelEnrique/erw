@@ -184,6 +184,31 @@ export function apartSources(file: EventRegionsFile, rows: RegionSummary[], skip
   return out;
 }
 
+/** Session 8470 (the five cases on the real files): a region's pairs summed as its imports (a pair's flow runs from its
+ *  first code to its second, so it counts against the region when the region is first), set beside the region's own net
+ *  imports, over the hours where its net imports and every pair it is in are held. The two need not agree: each pair's
+ *  flow is one side's report (the first's where held, else the second's), while net imports are the region's own report
+ *  of its total interchange. Over Winter Storm Uri the Midwest's pairs sum to +9,619 MW against its net imports of
+ *  +5,427 MW. Null when the region is in no pair or no hour is held by all. */
+export function pairSum(file: EventRegionsFile, code: string): { hours: number; pairs_mw: number; imports_mw: number } | null {
+  const imp = file.regions?.[code]?.net_imports_mw;
+  const mine = Object.entries(file.pairs ?? {}).filter(([k]) => k.split("-").includes(code));
+  if (!imp || !mine.length) return null;
+  let hours = 0, a = 0, b = 0;
+  for (let i = 0; i < file.hours.n; i++) {
+    const x = imp[i];
+    if (!num(x)) continue;
+    let s = 0, all = true;
+    for (const [k, p] of mine) {
+      const v = p.flow_mw?.[i];
+      if (!num(v)) { all = false; break; }
+      s += k.split("-")[0] === code ? -v : v;
+    }
+    if (all) { hours++; a += x; b += s; }
+  }
+  return hours ? { hours, pairs_mw: b / hours, imports_mw: a / hours } : null;
+}
+
 /** The share of the baseline by which a region's demand over the window must differ from it to be counted as reached,
  *  in percent, either way. The session's own default (8410): no publisher's threshold stands behind it. */
 export const REACHED_PCT = 5;

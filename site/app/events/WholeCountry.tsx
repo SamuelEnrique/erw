@@ -5,7 +5,7 @@ import { LineChart, type Line } from "@/components/LineChart";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ToolTable } from "@/components/tool/ToolPage";
 import {
-  ABROAD, GRID_NAME, REACHED_PCT, REGION_CODES, REGION_NAME, SOURCES, STORAGE_FROM, apartSources, baselineFirstHour, baselineOf, drawnByDay, eventRegionsFile, gwh, heldApart, lineGap,
+  ABROAD, GRID_NAME, REACHED_PCT, REGION_CODES, REGION_NAME, SOURCES, STORAGE_FROM, apartSources, baselineFirstHour, baselineOf, drawnByDay, eventRegionsFile, gwh, heldApart, lineGap, pairSum,
   localHour, pairs, points, reached, regionOf, regionZones, shortSources, signedGwh, signedPct, signedWhole, summarize, utcHour, whole, NEW_REGIONS,
   type Against, type EventRegionsFile, type RegionSummary,
 } from "@/lib/countryfiles";
@@ -165,6 +165,11 @@ export function WholeCountry({ event, path, file, q, first, second, firstWhy }: 
   };
   const apart = why ? [] : apartSources(file, rows, REGIONS_HELD);
   const poss = (name: string) => (name.endsWith("s") ? `${name}'` : `${name}'s`);
+  // session 8470 (the real files): a region's pairs in the table below need not add up to its net imports; the hover says by how much
+  const pairWords = (code: string) => {
+    const s = pairSum(file, code);
+    return s ? ` Its pairs in the table below, read as its imports, average ${signedWhole(s.pairs_mw)} MW against net imports of ${signedWhole(s.imports_mw)} MW over the ${whole(s.hours)} hours where its net imports and every one of its pairs are held: each pair's flow is one side's report (the first region's where held, else the second's), while net imports are the region's own report of its total interchange, so the two need not agree, and the file does not hold the other side's report.` : "";
+  };
 
   const regionRows = rows.map((r) => ({
     key: r.code, highlight: r.code === a || r.code === b,
@@ -175,7 +180,7 @@ export function WholeCountry({ event, path, file, q, first, second, firstWhy }: 
       cell(r.code, r.peak ? <N k={`wc|${r.code}|peak_mw`}>{whole(r.peak.mw)}</N> : null, `The file holds no hour of demand for ${r.name}.`),
       cell(r.code, r.peak ? when(r.code, r.peak.at) : null, `The file holds no hour of demand for ${r.name}.`),
       cell(r.code, r.peak && r.peak.base_mw !== null ? <N k={`wc|${r.code}|peak_base_mw`}>{whole(r.peak.base_mw)}</N> : null, `The baseline does not hold that hour for ${r.name}.`),
-      cell(r.code, r.imports ? <span title={`${r.name}: net imports averaged ${signedWhole(r.imports.mean_mw)} MW over the window and ${signedWhole(r.imports.base_mean_mw)} MW in the baseline, over the ${whole(r.imports.hours)} hours both hold. Above zero the region imported; below zero it exported.`}><N k={`wc|${r.code}|imports_mw`}>{signedWhole(r.imports.mean_mw)}</N></span> : null, `The file holds no net imports for ${r.name} with their baseline.`),
+      cell(r.code, r.imports ? <span title={`${r.name}: net imports averaged ${signedWhole(r.imports.mean_mw)} MW over the window and ${signedWhole(r.imports.base_mean_mw)} MW in the baseline, over the ${whole(r.imports.hours)} hours both hold. Above zero the region imported; below zero it exported.${pairWords(r.code)}`}><N k={`wc|${r.code}|imports_mw`}>{signedWhole(r.imports.mean_mw)}</N></span> : null, `The file holds no net imports for ${r.name} with their baseline.`),
       cell(r.code, r.imports ? <N k={`wc|${r.code}|imports_base_mw`}>{signedWhole(r.imports.base_mean_mw)}</N> : null, `The file holds no net imports for ${r.name} with their baseline.`),
       cell(r.code, <span><N k={`wc|${r.code}|hours`}>{whole(r.hoursHeld)}</N> of {whole(file.hours.n)}</span>, ""),
     ],

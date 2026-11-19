@@ -161,7 +161,17 @@ ok(C.apartSources(apartFile, apartRows).map((s) => `${s.code} ${s.event} ${s.bas
   && !/The window holds/.test(storeWords(noStore)),
   "a region whose sources the window holds and its baseline does not is named under the sources table, and each cell says which side holds it");
 ok(text.includes(`${N} steps of 1 hour each, from 2022-12-19 05:00 UTC`) && text.includes("An hour the file does not hold has no point, and the line breaks there"), "the hours' words read plainly");
-const dayWords = "A window of 21 days or less is drawn by hour and a longer one by day. Default: 21 days, this page's own choice (session 8410); no publisher's rule stands behind it.";
+// session 8470: a region's pairs read as its imports, beside its own net imports (the Midwest over Uri: +9,619 against +5,427)
+const sumFile = { hours: { start: "2022-12-19T05:00:00Z", step_hours: 1, n: 3 }, regions: { TEN: { net_imports_mw: [100, 200, null] }, CAR: { net_imports_mw: [5, 5, 5] } },
+  pairs: { "CAR-TEN": { flow_mw: [50, 60, 70] }, "MIDW-TEN": { flow_mw: [80, null, 90] }, "SE-TEN": { flow_mw: [-10, -20, -30] } } };
+const ps8470 = C.pairSum(sumFile, "TEN"), pc8470 = C.pairSum(sumFile, "CAR");
+ok(ps8470.hours === 1 && near(ps8470.pairs_mw, 50 + 80 - 10) && near(ps8470.imports_mw, 100) && pc8470.hours === 3 && near(pc8470.pairs_mw, -60) && near(pc8470.imports_mw, 5)
+  && C.pairSum(sumFile, "NW") === null && C.pairSum({ ...sumFile, regions: { TEN: { net_imports_mw: [null, null, null] } } }, "TEN") === null,
+  "a region's pairs summed as its imports (against it where it is the first code), over the hours where its net imports and every pair are held");
+const tenSum = C.pairSum(file, "TEN");
+ok(tenSum && text.includes(`Its pairs in the table below, read as its imports, average ${C.signedWhole(tenSum.pairs_mw)} MW against net imports of ${C.signedWhole(tenSum.imports_mw)} MW over the ${C.whole(tenSum.hours)} hours where its net imports and every one of its pairs are held`)
+  && text.includes("so the two need not agree, and the file does not hold the other side's report."), "the net imports hover sets the region's pairs beside its own net imports and says why they need not agree");
+const dayWords ="A window of 21 days or less is drawn by hour and a longer one by day. Default: 21 days, this page's own choice (session 8410); no publisher's rule stands behind it.";
 ok(text.includes(`the line breaks there. ${dayWords}`) && pageText(longHtml).includes(`The tables above are from every held hour. ${dayWords}`), "the switch from hours to days gives its default and its source on hover, drawn by hour and by day");
 
 // ---- held, and not built
