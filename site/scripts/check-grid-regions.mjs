@@ -209,6 +209,23 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
     const ph = await evaluate(`({ wide: ${WIDE}, scroll: document.documentElement.scrollWidth, frames: [...document.querySelectorAll('[data-region-table]')].map((f) => [f.getAttribute('data-region-table'), f.scrollWidth, f.clientWidth]), picker: [...document.querySelectorAll('[data-segments="EIA region"] a')].every((a) => { const b = a.getBoundingClientRect(); return b.left >= 0 && b.right <= 391; }) })`);
     check(ph.wide && ph.picker, `at 390 px the region's Mix tab is ${ph.scroll} px wide, the picker's thirteen inside the screen; a wide table scrolls in its own frame (${ph.frames.filter((f) => f[1] > f[2]).map((f) => `${f[0]} ${f[1]} in ${f[2]}`).join(", ") || "none is wider than its frame"})`);
     await shot(`region_${slug}_mix_390.png`);
+    // session 8614, a finger: a tap on the hour by hour chart shows that hour's card and the card stays after the
+    // finger lifts (until this session the lift, which is also the touch pointer's leave, meant no card ever came up)
+    {
+      await send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 1 });
+      const at = await evaluate(`(() => { const s = document.querySelector('[data-region-hours-chart] svg'); if (!s) return null; s.scrollIntoView({ block: 'center' }); const b = s.getBoundingClientRect(); return { x: Math.round(b.left + b.width * 0.5), y: Math.round(b.top + b.height * 0.4) }; })()`);
+      if (!at) check(false, "at 390 px the hour by hour chart is on the page for a finger's tap");
+      else {
+        await send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: at.x, y: at.y }] });
+        await sleep(120);
+        await send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+        await sleep(700);
+        const c = await evaluate(`(() => { const h = document.querySelector('[data-hours-card]'); if (!h) return null; const b = h.getBoundingClientRect(); return { left: b.left, right: b.right, text: h.innerText.replace(/\\s+/g, ' ').slice(0, 110), rows: h.querySelectorAll('.font-mono').length, wide: document.documentElement.scrollWidth }; })()`);
+        check(c && c.rows >= 2 && c.left >= 0 && c.right <= 391 && c.wide <= 391, `at 390 px a finger's tap on the hour by hour chart shows the hour's card, and it stays after the finger lifts (${c ? `${c.text}; from ${Math.round(c.left)} to ${Math.round(c.right)} px` : "no card 700 ms after the lift"})`);
+        await shot(`region_${slug}_mix_390_tap.png`);
+      }
+      await send("Emulation.setTouchEmulationEnabled", { enabled: false });
+    }
     await open(`/grid?region=${slug}&view=gravity`);
     check(await evaluate(WIDE), `at 390 px the region's trade is ${await evaluate(`document.documentElement.scrollWidth`)} px wide`);
     // session 8605: the months under the chart do not lie on one another on a phone

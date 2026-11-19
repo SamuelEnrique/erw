@@ -5,7 +5,7 @@ Energy Research Warehouse (ERW). Written by session 8609 of chain 504 (`queue/do
 - **What a signature is.** You fill the three lines of the block "Sign-off" in `docs/methods/resources.md` and commit it, or say it in a prompt and a session writes your words there. A session never signs.
 - **What you sign accepts** the rules the block lists, at the defaults of the rulings below. It does not freeze the layers: the data side adds them.
 - **Nothing here is published.** The map is a tab of `/map`, in review, as every page is. Signing does not open it. The datacenter overlay stays held for its license.
-- **Where it is.** Branch `wip/8603-resources` (landing request row 43). The coal fields are the data machine's layer, on its own branch; the two land in either order.
+- **Where it is.** Branch `wip/8603-resources` (landing request row 43). The coal fields, the data machine's layer, are on main and on production since 18:10 UTC on 19 November, with the page as it stood after session 8613; what sessions 8614 to 8616 added waits at the landing desk.
 - **About fifteen minutes.** The replication is Python and runs in seconds; its Stata do-file has not been run.
 
 ---
@@ -28,6 +28,10 @@ Energy Research Warehouse (ERW). Written by session 8609 of chain 504 (`queue/do
 
 - The layer of tight oil and shale gas plays against the publisher's own file (EIA, 323,424 bytes, the same sha256 as on 7 October): **556 of 556 figures are the publisher's** (50 plays; each one's name, area and nine fields; the smallest, mean and largest area).
 - Written from the method note and the publisher's file with Python's standard library alone.
+- A second layer since (session 8619, `python replication/resources/replicate_basins.py`): the sedimentary basins against EIA's own file (440,871 bytes, the same sha256 as on 7 October): **199 of 199 figures are the publisher's** (32 basins); every basin's published area is within 0.2 percent of the area of its own outline.
+- A third (session 8621, `python replication/resources/replicate_dams.py`): hydropower at non-powered dams against Oak Ridge's own table (1,594,027 bytes, the same sha256): **34,014 of 34,014 figures are the publisher's** (2,616 dams, every row). Their capacities sum to 3,939.3 MW; the laboratory's readme says "nearly 4 GW".
+- A fourth (session 8622, `python replication/resources/replicate_wind_sites.py`): the wind supply curve's sites against the laboratory's own table (12,829,421 bytes, the same sha256): **395,703 of 395,703 figures are the publisher's**, each to the web file's rounding (56,528 sites, every row).
+- A fifth (session 8623, `python replication/resources/replicate_leases.py`): the offshore wind lease areas against BOEM's own archive (1,031,812 bytes, the same sha256): **1,129 of 1,129 figures are the publisher's** (51 outlines). BOEM's stated acres are within 1 percent of the outline's own area for 45 of 46.
 - `replication/resources/replicate.do` prints the five headline figures in Stata. It has not been run.
 
 ## 3. Cross-checks (no figure adjusted)
@@ -48,7 +52,9 @@ Nine plays are set beside the 2011 review in `replication/resources/crosscheck_p
 2. Switch "Coal fields" on, rest the mouse on West Virginia: the field, its area, its age and rank.
 3. Rest the mouse on "not held" beside "Uranium deposits": the reason.
 4. "Decisions on this page" under the map: ten lines.
-5. The reader's read: `docs/reviews/resources-read-2026-11-19.md` (five cases, eight rows).
+5. The reader's read: `docs/reviews/resources-read-2026-11-19.md` (two reads of five cases, the phone with a finger, the keyboard: seventeen rows).
+6. On a phone: tap the map. A card with the value stays (it showed nothing until session 8614).
+7. With the keyboard: Tab to the map, then the arrow keys. The card reads the place under the small ring at the centre.
 
 ## 5. For your ruling (each has its default taken; nothing waits on you)
 
@@ -56,11 +62,26 @@ Nine plays are set beside the 2011 review in `replication/resources/crosscheck_p
 |---:|---|---|
 | 1 | Uranium and critical mineral deposits: the two USGS hosts that serve them refuse automated reading (ScienceBase names Claude). A person could download the two files by hand and give them to the data machine | Not fetched; the two switches greyed with that reason |
 | 2 | A wind or sun layer's hover repeats its vintage sentence with every value. It could stand once, in the legend | Left as it is |
-| 3 | The coal fields' area is in square kilometres where the basins' and plays' are in square miles (data request 552 asks the data machine) | Each as its file gives it; nothing converted on the page |
-| 4 | Only one layer is replicated (the plays). The geothermal layers are on a host that refuses Claude's agents; the coal fields' source is a 230 MB archive the data machine fetched | One layer, as chain 504 asked |
+| 3 | The coal fields' area was in square kilometres where the basins' and plays' are in square miles (data request 552) | Settled by the data machine the same day: square miles, with the square kilometres beside it. Nothing for you to rule |
+| 4 | Five layers are replicated (the plays; since sessions 8619 to 8623 the basins, the non-powered dams, the wind sites and the lease areas). The geothermal layers are on a host that refuses Claude's agents; the coal fields' source is a 230 MB archive the data machine fetched | Five layers; chain 504 asked for one |
+| 10 | Two offshore leases read "lease area (Commercial)" on the map, as BOEM's outlines table writes them, and are a research lease (OCS-A 0497) and a right-of-way grant for a cable (OCS-A 0506) in BOEM's table of lease blocks. One easement's stated acres (2,723, South Fork Wind) are short of its own outline's area (4,086) | Shown as the outlines table gives them; data request 556 asks the data machine about the two types |
+| 9 | A dam's hover lists "Annual average generation, MWh", the publisher's annual figure. The publisher's twelve monthly figures, which the map does not show, do not sum to it (0.44 percent apart in all; each is its own average over 1980 to 2015). Say so in the layer's entry under the map? | Left: the map shows no month, and the method note says it |
+| 5 | With a sun layer on, Alaska is blank north of 60 degrees north (the source's file ends there). Should the hover say so where the reader points? | Left; the layer's entry under the map says it |
+| 6 | A card that stays after a tap on a phone: a close mark? | None; the next tap, a drag or a map button takes it off |
+| 7 | **Site-wide:** a reason given on hover ("not held" beside a greyed layer) is the browser's own tooltip, which a finger never opens (about 1,100 on the site, 12 on this map) | Left as the site has it |
+| 8 | With the method note under the map open, the page has two headings of level 1 (the page's and the note's own title). The level can only be set inside the site's one renderer, which every page shares | Left as it is; a fix from the page went round the renderer and was taken out |
+
+## 5a. Since this pack was first written (sessions 8611 to 8616, the same day)
+
+- **On a phone a tap now shows the value** (session 8614). It had shown nothing since the page was built: a finger's lift counted as leaving the map. On a narrow map the card takes the map's width.
+- **The keyboard reads the map** (8615): the place at the map's centre, under a small ring, after each key; announced to a screen reader.
+- **The map's controls are 44 px on a phone**, and its card is the brand's (8611).
+- **The check** switches the coal fields on, taps with a finger, uses the Tab key, and holds frames back to try the map's own record: 102 of 105, the three that fail the datacenter overlay's license hold.
+- **Data request 553**: plain words and units for the hover of the wind sites and the hot-water systems, which read as raw column names. Done by the data machine on its next stack.
 
 ## 6. What is not done
 
 - No layer of uranium or of critical mineral deposits.
 - The datacenter overlay is held for its license and draws nothing.
-- The accessibility read (axe-core on a build, 1280 and 390 px) found no rule broken on the tab. What an engine cannot judge, a keyboard's path over a canvas map, was not tried by a person.
+- The accessibility read (axe-core on a build, 1280 and 390 px) found no rule broken on the tab. A keyboard's path over the map has been tried since (session 8615); a person with a screen reader has not tried it.
+- A table of a layer's values under the map, which the brand asks of a chart, is not given: a layer is up to 150,000 cells.
