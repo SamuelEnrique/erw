@@ -394,3 +394,12 @@ with the hold stood aside).
 - **Tests.** `site/scripts/test-events-regions.mjs` (the section drawn from a fixture in the contract's form, whose
   values are made by a rule and are not data; the whole pages with and without a file) and
   `tests/test_session8410_events_regions.py`.
+- **The replication (session 8440).** `replication/events/replicate_regions.py`, written from this section and the
+  contract alone, recomputes every figure the section and the card's line print from the event's file and sets it
+  beside the figure the site's own code draws (`site/scripts/events-regions-figures.mjs` writes those): a figure
+  passes within half the last digit shown, and a figure the rule gives that the page does not show fails too. Run:
+  `node --import ./scripts/events-page-register.mjs scripts/events-regions-figures.mjs <figures.json>` from `site/`,
+  then `python replication/events/replicate_regions.py --figures <figures.json>`. While no event's file is on the
+  site it says so and compares nothing. On the test's fixture: 203 of 203. The count on the real files, the Stata
+  do-file's five headline figures and the cross-check against published figures are written when the files land
+  (`docs/reviews/events-regions-read-2026-11-19.md` says what waits).

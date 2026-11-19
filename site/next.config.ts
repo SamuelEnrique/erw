@@ -83,6 +83,9 @@ const nextConfig: NextConfig = {
   // session 467: /datacenters reads the same price files for its power-side section (app/datacenters/PowerSide.tsx)
   // session 3304: the company pages read site/data/companies (lib/companydata.ts): the index, and one shard a company
   outputFileTracingIncludes: { "/cost-of-power": ["./data/datacenter/*.json"], "/datacenters": ["./data/datacenter/*.json"], "/cost-of-power/seller": ["./data/seller/hubs/**/*.json"],
+    // session 8602 (chain 504): /grid reads the thirteen regions' page files when a request names a region
+    // (lib/regionsdata.ts: the index, a region's mix and trade, and its demand file for the grid it nearly is)
+    "/grid": ["./data/regions/index.json", "./data/regions/mix/*.json", "./data/regions/trade/*.json", "./data/regions/demand/*.json"],
     "/companies": ["./data/companies/index.json"], "/companies/rows": ["./data/companies/index.json"], "/companies/rows/python": ["./data/companies/index.json"], "/companies/rows/stata": ["./data/companies/index.json"],
     "/companies/[id]": ["./data/companies/**/*.json"], "/companies/[id]/rows": ["./data/companies/**/*.json"], "/companies/[id]/rows/python": ["./data/companies/**/*.json"], "/companies/[id]/rows/stata": ["./data/companies/**/*.json"],
     // session 8410 (chain 503): the page files of the whole country (site/data/regions, lib/countryfiles.ts) are read by
