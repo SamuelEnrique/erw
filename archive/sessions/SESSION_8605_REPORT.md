@@ -1,6 +1,6 @@
 # Session 8605 report (portable-laptop, 19 November 2026)
 
-Energy Research Warehouse (ERW). Chain 504, part E: the reader's read of the Grid tool's region tabs, on the data machine's real files. About 13:40 to 14:20 UTC. Branch `wip/8602-grid-regions` at `e97d4614a` (landing request row 42, its head moved; the desk gates it next). Model spend USD 0; no model was called.
+Energy Research Warehouse (ERW). Chain 504, part E: the reader's read of the Grid tool's region tabs, on the data machine's real files. About 13:40 to 14:13 UTC. Branch `wip/8602-grid-regions` at `e97d4614a` (landing request row 42, its head moved; the desk gates it next). Model spend USD 0; no model was called.
 
 ## At the top
 
