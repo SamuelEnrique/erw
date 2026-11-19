@@ -183,7 +183,7 @@ eia930_demand_growth,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,P1Y,2019-01-0
 eia930_demand_weather,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,P1Y,2019-01-01T00:00:00Z,2026-01-01T00:00:00Z,1057,erw:demand_weather,2026-11-17T04:00:27Z,pass,public,power,yes,derived
 eia930_event_hourly_interchange,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,424,PT1H,2021-02-07T06:00:00Z,2025-06-29T03:00:00Z,266833,eia:electricity/rto/interchange-data;eia:electricity/rto/region-data,2026-10-02T22:56:19Z,pass,public,power,no,source
 eia930_generation_latest,GENERATION,,8,PT1H,2026-11-14T10:00:00Z,2026-11-15T06:00:00Z,1561,eia:electricity/rto/fuel-type-data;eia:electricity/rto/region-data,2026-11-16T10:25:07Z,pass,public,power,no,source
-eia930_region_fuel_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,13,PT1H,2018-07-01T04:00:00Z,2026-11-17T07:00:00Z,6282393,eia:gridmonitor/sixMonthFiles,2026-11-19T10:51:59Z,pass,public,power,no,derived
+eia930_region_fuel_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,13,PT1H,2018-07-01T04:00:00Z,2026-11-17T07:00:00Z,6730507,eia:gridmonitor/sixMonthFiles,2026-11-19T13:58:00Z,pass,public,power,no,derived
 eia930_region_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,13,PT1H,2018-07-01T04:00:00Z,2026-11-18T07:00:00Z,3064131,eia:gridmonitor/sixMonthFiles,2026-11-18T00:33:52Z,pass,public,power,no,derived
 eia930_region_pair_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,25,PT1H,2018-07-01T04:00:00Z,2026-11-16T07:00:00Z,1820134,erw:eia930_ba_interchange_hourly,2026-11-18T00:47:15Z,pass,public,power,no,derived
 eia930_subba_demand_hourly,SUBBA,,89,PT1H,2026-07-24T00:00:00Z,2026-10-21T06:00:00Z,186177,eia:electricity/rto/region-sub-ba-data,2026-10-22T00:46:07Z,pass,public,power,no,source

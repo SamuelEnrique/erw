@@ -29,8 +29,8 @@ Before July 2024 EIA's files have no storage columns and count batteries under O
 
 ## The rule
 
-- A balancing authority's hour is **held** when its net generation (adjusted, else reported) is held, at least one of its sources is held, and its sources add up to its net generation within 5 percent of it, or within 1 MW (the rule `mix_profile.hours_of` applies to a grid, applied to one authority). A source the authority does not print that hour counts as zero in the sum.
-- A region's hour is written when every balancing authority the file lists in that region for that hour is held; `x_bas` is how many were summed. Otherwise nothing is written for the region and hour, and the run log counts the region-hours left out.
+- A region's hour is **held** when every balancing authority the file lists in that region for that hour holds its net generation (adjusted, else reported), the region's net generation is above zero, and the region's sources add up to it within 5 percent, or 15 percent for the Mid-Atlantic, whose grid is PJM: the rule of `mix_profile.hours_of` (with its `LOOSE` tolerance for PJM), applied to the region as the seven grids' mix files apply it to a grid. A source no authority prints that hour counts as zero. `x_bas` is how many authorities were summed. Otherwise nothing is written for the region and hour, and the run log counts the region-hours left out.
+- **Session 8009 changed the rule.** The first build (session 8001) applied the 5 percent test to each authority, with a floor of 1 MW; a small authority whose sources stood a few megawatts off its net generation then left its whole region out for that hour, and the Mid-Atlantic's, the Southwest's, the Northwest's and California's mix files lost most of their months (the Mid-Atlantic held 40 months, the Southwest 36). Under the region's rule they hold 95 and 85; Texas's shares still equal ERCOT's.
 - `ts_utc` is the hour's start (the file's UTC Time at End of Hour minus one hour). The last day and a half of each file is carried into the next, as `eia930_region_hourly.py` does, so a UTC hour split between two files is summed whole. Run with `--files` for one file, the rows are merged into the table and the first 30 hours of that file are left as the whole build wrote them.
 - Nothing is filled, scaled or estimated.
 
@@ -38,9 +38,9 @@ Before July 2024 EIA's files have no storage columns and count batteries under O
 
 Texas is one balancing authority (ERCOT). The region's monthly shares, built from this table by `region_files.py`, equal those of `site/data/mix/ercot.json`, built from EIA's API by `mix_profile.py`, to the hundredth of a percent in each month read (August 2025: natural gas 50.39, coal 12.81, nuclear 7.50, wind 14.39, solar 15.01 percent in both; January 2024 and March 2019 likewise), except storage before July 2024, which this table leaves blank and the ERCOT file shows as zero.
 
-## The first build (19 November 2026)
+## The build (19 November 2026)
 
-6,282,393 rows, 13 regions, 2018-07-01T04:00Z to 2026-11-17T07:00Z, validated. Each region holds about 12,000 of the roughly 12,060 hours of the newest year and a half; the Northwest, with 23 authorities, about 9,400.
+6,730,507 rows under the region's rule (6,282,393 under the first build's), 13 regions, 2018-07-01T04:00Z to 2026-11-17T07:00Z, validated. Of the roughly 73,500 hours since July 2018, each region holds 69,000 to 73,400, the Northwest (23 authorities) 58,654 and the Southwest 68,632.
 
 ## Build
 
