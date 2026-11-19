@@ -417,6 +417,20 @@ export function inGeometry(g: Geometry | null | undefined, lon: number, lat: num
   return false;
 }
 /** The box of a geometry: [west, south, east, north]; null for one with no coordinates. */
+/** Session 8608 (the reader's read of the resource map): a state's outline with its name and its box, and the state a
+ *  point lies in. The outlines are the ones the map already draws (the Census Bureau's cartographic boundaries, as
+ *  us-atlas holds them). A point at sea, or in no state's outline, is in none: null, never the nearest. */
+export type StateShape = { name: string; geometry: Geometry; box: [number, number, number, number] };
+export function stateShapes(features: { name?: string | null; geometry: Geometry | null | undefined }[]): StateShape[] {
+  const out: StateShape[] = [];
+  for (const f of features) { const box = f.geometry ? boxOf(f.geometry) : null; if (f.name && f.geometry && box) out.push({ name: f.name, geometry: f.geometry, box }); }
+  return out;
+}
+export function stateAt(shapes: StateShape[], lon: number, lat: number): string | null {
+  for (const s of shapes) if (lon >= s.box[0] && lon <= s.box[2] && lat >= s.box[1] && lat <= s.box[3] && inGeometry(s.geometry, lon, lat)) return s.name;
+  return null;
+}
+
 export function boxOf(g: Geometry | null | undefined): [number, number, number, number] | null {
   let w = Infinity, s = Infinity, e = -Infinity, n = -Infinity;
   const walk = (c: unknown) => {

@@ -169,6 +169,14 @@ Seen on a build with the data machine's two files copied in from its branch (`wi
 
 The area in that hover is the data machine's, computed on a sphere from the source's polygon; it is the outline's area and not a measure of coal in place, as the layer's own note says. Held by `tests/test_session8607.py`.
 
+## Session 8608 (19 November 2026): the reader's read, and the state in the hover
+
+Five cases a reader would bring were taken on a build that holds the coal layer (`docs/reviews/resources-read-2026-11-19.md`: a transmission planner on the wind of the Plains, a power trader on the Permian's basin and plays, a student on Appalachia's coal, an AI lab's siting analyst at Phoenix, a battery developer on central Nevada's sun). Four were answered on the page and one half answered (the datacenters are held for a license). The read's one site gap is fixed:
+
+- **The hover names the state under the pointer.** It gave a latitude and a longitude and no place. After the coordinates it now says the state ("33.45 N, 112.07 W, in Arizona"), found among the states' outlines the map already draws (the Census Bureau's cartographic boundaries as `us-atlas` holds them; `stateAt` in `site/lib/resources.ts`). A point at sea, or in no state's outline, names none: the nearest state is never given. No layer's value is touched by it.
+
+Left as they are, each a row of the read: the coal fields' area is in square kilometres where the basins' and plays' are in square miles, and the coal fields' "What it is not" begins with a file's name (both the data machine's, data request 552); a wind or sun layer's hover repeats its vintage sentence with every value (for the owner's ruling). Held by `tests/test_session8608.py`.
+
 <!-- The sections below are written from the manifest by resource_layers.py --method-doc -->
 
 ## Wind speed at 100 m (`wind_speed_100m`)
