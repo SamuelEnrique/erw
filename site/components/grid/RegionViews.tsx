@@ -252,7 +252,8 @@ export function RegionTradeView({ region, trade, month }: { region: IndexRegion;
         <p className="mt-1 text-sm">EIA&apos;s months are Eastern months.{part ? <> <span data-part-month={asked ?? ""}>{mix.periodName(asked ?? "")} is a part of a month here: the region&apos;s own reports hold at most {n0(part.hours)} of its {n0(part.of)} hours.</span></> : null}</p>
       </Block>
       <Block title={`Net imports from each neighbour by month, ${last[0] ?? ""} to ${last[last.length - 1] ?? ""}`} id="trade-months">
-        <Lines x={last} unit="MWh" zero every={6} name={`erw-region-trade-${code}`} label={`${region.name}, net imports from each neighbour by month, own report`}
+        {/* session 8605: a label a year (every sixth month lay on one another at 390 px, and so did the chart's own thinning) */}
+        <Lines x={last} unit="MWh" zero every={12} name={`erw-region-trade-${code}`} label={`${region.name}, net imports from each neighbour by month, own report`}
           series={[...codes.map((c, i) => ({ name: neighborName(c), color: LINE_COLORS[(i + 1) % LINE_COLORS.length], values: cut(trade.neighbors[c].net_imports_mwh), width: 1.2 })),
             { name: "All neighbours", color: "var(--color-ink)", values: cut(trade.net_imports_mwh), width: 2.2 }]} />
         {lastPart ? <p className="mt-1 text-sm" data-part-month-chart={last[last.length - 1]}>The last point, {mix.periodName(last[last.length - 1])}, is a part of a month: at most {n0(lastPart.hours)} of its {n0(lastPart.of)} hours.</p> : null}

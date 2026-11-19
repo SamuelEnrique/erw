@@ -183,6 +183,10 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
     await shot(`region_${slug}_mix_390.png`);
     await open(`/grid?region=${slug}&view=gravity`);
     check(await evaluate(WIDE), `at 390 px the region's trade is ${await evaluate(`document.documentElement.scrollWidth`)} px wide`);
+    // session 8605: the months under the chart do not lie on one another on a phone
+    const labels = await evaluate(`(() => { const s = document.querySelector('#trade-months svg'); if (!s) return null; const t = [...s.querySelectorAll('text')].filter((e) => /^\\d{4}-\\d{2}$/.test(e.textContent.trim())).map((e) => e.getBoundingClientRect()).sort((a, b) => a.left - b.left);
+      return { n: t.length, over: t.slice(1).filter((b, i) => b.left < t[i].right - 0.5).length }; })()`);
+    if (labels) check(labels.n >= 2 && labels.over === 0, `at 390 px the trade chart's ${labels.n} month labels stand apart (${labels.over} on one another)`);
     await shot(`region_${slug}_trade_390.png`);
     await send("Emulation.setDeviceMetricsOverride", { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
   }

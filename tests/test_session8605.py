@@ -193,6 +193,12 @@ class TheRest(unittest.TestCase):
         s = src("site", "lib", "release.ts")
         self.assertNotIn("session 8605", s)
 
+    def test_the_trade_chart_has_a_label_a_year(self):
+        """Row 22: a step of six months put the labels on one another at 390 px, and so did the chart's own thinning; a label a year stands apart."""
+        v = src("site", "components", "grid", "RegionViews.tsx")
+        self.assertIn('<Lines x={last} unit="MWh" zero every={12} name=', v)
+        self.assertNotIn("every={6}", v)
+
     def test_the_check_reads_the_three_from_the_file(self):
         s = src("site", "scripts", "check-grid-regions.mjs")
         for name in ("monthsNotHeld(mixFile)", "partMonth(trade, month)", "storageNote(withNone)", "data-hours-card"):
