@@ -187,6 +187,10 @@ The data machine's coal layer and its list reached main on 19 November (the land
 
 One gap in the check itself, fixed: `site/scripts/check-resources.mjs` read the first list alone, so an added layer was never switched on by it. It now joins the two lists by the page's rule, written out on its own (the first list wins a name), and checks the coal fields as it checks the other fourteen: 99 checks where there were 97. Three fail, on main too, and all three are the datacenter overlay, which is held for a license and is not read. Held by `tests/test_session8613_resources.py`.
 
+## Session 8614 (19 November 2026): the map's record of what it has drawn
+
+The check failed two layers on some runs and not on others ("0 cells in view", or the coarser level, with the layer on the canvas and the right value under the pointer). The cause was in the page. The map writes a record of what it has drawn when the view comes to rest, by a timer of 160 ms, and the frame the record describes is drawn by the browser's own clock for frames. Where the frame came later than the timer (a busy machine, a tab in the background), the record was written first and stayed wrong until the map next moved. The record is read by the check and by no reader, so no figure and no picture was wrong; the rest now draws a frame that is asked for and not yet drawn before it writes the record, the same frame and no other. The check holds every frame back 400 ms and reads the record: it failed on the build before the change and passes on the build after, and three runs in a row end at 97 of 100, the three the license hold's. Held by `tests/test_session8614_resources.py`.
+
 ## Sign-off
 
 Session 8609 (chain 504) added this block; the note had none. A session never signs it. Signing it accepts, as the map's rules:

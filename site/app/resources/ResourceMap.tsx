@@ -553,7 +553,13 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
     if (settleTimer.current) clearTimeout(settleTimer.current);
     settleTimer.current = setTimeout(() => {
       const L = live.current, v = view.current, S = store.current, el = box.current;
-      if (L.moving) { L.moving = false; draw(); }
+      // session 8614: a frame asked for and not yet drawn is drawn now, before the record below is written. The rest
+      // is a timer and a frame is the browser's own; where the frame came later than the timer (a busy machine, a tab
+      // in the background) the record named what the frame before had drawn (no cells of a layer just read, or the
+      // coarser level) and stayed so until the map next moved. Nothing more is drawn: the same frame, at rest.
+      const pending = raf.current !== 0;
+      if (pending) { cancelAnimationFrame(raf.current); raf.current = 0; }
+      if (L.moving) { L.moving = false; draw(); } else if (pending) draw();
       // session 159: a still picture's bitmap that arrived since the last rest is taken up now and readied, so that no
       // frame of a drag is the first to draw it
       {

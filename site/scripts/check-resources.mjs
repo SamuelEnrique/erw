@@ -249,6 +249,16 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
     await click(`[data-toggle="${id}"]`);
     await ready([id]);
     await settledAfter(t0);
+    // session 8614: the map writes what it has drawn (data-drawn) when the view comes to rest, 160 ms after the last
+    // file of the layer arrives. The toggle's own rest, before the file, already passes settledAfter, so the record
+    // can be read before the rest that names the layer. A layer that is read is given up to four seconds for the
+    // record to name it; a layer that never does still fails below. (The record that stayed wrong, "0 cells in view"
+    // with the layer on the canvas, was the page's: see "frames held back" further down.)
+    for (let i = 0; i < 20; i += 1) {
+      const s = await stateOf(id);
+      if (!s || s.state !== "ready" || ((await mapData()).drawn[id] ?? 0) > 0) break;
+      await sleep(200);
+    }
     const st = await stateOf(id), m = await mapData(), h = await hash();
     const legendKey = l ? id : id.startsWith("plants") ? "plants" : id;
     const legend = await evaluate(`(() => { const el = document.querySelector('[data-legend="${legendKey}"]'); return el ? { unit: el.dataset.unit, text: el.innerText } : null; })()`);
@@ -261,6 +271,32 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
     if (h === off) left.push(id);
   }
   check(left.length === 0 && new Set(offs).size === 1, `each toggle, switched off again, takes its marks off the map, and the map with nothing on is the same picture after each (${new Set(offs).size} ${new Set(offs).size === 1 ? "picture" : "pictures"} over ${offs.length} toggles)${left.length ? ` (still drawn: ${left.join(", ")})` : ""}`);
+
+  // session 8614, frames held back: the record at rest (data-drawn, data-level) is written by a timer and the frame it
+  // describes is drawn by requestAnimationFrame. Where the frame comes later than the timer (a busy machine, a tab in
+  // the background) the record was written first and stayed wrong: one run in three of this check read "0 cells in
+  // view" or the coarser level with the layer on the canvas. Here every frame is held back 400 ms, longer than the
+  // rest's 160 ms, and the record must still name the layer and the level the zoom calls for.
+  {
+    const g = LAYERS.find((x) => x.kind === "grid");
+    if (!g) console.log("note: no grid layer on this machine; the record at rest was not tried with frames held back");
+    else {
+      await go(`${base}/map?tab=resources&on=`);
+      await wait(`Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map with every layer off");
+      await sleep(400);
+      await evaluate(`(() => { const held = new Map(); let n = 0;
+        window.requestAnimationFrame = (f) => { n += 1; const k = n; held.set(k, setTimeout(() => { held.delete(k); f(performance.now()); }, 400)); return k; };
+        window.cancelAnimationFrame = (k) => { clearTimeout(held.get(k)); held.delete(k); };
+        return true; })()`);
+      await click(`[data-toggle="${g.id}"]`);
+      await ready([g.id]);
+      await sleep(1200);
+      const m = await mapData(), st = await stateOf(g.id);
+      const want = levelAt((g.levels ?? []).filter((v) => diskPath(v.file)), scaleOf(m.box, m.z));
+      check((m.drawn[g.id] ?? 0) > 0 && st?.level === want.cell_deg,
+        `with every frame held back 400 ms, the record at rest still names ${g.id} (${m.drawn[g.id] ?? 0} cells in view) and its level (${st?.level ?? "none"}, the zoom calls for ${want.cell_deg})`);
+    }
+  }
 
   // grids: the value under the pointer, at three zooms
   for (const l of LAYERS.filter((x) => x.kind === "grid")) {
