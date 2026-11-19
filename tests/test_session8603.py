@@ -108,13 +108,6 @@ class TheLineUnderEachSwitch(unittest.TestCase):
                 entries += json.load(f).get("layers", [])
         sourced = {l.get("file") for l in entries if l.get("source_url") and l.get("source_sha256") and l.get("retrieved_at_utc")}
         ids = [l["id"] for l in MANIFEST["layers"]]
-        # session 8009 (chain 501's desk): the data machine adds a layer in manifest_added.json, a new file in the
-        # manifest's form (manifest.json itself is not changed under chain 501's rule); its layers count as listed.
-        # Both rules stand after the merge of 19 November: a file is the data side's when a listed layer's id begins
-        # its name (the desk's rule) or when a listed entry names it with its source (session 8607's)
-        if os.path.exists(added):
-            with open(added, encoding="utf-8") as f:
-                ids += [l["id"] for l in json.load(f)["layers"]]
         made_up = [n for n in names if re.search(r"coal|uranium|mineral", n) and not any(n.startswith(i) for i in ids) and n not in sourced]
         self.assertEqual(made_up, [])
 

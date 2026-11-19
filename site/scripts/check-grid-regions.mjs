@@ -22,7 +22,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { withBrowser } from "./browser.mjs";
-import { ALIKE, latestHour, monthsNotHeld, newestTradeMonth, partMonth, readAlike, readIndex, readMix, readTrade, regionHref, storageNote, tradeMonth, whySentence } from "../lib/gridregions.ts";
+import { ALIKE, latestHour, monthsNotHeld, netLoadFile, newestTradeMonth, notPrinted, partMonth, readAlike, readIndex, readMix, readTrade, regionHref, storageNote, tradeMonth, whySentence } from "../lib/gridregions.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3504").replace(/\/$/, "");
 const shots = process.argv[3] ?? null;
@@ -169,6 +169,15 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
       const pr = await wait(`(() => { const p = document.querySelector('[data-panel="${one}"]'); const r = p?.querySelector('[data-panel-region]'); return p ? { region: r?.getAttribute('data-panel-region') ?? null, href: r?.querySelector('a')?.getAttribute('href') ?? null, search: window.location.search } : null; })()`, 30000, "the authority's panel");
       check(pr.region === pick.code && pr.href === `/grid?region=${slug}` && pr.search.includes(`region=${slug}`) && pr.search.includes(`node=${one}`), `a click on ${one} opens its panel in the network, with the region still in the address; the panel's line "EIA region" opens the region (${pr.href})`);
       await shot(`region_${slug}_network_1280.png`);
+      // session 8612 (the second read of the map): in the Map shape the same click keeps the map (it dropped back to the 3D network)
+      await open(`/grid?region=${slug}&view=network&shape=map`);
+      await wait(`document.querySelector('[data-map-state]')?.getAttribute('data-map-state') === 'held'`, 30000, "the map");
+      await evaluate(`document.querySelector('[data-region-ba="${one}"]').click()`);
+      const kept = await wait(`(() => { const p = document.querySelector('[data-panel="${one}"]'); return p ? { search: window.location.search } : null; })()`, 30000, "the authority's panel");
+      await sleep(1500);
+      const shapeNow = await evaluate(`({ search: window.location.search, map: document.querySelector('[data-map-state]')?.getAttribute('data-map-state') ?? null })`);
+      check(kept.search.includes("shape=map") && shapeNow.search.includes(`node=${one}`) && shapeNow.search.includes("shape=map") && shapeNow.map === "held",
+        `in the Map shape a click on ${one} in the region's list opens its panel and the map stays (${shapeNow.search})`);
     }
     // clean
     await open(`/grid?region=${slug}&view=clean`);
@@ -205,6 +214,22 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
       await open(`/grid?region=${withNone.code.toLowerCase()}`);
       const tips = await evaluate(`[...document.querySelectorAll('[data-storage-note]')].map((e) => e.getAttribute('title'))`);
       check(tips.length >= 1 && tips.every((t) => t === storageNote(withNone)), `${withNone.name}'s Storage row says on hover who files no battery series ("${(tips[0] ?? "no hover").slice(0, 110)}")`);
+    }
+  }
+  // session 8610: a source the file names as never printed (the contract's line of 19 November, data request 551) is
+  // blank in both tables with why on hover, never zero; and the net load says which of wind and solar it is without
+  {
+    const withNever = index.regions.map((r) => ({ r, m: readMix(json(`mix/${r.code.toLowerCase()}.json`)) })).find((x) => x.m && notPrinted(x.m).length);
+    if (!withNever) console.log("note  no region's file names a source as never printed yet (sources_not_printed): the blank rows are held by tests/test_session8610.py until it does");
+    else {
+      const never = notPrinted(withNever.m), absent = netLoadFile(withNever.m).absent;
+      await open(`/grid?region=${withNever.r.code.toLowerCase()}`);
+      const seen = await evaluate(`(() => { const rows = (name) => [...document.querySelectorAll('[data-region-table="' + name + '"] tbody tr')].map((r) => ({ cells: [...r.children].map((c) => c.innerText.replace(/\\s+/g, ' ').trim()), tips: [...r.querySelectorAll('[data-missing]')].map((m) => m.getAttribute('title') ?? '') }));
+        return { now: rows('now'), shares: rows('shares'), without: document.querySelector('[data-net-load-without]')?.getAttribute('data-net-load-without') ?? null, years: rows('years').length }; })()`);
+      const names = { natural_gas: "Natural gas", coal: "Coal", nuclear: "Nuclear", wind: "Wind", solar: "Solar", hydro: "Hydro", storage: "Storage", other: "Other" };
+      const blank = (rows, label, cellsFrom) => { const r = rows.find((x) => x.cells[0] === label); return !!r && r.cells.slice(cellsFrom).filter(Boolean).every((c) => c === "not held") && r.tips.length >= 1 && r.tips.every((t) => /blank, not zero/.test(t)); };
+      check(never.every((k) => blank(seen.now, names[k], 1) && blank(seen.shares, names[k], 1)) && seen.without === (absent.length ? absent.join(",") : null) && seen.years > 0,
+        `${withNever.r.name}: ${never.map((k) => names[k]).join(", ")} ${never.length === 1 ? "is" : "are"} blank in both tables, each saying on hover that no authority has ever reported it; ${absent.length ? `the net load says it is without ${absent.join(" and ")}` : "the net load is as for any region"} (${seen.years} years drawn)`);
     }
   }
   // a region beside the grid it nearly is

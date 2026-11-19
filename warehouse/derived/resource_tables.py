@@ -210,6 +210,9 @@ def coal_map_layer(feats, m, layer_path, manifest_path):
     changing (chain 501's rule: no existing page file changes)."""
     from shapely.geometry import mapping
     fc, lons, lats = [], [], []
+    # session 8011 (data request 552 of the portable laptop): the value in square miles, the unit of the map's other
+    # outlines (EIA's basins and plays), with the square kilometres kept beside it as AREA_KM2
+    KM2_PER_MI2 = 2.589988110336
     for geom, props, area in feats:
         s = mapping(geom.simplify(0.01, preserve_topology=True))
 
@@ -219,19 +222,19 @@ def coal_map_layer(feats, m, layer_path, manifest_path):
                 return [round(c[0], 3), round(c[1], 3)]
             return [rnd(x) for x in c]
         fc.append({"type": "Feature", "properties": {"name": f"{props['name']} ({props['province']})", "kind": "coal field",
-                                                     "value": area, "value_unit": "square kilometres", "PROVINCE": props["province"],
+                                                     "value": round(area / KM2_PER_MI2, 1), "value_unit": "square miles", "AREA_KM2": area, "PROVINCE": props["province"],
                                                      "NAME": props["name"], "AGE": props["age"], "RANK": props["rank"]},
                    "geometry": {"type": s["type"], "coordinates": rnd(s["coordinates"])}})
     text = json.dumps({"type": "FeatureCollection", "features": fc}, separators=(",", ":"), allow_nan=False)
     os.makedirs(os.path.dirname(layer_path), exist_ok=True)
     with open(layer_path, "w", encoding="utf-8", newline="\n") as f:
         f.write(text)
-    vals = [p[2] for p in feats]
+    vals = [round(p[2] / KM2_PER_MI2, 1) for p in feats]
     entry = {"id": "coal_fields", "group": "coal", "title": "Coal fields", "kind": "shapes",
              "measure": "Where coal lies in the ground in the lower 48, by field, with its age and rank, as the U.S. Geological Survey maps it.",
              "source_url": COAL_URL, **USGS_TERMS, "retrieved_at_utc": m["retrieved_utc"], "source_file": "usgs_coal_fields/GIS.zip",
-             "source_bytes": int(m["bytes"]), "source_sha256": m["sha256"], "unit": "square kilometres",
-             "value_label": "area of the coal field (computed on a sphere from the source's polygon)",
+             "source_bytes": int(m["bytes"]), "source_sha256": m["sha256"], "unit": "square miles",
+             "value_label": "area of the coal field (computed on a sphere from the source's polygon, square kilometres over 2.589988110336; AREA_KM2 holds the square kilometres)",
              "publisher": "U.S. Geological Survey (USGS)",
              "source_title": "Coal fields of the conterminous United States, National Coal Resource Assessment updated version (Open-File Report 2012-1205, East 2013), Updated Coal Fields/Coal_Fields.shp",
              "vintage": "2013", "extent": "contiguous United States", "source_resolution": "polygons, the report's map at 1:5,000,000",
@@ -242,7 +245,8 @@ def coal_map_layer(feats, m, layer_path, manifest_path):
              "stats": {"n": len(vals), "min": min(vals), "mean": sum(vals) / len(vals), "max": max(vals)},
              "hover_fields": ["PROVINCE", "NAME", "AGE", "RANK"],
              "acknowledgment": "Source: U.S. Geological Survey, Open-File Report 2012-1205 (2013)",
-             "notes_for_method": "docs/methods/resource_layers_table.md. An outline of where coal fields lie and their rank, not a measure of coal in place or of what can be mined."}
+             "notes_for_method": "An outline of where coal fields lie and their rank, not a measure of coal in place or of what can be mined.",
+             "method_note": "docs/methods/resource_layers_table.md"}
     doc = {"built_at_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
            "note": "Layers added after manifest.json, in its form; manifest.json is not changed (chain 501). A page reads both.",
            "layers": [entry],
@@ -258,7 +262,12 @@ def coal_map_layer(feats, m, layer_path, manifest_path):
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--out-dir")
+    ap.add_argument("--map-only", action="store_true", help="write only the map's layer file and manifest_added.json (no table)")
     a = ap.parse_args(argv)
+    if a.map_only:
+        _, feats, m = coal(None)
+        print("the map's layer file:", coal_map_layer(feats, m, MAP_LAYER, MANIFEST_ADDED), "bytes; manifest_added.json written")
+        return 0
     man = json.load(open(MANIFEST, encoding="utf-8"))
     layers = {l["id"]: l for l in man["layers"]}
     rows = []

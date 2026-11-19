@@ -46,6 +46,13 @@ function RegionDecisions({ region }: { region: IndexRegion }) {
         <li>Demand is the sum of the region&apos;s balancing authorities that file demand, for an hour that every one of them holds; net imports are EIA&apos;s total interchange with its sign turned.</li>
         <li>Trade between two regions is shown from both sides&apos; reports with their gap; neither is adjusted to the other.</li>
         <li>The Ask panel is not changed: it answers from the warehouse&apos;s tables, as for the Lower 48, and does not read a region&apos;s page file.</li>
+        {/* session 8606, the done line: the choices of sessions 8605 and 8606, and what the cross-check found */}
+        <li data-decision="hours">Hour by hour, a source above zero is stacked up from zero and a source below zero (batteries charging, pumped storage pumping) down from zero; an hour a source does not hold is a gap. Net generation is the sum of the eight sources.</li>
+        <li data-decision="months">A month is in a region&apos;s file when at least 90 percent of its days hold every hour of every source (the data machine&apos;s rule). A month short of that is absent, never zero; the page counts the absent months and names them on hover.</li>
+        <li data-decision="part-month">The newest month of trade is usually a part of a month. Its figures are shown as held, with the hours they cover, and are not scaled up to a whole month.</li>
+        <li data-decision="storage">Storage is what EIA&apos;s form holds as battery and other energy storage. CAISO, NYISO and PJM file no battery series; the Storage row says so on hover for their regions and the figure is not changed.</li>
+        <li data-decision="never-printed">A source no balancing authority of the region has ever reported to EIA is blank, never zero, and its hover says so. Net load is demand less wind and solar; where one of the two has never been reported there is none of it to take away, and the page says which.</li>
+        <li data-decision="crosscheck">The files are summed from the balancing authorities&apos; rows of EIA&apos;s six-month files. Set beside EIA&apos;s own regional series for three hours of each region on 19 November 2026, 383 of 430 figures are the same to 1 MW; the rows that differ are in <code className="font-mono">replication/grid/crosscheck_regions.csv</code>.</li>
       </ul>
     </details>
   );

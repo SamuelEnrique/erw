@@ -18,11 +18,12 @@ import { Lines } from "@/components/mix/Charts";
 import { Missing } from "@/components/mix/Now";
 import { Chips } from "@/components/mix/views";
 import { SiteLink as Link } from "@/components/SiteLink";
+import { BaLink } from "@/components/grid/BaLink";
 import { RegionHours } from "@/components/grid/RegionHours";
 import { CategoryChart } from "@/components/svgchart";
 import { ToolPicker } from "@/components/tool/Choose";
 import { SourceLine } from "@/components/tool/ToolPage";
-import { ALIKE, MIX_SOURCES, NEW_REGIONS, lastHours, latestHour, monthsNotHeld, monthsOf, neighborName, newestTradeMonth, partMonth, regionHref, storageNote, tradeMonth, whySentence,
+import { ALIKE, MIX_SOURCES, NEW_REGIONS, lastHours, latestHour, monthsNotHeld, monthsOf, neighborName, netLoadFile, newestTradeMonth, notPrinted, partMonth, regionHref, storageNote, tradeMonth, whyBlank, whySentence,
   type Alike, type IndexRegion, type RegionCode, type RegionIndex, type RegionMix, type RegionTrade, type RegionView } from "@/lib/gridregions";
 import * as mix from "@/lib/mix2";
 import { HOURS, n0, n1 } from "@/lib/mixpage";
@@ -107,11 +108,14 @@ export function RegionMixView({ region, mixFile, period, cal }: { region: IndexR
   const label = (key: string) => mix.sourceOf(key)?.label ?? key;
   const color = (key: string) => mix.sourceOf(key)?.color ?? "var(--color-muted)";
   const href = (more: Record<string, string | undefined>) => `${regionHref(code, "mix", { period: asked && asked !== mixFile.upto ? asked : undefined, cal: cal ?? undefined, ...more })}`;
-  const across = calAsked ? mix.acrossYears(mixFile as unknown as mix.GridFile, calAsked) : [];
+  // session 8610: net load is demand less wind and solar; a source the file names as never printed is not there to take away
+  const forNet = netLoadFile(mixFile);
+  const across = calAsked ? mix.acrossYears(forNet.file as unknown as mix.GridFile, calAsked) : [];
   const tables = mixFile.tables?.length ? mixFile.tables : ["eia930_region_fuel_hourly"];
   // session 8605, the reader's read on the real files: the months the file does not hold are said under the chips, and
   // the Storage row says when one of the region's balancing authorities files no battery series
   const gaps = monthsNotHeld(mixFile);
+  const never = notPrinted(mixFile);   // session 8610: the sources the file names as never printed by any authority of the region
   const battery = storageNote(region);
   const named = (key: string) => (key === "storage" && battery ? <span title={battery} className="cursor-help border-b border-dotted border-muted" data-storage-note="1">{label(key)}</span> : label(key));
   return (
@@ -133,7 +137,7 @@ export function RegionMixView({ region, mixFile, period, cal }: { region: IndexR
             </dl>
             <Table name="now" caption={`Generation by source in ${region.name}, ${utc(now.ts)}`} head={["Source", "MW", <Head key="s" tip="The source's megawatts over the hour's net generation, the sum of the eight sources.">Share of net generation</Head>]}
               rows={now.sources.map((s) => ({ key: s.key, cells: [<span key="n"><span className="mr-1.5 inline-block h-2.5 w-2.5" style={{ background: color(s.key) }} />{named(s.key)}</span>,
-                s.mw === null ? <NH key="m" words="not held" why={`${label(s.key)} is not held for ${region.name} in this hour.`} /> : n0(s.mw), s.share_pct === null ? "" : `${n1(s.share_pct)}%`] }))} />
+                s.mw === null ? <NH key="m" words="not held" why={whyBlank(label(s.key), region.name, never.includes(s.key))} /> : n0(s.mw), s.share_pct === null ? "" : `${n1(s.share_pct)}%`] }))} />
           </div>
         ) : <p className="text-sm"><NH why={`The region's file (${file("mix", code)}) carries no hourly part, or no hour of it holds a net generation.`} /></p>}
       </Block>
@@ -183,7 +187,10 @@ export function RegionMixView({ region, mixFile, period, cal }: { region: IndexR
       <Block title={`Shares of generation by source, ${asked ? mix.periodName(asked) : ""}`} id="shares">
         {p ? (
           <Table name="shares" caption={`Shares of generation by source, ${region.name}`} head={["Source", <Head key="s" tip="The source's energy over the period's net generation.">Share</Head>, "MWh"]}
-            rows={[...mix.shares(p).filter((s) => p[`${s.key}_mwh`] !== undefined).map((s) => ({ key: s.key, cells: [<span key="n"><span className="mr-1.5 inline-block h-2.5 w-2.5" style={{ background: s.color }} />{named(s.key)}</span>, `${n1(s.share)}%`, n0(s.mwh)] })),
+            rows={[...mix.shares(p).filter((s) => p[`${s.key}_mwh`] !== undefined && p[`${s.key}_mwh`] !== null).map((s) => ({ key: s.key, cells: [<span key="n"><span className="mr-1.5 inline-block h-2.5 w-2.5" style={{ background: s.color }} />{named(s.key)}</span>, `${n1(s.share)}%`, n0(s.mwh)] })),
+              // session 8610: a source the file holds as null (one no authority of the region has ever printed) is a row, blank, with why: never 0.0% and 0 MWh
+              ...mix.SOURCES.filter((s) => p[`${s.key}_mwh`] === null).map((s) => ({ key: s.key, cells: [<span key="n"><span className="mr-1.5 inline-block h-2.5 w-2.5" style={{ background: s.color }} />{named(s.key)}</span>,
+                <NH key="s" words="not held" why={whyBlank(s.label, region.name, never.includes(s.key), "this period")} />, <NH key="m" words="not held" why={whyBlank(s.label, region.name, never.includes(s.key), "this period")} />] })),
               { key: "all", on: true, cells: ["Net generation", "", typeof p.net_generation_mwh === "number" ? n0(p.net_generation_mwh) : <NH key="g" words="not held" why="The period carries no total." />] }]} />
         ) : <p className="text-sm"><NH words="not held" why={`${region.name} holds no ${asked ? mix.periodName(asked) : "such period"}.`} /></p>}
         {p ? <p className="mt-1 text-sm">{n0(p.days_held)} days held{typeof p.days_in_month === "number" ? <> of {p.days_in_month}</> : null}.</p> : null}
@@ -198,6 +205,11 @@ export function RegionMixView({ region, mixFile, period, cal }: { region: IndexR
             <Table name="years" caption={`${region.name}: ${mix.calName(calAsked)} across the years`}
               head={["Year", <Head key="l" tip="The lowest hour of net load (demand less wind and solar) from 09:00 to 16:00.">Midday low, MW</Head>, "Hour", <Head key="e" tip="The highest hour of net load from 16:00.">Evening high, MW</Head>, "Hour", <Head key="r" tip="The evening high less the midday low.">Ramp, MW</Head>, "Days held"]}
               rows={across.map((y) => ({ key: y.year, cells: [y.year, y.low ? n0(y.low.value) : <NH key="l" words="not held" why="Demand, wind or solar is not held for every hour of this month." />, y.low ? mix.hourName(y.low.hour) : "", y.evening ? n0(y.evening.value) : "", y.evening ? mix.hourName(y.evening.hour) : "", y.ramp === null ? "" : n0(y.ramp), n0(y.days)] }))} />
+            {forNet.absent.length ? (
+              <p className="mt-1 text-sm" data-net-load-without={forNet.absent.join(",")}>
+                No balancing authority of {region.name} has reported {forNet.absent.map((k) => label(k).toLowerCase()).join(" or ")} to EIA since July 2018, so net load here is demand less {(["wind", "solar"] as const).filter((k) => !forNet.absent.includes(k)).map((k) => label(k).toLowerCase()).join(" and ") || "nothing: it is demand"}.
+              </p>
+            ) : null}
           </>
         ) : <p className="text-sm"><NH words="not held" why={`${region.name} holds no ${calAsked ? mix.calName(calAsked) : "month"} in any year.`} /></p>}
       </Block>
@@ -274,7 +286,8 @@ export function RegionAuthorities({ region, index, node }: { region: IndexRegion
         {region.bas.map((code) => {
           const b = by.get(code);
           const tip = b ? `${b.name} (${code})${b.generation_only ? ": it files generation and no demand" : ""}${b.retired ? `; retired ${b.retired}` : ""}${b.grid ? "; one of the seven grids" : ""}.` : code;
-          return <li key={code}><Link href={regionHref(region.code, "network", { node: code })} title={tip} aria-current={node === code ? "true" : undefined} className={node === code ? "font-semibold" : ""} data-region-ba={code}>{b?.name ?? code}</Link> <span className="font-mono text-xs">{code}</span></li>;
+          // session 8612: BaLink keeps the Map or Gravity shape the reader is in (the plain link dropped back to the 3D network)
+          return <li key={code}><BaLink href={regionHref(region.code, "network", { node: code })} title={tip} aria-current={node === code ? "true" : undefined} className={node === code ? "font-semibold" : ""} data-region-ba={code}>{b?.name ?? code}</BaLink> <span className="font-mono text-xs">{code}</span></li>;
         })}
       </ul>
     </div>

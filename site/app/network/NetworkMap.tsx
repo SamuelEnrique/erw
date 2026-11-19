@@ -25,6 +25,7 @@
 //   so a short tie is not hidden under a long one; under a finger, which has no hover, a tap on a tie shows it.
 import { geoAlbersUsa, geoContains, geoPath, type GeoPermissibleObjects } from "d3-geo";
 import { useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from "react";
+import { MapDecisions } from "./MapDecisions";
 import { MAP_HOME, MAP_ZOOM, arcPath, batteryFill, clampMapView, derivedLabel, flowTip, flowWidth, nearestLine, onTheLine, readBoundaries, readGeoBoundaries, ringPath, whole, zoomMapAt, type Held, type MapView } from "@/lib/networkMap";
 
 export const BOUNDARY_FILE = "/network/ba_boundaries.json";
@@ -48,7 +49,7 @@ type Hover = { kind: "region" | "listed" | "flow"; id: string; x: number; y: num
 /** Session 8604: a state's outline, for the thin lines that let a reader find a place, and for the state a hover names. */
 type StateShape = { name: string; d: string; feature: GeoPermissibleObjects };
 
-export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onPick, frame, figures, battery, sideOf }: {
+export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onPick, frame, figures, battery, batteryNewest, sideOf }: {
   nodes: MapNode[]; flows: MapFlow[]; maxMw: number;
   /** the color the grid's sphere has for the hour shown (Network.tsx colorOf: the same measure, the same scale) */
   colorOf: (id: string) => string;
@@ -61,6 +62,8 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
   figures?: (id: string) => MapFigures;
   /** session 8601: given while the Batteries switch is on: a grid's batteries in the frame shown and the period's most, or null when none is reported for the period */
   battery?: (id: string) => { mw: number | null; max: number } | null;
+  /** session 8612: the newest frame of the view that holds a battery report and how many grids report in it; null when no frame does. Said under the map when the frame shown draws no ring */
+  batteryNewest?: { when: string; grids: number } | null;
   /** session 8601: which side's report a pair's flow is in the frame shown (lib/networkMap.ts reportedBy) */
   sideOf?: (a: string, b: string) => "first" | "second" | null;
 }) {
@@ -272,7 +275,9 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
       <div>
       {/* the map keeps its own proportions; a derived file's label stands under it, inside the frame, and covers no region */}
       <div className="relative" style={style}>
-      <svg ref={svg} viewBox={`0 0 ${W} ${H}`} className="h-full w-full" role="img" preserveAspectRatio="xMidYMid meet" style={{ touchAction: t.k > MAP_ZOOM[0] ? "none" : "pan-y", cursor: t.k > MAP_ZOOM[0] ? "grab" : undefined }}
+      {/* session 8609 (the accessibility read): a group, not an image. An image's children are hidden from assistive
+          technology, and each region here is a button a keyboard reaches (Enter or Space opens its panel, focus shows its figures) */}
+      <svg ref={svg} viewBox={`0 0 ${W} ${H}`} className="h-full w-full" role="group" preserveAspectRatio="xMidYMid meet" style={{ touchAction: t.k > MAP_ZOOM[0] ? "none" : "pan-y", cursor: t.k > MAP_ZOOM[0] ? "grab" : undefined }}
         onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up} onPointerLeave={(e) => { if (!e.currentTarget.hasPointerCapture(e.pointerId)) up(e); setHover((h) => (h?.kind === "flow" ? null : h)); }}
         onClick={choose}
         aria-label="A map of the US balancing authorities, each region colored by the carbon intensity of its generation, with the power they exchange; hover a region for its name and figures, click it for its panel">
@@ -334,9 +339,10 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
         </g>
       </svg>
       <div className="absolute right-2 top-2 flex gap-1 text-sm" role="group" aria-label="Zoom the map" data-map-zoom-buttons="1">
-        <button type="button" onClick={() => zoomBy(1.6)} disabled={t.k >= MAP_ZOOM[1]} className="h-8 w-8 border border-rule bg-panel text-ink disabled:text-muted" aria-label="Zoom in" title="Zoom in" data-zoom="in">+</button>
-        <button type="button" onClick={() => zoomBy(1 / 1.6)} disabled={t.k <= MAP_ZOOM[0]} className="h-8 w-8 border border-rule bg-panel text-ink disabled:text-muted" aria-label="Zoom out" title="Zoom out" data-zoom="out">&minus;</button>
-        <button type="button" onClick={() => setT(MAP_HOME)} disabled={t.k === 1 && t.x === 0 && t.y === 0} className="h-8 border border-rule bg-panel px-2 text-ink disabled:text-muted" title="Show the whole map" data-zoom="reset">Reset</button>
+        {/* session 8611 (docs/brand.md, section 3): 44 px on a phone, 32 px on a wider screen */}
+        <button type="button" onClick={() => zoomBy(1.6)} disabled={t.k >= MAP_ZOOM[1]} className="h-11 w-11 border border-rule bg-panel text-ink disabled:text-muted sm:h-8 sm:w-8" aria-label="Zoom in" title="Zoom in" data-zoom="in">+</button>
+        <button type="button" onClick={() => zoomBy(1 / 1.6)} disabled={t.k <= MAP_ZOOM[0]} className="h-11 w-11 border border-rule bg-panel text-ink disabled:text-muted sm:h-8 sm:w-8" aria-label="Zoom out" title="Zoom out" data-zoom="out">&minus;</button>
+        <button type="button" onClick={() => setT(MAP_HOME)} disabled={t.k === 1 && t.x === 0 && t.y === 0} className="h-11 border border-rule bg-panel px-2 text-ink disabled:text-muted sm:h-8" title="Show the whole map" data-zoom="reset">Reset</button>
       </div>
       {card ? (
         <div className={`pointer-events-none absolute z-10 border border-rule bg-panel px-2 py-1 text-xs leading-snug text-ink ${docked ? "" : "max-w-[18rem]"}`} {...card.attr} data-map-hover-docked={docked ? "1" : "0"}
@@ -351,15 +357,25 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
       </div>
       {/* session 8601: the grids with no shape in the file, by name, in the map's own frame, right under it: at 1280 px a
           column beside the map took a quarter of the map's width (seen in the browser), so the names run in lines */}
+      {/* session 8612 (the second read of the map, row 37): the Batteries switch is on and the frame shown draws no ring.
+          The map says so, and where the newest report of the view is, so a reader does not take an empty map for no batteries */}
+      {battery && !regions.some((r) => { const b = battery(r.id); return !!b && b.mw !== null && !!b.max; }) ? (
+        <p className="border-t border-rule bg-panel px-2 py-1 text-xs leading-snug text-ink" data-map-battery-none={batteryNewest ? batteryNewest.when : "none"}>
+          No battery is reported for this {unit}.{" "}
+          {batteryNewest ? <>The newest {unit} of this view that holds a report: {batteryNewest.when} ({batteryNewest.grids} grid{batteryNewest.grids === 1 ? "" : "s"}). Move the slider there to see the rings.</> : <>None is reported in this view.</>}
+        </p>
+      ) : null}
       {noShape.length ? (
         <div className="border-t border-rule bg-panel px-2 py-1 text-xs" data-map-listed={noShape.length}>
           <div className="mb-1 cursor-help text-ink" title={`These ${noShape.length} balancing authorities of the network have no boundary in the file the map draws, so they have no region here. Each keeps its hover and its panel; its ties are drawn in the Network view. ${drawnFlows.length} of the ${flows.length} ties moving power in the ${unit} shown have both ends on the map.`}>
             Not on the map: no boundary in the file ({noShape.length})
           </div>
+          {/* session 8609 (the accessibility read): each name is 24 px tall, the least a finger's target may be (WCAG 2.2, target size); they were 16.
+              session 8611 (docs/brand.md, section 3): 44 px tall on a phone */}
           <ul className="flex flex-wrap gap-x-3 gap-y-0.5">
             {noShape.map((n) => (
               <li key={n.id}>
-                <button type="button" className={`text-left underline decoration-dotted underline-offset-2 ${pick === n.id ? "text-accent" : "text-ink"}`} data-listed={n.id} onClick={() => onPick(n.id)}
+                <button type="button" className={`inline-flex min-h-11 items-center text-left underline decoration-dotted underline-offset-2 sm:min-h-6 ${pick === n.id ? "text-accent" : "text-ink"}`} data-listed={n.id} onClick={() => onPick(n.id)}
                   onPointerEnter={() => setHover({ kind: "listed", id: n.id, x: -1, y: -1, right: false, low: false })} onPointerLeave={() => setHover(null)}
                   onFocus={() => setHover({ kind: "listed", id: n.id, x: -1, y: -1, right: false, low: false })} onBlur={() => setHover(null)}>{n.name}</button>
               </li>
@@ -388,6 +404,8 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
           Boundaries: {held.file.provenance.source}, retrieved {(held.file.provenance.retrieved_utc ?? "").slice(0, 10)}{held.file.provenance.simplification.tolerance_degrees ? <>, simplified to {held.file.provenance.simplification.tolerance_degrees} degrees for the web</> : null}.
         </p>
       )}
+      {/* session 8606: the done line's decisions block, inside the map's own frame (the Network shape is as it was) */}
+      <MapDecisions />
     </div>
   );
 }
