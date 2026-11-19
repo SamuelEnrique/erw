@@ -494,7 +494,11 @@ class PagesReadTogether(unittest.TestCase):
                       'attempt(() => series("eia930_all_storage", { variable: "net_generation_battery_mw", since: since30 })),',
                       'attempt(() => series("caiso_battery_storage", { variable: "batteries_mw", since: since30 })),', "const since30 = daysAgo(31);"):
             self.assertIn(words, storage, words)
-        self.assertEqual(storage.count("attempt("), 4)
+        # five on wip/alt-storage-1 (ruling alternative 1 of /storage, session 8401: the month column's own read of the
+        # discharge, from the first day of the month two before); main: four
+        self.assertIn('attempt(() => series("storage_daily_cycle", { variable: "mwh_discharged", since: monthSince() })),', storage)
+        self.assertEqual(storage.count("attempt("), 5)
+        self.assertIn('data.series("storage_daily_cycle", { variable: "mwh_discharged", since: monthSince() })', c)
         for words in ("data.storageUnits()", 'data.series("storage_daily_cycle", { since: data.daysAgo(45) })', "await net.liveExtras({ hours: committed.hours });",
                       "for (const ba of Object.values(net.ISO_BA)) await net.supplyRows(ba);", "sb.restPaged(r.table, r.query, 0, MAX, 1)", "sb.restPaged(r.table, r.query, 0, MAX, together)"):
             self.assertIn(words, c, words)

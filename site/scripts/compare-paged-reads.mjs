@@ -54,7 +54,11 @@ const take = (page) => { for (const r of noted.splice(0)) reads.push({ page, ...
 
 // /storage (app/storage/page.tsx, Storage): its four reads, as it makes them
 const since30 = data.daysAgo(31);
+// wip/alt-storage-1 (not a default on main), session 8401: and a fifth, the month column's own read of the discharge from
+// the first day of the month two before (lib/storagemonth.ts, monthSince); main makes the four
+const { monthSince } = await import("../lib/storagemonth.ts");
 await Promise.all([data.storageUnits(), data.series("storage_daily_cycle", { since: data.daysAgo(45) }),
+  data.series("storage_daily_cycle", { variable: "mwh_discharged", since: monthSince() }),
   data.series("eia930_all_storage", { variable: "net_generation_battery_mw", since: since30 }), data.series("caiso_battery_storage", { variable: "batteries_mw", since: since30 })]);
 take("/storage");
 // /network (app/network/page.tsx): the live week's extras from the snapshot's first hour, and each grid's supply rows

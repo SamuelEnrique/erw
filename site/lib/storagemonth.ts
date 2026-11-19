@@ -7,6 +7,16 @@
 export type DayRow = { entity: string; variable: string; ts_utc: string; value: number };
 export type MonthTotal = { month: string; mwh: number; days: number; perDay: number };
 
+/** Session 8401 (browser row 363): where the column's own read starts, the first day (00:00 UTC) of the month two before
+ *  the render's. The column was summed from the panel's read, the last 45 days: on 17 November that read starts on
+ *  3 October, October lacks its first days, and every cell read "no whole month" whatever the table held. From the
+ *  first day of the month two before, the month before the render's is always inside the read whole, and so is the one
+ *  before it, which is read when the newer one lacks a day. About 60 to 92 daily rows a grid. */
+export function monthSince(now: number = Date.now()): string {
+  const d = new Date(now);
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() - 2, 1)).toISOString().replace(/\.\d{3}Z$/, "Z");
+}
+
 const daysIn = (month: string) => new Date(Date.UTC(Number(month.slice(0, 4)), Number(month.slice(5, 7)), 0)).getUTCDate();
 
 /** The newest whole month's total of one variable for one entity, or null when no month of the rows is whole. */

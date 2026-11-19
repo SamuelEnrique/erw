@@ -33,6 +33,29 @@ class TheRule(unittest.TestCase):
         self.assertEqual(json.loads(p.stdout), {"month": "2026-02", "mwh": 28, "days": 28, "perDay": 1})
 
 
+class TheColumnsOwnRead(unittest.TestCase):
+    """Session 8401 (chain 503), browser row 363: every cell of the column read "no whole month". It was summed from the
+    panel's read, the last 45 days of the table, in which no calendar month is whole from about the 15th of a month on
+    (on 17 November the read starts on 3 October). The column reads the discharge from the first day of the month two
+    before (site/lib/storagemonth.ts monthSince); the page drawn whole on made-up rows holds it
+    (site/scripts/test-alt-storage-month.mjs)."""
+
+    def test_the_page_drawn_on_17_november(self):
+        p = subprocess.run(["node", "--import", "./scripts/battery-awards-page-register.mjs", "scripts/test-alt-storage-month.mjs"], cwd=SITE, capture_output=True, text=True, encoding="utf-8", timeout=600)
+        self.assertEqual(p.returncode, 0, p.stdout[-2500:] + p.stderr[-1500:])
+        self.assertIn("17 of 17 passed", p.stdout)
+
+    def test_the_source(self):
+        with open(os.path.join(SITE, "app", "storage", "page.tsx"), encoding="utf-8") as fh:
+            s = fh.read()
+        self.assertIn('attempt(() => series("storage_daily_cycle", { variable: "mwh_discharged", since: monthSince() })),', s)
+        self.assertIn('attempt(() => series("storage_daily_cycle", { since: daysAgo(45) })),', s, "the panel's own read stands")
+        self.assertIn("monthTotal(month.data, b.entity)", s)
+        self.assertNotIn("monthTotal(rows, b.entity)", s, "the column is not summed from the panel's 45 days")
+        # the month's cell carries no check key, so it is held by the page itself where the row's other cells are held by Num
+        self.assertIn("licenseHeldRow(T, b.entity) ?", s)
+
+
 @unittest.skipUnless(os.path.exists(os.path.join(TABLES, "storage_daily_cycle.csv")), "storage_daily_cycle is not on this machine")
 class OnTheLocalTable(unittest.TestCase):
     def test_the_newest_whole_months(self):

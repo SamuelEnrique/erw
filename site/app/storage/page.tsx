@@ -11,7 +11,8 @@ import { TableDownloads } from "@/components/tool/TableDownloads";
 import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
 import { STORAGE_DECISIONS } from "@/lib/decisions";
 import { daysAgo, series, storageUnits, type SeriesRow, type StorageUnit } from "@/lib/data";
-import { monthTotal } from "@/lib/storagemonth";   // wip/alt-storage-1
+import { monthSince, monthTotal } from "@/lib/storagemonth";   // wip/alt-storage-1
+import { LICENSE_NEEDED, licenseHeldRow, licenseTitle } from "@/lib/license";   // session 8401: the month's cell is held as the row's other cells are (components/Num.tsx)
 import { count, day, shown } from "@/lib/format";
 import { DISCHARGED_TITLE, inventory, notHeld } from "@/lib/storagefleet"; // session 7542: the read of 16 November 2026
 import { attempt } from "@/lib/supabase";
@@ -205,7 +206,11 @@ function caisoHourly(rows: SeriesRow[]) {
   return Array.from(by.entries()).filter(([, a]) => a.n === 12).sort((a, b) => a[0] - b[0]).map(([t, a]) => ({ t, v: a.s / a.n }));
 }
 
-function Cycle({ rows }: { rows: SeriesRow[] }) {
+// Session 8401 (browser row 363): `month` is the new column's own read (the discharge alone, from the first day of the
+// month two before: lib/storagemonth.ts, monthSince). The column was summed from `rows`, the panel's last 45 days, in
+// which no calendar month is whole for most of a month, so every cell read "no whole month". `rows` and every figure
+// drawn from them stand as they were.
+function Cycle({ rows, month }: { rows: SeriesRow[]; month: { ok: true; data: SeriesRow[] } | { ok: false; reason: string } }) {
   const T = "storage_daily_cycle";
   const get = (e: string, v: string) => rows.filter((r) => r.entity === e && r.variable === v).sort((a, b) => a.ts_utc.localeCompare(b.ts_utc));
   const N = (r?: SeriesRow, whole = false) =>
@@ -250,7 +255,9 @@ function Cycle({ rows }: { rows: SeriesRow[] }) {
                 <td className="pr-2 text-right">{N(at("peak_discharge_hour"), true)}{at("peak_discharge_hour") ? ":00" : ""}</td>
                 <td className="pr-2 text-right">{N(at("peak_charge_hour"), true)}{at("peak_charge_hour") ? ":00" : ""}</td>
                 {/* ruling alternative 1 (wip/alt-storage-1, not a default on main): the newest whole month's total */}
-                <td className="pr-2 text-right" data-month={b.code}>{((mt) => mt ? <span title={`${mt.days} days, ${shown(mt.perDay)} MWh a day`}><span data-month-mwh={mt.mwh}>{shown(mt.mwh)}</span> <span className="text-[11px] text-muted">{mt.month}</span></span> : <span className="text-muted">no whole month</span>)(monthTotal(rows, b.entity))}</td>
+                <td className="pr-2 text-right" data-month={b.code}>{!month.ok ? <span className="text-muted" title={month.reason} data-month-unread="1">not read</span>
+                  : licenseHeldRow(T, b.entity) ? <span className="text-muted" title={licenseTitle(T)} data-license-held={T}>{LICENSE_NEEDED}</span>
+                  : ((mt) => mt ? <span title={`${mt.days} days, ${shown(mt.perDay)} MWh a day`}><span data-month-mwh={mt.mwh}>{shown(mt.mwh)}</span> <span className="text-[11px] text-muted">{mt.month}</span></span> : <span className="text-muted">no whole month</span>)(monthTotal(month.data, b.entity))}</td>
                 <td>
                   <InlineSpark values={dis.slice(-30).map((r) => ({ t: r.ts_utc, v: r.value }))} label={`${b.label} battery MWh discharged per day, the last 30 days held${notHeld(dis.slice(-30))}`} />
                 </td>
@@ -296,9 +303,11 @@ export default async function Storage({ searchParams }: { searchParams: Promise<
 /** The first tab: the fleet and what it does each hour (what /storage drew before session 239). */
 async function FleetView() {
   const since30 = daysAgo(31);
-  const [units, cycle, hourly, caiso] = await Promise.all([
+  const [units, cycle, month, hourly, caiso] = await Promise.all([
     attempt(storageUnits),
     attempt(() => series("storage_daily_cycle", { since: daysAgo(45) })),
+    // wip/alt-storage-1, session 8401 (browser row 363): the month column's own read, so a calendar month is whole in it
+    attempt(() => series("storage_daily_cycle", { variable: "mwh_discharged", since: monthSince() })),
     attempt(() => series("eia930_all_storage", { variable: "net_generation_battery_mw", since: since30 })),
     attempt(() => series("caiso_battery_storage", { variable: "batteries_mw", since: since30 })),
   ]);
@@ -369,7 +378,7 @@ async function FleetView() {
       </ToolSection>
 
       <ToolSection title="The daily cycle" note="Derived from eia930_all_storage; CAISO's row from caiso_battery_storage, CAISO's own data, because CAISO reports no battery series in EIA-930. NYISO and PJM report none in either.">
-        {cycle.ok && cycle.data.length ? <Cycle rows={cycle.data} /> : <NoData what="the daily cycle" reason={cycle.ok ? "storage_daily_cycle returned no rows" : cycle.reason} />}
+        {cycle.ok && cycle.data.length ? <Cycle rows={cycle.data} month={month} /> : <NoData what="the daily cycle" reason={cycle.ok ? "storage_daily_cycle returned no rows" : cycle.reason} />}
       </ToolSection>
 
       <ToolSection title="Hour by hour, the last 30 days" note="EIA-930 net generation of battery storage, MW: above zero discharging, below zero charging. UTC hours. The CAISO line is CAISO's own data, not EIA-930's: Today's Outlook Total batteries (hybrid plants' batteries included), 5-minute values averaged to UTC hours.">
