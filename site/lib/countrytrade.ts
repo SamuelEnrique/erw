@@ -170,6 +170,23 @@ export function partnersOfYear(file: MatrixFile | null, year: string): PartnerRo
 }
 
 export const SOURCE_KEYS: string[] = SOURCES.map((s) => s.key);
+/** Session 8490, on the real files: the months of a year, from the file's first month to its last (`first`, `upto`;
+ *  without them the first and last month it holds), that the mix file does not hold. The builder writes a month only
+ *  when 90 percent of its days are complete (docs/methods/regions_pages.md), and many months are not: Texas has no
+ *  December 2025, the Mid-Atlantic no month from September 2020 to February 2025. The table drew only the months held,
+ *  so a month left out was nowhere on the page. */
+export function mixGapMonths(file: MixFile, year: string): string[] {
+  const held = Object.keys(file.months ?? {}).sort();
+  const first = typeof file.first === "string" && /^\d{4}-\d\d$/.test(file.first) ? file.first : held[0];
+  const last = typeof file.upto === "string" && /^\d{4}-\d\d$/.test(file.upto) ? file.upto : held[held.length - 1];
+  if (!first || !last) return [];
+  const out: string[] = [];
+  for (let m = 1; m <= 12; m++) {
+    const k = `${year}-${String(m).padStart(2, "0")}`;
+    if (k >= first && k <= last && !held.includes(k)) out.push(k);
+  }
+  return out;
+}
 export type MixRow = { month: string; share: Record<string, number | null>; mwh: Record<string, number | null>; net: number | null; daysHeld: number | null; daysInMonth: number | null };
 /** The months of one year that a mix file holds, oldest first: each source's share of net generation as the file
  *  writes it, its energy, the month's net generation and its days. */

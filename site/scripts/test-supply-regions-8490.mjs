@@ -70,6 +70,43 @@ ok(S.gwh(-40) === "0.0" && S.gwh(40) === "0.0" && S.gwh(-50) === "-0.1" && S.gwh
 ok(S.signedGwh(-40) === "0.0" && S.signedGwh(40) === "0.0" && S.signedGwh(0) === "0.0" && S.signedGwh(60) === "+0.1" && S.signedGwh(-60) === "-0.1", "signed GWh: no sign on a figure that rounds to zero, the sign kept on every other");
 ok(T.pct1(-0.04) === "0.0" && T.pct1(0.04) === "0.0" && T.pct1(-0.06) === "-0.1" && T.pct1(22.24) === "22.2", "a percent that rounds to zero reads 0.0; others as before");
 
+// ---- row 19: the mean of a pair says what it is (it runs over the hours both reported, so it can stand outside the
+// two reports: Tennessee and the Carolinas in 2025 on the real files, 94.2 and 91.1, a mean of 91.0)
+const meanCell = (html, key) => (new RegExp(`<span title="([^"]*)"><span data-cn="${key.replace(/\|/g, "\\|")}">`).exec(html) ?? [])[1] ?? "";
+const m1 = meanCell(page, "pair|CAR-TEN|2026|mean");
+ok(m1.startsWith("The mean of ") && /reports of this flow in 2026, taken over the hours both reported \(\d[\d,]* hours\), as the file gives it\. Each report beside it runs over that side&#x27;s own hours, so the mean need not lie between them\. Source: EIA Form EIA-930/.test(m1),
+  "the mean of a pair of regions carries a hover: over the hours both reported, and why it need not lie between the two reports");
+const m2 = meanCell(page, "bapair|DUK-TVA|2026|mean");
+ok(/taken over the hours both reported/.test(m2), "the mean of a pair of balancing authorities carries the same hover");
+const pv = { fromReport: 5, toReport: null, hoursBoth: 0 };
+ok(S.meanWords(pv, "California", "Mexico", "2025").startsWith("Only California reported this flow in 2025: the file gives that report as the mean."), "a pair one side alone reported: the mean is that side's report, and the hover says so");
+
+// ---- row 20: when the two sides' hours differ, the percent's hover says the reports can differ by more than the gap
+// (the Northwest and California in 2024: 9,622.6 GWh over 8,784 hours, 7,817.0 over 8,000, a gap of 4.7)
+ok(S.hoursApart("Northwest", 8784, "California", 8000) === " Northwest's report runs over 8,784 hours and California's over 8,000: what Northwest reported in the hours California did not is in its report and not in the gap, so the two reports can differ by more than the gap.",
+  "the sentence names each side's hours and which side reported the hours the other did not");
+ok(S.hoursApart("Carolinas", 100, "Tennessee", 200).includes("Carolinas' report runs over 100 hours and Tennessee's over 200: what Tennessee reported in the hours Carolinas did not"), "the other way round, with the Carolinas' possessive");
+ok(S.hoursApart("A", 10, "B", 10) === "" && S.hoursApart("A", null, "B", 10) === "" && S.hoursApart("A", 10, "B", null) === "", "the same hours, or hours not in the file: nothing is added");
+const pctTips = [...page.matchAll(/<span class="cursor-help[^"]*"(?: data-gap-large="1")? title="([^"]*)"><span data-cn="(pair\|[^"]+\|gap_pct)">/g)];
+ok(pctTips.length > 0 && pctTips.every((t) => /Source: EIA Form EIA-930, interchange as each side filed it\.( [^ ].* report runs over [\d,]+ hours and .* over [\d,]+: .*so the two reports can differ by more than the gap\.)?$/.test(t[1].replace(/&#x27;/g, "'"))),
+  "every percent of a pair ends with the source, and any sentence on the hours stands after it (the hover session 8430's test holds is unchanged before it)");
+
+// ---- row 21: a month of the mix file's span that it does not hold stands as a row, not held yet, with why
+const carMix = T.mixGapMonths(S && fixtureReaders().mix("CAR"), "2025");
+ok(JSON.stringify(carMix) === '["2025-06"]' && T.mixGapMonths(fixtureReaders().mix("TEN"), "2025").length === 0, "the months of a year the mix file leaves out (the fixture's Carolinas: June 2025)");
+const cut = { ...fixtureReaders().mix("TEX"), first: "2018-07", upto: "2026-10" }; delete cut.months["2025-12"];
+ok(JSON.stringify(T.mixGapMonths(cut, "2025")) === '["2025-12"]' && T.mixGapMonths(cut, "2018").length === 0 && T.mixGapMonths(cut, "2026").every((m) => m <= "2026-10"),
+  "no month before the file's first or after its last is called missing (Texas without December 2025, as on the real files)");
+const p25 = draw({ region: "ten", b: "car", year: "2025" });
+const carMixHtml = p25.slice(p25.indexOf('data-wc-mix="b" data-wc-region="CAR"'));
+const gapRow = rowOf(carMixHtml, 'data-wc-month-gap="2025-06"');
+ok(gapRow && (gapRow.match(/data-not-held="1"/g) ?? []).length === 10 && /The file holds no generation by source for Carolinas in Jun 2025: the builder writes a month only when at least 90 percent of its days are complete/.test(gapRow) && !/data-cn=/.test(gapRow),
+  "the Carolinas' June 2025 stands as a row: ten cells not held yet, the builder's rule on hover, no figure");
+const order = [...carMixHtml.slice(0, carMixHtml.indexOf('data-wc-month="2025"')).matchAll(/data-wc-month(?:-gap)?="(2025-\d\d)"/g)].map((x) => x[1]);
+ok(order.join(",") === "2025-01,2025-02,2025-03,2025-04,2025-05,2025-06,2025-07,2025-08,2025-09,2025-10,2025-11,2025-12", "the rows stand in the order of the months, the month not held in its place");
+ok(/<span data-wc-month="2025" title="The year&#x27;s shares and net generation run over the 11 months of 2025 the file holds; Jun 2025 is not held, and nothing is filled for it\.">2025, 11 months<\/span>/.test(carMixHtml), "the year's row says on hover which month is not held; its face is as before");
+ok(!/data-wc-month-gap/.test(p25.slice(p25.indexOf('data-wc-mix="a" data-wc-region="TEN"'), p25.indexOf('data-wc-mix="b"'))), "a region whose file holds every month of the year draws no such row");
+
 // ---- nothing else moved
 const base = draw({ region: "ten", b: "car" });
 const f = figs(base);
