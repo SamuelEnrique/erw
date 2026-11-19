@@ -57,8 +57,13 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
   check(top.tool === "us48" && top.grids.join(",") === "ERCOT,CAISO,PJM,MISO,NYISO,ISO-NE,SPP,US48" && top.gridOn === "US48", `the tool opens on the Lower 48 with its eight grids, as before (${top.grids.join(", ")}; ${top.gridOn} chosen)`);
   if (!index) {
     check(top.picker === "absent" && /not built yet/.test(top.absent ?? "") && /index\.json/.test(top.absentTip ?? "") && top.regions.length === 0, `the site holds no index of the regions: the row says "not built yet", its hover names the file, and no region can be chosen`);
+    await shot("grid_regions_not_built_yet_1280.png");
     await open("/grid?region=se");
     check((await evaluate(`document.querySelector('[data-grid-tool]').getAttribute('data-grid-tool')`)) === "us48", "an address that names a region opens the tool as it was, the Lower 48");
+    await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
+    await open("/grid");
+    check(await evaluate(WIDE), `at 390 px the tool with the row is ${await evaluate(`document.documentElement.scrollWidth`)} px wide`);
+    await shot("grid_regions_not_built_yet_390.png");
     console.log("     the rest is not proven here: data/regions/index.json is not on this build");
     return bad ? 1 : 0;
   }
