@@ -9,9 +9,9 @@ import { SiteLink } from "@/components/SiteLink";
 import { TimeChart } from "@/components/TimeChart";
 import { ChartFrame, Fold, ToolHeader, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
-  FIRST_A, FIRST_B, FIRST_WHY, NEWEST_DAYS, alikeRows, areaOf, baOf, countryHref, dailyPoints, dailySummary, dailyYears, dayWords, demandPlaceFile, gridWords,
+  FIRST_A, FIRST_B, FIRST_WHY, NEWEST_DAYS, acrossTheBorder, alikeRows, areaOf, baOf, countryHref, dailyPoints, dailySummary, dailyYears, dayWords, demandPlaceFile, gridWords,
   isNewRegion, newestDays, noWeather, periodOf, placeFilePath, placeKey, placeName, placeOf, regionOfIndex, regionRows, regionsIndex, samePlace, sentence, trainOf, utcHourWords,
-  type DemandPlaceFile, type IndexFile, type Place,
+  type DemandPlaceFile, type IndexBa, type IndexFile, type Place,
 } from "@/lib/countrydemand";
 import { GRID_NAME, NEW_REGIONS, REGION_NAME, gwh } from "@/lib/countryfiles";
 import { byHour, byMonth, cells, extremes, hourName, localHour, monthName, signed, slugOf, whole, wholeYears, yearToDate, type Area, type Period } from "@/lib/demandgrowth";
@@ -50,6 +50,18 @@ const Held = ({ why }: { why: string }) => <span className="inline-block min-w-8
 const Head = ({ words, why, mark }: { words: string; why: string; mark: string }) => <span title={why} data-cd-head={mark} className="cursor-help border-b border-dotted border-white">{words}</span>;
 const two = "grid gap-x-6 md:grid-cols-2";
 
+/** Session 8480 (the read on the real files, row 12): why an authority across the border has no demand here. The index
+ *  names Canada's and Mexico's authorities so that every code of the trade files has a name; they file no Form EIA-930. */
+export const abroadWhy = (name: string, b: IndexBa) =>
+  `${name} (${b.code}) is a balancing authority across the border${b.region ? `, in ${REGION_NAME[b.region] ?? b.region}` : ""}. It files no Form EIA-930 with EIA, so there is no demand to draw for it; the index names it because the trade files name it as a neighbor.`;
+
+/** Session 8480 (the read on the real files, row 13): the hover of "Finding" where the file gives the figure no
+ *  uncertainty (no year left out of the fit holds it). The weather view's own words for that case are "not held", which
+ *  under a "no" says nothing; this says why the figure is not called a finding. Null where an uncertainty is held. */
+export const noPmWhy = (name: string, g: Figure): string | null =>
+  typeof g.uncertainty_pct === "number" ? null
+    : `Not called a finding: no year left out of the fit gives ${name} an uncertainty for this figure, so the part the weather does not explain has nothing to be set against.${g.outside ? " The hour was also beyond the weather of the fit's years." : ""}`;
+
 /** What a place is, for the hover of its name. */
 function placeWords(s: { place: Place; name: string; file: DemandPlaceFile | null }, index: IndexFile | null): string {
   const { place, name, file } = s;
@@ -60,6 +72,7 @@ function placeWords(s: { place: Place; name: string; file: DemandPlaceFile | nul
     return `${name}, EIA's region ${place.code} of Form EIA-930.${summed.length === 1 ? ` Its demand is that of the one balancing authority in it that files demand (${summed[0]}).` : summed.length ? ` Its demand is the sum of the ${summed.length} balancing authorities that file demand (${summed.join(", ")}), written for an hour only when every one of them holds it.` :" Its demand is the sum of its balancing authorities that file demand, written for an hour only when every one of them holds it."}${grids.length ? ` ${grids.join(" and ")} ${grids.length > 1 ? "are" : "is"} among its balancing authorities.` : ""}${isNewRegion(place.code) ? " No page of the site drew this region before 19 November 2026: none of the seven grids is in it." : ""}${file?.tz ? ` Days, months and years are counted in ${file.tz}.` : ""}`;
   }
   const b = baOf(index, place.code);
+  if (b && acrossTheBorder(b)) return abroadWhy(name, b);
   const region = b?.region ? ` EIA places it in its region ${REGION_NAME[b.region] ?? b.region}.` : "";
   return `${name} (${place.code}), a balancing authority that files Form EIA-930.${region}${b?.grid ? ` It is ${GRID_NAME[b.grid] ?? b.grid}, one of the seven grids of the other views.` : ""}${b?.retired ? ` EIA gives it as retired on ${b.retired}.` : ""}${file?.tz ?? b?.tz ? ` Days, months and years are counted in ${file?.tz ?? b?.tz}.` : ""}`;
 }
@@ -71,6 +84,8 @@ function slotOf(mark: "a" | "b", place: Place, index: IndexFile | null, fileOf: 
   const key = placeKey(place);
   if (!file) {
     const b = place.level === "ba" ? baOf(index, place.code) : null;
+    // session 8480 (the read on the real files, row 12): an authority across the border files nothing with EIA
+    if (b && acrossTheBorder(b)) return { mark, place, key, name, file: null, state: "no-demand", why: abroadWhy(name, b), area: null, period: null };
     if (b && (b.generation_only || (b.files && !b.files.includes("demand")))) {
       return { mark, place, key, name, file: null, state: "no-demand", why: `${b.generation_only ? `EIA lists ${name} (${place.code}) as a generation-only balancing authority: it files no demand` : `The index lists no demand file for ${name} (${place.code})`}, so there is no demand to draw for it.`, area: null, period: null };
     }
@@ -162,10 +177,12 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
   const cell = (s: Slot, v: ReactNode | null | undefined, missing: string): ReactNode => (s.state === "held" ? <Held why={s.why} /> : v ?? <NOT why={missing} />);
   const wide = (s: Slot) => (s.state === "not-built" ? <Hint words="not built yet" why={s.why} /> : <NOT why={s.why} />);
 
-  // ---- the two lists of the form: the thirteen regions, then every balancing authority the index lists
+  // ---- the two lists of the form: the thirteen regions, then every balancing authority of the lower 48 the index lists
+  // (session 8480, row 12: not the authorities across the border, which file no Form EIA-930)
+  const bas48 = (index?.bas ?? []).filter((x) => !acrossTheBorder(x));
   const options = [
     ...regionRows(index).map((r) => ({ value: r.code.toLowerCase(), label: `${r.name} (region)` })),
-    ...(index?.bas ?? []).map((x) => ({ value: `ba-${x.code.toLowerCase()}`, label: `${x.code}: ${x.name}${x.generation_only ? ", generation only" : ""}` })),
+    ...bas48.map((x) => ({ value: `ba-${x.code.toLowerCase()}`, label: `${x.code}: ${x.name}${x.generation_only ? ", generation only" : ""}` })),
   ];
   for (const s of slots) if (!options.some((o) => o.value === s.key)) options.push({ value: s.key, label: s.place.level === "ba" ? `${s.place.code}: ${s.name}` : s.name });
   const zones = withFile.map((s) => `${s.name}: ${s.file!.tz}`).join("; ");
@@ -268,7 +285,7 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
         key: `${s.mark}|${y}`, highlight: y === wc.year, muted: false,
         cells: [s.name, part && g.window !== "the season" ? `${y}, part` : y, <span key="a" title={why} data-cd-metered-why={`${s.mark}|${y}`}><N k={`${k}|mw`}>{whole(g.actual)}</N></span>, <N key="g" k={`${k}|g`}>{signed1(g.growth_pct)}</N>, <N key="w" k={`${k}|w`}>{signed1(g.weather_pct)}</N>,
           <N key="u" k={`${k}|u`}>{signed1(g.unexplained_pct)}</N>, typeof g.uncertainty_pct !== "number" ? <NOT key="p" why={`No year left out of the fit gives ${s.name} an uncertainty for this figure.`} /> : <N key="p" k={`${k}|pm`}>{one(g.uncertainty_pct)}</N>,
-          <span key="r" data-reading={g.finding ? "finding" : "no"} title={reading(g)}>{g.finding ? "yes" : g.outside ? "beyond" : "no"}</span>],
+          <span key="r" data-reading={g.finding ? "finding" : "no"} title={noPmWhy(s.name, g) ?? reading(g)}>{g.finding ? "yes" : g.outside ? "beyond" : "no"}</span>],
       };
     });
   });
@@ -314,7 +331,7 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
       {withFile.length ? (
         <>
           <ToolSection title="Demand by day" id="by-day"
-            note={<><Hint words="What is drawn" why="For each local day of the place: the highest hour of the day's used hours, and the day's average, which is the day's demand in MWh over the hours used (a day of 23 or 25 hours when the clocks change). A day's demand is held only when all its hours are used; a day that is not held is a break in the line, never a filled point. Point at a chart for a day's figures, or switch it to a table." />{" "}
+            note={<><Hint words="What is drawn" why="For each local day of the place: the highest hour of the day's used hours, and the day's average, which is the day's demand in MWh over the hours used (a day of 23 or 25 hours when the clocks change). A day's demand is held only when all its hours are used; a day that is not held is a break in the line, never a filled point. Demand is the load the grid served: during rotating outages, what customers could not draw is not in it, so a day of load shed reads below what was wanted (docs/methods/events.md). Point at a chart for a day's figures, or switch it to a table." />{" "}
               <Hint words="Days drawn" why={`Every day the files hold, or the days of one year: the list "Days drawn" above. Default: every day held, this page's own choice (session 8420). The table under the charts counts the days drawn. Shown now: ${days === "all" ? "every day held" : days}.`} /></>}>
             <div className={cols}>
               {slots.map((s) => {
@@ -501,8 +518,8 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
               r.bas ? <span key="b" title={r.bas.join(", ")} className="cursor-help">{r.bas.length}</span> : <NOT key="b" why={none} />, grids,
               r.first_hour ? utcHourWords(r.first_hour) : <NOT key="f" why={none} />, r.last_hour ? utcHourWords(r.last_hour) : <NOT key="l" why={none} />] };
           })} />
-        {index?.bas?.length ? (
-          <Fold title={`The balancing authorities (${index.bas.length})`}>
+        {bas48.length ? (
+          <Fold title={`The balancing authorities (${bas48.length})`}>
             <ToolTable minWidth={900} words caption="Every balancing authority of the lower 48 that EIA's Form EIA-930 lists"
               head={["Code", "Name", "Region",
                 <Head key="z" mark="batz" words="Time zone" why="From EIA's time zone of the authority (Eastern, Central, Mountain, Arizona, Pacific)." />,
@@ -511,13 +528,13 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
                 <Head key="a" mark="baactive" words="Active" why="EIA's 'Active BA', and its retirement date when it has one." />,
                 <Head key="f" mark="bafirst" words="Held from" why="The first hour held, UTC (demand, or net generation for a generation-only authority)." />,
                 <Head key="l" mark="balast" words="To" why="The last hour held, UTC (demand, or net generation for a generation-only authority)." />]}
-              rows={index.bas.map((x) => {
+              rows={bas48.map((x) => {
                 const p: Place = { level: "ba", code: x.code };
                 const has = !x.generation_only && (!x.files || x.files.includes("demand"));
                 const none = `The index does not hold it for ${x.code}.`;
                 return { key: x.code, highlight: slots.some((s) => samePlace(s.place, p)), cells: [
                   <span key="c" data-cd-ba={x.code} className="font-mono">{x.code}</span>,
-                  has ? <Link key="n" href={pick(p)}>{x.name}</Link> : <span key="n" title={`${x.name} files no demand with EIA (a generation-only balancing authority), so there is no demand to draw for it.`} className="cursor-help">{x.name}</span>,
+                  has ? <Link key="n" href={pick(p)}>{x.name}</Link> : <span key="n" title={x.generation_only ? `${x.name} files no demand with EIA (a generation-only balancing authority), so there is no demand to draw for it.` : `The index lists no demand file for ${x.name} (${x.code}), so there is no demand to draw for it.`} className="cursor-help">{x.name}</span>,
                   x.region ? REGION_NAME[x.region] ?? x.region : <NOT key="r" why={none} />, x.tz ?? <NOT key="z" why={none} />, x.grid ? GRID_NAME[x.grid] ?? x.grid : "",
                   x.generation_only ? "no, generation only" : "yes", x.retired ? `retired ${x.retired}` : x.active === false ? "no" : "yes",
                   x.first_hour ? utcHourWords(x.first_hour) : <NOT key="f" why={none} />, x.last_hour ? utcHourWords(x.last_hour) : <NOT key="l" why={none} />] };

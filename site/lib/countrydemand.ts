@@ -15,7 +15,12 @@ export type IndexRegion = { code: string; name: string; tz?: string; bas?: strin
 export type IndexBa = {
   code: string; name: string; region?: string; tz?: string; grid?: string | null; region_grids?: string[]; generation_only?: boolean; active?: boolean;
   retired?: string | null; first_hour?: string; last_hour?: string; files?: string[];
+  /** Since the data machine's session 8004 (its request 324): EIA's "U.S. BA", and false for the authorities across
+   *  the border (Canada's, Mexico's) the index names so every code of the trade files has a name. */
+  us?: boolean; files_eia930?: boolean;
 };
+/** Session 8480 (the read on the real files, row 12): an authority across the border, which files no Form EIA-930. */
+export const acrossTheBorder = (x: IndexBa): boolean => x.files_eia930 === false;
 /** `site/data/regions/index.json` (the contract's section 2). */
 export type IndexFile = { built?: string; tables?: string[]; method?: string; license?: string; fixture?: string; regions: IndexRegion[]; bas: IndexBa[] };
 

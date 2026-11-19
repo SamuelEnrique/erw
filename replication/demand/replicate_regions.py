@@ -323,8 +323,11 @@ def of_index(index):
     for r in index.get("regions") or []:
         if isinstance(r.get("bas"), list):
             out[f"index|{r['code']}|bas"] = float(len(r["bas"]))
-    if index.get("bas"):
-        out["index|bas"] = float(len(index["bas"]))
+    # session 8480 (the read on the real files, row 12): the table counts the authorities of the lower 48 only; the
+    # index also names Canada's and Mexico's (files_eia930 false), which file no Form EIA-930
+    lower48 = [b for b in index.get("bas") or [] if b.get("files_eia930") is not False]
+    if lower48:
+        out["index|bas"] = float(len(lower48))
     return out
 
 

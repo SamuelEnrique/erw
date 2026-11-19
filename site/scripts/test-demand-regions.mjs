@@ -214,6 +214,26 @@ const noBase = lone({ ...ten, growth: { ...ten.growth, base: undefined } }), fb 
 ok(!Object.keys(fb).some((k) => k.startsWith("cd|a|y|") || k.startsWith("cd|a|sum|") || k.startsWith("cd|a|cell|")) && fb["cd|a|day|top_mw"] === "12,660" && count(noBase, 'data-chart="years"') === 0 && !/NaN|undefined|Infinity/.test(wordsOf(noBase)),
   "a file whose growth names no base year: its years read not held, its days are still drawn");
 
+// ---- session 8480 (the read on the real files, row 12): an authority across the border files no Form EIA-930
+const abroad = { code: "HQT", name: "Hydro-Quebec TransEnergie", region: "CAN", tz: null, grid: null, region_grids: [], generation_only: false, active: true, retired: null, first_hour: null, last_hour: null, files: [], us: false, files_eia930: false };
+const withAbroad = { ...index, bas: [...index.bas, abroad] };
+const abHtml = renderToStaticMarkup(createElement(V.Country, { q: { a: "ba-hqt", b: "none" }, index: withAbroad, fileOf }));
+ok(C.acrossTheBorder(abroad) && !index.bas.some((x) => C.acrossTheBorder(x)) && abHtml.includes('data-cd-place="a" data-cd-code="ba-hqt" data-cd-state="no-demand"')
+  && ent(abHtml).includes("Hydro-Quebec TransEnergie (HQT) is a balancing authority across the border, in Canada. It files no Form EIA-930 with EIA") && !abHtml.includes("not built yet") && Object.keys(figs(abHtml)).length === 0,
+  "an authority across the border named in the address: no demand, with why (it files no Form EIA-930), never 'not built yet'");
+const abList = renderToStaticMarkup(createElement(V.Country, { q: {}, index: withAbroad, fileOf }));
+ok(!abList.includes('value="ba-hqt"') && !abList.includes('data-cd-ba="HQT"') && abList.includes(`The balancing authorities (${index.bas.length})`) && abList.replace(/ value="ba-hqt"/g, "") === abList,
+  "the authorities across the border are left out of the list of the form and the table of the lower 48, and the table's count is that of the lower 48");
+
+// ---- session 8480 (row 13): the hover of "Finding" where no year left out of the fit gives an uncertainty
+ok(V.noPmWhy("Tennessee", { uncertainty_pct: 2 }) === null && V.noPmWhy("Tennessee", { uncertainty_pct: null }).startsWith("Not called a finding: no year left out of the fit gives Tennessee an uncertainty")
+  && V.noPmWhy("Tennessee", { outside: true }).endsWith("The hour was also beyond the weather of the fit's years."), "the hover of Finding without an uncertainty says why the figure is not called a finding");
+const noPm = { ...ten, weather: { ...ten.weather, years: Object.fromEntries(Object.entries(ten.weather.years).map(([y, v]) => [y, Object.fromEntries(Object.entries(v).map(([k, g]) => [k, g ? { ...g, uncertainty_pct: null, finding: false } : g]))])) } };
+const noPmHtml = ent(renderToStaticMarkup(createElement(V.Country, { q: { a: "ten", b: "none" }, index, fileOf: () => noPm })));
+const pmHtml = ent(draw({ a: "ten", b: "none" }));
+ok(noPmHtml.includes('data-reading="no" title="Not called a finding: no year left out of the fit gives Tennessee an uncertainty') && !pmHtml.includes("Not called a finding"),
+  "a weather row with no uncertainty: its 'no' says why it is not a finding; rows with an uncertainty keep the weather view's own hover");
+
 // ---- the reader: a fixture is never read from the site's own folder; the whole page
 ok(process.env.ERW_REGIONS_DIR === undefined, "ERW_REGIONS_DIR is not set as the test starts");
 const onSite = (rel) => fs.existsSync(here(`../data/regions/${rel}`));
@@ -266,6 +286,9 @@ if (onSite("index.json")) {
   if (read) {
     const page = await drawDemand({ view: "country" });
     ok(page.includes('data-view-body="country"') && !/NaN|undefined|Infinity/.test(wordsOf(page)) && !dash.some((c) => page.includes(c)), "the view draws on the real files with no NaN, no undefined and no dash");
+    const abroadReal = (real?.bas ?? []).filter((x) => C.acrossTheBorder(x));
+    ok(abroadReal.every((x) => !page.includes(`data-cd-ba="${x.code}"`) && !page.includes(`value="ba-${x.code.toLowerCase()}"`)) && page.includes(`The balancing authorities (${real.bas.length - abroadReal.length})`),
+      `the real index's ${abroadReal.length} authorities across the border are not in the form's list or the table of the lower 48 (session 8480, row 12)`);
     const D = JSON.parse(fs.readFileSync(here("../data/demand_growth.json"), "utf-8"));
     for (const [code, grid] of Object.entries(ALIKE)) {
       const a = C.demandPlaceFile(reg(code))?.alike;
