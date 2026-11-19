@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate energy_growth, region pa_72 (Idaho Power Company (FERC 714 planning area 72))
+# Computed 2026-11-19T12:04:18Z by warehouse/analysis/findings/deep/forecasts.py (energy_growth); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the yearly growth a filing forecasts for the area's net energy, from its first forecast year to its tenth (percent a year), the observations it rests on, and whether the year is full
+# Tables: ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+pa_72,2006,1.8001507306370401,1.0,1
+pa_72,2007,1.3816393598208299,1.0,1
+pa_72,2008,1.5287355043547723,1.0,1
+pa_72,2009,1.3193562494290267,1.0,1
+pa_72,2010,1.5274977574425197,1.0,1
+pa_72,2011,1.2018230907575145,1.0,1
+pa_72,2012,1.1955248509956107,1.0,1
+pa_72,2013,1.3937344638987215,1.0,1
+pa_72,2014,1.356333444769553,1.0,1
+pa_72,2015,1.3577177903735915,1.0,1
+pa_72,2016,1.0488118724230056,1.0,1
+pa_72,2017,1.2041131075773315,1.0,1
+pa_72,2018,1.1443443600229308,1.0,1
+pa_72,2019,1.0942118485774754,1.0,1
+pa_72,2020,1.1564136966988547,1.0,1
+pa_72,2021,2.1271424679113915,1.0,1
+pa_72,2022,3.897939818472418,1.0,1
+pa_72,2023,4.009366829121652,1.0,1
+pa_72,2024,5.217318686615946,1.0,1
+pa_72,2025,6.17376348170442,1.0,1
