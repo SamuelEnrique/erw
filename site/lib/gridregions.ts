@@ -52,9 +52,10 @@ export function readIndex(v: unknown): RegionIndex | null {
 }
 
 /** Each balancing authority's region, for the network's panel and the map's hover: { TVA: { code: "TEN", name: "Tennessee" } }. */
-export function regionOfBa(index: RegionIndex): Record<string, { code: string; name: string }> {
+export function regionOfBa(index: RegionIndex): Record<string, { code: string; name: string; tz?: string }> {
   const names = new Map(index.regions.map((r) => [r.code, r.name]));
-  return Object.fromEntries(index.bas.filter((b) => names.has(b.region)).map((b) => [b.code, { code: b.region, name: names.get(b.region) as string }]));
+  // session 8604: with the authority's own time zone, as the index gives it, so the panel can say its local time
+  return Object.fromEntries(index.bas.filter((b) => names.has(b.region)).map((b) => [b.code, { code: b.region, name: names.get(b.region) as string, ...(b.tz ? { tz: b.tz } : {}) }]));
 }
 
 // ------------------------------------------------------------------ hourly arrays (the contract's common rules)
