@@ -1,0 +1,50 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate wc_production, region wc_usa (the United States)
+# Computed 2026-11-19T12:37:09Z by warehouse/analysis/findings/deep/coal_uranium_metals.py (wc_production); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the country's coal production (million short tons), the observations it rests on, and whether the year is full
+# Tables: eia_world_coal_annual
+region,year,value,n_observations,full_year
+wc_usa,1980,829.7,1.0,1
+wc_usa,1981,823.775,1.0,1
+wc_usa,1982,838.112,1.0,1
+wc_usa,1983,782.091,1.0,1
+wc_usa,1984,895.920735,1.0,1
+wc_usa,1985,883.638375,1.0,1
+wc_usa,1986,890.314951,1.0,1
+wc_usa,1987,918.761459,1.0,1
+wc_usa,1988,950.264509,1.0,1
+wc_usa,1989,980.728996,1.0,1
+wc_usa,1990,1029.076247,1.0,1
+wc_usa,1991,995.98408,1.0,1
+wc_usa,1992,997.544861,1.0,1
+wc_usa,1993,945.424263,1.0,1
+wc_usa,1994,1033.504032,1.0,1
+wc_usa,1995,1032.973772,1.0,1
+wc_usa,1996,1063.855513,1.0,1
+wc_usa,1997,1089.931788,1.0,1
+wc_usa,1998,1117.535167,1.0,1
+wc_usa,1999,1100.431448,1.0,1
+wc_usa,2000,1073.611561,1.0,1
+wc_usa,2001,1127.688806,1.0,1
+wc_usa,2002,1094.283061,1.0,1
+wc_usa,2003,1071.752573,1.0,1
+wc_usa,2004,1112.09887,1.0,1
+wc_usa,2005,1131.498099,1.0,1
+wc_usa,2006,1162.749659,1.0,1
+wc_usa,2007,1146.635345,1.0,1
+wc_usa,2008,1171.808669,1.0,1
+wc_usa,2009,1074.923392,1.0,1
+wc_usa,2010,1084.368148,1.0,1
+wc_usa,2011,1095.627536,1.0,1
+wc_usa,2012,1016.458418,1.0,1
+wc_usa,2013,984.841779,1.0,1
+wc_usa,2014,1000.0490431100591,1.0,1
+wc_usa,2015,896.940563,1.0,1
+wc_usa,2016,728.3644979999959,1.0,1
+wc_usa,2017,774.609357,1.0,1
+wc_usa,2018,756.167095,1.0,1
+wc_usa,2019,706.30733712,1.0,1
+wc_usa,2020,535.434,1.0,1
+wc_usa,2021,577.431278,1.0,1
+wc_usa,2022,594.155282,1.0,1
+wc_usa,2023,577.954017,1.0,1
+wc_usa,2024,512.540324,1.0,1

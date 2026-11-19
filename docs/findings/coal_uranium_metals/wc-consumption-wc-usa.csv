@@ -1,0 +1,50 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate wc_consumption, region wc_usa (the United States)
+# Computed 2026-11-19T12:37:09Z by warehouse/analysis/findings/deep/coal_uranium_metals.py (wc_consumption); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the country's coal consumption (million short tons), the observations it rests on, and whether the year is full
+# Tables: eia_world_coal_annual
+region,year,value,n_observations,full_year
+wc_usa,1980,702.7297349999963,1.0,1
+wc_usa,1981,732.6268329999996,1.0,1
+wc_usa,1982,706.9106440000043,1.0,1
+wc_usa,1983,736.6723119999987,1.0,1
+wc_usa,1984,791.2956929999972,1.0,1
+wc_usa,1985,818.0486590000002,1.0,1
+wc_usa,1986,804.230968000001,1.0,1
+wc_usa,1987,836.9405920000008,1.0,1
+wc_usa,1988,883.6418060000022,1.0,1
+wc_usa,1989,894.9998820000018,1.0,1
+wc_usa,1990,904.4975679999965,1.0,1
+wc_usa,1991,899.2268050000041,1.0,1
+wc_usa,1992,907.6547979999956,1.0,1
+wc_usa,1993,944.081285000001,1.0,1
+wc_usa,1994,951.2858989999955,1.0,1
+wc_usa,1995,962.1037739999964,1.0,1
+wc_usa,1996,1006.3207710000006,1.0,1
+wc_usa,1997,1029.5444559999996,1.0,1
+wc_usa,1998,1037.1028189999988,1.0,1
+wc_usa,1999,1038.6465409999953,1.0,1
+wc_usa,2000,1084.094875,1.0,1
+wc_usa,2001,1060.145532,1.0,1
+wc_usa,2002,1066.354573,1.0,1
+wc_usa,2003,1094.860843,1.0,1
+wc_usa,2004,1107.254539,1.0,1
+wc_usa,2005,1125.977612,1.0,1
+wc_usa,2006,1112.291765,1.0,1
+wc_usa,2007,1127.998129,1.0,1
+wc_usa,2008,1120.548443,1.0,1
+wc_usa,2009,997.477607,1.0,1
+wc_usa,2010,1048.513717,1.0,1
+wc_usa,2011,1002.948167,1.0,1
+wc_usa,2012,889.1851209999999,1.0,1
+wc_usa,2013,924.4418150000048,1.0,1
+wc_usa,2014,917.731478,1.0,1
+wc_usa,2015,798.11468,1.0,1
+wc_usa,2016,731.0706899999973,1.0,1
+wc_usa,2017,716.855684,1.0,1
+wc_usa,2018,688.1050000000013,1.0,1
+wc_usa,2019,586.543,1.0,1
+wc_usa,2020,476.693,1.0,1
+wc_usa,2021,545.679000000001,1.0,1
+wc_usa,2022,515.5340000000032,1.0,1
+wc_usa,2023,425.8949999999971,1.0,1
+wc_usa,2024,410.9390000000043,1.0,1
