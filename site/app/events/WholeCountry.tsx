@@ -38,6 +38,8 @@ export function heldWhy(file: EventRegionsFile): string | null {
 }
 
 const N = ({ k, children }: { k: string; children: string }) => <span data-n={k}>{children}</span>;
+// session 8470 (the decisions, part E): the switch from hours to days carries its default and its source on hover
+const BY_DAY_WORDS = "A window of 21 days or less is drawn by hour and a longer one by day. Default: 21 days, this page's own choice (session 8410); no publisher's rule stands behind it.";
 const NOT = ({ why }: { why: string }) => <span className="cursor-help text-muted" title={why} data-not-held="1">not held</span>;
 const Held = ({ why }: { why: string }) => <span className="inline-block min-w-8 cursor-help" title={why} data-license-held="1" aria-label={LICENSE_NEEDED}>&nbsp;</span>;
 const Head = ({ words, why, mark }: { words: string; why: string; mark?: string }) => <span title={why} data-wc-head={mark ?? "1"} className="cursor-help border-b border-dotted border-white">{words}</span>;
@@ -290,7 +292,7 @@ export function WholeCountry({ event, path, file, q, first, second, firstWhy }: 
         );
       })()}
       <p className="mt-3 text-sm">
-        <Hint words={drawnByDay(file.hours) ? "Drawn by day" : "Drawn by hour"} why={drawnByDay(file.hours) ? "The window is longer than 21 days, so each point is the mean of a UTC day's held hours, and a day with no held hour breaks the line. The tables above are from every held hour." : "Each point is one hour of the file, in UTC. An hour the file does not hold has no point, and the line breaks there."} />
+        <Hint words={drawnByDay(file.hours) ? "Drawn by day" : "Drawn by hour"} why={drawnByDay(file.hours) ? `The window is longer than 21 days, so each point is the mean of a UTC day's held hours, and a day with no held hour breaks the line. The tables above are from every held hour. ${BY_DAY_WORDS}` : `Each point is one hour of the file, in UTC. An hour the file does not hold has no point, and the line breaks there. ${BY_DAY_WORDS}`} />
       </p>
       <p className="mt-2 text-xs text-muted" data-wc-source="1">
         Source: EIA Form EIA-930 (public domain), by region{tables.length ? <>; ERW table{tables.length > 1 ? "s" : ""} {tables.map((t, i) => <span key={t}>{i ? ", " : ""}<Link href={`/data#${t}`} className="font-mono" gate="plain">{t}</Link></span>)}</> : null}

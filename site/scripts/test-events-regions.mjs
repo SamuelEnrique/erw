@@ -161,6 +161,8 @@ ok(C.apartSources(apartFile, apartRows).map((s) => `${s.code} ${s.event} ${s.bas
   && !/The window holds/.test(storeWords(noStore)),
   "a region whose sources the window holds and its baseline does not is named under the sources table, and each cell says which side holds it");
 ok(text.includes(`${N} steps of 1 hour each, from 2022-12-19 05:00 UTC`) && text.includes("An hour the file does not hold has no point, and the line breaks there"), "the hours' words read plainly");
+const dayWords = "A window of 21 days or less is drawn by hour and a longer one by day. Default: 21 days, this page's own choice (session 8410); no publisher's rule stands behind it.";
+ok(text.includes(`the line breaks there. ${dayWords}`) && pageText(longHtml).includes(`The tables above are from every held hour. ${dayWords}`), "the switch from hours to days gives its default and its source on hover, drawn by hour and by day");
 
 // ---- held, and not built
 const heldFile = eventFixture({ license: "internal" });
