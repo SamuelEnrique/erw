@@ -95,6 +95,9 @@ READS_THE_DISK = {
     "lib/finder.ts": "const f = `${outDir()}/${SUMMARY}`;",
     "lib/findings.ts": "if (!/^[a-z0-9_.-]+$/i.test(cardId) || !fs.existsSync(f)) return null;",
     "lib/howsoondata.ts": None,
+    # session 8901 (chain 507, part C): the problem sets' page files (the pf| key). Every caller names a fixed file under
+    # data/ (lib/problemsets/*.ts); the name is refused unless it is a .json path under data/ with no "..", "." or empty step
+    "lib/pagefile.ts": "if (!parsePf(`pf|${file}|`)) throw new Error(`not a page file under site/data: ${file}`);",
     "lib/policyweekdata.ts": None,
     "lib/problemEditions.ts": r"if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !editions().includes(date)) return null;",
     "lib/problems.ts": 'path.join(process.cwd(), "data", "merchant_snapshot.json")',
