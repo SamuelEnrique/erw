@@ -5,6 +5,7 @@ import { ChangeBars, DOWN, Heat, UP, YearsChart } from "@/components/demand/Grow
 import { Hint } from "@/components/demand/Hint";
 import { Hover } from "@/components/demand/Hover";
 import { Explained } from "@/components/demand/Weather";
+import { CountryForecast } from "@/components/demand/CountryForecast";
 import { SiteLink } from "@/components/SiteLink";
 import { TimeChart } from "@/components/TimeChart";
 import { ChartFrame, Fold, ToolHeader, ToolSection, ToolTable } from "@/components/tool/ToolPage";
@@ -480,6 +481,9 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
           ) : null}
         </>
       ) : null}
+
+      {/* session 8013 (chain 505, part D3): the forecast against what happened, a section of its own (components/demand/CountryForecast.tsx); the sections above are not touched */}
+      <CountryForecast slots={slots.map((s) => ({ mark: s.mark, place: s.place, name: s.name }))} two={cols} />
 
       <ToolSection title="Every region and balancing authority" id="places"
         note={<Hint words="How to choose" why="A name in either table puts that place in place A and keeps place B. The two lists at the top of the view hold the same places." />}>
