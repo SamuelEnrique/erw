@@ -14,6 +14,7 @@ import { ISO_BA, liveExtras, supplyRows } from "@/app/network/data";
 import { GravityFigures, NetworkFigures } from "@/components/grid/NetworkFigures";
 import type { GridChoice } from "@/lib/gridtool";
 import { shownHour } from "@/lib/gridKeys";
+import { BaRegions } from "@/components/grid/BaRegions";
 import { regionOfBa } from "@/lib/gridregions";
 import { regionsIndex } from "@/lib/regionsdata";
 
@@ -67,7 +68,9 @@ export async function NetworkView({ keep, node, shape, grid }: { /** the page's 
     <div data-grid-network="1">
       <p className="mb-4 max-w-3xl text-base leading-relaxed">The {snap.nodes.length} balancing authorities that report to EIA-930 and the power they exchange. Watch a story, replay any day since {index.first.slice(0, 4)}, or
           click a grid to see who supplies it and trace the power two steps back. The address holds what you are looking at: copy it to share the view.</p>
-      <Network snap={snap} supply={supply} live={extras} v3={{ index, complete }} page={{ keep, node, shape, regions }} />
+      <BaRegions value={regions}>
+      <Network snap={snap} supply={supply} live={extras} v3={{ index, complete }} page={{ keep, node, shape }} />
+      </BaRegions>
       {/* session 266: the two-day lag, under the chart, computed from the snapshot (net|lag in lib/network.ts) */}
       {(() => { const shownHour = complete.hour ?? newest; const lag = Math.round((Date.parse(snap.built) - Date.parse(shownHour)) / 3_600_000);
         // session 299 (the owner's ruling 3c of 18 October 2026): both ages: against the snapshot's refresh (checkable, the key) and against the clock when this page was drawn (not a key: the clock is not a table)

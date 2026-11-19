@@ -195,13 +195,17 @@ class ThePage(unittest.TestCase):
 
     def test_the_panel_names_the_region_only_when_the_index_is_held(self):
         n = src("site", "app", "network", "Network.tsx")
-        self.assertIn("{page?.regions?.[pick.id] ? <div className=\"text-xs\" data-panel-region={page.regions[pick.id].code}>EIA region: ", n)
+        self.assertIn("{baRegions?.[pick.id] ? <div className=\"text-xs\" data-panel-region={baRegions[pick.id].code}>EIA region: ", n)
         v = src("site", "components", "grid", "NetworkView.tsx")
         self.assertIn("const regions = regionIndex ? regionOfBa(regionIndex) : undefined;", v)
+        self.assertIn("<BaRegions value={regions}>", v)
+        # the line that draws the network keeps the props it has always had (tests of sessions 93 and 299 pin it)
+        self.assertIn("<Network snap={snap} supply={supply} live={extras} v3={{ index, complete }} page={{ keep, node, shape }} />", v)
 
     def test_the_server_carries_the_files_a_request_reads(self):
         cfg = src("site", "next.config.ts")
         self.assertIn('"/grid": ["./data/regions/index.json", "./data/regions/mix/*.json", "./data/regions/trade/*.json", "./data/regions/demand/*.json"]', cfg)
+        self.assertIn('outputFileTracingIncludes: { "/cost-of-power": ["./data/datacenter/*.json"]', cfg)   # the line session 138's test reads stands
         data = src("site", "lib", "regionsdata.ts")
         self.assertIn('const fileOf = (code: string) => (regionBy(code) ? `${regionBy(code)!.toLowerCase()}.json` : null);', data)   # a path is made only from one of the thirteen codes
         self.assertIn('import "server-only";', data)

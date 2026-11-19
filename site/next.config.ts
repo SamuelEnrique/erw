@@ -82,10 +82,10 @@ const nextConfig: NextConfig = {
   // session 183: the seller page reads one hub's model by a name taken from data/seller/hubs/index.json
   // session 467: /datacenters reads the same price files for its power-side section (app/datacenters/PowerSide.tsx)
   // session 3304: the company pages read site/data/companies (lib/companydata.ts): the index, and one shard a company
-  // session 8602 (chain 504): /grid reads the thirteen regions' page files when a request names a region
-  // (lib/regionsdata.ts: the index, a region's mix and trade, and its demand file for the grid it nearly is)
-  outputFileTracingIncludes: { "/grid": ["./data/regions/index.json", "./data/regions/mix/*.json", "./data/regions/trade/*.json", "./data/regions/demand/*.json"],
-    "/cost-of-power": ["./data/datacenter/*.json"], "/datacenters": ["./data/datacenter/*.json"], "/cost-of-power/seller": ["./data/seller/hubs/**/*.json"],
+  outputFileTracingIncludes: { "/cost-of-power": ["./data/datacenter/*.json"], "/datacenters": ["./data/datacenter/*.json"], "/cost-of-power/seller": ["./data/seller/hubs/**/*.json"],
+    // session 8602 (chain 504): /grid reads the thirteen regions' page files when a request names a region
+    // (lib/regionsdata.ts: the index, a region's mix and trade, and its demand file for the grid it nearly is)
+    "/grid": ["./data/regions/index.json", "./data/regions/mix/*.json", "./data/regions/trade/*.json", "./data/regions/demand/*.json"],
     "/companies": ["./data/companies/index.json"], "/companies/rows": ["./data/companies/index.json"], "/companies/rows/python": ["./data/companies/index.json"], "/companies/rows/stata": ["./data/companies/index.json"],
     "/companies/[id]": ["./data/companies/**/*.json"], "/companies/[id]/rows": ["./data/companies/**/*.json"], "/companies/[id]/rows/python": ["./data/companies/**/*.json"], "/companies/[id]/rows/stata": ["./data/companies/**/*.json"] },
   // session 23: Energy Week became the Energy Roundup; the old addresses keep working
