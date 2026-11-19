@@ -144,12 +144,14 @@ export function summarize(file: EventRegionsFile): RegionSummary[] {
 /** Session 8470 (the real files): the regions whose generation by source rests on fewer hours than the window's (EIA's
  *  files leave a region's fuel columns empty for some hours while its net generation is there: the Southwest over Winter
  *  Storm Elliott, 114 of 267 hours), with the fewest hours any of its sources rests on and the hours of its net
- *  generation. A region held aside (`skip`) is left out. */
-export function shortSources(rows: RegionSummary[], n: number, skip: string[] = []): { code: string; name: string; hours: number; net: number | null }[] {
+ *  generation. A region held aside (`skip`) is left out. Storage is counted apart (`storage` true for storage alone):
+ *  EIA's storage columns begin in July 2024, so a baseline reaching back before then holds a few hours of it or none
+ *  (every region over the 2025 heat: 6 hours or fewer), which says nothing of the other sources. */
+export function shortSources(rows: RegionSummary[], n: number, skip: string[] = [], storage = false): { code: string; name: string; hours: number; net: number | null }[] {
   const out: { code: string; name: string; hours: number; net: number | null }[] = [];
   for (const r of rows) {
     if (skip.includes(r.code)) continue;
-    const hs = Object.values(r.sources).filter((x): x is Against => !!x).map((x) => x.hours);
+    const hs = Object.entries(r.sources).filter(([k, x]) => !!x && (k === "storage") === storage).map(([, x]) => (x as Against).hours);
     if (!hs.length) continue;
     const least = Math.min(...hs);
     if (least < n) out.push({ code: r.code, name: r.name, hours: least, net: r.generation ? r.generation.hours : null });

@@ -143,6 +143,13 @@ ok(shortRows.length === 1 && shortRows[0].code === "SW" && shortRows[0].hours ==
   && text.includes(`Fewer hours than the window's ${N}: Southwest's sources rest on ${N - 6} hours.`) && gasHtml.includes('data-wc-short-sources="SW,TEN"')
   && pageText(gasHtml).includes(`Tennessee's sources rest on ${N - 10} hours (its net generation on ${N})`) && !draw({ file: long, event: "covid_2020", path: "/events/covid-2020", first: "CAL", second: undefined }).includes("data-wc-short-sources=\"CAL"),
   "a region whose sources rest on fewer hours than the window's is named under the sources table, with its net generation's hours");
+const storeShort = clone(file); for (let h = 6; h < N; h++) storeShort.regions.TEN.baseline.gen.storage[h] = null;
+const storeHtml = draw({ file: storeShort });
+ok(C.shortSources(C.summarize(storeShort), N).map((s) => s.code).join() === "SW" && C.shortSources(C.summarize(storeShort), N, [], true).map((s) => `${s.code} ${s.hours}`).join() === `SW ${N - 6},TEN 6`
+  && storeHtml.includes('data-wc-short-sources="SW" data-wc-short-storage="SW,TEN"') && pageText(storeHtml).includes(`Storage, counted apart, its columns beginning in July 2024: Southwest on ${N - 6}; Tennessee on 6 hours.`)
+  && !pageText(draw({ file: (() => { const x = clone(late); x.baseline_offsets_days = [7]; for (let h = 6; h < N; h++) x.regions.CAL.baseline.gen.storage[h] = null; return x; })() })).includes("its columns beginning in July 2024")
+  && (() => { const c = clone(file); for (let h = 0; h < 3; h++) c.regions.CAR.gen.coal[h] = null; return pageText(draw({ file: c })).includes(`Carolinas' sources rest on ${N - 3} hours`); })(),
+  "storage resting on a few hours (its columns begin in July 2024) is named apart and does not mark the region's other sources short");
 ok(text.includes(`${N} steps of 1 hour each, from 2022-12-19 05:00 UTC`) && text.includes("An hour the file does not hold has no point, and the line breaks there"), "the hours' words read plainly");
 
 // ---- held, and not built
