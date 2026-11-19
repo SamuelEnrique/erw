@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ghg_power_state, region ghgpp_ky (the power plants of Kentucky that report to EPA)
+# Computed 2026-11-19T12:11:35Z by warehouse/analysis/findings/deep/emissions_climate.py (ghg_power_state); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the direct emissions the state's reporting power plants reported (million t CO2e), the observations it rests on, and whether the year is full
+# Tables: epa_ghgrp_facility_emissions
+region,year,value,n_observations,full_year
+ghgpp_ky,2015,76.95697985100001,1.0,1
+ghgpp_ky,2016,72.67728459400001,1.0,1
+ghgpp_ky,2017,63.126393183,1.0,1
+ghgpp_ky,2018,66.490600432,1.0,1
+ghgpp_ky,2019,58.674195114999996,1.0,1
+ghgpp_ky,2020,49.312426664,1.0,1
+ghgpp_ky,2021,56.09737267700001,1.0,1
+ghgpp_ky,2022,55.305497426,1.0,1
+ghgpp_ky,2023,50.38863290900001,1.0,1

@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ghg_onshore_basin, region ghgon_535 (onshore oil and gas production in the Green River Basin)
+# Computed 2026-11-19T12:11:36Z by warehouse/analysis/findings/deep/emissions_climate.py (ghg_onshore_basin); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the emissions reported for onshore oil and gas production in the basin (million t CO2e), the observations it rests on, and whether the year is full
+# Tables: epa_ghgrp_facility_emissions
+region,year,value,n_observations,full_year
+ghgon_535,2015,3.209126566,1.0,1
+ghgon_535,2016,3.265593874,1.0,1
+ghgon_535,2017,2.7066916299999995,1.0,1
+ghgon_535,2018,2.68304822,1.0,1
+ghgon_535,2019,2.276886658,1.0,1
+ghgon_535,2020,1.994176426,1.0,1
+ghgon_535,2021,1.5721674039999998,1.0,1
+ghgon_535,2022,1.7073854780000002,1.0,1
+ghgon_535,2023,1.445787614,1.0,1

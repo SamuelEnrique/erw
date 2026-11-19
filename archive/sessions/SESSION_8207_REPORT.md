@@ -1,6 +1,6 @@
 # Session 8207 report (chain 502, lab-desktop second window)
 
-19 November 2026, 12:02 to 12:20 UTC. Opus 5.5. Model spend: USD 0. Parts B and C checked at the start: both still waiting (`site/data/industry.json` not on main; `ai_energy_published` not in coverage).
+19 November 2026, 12:02 to 12:09 UTC. Opus 5.5. Model spend: USD 0. Parts B and C checked at the start: both still waiting (`site/data/industry.json` not on main; `ai_energy_published` not in coverage).
 
 ## Family 7, the rest: 18 drafts (FERC 714 forecasts)
 

@@ -1,0 +1,33 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate gas_net_receipts, region gn_wv (West Virginia)
+# Computed 2026-11-19T12:11:33Z by warehouse/analysis/findings/deep/gas.py (gas_net_receipts); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the state's net interstate receipts of natural gas (Bcf), the observations it rests on, and whether the year is full
+# Tables: eia_gas_interstate_annual
+region,year,value,n_observations,full_year
+gn_wv,1997,-100.347,1.0,1
+gn_wv,1998,-132.917,1.0,1
+gn_wv,1999,-236.588,1.0,1
+gn_wv,2000,-154.652,1.0,1
+gn_wv,2001,-14.138,1.0,1
+gn_wv,2002,-166.432,1.0,1
+gn_wv,2003,-60.639,1.0,1
+gn_wv,2004,-134.477,1.0,1
+gn_wv,2005,-106.393,1.0,1
+gn_wv,2006,-119.235,1.0,1
+gn_wv,2007,-130.8,1.0,1
+gn_wv,2008,-163.631,1.0,1
+gn_wv,2009,-175.395,1.0,1
+gn_wv,2010,-227.302,1.0,1
+gn_wv,2011,-281.289,1.0,1
+gn_wv,2012,-475.605,1.0,1
+gn_wv,2013,-618.278,1.0,1
+gn_wv,2014,-874.813,1.0,1
+gn_wv,2015,-1159.08,1.0,1
+gn_wv,2016,-1243.532,1.0,1
+gn_wv,2017,-1398.412,1.0,1
+gn_wv,2018,-1546.327,1.0,1
+gn_wv,2019,-1776.646,1.0,1
+gn_wv,2020,-2048.066,1.0,1
+gn_wv,2021,-2302.202,1.0,1
+gn_wv,2022,-2369.178,1.0,1
+gn_wv,2023,-2607.785,1.0,1
+gn_wv,2024,-2573.418,1.0,1

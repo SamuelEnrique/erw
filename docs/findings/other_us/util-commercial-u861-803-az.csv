@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate util_commercial, region u861_803_az (Arizona Public Service Co in AZ)
+# Computed 2026-11-19T12:15:32Z by warehouse/analysis/findings/deep/other_us.py (util_commercial); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's retail sales to commercial customers (TWh), the observations it rests on, and whether the year is full
+# Tables: eia861m_utility_sales_monthly
+region,year,value,n_observations,full_year
+u861_803_az,2017,12.416675,12.0,1
+u861_803_az,2018,12.528638,12.0,1
+u861_803_az,2019,12.442739587,12.0,1
+u861_803_az,2020,12.347970666,12.0,1
+u861_803_az,2021,12.838695362,12.0,1
+u861_803_az,2022,13.643826645999999,12.0,1
+u861_803_az,2023,14.334300472,12.0,1
+u861_803_az,2024,16.070942231,12.0,1
+u861_803_az,2025,17.336281469,12.0,1
+u861_803_az,2026,11.37819634,7.0,0

@@ -1,0 +1,33 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate gas_net_receipts, region gn_pa (Pennsylvania)
+# Computed 2026-11-19T12:11:32Z by warehouse/analysis/findings/deep/gas.py (gas_net_receipts); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the state's net interstate receipts of natural gas (Bcf), the observations it rests on, and whether the year is full
+# Tables: eia_gas_interstate_annual
+region,year,value,n_observations,full_year
+gn_pa,1997,688.887,1.0,1
+gn_pa,1998,612.248,1.0,1
+gn_pa,1999,618.461,1.0,1
+gn_pa,2000,516.22,1.0,1
+gn_pa,2001,577.806,1.0,1
+gn_pa,2002,497.638,1.0,1
+gn_pa,2003,579.014,1.0,1
+gn_pa,2004,535.824,1.0,1
+gn_pa,2005,519.519,1.0,1
+gn_pa,2006,534.357,1.0,1
+gn_pa,2007,521.744,1.0,1
+gn_pa,2008,571.584,1.0,1
+gn_pa,2009,566.794,1.0,1
+gn_pa,2010,296.25,1.0,1
+gn_pa,2011,-190.427,1.0,1
+gn_pa,2012,-1281.817,1.0,1
+gn_pa,2013,-2284.352,1.0,1
+gn_pa,2014,-2851.908,1.0,1
+gn_pa,2015,-3710.072,1.0,1
+gn_pa,2016,-4238.494,1.0,1
+gn_pa,2017,-4283.928,1.0,1
+gn_pa,2018,-4335.747,1.0,1
+gn_pa,2019,-4843.777,1.0,1
+gn_pa,2020,-5079.651,1.0,1
+gn_pa,2021,-5358.361,1.0,1
+gn_pa,2022,-5662.922,1.0,1
+gn_pa,2023,-5528.394,1.0,1
+gn_pa,2024,-5459.482,1.0,1
