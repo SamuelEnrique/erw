@@ -129,7 +129,7 @@ Two site faults fixed at their cause, each with a test in `tests/test_session861
 
 ## A second read of the regions (session 8613)
 
-Session 8613, 19 November 2026, about 16:42 to 16:52 UTC, on a build of `wip/8602-grid-regions` with the data machine's real files, by `runs/c504_region_read2.mjs` (what the page said: `runs/c504_region_read2b.out`; pictures `docs/reviews/grid-regions-2026-11-19/case11*.png` to `case15*.png`). The same five readers, each on a control the first read did not exercise.
+Session 8613, 19 November 2026, about 16:42 to 16:50 UTC, on a build of `wip/8602-grid-regions` with the data machine's real files, by `runs/c504_region_read2.mjs` (what the page said: `runs/c504_region_read2b.out`; pictures `docs/reviews/grid-regions-2026-11-19/case11*.png` to `case15*.png`). The same five readers, each on a control the first read did not exercise.
 
 ### The five cases
 

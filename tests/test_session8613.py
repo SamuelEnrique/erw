@@ -89,6 +89,45 @@ class AYearsOwnMonths(unittest.TestCase):
         self.assertIn("(not held: {ofYear.missing.map((k) => mix.periodName(k)).join(\", \")})", v)
 
 
+class TheReplicationKnowsARebuiltFile(unittest.TestCase):
+    """The data machine rebuilt the mix files on 19 November without rebuilding the index: the index's stamp did not
+    move, and the replication compared a stale read of the page with the new files (403 figures not met). The page read
+    now keeps when each region's two files were built, and the comparison stops when one has changed."""
+
+    def test_the_read_keeps_each_files_stamp(self):
+        s = src("replication", "grid", "regions_figures.mjs")
+        self.assertIn("index_built: index.built, files_built: filesBuilt(), regions }", s)
+        with open(os.path.join(ROOT, "replication", "grid", "regions_page_figures.json"), encoding="utf-8") as f:
+            page = json.load(f)
+        self.assertEqual(len(page["files_built"]), 13)
+        self.assertTrue(all(v["mix"] and v["trade"] for v in page["files_built"].values()))
+
+    def test_a_file_rebuilt_since_the_read_stops_the_comparison(self):
+        import contextlib
+        import importlib.util
+        import io
+        import tempfile
+        spec = importlib.util.spec_from_file_location("replicate_regions", os.path.join(ROOT, "replication", "grid", "replicate_regions.py"))
+        m = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(m)
+        with open(os.path.join(ROOT, "replication", "grid", "regions_page_figures.json"), encoding="utf-8") as f:
+            page = json.load(f)
+        first = sorted(page["files_built"])[0]
+        page["files_built"][first]["mix"] = "2026-11-19T12:02:00Z"          # as if the page had been read before the rebuild
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "stale.json")
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump(page, f)
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                code = m.main(["--page", p])
+        if code == 0:
+            self.skipTest("the region files on this machine are not the ones the page was read from")
+        self.assertEqual(code, 2)
+        self.assertIn("were rebuilt since the page was read", out.getvalue())
+        self.assertNotIn("NOT MET", out.getvalue())
+
+
 class TheRest(unittest.TestCase):
     def test_the_check_follows_a_year(self):
         s = src("site", "scripts", "check-grid-regions.mjs")

@@ -52,7 +52,7 @@ function RegionDecisions({ region }: { region: IndexRegion }) {
         <li data-decision="part-month">The newest month of trade is usually a part of a month. Its figures are shown as held, with the hours they cover, and are not scaled up to a whole month.</li>
         <li data-decision="storage">Storage is what EIA&apos;s form holds as battery and other energy storage. CAISO, NYISO and PJM file no battery series; the Storage row says so on hover for their regions and the figure is not changed.</li>
         <li data-decision="never-printed">A source no balancing authority of the region has ever reported to EIA is blank, never zero, and its hover says so. Net load is demand less wind and solar; where one of the two has never been reported there is none of it to take away, and the page says which.</li>
-        <li data-decision="crosscheck">The files are summed from the balancing authorities&apos; rows of EIA&apos;s six-month files. Set beside EIA&apos;s own regional series for three hours of each region on 19 November 2026, 383 of 430 figures are the same to 1 MW; the rows that differ are in <code className="font-mono">replication/grid/crosscheck_regions.csv</code>.</li>
+        <li data-decision="crosscheck">The files are summed from the balancing authorities&apos; rows of EIA&apos;s six-month files. Set beside EIA&apos;s own regional series for three hours of each region on 19 November 2026, 388 of 439 figures are the same to 1 MW; the rows that differ are in <code className="font-mono">replication/grid/crosscheck_regions.csv</code>.</li>
       </ul>
     </details>
   );
