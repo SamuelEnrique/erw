@@ -16,3 +16,4 @@ Chain file: `queue/done/502-day-19-november-desktop-window2-findings-industry.md
 - Part C, energy per AI query as published: waiting (`ai_energy_published` not in coverage at session 8200).
 - Part A done: 158 drafts in seven families (session 8207).
 - Part D, first pass: 20 drafts (emissions_climate 9, coal_uranium_metals 5, gas 6), every draft of the three families reproduces; code `wip/8202-findings` (3406b3257); session 8208.
+- Part D, second pass: other_us, 17 drafts from EIA-861M (retail choice states not read), 17 of 17 reproduce; code `wip/8202-findings` (28b5704b1); session 8209.
