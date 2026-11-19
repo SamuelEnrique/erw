@@ -70,7 +70,9 @@ class TheOwnComponents(unittest.TestCase):
         """A change here reaches the Grid page and the board only (the battery page is the reference and does not move)."""
         allowed = {"app/grid/page.tsx", "app/board/page.tsx", "components/board/BoardView.tsx", "components/grid/MixView.tsx",
                    "components/grid/YourGrid.tsx", "components/grid/NowView.tsx", "components/grid/NetworkView.tsx",
-                   "components/mix/Now.tsx", "components/mix/views.tsx", "app/network/Network.tsx"}
+                   "components/mix/Now.tsx", "components/mix/views.tsx", "app/network/Network.tsx",
+                   # session 8602: the Grid page's views for an EIA region (drawn by app/grid/RegionTool.tsx, a part of the Grid page, and by no other page)
+                   "components/grid/RegionViews.tsx"}
         for dirpath, dirs, files in os.walk(SITE):
             dirs[:] = [d for d in dirs if d not in ("node_modules", ".next", "_retired", "public")]
             for fn in files:

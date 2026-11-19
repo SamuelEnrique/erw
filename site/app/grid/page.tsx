@@ -18,6 +18,10 @@ import { GridCleanParts, GridMixParts } from "@/components/grid/YourGrid";
 import { gridOf, load } from "@/lib/grid";
 import { GRID_CHOICES, GRID_VIEWS, gridHref, gridPick } from "@/lib/gridtool";
 import { choiceOf } from "@/lib/mixpage";
+import { RegionPicker } from "@/components/grid/RegionViews";
+import { regionBy } from "@/lib/gridregions";
+import { regionsIndex } from "@/lib/regionsdata";
+import { RegionTool, alikeOf } from "./RegionTool";
 
 // Session 237 (the owner's task of 12 October 2026; the roadmap's item 2): the Grid tool. One page, one address. A
 // picker of eight (ERCOT, CAISO, PJM, MISO, NYISO, ISO-NE, SPP and the Lower 48) and the views of the grid chosen. The
@@ -43,8 +47,20 @@ export const revalidate = 3600;
 type Query = Record<string, string | string[] | undefined>;
 const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
 
+/** Session 8602: the region the address names, when the index of the whole country's files holds it; else none, and the page is the grid's as it was. */
+function regionOf(sp: Query) {
+  const code = regionBy(sp.region);
+  if (!code) return null;
+  const index = regionsIndex();
+  const region = index?.regions.find((r) => r.code === code) ?? null;
+  return index && region ? { index, region } : null;
+}
+
 export async function generateMetadata({ searchParams }: { searchParams: Promise<Query> }): Promise<Metadata> {
-  const p = gridPick(await searchParams);
+  const sp = await searchParams;
+  const p = gridPick(sp);
+  const r = regionOf(sp);
+  if (r) return { title: `The grid: ${r.region.name}, ${GRID_VIEWS.find(([k]) => k === p.view)![1]}` };
   return { title: `The grid: ${p.grid.label}, ${GRID_VIEWS.find(([k]) => k === p.view)![1]}` };
 }
 
@@ -75,6 +91,10 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
   const sp = await searchParams;
   const p = gridPick(sp);
   const { grid, view } = p;
+  // session 8602: one of EIA's thirteen regions in view: the same tool, drawn from the whole country's page files
+  const inRegion = regionOf(sp);
+  if (inRegion) return <RegionTool sp={sp} index={inRegion.index} region={inRegion.region} view={view} node={one(sp.node) && /^[A-Z0-9]{2,6}$/.test(one(sp.node)!) ? one(sp.node)! : null} />;
+  const index = regionsIndex();
   const cfg = grid.slug === "us48" ? null : gridOf(grid.slug);
   // the grid's own reads (lib/grid.ts), for the tabs that draw its page's blocks
   const data = cfg && (view === "mix" || view === "clean") ? await load(cfg) : null;
@@ -91,6 +111,8 @@ export default async function GridTool({ searchParams }: { searchParams: Promise
         <div data-grid-tool={grid.slug} data-grid-tool-view={view} data-grid-ask={p.ask ? "open" : "panel"}>
           <ToolHeader crumb="The grid" title={grid.slug === "us48" ? "The Lower 48 states" : `${grid.label}: ${grid.name}`} lead={LEAD[view]} under={<TableLicenses tables={GRID_VIEW_TABLES[view]} />} />
           <ToolPicker label="Grid" items={GRID_CHOICES.map((g) => ({ key: g.slug, label: g.label, href: gridHref(g.slug, view), on: g.slug === grid.slug, title: g.name }))} />
+          {/* session 8602: EIA's thirteen regions, under the grids; a line that says so until their index is on the site */}
+          <RegionPicker index={index} on={null} view={view} alike={alikeOf(index)} />
           <ToolTabs label="Views" items={GRID_VIEWS.map(([k, label]) => ({ key: k, label, href: gridHref(grid.slug, k), on: k === view }))} />
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
             <div className="min-w-0">
