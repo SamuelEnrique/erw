@@ -71,7 +71,37 @@ export const MIX_SOURCES = ["natural_gas", "coal", "nuclear", "wind", "solar", "
 export type MixHourly = { hours: Hours } & Record<string, (number | null)[] | Hours>;
 export type MixPeriod = { avg: Record<string, (number | null)[]>; side: string; days_held: number; days_in_month?: number } & Record<string, unknown>;
 export type RegionMix = { grid: string; name: string; tz: string; built: string; join: string | null; first: string; upto: string; sources: string[];
-  months: Record<string, MixPeriod>; years: Record<string, MixPeriod>; tables?: string[]; method?: string; license?: string; hourly?: MixHourly };
+  months: Record<string, MixPeriod>; years: Record<string, MixPeriod>; tables?: string[]; method?: string; license?: string; hourly?: MixHourly;
+  /** Session 8610 (the contract's line of 19 November, data request 551): the sources no authority of the region has printed in any held hour since July 2018. Each is null all through the file (its averages, its energy, its share, its hourly array), never zero. */
+  sources_not_printed?: string[] };
+
+/** Session 8610: the sources a region's file names as never printed, as a list of the page's own keys; empty for a file that names none. */
+export function notPrinted(file: Pick<RegionMix, "sources_not_printed"> | null | undefined): string[] {
+  const v = file?.sources_not_printed;
+  return Array.isArray(v) ? v.filter((k): k is string => typeof k === "string" && (MIX_SOURCES as readonly string[]).includes(k)) : [];
+}
+/** Session 8610: a region's file as the net load is computed from it. Net load is demand less wind and solar. Where the
+ *  file names wind or solar as never printed (no authority of the region has reported it since July 2018), there is none
+ *  of it to take from demand, so net load is demand less the one that is reported; an hour of a source that is reported
+ *  and not held still leaves the hour's net load blank. The file itself is not changed: this is a copy whose never
+ *  printed wind or solar averages read zero, for the net load alone. `absent` names what was left out, for the page to say. */
+export function netLoadFile(file: RegionMix): { file: RegionMix; absent: string[] } {
+  const absent = notPrinted(file).filter((k) => k === "wind" || k === "solar");
+  if (!absent.length) return { file, absent };
+  const zero = (p: MixPeriod): MixPeriod => {
+    const avg = { ...p.avg };
+    for (const k of absent) if (avg[k] === null || avg[k] === undefined) avg[k] = Array.from({ length: 24 }, () => 0);
+    return { ...p, avg };
+  };
+  return { file: { ...file, months: Object.fromEntries(Object.entries(file.months).map(([k, p]) => [k, zero(p)])), years: Object.fromEntries(Object.entries(file.years).map(([k, p]) => [k, zero(p)])) }, absent };
+}
+/** Session 8610: why a source's figure is blank, said on hover. A source the file names as never printed says so; any
+ *  other blank says only that the figure is not held for that hour or period. */
+export function whyBlank(label: string, region: string, never: boolean, what = "this hour"): string {
+  return never
+    ? `No balancing authority of ${region} has reported ${label.toLowerCase()} to EIA in any hour held since July 2018, so the region's file holds none. It is blank, not zero.`
+    : `${label} is not held for ${region} in ${what}.`;
+}
 
 /** A region's mix file as the page uses it, or null for anything that is not that file (no months, or no list of sources). */
 export function readMix(v: unknown): RegionMix | null {

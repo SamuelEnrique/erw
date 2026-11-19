@@ -145,10 +145,14 @@ def mix_tab(code, mix, page, t):
         if not row:
             t.same(code, f"{upto}: {label} in the table", False, True)
             continue
-        t.check(code, f"{upto}: {label}, MWh", num(row[2]), p[f"{key}_mwh"], 0.5)
-        t.check(code, f"{upto}: {label}, share, percent (its MWh over the period's net generation)", num(row[1]), None if not total else p[f"{key}_mwh"] / total * 100, 0.056)
+        mwh = p[f"{key}_mwh"]          # None for a source no authority of the region has ever printed: blank on the page, never zero
+        t.check(code, f"{upto}: {label}, MWh", num(row[2]), mwh, 0.5)
+        t.check(code, f"{upto}: {label}, share, percent (its MWh over the period's net generation)", num(row[1]), None if mwh is None or not total else mwh / total * 100, 0.056)
     t.check(code, f"{upto}: net generation, MWh", num(drawn.get("Net generation", ["", "", None])[2]), total, 0.5)
-    shown = [r[0] for r in page["shares_rows"][:-1]]
+    held_labels = {label for key, label in SOURCES if p.get(f"{key}_mwh") is not None}
+    blank = [r[0] for r in page["shares_rows"][:-1] if r[0] not in held_labels]
+    t.same(code, f"{upto}: the sources the period holds as blank stand after the others", [r[0] for r in page["shares_rows"][:-1]][len(page["shares_rows"]) - 1 - len(blank):], blank)
+    shown = [r[0] for r in page["shares_rows"][:-1] if r[0] in held_labels]
     by_share = sorted(shown, key=lambda label: -float(p.get(next(k for k, lab in SOURCES if lab == label) + "_share_pct", 0)))
     t.same(code, f"{upto}: the table's order is by share, largest first", [float(p.get(next(k for k, lab in SOURCES if lab == label) + "_share_pct", 0)) for label in shown],
            [float(p.get(next(k for k, lab in SOURCES if lab == label) + "_share_pct", 0)) for label in by_share])
@@ -165,9 +169,15 @@ def mix_tab(code, mix, page, t):
     # one calendar month across the years
     cal = upto[5:]
     years = []
+    # a source the file names as never printed (no authority of the region has reported it since July 2018) is not there
+    # to take from demand: net load is then demand less the one that is reported, and the page says so under the table
+    never = [k for k in (mix.get("sources_not_printed") or []) if k in ("wind", "solar")]
+    t.same(code, "net load: the sources left out because no authority has ever reported them", page.get("net_load_without"), ",".join(never) if never else None)
     for k in sorted(m for m in mix["months"] if MONTH.match(m) and m[5:] == cal):
         avg = mix["months"][k]["avg"]
-        d, w, s = avg.get("demand") or [], avg.get("wind") or [], avg.get("solar") or []
+        d = avg.get("demand") or []
+        w = [0.0] * 24 if "wind" in never and avg.get("wind") is None else (avg.get("wind") or [])
+        s = [0.0] * 24 if "solar" in never and avg.get("solar") is None else (avg.get("solar") or [])
         net = [None if h >= len(d) or h >= len(w) or h >= len(s) or d[h] is None or w[h] is None or s[h] is None else round(d[h] - w[h] - s[h], 1) for h in range(24)]
 
         def best(a, b, lower):
