@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ba_co2_intensity, region ba_isne (ISO New England (ISNE, EIA-930 balancing authority))
+# Computed 2026-11-19T11:43:43Z by warehouse/analysis/findings/deep/authorities.py (ba_co2_intensity); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the CO2 its generators emitted per MWh they generated (kg CO2 per MWh), the observations it rests on, and whether the year is full
+# Tables: eia930_all_emissions, eia930_ba_supply_hourly
+region,year,value,n_observations,full_year
+ba_isne,2018,232.90617499643668,4392.0,0
+ba_isne,2019,206.85108424406835,8760.0,1
+ba_isne,2020,216.58808990253053,8784.0,1
+ba_isne,2021,226.21825986671894,8760.0,1
+ba_isne,2022,232.60330767210036,8760.0,1
+ba_isne,2023,231.84842593735144,8760.0,1
+ba_isne,2024,232.99010245574095,8784.0,1
+ba_isne,2025,235.54680914153036,8760.0,1
+ba_isne,2026,230.1825303440364,7584.0,0

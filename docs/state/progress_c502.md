@@ -9,7 +9,7 @@ Chain file: `queue/done/502-day-19-november-desktop-window2-findings-industry.md
 - Part A, family 2, the six regions: done, 27 drafts in `docs/findings/regions/`, 27 of 27 reproduce, loaded; code `wip/8202-findings` (53dd21ebe); session 8202.
 - Part A, family 3, demand against temperature: done, 15 drafts in `docs/findings/weather/`, 15 of 15 reproduce, loaded; code `wip/8202-findings` (11ca02472); session 8203.
 - Part A, family 4, the nine events: done, 30 drafts in `docs/findings/events/`, 30 of 30 reproduce, loaded; code `wip/8202-findings`; session 8204.
-- Part A, family 5, balancing authorities: not started.
+- Part A, family 5, balancing authorities: done, 19 drafts in `docs/findings/authorities/`, 19 of 19 reproduce, loaded; code `wip/8202-findings` (1dac16e73); two duplicates of chain 164 (scan-deep-52399852db2c, scan-deep-31425ae0f32b) wait for Samuel; session 8205.
 - Part A, family 6, large loads: not started.
 - Part A, family 7, the rest: not started.
 - Part B, energy use by industry: waiting (`site/data/industry.json` not on main at session 8200).
