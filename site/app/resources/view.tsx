@@ -2,6 +2,7 @@ import { ToolHeader } from "@/components/tool/ToolPage";
 import { DOCS, render } from "@/lib/markdown";
 import { filesOf, pyramidsOf, toggleGroups, KX, MIN_CELL_PX, QUEUE_GRIDS, type Layer } from "@/lib/resources";
 import { readManifest } from "@/lib/resourcesdata";
+import { ResourceDecisions } from "./Decisions";
 import { ResourceMap } from "./ResourceMap";
 
 // Session 146: "Where the resources are" (/resources, in review), under Projects. The project map shows what is built;
@@ -71,6 +72,8 @@ export function ResourcesView() {
       <ToolHeader title="Where the resources are"
         lead={<>The project map shows what is built; this shows the natural resource itself: switch a layer on and point at the map for the value there.</>} />
       <ResourceMap layers={layers} groups={groups} manifestReason={reason} />
+      {/* session 8603: the choices that move what the map shows, each with its default and its source on hover */}
+      <ResourceDecisions />
 
       <details className="mt-8 border-y border-rule py-2" data-method-note="1">
         <summary className="cursor-pointer font-serif text-lg text-accent">Method note</summary>

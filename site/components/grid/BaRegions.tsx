@@ -5,7 +5,7 @@
 // always had. With no index on the server the value is undefined, and the panel and the hover are as they were.
 import { createContext, useContext, type ReactNode } from "react";
 
-export type BaRegionsMap = Record<string, { code: string; name: string }>;
+export type BaRegionsMap = Record<string, { code: string; name: string; /** session 8604: the authority's time zone, for the panel's local time */ tz?: string }>;
 const BaRegionsContext = createContext<BaRegionsMap | undefined>(undefined);
 
 export function BaRegions({ value, children }: { value: BaRegionsMap | undefined; children: ReactNode }) {

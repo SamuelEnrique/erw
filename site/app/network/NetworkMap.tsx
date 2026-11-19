@@ -23,7 +23,7 @@
 // - The map is moved and zoomed: the wheel, two fingers, a drag once it is zoomed, and three buttons.
 // - A tie answers along its own line: the hover takes the nearest line to the pointer (lib/networkMap.ts nearestLine),
 //   so a short tie is not hidden under a long one; under a finger, which has no hover, a tap on a tie shows it.
-import { geoAlbersUsa } from "d3-geo";
+import { geoAlbersUsa, geoContains, geoPath, type GeoPermissibleObjects } from "d3-geo";
 import { useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from "react";
 import { MAP_HOME, MAP_ZOOM, arcPath, batteryFill, clampMapView, derivedLabel, flowTip, flowWidth, nearestLine, onTheLine, readBoundaries, readGeoBoundaries, ringPath, whole, zoomMapAt, type Held, type MapView } from "@/lib/networkMap";
 
@@ -40,9 +40,13 @@ export type MapFlow = { source: string; target: string; mw: number; a: string; b
 /** Session 8601: a grid's figures for the frame shown, from the network's own view (the panel's numbers). */
 export type MapFigures = { intensity: number | null; /** the intensity as the panel writes it for this view (two decimals in the live week, whole in a story or a day) */ intensityShown?: string; demand: number | null; /** the sum of its ties, positive when it imports; null when no tie reported */ net: number | null; ties: number; /** session 8602: the EIA region the grid is in, when the whole country's index is held */ region?: string };
 /** Session 8601: the frame shown, in the words of the slider's own line, and the tables its figures come from. */
-export type MapFrame = { when: string; unit: "hour" | "day"; tables: string };
+export type MapFrame = { when: string; unit: "hour" | "day"; tables: string; /** session 8604: the one table a tie's megawatts come from */ flowTable?: string };
 
-type Hover = { kind: "region" | "listed" | "flow"; id: string; x: number; y: number; right: boolean; low: boolean };
+type Hover = { kind: "region" | "listed" | "flow"; id: string; x: number; y: number; right: boolean; low: boolean;
+  /** session 8604 (the reader's read, rows 8 and 9): the other regions whose shapes hold the point under the pointer, and the state there */
+  also?: string[]; state?: string };
+/** Session 8604: a state's outline, for the thin lines that let a reader find a place, and for the state a hover names. */
+type StateShape = { name: string; d: string; feature: GeoPermissibleObjects };
 
 export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onPick, frame, figures, battery, sideOf }: {
   nodes: MapNode[]; flows: MapFlow[]; maxMw: number;
@@ -68,6 +72,20 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
   const pinch = useRef<{ d: number; from: MapView; px: number; py: number } | null>(null);
   const dragged = useRef(false);
   const finger = useRef(false);   // the last press was a finger's: a tap on a tie shows the tie
+  // session 8604 (the reader's read, row 9): the states' outlines (us-atlas, the Census Bureau's cartographic boundaries,
+  // the file the project map draws), read with the map and drawn as thin lines over the regions: nothing else on the map
+  // says where a place is. Without them (the read failed) the map is as it was.
+  const [states, setStates] = useState<StateShape[]>([]);
+  useEffect(() => {
+    let alive = true;
+    Promise.all([import("us-atlas/states-10m.json"), import("topojson-client")]).then(([topo, tj]) => {
+      const t0 = (topo as unknown as { default: { objects: { states: unknown } } }).default;
+      const fc = tj.feature(t0 as never, t0.objects.states as never) as unknown as { features: (GeoPermissibleObjects & { properties: { name: string } })[] };
+      const path = geoPath(projection);
+      if (alive) setStates(fc.features.map((f) => ({ name: f.properties.name, d: path(f) ?? "", feature: f })).filter((s) => s.d));
+    }).catch(() => { /* no lines, no state named: the regions and their figures are whole without them */ });
+    return () => { alive = false; };
+  }, []);
   const [px, setPx] = useState(W / 748);   // the drawing's units to a screen pixel; the frame's own once it is measured
   useEffect(() => {
     const el = svg.current;
@@ -149,6 +167,14 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
     return { kind, id, x: e.clientX - b.left, y: e.clientY - b.top, right: e.clientX - b.left > b.width / 2, low: e.clientY - b.top > b.height / 2 };
   };
   const moving = () => ptrs.current.size > 0 && dragged.current;
+  // session 8604: what else lies under the pointer: the other regions whose shapes hold the point (published footprints
+  // overlap: at Phoenix three lie on one another, and the map shows the top one), and the state there
+  const under = (e: { clientX: number; clientY: number }, id: string): { also: string[]; state?: string } => {
+    const also = [...new Set(document.elementsFromPoint(e.clientX, e.clientY).map((el) => el.getAttribute?.("data-region")).filter((x): x is string => !!x && x !== id))];
+    const [bx, by] = toBox(e.clientX, e.clientY);
+    const at = projection.invert?.([(bx - t.x) / t.k, (by - t.y) / t.k]) ?? null;
+    return { also, state: at ? states.find((s) => geoContains(s.feature, at))?.name : undefined };
+  };
   // the tie under the pointer: the nearest line within reach (half its width, and four screen pixels for a mouse, twelve for a finger)
   const flowAt = (e: { clientX: number; clientY: number }, reach: number): MapFlow | null => {
     const m = svg.current?.getScreenCTM();
@@ -213,7 +239,7 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
       if (!f) return null;
       const tip = flowTip({ from: f.source, to: f.target, fromName: names.get(f.source) ?? f.source, toName: names.get(f.target) ?? f.target, mw: f.mw, when: frame?.when ?? "", unit,
         a: f.a, b: f.b, aName: names.get(f.a) ?? f.a, bName: names.get(f.b) ?? f.b, side: sideOf ? sideOf(f.a, f.b) : null });
-      return { attr: { "data-map-flow-hover": `${f.source}>${f.target}`, "data-mw": String(f.mw) }, head: tip.head, lines: tip.lines.filter(Boolean), source: frame?.tables ?? "" };
+      return { attr: { "data-map-flow-hover": `${f.source}>${f.target}`, "data-mw": String(f.mw) }, head: tip.head, lines: tip.lines.filter(Boolean), source: frame?.flowTable ?? frame?.tables ?? "" };
     }
     const fig = figures?.(hover.id);
     const lines: string[] = [];
@@ -223,6 +249,8 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
       lines.push(fig.net !== null && fig.ties ? `Net ${fig.net >= 0 ? "imports" : "exports"}: ${whole(Math.abs(fig.net))} MW over ${fig.ties} tie${fig.ties === 1 ? "" : "s"}` : `No tie reported this ${unit}`);
       if (battery) { const b = battery(hover.id); lines.push(`Batteries: ${!b ? "not reported for this period" : b.mw === null ? `not reported for this ${unit}` : b.mw >= 0 ? `discharging ${whole(b.mw)} MW` : `charging ${whole(-b.mw)} MW`}`); }
       if (fig.region) lines.push(`EIA region: ${fig.region}`);
+      if (hover.state) lines.push(`State under the pointer: ${hover.state}`);
+      if (hover.also?.length) lines.push(`Also covers this point: ${hover.also.map((id) => names.get(id) ?? id).join("; ")}`);
       if (hover.kind === "listed") lines.push("No boundary in the file: its ties are drawn in the Network view.");
       if (frame) lines.push(frame.when);
     }
@@ -261,11 +289,17 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
               <path key={r.id} d={r.d} fillRule="evenodd" fill={fill} fillOpacity={dim ? 0.22 : 0.9} stroke={pick === r.id ? "var(--color-ink)" : "var(--color-panel)"} strokeWidth={(pick === r.id ? 1.6 : 0.6) * u}
                 data-region={r.id} data-fill={fill} data-dim={dim ? "1" : "0"} className="erw-region cursor-pointer" tabIndex={0} role="button" aria-label={names.get(r.id)}
                 onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onPick(r.id); } }}
-                onPointerMove={(e) => { if (!moving()) setHover(place(e, "region", r.id)); }}
+                onPointerMove={(e) => { if (!moving()) setHover({ ...place(e, "region", r.id), ...under(e, r.id) }); }}
                 onPointerLeave={() => setHover(null)} onFocus={() => setHover({ kind: "region", id: r.id, x: -1, y: -1, right: false, low: false })} onBlur={() => setHover(null)} />
             );
           })}
         </g>
+        {/* session 8604: the states' outlines, thin, over the regions and under the ties: they answer no pointer and name nothing (names are on hover only) */}
+        {states.length ? (
+          <g pointerEvents="none" fill="none" stroke="var(--color-ink)" strokeOpacity={0.3} strokeWidth={0.5 * u} strokeLinejoin="round" data-state-lines={states.length}>
+            {states.map((s) => <path key={s.name} d={s.d} data-state-line={s.name} />)}
+          </g>
+        ) : null}
         <g pointerEvents="none" fill="none">
           {drawnFlows.map((f) => {
             const s = at.get(f.source) as [number, number], e = at.get(f.target) as [number, number];

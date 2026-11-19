@@ -196,9 +196,10 @@ export const whole = (v: number) => (Math.round(v) === 0 ? 0 : Math.round(v)).to
 /** The words of a tie's hover: both names, the megawatts, the frame shown, and which side reported it. */
 export function flowTip(f: { from: string; to: string; fromName: string; toName: string; mw: number; when: string; unit: "hour" | "day";
   /** the pair as the file holds it: `a` sorts first */ a: string; b: string; aName: string; bName: string; side: "first" | "second" | null }): { head: string; lines: string[] } {
-  const said = f.side === "first" ? `Reported by ${f.aName} (${f.a}).`
-    : f.side === "second" ? `Reported by ${f.bName} (${f.b}): ${f.aName} (${f.a}) filed nothing for this ${f.unit}.`
-      : `Reported by ${f.aName} (${f.a}), the first of the two by code; where it filed nothing for this ${f.unit}, by ${f.bName} (${f.b}). The file does not mark which.`;
+  // session 8604 (the reader's read, row 2): the two names stand once, in the head; the line on who reported uses the codes
+  const said = f.side === "first" ? `Reported by ${f.a}.`
+    : f.side === "second" ? `Reported by ${f.b}: ${f.a} filed nothing for this ${f.unit}.`
+      : `Reported by ${f.a}, the first of the two by code; where ${f.a} filed nothing for this ${f.unit}, by ${f.b}. The file does not mark which.`;
   return { head: `${f.fromName} (${f.from}) to ${f.toName} (${f.to})`, lines: [`${whole(f.mw)} MW${f.unit === "day" ? " on average over the day" : ""}`, f.when, said] };
 }
 

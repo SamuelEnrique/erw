@@ -51,7 +51,7 @@ check(insidePoint([[[0, 0], [4, 0], [4, 4], [0, 4], [0, 0]]])?.join() === "2,2" 
 const tip = (side, unit = "hour") => flowTip({ from: "ERCO", to: "SWPP", fromName: "ERCOT", toName: "Southwest Power Pool", mw: 219.6, when: "2026-11-17 04:00 UTC", unit, a: "ERCO", b: "SWPP", aName: "ERCOT", bName: "Southwest Power Pool", side });
 check(tip(null).head === "ERCOT (ERCO) to Southwest Power Pool (SWPP)" && tip(null).lines[0] === "220 MW" && tip(null).lines[1] === "2026-11-17 04:00 UTC" && /The file does not mark which\.$/.test(tip(null).lines[2]),
   "a tie's hover: both names, the megawatts, the hour, and the rule when the file does not mark the side");
-check(tip("first").lines[2] === "Reported by ERCOT (ERCO)." && tip("second").lines[2] === "Reported by Southwest Power Pool (SWPP): ERCOT (ERCO) filed nothing for this hour." && tip(null, "day").lines[0] === "220 MW on average over the day",
+check(tip("first").lines[2] === "Reported by ERCO." && tip("second").lines[2] === "Reported by SWPP: ERCO filed nothing for this hour." && tip(null, "day").lines[0] === "220 MW on average over the day" && !/Southwest Power Pool/.test(tip(null).lines[2]),
   "a tie's hover names the side that reported it when the file marks it, and a day's megawatts are an average");
 check(reportedBy(undefined, 3) === null && reportedBy([3], 3) === "second" && reportedBy([2], 3) === "first", "which side reported: unknown without the file's mark, the second side in a marked frame, the first otherwise");
 const lines = [{ from: [0, 0], to: [100, 0] }, { from: [40, 1], to: [60, 1] }, { from: [0, 50], to: [0, 60] }];
@@ -181,7 +181,25 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
   const nameOf = await evaluate(`Object.fromEntries([...document.querySelectorAll('[data-region]')].map((e) => [e.getAttribute('data-region'), e.getAttribute('aria-label')]))`);
   check(fh.id === big[0] && fh.mw === big[1] && fh.text.includes(`${nameOf[from]} (${from}) to ${nameOf[to]} (${to})`) && fh.text.includes(`${whole(big[1])} MW`) && fh.text.includes(t0.slice(0, 13).replace("T", " ")) && /Reported by /.test(fh.text),
     `a tie's hover gives both names, the megawatts, the hour and who reported it (${fh.text.replace(/\n/g, " | ")})`);
+  // session 8604 (the reader's read, rows 1 and 2): a tie's megawatts come from the interchange table alone, and its two long names stand once
+  const src = await evaluate(`document.querySelector('[data-map-flow-hover] [data-map-hover-source]')?.innerText ?? ''`);
+  check(src === "Tables: eia930_all_interchange" && fh.text.split(nameOf[from]).length === 2 && fh.text.split(nameOf[to]).length === 2, `the tie's hover names the one table its megawatts come from (${src}) and each of its two names once`);
   await shot("map_1280_hover_flow.png");
+  await mouse("mouseMoved", { x: 5, y: 5 });
+  // session 8604 (rows 8 and 9): the states' lines, the state under the pointer, and the other footprints that hold the point
+  const lines = await evaluate(`document.querySelectorAll('[data-state-line]').length`);
+  check(lines >= 49, `the states' outlines are drawn over the regions (${lines}), so a place can be found`);
+  const deep = await evaluate(`(() => { const svg = document.querySelector('[data-map-state] svg').getBoundingClientRect(); let best = null;
+    for (let i = 2; i < 48; i += 1) for (let j = 2; j < 30; j += 1) { const x = svg.left + (svg.width * i) / 50, y = svg.top + (svg.height * j) / 32; const ids = document.elementsFromPoint(x, y).map((e) => e.getAttribute && e.getAttribute('data-region')).filter(Boolean); if (!best || ids.length > best.ids.length) best = { x, y, ids }; }
+    return best; })()`);
+  await mouse("mouseMoved", { x: deep.x, y: deep.y });
+  await sleep(300);
+  const ov = await evaluate(`document.querySelector('[data-map-hover]')?.innerText ?? null`);
+  if (ov) {
+    check(/State under the pointer: [A-Z]/.test(ov), `a region's hover names the state under the pointer (${(ov.match(/State under the pointer: [^\\n]+/) || ["none"])[0]})`);
+    if (deep.ids.length > 1) check(deep.ids.slice(1).every((id) => ov.includes(nameOf[id])) && /Also covers this point: /.test(ov), `where ${deep.ids.length} footprints lie on one another the hover names the others (${deep.ids.join(", ")})`);
+    else console.log("     no two regions of this boundary file overlap: the line on overlapping footprints is not proven here");
+  } else console.log("     the deepest point was under a tie: the state and the overlap lines are not proven here");
   await mouse("mouseMoved", { x: 5, y: 5 });
 
   // batteries on the map: "California's evening" turns the switch on over a whole Pacific day; the hours are stepped until one reports a battery
@@ -195,11 +213,15 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
     rings = await evaluate(RINGS);
     if (!rings) { await evaluate(`(() => { const el = document.querySelector('input[type="range"]'); if (Number(el.value) >= Number(el.max)) return false; Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(el, String(Number(el.value) + 1)); el.dispatchEvent(new Event('input', { bubbles: true })); return true; })()`); await sleep(120); }
   }
+  // session 8604 (row 4): the story shows the newest whole Pacific day for which California's batteries are reported, and says which newer day it passed over
+  const ev = await evaluate(`({ title: document.querySelector('[data-network-view]').innerText.replace(/\\s+/g, ' ').slice(0, 260), first: document.querySelectorAll('[data-battery-ring]').length })`);
+  console.log(`     ${ev.title}`);
   const sw = await evaluate(`(() => { const b = [...document.querySelectorAll('button[role="switch"]')].find((x) => x.innerText.startsWith('Batteries')); const s = getComputedStyle(b); return { text: b.innerText.trim(), color: s.color, ground: s.backgroundColor, on: b.getAttribute('aria-checked') }; })()`);
   check(sw.on === "true" && sw.text === "Batteries: on" && sw.color !== sw.ground, `the switch that is on can be read: its label is ${sw.color} on ${sw.ground} (it was ink on ink under the brand's button rule)`);
   const switchOn = await evaluate(`document.querySelector('button[role="switch"]').getAttribute('aria-checked') === 'true' && !!document.querySelector('[data-map-batteries]')`);
   if (!rings) console.log(`     not proven here: the live week holds no hour of that day with a battery reported (the switch is ${switchOn ? "on and the map's layer is there" : "off"})`);
   else {
+    check(ev.first > 0, `the story opens on a day whose batteries are reported, from its first hour (${ev.first} rings there), not on a newer day that holds none`);
     check(switchOn && rings.every((r) => regionIds.has(r[0]) && r[2] >= 0.02 && r[2] <= 1) && (await evaluate(`document.querySelector('[data-map-key]').innerText.includes('Ring: batteries reported')`)),
       `the Batteries switch draws a ring on the map for each grid whose batteries are reported in the hour (${rings.map((r) => `${r[0]} ${whole(r[1])} MW, ring ${Math.round(r[2] * 100)} percent full`).join(", ")}), and the key says what the ring is`);
     await evaluate(TOP);

@@ -5,6 +5,7 @@ aeso_alberta_load_hourly,"Alberta Electric System Operator (AESO), Canada",the s
 afdc_ev_charging_state_annual,U.S. Department of Energy (DOE),the source registry
 afdc_station_counts_annual,U.S. Department of Energy (DOE),the source registry
 afdc_vehicle_registrations_annual,U.S. Department of Energy (DOE),the source registry
+ai_energy_published,ERW,the source registry
 ai_power_regions,Berkeley Lab; CAISO; EIA; ERCOT; ISO-NE; MISO; NOAA NCEI; NYISO; SPP,"the source registry and the tables its header derives it from: caiso_grid_emergencies, caiso_interconnection_queue, carbon_intensity_daily, cost_of_power_monthly, eia930_all_demand, eia930_daily_interchange, ercot_all_hub_prices_history, ercot_interconnection_queue, event_study_estimates, iso_hub_prices_history, isone_interconnection_queue, lbnl_interconnection_queue, miso_interconnection_queue, nyiso_interconnection_queue, spp_interconnection_queue"
 amm_guatemala_generation_monthly,"Administrador del Mercado Mayorista (AMM), Guatemala",the source registry
 aneel_siga_plants,Agencia Nacional de Energia Eletrica (ANEEL),the source registry
@@ -609,6 +610,7 @@ pse_poland_balance_15min,PSE S.A. (Polskie Sieci Elektroenergetyczne),the source
 ree_spain_balance_monthly,Red Electrica (REE),the source registry
 region_weather_hourly,ERW,the source registry
 ren_portugal_balance_annual,REN (Redes Energeticas Nacionais),the source registry
+resource_layer_features,"EIA; National Laboratory of the Rockies (NLR, formerly NREL); Oak Ridge National Laboratory (ORNL), HydroSource; U.S. Geological Survey (USGS)",the source registry
 rggi_auction_allowance_prices,RGGI,the source registry
 rrc_lease_production_monthly,RRC,the source registry
 rte_eco2mix_france_halfhourly,RTE (Reseau de Transport d'Electricite),the source registry

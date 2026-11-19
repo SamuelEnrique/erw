@@ -72,11 +72,25 @@ class RegionRule(unittest.TestCase):
         got = dict(zip(rows["variable"], rows["value"]))
         self.assertEqual(got["net_generation_storage_mw"], -10.0)
 
-    def test_small_authority_within_one_mw(self):
-        d = frame([dict(ba="A", region="NW", ts="2025-07-01T20:00Z", ng=2.0, wind=1.2)])
+    def test_the_rule_is_the_regions_not_each_authoritys(self):
+        # session 8009: a small authority a few megawatts off its own net generation no longer leaves its region out
+        d = frame([dict(ba="A", region="NW", ts="2025-07-01T20:00Z", ng=1000.0, hydro=1000.0),
+                   dict(ba="B", region="NW", ts="2025-07-01T20:00Z", ng=2.0, wind=1.2)])
         rows, short = fuel.region_rows(d, "t", None, None)
         self.assertEqual(short, 0)
-        self.assertTrue(len(rows))
+        self.assertEqual(dict(zip(rows["variable"], rows["value"]))["net_generation_hydro_mw"], 1000.0)
+
+    def test_the_mid_atlantic_takes_pjms_tolerance(self):
+        rows_hours = [dict(ba="PJM", region=r, ts="2025-07-01T20:00Z", ng=100.0, natural_gas=90.0) for r in ("MIDA", "TEN")]
+        rows, short = fuel.region_rows(frame(rows_hours), "t", None, None)
+        self.assertEqual(short, 1)                                   # 10 percent off: held in the Mid-Atlantic only
+        self.assertEqual(set(rows["entity"]), {"eia930:MIDA"})
+
+    def test_an_authority_without_net_generation_leaves_the_hour_out(self):
+        d = frame([dict(ba="A", region="SE", ts="2025-07-01T20:00Z", ng=100.0, coal=100.0),
+                   dict(ba="B", region="SE", ts="2025-07-01T20:00Z", ng=None, coal=5.0)])
+        rows, short = fuel.region_rows(d, "t", None, None)
+        self.assertEqual((short, len(rows)), (1, 0))
 
 
 def ref_of(**kw):
@@ -147,6 +161,22 @@ class EventBaseline(unittest.TestCase):
         # Eastern midnight of the first day to Pacific midnight after the last: 24 + 3 hours
         self.assertEqual(doc["hours"]["n"], 27)
 
+    def test_each_sides_report_beside_the_flow(self):
+        # session 8010 (data request 545): flow_mw_a and flow_mw_b beside flow_mw when the pair carries both sides
+        e = dict(event="x", title="x", start="2025-01-20", end="2025-01-20", baseline="b", years_back=None, offsets=[364])
+        idx = pd.date_range("2024-01-01T00:00Z", "2025-02-01T00:00Z", freq="h")
+        a, b = pd.Series(10.0, index=idx), pd.Series(12.0, index=idx)
+        keys = {"demand_mw": a, "net_generation_mw": a, "net_imports_mw": a, "gen": {k: a for k in rp.SOURCES}}
+        doc = rp.event_doc(e, {"TEN": keys}, {"CAR-SE": (a, a, b)})
+        p = doc["pairs"]["CAR-SE"]
+        self.assertEqual((p["flow_mw"][0], p["flow_mw_a"][0], p["flow_mw_b"][0]), (10, 10, 12))
+
+    def test_weather_coverage_counts_each_local_year(self):
+        idx = pd.date_range("2024-01-01T06:00Z", periods=48, freq="h")
+        cov = rp.weather_coverage(pd.DataFrame({"temperature_f": 50.0}, index=idx), "America/Chicago")
+        self.assertEqual(cov["2024"]["hours_held"], 48)
+        self.assertEqual(cov["2024"]["hours_in_year"], 8784)
+
 
 @unittest.skipUnless(os.path.exists(os.path.join(SITE, "index.json")), "the page files are written on the data machine")
 class Contract(unittest.TestCase):
@@ -163,6 +193,14 @@ class Contract(unittest.TestCase):
         for m in ("2019-03", "2024-01", "2025-08"):
             for s in ("natural_gas", "coal", "nuclear", "wind", "solar"):
                 self.assertAlmostEqual(a["months"][m][f"{s}_share_pct"], b["months"][m][f"{s}_share_pct"], places=2, msg=(m, s))
+
+    def test_a_source_never_printed_is_blank(self):
+        # session 8011 (data request 551): Florida prints no wind; its wind is null, not 0 MW
+        d = json.load(open(os.path.join(SITE, "mix", "fla.json"), encoding="utf-8"))
+        if "wind" in d.get("sources_not_printed", []):
+            m = sorted(d["months"])[-1]
+            self.assertIsNone(d["months"][m]["wind_mwh"])
+            self.assertEqual(set(d["months"][m]["avg"]["wind"]), {None})
 
     def test_every_region_has_its_files(self):
         for r in rp.REGIONS:

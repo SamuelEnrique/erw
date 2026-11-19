@@ -184,9 +184,10 @@ class TheHoversTheRingAndTheZoom(unittest.TestCase):
                    "console.log(JSON.stringify([t(null, 'hour'), t('first', 'hour').lines[2], t('second', 'day').lines, reportedBy(undefined, 3), reportedBy([3], 3), reportedBy([2], 3)]));")
         self.assertEqual(got[0]["head"], "ERCOT (ERCO) to Southwest Power Pool (SWPP)")
         self.assertEqual(got[0]["lines"][:2], ["220 MW", "2026-11-17 04:00 UTC"])
-        self.assertEqual(got[0]["lines"][2], "Reported by ERCOT (ERCO), the first of the two by code; where it filed nothing for this hour, by Southwest Power Pool (SWPP). The file does not mark which.")
-        self.assertEqual(got[1], "Reported by ERCOT (ERCO).")
-        self.assertEqual(got[2], ["220 MW on average over the day", "2026-11-17 04:00 UTC", "Reported by Southwest Power Pool (SWPP): ERCOT (ERCO) filed nothing for this day."])
+        # session 8604 (the reader's read, row 2): the names stand once, in the head; who reported is said by code
+        self.assertEqual(got[0]["lines"][2], "Reported by ERCO, the first of the two by code; where ERCO filed nothing for this hour, by SWPP. The file does not mark which.")
+        self.assertEqual(got[1], "Reported by ERCO.")
+        self.assertEqual(got[2], ["220 MW on average over the day", "2026-11-17 04:00 UTC", "Reported by SWPP: ERCO filed nothing for this day."])
         self.assertEqual(got[3:], [None, "second", "first"])
 
     def test_the_batteries_ring_is_the_networks_rule(self):

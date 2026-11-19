@@ -88,7 +88,103 @@ def _measure(var, k):
     return fn
 
 
+# session 8222: the same question at a utility, its retail sales (EIA-861M, every state it serves summed) against the net
+# energy its own FERC 714 filing forecast; the respondent's EIA code is the 861M utility number; a utility with a state of
+# retail or community choice is not read (utilities861.CHOICE), nor one that sold under 10 TWh in 2025
+MIN_UTIL_TWH = 10.0
+
+
+def util_pairs(in_dir):
+    def build():
+        import utilities861
+        r = h.read("ferc714_respondents", in_dir, ["entity_id", "name", "eia_code"], [])
+        s = h.read("eia861m_utility_sales_monthly", in_dir, ["entity", "ts_utc", "value", "x_utility_number", "x_state", "variable"], ["value"],
+                   keep=lambda c: c["variable"] == "total_sales")
+        s = s.dropna(subset=["value"])
+        s["year"] = s["ts_utc"].str[:4].astype(int)
+        g = s.groupby(["x_utility_number", "x_state", "year"])["value"].agg(["sum", "size"]).reset_index()
+        out = {}
+        for num, x in g.groupby("x_utility_number"):
+            if set(x["x_state"]) & utilities861.CHOICE:
+                continue
+            states = sorted(set(x["x_state"]))
+            yearly = {}
+            for y, z in x.groupby("year"):
+                if len(z) == len(states) and (z["size"] == 12).all():
+                    yearly[int(y)] = float(z["sum"].sum())
+            if yearly.get(2025, 0) < MIN_UTIL_TWH * 1e6:
+                continue
+            resp = r[r["eia_code"] == num]
+            if len(resp) != 1:
+                continue
+            nm = resp["name"].iloc[0]
+            out[num] = {"pa": resp["entity_id"].iloc[0].split(":")[1], "name": nm.title() if nm.isupper() else nm, "states": states, "sales": yearly}
+        return out
+    return hm._cached(("c502_utilpairs", in_dir), build)
+
+
+def _util_measure(k):
+    def fn(in_dir=None):
+        pairs = util_pairs(in_dir)
+        fc = forecast_util(in_dir, k)
+        rows, tabs = [], {}
+        for num, p in pairs.items():
+            key = f"xu{k}_{num}"
+            for y in range(2019, 2026):
+                fv, av = fc.get((f"ferc714:{p['pa']}", y)), p["sales"].get(y)
+                if fv is None or av is None or fv <= 0 or not (0.5 <= av / fv <= 2.0):
+                    continue
+                rows.append(hm._row(key, f"{p['name']} (EIA utility {num}, FERC 714 planning area {p['pa']}; {', '.join(p['states'])})", y, float((av / fv - 1) * 100), 1))
+            tabs[key] = ["eia861m_utility_sales_monthly", "ferc714_planning_area_forecasts"]
+        return {"rows": rows, "tables": tabs}
+    return fn
+
+
+def forecast_util(in_dir, k):
+    f = ferc714.forecasts(in_dir)
+    f = f[(f["variable"] == "net_energy_forecast_mwh") & (f["fy"] - f["ry"] == k)]
+    return f.groupby(["entity", "fy"])["value"].first()
+
+
+def reproduce_util_py(name, region):
+    k, num = int(name.split("_")[-1][:-1]), region.split("_", 1)[1]
+    import utilities861  # noqa: F401
+    p = util_pairs(CTX.get("in_dir") or common.DEFAULT_IN_DIR)[num]
+    body = (f"s = read(sys.argv[1], ['ts_utc', 'value', 'x_utility_number', 'x_state', 'variable'])\ns = s[(s['variable'] == 'total_sales') & (s['x_utility_number'] == '{num}')].copy()\n"
+            "s['value'] = pd.to_numeric(s['value'], errors='coerce')\ns = s.dropna(subset=['value'])\ns['year'] = s['ts_utc'].str[:4].astype(int)\n"
+            f"states = {p['states']!r}\ng = s.groupby(['x_state', 'year'])['value'].agg(['sum', 'size']).reset_index()\nact = {{}}\n"
+            "for y, z in g.groupby('year'):\n    if len(z) == len(states) and (z['size'] == 12).all():\n        act[y] = z['sum'].sum()\n"
+            f"f = read(sys.argv[2], ['entity', 'variable', 'ts_utc', 'value', 'x_report_year'])\nf = f[(f['entity'] == 'ferc714:{p['pa']}') & (f['variable'] == 'net_energy_forecast_mwh')].copy()\n"
+            "f['value'] = pd.to_numeric(f['value'], errors='coerce')\nf['ry'] = pd.to_numeric(f['x_report_year'], errors='coerce')\nf = f.dropna(subset=['value', 'ry'])\n"
+            "f['fy'] = f['ts_utc'].str[:4].astype(int)\nf = f.drop_duplicates(['fy', 'ry'])\n"
+            f"fc = f[f['fy'] - f['ry'] == {k}].groupby('fy')['value'].first()\n"
+            "for y in range(2019, 2026):\n    if y in act and y in fc.index and fc[y] > 0 and 0.5 <= act[y] / fc[y] <= 2.0:\n        print(y, round(float((act[y] / fc[y] - 1) * 100), 6), 1)\n")
+    what = (f"For each year 2019 to 2025: utility {num}'s retail sales (EIA-861M, {', '.join(p['states'])} summed, years with all twelve months in every state) against "
+            f"the net energy planning area {p['pa']}'s filing of {k} years before forecast for it, percent.")
+    return h.py_doc(name, region, ["eia861m_utility_sales_monthly", "ferc714_planning_area_forecasts"], what) + h.PY_READ + body
+
+
+def reproduce_util_do(name, region):
+    k, num = int(name.split("_")[-1][:-1]), region.split("_", 1)[1]
+    p = util_pairs(CTX.get("in_dir") or common.DEFAULT_IN_DIR)[num]
+    lines = [f"* ERW findings hunt (chain {builder.CHAIN}): reproduce candidate {name} for {region} from the ERW's public tables (eia861m_utility_sales_monthly, ferc714_planning_area_forecasts).",
+             "* Input: the tables' CSVs as the public download holds them (Redivis: the variable names on the first line). From the ERW's own files, delete the lines that begin with # first.",
+             "clear all", 'import delimited "ferc714_planning_area_forecasts.csv", varnames(1) stringcols(_all) clear',
+             f'keep if entity == "ferc714:{p["pa"]}" & variable == "net_energy_forecast_mwh"', "destring value x_report_year, replace force",
+             "drop if missing(value) | missing(x_report_year)", "generate int year = real(substr(ts_utc, 1, 4))", "duplicates drop year x_report_year, force",
+             f"keep if year - x_report_year == {k}", "collapse (first) fc = value, by(year)", "tempfile fc", "save `fc'",
+             'import delimited "eia861m_utility_sales_monthly.csv", varnames(1) stringcols(_all) clear', f'keep if variable == "total_sales" & x_utility_number == "{num}"',
+             "keep ts_utc x_state value", "destring value, replace force", "drop if missing(value)", "generate int year = real(substr(ts_utc, 1, 4))",
+             "collapse (sum) sales = value (count) months = value, by(x_state year)", f"bysort year: generate byte nstates = _N",
+             f"bysort year: egen byte minmonths = min(months)", f"keep if nstates == {len(p['states'])} & minmonths == 12", "collapse (sum) act = sales, by(year)",
+             "merge 1:1 year using `fc', keep(match) nogenerate", "keep if year >= 2019 & year <= 2025 & fc > 0 & act / fc >= 0.5 & act / fc <= 2",
+             "generate double measure = (act / fc - 1) * 100", "generate byte n = 1", "sort year", "list year measure n, noobs"]
+    return common.do_file(lines)
+
+
 def reproduce_py(name, region):
+    if name.startswith("util_"):
+        return reproduce_util_py(name, region)
     var, k = ("peak" if name.startswith("peak") else "energy"), int(name.split("_")[-1][:-1])
     ba = region.split("_")[1].upper()
     pa = MAP[ba]
@@ -116,6 +212,8 @@ def reproduce_py(name, region):
 
 
 def reproduce_do(name, region):
+    if name.startswith("util_"):
+        return reproduce_util_do(name, region)
     var, k = ("peak" if name.startswith("peak") else "energy"), int(name.split("_")[-1][:-1])
     ba = region.split("_")[1].upper()
     pa = MAP[ba]
@@ -160,21 +258,28 @@ for var in ("peak", "energy"):
                             (lambda vv, kk: (lambda w: f"how far the actual {'peak hour' if vv == 'peak' else 'yearly demand'} of {w} ran above (+) or below (-) its own forecast "
                                                        f"for that year, filed {kk} years before,"))(var, k),
                             LX, reproduce(nm), consequence=3, first_words="the first year this measure counts"))
-for _P in CANDIDATES:
+LU = ("EIA-861M's retail sales of the utility (every state it serves) against the net energy for load its FERC 714 filing forecast; net energy also holds losses and "
+      "any wholesale load the area serves, so the level of the gap means less than its move; a year under half or over twice its forecast is left out.")
+UTIL = [C(f"util_vs_{k}y", FAMILY, _util_measure(k), "percent", 1, 1, 2.0, f"A UTILITY'S SALES AGAINST ITS FORECAST OF {k} YEARS BEFORE",
+          f"the year's retail sales against the net energy the utility's filing of {k} years before forecast, percent",
+          (lambda kk: (lambda w: f"how far the retail sales of {w} ran above (+) or below (-) the net energy its own filing of {kk} years before forecast for that year,"))(k),
+          LU, reproduce(f"util_vs_{k}y"), consequence=3, first_words="the first year this measure counts") for k in (5, 3)]
+for _P in CANDIDATES + UTIL:
     _P["rank"] = lambda c: abs(c["change"])
-    _P["max_per"] = 3
+    _P["max_per"] = 3 if _P not in UTIL else 4
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="The findings hunt of chain 502, part D, cross_family")
     ap.add_argument("--in-dir", default=None)
     ap.add_argument("--max-drafts", type=int, default=12)
+    ap.add_argument("--utilities", action="store_true", help="session 8222: only the utilities' sales against their forecasts")
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--dry-run", action="store_true")
     g.add_argument("--load", action="store_true")
     a = ap.parse_args(argv)
     CTX["in_dir"] = a.in_dir or common.DEFAULT_IN_DIR
-    builder.run("cross502", CANDIDATES, CTX["in_dir"], dry_run=not a.load, max_drafts=a.max_drafts)
+    builder.run("cross502_util" if a.utilities else "cross502", UTIL if a.utilities else CANDIDATES, CTX["in_dir"], dry_run=not a.load, max_drafts=a.max_drafts)
     return 0
 
 
