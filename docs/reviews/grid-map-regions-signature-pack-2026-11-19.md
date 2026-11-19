@@ -91,10 +91,24 @@ Energy Research Warehouse (ERW). Written by session 8606 of chain 504 (`queue/do
 | 6 | The average day's chart draws a thin line to zero where a source crosses zero; it is the seven grids' own chart | Left as the grids have it |
 | 7 | Data requests 540 (carbon intensity for every authority) and 541 (which side reported, hour by hour) came back as yours: each changes an existing page file | Left as it is |
 | 8 | **The 3D network now draws, as it opens, the hour its own slider names** (148 ties where it drew the newest hour's 139; session 8604). It is the one change to the centerpiece | Kept; one line of `site/app/network/Network.tsx` to put back |
+| 9 | Net load where wind or solar was never reported (New York, the Carolinas, Florida, the Southeast): demand less what is reported, or blank? | Demand less what is reported, said on the page |
+| 10 | While a story or the year plays, the address does not name it (the network's own rule; it does once paused) | Left as the network has it |
+| 11 | The chart of trade draws the newest 36 months whatever month is chosen: should it follow the year chosen? | The newest 36, as its title says; older months are in the table |
+| 12 | **Site-wide:** a reason given on hover is the browser's own tooltip, which a finger never opens (about 1,100 on the site; the regions' tabs give their reasons this way too) | Left as the site has it |
+| 13 | The shared Chart and Table switch is 22 px tall; the brand asks 24 | Left: it is on every chart of the site |
+
+## 3a. Since this pack was first written (sessions 8609 to 8616, the same day)
+
+- **Read twice more by its readers**, and on a phone with a finger. Rows 18 to 42 of `docs/reviews/grid-map-read-2026-11-19.md`; every site fault fixed with a test.
+- **A keyboard and a screen reader reach each region of the map** (session 8609); the map's zoom buttons and listed names are 44 px on a phone (8611).
+- **A region's list keeps the Map shape** when an authority is clicked; with the batteries on and no ring, the map says where the newest report is (8612).
+- **The trade tab reaches every year the file holds** (July 2018 on); a year's shares say of which months their days are (8613).
+- **A finger's tap on the hour by hour chart shows the hour's card** (8614); it showed nothing. A finger's tap on a region of the map opens its panel, now proved by the check (8616).
+- **The data machine's rebuilt files are on main and on production** (stacks d to f, 16:50 to 18:28 UTC). The figures in sections 1 and 2 above are on those files.
 
 ## 4. What is not done
 
 - The Clean tab for a region is blank (three parts not held): carbon intensity is computed for the seven grids only (request 540).
 - A balancing authority's own mix is in no file; a region gives its authorities together.
-- The data machine is rebuilding the region files under a wider rule (the Mid-Atlantic will hold 95 months where it holds 40). When they land, `regions_figures.mjs` is to be run again before `replicate_regions.py`; the script says so and stops.
+- When the data machine next rebuilds a region file, `regions_figures.mjs` is to be run again before `replicate_regions.py`; the script says so and stops (it compares each file's own stamp since session 8613).
 - No Stata do-file was written for these two: the existing `replication/grid/replicate.do` covers the network's figures, which the map shares.
