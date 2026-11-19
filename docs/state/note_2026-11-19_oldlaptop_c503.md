@@ -60,6 +60,10 @@ Each page's new views are on a branch, held by tests and by the page drawn to HT
 - **Terms of use read late:** the research agents read robots files and not every host's terms; a check the same day read them (above).
 - **One commit made before its check finished:** the config line was committed while a scratch check of it had failed on its own pattern; the file was then parsed and found whole (15 keys, no error).
 
+## Where the chain stopped
+
+- **It is not finished.** Every step that needs no file of the data machine is done; what is left of part E waits for the files. A watch for them was stopped by the harness when the machine ran low on memory and was not started again. The resume file `queue/next/530-resume-chain-503.md` is left in place and the queue step was not run. `docs/state/progress_c503.md` says, step by step, how a session continues once a file is on origin/main.
+
 ## On this machine
 
 - Worktrees of this chain, each clean and at its remote: `erw-8410`, `erw-8420`, `erw-8430`, `erw-8440`, `erw-8450`, `erw-8460`, and six `erw-c503-*` of the screenshot faults. None was removed.
