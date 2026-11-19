@@ -207,6 +207,19 @@ export function wholePacificDays(hours: string[]): { day: string; idx: number[] 
 
 /** The day the story shows: the newest whole day whose hours hold a battery report (all but one of them at the least),
  * with the newer whole days passed over; with no such day, the newest whole day. Null when the week holds no whole day. */
+/** Session 8612 (the second read of the map, row 37): the newest frame of a view in which any grid's batteries are
+ *  reported, and how many grids report in it; null when no frame holds a report. `battery(id, h)` is the view's own
+ *  reading (megawatts, or null where the grid reports nothing for the frame). With the Batteries switch on, the map
+ *  opened on the newest complete hour, which held no report, and said nothing of where one was. */
+export function newestBatteryFrame(frames: number, ids: string[], battery: (id: string, h: number) => number | null): { frame: number; grids: number } | null {
+  for (let h = frames - 1; h >= 0; h -= 1) {
+    let grids = 0;
+    for (const id of ids) { const v = battery(id, h); if (v !== null && v !== undefined) grids += 1; }
+    if (grids) return { frame: h, grids };
+  }
+  return null;
+}
+
 export function eveningDay(hours: string[], batteries: (number | null)[] | undefined): { day: string; idx: number[]; passed: string[] } | null {
   const days = wholePacificDays(hours);
   if (!days.length) return null;

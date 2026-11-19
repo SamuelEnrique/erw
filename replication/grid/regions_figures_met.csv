@@ -1,7 +1,7 @@
 # ERW, the Grid tool's thirteen regions: every figure of the page computed again from its files (replication/grid/replicate_regions.py)
 # Source: site/data/regions/index.json, mix/<region>.json, trade/<region>.json (Form EIA-930, public domain), built 2026-11-19T12:16:11Z
 # Source URL: https://www.eia.gov/electricity/gridmonitor/ (the files' own source); the page's figures: replication/grid/regions_page_figures.json
-# Retrieved: the page read 2026-11-19T14:42:10Z
+# Retrieved: the page read 2026-11-19T16:10:43Z
 region,figure,page,computed,tolerance,met
 CAL,the latest hour held,2026-11-17T07:00:00Z,2026-11-17T07:00:00Z,,yes
 CAL,"latest hour: Demand, MW",27649.0,27649.0,0.5,yes
@@ -43,10 +43,12 @@ CAL,"2026-10: Storage, share, percent (its MWh over the period's net generation)
 CAL,"2026-10: Other, MWh",724396.0,724396.0,0.5,yes
 CAL,"2026-10: Other, share, percent (its MWh over the period's net generation)",4.0,3.9646,0.056,yes
 CAL,"2026-10: net generation, MWh",18271749.0,18271749.0,0.5,yes
+CAL,2026-10: the sources the period holds as blank stand after the others,[],[],,yes
 CAL,"2026-10: the table's order is by share, largest first","[51.73, 23.16, 8.52, 7.12, 5.51, 3.96, -0.0, -0.01]","[51.73, 23.16, 8.52, 7.12, 5.51, 3.96, -0.0, -0.01]",,yes
 CAL,2026-10: the days held,28 days held of 31.,28 days held of 31.,,yes
 CAL,months not held of the months from the first to the newest,"[22, 83]","[22, 83]",,yes
 CAL,the whole months since the newest held,None,None,,yes
+CAL,net load: the sources left out because no authority has ever reported them,None,None,,yes
 CAL,October across the years: the years,"['2021', '2022', '2023', '2024', '2026']","['2021', '2022', '2023', '2024', '2026']",,yes
 CAL,"October 2021: midday low of net load, MW",16066.0,16065.6,0.5,yes
 CAL,October 2021: its hour,12:00,12:00,,yes
@@ -134,10 +136,12 @@ CAR,"2026-10: Storage, share, percent (its MWh over the period's net generation)
 CAR,"2026-10: Other, MWh",540880.0,540880.0,0.5,yes
 CAR,"2026-10: Other, share, percent (its MWh over the period's net generation)",3.2,3.1985,0.056,yes
 CAR,"2026-10: net generation, MWh",16910607.0,16910607.0,0.5,yes
+CAR,2026-10: the sources the period holds as blank stand after the others,[],[],,yes
 CAR,"2026-10: the table's order is by share, largest first","[48.24, 26.57, 15.02, 5.51, 3.2, 1.48, 0.0, -0.02]","[48.24, 26.57, 15.02, 5.51, 3.2, 1.48, 0.0, -0.02]",,yes
 CAR,2026-10: the days held,31 days held of 31.,31 days held of 31.,,yes
 CAR,months not held of the months from the first to the newest,"[1, 70]","[1, 70]",,yes
 CAR,the whole months since the newest held,None,None,,yes
+CAR,net load: the sources left out because no authority has ever reported them,None,None,,yes
 CAR,October across the years: the years,"['2021', '2022', '2023', '2024', '2025', '2026']","['2021', '2022', '2023', '2024', '2025', '2026']",,yes
 CAR,"October 2021: midday low of net load, MW",20651.0,20651.4,0.5,yes
 CAR,October 2021: its hour,10:00,10:00,,yes
@@ -231,10 +235,12 @@ CENT,"2026-10: Storage, share, percent (its MWh over the period's net generation
 CENT,"2026-10: Other, MWh",56966.0,56966.0,0.5,yes
 CENT,"2026-10: Other, share, percent (its MWh over the period's net generation)",0.2,0.2331,0.056,yes
 CENT,"2026-10: net generation, MWh",24434167.0,24434167.0,0.5,yes
+CENT,2026-10: the sources the period holds as blank stand after the others,[],[],,yes
 CENT,"2026-10: the table's order is by share, largest first","[40.59, 26.03, 24.31, 3.7, 2.73, 2.28, 0.23, 0.13]","[40.59, 26.03, 24.31, 3.7, 2.73, 2.28, 0.23, 0.13]",,yes
 CENT,2026-10: the days held,31 days held of 31.,31 days held of 31.,,yes
 CENT,months not held of the months from the first to the newest,"[6, 98]","[6, 98]",,yes
 CENT,the whole months since the newest held,None,None,,yes
+CENT,net load: the sources left out because no authority has ever reported them,None,None,,yes
 CENT,October across the years: the years,"['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']","['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']",,yes
 CENT,"October 2018: midday low of net load, MW",21813.0,21813.1,0.5,yes
 CENT,October 2018: its hour,09:00,09:00,,yes
@@ -354,10 +360,12 @@ FLA,"2026-09: Storage, share, percent (its MWh over the period's net generation)
 FLA,"2026-09: Other, MWh",556251.0,556251.0,0.5,yes
 FLA,"2026-09: Other, share, percent (its MWh over the period's net generation)",2.3,2.2452,0.056,yes
 FLA,"2026-09: net generation, MWh",24775340.0,24775340.0,0.5,yes
+FLA,2026-09: the sources the period holds as blank stand after the others,[],[],,yes
 FLA,"2026-09: the table's order is by share, largest first","[71.25, 11.04, 8.69, 6.74, 2.25, 0.05, 0.0, -0.01]","[71.25, 11.04, 8.69, 6.74, 2.25, 0.05, 0.0, -0.01]",,yes
 FLA,2026-09: the days held,30 days held of 30.,30 days held of 30.,,yes
 FLA,months not held of the months from the first to the newest,"[35, 97]","[35, 97]",,yes
 FLA,the whole months since the newest held,October 2026 is not held: the newest month held is September 2026.,October 2026 is not held: the newest month held is September 2026.,,yes
+FLA,net load: the sources left out because no authority has ever reported them,None,None,,yes
 FLA,September across the years: the years,"['2018', '2021', '2022', '2024', '2025', '2026']","['2018', '2021', '2022', '2024', '2025', '2026']",,yes
 FLA,"September 2018: midday low of net load, MW",30360.0,30359.9,0.5,yes
 FLA,September 2018: its hour,09:00,09:00,,yes
@@ -443,10 +451,12 @@ MIDA,"2026-10: Storage, share, percent (its MWh over the period's net generation
 MIDA,"2026-10: Other, MWh",2802034.0,2802034.0,0.5,yes
 MIDA,"2026-10: Other, share, percent (its MWh over the period's net generation)",4.5,4.5001,0.056,yes
 MIDA,"2026-10: net generation, MWh",62266006.0,62266006.0,0.5,yes
+MIDA,2026-10: the sources the period holds as blank stand after the others,[],[],,yes
 MIDA,"2026-10: the table's order is by share, largest first","[38.53, 32.21, 15.45, 4.5, 4.15, 3.56, 1.59, 0.0]","[38.53, 32.21, 15.45, 4.5, 4.15, 3.56, 1.59, 0.0]",,yes
 MIDA,2026-10: the days held,30 days held of 31.,30 days held of 31.,,yes
 MIDA,months not held of the months from the first to the newest,"[57, 97]","[57, 97]",,yes
 MIDA,the whole months since the newest held,None,None,,yes
+MIDA,net load: the sources left out because no authority has ever reported them,None,None,,yes
 MIDA,October across the years: the years,"['2018', '2019', '2025', '2026']","['2018', '2019', '2025', '2026']",,yes
 MIDA,"October 2018: midday low of net load, MW",84260.0,84259.9,0.5,yes
 MIDA,October 2018: its hour,09:00,09:00,,yes
@@ -532,10 +542,12 @@ MIDW,"2026-10: Storage, share, percent (its MWh over the period's net generation
 MIDW,"2026-10: Other, MWh",444492.0,444492.0,0.5,yes
 MIDW,"2026-10: Other, share, percent (its MWh over the period's net generation)",0.8,0.7748,0.056,yes
 MIDW,"2026-10: net generation, MWh",57368827.0,57368827.0,0.5,yes
+MIDW,2026-10: the sources the period holds as blank stand after the others,[],[],,yes
 MIDW,"2026-10: the table's order is by share, largest first","[37.13, 27.84, 14.71, 11.73, 6.79, 1.04, 0.77, -0.02]","[37.13, 27.84, 14.71, 11.73, 6.79, 1.04, 0.77, -0.02]",,yes
 MIDW,2026-10: the days held,31 days held of 31.,31 days held of 31.,,yes
 MIDW,months not held of the months from the first to the newest,"[3, 87]","[3, 87]",,yes
 MIDW,the whole months since the newest held,None,None,,yes
+MIDW,net load: the sources left out because no authority has ever reported them,None,None,,yes
 MIDW,October across the years: the years,"['2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']","['2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']",,yes
 MIDW,"October 2019: midday low of net load, MW",68433.0,68432.6,0.5,yes
 MIDW,October 2019: its hour,09:00,09:00,,yes
@@ -649,10 +661,12 @@ NE,"2026-10: Storage, share, percent (its MWh over the period's net generation)"
 NE,"2026-10: Other, MWh",366663.0,366663.0,0.5,yes
 NE,"2026-10: Other, share, percent (its MWh over the period's net generation)",4.5,4.4668,0.056,yes
 NE,"2026-10: net generation, MWh",8208653.0,8208653.0,0.5,yes
+NE,2026-10: the sources the period holds as blank stand after the others,[],[],,yes
 NE,"2026-10: the table's order is by share, largest first","[52.52, 24.55, 11.01, 4.89, 4.47, 2.23, 0.33, 0.0]","[52.52, 24.55, 11.01, 4.89, 4.47, 2.23, 0.33, 0.0]",,yes
 NE,2026-10: the days held,30 days held of 31.,30 days held of 31.,,yes
 NE,months not held of the months from the first to the newest,None,None,,yes
 NE,the whole months since the newest held,None,None,,yes
+NE,net load: the sources left out because no authority has ever reported them,None,None,,yes
 NE,October across the years: the years,"['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']","['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']",,yes
 NE,"October 2018: midday low of net load, MW",12623.0,12623.3,0.5,yes
 NE,October 2018: its hour,14:00,14:00,,yes
@@ -760,10 +774,12 @@ NW,"2025-12: Storage, share, percent (its MWh over the period's net generation)"
 NW,"2025-12: Other, MWh",817012.0,817012.0,0.5,yes
 NW,"2025-12: Other, share, percent (its MWh over the period's net generation)",2.5,2.4658,0.056,yes
 NW,"2025-12: net generation, MWh",33133663.0,33133663.0,0.5,yes
+NW,2025-12: the sources the period holds as blank stand after the others,[],[],,yes
 NW,"2025-12: the table's order is by share, largest first","[37.39, 21.44, 19.17, 13.56, 3.44, 2.47, 2.38, 0.16]","[37.39, 21.44, 19.17, 13.56, 3.44, 2.47, 2.38, 0.16]",,yes
 NW,2025-12: the days held,29 days held of 31.,29 days held of 31.,,yes
 NW,months not held of the months from the first to the newest,"[11, 60]","[11, 60]",,yes
 NW,the whole months since the newest held,No month from January 2026 to October 2026 is held: the newest month held is December 2025.,No month from January 2026 to October 2026 is held: the newest month held is December 2025.,,yes
+NW,net load: the sources left out because no authority has ever reported them,None,None,,yes
 NW,December across the years: the years,"['2021', '2022', '2024', '2025']","['2021', '2022', '2024', '2025']",,yes
 NW,"December 2021: midday low of net load, MW",34352.0,34351.5,0.5,yes
 NW,December 2021: its hour,13:00,13:00,,yes
@@ -849,10 +865,12 @@ NY,"2026-10: Storage, share, percent (its MWh over the period's net generation)"
 NY,"2026-10: Other, MWh",264219.0,264219.0,0.5,yes
 NY,"2026-10: Other, share, percent (its MWh over the period's net generation)",2.8,2.7577,0.056,yes
 NY,"2026-10: net generation, MWh",9581239.0,9581239.0,0.5,yes
+NY,2026-10: the sources the period holds as blank stand after the others,[],[],,yes
 NY,"2026-10: the table's order is by share, largest first","[46.78, 24.71, 19.75, 6.0, 2.76, 0.0, 0.0, 0.0]","[46.78, 24.71, 19.75, 6.0, 2.76, 0.0, 0.0, 0.0]",,yes
 NY,2026-10: the days held,31 days held of 31.,31 days held of 31.,,yes
 NY,months not held of the months from the first to the newest,None,None,,yes
 NY,the whole months since the newest held,None,None,,yes
+NY,net load: the sources left out because no authority has ever reported them,None,None,,yes
 NY,October across the years: the years,"['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']","['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']",,yes
 NY,"October 2018: midday low of net load, MW",17140.0,17139.5,0.5,yes
 NY,October 2018: its hour,09:00,09:00,,yes
@@ -964,10 +982,12 @@ SE,"2026-10: Storage, share, percent (its MWh over the period's net generation)"
 SE,"2026-10: Other, MWh",203763.0,203763.0,0.5,yes
 SE,"2026-10: Other, share, percent (its MWh over the period's net generation)",1.0,1.0134,0.056,yes
 SE,"2026-10: net generation, MWh",20106417.0,20106417.0,0.5,yes
+SE,2026-10: the sources the period holds as blank stand after the others,[],[],,yes
 SE,"2026-10: the table's order is by share, largest first","[47.37, 24.88, 20.13, 5.64, 1.01, 1.01, 0.0, -0.04]","[47.37, 24.88, 20.13, 5.64, 1.01, 1.01, 0.0, -0.04]",,yes
 SE,2026-10: the days held,31 days held of 31.,31 days held of 31.,,yes
 SE,months not held of the months from the first to the newest,"[16, 98]","[16, 98]",,yes
 SE,the whole months since the newest held,None,None,,yes
+SE,net load: the sources left out because no authority has ever reported them,None,None,,yes
 SE,October across the years: the years,"['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']","['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']",,yes
 SE,"October 2018: midday low of net load, MW",25181.0,25181.0,0.5,yes
 SE,October 2018: its hour,09:00,09:00,,yes
@@ -1083,10 +1103,12 @@ SW,"2026-08: Storage, share, percent (its MWh over the period's net generation)"
 SW,"2026-08: Other, MWh",24498.0,24498.0,0.5,yes
 SW,"2026-08: Other, share, percent (its MWh over the period's net generation)",0.2,0.1776,0.056,yes
 SW,"2026-08: net generation, MWh",13793108.0,13793108.0,0.5,yes
+SW,2026-08: the sources the period holds as blank stand after the others,[],[],,yes
 SW,"2026-08: the table's order is by share, largest first","[48.75, 19.05, 13.32, 12.05, 5.08, 2.22, 0.18, -0.64]","[48.75, 19.05, 13.32, 12.05, 5.08, 2.22, 0.18, -0.64]",,yes
 SW,2026-08: the days held,28 days held of 31.,28 days held of 31.,,yes
 SW,months not held of the months from the first to the newest,"[40, 76]","[40, 76]",,yes
 SW,the whole months since the newest held,No month from September 2026 to October 2026 is held: the newest month held is August 2026.,No month from September 2026 to October 2026 is held: the newest month held is August 2026.,,yes
+SW,net load: the sources left out because no authority has ever reported them,None,None,,yes
 SW,August across the years: the years,"['2020', '2021', '2022', '2025', '2026']","['2020', '2021', '2022', '2025', '2026']",,yes
 SW,"August 2020: midday low of net load, MW",14730.0,14730.1,0.5,yes
 SW,August 2020: its hour,09:00,09:00,,yes
@@ -1174,10 +1196,12 @@ TEN,"2026-10: Storage, share, percent (its MWh over the period's net generation)
 TEN,"2026-10: Other, MWh",16040.0,16040.0,0.5,yes
 TEN,"2026-10: Other, share, percent (its MWh over the period's net generation)",0.1,0.1308,0.056,yes
 TEN,"2026-10: net generation, MWh",12265439.0,12265439.0,0.5,yes
+TEN,2026-10: the sources the period holds as blank stand after the others,[],[],,yes
 TEN,"2026-10: the table's order is by share, largest first","[41.58, 30.52, 15.5, 9.61, 2.65, 0.13, 0.0, 0.0]","[41.58, 30.52, 15.5, 9.61, 2.65, 0.13, 0.0, 0.0]",,yes
 TEN,2026-10: the days held,31 days held of 31.,31 days held of 31.,,yes
 TEN,months not held of the months from the first to the newest,"[11, 100]","[11, 100]",,yes
 TEN,the whole months since the newest held,None,None,,yes
+TEN,net load: the sources left out because no authority has ever reported them,None,None,,yes
 TEN,October across the years: the years,"['2018', '2019', '2020', '2022', '2024', '2025', '2026']","['2018', '2019', '2020', '2022', '2024', '2025', '2026']",,yes
 TEN,"October 2018: midday low of net load, MW",17169.0,17169.1,0.5,yes
 TEN,October 2018: its hour,09:00,09:00,,yes
@@ -1281,10 +1305,12 @@ TEX,"2026-10: Storage, share, percent (its MWh over the period's net generation)
 TEX,"2026-10: Other, MWh",39204.0,39204.0,0.5,yes
 TEX,"2026-10: Other, share, percent (its MWh over the period's net generation)",0.1,0.0945,0.056,yes
 TEX,"2026-10: net generation, MWh",41502875.0,41502875.0,0.5,yes
+TEX,2026-10: the sources the period holds as blank stand after the others,[],[],,yes
 TEX,"2026-10: the table's order is by share, largest first","[45.04, 20.89, 15.12, 11.26, 8.02, 0.09, 0.05, -0.46]","[45.04, 20.89, 15.12, 11.26, 8.02, 0.09, 0.05, -0.46]",,yes
 TEX,2026-10: the days held,31 days held of 31.,31 days held of 31.,,yes
 TEX,months not held of the months from the first to the newest,"[1, 100]","[1, 100]",,yes
 TEX,the whole months since the newest held,None,None,,yes
+TEX,net load: the sources left out because no authority has ever reported them,None,None,,yes
 TEX,October across the years: the years,"['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']","['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026']",,yes
 TEX,"October 2018: midday low of net load, MW",31984.0,31983.7,0.5,yes
 TEX,October 2018: its hour,09:00,09:00,,yes

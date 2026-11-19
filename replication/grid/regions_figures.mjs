@@ -27,7 +27,7 @@ const MIX = `(() => { const v = document.querySelector('[data-region-view="mix"]
     now_rows: rows('now'), period: v.getAttribute('data-region-period'), shares_rows: rows('shares'), days_line: t(document.querySelector('#shares p')),
     months_not_held: t(document.querySelector('[data-months-not-held]')), months_after: t(document.querySelector('[data-months-after]')),
     hours_drawn: Number(document.querySelector('[data-region-hours]')?.getAttribute('data-region-hours') ?? 0),
-    cal: t(document.querySelector('#years h2, #years h3')), years_rows: rows('years') }; })()`;
+    cal: t(document.querySelector('#years h2, #years h3')), years_rows: rows('years'), net_load_without: document.querySelector('[data-net-load-without]')?.getAttribute('data-net-load-without') ?? null }; })()`;
 const TRADE = `(() => { const v = document.querySelector('[data-region-view="trade"]'); if (!v) return null;
   const t = (e) => (e ? e.innerText.replace(/\\s+/g, ' ').trim() : null);
   return { state: v.getAttribute('data-region-trade'), month: v.getAttribute('data-region-month'), rows: [...document.querySelectorAll('[data-region-table="trade"] tbody tr')].map((r) => [...r.children].map((c) => t(c))),

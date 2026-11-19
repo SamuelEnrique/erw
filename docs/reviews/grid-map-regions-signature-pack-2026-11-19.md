@@ -48,7 +48,7 @@ Energy Research Warehouse (ERW). Written by session 8606 of chain 504 (`queue/do
 
 **You sign:** the block above, its last two lines.
 
-**The choices that matter most** (on the page: "Decisions on this page (the thirteen regions)", twelve lines):
+**The choices that matter most** (on the page: "Decisions on this page (the thirteen regions)", thirteen lines):
 
 | Choice | Default | Source |
 |---|---|---|
@@ -61,7 +61,7 @@ Energy Research Warehouse (ERW). Written by session 8606 of chain 504 (`queue/do
 
 **Replication** (run it: `python replication/grid/replicate_regions.py`; exit 0):
 
-- Every figure of the Mix and trade tabs of the thirteen regions, read from a built page (`regions_figures.mjs`), against the same figures computed from the region files with none of the page's code: **1,349 of 1,349 met** on 19 November 2026.
+- Every figure of the Mix and trade tabs of the thirteen regions, read from a built page (`regions_figures.mjs`), against the same figures computed from the region files with none of the page's code: **1,375 of 1,375 met** on 19 November 2026 (1,349 at the first run; session 8610 added two checks a region).
 - It replicates the page from its files. The files from the warehouse's tables are the data machine's replication.
 
 **Cross-check** (`python replication/grid/crosscheck_regions.py`; needs `EIA_API_KEY`; about 160 requests, two minutes):

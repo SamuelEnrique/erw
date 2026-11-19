@@ -327,7 +327,8 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
   check(f.moved !== was && (await evaluate(WIDE)), `one finger moves the zoomed map (${was} to ${f.moved}), and still nothing scrolls sideways`);
   await shot("map_390_zoomed.png");
   const sizes = await evaluate(`[...document.querySelectorAll('[data-map-zoom-buttons] button')].map((b) => { const r = b.getBoundingClientRect(); return [Math.round(r.width), Math.round(r.height)]; })`);
-  check(sizes.length === 3 && sizes.every((s) => s[0] >= 32 && s[1] >= 32), `the three zoom buttons can be pressed with a finger (${sizes.map((s) => s.join(" by ")).join(", ")} px)`);
+  // session 8611: on a phone a target is 44 px tall (docs/brand.md, section 3); they were 32
+  check(sizes.length === 3 && sizes.every((s) => s[0] >= 44 && s[1] >= 44), `the three zoom buttons can be pressed with a finger (${sizes.map((s) => s.join(" by ")).join(", ")} px; 44 or more on a phone)`);
   // session 8606, the done line: the map's decisions block, closed to start, inside the map's frame, whole on a phone
   const fold = await evaluate(`(() => { const d = document.querySelector('[data-map-decisions]'); if (!d) return null; const inMap = !!d.closest('[data-map-state="held"]'); const closed = !d.open; d.open = true;
     const lines = [...d.querySelectorAll('[data-map-decision]')].map((li) => li.innerText.replace(/\\s+/g, ' ').trim()); const r = d.getBoundingClientRect();
@@ -337,6 +338,30 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
   await evaluate(`document.querySelector('[data-map-decisions]')?.scrollIntoView({ block: 'start' })`);
   await sleep(300);
   await shot("map_390_decisions.png");
+  // session 8609, the accessibility read: the names under the map are tall enough for a finger; the map is a group of
+  // buttons a keyboard reaches: a region focused shows its figures, and Enter opens its panel
+  const kbd = await evaluate(`(() => { const m = document.querySelector('[data-map-state="held"]'); const svg = m.querySelector('svg[aria-label^="A map of"]'); const listed = [...m.querySelectorAll('[data-listed]')].map((b) => Math.round(b.getBoundingClientRect().height));
+    const r = m.querySelector('[data-region]'); return { role: svg?.getAttribute('role'), listed, region: r ? [r.getAttribute('role'), r.getAttribute('tabindex'), r.getAttribute('aria-label'), r.getAttribute('data-region')] : null }; })()`);
+  check(kbd.role === "group" && kbd.listed.length > 0 && kbd.listed.every((h) => h >= 44) && !!kbd.region && kbd.region[0] === "button" && kbd.region[1] === "0" && !!kbd.region[2],
+    `the map is a group of buttons, each region with its name (${kbd.region?.[2] ?? "none"}); the ${kbd.listed.length} names under it are ${Math.min(...kbd.listed)} px tall or more`);
+  await evaluate(`document.querySelector('[data-map-state="held"] [data-region]').focus()`);
+  await sleep(400);
+  const focused = await evaluate(`(() => { const n = document.querySelector('[data-map-hover-name]'); return n ? [...n.parentElement.children].map((c) => c.innerText.replace(/\\s+/g, ' ').trim()) : null; })()`);
+  await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
+  await send("Input.dispatchKeyEvent", { type: "keyUp", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
+  await sleep(900);
+  const opened = await evaluate(`new URLSearchParams(window.location.search).get('node')`);
+  check(!!focused && focused[0] === kbd.region[2] && focused.some((l) => /^Net (imports|exports)|^No tie reported/.test(l)) && opened === kbd.region[3],
+    `with the keyboard alone: a region focused shows its name and figures (${(focused ?? []).slice(0, 3).join(" | ").slice(0, 120)}), and Enter opens its panel (node=${opened})`);
+  // session 8612 (the second read, row 37 of the review): with the Batteries switch on and no ring at the hour shown,
+  // the map says so and where the newest report of the view is; with a ring drawn it says nothing
+  await send("Emulation.setDeviceMetricsOverride", { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+  await go(`${base}/grid?view=network&shape=map&batteries=1`);
+  await wait(`document.querySelector('[data-map-state]')?.getAttribute('data-map-state') === 'held'`, 30000, "the map");
+  await sleep(1500);
+  const bat = await evaluate(`({ rings: document.querySelectorAll('[data-battery-ring]').length, line: document.querySelector('[data-map-battery-none]')?.innerText.replace(/\\s+/g, ' ') ?? null, when: document.querySelector('[data-map-battery-none]')?.getAttribute('data-map-battery-none') ?? null })`);
+  check(bat.rings > 0 ? bat.line === null : !!bat.line && /^No battery is reported for this hour\./.test(bat.line) && (bat.when === "none" ? /None is reported in this view/.test(bat.line) : bat.line.includes(bat.when)),
+    bat.rings > 0 ? `the batteries on: ${bat.rings} rings at the hour shown, and no line saying there is none` : `the batteries on and no ring at the hour shown: the map says so and where the newest report is (${bat.line})`);
   return bad ? 1 : 0;
 });
 if (code === null) { console.log("not proven here: no browser on this machine (the pure checks above stand)"); process.exit(bad ? 1 : 0); }

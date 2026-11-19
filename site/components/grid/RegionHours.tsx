@@ -11,6 +11,7 @@
 // The mouse reads the hour and every source's megawatts; a table holds the same hours.
 import { useMemo, useState } from "react";
 import { DataTable, Toggle, bounds, num, ticksOf, useWidth } from "@/components/svgchart";
+import { LINE, stackNames, wrapName } from "@/lib/chartwrap";
 import { hourStack } from "@/lib/gridregions";
 
 export type HourLayer = { key: string; label: string; color: string; values: (number | null)[] };
@@ -25,7 +26,9 @@ export function RegionHours({ id, t, layers, demand, tz, label, height = 300 }: 
   const n = t.length;
   const stacks = useMemo(() => t.map((_, i) => hourStack(layers.map((l) => l.values[i]))), [t, layers]);
   const b = useMemo(() => bounds([...stacks.map((s) => s.top), ...stacks.map((s) => s.bottom), ...(demand ?? []).filter((v): v is number => v !== null && v !== undefined)]), [stacks, demand]);
-  const L = 58, R = 12, TOP = 8, BOT = 26, plotW = Math.max(40, W - L - R), plotH = height - TOP - BOT;
+  // session 8611 (docs/brand.md, section 6): each source is named at the right end of its columns, in its own color, as
+  // the site's other charts name their series; there is no legend row above the plot
+  const L = 58, R = W < 520 ? 78 : 104, TOP = 8, BOT = 26, plotW = Math.max(40, W - L - R), plotH = height - TOP - BOT;
   const bw = plotW / Math.max(1, n);
   const y = (v: number) => TOP + plotH * (1 - (v - b.lo) / (b.hi - b.lo || 1));
   const r1 = (v: number) => Math.round(v * 100) / 100;
@@ -54,6 +57,18 @@ export function RegionHours({ id, t, layers, demand, tz, label, height = 300 }: 
     return d;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [demand, n, bw, b.lo, b.hi, plotH]);
+  // the names at the right: each source at the middle of its band in the newest hour that holds one, demand at its
+  // newest value; a name that would lie on another is moved down, and a long one is wrapped (lib/chartwrap.ts)
+  const ends = useMemo(() => {
+    const out: { key: string; name: string; color: string; y: number; lines: string[] }[] = [];
+    layers.forEach((l, k) => {
+      for (let i = n - 1; i >= 0; i -= 1) { const band = stacks[i].bands[k]; if (band) { out.push({ key: l.key, name: l.label, color: l.color, y: y((band[0] + band[1]) / 2), lines: [] }); break; } }
+    });
+    if (demand) for (let i = n - 1; i >= 0; i -= 1) { const v = demand[i]; if (v !== null && v !== undefined) { out.push({ key: "demand", name: "Demand", color: "var(--color-ink)", y: y(v), lines: [] }); break; } }
+    for (const e of out) e.lines = wrapName(e.name, R - 10);
+    return stackNames(out, height - 6);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [layers, stacks, demand, n, b.lo, b.hi, plotH, R, height]);
   // a mark on the time axis at each UTC midnight a whole number of weeks from the first
   const marks = useMemo(() => {
     const first = t.findIndex((ms) => new Date(ms).getUTCHours() === 0);
@@ -74,10 +89,6 @@ export function RegionHours({ id, t, layers, demand, tz, label, height = 300 }: 
         </div>
       ) : (
         <>
-          <div className="mb-1 flex flex-wrap gap-x-3 gap-y-0.5 text-xs" aria-hidden="true">
-            {layers.map((l) => <span key={l.key} className="flex items-center gap-1"><span className="inline-block h-2.5 w-2.5" style={{ background: l.color }} />{l.label}</span>)}
-            {demand ? <span className="flex items-center gap-1"><span className="inline-block h-0.5 w-4 bg-ink" />Demand</span> : null}
-          </div>
           <svg width={W} height={height} role="img" aria-label={`${label}. Each hour is a column: sources above zero are stacked up from zero, sources below zero down from zero. The table holds every hour.`} className="block max-w-full"
             onPointerMove={(e) => { const box = e.currentTarget.getBoundingClientRect(); const i = Math.floor((e.clientX - box.left - L) / bw); setAt(i >= 0 && i < n ? i : null); }} onPointerLeave={() => setAt(null)}>
             <text x={L} y={TOP + 4} className="fill-muted" fontSize="12" textAnchor="end" dx={-6}>MW</text>
@@ -97,13 +108,19 @@ export function RegionHours({ id, t, layers, demand, tz, label, height = 300 }: 
                 <text x={L + m.i * bw} y={height - 6} fontSize="12" textAnchor="middle" className="fill-muted">{m.text}</text>
               </g>
             ))}
+            {ends.map((e) => (
+              <text key={e.key} x={L + plotW + 6} y={e.y + 4} fontSize="12" fill={e.color} data-hours-name={e.key}>
+                {e.lines.map((line, i) => <tspan key={i} x={L + plotW + 6} dy={i ? LINE : 0}>{line}</tspan>)}
+              </text>
+            ))}
             {at !== null ? <line x1={L + (at + 0.5) * bw} x2={L + (at + 0.5) * bw} y1={TOP} y2={TOP + plotH} stroke="var(--color-ink)" strokeWidth={0.8} /> : null}
           </svg>
           {at !== null ? (
-            <div className="pointer-events-none absolute top-12 z-10 border border-rule bg-paper px-3 py-2 text-xs" style={{ left: Math.min(Math.max(0, L + (at + 0.5) * bw + 10), Math.max(0, W - 230)) }} data-hours-card={t[at]}>
+            // the site's hover card (docs/brand.md, section 6): the period, then each series named in its color with its figure in mono
+            <div className="pointer-events-none absolute top-6 z-10 border border-rule bg-paper px-3 py-2 text-xs" style={{ left: Math.min(Math.max(0, L + (at + 0.5) * bw + 10), Math.max(0, W - 240)) }} data-hours-card={t[at]} data-chart-card="1">
               <div className="text-ink">{utc(t[at])} UTC ({local(t[at])})</div>
-              {layers.map((l) => <div key={l.key} className="tabular-nums"><span className="mr-1 inline-block h-2 w-2" style={{ background: l.color }} />{l.label}: {show(l.values[at])}</div>)}
-              {demand ? <div className="tabular-nums">Demand: {show(demand[at])}</div> : null}
+              {layers.map((l) => <div key={l.key} className="flex justify-between gap-4"><span style={{ color: l.color }}>{l.label}: </span><span className="font-mono text-ink">{show(l.values[at])}</span></div>)}
+              {demand ? <div className="flex justify-between gap-4"><span className="text-ink">Demand: </span><span className="font-mono text-ink">{show(demand[at])}</span></div> : null}
             </div>
           ) : null}
         </>
