@@ -13,7 +13,7 @@ import countiesTopo from "us-atlas/counties-10m.json";
 import mapJson from "@/data/map_v2.json";
 import type { MapFile } from "@/lib/map2";
 import { STATES } from "@/lib/regions";
-import { QUEUE_GRIDS, boxOf, filesOf, inGeometry, mergeManifests, queueGridOf, stemOf, type Geometry, type Layer, type Manifest, type QueueGridCount } from "@/lib/resources";
+import { QUEUE_GRIDS, boxOf, filesOf, inGeometry, mergeManifests, queueGridOf, stemOf, withHoverFields, type Geometry, type HoverFieldsAdded, type Layer, type Manifest, type QueueGridCount } from "@/lib/resources";
 import { HOURLY, rest } from "@/lib/supabase";
 
 // Where a layer's file may be: the site's own data folder first (not served to visitors), then the folder the data
@@ -46,6 +46,17 @@ export function readManifest(): { manifest: Manifest & { added_built_at_utc?: st
       raw = mergeManifests(raw, JSON.parse(fs.readFileSync(addedPath, "utf8")) as Manifest);
     } catch (e) {
       reason = `The list of added resource layers (manifest_added.json) could not be read on the server (${(e as Error).message.slice(0, 80)}); the first list's layers are drawn.`;
+    }
+  }
+  // session 8618 (data request 553): the data machine's hover fields for the layers whose entry names none, in the
+  // publishers' own words. No such file is no fault; one that is there and cannot be read is said, and those layers'
+  // hovers show their files' column names, as before.
+  const hoverPath = path.join(process.cwd(), "data", "resources", "hover_fields_added.json");
+  if (fs.existsSync(hoverPath)) {
+    try {
+      raw = withHoverFields(raw, JSON.parse(fs.readFileSync(hoverPath, "utf8")) as HoverFieldsAdded);
+    } catch (e) {
+      reason = reason ?? `The added hover fields (hover_fields_added.json) could not be read on the server (${(e as Error).message.slice(0, 80)}); a hover of those layers shows its file's column names.`;
     }
   }
   const layers: Layer[] = [], missing = [...(raw.missing ?? [])];
