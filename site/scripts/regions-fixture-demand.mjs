@@ -25,7 +25,9 @@ export const BAS = {
 };
 /** The pairs the contract names: a region that covers nearly the ground of one of the seven grids. */
 export const ALIKE = { TEX: "ERCO", NY: "NYIS", NE: "ISNE", MIDA: "PJM" };
-export const WHY = "A sentence made for a test: the region is EIA's sum of its authorities and the grid is one of them.";
+/** Written as the data machine's builder writes its own (warehouse/derived/regions_pages.py): a clause with no capital
+ *  and no full stop. The view sets it as a sentence and changes none of its words. */
+export const WHY = "a clause made for a test: the region is EIA's sum of its authorities and the grid is one of them";
 const FIXTURE = "made by a rule for a test (site/scripts/regions-fixture-demand.mjs); not data";
 const BUILT = "2026-11-19T12:00:00Z";
 const r2 = (v) => Math.round(v * 100) / 100;
@@ -59,8 +61,9 @@ export const avgOf = (i, y) => 1000 * i + 100 * (y - 2019);
  *  twice that on 15 August at 21:00 UTC; the year so far averages 50 MW more; each growth is the plain percent of those,
  *  to two decimals. Month m (1 to 12) and hour h (0 to 23) of 2025: growth_mw m + h and growth_pct m - 6 + h / 10; the
  *  cell of February at 03:00 is absent. A place whose first year is after 2019 has no figure since 2019.
- *  weather (regions only): years 2022 to 2026, four figures each: growth i + (y - 2021) percent, of which the weather
- *  explains 1, with a give or take of 2; 2026 stops on 6 November; the winter peak of 2022 is null. holdout 2019 to 2021.
+ *  weather (regions only): fitted on 2019 to 2021 (`train`); years 2022 to 2026, four figures each: growth i + (y - 2021)
+ *  percent, of which the weather explains 1, with a give or take of 2; 2026 stops on 6 November; the winter peak of 2022
+ *  is null. holdout 2019 to 2021.
  *  alike (TEX, NY, NE, MIDA): the grid's average is 100 MW under the region's each year. */
 export function demandFixture(code, { level = "region", first = "2024-12-25", n = 17, license = "public", weather = true, tables } = {}) {
   const i = numberOf(code, level);
@@ -114,8 +117,9 @@ export function demandFixture(code, { level = "region", first = "2024-12-25", n 
     daily,
     growth: { base: 2019, last_year: 2025, ytd_through: "2026-10", years, at },
   };
+  if (level === "ba") file.region = ba.region;
   if (level === "region") {
-    file.bas_summed = Object.keys(BAS).filter((b) => BAS[b].region === code && !BAS[b].generation_only);
+    file.bas_summed =Object.keys(BAS).filter((b) => BAS[b].region === code && !BAS[b].generation_only);
     if (weather) {
       const wy = {};
       for (let y = 2022; y <= 2026; y++) {
@@ -128,7 +132,8 @@ export function demandFixture(code, { level = "region", first = "2024-12-25", n 
       }
       const held = (y) => ({ growth_pct: 0.5, weather_pct: 0.25, unexplained_pct: r2(0.25 + (y - 2020) / 10), actual: avgOf(i, y), expected: avgOf(i, y) - 10 });
       file.weather = {
-        name: NAMES[code], tz: TZ[code], through: "11-06", newest: 2026, weather_table: "region_weather_hourly",
+        name: NAMES[code], tz: TZ[code], through: "11-06", newest: 2026, train: [2019, 2020, 2021], weather_table: "region_weather_hourly",
+        degrees_from: "the region's weighted temperature (base 65 F)",
         fit: { hours: 26000, kinds: 48, in_sample_mape_pct: 3, oos_mape_pct: r2(3 + i / 10), oos_daily_mape_pct: r2(2 + i / 10), plain_oos_mape_pct: 5, oos_by_year: {}, hours_not_used: 0, hours_held: 26304, shed_hours: 0 },
         years: wy,
         holdout: Object.fromEntries([2019, 2020, 2021].map((y) => [String(y), { energy: held(y), summer_peak: held(y), winter_peak: y === 2019 ? null : held(y), overnight_min: held(y) }])),

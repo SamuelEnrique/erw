@@ -79,7 +79,9 @@ const cs = G.cells(period, area), ex = G.extremes(cs);
 ok(cs.length === 287 && ex.most.month === 12 && ex.most.hour === 23 && near(ex.most.pct, 8.3) && ex.most.mw === 35 && ex.least.month === 1 && ex.least.hour === 0 && near(ex.least.pct, -5) && G.byMonth(period, area)[11].pct === 6 && near(G.byHour(period, area)[23].pct, 2.3),
   "the month and hour cells, their extremes, and the change by month and by hour, by the page's own functions (an absent cell stays absent)");
 ok(C.areaOf({ ...ten, growth: undefined }) === null, "a file with no growth object gives no area");
-ok(C.trainOf(ten.weather).join() === "2019,2020,2021" && C.trainOf({ ...ten.weather, train: [2020, 2019] }).join() === "2019,2020" && C.trainOf(undefined).length === 0 && C.trainOf({ ...ten.weather, holdout: {} }).length === 0, "the fit's years: the file's own line, else the years its holdout is keyed by");
+ok(C.trainOf(ten.weather).join() === "2019,2020,2021" && C.trainOf({ ...ten.weather, train: [2020, 2019] }).join() === "2019,2020" && C.trainOf({ ...ten.weather, train: undefined }).join() === "2019,2020,2021" && C.trainOf(undefined).length === 0
+  && C.trainOf({ ...ten.weather, train: undefined, holdout: {} }).length === 0, "the fit's years: the file's own line, else the years its holdout is keyed by");
+ok(WHY.startsWith("a clause") && !WHY.endsWith(".") && C.sentence(WHY) === `A${WHY.slice(1)}.` && C.sentence("Done already.") === "Done already." && C.sentence("  ") === "" && C.sentence(undefined) === "", "the file's words on why two figures differ, set as a sentence: a capital and a full stop, no word changed");
 const wfile = { train: [2019, 2020, 2021], grids: { ten: ten.weather, car: files.car.weather } };
 ok(W.years(wfile, ["ten", "car"]).join() === "2022,2023,2024,2025,2026" && W.lastWholeYear(wfile, ["ten"]) === "2025" && W.lastWholeYear(wfile, ["ten", "car"]) === "2025" && W.figureOf(wfile, "ten", "2025", "energy").growth_pct === iT + 4 && W.ORDER.length === 7,
   "the weather object is the page's grid object: lib/demandweather.ts reads its years, its last whole year and its figures");
@@ -161,8 +163,14 @@ const tex = draw({ a: "tex", b: "ny" }), fx = figs(tex);
 ok(tex.includes('data-cd-alike="a" data-cd-alike-grid="ERCO"') && tex.includes('data-cd-alike="b" data-cd-alike-grid="NYIS"') && />Texas and ERCOT</.test(tex) && />New York and NYISO</.test(tex), "Texas beside ERCOT, New York beside NYISO: the section names both");
 ok(fx["cd|a|alike|2019|region"] === "13,000" && fx["cd|a|alike|2019|grid"] === "12,900" && fx["cd|a|alike|2019|pct"] === "+0.78" && fx["cd|a|alike|2025|region"] === "13,600" && fx["cd|a|alike|2025|grid"] === "13,500" && count(tex, 'data-cd-alike-why="a|') === 7,
   "both figures stand, year by year, with the file's difference");
-const whyHtml = WHY.replace(/'/g, "&#x27;");
-ok(count(tex, `title="${whyHtml}"`) === 2 * 7 + 2 && tex.includes(`title="The region&#x27;s average against the grid&#x27;s, as the file gives it. ${whyHtml}"`) && count(tex, ">Why they differ<") === 2, "the hover of each difference says why, in the data machine's own sentence");
+const whyHtml = C.sentence(WHY).replace(/'/g, "&#x27;");
+ok(count(tex, `title="${whyHtml}"`) === 2 * 7 + 2 && tex.includes(`title="The region&#x27;s average less the grid&#x27;s, as a percent of the grid&#x27;s, as the file gives it. ${whyHtml}"`) && count(tex, ">Why they differ<") === 2, "the hover of each difference says why, in the data machine's own sentence");
+ok(fx["cd|a|alike|apart"] === "7" && wordsOf(tex).includes("The two differ in 7 of the 7 years held."), "how many of the years held the two differ in");
+const same = (file) => ({ ...file, alike: { ...file.alike, years: Object.fromEntries(Object.entries(file.alike.years).map(([y, r]) => [y, { ...r, grid_avg_demand_mw: r.region_avg_demand_mw, difference_pct: 0 }])) } });
+const equal = renderToStaticMarkup(createElement(V.Country, { q: { a: "tex", b: "none" }, index, fileOf: () => same(files.tex) })), fq = figs(equal);
+ok(fq["cd|a|alike|2019|region"] === "13,000" && fq["cd|a|alike|2019|grid"] === "13,000" && fq["cd|a|alike|2019|pct"] === "0.00" && fq["cd|a|alike|years"] === "7" && !("cd|a|alike|apart" in fq) && wordsOf(equal).includes("The two are equal in each of the 7 years held.")
+  && equal.includes(">Why they can differ<") && !equal.includes(">Why they differ<") && count(equal, `title="${whyHtml}"`) === 7 + 1,
+  "where the two are equal in every year the view says so, both figures still stand, and the sentence is offered as why they can differ");
 ok(tex.includes('href="/demand?area=ercot"') && tex.includes('href="/demand?view=country&amp;a=tex&amp;b=ba-erco"') && tex.includes('href="/demand?area=nyiso"'), "each links the grid's own view, and the region beside the grid as two places");
 ok(Object.keys(ALIKE).join() === "TEX,NY,NE,MIDA" && Object.keys(ALIKE).every((c) => draw({ a: c.toLowerCase(), b: "none" }).includes(`data-cd-alike-grid="${ALIKE[c]}"`)), "the four pairs of the contract: Texas, New York, New England and the Mid-Atlantic");
 const erco = draw({ a: "tex", b: "ba-erco" }), fe = figs(erco);

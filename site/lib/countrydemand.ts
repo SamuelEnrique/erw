@@ -25,7 +25,7 @@ export type Daily = { days: string[]; demand_mwh?: Arr; peak_mw?: Arr; peak_at?:
 export type Growth = Period & { years: Record<string, Year>; at?: Record<string, Record<string, string>> };
 /** A region's `weather`: one grid object of data/demand_weather.json. `train` (the fit's years) is read when the file
  *  gives it; the keys of `holdout` are those years otherwise. */
-export type PlaceWeather = Grid & { weather_table?: string; train?: number[] };
+export type PlaceWeather = Grid & { weather_table?: string; train?: number[]; degrees_from?: string };
 /** A region that covers nearly the ground of one of the seven grids: both averages by year, and why they differ. */
 export type Alike = { grid: string; years: Record<string, { region_avg_demand_mw?: number; grid_avg_demand_mw?: number; difference_pct?: number }>; why?: string };
 /** `site/data/regions/demand/<region>.json` and `demand/ba/<code>.json` (the contract's section 3). */
@@ -172,6 +172,14 @@ export function alikeRows(a: Alike | undefined): { year: string; region: number 
     const r = a!.years[year] ?? {};
     return { year, region: num(r.region_avg_demand_mw) ? r.region_avg_demand_mw : null, grid: num(r.grid_avg_demand_mw) ? r.grid_avg_demand_mw : null, pct: num(r.difference_pct) ? r.difference_pct : null };
   });
+}
+
+/** The file's words on why a region and its grid differ, set as a sentence: its first letter raised and a full stop at
+ *  its end where it has none. The words themselves are the data machine's, unchanged. */
+export function sentence(words: string | undefined): string {
+  const s = (words ?? "").trim();
+  if (!s) return "";
+  return `${s.charAt(0).toUpperCase()}${s.slice(1)}${/[.!?]$/.test(s) ? "" : "."}`;
 }
 
 /** A local day in words: "1 August 2025". */

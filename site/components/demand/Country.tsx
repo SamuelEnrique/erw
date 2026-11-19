@@ -10,7 +10,7 @@ import { TimeChart } from "@/components/TimeChart";
 import { ChartFrame, Fold, ToolHeader, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
   FIRST_A, FIRST_B, FIRST_WHY, NEWEST_DAYS, alikeRows, areaOf, baOf, countryHref, dailyPoints, dailySummary, dailyYears, dayWords, demandPlaceFile, gridWords,
-  isNewRegion, newestDays, noWeather, periodOf, placeFilePath, placeKey, placeName, placeOf, regionOfIndex, regionRows, regionsIndex, samePlace, trainOf, utcHourWords,
+  isNewRegion, newestDays, noWeather, periodOf, placeFilePath, placeKey, placeName, placeOf, regionOfIndex, regionRows, regionsIndex, samePlace, sentence, trainOf, utcHourWords,
   type DemandPlaceFile, type IndexFile, type Place,
 } from "@/lib/countrydemand";
 import { GRID_NAME, NEW_REGIONS, REGION_NAME, gwh } from "@/lib/countryfiles";
@@ -237,6 +237,7 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
   // ---- with the weather taken out: the weather view's own chart and table, for the regions that hold it
   const t0 = train[0], t1 = train[train.length - 1];
   const wYears = wAll;
+  const degrees = wSlots[0]?.file?.weather?.degrees_from ?? "";
   const wHref = (f: string, y: string) => countryHref({ a, b: b ?? "none", days, figure: f, year: y }, "weather");
   const noWeatherWhy = (s: Slot) => (s.state !== "drawn" ? s.why
     : s.place.level === "ba" ? `The weather view is built for EIA's regions, not for a single balancing authority: the file of ${s.name} holds none.`
@@ -248,7 +249,7 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
     return wYears.map((y): Row => {
       const g: Figure | null = figureOf(wf, s.key, y, figure.key), k = `cd|${s.mark}|w|${y}`;
       const part = Number(y) === w.newest && w.through < "12-31";
-      const none = `The file of ${s.name} holds no figure of ${figure.name.toLowerCase()} for ${y}.`;
+      const none = `The file of ${s.name} holds no figure of ${figure.name.toLowerCase()} for ${y}. A figure is written only when nearly all its hours hold both demand and weather (the file's method note gives the share).`;
       if (!g) return { key: `${s.mark}|${y}`, highlight: y === wc.year, muted: true, cells: [s.name, y, <NOT key="a" why={none} />, <NOT key="g" why={none} />, <NOT key="w" why={none} />, <NOT key="u" why={none} />, <NOT key="p" why={none} />, ""] };
       const m = s.area?.years[y];
       const on = `${whole(g.used)} of ${whole(g.wanted)} ${figure.key === "overnight_min" ? "days" : "hours"}`;
@@ -393,7 +394,7 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
 
           <ToolSection title="With the weather taken out" id="weather"
             note={wc ? <><Hint words="How to read the bars" why={`${figure.name}: ${figure.what}. Growth is against the mean of ${t0} to ${t1}, the years the fit was made on. The grey bar is what the year's weather explains; the red bar is the rest, and the black line across it is its uncertainty: the largest miss the method made on a year it had not seen. A red bar shorter than half its black line is not a finding. The remainder is growth the weather does not explain: more people, electric heating and vehicles, new industry and datacenters are all in it together, and so are rooftop solar, efficiency and a recession. The page does not say which it is.`} />{" "}
-              <Hint words="Which places hold it" why="The data machine builds the weather view for EIA's regions, from each region's own weather table; a single balancing authority holds none. Defaults: the year's energy, in the last whole year held, as the weather view of the seven grids opens." /></> : undefined}>
+              <Hint words="Which places hold it" why={`The data machine builds the weather view for EIA's regions, from each region's own weather table; a single balancing authority holds none.${degrees ? ` The file's own words on its heating and cooling degrees: ${degrees}.` : ""} Defaults: the year's energy, in the last whole year held, as the weather view of the seven grids opens.`} /></> : undefined}>
             {wc ? (
               <>
                 <div className="mb-4 flex flex-wrap gap-x-8 gap-y-2 text-sm" data-cd-weather-choice="1">
@@ -429,11 +430,13 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
 
           {alike.length ? (
             <ToolSection title="A region beside its grid" id="alike"
-              note={<Hint words="What is set side by side" why="Where one of EIA's regions covers nearly the ground of one of the seven grids of the other views (Texas and ERCOT, New York and NYISO, New England and ISO-NE, the Mid-Atlantic and PJM), the region's file gives both averages for each year and the data machine's own sentence on why they differ. Both figures stand: neither is corrected to the other." />}>
+              note={<Hint words="What is set side by side" why="Where one of EIA's regions covers nearly the ground of one of the seven grids of the other views (Texas and ERCOT, New York and NYISO, New England and ISO-NE, the Mid-Atlantic and PJM), the region's file gives both averages for each year and the data machine's own sentence on why the two can differ. Both figures stand: neither is corrected to the other." />}>
               <div className={alike.length > 1 ? two : ""}>
                 {alike.map((s) => {
-                  const al = s.file!.alike!, grid = GRID_NAME[al.grid] ?? al.grid, why = al.why ?? "";
+                  const al = s.file!.alike!, grid = GRID_NAME[al.grid] ?? al.grid, why = sentence(al.why);
                   const slug = slugOf(al.grid);
+                  const rows = alikeRows(al), both = rows.filter((r) => r.region !== null && r.grid !== null);
+                  const apart = both.filter((r) => whole(r.region!) !== whole(r.grid!) || (r.pct !== null && r.pct !== 0));
                   return (
                     <div key={s.mark} className="mb-6 min-w-0" data-cd-alike={s.mark} data-cd-alike-grid={al.grid}>
                       <h3 className="mb-1 text-base">{s.name} and {grid}</h3>
@@ -441,13 +444,16 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
                         head={["Year",
                           <Head key="r" mark="alike-region" words={`${s.name}, the region, MW`} why={`The average demand of the year for EIA's region ${s.place.code}, as the region's file gives it.`} />,
                           <Head key="g" mark="alike-grid" words={`${grid}, the grid, MW`} why={`The average demand of the same year for ${grid}, the balancing authority ${al.grid} of the other views, as the region's file gives it.`} />,
-                          <Head key="d" mark="alike-diff" words="Difference, percent" why={`The region's average against the grid's, as the file gives it. ${why}`} />]}
-                        rows={alikeRows(al).map((r) => ({ key: r.year, cells: [r.year,
+                          <Head key="d" mark="alike-diff" words="Difference, percent" why={`The region's average less the grid's, as a percent of the grid's, as the file gives it. ${why}`} />]}
+                        rows={rows.map((r) => ({ key: r.year, cells: [r.year,
                           r.region !== null ? <N key="r" k={`cd|${s.mark}|alike|${r.year}|region`}>{whole(r.region)}</N> : <NOT key="r" why={`The file gives no average of ${s.name} for ${r.year}.`} />,
                           r.grid !== null ? <N key="g" k={`cd|${s.mark}|alike|${r.year}|grid`}>{whole(r.grid)}</N> : <NOT key="g" why={`The file gives no average of ${grid} for ${r.year}.`} />,
                           r.pct !== null ? <span key="d" title={why || undefined} className={why ? "cursor-help" : undefined} data-cd-alike-why={`${s.mark}|${r.year}`}><N k={`cd|${s.mark}|alike|${r.year}|pct`}>{signed(r.pct)}</N></span> : <NOT key="d" why={`The file gives no difference for ${r.year}.`} />] }))} />
                       <p className="mt-2 text-sm">
-                        {why ? <Hint words="Why they differ" why={why} /> : <NOT why="The file gives no sentence on why the two differ." />}.{" "}
+                        <span data-cd-alike-apart={s.mark}>{both.length ? (apart.length
+                          ? <>The two differ in <N k={`cd|${s.mark}|alike|apart`}>{String(apart.length)}</N> of the {both.length} years held.</>
+                          : <>The two are equal in each of the <N k={`cd|${s.mark}|alike|years`}>{String(both.length)}</N> years held.</>) : null}</span>{" "}
+                        {why ? <Hint words={apart.length ? "Why they differ" : "Why they can differ"} why={why} /> : <NOT why="The file gives no sentence on why the two differ." />}.{" "}
                         {slug ? <><Link href={`/demand?area=${slug}`}>{grid} as metered</Link>.{" "}</> : null}
                         <Link href={countryHref({ a: s.place, b: { level: "ba", code: al.grid }, ...carried })} data-cd-alike-pair={s.mark}>{s.name} beside {grid}, as two places</Link>.
                       </p>

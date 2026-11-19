@@ -93,7 +93,7 @@ class ThePageDrawn(unittest.TestCase):
 
     def test_the_whole_country_view(self):
         r = node("scripts/test-demand-regions.mjs")
-        self.check(r, 90)
+        self.check(r, 93)
         for held in ("the table of regions has the thirteen by name, the six new ones marked",
                      "every region and every balancing authority that files demand can be chosen by its name",
                      "the hover of each difference says why, in the data machine's own sentence",
