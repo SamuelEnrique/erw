@@ -16,7 +16,8 @@ Audit: https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-audi
 - Part B for the 364 of 19 November: done, session 8801 (every draft has a verdict; "not checked" ones carry their reason). The per-draft rebuild of the hourly EIA-930 tables (regions, tie lines, supply) and France's grid was stopped by Claude Code for low memory and is not restarted unattended: waiting (about 50 drafts, listed in the audit as "table not on this machine").
 - Part C, already known: 80 drafts read, session 8801 (`partc.csv`); hosts opened: www.eia.gov, www.census.gov, robots and terms first (`hosts.csv`).
 - Part D, the sheet: forty, session 8801 (twenty first, then twenty more; no family over six).
-- Part E: begun, session 8801: 25 second routes recorded (`route2.csv`); Far West Texas left the sheet (ERCOT's own zone load differs from EIA-930 by 1.7 to 3.5 percent).
+- The last session (8802): note written (docs/state/note_2026-11-19_oldlaptop_c506.md), resume file removed (commit 078a52e17), chain_queue next: nothing for this machine (exit 3), so part E goes on.
+- Part E: a second route for each of the forty done, session 8801; part C for the remaining passed drafts, strongest first: under way, session 8802. Earlier: 25 second routes recorded (`route2.csv`); Far West Texas left the sheet (ERCOT's own zone load differs from EIA-930 by 1.7 to 3.5 percent).
 - Data request 30 (the archive rebuilds `ferc714_planning_area_forecasts` short): requested.
 
 ## Families (part B), the 19 November drafts first
