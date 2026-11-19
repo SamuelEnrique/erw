@@ -283,7 +283,12 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
       // session 68: the network fills its frame when the page opens
       setTimeout(() => { if (alive) g.zoomToFit(0, 10); }, 300);
       setTimeout(() => { if (alive) g.zoomToFit(400, 10); }, 1200);
-      if (toggled.current) setGraphAt((k) => k + 1);   // session 180: back from the map, the scene takes the hour, view and selection shown
+      // session 180: back from the map, the scene takes the hour, view and selection shown.
+      // session 8604 (the reader's read, row 17): and so it does when the page opens. The scene is built on the week's
+      // newest hour (above), but since session 124 the page opens on the newest hour every reporting pair holds, which is
+      // usually earlier: until the slider was moved the scene drew the newest hour's ties under a line and a slider that
+      // named another hour (139 ties drawn for an hour whose own count is 148, on production on 19 November 2026).
+      setGraphAt((k) => k + 1);
     }).catch(() => setNoGl(true));
     let seen: IntersectionObserver | null = null;
     if (typeof IntersectionObserver === "undefined") load();

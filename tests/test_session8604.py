@@ -132,6 +132,16 @@ class ThePageAroundTheReadersCases(unittest.TestCase):
         self.assertIn("(LOCAL_TZ[pick.id] ?? baRegions?.[pick.id]?.tz) ? <>{localTime(ts, (LOCAL_TZ[pick.id] ?? baRegions?.[pick.id]?.tz) as string)} local time</>", self.n)
         self.assertIn("(its local time is not held)", self.n)                      # without the index, as before
 
+    def test_the_scene_takes_the_hour_shown_when_it_is_ready(self):
+        # row 17: the scene is built on the week's newest hour and the page opens on the newest complete hour; the scene
+        # must take the hour shown as soon as it is ready, whether or not the shape was ever changed
+        self.assertNotIn("if (toggled.current) setGraphAt", self.n)
+        block = self.n.split("graph.current = g;")[1].split("}).catch(() => setNoGl(true));")[0]
+        self.assertIn("setGraphAt((k) => k + 1);", block)
+        # the effect that sets the scene to an hour is the one both shapes' ties come from
+        self.assertIn("g.graphData({ nodes, links: linksAt(hour) });", self.n)
+        self.assertIn("}, [hour, view, pick, batteriesOn, pricesOn, linksAt, nodeObject, graphAt]);", self.n)
+
     def test_the_read_is_written_and_every_row_has_a_state(self):
         read = src("docs", "reviews", "grid-map-read-2026-11-19.md")
         rows = re.findall(r"^\| (\d+) \| .* \| (fixed|data machine|ruling|not a fault|waiting)[^|]*\|$", read, re.M)
