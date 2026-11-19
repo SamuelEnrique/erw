@@ -42,6 +42,7 @@ import hunt  # noqa: E402
 VERSION = "1.0.0"                  # session 3001
 OUT = os.path.join(ROOT, "runs", "deep")
 DOCS = os.path.join(ROOT, "docs", "findings")
+CHAIN = 164                         # session 8201: chain 502 sets its own number and plan
 METHOD = "docs/reviews/findings-hunt-plan-2026-11-06.md"
 MAX_PER_CANDIDATE = 2              # the two strongest regions of one candidate: six hubs of one grid tell one story
 MAX_DRAFTS = 12                    # a session keeps the ten best by consequence; two more are written for the check to fold
@@ -85,7 +86,7 @@ def slug(P, region):
 
 
 def csv_text(P, region, words, series, c, tables):
-    lines = [f"# Energy Research Warehouse (ERW): findings hunt (chain 164), candidate {P['name']}, region {region} ({words})",
+    lines = [f"# Energy Research Warehouse (ERW): findings hunt (chain {CHAIN}), candidate {P['name']}, region {region} ({words})",
              f"# Computed {common.now_iso()} by warehouse/analysis/findings/deep/{P['family']}.py ({P['name']}); plan https://github.com/SamuelEnrique/erw/blob/main/{METHOD}",
              f"# Rows: one per year held: {P['label']} ({P['unit']}), the observations it rests on, and whether the year is full",
              f"# Tables: {', '.join(tables)}",
@@ -97,9 +98,9 @@ def csv_text(P, region, words, series, c, tables):
 
 def mirrors(P, region, c, csv_name, py_name):
     """The weekly hunt's Stata and Python mirrors of the claim, read from the draft's CSV, with this chain's name."""
-    do = hunt.do_text(P, region, csv_name, c).replace("ERW weekly hunt, pattern", "ERW findings hunt (chain 164), candidate")
+    do = hunt.do_text(P, region, csv_name, c).replace("ERW weekly hunt, pattern", f"ERW findings hunt (chain {CHAIN}), candidate")
     py = hunt.PY_MIRROR.format(py_name=py_name, csv_name=csv_name, name=P["name"], region=region, n_floor=P["n_floor"], full_share=hunt.FULL_SHARE)
-    py = py.replace("ERW weekly hunt: the Python mirror", "ERW findings hunt (chain 164): the Python mirror")
+    py = py.replace("ERW weekly hunt: the Python mirror", f"ERW findings hunt (chain {CHAIN}): the Python mirror")
     return do, py
 
 
@@ -130,7 +131,7 @@ def build(P, region, words, series, c, tables, out_dir, why, docs_root=None, did
                          common.callout("The tests", "years on its side", f"{c['years_held']} of {c['years_after']}",
                                         "tests passed", f"{sum(1 for t in c['tests'] if t['passed'])} of {len(c['tests'])}")],
             "why": "",
-            "footnote": (f"A draft of the findings hunt over the whole warehouse (chain 164), builder version {VERSION}, on {common.now_iso()[:10]}; not reviewed. "
+            "footnote": (f"A draft of the findings hunt over the whole warehouse (chain {CHAIN}), builder version {VERSION}, on {common.now_iso()[:10]}; not reviewed. "
                          f"Candidate {P['name']}: {P['label']}. Region: {words} ({region}). {tests_words} Limits: {P['limits']} "
                          f"A full year is not the year under way and holds at least {int(hunt.FULL_SHARE * 100)} percent of the fullest year's observations. "
                          f"The claim states a change; it does not say what caused it. Plan and rubric: {METHOD}."),
@@ -141,7 +142,7 @@ def build(P, region, words, series, c, tables, out_dir, why, docs_root=None, did
             "method": "https://github.com/SamuelEnrique/erw/blob/main/" + METHOD,
             "scanner": {"version": VERSION, "rule": "hunt", "date": f"{c['last_year']}-12-31", "flag_id": did, "strength": c["strength"], "full_card": None},
             "hunt": {"pattern": P["name"], "module": P["module"], "region": str(region), "region_words": words, "why": why, "tests": c["tests"], "files": files,
-                     "measure": P["name"], "family": P["family"], "chain": 164, "limits": P["limits"], "consequence": P["consequence"], "license": P.get("license_note")}}
+                     "measure": P["name"], "family": P["family"], "chain": CHAIN, "limits": P["limits"], "consequence": P["consequence"], "license": P.get("license_note")}}
     caption = "\n".join([fact, "", f"Checked five ways before it was drafted: {tests_words}", "", f"Limits: {P['limits']}", "", source_line,
                          "Computed by the Energy Research Warehouse (ERW). A draft: not reviewed."])
     card["hunt"]["caption"] = caption
@@ -195,7 +196,7 @@ def document(P, s, did, region, words, fact, c, tables, texts, files, out_dir, d
         g.write(f.read())
     years = ", ".join(f"{y}: {common.fmt(v, P['decimals'])}" for y, v in zip(c["years"], c["values"]))
     md = [f"# {P['title'].capitalize()}: {words}", "",
-          f"Draft `{did}` of the findings hunt over the whole warehouse (chain 164), {common.now_iso()[:10]}. State: draft, not reviewed. "
+          f"Draft `{did}` of the findings hunt over the whole warehouse (chain {CHAIN}), {common.now_iso()[:10]}. State: draft, not reviewed. "
           f"Review at `/internal/findings`.", "",
           f"**The finding.** {fact}", "",
           f"![{P['title'].capitalize()}, {words}]({s}.png)", "",
@@ -318,7 +319,7 @@ def run(family, candidates, in_dir=None, dry_run=True, load=None, log=print, now
         per[P["name"]] = per.get(P["name"], 0) + 1
         # session 3004: a dry run writes its documents beside its run, so that only loaded drafts reach docs/findings/
         key = f"hunt|{P['module']}|{P['name']}|{region}"
-        d = build(P, region, words, series, c, tables, out_dir, "new: the findings hunt over the whole warehouse (chain 164)",
+        d = build(P, region, words, series, c, tables, out_dir, f"new: the findings hunt over the whole warehouse (chain {CHAIN})",
                   docs_root=os.path.join(out_dir, "docs") if dry_run else None, did=opened.get(key))
         row.update(drafted=True, draft_id=d["id"], fact=d["card"]["subtitle"], replaces=bool(opened.get(key)))
         built.append(d)
