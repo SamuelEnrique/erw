@@ -66,3 +66,24 @@ The replication was written from the note and the contract. Nine rules were not 
 2. From `site/`: `node --import ./scripts/tsx-register.mjs scripts/supply-regions-figures.mjs <figures.json>`, then `python replication/supply/replicate_regions.py --figures <figures.json> --same-flow`. Write the count here and in the method note; a figure that fails is read against the note's rule first.
 3. Draw the page on the real files (`scripts/supply-read-page.mjs`, as session 8430's hand-back says) and take the five cases start to finish; each gap is a new row above.
 4. The Stata do-file `replication/supply/replicate_regions.do` with the five headline figures at its top; the cross-check table, each host's robots file and terms first.
+
+## On the real files (session 8490, 19 November 2026)
+
+The data machine's page files are on `origin/wip/c501-pages` (`af1962719`), not on main: `trade/<region>.json` (13), `trade_matrix.json`, `mix/<region>.json` (13) and `index.json`, built 19 November 2026 between 12:03 and 12:16 UTC. They were copied into the worktree untracked and are not committed here (they land through the data machine). origin/main was merged into the branch first (`5a0d29749`).
+
+| Check | Result on the real files |
+|---|---|
+| `site/scripts/test-supply-regions-8460.mjs` | 20 of 20 |
+| The section's test (`site/scripts/test-supply-regions.mjs`) | 108 of 108 |
+| The pin of the page | 208 of 208 (every address byte for byte outside what was added) |
+| The replication, `replicate_regions.py --same-flow` | 40,248 of 40,248 figures over 27 files (13 trade, 13 mix, 1 matrix) |
+| The same flow in two files | 375 of 375 agree within 0.05 GWh; a separate read to the MWh: 385 of 385 equal |
+
+The data requests made before the files, read against them:
+
+| Row | Asked | On the real files |
+|---:|---|---|
+| 323 | keys the builders write that the contract does not list | the trade files carry `hours_in_month` and, by neighbour, `hours_own` and `hours_their`; the pairs carry `hours_a`, `hours_b`, `hours_both`; no pair lacks a key (0 of 1,652). The contract still has to list them. |
+| 324 | the names of the authorities beyond the border | `index.json` lists 81 authorities, the nine of Canada and Mexico among them with their names; every code of the pairs and the partners is in it. |
+| 325 | the months a pair's year holds | every pair carries `months_held` and `months_in_year` (2018: 6; 2026: 11; never above). |
+| 326 | what a year of the matrix is | the matrix's year sums equal the trade files' Eastern months to the MWh (385 of 385), so a year of the matrix is the sum of EIA's Eastern months. |
