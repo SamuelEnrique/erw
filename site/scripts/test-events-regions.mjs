@@ -69,6 +69,11 @@ ok(/<h2[^>]*>The whole country<\/h2>/.test(html) && html.includes('data-wc-state
 ok(CODES.every((c) => html.includes(`data-wc-row="${c}"`)) && CODES.every((c) => text.includes(C.REGION_NAME[c])), "each of the thirteen regions has its row, by name");
 ok((html.match(/data-wc-new="1"/g) ?? []).length === 6 && ["SE", "FLA", "CAR", "TEN", "NW", "SW"].every((c) => new RegExp(`data-wc-row="${c}" data-wc-new="1"`).test(html)), "the six regions new to the site carry their mark");
 ok(text.includes("Southeast, Florida, Carolinas, Tennessee, Northwest, Southwest: none of the seven grids"), "the six are named in the lead's hover");
+// the data machine's builder (warehouse/derived/regions_pages.py, event_doc) writes the offsets of a baseline by calendar
+// year as words, and the window's own words
+const byYear = pageText(draw({ file: { ...file, baseline: "the same calendar days of 2019 and 2020", baseline_offsets_days: ["2 calendar year(s)", "1 calendar year(s)"], window: "from the first day's midnight, Eastern time, to the midnight after the last day, Pacific time" } }));
+ok(byYear.includes("The file's own words: the same calendar days of 2019 and 2020. Offsets: 2 calendar year(s), 1 calendar year(s).") && byYear.includes("The window's hours, in the file's words: from the first day's midnight, Eastern time")
+  && text.includes("Offsets in days: 364, 728.") && !text.includes("The window's hours, in the file's words"), "the baseline's hover gives the file's own words, its offsets in days or in words, and the window's words where the file has them");
 ok(f["wc|TEN|demand_pct"] === "+20.0" && f["wc|CAR|demand_pct"] === "-10.0" && f["wc|TEN|demand_gwh"] === C.gwh(14400 * N) && f["wc|TEN|peak_mw"] === "14,400" && f["wc|TEN|peak_base_mw"] === "12,000", "Tennessee's row: demand, percent, highest hour and the baseline at that hour");
 ok(f["wc|TEN|imports_mw"] === "+500" && f["wc|TEN|imports_base_mw"] === "-100" && f["wc|CAR|imports_mw"] === "-300" && f["wc|SW|hours"] === String(N - 6), "net imports with their sign, and the hours held");
 ok(f["wc|TEN|gen|natural_gas"] === C.signedGwh(10 * N) && f["wc|TEN|gen|storage"] === C.signedGwh(-70 * N) && f["wc|TEN|gen|net"] === C.signedGwh(1200 * N) && !("wc|FLA|gen|coal" in f), "generation by source less the baseline, in GWh");
