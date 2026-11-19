@@ -24,6 +24,8 @@ export type SetGuide = {
   skills: string[];
   /** the five question ids, the easiest first: the order the live set asks them in (lib/problems.ts, problemSet) */
   order: string[];
+  /** session 8901: the committed page files a set reads (paths under site/data), for a set whose figures are pf| keys */
+  files?: string[];
 };
 
 export const GUIDE: Record<string, SetGuide> = {
@@ -65,6 +67,21 @@ export const GUIDE: Record<string, SetGuide> = {
   },
 };
 
+/** Session 8901 (chain 507, part C): the sets of the whole country keep their guide in their own module
+ *  (lib/problemsets/<slug>.ts, GUIDE_ENTRY), and lib/problems.ts adds each here when it loads, after the five. This file
+ *  still imports nothing, so node tests it alone; a slug already in the guide is never replaced. */
+export function addGuide(slug: string, entry: SetGuide): void {
+  if (!(slug in GUIDE)) GUIDE[slug] = entry;
+}
+
+/** Session 8901: the source tables each page file names in its own header (its `tables` field), noted by the sets when
+ *  they read the file (lib/pagefile.ts fileHead), so a pf| figure's hover and CSV row name them. A file that names none
+ *  has no table. */
+const PF_TABLES: Record<string, string[]> = {};
+export function notePageFile(file: string, tables: string[]): void {
+  PF_TABLES[file] = [...tables];
+}
+
 /** The questions in the set's rising order; a question the order does not name keeps its place after the named ones. */
 export function inOrder<Q extends { id: string }>(questions: Q[], order: string[]): Q[] {
   const at = (q: Q) => { const i = order.indexOf(q.id); return i < 0 ? order.length : i; };
@@ -74,8 +91,9 @@ export function inOrder<Q extends { id: string }>(questions: Q[], order: string[
 /** The words for one instructor, for the index's hover: each set's tables (the keys /data and the CSVs name) and the
  *  method note. */
 export function instructorNote(): string {
-  const sets = Object.entries(GUIDE).map(([slug, g]) => `${slug}: ${g.tables.join(", ")}`).join("; ");
-  return `Table keys by set: ${sets}. Every figure carries its check key (series|<table>|<entity>|<variable>|<time>, or the computed forms), recomputed by site/scripts/check-values.mjs. Method note: ${METHOD_NOTE}.`;
+  // session 8901: a set of the whole country also names the page files it reads
+  const sets = Object.entries(GUIDE).map(([slug, g]) => `${slug}: ${g.tables.join(", ")}${g.files?.length ? ` (page files ${g.files.map((f) => `site/data/${f}`).join(", ")})` : ""}`).join("; ");
+  return `Table keys by set: ${sets}. Every figure carries its check key (series|<table>|<entity>|<variable>|<time>, or the computed forms, or pf|<page file>|<path> for a figure read from a committed page file), recomputed by site/scripts/check-values.mjs. Method note: ${METHOD_NOTE}.`;
 }
 
 // ---------------------------------------------------------------- where a figure came from
@@ -107,6 +125,8 @@ export function tableOfKey(k: string): string {
   if (p[0] === "calc") return tableOfKey((p[2] ?? "").replaceAll("~", "|"));
   if (p[0] === "battery") return p[1] === "cycle" || p[1] === "cycle_fleet" ? "cost_of_power_hourly_profile" : "";
   if (p[0] === "bill") return p[2] === "wholesale" || p[2] === "share" ? "cost_of_power_monthly" : "";
+  // session 8901: a page file's figure, the first table the file names in its header ("" when it names none)
+  if (p[0] === "pf") return PF_TABLES[p[1] ?? ""]?.[0] ?? "";
   return TABLE_OF[p[0]] ?? "";
 }
 
@@ -127,6 +147,15 @@ export function keyWords(k: string): string | undefined {
       if (!OP[p[1]] || !a || !b) return undefined;
       return `${OP[p[1]]} of (${a}) and (${b})`;
     }
+    // session 8901: pf|<file under site/data>|<path into the JSON> (lib/pagefile.ts): the file and the path, in words
+    case "pf": {
+      if (p.length !== 3 || !p[1]) return undefined;
+      const steps = (p[2] ?? "").split("/").filter(Boolean).map((s) => {
+        const d = (x: string) => { try { return decodeURIComponent(x); } catch { return x; } };
+        return s.startsWith("@") ? `the one with ${s.slice(1).split("+").map((c) => c.split("=").map(d).join(" ")).join(", ")}` : d(s);
+      });
+      return `the page file site/data/${p[1]}${steps.length ? `: ${steps.join(", ")}` : ""}`;
+    }
     default:
       return FILE_OF[p[0]] ? `${FILE_OF[p[0]]}: ${p.slice(1).join(", ")}` : undefined;
   }
@@ -136,6 +165,8 @@ export function keyWords(k: string): string | undefined {
 export function tablesOfKey(k: string): string[] {
   const p = k.split("|");
   if (p[0] === "calc") return [...new Set([...tablesOfKey((p[2] ?? "").replaceAll("~", "|")), ...tablesOfKey((p[3] ?? "").replaceAll("~", "|"))])];
+  // session 8901: every table the page file names in its header
+  if (p[0] === "pf") return [...(PF_TABLES[p[1] ?? ""] ?? [])];
   const t = tableOfKey(k);
   return t ? [t] : [];
 }
