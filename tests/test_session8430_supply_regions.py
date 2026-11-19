@@ -54,7 +54,7 @@ class ThePageDrawn(unittest.TestCase):
 
     def test_the_whole_country_section(self):
         r = node("scripts/test-supply-regions.mjs")
-        self.check(r, 104)
+        self.check(r, 109)
         for held in ("a large gap is marked and said plainly on hover, with the rule, its default and its source",
                      "two regions side by side, A and B, in the trade view and in the mix view",
                      "pair by pair: which sent and which received, Canada and Mexico among them",

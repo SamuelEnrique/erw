@@ -15,8 +15,13 @@ export const FIRST_MONTH = "2018-07";
 export type FileHead = { built?: string; tables?: string[]; method?: string; license?: string; fixture?: string };
 export type TradeNeighbour = { net_imports_mwh?: Arr; their_report_mwh?: Arr; gap_mwh?: Arr; hours_own?: Arr; hours_their?: Arr; hours_both?: Arr };
 /** `site/data/regions/trade/<region>.json` (the contract's section 5). */
-export type TradeFile = FileHead & { code: string; name?: string; months: string[]; net_imports_mwh?: Arr; neighbors?: Record<string, TradeNeighbour> };
-export type PairRow = { a: string; b: string; year: number | string; a_report_mwh?: number | null; b_report_mwh?: number | null; mean_mwh?: number | null; gap_mwh?: number | null; direction?: string | null };
+export type TradeFile = FileHead & { code: string; name?: string; months: string[]; hours_in_month?: Arr; net_imports_mwh?: Arr; neighbors?: Record<string, TradeNeighbour> };
+/** One pair's year. The data machine's builder (warehouse/derived/interchange_pairs.py, session 8002) also writes the
+ *  hours each side reported and `direction` "none" at zero; the contract lists neither, so both are read where held. */
+export type PairRow = {
+  a: string; b: string; year: number | string; a_report_mwh?: number | null; b_report_mwh?: number | null; mean_mwh?: number | null; gap_mwh?: number | null; direction?: string | null;
+  hours_a?: number | null; hours_b?: number | null; hours_both?: number | null;
+};
 export type Partners = { by_gross?: string[]; by_net?: string[]; net_import_share_of_demand_pct?: number | null };
 /** `site/data/regions/trade_matrix.json` (the contract's section 7). */
 export type MatrixFile = FileHead & { years?: (number | string)[]; regions?: string[]; region_pairs?: PairRow[]; ba_pairs?: PairRow[]; partners?: Record<string, Record<string, Partners>> };
@@ -124,6 +129,8 @@ export type PairView = {
    *  other way */
   fromReport: number | null; toReport: number | null; mean: number | null; gap: number | null;
   pct: number | null; large: boolean;
+  /** the hours each side reported and the hours both did, where the file gives them */
+  hoursFrom: number | null; hoursTo: number | null; hoursBoth: number | null;
 };
 /** The pairs of one year, each turned to its own direction, in the contract's order of the first code and then the
  *  second (no pair is ranked against another). */
@@ -134,11 +141,13 @@ export function pairsOfYear(rows: PairRow[] | undefined, year: string, threshold
     const dir = r.direction === "a_to_b" || r.direction === "b_to_a" ? r.direction : num(r.mean_mwh) && r.mean_mwh !== 0 ? (r.mean_mwh > 0 ? "a_to_b" : "b_to_a") : null;
     const turn = dir === "b_to_a" ? -1 : 1;
     const v = (x: number | null | undefined) => (num(x) ? x * turn || 0 : null);
+    const h = (x: number | null | undefined) => (num(x) ? x : null);
     const pct = gapPct(r.gap_mwh, r.a_report_mwh, r.b_report_mwh);
     out.push({
       key: `${r.a}-${r.b}`, a: r.a, b: r.b, from: dir ? (dir === "a_to_b" ? r.a : r.b) : null, to: dir ? (dir === "a_to_b" ? r.b : r.a) : null,
       fromReport: v(dir === "b_to_a" ? r.b_report_mwh : r.a_report_mwh), toReport: v(dir === "b_to_a" ? r.a_report_mwh : r.b_report_mwh),
       mean: v(r.mean_mwh), gap: num(r.gap_mwh) ? r.gap_mwh : null, pct, large: isLarge(pct, threshold),
+      hoursFrom: h(dir === "b_to_a" ? r.hours_b : r.hours_a), hoursTo: h(dir === "b_to_a" ? r.hours_a : r.hours_b), hoursBoth: h(r.hours_both),
     });
   }
   return out.sort((x, y) => place(x.a) - place(y.a) || x.a.localeCompare(y.a) || place(x.b) - place(y.b) || x.b.localeCompare(y.b));

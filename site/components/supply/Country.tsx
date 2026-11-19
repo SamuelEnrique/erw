@@ -140,7 +140,8 @@ function Trade({ code, file, year, mark }: { code: string; file: TradeFile | nul
           const c = monthCell(file.neighbors![nb], i);
           const nbName = placeName(nb);
           if (c.own === null) return cell(nb, null, `The file holds no report by ${name} of its flow with ${nbName} in ${monthWords(m)}.`);
-          const words = `${name} reported ${signedGwh(c.own)} GWh of net imports from ${nbName} in ${monthWords(m)}${c.hoursOwn !== null ? ` (${whole(c.hoursOwn)} hours)` : ""}. ${c.their !== null ? `${nbName} reported the same flow as ${signedGwh(c.their)} GWh${c.hoursTheir !== null ? ` (${whole(c.hoursTheir)} hours)` : ""}.` : `${poss(nbName)} report of the same flow is not held.`}${c.gap !== null ? ` Over the ${c.hoursBoth !== null ? `${whole(c.hoursBoth)} ` : ""}hours both reported, the gap is ${signedGwh(c.gap)} GWh${c.pct !== null ? `, ${pct1(c.pct)} percent of the mean size of the two reports` : ""}.` : ""}`;
+          const inMonth = file.hours_in_month?.[i];
+          const words = `${name} reported ${signedGwh(c.own)} GWh of net imports from ${nbName} in ${monthWords(m)}${c.hoursOwn !== null ? ` (${whole(c.hoursOwn)}${typeof inMonth === "number" ? ` of the month's ${whole(inMonth)}` : ""} hours)` : ""}. ${c.their !== null ? `${nbName} reported the same flow as ${signedGwh(c.their)} GWh${c.hoursTheir !== null ? ` (${whole(c.hoursTheir)} hours)` : ""}.` : `${poss(nbName)} report of the same flow is not held.`}${c.gap !== null ? ` Over the ${c.hoursBoth !== null ? `${whole(c.hoursBoth)} ` : ""}hours both reported, the gap is ${signedGwh(c.gap)} GWh${c.pct !== null ? `, ${pct1(c.pct)} percent of the mean size of the two reports` : ""}.` : ""}`;
           return cell(nb, c.large
             ? <span className="cursor-help border-b border-dotted border-ink font-semibold" data-gap-large="1" title={`${words} That is large by this page's rule: ${LARGE_GAP_PCT} percent or more. Default: ${LARGE_GAP_PCT} percent, this page's own choice (session 8430); no publisher's threshold stands behind it. ${SOURCE_WORDS}`}><N k={`trade|${code}|${m}|${nb}`}>{signedGwh(c.own)}</N></span>
             : <span className="cursor-help" title={`${words} ${SOURCE_WORDS}`}><N k={`trade|${code}|${m}|${nb}`}>{signedGwh(c.own)}</N></span>, "");
@@ -188,8 +189,9 @@ function pairRows(pairs: PairView[], year: string, kind: "pair" | "bapair", name
     const blank = (v: ReactNode | null, missing: string) => (h ? <Held why={h} /> : v ?? <NOT why={missing} />);
     const one = p.from ?? p.a, two = p.to ?? p.b;
     const facts = p.fromReport !== null && p.toReport !== null && p.gap !== null
-      ? `${nameOf(one)} reported ${gwh(p.fromReport)} GWh sent to ${nameOf(two)} in ${year}; ${nameOf(two)} reported the same flow as ${gwh(p.toReport)} GWh. The gap is ${signedGwh(p.gap)} GWh${p.pct !== null ? `, ${pct1(p.pct)} percent of the mean size of the two reports` : ""}.`
+      ? `${nameOf(one)} reported ${gwh(p.fromReport)} GWh sent to ${nameOf(two)} in ${year}; ${nameOf(two)} reported the same flow as ${gwh(p.toReport)} GWh. ${p.hoursBoth !== null ? `Over the ${whole(p.hoursBoth)} hours both reported, the` : "The"} gap is ${signedGwh(p.gap)} GWh${p.pct !== null ? `, ${pct1(p.pct)} percent of the mean size of the two reports` : ""}.`
       : "";
+    const hrs = (x: number | null) => (x !== null ? ` It reported ${whole(x)} hours of the year.` : "");
     const named = (c: string) => { const href = pick?.(c); return href ? <Link href={href} title={tip(c)}>{nameOf(c)}</Link> : <span title={tip(c)}>{nameOf(c)}</span>; };
     const other = (c: string) => `${nameOf(c)} counted the year's net flow the other way.`;
     return {
@@ -197,10 +199,10 @@ function pairRows(pairs: PairView[], year: string, kind: "pair" | "bapair", name
       cells: [
         <span key="s" data-wc-pair={p.key} data-wc-kind={kind}>{p.from ? named(p.from) : <>{named(p.a)} and {named(p.b)}</>}</span>,
         p.to ? named(p.to) : p.mean === 0 ? "no net flow" : <NOT why={`The file gives no direction for ${nameOf(p.a)} and ${nameOf(p.b)} in ${year}: it holds no mean of the two reports.`} />,
-        blank(p.fromReport !== null ? <span title={`${poss(nameOf(one))} report of the power it sent to ${nameOf(two)} over ${year}, as the file gives it.${p.fromReport < 0 ? ` Below zero: ${other(one)}` : ""}`}><N k={`${kind}|${p.key}|${year}|from_report`}>{gwh(p.fromReport)}</N></span> : null, `The file holds no report by ${nameOf(one)} of this flow in ${year}.`),
-        blank(p.toReport !== null ? <span title={`${poss(nameOf(two))} report of the power ${nameOf(one)} sent to it over ${year}, as the file gives it.${p.toReport < 0 ? ` Below zero: ${other(two)}` : ""}`}><N k={`${kind}|${p.key}|${year}|to_report`}>{gwh(p.toReport)}</N></span> : null, `The file holds no report by ${nameOf(two)} of this flow in ${year}.`),
+        blank(p.fromReport !== null ? <span title={`${poss(nameOf(one))} report of the power it sent to ${nameOf(two)} over ${year}, as the file gives it.${hrs(p.hoursFrom)}${p.fromReport < 0 ? ` Below zero: ${other(one)}` : ""}`}><N k={`${kind}|${p.key}|${year}|from_report`}>{gwh(p.fromReport)}</N></span> : null, `The file holds no report by ${nameOf(one)} of this flow in ${year}.`),
+        blank(p.toReport !== null ? <span title={`${poss(nameOf(two))} report of the power ${nameOf(one)} sent to it over ${year}, as the file gives it.${hrs(p.hoursTo)}${p.toReport < 0 ? ` Below zero: ${other(two)}` : ""}`}><N k={`${kind}|${p.key}|${year}|to_report`}>{gwh(p.toReport)}</N></span> : null, `The file holds no report by ${nameOf(two)} of this flow in ${year}.`),
         blank(p.mean !== null ? <N k={`${kind}|${p.key}|${year}|mean`}>{gwh(p.mean)}</N> : null, `The file holds no mean of the two reports for this pair in ${year}.`),
-        blank(p.gap !== null ? <span title={`${poss(nameOf(one))} report less ${poss(nameOf(two))}.`}><N k={`${kind}|${p.key}|${year}|gap`}>{signedGwh(p.gap)}</N></span> : null, `The file holds no gap for this pair in ${year}: one side's report is not held.`),
+        blank(p.gap !== null ? <span title={`${poss(nameOf(one))} report less ${poss(nameOf(two))}, over the hours both reported${p.hoursBoth !== null ? ` (${whole(p.hoursBoth)} hours)` : ""}, as the file gives it. Each of the two reports runs over that side's own hours, so this is not always their difference.`}><N k={`${kind}|${p.key}|${year}|gap`}>{signedGwh(p.gap)}</N></span> : null, `The file holds no gap for this pair in ${year}: one side's report is not held.`),
         blank(p.pct !== null ? <GapPct k={`${kind}|${p.key}|${year}|gap_pct`} pct={p.pct} large={p.large} words={facts} /> : null, "A percent needs both reports and their gap, and two reports that are not both zero."),
       ],
     };
@@ -211,8 +213,8 @@ const pairHead = (who: string) => [
   <Head key="t" mark="received" words="Received" why="The one the net flow ran to over the year, by the same direction." />,
   <Head key="a" mark="from-report" words="Sender's report, GWh" why={`The flow over the year as the sending side filed it with EIA. A figure below zero says that side counted the year's net flow the other way. ${SOURCE_WORDS}`} />,
   <Head key="b" mark="to-report" words="Receiver's report, GWh" why="The same flow as the receiving side filed it. Both ends of a line file with EIA, each from its own meters and schedules; the two need not agree." />,
-  <Head key="m" mark="mean" words="Mean, GWh" why="The mean of the two reports, as the file gives it." />,
-  <Head key="g" mark="gap" words="Gap, GWh" why="The sender's report less the receiver's, as the file gives it." />,
+  <Head key="m" mark="mean" words="Mean, GWh" why="The file's own figure for the pair: the mean of the two reports over the hours both sides reported, and the one side's report for a month in which the other reported no hour. Its sign gives the direction." />,
+  <Head key="g" mark="gap" words="Gap, GWh" why="The sender's report less the receiver's over the hours both reported, as the file gives it." />,
   <Head key="p" mark="gappct" words="Gap, percent" why={`The gap as a percent of the mean size of the two reports (the mean of their absolute values). ${GAP_RULE}`} />,
 ];
 
@@ -248,7 +250,7 @@ function Matrix({ file, index, year, a, b, pick }: { file: MatrixFile | null; in
             head={[
               "Authority",
               <Head key="g" mark="by-gross" words="Partners by gross exchange" why="The authorities it exchanged power with over the year, in the file's order: by gross exchange (the power sent and the power received, added), the largest first. Hover a list for the names. Source: ERW table ba_trade_partners, from EIA Form EIA-930." />,
-              <Head key="n" mark="by-net" words="Partners by net exchange" why={`The same partners in the file's order by net exchange over the year.${SHOWN.importShare ? "" : " The file also holds each authority's net imports as a share of its demand; that share is not drawn in this section until the owner rules."}`} />,
+              <Head key="n" mark="by-net" words="Partners by net exchange" why={`The same partners in the file's order by net exchange over the year: by the size of the net, whichever way it ran, the largest first.${SHOWN.importShare ? "" : " The file also holds each authority's net imports as a share of its demand; that share is not drawn in this section until the owner rules."}`} />,
               ...(SHOWN.importShare ? [<Head key="s" mark="share" words="Net imports, percent of demand" why="The authority's net imports over the year as a percent of its demand, as the file gives it (ERW table ba_trade_partners). Below zero it was a net exporter." />] : []),
             ]}
             rows={partners.map((p) => ({
@@ -369,7 +371,8 @@ export function Country({ q, keep = {}, read = READERS }: { q: { region?: string
   };
   const options = REGION_CODES.map((c) => ({ value: c.toLowerCase(), label: REGION_NAME[c] }));
   const tables = [...new Set(held.flatMap((f) => f.tables ?? []))];
-  const method = (held.find((f) => f.method)?.method ?? "docs/methods/supply_and_trade.md").replace(/^docs\/methods\//, "").replace(/\.md$/, "");
+  // each file names its own method note; the page's own note says what this section does with them
+  const methods = [...new Set(["docs/methods/supply_and_trade.md", ...held.flatMap((f) => (f.method ? [f.method] : []))].map((m) => m.replace(/^docs\/methods\//, "").replace(/\.md$/, "")))];
   const two = b ? "grid gap-6 lg:grid-cols-2" : "";
 
   return open(
@@ -413,7 +416,7 @@ export function Country({ q, keep = {}, read = READERS }: { q: { region?: string
 
       <p className="mt-3 text-xs text-muted" data-wc-source="1">
         Source: EIA Form EIA-930 (public domain), by region and by balancing authority{tables.length ? <>; ERW table{tables.length > 1 ? "s" : ""} {tables.map((t, i) => <span key={t}>{i ? ", " : ""}<Link href={`/data#${t}`} className="font-mono" gate="plain">{t}</Link></span>)}</> : null}
-        {built ? <>; files built {built.slice(0, 10)}</> : null}. <Link href={`/data/methods/${method}`}>Method</Link>.
+        {built ? <>; files built {built.slice(0, 10)}</> : null}. Method: {methods.map((m, i) => <span key={m}>{i ? ", " : ""}<Link href={`/data/methods/${m}`}>{m.replace(/_/g, " ")}</Link></span>)}.
       </p>
     </div>,
   );

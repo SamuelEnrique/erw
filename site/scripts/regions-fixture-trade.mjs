@@ -28,42 +28,53 @@ export const at = (code) => PLACES.indexOf(code) + 1;
 /** The own report of region `code` with neighbour `nb` in month position m, MWh: 1000 (j - i) + 10 m. */
 export const ownOf = (code, nb, m) => 1000 * (at(nb) - at(code)) + 10 * m;
 
-/** A region's trade file. For each neighbour and month position m: the own report is ownOf; the neighbour's report is
- *  the own report less 50 (a gap of +50), but Tennessee's neighbour the Southeast reports 0.8 of Tennessee's own (a gap
- *  of 0.2 of it); hours 720 on the neighbour's side and both, 744 on the own side in an even position, 720 in an odd.
- *  The Carolinas hold nothing of the Southeast in the first three months (so the total is null there), and the Midwest's
- *  report of Tennessee is null in position 90 (January 2026), with its gap. The total is the sum of the own reports. */
+/** A region's trade file, with the keys the data machine's builder writes (warehouse/derived/regions_pages.py, session
+ *  8001: the contract's, and `hours_in_month`). For each neighbour and month position m: the own report is ownOf; the
+ *  neighbour's report is the own report less 50 (a gap of +50), but Tennessee's neighbour the Southeast reports 0.8 of
+ *  Tennessee's own (a gap of 0.2 of it); hours 720 on the neighbour's side and both, 744 on the own side in an even
+ *  position, 720 in an odd; a side that holds nothing has 0 hours. Canada and Mexico report nothing, so a flow with
+ *  them has no neighbour's report and no gap. The Carolinas hold nothing of the Southeast in the first three months
+ *  (so the total is null there), and the Midwest's report of Tennessee is null in position 90 (January 2026), with its
+ *  gap. The total is the sum of the own reports. A month has its days times 24 hours. */
 export function tradeFixture(code, { license = "public", tables = ["eia930_region_pair_hourly"] } = {}) {
   const months = fixtureMonths();
   const neighbors = {};
   for (const nb of NEIGHBOURS[code]) {
     const none = (m) => code === "CAR" && nb === "SE" && m < 3;
+    const abroad = nb === "CAN" || nb === "MEX";
     const own = months.map((_, m) => (none(m) ? null : ownOf(code, nb, m)));
-    const their = months.map((_, m) => (none(m) ? null : code === "TEN" && nb === "MIDW" && m === 90 ? null : code === "TEN" && nb === "SE" ? 0.8 * ownOf(code, nb, m) : ownOf(code, nb, m) - 50));
+    const their = months.map((_, m) => (none(m) || abroad ? null : code === "TEN" && nb === "MIDW" && m === 90 ? null : code === "TEN" && nb === "SE" ? 0.8 * ownOf(code, nb, m) : ownOf(code, nb, m) - 50));
     neighbors[nb] = {
       net_imports_mwh: own, their_report_mwh: their, gap_mwh: own.map((v, m) => (v === null || their[m] === null ? null : v - their[m])),
-      hours_own: months.map((_, m) => (none(m) ? null : m % 2 === 0 ? 744 : 720)), hours_their: months.map((_, m) => (none(m) || their[m] === null ? null : 720)),
-      hours_both: months.map((_, m) => (none(m) || their[m] === null ? null : 720)),
+      hours_own: months.map((_, m) => (none(m) ? 0 : m % 2 === 0 ? 744 : 720)), hours_their: months.map((_, m) => (their[m] === null ? 0 : 720)),
+      hours_both: months.map((_, m) => (their[m] === null ? 0 : 720)),
     };
   }
   const net = months.map((_, m) => { const vs = NEIGHBOURS[code].map((nb) => neighbors[nb].net_imports_mwh[m]); return vs.some((v) => v === null) ? null : vs.reduce((s, v) => s + v, 0); });
-  return { ...head(tables, license, "docs/methods/regions_trade.md"), code, name: code, months, net_imports_mwh: net, neighbors };
+  return { ...head(tables, license, "docs/methods/regions_pages.md"), code, name: code, months, hours_in_month: months.map((m) => DAYS(m) * 24), net_imports_mwh: net, neighbors };
 }
 
 export const MATRIX_YEARS = [2023, 2024, 2025, 2026];
 export const REGION_PAIRS = [["CAR", "SE"], ["CAR", "TEN"], ["SE", "TEN"], ["FLA", "SE"], ["CAL", "NW"], ["CAL", "MEX"], ["CAN", "NW"], ["MIDA", "NY"], ["CENT", "TEX"], ["NW", "SW"]];
 export const BA_PAIRS = [["DUK", "TVA"], ["SOCO", "TVA"], ["BPAT", "CISO"], ["ERCO", "SWPP"]];
-/** One pair's year. Pair k (from 1) in year y: the first side's report is 1,000,000 k + 1000 (y - 2023), below zero for
- *  an even k (the flow runs from the second to the first); the second side's report is 0.98 of it. SE-TEN's second side
- *  reports half (a large gap); FLA-SE is zero on both sides and names no direction; NW-SW's second side is not held, so
- *  it has no mean, no gap and no direction. */
+/** One pair's year, with the keys the data machine's builder writes (warehouse/derived/interchange_pairs.py, session
+ *  8002: the contract's, the hours each side reported, and `direction` "none" at zero). Pair k (from 1) in year y: the
+ *  first side's report is 1,000,000 k + 1000 (y - 2023), below zero for an even k (the flow runs from the second to the
+ *  first); the second side's report is 0.98 of it; each side reports 8,760 hours. SE-TEN's second side reports half (a
+ *  large gap); FLA-SE is zero on both sides and its direction is "none". A side that reports nothing (Canada, Mexico,
+ *  and the Southwest in NW-SW) has a null report and 0 hours: the mean is then the other side's report, as the builder
+ *  writes it, and there is no gap. */
 export function pairOf([a, b], k, y) {
   const key = `${a}-${b}`;
-  if (key === "FLA-SE") return { a, b, year: y, a_report_mwh: 0, b_report_mwh: 0, mean_mwh: 0, gap_mwh: 0, direction: null };
+  const H = 8760;
+  if (key === "FLA-SE") return { a, b, year: y, a_report_mwh: 0, b_report_mwh: 0, mean_mwh: 0, gap_mwh: 0, hours_a: H, hours_b: H, hours_both: H, direction: "none" };
   const one = (k % 2 === 0 ? -1 : 1) * (1_000_000 * k + 1000 * (y - 2023));
-  if (key === "NW-SW") return { a, b, year: y, a_report_mwh: one, b_report_mwh: null, mean_mwh: null, gap_mwh: null, direction: null };
   const two = (key === "SE-TEN" ? 0.5 : 0.98) * one;
-  return { a, b, year: y, a_report_mwh: one, b_report_mwh: two, mean_mwh: (one + two) / 2, gap_mwh: one - two, direction: one + two > 0 ? "a_to_b" : "b_to_a" };
+  const dir = (v) => (v > 0 ? "a_to_b" : v < 0 ? "b_to_a" : "none");
+  const silent = (code) => code === "CAN" || code === "MEX" || (key === "NW-SW" && code === "SW");
+  if (silent(a)) return { a, b, year: y, a_report_mwh: null, b_report_mwh: two, mean_mwh: two, gap_mwh: null, hours_a: 0, hours_b: H, hours_both: 0, direction: dir(two) };
+  if (silent(b)) return { a, b, year: y, a_report_mwh: one, b_report_mwh: null, mean_mwh: one, gap_mwh: null, hours_a: H, hours_b: 0, hours_both: 0, direction: dir(one) };
+  return { a, b, year: y, a_report_mwh: one, b_report_mwh: two, mean_mwh: (one + two) / 2, gap_mwh: one - two, hours_a: H, hours_b: H, hours_both: H, direction: dir(one + two) };
 }
 export const PARTNERS = {
   TVA: { by_gross: ["SOCO", "MISO", "PJM", "DUK"], by_net: ["MISO", "SOCO", "PJM", "DUK"], share: 7.5 },
@@ -76,7 +87,7 @@ export function matrixFixture({ license = "public", tables = ["interchange_pair_
   const partners = {};
   for (const [ba, p] of Object.entries(PARTNERS)) partners[ba] = Object.fromEntries(MATRIX_YEARS.map((y) => [String(y), { by_gross: p.by_gross, by_net: p.by_net, net_import_share_of_demand_pct: p.share + (y - 2023) }]));
   return {
-    ...head(tables, license, "docs/methods/regions_trade.md"), years: MATRIX_YEARS, regions: PLACES,
+    ...head(tables, license, "docs/methods/interchange_pairs.md"), years: MATRIX_YEARS, regions: PLACES,
     region_pairs: MATRIX_YEARS.flatMap((y) => REGION_PAIRS.map((p, i) => pairOf(p, i + 1, y))),
     ba_pairs: MATRIX_YEARS.flatMap((y) => BA_PAIRS.map((p, i) => pairOf(p, REGION_PAIRS.length + i + 1, y))),
     partners,
@@ -90,7 +101,7 @@ export const energyOf = (code, j, m) => (j === 7 ? -100 * at(code) : 1000 * at(c
 /** A region's mix file. Net generation is the sum of the sources; a share is the energy over it, in percent, to two
  *  decimals. Florida has no coal; the Southwest's first month is January 2019; the Carolinas lack June 2025; Tennessee
  *  holds 26 of February 2025's 28 days. */
-export function mixFixture(code, { license = "public", tables = ["eia930_region_fuel_hourly"] } = {}) {
+export function mixFixture(code, { license = "public", tables = ["eia930_region_fuel_hourly", "eia930_region_hourly", "eia930_ba_demand_hourly"] } = {}) {
   const all = fixtureMonths();
   const months = {};
   all.forEach((month, m) => {
@@ -109,14 +120,14 @@ export function mixFixture(code, { license = "public", tables = ["eia930_region_
     months[month] = row;
   });
   const held = Object.keys(months).sort();
-  return { ...head(tables, license, "docs/methods/regions_mix.md"), grid: code.toLowerCase(), name: code, tz: "America/New_York", join: null, first: held[0], upto: held[held.length - 1], sources: SOURCE_KEYS, months, years: {} };
+  return { ...head(tables, license, "docs/methods/regions_pages.md"), grid: code.toLowerCase(), name: code, tz: "America/New_York", join: null, first: held[0], upto: held[held.length - 1], sources: SOURCE_KEYS, months, years: {} };
 }
 
 /** The index file, as far as the section reads it: the names and regions of nine balancing authorities. */
 export function indexFixture() {
   const bas = [["TVA", "Tennessee Valley Authority", "TEN"], ["DUK", "Duke Energy Carolinas", "CAR"], ["SOCO", "Southern Company Services", "SE"], ["BPAT", "Bonneville Power Administration", "NW"],
     ["CISO", "California Independent System Operator", "CAL"], ["ERCO", "Electric Reliability Council of Texas", "TEX"], ["SWPP", "Southwest Power Pool", "CENT"], ["MISO", "Midcontinent Independent System Operator", "MIDW"], ["PJM", "PJM Interconnection", "MIDA"]];
-  return { ...head(["eia930_ba_demand_hourly"], "public", "docs/methods/regions_index.md"), regions: CODES.map((code) => ({ code, name: code, bas: bas.filter((b) => b[2] === code).map((b) => b[0]) })), bas: bas.map(([code, name, region]) => ({ code, name, region })) };
+  return { ...head(["eia930_ba_demand_hourly", "eia930_ba_supply_hourly"], "public", "docs/methods/regions_pages.md"), regions: CODES.map((code) => ({ code, name: code, bas: bas.filter((b) => b[2] === code).map((b) => b[0]) })), bas: bas.map(([code, name, region]) => ({ code, name, region })) };
 }
 
 /** The four readers the section takes, from the fixtures; `without` lists files that are not built ("trade/fla", "mix/nw", "matrix", "index"). */

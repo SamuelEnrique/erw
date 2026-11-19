@@ -221,10 +221,12 @@ the pin, with the clock standing still, so a weekly rebuild of `site/data/supply
   file's own monthly total, which the file leaves null when any neighbour holds fewer than half the month's hours.
 - **Who trades with whom.** For the chosen year, each pair of regions from the matrix file: which sent and which
   received (the file's `direction`; the sign of its mean where it names none), each side's report turned to that
-  direction (a report below zero says that side counted the year's net flow the other way), the file's mean, the
-  file's gap (the sender's report less the receiver's) and the gap in percent. The pairs stand in EIA's order of
-  codes; none is ranked against another. In two folds: the same for each pair of balancing authorities, and each
-  authority's partners by gross and by net exchange, in the file's order (`ba_trade_partners`).
+  direction (a report below zero says that side counted the year's net flow the other way), the file's mean (over the
+  hours both sides reported, the mean of the two; the one side's report where the other reported no hour), the
+  file's gap (the sender's report less the receiver's, over the hours both reported) and the gap in percent. A side
+  whose report the file does not hold reads "not held yet", and so do the gap and its percent. The pairs stand in EIA's order of codes; none is ranked against another. In two folds: the same for
+  each pair of balancing authorities, and each authority's partners by gross and by net exchange, in the file's order
+  (`ba_trade_partners`).
 - **The gap that is called large.** The gap in percent is the gap over the mean size of the two reports (the mean of
   their absolute values); for a year with a neighbour it runs over the months that hold both reports and the gap. A
   gap of 10 percent or more is marked (a dotted line under the figure) and said in words on hover: who reported what,
