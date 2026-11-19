@@ -196,7 +196,7 @@ The page "Where the resources are" already reads twelve resource layers and two 
 | top level | `built`, `tables` (`resource_layer_features`), `method`, `license` (`public`), `source`, `source_url`, `retrieved_at`, `source_sha256`, `simplify_tolerance_deg` | as section 1 |
 | table `resource_layer_features` | entities, one row a cell, site or area | every cell (0.05 degrees) of the wind speed and the two solar grids, every site and area of the other resource layers, and the coal fields, each with `x_layer`, `x_value`, `x_unit`, `lat`, `lon` (`docs/methods/resource_layers_table.md`) |
 
-Sample `properties` (first build, 544,878 bytes at a tolerance of 0.005 degrees): `{"province": "Interior", "name": "Northern Region", "age": "Pennsylvanian-Permian", "rank": "Medium and High Volatile Bituminous", "area_km2": ...}`.
+Sample `properties` (first build, 544,878 bytes at a tolerance of 0.005 degrees): `{"province": "Interior", "name": "Northern Region", "age": "Pennsylvanian-Permian", "rank": "Medium and High Volatile Bituminous", "area_km2": 29776.9}`.
 
 Not drawn (no source this machine may read): uranium and critical-mineral deposits (USGS's `mrdata.usgs.gov` robots file disallows every path to every agent; ScienceBase disallows Claude by name).
 
