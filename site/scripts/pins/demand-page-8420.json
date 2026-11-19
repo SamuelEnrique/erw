@@ -1,0 +1,306 @@
+{
+ "what": "The addresses of /demand as drawn from the branch's base before session 8420 (chain 503, part C), by scripts/test-demand-pin.mjs: a hash of each address's HTML (line ends as LF), its length and its count of checked figures. The consumption view is drawn on made-up rows (scripts/demand-pages.mjs), so its hash holds the page's code, not a table.",
+ "from_commit": "bbefd6dd01603a692dd3b22a799ee6885a91915f",
+ "addresses": {
+  "plain": {
+   "query": "",
+   "sha256": "bc887aa80de3687f438b03ef6bb8017dd22545506f189a2ab195f3bd229357c1",
+   "bytes": 121313,
+   "figures": 91
+  },
+  "metered-ercot-avg": {
+   "query": "area=ercot&rank=avg",
+   "sha256": "bc887aa80de3687f438b03ef6bb8017dd22545506f189a2ab195f3bd229357c1",
+   "bytes": 121313,
+   "figures": 91
+  },
+  "metered-ercot-peak": {
+   "query": "area=ercot&rank=peak",
+   "sha256": "a19db53ed2a1cdbe4577e4d1372c169753ecf8e7ca6943e450ddf73faa6fc98d",
+   "bytes": 121320,
+   "figures": 91
+  },
+  "metered-ercot-ytd": {
+   "query": "area=ercot&rank=ytd",
+   "sha256": "2cf20376d76af0b8fc670f59c6827726b149ff49401a5e2cbd426c7d3a70f0cc",
+   "bytes": 121316,
+   "figures": 91
+  },
+  "metered-caiso-avg": {
+   "query": "area=caiso&rank=avg",
+   "sha256": "2fd197a414f06cf678d4549576d912b05602bf30f6b943cb0d6f6fae20743e8f",
+   "bytes": 126868,
+   "figures": 112
+  },
+  "metered-caiso-peak": {
+   "query": "area=caiso&rank=peak",
+   "sha256": "a329c1235be56a44f9b6bf08e90df27a54efa2c8afde541f8297830bb3b090e9",
+   "bytes": 126875,
+   "figures": 112
+  },
+  "metered-caiso-ytd": {
+   "query": "area=caiso&rank=ytd",
+   "sha256": "cad6e29659af024c00dd29512c3f13713747178ce13d81a064f3ec478795b3e5",
+   "bytes": 126871,
+   "figures": 112
+  },
+  "metered-pjm-avg": {
+   "query": "area=pjm&rank=avg",
+   "sha256": "62ce4342881f1a936f6a8de10ab9874f3da0f0a4d48dc2395d52787412fafe2d",
+   "bytes": 120800,
+   "figures": 91
+  },
+  "metered-pjm-peak": {
+   "query": "area=pjm&rank=peak",
+   "sha256": "18cee2f6f37b19d4721b2f2a9b66ebb2ff2b3718600788b2ed6639c715722f30",
+   "bytes": 120807,
+   "figures": 91
+  },
+  "metered-pjm-ytd": {
+   "query": "area=pjm&rank=ytd",
+   "sha256": "03ad813a737cfcf18dd3a9bfb6ce36f2487198974a9d9765efc30d6bdf348a86",
+   "bytes": 120803,
+   "figures": 91
+  },
+  "metered-miso-avg": {
+   "query": "area=miso&rank=avg",
+   "sha256": "fad6ad9c0be8be7db081e6c0b159f6e302a6c00a92aad99c51a263bf4753ca7f",
+   "bytes": 120060,
+   "figures": 91
+  },
+  "metered-miso-peak": {
+   "query": "area=miso&rank=peak",
+   "sha256": "3344d8b2ae7862a551e9387ea6e5552c0450dab0474537ee4d401da1d0b22ee6",
+   "bytes": 120067,
+   "figures": 91
+  },
+  "metered-miso-ytd": {
+   "query": "area=miso&rank=ytd",
+   "sha256": "5720479f3b9f44a97bb98039e615f59ee09f2cf601f76285e33847c8b5dad858",
+   "bytes": 120063,
+   "figures": 91
+  },
+  "metered-spp-avg": {
+   "query": "area=spp&rank=avg",
+   "sha256": "09cb545a1ab4ba7fc4ee1a349a2c93bd96ce360e0a5abffd8e1b8f2f46ff2f3a",
+   "bytes": 120404,
+   "figures": 91
+  },
+  "metered-spp-peak": {
+   "query": "area=spp&rank=peak",
+   "sha256": "87cf06dc26568bae89ed6c017b5fa50008f9600fae6db310a84f9f487ae6721f",
+   "bytes": 120411,
+   "figures": 91
+  },
+  "metered-spp-ytd": {
+   "query": "area=spp&rank=ytd",
+   "sha256": "a6b4dcb861055b0a25d7108fb2eba6c2a289af57ff2ca0db92a7f08a990ef952",
+   "bytes": 120407,
+   "figures": 91
+  },
+  "metered-nyiso-avg": {
+   "query": "area=nyiso&rank=avg",
+   "sha256": "88f1a0fbc3d425fddc20daf11e2f11bffbc5c5531beff5f31f959935d8cf990c",
+   "bytes": 119754,
+   "figures": 91
+  },
+  "metered-nyiso-peak": {
+   "query": "area=nyiso&rank=peak",
+   "sha256": "69232cd0bd608edaebb3f289f06b3ca84e13e449c4b24ba783393c1a53a61a96",
+   "bytes": 119761,
+   "figures": 91
+  },
+  "metered-nyiso-ytd": {
+   "query": "area=nyiso&rank=ytd",
+   "sha256": "21770559d1a0e952fdbabce65762e6450a736d96d8e76260806882ec246e72dd",
+   "bytes": 119757,
+   "figures": 91
+  },
+  "metered-isone-avg": {
+   "query": "area=isone&rank=avg",
+   "sha256": "bd34ff0f9730c0b0aa7df98117e88f8d470a1dcecc33bdbb3f45e39fdd978c13",
+   "bytes": 120202,
+   "figures": 91
+  },
+  "metered-isone-peak": {
+   "query": "area=isone&rank=peak",
+   "sha256": "0e697d7fe6df44953146d12bc482fa0c01c9098b3465f82acb107b8f6e375494",
+   "bytes": 120209,
+   "figures": 91
+  },
+  "metered-isone-ytd": {
+   "query": "area=isone&rank=ytd",
+   "sha256": "65d454e978c71ca7e01e25f1ab1fe39b1a1238a53ce3761ad89f6fdbc6f2991a",
+   "bytes": 120205,
+   "figures": 91
+  },
+  "metered-us48-avg": {
+   "query": "area=us48&rank=avg",
+   "sha256": "c6f29c9cbed366dcf8d2690254d8919a5a183fbeffb990e9a6a99d6e526217aa",
+   "bytes": 119799,
+   "figures": 70
+  },
+  "metered-us48-peak": {
+   "query": "area=us48&rank=peak",
+   "sha256": "c8bddecd35f3d3da582f5aaa1ea63171526fe2d9dd15ae164150df3edd9c162b",
+   "bytes": 119806,
+   "figures": 70
+  },
+  "metered-us48-ytd": {
+   "query": "area=us48&rank=ytd",
+   "sha256": "a43654746b8975f70b347ed20f34bf432e0da13e8fddcfb9189a6ffad25802da",
+   "bytes": 119802,
+   "figures": 70
+  },
+  "weather": {
+   "query": "view=weather",
+   "sha256": "30d8fa8e98523cb26a3142a722252ff08cf019effeb751ed2eb61c73816def05",
+   "bytes": 99459,
+   "figures": 459
+  },
+  "weather-energy-2022": {
+   "query": "view=weather&figure=energy&year=2022",
+   "sha256": "7c8e497c60f2abf5605fe174083cacc0a20eaa557b08858aa9741f7d1d7ce3e9",
+   "bytes": 99682,
+   "figures": 453
+  },
+  "weather-energy-2023": {
+   "query": "view=weather&figure=energy&year=2023",
+   "sha256": "9c9d4586007d5bebbbadb4b1a99350ea169625cd048cbe2aa559fa22a6cebace",
+   "bytes": 98892,
+   "figures": 456
+  },
+  "weather-energy-2024": {
+   "query": "view=weather&figure=energy&year=2024",
+   "sha256": "83e26c7375ed0ce171a2964e5cae77d6254fb1b0e5aac1333c2b67b3bcb2045d",
+   "bytes": 99285,
+   "figures": 460
+  },
+  "weather-energy-2025": {
+   "query": "view=weather&figure=energy&year=2025",
+   "sha256": "30d8fa8e98523cb26a3142a722252ff08cf019effeb751ed2eb61c73816def05",
+   "bytes": 99459,
+   "figures": 459
+  },
+  "weather-energy-2026": {
+   "query": "view=weather&figure=energy&year=2026",
+   "sha256": "c42368022a9adddef96ed75b869776d8b677f1d5809dfaec9631d12ab5c2141b",
+   "bytes": 99937,
+   "figures": 459
+  },
+  "weather-summer-2022": {
+   "query": "view=weather&figure=summer&year=2022",
+   "sha256": "9b652707f5ec1d793bc56ec7921e29e52ce295760bdf101e8614713ae8426e23",
+   "bytes": 97214,
+   "figures": 450
+  },
+  "weather-summer-2023": {
+   "query": "view=weather&figure=summer&year=2023",
+   "sha256": "7f32a46e71b3b09ec2b1ed6461f1319202e32380de601f4c825d71c7216257f3",
+   "bytes": 97031,
+   "figures": 453
+  },
+  "weather-summer-2024": {
+   "query": "view=weather&figure=summer&year=2024",
+   "sha256": "6aa3a3412cd3e045736cb242b0978b1b0909a3972714a041e105dac476e32dfd",
+   "bytes": 96692,
+   "figures": 450
+  },
+  "weather-summer-2025": {
+   "query": "view=weather&figure=summer&year=2025",
+   "sha256": "0857a0af32fa40253fb93e46bf06365b2b2c946a88a5579d75325cb71d7d216b",
+   "bytes": 95912,
+   "figures": 452
+  },
+  "weather-summer-2026": {
+   "query": "view=weather&figure=summer&year=2026",
+   "sha256": "fa02e4e80bfa8b7240f7e18cd50bb3c443b27d89ec14f2922d3be6cd08189bea",
+   "bytes": 97888,
+   "figures": 457
+  },
+  "weather-winter-2022": {
+   "query": "view=weather&figure=winter&year=2022",
+   "sha256": "5753c18fe269355194ab251a2cdb15be0bda5cbfa11d980730075d23f92059ea",
+   "bytes": 95983,
+   "figures": 436
+  },
+  "weather-winter-2023": {
+   "query": "view=weather&figure=winter&year=2023",
+   "sha256": "081b2a9c83c12cf429a6a0ff6117976e510844dacc4217762e567b86b79d9e16",
+   "bytes": 96618,
+   "figures": 445
+  },
+  "weather-winter-2024": {
+   "query": "view=weather&figure=winter&year=2024",
+   "sha256": "bedfa876a0e93eeed3db284244551c1abaa825264a6dbc5f49495a3cf4d8751a",
+   "bytes": 96189,
+   "figures": 440
+  },
+  "weather-winter-2025": {
+   "query": "view=weather&figure=winter&year=2025",
+   "sha256": "c53545a5086d00635e39b8db9e1d84b058f54107e9591f52d5dd0bde90eda680",
+   "bytes": 96413,
+   "figures": 440
+  },
+  "weather-winter-2026": {
+   "query": "view=weather&figure=winter&year=2026",
+   "sha256": "9c5e16f713ca32b9b2ccd4e57bd8210affc71335435a80128b47d41f4e80b47c",
+   "bytes": 95265,
+   "figures": 438
+  },
+  "weather-night-2022": {
+   "query": "view=weather&figure=night&year=2022",
+   "sha256": "aa759575e501c61941979dfb5f86762a84555efcda27f554ee2a022c5280f144",
+   "bytes": 93392,
+   "figures": 447
+  },
+  "weather-night-2023": {
+   "query": "view=weather&figure=night&year=2023",
+   "sha256": "860b3f380ba61445b4f1cb83266cbe44fcad591045e1b98ed7ac9d1fb24d3d5f",
+   "bytes": 92670,
+   "figures": 447
+  },
+  "weather-night-2024": {
+   "query": "view=weather&figure=night&year=2024",
+   "sha256": "a27b62f0c0afb06e4ce35cc9ecb7a6a9e8c95290a0c3180c4fb9b6c1da46b4a6",
+   "bytes": 92939,
+   "figures": 450
+  },
+  "weather-night-2025": {
+   "query": "view=weather&figure=night&year=2025",
+   "sha256": "df076fcffcbe978076342449220f26332aaee26bfef873f27eb15b89bd33f10a",
+   "bytes": 92338,
+   "figures": 447
+  },
+  "weather-night-2026": {
+   "query": "view=weather&figure=night&year=2026",
+   "sha256": "889ff7fe31f724008d404279fbd88cc10078e0ce984ace26a5790d1e8e214309",
+   "bytes": 91645,
+   "figures": 447
+  },
+  "consumption": {
+   "query": "view=consumption",
+   "sha256": "0fc923ecfb2b9ad4ac365b22259437ac05a485cb43d8672e7c33e18239c9580e",
+   "bytes": 11650,
+   "figures": 5
+  },
+  "odd-view": {
+   "query": "view=mars",
+   "sha256": "bc887aa80de3687f438b03ef6bb8017dd22545506f189a2ab195f3bd229357c1",
+   "bytes": 121313,
+   "figures": 91
+  },
+  "odd-area": {
+   "query": "area=mars&rank=mars",
+   "sha256": "bc887aa80de3687f438b03ef6bb8017dd22545506f189a2ab195f3bd229357c1",
+   "bytes": 121313,
+   "figures": 91
+  },
+  "odd-year": {
+   "query": "view=weather&figure=mars&year=1999",
+   "sha256": "30d8fa8e98523cb26a3142a722252ff08cf019effeb751ed2eb61c73816def05",
+   "bytes": 99459,
+   "figures": 459
+  }
+ }
+}
