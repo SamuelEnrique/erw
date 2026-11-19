@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), tariff_min_bill_pct
+# Computed 2026-11-19T11:54:23Z by warehouse/analysis/findings/deep/large_load.py
+# Tables: utility_large_load_tariffs
+filing,value
+"Duke Energy Carolinas, North Carolina (proposed, 2027-01-01)",75.0
+"Public Utility District No. 2 of Grant County, Washington (adopted, 2026-04-01)",75.0
+"Evergy Metro, Missouri (adopted, 2026-03-09)",80.0
+"Evergy Missouri West, Missouri (adopted, 2026-03-09)",80.0
+"PPL Electric Utilities, Pennsylvania (adopted, 2026-07-01)",80.0
+"Union Electric, Missouri (adopted, 2026-01-04)",80.0
+"Ohio Power, Ohio (adopted, 2025-07-09)",85.0
+"Virginia Electric and Power, Virginia (ordered, 2027-01-01)",85.0
+"Nevada Power, Nevada (proposed, 2026-05-07)",90.0
+"Portland General Electric, Oregon (adopted, 2026-07-08)",90.0
+"South Carolina Public Service Authority, South Carolina (adopted, 2025-04-25)",100.0

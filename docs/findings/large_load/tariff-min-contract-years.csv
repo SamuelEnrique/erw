@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), tariff_min_contract_years
+# Computed 2026-11-19T11:54:23Z by warehouse/analysis/findings/deep/large_load.py
+# Tables: utility_large_load_tariffs
+filing,value
+"Niagara Mohawk Power, New York (adopted, 2026-04-01)",1.0
+"Nevada Power, Nevada (adopted, 2018-02-15)",3.0
+"Rappahannock Electric Cooperative, Virginia (adopted, 2024-10-01)",7.0
+"Ohio Power, Ohio (adopted, 2025-07-09)",8.0
+"Duke Energy Carolinas, North Carolina (proposed, 2027-01-01)",10.0
+"Nevada Power, Nevada (proposed, 2026-05-07)",10.0
+"PPL Electric Utilities, Pennsylvania (adopted, 2026-07-01)",10.0
+"Portland General Electric, Oregon (adopted, 2026-07-08)",10.0
+"Evergy Metro, Missouri (adopted, 2026-03-09)",12.0
+"Evergy Missouri West, Missouri (adopted, 2026-03-09)",12.0
+"Union Electric, Missouri (adopted, 2026-01-04)",12.0
+"Virginia Electric and Power, Virginia (ordered, 2027-01-01)",14.0
+"South Carolina Public Service Authority, South Carolina (adopted, 2025-04-25)",15.0
