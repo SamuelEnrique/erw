@@ -1,5 +1,5 @@
 {
- "what": "The addresses of /demand as drawn from the branch's base before session 8420 (chain 503, part C), by scripts/test-demand-pin.mjs: a hash of each address's HTML (line ends as LF), its length and its count of checked figures. The consumption view is drawn on made-up rows (scripts/demand-pages.mjs), so its hash holds the page's code, not a table.",
+ "what": "The addresses of /demand as drawn from the branch's base before session 8420 (chain 503, part C), by scripts/test-demand-pin.mjs: a hash of each address's HTML (line ends as LF), its length and its count of checked figures; and the sha256 of each data file the page reads, as they were when the pages were drawn (added while every address still matched). The consumption view is drawn on made-up rows (scripts/demand-pages.mjs), so its hash holds the page's code, not a table.",
  "from_commit": "bbefd6dd01603a692dd3b22a799ee6885a91915f",
  "addresses": {
   "plain": {
@@ -302,5 +302,13 @@
    "bytes": 99459,
    "figures": 459
   }
+ },
+ "data": {
+  "data/data_faults.json": "a9a216fd9386e166b59d780ca0a45a63dd3f2a745c0f8766402f43dd8ad99d18",
+  "data/demand_growth.json": "a83ebdef5b7fa80afb4692afb57d5980d74558c0cb221aafa41f46f004774a4d",
+  "data/demand_weather.json": "114330dc341d58b2b2307c109c7a990af32451a80108230bfa4ee67ef51126e5",
+  "data/license_status.json": "e955a80d6144cb8160be2dea5c1f7be4ba12d3e2f6f095585126ec6074260711",
+  "data/markets.json": "99a647e7c0fbe37577be6206494355cafa9fc4bf7534dcf5b1a28d1401bd4e39",
+  "data/site.json": "2f6f0cd6b61c0f577fc289c629eef9430da50c4f93d4624b03de7a82b27708e1"
  }
 }

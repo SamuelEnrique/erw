@@ -10,7 +10,10 @@
 // (?view=country) is a new address: before the session that address drew the page as metered.
 //
 //   import { ADDRESSES, drawDemand, withoutAdded, figuresOf } from "./demand-pages.mjs"   (under battery-awards-page-register.mjs)
+import crypto from "node:crypto";
 import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { prerenderToNodeStream } from "react-dom/static";
 
 const here = (p) => new URL(p, import.meta.url);
@@ -67,6 +70,38 @@ export async function drawDemand(query) {
     globalThis.fetch = real;
     console.error = log;
   }
+}
+
+/** The data files the page's code reads as modules: every .json under site/data that app/demand/page.tsx imports,
+ *  itself or through what it imports (the imports are read from the source, "@/..." and relative ones followed), each
+ *  with the sha256 of its text (line ends as LF). The pin keeps these beside the pages' hashes: a page's HTML is its
+ *  code and its data, so the pin can hold the code only while the data is what it was when the pin was written. Files
+ *  the build generates (site/content/) are left out: they are not data. */
+export function dataFilesOf(entry = "app/demand/page.tsx") {
+  const site = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
+  const seen = new Set(), data = {};
+  const resolve = (from, spec) => {
+    const base = spec.startsWith("@/") ? path.join(site, spec.slice(2)) : /^\.\.?\//.test(spec) ? path.resolve(path.dirname(from), spec) : null;
+    if (!base) return null;
+    return [base, `${base}.ts`, `${base}.tsx`, path.join(base, "index.ts")].find((p) => fs.existsSync(p) && fs.statSync(p).isFile()) ?? null;
+  };
+  const walk = (file) => {
+    if (seen.has(file)) return;
+    seen.add(file);
+    const rel = path.relative(site, file).split(path.sep).join("/");
+    if (file.endsWith(".json")) {
+      if (rel.startsWith("data/")) data[rel] = crypto.createHash("sha256").update(fs.readFileSync(file, "utf-8").replace(/\r\n/g, "\n")).digest("hex");
+      return;
+    }
+    if (!/\.(ts|tsx|mjs|js)$/.test(file)) return;
+    const text = fs.readFileSync(file, "utf-8");
+    for (const m of text.matchAll(/(?:import|export)\s[^'"`;]*?from\s*["']([^"']+)["']|import\s*["']([^"']+)["']|import\(\s*["']([^"']+)["']\s*\)/g)) {
+      const next = resolve(file, m[1] ?? m[2] ?? m[3]);
+      if (next) walk(next);
+    }
+  };
+  walk(path.join(site, ...entry.split("/")));
+  return Object.fromEntries(Object.entries(data).sort(([a], [b]) => (a < b ? -1 : 1)));
 }
 
 /** The page without what session 8420 added to the views it already had: the tab of the new view. */

@@ -12,11 +12,14 @@ docs/state/page_files_regions.md). Held here:
 - the rules of the chain in the source: the page's own charts and no second versions of them, no fixture in the site's
   folder, no dash, the page still in review, the method note says what the view shows.
 """
+import copy
+import hashlib
 import json
 import os
 import re
 import shutil
 import subprocess
+import tempfile
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -38,9 +41,9 @@ def shown(code):
     return re.sub(r"//.*|/\*\*?[\s\S]*?\*/", "", code)
 
 
-def node(script):
+def node(script, *args):
     env = {k: v for k, v in os.environ.items() if k != "ERW_REGIONS_DIR"}
-    return subprocess.run([NODE, "--import", "./scripts/battery-awards-page-register.mjs", script], cwd=SITE, capture_output=True, text=True,
+    return subprocess.run([NODE, "--import", "./scripts/battery-awards-page-register.mjs", script, *args], cwd=SITE, capture_output=True, text=True,
                           encoding="utf-8", timeout=1200, env=env)
 
 
@@ -54,7 +57,39 @@ class ThePageDrawn(unittest.TestCase):
         self.assertTrue(m and m.group(1) == m.group(2) and int(m.group(2)) >= least, r.stdout[-500:])
 
     def test_nothing_the_page_showed_moves(self):
-        self.check(node("scripts/test-demand-pin.mjs"), 101)
+        r = node("scripts/test-demand-pin.mjs")
+        said = [line for line in r.stdout.splitlines() if line.startswith("DATA MOVED")]
+        if said and r.returncode == 0:
+            # the data machine rebuilt a file the page reads: a page that differs cannot be told from one that moved with it
+            self.skipTest(said[0])
+        self.check(r, 101)
+
+    def test_the_pin_fails_a_page_that_moved_and_says_so_when_its_data_moved(self):
+        pin = json.loads(src("site", "scripts", "pins", "demand-page-8420.json"))
+        current = {}
+        for rel in pin["data"]:
+            with open(os.path.join(SITE, *rel.split("/")), encoding="utf-8", newline="") as f:
+                current[rel] = hashlib.sha256(f.read().replace("\r\n", "\n").encode("utf-8")).hexdigest()
+        moved_page = copy.deepcopy(pin)
+        moved_page["data"] = dict(current)
+        moved_page["addresses"]["plain"]["sha256"] = "0" * 64
+        moved_both = copy.deepcopy(moved_page)
+        moved_both["data"]["data/demand_growth.json"] = "0" * 64
+        with tempfile.TemporaryDirectory() as tmp:
+            for name, body in (("page.json", moved_page), ("both.json", moved_both)):
+                with open(os.path.join(tmp, name), "w", encoding="utf-8") as f:
+                    json.dump(body, f)
+            # a page that differs while its data is what the pin was drawn on: a failure
+            r = node("scripts/test-demand-pin.mjs", "--pin", os.path.join(tmp, "page.json"), "--only", "plain")
+            self.assertEqual(r.returncode, 1, r.stdout[-1500:] + r.stderr[-800:])
+            self.assertIn("FAIL plain: outside what was added, the page is as it was", r.stdout)
+            self.assertNotIn("DATA MOVED", r.stdout)
+            # the same page once a data file has moved: said, with the file's name, and nothing failed
+            r = node("scripts/test-demand-pin.mjs", "--pin", os.path.join(tmp, "both.json"), "--only", "plain")
+            self.assertEqual(r.returncode, 0, r.stdout[-1500:] + r.stderr[-800:])
+            self.assertIn("skip plain: the page differs and its data moved since the pin", r.stdout)
+            self.assertIn("DATA MOVED: data/demand_growth.json is not what the pin was drawn on", r.stdout)
+            self.assertNotIn("FAIL", r.stdout)
 
     def test_the_whole_country_view(self):
         r = node("scripts/test-demand-regions.mjs")
@@ -81,6 +116,11 @@ class TheSource(unittest.TestCase):
             self.assertRegex(page["sha256"], r"^[0-9a-f]{64}$")
             self.assertGreater(page["bytes"], 5000)
         self.assertEqual(pin["addresses"]["plain"]["sha256"], pin["addresses"]["metered-ercot-avg"]["sha256"])
+        # the data the pages were drawn on, by its hash: the pin holds the code while the data is what it was
+        self.assertEqual(sorted(pin["data"]), ["data/data_faults.json", "data/demand_growth.json", "data/demand_weather.json", "data/license_status.json",
+                                               "data/markets.json", "data/site.json"])
+        for h in pin["data"].values():
+            self.assertRegex(h, r"^[0-9a-f]{64}$")
 
     def test_the_page_mounts_the_view_once_and_the_three_before_it_stand(self):
         page = src("site", "app", "demand", "page.tsx")
