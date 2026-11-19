@@ -39,7 +39,7 @@ One site gap fixed at its cause with a test (row 1). Two rows are the data machi
 
 ## A second read (session 8614)
 
-Session 8614, 19 November 2026, about 17:36 to 17:50 UTC, on a build of `wip/8603-resources` with main's coal layer, by `runs/c504_resources_read2.mjs` (what the page said: `runs/c504_resources_read2.out`; pictures `docs/reviews/resources-2026-11-19/case6*.png` to `case10*.png`). The same five readers, on the layers and the controls the first read did not touch. The phone was then read with a finger, not a mouse (`runs/c504_phone_tap.mjs`, `runs/c504_phone_card.mjs`).
+Session 8614, 19 November 2026, about 17:36 to 17:47 UTC, on a build of `wip/8603-resources` with main's coal layer, by `runs/c504_resources_read2.mjs` (what the page said: `runs/c504_resources_read2.out`; pictures `docs/reviews/resources-2026-11-19/case6*.png` to `case10*.png`). The same five readers, on the layers and the controls the first read did not touch. The phone was then read with a finger, not a mouse (`runs/c504_phone_tap.mjs`, `runs/c504_phone_card.mjs`).
 
 ### The five cases
 
