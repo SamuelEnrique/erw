@@ -53,8 +53,8 @@ wyoming-share-wy-coal,not checked,"the claim ""the first full year the ERW holds
 battery-per-peak-caiso-bat-peak,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 battery-per-peak-ercot-bat-peak,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 battery-per-peak-us-bat-peak,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
-built-per-asked-us-battery-built-asked,fail,"""the first year this measure counts"" is untrue of the table: the same script with its year window opened prints 2008 onward"
-built-per-asked-us-solar-built-asked,fail,"""the first year this measure counts"" is untrue of the table: the same script with its year window opened prints 2000 onward"
+built-per-asked-us-battery-built-asked,fixed,the first-year claim was untrue of the table and is mended: see Changed; wording mended: see Changed
+built-per-asked-us-solar-built-asked,fixed,the first-year claim was untrue of the table and is mended: see Changed; wording mended: see Changed
 energy-vs-3y-xe3-ciso,pending,"the claim ""the first year this measure counts"" waits for the opened-window run (table not on this machine)"
 energy-vs-3y-xe3-pjm,pending,"the claim ""the first year this measure counts"" waits for the opened-window run (table not on this machine)"
 energy-vs-5y-xe5-pjm,pending,"the claim ""the first year this measure counts"" waits for the opened-window run (table not on this machine)"
@@ -228,8 +228,8 @@ wog-gas-wog-chn,not checked,"the claim ""the first full year the ERW holds"" not
 wog-gas-wog-irn,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (table not on this machine: eia_world_oil_gas_annual)"
 wog-gas-wog-usa,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (table not on this machine: eia_world_oil_gas_annual)"
 wog-gas-wog-worl,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (table not on this machine: eia_world_oil_gas_annual)"
-added-mw-add-battery-us,fail,"""the first year this measure counts"" is untrue of the table: the same script with its year window opened prints 2003 onward"
-added-mw-add-solar-us,fail,"""the first year this measure counts"" is untrue of the table: the same script with its year window opened prints 2001 onward"
+added-mw-add-battery-us,fixed,the first-year claim was untrue of the table and is mended: see Changed; wording mended: see Changed
+added-mw-add-solar-us,fixed,the first-year claim was untrue of the table and is mended: see Changed; wording mended: see Changed
 battery-fleet-mw-caiso-fleet-battery-operating-mw,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 battery-fleet-mw-us-fleet-battery-operating-mw,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 battery-hours-us-battery-hours,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
@@ -409,23 +409,23 @@ hosting-revenue-us-rev518,pass,"figure, unit, place, period and comparison given
 hosting-sites-est518-ca,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 hosting-sites-est518-us,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 hybrid-share-southeast-lbnl-hybrid,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
-hybrid-share-us-lbnl-hybrid,fail,"""the first year this measure counts"" is untrue of the table: the same script with its year window opened prints 2000 onward"
-months-by-region-pjm-lbnl-months,fail,"""the first year this measure counts"" is untrue of the table: the same script with its year window opened prints 2000 onward"
-months-by-region-us-lbnl-months,fail,"""the first year this measure counts"" is untrue of the table: the same script with its year window opened prints 2000 onward"
+hybrid-share-us-lbnl-hybrid,fixed,the first-year claim was untrue of the table and is mended: see Changed; wording mended: see Changed
+months-by-region-pjm-lbnl-months,fixed,the first-year claim was untrue of the table and is mended: see Changed; wording mended: see Changed
+months-by-region-us-lbnl-months,fixed,the first-year claim was untrue of the table and is mended: see Changed; wording mended: see Changed
 months-by-type-us-type-battery-months,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 months-by-type-us-type-solar-months,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
-months-by-type-us-type-wind-months,fail,"""the first year this measure counts"" is untrue of the table: the same script with its year window opened prints 2003 onward"
+months-by-type-us-type-wind-months,fixed,the first-year claim was untrue of the table and is mended: see Changed; wording mended: see Changed
 power-construction-us-power-build,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (table not on this machine: census_c30_construction_monthly)"
 request-size-us-type-battery-size,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 request-size-us-type-solar-size,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
-request-size-us-type-wind-size,fail,"""the first year this measure counts"" is untrue of the table: the same script with its year window opened prints 2000 onward"
+request-size-us-type-wind-size,fixed,the first-year claim was untrue of the table and is mended: see Changed; wording mended: see Changed
 requested-by-type-us-req-battery,fixed,wording mended: see Changed
-requested-by-type-us-req-gas,fail,"""the first year this measure counts"" is untrue of the table: the same script with its year window opened prints 1997 onward"
-requested-by-type-us-req-solar,fail,"""the first year this measure counts"" is untrue of the table: the same script with its year window opened prints 2000 onward"
-storage-share-us-req-battery-share,fail,"""the first year this measure counts"" is untrue of the table: the same script with its year window opened prints 1995 onward"
+requested-by-type-us-req-gas,fixed,the first-year claim was untrue of the table and is mended: see Changed; wording mended: see Changed
+requested-by-type-us-req-solar,fixed,the first-year claim was untrue of the table and is mended: see Changed; wording mended: see Changed
+storage-share-us-req-battery-share,fixed,the first-year claim was untrue of the table and is mended: see Changed; wording mended: see Changed
 withdrawn-by-type-us-type-solar-wd,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
-withdrawn-share-pjm-lbnl-wd,fail,"""the first year this measure counts"" is untrue of the table: the same script with its year window opened prints 2000 onward"
-withdrawn-share-us-lbnl-wd,fail,"""the first year this measure counts"" is untrue of the table: the same script with its year window opened prints 1999 onward"
+withdrawn-share-pjm-lbnl-wd,fixed,the first-year claim was untrue of the table and is mended: see Changed; wording mended: see Changed
+withdrawn-share-us-lbnl-wd,fixed,the first-year claim was untrue of the table and is mended: see Changed; wording mended: see Changed
 coal-share-st-car-cow,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 coal-share-st-se-cow,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 coal-share-st-sw-cow,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"

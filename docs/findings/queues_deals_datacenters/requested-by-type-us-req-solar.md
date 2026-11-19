@@ -2,7 +2,7 @@
 
 Draft `scan-deep-cdf5f79c521a` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The MW of solar requests in the United States was 116,527 MW in 2024, against 1,250 MW in 2005, the first year this measure counts.
+**The finding.** The MW of solar requests in the United States was 116,527 MW in 2024, against 1,250 MW in 2005, the first year of the window the hunt read; the table holds the measure from 2000.
 
 ![What was asked for, solar requests, the United States](requested-by-type-us-req-solar.png)
 
