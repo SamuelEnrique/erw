@@ -35,7 +35,12 @@ The chain file: `queue/done/503-day-19-november-oldlaptop-rulings-evidence-whole
 
 ## Part D: `/supply` for the whole country
 
-- in work, session 8430: worktree `C:\Users\lossa\Documents\erw-8430`, branch `wip/8430-supply-regions` (from the same branch). Hand-back: `runs/c503/8430/handback.md`. Rows kept for it: browser reads 393 to 402, landing row 53.
+- `/supply` for the whole country, session 8430: done on `wip/8430-supply-regions` at `a2fbb2eaa` (pushed; made from `wip/8410-events-regions` and merged with it again after the config line). Landing requested, row 53; browser reads wanted, rows 393 to 400; one request to the data machine, row 323 (keys its builders write that the contract does not list). Report: `archive/sessions/SESSION_8430_REPORT.md` on the branch.
+  - the views: net imports by month and by neighbour with each side's report and the gap (a gap of 10 percent or more marked and said in words on hover); who trades with whom by year, pairs of regions, pairs of balancing authorities and each authority's partners; the generation mix by month (the page showed no mix of its own, so each region has a chart of shares and a table of the year); two regions side by side; the six new regions by name.
+  - add, never change: the pin of 103 addresses holds, 208 of 208; the section's test 109 of 109; Python 25 passed, 1 skipped after the merge.
+  - waiting for the files `site/data/regions/trade/<region>.json`, `trade_matrix.json`, `mix/<region>.json` (not on origin/main): the views read on real files. First step when they land: merge origin/main into the branch, run the two node tests, draw the page with `supply-read-page.mjs` and read it.
+  - the line of `site/next.config.ts` that names `data/regions` for `/events`, `/demand` and `/supply` (without it the files are not found on Vercel): done on `wip/8410-events-regions` (`f4ab254fa`), with a test; found by session 8430.
+  - for Samuel's ruling, defaults taken: the 10 percent; California and the Carolinas first; the year 2025 first; the share of demand not drawn; New England, New York and the Midwest drawn.
 
 ## Part E
 
