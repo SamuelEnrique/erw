@@ -327,7 +327,8 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
   check(f.moved !== was && (await evaluate(WIDE)), `one finger moves the zoomed map (${was} to ${f.moved}), and still nothing scrolls sideways`);
   await shot("map_390_zoomed.png");
   const sizes = await evaluate(`[...document.querySelectorAll('[data-map-zoom-buttons] button')].map((b) => { const r = b.getBoundingClientRect(); return [Math.round(r.width), Math.round(r.height)]; })`);
-  check(sizes.length === 3 && sizes.every((s) => s[0] >= 32 && s[1] >= 32), `the three zoom buttons can be pressed with a finger (${sizes.map((s) => s.join(" by ")).join(", ")} px)`);
+  // session 8611: on a phone a target is 44 px tall (docs/brand.md, section 3); they were 32
+  check(sizes.length === 3 && sizes.every((s) => s[0] >= 44 && s[1] >= 44), `the three zoom buttons can be pressed with a finger (${sizes.map((s) => s.join(" by ")).join(", ")} px; 44 or more on a phone)`);
   // session 8606, the done line: the map's decisions block, closed to start, inside the map's frame, whole on a phone
   const fold = await evaluate(`(() => { const d = document.querySelector('[data-map-decisions]'); if (!d) return null; const inMap = !!d.closest('[data-map-state="held"]'); const closed = !d.open; d.open = true;
     const lines = [...d.querySelectorAll('[data-map-decision]')].map((li) => li.innerText.replace(/\\s+/g, ' ').trim()); const r = d.getBoundingClientRect();
@@ -341,7 +342,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
   // buttons a keyboard reaches: a region focused shows its figures, and Enter opens its panel
   const kbd = await evaluate(`(() => { const m = document.querySelector('[data-map-state="held"]'); const svg = m.querySelector('svg[aria-label^="A map of"]'); const listed = [...m.querySelectorAll('[data-listed]')].map((b) => Math.round(b.getBoundingClientRect().height));
     const r = m.querySelector('[data-region]'); return { role: svg?.getAttribute('role'), listed, region: r ? [r.getAttribute('role'), r.getAttribute('tabindex'), r.getAttribute('aria-label'), r.getAttribute('data-region')] : null }; })()`);
-  check(kbd.role === "group" && kbd.listed.length > 0 && kbd.listed.every((h) => h >= 24) && !!kbd.region && kbd.region[0] === "button" && kbd.region[1] === "0" && !!kbd.region[2],
+  check(kbd.role === "group" && kbd.listed.length > 0 && kbd.listed.every((h) => h >= 44) && !!kbd.region && kbd.region[0] === "button" && kbd.region[1] === "0" && !!kbd.region[2],
     `the map is a group of buttons, each region with its name (${kbd.region?.[2] ?? "none"}); the ${kbd.listed.length} names under it are ${Math.min(...kbd.listed)} px tall or more`);
   await evaluate(`document.querySelector('[data-map-state="held"] [data-region]').focus()`);
   await sleep(400);

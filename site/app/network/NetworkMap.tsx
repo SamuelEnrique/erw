@@ -337,9 +337,10 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
         </g>
       </svg>
       <div className="absolute right-2 top-2 flex gap-1 text-sm" role="group" aria-label="Zoom the map" data-map-zoom-buttons="1">
-        <button type="button" onClick={() => zoomBy(1.6)} disabled={t.k >= MAP_ZOOM[1]} className="h-8 w-8 border border-rule bg-panel text-ink disabled:text-muted" aria-label="Zoom in" title="Zoom in" data-zoom="in">+</button>
-        <button type="button" onClick={() => zoomBy(1 / 1.6)} disabled={t.k <= MAP_ZOOM[0]} className="h-8 w-8 border border-rule bg-panel text-ink disabled:text-muted" aria-label="Zoom out" title="Zoom out" data-zoom="out">&minus;</button>
-        <button type="button" onClick={() => setT(MAP_HOME)} disabled={t.k === 1 && t.x === 0 && t.y === 0} className="h-8 border border-rule bg-panel px-2 text-ink disabled:text-muted" title="Show the whole map" data-zoom="reset">Reset</button>
+        {/* session 8611 (docs/brand.md, section 3): 44 px on a phone, 32 px on a wider screen */}
+        <button type="button" onClick={() => zoomBy(1.6)} disabled={t.k >= MAP_ZOOM[1]} className="h-11 w-11 border border-rule bg-panel text-ink disabled:text-muted sm:h-8 sm:w-8" aria-label="Zoom in" title="Zoom in" data-zoom="in">+</button>
+        <button type="button" onClick={() => zoomBy(1 / 1.6)} disabled={t.k <= MAP_ZOOM[0]} className="h-11 w-11 border border-rule bg-panel text-ink disabled:text-muted sm:h-8 sm:w-8" aria-label="Zoom out" title="Zoom out" data-zoom="out">&minus;</button>
+        <button type="button" onClick={() => setT(MAP_HOME)} disabled={t.k === 1 && t.x === 0 && t.y === 0} className="h-11 border border-rule bg-panel px-2 text-ink disabled:text-muted sm:h-8" title="Show the whole map" data-zoom="reset">Reset</button>
       </div>
       {card ? (
         <div className={`pointer-events-none absolute z-10 border border-rule bg-panel px-2 py-1 text-xs leading-snug text-ink ${docked ? "" : "max-w-[18rem]"}`} {...card.attr} data-map-hover-docked={docked ? "1" : "0"}
@@ -359,11 +360,12 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
           <div className="mb-1 cursor-help text-ink" title={`These ${noShape.length} balancing authorities of the network have no boundary in the file the map draws, so they have no region here. Each keeps its hover and its panel; its ties are drawn in the Network view. ${drawnFlows.length} of the ${flows.length} ties moving power in the ${unit} shown have both ends on the map.`}>
             Not on the map: no boundary in the file ({noShape.length})
           </div>
-          {/* session 8609 (the accessibility read): each name is 24 px tall, the least a finger's target may be (WCAG 2.2, target size); they were 16 */}
+          {/* session 8609 (the accessibility read): each name is 24 px tall, the least a finger's target may be (WCAG 2.2, target size); they were 16.
+              session 8611 (docs/brand.md, section 3): 44 px tall on a phone */}
           <ul className="flex flex-wrap gap-x-3 gap-y-0.5">
             {noShape.map((n) => (
               <li key={n.id}>
-                <button type="button" className={`inline-flex min-h-6 items-center text-left underline decoration-dotted underline-offset-2 ${pick === n.id ? "text-accent" : "text-ink"}`} data-listed={n.id} onClick={() => onPick(n.id)}
+                <button type="button" className={`inline-flex min-h-11 items-center text-left underline decoration-dotted underline-offset-2 sm:min-h-6 ${pick === n.id ? "text-accent" : "text-ink"}`} data-listed={n.id} onClick={() => onPick(n.id)}
                   onPointerEnter={() => setHover({ kind: "listed", id: n.id, x: -1, y: -1, right: false, low: false })} onPointerLeave={() => setHover(null)}
                   onFocus={() => setHover({ kind: "listed", id: n.id, x: -1, y: -1, right: false, low: false })} onBlur={() => setHover(null)}>{n.name}</button>
               </li>

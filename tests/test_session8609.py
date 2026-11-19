@@ -50,8 +50,8 @@ class TheMapIsAGroupOfButtons(unittest.TestCase):
 class TheNamesUnderTheMap(unittest.TestCase):
     def test_each_is_twenty_four_pixels_tall(self):
         m = src("site", "app", "network", "NetworkMap.tsx")
-        self.assertIn("<button type=\"button\" className={`inline-flex min-h-6 items-center text-left underline decoration-dotted underline-offset-2 ", m)
-        # min-h-6 is 1.5rem, 24 px at the site's 16 px root
+        self.assertIn("<button type=\"button\" className={`inline-flex min-h-11 items-center text-left underline decoration-dotted underline-offset-2 sm:min-h-6 ", m)
+        # min-h-6 is 1.5rem, 24 px at the site's 16 px root; min-h-11 is 44 px, the brand's height of a target on a phone (session 8611)
         self.assertNotIn("<button type=\"button\" className={`text-left underline decoration-dotted", m)
 
     def test_each_still_shows_its_figures_on_focus_and_opens_its_panel(self):
@@ -63,7 +63,7 @@ class TheNamesUnderTheMap(unittest.TestCase):
 class TheCheck(unittest.TestCase):
     def test_the_browser_reads_the_height_the_role_and_the_keyboard(self):
         s = src("site", "scripts", "check-grid-map.mjs")
-        self.assertIn('kbd.role === "group" && kbd.listed.length > 0 && kbd.listed.every((h) => h >= 24)', s)
+        self.assertIn('kbd.role === "group" && kbd.listed.length > 0 && kbd.listed.every((h) => h >= 44)', s)   # read at 390 px, where the brand asks 44 (session 8611)
         self.assertIn('await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Enter"', s)
         self.assertIn("opened === kbd.region[3]", s)
 
