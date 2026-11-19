@@ -623,7 +623,9 @@
   },
   "ai_energy_published": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "ai_power_regions": {
    "status": "license needed",
@@ -4411,7 +4413,9 @@
   },
   "resource_layer_features": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "rrc_lease_production_monthly": {
    "status": "public",
@@ -4928,7 +4932,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 527
+   "public": 529
   },
   "/data/faults": {
    "label": "Known faults in source data",
