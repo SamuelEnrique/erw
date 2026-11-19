@@ -296,7 +296,9 @@
    "status": "license needed",
    "from": "2026-10-21",
    "publishers": [
-    "ISO-NE"
+    "ISO-NE",
+    "MISO",
+    "NYISO"
    ]
   },
   "event_study_estimates": {
@@ -1901,6 +1903,14 @@
     "/grid"
    ]
   },
+  "eia930_forecast_error_daily": {
+   "status": "public",
+   "pages": []
+  },
+  "eia930_forecast_error_hourly": {
+   "status": "public",
+   "pages": []
+  },
   "eia930_generation_latest": {
    "status": "public",
    "pages": [
@@ -2774,7 +2784,9 @@
    "status": "license needed",
    "hold": "by grid",
    "publishers": [
-    "ISO-NE"
+    "ISO-NE",
+    "MISO",
+    "NYISO"
    ],
    "pages": [
     "/data",
