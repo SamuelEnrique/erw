@@ -456,6 +456,10 @@ for _t in ("census_county_population", "eia_county_region", "noaa_region_station
     STORAGE_HELD[_t] = ("held: first written on 18 November 2026 (chain 401, sessions 7802 and 7803), after the v1 package was "
                         "prepared; not on Redivis: in v1 when the owner adds it to the package's list")
 
+# Session 8000 (chain 501, step B2): the balancing authority areas, public, written after the v1 package was prepared: held the same way
+STORAGE_HELD["ba_boundaries"] = ("held: first written on 19 November 2026 (chain 501, session 8000), after the v1 package was "
+                                 "prepared; not on Redivis: in v1 when the owner adds it to the package's list")
+
 
 UNSETTLED_WHY = "its ERW verdict is unsettled (docs/licenses.md: a publisher's terms not read or not settled); out of v1 until it is settled (chain 229, session 4109)"
 
