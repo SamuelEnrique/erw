@@ -1,0 +1,23 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate coal_sulfur, region cs_us (the coal US power plants received)
+# Computed 2026-11-19T12:11:37Z by warehouse/analysis/findings/deep/coal_uranium_metals.py (coal_sulfur); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the tonnage-weighted sulfur content of the coal received (percent sulfur), the observations it rests on, and whether the year is full
+# Tables: eia_coal_receipts_annual
+region,year,value,n_observations,full_year
+cs_us,2008,0.8921943386202762,1.0,1
+cs_us,2009,0.9833722487010818,1.0,1
+cs_us,2010,1.0093262337365796,1.0,1
+cs_us,2011,1.0216062950853861,1.0,1
+cs_us,2012,1.0878536774512861,1.0,1
+cs_us,2013,1.1311494528835648,1.0,1
+cs_us,2014,1.139687013595079,1.0,1
+cs_us,2015,1.1171078631279614,1.0,1
+cs_us,2016,1.1782937692588784,1.0,1
+cs_us,2017,1.1248100787147208,1.0,1
+cs_us,2018,1.1410898179063738,1.0,1
+cs_us,2019,1.1525481422763657,1.0,1
+cs_us,2020,1.123880692312678,1.0,1
+cs_us,2021,1.14041738283288,1.0,1
+cs_us,2022,1.1309618194407762,1.0,1
+cs_us,2023,1.0789526101221216,1.0,1
+cs_us,2024,1.119977904230449,1.0,1
+cs_us,2025,1.120864751114104,1.0,1

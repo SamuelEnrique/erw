@@ -15,4 +15,4 @@ Chain file: `queue/done/502-day-19-november-desktop-window2-findings-industry.md
 - Part B, energy use by industry: waiting (`site/data/industry.json` not on main at session 8200).
 - Part C, energy per AI query as published: waiting (`ai_energy_published` not in coverage at session 8200).
 - Part A done: 158 drafts in seven families (session 8207).
-- Part D: started, session 8208.
+- Part D, first pass: 20 drafts (emissions_climate 9, coal_uranium_metals 5, gas 6), every draft of the three families reproduces; code `wip/8202-findings` (3406b3257); session 8208.

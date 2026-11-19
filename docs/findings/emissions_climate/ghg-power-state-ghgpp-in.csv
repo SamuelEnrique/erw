@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ghg_power_state, region ghgpp_in (the power plants of Indiana that report to EPA)
+# Computed 2026-11-19T12:11:34Z by warehouse/analysis/findings/deep/emissions_climate.py (ghg_power_state); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the direct emissions the state's reporting power plants reported (million t CO2e), the observations it rests on, and whether the year is full
+# Tables: epa_ghgrp_facility_emissions
+region,year,value,n_observations,full_year
+ghgpp_in,2015,92.681327904,1.0,1
+ghgpp_in,2016,87.725528439,1.0,1
+ghgpp_in,2017,85.35566898300002,1.0,1
+ghgpp_in,2018,93.60030988599999,1.0,1
+ghgpp_in,2019,79.495107415,1.0,1
+ghgpp_in,2020,67.31189631800001,1.0,1
+ghgpp_in,2021,73.06559123299999,1.0,1
+ghgpp_in,2022,72.29816324400001,1.0,1
+ghgpp_in,2023,62.492766417999995,1.0,1
