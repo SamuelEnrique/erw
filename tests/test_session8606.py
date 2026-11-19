@@ -132,5 +132,85 @@ class TheOutput(unittest.TestCase):
         self.assertTrue(all(r["difference_mw"] != "" for r in end))            # a figure that differs keeps its difference
 
 
+def replication():
+    spec = importlib.util.spec_from_file_location("replicate_regions", os.path.join(ROOT, "replication", "grid", "replicate_regions.py"))
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
+class TheReplicationOfTheRegionTabs(unittest.TestCase):
+    """replication/grid/replicate_regions.py: the page's figures computed again from the files, without the page's code."""
+
+    def test_a_figure_as_printed_is_read_as_a_number_and_not_held_as_none(self):
+        m = replication()
+        self.assertEqual(m.num("27,649 MW"), 27649.0)
+        self.assertEqual(m.num("+5,141 MW"), 5141.0)
+        self.assertEqual(m.num("-0.0%"), 0.0)
+        self.assertIsNone(m.num("not held"))
+        self.assertIsNone(m.num(""))
+        self.assertIsNone(m.num(None))
+
+    def test_the_months_not_held_by_its_own_count(self):
+        m = replication()
+        mix = {"built": "2026-03-19T12:02:00Z", "months": {k: {} for k in ("2025-08", "2025-10", "2025-11")}}
+        self.assertEqual(m.months_not_held(mix), (4, ["2025-09"], ["2025-12", "2026-01", "2026-02"]))
+        self.assertEqual(m.months_not_held({"months": {}}), (0, [], []))
+
+    def test_a_figure_held_on_one_side_only_is_not_met(self):
+        m = replication()
+        t = m.Tally()
+        self.assertTrue(t.check("X", "a", None, None, 0.5))
+        self.assertFalse(t.check("X", "b", 0.0, None, 0.5))            # the page draws zero, the file holds nothing
+        self.assertFalse(t.check("X", "c", None, 12.0, 0.5))
+        self.assertTrue(t.check("X", "d", 12.0, 12.4, 0.5))
+        self.assertFalse(t.check("X", "e", 12.0, 12.6, 0.5))
+
+    def test_the_run_kept_on_the_branch_met_every_figure(self):
+        path = os.path.join(ROOT, "replication", "grid", "regions_figures_met.csv")
+        with open(path, encoding="utf-8") as f:
+            lines = f.readlines()
+        rows = list(csv.DictReader(l for l in lines if not l.startswith("#")))
+        self.assertGreaterEqual(len(rows), 1300)
+        self.assertEqual({r["met"] for r in rows}, {"yes"})
+        self.assertEqual(len({r["region"] for r in rows}), 13)
+        self.assertIn("# Retrieved: the page read 2026-11-", "".join(lines[:5]))
+
+    def test_an_altered_figure_is_caught(self):
+        import json
+        import tempfile
+        m = replication()
+        page_path = os.path.join(ROOT, "replication", "grid", "regions_page_figures.json")
+        with open(page_path, encoding="utf-8") as f:
+            page = json.load(f)
+        with open(os.path.join(ROOT, "site", "data", "regions", "index.json"), encoding="utf-8") as f:
+            index = json.load(f)
+        if page.get("index_built") != index.get("built"):
+            self.skipTest("the region files were rebuilt since the page was read: regions_figures.mjs is to be run again")
+        first = sorted(page["regions"])[0]
+        demand = page["regions"][first]["mix"]["figures"]["Demand"]
+        page["regions"][first]["mix"]["figures"]["Demand"] = f"{int(m.num(demand)) + 2:,} MW"
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "altered.json")
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump(page, f)
+            import contextlib
+            import io
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                code = m.main(["--page", p])
+        self.assertEqual(code, 1)
+        self.assertIn("NOT MET", out.getvalue())
+        self.assertIn("latest hour: Demand, MW", out.getvalue())
+
+    def test_the_figures_are_read_from_the_page_only(self):
+        s = src("replication", "grid", "regions_figures.mjs")
+        self.assertIn("data-region-figure", s)
+        self.assertNotIn("lib/gridregions", s)                          # the harvest uses none of the page's own functions
+        r = src("replication", "grid", "replicate_regions.py")
+        self.assertNotIn("subprocess", r)
+        self.assertNotIn(EM, s + r)
+
+
 if __name__ == "__main__":
     unittest.main()
