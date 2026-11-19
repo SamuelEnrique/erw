@@ -13,6 +13,7 @@ November, 03:00 UTC), West below Houston in 297 hours; day-ahead over 672 hours 
 
 import json
 import os
+import re
 import subprocess
 import unittest
 
@@ -46,6 +47,16 @@ class ThePage(unittest.TestCase):
             s = fh.read()
         self.assertIn("hubLessHub(rtRows, bRt.data, m.rt.freq)", s)
         self.assertIn('data-ab-mean={market}', s)
+
+    def test_the_a_less_b_table_scrolls_inside_its_own_frame(self):
+        """Session 8401 (chain 503), browser row 362: at 390 px the page was 504 px wide. The table of A less B holds seven
+        cells a row, its figures each on one line, and stood in no frame; the table above it scrolls inside its own
+        (overflow-x-auto), and so does this one now. Every table of the page stands in such a frame."""
+        with open(os.path.join(SITE, "app", "prices", "[entity]", "page.tsx"), encoding="utf-8") as fh:
+            s = fh.read()
+        self.assertRegex(s, r'<div className="overflow-x-auto">\s*<table className="border-collapse text-sm" data-ab-table=\{bEntity\}>')
+        self.assertEqual(len(re.findall(r'overflow-x-auto">\s*<table\b', s)), s.count("<table"))
+        self.assertEqual(s.count("<table"), 2)
 
 
 if __name__ == "__main__":

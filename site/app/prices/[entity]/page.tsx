@@ -180,7 +180,10 @@ export default async function EntityPrices({ params, searchParams }: PageProps<"
           </label>{" "}
           <button type="submit" className="border border-rule bg-white px-2 py-1">Compare</button>
         </form>
+        {/* session 8401 (browser row 362): the table scrolls inside its own frame, as the table above does; without one
+            its seven cells a row, each figure on one line, made the page 504 px wide on a 390 px phone */}
         {bEntity ? (
+          <div className="overflow-x-auto">
           <table className="border-collapse text-sm" data-ab-table={bEntity}>
             <tbody>
               {ab.map(({ name: market, d }) => (
@@ -202,6 +205,7 @@ export default async function EntityPrices({ params, searchParams }: PageProps<"
               ))}
             </tbody>
           </table>
+          </div>
         ) : null}
       </section>
     </Brand>

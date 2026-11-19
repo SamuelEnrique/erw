@@ -112,5 +112,14 @@ const spp = words((await draw(rowsOf, NOW, "spp:SPPNORTH_HUB")).html);
 ok(!spp.includes("the ERW has no SPP real-time series table") && !spp.includes("no real-time series table for this ISO") && spp.includes("site/data/markets.json names no real-time table for SPP"),
   "row 7: the SPP hub's page says that markets.json names no real-time table for SPP, not that the warehouse has none");
 
+// ---- ruling alternative 3 (wip/alt-prices-3, not a default on main), session 8401, browser row 362: at 390 px the page
+// was 504 px wide, the table of A less B standing in no frame. Drawn with a second hub (no row of it is committed, so
+// each row reads "no hour held by both"), the table stands inside its own scrolling frame, as every table of the page
+const withB = (await draw(rowsOf, NOW, "ercot:HB_HUBAVG", "ercot:HB_WEST")).html;
+ok(/<div class="overflow-x-auto"><table[^>]*data-ab-table="ercot:HB_WEST"/.test(withB) && (withB.match(/data-ab-row=/g) ?? []).length === 2,
+  "browser row 362: the table of A less B is drawn inside a frame that scrolls sideways, with its two rows");
+ok((withB.match(/<table\b/g) ?? []).length === 2 && (withB.match(/overflow-x-auto"><table\b/g) ?? []).length === 2, "browser row 362: no table of a hub's page stands outside a scrolling frame");
+ok(!/data-ab-table/.test((await draw(rowsOf, NOW, "ercot:HB_HUBAVG", "caiso:TH_SP15_GEN-APND")).html) && !/data-ab-table/.test(hub.html), "a hub of another grid, or none, draws no table of A less B");
+
 console.log(`\n${n - failed} of ${n} passed`);
 if (failed) process.exitCode = 1;
