@@ -634,6 +634,21 @@ It leaves open what the section "Cross-checks" lists as not compared, and the "C
 - Date:
 - Items left open ruled, and how:
 
+## Sign-off: the map and the thirteen regions
+
+Session 8606 (chain 504) added this block for the two parts of the tool built on 19 November 2026. A session never signs it. Signing it accepts, as their rules:
+- the map draws the network's own megawatts on the balancing authorities' published footprints, the hour, the pair rule and the colors being the Network view's;
+- a region's net exchange is the sum of its pairs, each read from one side, and is not the authority's own total interchange (section "The map's done line");
+- an authority with no boundary in the file is listed, not placed by hand; state lines are drawn and names stay on hover;
+- a region is one of EIA's thirteen, drawn from the data machine's files with nothing filled: a part not held is blank with its reason, a month not held is absent and counted, a part of a month is shown as held;
+- hour by hour, a source below zero is drawn down from zero; the Storage row says who files no battery series and its figure is not changed.
+
+It leaves open the rulings the signature pack lists (`docs/reviews/grid-map-regions-signature-pack-2026-11-19.md`), each with its default taken, and the data requests 540, 541, 544, 549 and 551.
+
+- Signed off by:
+- Date:
+- Items left open ruled, and how:
+
 <a id="cross-checks"></a>
 
 ## Cross-checks
