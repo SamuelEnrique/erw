@@ -10,6 +10,8 @@ import delimited "usgs_comcat_earthquakes_south_central.csv", varnames(1) string
 
 destring x_magnitude, replace force
 
+drop if missing(x_magnitude)
+
 keep if x_magnitude >= 3.0 & x_place_state == "Texas"
 
 duplicates drop event_id, force
@@ -20,9 +22,25 @@ generate byte one = 1
 
 collapse (sum) measure = one, by(year)
 
+keep if inrange(year, 2010, 2026)
+
+tempfile got
+
+save `got'
+
+clear
+
+set obs 17
+
+generate int year = 2009 + _n
+
+merge 1:1 year using `got', nogenerate
+
+replace measure = 0 if missing(measure)
+
 generate byte n = 1
 
-* A year with no earthquake is a year of zero, as the Python prints it.
+* A year with no earthquake is a year of zero, as the Python prints it: the years 2010 to 2026 are added above.
 
 sort year
 
