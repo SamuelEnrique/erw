@@ -1,6 +1,6 @@
 # The operators' wind and solar forecasts beside the output that came
 
-Energy Research Warehouse (ERW). Session 8013, chain 505, part D2. Builder: `warehouse/derived/renewable_forecast_error.py`, a step of the data machine's daily run. Page file: `site/data/regions/forecast/renewables.json` (contract: section 12 of `docs/state/page_files_regions.md`). Test: `tests/test_session8013_renewable_forecast.py`.
+Energy Research Warehouse (ERW). Session 8013, chain 505, part D2. Builder: `warehouse/derived/renewable_forecast_error.py`, a step of the data machine's daily run. Page file: `site/data/regions/renewables_forecast.json` (contract: section 12 of `docs/state/page_files_regions.md`). Test: `tests/test_session8013_renewable_forecast.py`.
 
 ## What is compared
 

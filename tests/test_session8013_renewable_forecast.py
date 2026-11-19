@@ -1,4 +1,4 @@
-"""Session 8013 (chain 505, part D2): the operators' wind and solar forecasts beside the output (forecast/renewables.json).
+"""Session 8013 (chain 505, part D2): the operators' wind and solar forecasts beside the output (renewables_forecast.json).
 
 Contract: section 12 of docs/state/page_files_regions.md. The file is computed from caiso_wind_solar_forecast and
 ercot_wind_solar_forecast; no figure of the ERW's own.
@@ -15,7 +15,7 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, "warehouse", "derived"))
 import renewable_forecast_error as rfe  # noqa: E402
 
-FILE = os.path.join(REPO, "site", "data", "regions", "forecast", "renewables.json")
+FILE = os.path.join(REPO, "site", "data", "regions", "renewables_forecast.json")
 
 
 def load():

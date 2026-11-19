@@ -272,7 +272,7 @@ The day-ahead demand forecast each authority files on Form EIA-930, beside the d
 
 Signs: a miss is the forecast less the demand; above zero the forecast was high.
 
-## 12. `site/data/regions/forecast/renewables.json` (chain 505, part D2)
+## 12. `site/data/regions/renewables_forecast.json` (chain 505, part D2)
 
 The operator's own day-ahead forecast of wind and solar output beside the output that came, for each grid that publishes both under a license `docs/licenses.md` lets a page show: CAISO (by trading hub, and the three hubs summed) and ERCOT (system-wide). Built from the warehouse's tables `caiso_wind_solar_forecast` and `ercot_wind_solar_forecast` (both public); no table of its own. Method: `docs/methods/renewable_forecast_error.md`. Builder: `warehouse/derived/renewable_forecast_error.py`, in the data machine's daily run.
 
@@ -309,4 +309,4 @@ Signs: a miss is the forecast less the output; above zero the forecast was high.
 - 19 November 2026, session 8011 (data request 553, section 8; on `wip/c501-desk-g`): a new file, `site/data/resources/hover_fields_added.json`: `{ built_at_utc, note, layers: { <layer id>: { hover_fields: [[column, words]], name_column: { column, source_column, words, unit }, source_file, source_sha256, how } } }`, for `wind_capacity_factor` and `geothermal_hydrothermal_sites`, the two point layers `manifest.json` gives no `hover_fields`; a page uses a layer's list here when `manifest.json` gives none.
 - 19 November 2026, session 8012 (chain 505, part C): section 10, every balancing authority's own facts (`authority/<code>.json`, `authority/region-<code>.json`); no key of another section moves.
 - 19 November 2026, session 8012 (chain 505, part D1): section 11, the day-ahead demand forecast beside the demand that came (`forecast/<region>.json`, `forecast/ba/<code>.json`); no key of another section moves.
-- 19 November 2026, session 8013 (chain 505, part D2): section 12, the operators' wind and solar forecasts beside the output (`forecast/renewables.json`); no key of another section moves.
+- 19 November 2026, session 8013 (chain 505, part D2): section 12, the operators' wind and solar forecasts beside the output (`renewables_forecast.json`); no key of another section moves.

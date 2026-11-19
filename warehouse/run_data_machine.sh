@@ -307,7 +307,7 @@ soft_step dm_authority_facts "$PYTHON" warehouse/derived/authority_facts.py
 # site/data/regions/forecast/), from the six-month files saved above and eia930_ba_demand_hourly
 soft_step dm_forecast_error "$PYTHON" warehouse/derived/forecast_error.py
 # Session 8013 (chain 505, part D2): the operators' wind and solar forecasts beside the output (site/data/regions/
-# forecast/renewables.json), from caiso_wind_solar_forecast and ercot_wind_solar_forecast; no table of its own
+# renewables_forecast.json), from caiso_wind_solar_forecast and ercot_wind_solar_forecast; no table of its own
 soft_step dm_renewable_forecast_error "$PYTHON" warehouse/derived/renewable_forecast_error.py
 for t in eia930_forecast_error_hourly eia930_forecast_error_daily; do soft_step "dm_stores_$t" "$PYTHON" warehouse/table_stores.py "$t" --no-redivis; done
 

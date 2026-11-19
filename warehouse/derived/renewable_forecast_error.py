@@ -14,7 +14,7 @@ the ERW's own and no table of its own: the page file is computed from the two ta
 
     python warehouse/derived/renewable_forecast_error.py [--site-dir PATH]
 
-Page file: site/data/regions/forecast/renewables.json (contract: section 12 of docs/state/page_files_regions.md).
+Page file: site/data/regions/renewables_forecast.json (contract: section 12 of docs/state/page_files_regions.md).
 Method: docs/methods/renewable_forecast_error.md.
 """
 import argparse
@@ -166,7 +166,7 @@ def main(argv=None):
     ap.add_argument("--site-dir", default=SITE)
     a = ap.parse_args(argv)
     doc = build()
-    path = os.path.join(a.site_dir, "forecast", "renewables.json")
+    path = os.path.join(a.site_dir, "renewables_forecast.json")
     os.makedirs(os.path.dirname(path), exist_ok=True)
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8", newline="\n") as f:

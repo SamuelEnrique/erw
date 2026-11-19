@@ -2,7 +2,7 @@
 // /demand (components/demand/Country.tsx, ?view=country). For each of the two places chosen: the day-ahead demand
 // forecast its balancing authorities file on Form EIA-930 beside the demand that came (the data machine's
 // forecast/<region>.json and forecast/ba/<code>.json, contract section 11, warehouse/derived/forecast_error.py), and,
-// for California and Texas, the grid operator's own wind and solar forecasts beside the output (forecast/renewables.json,
+// for California and Texas, the grid operator's own wind and solar forecasts beside the output (renewables_forecast.json,
 // section 12). Every figure is read from those files and carries its source on hover; a file not on the site says so and
 // draws nothing. No forecast of the ERW's own. Add, never change: the sections before it are not touched.
 import { Hint } from "@/components/demand/Hint";
@@ -42,7 +42,7 @@ const renewOf = (p: Place, r: RenewFile | null) => r?.grids.find((g) => (p.level
 
 export function CountryForecast({ slots, two }: { slots: ForecastSlot[]; two: string }) {
   const files = slots.map((s) => ({ s, f: readRegionFile<ForecastFile>(path(s.place)) }));
-  const renew = readRegionFile<RenewFile>("forecast/renewables.json");
+  const renew = readRegionFile<RenewFile>("renewables_forecast.json");
   const k = (s: ForecastSlot, x: string) => `cdf|${s.mark}|${x}`;
   const notOn = (s: ForecastSlot) => `The forecast file of ${s.name} (site/data/regions/${path(s.place)}) is not on the site: either the place files no day-ahead forecast with EIA, or the data machine has not written it. No figure is drawn.`;
   const summary = files.map(({ s, f }) => {
