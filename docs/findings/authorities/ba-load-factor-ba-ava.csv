@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ba_load_factor, region ba_ava (Avista (AVA, EIA-930 balancing authority))
+# Computed 2026-11-19T12:57:36Z by warehouse/analysis/findings/deep/authorities.py (ba_load_factor); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's mean hour of demand as a percent of its highest (percent), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+ba_ava,2018,65.72116170113176,4408.0,0
+ba_ava,2019,66.95069077522862,8759.0,1
+ba_ava,2020,64.88692623376005,8784.0,1
+ba_ava,2021,59.914180785909885,8759.0,1
+ba_ava,2022,59.336471896727275,8755.0,1
+ba_ava,2023,62.33098184969924,8758.0,1
+ba_ava,2024,58.60934144619869,8782.0,1
+ba_ava,2025,58.87739030840391,8757.0,1
+ba_ava,2026,62.404982173101246,7686.0,0

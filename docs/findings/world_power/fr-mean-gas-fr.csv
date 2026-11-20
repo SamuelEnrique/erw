@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate fr_mean_gas, region fr (France)
+# Computed 2026-11-19T13:19:57Z by warehouse/analysis/findings/deep/world_power.py (fr_mean_gas); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's mean gas-fired power (MW), the observations it rests on, and whether the year is full
+# Tables: rte_eco2mix_france_halfhourly
+region,year,value,n_observations,full_year
+fr,2019,6603.5,2.0,0
+fr,2020,3924.4346959690274,17564.0,1
+fr,2021,3746.709294359443,17516.0,1
+fr,2022,5008.292132907057,17516.0,1
+fr,2023,3322.8995775291164,17516.0,1
+fr,2024,1983.7702117968572,17564.0,1
+fr,2025,1871.0664002283756,17515.0,1
+fr,2026,1935.1124356775301,11660.0,0

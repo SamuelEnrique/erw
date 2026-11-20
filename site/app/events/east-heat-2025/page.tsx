@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { EventStudy } from "@/components/EventStudy";
 import { EventDecisions } from "../Decisions";
+import { WholeCountrySection, type PageProps } from "../WholeCountry";
 import { EventWindow, N, day, pickOf } from "../EventWindow";
 
 // Session 64: the June 2025 heat, event east_heat_2025 of event_window_daily (docs/methods/events.md): PJM, NYISO, ISO-NE
@@ -14,7 +15,7 @@ export const revalidate = 3600;
 const EV = "east_heat_2025";
 const inWin = (d: string) => d >= "2025-06-20" && d <= "2025-06-28";
 
-export default function EastHeat2025() {
+export default function EastHeat2025({ searchParams }: PageProps = {}) {
   return (
     <Brand>
     <div>
@@ -68,6 +69,9 @@ export default function EastHeat2025() {
     />
     <EventStudy event="east_heat_2025" grids={["eia930:PJM", "eia930:NYIS", "eia930:ISNE", "eia930:MISO"]} primary="eia930:PJM" />
     {/* session 7531: the page's decisions (Decisions.tsx), each with its default and source on hover */}
+    {/* session 8410 (chain 503): EIA's thirteen regions across the event, from the data machine's file (WholeCountry.tsx) */}
+    <WholeCountrySection event="east_heat_2025" path="/events/east-heat-2025" first="MIDA" searchParams={searchParams}
+      firstWhy="PJM, the first grid of the page above, is among the Mid-Atlantic's balancing authorities, so the Mid-Atlantic is drawn first." />
     <EventDecisions event="east_heat_2025" />
     </div>
     </Brand>
