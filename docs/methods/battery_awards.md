@@ -167,7 +167,7 @@ of the page with its default and its source on hover (`site/app/cost-of-power/ba
 | 4 | `ancillary-price` | An ancillary award at the service's day-ahead clearing price; Responsive Reserve's three kinds at one price | the day-ahead clearing price | ERCOT Nodal Protocols 4.6.4.1 |
 | 5 | `month` | The Central month; nothing filled; a partial month never scaled | no filling, no scaling | ERCOT's Delivery Date |
 | 6 | `year` | A year is the sum of its months per kW, each over its own MW | the months added up | `ercot_storage_dam_awards.md`, "Rules" |
-| 7 | `model` | The model beside the awards: one 2-hour battery, the day-ahead schedule, the hub average; whole months of both only | 2 hours, day-ahead, `HB_HUBAVG` | `battery_stack.md`; the market monitor's 17,000 MW and 31,500 MWh (about 1.9 hours) |
+| 7 | `model` | The model beside the awards: one 2-hour battery, the day-ahead schedule, the hub average; whole months of both only | 2 hours, day-ahead, `HB_HUBAVG` | `battery_stack.md`; the market monitor's 17,000 MW and 31,500 MWh (1.85 hours); the EIA's 1.55 hours (December 2025) and 1.65 (July 2026), `storage_buildout_monthly` (ruling alternative 3, branch wip/alt-battery-awards-3) |
 | 8 | `never-offered` | "Never offered" is the model's figure times the share of limit-hours with no day-ahead offer: an allocation | the model's average | `ercot_storage_dam_offers.md` |
 | 9 | `price-part` | "Price" is energy only; "offered and not awarded" is the remainder | energy only | `ercot_storage_dam_offers.md` |
 | 10 | `offers-counted` | An offer counts at any price, as power; a block priced for several services counts under each | as printed, not capped | ERCOT's two offer files |

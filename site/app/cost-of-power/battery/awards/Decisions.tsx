@@ -38,8 +38,9 @@ export const AWARDS_DECISIONS: AwardsDecision[] = [
     source: "docs/methods/ercot_storage_dam_awards.md, \"Rules\"." },
   { key: "model", session: "sessions 115 and 116",
     text: "The model's figure beside the awards is the battery page's day-ahead schedule for one 2-hour battery at the hub average, and stands beside the awards only over months both hold whole.",
-    def: "2 hours, the day-ahead schedule, HB_HUBAVG. ERCOT's market monitor puts the fleet at more than 17,000 MW and 31,500 MWh at the end of 2025, about 1.9 hours.",
-    source: "The model: docs/methods/battery_stack.md. The fleet's size: Potomac Economics, 2025 State of the Market Report for the ERCOT Electricity Markets, June 2026, page ii." },
+    // ruling alternative 3 (wip/alt-battery-awards-3, not a default on main): both durations of the fleet, the monitor's and the EIA's
+    def: "2 hours, the day-ahead schedule, HB_HUBAVG. ERCOT's market monitor puts the fleet at more than 17,000 MW and 31,500 MWh at the end of 2025, 1.85 hours. The EIA's monthly inventory gives 1.55 hours in December 2025 and 1.65 in July 2026, the figure /storage draws: 0.20 hours under the monitor's.",
+    source: "The model: docs/methods/battery_stack.md. The fleet's size: Potomac Economics, 2025 State of the Market Report for the ERCOT Electricity Markets, June 2026, page ii; Form EIA-860M as the table storage_buildout_monthly holds it (MWh per MW of the batteries operating in ERCOT)." },
   { key: "never-offered", session: "session 116",
     text: "Of the gap between the model and the awards, the part \"never offered\" is the model's figure times the share of the fleet's limit-hours that carried no day-ahead offer of any kind. It is an allocation, not a measurement.",
     def: "The model's average on every limit-hour that offered nothing. January to July 2026: 32.2 percent of limit-hours, 6.5 points of them resources on outage.",
