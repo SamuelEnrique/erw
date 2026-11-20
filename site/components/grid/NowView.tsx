@@ -14,6 +14,7 @@ import { ShareBar } from "@/components/ShareBar";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { HeadlineNumber, HeadlineRow, SourceLine, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { daysAgo, series, type SeriesRow } from "@/lib/data";
+import { pickDemand, type DemandRow } from "@/lib/griddemand";   // wip/alt-grid-2
 import { shown } from "@/lib/format";
 import { FUELS, fuelName, fuelOf, type GridData } from "@/lib/grid";
 import { gridHref, zoneWords, type GridChoice } from "@/lib/gridtool";
@@ -50,8 +51,8 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
   ]);
   // demand: the latest hour held, and the same hour a week earlier
   const demand = dem.ok ? [...dem.data].sort(byTime) : [];
-  const d = demand.at(-1);
-  const dWeek = d ? demand.find((r) => Date.parse(r.ts_utc) === Date.parse(d.ts_utc) - 7 * 24 * H) : undefined;
+  const dTable = demand.at(-1);   // wip/alt-grid-2: the daily table's newest hour; the hourly snapshot's may be newer (below)
+  // (dWeek is taken from d once d is known, after the snapshot is read)
   // the mix: the latest hour that holds the total, its fuels largest first
   const withheld = grid.slug === "caiso";  // session 118: EIA-930's generation for California is not drawn
   const rows = gen.ok && !withheld ? gen.data : [];
@@ -70,6 +71,12 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
   // session 266: how old the exchange's hour is, in hours before the snapshot's hourly refresh (net|lag in lib/network.ts)
   const lag = Math.round((Date.parse(snap.built) - Date.parse(xHour)) / H);
   const lagNum = <Num check={`net|lag|${xHour}|${snap.built}`} raw={lag}>{shown(lag)}</Num>;
+  // ruling alternative 2 (wip/alt-grid-2, not a default on main): demand "right now" is the hourly snapshot's, as the Network tab
+  // reads it, where it is newer than the daily table's newest hour; the same hour a week earlier from the table
+  const nd = grid.slug === "us48" ? undefined : snap.nodes.find((n) => n.id === grid.ba);
+  const { d, fromSnap } = pickDemand(dTable as unknown as DemandRow | undefined, nd, entity) as unknown as { d: SeriesRow | undefined; fromSnap: boolean };
+  const dWeek = d ? demand.find((r) => Date.parse(r.ts_utc) === Date.parse(d.ts_utc) - 7 * 24 * H) : undefined;
+  const DemNum = ({ r }: { r: SeriesRow }) => fromSnap && r === d ? <Num check={`netsnap|${grid.ba}|demand_mw|${r.ts_utc}`} raw={r.value}>{shown(r.value)}</Num> : <N t={DEMAND} r={r} />;
   // carbon: the latest hour EIA has estimated
   const cg = ci.ok ? ci.data.filter((r) => r.variable === "intensity_generation").sort(byTime).at(-1) : undefined;
   const cd = cg && ci.ok ? ci.data.find((r) => r.variable === "intensity_demand" && r.ts_utc === cg.ts_utc) : undefined;
@@ -79,7 +86,7 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
       <p className="mb-8 max-w-3xl text-base leading-relaxed" data-now-sentence={grid.slug}>
         {d ? (
           <>
-            In the hour starting {hourOf(d.ts_utc, tz)}, the latest EIA has published, {grid.slug === "us48" ? "the Lower 48 states" : grid.label} used <N t={DEMAND} r={d} /> MW
+            In the hour starting {hourOf(d.ts_utc, tz)}, the latest EIA has published, {grid.slug === "us48" ? "the Lower 48 states" : grid.label} used <DemNum r={d} /> MW{fromSnap ? <span data-demand-from="snapshot"> (EIA-930&apos;s hourly snapshot, as the Network tab reads it)</span> : null}
             {dWeek ? <>, {d.value > dWeek.value ? "more than" : d.value < dWeek.value ? "less than" : "the same as"} the <N t={DEMAND} r={dWeek} /> MW of the same hour a week earlier</> : null}.
           </>
         ) : <>The latest hour of demand could not be read just now. </>}
@@ -94,7 +101,7 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
       </p>
 
       <HeadlineRow>
-        <HeadlineNumber label="Demand" unit="MW" value={d ? <N t={DEMAND} r={d} /> : <span className="text-muted">not read</span>}
+        <HeadlineNumber label="Demand" unit="MW" value={d ? <DemNum r={d} /> : <span className="text-muted">not read</span>}
           note={d ? <>Hour starting {hourOf(d.ts_utc, tz)}.{dWeek ? <> A week earlier: <N t={DEMAND} r={dWeek} /> MW.</> : null}</> : dem.ok ? "No hour of demand in the last nine days." : dem.reason} />
         {/* session 1898 (lab path fault 3 of session 1885): the unit only beside a figure; the Lower 48's card read "by grid MW" */}
         <HeadlineNumber label={ties.length && !out ? "Net import" : "Net export"} unit={ties.length ? "MW" : undefined} value={ties.length ? netNum : <span className="text-muted">{grid.slug === "us48" ? "by grid" : "not reported"}</span>}
