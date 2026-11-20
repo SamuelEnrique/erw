@@ -29,6 +29,9 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 | 5 | The "Breakeven toll" (USD 4.19 per kW-month) only covers debt 1.25 times; equity breaks even at 13.62 | the toll figure: 4.19 against 13.62 | at the 4.19 toll: -845.78 | `wip/audit-battery-5` (fix in words) |
 | 6 | "Each figure is an upper bound" is false: findings 2 and 3 together give 88.81; with finding 1 as well, 83.02 | the bound: +7.41 (+9.1 percent) | +47.6 | `wip/audit-battery-6` (fix in words) |
 | 7 | The size runs to 5,000 MW and scales linearly; past about 500 MW the battery is paid for reserves ERCOT never buys | none at 100 MW; -27.0 percent of revenue at 5,000 MW (September 2026) | none at 100 MW | `wip/audit-battery-7` |
+| 8 | The NPV holds no tax, no depreciation, and by default no credit, yet is discounted at a cost of equity | none | +118.95 after federal tax; +426.14 with the 30 percent credit as well | `wip/audit-battery-8` |
+| 9 | Flat real revenue, a fixed money debt payment and a money discount rate in one sum | none | +39.67 to +60.95 (inflation 2 to 2.5 percent) | `wip/audit-battery-9` |
+| 10 | "A 4-hour battery discharges at its rated power for 4 hours": in the model it delivers 3.71 MWh per MW | +2.60 (+3.2 percent) if read as the page says | +16.7 | `wip/audit-battery-10` (fix in words) |
 
 ## 1. Regulation is never called
 
@@ -96,6 +99,38 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 - **The test.** `tests/test_audit_battery_7.py` on `wip/audit-battery-7`: the page's library (run by Node) reads 5,000 MW and scales the twelve months by exactly 50; the public file's September 2026 awards at 5,000 MW sit above ERCOT's plan in most hours and more than a fifth of the revenue is for megawatts never bought. It reads `ercot_as_quantities` where it is on the machine, else the figures read here.
 - **Not fixed.** Lowering the size's bound, or a line when the awards outgrow the market, is the owner's ruling. ERCOT's plan is held for 40 days only (from 3 September 2026), so a check across the twelve months needs its history.
 
+## 8. The NPV holds no tax at all
+
+- **Where.** `site/lib/battery/finance.ts` lines 243 to 248 (`flows`: no tax term; the credit is added at year 0 with no basis cut) and line 104 (`defaultsOf`: `itc: 0`). The note, section 11.1 line 418 ("No tax, no tax credit, ..."), line 450 (the credit) and line 467 ("What this block is not"). Decision 16 (`site/lib/decisions.ts` line 142).
+- **Why it is wrong.** The rate that discounts the flows is a cost of equity, 12 percent, which is a return after tax. The flows it discounts are before tax: no income tax, no depreciation. And the page's own hover names the federal credit for storage (30 percent before bonuses) while the default takes none, so every NPV on the page assumes the owner forgoes it. Stated in the note, but wrong in kind for a developer's NPV.
+- **How much.** The default case after federal tax (21 percent; 5-year MACRS, half-year convention; the basis cut by half the credit; interest deductible; losses used as they arise), every other figure the page's:
+  - no credit: USD -578.85 per kW against -697.80, +118.95 (USD 11.9 million for 100 MW);
+  - with the 30 percent credit: -271.66, +426.14;
+  - the page's own credit field (no tax): -364.80, +333.00.
+  - The headline revenue and coverage do not move.
+- **The test.** `tests/test_audit_battery_8.py` on `wip/audit-battery-8`: through `finance.ts` (run by Node) the default credit is 0 and a 30 percent credit moves NPV by exactly 30 percent of the capital cost (no tax term); the same case after tax gives -578.85 and -271.66.
+- **Not fixed.** Tax, depreciation and the credit's default are the owner's ruling. Eligibility for the credit (wages, sourcing rules) is the project's; the figures above only show what the choice is worth.
+
+## 9. Two kinds of dollars in one sum
+
+- **Where.** `site/lib/battery/finance.ts` lines 206 (`debtService`, a level payment at the interest rate), 213 to 221 (revenue flat apart from degradation) and 243 to 255 (`flows` and `npv` at the hurdle rate). The note, section 11.1 line 418 ("revenue and costs are flat in today's dollars apart from degradation").
+- **Why it is wrong.** Revenue and fixed O&M are flat in today's dollars: a real convention. The debt payment is a level payment on an 8 percent loan: fixed in money, so in real terms it shrinks each year. The 12 percent hurdle is a money rate. A real flow wants a real rate; a money payment wants money flows. Mixing them counts inflation against the owner twice.
+- **How much.** Either consistent reading raises the default NPV (USD -697.80 per kW):
+  - money flows (revenue and O&M rising with inflation, the debt fixed) at 12 percent: -658.13 at 2 percent inflation (+39.67), -647.10 at 2.5 (+50.70);
+  - real flows (the debt deflated) at the real rate (9.80 and 9.27 percent): -650.15 (+47.65) and -636.85 (+60.95).
+  - The inflation rate is this audit's assumption, not a source's: 2 and 2.5 percent bracket the usual planning figures. The headline revenue and coverage do not move.
+- **The test.** `tests/test_audit_battery_9.py` on `wip/audit-battery-9`: through `finance.ts` (run by Node) the debt payment is one number every year while income falls by the degradation alone; both consistent readings give the four figures above.
+- **Not fixed.** An inflation rate is a new assumption: the owner's ruling. The smallest fix in words is to say in the note which dollars the 12 percent is in.
+
+## 10. What "4 hours" means: the page and the model disagree
+
+- **Where.** `warehouse/derived/battery_stack.py` lines 219 to 225 (`s <= D`, the energy stored) with discharge at `1 / eta`. The page: `site/app/cost-of-power/battery/BatteryForm.tsx` line 64 (the hover: "How long the battery can discharge at its rated power: a 4-hour battery holds 4 MWh for each MW") and line 68 (the link title: "discharges at its rated power for 4 hours, 4 MWh for each MW"). The note, section 3.4 line 81, states `0 <= s_t <= D` and never says which side of the losses `D` is on.
+- **Why it is wrong.** In the model a full 4-hour battery delivers `4 x sqrt(0.86)` = 3.71 MWh per MW: it holds its rated power for 3.71 hours, not 4. It also needs 4.31 hours at rated power to fill. The page's words describe a different battery.
+- **Which reading is right is a convention.** Lazard's 4-hour case delivers about 3.6 MWh per MW a cycle (90 percent depth of discharge: 126,000 MWh a year over 350 cycles for 100 MW, the note's own cross-check row); the ATB's 4 hours are 4 hours of rated output. The model sits between them. The fault is that the page says one thing and computes another.
+- **How much.** Read as the page says (4 MWh delivered from full, so `4 / eta` stored), the default case's last twelve months: USD 84.01 per kW against 81.40, +2.60 (+3.2 percent).
+- **The test.** `tests/test_audit_battery_10.py` on `wip/audit-battery-10`: on a day that fills and empties the battery, `solve_day` delivers exactly `D x sqrt(0.86)` at 2, 4 and 8 hours, and no day of the public file delivers more than 3.7094 MWh per MW (passes on main). The words test fails on main and passes on the branch.
+- **The fix on the branch.** Words only, no figure moves: the hover and the link titles say what is stored and what is delivered (3.71 MWh per MW at 4 hours, 1.85 at 2, 7.42 at 8), and the note's section 3.4 says what `D` is. Changing the model to the page's words would move every figure: the owner's ruling.
+
 ## The deploys of this file (rule 8)
 
 Every page is in review, so a visitor sees the in-review page at all 25 addresses; this file changes no page. Each push: `node site/scripts/snapshot-live.mjs take` before, the after once the Vercel deployment of a commit holding the push showed success, then `compare`.
@@ -103,3 +138,4 @@ Every page is in review, so a visitor sees the in-review page at all 25 addresse
 - Push 1 (finding 1), merge `291223a4`; deployed in `194cf4c3`, success 21:08:35 UTC. `s9840-f1-before` against `s9840-f1-after`: 0 differences on 25 pages. Expected.
 - Push 2 (findings 2 to 4), merge `fd3d8fd8`; success 21:14:18 UTC. `s9840-f2to4-before` against `s9840-f2to4-after`: 0 differences. Expected.
 - Push 3 (finding 5), merge `0b89df07`; success about 21:19:26 UTC. `s9840-f5-before` against `s9840-f5-after`: 0 differences. Expected.
+- Push 4 (findings 6 and 7), merge `63b4d0ec`; success about 21:24:48 UTC. `s9840-f6f7-before` against `s9840-f6f7-after`: 0 differences. Expected.
