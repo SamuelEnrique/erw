@@ -1,0 +1,254 @@
+[
+ {
+  "draft": "weather/cdd-wd-midw.reproduce.py",
+  "ok": true,
+  "printed_first": 2.936479,
+  "printed_last": 3.354602,
+  "expected": {
+   "first_year": 2019,
+   "first": 2.936479,
+   "last_year": 2025,
+   "last": 3.354602,
+   "change": 0.418123
+  },
+  "tolerance": 0.002090615
+ },
+ {
+  "draft": "weather/cdd-wd-tex.reproduce.py",
+  "ok": true,
+  "printed_first": 8.933953,
+  "printed_last": 9.936603,
+  "expected": {
+   "first_year": 2019,
+   "first": 8.933953,
+   "last_year": 2024,
+   "last": 9.936603,
+   "change": 1.00265
+  },
+  "tolerance": 0.00501325
+ },
+ {
+  "draft": "weather/cold-hours-wh-nw.reproduce.py",
+  "ok": true,
+  "printed_first": 10.0,
+  "printed_last": 52.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 10.0,
+   "last_year": 2024,
+   "last": 52.0,
+   "change": 42.0
+  },
+  "tolerance": 0.21
+ },
+ {
+  "draft": "weather/cold-mw-wx-cal.reproduce.py",
+  "ok": true,
+  "printed_first": 28284.76,
+  "printed_last": 27268.86,
+  "expected": {
+   "first_year": 2019,
+   "first": 28284.76,
+   "last_year": 2025,
+   "last": 27268.86,
+   "change": -1015.9
+  },
+  "tolerance": 5.0795
+ },
+ {
+  "draft": "weather/cold-mw-wx-sw.reproduce.py",
+  "ok": true,
+  "printed_first": 12771.68,
+  "printed_last": 13934.9,
+  "expected": {
+   "first_year": 2019,
+   "first": 12771.68,
+   "last_year": 2025,
+   "last": 13934.9,
+   "change": 1163.22
+  },
+  "tolerance": 5.8161000000000005
+ },
+ {
+  "draft": "weather/cold-mw-wx-tex.reproduce.py",
+  "ok": true,
+  "printed_first": 53077.22,
+  "printed_last": 72548.14,
+  "expected": {
+   "first_year": 2019,
+   "first": 53077.22,
+   "last_year": 2024,
+   "last": 72548.14,
+   "change": 19470.92
+  },
+  "tolerance": 97.35459999999999
+ },
+ {
+  "draft": "weather/cold-ratio-wx-cal.reproduce.py",
+  "ok": true,
+  "printed_first": 93.561162,
+  "printed_last": 87.761151,
+  "expected": {
+   "first_year": 2019,
+   "first": 93.561162,
+   "last_year": 2025,
+   "last": 87.761151,
+   "change": -5.800011
+  },
+  "tolerance": 0.029000054999999997
+ },
+ {
+  "draft": "weather/hdd-wd-sw.reproduce.py",
+  "ok": true,
+  "printed_first": 4.54675,
+  "printed_last": 3.308368,
+  "expected": {
+   "first_year": 2019,
+   "first": 4.54675,
+   "last_year": 2025,
+   "last": 3.308368,
+   "change": -1.238382
+  },
+  "tolerance": 0.006191910000000001
+ },
+ {
+  "draft": "weather/hot-hours-wh-nw.reproduce.py",
+  "ok": true,
+  "printed_first": 0.0,
+  "printed_last": 10.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 0.0,
+   "last_year": 2024,
+   "last": 10.0,
+   "change": 10.0
+  },
+  "tolerance": 0.05
+ },
+ {
+  "draft": "weather/hot-mw-wx-midw.reproduce.py",
+  "ok": true,
+  "printed_first": 115621.62,
+  "printed_last": 122280.48,
+  "expected": {
+   "first_year": 2019,
+   "first": 115621.62,
+   "last_year": 2025,
+   "last": 122280.48,
+   "change": 6658.86
+  },
+  "tolerance": 33.2943
+ },
+ {
+  "draft": "weather/hot-mw-wx-nw.reproduce.py",
+  "ok": true,
+  "printed_first": 56266.02,
+  "printed_last": 61559.96,
+  "expected": {
+   "first_year": 2021,
+   "first": 56266.02,
+   "last_year": 2024,
+   "last": 61559.96,
+   "change": 5293.94
+  },
+  "tolerance": 26.4697
+ },
+ {
+  "draft": "weather/hot-mw-wx-tex.reproduce.py",
+  "ok": true,
+  "printed_first": 72017.46,
+  "printed_last": 83437.06,
+  "expected": {
+   "first_year": 2019,
+   "first": 72017.46,
+   "last_year": 2024,
+   "last": 83437.06,
+   "change": 11419.6
+  },
+  "tolerance": 57.098000000000006
+ },
+ {
+  "draft": "weather/hot-ratio-wx-nw.reproduce.py",
+  "ok": true,
+  "printed_first": 142.108675,
+  "printed_last": 146.010714,
+  "expected": {
+   "first_year": 2021,
+   "first": 142.108675,
+   "last_year": 2024,
+   "last": 146.010714,
+   "change": 3.902039
+  },
+  "tolerance": 0.019510195
+ },
+ {
+  "draft": "weather/max-temp-wt-midw.reproduce.py",
+  "ok": true,
+  "printed_first": 90.08,
+  "printed_last": 93.35,
+  "expected": {
+   "first_year": 2019,
+   "first": 90.08,
+   "last_year": 2025,
+   "last": 93.35,
+   "change": 3.27
+  },
+  "tolerance": 0.01635
+ },
+ {
+  "draft": "weather/min-temp-wt-cal.reproduce.py",
+  "ok": true,
+  "printed_first": 38.79,
+  "printed_last": 42.98,
+  "expected": {
+   "first_year": 2019,
+   "first": 38.79,
+   "last_year": 2025,
+   "last": 42.98,
+   "change": 4.19
+  },
+  "tolerance": 0.020950000000000003
+ },
+ {
+  "draft": "weather/summer-temp-wt-fla.reproduce.py",
+  "ok": true,
+  "printed_first": 82.636923,
+  "printed_last": 83.542286,
+  "expected": {
+   "first_year": 2019,
+   "first": 82.636923,
+   "last_year": 2024,
+   "last": 83.542286,
+   "change": 0.905363
+  },
+  "tolerance": 0.004526815
+ },
+ {
+  "draft": "weather/winter-temp-wt-sw.reproduce.py",
+  "ok": true,
+  "printed_first": 51.687958,
+  "printed_last": 57.029667,
+  "expected": {
+   "first_year": 2019,
+   "first": 51.687958,
+   "last_year": 2025,
+   "last": 57.029667,
+   "change": 5.341708
+  },
+  "tolerance": 0.02670854
+ },
+ {
+  "draft": "weather/winter-temp-wt-ten.reproduce.py",
+  "ok": true,
+  "printed_first": 45.282258,
+  "printed_last": 41.280285,
+  "expected": {
+   "first_year": 2019,
+   "first": 45.282258,
+   "last_year": 2025,
+   "last": 41.280285,
+   "change": -4.001973
+  },
+  "tolerance": 0.020009864999999998
+ }
+]

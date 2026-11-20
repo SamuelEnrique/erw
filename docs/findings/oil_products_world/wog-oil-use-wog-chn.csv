@@ -1,0 +1,50 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate wog_oil_use, region wog_chn (China)
+# Computed 2026-11-19T13:25:08Z by warehouse/analysis/findings/deep/oil_products_world.py (wog_oil_use); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the country's petroleum and other liquids consumption (thousand barrels a day), the observations it rests on, and whether the year is full
+# Tables: eia_world_oil_gas_annual
+region,year,value,n_observations,full_year
+wog_chn,1980,1940.0,1.0,1
+wog_chn,1981,1857.000000001,1.0,1
+wog_chn,1982,1837.000000001,1.0,1
+wog_chn,1983,1874.0,1.0,1
+wog_chn,1984,1911.0,1.0,1
+wog_chn,1985,2024.000000001,1.0,1
+wog_chn,1986,2057.0,1.0,1
+wog_chn,1987,2162.0,1.0,1
+wog_chn,1988,2315.0,1.0,1
+wog_chn,1989,2416.0,1.0,1
+wog_chn,1990,2327.0,1.0,1
+wog_chn,1991,2431.0,1.0,1
+wog_chn,1992,2694.0,1.0,1
+wog_chn,1993,2993.0,1.0,1
+wog_chn,1994,3193.0,1.0,1
+wog_chn,1995,3394.0,1.0,1
+wog_chn,1996,3797.0,1.0,1
+wog_chn,1997,3636.5,1.0,1
+wog_chn,1998,4118.0,1.0,1
+wog_chn,1999,4359.0,1.0,1
+wog_chn,2000,4688.535,1.0,1
+wog_chn,2001,4814.297,1.0,1
+wog_chn,2002,5211.508,1.0,1
+wog_chn,2003,5786.183,1.0,1
+wog_chn,2004,6802.69,1.0,1
+wog_chn,2005,6970.258,1.0,1
+wog_chn,2006,7493.351,1.0,1
+wog_chn,2007,7923.259,1.0,1
+wog_chn,2008,8041.343,1.0,1
+wog_chn,2009,8497.269,1.0,1
+wog_chn,2010,9181.535191780822,1.0,1
+wog_chn,2011,9686.149484927397,1.0,1
+wog_chn,2012,10170.80617809452,1.0,1
+wog_chn,2013,10780.567783580822,1.0,1
+wog_chn,2014,11417.91284931507,1.0,1
+wog_chn,2015,11958.034531013698,1.0,1
+wog_chn,2016,12555.123190164384,1.0,1
+wog_chn,2017,13361.139709421916,1.0,1
+wog_chn,2018,13436.28257238,1.0,1
+wog_chn,2019,13975.00420618,1.0,1
+wog_chn,2020,13975.30338318,1.0,1
+wog_chn,2021,15289.83741402,1.0,1
+wog_chn,2022,15231.38136299,1.0,1
+wog_chn,2023,15980.82114513,1.0,1
+wog_chn,2024,16370.53619973,1.0,1
