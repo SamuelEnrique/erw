@@ -50,6 +50,7 @@ EXEMPT = {
     "/internal/siting-gaps": "the internal view's list of the All grids tab's cells not held (site/data/siting/gaps.json, session 713): words only, no figure; it reaches lib/supabase.ts only through lib/thesis/server.ts's internalOk",
     "/internal/findings": "draft finding cards waiting for review; a card's figures are read once it is published, on /research and /research/card/<id>",
     "/thesis": "internal (the Thesis Builder): the runs of its own tables, checked by scripts/check-thesis.mjs",
+    "/severance/finder": "internal (the refund finder): its flags are a file on the server (warehouse/derived/severance_screen.py), not a read of the live set; it reaches lib/supabase.ts only through lib/guard.ts, which counts a try of the internal token (session 9812)",
     "/severance/lease/real": "internal: the RRC lease table lives on a warehouse machine, not on the site's server; its prices go to the client lease tool, which draws no Num",
     "/learn/problems": "the index of the problem sets: it imports lib/problems.ts for the sets' titles and draws no figure",
     "/learn/problems/[slug]/[edition]": "a dated edition: its numbers are the day's, from a file (lib/problemEditions.ts), not the live table's",

@@ -11,6 +11,8 @@ export const dynamic = "force-dynamic";
 export async function GET(req: NextRequest) {
   const token = process.env.INTERNAL_COSTS_TOKEN;
   const given = req.nextUrl.searchParams.get("token");
+  // session 9812 (lib/guard.ts, TOKEN_TRIES): every try is counted, right or wrong; past the number it answers as to a wrong one
+  if (given && !(await (await import("@/lib/guard")).tokenTriesLeft(req))) return new NextResponse("Not found", { status: 404, headers: { "X-Robots-Tag": "noindex" } });
   if (!token || !given || given !== token) return new NextResponse("Not found", { status: 404, headers: { "X-Robots-Tag": "noindex" } });
   const res = NextResponse.redirect(new URL("/", req.url), 303);
   const secure = req.nextUrl.protocol === "https:";
@@ -30,7 +32,7 @@ export async function GET(req: NextRequest) {
 //   another site's form      404, as if the route were not there
 // Nothing of the token is logged, put in an address or sent back.
 export async function POST(req: NextRequest) {
-  const { limited, sameOrigin, sameSecret } = await import("@/lib/guard");
+  const { limited, sameOrigin, sameSecret, tokenTriesLeft } = await import("@/lib/guard");
   const hide = { "X-Robots-Tag": "noindex", "Cache-Control": "private, no-store", "Referrer-Policy": "no-referrer" };
   const token = process.env.INTERNAL_COSTS_TOKEN;
   if (!token || !sameOrigin(req)) return new NextResponse("Not found", { status: 404, headers: hide });
@@ -49,6 +51,9 @@ export async function POST(req: NextRequest) {
   } catch {
     return back("no");
   }
+  // session 9812 (lib/guard.ts, TOKEN_TRIES): every try is counted, right or wrong, so the answer stops telling right from
+  // wrong after the number; the limit below on wrong tries alone stays as it was
+  if (given !== "" && !(await tokenTriesLeft(req))) return back("wait");
   if (trap !== "" || !sameSecret(given, token)) {
     return back((await limited(req, "unlock", 10, 3600)).ok ? "no" : "wait");
   }

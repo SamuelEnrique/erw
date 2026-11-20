@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
+import { pageTokenTriesLeft } from "@/lib/guard";   // session 9812
 import { notFound } from "next/navigation";
 import { Section } from "@/components/Section";
 import { RULE_NAMES, internalOpen, readSummary, type Totals } from "@/lib/finder";
@@ -47,6 +48,8 @@ export default async function Finder({ searchParams }: { searchParams: Promise<R
   const sp = await searchParams;
   const token = typeof sp.token === "string" ? sp.token : "";
   // session 371 (docs/security.md, S2): the internal view's cookie opens it too, and then no link below carries the token
+  // session 9812 (lib/guard.ts, TOKEN_TRIES): a try with the token in the address is counted, right or wrong
+  if (token && !(await pageTokenTriesLeft(await headers()))) notFound();
   if (!(await internalOpen(token, (await cookies()).get(COOKIE)?.value))) notFound();
   const s = readSummary();
   const q = token ? `token=${encodeURIComponent(token)}&` : "";   // an address that brought the token keeps it; the cookie needs none
