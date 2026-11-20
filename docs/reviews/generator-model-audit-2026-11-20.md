@@ -13,6 +13,7 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 - Revenue: the page's own public file, `site/public/seller/erw_2026_generator_hourly.csv` (72,384 hours: price, the fleet's solar MWh, the month's nameplate). It gives 59.8523 per kW and 2,579.9 MWh per MW for the page's twelve months.
 - The battery comparisons: the battery page's public file (`site/public/battery/erw_2026_battery_dispatch.csv`), whose hourly energy price is the same ERCOT hub average in real time.
 - Finance: `site/lib/seller/finance.ts` run by Node in each test, and a mirror. Default case: NPV at 12 percent USD -766.62 per kW (USD -76.66 million for 100 MW), the breakeven PPA price USD 58.36 per MWh (the note's), the price for 1.25 times coverage USD 39.14 (the note's).
+- A change of USD 1 per kW a year in revenue moves the default NPV by USD 7.76 per kW (35 years at 12 percent, 0.7 percent degradation).
 
 ## Findings, largest effect first
 
@@ -22,7 +23,8 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 | 2 | Flat real flows, a fixed money debt payment and a money discount rate in one sum | none | NPV +59.72 to +77.42 per kW (inflation 2 to 2.5 percent) | `wip/audit-generator-2` |
 | 3 | The same tax credit arrives in year 1 here and at year 0 on the battery page | none | a 30 percent credit on USD 1,110: 297.32 here, 333.00 there | `wip/audit-generator-3` |
 | 4 | An as-generated PPA is paid on energy the plant no longer makes | none | breakeven PPA 58.36 against 61.50 per MWh | `wip/audit-generator-4` |
-| 5 | The page's battery is "an upper bound", yet earns less than the battery page's program on the same prices | battery: -1.23 (-2.1 percent) at 4 hours | | `wip/audit-generator-5` |
+| 5 | The page's battery is "an upper bound", yet earns less than the battery page's program on the same prices | battery: -1.23 (-2.1 percent) at 4 hours | battery: NPV -7.9 per kW | `wip/audit-generator-5` |
+| 6 | The merchant plant sells below zero, where a merchant plant would stop | +0.41 (+0.7 percent) if it stopped | NPV +3.2 per kW | `wip/audit-generator-6` |
 
 ## 1. The NPV holds no tax and no depreciation
 
@@ -65,3 +67,11 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 - **The two pages disagree.** The same battery, the same prices, two answers: 58.72 here, 59.95 on the battery page's program without reserves.
 - **The test.** `tests/test_audit_generator_5.py` on `wip/audit-generator-5`: a day where half power pays, and the twelve months at 4 hours (58.72 against 59.95, below on more than 300 days).
 - **Not fixed.** Using the battery page's `solve_day` here moves the page's battery figures: the owner's ruling. The words "upper bound" can go now (the battery audit's finding 6 has the form).
+
+## 6. The merchant plant sells below zero
+
+- **Where.** `warehouse/derived/merchant_revenue.py` lines 268 to 274 (revenue is output times price over every hour with a value). The note, section 6 item 20 ("Solar and wind sell every hour, also at a negative price") and "What the model cannot see" ("no negative-price clause applies").
+- **Why it is wrong.** A merchant plant with no production credit loses money on every MWh sold below zero and stops. The fleet's shape still sells there. Stated in the note; wrong for the plant the page says it models ("a merchant solar plant").
+- **How much.** The page's twelve months: 189 negative hours, all with output; 117.7 MWh per MW sold below zero (4.6 percent of the year's energy) for USD -0.41 per kW. A plant that stops below zero: 60.26 per kW against 59.85 (+0.68 percent). It grows: -0.09 per kW in 2024, -0.31 in 2025, -0.32 in the nine months of 2026 held.
+- **The test.** `tests/test_audit_generator_6.py` on `wip/audit-generator-6`: from the public hourly file, 59.8523, 189 hours, -0.4076, 60.2599.
+- **Not fixed.** A curtailment rule moves the revenue: the owner's ruling. A plant that does take a production credit would sell down to minus the credit, which the page's credit field could set.
