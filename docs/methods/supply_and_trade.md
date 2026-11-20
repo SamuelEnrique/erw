@@ -195,6 +195,127 @@ These terms forbid republishing. The session read the header line of one ICE fil
   2026 none of the five is in the site's live catalogue** (all five are public in `warehouse/metadata/coverage.csv`), so
   the line says the tables are not in the site's live set and names Redivis; once they are loaded, it offers them.
 
+## The whole country (session 8430, 19 November 2026)
+
+The page has a section "The whole country", under the last of its tables and above the decisions block. Nothing else
+on the page changed: outside what was added, the page is byte for byte what it was at every address it answered
+before (`site/scripts/test-supply-pin.mjs`: 103 addresses, drawn on a copy of the page's two input files kept beside
+the pin, with the clock standing still, so a weekly rebuild of `site/data/supply.json` does not move the pin).
+
+- **What it reads.** The data machine's files of the whole country under `site/data/regions/`, written from EIA's Form
+  EIA-930 in the form of the contract [`docs/state/page_files_regions.md`](../state/page_files_regions.md):
+  `trade/<region>.json` (its section 5), `trade_matrix.json` (section 7), `mix/<region>.json` (section 4) and, for the
+  names of the balancing authorities only, `index.json` (section 2). The regions are EIA's thirteen of the lower 48
+  (California, Carolinas, Central, Florida, Mid-Atlantic, Midwest, New England, Northwest, New York, Southeast,
+  Southwest, Tennessee, Texas), with Canada and Mexico as neighbours. Six of the regions were on no page before: the
+  Southeast, Florida, the Carolinas, Tennessee, the Northwest and the Southwest (none of the seven grids is in them).
+- **Until a file is on the site** its view reads "not built yet" and draws no figure; with none of the files there the
+  whole section reads so. A file that cannot be read as JSON is treated the same way. No value is filled in.
+- **Net imports by month and by neighbour** (one region, or two side by side). A chart of the region's net imports by
+  month since July 2018, from all its neighbours and from each (GWh; above zero the region imported). For the chosen
+  year, a table with a row a neighbour: the region's own report, the neighbour's report of the same flow, the gap (the
+  own report less the neighbour's, over the hours both reported, as the file gives it), the gap in percent and the
+  months held; and a table of the year month by month, by the own report, whose hover gives the neighbour's report,
+  the gap and the hours each side held. A year's figure is the sum of the months the file holds; a month that is not
+  held is left out and counted beside the sum ("9 of 12"), never filled or scaled. The total from all neighbours is the
+  file's own monthly total, which the file leaves null when any neighbour holds fewer than half the month's hours.
+- **Who trades with whom.** For the chosen year, each pair of regions from the matrix file: which sent and which
+  received (the file's `direction`; the sign of its mean where it names none), each side's report turned to that
+  direction (a report below zero says that side counted the year's net flow the other way), the file's mean (over the
+  hours both sides reported, the mean of the two; the one side's report where the other reported no hour), the
+  file's gap (the sender's report less the receiver's, over the hours both reported) and the gap in percent. A side
+  whose report the file does not hold reads "not held yet", and so do the gap and its percent. The pairs stand in EIA's order of codes; none is ranked against another. In two folds: the same for
+  each pair of balancing authorities, and each authority's partners by gross and by net exchange, in the file's order
+  (`ba_trade_partners`).
+- **The gap that is called large.** The gap in percent is the gap over the mean size of the two reports (the mean of
+  their absolute values); for a year with a neighbour it runs over the months that hold both reports and the gap. A
+  gap of 10 percent or more is marked (a dotted line under the figure) and said in words on hover: who reported what,
+  the gap, its percent, the rule, its default and its source. **Default: 10 percent, the page's own choice (session
+  8430); no publisher's threshold stands behind it.** It waits for the owner's ruling.
+- **The generation mix by month.** The tables above the section draw no generation mix of their own: they link each of
+  the seven grids' Mix view on the Grid page, which this session did not touch. So a region's mix stands here in the
+  plainest form: a chart of each source's share of net generation by month over every month the file holds, and a
+  table of the chosen year's months with each source's share as the file writes it, the net generation and the days
+  held. The year's row is each source's energy over the year's held months as a percent of the net generation of
+  those same months. The file's hourly profiles and its newest 35 days by hour are not drawn here.
+- **The choices of the address:** `region` (Region A), `b` (Region B, or `none`) and `year`; the page's own choices
+  (`g`, `s`) are carried beside them. **Defaults:** Region A California and Region B the Carolinas, the first two of
+  EIA's thirteen in EIA's own order of codes; the year the last calendar year that had ended when the files were built
+  (the newest they can hold whole), or the newest year held when they hold no such year. The charts run over every
+  month whatever the year. The page's own choices, session 8430; said on hover.
+- **What it does not do.** No region is summed against another; no ledger of regions that gave and took is formed and
+  no region is ranked; no share of anything covered by imports is estimated. The matrix file also holds each
+  balancing authority's net imports as a share of its demand; that figure is not drawn until the owner rules (a switch
+  in `site/components/supply/Country.tsx`, `SHOWN.importShare`).
+- **Licenses.** Each file's own `license` line and the status of each table it names
+  (`site/data/license_status.json`) are read. EIA's Form EIA-930 is public domain and the contract gives every file as
+  public, so every region is drawn. A file that is not public, or a region put on hold (`REGIONS_HELD` in the same
+  component), is drawn with blank cells and "license needed" on hover, and no chart.
+- **Where the code is:** `site/lib/countrytrade.ts` (the types, the readers and the sums),
+  `site/components/supply/Country.tsx` (the views), `site/scripts/test-supply-regions.mjs` and
+  `site/scripts/regions-fixture-trade.mjs` (the test and its fixtures, whose values are made by a rule and are not
+  data), `tests/test_session8430_supply_regions.py`.
+- **The rules above, made exact (session 8460).** The replication below was written from this section and the
+  contract; where the lines above did not settle a figure, the rule is written here, as the page applies it.
+  - **Units and digits.** Energy is the file's MWh shown as GWh to one decimal; a percent is shown to one decimal. A
+    region's own report, a neighbour's report, a gap and a total carry a plus sign above zero; a pair's two reports
+    and its mean carry none.
+  - **A year with a neighbour.** The own report, the neighbour's report and the gap are each the sum of that array
+    over the months of the year in which that array holds a value. "Months held" is the count of the year's months
+    that hold the own report, of the year's months in the file. The percent is taken on three sums over the months
+    that hold all three arrays: the size of the summed gap over the mean of the sizes of the two summed reports. It
+    is not drawn when no month holds all three or when both summed reports are zero.
+  - **A month with a neighbour.** The month's own report is on the face. Its hover gives the neighbour's report and
+    the gap as the file holds them and the percent on the month's own three values; the hours on the hover are the
+    file's own counts.
+  - **Large.** A gap is large when its percent before rounding is 10 or more, so a percent shown as 10.0 can stand
+    without the mark (9.95 to 9.99). In the year's table and in the pairs the mark stands on the percent; in the
+    month table it stands on the month's own report.
+  - **A pair.** The direction is the file's `direction` when it reads `a_to_b` or `b_to_a`; else the sign of the
+    file's mean; with a mean of zero or none there is no direction. With a direction, the sender's report, the
+    receiver's report and the mean are the file's values turned to it (times minus one when power ran from the second
+    to the first), so a mean is not below zero unless the file's direction and its mean disagree. The gap is the
+    file's value unturned: the first side's report less the second's is also the sender's less the receiver's when
+    power ran the other way. With no direction the pair stands in the file's order, the first side's report first,
+    and the second column reads "no net flow" at a mean of zero. The percent is the size of the file's gap over the
+    mean of the sizes of the two reports, and needs all three and two reports that are not both zero.
+  - **The counts in the two folds.** The pairs of balancing authorities the file holds for the year, and the
+    authorities for which it lists partners in the year; zero in a year the matrix does not hold.
+  - **The mix.** A month's share is the file's `<source>_share_pct`, its net generation the file's
+    `net_generation_mwh`, its days the file's `days_held` of `days_in_month`. The year's row counts the year's months
+    in the file; a source's share of the year is its energy over the months that hold both it and the net generation,
+    over the net generation of those same months; the year's net generation is the sum over the months that hold it.
+    A mix month is the region's own local month (the file's `tz`); a trade month is EIA's Eastern month.
+  - **The year drawn first.** Of the files read for the two regions drawn first and the matrix: the last calendar
+    year that had ended when the newest of them was built, when they hold it; else the newest year they hold before
+    it; else the newest year they hold.
+- **Five hovers completed (session 8460).** No word on the section's face and no figure moved
+  (`site/scripts/test-supply-regions-8460.mjs`, 20 of 20; session 8430's two tests hold). A flow with Canada or
+  Mexico: the cells that read "not held yet" for the other side's report, the gap and the percent now say why on
+  hover (no balancing authority of Canada or Mexico files Form EIA-930). A balancing authority the index of the
+  regions does not list says so, where its hover said its name would come with the index. The mix table's net
+  generation says whose local month a month is and that the net imports run by EIA's Eastern months. The hover beside
+  the mix's heading says why a month's shares need not add up to 100 (the file holds an hour when its sources add up
+  to its net generation within 5 percent). The head of the balancing authorities' pairs says what a balancing
+  authority is.
+- **The replication (session 8460).** `replication/supply/replicate_regions.py`, written from this section and the
+  contract alone and not from the page's code, recomputes every figure the section prints from the trade, matrix and
+  mix files and sets it beside the figure the site's own code draws (`site/scripts/supply-regions-figures.mjs`
+  draws the section once for each region and each year and writes what it prints): every checked figure on the
+  face, the month hover's neighbour's report, gap and percent, the counts of months and days, which figures carry
+  the mark of a large gap, which side each pair's row says sent and which received, and the regions and the year
+  drawn first. A figure passes within half the last digit shown; a figure the rule gives that the page does not show
+  fails, and so does one the page shows that the rule does not give. Not compared: the hours on the hovers (the
+  file's own counts) and the charts' boxes and tables, which a browser draws from the same arrays as the month
+  tables. Run from `site/`: `node --import ./scripts/tsx-register.mjs scripts/supply-regions-figures.mjs
+  <figures.json>`, then `python replication/supply/replicate_regions.py --figures <figures.json>`; with
+  `--same-flow` it also sets a pair's year in the matrix beside the same year's months in each region's trade file
+  (the same flow in two files; a difference there is a matter of the files). While no file is on the site it says so
+  and compares nothing. On the test's fixtures: 33,132 of 33,132 over 27 files
+  (`tests/test_session8460_supply_regions_replication.py`). The count on the real files, the Stata do-file's five
+  headline figures and the cross-check against published figures are written when the files land
+  (`docs/reviews/supply-regions-read-2026-11-19.md` says what waits).
+
 ## The cross-checks (session 7018, chain 301)
 
 EIA's weekly estimate of US crude oil production (the page's weekly production row, `WCRFPUS2`), averaged over the report weeks ending in each month, beside EIA's Petroleum Supply Monthly for the same month (its monthly survey, `eia_crude_production_state_monthly`, `MCRFPUS`), thousand barrels a day:
