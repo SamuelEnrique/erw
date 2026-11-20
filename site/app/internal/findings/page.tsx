@@ -57,7 +57,9 @@ function HuntFiles({ id, hunt }: { id: string; hunt: NonNullable<Draft["card"]["
         ))}
       </div>
       <p className="mt-2 text-xs text-muted">Caption draft, computed from the numbers; nothing is posted by this page:</p>
-      <pre className="mt-1 whitespace-pre-wrap border border-rule bg-panel p-2 text-xs" data-hunt-caption={id}>{hunt.caption}</pre>
+      {/* session 9601 (chain 620): a caption's long word (an address, a table's name) broke nowhere, and at 390 px the
+          page was 470 px wide; the box now breaks a word that does not fit */}
+      <pre className="mt-1 whitespace-pre-wrap border border-rule bg-panel p-2 text-xs [overflow-wrap:anywhere]" data-hunt-caption={id}>{hunt.caption}</pre>
     </div>
   );
 }
