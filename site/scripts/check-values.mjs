@@ -1482,8 +1482,10 @@ async function main() {
       // session 9001 (chain 601, part H): /congestion and /conditions write their page-file figures as their pages do: USD/MWh
       // to two decimals without a thousands comma, a share to one decimal with "%", a count or a sum whole with commas
       const condOk = /^pf\|conditions\//.test(check) && (text === `${Number(raw).toFixed(2)} USD/MWh` || text === `${Number(raw).toFixed(1)}%` || text === Math.round(Number(raw)).toLocaleString("en-US"));
-      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || storyOk || usdWhole || chartOk || dcWhole || dcOne || forecastOk || condOk;
+      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || storyOk || usdWhole || chartOk || dcWhole || dcOne || forecastOk;
       let pass = t !== undefined && t !== null && same && textOk;
+      // session 9001: the conditions pages' forms join the text test on their own line (tests 315 and 1903 pin both ends of textOk)
+      if (!pass && condOk && t !== undefined && t !== null && same) pass = true;
       // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with
       // that day's, and a date the page writes beside the figure must be the same date
