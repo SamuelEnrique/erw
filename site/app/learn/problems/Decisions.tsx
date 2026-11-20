@@ -10,6 +10,8 @@ import { Tip } from "@/components/tool/ToolPage";
 export type ProblemDecision = { key: string; sets: string[]; text: string; def: string; source: string; session: string };
 
 const A = "know-your-grid", B = "prices-and-your-bill", C = "when-the-grid-broke", D = "storage-and-taxes", E = "networks-and-money";
+// session 8901 (chain 507, part C): the four sets of the whole country
+const T = "who-trades-with-whom", S = "storm-across-the-country", R = "under-the-ground-and-in-the-wind", W = "where-energy-goes";
 
 export const PROBLEM_DECISIONS: ProblemDecision[] = [
   { key: "live", sets: [A, B, C, D, E],
@@ -70,6 +72,27 @@ export const PROBLEM_DECISIONS: ProblemDecision[] = [
   { key: "storm-days", sets: [E],
     text: "Question 5 sets what the plant earned over the storm's window against as many normal days: the mean baseline day of the same event times the window's days.",
     def: "As many days as the storm, not one week.", source: "docs/methods/problem_sets.md, ruling 6a of 14 October 2026.", session: "session 288" },
+  // session 8901 (chain 507, part C)
+  { key: "page-file", sets: [T, S, R, W],
+    text: "Every figure of these sets is read from a committed page file of the site, with a key that names the file and the path into it, so the value checker reads the same file again. The figures move when the data machine rebuilds a file, not each hour.",
+    def: "The page files as committed; a path that leads to no number gives no figure, and the set says it could not be computed.",
+    source: "site/lib/pagefile.ts (the pf| key); docs/methods/problem_sets.md, \"The whole country\".", session: "session 8901" },
+  { key: "trade-month", sets: [T],
+    text: "The month asked of is the newest month of Tennessee's trade file that had ended when the file was built; a pair's years are those both sides reported in all twelve months; the year of the Mid-Atlantic and Tennessee is the one whose gap is largest in size.",
+    def: "The file's own built stamp sets the month; the matrix's months_held and months_in_year set the years.",
+    source: "site/data/regions/trade/ten.json and site/data/regions/trade_matrix.json (EIA, Form EIA-930); docs/methods/interchange_pairs.md.", session: "session 8901" },
+  { key: "storm-hour", sets: [S],
+    text: "A storm question takes a region's highest hour of demand in the event's window, the hour the page's table calls Highest hour, and reads the baseline, generation and flows at that same hour.",
+    def: "The first such hour when two are equal; the baseline as the file names it (Elliott: the same weekday 364 and 728 days earlier; Uri: the same calendar days of 2019 and 2020).",
+    source: "site/data/regions/events/elliott_2022.json and uri_2021.json (EIA, Form EIA-930); docs/methods/regions_pages.md.", session: "session 8901" },
+  { key: "layer-by-id", sets: [R],
+    text: "A layer is found in the list of layers by its id, and its legend's range, its statistics and its totals are read as the list gives them; no value is read from the map's cells.",
+    def: "The list of layers site/data/resources/manifest.json; each layer's unit as its publisher states it.",
+    source: "site/data/resources/manifest.json (warehouse/connectors/resource_layers.py); docs/methods/resources.md.", session: "session 8901" },
+  { key: "industry-pick", sets: [W],
+    text: "The month asked of is the newest the industry file holds a total for, beside the same month a year before; the industries are the first two of the file's ranking; the states' year is the newest both hold.",
+    def: "The ranking of the 2022 Manufacturing Energy Consumption Survey by total fuel, at three digits of NAICS.",
+    source: "site/data/industry.json (EIA: Monthly Energy Review, 2022 MECS, State Energy Data System); docs/methods/industry_page.md.", session: "session 8901" },
 ];
 
 export function ProblemDecisions({ slug }: { slug?: string }) {

@@ -24,9 +24,23 @@ collapse (sum) measure = mw_1, by(q_year)
 
 rename q_year year
 
+tempfile got
+
+save `got'
+
+clear
+
+set obs 20
+
+generate int year = 2004 + _n
+
+merge 1:1 year using `got', nogenerate
+
+replace measure = 0 if missing(measure)
+
 generate byte n = 1
 
-* A year with no request is a year of zero MW, as the Python prints it.
+* A year with no request is a year of zero MW, as the Python prints it: the years 2005 to 2024 are added above.
 
 sort year
 

@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate tie_flow, region bt_bpat_ciso (the Bonneville Power Administration (BPAT) to the California ISO (CISO))
+# Computed 2026-11-19T11:05:22Z by warehouse/analysis/findings/deep/trade.py (tie_flow); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean hourly flow on a tie between two balancing authorities, in its standing direction over 2019 to 2025 (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_interchange_hourly_2018, eia930_ba_interchange_hourly_2019, eia930_ba_interchange_hourly_2020, eia930_ba_interchange_hourly_2021, eia930_ba_interchange_hourly_2022, eia930_ba_interchange_hourly_2023, eia930_ba_interchange_hourly_2024, eia930_ba_interchange_hourly_2025, eia930_ba_interchange_hourly_2026
+region,year,value,n_observations,full_year
+bt_bpat_ciso,2018,1438.66250850533,4409.0,0
+bt_bpat_ciso,2019,791.9672374429224,8760.0,1
+bt_bpat_ciso,2020,1730.1653005464482,8784.0,1
+bt_bpat_ciso,2021,1375.5246575342467,8760.0,1
+bt_bpat_ciso,2022,1418.6478310502282,8760.0,1
+bt_bpat_ciso,2023,131.07922374429225,8760.0,1
+bt_bpat_ciso,2024,249.34915755919855,8784.0,1
+bt_bpat_ciso,2025,345.29543378995436,8760.0,1
+bt_bpat_ciso,2026,737.1064718162839,7664.0,0

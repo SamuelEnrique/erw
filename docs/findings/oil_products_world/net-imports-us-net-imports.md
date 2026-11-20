@@ -2,7 +2,7 @@
 
 Draft `scan-deep-10e0e2c5d386` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** US net imports of crude oil and petroleum products was -2,850 thousand barrels a day in 2025, against 9,440 thousand barrels a day in 2010, the first year the ERW's table holds.
+**The finding.** US net imports of crude oil and petroleum products were -2,850 thousand barrels a day in 2025, against 9,440 thousand barrels a day in 2010, the first year the ERW's table holds.
 
 ![Net imports of oil, the United States](net-imports-us-net-imports.png)
 

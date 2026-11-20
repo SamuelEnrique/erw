@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate fr_mean_solar, region fr (France)
+# Computed 2026-11-19T13:19:56Z by warehouse/analysis/findings/deep/world_power.py (fr_mean_solar); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's mean solar power (MW), the observations it rests on, and whether the year is full
+# Tables: rte_eco2mix_france_halfhourly
+region,year,value,n_observations,full_year
+fr,2019,0.0,2.0,0
+fr,2020,1418.9461967661125,17564.0,1
+fr,2021,1595.381993605846,17516.0,1
+fr,2022,2159.719627768897,17516.0,1
+fr,2023,2535.3440854076275,17516.0,1
+fr,2024,2787.838362559781,17564.0,1
+fr,2025,3711.9443905224093,17515.0,1
+fr,2026,5137.6639794168095,11660.0,0
