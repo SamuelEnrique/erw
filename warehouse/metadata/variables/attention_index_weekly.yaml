@@ -5,9 +5,10 @@
 table: attention_index_weekly
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One sector and place's value of one Attention Index measure in one week, or one of the week's denominators (entity attention:corpus:all).
+time: ts_utc is the Monday 00:00Z of the week; weeks run Monday to Sunday, UTC; freq P1W.
+vintage_rule: Rewritten whole as one snapshot by each run of the index builder (a week only partly classified is a lower bound
+  until its stories are classified).
 keys:
 - entity
 - variable
@@ -44,6 +45,8 @@ columns:
     - attention:datacenters:US-AR
     - attention:datacenters:US-CA
   missing_cells: 0
+  particular: 'attention:<sector>:<geo>: sector one of datacenters, transmission, gas, nuclear, solar_wind, storage, oil_lng
+    or energy (any energy sector); geo all, US or a state code; attention:corpus:all holds the week''s denominators'
 - name: variable
   shared: true
   type: text
@@ -94,6 +97,7 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 512
+  particular: US or US-<state> for those places; empty for the place all and the corpus entity
 - name: source
   shared: true
   type: text
@@ -119,43 +123,44 @@ columns:
   missing_cells: 0
 variables:
 - name: attention_index
-  label: null
+  label: The cell's classified stories as a percent of the week's judged stories
   unit: pct
   rows: 461
   first: '2026-10-05T00:00:00Z'
   last: '2026-11-02T00:00:00Z'
 - name: stories
-  label: null
+  label: The cell's classified stories
   unit: count
   rows: 461
   first: '2026-10-05T00:00:00Z'
   last: '2026-11-02T00:00:00Z'
 - name: stories_classified
-  label: null
+  label: The week's stories classified by the model (corpus entity)
   unit: count
   rows: 98
   first: '2024-12-30T00:00:00Z'
   last: '2026-11-09T00:00:00Z'
 - name: stories_judged
-  label: null
+  label: 'The week''s judged stories: those classified plus those the news scorer gave significance 0, which count as not
+    about energy (corpus entity)'
   unit: count
   rows: 98
   first: '2024-12-30T00:00:00Z'
   last: '2026-11-09T00:00:00Z'
 - name: stories_unsent_zero
-  label: null
+  label: The week's stories the news scorer gave significance 0, not sent to the classifier (corpus entity)
   unit: count
   rows: 98
   first: '2024-12-30T00:00:00Z'
   last: '2026-11-09T00:00:00Z'
 - name: stories_week
-  label: null
+  label: Every story the news corpus holds in the week (corpus entity)
   unit: count
   rows: 98
   first: '2024-12-30T00:00:00Z'
   last: '2026-11-09T00:00:00Z'
 - name: tone_mean
-  label: null
+  label: Mean tone of the cell's stories, from -1 (negative) to 1 (positive)
   unit: ratio
   rows: 461
   first: '2026-10-05T00:00:00Z'

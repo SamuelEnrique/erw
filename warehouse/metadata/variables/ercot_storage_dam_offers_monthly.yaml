@@ -5,9 +5,12 @@
 table: ercot_storage_dam_offers_monthly
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: What ERCOT's Energy Storage Resources offered in the day-ahead market, and how much of it was awarded, summed over one
+  local month for the whole fleet.
+time: ts_utc is the first day of the local (Central) month at 00:00:00Z. A MWh here is a MW for an hour, of limit, offered
+  or awarded capacity, or energy.
+vintage_rule: Rewritten whole by each run of the builder from ercot_storage_dam_offers_daily and ercot_storage_dam_awards_monthly;
+  vintage is not filled.
 keys:
 - entity
 - variable
@@ -41,6 +44,7 @@ columns:
     list:
       ercot:esr_fleet: 819
   missing_cells: 0
+  particular: 'ercot:esr_fleet in every row: every storage resource'
 - name: variable
   shared: true
   type: text
@@ -102,12 +106,14 @@ columns:
     list:
       ercot_dam: 819
   missing_cells: 0
+  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 819
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -137,549 +143,551 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 819
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: as_award_mwh
-  label: null
+  label: The five ancillary services' awards together, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: as_offer_mwh
-  label: null
+  label: Every ancillary service offer block counted once, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: as_offer_mwh_unlisted
-  label: null
+  label: Ancillary service offer blocks of resources with no row in the ESR data file that hour, in no other sum, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: days_held
-  label: null
+  label: Operating days of the month held
   unit: count
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: days_in_month
-  label: null
+  label: The days of the month
   unit: count
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: days_missing
-  label: null
+  label: Operating days of the month missing
   unit: count
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: ecrs_award_mwh
-  label: null
+  label: 'ECRS: the awards, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: ecrs_award_usd
-  label: null
+  label: 'ECRS: the awards at the clearing price, USD'
   unit: USD
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: ecrs_award_usd_per_mw
-  label: null
+  label: 'ECRS: ecrs_award_usd over the month''s mw, USD/MW'
   unit: USD/MW
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: ecrs_offer_mwh
-  label: null
+  label: 'ERCOT Contingency Reserve Service (online and offline together): the offer blocks priced for the service, added
+    up, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: ecrs_offer_mwh_le_1
-  label: null
+  label: 'ECRS: blocks priced at 1 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: ecrs_offer_mwh_le_100
-  label: null
+  label: 'ECRS: blocks priced at 100 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: ecrs_offer_mwh_le_1000
-  label: null
+  label: 'ECRS: blocks priced at 1,000 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: ecrs_offer_mwh_le_20
-  label: null
+  label: 'ECRS: blocks priced at 20 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: ecrs_offer_mwh_le_5
-  label: null
+  label: 'ECRS: blocks priced at 5 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: ecrs_offer_mwh_le_mcpc
-  label: null
+  label: 'ECRS: of those, blocks priced at or below the hour''s clearing price, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: ecrs_unawarded_usd
-  label: null
+  label: 'ECRS: offered less awarded, each resource and hour, at the hour''s clearing price, USD'
   unit: USD
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: ecrs_unawarded_usd_per_mw
-  label: null
+  label: 'ECRS: ecrs_unawarded_usd over the month''s mw, USD/MW'
   unit: USD/MW
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: energy_bid_mwh
-  label: null
+  label: The most energy the curves bid to buy (charging), MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: energy_bid_mwh_at_clearing
-  label: null
+  label: Energy bid to buy at the hour's own day-ahead price, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: energy_bought_mwh
-  label: null
+  label: Energy awarded to buy, as in ercot_storage_dam_awards_monthly, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: energy_offer_mwh
-  label: null
+  label: Energy the curves offer to sell at any price (each curve's highest MW when above zero), MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: energy_offer_mwh_at_clearing
-  label: null
+  label: Energy offered to sell at the hour's own day-ahead price, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: energy_offer_mwh_le_0
-  label: null
+  label: Energy offered to sell at a price of 0 USD/MWh or less, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: energy_offer_mwh_le_100
-  label: null
+  label: Energy offered to sell at 100 USD/MWh or less, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: energy_offer_mwh_le_1000
-  label: null
+  label: Energy offered to sell at 1,000 USD/MWh or less, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: energy_offer_mwh_le_25
-  label: null
+  label: Energy offered to sell at 25 USD/MWh or less, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: energy_offer_mwh_le_250
-  label: null
+  label: Energy offered to sell at 250 USD/MWh or less, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: energy_offer_mwh_le_50
-  label: null
+  label: Energy offered to sell at 50 USD/MWh or less, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: energy_sold_mwh
-  label: null
+  label: Energy awarded to sell, as in ercot_storage_dam_awards_monthly, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: limit_mwh
-  label: null
+  label: The sum of the High Sustained Limit (HSL), hour by hour (a negative HSL counts as zero), MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: limit_mwh_as_offer
-  label: null
+  label: Of limit_mwh, the rows with an ancillary service offer, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: limit_mwh_award
-  label: null
+  label: Of limit_mwh, the rows with any day-ahead award, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: limit_mwh_energy_offer
-  label: null
+  label: Of limit_mwh, the rows whose curve offers to sell, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: limit_mwh_no_offer
-  label: null
+  label: Of limit_mwh, the rows with no energy curve and no ancillary service offer, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: limit_mwh_no_offer_out
-  label: null
+  label: Of those, the rows with status OUT, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: limit_mwh_out
-  label: null
+  label: Of limit_mwh, the rows with status OUT, MWh
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: mw
-  label: null
+  label: The month's fleet, from ercot_storage_dam_awards_monthly, MW
   unit: MW
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: nspin_award_mwh
-  label: null
+  label: 'Non-Spin: the awards, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: nspin_award_usd
-  label: null
+  label: 'Non-Spin: the awards at the clearing price, USD'
   unit: USD
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: nspin_award_usd_per_mw
-  label: null
+  label: 'Non-Spin: nspin_award_usd over the month''s mw, USD/MW'
   unit: USD/MW
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: nspin_offer_mwh
-  label: null
+  label: 'Non-Spin (online and offline together): the offer blocks priced for the service, added up, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: nspin_offer_mwh_le_1
-  label: null
+  label: 'Non-Spin: blocks priced at 1 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: nspin_offer_mwh_le_100
-  label: null
+  label: 'Non-Spin: blocks priced at 100 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: nspin_offer_mwh_le_1000
-  label: null
+  label: 'Non-Spin: blocks priced at 1,000 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: nspin_offer_mwh_le_20
-  label: null
+  label: 'Non-Spin: blocks priced at 20 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: nspin_offer_mwh_le_5
-  label: null
+  label: 'Non-Spin: blocks priced at 5 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: nspin_offer_mwh_le_mcpc
-  label: null
+  label: 'Non-Spin: of those, blocks priced at or below the hour''s clearing price, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: nspin_unawarded_usd
-  label: null
+  label: 'Non-Spin: offered less awarded, each resource and hour, at the hour''s clearing price, USD'
   unit: USD
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: nspin_unawarded_usd_per_mw
-  label: null
+  label: 'Non-Spin: nspin_unawarded_usd over the month''s mw, USD/MW'
   unit: USD/MW
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regdn_award_mwh
-  label: null
+  label: 'Regulation Down: the awards, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regdn_award_usd
-  label: null
+  label: 'Regulation Down: the awards at the clearing price, USD'
   unit: USD
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regdn_award_usd_per_mw
-  label: null
+  label: 'Regulation Down: regdn_award_usd over the month''s mw, USD/MW'
   unit: USD/MW
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regdn_offer_mwh
-  label: null
+  label: 'Regulation Down: the offer blocks priced for the service, added up, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regdn_offer_mwh_le_1
-  label: null
+  label: 'Regulation Down: blocks priced at 1 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regdn_offer_mwh_le_100
-  label: null
+  label: 'Regulation Down: blocks priced at 100 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regdn_offer_mwh_le_1000
-  label: null
+  label: 'Regulation Down: blocks priced at 1,000 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regdn_offer_mwh_le_20
-  label: null
+  label: 'Regulation Down: blocks priced at 20 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regdn_offer_mwh_le_5
-  label: null
+  label: 'Regulation Down: blocks priced at 5 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regdn_offer_mwh_le_mcpc
-  label: null
+  label: 'Regulation Down: of those, blocks priced at or below the hour''s clearing price, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regdn_unawarded_usd
-  label: null
+  label: 'Regulation Down: offered less awarded, each resource and hour, at the hour''s clearing price, USD'
   unit: USD
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regdn_unawarded_usd_per_mw
-  label: null
+  label: 'Regulation Down: regdn_unawarded_usd over the month''s mw, USD/MW'
   unit: USD/MW
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regup_award_mwh
-  label: null
+  label: 'Regulation Up: the awards, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regup_award_usd
-  label: null
+  label: 'Regulation Up: the awards at the clearing price, USD'
   unit: USD
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regup_award_usd_per_mw
-  label: null
+  label: 'Regulation Up: regup_award_usd over the month''s mw, USD/MW'
   unit: USD/MW
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regup_offer_mwh
-  label: null
+  label: 'Regulation Up: the offer blocks priced for the service, added up, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regup_offer_mwh_le_1
-  label: null
+  label: 'Regulation Up: blocks priced at 1 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regup_offer_mwh_le_100
-  label: null
+  label: 'Regulation Up: blocks priced at 100 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regup_offer_mwh_le_1000
-  label: null
+  label: 'Regulation Up: blocks priced at 1,000 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regup_offer_mwh_le_20
-  label: null
+  label: 'Regulation Up: blocks priced at 20 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regup_offer_mwh_le_5
-  label: null
+  label: 'Regulation Up: blocks priced at 5 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regup_offer_mwh_le_mcpc
-  label: null
+  label: 'Regulation Up: of those, blocks priced at or below the hour''s clearing price, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regup_unawarded_usd
-  label: null
+  label: 'Regulation Up: offered less awarded, each resource and hour, at the hour''s clearing price, USD'
   unit: USD
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: regup_unawarded_usd_per_mw
-  label: null
+  label: 'Regulation Up: regup_unawarded_usd over the month''s mw, USD/MW'
   unit: USD/MW
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: resource_hours
-  label: null
+  label: Resource-hours (rows) of the month
   unit: count
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: resource_hours_as_offer
-  label: null
+  label: Resource-hours with an ancillary service offer
   unit: count
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: resource_hours_energy_offer
-  label: null
+  label: Resource-hours with an energy offer curve
   unit: count
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: resource_hours_no_offer
-  label: null
+  label: Resource-hours with neither an energy curve nor an ancillary service offer
   unit: count
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: resource_hours_out
-  label: null
+  label: Resource-hours with status OUT
   unit: count
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: rrs_award_mwh
-  label: null
+  label: 'Responsive Reserve: the awards, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: rrs_award_usd
-  label: null
+  label: 'Responsive Reserve: the awards at the clearing price, USD'
   unit: USD
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: rrs_award_usd_per_mw
-  label: null
+  label: 'Responsive Reserve: rrs_award_usd over the month''s mw, USD/MW'
   unit: USD/MW
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: rrs_offer_mwh
-  label: null
+  label: 'Responsive Reserve (any of its three kinds): the offer blocks priced for the service, added up, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: rrs_offer_mwh_le_1
-  label: null
+  label: 'Responsive Reserve: blocks priced at 1 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: rrs_offer_mwh_le_100
-  label: null
+  label: 'Responsive Reserve: blocks priced at 100 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: rrs_offer_mwh_le_1000
-  label: null
+  label: 'Responsive Reserve: blocks priced at 1,000 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: rrs_offer_mwh_le_20
-  label: null
+  label: 'Responsive Reserve: blocks priced at 20 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: rrs_offer_mwh_le_5
-  label: null
+  label: 'Responsive Reserve: blocks priced at 5 USD per MW or less, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: rrs_offer_mwh_le_mcpc
-  label: null
+  label: 'Responsive Reserve: of those, blocks priced at or below the hour''s clearing price, MWh'
   unit: MWh
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: rrs_unawarded_usd
-  label: null
+  label: 'Responsive Reserve: offered less awarded, each resource and hour, at the hour''s clearing price, USD'
   unit: USD
   rows: 9
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: rrs_unawarded_usd_per_mw
-  label: null
+  label: 'Responsive Reserve: rrs_unawarded_usd over the month''s mw, USD/MW'
   unit: USD/MW
   rows: 9
   first: '2025-12-01T00:00:00Z'

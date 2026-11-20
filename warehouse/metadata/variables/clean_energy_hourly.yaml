@@ -5,9 +5,9 @@
 table: clean_energy_hourly
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One ISO grid's carbon-free share of its own generation in one held hour, with the hour's two sums.
+time: ts_utc is the hour's start, UTC; freq PT1H. Held hours only.
+vintage_rule: Rewritten whole by each run of mix_clean.py (the old file removed first); vintage is not filled.
 keys:
 - entity
 - variable
@@ -49,6 +49,7 @@ columns:
       iso:pjm: 68166
       iso:spp: 68779
   missing_cells: 0
+  particular: iso:<grid>, the seven ISO grids
 - name: variable
   shared: true
   type: text
@@ -101,12 +102,14 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 478164
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 478164
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -134,45 +137,47 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 478164
+  particular: 'Not filled: no cell holds a value'
 - name: x_carbon_free_mwh
-  label: null
-  unit: null
+  label: 'The hour''s carbon-free generation inside the grid: nuclear, wind, solar and hydro'
+  unit: MWh
   type: number
   values:
     distinct: more than 5000
     lowest: 0.0
     highest: 57449.0
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector mix_clean.py
 - name: x_generation_mwh
-  label: null
-  unit: null
+  label: 'The hour''s generation inside the grid: the carbon-free sources plus natural gas, coal and other (storage is not
+    a source)'
+  unit: MWh
   type: number
   values:
     distinct: more than 5000
     lowest: 5561.0
     highest: 164281.0
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector mix_clean.py
 - name: x_side
-  label: null
-  unit: null
+  label: 'The source of the hour: eia930 (EIA-930) or caiso (CAISO''s own supply by fuel, California from the join of 2025-12-16)'
+  unit: none
   type: text
   values:
     list:
       caiso: 15814
       eia930: 462350
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method generation_mix_hourly.md
 variables:
 - name: carbon_free_share_pct
-  label: null
+  label: The hour's carbon-free MWh over its generation MWh
   unit: pct
   rows: 478164
   first: '2019-01-01T05:00:00Z'

@@ -5,9 +5,11 @@
 table: eia930_daily_interchange
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One directed pair's interchange over one Eastern day as the reporting balancing authority filed it, every pair EIA-930
+  reports, from 2019.
+time: ts_utc is the day at 00:00:00Z, a label for EIA's Eastern day (x_timezone), not a UTC day.
+vintage_rule: 'Merged by key (entity, variable, ts_utc): each run asks again for the last days and replaces them, earlier
+  rows are kept. vintage is not filled.'
 keys:
 - entity
 - variable
@@ -44,6 +46,7 @@ columns:
     - eia930:AECI-SIKE
     - eia930:AECI-SPA
   missing_cells: 0
+  particular: eia930:<FROM>-<TO>, FROM the reporting balancing authority
 - name: variable
   shared: true
   type: text
@@ -143,9 +146,10 @@ columns:
     - avrn
     - azps
   missing_cells: 0
+  particular: The reporting balancing authority (EIA's fromba), lowercase
 - name: x_to_ba
-  label: null
-  unit: null
+  label: The neighbour (EIA's toba), EIA-930 code in lowercase
+  unit: none
   type: text
   values:
     distinct: 93
@@ -156,23 +160,23 @@ columns:
     - ava
     - avrn
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: toba
+  documented_by: header; method eia930_daily_interchange.md
 - name: x_timezone
-  label: null
-  unit: null
+  label: 'The time zone of EIA''s day: Eastern in every row'
+  unit: none
   type: text
   values:
     list:
       Eastern: 958798
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_daily_interchange.md
 variables:
 - name: interchange_mwh
-  label: null
+  label: Interchange over the day, positive when the reporting authority exports to the neighbour
   unit: MWh
   rows: 958798
   first: '2019-01-01T00:00:00Z'

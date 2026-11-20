@@ -5,9 +5,10 @@
 table: eia930_all_emissions
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One balancing authority's (or the Lower 48's) estimated CO2 emissions of one kind in one hour, from EIA's per-area workbooks.
+time: ts_utc is the hour's start (EIA's UTC time, the hour's end, minus one hour).
+vintage_rule: 'Merged by key (entity, variable, ts_utc) in a stream: a run''s rows replace earlier rows with the same key,
+  earlier rows are kept. vintage is not filled.'
 keys:
 - entity
 - variable
@@ -47,6 +48,7 @@ columns:
       eia930:SWPP: 493440
       eia930:US48: 586752
   missing_cells: 0
+  particular: eia930:<respondent>, the seven ISO authorities and US48
 - name: variable
   shared: true
   type: text
@@ -97,6 +99,7 @@ columns:
       US-NY: 583296
       US-TX: 510048
   missing_cells: 0
+  particular: The respondent's states, comma-separated; US for US48
 - name: market
   shared: true
   type: empty
@@ -160,49 +163,49 @@ columns:
   missing_cells: 0
 variables:
 - name: co2_emissions_coal
-  label: null
+  label: EIA's CO2 Emissions from coal (COL), metric tons
   unit: tCO2
   rows: 552768
   first: '2018-07-02T00:00:00Z'
   last: '2026-11-12T23:00:00Z'
 - name: co2_emissions_consumed
-  label: null
+  label: 'EIA''s CO2 Emissions Consumed: generated plus imported less exported, metric tons'
   unit: tCO2
   rows: 569664
   first: '2018-07-02T00:00:00Z'
   last: '2026-11-12T23:00:00Z'
 - name: co2_emissions_exported
-  label: null
+  label: 'EIA''s CO2 Emissions Exported: the CO2 that leaves with exported power, metric tons'
   unit: tCO2
   rows: 569664
   first: '2018-07-02T00:00:00Z'
   last: '2026-11-12T23:00:00Z'
 - name: co2_emissions_generated
-  label: null
+  label: 'EIA''s CO2 Emissions Generated: estimated CO2 of all generation in the authority, metric tons'
   unit: tCO2
   rows: 569664
   first: '2018-07-02T00:00:00Z'
   last: '2026-11-12T23:00:00Z'
 - name: co2_emissions_imported
-  label: null
+  label: 'EIA''s CO2 Emissions Imported: the CO2 that comes with imported power, metric tons'
   unit: tCO2
   rows: 569664
   first: '2018-07-02T00:00:00Z'
   last: '2026-11-12T23:00:00Z'
 - name: co2_emissions_natural_gas
-  label: null
+  label: EIA's CO2 Emissions from natural gas (NG), metric tons
   unit: tCO2
   rows: 569400
   first: '2018-07-02T00:00:00Z'
   last: '2026-11-12T23:00:00Z'
 - name: co2_emissions_oil
-  label: null
+  label: EIA's CO2 Emissions from oil (OIL), metric tons
   unit: tCO2
   rows: 411216
   first: '2018-07-02T00:00:00Z'
   last: '2026-11-12T23:00:00Z'
 - name: co2_emissions_other
-  label: null
+  label: EIA's CO2 Emissions from other sources (Other), metric tons
   unit: tCO2
   rows: 569664
   first: '2018-07-02T00:00:00Z'

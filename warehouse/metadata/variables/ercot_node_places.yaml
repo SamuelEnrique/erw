@@ -5,9 +5,10 @@
 table: ercot_node_places
 family: ercot
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One ERCOT resource node (a settlement point where a generating or storage resource is settled) placed in a county and
+  load zone by the CDR units at its station.
+time: No time column; a snapshot computed from the tables held when the builder ran.
+vintage_rule: Rebuilt whole from node_basis_daily and ercot_cdr_units by each run of the builder; no request is made.
 keys:
 - entity_id
 license: public
@@ -41,6 +42,7 @@ columns:
     - ercot_node:ADL_RN
     - ercot_node:AEEC
   missing_cells: 0
+  particular: ercot_node:<settlement point>
 - name: entity_type
   shared: true
   type: text
@@ -48,6 +50,7 @@ columns:
     list:
       generator: 569
   missing_cells: 0
+  particular: 'generator: the resource ERCOT settles at the node'
 - name: name
   shared: true
   type: text
@@ -60,6 +63,7 @@ columns:
     - ADL_RN
     - AEEC
   missing_cells: 0
+  particular: The settlement point's name
 - name: geo
   shared: true
   type: text
@@ -67,6 +71,7 @@ columns:
     list:
       US-TX: 569
   missing_cells: 0
+  particular: US-TX in every row
 - name: lat
   shared: true
   type: empty
@@ -91,6 +96,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 569
+  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -130,9 +136,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 569
+  particular: 'Not filled: no cell holds a value'
 - name: x_station
-  label: null
-  unit: null
+  label: The settlement point's name up to the first underscore, the station code (7RNCHSLR_ALL gives 7RNCHSLR)
+  unit: none
   type: text
   values:
     distinct: 496
@@ -143,12 +150,12 @@ columns:
     - AE
     - AEEC
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_places.md
 - name: x_county
-  label: null
-  unit: null
+  label: The county ERCOT's CDR gives every unit at that station
+  unit: none
   type: text
   values:
     distinct: 148
@@ -159,12 +166,12 @@ columns:
     - ARMSTRONG
     - ATASCOSA
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_places.md
 - name: x_zone
-  label: null
-  unit: null
+  label: The load zone ERCOT's CDR gives every unit at that station (COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST)
+  unit: none
   type: text
   values:
     list:
@@ -175,12 +182,12 @@ columns:
       SOUTH: 138
       WEST: 155
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_places.md
 - name: x_class
-  label: null
-  unit: null
+  label: The node's class in node_basis_daily (gas, wind, solar, storage, mixed, other)
+  unit: none
   type: text
   values:
     list:
@@ -191,12 +198,12 @@ columns:
       storage: 128
       wind: 129
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_node_places.md
 - name: x_resource_type
-  label: null
-  unit: null
+  label: ERCOT's resource type of the node as node_basis_daily holds it (CCGT90, CLLIG, DSL and others)
+  unit: none
   type: text
   values:
     distinct: 26
@@ -207,12 +214,12 @@ columns:
     - DSL
     - DSL+RENEW
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_node_places.md
 - name: x_cdr_units
-  label: null
-  unit: null
+  label: The CDR units matched to the station, joined with ;
+  unit: none
   type: text
   values:
     distinct: 496
@@ -223,12 +230,12 @@ columns:
     - AEEC_ANTLP_1;AEEC_ANTLP_1_UNAVAIL;AEEC_ANTLP_2;AEEC_ANTLP_2_UNAVAIL;AEEC_ANTLP_3;AEEC_ANTLP_3_UNAVAIL;AEEC_ELK_1;AEEC_ELK_1_UNAVAIL;AEEC_ELK_2;AEEC_ELK_2_UNAVAIL;AEEC_ELK_3;AEEC_ELK_3_UNAVAIL
     - AE_BESS
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_places.md
 - name: x_cdr_units_n
-  label: null
-  unit: null
+  label: The number of CDR units matched
+  unit: count
   type: integer
   values:
     list:
@@ -245,7 +252,7 @@ columns:
       '8': 14
       '9': 10
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_node_places.md
 second_look: null

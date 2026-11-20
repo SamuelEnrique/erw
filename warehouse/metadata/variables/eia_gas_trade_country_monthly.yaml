@@ -5,8 +5,8 @@
 table: eia_gas_trade_country_monthly
 family: eia
 shape: series
-row: One month's U.S. natural gas exports or imports with one country by one mode (pipeline, LNG, compressed, trucked), as
-  a volume or a price.
+row: One month's U.S. natural gas exports or imports with one country by one mode (pipeline, LNG by vessel, truck, compressed,
+  re-exports), as a volume or a price.
 time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
 vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:

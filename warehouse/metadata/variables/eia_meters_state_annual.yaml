@@ -5,9 +5,9 @@
 table: eia_meters_state_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or the nation's) yearly count of electricity meters of one technology in one sector.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -43,6 +43,8 @@ columns:
     - eia_meters:AK:advanced_meter_infrastructure:TOT
     - eia_meters:AK:advanced_meter_infrastructure:TRN
   missing_cells: 0
+  particular: eia_meters:<state>:<technology slug>:<sector>; technologies all_meters, advanced_meter_infrastructure, automatic_meter_reading,
+    standard_meters; sectors RES, COM, IND, TRN, TOT
 - name: variable
   shared: true
   type: text
@@ -101,12 +103,14 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
+  particular: US-<state>, or US for the nation
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8578
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -119,6 +123,7 @@ columns:
     - Alabama, Advanced Meter Infrastructure, residential
     - Alabama, Advanced Meter Infrastructure, transportation
   missing_cells: 0
+  particular: EIA's names of state, technology and sector
 - name: source
   shared: true
   type: text
@@ -147,9 +152,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 8578
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: meters
-  label: null
+  label: Number of electricity meters of the technology in the sector; a sum takes one level
   unit: count
   rows: 8578
   first: '2013-01-01T00:00:00Z'

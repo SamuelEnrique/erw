@@ -5,9 +5,10 @@
 table: eia_oxygenate_production_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's oxygenate plant production (fuel ethanol, MTBE and other oxygenates) or biofuels plant net production in
+  the U.S. or a PADD, in the month or per day.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +45,7 @@ columns:
     - eia_oxygenate_production:M_EPOOXE_YOP_R10_2
     - eia_oxygenate_production:M_EPOOXE_YOP_R20_1
   missing_cells: 0
+  particular: eia_oxygenate_production:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -88,12 +90,14 @@ columns:
     list:
       US: 6006
   missing_cells: 0
+  particular: US on every row, the PADDs included
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 6006
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -106,6 +110,7 @@ columns:
     - East Coast (PADD 1) Oxygenate Plant Production of MTBE (Thousand Barrels)
     - Gulf Coast (PADD 3) Biofuels Plant Net Production of Other Oxygenates (Thousand Barrels per Day)
   missing_cells: 0
+  particular: EIA's series name (the product and area)
 - name: source
   shared: true
   type: text
@@ -134,27 +139,28 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 6006
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: biofuels_plant_net_production
-  label: null
+  label: Biofuels plant net production (YNP) in the month, thousand barrels
   unit: kbbl
   rows: 297
   first: '2010-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: biofuels_plant_net_production_per_day
-  label: null
+  label: Biofuels plant net production (YNP), thousand barrels a day
   unit: kbbl/d
   rows: 297
   first: '2010-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: oxygenate_plant_production
-  label: null
+  label: Oxygenate plant production (YOP) in the month, thousand barrels
   unit: kbbl
   rows: 2712
   first: '1981-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: oxygenate_plant_production_per_day
-  label: null
+  label: Oxygenate plant production (YOP), thousand barrels a day
   unit: kbbl/d
   rows: 2700
   first: '1981-01-01T00:00:00Z'

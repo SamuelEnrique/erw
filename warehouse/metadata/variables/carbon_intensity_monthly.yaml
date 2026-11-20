@@ -5,9 +5,9 @@
 table: carbon_intensity_monthly
 family: carbon
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One balancing authority's value of one carbon intensity measure over one UTC month.
+time: ts_utc is the first day of the UTC month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run of the builder; vintage is not filled.
 keys:
 - entity
 - variable
@@ -46,6 +46,7 @@ columns:
       eia930:SWPP: 412
       eia930:US48: 600
   missing_cells: 0
+  particular: eia930:<BA>, the seven ISO balancing authorities and US48
 - name: variable
   shared: true
   type: text
@@ -155,37 +156,40 @@ columns:
   missing_cells: 0
 variables:
 - name: intensity_demand
-  label: null
+  label: 'kg of CO2 per MWh of demand over a UTC month whose every day is complete: the month''s CO2 consumed over its demand'
   unit: kgCO2/MWh
   rows: 644
   first: '2018-08-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: intensity_demand_hours_held
-  label: null
+  label: Hours of the month with intensity_demand written (of 24 times its days, UTC)
   unit: count
   rows: 803
   first: '2018-07-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: intensity_demand_over_held_hours
-  label: null
+  label: The month's CO2 consumed over its demand in the hours held, written where at least 90 percent of the month's hours
+    are held
   unit: kgCO2/MWh
   rows: 755
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: intensity_generation
-  label: null
+  label: 'kg of CO2 per MWh generated over a UTC month whose every day is complete: the month''s CO2 generated over its net
+    generation'
   unit: kgCO2/MWh
   rows: 641
   first: '2018-08-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: intensity_generation_hours_held
-  label: null
+  label: Hours of the month with intensity_generation written (of 24 times its days, UTC)
   unit: count
   rows: 792
   first: '2018-07-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: intensity_generation_over_held_hours
-  label: null
+  label: The month's CO2 generated over its net generation in the hours held, written where at least 90 percent of the month's
+    hours are held
   unit: kgCO2/MWh
   rows: 745
   first: '2018-07-01T00:00:00Z'

@@ -5,9 +5,11 @@
 table: ercot_interconnection_queue
 family: ercot
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One position in ERCOT's Generation Interconnection Status (GIS) report, a project asking to connect generation or storage
+  to ERCOT's grid.
+time: No time column. Dates are ERCOT's, YYYY-MM-DD; vintage is the retrieval date. The table is a snapshot of the report
+  as read on its retrieved_at.
+vintage_rule: A snapshot rewritten whole by each run (Mondays); earlier queues stay in the archive and the raw files.
 keys:
 - entity_id
 license: public
@@ -40,6 +42,7 @@ columns:
     - ercot_queue:16INR0085
     - ercot_queue:16INR0104
   missing_cells: 0
+  particular: ercot_queue:<queue id>
 - name: entity_type
   shared: true
   type: text
@@ -66,6 +69,7 @@ columns:
     list:
       US-TX: 1736
   missing_cells: 0
+  particular: US-TX in every row
 - name: lat
   shared: true
   type: empty
@@ -86,6 +90,7 @@ columns:
     lowest: -53.3
     highest: 2992.0
   missing_cells: 0
+  particular: ERCOT's requested capacity as gridstatus reads it (Capacity (MW))
 - name: status
   shared: true
   type: text
@@ -94,6 +99,7 @@ columns:
       active: 1159
       completed: 577
   missing_cells: 0
+  particular: active or completed; ERCOT's report lists no withdrawn positions
 - name: status_date
   shared: true
   type: date
@@ -102,6 +108,7 @@ columns:
     earliest: '2017-12-20'
     latest: '2026-10-23'
   missing_cells: 1633
+  particular: The in-service date of a completed row where one is given
 - name: operator
   shared: true
   type: text
@@ -114,6 +121,7 @@ columns:
     - 7100 Tin Top LLC
     - 7L Solar, LLC
   missing_cells: 0
+  particular: The interconnecting entity, filled on every row
 - name: source
   shared: true
   type: text
@@ -142,9 +150,10 @@ columns:
     list:
       '2026-11-05': 1736
   missing_cells: 0
+  particular: The retrieval date (YYYY-MM-DD), not a publication date
 - name: queue_id
-  label: null
-  unit: null
+  label: ERCOT's identifier of the interconnection request (INR number)
+  unit: none
   type: text
   values:
     distinct: 1736
@@ -155,12 +164,12 @@ columns:
     - 16INR0085
     - 16INR0104
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Queue ID
+  documented_by: connector iso_queues.py; data
 - name: county
-  label: null
-  unit: null
+  label: The county of the project
+  unit: none
   type: text
   values:
     distinct: 193
@@ -171,23 +180,23 @@ columns:
     - Archer
     - Armstrong
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: County
+  documented_by: connector iso_queues.py
 - name: state
-  label: null
-  unit: null
+  label: The state of the project (TX)
+  unit: none
   type: text
   values:
     list:
       TX: 1736
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: State
+  documented_by: connector iso_queues.py
 - name: poi
-  label: null
-  unit: null
+  label: 'The point of interconnection: the substation or line where the project would connect'
+  unit: none
   type: text
   values:
     distinct: 1386
@@ -198,32 +207,33 @@ columns:
     - '#10012 METEOR 5 Substation 345kV'
     - '#1058 Longshore Switch - #18548 Prairieland Switch 345kV Ckt 1'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Interconnection Location
+  documented_by: connector iso_queues.py
 - name: zone
-  label: null
-  unit: null
+  label: The zone of the project
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1736
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'Empty in every row: ERCOT''s report does not give it'
+  source_name: Zone
+  documented_by: connector iso_queues.py; method ercot_interconnection_queue.md
 - name: transmission_owner
-  label: null
-  unit: null
+  label: The transmission owner the project connects to
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1736
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'Empty in every row: ERCOT''s report does not give it'
+  source_name: Transmission Owner
+  documented_by: connector iso_queues.py; method ercot_interconnection_queue.md
 - name: fuel_technology
-  label: null
-  unit: null
+  label: The fuel and technology in ERCOT's words (Other - Battery Energy Storage, Solar - Photovoltaic Solar, Wind - Wind
+    Turbine, Gas - Combined-Cycle and others)
+  unit: none
   type: text
   values:
     list:
@@ -240,65 +250,66 @@ columns:
       Water - Other: 1
       Wind - Wind Turbine: 157
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives no generation type (one row)
+  source_name: Generation Type
+  documented_by: connector iso_queues.py; method ercot_interconnection_queue.md
 - name: iso_status
-  label: null
-  unit: null
+  label: 'The status as gridstatus reads ERCOT''s report: Completed where the IA Signed day is filled (a signed interconnection
+    agreement, not a plant in operation), else Active'
+  unit: none
   type: text
   values:
     list:
       Active: 1159
       Completed: 577
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Status (gridstatus)
+  documented_by: connector iso_queues.py; method energy_projects.md
 - name: queue_date
-  label: null
-  unit: null
+  label: The date the request entered the queue
+  unit: none
   type: date
   values:
     distinct: 411
     earliest: '2013-11-27'
     latest: '2026-10-22'
   missing_cells: 12
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives no queue date
+  source_name: Queue Date
+  documented_by: connector iso_queues.py; method ercot_interconnection_queue.md
 - name: proposed_in_service_date
-  label: null
-  unit: null
+  label: The date the project proposes to begin operating
+  unit: none
   type: date
   values:
     distinct: 526
     earliest: '2025-03-27'
     latest: '2033-06-15'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Proposed Completion Date
+  documented_by: connector iso_queues.py; method ercot_interconnection_queue.md
 - name: actual_in_service_date
-  label: null
-  unit: null
+  label: The date the project began operating (ERCOT's Approved for Synchronization date, as gridstatus copies it)
+  unit: none
   type: date
   values:
     distinct: 100
     earliest: '2017-12-20'
     latest: '2026-10-23'
   missing_cells: 1627
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No date given
+  source_name: Actual Completion Date (gridstatus)
+  documented_by: connector iso_queues.py
 - name: withdrawn_date
-  label: null
-  unit: null
+  label: The date the request was withdrawn
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1736
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'Empty in every row: ERCOT''s report lists no withdrawn positions'
+  source_name: Withdrawn Date
+  documented_by: connector iso_queues.py; method energy_projects.md
 second_look: null

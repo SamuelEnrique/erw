@@ -5,9 +5,11 @@
 table: known_data_faults
 family: erw_derived
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One known fault in a source's data, as the ERW's register of faults records it.
+time: event_date is the fault's first day where a day is recorded, else the day the register recorded it (x_first is then
+  empty).
+vintage_rule: 'Rewritten whole from the register (warehouse/faults/faults.yaml) by each run: an entry taken out of the register
+  leaves the table.'
 keys:
 - event_id
 license: public
@@ -45,6 +47,7 @@ columns:
     - data_fault:caiso_renewable_report_clock_change
     - data_fault:caiso_supply_short_days
   missing_cells: 0
+  particular: data_fault:<the register's id of the fault>
 - name: event_date
   shared: true
   type: date
@@ -83,6 +86,7 @@ columns:
     list:
       data_fault: 30
   missing_cells: 0
+  particular: data_fault on every row
 - name: parties
   shared: true
   type: text
@@ -96,6 +100,7 @@ columns:
       U.S. Energy Information Administration (EIA), Form EIA-930: 19
       U.S. Energy Information Administration (EIA), Forms EIA-930 and EIA-860M: 1
   missing_cells: 0
+  particular: The publisher whose data holds the fault
 - name: entity_ids
   shared: true
   type: text
@@ -108,24 +113,28 @@ columns:
     - caiso_curtailment_intervals;caiso_curtailment_profile
     - caiso_fuel_supply;carbon_intensity_monthly
   missing_cells: 1
+  particular: The ERW tables the fault touches, joined by ';' (table names, not entity_id values)
 - name: mw
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 30
+  particular: 'Not filled: no cell holds a value'
 - name: price
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 30
+  particular: 'Not filled: no cell holds a value'
 - name: currency
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 30
+  particular: 'Not filled: no cell holds a value'
 - name: status
   shared: true
   type: text
@@ -136,6 +145,8 @@ columns:
       screened: 10
       worked_around: 1
   missing_cells: 0
+  particular: 'What the ERW does with the fault: screened (left out by a stated rule), corrected (read as it should have been),
+    worked_around (another source read for the period) or held_as_published'
 - name: source
   shared: true
   type: text
@@ -151,8 +162,8 @@ columns:
       https://github.com/SamuelEnrique/erw/blob/main/docs/methods/known_data_faults.md: 30
   missing_cells: 0
 - name: x_title
-  label: null
-  unit: null
+  label: The fault in one sentence, the register's title
+  unit: none
   type: text
   values:
     distinct: 30
@@ -163,12 +174,12 @@ columns:
     - CAISO's Daily Renewable Report has 24 hours on the day the clocks went forward
     - CAISO's OASIS leaves out the last hour of the autumn clock-change day
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: title
+  documented_by: header; connector data_faults.py
 - name: x_first
-  label: null
-  unit: null
+  label: The fault's first day, where recorded
+  unit: none
   type: date
   values:
     list:
@@ -197,12 +208,12 @@ columns:
       '2026-01-21': 1
       '2026-03-08': 1
   missing_cells: 6
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No first day is recorded; x_dates_note says what is known
+  source_name: first
+  documented_by: header; method known_data_faults.md
 - name: x_last
-  label: null
-  unit: null
+  label: The fault's last day, where recorded
+  unit: none
   type: date
   values:
     list:
@@ -230,12 +241,12 @@ columns:
       '2026-09-22': 1
       '2026-09-30': 1
   missing_cells: 7
-  missing_meaning: null
+  missing_meaning: No last day is recorded
   source_name: null
-  documented_by: null
+  documented_by: method known_data_faults.md; connector data_faults.py
 - name: x_dates_note
-  label: null
-  unit: null
+  label: What the register knows of the fault's dates, in words
+  unit: none
   type: text
   values:
     distinct: 30
@@ -249,12 +260,12 @@ columns:
     - January to May 2025
     - across the history held; the one day named in the reports is 2026-07-21
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: dates_note
+  documented_by: header; connector data_faults.py
 - name: x_publisher_source
-  label: null
-  unit: null
+  label: The publisher's report or product that holds the fault, as organization:report_id
+  unit: none
   type: text
   values:
     list:
@@ -271,12 +282,12 @@ columns:
       isone:rt_lmp_hourly_final: 1
       lbnl:queued_up: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: source
+  documented_by: connector data_faults.py; data
 - name: x_evidence
-  label: null
-  unit: null
+  label: What was measured, in the words of the session that measured it
+  unit: none
   type: text
   values:
     distinct: 30
@@ -301,12 +312,12 @@ columns:
       mean is 19,536.4 MW in the table; at CAISO''s own times 0.9865 it would be 22,036.7, and 2019''s mean 24,717.6 in place
       of 24,475.8.'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: evidence
+  documented_by: header
 - name: x_erw_does
-  label: null
-  unit: null
+  label: What the ERW does about the fault
+  unit: none
   type: text
   values:
     distinct: 30
@@ -322,12 +333,12 @@ columns:
       own median over its history (warehouse/derived/ba_supply.py, MADS and FLOOR; the same rule in ai_power_regions.py and
       network_daily.py). The count left out is in each replay file and printed on the page.
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: erw_does
+  documented_by: header; connector data_faults.py
 - name: x_open
-  label: null
-  unit: null
+  label: What remains open or unknown about the fault
+  unit: none
   type: text
   values:
     list:
@@ -379,12 +390,12 @@ columns:
       caiso_curtailment_daily uses the reason only from 2024.: 1
       eia930_all_generation holds those hours as published.: 1
   missing_cells: 7
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The register records nothing open
+  source_name: open
+  documented_by: header; connector data_faults.py
 - name: x_recorded_in
-  label: null
-  unit: null
+  label: 'Where the fault is recorded: the session and the method note or file'
+  unit: none
   type: text
   values:
     list:
@@ -413,12 +424,13 @@ columns:
       sessions 73 and 94: 1
       sessions 80 and 82; docs/methods/eia930_caiso_break.md: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: recorded_in
+  documented_by: header; connector data_faults.py
 - name: x_resolution
-  label: null
-  unit: null
+  label: 'Where the fault stands: fixed, held_for_approval (the fix is built and waits for a person because it moves a number
+    on a live page) or open'
+  unit: none
   type: text
   values:
     list:
@@ -426,12 +438,12 @@ columns:
       held_for_approval: 8
       open: 11
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: resolution
+  documented_by: header
 - name: x_resolution_reason
-  label: null
-  unit: null
+  label: Why the fault stands as x_resolution says, in words
+  unit: none
   type: text
   values:
     distinct: 30
@@ -450,9 +462,9 @@ columns:
       asked.
     - Both sides' reports are in the table side by side and the headline says which it uses. The disagreement is the publishers'.
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: resolution_reason
+  documented_by: header; connector data_faults.py
 - name: retrieved_at
   shared: true
   type: utc time

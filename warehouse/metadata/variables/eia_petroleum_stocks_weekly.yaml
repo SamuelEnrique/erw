@@ -5,9 +5,11 @@
 table: eia_petroleum_stocks_weekly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One week's U.S. ending stocks of crude oil (with or without the Strategic Petroleum Reserve) or one petroleum product,
+  from EIA's Weekly Petroleum Status Report.
+time: ts_utc is the week-ending date EIA reports at 00:00:00Z (freq P1W).
+vintage_rule: Each run asks for the full history and merges it on (entity, variable, ts_utc), keeping EIA's newest value;
+  a row EIA stops giving is kept. The copy held was rebuilt from the ERW archive by restore_tables.py. vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +46,7 @@ columns:
       eia:WPRSTUS1: 1499
       eia:WTTSTUS1: 1923
   missing_cells: 0
+  particular: eia:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -87,18 +90,21 @@ columns:
     list:
       US: 16855
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 16855
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 16855
+  particular: 'Not filled: EIA''s series names are in the header''s Series line'
 - name: source
   shared: true
   type: text
@@ -143,9 +149,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 16855
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: stocks
-  label: null
+  label: U.S. ending stocks of the product the series names, thousand barrels
   unit: kbbl
   rows: 16855
   first: '1982-08-20T00:00:00Z'

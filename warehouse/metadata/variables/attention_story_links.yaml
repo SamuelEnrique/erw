@@ -5,9 +5,11 @@
 table: attention_story_links
 family: erw_derived
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: 'One classified news story behind the Attention and Friction indices: its week, sector, place, opposition, kind, tone
+  and link.'
+time: event_date is the story's publish time, UTC; week is the Monday 00:00Z of its week.
+vintage_rule: Merged by event_id on each run, the newest classification of a story kept (by classified_at); rows of earlier
+  runs not rewritten are kept.
 keys:
 - event_id
 license: public
@@ -39,6 +41,7 @@ columns:
     - attn:002113443048f072
     - attn:002bc7ebc5774cab
   missing_cells: 0
+  particular: attn:<the story's news id>
 - name: event_date
   shared: true
   type: utc time
@@ -47,6 +50,7 @@ columns:
     earliest: '2026-10-05T17:03:00Z'
     latest: '2026-11-17T12:00:00Z'
   missing_cells: 0
+  particular: The story's publish time, UTC (YYYY-MM-DDTHH:MM:SSZ)
 - name: event_type
   shared: true
   type: text
@@ -54,42 +58,49 @@ columns:
     list:
       attention_link: 8120
   missing_cells: 0
+  particular: attention_link on every row
 - name: parties
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8120
+  particular: 'Not filled: no cell holds a value'
 - name: entity_ids
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8120
+  particular: 'Not filled: no cell holds a value'
 - name: mw
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8120
+  particular: 'Not filled: no cell holds a value'
 - name: price
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8120
+  particular: 'Not filled: no cell holds a value'
 - name: currency
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8120
+  particular: 'Not filled: no cell holds a value'
 - name: status
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8120
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -102,6 +113,7 @@ columns:
     - CTVC
     - California ISO
   missing_cells: 0
+  particular: The story's outlet, as the news corpus holds it
 - name: source_url
   shared: true
   type: text
@@ -115,8 +127,8 @@ columns:
     - https://electrek.co/2026/10/05/lucid-lcid-q3-2026-deliveries-production/
   missing_cells: 0
 - name: story_event_id
-  label: null
-  unit: null
+  label: The story's event_id in news_stories (news:<id>)
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -127,12 +139,12 @@ columns:
     - news:002113443048f072
     - news:002bc7ebc5774cab
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector attention_index.py
 - name: week
-  label: null
-  unit: null
+  label: The Monday 00:00Z (UTC) of the week the story was published in
+  unit: none
   type: utc time
   values:
     list:
@@ -143,12 +155,13 @@ columns:
       '2026-11-02T00:00:00Z': 518
       '2026-11-16T00:00:00Z': 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector attention_index.py
 - name: sector
-  label: null
-  unit: null
+  label: 'What the story is mainly about, as the model classified it: one of the seven index sectors (datacenters, transmission,
+    gas, nuclear, solar_wind, storage, oil_lng), other_energy, or not_energy'
+  unit: none
   type: text
   values:
     list:
@@ -162,24 +175,25 @@ columns:
       storage: 258
       transmission: 270
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method attention.md; connector attention_classify.py
 - name: us
-  label: null
-  unit: null
+  label: true when the story is about the United States (a US place, a US company's US project, a federal or state action),
+    else false
+  unit: none
   type: boolean
   values:
     list:
       'false': 4472
       'true': 3648
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method attention.md; connector attention_classify.py
 - name: state
-  label: null
-  unit: null
+  label: The one US state the story is mainly about, postal code
+  unit: none
   type: text
   values:
     distinct: 49
@@ -190,9 +204,9 @@ columns:
     - AZ
     - CA
   missing_cells: 7364
-  missing_meaning: null
+  missing_meaning: No state, several states, or a story not about the US
   source_name: null
-  documented_by: null
+  documented_by: method attention.md
 - name: geo
   shared: true
   type: text
@@ -205,9 +219,10 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 4472
+  particular: US-<state> where the story names one state, US where it is about the United States, else empty
 - name: place
-  label: null
-  unit: null
+  label: The county, city or metro the text names as the project's or dispute's place, as written
+  unit: none
   type: text
   values:
     distinct: 185
@@ -218,12 +233,12 @@ columns:
     - Alibaug
     - Amarillo
   missing_cells: 7869
-  missing_meaning: null
+  missing_meaning: The text names no such place
   source_name: null
-  documented_by: null
+  documented_by: method attention.md
 - name: place_kind
-  label: null
-  unit: null
+  label: 'The kind of the named place: county, city or metro'
+  unit: none
   type: text
   values:
     list:
@@ -231,24 +246,26 @@ columns:
       county: 35
       metro: 18
   missing_cells: 7889
-  missing_meaning: null
+  missing_meaning: No place named
   source_name: null
-  documented_by: null
+  documented_by: method attention.md; connector attention_classify.py
 - name: opposition
-  label: null
-  unit: null
+  label: true when the story reports opposition to an energy or data center project, plant, line, pipeline, policy, permit,
+    lease or rate, else false
+  unit: none
   type: boolean
   values:
     list:
       'false': 7866
       'true': 254
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method attention.md
 - name: kind
-  label: null
-  unit: null
+  label: 'The main kind of opposition reported: moratorium, lawsuit, protest, permit_denied, rate_case, political_opposition,
+    other_opposition, or none'
+  unit: none
   type: text
   values:
     list:
@@ -261,12 +278,12 @@ columns:
       protest: 42
       rate_case: 18
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method attention.md
 - name: tone
-  label: null
-  unit: null
+  label: 'The story''s tone toward what it covers: -1 negative, 0 neutral or mixed, 1 positive'
+  unit: none
   type: integer
   values:
     list:
@@ -274,12 +291,13 @@ columns:
       '0': 3709
       '1': 2347
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method attention.md; connector attention_classify.py
 - name: headline
-  label: null
-  unit: null
+  label: 'The story''s headline in the ERW''s own words: the news scorer''s where it read the story, else the classifier model''s
+    neutral headline of at most fourteen words'
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -290,12 +308,13 @@ columns:
     - 1GW data center with 5GWh battery storage submitted to Australia's EPBC Act
     - 1Komma5Grad raises funding at $1.35 billion valuation
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector attention_classify.py; connector attention_index.py
 - name: scorer_sector
-  label: null
-  unit: null
+  label: The sector the news scorer gave the story, in the scorer's own vocabulary (capital, company, datacenter_power, deal,
+    gas and others)
+  unit: none
   type: text
   values:
     list:
@@ -321,12 +340,12 @@ columns:
       transmission: 70
       transport: 135
   missing_cells: 3548
-  missing_meaning: null
+  missing_meaning: The news scorer holds no score for the story
   source_name: null
-  documented_by: null
+  documented_by: connector attention_classify.py; data
 - name: significance
-  label: null
-  unit: null
+  label: The news scorer's significance score of the story (stories it scored 0 are not sent to the classifier)
+  unit: none
   type: integer
   values:
     list:
@@ -340,53 +359,53 @@ columns:
       '8': 50
       '9': 8
   missing_cells: 3548
-  missing_meaning: null
+  missing_meaning: The news scorer holds no score for the story
   source_name: null
-  documented_by: null
+  documented_by: connector attention_classify.py; method attention.md
 - name: model_id
-  label: null
-  unit: null
+  label: The model that classified the story
+  unit: none
   type: text
   values:
     list:
       claude-sonnet-5-5: 8120
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector attention_classify.py; method attention.md
 - name: prompt_version
-  label: null
-  unit: null
+  label: The version of the classifier's prompt the story was classified with
+  unit: none
   type: integer
   values:
     list:
       '2': 8120
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector attention_classify.py
 - name: classified_at
-  label: null
-  unit: null
+  label: When the story was classified, UTC
+  unit: none
   type: utc time
   values:
     list:
       '2026-11-06T19:58:37Z': 3800
       '2026-11-06T20:16:40Z': 4320
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector attention_classify.py
 - name: fixed
-  label: null
-  unit: null
+  label: Names any value of the model's answer that the code emptied or set to the neutral value when normalising it
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8120
-  missing_meaning: null
+  missing_meaning: Nothing was changed (no cell holds a value)
   source_name: null
-  documented_by: null
+  documented_by: header; method attention.md
 - name: retrieved_at
   shared: true
   type: utc time

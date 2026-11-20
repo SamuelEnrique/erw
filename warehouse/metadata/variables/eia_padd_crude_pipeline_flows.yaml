@@ -5,9 +5,10 @@
 table: eia_padd_crude_pipeline_flows
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's crude oil received by pipeline in one PADD from another PADD, as EIA reports it.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Each run asks for the full history and merges it on (entity, variable, ts_utc), keeping EIA's newest value;
+  a row EIA stops giving is kept. The copy held was rebuilt from the ERW archive by restore_tables.py. vintage is not filled.
 keys:
 - entity
 - variable
@@ -47,6 +48,7 @@ columns:
       eia:MCRMP_R10-R30_1: 246
       eia:MCRMP_R40-R30_1: 261
   missing_cells: 0
+  particular: eia:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -90,18 +92,21 @@ columns:
     list:
       US: 4566
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4566
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4566
+  particular: 'Not filled: EIA''s series names are in the header''s Series line'
 - name: source
   shared: true
   type: text
@@ -132,9 +137,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 4566
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: pipeline_receipts
-  label: null
+  label: Crude oil received by pipeline in the receiving PADD from the PADD the series names, thousand barrels in the month
   unit: kbbl
   rows: 4566
   first: '1986-01-01T00:00:00Z'

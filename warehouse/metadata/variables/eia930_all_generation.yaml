@@ -5,9 +5,11 @@
 table: eia930_all_generation
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One balancing authority's (or the Lower 48's) net generation, in total or from one energy source, in one hour, from EIA's
+  API.
+time: ts_utc is the hour's start, UTC (EIA's hourly period is the hour's end; one hour is subtracted).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): the latest retrieval replaces earlier rows, older rows are kept.
+  vintage is empty: EIA publishes no release time per value and revises EIA-930 values.'
 keys:
 - entity
 - variable
@@ -49,6 +51,7 @@ columns:
       eia930:SWPP: 19680
       eia930:US48: 32688
   missing_cells: 0
+  particular: eia930:<respondent>, the seven ISO authorities and US48
 - name: variable
   shared: true
   type: text
@@ -99,6 +102,7 @@ columns:
       US-NY: 17712
       US-TX: 17712
   missing_cells: 0
+  particular: The respondent's states, comma-separated; US for US48
 - name: market
   shared: true
   type: empty
@@ -161,103 +165,103 @@ columns:
   missing_cells: 0
 variables:
 - name: net_generation_battery_mw
-  label: null
+  label: 'Net generation from battery storage (EIA fuel type BAT): positive discharging, negative charging'
   unit: MW
   rows: 9840
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T23:00:00Z'
 - name: net_generation_coal_mw
-  label: null
+  label: Net generation from coal (EIA fuel type COL)
   unit: MW
   rows: 13752
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T23:00:00Z'
 - name: net_generation_geothermal_mw
-  label: null
+  label: Net generation from geothermal (EIA fuel type GEO)
   unit: MW
   rows: 3936
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T23:00:00Z'
 - name: net_generation_hydro_mw
-  label: null
+  label: Net generation from hydro (EIA fuel type WAT)
   unit: MW
   rows: 15720
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T23:00:00Z'
 - name: net_generation_mw
-  label: null
+  label: Total net generation of the authority (EIA type NG, region-data route); the sources do not always add up to it
   unit: MW
   rows: 15720
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T23:00:00Z'
 - name: net_generation_natural_gas_mw
-  label: null
+  label: Net generation from natural gas (EIA fuel type NG)
   unit: MW
   rows: 15720
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T23:00:00Z'
 - name: net_generation_nuclear_mw
-  label: null
+  label: Net generation from nuclear (EIA fuel type NUC)
   unit: MW
   rows: 15720
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T23:00:00Z'
 - name: net_generation_oil_mw
-  label: null
+  label: Net generation from oil (EIA fuel type OIL)
   unit: MW
   rows: 10488
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T23:00:00Z'
 - name: net_generation_other_mw
-  label: null
+  label: Net generation from other sources (EIA fuel type OTH)
   unit: MW
   rows: 15720
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T23:00:00Z'
 - name: net_generation_other_storage_mw
-  label: null
+  label: Net generation from other energy storage (EIA fuel type OES)
   unit: MW
   rows: 1968
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T23:00:00Z'
 - name: net_generation_pumped_storage_mw
-  label: null
+  label: 'Net generation from pumped storage (EIA fuel type PS): negative while pumping'
   unit: MW
   rows: 3936
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T23:00:00Z'
 - name: net_generation_solar_mw
-  label: null
+  label: Net generation from solar (EIA fuel type SUN)
   unit: MW
   rows: 15720
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T23:00:00Z'
 - name: net_generation_solar_with_battery_mw
-  label: null
+  label: Net generation from solar with integrated battery storage (EIA fuel type SNB)
   unit: MW
   rows: 3936
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T23:00:00Z'
 - name: net_generation_unknown_mw
-  label: null
+  label: Net generation from unknown sources (EIA fuel type UNK)
   unit: MW
   rows: 1968
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T23:00:00Z'
 - name: net_generation_unknown_storage_mw
-  label: null
+  label: Net generation from unknown energy storage (EIA fuel type UES)
   unit: MW
   rows: 1200
   first: '2026-09-26T00:00:00Z'
   last: '2026-11-15T23:00:00Z'
 - name: net_generation_wind_mw
-  label: null
+  label: Net generation from wind (EIA fuel type WND)
   unit: MW
   rows: 15720
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T23:00:00Z'
 - name: net_generation_wind_with_battery_mw
-  label: null
+  label: Net generation from wind with integrated battery storage (EIA fuel type WNB)
   unit: MW
   rows: 1968
   first: '2026-08-26T00:00:00Z'

@@ -5,9 +5,11 @@
 table: eia_petroleum_trade_weekly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One week's U.S. imports, exports or net imports of crude oil, petroleum products or both, from EIA's Weekly Petroleum
+  Status Report.
+time: ts_utc is the week-ending date EIA reports at 00:00:00Z (freq P1W).
+vintage_rule: Each run asks for the full history and merges it on (entity, variable, ts_utc), keeping EIA's newest value;
+  a row EIA stops giving is kept. The copy held was rebuilt from the ERW archive by restore_tables.py. vintage is not filled.
 keys:
 - entity
 - variable
@@ -43,6 +45,7 @@ columns:
       eia:WTTEXUS2: 1866
       eia:WTTIMUS2: 1866
   missing_cells: 0
+  particular: eia:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -86,18 +89,21 @@ columns:
     list:
       US: 12614
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 12614
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 12614
+  particular: 'Not filled: EIA''s series names are in the header''s Series line'
 - name: source
   shared: true
   type: text
@@ -139,9 +145,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 12614
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: flow
-  label: null
+  label: U.S. imports, exports or net imports of what the series names, thousand barrels a day
   unit: kbbl/d
   rows: 12614
   first: '1990-01-05T00:00:00Z'

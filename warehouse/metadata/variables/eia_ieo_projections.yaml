@@ -5,9 +5,10 @@
 table: eia_ieo_projections
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One series of EIA's International Energy Outlook 2023, reference case (a world region's energy consumption, CO2 emissions,
+  or electricity generation or capacity by fuel), for one year.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot); the release is in the entity id, vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +45,7 @@ columns:
     - eia_ieo2023:10:0-0:emi_co2_fossil_anz_mtonne
     - eia_ieo2023:10:0-0:emi_co2_fossil_apc_mtonne
   missing_cells: 0
+  particular: eia_ieo2023:<tableId>:<regionId>:<seriesId>
 - name: variable
   shared: true
   type: text
@@ -89,12 +91,14 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 17856
+  particular: 'Not filled: world regions have no ISO 3166-2 code'
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 17856
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -107,6 +111,7 @@ columns:
     - 'Carbon dioxide emissions : Americas'
     - 'Carbon dioxide emissions : Americas : Brazil'
   missing_cells: 0
+  particular: 'EIA''s series name, <what> : <region> : <fuel>'
 - name: source
   shared: true
   type: text
@@ -144,32 +149,33 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 17856
+  particular: 'Not filled: the release is in the entity id'
 - name: x_history
-  label: null
-  unit: null
+  label: 'EIA''s flag: HISTORIC for a year EIA marks as history, PROJECTION for its model result'
+  unit: none
   type: text
   values:
     list:
       HISTORIC: 1728
       PROJECTION: 16128
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: history
+  documented_by: header; connector eia_ieo.py; data
 - name: x_scenario
-  label: null
-  unit: null
+  label: EIA's case of the outlook (Reference on every row)
+  unit: none
   type: text
   values:
     list:
       Reference: 17856
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: scenario
+  documented_by: connector eia_ieo.py
 - name: x_table
-  label: null
-  unit: null
+  label: EIA's name of the IEO table the series is read from
+  unit: none
   type: text
   values:
     list:
@@ -179,30 +185,30 @@ columns:
       World total primary energy consumption by region: 651
       World total primary energy consumption by region and fuel: 930
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: tableName
+  documented_by: connector eia_ieo.py
 variables:
 - name: capacity
-  label: null
+  label: Installed generating capacity, MW (EIA's gigawatts times 1,000)
   unit: MW
   rows: 8463
   first: '2020-01-01T00:00:00Z'
   last: '2050-01-01T00:00:00Z'
 - name: consumption
-  label: null
+  label: Primary energy consumption, trillion Btu (EIA's quadrillion Btu times 1,000)
   unit: TBtu
   rows: 1581
   first: '2020-01-01T00:00:00Z'
   last: '2050-01-01T00:00:00Z'
 - name: emissions
-  label: null
+  label: Energy-related carbon dioxide emissions, tonnes of CO2 (EIA's million metric tons times 1,000,000)
   unit: tCO2
   rows: 651
   first: '2020-01-01T00:00:00Z'
   last: '2050-01-01T00:00:00Z'
 - name: generation
-  label: null
+  label: Net electricity generation, MWh (EIA's billion kWh times 1,000,000)
   unit: MWh
   rows: 7161
   first: '2020-01-01T00:00:00Z'

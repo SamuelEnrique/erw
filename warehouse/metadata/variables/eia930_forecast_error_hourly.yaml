@@ -5,9 +5,9 @@
 table: eia930_forecast_error_hourly
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One balancing authority's or region's day-ahead demand forecast beside the demand that came, in one hour, July 2018 on.
+time: ts_utc is the hour's start, UTC.
+vintage_rule: One build, rebuilt whole by each run of the builder; no vintage column.
 keys:
 - entity
 - variable
@@ -47,6 +47,7 @@ columns:
     - eia930:AZPS
     - eia930:BANC
   missing_cells: 0
+  particular: eia930:<code>, a balancing authority or a region
 - name: variable
   shared: true
   type: text
@@ -91,56 +92,57 @@ columns:
       erw:forecast_error: 4797750
   missing_cells: 0
 - name: x_level
-  label: null
-  unit: null
+  label: ba for a balancing authority, region for a sum over its demand-filing authorities
+  unit: none
   type: text
   values:
     list:
       ba: 3886153
       region: 911597
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector forecast_error.py
 - name: x_forecast_mw
-  label: null
-  unit: null
+  label: The day-ahead demand forecast filed for the hour (EIA's Demand Forecast (MW)); a region's is the sum of its authorities'
+  unit: MW
   type: integer
   values:
     distinct: more than 5000
     lowest: 1
     highest: 486241
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Demand Forecast (MW)
+  documented_by: header; connector forecast_error.py
 - name: x_demand_mw
-  label: null
-  unit: null
+  label: The demand of the same hour, from eia930_ba_demand_hourly; a region's is the sum of its authorities'
+  unit: MW
   type: integer
   values:
     distinct: more than 5000
     lowest: 1
     highest: 224345
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector forecast_error.py
 - name: x_screened
-  label: null
-  unit: null
+  label: 1 when the forecast is above three times the demand or below a third of it, taken as a filing error and counted in
+    no figure; else 0
+  unit: none
   type: integer
   values:
     list:
       '0': 4779200
       '1': 18550
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method forecast_error.md
 variables:
 - name: demand_forecast_miss_mw
-  label: null
+  label: 'The forecast less the demand of the hour: above zero the forecast was high'
   unit: MW
   rows: 4797750
   first: '2018-07-01T04:00:00Z'

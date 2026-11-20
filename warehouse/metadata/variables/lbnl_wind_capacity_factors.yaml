@@ -5,9 +5,11 @@
 table: lbnl_wind_capacity_factors
 family: lbnl
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One land-based wind plant's capacity factor in calendar year 2025, from Berkeley Lab's Land-Based Wind Energy Technology
+  Data Update, 2026 Edition.
+time: ts_utc is 2025-01-01 (the calendar year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run from the data file lbnl_ppa_prices.py saves; one edition. vintage is the data file's
+  time (UTC).
 keys:
 - entity
 - variable
@@ -44,6 +46,7 @@ columns:
     - lbnl_wind:2024
     - lbnl_wind:50533
   missing_cells: 0
+  particular: lbnl_wind:<EIA plant code>
 - name: variable
   shared: true
   type: text
@@ -86,12 +89,14 @@ columns:
     list:
       US: 1210
   missing_cells: 0
+  particular: Always US
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1210
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -104,6 +109,7 @@ columns:
     - EIA plant 2024
     - EIA plant 50533
   missing_cells: 0
+  particular: 'EIA plant <code>, not a pricing node: LBNL names no project'
 - name: source
   shared: true
   type: text
@@ -133,9 +139,10 @@ columns:
     list:
       '2026-08-31T00:14:36Z': 1210
   missing_cells: 0
+  particular: The data file's time, UTC
 - name: x_cod
-  label: null
-  unit: null
+  label: LBNL's commercial operation year or period of the plant (1998-99, 2000-01 and the years after)
+  unit: none
   type: text
   values:
     list:
@@ -163,24 +170,24 @@ columns:
       '2023': 42
       '2024': 35
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector lbnl_wind_capacity_factors.py
 - name: x_repower
-  label: null
-  unit: null
+  label: 'Whether the plant was repowered: partial repower or full repower'
+  unit: none
   type: text
   values:
     list:
       full repower: 22
       partial repower: 101
   missing_cells: 1087
-  missing_meaning: null
+  missing_meaning: Not repowered
   source_name: null
-  documented_by: null
+  documented_by: header; connector lbnl_wind_capacity_factors.py
 variables:
 - name: capacity_factor
-  label: null
+  label: The plant's capacity factor in calendar year 2025, a fraction (ratio)
   unit: ratio
   rows: 1210
   first: '2025-01-01T00:00:00Z'

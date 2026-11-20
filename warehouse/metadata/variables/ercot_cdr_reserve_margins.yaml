@@ -5,9 +5,12 @@
 table: ercot_cdr_reserve_margins
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One line of the Seasonal Summary of ERCOT's Capacity, Demand and Reserves report (CDR) for one season at its peak load
+  hour or its peak net load hour.
+time: ts_utc is the season's first day at 00:00:00Z (spring 1 March, summer 1 June, fall 1 September, winter 1 December of
+  its first year).
+vintage_rule: A snapshot replaced whole by each run with the newest report ERCOT's page links; vintage is the report's posting
+  date.
 keys:
 - entity
 - variable
@@ -46,6 +49,8 @@ columns:
       ercot_cdr:winter:peak_load: 200
       ercot_cdr:winter:peak_net_load: 200
   missing_cells: 0
+  particular: 'ercot_cdr:<season>:<peak_load | peak_net_load>: each season at ERCOT''s peak load hour and at its peak net
+    load hour'
 - name: variable
   shared: true
   type: text
@@ -115,6 +120,7 @@ columns:
     list:
       ercot: 1600
   missing_cells: 0
+  particular: ercot in every row
 - name: node
   shared: true
   type: text
@@ -127,6 +133,7 @@ columns:
     - Fall 2027, peak net load hour 20
     - Fall 2028, peak load hour 17
   missing_cells: 0
+  particular: ERCOT's season and hour as printed (Summer 2026, peak load hour 17), not a price node
 - name: source
   shared: true
   type: text
@@ -155,9 +162,10 @@ columns:
     list:
       '2025-12-19T00:00:00Z': 1600
   missing_cells: 0
+  particular: The report's posting date at 00:00:00Z (from its address)
 - name: x_hour
-  label: null
-  unit: null
+  label: The hour ending ERCOT names for the season's peak load or peak net load
+  unit: none
   type: integer
   values:
     list:
@@ -167,257 +175,257 @@ columns:
       '21': 400
       '8': 200
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector ercot_cdr.py
 - name: x_report
-  label: null
-  unit: null
+  label: The file name of the CDR report
+  unit: none
   type: text
   values:
     list:
       CapacityDemandandReservesReport_December2025.xlsx: 1600
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector ercot_cdr.py
 variables:
 - name: dc_ties
-  label: null
+  label: Non-Synchronous Ties (ERCOT's DC ties), MW
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: energy_efficiency_savings
-  label: null
+  label: Energy Efficiency Program Savings, MW
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: firm_peak_load
-  label: null
+  label: 'Firm Peak Load: the load forecast after the adjustments, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: less_controllable_load
-  label: null
+  label: 'Less: Controllable Load Resources not included elsewhere, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: less_emergency_response_service
-  label: null
+  label: 'Less: Emergency Response Service, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: less_load_resources_ecrs
-  label: null
+  label: 'Less: Load Resources providing ERCOT Contingency Reserve Service, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: less_load_resources_nonspin
-  label: null
+  label: 'Less: Load Resources providing Non-Spinning Reserves, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: less_load_resources_rrs
-  label: null
+  label: 'Less: Load Resources providing Responsive Reserves, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: less_rooftop_pv
-  label: null
+  label: 'Less: Incremental Rooftop PV (rooftop solar), MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: less_tdsp_load_management
-  label: null
+  label: 'Less: TDSP Standard Offer load management programs, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: less_voltage_reduction
-  label: null
+  label: 'Less: Distribution Voltage Reduction, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: operational_coastal_wind
-  label: null
+  label: 'Operational capacity: Coastal Wind, counted at ERCOT''s ELCC, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: operational_far_west_solar
-  label: null
+  label: 'Operational capacity: Far West Solar, counted at ERCOT''s ELCC, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: operational_hydro
-  label: null
+  label: 'Operational capacity: Hydroelectric, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: operational_less_switchable_unavailable
-  label: null
+  label: 'Operational capacity: less Switchable Capacity Unavailable to ERCOT, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: operational_mothballed
-  label: null
+  label: 'Operational capacity: Available Mothballed, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: operational_other_solar
-  label: null
+  label: 'Operational capacity: Other Solar, counted at ERCOT''s ELCC, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: operational_other_wind
-  label: null
+  label: 'Operational capacity: Other Wind, counted at ERCOT''s ELCC, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: operational_panhandle_wind
-  label: null
+  label: 'Operational capacity: Panhandle Wind, counted at ERCOT''s ELCC, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: operational_pending_retirement
-  label: null
+  label: 'Operational capacity: Capacity Pending Retirement, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: operational_private_use_networks
-  label: null
+  label: 'Operational capacity: Private Use Networks, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: operational_rmr
-  label: null
+  label: 'Operational capacity: RMR Capacity, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: operational_storage
-  label: null
+  label: 'Operational capacity: Energy Storage, counted at ERCOT''s ELCC, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: operational_switchable
-  label: null
+  label: 'Operational capacity: Switchable Capacity, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: operational_thermal
-  label: null
+  label: 'Operational capacity: Installed Seasonal-rated Thermal, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: operational_total
-  label: null
+  label: Operational Generation Capacity, Total, MW
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: operational_west_solar
-  label: null
+  label: 'Operational capacity: West Solar, counted at ERCOT''s ELCC, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: planned_coastal_wind
-  label: null
+  label: 'Planned resource additions: Coastal Wind, counted at ERCOT''s ELCC, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: planned_far_west_solar
-  label: null
+  label: 'Planned resource additions: Far West Solar, counted at ERCOT''s ELCC, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: planned_other_solar
-  label: null
+  label: 'Planned resource additions: Other Solar, counted at ERCOT''s ELCC, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: planned_other_wind
-  label: null
+  label: 'Planned resource additions: Other Wind, counted at ERCOT''s ELCC, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: planned_panhandle_wind
-  label: null
+  label: 'Planned resource additions: Panhandle Wind, counted at ERCOT''s ELCC, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: planned_storage
-  label: null
+  label: 'Planned resource additions: Energy Storage, counted at ERCOT''s ELCC, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: planned_thermal
-  label: null
+  label: 'Planned resource additions: Thermal Resources, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: planned_total
-  label: null
+  label: Planned Generation Capacity Total, MW
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: planned_unconfirmed_retirements
-  label: null
+  label: Unconfirmed Planned Retirements, MW
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: planned_west_solar
-  label: null
+  label: 'Planned resource additions: West Solar, counted at ERCOT''s ELCC, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: reserve_margin
-  label: null
+  label: 'ERCOT''s reserve margin: total capacity less firm peak load, over firm peak load, times 100 (pct)'
   unit: pct
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: total_capacity
-  label: null
+  label: Total Capacity, MW
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'
   last: '2030-12-01T00:00:00Z'
 - name: total_seasonal_load
-  label: null
+  label: 'Total Seasonal Load: ERCOT''s load forecast for the season, MW'
   unit: MW
   rows: 40
   first: '2026-03-01T00:00:00Z'

@@ -5,9 +5,11 @@
 table: eia930_region_fuel_hourly
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One of EIA's regions of the lower 48 and one hour, its net generation from one energy source, summed over the region's
+  balancing authorities, July 2018 on.
+time: ts_utc is the hour's start (the file's UTC Time at End of Hour minus one hour).
+vintage_rule: Rebuilt whole by a full run from the saved six-month files; a run with --files merges that file's rows into
+  the table and keeps the rest. No vintage column.
 keys:
 - entity
 - variable
@@ -51,6 +53,7 @@ columns:
       eia930:TEN: 593892
       eia930:TEX: 595804
   missing_cells: 0
+  particular: eia930:<region> (CAL, CAR, CENT, FLA, MIDA, MIDW, NE, NW, NY, SE, SW, TEN)
 - name: variable
   shared: true
   type: text
@@ -117,9 +120,10 @@ columns:
       ten: 593892
       tex: 595804
   missing_cells: 0
+  particular: The region's code, lowercase
 - name: x_bas
-  label: null
-  unit: null
+  label: How many balancing authorities were summed for the region-hour
+  unit: count
   type: integer
   values:
     list:
@@ -136,12 +140,12 @@ columns:
       '8': 102439
       '9': 784428
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_region_fuel_hourly.md
 - name: x_file
-  label: null
-  unit: null
+  label: The six-month BALANCE file the row was read from (<year>_<Jan_Jun or Jul_Dec>)
+  unit: none
   type: text
   values:
     list:
@@ -163,54 +167,55 @@ columns:
       2026_Jan_Jun: 863528
       2026_Jul_Dec: 699880
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia930_region_fuel_hourly.py
 variables:
 - name: net_generation_coal_mw
-  label: null
+  label: Net generation from coal
   unit: MW
   rows: 1020792
   first: '2018-07-01 04:00:00+00:00'
   last: '2026-11-19T07:00:00Z'
 - name: net_generation_hydro_mw
-  label: null
+  label: Net generation from hydropower and pumped storage
   unit: MW
   rows: 1020792
   first: '2018-07-01 04:00:00+00:00'
   last: '2026-11-19T07:00:00Z'
 - name: net_generation_natural_gas_mw
-  label: null
+  label: Net generation from natural gas (EIA's Natural Gas columns)
   unit: MW
   rows: 1020792
   first: '2018-07-01 04:00:00+00:00'
   last: '2026-11-19T07:00:00Z'
 - name: net_generation_nuclear_mw
-  label: null
+  label: Net generation from nuclear
   unit: MW
   rows: 1020792
   first: '2018-07-01 04:00:00+00:00'
   last: '2026-11-19T07:00:00Z'
 - name: net_generation_other_mw
-  label: null
+  label: Net generation from petroleum, other and unknown fuel sources (from July 2024 geothermal too; before then batteries
+    too)
   unit: MW
   rows: 1020792
   first: '2018-07-01 04:00:00+00:00'
   last: '2026-11-19T07:00:00Z'
 - name: net_generation_solar_mw
-  label: null
+  label: Net generation from solar (from July 2024, solar without and with integrated battery storage)
   unit: MW
   rows: 1020792
   first: '2018-07-01 04:00:00+00:00'
   last: '2026-11-19T07:00:00Z'
 - name: net_generation_storage_mw
-  label: null
+  label: Net generation from battery, other and unknown energy storage, negative while charging (from July 2024 only)
   unit: MW
   rows: 366043
   first: '2024-06-30 01:00:00+00:00'
   last: '2026-11-19T07:00:00Z'
 - name: net_generation_wind_mw
-  label: null
+  label: Net generation from wind (from July 2024, wind without and with integrated battery storage)
   unit: MW
   rows: 1020792
   first: '2018-07-01 04:00:00+00:00'

@@ -200,7 +200,7 @@ variables:
   first: '1977-01-01T00:00:00Z'
   last: '2015-01-01T00:00:00Z'
 - name: production
-  label: Estimated production from reserves in the year, billion cubic feet
+  label: Estimated production from reserves in the year (R20), billion cubic feet
   unit: bcf
   rows: 2200
   first: '1977-01-01T00:00:00Z'

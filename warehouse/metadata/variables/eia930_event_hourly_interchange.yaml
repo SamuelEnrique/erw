@@ -5,9 +5,11 @@
 table: eia930_event_hourly_interchange
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One directed pair's hourly interchange, or one balancing authority's hourly demand, in one hour of one of the two historical
+  events of /network (Winter Storm Uri 2021, the June 2025 heat).
+time: ts_utc is the hour's start, UTC (EIA's period is its end).
+vintage_rule: 'One pull (2 October 2026), not refreshed: it holds EIA''s figures as read that evening; the key holds event
+  (entity, variable, ts_utc, event). vintage is empty.'
 keys:
 - entity
 - variable
@@ -49,6 +51,7 @@ columns:
     - eia930:AECI
     - eia930:AECI-MISO
   missing_cells: 0
+  particular: eia930:<FROM>-<TO> on interchange_mw rows; eia930:<respondent> on demand_mw rows
 - name: variable
   shared: true
   type: text
@@ -149,9 +152,10 @@ columns:
     - avrn
     - azps
   missing_cells: 0
+  particular: FROM on interchange rows, the respondent on demand rows, lowercase
 - name: x_to_ba
-  label: null
-  unit: null
+  label: The neighbour (TO) of an interchange row, EIA-930 code in lowercase
+  unit: none
   type: text
   values:
     distinct: 87
@@ -162,30 +166,31 @@ columns:
     - ava
     - avrn
   missing_cells: 43657
-  missing_meaning: null
+  missing_meaning: Empty on the demand_mw rows
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_event_hourly_interchange.md
 - name: event
-  label: null
-  unit: null
+  label: 'The event window the hour belongs to: uri_2021 (Winter Storm Uri, 2021-02-07 to 2021-02-24, Central days) or east_heat_2025
+    (the June 2025 heat, 2025-06-20 to 2025-06-28, Eastern days)'
+  unit: none
   type: text
   values:
     list:
       east_heat_2025: 86464
       uri_2021: 180369
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_event_hourly_interchange.md
 variables:
 - name: demand_mw
-  label: null
+  label: The authority's hourly demand (EIA type D)
   unit: MW
   rows: 43657
   first: '2021-02-07T06:00:00Z'
   last: '2025-06-29T03:00:00Z'
 - name: interchange_mw
-  label: null
+  label: The reporting authority's net flow with the neighbour, positive when it exports
   unit: MW
   rows: 223176
   first: '2021-02-07T06:00:00Z'

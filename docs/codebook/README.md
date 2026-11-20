@@ -4,11 +4,11 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 
 ## The counts
 
-- Public tables with a metadata file: 582; documented in full (what a row is, and every column's label and unit): 115.
-- Columns: 10453; documented: 8080 (a shared column is documented once, below).
-- Variables of the series tables (values of `variable`): 6924; labelled: 1430.
-- Entries that read "not documented by the source": 0.
-- Column names that two or more tables label differently (names that may mean two things): 94.
+- Public tables with a metadata file: 582; documented in full (what a row is, and every column's label and unit): 234.
+- Columns: 10453; documented: 8451 (a shared column is documented once, below).
+- Variables of the series tables (values of `variable`): 6924; labelled: 4691.
+- Entries that read "not documented by the source": 4.
+- Column names that two or more tables label differently (names that may mean two things): 137.
 
 ## The families
 
@@ -19,33 +19,33 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 | [battery](battery.md) | 4 | 3 |
 | [boem](boem.md) | 3 | 0 |
 | [caiso](caiso.md) | 15 | 9 |
-| [carbon](carbon.md) | 3 | 0 |
-| [census](census.md) | 6 | 0 |
+| [carbon](carbon.md) | 3 | 3 |
+| [census](census.md) | 6 | 1 |
 | [cer](cer.md) | 3 | 0 |
 | [company](company.md) | 3 | 3 |
-| [cost](cost.md) | 3 | 0 |
+| [cost](cost.md) | 3 | 3 |
 | [datacenter](datacenter.md) | 4 | 3 |
 | [desnz](desnz.md) | 17 | 0 |
 | [doe](doe.md) | 5 | 0 |
-| [eia](eia.md) | 112 | 46 |
+| [eia](eia.md) | 112 | 86 |
 | [eia860](eia860.md) | 9 | 0 |
 | [eia860m](eia860m.md) | 4 | 3 |
 | [eia861](eia861.md) | 13 | 3 |
 | [eia923](eia923.md) | 3 | 0 |
-| [eia930](eia930.md) | 37 | 0 |
+| [eia930](eia930.md) | 37 | 17 |
 | [energy](energy.md) | 8 | 3 |
 | [epa](epa.md) | 8 | 0 |
-| [ercot](ercot.md) | 38 | 0 |
-| [erw_derived](erw_derived.md) | 30 | 0 |
+| [ercot](ercot.md) | 38 | 22 |
+| [erw_derived](erw_derived.md) | 30 | 24 |
 | [eurostat](eurostat.md) | 27 | 0 |
-| [ferc714](ferc714.md) | 2 | 0 |
+| [ferc714](ferc714.md) | 2 | 1 |
 | [grid](grid.md) | 5 | 4 |
-| [interchange](interchange.md) | 3 | 0 |
+| [interchange](interchange.md) | 3 | 1 |
 | [interconnection](interconnection.md) | 5 | 3 |
 | [iso](iso.md) | 11 | 10 |
 | [isone](isone.md) | 4 | 3 |
-| [large](large.md) | 4 | 0 |
-| [lbnl](lbnl.md) | 8 | 0 |
+| [large](large.md) | 4 | 3 |
+| [lbnl](lbnl.md) | 8 | 3 |
 | [news](news.md) | 1 | 0 |
 | [noaa](noaa.md) | 21 | 0 |
 | [nrc](nrc.md) | 7 | 0 |
@@ -62,7 +62,7 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 | [usbr](usbr.md) | 3 | 0 |
 | [usgs](usgs.md) | 3 | 0 |
 | [utility](utility.md) | 5 | 4 |
-| [wb](wb.md) | 2 | 0 |
+| [wb](wb.md) | 2 | 1 |
 
 ## The shared column names
 
