@@ -80,6 +80,7 @@ class ARedirectGoesWhereTheCodeSays(unittest.TestCase):
 # The files of the site's server that read the disk, each with the line that decides the name it reads.
 READS_THE_DISK = {
     "app/attention/page.tsx": 'path.join(process.cwd(), "data", "attention.json")',
+    "app/grid/prices-map/route.ts": 'path.join(process.cwd(), "data", "regions", "prices_map.json")',   # session 8013: one fixed file of the data machine's
     "app/cost-of-power/seller/model.ts": "HUBS.grids[iso]",                                   # a file the site's own index names (window P1's file)
     "app/play/ev/page.tsx": 'path.join(process.cwd(), "data", "ev_prices.json")',
     "app/severance/finder/download/route.ts": "const f = `${outDir()}/${FLAGS}`;",

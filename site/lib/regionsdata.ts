@@ -56,3 +56,19 @@ export function regionAlike(code: string): Alike | null {
   const f = fileOf(code);
   return f ? readAlike(json(path.join("demand", f))) : null;
 }
+
+// Session 8013 (chain 505, part C): each balancing authority's own facts and each region's sum (contract section 10,
+// data/regions/authority/<code>.json and authority/region-<code>.json, the data machine's), served one file at a time
+// by app/grid/authority/[code]/route.ts for the network's panel. A name here is a file the folder holds, never a
+// visitor's words: the route is made for the names this list gives, when the site is built.
+const AUTHORITY_NAME = /^(region-)?[a-z0-9_]{2,12}$/;
+export function authorityStems(): string[] {
+  try {
+    return fs.readdirSync(path.join(process.cwd(), "data", "regions", "authority"))
+      .filter((f) => f.endsWith(".json")).map((f) => f.slice(0, -5)).filter((s) => AUTHORITY_NAME.test(s)).sort();
+  } catch { return []; }
+}
+export function authorityBody(stem: string): Buffer | null {
+  if (!AUTHORITY_NAME.test(stem) || !authorityStems().includes(stem)) return null;
+  return regionsFile(path.join("authority", `${stem}.json`));
+}
