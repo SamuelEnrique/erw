@@ -50,6 +50,11 @@ import iso_prices as ip  # noqa: E402
 import eia930_emissions as em  # noqa: E402
 import impossible_hours  # noqa: E402  (session 118: the one rule for impossible values)
 
+# Ruling alternative 2 of /grid/caiso/alerts (session 7714, branch wip/alt-caiso-alerts-2; not a default on main): a figure
+# is stored to six decimals, so that a cell the page rounds to two is not rounded twice (2021-07-29: -0.174972 percent was
+# stored as -0.175 and drawn -0.18; it is -0.17). main: four decimals.
+DECIMALS = 6
+
 EFFECTS, MODEL = "flex_alert_effects", "flex_alert_model"
 SOURCE = "erw:flex_alert_scorecard"
 METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/flex_alert_scorecard.md"
@@ -532,7 +537,7 @@ def main():
         def add(table, ent, var, ts, v, unit, freq):
             if v is None or (isinstance(v, float) and not np.isfinite(v)):
                 return
-            rows.append((table, ent, var, ts, round(float(v), 4), unit, freq))
+            rows.append((table, ent, var, ts, round(float(v), DECIMALS), unit, freq))   # DECIMALS: wip/alt-caiso-alerts-2
         E, M = "eia930:CISO", "erw:flex_alert_model"
         A = alerts.set_index("day")
         for r in D.itertuples():
