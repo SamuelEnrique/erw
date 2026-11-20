@@ -174,3 +174,4 @@ Every page is in review; this file changes no page. Snapshots as in the battery 
 - Push 2 (findings 6 to 8, the closing sections), merge `1100015c`; deployed within `7bb43879` (confirmed 22:04 UTC). `s9840-g6to8-before` against `s9840-g6to8-after`: 0 differences. Expected.
 - The battery file's push of its finding 11, merge `7bb43879`; success, confirmed 22:04 UTC. `s9840-f11-before` against `s9840-f11-after`: 0 differences. Expected.
 - GitHub's unsigned allowance (60 requests an hour, shared with this machine's other windows) ran out at 21:45 UTC; from then on a deploy was watched by the live page's Vercel deployment id and confirmed with one status request once the allowance returned (22:04 UTC).
+- Each push's comparison is written with the next push; the last push's is in the session's closing message.
