@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate fr_mean_wind, region fr (France)
+# Computed 2026-11-19T13:19:57Z by warehouse/analysis/findings/deep/world_power.py (fr_mean_wind); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's mean wind power (MW), the observations it rests on, and whether the year is full
+# Tables: rte_eco2mix_france_halfhourly
+region,year,value,n_observations,full_year
+fr,2019,3687.5,2.0,0
+fr,2020,4517.877419722159,17564.0,1
+fr,2021,4209.197819136789,17516.0,1
+fr,2022,4439.5413907284765,17516.0,1
+fr,2023,5805.079926923955,17516.0,1
+fr,2024,5329.970337053063,17564.0,1
+fr,2025,5663.0888381387385,17515.0,1
+fr,2026,5533.105231560892,11660.0,0

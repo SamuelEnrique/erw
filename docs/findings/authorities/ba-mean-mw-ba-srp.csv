@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ba_mean_mw, region ba_srp (the Salt River Project (SRP, EIA-930 balancing authority))
+# Computed 2026-11-19T11:43:45Z by warehouse/analysis/findings/deep/authorities.py (ba_mean_mw); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's mean hour of demand (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+ba_srp,2018,3602.315418732064,3833.0,0
+ba_srp,2019,3458.1900684931506,8760.0,1
+ba_srp,2020,3666.6723588342443,8784.0,1
+ba_srp,2021,3629.5244292237444,8760.0,1
+ba_srp,2022,3706.0076484018264,8760.0,1
+ba_srp,2023,3871.3640410958906,8760.0,1
+ba_srp,2024,4062.2534153005463,8784.0,1
+ba_srp,2025,4157.064497716895,8760.0,1
+ba_srp,2026,4210.285416937687,7687.0,0
