@@ -21,6 +21,7 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 | 1 | The NPV holds no tax and no depreciation, yet is discounted at a cost of equity | none | NPV +240.52 per kW after federal tax | `wip/audit-generator-1` |
 | 2 | Flat real flows, a fixed money debt payment and a money discount rate in one sum | none | NPV +59.72 to +77.42 per kW (inflation 2 to 2.5 percent) | `wip/audit-generator-2` |
 | 3 | The same tax credit arrives in year 1 here and at year 0 on the battery page | none | a 30 percent credit on USD 1,110: 297.32 here, 333.00 there | `wip/audit-generator-3` |
+| 4 | An as-generated PPA is paid on energy the plant no longer makes | none | breakeven PPA 58.36 against 61.50 per MWh | `wip/audit-generator-4` |
 
 ## 1. The NPV holds no tax and no depreciation
 
@@ -46,3 +47,11 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 - **How much.** A 30 percent credit on a 4-hour battery at USD 1,110 per kW: 333.00 per kW of NPV on the battery page, 297.32 here (-35.68). On this page's default solar plant at 1,375: 412.50 against 368.30 (-44.20).
 - **The test.** `tests/test_audit_generator_3.py` on `wip/audit-generator-3`: both libraries (run by Node) with the same battery and a 30 percent credit; the battery page adds 333 to year 0, this page to year 1.
 - **Not fixed.** Which year is right (when the credit is sold or used) is the owner's ruling; the two pages should agree.
+
+## 4. An as-generated PPA is paid on energy the plant no longer makes
+
+- **Where.** `site/lib/seller/finance.ts` lines 218 and 219 (`contractYear`: `cshare x cprice x energyKw`, with no year in it), used by `incomeInYear` (lines 231 and 232) for every year of the term, and by `breakevenPpa` (lines 314 to 322: one dollar of price is worth `E` MWh every year). Against line 214 (`revenueInYear`, degraded) and lines 236 and 237 (the production credit, degraded). The note, section 11.3 line 527.
+- **Why it is wrong.** For the default shape, "generated", the contract buys the plant's output. Solar's output falls 0.7 percent a year (the page's own default since ruling 7a); by year 35 the plant makes 78.7 percent of year one's energy, and the contract is still paid on all of it. A block contract (fixed volume) is right not to degrade, and the code treats a block apart.
+- **How much.** Default case, the whole energy for the PPA's 35 years: the breakeven PPA price the page prints, USD 58.36 per MWh, becomes 61.50 when the contract is paid on what the plant makes (+3.14, +5.4 percent). Every scenario with a contract overstates its contract income in the later years the same way.
+- **The test.** `tests/test_audit_generator_4.py` on `wip/audit-generator-4`: through `finance.ts` the breakeven price is 58.36 and the contract income is the same in year 35 as in year 1; paid on the degrading volume, the zero-NPV price is 61.50.
+- **The fix, not made.** `contractYear` takes the year and, for the "generated" shape, multiplies the energy by `(1 - deg)^(t - 1)`; `breakevenPpa`'s one-dollar value takes the same factor. It moves the breakeven price and every contract's NPV: the owner's ruling.
