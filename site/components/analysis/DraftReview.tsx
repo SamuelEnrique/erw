@@ -14,7 +14,10 @@ const BUTTONS: { state: State; label: string }[] = [
 ];
 const when = (iso: string) => iso.replace("T", " ").slice(0, 16) + " UTC";
 
-export function DraftReview({ id, state: first, history: firstHistory, requestId, fullCard }: { id: string; state: State; history: Change[]; requestId: string | null; fullCard: string }) {
+// Chain 507: `blocked`, when given, is why the findings audit of 19 November 2026 stops this draft's approval (its figure
+// not reproduced, withdrawn, or on a table that is not public); Approve is then drawn disabled with the reason beside it.
+// Dismiss and Ask for a full card are as before. The state route refuses the approval too (lib/findingaudit.ts).
+export function DraftReview({ id, state: first, history: firstHistory, requestId, fullCard, blocked = "" }: { id: string; state: State; history: Change[]; requestId: string | null; fullCard: string; blocked?: string }) {
   const [state, setState] = useState<State>(first);
   const [history, setHistory] = useState<Change[]>(firstHistory);
   const [note, setNote] = useState(requestId ? `request ${requestId}` : "");
@@ -53,12 +56,14 @@ export function DraftReview({ id, state: first, history: firstHistory, requestId
       <div className="flex flex-wrap items-center gap-2">
         <strong data-draft-state-words="1">{WORDS[state]}</strong>
         {BUTTONS.map((b) => (
-          <button key={b.state} type="button" disabled={busy || state === b.state} onClick={() => rule(b.state)} data-draft-button={b.state}
+          <button key={b.state} type="button" disabled={busy || state === b.state || (b.state === "approved" && blocked !== "")} onClick={() => rule(b.state)} data-draft-button={b.state}
+            title={b.state === "approved" && blocked ? `Cannot be approved: ${blocked}.` : undefined}
             className="border border-rule bg-panel px-3 py-1 text-sm text-ink hover:border-ink disabled:opacity-50">
             {b.label}
           </button>
         ))}
       </div>
+      {blocked ? <p className="mt-1 text-xs" data-draft-blocked={id}>Cannot be approved: {blocked}.</p> : null}
       {state === "approved" ? (
         <p className="mt-2 flex flex-wrap items-center gap-2 text-xs" data-draft-roundup={id}>
           <button type="button" disabled={busy} onClick={roundup} data-draft-button="roundup"
