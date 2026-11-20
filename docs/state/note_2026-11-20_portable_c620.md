@@ -28,7 +28,7 @@ Energy Research Warehouse (ERW). Sessions 9600 and 9601, from 10:26 UTC. Written
 
 - **No fix has been seen in a build, so no landing is requested.** The chain asks for 2 GB of memory free before a build; this laptop had 1.0 to 1.9 GB free from 11:37 UTC (Samuel's own Chrome, the Claude programs and the mail and chat programs hold the rest). The whole suite was not run for the same cause.
 - The nine branches are pushed, and rows 44 to 52 of `docs/state/landing_request_portable.md` read "ready, not requested", each with what is left to do.
-- What was seen without a build: the back button's mend on a plain page in a real browser; the findings page and the six method pages 390 px wide with the branch's style put on production's page; the tour's and the back button's checks failing on production as they should before the mend.
+- What was seen without a build: the back button's mend on a plain page in a real browser, and its logic put into six of production's own pages (6 of 6 keep their lists true; 0 of 6 as production is); the mended tour and its check against production's pages (94 of 97, where it was 89 of 96); the findings page and the six method pages 390 px wide with the branch's style put on production's page; the tour's and the back button's checks failing on production as they should before the mend.
 
 ## Where the pictures are
 
@@ -56,4 +56,4 @@ Energy Research Warehouse (ERW). Sessions 9600 and 9601, from 10:26 UTC. Written
 
 - Nothing.
 
-Last written: 12:30 UTC, session 9601.
+Last written: 12:59 UTC, session 9602.
