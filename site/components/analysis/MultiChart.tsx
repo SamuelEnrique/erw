@@ -19,6 +19,8 @@ export type MultiSpec = {
   kind: "multiples"; param: string; x: string[]; x_label: string; measures: { key: string; label: string; unit: string; decimals: number }[];
   fleet_label: string; fleet_unit: string; axis_note: string; fleet_axis: "shared" | "own"; measure_axis: "shared" | "own";
   table_columns?: string[]; panels: MultiPanel[]; all_label: string;
+  // session 7605: the grids whose panels were taken out because their prices are held, and the publisher's words
+  held?: { grid: string; words: string; why: string }[];
 };
 
 const INK = "#1a1a1a", MUTED = "#6b6b6b", RULE = "#e5e5e5", LINE = "#1f5f8b", FLEET = "#2e7d4f";
@@ -93,6 +95,13 @@ function One({ spec, label }: { spec: ChartSpec; label: string }) {
 }
 
 export function MultiChart({ spec, label }: { spec: MultiSpec; label: string }) {
+  // Chain 305 (session 7605): a held grid's panels are taken out on the server before the spec reaches this component
+  // (components/analysis/FindingCard.tsx, heldMultiples), so their figures are not in the page; `held` says which and why
+  const heldLine = spec.held?.length ? (
+    <p className="mt-1 max-w-3xl text-xs text-muted" data-multi-held={spec.held.map((h) => h.grid).join(",")}>
+      {spec.held.map((h) => `${h.words}: license needed (${h.why})`).join("; ")}
+    </p>
+  ) : null;
   const grids = spec.panels.map((p) => p.grid);
   const [sel, setSel] = useState("all");
   const [measure, setMeasure] = useState(spec.measures[0].key);
@@ -124,6 +133,7 @@ export function MultiChart({ spec, label }: { spec: MultiSpec; label: string }) 
           <button key={p.grid} type="button" className={btn(sel === p.grid)} aria-pressed={sel === p.grid} onClick={() => pick(p.grid)} data-multi-pick={p.grid}>{p.words}</button>
         ))}
       </div>
+      {heldLine}
       {panel ? (
         <div data-multi-grid={panel.grid}>
           <p className="text-xs font-semibold">{panel.title}</p>

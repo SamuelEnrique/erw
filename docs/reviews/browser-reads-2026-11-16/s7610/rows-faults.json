@@ -1,0 +1,18 @@
+[
+ {"row":1,"path":"/severance","shot":"fixed-severance-fold","expect":["Decisions on this page"],"steps":[{"openFolds":true},{"tips":""}]},
+ {"row":7,"path":"/contracts?view=terms","shot":"fixed-contracts-fold","expect":["Decisions on this page"],"steps":[{"openFolds":true},{"tips":""}]},
+ {"row":9,"path":"/shoulder","shot":"fixed-shoulder-fold","expect":["Decisions on this page"],"steps":[{"openFolds":true},{"tips":""}]},
+ {"row":10,"path":"/shoulder?grid=ercot&month=2024-05","shot":"fixed-shoulder-midday","expect":["The midday surplus"],"steps":[{"tips":"span.tip[data-tip] > button[aria-label*='midday surplus' i]"},{"tips":""}]},
+ {"row":11,"path":"/shoulder?grid=caiso-own","shot":"fixed-shoulder-caiso-own","expect":["By month since June 2025","are not held"],"steps":[{"eval":"/ran not held hours/.test(document.body.innerText)"},{"eval":"(document.body.innerText.match(/[^.]*rated power in those shoulders[^.]*/g) || []).slice(0, 3)"}]},
+ {"row":12,"path":"/cost-of-power/battery/awards","shot":"fixed-awards-fold","expect":["Decisions on this page (15)"],"steps":[{"openFolds":true},{"tips":""}]},
+ {"row":20,"path":"/explore/ercot-peak-premium","shot":"fixed-peak-premium-fold","expect":["Decisions on this page"],"steps":[{"openFolds":true},{"tips":""}]},
+ {"row":24,"path":"/explore/demand-growth","shot":"fixed-demand-growth-fold","expect":["Decisions on this page"],"steps":[{"openFolds":true},{"tips":""}]},
+ {"row":27,"path":"/explore/demand-growth?grid=ercot&window=ytd","shot":"fixed-demand-growth-ytd","expect":["+33.34"],"steps":[{"eval":"/Stale since/.test(document.body.innerText)"},{"sweep":["svg",40],"index":1},{"sweep":["svg",40],"index":2}]},
+ {"row":28,"path":"/explore/interconnection","shot":"fixed-interconnection-fold","expect":["Decisions on this page"],"steps":[{"openFolds":true},{"tips":""}]},
+ {"row":52,"path":"/impact?tech=natural_gas&state=tx&mw=1445&start=2027&instate=100&bmw=1445&bstart=2027","shot":"fixed-impact-property-tip","expect":["Property tax, first operating year"],"steps":[{"tips":"span.tip[data-tip] > button[aria-label='About Property tax, first operating year']"}]},
+ {"row":62,"path":"/explore/demand-growth?grid=caiso","shot":"fixed-demand-caiso-fold","expect":["it does not close 2026"],"steps":[{"openFolds":true},{"tips":""}]},
+ {"row":63,"path":"/explore/interconnection?queue=spp&from=2018&to=2018","shot":"fixed-queue-spp-2018","expect":[],"steps":[{"eval":"[...document.querySelectorAll('svg')].map(s=>[...s.querySelectorAll('text')].map(t=>t.textContent).join(' ')).filter(t=>/share|years|withdrawn/.test(t)).map(t=>t.slice(0,300))"}]},
+ {"row":80,"path":"/events/covid-2020","shot":"fixed-covid-fold","expect":["after-order"],"steps":[{"openFolds":true},{"eval":"[document.documentElement.scrollWidth, document.documentElement.clientWidth]"}]},
+ {"row":82,"path":"/events/uri-2021","shot":"fixed-uri-fold","expect":["The same calendar days of 2019 and 2020"],"steps":[{"openFolds":true},{"eval":"[document.documentElement.scrollWidth, document.documentElement.clientWidth]"}]},
+ {"row":179,"path":"/supply","shot":"fixed-supply","expect":[],"steps":[{"eval":"[document.documentElement.scrollWidth, document.documentElement.clientWidth]"},{"scroll":"Fuel burned for power"},{"shot":"links"}]}
+]

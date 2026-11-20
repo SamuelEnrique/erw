@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate eu_net_imports, region eu_pt (Portugal)
+# Computed 2026-11-19T13:14:44Z by warehouse/analysis/findings/deep/world_power.py (eu_net_imports); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: imports less exports as a percent of the electricity available (percent), the observations it rests on, and whether the year is full
+# Tables: eurostat_electricity_monthly
+region,year,value,n_observations,full_year
+eu_pt,2016,-9.975869578011888,12.0,1
+eu_pt,2017,-5.6252411556821835,12.0,1
+eu_pt,2018,-5.453202576833122,12.0,1
+eu_pt,2019,7.038700199956592,12.0,1
+eu_pt,2020,3.126044455437158,12.0,1
+eu_pt,2021,10.130309861202397,12.0,1
+eu_pt,2022,18.932759392400687,12.0,1
+eu_pt,2023,20.60936113179965,12.0,1
+eu_pt,2024,20.669554105870052,12.0,1
+eu_pt,2025,17.664466787493513,12.0,1
