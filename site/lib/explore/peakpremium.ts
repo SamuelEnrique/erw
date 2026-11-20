@@ -31,6 +31,19 @@ export const FIGURES = [
   { v: "n_intervals", label: "15-minute intervals in the period", unit: "count" },
 ] as const;
 
+/** Ruling alternative 1 (session 7708, branch wip/alt-ercot-peak-premium-1; not a default on main): the means and the
+ *  traded block beside the medians, the figures a published source can be held to. Each is a row of the table, written
+ *  by the branch's builder (warehouse/derived/ercot_peak_premium.py); a table built before it holds none of them. */
+export const MEANS = [
+  { v: "peak_median", label: "Peak median (16:00 to 21:00), as on the page", unit: "USD/MWh" },
+  { v: "peak_mean", label: "Peak mean (16:00 to 21:00)", unit: "USD/MWh" },
+  { v: "all_median", label: "Median, all intervals", unit: "USD/MWh" },
+  { v: "all_mean", label: "Mean, all intervals", unit: "USD/MWh" },
+  { v: "all_mean_load_weighted", label: "Mean weighted by ERCOT's system load, all intervals", unit: "USD/MWh" },
+  { v: "traded_median", label: "Median, 06:00 to 22:00 on weekdays (the traded block)", unit: "USD/MWh" },
+  { v: "traded_mean", label: "Mean, 06:00 to 22:00 on weekdays (the traded block)", unit: "USD/MWh" },
+] as const;
+
 /** Session 7516 (chain 304, part B): the figures drawn for two hubs side by side (the address's `vs`), in the order
  *  shown: the peak block first, then the blocks it is read against, then the thesis's tail figures. Each is a row of the
  *  table for its own hub; the page takes no difference between the two. */

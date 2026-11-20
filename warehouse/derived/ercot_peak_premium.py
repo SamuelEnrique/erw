@@ -68,7 +68,7 @@ def five(v):
             "max": float(v.max())}
 
 
-def metrics(prices, hours):
+def metrics(prices, hours, weekdays=None, loads=None):   # weekdays, loads: wip/alt-ercot-peak-premium-1
     """{variable: (value, unit)} for one hub and one period."""
     out = {}
     for b, rule in BLOCKS.items():
@@ -91,6 +91,24 @@ def metrics(prices, hours):
     out["n_scarcity"] = (float((prices >= SCARCITY).sum()), "count")
     out["n_negative"] = (float((prices <= 0).sum()), "count")
     out["n_intervals"] = (float(len(prices)), "count")
+    # ruling alternative 1 of /explore/ercot-peak-premium (session 7708, branch wip/alt-ercot-peak-premium-1; not a default
+    # on main): beside the medians, the figures a published source can be held to: each block's plain mean and the whole
+    # period's, the traded 06:00 to 22:00 weekday block (local hour of interval start, Monday to Friday), and the mean
+    # weighted by ERCOT's system load of the interval's UTC hour (ercot_zone_load_hourly, entity ercot:system) over the
+    # intervals whose hour has a load.
+    for b, rule in BLOCKS.items():
+        out[f"{b}_mean"] = (float(prices[rule(hours)].mean()), USD)
+    out["all_mean"] = (float(prices.mean()), USD)
+    if weekdays is not None:
+        traded = prices[(weekdays < 5) & (hours >= 6) & (hours < 22)]
+        if len(traded):
+            out["traded_median"] = (pct(traded, 50), USD)
+            out["traded_mean"] = (float(traded.mean()), USD)
+    if loads is not None:
+        ok = np.isfinite(loads) & (loads > 0)
+        if ok.any():
+            out["all_mean_load_weighted"] = (float((prices[ok] * loads[ok]).sum() / loads[ok].sum()), USD)
+            out["n_load_weighted"] = (float(ok.sum()), "count")
     return out
 
 
@@ -142,6 +160,32 @@ def ytd_cut(last_local, year):
     return naive.tz_localize(TZ, ambiguous=True, nonexistent="shift_forward")
 
 
+def metrics_of(g):
+    """metrics() of a frame of intervals: its prices, local hours and weekdays, and its system load where load() read it
+    (ruling alternative 1, wip/alt-ercot-peak-premium-1)."""
+    loads = g["load"].to_numpy(float) if "load" in g.columns else None
+    return metrics(g["value"].to_numpy(float), g["local"].dt.hour.to_numpy(), g["local"].dt.weekday.to_numpy(), loads)
+
+
+LOAD = "ercot_zone_load_hourly"   # ruling alternative 1 (wip/alt-ercot-peak-premium-1): ERCOT's system load, entity ercot:system
+
+
+def with_load(d, log, path=None):
+    """d with a column load: ERCOT's system load (MW) of each interval's UTC hour, NaN where the hour has none. When the
+    load table is not on the machine, d is returned as it is and no load-weighted mean is written."""
+    path = path or os.path.join(ip.OUT_DIR, LOAD + ".csv")
+    if not os.path.exists(path):
+        log(f"  {LOAD} is not on this machine: no load-weighted mean")
+        return d
+    ld = ip.read_series(path)
+    ld = ld[ld["entity"] == "ercot:system"]
+    by_hour = dict(zip(ld["ts_utc"].str.slice(0, 13), pd.to_numeric(ld["value"], errors="coerce")))
+    d = d.copy()
+    d["load"] = d["ts_utc"].str.slice(0, 13).map(by_hour).astype(float)
+    log(f"  {LOAD}: system load for {int(d['load'].notna().sum()):,} of {len(d):,} intervals")
+    return d
+
+
 def build(d, log):
     now_local = pd.Timestamp.now(tz=TZ)
     last = d["ts"].max()
@@ -161,14 +205,14 @@ def build(d, log):
             full = expected(s, e)
             if y < now_local.year and len(gy) != full:
                 raise RuntimeError(f"{hub} {y}: {len(gy)} intervals, expected {full}")
-            for var, (v, unit) in metrics(gy["value"].to_numpy(float), gy["local"].dt.hour.to_numpy()).items():
+            for var, (v, unit) in metrics_of(gy).items():
                 annual.append((hub, var, f"{y}-01-01T00:00:00Z", v, unit))
             # session 7019 (chain 301, done-line request 36): the same metrics over 1 January 00:00 local to the local day
             # and time of year of the last input interval, for every year, so the partial year has a like figure beside
             # each earlier year (ytd_<variable>; for the newest year it is the year's own figure)
             gt = gy[gy["local"] <= ytd_cut(last_local, y)]
             if not gt.empty:
-                for var, (v, unit) in metrics(gt["value"].to_numpy(float), gt["local"].dt.hour.to_numpy()).items():
+                for var, (v, unit) in metrics_of(gt).items():
                     annual.append((hub, f"ytd_{var}", f"{y}-01-01T00:00:00Z", v, unit))
             for m in range(1, 13):
                 gm = gy[months[years == y] == m]
@@ -180,7 +224,7 @@ def build(d, log):
                     raise RuntimeError(f"{hub} {y}-{m:02d}: no intervals")
                 if me.tz_convert("UTC") <= last and len(gm) != expected(ms, me):
                     raise RuntimeError(f"{hub} {y}-{m:02d}: {len(gm)} intervals, expected {expected(ms, me)}")
-                for var, (v, unit) in metrics(gm["value"].to_numpy(float), gm["local"].dt.hour.to_numpy()).items():
+                for var, (v, unit) in metrics_of(gm).items():
                     monthly.append((hub, var, f"{y}-{m:02d}-01T00:00:00Z", v, unit))
         log(f"  {hub}: {FIRST_YEAR} to {now_local.year}, {len(g)} intervals")
     return annual, monthly, last
@@ -265,6 +309,9 @@ def main():
     try:
         log(f"ERW ercot_peak_premium {run_id}: method {METHOD}")
         d, names = load(log)
+        d = with_load(d, log)   # wip/alt-ercot-peak-premium-1
+        if "load" in d.columns:
+            names = names + [LOAD]
         license_, srcs = derived_license(names, log)
         annual, monthly, last = build(d, log)
         for name, rows, freq, what in (("ercot_peak_premium_annual", annual, "P1Y", "ERCOT operating year"),
@@ -281,6 +328,10 @@ def main():
                 "  input sources: " + "; ".join(srcs),
                 "Method: blocks by local hour of interval start: overnight h>=21 or h<12, midday 12<=h<16, "
                 "peak 16<=h<21; percentiles numpy default (linear); no cap or exclusion.",
+                "Means (ruling alternative 1 of /explore/ercot-peak-premium, branch wip/alt-ercot-peak-premium-1): <block>_mean and "
+                "all_mean, plain means; traded_median and traded_mean, the 06:00 to 22:00 local weekday block (Monday to Friday); "
+                "all_mean_load_weighted, weighted by ERCOT's system load of the interval's UTC hour (ercot_zone_load_hourly, "
+                "ercot:system) over the n_load_weighted intervals whose hour has a load.",
                 f"Last input interval: {ip.utc_iso(last)}; the current year and month are partial "
                 "(n_intervals says how many intervals each period holds).",
             ] + ([
