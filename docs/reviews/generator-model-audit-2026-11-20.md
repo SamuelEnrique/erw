@@ -30,13 +30,15 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 |---|---|---|---|---|
 | 1 | The NPV holds no tax and no depreciation, yet is discounted at a cost of equity | none | NPV +240.52 per kW after federal tax | `wip/audit-generator-1` |
 | 2 | Flat real flows, a fixed money debt payment and a money discount rate in one sum | none | NPV +59.72 to +77.42 per kW (inflation 2 to 2.5 percent) | `wip/audit-generator-2` |
+| 9 | The peaker starts 403 times a year with no start cost; the median run earns about USD 25 per MW | peaker margin 48.15: -14 to -36 percent at a start cost of USD 25 to 100 per MW | peaker NPV -53 to -138 per kW | `wip/audit-generator-9` |
 | 3 | The same tax credit arrives in year 1 here and at year 0 on the battery page | none | a 30 percent credit on USD 1,110: 297.32 here, 333.00 there | `wip/audit-generator-3` |
 | 4 | An as-generated PPA is paid on energy the plant no longer makes | none | breakeven PPA 58.36 against 61.50 per MWh | `wip/audit-generator-4` |
 | 5 | The page's battery is "an upper bound", yet earns less than the battery page's program on the same prices | battery: -1.23 (-2.1 percent) at 4 hours | battery: NPV -7.9 per kW | `wip/audit-generator-5` |
 | 6 | The merchant plant sells below zero, where a merchant plant would stop | +0.41 (+0.7 percent) if it stopped | NPV +3.2 per kW | `wip/audit-generator-6` |
 | 7 | Output per MW is over the nameplate of the month's start, so new plants add output and not megawatts | -0.34 (-0.6 percent) at mid-month nameplate | NPV -2.6 per kW | `wip/audit-generator-7` (test with 6) |
 | 8 | The note's table of defaults says hurdle 9.6 and solar degradation 0; the page uses 12 and 0.7 | none | none (words) | `wip/audit-generator-8` (fix in words) |
-| 9 | The peaker starts 403 times a year with no start cost; the median run earns about USD 25 per MW | peaker margin 48.15: -14 to -36 percent at a start cost of USD 25 to 100 per MW | peaker NPV -53 to -138 per kW | `wip/audit-generator-9` |
+
+- Ranked by how far NPV moves, per kW, on the asset each finding is about (the smaller end of a range): solar for 1, 2, 3, 6 and 7, the peaker for 9, the battery for 5. Finding 4 moves a printed price (and every contracted scenario's NPV); finding 8 moves words.
 
 ## 1. The NPV holds no tax and no depreciation
 
