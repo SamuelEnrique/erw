@@ -12,6 +12,8 @@ export type ProblemDecision = { key: string; sets: string[]; text: string; def: 
 const A = "know-your-grid", B = "prices-and-your-bill", C = "when-the-grid-broke", D = "storage-and-taxes", E = "networks-and-money";
 // session 8901 (chain 507, part C): the four sets of the whole country
 const T = "who-trades-with-whom", S = "storm-across-the-country", R = "under-the-ground-and-in-the-wind", W = "where-energy-goes";
+// session 8905 (chain 590, part C): the fifth, a balancing authority's own facts
+const Y = "your-own-balancing-authority";
 
 export const PROBLEM_DECISIONS: ProblemDecision[] = [
   { key: "live", sets: [A, B, C, D, E],
@@ -73,7 +75,7 @@ export const PROBLEM_DECISIONS: ProblemDecision[] = [
     text: "Question 5 sets what the plant earned over the storm's window against as many normal days: the mean baseline day of the same event times the window's days.",
     def: "As many days as the storm, not one week.", source: "docs/methods/problem_sets.md, ruling 6a of 14 October 2026.", session: "session 288" },
   // session 8901 (chain 507, part C)
-  { key: "page-file", sets: [T, S, R, W],
+  { key: "page-file", sets: [T, S, R, W, Y],
     text: "Every figure of these sets is read from a committed page file of the site, with a key that names the file and the path into it, so the value checker reads the same file again. The figures move when the data machine rebuilds a file, not each hour.",
     def: "The page files as committed; a path that leads to no number gives no figure, and the set says it could not be computed.",
     source: "site/lib/pagefile.ts (the pf| key); docs/methods/problem_sets.md, \"The whole country\".", session: "session 8901" },
@@ -93,6 +95,11 @@ export const PROBLEM_DECISIONS: ProblemDecision[] = [
     text: "The month asked of is the newest the industry file holds a total for, beside the same month a year before; the industries are the first two of the file's ranking; the states' year is the newest both hold.",
     def: "The ranking of the 2022 Manufacturing Energy Consumption Survey by total fuel, at three digits of NAICS.",
     source: "site/data/industry.json (EIA: Monthly Energy Review, 2022 MECS, State Energy Data System); docs/methods/industry_page.md.", session: "session 8901" },
+  // session 8905 (chain 590, part C)
+  { key: "authority-pick", sets: [Y],
+    text: "The worked answers read the Tennessee Valley Authority's file; its largest plant is the first of the file's ten, the retirement and the addition asked about are the rows with the most megawatts, and the partner is the one with the largest gross exchange. The carbon question reads ERCOT's and CAISO's files, since the Tennessee Valley Authority's holds no estimate and says why.",
+    def: "The first of equal rows when two are equal; EIA's hourly CO2 estimates cover the seven grid operators and the lower 48 only.",
+    source: "site/data/regions/authority/tva.json, erco.json and ciso.json (EIA-860M, Form EIA-930, ba_trade_partners, large_load_public); docs/methods/authority_facts.md.", session: "session 8905" },
 ];
 
 export function ProblemDecisions({ slug }: { slug?: string }) {

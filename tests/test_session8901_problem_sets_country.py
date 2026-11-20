@@ -22,7 +22,8 @@ SITE = os.path.join(ROOT, "site")
 NODE = shutil.which("node")
 REACT = os.path.isdir(os.path.join(SITE, "node_modules", "react"))
 DASH, EN = chr(0x2014), chr(0x2013)
-SLUGS = ["who-trades-with-whom", "storm-across-the-country", "under-the-ground-and-in-the-wind", "where-energy-goes"]
+SLUGS = ["who-trades-with-whom", "storm-across-the-country", "under-the-ground-and-in-the-wind", "where-energy-goes",
+         "your-own-balancing-authority"]  # session 8905 (chain 590): the fifth set, once its files were on main
 
 
 def src(*p):
@@ -34,7 +35,7 @@ class TheReplication(unittest.TestCase):
     def test_it_recomputes_every_question(self):
         r = subprocess.run([sys.executable, os.path.join(REP, "replicate_country.py")], capture_output=True, text=True, cwd=ROOT, timeout=300)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertRegex(r.stdout, r"^31 questions and examples, \d+ figures recomputed, \d+ inputs read")
+        self.assertRegex(r.stdout, r"^39 questions and examples, \d+ figures recomputed, \d+ inputs read")
         for f in ("country_inputs.csv", "country_answers.csv"):
             text = src("replication", "problem_sets", f)
             self.assertTrue(text.startswith("# Energy Research Warehouse (ERW), session 8901"), f)
@@ -47,7 +48,7 @@ class TheReplication(unittest.TestCase):
             self.assertEqual(r.returncode, 0, r.stderr[-2000:])
             c = subprocess.run([sys.executable, os.path.join(REP, "replicate_country.py"), "--compare", out], capture_output=True, text=True, cwd=ROOT, timeout=300)
         self.assertEqual(c.returncode, 0, c.stdout + c.stderr)
-        self.assertRegex(c.stdout, r"compared: 31 questions, \d+ answer figures; 0 differ")
+        self.assertRegex(c.stdout, r"compared: 39 questions, \d+ answer figures; 0 differ")
 
     def test_the_do_file_keeps_the_rules(self):
         do = src("replication", "problem_sets", "replicate_country.do")
@@ -72,7 +73,7 @@ class TheNodeTests(unittest.TestCase):
     def test_each_figure_is_pinned_to_its_file_and_drawn(self):
         r = subprocess.run([NODE, "--import", "./scripts/problem-sets-register.mjs", "scripts/test-problem-sets-country.mjs"], capture_output=True, text=True, cwd=SITE, timeout=300)
         self.assertEqual(r.returncode, 0, r.stdout[-3000:] + r.stderr[-1000:])
-        self.assertIn("ok: 4 sets,", r.stdout)
+        self.assertIn("ok: 5 sets,", r.stdout)  # session 8905: the fifth set
 
     @unittest.skipUnless(NODE, "node is not installed")
     def test_the_key_and_check_values(self):
@@ -84,7 +85,7 @@ class TheNodeTests(unittest.TestCase):
 class TheFiles(unittest.TestCase):
     def test_registered_after_the_five(self):
         p = src("site", "lib", "problems.ts")
-        self.assertIn("...[TRADE, STORM, GROUND, WHERE].map((m) => m.META)", p)
+        self.assertIn("...[TRADE, STORM, GROUND, WHERE, AUTH].map((m) => m.META)", p)  # session 8905: AUTH, the fifth
         self.assertIn("addGuide(m.META.slug, m.GUIDE_ENTRY)", p)
         self.assertEqual(len(re.findall(r'\{ slug: "', p)), 5)   # the five's own entries stay as they were
         cv = src("site", "scripts", "check-values.mjs")

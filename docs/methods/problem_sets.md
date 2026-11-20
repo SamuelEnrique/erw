@@ -121,11 +121,12 @@ no input, so nothing is editable in place.
 | `network-hour` | E1 and E2's hour | the newest hour ERCOT's ties report | `site/lib/network.ts` |
 | `seller` | E3 to E5's plants | the seller's model at its defaults | `docs/methods/cost_of_power.md` |
 | `storm-days` | E5's normal days | as many days as the storm | ruling 6a |
-| `page-file` | The four sets of the whole country read committed page files | every figure a `pf\|` key; it moves when the data machine rebuilds the file | `site/lib/pagefile.ts`; session 8901 |
+| `page-file` | The sets of the whole country (four, and the fifth since session 8905) read committed page files | every figure a `pf\|` key; it moves when the data machine rebuilds the file | `site/lib/pagefile.ts`; session 8901 |
 | `trade-month` | Who trades with whom: the month and the years | the newest month ended when the file was built; years both sides reported in all twelve months | `site/data/regions/trade/ten.json`, `trade_matrix.json` |
 | `storm-hour` | A storm across the country: the hour | each region's highest hour of demand in the window, the first if two are equal | `site/data/regions/events/*.json` |
 | `layer-by-id` | Under the ground and in the wind: the layer | found by its id; the legend's range and the totals as the list of layers gives them | `site/data/resources/manifest.json` |
 | `industry-pick` | Where energy goes: the month, the industries, the year | the newest month with a total and the same month a year before; the first two ranked industries; the newest year both states hold | `site/data/industry.json` |
+| `authority-pick` | Your own balancing authority: the authority, the plant, the rows and the partner | the Tennessee Valley Authority; the first of its ten plants; the retirement and the addition with the most MW; the partner with the largest gross exchange; ERCOT and CAISO for carbon | `site/data/regions/authority/*.json`; session 8905 |
 
 ### What the sets do not hold
 
@@ -162,8 +163,15 @@ and `build()`), registered by `site/lib/problems.ts` in `SETS`, in `problemSet` 
 | What is under the ground and in the wind | `/learn/problems/under-the-ground-and-in-the-wind` | `site/data/resources/manifest.json` | Legends and units of the resource map's layers; a map cell as a mean of the source's cells; a modelled capacity factor; geothermal sites; MWh per MW as hours; biomass in tonnes |
 | Where energy goes | `/learn/problems/where-energy-goes` | `site/data/industry.json` | The industrial sector's total, end use and losses in the newest month, and a year before; the two largest manufacturing industries of 2022, a fuel's share, on-site generation and a region's share; Texas against Louisiana |
 
-The fifth set planned, a reader's own balancing authority, waits for its files (`site/data/regions/authority/`), which are
-not on main.
+The fifth set, a reader's own balancing authority, was added by chain 590 (session 8905) once its files
+(`site/data/regions/authority/`, chain 505) were on main:
+
+| Set | Address | Page files | What it asks |
+|---|---|---|---|
+| Your own balancing authority | `/learn/problems/your-own-balancing-authority` | `site/data/regions/authority/tva.json`, `erco.json`, `ciso.json` | The Tennessee Valley Authority's capacity and nuclear's share; its largest plant; nuclear's and gas's shares of capacity against their shares of generation; the largest planned retirement and addition against the fleet of that fuel; the partner it exchanged most with, net against gross, and its net imports as a share of demand; ERCOT's carbon per MWh against CAISO's, and why the TVA file has none; its peak, its growth since 2019 against ERCOT's, and the public large-load rows of each |
+
+The questions name the fields of the file, which are the figures of the block "Its own facts" the Grid tool's panel
+draws, so a student can ask the same of the authority they live in from its own file (`authority-pick`).
 
 ### The pf| key
 

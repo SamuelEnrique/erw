@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import os
+import re  # session 8905: the edition counts are read with a pattern
 import shutil
 import subprocess
 import sys
@@ -35,7 +36,16 @@ class TheReplication(unittest.TestCase):
         r = subprocess.run([sys.executable, os.path.join(REP, "replicate.py")], capture_output=True, text=True, cwd=ROOT, timeout=300)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         self.assertIn("146 checks (figures by check key, and answers in words): 146 pass, 0 named, 0 differ", r.stdout)
-        self.assertIn("92 figures: 89 pass, 3 named, 0 differ", r.stdout)
+        # session 8905 (chain 590, data request 561): every edition held is compared, so the counts grow with each new
+        # edition: none may differ, and the only figures named are the network hour's three of set E in each edition
+        m = re.search(r"the dated edition: (\d+) figures: (\d+) pass, (\d+) named, (\d+) differ", r.stdout)
+        self.assertIsNotNone(m, r.stdout)
+        n_ed = len(json.loads(src("site", "data", "problem_editions", "index.json"))["editions"])
+        figures, passed, named, differ = (int(x) for x in m.groups())
+        self.assertEqual(differ, 0, r.stdout)
+        self.assertEqual(named, 3 * n_ed, r.stdout)
+        self.assertEqual(passed + named, figures)
+        self.assertGreaterEqual(passed, 89)
 
     def test_no_held_row_is_kept(self):
         text = src("replication", "problem_sets", "live_rows.csv")
@@ -64,12 +74,14 @@ class TheReplication(unittest.TestCase):
         # committed page files and no live read; the kept figures are the five sets', so the five are compared with them
         # and the four are held to be drawn whole (scripts/test-problem-sets-country.mjs pins their figures to their files)
         self.assertEqual({s: v for s, v in strip(got).items() if s in kept["sets"]}, strip(kept))
-        self.assertEqual(sorted(set(got["sets"]) - set(kept["sets"])), ["storm-across-the-country", "under-the-ground-and-in-the-wind", "where-energy-goes", "who-trades-with-whom"])
+        # session 8905 (chain 590, part C): and the fifth, your own balancing authority
+        self.assertEqual(sorted(set(got["sets"]) - set(kept["sets"])), ["storm-across-the-country", "under-the-ground-and-in-the-wind", "where-energy-goes", "who-trades-with-whom", "your-own-balancing-authority"])
         for slug, v in got["sets"].items():
             self.assertEqual(v["drawn"]["missing"], [], slug)
             self.assertTrue(v["decisions"], slug)
         # session 8901: 15 choices and the five of the whole country (page-file, trade-month, storm-hour, layer-by-id, industry-pick)
-        self.assertEqual(len(got["index_decisions"]), 20)
+        # session 8905: and authority-pick, the fifth set's
+        self.assertEqual(len(got["index_decisions"]), 21)
         d = {q["id"]: q for q in got["sets"]["storage-and-taxes"]["questions"]}
         self.assertIn("Over the seven latest days held (2026-11-03 to 2026-11-14)", d["d1"]["q"])
         self.assertIn("(77.4 Mcf a day over its 31 days)", d["d5"]["q"])
