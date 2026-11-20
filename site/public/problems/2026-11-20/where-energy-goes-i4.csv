@@ -1,0 +1,6 @@
+# ERW problem sets, the edition of 2026-11-20: "Where energy goes: industry, by fuel and by state", question 5 (i4): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-20T03:59:21Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: Petroleum and Coal Products in 2022: how much of its fuel does the survey count as "other", of how much in all, and what share is that?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/industry.json,,pf|industry.json|industries/industries/324/by_region/us/other,,2123,TBtu,,page file
+site/data/industry.json,,pf|industry.json|industries/industries/324/by_region/us/total,,3543,TBtu,,page file

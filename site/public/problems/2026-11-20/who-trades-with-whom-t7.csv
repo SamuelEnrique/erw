@@ -1,0 +1,7 @@
+# ERW problem sets, the edition of 2026-11-20: "Who trades with whom: power between regions", question 4 (t7): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-20T03:59:21Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: In July 2018, the ended month of the file in which Tennessee reported its flow with the Midwest for the smallest share of the hours, for how many hours did it report, of how many in the month, and what share is that?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/regions/trade/ten.json,,pf|regions/trade/ten.json|neighbors/MIDW/hours_own/0,,407,hours,,page file
+site/data/regions/trade/ten.json,,pf|regions/trade/ten.json|hours_in_month/0,,744,hours,,page file
+site/data/regions/trade/ten.json,,pf|regions/trade/ten.json|neighbors/MIDW/net_imports_mwh/0,,410651,MWh,,page file

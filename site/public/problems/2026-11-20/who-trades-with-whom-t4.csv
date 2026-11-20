@@ -1,0 +1,7 @@
+# ERW problem sets, the edition of 2026-11-20: "Who trades with whom: power between regions", question 7 (t4): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-20T03:59:21Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: In the table Who trades with whom, find the Mid-Atlantic and Tennessee in 2019, the year their two reports differ most. Which way did each side say the power ran over the year, and how far apart are their reports?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/regions/trade_matrix.json,,pf|regions/trade_matrix.json|region_pairs/@a=MIDA+b=TEN+year=2019/a_report_mwh,,2437201,MWh,,page file
+site/data/regions/trade_matrix.json,,pf|regions/trade_matrix.json|region_pairs/@a=MIDA+b=TEN+year=2019/b_report_mwh,,-6612970,MWh,,page file
+site/data/regions/trade_matrix.json,,pf|regions/trade_matrix.json|region_pairs/@a=MIDA+b=TEN+year=2019/gap_mwh,,9034597,MWh,,page file

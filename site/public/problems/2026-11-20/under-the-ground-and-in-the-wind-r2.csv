@@ -1,0 +1,6 @@
+# ERW problem sets, the edition of 2026-11-20: "What is under the ground and in the wind", question 1 (r2): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-20T03:59:21Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: Two solar layers share a unit (kWh/m2/day): "Global Horizontal Irradiance" and "Direct Normal Irradiance". What is the highest value of each legend, and the second's is how many times the first's?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/resources/manifest.json,,pf|resources/manifest.json|layers/@id=solar_ghi/legend/max,,6.504,kWh/m2/day,,page file
+site/data/resources/manifest.json,,pf|resources/manifest.json|layers/@id=solar_dni/legend/max,,9,kWh/m2/day,,page file

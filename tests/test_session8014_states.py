@@ -112,6 +112,11 @@ class ThePage(unittest.TestCase):
         self.assertIn('name="b"', self.page)
         self.assertEqual(self.page.count("data-monthly-note"), 1)
 
+    def test_a_year_with_no_unit_is_none_not_not_held(self):
+        # part G, row G1: the planned and retiring tables say "none" where EIA-860M lists no unit, never "not held"
+        self.assertIn('data-none={k}>none</span>', self.page)
+        self.assertNotIn('reason="None listed for this year."', self.page)
+
     def test_no_em_dash(self):
         for p in (("site", "app", "states", "page.tsx"), ("site", "app", "states", "Decisions.tsx"), ("site", "lib", "states.ts"),
                   ("warehouse", "derived", "states_page.py"), ("docs", "methods", "states_page.md"), ("docs", "state", "page_files_states.md")):

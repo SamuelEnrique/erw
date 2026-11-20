@@ -1,0 +1,19 @@
+# ERW problem sets, the edition of 2026-11-20: "Storage and taxes", question 2 (d1): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-20T03:59:21Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: Over the seven latest days held (2026-11-06 to 2026-11-12), how much energy did ERCOT's batteries discharge and charge, and what share of the energy in came back out? How does that compare with the game's battery?
+source,entity,variable,ts_utc,value,unit,event,note
+storage_daily_cycle,eia930:ERCO,mwh_discharged,2026-11-06T00:00:00+00:00,20842,MWh,,
+storage_daily_cycle,eia930:ERCO,mwh_discharged,2026-11-07T00:00:00+00:00,25661,MWh,,
+storage_daily_cycle,eia930:ERCO,mwh_discharged,2026-11-08T00:00:00+00:00,12545,MWh,,
+storage_daily_cycle,eia930:ERCO,mwh_discharged,2026-11-09T00:00:00+00:00,28552,MWh,,
+storage_daily_cycle,eia930:ERCO,mwh_discharged,2026-11-10T00:00:00+00:00,28627,MWh,,
+storage_daily_cycle,eia930:ERCO,mwh_discharged,2026-11-11T00:00:00+00:00,32528,MWh,,
+storage_daily_cycle,eia930:ERCO,mwh_discharged,2026-11-12T00:00:00+00:00,27987,MWh,,
+storage_daily_cycle,eia930:ERCO,mwh_charged,2026-11-06T00:00:00+00:00,34220,MWh,,
+storage_daily_cycle,eia930:ERCO,mwh_charged,2026-11-07T00:00:00+00:00,23077,MWh,,
+storage_daily_cycle,eia930:ERCO,mwh_charged,2026-11-08T00:00:00+00:00,28063,MWh,,
+storage_daily_cycle,eia930:ERCO,mwh_charged,2026-11-09T00:00:00+00:00,28986,MWh,,
+storage_daily_cycle,eia930:ERCO,mwh_charged,2026-11-10T00:00:00+00:00,36646,MWh,,
+storage_daily_cycle,eia930:ERCO,mwh_charged,2026-11-11T00:00:00+00:00,33659,MWh,,
+storage_daily_cycle,eia930:ERCO,mwh_charged,2026-11-12T00:00:00+00:00,40150,MWh,,
+site/lib/battery.ts,,battery|round_trip_pct,,90,%,,computed

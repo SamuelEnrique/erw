@@ -1,0 +1,6 @@
+# ERW problem sets, the edition of 2026-11-20: "Your own balancing authority: what it owns, what is coming, how clean it is, whom it leans on", question 3 (b6): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-20T03:59:21Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: Over November 2025 to October 2026, how much CO2 did each MWh generated in ERCOT and in CAISO carry, by EIA's estimates, and ERCOT's is how many times CAISO's? Why does the Tennessee Valley Authority's file give no figure?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/regions/authority/erco.json,,pf|regions/authority/erco.json|burns/co2/intensity_kg_per_mwh,,303.9,kg CO2 per MWh,,page file
+site/data/regions/authority/ciso.json,,pf|regions/authority/ciso.json|burns/co2/intensity_kg_per_mwh,,132.5,kg CO2 per MWh,,page file
