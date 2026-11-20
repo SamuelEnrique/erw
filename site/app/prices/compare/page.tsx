@@ -248,6 +248,17 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
                   <span key="r" data-held-grid={g}>Held, not shown: license needed. {TABLE} is held for {licensePublishers(TABLE).join(", ")} from {LICENSE_FROM}: {LICENSE_TITLE_SUFFIX}. Each is named in the table and the chart, every figure &quot;license needed&quot;.</span>] })),
                 ...file.held_not_shown.map((h) => ({ key: h.entity, cells: [`${h.grid}, ${h.node}`, <span key="r" data-hidden={h.entity}>Held, not shown: license needed. {h.reason}.</span>] })),
                 ...file.not_held.map((g) => ({ key: g, cells: [g, <span key="r" data-not-held={g}>Not held: the warehouse has no {g} hub or zone price. {g}&apos;s prices are licensed.</span>] }))]} />
+            {/* ruling alternative 1 (wip/alt-compare-1, not a default on main): the held grids' carbon intensity, EIA's public figure */}
+            {file.held_carbon && Object.keys(file.held_carbon).length ? (
+              <p className="mt-2 max-w-3xl text-sm" data-held-carbon="1">
+                <span title="The grid's generation over the same period, kg of CO2 per MWh, from EIA-930 through the public table carbon_intensity_daily, which the Grid tool draws; the grid's prices stay license needed. Default on the site: license needed with the rest of the row.">The grid&apos;s carbon intensity
+                of the grids held, {when}:</span>{" "}
+                {Object.entries(file.held_carbon).map(([g, ws], i) => {
+                  const x = ws[c.period];
+                  return <span key={g} data-held-carbon-grid={g}>{i ? "; " : ""}{g} {x && x.intensity !== null ? <>{two(x.intensity)} kg CO2 per MWh ({x.days_held} of {x.days_due} days)</> : NOT}</span>;
+                })}.
+              </p>
+            ) : null}
           </ToolSection>
 
           <Fold title="How it is computed">
