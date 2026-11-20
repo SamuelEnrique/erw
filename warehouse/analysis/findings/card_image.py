@@ -212,7 +212,7 @@ def _place_labels(fig, ax, labels, sans):
     placed = []
 
     def cost(bb, skip_y=None):
-        rect = (bb.x0 - 2, bb.y0 - 2, bb.x1 + 2, bb.y1 + 2)
+        rect = (bb.x0 - 5, bb.y0 - 5, bb.x1 + 5, bb.y1 + 5)          # five pixels clear of any line
         if rect[0] < allowed[0] or rect[1] < allowed[1] or rect[2] > allowed[2] or rect[3] > allowed[3]:
             return 1000
         c = sum(3 for pts in lines if _segments_hit(rect, pts) and not (skip_y is not None and all(abs(p[1] - skip_y) < 0.5 for p in pts if not math.isnan(p[1]))))

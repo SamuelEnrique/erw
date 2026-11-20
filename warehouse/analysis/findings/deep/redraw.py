@@ -109,6 +109,31 @@ def fmt(v, nd):
     return common.fmt(v, nd)
 
 
+def exact(key, card):
+    """The card with its line, its marked point and its reference line read again from the draft's CSV at full
+    precision. The card holds them rounded to six decimals; 28.424999999999997 became 28.425, and the picture printed
+    28.43 where the sentence, written from the CSV, says 28.42 (gas/s2s-in-s2in-alabama). An event's or a tariff's
+    chart is not a year series and is left as stored."""
+    import copy
+    fam, s = key.split("/", 1)
+    rows = csv_rows(os.path.join(DOCS, fam, f"{s}.csv"))
+    if not rows or "year" not in rows[0] or "event_year" in rows[0]:
+        return card
+    full = {str(r["year"]): float(r["value"]) for r in rows if str(r.get("full_year", "1")).strip() in ("1", "1.0", "True")}
+    card = copy.deepcopy(card)
+    ch = card["chart"]
+    x = [str(v) for v in ch["x"]]
+    if not all(y in full for y in x) or len(ch["series"]) != 1:
+        return card
+    ch["series"][0]["values"] = [full[y] for y in x]
+    if ch.get("mark") and str(ch["mark"].get("x")) in full:
+        ch["mark"]["value"] = full[str(ch["mark"]["x"])]
+    for r in ch.get("ref_lines") or []:
+        if str(r.get("name")) in full:
+            r["value"] = full[str(r["name"])]
+    return card
+
+
 def check(key, card, sentence):
     """Every figure the picture carries, set against the draft's own CSV and sentence. Returns a list of faults."""
     fam, s = key.split("/", 1)
@@ -169,6 +194,11 @@ def check(key, card, sentence):
     refs = ch.get("ref_lines") or []
     if not refs or refs[0]["name"] != first or abs(float(refs[0]["value"]) - full.get(first, math.nan)) > 1e-6 * max(1.0, abs(full.get(first, 1.0))):
         faults.append(f"the reference line {refs[:1]} is not the first full year {first} {full.get(first)}")
+    import card_image
+    for what, v in (("the marked figure", m.get("value")), ("the reference line's figure", refs[0]["value"] if refs else None)):
+        drawn = card_image._num(v, nd) if v is not None else None     # the figure exactly as the picture prints it
+        if drawn is not None and drawn not in sentence:
+            faults.append(f"{what} as drawn, {drawn}, is not in the sentence")
     num = card.get("numbers") or {}
     for k, yr in (("last", last), ("first", first)):
         shown = fmt(num.get(k, full.get(yr)), nd)
@@ -177,6 +207,72 @@ def check(key, card, sentence):
         if str(yr) not in sentence:
             faults.append(f"the sentence does not name the year {yr}")
     return faults
+
+
+def diagnose(key, card, sentence, old_module):
+    """What the picture as drawn before had wrong, measured, not guessed: the card rendered again by the old drawing
+    code (old_module, the card_image.py the picture was drawn with), its artists read back. Returns a list of faults in
+    words."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    import card_image
+    got = {}
+    real_close = plt.close
+    plt.close = lambda fig=None: got.setdefault("fig", fig)
+    try:
+        old_module.render(card, os.path.join(ROOT, "runs", "findings_charts", "old.png"), "linkedin_wide", fact=card.get("subtitle", ""))
+    finally:
+        plt.close = real_close
+    fig = got["fig"]
+    r = fig.canvas.get_renderer()
+    ax = fig.axes[0]
+    W, H = fig.get_size_inches() * fig.dpi
+    out = []
+    md_sentence = sentence
+    if card.get("subtitle", "").strip() != md_sentence.strip():
+        out.append("the line under the title still had the sentence's old words")
+    series = [ln for ln in ax.get_lines() if len(ln.get_xdata()) > 2 or (len(ln.get_xdata()) == 2 and list(ln.get_xdata()) != [0, 1])]
+    pts = []
+    for ln in series:
+        xd = [float(v) for v in ax.convert_xunits(ln.get_xdata())]
+        pts.append([tuple(ln.get_transform().transform((a, float(b)))) for a, b in zip(xd, ln.get_ydata())])
+    ch = card["chart"]
+    for t in ax.texts:
+        bb = t.get_window_extent(r)
+        rect = (bb.x0, bb.y0, bb.x1, bb.y1)
+        if any(card_image._segments_hit(rect, p) for p in pts):
+            txt = t.get_text()
+            kind = "the first year's label" if ":" in txt else "the marked figure"
+            out.append(f"{kind} ({txt}) sat on the line")
+    leg = ax.get_legend()
+    if leg is not None:
+        bb = leg.get_window_extent(r)
+        if any(card_image._segments_hit((bb.x0, bb.y0, bb.x1, bb.y1), p) for p in pts):
+            out.append("the legend sat over the data")
+        else:
+            out.append("a legend where the brand file names each series on its line")
+    lo, hi = ax.get_ylim()
+    if lo < 0 < hi:
+        out.append("no ink zero line (docs/brand.md, section 6), though zero is on the scale")
+    years = card_image._years(ch["x"])
+    if years and any(b - a > 1 for a, b in zip(years, years[1:])):
+        miss = sorted(set(range(years[0], years[-1] + 1)) - set(years))
+        out.append(f"missing years ({', '.join(map(str, miss[:6]))}{' ...' if len(miss) > 6 else ''}) drawn as if one year apart")
+    labels = [t.get_text() for t in ax.get_xticklabels() if t.get_text()]
+    if years and str(ch["x"][-1]) not in labels:
+        out.append(f"the marked year {ch['x'][-1]} had no label on the axis")
+    m = ch.get("mark") or {}
+    if m.get("value") is not None and old_module._num(m["value"], ch.get("decimals", 2)) not in md_sentence and not key.startswith("events/"):
+        out.append(f"the marked figure printed {old_module._num(m['value'], ch.get('decimals', 2))} where the sentence says otherwise (the card's value rounded to six decimals)")
+    for t in fig.texts:
+        bb = t.get_window_extent(r)
+        if bb.x1 > W - 2 or t.get_text().endswith(" ..."):
+            out.append(f"text cut off: {t.get_text()[:50]}")
+    if any(t.get_text().endswith(" ...") for t in ax.texts):
+        out.append("a label cut off")
+    real_close(fig)
+    return out
 
 
 def draw(keys, write=True, preview=None):
@@ -196,6 +292,7 @@ def draw(keys, write=True, preview=None):
         with open(os.path.join(DOCS, fam, f"{s}.md"), encoding="utf-8") as f:
             sentence = sentence_of(f.read())
         try:
+            card = exact(key, card)
             faults = check(key, card, sentence)
         except Exception as exc:     # a draft whose files do not read is not drawn
             faults = [f"{type(exc).__name__}: {exc}"]
@@ -204,9 +301,22 @@ def draw(keys, write=True, preview=None):
             bad += 1
             continue
         old = card.get("subtitle", "")
+        if write and os.environ.get("ERW_OLD_CARD_IMAGE"):
+            import importlib.util
+            spec = importlib.util.spec_from_file_location("card_image_old", os.environ["ERW_OLD_CARD_IMAGE"])
+            old_mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(old_mod)
+            faults = diagnose(key, cache[key]["card"], sentence, old_mod)
+            with open(os.path.join(ROOT, "runs", "findings_charts", "rows.jsonl"), "a", encoding="utf-8", newline="\n") as f:
+                f.write(json.dumps({"key": key, "wrong": faults, "mark": card_image._num(card["chart"]["mark"]["value"], card["chart"].get("decimals", 2))
+                                    if (card["chart"].get("mark") or {}).get("value") is not None else None}, ensure_ascii=False) + "\n")
         if write:
             out = os.path.join(preview, key.replace("/", "__") + ".png") if preview else os.path.join(DOCS, fam, f"{s}.png")
+            before = open(out, "rb").read() if os.path.exists(out) else b""
             card_image.render(card, out, "linkedin_wide", fact=sentence)
+            if os.environ.get("ERW_OLD_CARD_IMAGE"):
+                with open(os.path.join(ROOT, "runs", "findings_charts", "rows.jsonl"), "a", encoding="utf-8", newline="\n") as f:
+                    f.write(json.dumps({"key": key, "changed": open(out, "rb").read() != before, "warnings": list(card_image.WARNINGS)}) + "\n")
             if card_image.WARNINGS:
                 print(f"{key}: WARNING: " + "; ".join(card_image.WARNINGS))
         print(f"{key}: {'drawn' if write else 'checked'}; figures agree; sentence {'changed' if old != sentence else 'as the card'}")
