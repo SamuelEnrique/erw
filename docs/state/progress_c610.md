@@ -12,3 +12,4 @@ Chain file: queue/done/610-night-20-november-oldlaptop-weekend-pack-security.md.
 - Session 9814, part C: `docs/reviews/privacy-against-code-2026-11-20.md`, seven rows, nothing changed. done, 9814
 - Session 9815, part B step 6: `docs/security.md`, the review of 20 November (high 1 held back, low 3: T1 requested, T2 needs the key, T3 noted). done, 9815
 - Sessions 9816 to 9819, part D: `docs/reviews/browser-without-2026-11-20.md`; links none broken; seven faults fixed on four branches, rows 9 to 12 requested; `/policy`'s h1 already on window 2's row 4. requested, 9816 to 9819
+- Session 9820, part E: chain 610's note `docs/state/note_2026-11-20_oldlaptop_c610.md` (parts B to D). **A session number shared:** another window of this desktop committed "Session 9820" (findings charts, 20:39 UTC) a minute before this window's note; from here this window uses 9870 upward, each checked free first. done, 9820 (shared)
