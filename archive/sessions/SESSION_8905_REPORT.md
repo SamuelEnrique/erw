@@ -18,6 +18,8 @@ Chain file: https://github.com/SamuelEnrique/erw/blob/main/queue/done/590-evenin
 ## Deploys and snapshots (read first)
 
 - **A fault of this session:** about twenty pushes to main (the queue move, the resume file, documents, rows, progress) were made without rule 8's before and after snapshot. None touched a file the site builds from (`docs/reviews`, `docs/state`, `docs/findings/_top40`, one test file, `queue/`), and no page is live; the final push is bracketed (`c590-before`, `c590-after`, below).
+- The final pushes (the note and report, the resume file's removal): `c590-before` at 03:16 UTC, `c590-after` after them, compared: 25 pages, 0 differences in all (expected: no file the site builds from changed).
+- The queue step at the end: nothing for this machine (exit 3), so the run stops. My three worktrees (`erw-c590b`, `erw-8905p`, `erw-8905e`) removed after their branches were pushed (node_modules links unlinked first; ignored files were caches and built content).
 - No freeze (`scripts/freeze.py status`: exit 0). Nothing on a `task/` branch; every branch pushed is `wip/` (Vercel answers "Canceled by Ignored Build Step").
 
 ## What to review
