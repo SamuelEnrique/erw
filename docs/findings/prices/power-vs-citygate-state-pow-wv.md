@@ -2,7 +2,7 @@
 
 Draft `scan-deep-3e515c514c2d` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The mean gas price power plants in West Virginia paid against the state's citygate price was -3.20 USD per Mcf in 2024, against -0.39 USD per Mcf in 2002, the first full year the ERW holds.
+**The finding.** The mean of the monthly gaps between the gas price power plants in West Virginia paid and the state's citygate price, over the months both prices are published, was -3.20 USD per Mcf in 2024, against -0.39 USD per Mcf in 2002, the first full year the ERW holds.
 
 ![What power plants pay against citygate, West Virginia](power-vs-citygate-state-pow-wv.png)
 

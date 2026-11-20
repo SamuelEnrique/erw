@@ -28,6 +28,14 @@ The chain's code branch: `wip/c370-data` (worktree `C:\Users\Shared\Documents\er
 - Precheck passed. Desk stack b (`wip/c370-desk-b`: old laptop rows 37 to 43, merged without a conflict): gate g (`751c3e358`) suite passed, check-values failed 21 figures of `/demand?view=consumption` (twelve-month retail sales sums written whole); fixed (26 of 26 against gate g's build); gate h (`cb5a633c4`) started 04:12 UTC. (7051)
 - Requests: 139 done (held grids by name only in the public comparison copy); 159 done (the owners' copy, and `--snapshot` in its monthly step); 179 not a fault now; 181 done (ERCOT's whole months in the worth file); 89 done (the solar level's window end); 170 done (demand with the weather taken out, and a weekly step); 129 and 140 done (paused MISO no longer holds the comparison at September; twelve months to October); 130 and 121 ruling (ruling 2); 143 ruling (session 6's ruling a: SPP's consumed CO2 blank at EIA); 160, 161 done with 79 and 80; 162 checked (the outlook connectors' clock-change days; open); 169 not a fault (EIA holds no value); 260 read. (7051)
 - Open: 99 (the EV prices with their tests' worked examples), 109, 122 (October days), 141, 142, 149 to 154, 162 (connector), 180, 182, 183, 189, 190. (7051)
+- Later in 7051: gate h's floor failure was mine (California's carbon rows, the join left out; fixed); gate i (`cb5a633c4`) passed and desk b landed at `4b7aa450b` (run 44024522952; 0 differences), rows 37 to 43 marked (`d4b3927fb`). Requests 149 (the board's weekly year base), 154 (held cleared rows by name), 141 (the mean daily spread), 180 in part (CAISO's 15 October prices), 190 (active MW by part type) done; 153 and 182 ruling. Gate j failed four tests of this session's changes (fixed); gate k (`b262bc871`) passed and chain 370's branch landed at `f675235c5` (run 44032669821; 0 differences). (7051)
+- Open now: 99, 109, 122 (October days), 142, 150, 151, 152, 162 (connector), 183, 189. (7051)
+
+## Session 7052
+
+- Desk stack c (`wip/c370-desk-c`, portable row 38): gate l (`db047b792`) passed every step; pushed to `task/7052-desk` at 07:55 UTC (run 44042463853).
+- Requests done: 209 (ERCOT's Houston and North load zones in the cost of power), 199 (the Flex Alert variants), 239 (the battery game's fleet at each level's month), 99 (the EV prices rebuilt, the worked examples keep their prices), 142 (ERCOT's eight load zones in the comparison), 183 (the battery's charge price in the worth file), 189 (ERCOT's solar with storage marked not comparable), 109 (a queue position's proposed in-service date). (7052)
+- Open: 122 (October days), 150, 151, 152, 162 (connector), 180 (Today's Outlook hours), 200, 201, 261. (7052)
 
 ## Part B: the eight tools read as their reader
 
@@ -41,4 +49,13 @@ The chain's code branch: `wip/c370-data` (worktree `C:\Users\Shared\Documents\er
 
 - Request 143: write SPP's CO2 generated (and so its intensity of generation) on days EIA leaves the consumed side blank? Default: no (session 6's ruling a stands); SPP's twelve months read "not held". (7051)
 
+- Request 200: EIA's robots file disallows `/*archive/`, the only place its ICE files for 2014 to 2025 are linked. Download the 2018 to 2025 files by hand for the connector's offline read? Default: not fetched; the alert days of 2018 to 2022 keep no daily ICE price. (7052)
+
+- Request 261: a daily `battery_awards_compare.py --snapshot` step on the data machine? Each new month would move the method note's table (test 178), the replication's rows and the do-file's expected values (test 7505), which pin the file; the step would have to rewrite all three and the tests read them. Default: not added; the file is written again by hand with the three (done 17 November, January to August 2026). (7052)
+
 ## Decisions made without you
+
+- Request 239: the two CAISO levels' rooftop shapes kept as written; the newer EIA-860M vintage would have moved them by 13 MW of late-listed nameplate, and the request moved nothing. (7052)
+- Request 99: the worked examples keep the 15 October prices they were worked at; the file's own prices are checked as dated numbers. (7052)
+- Request 189: ERCOT's shares stand as the file gives them and are marked not comparable in the site's copy, not withheld (withholding would make the page say "too few for a share", which is false). (7052)
+- Request 109: no live column (a migration is a person's step); the table takes the column at the GitHub daily build. (7052)

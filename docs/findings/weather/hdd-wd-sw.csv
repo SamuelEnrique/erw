@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate hdd, region wd_sw (the Southwest (EIA's region))
+# Computed 2026-11-19T12:45:28Z by warehouse/analysis/findings/deep/weather.py (hdd); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean heating degree days a day (base 65 F) (degree days a day), the observations it rests on, and whether the year is full
+# Tables: region_weather_hourly
+region,year,value,n_observations,full_year
+wd_sw,2018,3.607699275362319,4416.0,0
+wd_sw,2019,4.546749999999999,8760.0,1
+wd_sw,2020,4.1553353102189785,8768.0,1
+wd_sw,2021,3.7295251141552503,8760.0,1
+wd_sw,2022,4.396619669876205,8724.0,1
+wd_sw,2023,4.164679223744292,8760.0,1
+wd_sw,2024,3.7941966124971387,8738.0,1
+wd_sw,2025,3.3083681038479362,8628.0,1
+wd_sw,2026,1.7233282758620687,7250.0,0

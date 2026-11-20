@@ -514,14 +514,15 @@ def main():
         q["err"] = q["y"] - predict(q, ins_betas)
         ins = dict(rmse_mw=float(np.sqrt((q["err"] ** 2).mean())), mape_pct=float((q["err"].abs() / q["y"]).mean() * 100))
         D, H, Y, pooled, betas = estimate(p, alerts, eligible, vec, prices)
-        variants = {}
+        variants, variant_days = {}, {}
         for name, drop in VARIANTS.items():
             if name == "chosen":
                 variants[name] = (metrics, pooled)
                 continue
             mv, _, vv = out_of_sample(p, eligible, hold, drop=drop)
-            _, _, _, pv, _ = estimate(p, alerts, eligible, vv, prices, b=VARIANT_B, drop=drop)
+            Dv, _, _, pv, _ = estimate(p, alerts, eligible, vv, prices, b=VARIANT_B, drop=drop)
             variants[name] = (mv, pv)
+            variant_days[name] = Dv.set_index("day")   # session 7052 (done-line request 199): each day's cut under the variant
             log(f"variant {name} (without {', '.join(drop)}): hot-day bias {mv['bias_mw']:.1f} MW, RMSE {mv['rmse_mw']:.1f} MW; pooled "
                 f"{pv['reduction_mw']:.1f} MW ({pv['reduction_mw_lo']:.1f} to {pv['reduction_mw_hi']:.1f})")
         log(f"pooled: {pooled['reduction_mw']:.1f} MW (90 percent {pooled['reduction_mw_lo']:.1f} to {pooled['reduction_mw_hi']:.1f}) "
@@ -546,6 +547,12 @@ def main():
             add(EFFECTS, E, "alert_last_hour", ts, max(a["hours"]) + 1, "hour", "P1D")
             add(EFFECTS, E, "hours_assumed", ts, 1.0 if a["assumed"] else 0.0, "count", "P1D")
             add(EFFECTS, E, "basis_flex_alert", ts, 1.0 if a["basis"] == "flex_alert" else 0.0, "count", "P1D")
+            # session 7052 (chain 370, done-line request 199): the day's cut under each of the other specifications, with its
+            # 90 percent bounds, from the refits already made, so a reader can see whether one day moves with the model
+            for name, Dv in variant_days.items():
+                if r.day in Dv.index:
+                    for var in ("reduction_mw", "reduction_mw_lo", "reduction_mw_hi"):
+                        add(EFFECTS, E, f"variant_{name}_{var}", ts, Dv.at[r.day, var] if var in Dv.columns else None, "MW", "P1D")
         for r in H.itertuples():
             ts = r.ts.strftime("%Y-%m-%dT%H:%M:%SZ")
             for var in ("actual_mw", "predicted_mw", "predicted_mw_lo", "predicted_mw_hi"):

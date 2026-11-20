@@ -222,6 +222,15 @@
    ],
    "grid": "ERCOT",
    "tz": "America/Chicago",
+   "fleet": {
+    "ba": "ERCO",
+    "month": "2021-02",
+    "mw": 223.4,
+    "mwh": 236.1,
+    "units": 21,
+    "units_with_mwh": 21,
+    "source": "21 operating battery storage units (223.4 MW) in ERCO at the start of 2021-02, 21 of them giving an energy capacity (236.1 MWh), from the EIA-860M operating and retired generators (2026-09; energy source MWH, by operating and retirement month). EIA-860M lists some new units late, so an early month can read low. Read 2026-11-17T07:32:02Z by warehouse/derived/battery_solar.py."
+   },
    "solar": [
     0.0,
     0.0,
@@ -536,6 +545,15 @@
    ],
    "grid": "ERCOT",
    "tz": "America/Chicago",
+   "fleet": {
+    "ba": "ERCO",
+    "month": "2023-08",
+    "mw": 3189.3,
+    "mwh": 4367.2,
+    "units": 79,
+    "units_with_mwh": 79,
+    "source": "79 operating battery storage units (3,189.3 MW) in ERCO at the start of 2023-08, 79 of them giving an energy capacity (4,367.2 MWh), from the EIA-860M operating and retired generators (2026-09; energy source MWH, by operating and retirement month). EIA-860M lists some new units late, so an early month can read low. Read 2026-11-17T07:32:02Z by warehouse/derived/battery_solar.py."
+   },
    "solar": [
     0.0,
     0.0,
@@ -850,6 +868,15 @@
    ],
    "grid": "ERCOT",
    "tz": "America/Chicago",
+   "fleet": {
+    "ba": "ERCO",
+    "month": "2026-04",
+    "mw": 16121.8,
+    "mwh": 24991.3,
+    "units": 236,
+    "units_with_mwh": 236,
+    "source": "236 operating battery storage units (16,121.8 MW) in ERCO at the start of 2026-04, 236 of them giving an energy capacity (24,991.3 MWh), from the EIA-860M operating and retired generators (2026-09; energy source MWH, by operating and retirement month). EIA-860M lists some new units late, so an early month can read low. Read 2026-11-17T07:32:02Z by warehouse/derived/battery_solar.py."
+   },
    "solar": [
     0.0,
     0.0,
@@ -1164,6 +1191,15 @@
    ],
    "grid": "ERCOT",
    "tz": "America/Chicago",
+   "fleet": {
+    "ba": "ERCO",
+    "month": "2026-08",
+    "mw": 18209.5,
+    "mwh": 30024.8,
+    "units": 261,
+    "units_with_mwh": 261,
+    "source": "261 operating battery storage units (18,209.5 MW) in ERCO at the start of 2026-08, 261 of them giving an energy capacity (30,024.8 MWh), from the EIA-860M operating and retired generators (2026-09; energy source MWH, by operating and retirement month). EIA-860M lists some new units late, so an early month can read low. Read 2026-11-17T07:32:02Z by warehouse/derived/battery_solar.py."
+   },
    "solar": [
     0.0,
     0.0,
@@ -1478,6 +1514,15 @@
    ],
    "grid": "ERCOT",
    "tz": "America/Chicago",
+   "fleet": {
+    "ba": "ERCO",
+    "month": "2025-01",
+    "mw": 8528.7,
+    "mwh": 12197.7,
+    "units": 156,
+    "units_with_mwh": 156,
+    "source": "156 operating battery storage units (8,528.7 MW) in ERCO at the start of 2025-01, 156 of them giving an energy capacity (12,197.7 MWh), from the EIA-860M operating and retired generators (2026-09; energy source MWH, by operating and retirement month). EIA-860M lists some new units late, so an early month can read low. Read 2026-11-17T07:32:02Z by warehouse/derived/battery_solar.py."
+   },
    "solar": [
     4.4e-05,
     4.4e-05,
@@ -1793,6 +1838,15 @@
     5.8417,
     6.1686
    ],
+   "fleet": {
+    "ba": "CISO",
+    "month": "2026-04",
+    "mw": 15996.5,
+    "mwh": 54763.9,
+    "units": 293,
+    "units_with_mwh": 292,
+    "source": "293 operating battery storage units (15,996.5 MW) in CISO at the start of 2026-04, 292 of them giving an energy capacity (54,763.9 MWh), from the EIA-860M operating and retired generators (2026-09; energy source MWH, by operating and retirement month). EIA-860M lists some new units late, so an early month can read low. Read 2026-11-17T07:32:02Z by warehouse/derived/battery_solar.py."
+   },
    "solar": [
     -0.001842,
     -0.001842,
@@ -2108,6 +2162,15 @@
     321.3084,
     245.2617
    ],
+   "fleet": {
+    "ba": "CISO",
+    "month": "2026-07",
+    "mw": 17110.7,
+    "mwh": 59114.3,
+    "units": 309,
+    "units_with_mwh": 308,
+    "source": "309 operating battery storage units (17,110.7 MW) in CISO at the start of 2026-07, 308 of them giving an energy capacity (59,114.3 MWh), from the EIA-860M operating and retired generators (2026-09; energy source MWH, by operating and retirement month). EIA-860M lists some new units late, so an early month can read low. Read 2026-11-17T07:32:02Z by warehouse/derived/battery_solar.py."
+   },
    "solar": [
     -0.000271,
     -0.000271,
@@ -2208,5 +2271,6 @@
    ],
    "solar_source": "EIA-930 hourly generation by fuel, CISO (Adjusted SUN Gen; warehouse/raw/eia930_emissions/20260929T181949Z/20260929T181952.136730Z_00002_CISO.xlsx; https://www.eia.gov/electricity/gridmonitor/), over the 25,798.6 MW of solar nameplate installed in CISO in 2026-07 (EIA-860M operating and retired generators, 2026-08): the whole fleet's output per MW installed, not one roof's. Read 2026-10-03T07:21:05Z by warehouse/derived/battery_solar.py."
   }
- ]
+ ],
+ "fleet_note": "Session 7052 (done-line request 239): `fleet` is the grid's operating battery storage at the start of the level's month (MW, MWh where EIA-860M gives an energy capacity, and the unit count), from the EIA-860M operating and retired generators. It moves no level, date or price. Written by warehouse/derived/battery_solar.py on 2026-11-17T07:32:02Z."
 }

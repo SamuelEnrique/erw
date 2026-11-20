@@ -86,7 +86,9 @@ QUEUES = [f"{i}_interconnection_queue" for i in QUEUE_ISOS]
 INPUTS = REQUIRED + QUEUES
 
 EXTRA = ["project_id", "kind", "technology_group", "mw", "state", "county", "geo_precision", "geo_note",
-         "operator_role", "date", "date_kind", "technology", "source_status", "source_table"]
+         "operator_role", "date", "date_kind", "technology", "source_status", "source_table", "proposed_date"]
+# session 7052 (chain 370, done-line request 109): proposed_date, a queue position's proposed in-service date as the grid
+# operator's report states it (the queue table's proposed_in_service_date), empty where the report gives none and for EIA rows
 STD = ["entity_id", "entity_type", "name", "geo", "lat", "lon", "capacity_mw", "status", "status_date",
        "operator", "source", "source_url", "retrieved_at", "vintage"]
 COLS = STD + EXTRA
@@ -311,7 +313,8 @@ def build(look, log, queue_isos=QUEUE_ISOS, places=None, subs=None):
             "vintage": d["vintage"], "kind": "queue", "technology_group": d["fuel_technology"].map(queue_group),
             "state": d["state"], "county": d["county"], "operator_role": d["operator"].map(lambda v: "developer" if v else ""),
             "date": d["queue_date"], "date_kind": d["queue_date"].map(lambda v: "queue_date" if v else ""),
-            "technology": d["fuel_technology"], "source_status": d["iso_status"], "source_table": name}))
+            "technology": d["fuel_technology"], "source_status": d["iso_status"], "source_table": name,
+            "proposed_date": d["proposed_in_service_date"] if "proposed_in_service_date" in d else ""}))
         log(f"{name}: {len(d)} rows")
     t = pd.concat(frames, ignore_index=True).fillna("")
     t["state"] = t["state"].map(state_code)
