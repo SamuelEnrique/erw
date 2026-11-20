@@ -134,7 +134,7 @@ export default async function Uri({ searchParams }: PageProps = {}) {
       {/* session 7531: the page's decisions (Decisions.tsx), each with its default and source on hover */}
       {/* session 8410 (chain 503): EIA's thirteen regions across the event, from the data machine's file (WholeCountry.tsx) */}
       <WholeCountrySection event="uri_2021" path="/events/uri-2021" first="TEX" searchParams={searchParams}
-        firstWhy="Texas is drawn first: the page above is about ERCOT, which is among Texas's balancing authorities." />
+        firstWhy="Texas is drawn first: the page above is about ERCOT, the one balancing authority of EIA's Texas region." />
       <EventDecisions event="uri_2021" />
     </div>
     </Brand>

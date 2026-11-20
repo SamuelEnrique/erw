@@ -403,3 +403,40 @@ with the hold stood aside).
   site it says so and compares nothing. On the test's fixture: 203 of 203. The count on the real files, the Stata
   do-file's five headline figures and the cross-check against published figures are written when the files land
   (`docs/reviews/events-regions-read-2026-11-19.md` says what waits).
+
+### On the real files (session 8470, 19 November 2026)
+
+The data machine's files landed on origin/main in commit af1962719 (built 19 November 2026, 12:04 UTC).
+
+- **The replication: 2,434 of 2,434** figures over the nine events, no difference (Uri 265, COVID-19 265, the
+  August 2020 heat 251, the September 2022 heat 272, Elliott 272, the 2023 ERCOT heat 272, the January 2025 cold 272,
+  the June 2025 heat 283, the January 2026 cold 282).
+- **The Stata do-file**, `replication/events/replicate_regions.do`, rebuilds five headline figures from the hourly rows
+  `replicate_regions.py --write-rows <csv>` writes (68,042 rows): Tennessee's demand over Elliott (6,075.748 GWh,
+  +28.33 percent, 267 hours), its highest hour (33,225 MW, 19:00 CST on 23 December, 19,830 MW in the baseline),
+  Texas over Uri (+14.72 percent, 69,215 MW at 19:00 CST on 14 February), California's net imports over the
+  September 2022 heat (+8,992.8 MW against +8,251.4 MW) and the Mid-Atlantic's natural gas and coal over the January
+  2025 cold (+1,386.968 and +1,962.007 GWh over 232 hours). Stata is not installed on the machine that wrote it, so it
+  has not been run; its steps applied literally in Python to the same rows give every expected value.
+- **What the real files changed on the section** (each with its test): a line breaks at an hour the file does not
+  hold; the highest hour gives the region's own time on hover (`index.json`); storage "not held" says EIA's columns
+  begin in July 2024; a pair with Canada or Mexico says it is the US region's own report; a pair whose every hour is
+  0 MW says so; the two chosen regions' pairs are marked; a region whose sources rest on fewer hours than its net
+  generation is named under the sources table, storage counted apart; a region whose sources the window holds and its
+  baseline does not (the Northwest over Uri) is named, and each such cell says which side holds how many hours; the
+  net imports hover sets the region's pairs, read as its imports, beside its own net imports (`pairSum`); the switch
+  from hours to days gives its default (21 days, the page's own) on hover.
+- **A region's pairs need not add up to its net imports.** The file gives each pair one side's report (the first
+  region's where held, else the second's), while a region's net imports are its own report of its total interchange.
+  Over Uri the Midwest's pairs average +9,619 MW against net imports of +5,427 MW, the Mid-Atlantic's -11,328 against
+  -7,240; over Elliott Tennessee's agree (+1,210 against +1,211). The page says so on hover and sums nothing across
+  pairs; the other side's report is a data request.
+- **The cross-check.** Texas over Uri: the page's highest hour 69,215 MW against ERCOT's preliminary new winter peak of
+  69,222 MW at 7:06 pm on 14 February (ERCOT's review for the Texas Legislature, 25 February 2021, slide 11), -7 MW;
+  against ERCOT's settled February 2021 peak of 69,812 MW in the 9-10 p.m. hour (ERCOT Monthly, March 2024, page 1),
+  -597 MW: theirs is revised after the event, EIA-930 holds the operating figure. California over the September 2022
+  heat: 63,622 MW against CAISO's record 52,061 MW at 4:57 p.m. on 6 September (CAISO, 2022 Statistics), +11,561 MW,
+  because EIA's California region adds BANC, IID, LDWP and TIDC to CAISO; the same hour. Tennessee over Elliott and the
+  Mid-Atlantic over the January 2025 cold have no public figure read (TVA's server refused, FERC and NERC refused,
+  PJM's terms page not found). No figure was adjusted. The hosts read, with their robots files and terms, are in
+  `docs/reviews/events-regions-read-2026-11-19.md`.
