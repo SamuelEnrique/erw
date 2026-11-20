@@ -130,7 +130,7 @@ def spp_rows(day, text, rec):
     baa = "BAA" if "BAA" in x.columns else None
     if hour_col is None or baa is None or "Outaged MW" not in x.columns:
         raise RuntimeError(f"SPP outage file {day.date()}: columns {list(x.columns)}: layout changed")
-    x["ts"] = pd.to_datetime(x[hour_col], format="%m/%d/%Y %H:%M:%S").dt.tz_localize("UTC") - pd.Timedelta(hours=1)
+    x["ts"] = gc.spp_time(x[hour_col]) - pd.Timedelta(hours=1)
     hours = set(gc.day_hours(day, gc.SPP_TZ)) | set(gc.day_hours(pd.Timestamp(day) + pd.Timedelta(days=1), gc.SPP_TZ))
     x = x[x["ts"].isin(hours)]  # the publishing day and the next; pull() keeps for each hour the newest file of its day or the day before
     out = []

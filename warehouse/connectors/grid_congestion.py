@@ -177,8 +177,18 @@ def spp_frame(text):
         x[c] = x[c].str.strip()
     if "GMTIntervalEnd" not in x.columns:
         raise RuntimeError(f"no GMTIntervalEnd column; columns {list(x.columns)}: layout changed")
-    x["ts"] = pd.to_datetime(x["GMTIntervalEnd"], format="%m/%d/%Y %H:%M:%S").dt.tz_localize("UTC") - pd.Timedelta(hours=1)
+    x["ts"] = spp_time(x["GMTIntervalEnd"]) - pd.Timedelta(hours=1)
     return x
+
+
+def spp_time(s):
+    """SPP's GMT interval ends: "11/18/2026 07:00:00" in most files, "11/1/2026 6:00" in some (seen 20 November 2026).
+    Each form is read strictly; a value in neither form fails the file."""
+    t = pd.to_datetime(s, format="%m/%d/%Y %H:%M:%S", errors="coerce").fillna(
+        pd.to_datetime(s, format="%m/%d/%Y %H:%M", errors="coerce"))
+    if t.isna().any():
+        raise RuntimeError(f"SPP time values in no known form: {s[t.isna()].head(3).tolist()}")
+    return t.dt.tz_localize("UTC")
 
 
 def spp_constraints(day, text, rec):
