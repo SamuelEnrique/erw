@@ -34,3 +34,4 @@ Chain: `queue/done/601-night-20-november-desktop-grid-conditions.md`. Progress: 
 ## Needs the key
 
 - Nothing.
+- Gate 4 (`e9b7e6791`) failed at the suite on one pinned line (`test_session315` reads the start of check-values' `textOk`); the rule moved to the line's end; gate 5 (`47b261282`) from 15:33 UTC.
