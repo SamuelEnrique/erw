@@ -23,6 +23,9 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 | # | Finding | Headline, USD per kW (81.40) | NPV, USD per kW (-697.80) | Branch |
 |---|---|---|---|---|
 | 1 | Regulation is never called; ERCOT's storage shows 17 percent of an award moving each hour | -6.44 (-7.9 percent) | -41.4 | `wip/audit-battery-1` |
+| 2 | Each day starts empty: the reset costs USD 5.23 per kW, four times the note's bound of 1.29 | +5.23 (+6.4 percent) | +33.6 | `wip/audit-battery-2` |
+| 3 | Energy is paid the hourly mean; ERCOT settles real-time energy every 15 minutes | +2.23 (+2.7 percent) | +14.4 | `wip/audit-battery-3` |
+| 4 | Degradation cuts the whole revenue 2.6 percent a year; the model's own runs lose 1.1 percent a year at that fade | none (year 1) | +44.76 | `wip/audit-battery-4` |
 
 ## 1. Regulation is never called
 
@@ -33,3 +36,30 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 - **How much.** Re-optimized with regulation called (the energy paid at the hour's price, the round-trip loss on it, Reg Up's energy counted in the one-cycle limit): USD 74.96 per kW, -6.44 (-7.9 percent). Of that, -3.93 is the energy and its losses and -2.51 the cycle limit. Called at 10 percent: 76.09; at 30 percent: 74.06. The battery then holds Reg Up 0.09 and Reg Down 0.35 MW per MW, not 0.47 and 0.76.
 - **The test.** `tests/test_audit_battery_1.py` on `wip/audit-battery-1`: the paid schedule of every day of the last twelve months, with regulation called at 0.17, breaks `check_day` on at least 300 days (342 measured). On a machine with the SCED table it measures the share again (between 0.10 and 0.25).
 - **Not fixed.** The fix is a model change (an energy flow per regulation award in the state of charge, the objective and the cycle row) and moves every figure: the owner's ruling. The measurement is real-time telemetry under ERCOT's real-time co-optimization (from 5 December 2025); the deployed energy is priced here at the hour's mean real-time price.
+
+## 2. Each day starts empty, and the cost is four times what the note says
+
+- **Where.** `warehouse/derived/battery_stack.py` lines 211 to 217 (`soc_row(-1)` is an empty battery at every day's first hour) and line 405 (each local day solved alone). The note, section 3.4 line 81 ("`s = 0` at the start of every local day"), section 5 lines 229 and 230, section 6 line 246. Decision 2 (`site/lib/decisions.ts` line 114).
+- **What the note claims.** Section 5: the empty start "understates the result: at most USD 1.29 per kW over the last twelve months" (1 MW of the best-paid upward product in every first hour), and energy left at midnight is small (mean 0.023 MWh per MW). Both figures check: 1.2877 and 0.0227.
+- **Why the bound is wrong.** It counts one channel, the first hour's reserves. The reset also stops the battery from charging before midnight for the next morning's peak, and from carrying stored energy behind overnight reserves. Winter, with two peaks a day, shows it most: December 2025 gains 11.6 percent, January 2026 9.3 percent.
+- **How much.** The model's program with the state of charge carried across midnight within each calendar month, every other rule unchanged (one cycle per local day, 86 percent, hourly, the day's required durations): USD 86.63 per kW against 81.40, +5.23 (+6.4 percent). Carried over the month's end as well, it would be a little more.
+- **The test.** `tests/test_audit_battery_2.py` on `wip/audit-battery-2`, with `tests/audit_battery_lp.py` (the restated program). It shows the restatement equals `solve_day` on all 365 days, gives the page's 81.4022, then finds the carried figure more than four times the note's bound above it.
+- **Not fixed.** A carried state of charge is a model change that moves every figure: the owner's ruling. The note's section 5 sentence is wrong as written whatever the ruling, and can be corrected in words.
+
+## 3. Energy is paid the hourly mean of a price ERCOT settles every 15 minutes
+
+- **Where.** `warehouse/derived/cost_of_power.py` lines 72 to 80 (`hourly`: the four quarter prices of an hour become their mean), used by `warehouse/derived/battery_stack.py` lines 358 and 360. The note, section 3.1 line 48, section 4.11 line 213, section 6 line 247 ("Resolution: hourly, as ancillary prices are hourly"). Decision 3 ("paid the hourly mean of the real-time price").
+- **Why it is wrong for an upper bound.** ERCOT settles real-time energy on 15-minute settlement point prices. A battery under perfect foresight can charge in a cheap quarter and discharge in a dear one inside the same hour; the mean hides that spread. Reserves are bought by the hour, so they can stay hourly; energy need not.
+- **What the note says.** Section 4.11 admits it in words ("can earn more from energy than this shows"), yet decision 3 still calls each figure an upper bound.
+- **How much.** The same program with the four quarter prices of each hour, reserves hourly, every other rule the model's (the midnight reset included): USD 83.64 per kW, +2.23 (+2.7 percent). Energy rises from 54.60 to 57.57 (+5.5 percent); reserves give a little back.
+- **The test.** `tests/test_audit_battery_3.py` on `wip/audit-battery-3`. A day whose hours all have the same mean but whose quarters move: `solve_day` earns nothing from energy, the quarter-priced program earns from the spread. On a machine with ERCOT's 15-minute tables it also recomputes the last twelve months (the quarters' means checked equal to the public file in every hour).
+- **Not fixed.** A 15-minute energy program moves every figure: the owner's ruling. The day-ahead schedule is hourly by ERCOT's own design and is not affected.
+
+## 4. Degradation cuts the whole revenue by a capacity fade rate
+
+- **Where.** `site/lib/battery/finance.ts` lines 213 to 221 (`revenueInYear`: `R x (1 - deg)^(t - 1)`, and under the fade method `R x (1 - fade)^k`). The note, section 11.1 line 385 (the default, 2.6) and line 417 ("Revenue in year t"), line 451 (the fade method: "revenue is taken proportional to the capacity"). Decision 15 (`site/lib/decisions.ts` line 140).
+- **Why it is wrong.** Lazard's 2.6 percent is the battery's loss of energy capacity a year. Power does not fade, a third of the revenue is reserves paid on power, and energy arbitrage is not proportional to the hours held. The note itself says "revenue is not proportional to duration" (section 11), then applies the fade one for one, under both methods.
+- **What the model says instead.** Re-solved by `solve_day` on every day of the last twelve months, keeping 1 MW and fading the energy by 2.6 percent a year: year 2 earns 98.91 percent of year 1, year 10 90.26, year 20 79.34. The page's cut gives 97.40, 78.89 and 60.62.
+- **How much.** The headline (year 1) does not move. NPV at the defaults: USD -653.04 per kW on the model's own fade path against -697.80, +44.76 per kW (USD 4.48 million for 100 MW). Twenty years of revenue: 1,459 per kW against 1,282 (+14 percent).
+- **The test.** `tests/test_audit_battery_4.py` on `wip/audit-battery-4`: the faded battery keeps more than 98.5 percent of its revenue after one year and more than 75 percent after nineteen, while `finance.ts` (run by Node) gives `R x 0.974^(t - 1)` under both methods.
+- **Not fixed.** The fix is a fade path from the model (a table of revenue by faded duration, or a ratio the page reads) and moves NPV, IRR and payback: the owner's ruling. The same path would make the augmentation option's revenue right.
