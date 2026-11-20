@@ -37,8 +37,8 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 | 8 | The NPV holds no tax, no depreciation, and by default no credit, yet is discounted at a cost of equity | none | +118.95 after federal tax; +426.14 with the 30 percent credit as well | `wip/audit-battery-8` |
 | 6 | "Each figure is an upper bound" is false: findings 2 and 3 together give 88.81; with finding 1 as well, 83.02 | the bound: +7.41 (+9.1 percent) | +47.6 | `wip/audit-battery-6` (fix in words) |
 | 4 | Degradation cuts the whole revenue 2.6 percent a year; the model's own runs lose 1.1 percent a year at that fade | none (year 1) | +44.76 | `wip/audit-battery-4` |
-| 1 | Regulation is never called; ERCOT's storage shows 17 percent of an award moving each hour | -5.97 to -6.44 (-7.3 to -7.9 percent) | -38.4 to -41.4 | `wip/audit-battery-1` |
 | 9 | Flat real revenue, a fixed money debt payment and a money discount rate in one sum | none | +39.67 to +60.95 (inflation 2 to 2.5 percent) | `wip/audit-battery-9` |
+| 1 | Regulation is never called; ERCOT's storage shows 17 percent of an award moving each hour | -5.97 to -6.44 (-7.3 to -7.9 percent) | -38.4 to -41.4 | `wip/audit-battery-1` |
 | 2 | Each day starts empty: the reset costs USD 5.23 per kW, four times the note's bound of 1.29 | +5.23 (+6.4 percent) | +33.6 | `wip/audit-battery-2` |
 | 10 | "A 4-hour battery discharges at its rated power for 4 hours": in the model it delivers 3.71 MWh per MW | +2.60 (+3.2 percent) if read as the page says | +16.7 | `wip/audit-battery-10` (fix in words) |
 | 3 | Energy is paid the hourly mean; ERCOT settles real-time energy every 15 minutes | +2.23 (+2.7 percent) | +14.4 | `wip/audit-battery-3` |
