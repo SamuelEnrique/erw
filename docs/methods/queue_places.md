@@ -19,3 +19,7 @@ The warehouse holds the queues of the seven grid operators (their own tables) an
 | `lbnl-names` | Each owner under LBNL's name, nothing matched by name | LBNL's names |
 | `states-by-people` | A state listed by its people outside the seven grids | by county population |
 | `first-two` | Opens on the two owners with the most active MW | BPA and the next |
+
+## A row as the publisher files it (session 9000, data request 562)
+
+One entry of Arizona Public Service (APS, queue id Q362, a 275 MW solar and battery request of 30 September 2020 at the Milligan to Casa Grande 230 kV point) is filed by LBNL with the state `NC`, while the same row's county is Pinal and its FIPS code 4021, both Arizona. Read again on 20 November 2026 in LBNL's own workbook (`lbnl_ix_queue_data_file_thru2025.xlsx`, sheet "03. Complete Queue Data", row of `q_id` Q362, entity APS): the workbook writes NC. The connector copies the state as written, so the row stays as LBNL filed it, and North Carolina's list of owners names APS with this one entry. No state is changed here; a correction belongs to the publisher.
