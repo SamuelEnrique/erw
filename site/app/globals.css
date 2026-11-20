@@ -52,6 +52,10 @@ code { overflow-wrap: anywhere; }
 .prose-erw th { background: var(--color-panel); }
 .prose-erw blockquote { border-left: 3px solid var(--color-rule); padding-left: 0.75rem; color: var(--color-muted); }
 .prose-erw a { word-break: break-word; }
+/* session 9601 (chain 620, the browser read of 20 November 2026): at 390 px six of the 609 method pages scrolled
+   sideways, each over one long unbroken word of the note's own text (a file's path, a table's column). A word that
+   does not fit its line now breaks; a word that fits is laid out as before, and a table keeps its own width. */
+.prose-erw p, .prose-erw li, .prose-erw dd { overflow-wrap: break-word; }
 
 /* Session 67: the release gate (lib/release.ts). A link to a page in review is drawn as greyed text with a small
    label; it is not a link, so it cannot be clicked or reached by keyboard. */

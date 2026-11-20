@@ -139,7 +139,9 @@ export default function Faults() {
                 {f.publisher} · {dates(f)}{f.dates_note ? ` (${f.dates_note})` : ""} · <span data-fault-status={f.status}>{STATUS_LABEL[f.status]}</span>{" "}
                 · <strong data-fault-resolution={f.resolution}>{RESOLUTION_LABEL[f.resolution]}</strong>
               </p>
-              <dl className="space-y-2 text-sm">
+              {/* session 9602 (chain 620): at 390 px a long unbroken word of a fault's evidence widened the page to 417 px;
+                  a word that does not fit its line now breaks */}
+              <dl className="space-y-2 text-sm break-words">
                 <div><dt className="font-semibold">Evidence</dt><dd>{f.evidence}</dd></div>
                 <div>
                   <dt className="font-semibold">Tables it touches</dt>

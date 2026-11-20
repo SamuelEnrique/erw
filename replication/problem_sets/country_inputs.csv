@@ -1026,11 +1026,11 @@ storm-across-the-country,s6,tex_demand,,69215,site/data/regions/events/uri_2021.
 storm-across-the-country,s6,ten_demand,,33225,site/data/regions/events/elliott_2022.json,regions/TEN/demand_mw/116
 storm-across-the-country,s7,flow_mw_a,,820,site/data/regions/events/uri_2021.json,pairs/CENT-TEX/flow_mw_a/188
 storm-across-the-country,s7,flow_mw_b,,812,site/data/regions/events/uri_2021.json,pairs/CENT-TEX/flow_mw_b/188
-under-the-ground-and-in-the-wind,rx,min,,2.808,site/data/resources/manifest.json,layers/@id=solar_ghi/legend/min
-under-the-ground-and-in-the-wind,rx,max,,6.504,site/data/resources/manifest.json,layers/@id=solar_ghi/legend/max
+under-the-ground-and-in-the-wind,rx,min,,1.584,site/data/resources/manifest.json,"layers/@id=solar_ghi/other_extents/@extent=Alaska south of 60 degrees north, with the part of Canada inside the same box/legend/min"
+under-the-ground-and-in-the-wind,rx,max,,6.912,site/data/resources/manifest.json,layers/@id=solar_ghi/other_extents/@extent=Hawaii/legend/max
 under-the-ground-and-in-the-wind,r1,legend_max,,13.582,site/data/resources/manifest.json,layers/@id=wind_speed_100m/legend/max
 under-the-ground-and-in-the-wind,r1,source_max,,14.20068193950776,site/data/resources/manifest.json,layers/@id=wind_speed_100m/source_stats/max
-under-the-ground-and-in-the-wind,r2,ghi,,6.504,site/data/resources/manifest.json,layers/@id=solar_ghi/legend/max
+under-the-ground-and-in-the-wind,r2,ghi,,6.912,site/data/resources/manifest.json,layers/@id=solar_ghi/other_extents/@extent=Hawaii/legend/max
 under-the-ground-and-in-the-wind,r2,dni,,9.0,site/data/resources/manifest.json,layers/@id=solar_dni/legend/max
 under-the-ground-and-in-the-wind,r3,mean,,0.3115885580584312,site/data/resources/manifest.json,layers/@id=wind_capacity_factor/stats/mean
 under-the-ground-and-in-the-wind,r3,max,,0.54448533,site/data/resources/manifest.json,layers/@id=wind_capacity_factor/stats/max
