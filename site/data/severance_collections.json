@@ -1,0 +1,11 @@
+{
+ "about": "Ruling alternative 2 of /severance (branch wip/alt-severance-2, not a default on main): the tax at the base rate on all of Texas's oil, beside what the Texas Comptroller collected. Copied from replication/severance/crosscheck.json (the replication's cross-check, session 7502), nothing adjusted; site/scripts/test-alt-severance-2.mjs holds the copy to that file.",
+ "source": "Texas Comptroller, Historical All Funds (Excluding Trusts) Revenue; EIA, Texas Field Production of Crude Oil (released 30 October 2026) and Texas Crude Oil First Purchase Price (released 2 November 2026)",
+ "not_measured": "EIA's crude oil holds lease condensate, which Texas taxes under the gas tax; oil from enhanced recovery pays 2.3 percent; an exempt owner's royalty pays nothing; and collections are cash received, with refunds and late reports",
+ "texas_oil": [
+  { "fiscal_year": 2025, "price": "WTI Cushing monthly mean, the tool's default", "ours_usd": 6729074711, "collected_usd": 5383668225 },
+  { "fiscal_year": 2026, "price": "WTI Cushing monthly mean, the tool's default", "ours_usd": 7215622875, "collected_usd": 5876551070 },
+  { "fiscal_year": 2025, "price": "Texas first purchase price (EIA)", "ours_usd": 6621844278, "collected_usd": 5383668225 },
+  { "fiscal_year": 2026, "price": "Texas first purchase price (EIA)", "ours_usd": 7175971817, "collected_usd": 5876551070 }
+ ]
+}
