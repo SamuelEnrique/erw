@@ -204,25 +204,35 @@ def display_names(mapping, counts):
     return {g: raw for g, (_, raw) in best.items()}
 
 
-def party_totals(d, mapping, shown):
-    """Energy, capacity and tolling rows in force, by buyer (merged name) and by seller (FERC's company identifier)."""
+def party_totals(d, mapping, shown, ceiling=None):
+    """Energy, capacity and tolling rows in force, by buyer (merged name) and by seller (FERC's company identifier).
+
+    Ruling alternative 1 of /contracts (session 7701, branch wip/alt-contracts-1, not a default on main): ceiling, the
+    megawatts of the largest station operating in the United States (eqr_terms.largest_plant), is applied to "MW filed"
+    as the megawatts view applies it: a row filed above it is left out of mw_filed and rows_with_mw, and counted in
+    rows_over_mw. None keeps every row as filed (main's rule)."""
     x = d[(d["status"] == "in_force") & d["x_product_name"].str.upper().isin(PRODUCTS)].copy()
     x["product"] = x["x_product_name"].str.upper().map(PRODUCTS)
     x["buyer"] = x["x_customer_company_name"].map(lambda r: shown[mapping[r][0]])
     x["contract"] = x["x_company_id"] + "|" + x["x_contract_unique_id"]
     x["mw_n"] = pd.to_numeric(x["mw"], errors="coerce")
+    x["over_n"] = 0
+    if ceiling is not None:
+        over = x["mw_n"] > ceiling
+        x.loc[over, "over_n"] = 1
+        x.loc[over, "mw_n"] = float("nan")
     seller_name = x.groupby("x_company_id")["x_seller_company_name"].agg(lambda s: s.value_counts().index[0])
     x["seller"] = x["x_company_id"].map(seller_name)
     rows = []
     for role, key, other in (("buyer", "buyer", "x_company_id"), ("seller", "x_company_id", "buyer")):
         g = x.groupby(["product", key]).agg(contracts=("contract", "nunique"), rows=("contract", "size"), counterparties=(other, "nunique"),
-                                            mw_filed=("mw_n", "sum"), rows_with_mw=("mw_n", "count")).reset_index()
+                                            mw_filed=("mw_n", "sum"), rows_with_mw=("mw_n", "count"), rows_over_mw=("over_n", "sum")).reset_index()
         g["name"] = g[key] if role == "buyer" else g[key].map(seller_name)
         for product, p in g.groupby("product"):
             p = p.sort_values(["contracts", "rows", "name"], ascending=[False, False, True]).reset_index(drop=True)
             for i, r in enumerate(p.itertuples(), 1):
                 rows.append(dict(role=role, product=product, rank=i, name=r.name, contracts=int(r.contracts), rows=int(r.rows), counterparties=int(r.counterparties),
-                                 mw_filed=round(float(r.mw_filed), 1), rows_with_mw=int(r.rows_with_mw), company_id=getattr(r, key) if role == "seller" else ""))
+                                 mw_filed=round(float(r.mw_filed), 1), rows_with_mw=int(r.rows_with_mw), rows_over_mw=int(r.rows_over_mw), company_id=getattr(r, key) if role == "seller" else ""))
     return rows, x
 
 
@@ -266,10 +276,12 @@ def main(argv=None):
                                mw="", price="", currency="", status="not_merged", source=SOURCE, source_url=METHOD_URL, x_reason=reason, x_similarity=sim,
                                x_rows_a=grows[x], x_rows_b=grows[z], x_key_a=x, x_key_b=z, x_quarter=quarter, retrieved_at=retrieved)
                           for i, (x, z, reason, sim) in enumerate(sorted(doubtful, key=lambda t: (-(grows[t[0]] + grows[t[1]]), t[0], t[1])), 1)])
-    totals, scope = party_totals(d, mapping, shown)
+    import eqr_terms  # noqa: E402  (here, not at the top: eqr_terms imports this module)
+    ceiling, _ = eqr_terms.largest_plant(inputs)   # ruling alternative 1 of /contracts (wip/alt-contracts-1)
+    totals, scope = party_totals(d, mapping, shown, ceiling=ceiling)
     tot = pd.DataFrame([dict(entity_id=f"ferc_eqr_party:{r['role']}:{r['product']}:{r['rank']:05d}", entity_type="company", name=r["name"], status="active", **common,
                              x_role=r["role"], x_product=r["product"], x_rank=r["rank"], x_contracts=r["contracts"], x_rows=r["rows"], x_counterparties=r["counterparties"],
-                             x_mw_filed=r["mw_filed"], x_rows_with_mw=r["rows_with_mw"], x_company_id=r["company_id"], x_quarter=quarter) for r in totals])
+                             x_mw_filed=r["mw_filed"], x_rows_with_mw=r["rows_with_mw"], x_rows_over_mw=r["rows_over_mw"], x_company_id=r["company_id"], x_quarter=quarter) for r in totals])
     log(f"  energy, capacity and tolling in force: {len(scope):,} rows; {scope['buyer'].nunique():,} buyers after the rules, {scope['x_company_id'].nunique():,} sellers; "
         f"rows with a MW quantity: {int(scope['mw_n'].notna().sum()):,}")
     if a.out_dir:
@@ -302,9 +314,11 @@ def main(argv=None):
         "Energy Research Warehouse (ERW): the buyers and sellers of energy, capacity and tolling in FERC's Electric Quarterly Reports, contracts in force (session 99)",
         "Shape: entities (docs/datastandard.md v0). One row per party, role (x_role: buyer by its merged name, seller by FERC's company identifier) and product "
         "(x_product: energy, capacity, tolling). x_rank within its role and product, by contracts then rows. x_contracts: distinct contracts (filer and contract "
-        "identifier); x_rows: product rows; x_counterparties; x_mw_filed: the sum of the quantities filed in MW, over x_rows_with_mw rows (most rows file none).",
+        "identifier); x_rows: product rows; x_counterparties; x_mw_filed: the sum of the quantities filed in MW, over x_rows_with_mw rows (most rows file none); "
+        f"a row filed above {ceiling:,.0f} MW (the largest station operating in the United States, eia860m_operating_generators) is left out of both "
+        "and counted in x_rows_over_mw (ruling alternative 1 of /contracts, branch wip/alt-contracts-1).",
         f"Counts: {len(scope):,} rows in force of the three products.",
-    ] + tail, log, cols=ENTITY_COLS + ["x_role", "x_product", "x_rank", "x_contracts", "x_rows", "x_counterparties", "x_mw_filed", "x_rows_with_mw", "x_company_id", "x_quarter"],
+    ] + tail, log, cols=ENTITY_COLS + ["x_role", "x_product", "x_rank", "x_contracts", "x_rows", "x_counterparties", "x_mw_filed", "x_rows_with_mw", "x_rows_over_mw", "x_company_id", "x_quarter"],
         key=["entity_id"], time_col="retrieved_at")
     ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW), derived",
                             report="FERC EQR buyer names by rule, the doubtful pairs, and the largest buyers and sellers (docs/methods/eqr_buyers.md)", report_url=METHOD_URL,

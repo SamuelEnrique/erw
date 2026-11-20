@@ -210,13 +210,22 @@ function LargestView({ summary, reason, product }: { summary: Summary | null; re
     );
   }
   const buyers = L.lists.buyer[product.slug], sellers = L.lists.seller[product.slug];
+  // Ruling alternative 1 (wip/alt-contracts-1): "MW filed" leaves out a row above the megawatts view's ceiling.
+  const ceilingMw = summary.terms?.mw_ceiling ?? null;
+  const overCell = (role: string, r: Party) => (r.rows_over_mw ?? 0) > 0
+    ? <Tip id={`contracts-over-${role}-${r.rank}`} label={`${count(r.rows_over_mw ?? 0)} ${some(r.rows_over_mw ?? 0, "row")} above the ceiling`}><span data-over={`${role}|${r.rank}`}>{count(r.rows_over_mw ?? 0)} {some(r.rows_over_mw ?? 0, "row")} of this party
+      {some(r.rows_over_mw ?? 0, " files", " file")} more megawatts than the largest station operating in the United States{ceilingMw ? ` (${ceilingMw.toLocaleString("en-US", { maximumFractionDigits: 1 })} MW, EIA-860M)` : ""}: another unit filed under MW. {some(r.rows_over_mw ?? 0, "It is", "They are")} left out of this figure, as in the megawatts view.</span></Tip>
+    : null;
+  const mwHead = (role: string) => <span key="mwh">MW filed<Tip id={`contracts-mw-filed-ceiling-${role}`} label="the rows left out of MW filed"><span data-mw-ceiling-head="1">The sum of the quantities filed in MW. A row filed above
+    {ceilingMw ? ` ${ceilingMw.toLocaleString("en-US", { maximumFractionDigits: 1 })} MW` : " the largest station's megawatts"}, the largest station operating in the United States (EIA-860M), is left out, as the megawatts view leaves it out.
+    Default on the site: every row as filed. Source: FERC Electric Quarterly Reports; EIA-860M.</span></Tip></span>;
   const table = (role: "buyer" | "seller", list: typeof buyers) => (
     <ToolTable minWidth={720} caption={`The largest ${role}s of ${product.label.toLowerCase()}, contracts in force`}
-      head={["", role === "buyer" ? "Buyer, by its merged name" : "Seller", "Contracts", "Rows", role === "buyer" ? "Sellers" : "Buyers", "MW filed", "Rows with a MW"]}
+      head={["", role === "buyer" ? "Buyer, by its merged name" : "Seller", "Contracts", "Rows", role === "buyer" ? "Sellers" : "Buyers", mwHead(role), "Rows with a MW"]}
       rows={list.top.map((r: Party) => ({ key: `${role}${r.rank}`, cells: [String(r.rank), <span key="n" className="block text-left" data-party={`${role}|${r.rank}`}>{r.name}</span>,
         <span key="c" data-n={`${role}|${r.rank}|contracts`}>{count(r.contracts)}</span>, <span key="r" data-n={`${role}|${r.rank}|rows`}>{count(r.rows)}</span>,
         <span key="o" data-n={`${role}|${r.rank}|counterparties`}>{count(r.counterparties)}</span>,
-        r.rows_with_mw > 0 ? <span key="m" data-n={`${role}|${r.rank}|mw`}>{r.mw_filed.toLocaleString("en-US", { maximumFractionDigits: 1 })}</span> : <span key="m" className="text-muted">none filed</span>,
+        r.rows_with_mw > 0 ? <span key="m"><span data-n={`${role}|${r.rank}|mw`}>{r.mw_filed.toLocaleString("en-US", { maximumFractionDigits: 1 })}</span>{overCell(role, r)}</span> : <span key="m" className="text-muted">none filed{overCell(role, r)}</span>,
         <span key="w" data-n={`${role}|${r.rank}|rows_with_mw`}>{count(r.rows_with_mw)}</span>] }))} />
   );
   return (

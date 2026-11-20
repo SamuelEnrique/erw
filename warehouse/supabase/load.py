@@ -367,7 +367,8 @@ def eqr_largest(top=EQR_TOP, out_dir=None):
             lists[role][product] = {
                 "parties": int(len(g)), "contracts": int(g["x_contracts"].astype(int).sum()), "rows": int(g["x_rows"].astype(int).sum()),
                 "top": [{"rank": int(r.rank), "name": r.name, "contracts": int(r.x_contracts), "rows": int(r.x_rows), "counterparties": int(r.x_counterparties),
-                         "mw_filed": float(r.x_mw_filed), "rows_with_mw": int(r.x_rows_with_mw)} for r in g.head(top).itertuples()],
+                         "mw_filed": float(r.x_mw_filed), "rows_with_mw": int(r.x_rows_with_mw),
+                         **({"rows_over_mw": int(r.x_rows_over_mw)} if "x_rows_over_mw" in g.columns else {})} for r in g.head(top).itertuples()],   # wip/alt-contracts-1
             }
     return {"quarter": t["x_quarter"].iloc[0] if len(t) else None, "top": top,
             "names": {"filed": int(len(names)), "after_rules": int(names["x_key"].nunique()), "merged_groups": int(names[names["x_merged"] == "yes"]["x_key"].nunique()),
