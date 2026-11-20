@@ -629,7 +629,7 @@ test("session 6001: Washington's gas plant by column 7.5, its geothermal plant a
   near(T("natural_gas", "wa", 4), 150e6 * 0.859 * 0.00896, 1e-12, "age 5");
   near(T("natural_gas", "wa", 32), 150e6 * 0.153 * 0.00896, 1e-12, "age 33");
   near(T("natural_gas", "wa", 40), 150e6 * 0.15 * 0.00896, 1e-12, "the minimum");
-  near(T("geothermal", "wa", 10), 150e6 * 0.00896, 1e-12, "geothermal: at cost, no column names it");
+  near(T("geothermal", "wa", 10), 150e6 * 0.613 * 0.00896, 1e-12, "geothermal: ruling alternative 12 (wip/alt-impact-12), the gas plants' column 7.5, 61.3 percent at age 11; main: at cost");
   // California wind, AH 581 Table 4 (2026), 17-year column, 1 percent: age 1 96 percent, age 10 53, age 27 1, held after
   near(T("land_based_wind", "ca", 0), 150e6 * 0.96 * 0.01, 1e-12, "150,000,000 x 0.96 x 0.01 = 1,440,000");
   near(T("land_based_wind", "ca", 9), 150e6 * 0.53 * 0.01);
