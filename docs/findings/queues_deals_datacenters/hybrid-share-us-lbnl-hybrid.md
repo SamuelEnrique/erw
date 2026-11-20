@@ -2,7 +2,7 @@
 
 Draft `scan-deep-55cf9c67bd30` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The share of the solar MW requested in the United States whose request also lists a battery was 37.0 percent of solar MW requested in 2024, against 0.0 percent of solar MW requested in 2005, the first year this measure counts.
+**The finding.** The share of the solar MW requested in the United States whose request also lists a battery was 37.0 percent of solar MW requested in 2024, against 0.0 percent of solar MW requested in 2005, the first year of the window the hunt read; the table holds the measure from 2000.
 
 ![Solar paired with batteries, the United States](hybrid-share-us-lbnl-hybrid.png)
 
