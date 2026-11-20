@@ -326,28 +326,32 @@
   },
   "ny": {
    "land_based_wind": {
-    "exempt_pct": 100,
+    "exempt_pct": 66.9358,
     "cite": "ny_tax_1115",
-    "tip": "New York exempts machinery and equipment used directly and predominantly to produce electricity for sale (Tax Law 1115(a)(12)): 100 percent, an upper bound of the exemption, as materials that become real property are not machinery.",
-    "quote": "parts with a useful life of one year or less ... tools or supplies used in connection with such machinery or equipment"
+    "tip": "New York exempts machinery and equipment used directly and predominantly to produce electricity for sale (Tax Law 1115(a)(12)). Ruling alternative 2: the exemption reaches the machinery share the other states hold, the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent of JEDI's taxable purchases; materials that become real property are not machinery and stay taxed. Default on the site: 100 percent, an upper bound of the exemption.",
+    "quote": "parts with a useful life of one year or less ... tools or supplies used in connection with such machinery or equipment",
+    "branch": "ruling alternative 2 of /impact (wip/alt-impact-2, session 7706): not a default on main (main: 100)"
    },
    "utility_pv": {
-    "exempt_pct": 100,
+    "exempt_pct": 67.2132,
     "cite": "ny_tax_1115",
-    "tip": "New York exempts machinery and equipment used directly and predominantly to produce electricity for sale (Tax Law 1115(a)(12)): 100 percent, an upper bound of the exemption, as materials that become real property are not machinery.",
-    "quote": "parts with a useful life of one year or less ... tools or supplies used in connection with such machinery or equipment"
+    "tip": "New York exempts machinery and equipment used directly and predominantly to produce electricity for sale (Tax Law 1115(a)(12)). Ruling alternative 2: the exemption reaches the machinery share the other states hold, the modules and inverters, (0.368421 + 0.063158) / 0.642105 = 67.2 percent of JEDI's taxable purchases; materials that become real property are not machinery and stay taxed. Default on the site: 100 percent, an upper bound of the exemption.",
+    "quote": "parts with a useful life of one year or less ... tools or supplies used in connection with such machinery or equipment",
+    "branch": "ruling alternative 2 of /impact (wip/alt-impact-2, session 7706): not a default on main (main: 100)"
    },
    "natural_gas": {
-    "exempt_pct": 100,
+    "exempt_pct": 58.2524,
     "cite": "ny_tax_1115",
-    "tip": "New York exempts machinery and equipment used directly and predominantly to produce electricity for sale (Tax Law 1115(a)(12)): 100 percent, an upper bound of the exemption, as materials that become real property are not machinery.",
-    "quote": "parts with a useful life of one year or less ... tools or supplies used in connection with such machinery or equipment"
+    "tip": "New York exempts machinery and equipment used directly and predominantly to produce electricity for sale (Tax Law 1115(a)(12)). Ruling alternative 2: the exemption reaches the machinery share the other states hold, JEDI's power generation equipment, 58.3 percent of its taxable purchases; materials that become real property are not machinery and stay taxed. Default on the site: 100 percent, an upper bound of the exemption.",
+    "quote": "parts with a useful life of one year or less ... tools or supplies used in connection with such machinery or equipment",
+    "branch": "ruling alternative 2 of /impact (wip/alt-impact-2, session 7706): not a default on main (main: 100)"
    },
    "geothermal": {
-    "exempt_pct": 100,
+    "exempt_pct": 0,
     "cite": "ny_tax_1115",
-    "tip": "New York exempts machinery and equipment used directly and predominantly to produce electricity for sale (Tax Law 1115(a)(12)): 100 percent, an upper bound of the exemption, as materials that become real property are not machinery.",
-    "quote": "parts with a useful life of one year or less ... tools or supplies used in connection with such machinery or equipment"
+    "tip": "New York exempts machinery and equipment used directly and predominantly to produce electricity for sale (Tax Law 1115(a)(12)). Ruling alternative 2: the exemption reaches the machinery share the other states hold, no machinery share of JEDI's geothermal purchases, as for the other states; materials that become real property are not machinery and stay taxed. Default on the site: 100 percent, an upper bound of the exemption.",
+    "quote": "parts with a useful life of one year or less ... tools or supplies used in connection with such machinery or equipment",
+    "branch": "ruling alternative 2 of /impact (wip/alt-impact-2, session 7706): not a default on main (main: 100)"
    }
   },
   "nj": {
