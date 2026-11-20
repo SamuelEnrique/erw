@@ -1,7 +1,8 @@
 import { ToolHeader } from "@/components/tool/ToolPage";
 import { DOCS, render } from "@/lib/markdown";
-import { filesOf, pyramidsOf, toggleGroups, KX, MIN_CELL_PX, QUEUE_GRIDS, type Layer } from "@/lib/resources";
+import { filesOf, hoverPairs, pyramidsOf, toggleGroups, KX, MIN_CELL_PX, QUEUE_GRIDS, type Layer } from "@/lib/resources";
 import { readManifest } from "@/lib/resourcesdata";
+import { ResourceDecisions } from "./Decisions";
 import { ResourceMap } from "./ResourceMap";
 
 // Session 146: "Where the resources are" (/resources, in review), under Projects. The project map shows what is built;
@@ -62,7 +63,7 @@ export function ResourcesView() {
     id: l.id, group: l.group, title: l.title, kind: l.kind, unit: l.unit, publisher: l.publisher, vintage: l.vintage, extent: l.extent,
     levels: l.levels, file: l.kind === "grid" ? undefined : filesOf(l)[0], legend: l.legend, classes: l.classes,
     other_extents: l.other_extents?.map((x) => ({ extent: x.extent, levels: x.levels, legend: x.legend, grid: x.grid })), point_spacing_km: l.point_spacing_km,
-    hover_fields: Array.isArray(l.hover_fields) ? l.hover_fields.filter((f) => Array.isArray(f) && typeof f[0] === "string" && typeof f[1] === "string") : undefined,
+    hover_fields: hoverPairs(l.hover_fields),   // session 8607: a pair (field, words) or the field alone, as the added list writes it
   }));
   const doc = DOCS.methods?.resources;
   const missing = groups.flatMap((g) => g.items.flatMap((it) => (it.held ? [] : [{ group: g.label, label: it.label, reason: it.reason }])));
@@ -71,6 +72,8 @@ export function ResourcesView() {
       <ToolHeader title="Where the resources are"
         lead={<>The project map shows what is built; this shows the natural resource itself: switch a layer on and point at the map for the value there.</>} />
       <ResourceMap layers={layers} groups={groups} manifestReason={reason} />
+      {/* session 8603: the choices that move what the map shows, each with its default and its source on hover */}
+      <ResourceDecisions />
 
       <details className="mt-8 border-y border-rule py-2" data-method-note="1">
         <summary className="cursor-pointer font-serif text-lg text-accent">Method note</summary>
@@ -113,7 +116,7 @@ export function ResourcesView() {
           ) : (
             <p className="text-xs text-muted" data-method-doc="0">The method document <code className="font-mono">docs/methods/resources.md</code> was not in the repository when this page was built.</p>
           )}
-          <p className="mt-4 text-xs text-muted">List of layers built {day(manifest.built_at_utc)}.</p>
+          <p className="mt-4 text-xs text-muted">List of layers built {day(manifest.built_at_utc)}.{manifest.added_built_at_utc ? <span data-added-list={manifest.added_built_at_utc}> Layers added beside it, in a list of their own, built {day(manifest.added_built_at_utc)}.</span> : null}</p>
         </div>
       </details>
     </>

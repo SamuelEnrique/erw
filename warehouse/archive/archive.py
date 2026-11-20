@@ -155,9 +155,25 @@ def row_hashes(df):
     return h64(joined(df, cols, "".join(cols) + ""))
 
 
-def key_hashes(df, shape):
+REVISIONS_KEPT = "Revisions: kept, one row per vintage"  # the validator's line (session 3758, decision 77)
+
+
+def keeps_revisions(header):
+    """True when a table's header says it keeps one row per vintage (docs/datastandard.md rule 77)."""
+    if isinstance(header, str):
+        header = header.split("\n")
+    if not isinstance(header, (list, tuple)):
+        return False
+    return any(str(h).lstrip("# ").startswith(REVISIONS_KEPT) for h in (header or []))
+
+
+def key_hashes(df, shape, revisions=False):
     # session 36C, decision 32: a series table with an event column is keyed by it too
     key = KEYS[shape] + (["event"] if shape == "series" and "event" in df.columns else [])
+    # session 8013 (data request 30): a table that keeps its revisions is keyed by vintage too, as the validator keys
+    # it; without it the archive kept every row but restore kept one filing a key (11,934 of ferc714's 67,215 rows)
+    if revisions and shape == "series" and "vintage" in df.columns:
+        key = key + ["vintage"]
     return h64(joined(df, key))
 
 
@@ -421,11 +437,20 @@ def archive_table(name, run_id, now, bucket, man, runner):
     header, data, df = read_table(os.path.join(OUT, name + ".csv"))
     data_sha = hashlib.sha256(data.encode("utf-8")).hexdigest()
     shape = shape_of(df.columns)
-    rh, kh = row_hashes(df), key_hashes(df, shape)
+    rev = keeps_revisions(header)
+    rh, kh = row_hashes(df), key_hashes(df, shape, rev)
     st = load_state(name, bucket, man)
     seen, keys = (st[0], st[1]) if st else (np.array([], dtype=np.uint64), np.array([], dtype=np.uint64))
-    new = ~np.isin(rh, seen) | ~np.isin(kh, keys)
-    gone = np.array([], dtype=np.uint64) if rolling(name) else np.setdiff1d(keys, kh)
+    kcmp = kh
+    if rev and len(keys):
+        # session 8013: a state saved before the vintage joined the key holds the old keys; this one write compares
+        # under them (a delete it writes names an old key, which restore.replay matches as such), and the state is
+        # saved under the new key below
+        kold = key_hashes(df, shape)
+        if not np.isin(keys, kh).any() and np.isin(keys, kold).any():
+            kcmp = kold
+    new = ~np.isin(rh, seen) | ~np.isin(kcmp, keys)
+    gone = np.array([], dtype=np.uint64) if rolling(name) else np.setdiff1d(keys, kcmp)
     stamp = now.strftime("%Y-%m-%dT%H:%M:%SZ")
     month = now.strftime("%Y-%m")
     if new.any() or len(gone):
