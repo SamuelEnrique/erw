@@ -1,0 +1,23 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate coal_mode_share, region cm_truck (coal delivered by truck)
+# Computed 2026-11-19T12:11:37Z by warehouse/analysis/findings/deep/coal_uranium_metals.py (coal_mode_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: a mode's share of the coal power plants received (percent), the observations it rests on, and whether the year is full
+# Tables: eia_coal_receipts_annual
+region,year,value,n_observations,full_year
+cm_truck,2008,9.905878151619639,1.0,1
+cm_truck,2009,12.792080472663978,1.0,1
+cm_truck,2010,11.020727876576936,1.0,1
+cm_truck,2011,9.375183425330814,1.0,1
+cm_truck,2012,10.243765073282358,1.0,1
+cm_truck,2013,10.441194842130447,1.0,1
+cm_truck,2014,10.072835794549777,1.0,1
+cm_truck,2015,9.229159484942482,1.0,1
+cm_truck,2016,8.779725955454087,1.0,1
+cm_truck,2017,8.462958925333819,1.0,1
+cm_truck,2018,8.88059991852611,1.0,1
+cm_truck,2019,9.175817324637304,1.0,1
+cm_truck,2020,9.831569485323978,1.0,1
+cm_truck,2021,9.244565081658989,1.0,1
+cm_truck,2022,8.184836592353548,1.0,1
+cm_truck,2023,6.061760068282453,1.0,1
+cm_truck,2024,7.86616225718816,1.0,1
+cm_truck,2025,7.602664484044489,1.0,1
