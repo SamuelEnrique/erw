@@ -846,6 +846,29 @@ def build_world(b, log):
         b.add("world", f"wb_pink:{code}", label, meta[key]["unit"], "M", s[key], at=at, code=code, tags=dict(kind=kind), source=WB_SOURCE)
 
 
+# Session 8014 (chain 581, part E): the materials the World Bank prints monthly and the board lacked, beside the IMF's
+# battery metals: aluminum (transmission and solar frames), zinc, lead and tin. New rows of the metals group, after its
+# existing rows; no existing row changes. Copper and nickel are on the board from the IMF already.
+WB_MATERIALS = [("aluminum", "Aluminum", "World Bank, monthly"),
+                ("zinc", "Zinc", "World Bank, monthly"),
+                ("lead", "Lead", "World Bank, monthly"),
+                ("tin", "Tin", "World Bank, monthly")]
+
+
+def build_materials(b, log):
+    """The World Bank's monthly prices of four more materials, as new rows of the metals group."""
+    if not here("wb_commodity_prices_monthly"):
+        log("  the World Bank's materials: wb_commodity_prices_monthly not on this machine, skipped (page_keep.py keeps the held rows)")
+        return
+    s, meta = table_daily("wb_commodity_prices_monthly")
+    for code, label, at in WB_MATERIALS:
+        key = (f"wb_pink:{code}", "price")
+        if key not in s:
+            log(f"  the World Bank's {label.lower()}: not in the table, no row")
+            continue
+        b.add("metals", f"wb_pink:{code}", label, meta[key]["unit"], "M", s[key], at=at, code=code, source=WB_SOURCE)
+
+
 def build_gas_prices(b, log):
     """Natural gas prices by sector and state, monthly: citygate, homes, commercial, industrial and electric power."""
     if not here("eia_gas_prices_state_monthly"):
@@ -1314,6 +1337,7 @@ def build(log):
     build_more_oil(b, log)       # session 1603
     build_costs(b, log)          # session 1604
     build_world(b, log)          # session 1117
+    build_materials(b, log)      # session 8014 (chain 581, part E)
     build_gas_prices(b, log)
     build_gasflows(b, log)       # session 1602
     build_heating(b, log)

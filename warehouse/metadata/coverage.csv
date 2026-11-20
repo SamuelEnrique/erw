@@ -249,6 +249,7 @@ eia_gas_trade_monthly,none,,36,P1M,2015-01-01T00:00:00Z,2026-08-01T00:00:00Z,199
 eia_gas_wells_annual,none,,36,P1Y,1989-01-01T00:00:00Z,2020-01-01T00:00:00Z,1062,eia:natural-gas/prod/wells,2026-10-22T00:37:07Z,pass,public,gas,no,source
 eia_heat_rates_annual,none,,4,P1Y,2015-01-01T00:00:00Z,2025-01-01T00:00:00Z,44,eia:electric_power_annual,2026-10-23T14:09:59Z,pass,public,power,no,source
 eia_heating_fuel_prices_weekly,none,,140,P1W,2012-01-02T00:00:00Z,2026-10-19T00:00:00Z,48534,eia:petroleum/pri/wfr,2026-10-22T00:51:42Z,pass,public,products,no,source
+eia_hgl_pipelines,none,,133,snapshot,2026-11-20T02:49:04Z,2026-11-20T02:49:04Z,133,eia:hgl_pipelines,2026-11-20T02:49:04Z,pass,public,gas,no,source
 eia_ice_electricity_daily,none,Midwest;New England;Northern California;Northwest;PJM;Southern California;Southwest,7,P1D,2025-12-29T00:00:00Z,2026-10-14T00:00:00Z,7056,eia:ice_wholesale_electricity,2026-10-23T18:18:26Z,pass,internal,power,no,source
 eia_ieo_projections,none,,574,P1Y,2020-01-01T00:00:00Z,2050-01-01T00:00:00Z,17856,eia:ieo/2023,2026-10-23T13:46:53Z,pass,public,power;carbon,no,source
 eia_international_electricity_annual,none,,51,P1Y,1980-01-01T00:00:00Z,2024-01-01T00:00:00Z,4131,eia:international,2026-10-23T04:55:57Z,pass,public,power,no,source
@@ -463,6 +464,7 @@ grid_stress_days,grid,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,6
 grid_stress_yearly,grid,,7,P1Y,2019-01-01T00:00:00Z,2026-01-01T00:00:00Z,2394,erw:grid_stress,2026-10-06T09:50:58Z,pass,public,power,yes,derived
 hagstofa_iceland_power_annual,hagstofa,,2,P1Y,1976-01-01T00:00:00Z,2019-01-01T00:00:00Z,88,hagstofa:IDN02101,2026-10-24T10:21:27Z,pass,public,power,no,source
 hagstova_faroe_electricity_annual,hagstova,,16,P1Y,1990-01-01T00:00:00Z,2025-01-01T00:00:00Z,421,hagstova:UO03,2026-10-24T16:30:10Z,pass,public,power,no,source
+hifld_transmission_lines,none,,10692,snapshot,2026-11-20T02:48:53Z,2026-11-20T02:48:53Z,10692,hifld:transmission_lines,2026-11-20T02:48:53Z,pass,public,power,no,source
 hops_croatia_annual,hops,,14,P1Y,2017-01-01T00:00:00Z,2025-01-01T00:00:00Z,126,hops:elektroenergetski_podaci,2026-10-26T06:50:52Z,pass,internal,power,no,source
 hub_price_comparison,hub,,39,P1M;P1Y,2025-11-01T00:00:00Z,2026-10-01T00:00:00Z,880,erw:hub_price_comparison,2026-11-17T07:41:45Z,pass,public,power;carbon,yes,derived
 ieso_generation_fuel_hourly,ieso,,8,PT1H,2020-01-01T05:00:00Z,2026-10-23T04:00:00Z,371781,ieso:gen_output_by_fuel_hourly,2026-10-24T02:01:32Z,pass,public,power,no,source

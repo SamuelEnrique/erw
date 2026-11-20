@@ -3763,6 +3763,23 @@ eia_gas_wells_annual,gas_wells,series variable,count
 eia_heat_rates_annual,heat_rate,series variable,MMBtu/MWh
 eia_heating_fuel_prices_weekly,residential_price,series variable,USD/gal
 eia_heating_fuel_prices_weekly,wholesale_price,series variable,USD/gal
+eia_hgl_pipelines,entity_id,column,
+eia_hgl_pipelines,entity_type,column,
+eia_hgl_pipelines,name,column,
+eia_hgl_pipelines,geo,column,
+eia_hgl_pipelines,lat,column,
+eia_hgl_pipelines,lon,column,
+eia_hgl_pipelines,capacity_mw,column,
+eia_hgl_pipelines,status,column,
+eia_hgl_pipelines,status_date,column,
+eia_hgl_pipelines,operator,column,
+eia_hgl_pipelines,source,column,
+eia_hgl_pipelines,source_url,column,
+eia_hgl_pipelines,retrieved_at,column,
+eia_hgl_pipelines,vintage,column,
+eia_hgl_pipelines,x_objectid,column,
+eia_hgl_pipelines,x_length_km,column,
+eia_hgl_pipelines,x_raw_sha256,column,
 eia_ieo_projections,capacity,series variable,MW
 eia_ieo_projections,consumption,series variable,TBtu
 eia_ieo_projections,emissions,series variable,tCO2
@@ -6451,6 +6468,33 @@ hagstofa_iceland_power_annual,capacity,series variable,MW
 hagstofa_iceland_power_annual,generation,series variable,MWh
 hagstova_faroe_electricity_annual,generation,series variable,MWh
 hagstova_faroe_electricity_annual,sales,series variable,MWh
+hifld_transmission_lines,entity_id,column,
+hifld_transmission_lines,entity_type,column,
+hifld_transmission_lines,name,column,
+hifld_transmission_lines,geo,column,
+hifld_transmission_lines,lat,column,
+hifld_transmission_lines,lon,column,
+hifld_transmission_lines,capacity_mw,column,
+hifld_transmission_lines,status,column,
+hifld_transmission_lines,status_date,column,
+hifld_transmission_lines,operator,column,
+hifld_transmission_lines,source,column,
+hifld_transmission_lines,source_url,column,
+hifld_transmission_lines,retrieved_at,column,
+hifld_transmission_lines,vintage,column,
+hifld_transmission_lines,x_hifld_id,column,
+hifld_transmission_lines,x_voltage_kv,column,
+hifld_transmission_lines,x_volt_class,column,
+hifld_transmission_lines,x_type,column,
+hifld_transmission_lines,x_inferred,column,
+hifld_transmission_lines,x_status,column,
+hifld_transmission_lines,x_sub_1,column,
+hifld_transmission_lines,x_sub_2,column,
+hifld_transmission_lines,x_length_km,column,
+hifld_transmission_lines,x_source,column,
+hifld_transmission_lines,x_source_date,column,
+hifld_transmission_lines,x_val_date,column,
+hifld_transmission_lines,x_raw_sha256,column,
 ieso_generation_fuel_hourly,control_actions,series variable,MWh
 ieso_generation_fuel_hourly,generation_biofuel,series variable,MWh
 ieso_generation_fuel_hourly,generation_gas,series variable,MWh

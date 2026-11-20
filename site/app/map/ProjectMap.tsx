@@ -16,6 +16,7 @@ import {
   sourceOf, sourceWords, statusWords, tidy, toggle, totals, whole,
   type CardPart, type Choice, type Filter, type MapFace, type MapFile, type SourceKind,
 } from "@/lib/projectmap";
+import { LINE_LAYERS, getter, partsOf, sourceLine, type LineFile } from "@/lib/maplayers";
 
 // Session 2300 (chain 087): every figure this component computes carries data-source (lib/projectmap.ts, sourceOf) and
 // sits beside a hover tip with the same words: the tables, the vintage and the rule. The kind of a status group or a
@@ -54,6 +55,21 @@ export function ProjectMap({ file: f, statesGeo, serverSearch = "" }: { file: Ma
   const [card, setShown] = useState<number | null>(null);
   // the card's fields: read once, at the first click on a unit, from /map/card (the same file, built with the site)
   const [part, setPart] = useState<CardPart | { error: string } | "loading" | null>(null);
+  // session 8014 (chain 581, part D): the line layers, each off as the page opens; a layer's file is read once, when
+  // its switch is first turned on (lib/maplayers.ts, app/map/lines/[name])
+  const [lineOn, setLineOn] = useState<string[]>([]);
+  const [lineFiles, setLineFiles] = useState<Record<string, LineFile | { error: string } | "loading">>({});
+  const toggleLine = useCallback((key: string) => {
+    setLineOn((on) => (on.includes(key) ? on.filter((k) => k !== key) : [...on, key]));
+    setLineFiles((had) => {
+      if (had[key]) return had;
+      fetch(`/map/lines/${key}`)
+        .then(async (r) => (r.ok ? ((await r.json()) as LineFile) : { error: `HTTP ${r.status}` }))
+        .catch((e: Error) => ({ error: e.message }))
+        .then((file) => setLineFiles((now) => ({ ...now, [key]: file })));
+      return { ...had, [key]: "loading" };
+    });
+  }, []);
   const reading = useRef(false);
   const setCard = useCallback((i: number | null) => {
     setShown(i);
@@ -97,6 +113,20 @@ export function ProjectMap({ file: f, statesGeo, serverSearch = "" }: { file: Ma
     return { drawn: isos.filter(({ gi }) => has.has(gi)).map(({ g }) => g.name), missing: isos.filter(({ gi }) => !has.has(gi)) };
   }, [f]);
 
+  // the line layers turned on and read, each line's parts in the drawing's own coordinates
+  const lineDrawn = useMemo(() => LINE_LAYERS.filter((l) => lineOn.includes(l.key)).flatMap((l) => {
+    const file = lineFiles[l.key];
+    if (!file || file === "loading" || "error" in file) return [];
+    const data: { coords: [number, number][]; li: number; layer: string }[] = [];
+    for (let i = 0; i < file.rows.length; i++) {
+      for (const part of partsOf(file, i)) {
+        const coords = part.map((p) => projection(p)).filter((p): p is [number, number] => p !== null);
+        if (coords.length > 1) data.push({ coords, li: i, layer: l.key });
+      }
+    }
+    return [{ l, file, data }];
+  }), [lineOn, lineFiles]);
+
   // the chart's handlers read the newest setters through refs (the chart is built once and redrawn)
   const act = useRef({ change, setCard });
   useEffect(() => { act.current = { change, setCard }; }, [change, setCard]);
@@ -119,6 +149,11 @@ export function ProjectMap({ file: f, statesGeo, serverSearch = "" }: { file: Ma
           return { value: [xy.x[i], xy.y[i], i], symbol: "circle", symbolSize: size(f.mw[i]), itemStyle: { color: c, borderColor: panel, borderWidth: 0.4, opacity: 0.78 } };
         }),
       }));
+      // session 8014: the line layers turned on, under the marks
+      for (const { l, data } of lineDrawn) {
+        series.push({ name: l.label, type: "lines", coordinateSystem: "geo", polyline: true, z: 1, progressive: 2000,
+          data, lineStyle: { color: token(`var(${l.color})`), width: l.width, opacity: 0.55 }, emphasis: { lineStyle: { width: l.width + 1.5, opacity: 1 } } } as unknown as (typeof series)[number]);
+      }
       // session 7537: the point and its circle, drawn over the rows; they answer to no hover and no click
       if (ring) {
         series.push({ name: "The distance chosen", type: "lines", coordinateSystem: "geo", polyline: true, silent: true, z: 5,
@@ -132,8 +167,16 @@ export function ProjectMap({ file: f, statesGeo, serverSearch = "" }: { file: Ma
         toolbox: { ...st.toolbox("erw-project-map"), feature: { restore: { title: "Reset zoom" }, saveAsImage: st.toolbox("erw-project-map").feature.saveAsImage } },
         tooltip: {
           ...st.tooltip, trigger: "item",
-          formatter: (p: { componentType: string; name?: string; value?: number[] }) => {
+          formatter: (p: { componentType: string; name?: string; value?: number[]; data?: { li?: number; layer?: string } }) => {
             if (p.componentType === "geo") return `${p.name}: click to choose it, click again to take it away`;
+            if (p.data && typeof p.data.li === "number" && p.data.layer) {
+              const hit = lineDrawn.find((x) => x.l.key === p.data?.layer);
+              if (!hit) return "";
+              const h = hit.l.hover(getter(hit.file, p.data.li));
+              const esc = (t: string) => t.replace(/</g, "&lt;");
+              return `<div style="max-width:17rem;white-space:normal"><strong>${esc(h.name)}</strong><br/>${esc(h.operator)}<br/>${esc(h.size)}<br/>`
+                + `<span style="color:${muted}">State: not in the source (a line crosses states). ${esc(sourceLine(hit.file, hit.l))}</span></div>`;
+            }
             const i = (p.value as number[] | undefined)?.[2];
             if (typeof i !== "number") return "";
             const kind = f.k[i], mw = f.mw[i];
@@ -163,7 +206,7 @@ export function ProjectMap({ file: f, statesGeo, serverSearch = "" }: { file: Ma
         if (s >= 0) act.current.change((c) => ({ ...c, state: clickState(c.state, s, f.states.length) }));
       });
     },
-    [drawn, chosenStates, xy, f, statesGeo, ring],
+    [drawn, chosenStates, xy, f, statesGeo, ring, lineDrawn],
   );
 
   const cardBox = useRef<HTMLDivElement>(null);
@@ -211,6 +254,26 @@ export function ProjectMap({ file: f, statesGeo, serverSearch = "" }: { file: Ma
               onChange={(e) => { const v = e.target.value; change((c) => ({ ...c, within: v })); }} data-map-choice="within" />
             <span className="text-muted">miles</span>
           </div>
+          {/* session 8014 (chain 581, part D): the line layers, each a switch, off as the page opens */}
+          <div className="mt-3 text-xs uppercase tracking-wide text-muted">
+            Lines on the map
+            <Tip id="map-lines" label="the line layers and what is not drawn">
+              Transmission lines of 230 kV and above are HIFLD&apos;s Electric Power Transmission Lines, and the HGL pipelines are EIA&apos;s layer of January 2020, both as Penn State&apos;s PASDA serves them; each is simplified for the web, and its hover names its table. EIA&apos;s layers of natural gas, crude oil and petroleum product pipelines, LNG terminals, refineries and underground gas storage are served from a host whose robots file refuses this reader, so they are not drawn; HIFLD&apos;s compressor stations and substations are not in a public service the ERW reads. The method note says each.
+            </Tip>
+          </div>
+          <ul className="mt-1 space-y-1 text-sm" data-map-lines="1">
+            {LINE_LAYERS.map((l) => {
+              const file = lineFiles[l.key];
+              return (
+                <li key={l.key}>
+                  <label className="flex items-start gap-2">
+                    <input type="checkbox" className="mt-1" checked={lineOn.includes(l.key)} onChange={() => toggleLine(l.key)} data-map-line={l.key} />
+                    <span>{l.label}{file === "loading" ? <span className="text-muted"> (reading)</span> : file && "error" in file ? <span className="text-muted"> (not read: {file.error})</span> : null}</span>
+                  </label>
+                </li>
+              );
+            })}
+          </ul>
           <button type="button" onClick={reset} className="mt-4 border border-rule bg-white px-3 py-1 text-sm hover:text-accent" data-map-reset="1">Reset</button>
         </InputPanel>
       </aside>

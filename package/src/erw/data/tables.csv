@@ -249,6 +249,7 @@ eia_gas_trade_monthly,public,,,,EIA,"Public: every publisher's terms the ERW rea
 eia_gas_wells_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_heat_rates_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_heating_fuel_prices_weekly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia_hgl_pipelines,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_ice_electricity_daily,internal,,,"ICE, whose prices EIA republishes","EIA; ICE, whose prices EIA republishes",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 eia_ieo_projections,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_international_electricity_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -463,6 +464,7 @@ grid_stress_days,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; 
 grid_stress_yearly,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 hagstofa_iceland_power_annual,public,,,,Statistics Iceland (Hagstofa Islands),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 hagstova_faroe_electricity_annual,public,,,,Statistics Faroe Islands (Hagstova Foroya),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+hifld_transmission_lines,public,,,,"Homeland Infrastructure Foundation-Level Data (HIFLD), served by Penn State PASDA","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 hops_croatia_annual,internal,,,HOPS (the Croatian transmission system operator),HOPS (the Croatian transmission system operator),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 hub_price_comparison,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 ieso_generation_fuel_hourly,public,,,,"Independent Electricity System Operator (IESO), Ontario","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
