@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Fragment } from "react";   // wip/alt-prices-1
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { notFound } from "next/navigation";
 import { Brand } from "@/components/Brand";  // session 242: the page takes the brand (plain markup; it carried no wrapper)
@@ -9,7 +10,7 @@ import { Num } from "@/components/Num";
 import { MARKETS, daysAgo, latestPrices, series, type SeriesRow } from "@/lib/data";
 import { count, node, price, utc } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
-import { heldOf, realLessDayAhead, variableWords, whenWords } from "@/lib/pricehub";
+import { heldOf, realLessDayAhead, splitPeak, variableWords, whenWords } from "@/lib/pricehub";
 import { label } from "@/lib/pricecompare";
 
 export const revalidate = 3600;
@@ -63,8 +64,8 @@ export default async function EntityPrices({ params }: PageProps<"/prices/[entit
   if (rtRows.length) lines.push({ label: `Real time, ${variableWords(m.rt!.variable)}`, points: toLine(rtRows), color: "accent" });
   const lp = latest.ok ? latest.data.find((r) => r.entity === entity) : undefined;
   const summary = [
-    { name: "Real time", src: m.rt, s: stats(rtRows), held: heldOf(rtRows, m.rt?.freq) },
-    { name: "Day-ahead", src: m.da, s: stats(daRows), held: heldOf(daRows, m.da.freq) },
+    { name: "Real time", src: m.rt, s: stats(rtRows), held: heldOf(rtRows, m.rt?.freq), pk: splitPeak(rtRows, m.iso) },   // pk: wip/alt-prices-1
+    { name: "Day-ahead", src: m.da, s: stats(daRows), held: heldOf(daRows, m.da.freq), pk: splitPeak(daRows, m.iso) },
   ];
   // session 7539 (the read, row 5): real time less day-ahead over the hours both hold
   const dart = m.rt ? realLessDayAhead(rtRows, daRows, m.rt.freq) : null;
@@ -117,7 +118,7 @@ export default async function EntityPrices({ params }: PageProps<"/prices/[entit
             </tr>
           </thead>
           <tbody>
-            {summary.map(({ name: market, src, s, held }) => (
+            {summary.map(({ name: market, src, s, held, pk }) => (<Fragment key={market}>
               <tr key={market} className="border-b border-rule/60">
                 <td className="py-1 pr-4"><span title={src ? `${src.variable}: ${variableWords(src.variable)}` : undefined}>{market}</span></td>
                 <td className="py-1 pr-4 font-mono text-xs">{src ? src.table : ""}</td>
@@ -142,7 +143,23 @@ export default async function EntityPrices({ params }: PageProps<"/prices/[entit
                   </td>
                 )}
               </tr>
-            ))}
+              {/* ruling alternative 1 (wip/alt-prices-1, not a default on main): the same rows on-peak and off-peak */}
+              {s ? ([["on-peak", pk.on], ["off-peak", pk.off]] as const).map(([part, rows]) => {
+                const p = stats([...rows]);
+                return p ? (
+                  <tr key={part} className="border-b border-rule/60" data-peak={`${market}|${part}`}>
+                    <td className="py-1 pr-4 pl-4 text-xs"><span title={`${part === "on-peak" ? "06:00 to 22:00" : "Every other hour, and the weekend"} local time${part === "on-peak" ? ", Monday to Friday" : ""}, as the price board counts them (holidays not taken out). Default on the site: one set of figures over every hour.`}>{market}, {part}</span></td>
+                    <td className="py-1 pr-4" />
+                    <td className="py-1 pr-4 text-right tabular-nums">{count(p.n)}</td>
+                    <td className="py-1 pr-4 text-right tabular-nums" title={`The lowest interval starts ${whenWords(p.minAt, m.iso)}`}>{price(p.min)}</td>
+                    <td className="py-1 pr-4 text-right tabular-nums" data-peak-mean={`${market}|${part}`}>{price(p.mean)}</td>
+                    <td className="py-1 pr-4 text-right tabular-nums" title={`The highest interval starts ${whenWords(p.maxAt, m.iso)}`}>{price(p.max)}</td>
+                    <td className="py-1 pr-4 text-xs">{utc(p.first)}</td>
+                    <td className="py-1 pr-4 text-xs">{utc(p.last)}</td>
+                  </tr>
+                ) : null;
+              }) : null}
+            </Fragment>))}
             {dart ? (
               <tr className="border-b border-rule/60" data-dart={entity}>
                 <td className="py-1 pr-4">
