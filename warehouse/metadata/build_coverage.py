@@ -681,6 +681,8 @@ SECTOR_RULES = [
     (r"^census_metro_population$", "power"),                    # session 129: the Census Bureau's metropolitan populations, the stations' weights
     (r"^(census_county_population|eia_county_region)$", "power"),
     (r"^ba_boundaries$", "power"),
+    (r"^hifld_transmission_lines$", "power"),  # session 8014: the project map's transmission lines (HIFLD)
+    (r"^eia_hgl_pipelines$", "gas"),  # session 8014: the project map's HGL pipelines (EIA)
     (r"^resource_layer_features$", "power;gas;oil;coal"),  # session 8006: the natural resource map's layers
     (r"^ai_energy_published$", "power"),  # session 8005: energy per AI query, as published
     (r"^(interchange_pair_daily|interchange_pair_monthly|ba_trade_partners|interchange_event_pairs)$", "power"),  # session 8002: who trades with whom  # session 8000: the balancing authority areas (HIFLD Control Areas)  # session 7802: county populations, and each county's balancing authority and region
@@ -771,6 +773,8 @@ def iso_of(table):
     if table == "census_metro_population":  # session 129: metropolitan areas, no ISO
         return "none"
     if table in ("census_county_population",):  # session 7802: every county, no ISO
+        return "none"
+    if table in ("hifld_transmission_lines", "eia_hgl_pipelines"):  # session 8014: national line layers, no ISO column
         return "none"
     if (table in ("eia_county_region", "noaa_region_stations", "region_weather_hourly", "ba_boundaries")
             or re.match(r"^noaa_region_station_hourly_\d{4}$", table)):  # session 7802 and 7803: the thirteen regions of the lower 48, the seven ISOs among them

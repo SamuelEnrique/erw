@@ -313,6 +313,9 @@ catalogue_hold:
   # session 8012 (chain 505, part D1): the forecast beside what happened; the page reads site/data/regions/forecast/, not the live set
   - eia930_forecast_error_hourly
   - eia930_forecast_error_daily
+  # session 8014 (chain 581, part D): the project map's line layers; the map reads site/data/map_layers/, not the live set
+  - hifld_transmission_lines
+  - eia_hgl_pipelines
   # session 489: the public tables of sessions 485 to 496 and 507, held on the data machine and in the archive, not loaded, and
   # not on Redivis (an upload is a person's, and the account's free 10 GB is full, session 363): not in the live
   # catalogue, so /data does not name tables it cannot link

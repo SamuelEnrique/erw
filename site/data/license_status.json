@@ -1,6 +1,6 @@
 {
  "from": "2026-10-21",
- "written": "2026-11-19",
+ "written": "2026-11-20",
  "what": "Tables flagged public whose publisher's own page asks for permission or a license (docs/licenses.md). From 2026-10-21 a table with status 'license needed' shows 'license needed' on the site unless a permission is recorded (warehouse/metadata/license_status.csv).",
  "tables": {
   "ai_power_regions": {
@@ -1905,11 +1905,15 @@
   },
   "eia930_forecast_error_daily": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia930_forecast_error_hourly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia930_generation_latest": {
    "status": "public",
@@ -1922,20 +1926,23 @@
    "status": "public",
    "pages": [
     "/data",
-    "/grid"
+    "/grid",
+    "/learn/problems"
    ]
   },
   "eia930_region_hourly": {
    "status": "public",
    "pages": [
-    "/data"
+    "/data",
+    "/learn/problems"
    ]
   },
   "eia930_region_pair_hourly": {
    "status": "public",
    "pages": [
     "/data",
-    "/grid"
+    "/grid",
+    "/learn/problems"
    ]
   },
   "eia930_subba_demand_hourly": {
@@ -2320,6 +2327,10 @@
     "/data"
    ]
   },
+  "eia_hgl_pipelines": {
+   "status": "public",
+   "pages": []
+  },
   "eia_ieo_projections": {
    "status": "public",
    "pages": [
@@ -2355,7 +2366,8 @@
   "eia_mecs_manufacturing": {
    "status": "public",
    "pages": [
-    "/data"
+    "/data",
+    "/learn/problems"
    ]
   },
   "eia_meters_state_annual": {
@@ -2577,13 +2589,15 @@
    "status": "public",
    "pages": [
     "/data",
-    "/demand"
+    "/demand",
+    "/learn/problems"
    ]
   },
   "eia_seds_industrial_annual": {
    "status": "public",
    "pages": [
-    "/data"
+    "/data",
+    "/learn/problems"
    ]
   },
   "eia_seds_residential_annual": {
@@ -3470,6 +3484,10 @@
     "/data"
    ]
   },
+  "hifld_transmission_lines": {
+   "status": "public",
+   "pages": []
+  },
   "hub_price_comparison": {
    "status": "license needed",
    "hold": "by grid",
@@ -3539,7 +3557,8 @@
   "interchange_pair_monthly": {
    "status": "public",
    "pages": [
-    "/data"
+    "/data",
+    "/learn/problems"
    ]
   },
   "interconnection_agreements_by_grid": {
@@ -4420,7 +4439,8 @@
   "region_weather_hourly": {
    "status": "public",
    "pages": [
-    "/data"
+    "/data",
+    "/demand"
    ]
   },
   "resource_layer_features": {
@@ -4944,7 +4964,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 529
+   "public": 531
   },
   "/data/faults": {
    "label": "Known faults in source data",
@@ -5119,7 +5139,7 @@
    "dark": "none",
    "license_needed": [],
    "internal": 0,
-   "public": 8
+   "public": 9
   },
   "/curtailment": {
    "label": "Curtailment",
@@ -5261,7 +5281,7 @@
     "merchant_revenue_monthly"
    ],
    "internal": 0,
-   "public": 8
+   "public": 15
   },
   "/play/ev": {
    "label": "Should your family get an EV?",
