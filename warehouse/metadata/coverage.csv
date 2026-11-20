@@ -51,6 +51,7 @@ caiso_grid_emergencies,none,,1,event,1998-05-30T00:00:00Z,2026-10-08T00:00:00Z,1
 caiso_interconnection_queue,CAISO,,2278,snapshot,2026-11-05T23:21:54Z,2026-11-05T23:21:54Z,2278,caiso:interconnection_queue,2026-11-05T23:21:52Z,pass,public,power,no,source
 caiso_outlook_demand,CAISO,,1,PT5M,2018-07-24T07:00:00Z,2024-07-25T06:55:00Z,33927,caiso:todays_outlook_demand,2026-11-17T09:23:17Z,pass,public,power,no,source
 caiso_reliability_daily,CAISO,,2,P1D,1998-05-30T00:00:00Z,2026-11-13T00:00:00Z,20832,erw:caiso_reliability,2026-11-19T17:44:49Z,pass,public,power,yes,derived
+caiso_tie_flows_5min,CAISO,caiso_rtd,68,PT5M,2026-10-16T07:00:00Z,2026-11-19T07:55:00Z,569820,caiso:ENE_EIM_TRANSFER_TIE,2026-11-20T11:14:48Z,pass,public,power,no,source
 caiso_wind_solar_forecast,CAISO,,3,PT1H,2023-06-01T07:00:00Z,2026-11-19T06:00:00Z,352393,caiso:SLD_REN_FCST,2026-11-19T17:39:57Z,pass,public,power,no,source
 carb_auction_allowance_prices,none,,56,P3M,2012-11-01T00:00:00Z,2026-08-01T00:00:00Z,336,carb:auction-results-summary,2026-11-19T17:37:36Z,pass,public,carbon,no,source
 carb_lcfs_credit_prices,none,,1,P1W,2019-01-07T00:00:00Z,2026-11-02T00:00:00Z,1145,carb:lcfs_weekly_credit_price,2026-11-15T17:49:35Z,pass,public,carbon,no,source
@@ -80,6 +81,8 @@ clean_energy_summary,clean,,7,P1M;P1Y,2019-01-01T00:00:00Z,2026-10-01T00:00:00Z,
 company_aliases,none,,25986,snapshot,2026-11-16T09:04:07Z,2026-11-16T09:04:07Z,25986,erw:companies,2026-11-16T09:04:07Z,pass,public,power;deals,no,model_extracted
 company_directory,none,,14033,snapshot,2026-11-16T09:04:07Z,2026-11-16T09:04:07Z,14033,erw:companies,2026-11-16T09:04:07Z,pass,public,power;deals,no,model_extracted
 company_links,none,,97198,snapshot,2026-11-16T09:04:07Z,2026-11-16T09:04:07Z,97198,erw:companies,2026-11-16T09:04:07Z,pass,public,power;deals,no,model_extracted
+constraints_binding_hourly,constraints,caiso_dam;spp_dam,16035,PT1H,2015-01-01T06:00:00Z,2026-11-21T07:00:00Z,1758876,caiso:PRC_NOMOGRAM;spp:DA-BC,2026-11-20T12:05:54Z,pass,public,power,no,source
+constraints_binding_monthly,constraints,caiso_dam;spp_dam,16035,P1M,2015-01-01T00:00:00Z,2026-11-01T00:00:00Z,223556,erw:constraints_binding_monthly,2026-11-20T12:13:22Z,pass,public,power,yes,derived
 cosit_iraq_electricity_annual,cosit,,14,P1Y,2021-01-01T00:00:00Z,2024-01-01T00:00:00Z,56,cosit_iq:electricity_projects_2024_tables_1_3,2026-10-25T10:20:43Z,pass,internal,power,no,source
 cost_of_power_carbon,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,9,P1M,2018-07-01T00:00:00Z,2026-11-01T00:00:00Z,1393,erw:cost_of_power,2026-11-19T17:56:14Z,pass,public,power;carbon,yes,derived
 cost_of_power_hourly_profile,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,9,P1M,2025-10-01T00:00:00Z,2026-11-01T00:00:00Z,5808,erw:cost_of_power,2026-11-19T17:56:14Z,pass,public,power,yes,derived
@@ -454,9 +457,11 @@ gas_balance_weekly,gas,,9,P1M;P1W,2001-01-01T00:00:00Z,2026-10-16T00:00:00Z,4050
 gastat_saudi_electricity_annual,gastat,,30,P1Y,2010-01-01T00:00:00Z,2024-01-01T00:00:00Z,177,gastat:electrical_energy_statistics_2024,2026-10-24T23:16:34Z,pass,internal,power,no,source
 generation_mix_hourly_profile,generation,,7,P1M,2019-01-01T00:00:00Z,2026-10-01T00:00:00Z,167573,erw:generation_mix_hourly;erw:generation_mix_hourly_caiso,2026-11-16T18:22:33Z,pass,public,power;carbon,yes,derived
 generation_mix_records,generation,,7,PT1H,2019-01-14T05:00:00Z,2026-10-31T06:00:00Z,306,erw:generation_mix_hourly;erw:generation_mix_hourly_caiso,2026-11-16T18:22:33Z,pass,public,power;carbon,yes,derived
+generation_outages_hourly,generation,,4,PT1H,2025-01-01T06:00:00Z,2026-11-21T05:00:00Z,355726,caiso:CURTAILED-NONOP-GEN;spp:CAP-GEN-OUTAGE,2026-11-20T11:44:18Z,pass,public,power,no,source
 generator_pipeline_by_grid,generator,,924,P1M,2026-08-01T00:00:00Z,2026-09-01T00:00:00Z,5147,erw:generator_pipeline_by_grid,2026-11-06T08:20:13Z,"pass, 1 warnings",public,power,yes,derived
 gfz_kp_index_3h,gfz,,1,PT3H,1932-01-01T00:00:00Z,2026-10-22T21:00:00Z,277032,gfz:kp_ap_since_1932,2026-10-23T23:18:55Z,pass,public,power,no,source
 grenada_cso_electricity_annual,grenada,,6,P1Y,2000-01-01T00:00:00Z,2023-01-01T00:00:00Z,144,grenada_cso:electricity_by_category,2026-10-24T16:29:52Z,pass,internal,power,no,source
+grid_all_alerts,none,,4,event,1998-05-30T00:00:00Z,2026-10-15T00:00:00Z,5397,4 outlets,2026-11-20T11:05:36Z,pass,public,power,no,source
 grid_network_links,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,159,PT1H,2026-11-09T00:00:00Z,2026-11-13T23:00:00Z,19056,erw:grid_network,2026-11-15T14:59:29Z,pass,public,power,yes,derived
 grid_network_nodes,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,70,PT168H;PT1H,2026-11-07T00:00:00Z,2026-11-12T23:00:00Z,84,erw:grid_network,2026-11-15T14:59:29Z,pass,public,power,yes,derived
 grid_peak_vs_capacity,grid,,7,P1Y,2025-01-01T00:00:00Z,2025-01-01T00:00:00Z,56,erw:grid_peak_vs_capacity,2026-10-22T09:46:59Z,pass,public,power;capacity,yes,derived
@@ -609,6 +614,8 @@ price_board_carbon,none,,4,P3M,2026-05-01T00:00:00Z,2026-09-09T00:00:00Z,15,erw:
 price_board_latest,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_dam;caiso_rtm;ercot_dam;ercot_rtm;isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm;spp_dam;spp_rtm,39,P1D;PT15M;PT1H,2026-09-03T00:00:00Z,2026-11-16T07:00:00Z,3100,erw:price_board,2026-11-15T15:22:53Z,pass,public,power,yes,derived
 price_board_peak_offpeak,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_dam;caiso_rtm;ercot_dam;ercot_rtm;isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm;spp_dam;spp_rtm,6,P1D;P1Y,2015-01-01T00:00:00Z,2026-11-15T00:00:00Z,4905,erw:price_board,2026-11-15T15:22:53Z,pass,public,power,yes,derived
 price_board_spreads,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_dam;ercot_dam;isone_dam;miso_dam;nyiso_dam;spp_dam,6,P1D,2025-09-29T00:00:00Z,2026-11-15T00:00:00Z,2800,erw:price_board,2026-11-15T15:22:53Z,pass,public,power;gas;oil,yes,derived
+price_congestion_hourly,price,caiso_dam;spp_dam,9,PT1H,2023-08-10T07:00:00Z,2026-11-21T07:00:00Z,1139483,caiso:PRC_LMP;spp:DA-LMP-SL,2026-11-20T12:08:34Z,pass,public,power,no,source
+price_congestion_monthly,price,caiso_dam;spp_dam,9,P1M,2023-08-01T00:00:00Z,2026-11-01T00:00:00Z,2236,erw:price_congestion_monthly,2026-11-20T12:13:22Z,pass,public,power,yes,derived
 price_years_by_window,CAISO;ERCOT;SPP,caiso;ercot;spp,19,P106M;P10M;P12M;P142M;P25M;P26M;P36M;P39M;P40M;P4M;P5M;P6M;P84M;P94M;P9M,2015-01-01T00:00:00Z,2026-01-01T00:00:00Z,2754,erw:price_years,2026-11-14T10:07:37Z,pass,public,power,yes,derived
 pse_poland_balance_15min,pse,,1,PT15M,2024-06-13T21:45:00Z,2026-10-23T21:45:00Z,909219,pse:his-wlk-cal,2026-10-24T03:42:09Z,pass,internal,power,no,source
 ree_spain_balance_monthly,ree,,1,P1M,2020-01-01T00:00:00Z,2026-09-01T00:00:00Z,1890,ree:redata_balance_electrico,2026-10-24T04:09:31Z,pass,public,power,no,source

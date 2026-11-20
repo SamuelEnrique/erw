@@ -342,10 +342,36 @@ def build_serving(county, pop, ba_meta, st):
             "basis": "Each county counts once, whole, for its primary authority: the one whose utilities serve most of the county's customers in EIA-861. A county two authorities share is counted for its primary one."}
 
 
+RESEARCH = os.path.join(ROOT, "docs", "research", "large_load", "legislation")
+
+
+def research_status(st):
+    """Session 9000 (data request 563): what the large-load research says of a state with no law in the table, from its
+    own files (docs/research/large_load/legislation/*.json): withheld (a law found but its text not read on an allowed
+    host), not read (the legislature's site could not be read), none found (searched, nothing found), or not yet read
+    (the research did not cover the state). Returns (status, words)."""
+    import glob
+    for path in sorted(glob.glob(os.path.join(RESEARCH, "*.json"))):
+        with open(path, encoding="utf-8") as fh:
+            d = json.load(fh)
+        for w in d.get("withheld", []):
+            if w.get("state") == st:
+                return "withheld", (f"{w.get('bill', 'a law')} was found but is withheld: its text was not read on a host "
+                                    f"that allows this reader ({w.get('reason', '')})")
+        for n in d.get("none_found", []):
+            if n.get("state") == st:
+                s = n.get("searched", "")
+                if s.startswith("not read"):
+                    return "not read", f"the research could not read the legislature's site: {s[len('not read'):].lstrip(': ')}"
+                return "none found", f"the research searched and found no large-load law: {s}"
+    return "not yet read", f"the ERW's large-load research has not yet read {PLACES[st]}'s laws"
+
+
 def build_laws(laws, st):
     rows = laws[laws["x_state"] == st]
     if rows.empty:
-        return {"table": "state_large_load_laws", "laws": [], "reason": f"the ERW's large-load research holds no state law for {PLACES[st]}"}
+        status, words = research_status(st)
+        return {"table": "state_large_load_laws", "laws": [], "research_status": status, "reason": words}
     out = []
     for _, r in rows.sort_values("event_date").iterrows():
         out.append({"law_id": r["x_law_id"], "bill": r["x_bill"], "session": r["x_session"], "title": r["x_title"], "status": r["status"],

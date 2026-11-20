@@ -738,6 +738,7 @@ caiso_reliability_daily,notices_vlrp,series variable,count
 caiso_reliability_daily,notices_warning,series variable,count
 caiso_reliability_daily,peak_demand_mw,series variable,MW
 caiso_reliability_daily,peak_hour,series variable,hour
+caiso_tie_flows_5min,transfer_mw_net,series variable,MW
 caiso_wind_solar_forecast,solar_actual_mw,series variable,MW
 caiso_wind_solar_forecast,solar_forecast_dam_mw,series variable,MW
 caiso_wind_solar_forecast,wind_actual_mw,series variable,MW
@@ -844,6 +845,11 @@ cftc_cot_positions,managed_money_long,series variable,count
 cftc_cot_positions,managed_money_net,series variable,count
 cftc_cot_positions,managed_money_short,series variable,count
 cftc_cot_positions,open_interest,series variable,count
+constraints_binding_hourly,shadow_price_dam,series variable,USD/MWh
+constraints_binding_monthly,hours_bound,series variable,count
+constraints_binding_monthly,shadow_price_abs_max,series variable,USD/MWh
+constraints_binding_monthly,shadow_price_abs_mean,series variable,USD/MWh
+constraints_binding_monthly,shadow_price_mean,series variable,USD/MWh
 cso_ireland_electricity_monthly,gross_electricity_output,series variable,MWh
 cso_ireland_electricity_monthly,net_electricity_output,series variable,MWh
 czso_cz_regional_electricity_annual,gross_production,series variable,MWh
@@ -6392,6 +6398,19 @@ generation_mix_records,year_dirtiest_hour_kgco2_per_mwh,series variable,kgCO2/MW
 generation_mix_records,year_solar_share_max_pct,series variable,pct
 generation_mix_records,year_wind_share_max_pct,series variable,pct
 generation_mix_records,year_wind_solar_share_max_pct,series variable,pct
+generation_outages_hourly,outage_mw_coal,series variable,MW
+generation_outages_hourly,outage_mw_forced,series variable,MW
+generation_outages_hourly,outage_mw_gas,series variable,MW
+generation_outages_hourly,outage_mw_hydro,series variable,MW
+generation_outages_hourly,outage_mw_nuclear,series variable,MW
+generation_outages_hourly,outage_mw_oil,series variable,MW
+generation_outages_hourly,outage_mw_other,series variable,MW
+generation_outages_hourly,outage_mw_planned,series variable,MW
+generation_outages_hourly,outage_mw_solar,series variable,MW
+generation_outages_hourly,outage_mw_total,series variable,MW
+generation_outages_hourly,outage_mw_waste_disposal,series variable,MW
+generation_outages_hourly,outage_mw_waste_heat,series variable,MW
+generation_outages_hourly,outage_mw_wind,series variable,MW
 generator_pipeline_by_grid,datacenter_mw,series variable,MW
 generator_pipeline_by_grid,entered_count,series variable,count
 generator_pipeline_by_grid,entered_mw,series variable,MW
@@ -6406,6 +6425,23 @@ generator_pipeline_by_grid,slipped_mw,series variable,MW
 generator_pipeline_by_grid,status_moved_count,series variable,count
 generator_pipeline_by_grid,status_moved_mw,series variable,MW
 gfz_kp_index_3h,kp,series variable,index
+grid_all_alerts,event_id,column,
+grid_all_alerts,event_date,column,
+grid_all_alerts,event_type,column,
+grid_all_alerts,parties,column,
+grid_all_alerts,entity_ids,column,
+grid_all_alerts,mw,column,
+grid_all_alerts,price,column,
+grid_all_alerts,currency,column,
+grid_all_alerts,status,column,
+grid_all_alerts,source,column,
+grid_all_alerts,source_url,column,
+grid_all_alerts,x_input_table,column,
+grid_all_alerts,x_grid,column,
+grid_all_alerts,x_kind,column,
+grid_all_alerts,x_start,column,
+grid_all_alerts,x_end,column,
+grid_all_alerts,x_area,column,
 grid_network_links,flow_mw,series variable,MW
 grid_network_nodes,demand_mw,series variable,MW
 grid_network_nodes,intensity_generation,series variable,kgCO2/MWh
@@ -6607,11 +6643,11 @@ interconnection_durations_summary,p25_months,series variable,month
 interconnection_durations_summary,p75_months,series variable,month
 interconnection_durations_summary,projects,series variable,count
 interconnection_durations_summary,projects_5y,series variable,count
-interconnection_queue_summary,active_mw_parts_battery,series variable,count
-interconnection_queue_summary,active_mw_parts_gas,series variable,count
-interconnection_queue_summary,active_mw_parts_other_storage,series variable,count
-interconnection_queue_summary,active_mw_parts_solar,series variable,count
-interconnection_queue_summary,active_mw_parts_wind,series variable,count
+interconnection_queue_summary,active_mw_parts_battery,series variable,MW
+interconnection_queue_summary,active_mw_parts_gas,series variable,MW
+interconnection_queue_summary,active_mw_parts_other_storage,series variable,MW
+interconnection_queue_summary,active_mw_parts_solar,series variable,MW
+interconnection_queue_summary,active_mw_parts_wind,series variable,MW
 interconnection_queue_summary,median_years_to_operation,series variable,year
 interconnection_queue_summary,mw_active,series variable,MW
 interconnection_queue_summary,mw_entered,series variable,MW
@@ -7656,6 +7692,18 @@ ornl_npd_potential,capacity_factor_pct,column,
 ornl_npd_potential,coordinates_from,column,
 owid_ember_electricity_annual,electricity_demand,series variable,MWh
 owid_ember_electricity_annual,electricity_emissions,series variable,tCO2e
+price_congestion_hourly,congestion_dam,series variable,USD/MWh
+price_congestion_hourly,energy_dam,series variable,USD/MWh
+price_congestion_hourly,ghg_dam,series variable,USD/MWh
+price_congestion_hourly,lmp_dam,series variable,USD/MWh
+price_congestion_hourly,loss_dam,series variable,USD/MWh
+price_congestion_monthly,congestion_mean,series variable,USD/MWh
+price_congestion_monthly,congestion_share_pct,series variable,pct
+price_congestion_monthly,energy_mean,series variable,USD/MWh
+price_congestion_monthly,ghg_mean,series variable,USD/MWh
+price_congestion_monthly,hours_held,series variable,count
+price_congestion_monthly,lmp_mean,series variable,USD/MWh
+price_congestion_monthly,loss_mean,series variable,USD/MWh
 price_years_by_window,battery_dayahead_2h_all,series variable,USD/kW-year
 price_years_by_window,battery_dayahead_2h_all_less_caiso_notices_20230815,series variable,USD/kW-year
 price_years_by_window,battery_dayahead_2h_all_less_caiso_notices_20230828,series variable,USD/kW-year

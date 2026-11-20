@@ -693,7 +693,8 @@
   "ba_trade_partners": {
    "status": "public",
    "pages": [
-    "/data"
+    "/data",
+    "/learn/problems"
    ]
   },
   "battery_sourced_ranges": {
@@ -907,6 +908,10 @@
     "/data",
     "/grid"
    ]
+  },
+  "caiso_tie_flows_5min": {
+   "status": "public",
+   "pages": []
   },
   "caiso_wind_solar_forecast": {
    "status": "public",
@@ -1203,6 +1208,14 @@
     "/data",
     "/deals/capital"
    ]
+  },
+  "constraints_binding_hourly": {
+   "status": "public",
+   "pages": []
+  },
+  "constraints_binding_monthly": {
+   "status": "public",
+   "pages": []
   },
   "cost_of_power_carbon": {
    "status": "license needed",
@@ -1607,6 +1620,7 @@
     "/",
     "/cost-of-power/seller",
     "/data",
+    "/learn/problems",
     "/map"
    ]
   },
@@ -1617,6 +1631,7 @@
     "/data",
     "/datacenters",
     "/impact",
+    "/learn/problems",
     "/map",
     "/policy"
    ]
@@ -1626,6 +1641,7 @@
    "pages": [
     "/cost-of-power/seller",
     "/data",
+    "/learn/problems",
     "/policy"
    ]
   },
@@ -1757,7 +1773,8 @@
    "status": "public",
    "pages": [
     "/data",
-    "/grid"
+    "/grid",
+    "/learn/problems"
    ]
   },
   "eia930_all_generation": {
@@ -1795,7 +1812,8 @@
   "eia930_ba_demand_hourly": {
    "status": "public",
    "pages": [
-    "/data"
+    "/data",
+    "/learn/problems"
    ]
   },
   "eia930_ba_interchange_hourly_2018": {
@@ -2329,7 +2347,10 @@
   },
   "eia_hgl_pipelines": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data",
+    "/map"
+   ]
   },
   "eia_ieo_projections": {
    "status": "public",
@@ -3417,6 +3438,10 @@
     "/grid"
    ]
   },
+  "generation_outages_hourly": {
+   "status": "public",
+   "pages": []
+  },
   "generator_pipeline_by_grid": {
    "status": "public",
    "pages": [
@@ -3428,6 +3453,10 @@
    "pages": [
     "/data"
    ]
+  },
+  "grid_all_alerts": {
+   "status": "public",
+   "pages": []
   },
   "grid_network_links": {
    "status": "public",
@@ -3486,7 +3515,10 @@
   },
   "hifld_transmission_lines": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data",
+    "/map"
+   ]
   },
   "hub_price_comparison": {
    "status": "license needed",
@@ -3816,7 +3848,8 @@
    "status": "public",
    "pages": [
     "/cost-of-power",
-    "/data"
+    "/data",
+    "/learn/problems"
    ]
   },
   "large_load_rule_reads": {
@@ -4421,6 +4454,14 @@
     "/data"
    ]
   },
+  "price_congestion_hourly": {
+   "status": "public",
+   "pages": []
+  },
+  "price_congestion_monthly": {
+   "status": "public",
+   "pages": []
+  },
   "price_years_by_window": {
    "status": "public",
    "pages": [
@@ -4964,7 +5005,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 531
+   "public": 533
   },
   "/data/faults": {
    "label": "Known faults in source data",
@@ -5167,7 +5208,7 @@
     "iso_queue_statistics"
    ],
    "internal": 0,
-   "public": 2
+   "public": 4
   },
   "/datacenters": {
    "label": "Datacenter tracker",
@@ -5281,7 +5322,7 @@
     "merchant_revenue_monthly"
    ],
    "internal": 0,
-   "public": 15
+   "public": 22
   },
   "/play/ev": {
    "label": "Should your family get an EV?",

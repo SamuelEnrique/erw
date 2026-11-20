@@ -219,7 +219,9 @@ def unit_of(variable):
         return "pct"
     if variable.endswith("median_years_to_operation"):
         return "year"
-    if variable.startswith("mw_") or variable.endswith("_mw"):
+    # session 9000 (data request 564): "_mw_" inside a name is MW too (active_mw_parts_battery and its four kin sum MW,
+    # the method note's "Active MW by part type"); the share_pct names that hold "_mw_" are caught above
+    if variable.startswith("mw_") or variable.endswith("_mw") or "_mw_" in variable:
         return "MW"
     return "count"
 
