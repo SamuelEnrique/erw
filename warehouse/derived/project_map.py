@@ -180,7 +180,12 @@ def page_rows(out=None):
     q["precision"] = q["geo_precision"].map(PRECISION)
     q["date"] = q["date"].map(_date)
     # session 7052 (done-line request 109): the report's proposed in-service date beside the queue date, 0 where none
-    q["proposed"] = (q["proposed_date"] if "proposed_date" in q else pd.Series("", index=q.index)).map(_date)
+    # session 8012 (chain 505): a table without the column fails loudly. The data machine's daily copy restored an
+    # energy_projects archived before session 7052 added proposed_date, and the old fallback wrote 0 for every
+    # position: map.json lost every proposed date on 19 November and test 7052 failed every landing
+    if "proposed_date" not in q:
+        raise ValueError("energy_projects holds no proposed_date column (an older copy of the table?): rebuild it with warehouse/derived/energy_projects.py")
+    q["proposed"] = q["proposed_date"].map(_date)
     q["card_id"] = q["entity_id"]
     q["role"] = (q["operator_role"] == "developer").astype(int)
     q["technology_text"] = q["technology"]

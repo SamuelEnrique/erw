@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate seds_gas_power, region sd_tx (Texas)
+# Computed 2026-11-19T12:27:15Z by warehouse/analysis/findings/deep/demand.py (seds_gas_power); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the natural gas the state's electric power sector consumed (TBtu), the observations it rests on, and whether the year is full
+# Tables: eia_seds_state_energy
+region,year,value,n_observations,full_year
+sd_tx,1990,1174.039,1.0,1
+sd_tx,1991,1166.833,1.0,1
+sd_tx,1992,1134.448,1.0,1
+sd_tx,1993,1243.646,1.0,1
+sd_tx,1994,1217.139,1.0,1
+sd_tx,1995,1237.655,1.0,1
+sd_tx,1996,1235.134,1.0,1
+sd_tx,1997,1259.99,1.0,1
+sd_tx,1998,1475.569,1.0,1
+sd_tx,1999,1476.355,1.0,1
+sd_tx,2000,1610.708,1.0,1
+sd_tx,2001,1551.627,1.0,1
+sd_tx,2002,1579.375,1.0,1
+sd_tx,2003,1483.822,1.0,1
+sd_tx,2004,1426.117,1.0,1
+sd_tx,2005,1507.392,1.0,1
+sd_tx,2006,1501.245,1.0,1
+sd_tx,2007,1507.8,1.0,1
+sd_tx,2008,1472.66,1.0,1
+sd_tx,2009,1415.85,1.0,1
+sd_tx,2010,1375.275,1.0,1
+sd_tx,2011,1483.987,1.0,1
+sd_tx,2012,1550.46,1.0,1
+sd_tx,2013,1455.086,1.0,1
+sd_tx,2014,1461.971,1.0,1
+sd_tx,2015,1675.718,1.0,1
+sd_tx,2016,1579.983,1.0,1
+sd_tx,2017,1411.641,1.0,1
+sd_tx,2018,1689.371,1.0,1
+sd_tx,2019,1828.831,1.0,1
+sd_tx,2020,1773.447,1.0,1
+sd_tx,2021,1661.561,1.0,1
+sd_tx,2022,1839.198,1.0,1
+sd_tx,2023,2053.455,1.0,1
+sd_tx,2024,2154.917,1.0,1
