@@ -17,7 +17,7 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 - **Size.** Past about 500 MW the battery is paid for reserves ERCOT does not buy (finding 7).
 - **The model findings hold on every open case.** ERCOT and CAISO, both strategies, on the table's current twelve months: the empty start costs 6.3 to 7.6 percent, regulation called 7.9 to 13.0 percent (CAISO at ERCOT's measured rate), and 15-minute energy adds 2.7 to 3.5 percent under perfect foresight.
 - **The replication proves a window the page has left.** The table now gives November 2025 to October 2026, USD 80.34 per kW; the public file and the replication still show 81.40 (finding 11).
-- **Wording fixes are on branches 5, 6 and 10** and move no figure. Every other fix moves figures and is the owner's ruling; each finding has a test on its own branch.
+- **Wording fixes are on branches 5, 6 and 10, and the note's words on 1 and 2,** and move no figure. Every other fix moves figures and is the owner's ruling; each finding has a test on its own branch.
 
 ## How every number here was computed
 
@@ -57,6 +57,7 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 - **The schedule it is paid for cannot be delivered.** Take `solve_day`'s own schedule and call regulation at 17 percent: on 342 of the 365 days the model's own `check_day` finds a limit broken (empty, full, or the energy behind a reserve).
 - **How much.** Re-optimized with regulation called (the energy paid at the hour's price, the round-trip loss on it, Reg Up's energy counted in the one-cycle limit): USD 74.96 per kW, -6.44 (-7.9 percent). Of that, -3.93 is the energy and its losses and -2.51 the cycle limit. Called at 10 percent: 76.09; at 30 percent: 74.06. The battery then holds Reg Up 0.09 and Reg Down 0.35 MW per MW, not 0.47 and 0.76.
 - **The test.** `tests/test_audit_battery_1.py` on `wip/audit-battery-1`: the paid schedule of every day of the last twelve months, with regulation called at 0.17, breaks `check_day` on at least 300 days (342 measured). On a machine with the SCED table it measures the share again (between 0.10 and 0.25).
+- **The note's words, fixed on the branch.** The note's section 4.11 says what ERCOT's telemetry shows and what calling it is worth; no figure moves.
 - **Not fixed.** The fix is a model change (an energy flow per regulation award in the state of charge, the objective and the cycle row) and moves every figure: the owner's ruling. The measurement is real-time telemetry under ERCOT's real-time co-optimization (from 5 December 2025); the deployed energy is priced here at the hour's mean real-time price.
 
 ## 2. Each day starts empty, and the cost is four times what the note says
@@ -68,7 +69,8 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 - **It needs no more foresight than an operator has.** ERCOT's day-ahead market clears the next day's prices in the early afternoon, so an operator deciding what to hold at midnight already knows tomorrow's day-ahead prices; the day-ahead schedule's own reset costs it as much (+6.3 percent, the section on the other open cases).
 - **How much.** The model's program with the state of charge carried across midnight within each calendar month, every other rule unchanged (one cycle per local day, 86 percent, hourly, the day's required durations): USD 86.63 per kW against 81.40, +5.23 (+6.4 percent). Carried across every midnight of the twelve months (one program of 8,760 hours): 86.93, +5.53 (+6.8 percent).
 - **The test.** `tests/test_audit_battery_2.py` on `wip/audit-battery-2`, with `tests/audit_battery_lp.py` (the restated program). It shows the restatement equals `solve_day` on all 365 days, gives the page's 81.4022, then finds the carried figure more than four times the note's bound above it.
-- **Not fixed.** A carried state of charge is a model change that moves every figure: the owner's ruling. The note's section 5 sentence is wrong as written whatever the ruling, and can be corrected in words.
+- **The note's words, fixed on the branch.** Section 5 gains what the empty start costs in all (5.23 to 5.53 per kW) and what ERCOT's storage holds at midnight; no figure moves.
+- **Not fixed.** A carried state of charge is a model change that moves every figure: the owner's ruling.
 
 ## 3. Energy is paid the hourly mean of a price ERCOT settles every 15 minutes
 

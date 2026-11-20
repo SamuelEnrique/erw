@@ -80,7 +80,8 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 - **How much.** Every day of the last twelve months, the same ERCOT hub-average real-time prices: 4 hours, this page's program USD 58.72 per kW against the battery page's 59.95 (-1.23, -2.1 percent); 2 hours, 36.91 against 37.44 (-1.4 percent). The full-power program is below on 317 and 307 of 365 days.
 - **The two pages disagree.** The same battery, the same prices, two answers: 58.72 here, 59.95 on the battery page's program without reserves.
 - **The test.** `tests/test_audit_generator_5.py` on `wip/audit-generator-5`: a day where half power pays, and the twelve months at 4 hours (58.72 against 59.95, below on more than 300 days).
-- **Not fixed.** Using the battery page's `solve_day` here moves the page's battery figures: the owner's ruling. The words "upper bound" can go now (the battery audit's finding 6 has the form).
+- **The words, fixed on the branch.** Decision 3 and the note (section 3.3, and section 13 word for word, `tests/test_session463.py` passes) call the figure optimistic, not an upper bound; no figure moves. The model's own docstring is left alone, so the public file's recorded hash of `merchant_revenue.py` stays true.
+- **Not fixed.** Using the battery page's `solve_day` here moves the page's battery figures: the owner's ruling.
 
 ## 6. The merchant plant sells below zero
 
