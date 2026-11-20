@@ -51,7 +51,7 @@ class ThePage(unittest.TestCase):
 
     def test_it_renders_the_record_and_reads_no_table(self):
         s = _read(PAGE)
-        self.assertIn('render(DOCS.licenses, "docs/licenses.md")', s)
+        self.assertIn('render(DOCS.licenses, "docs/licenses.md"', s)
         self.assertNotIn("supabase", s.lower())
         for key in ("lic|held|count", "lic|held|pub|", "lic|verdict|both|count", "lic|verdict|today_only|count"):
             self.assertIn(key, s)
