@@ -119,7 +119,7 @@ export function toDeal(r: DealRow): Deal {
     id: r.event_id, date: r.event_date.slice(0, 10), month: r.event_date.slice(0, 7), year: r.event_date.slice(0, 4),
     type, group: groupOf(type), status: r.status ?? "",
     buyer, seller, others, names: [buyer, seller, ...others].filter(Boolean), asset, technology,
-    state, country: x.country ?? "", grid: STATE_GRID[state] ?? "",
+    state, country: x.country ?? "", grid: (x.grid ?? "").trim() || (STATE_GRID[state] ?? ""),   // session 7627 (wip/alt-deals-3, not landed): the grid the story names, before the state
     mw: num(r.mw), mwh: num(x.mwh), dollars: num(x.dollars),
     price: num(r.price), priceOther: other !== null ? { value: other, unit: x.price_unit ?? "" } : null,
     termYears: num(x.term_years), ai: String(x.ai_power ?? "").toLowerCase() === "true", storage: isStorage(technology, asset),
