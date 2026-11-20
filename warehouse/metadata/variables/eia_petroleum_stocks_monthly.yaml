@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_petroleum_stocks:<EIA series id>
   type: text
   values:
     distinct: 63
@@ -45,7 +46,6 @@ columns:
     - eia_petroleum_stocks:ESM_EPDM10_SAE_R1X_MBBL
     - eia_petroleum_stocks:ESM_EPDM10_SAE_R1Y_MBBL
   missing_cells: 0
-  particular: eia_petroleum_stocks:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -84,21 +84,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row, the PADDs included
   type: text
   values:
     list:
       US: 18247
   missing_cells: 0
-  particular: US on every row, the PADDs included
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 18247
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name
   type: text
   values:
     distinct: 63
@@ -109,7 +110,6 @@ columns:
     - Central Atlantic (PADD 1B) Ending Stocks of Distillate Fuel Oil, Greater than 15 to 500 ppm Sulfur (Thousand Barrels)
     - Central Atlantic (PADD 1B) Ending Stocks of Propane and Propylene (Thousand Barrels)
   missing_cells: 0
-  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -134,11 +134,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 18247
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: ending_stocks
   label: Ending stocks of the product at the month's end, thousand barrels

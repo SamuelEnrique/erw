@@ -35,11 +35,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: portwatch:<PortWatch's port id of the chokepoint>
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: portwatch:<PortWatch's port id of the chokepoint>
 - name: variable
   shared: true
   type: text
@@ -72,25 +72,25 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 120498
-  particular: 'Not filled: no cell holds a value'
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 120498
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The chokepoint's name, not a pricing node
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The chokepoint's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -111,11 +111,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 120498
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: capacity
   label: Deadweight tonnage of all the day's transits

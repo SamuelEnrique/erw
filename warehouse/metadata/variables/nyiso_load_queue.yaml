@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: nyiso_load_queue:<Queue Number as printed>
   type: text
   values:
     distinct: 74
@@ -45,7 +46,6 @@ columns:
     - nyiso_load_queue:0423
     - nyiso_load_queue:0580
   missing_cells: 0
-  particular: nyiso_load_queue:<Queue Number as printed>
 - name: entity_type
   shared: true
   type: text
@@ -55,6 +55,7 @@ columns:
   missing_cells: 0
 - name: name
   shared: true
+  particular: 'The sheet''s Project: Project Name'
   type: text
   values:
     distinct: 72
@@ -65,9 +66,9 @@ columns:
     - Al Tech Steel Site
     - Alcoa East Energy Allocation Project
   missing_cells: 0
-  particular: 'The sheet''s Project: Project Name'
 - name: geo
   shared: true
+  particular: US-<state> where the state is a two-letter code or a state's name
   type: text
   values:
     list:
@@ -75,7 +76,6 @@ columns:
       US-NY: 71
       US-PA: 2
   missing_cells: 0
-  particular: US-<state> where the state is a two-letter code or a state's name
 - name: lat
   shared: true
   type: empty
@@ -90,15 +90,17 @@ columns:
   missing_cells: 74
 - name: capacity_mw
   shared: true
+  particular: 'The sheet''s Peak MW load as printed: the request''s peak load, not a generator''s capacity'
   type: number
   values:
     distinct: 43
     lowest: 14.38
     highest: 1935.0
   missing_cells: 0
-  particular: 'The sheet''s Peak MW load as printed: the request''s peak load, not a generator''s capacity'
 - name: status
   shared: true
+  particular: 'Read from the words of the sheet''s key: withdrawn where they hold Withdrawn (code 0), completed only for In
+    Service Commercial (14), active for every other code'
   type: text
   values:
     list:
@@ -106,17 +108,16 @@ columns:
       completed: 4
       withdrawn: 17
   missing_cells: 0
-  particular: 'Read from the words of the sheet''s key: withdrawn where they hold Withdrawn (code 0), completed only for In
-    Service Commercial (14), active for every other code'
 - name: status_date
   shared: true
+  particular: 'Empty in every row: the sheet prints no date of withdrawal or of entering service'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 74
-  particular: 'Empty in every row: the sheet prints no date of withdrawal or of entering service'
 - name: operator
   shared: true
+  particular: The sheet's Developer Name
   type: text
   values:
     distinct: 59
@@ -127,7 +128,6 @@ columns:
     - American Data Center Partners LLC
     - Arconic Corporation
   missing_cells: 0
-  particular: The sheet's Developer Name
 - name: source
   shared: true
   type: text
@@ -151,12 +151,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The retrieval date (YYYY-MM-DD)
   type: date
   values:
     list:
       '2026-10-07': 74
   missing_cells: 0
-  particular: The retrieval date (YYYY-MM-DD)
 - name: workbook_last_modified
   label: The HTTP Last-Modified time of NYISO's workbook as retrieved, UTC
   unit: none

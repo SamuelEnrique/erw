@@ -17,9 +17,9 @@ tier: derived
 interval: snapshot
 source:
 - name: 'hifld:control_areas Homeland Infrastructure Foundation-Level Data (HIFLD), Control Areas (ORNL, LANL, INL, NGA HSIP),
-    as served by Penn State''s PASDA:  in batches (sha256 7baf60e617f9d3364c9e49dea9f3bc8a1d4dc32c6bc0cf206cac1613145ec57d,
-    saved at warehouse/raw/hifld_control_areas/20261119T103755Z/control_areas.geojson); EIA-861 Balancing_Authority files
-    (warehouse/raw/eia861); EIA-930 reference tables (warehouse/raw/eia930_reference/20261116T152148Z/EIA930_Reference_Tables.xlsx)'
+    as served by Penn State''s PASDA: https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/26/query
+    in batches (sha256 7baf60e617f9d3364c9e49dea9f3bc8a1d4dc32c6bc0cf206cac1613145ec57d, saved at warehouse/raw/hifld_control_areas/20261119T103755Z/control_areas.geojson);
+    EIA-861 Balancing_Authority files (warehouse/raw/eia861); EIA-930 reference tables (warehouse/raw/eia930_reference/20261116T152148Z/EIA930_Reference_Tables.xlsx)'
   url: https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/26/query
 cite: Homeland Infrastructure Foundation-Level Data (HIFLD), served by Penn State PASDA. Control Areas (balancing authority
   areas), HIFLD open data layer, PASDA map service HIFLD_FEMA layer 26. Via the Energy Research Warehouse (ERW), table `ba_boundaries`.
@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: eia930:<code>, or hifld:control_area:<HIFLD ID> where EIA-861 pairs the ID with no EIA-930 code (4 polygons)
   type: text
   values:
     distinct: 71
@@ -47,7 +48,6 @@ columns:
     - eia930:AVRN
     - eia930:AZPS
   missing_cells: 0
-  particular: eia930:<code>, or hifld:control_area:<HIFLD ID> where EIA-861 pairs the ID with no EIA-930 code (4 polygons)
 - name: entity_type
   shared: true
   type: text
@@ -69,6 +69,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The ISO 3166-2 code of the authority's address state (HIFLD's STATE), not its whole area
   type: text
   values:
     distinct: 29
@@ -79,25 +80,24 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: The ISO 3166-2 code of the authority's address state (HIFLD's STATE), not its whole area
 - name: lat
   shared: true
+  particular: The polygon's centroid
   type: number
   values:
     distinct: 71
     lowest: 21.4547
     highest: 60.30734
   missing_cells: 0
-  particular: The polygon's centroid
 - name: lon
   shared: true
+  particular: The polygon's centroid
   type: number
   values:
     distinct: 71
     lowest: -157.96851
     highest: -68.34041
   missing_cells: 0
-  particular: The polygon's centroid
 - name: capacity_mw
   shared: true
   type: empty
@@ -106,11 +106,11 @@ columns:
   missing_cells: 71
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 71
-  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -146,6 +146,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: HIFLD's SOURCEDATE, a date (YYYY-MM-DD)
   type: date
   values:
     list:
@@ -153,7 +154,6 @@ columns:
       '2019-06-20': 2
       '2021-06-21': 68
   missing_cells: 0
-  particular: HIFLD's SOURCEDATE, a date (YYYY-MM-DD)
 - name: x_hifld_id
   label: HIFLD's ID of the control area, which is EIA's entity identifier of the authority
   unit: none

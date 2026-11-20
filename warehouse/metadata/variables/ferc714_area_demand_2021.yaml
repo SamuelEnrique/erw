@@ -36,12 +36,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ferc714:<PUDL's respondent id>, the planning area's filer; the id links FERC's CSV ids (to 2020) and XBRL ids
+    (from 2021)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: ferc714:<PUDL's respondent id>, the planning area's filer; the id links FERC's CSV ids (to 2020) and XBRL ids
-    (from 2021)
 - name: variable
   shared: true
   type: text
@@ -80,18 +80,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 796348
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The respondent's name from PUDL's respondent table, not a pricing node
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The respondent's name from PUDL's respondent table, not a pricing node
 - name: source
   shared: true
   type: text
@@ -112,11 +112,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified time of PUDL's parquet file
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The Last-Modified time of PUDL's parquet file
 variables:
 - name: demand
   label: 'The planning area''s demand over the hour, as filed (PUDL''s demand_mwh: an hour''s MWh is its mean MW); negatives

@@ -38,6 +38,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: nlr_jedi:<technology>:<state or us>:<phase>:<effect>
   type: text
   values:
     distinct: 2266
@@ -48,7 +49,6 @@ columns:
     - nlr_jedi:geothermal:ak:construction:spending
     - nlr_jedi:geothermal:ak:construction:supply_chain
   missing_cells: 0
-  particular: nlr_jedi:<technology>:<state or us>:<phase>:<effect>
 - name: variable
   shared: true
   type: text
@@ -104,18 +104,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5562
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5562
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -145,11 +145,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5562
-  particular: 'Not filled: no cell holds a value'
 - name: x_technology
   label: 'The technology of the JEDI model: geothermal, land_based_wind, natural_gas or utility_pv'
   unit: none

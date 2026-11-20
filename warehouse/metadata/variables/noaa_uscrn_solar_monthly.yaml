@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: uscrn:<WBAN number>
   type: text
   values:
     list:
@@ -49,7 +50,6 @@ columns:
       uscrn:53151: 221
       uscrn:93243: 257
   missing_cells: 0
-  particular: uscrn:<WBAN number>
 - name: variable
   shared: true
   type: text
@@ -88,22 +88,23 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> of the station
   type: text
   values:
     list:
       US-CA: 1022
       US-TX: 1003
   missing_cells: 0
-  particular: US-<state> of the station
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2025
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The station's name (CA Merced 23 WSW and the others), not a pricing node
   type: text
   values:
     list:
@@ -116,7 +117,6 @@ columns:
       TX Edinburg 17 NNE: 265
       TX Monahans 6 ENE: 278
   missing_cells: 0
-  particular: The station's name (CA Merced 23 WSW and the others), not a pricing node
 - name: source
   shared: true
   type: text
@@ -150,22 +150,22 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified of NOAA's station file
   type: utc time
   values:
     list:
       '2026-10-02T10:36:54Z': 1022
       '2026-10-02T10:36:57Z': 1003
   missing_cells: 0
-  particular: The Last-Modified of NOAA's station file
 - name: ba
   shared: true
+  particular: ciso or erco, the grid the station sits in
   type: text
   values:
     list:
       ciso: 1022
       erco: 1003
   missing_cells: 0
-  particular: ciso or erco, the grid the station sits in
 - name: x_station
   label: The station's name as NOAA's file writes it (CA_Merced_23_WSW and the others)
   unit: none

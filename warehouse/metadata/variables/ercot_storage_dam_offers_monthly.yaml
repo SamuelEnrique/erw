@@ -39,12 +39,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'ercot:esr_fleet in every row: every storage resource'
   type: text
   values:
     list:
       ercot:esr_fleet: 819
   missing_cells: 0
-  particular: 'ercot:esr_fleet in every row: every storage resource'
 - name: variable
   shared: true
   type: text
@@ -101,19 +101,19 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
   type: text
   values:
     list:
       ercot_dam: 819
   missing_cells: 0
-  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 819
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -139,11 +139,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 819
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: as_award_mwh
   label: The five ancillary services' awards together, MWh

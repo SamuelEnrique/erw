@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: rrc:<oil or gas code>-<district no>-<lease no>, the RRC's lease id (a gas lease is one gas well)
   type: text
   values:
     distinct: 4828
@@ -46,7 +47,6 @@ columns:
     - rrc:G-10-299616
     - rrc:G-10-299626
   missing_cells: 0
-  particular: rrc:<oil or gas code>-<district no>-<lease no>, the RRC's lease id (a gas lease is one gas well)
 - name: variable
   shared: true
   type: text
@@ -115,18 +115,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 212252
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 212252
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -150,12 +150,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The dump's oil extract date (2026-09-18)
   type: utc time
   values:
     list:
       '2026-09-18T00:00:00Z': 212252
   missing_cells: 0
-  particular: The dump's oil extract date (2026-09-18)
 - name: x_county
   label: The county (MARTIN)
   unit: none

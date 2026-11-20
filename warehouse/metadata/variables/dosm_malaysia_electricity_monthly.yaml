@@ -37,12 +37,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: dosm:MY on every row
   type: text
   values:
     list:
       dosm:MY: 1224
   missing_cells: 0
-  particular: dosm:MY on every row
 - name: variable
   shared: true
   type: text
@@ -81,27 +81,27 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: MY on every row
   type: text
   values:
     list:
       MY: 1224
   missing_cells: 0
-  particular: MY on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1224
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: Malaysia on every row, not a pricing node
   type: text
   values:
     list:
       Malaysia: 1224
   missing_cells: 0
-  particular: Malaysia on every row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -127,13 +127,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'The file''s Last-Modified (UTC): the supply file or the consumption file'
   type: utc time
   values:
     list:
       '2026-10-07T16:10:05Z': 612
       '2026-10-07T16:10:06Z': 612
   missing_cells: 0
-  particular: 'The file''s Last-Modified (UTC): the supply file or the consumption file'
 variables:
 - name: consumption_exports
   label: Electricity consumption, exports

@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_gas_reserves:<process>:<area>; parts of states and the Lower 48 repeat states and the U.S.
   type: text
   values:
     distinct: 561
@@ -45,7 +46,6 @@ columns:
     - eia_gas_reserves:R11:R48
     - eia_gas_reserves:R11:R5F
   missing_cells: 0
-  particular: eia_gas_reserves:<process>:<area>; parts of states and the Lower 48 repeat states and the U.S.
 - name: variable
   shared: true
   type: text
@@ -84,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> for a state, US otherwise
   type: text
   values:
     list:
@@ -112,16 +113,16 @@ columns:
       US-WV: 392
       US-WY: 392
   missing_cells: 0
-  particular: US-<state> for a state, US otherwise
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 19232
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name (for R11 EIA writes Expected Future Production)
   type: text
   values:
     distinct: 561
@@ -132,7 +133,6 @@ columns:
     - Alabama Dry Natural Gas Reserves Adjustments (Billion Cubic Feet)
     - Alabama Dry Natural Gas Reserves Divestitures (Billion Cubic Feet)
   missing_cells: 0
-  particular: EIA's series name (for R11 EIA writes Expected Future Production)
 - name: source
   shared: true
   type: text
@@ -157,11 +157,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 19232
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: acquisitions
   label: Proved reserves acquired (R16), billion cubic feet

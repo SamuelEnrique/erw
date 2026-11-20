@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<service>, the ancillary service
   type: text
   values:
     list:
@@ -44,7 +45,6 @@ columns:
       ercot:REGUP: 960
       ercot:RRS: 960
   missing_cells: 0
-  particular: ercot:<service>, the ancillary service
 - name: variable
   shared: true
   type: text
@@ -90,14 +90,16 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
   type: text
   values:
     list:
       ercot_dam: 4800
   missing_cells: 0
-  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
 - name: node
   shared: true
+  particular: 'The ancillary service, not a place: REGUP Regulation Up, REGDN Regulation Down, RRS Responsive Reserve, NSPIN
+    Non-Spin, ECRS ERCOT Contingency Reserve Service'
   type: text
   values:
     list:
@@ -107,8 +109,6 @@ columns:
       REGUP: 960
       RRS: 960
   missing_cells: 0
-  particular: 'The ancillary service, not a place: REGUP Regulation Up, REGDN Regulation Down, RRS Responsive Reserve, NSPIN
-    Non-Spin, ECRS ERCOT Contingency Reserve Service'
 - name: source
   shared: true
   type: text
@@ -138,13 +138,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The PublishDate of ERCOT's daily file (10:00 UTC the day before delivery)
   type: utc time
   values:
     distinct: 40
     earliest: '2026-09-02T10:00:00Z'
     latest: '2026-10-11T10:00:00Z'
   missing_cells: 0
-  particular: The PublishDate of ERCOT's daily file (10:00 UTC the day before delivery)
 variables:
 - name: quantity_mw_plan
   label: The MW of the service ERCOT plans to procure in the day-ahead market for the hour (DAM Ancillary Service Plan, NP4-33-CD)

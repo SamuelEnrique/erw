@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <iso>:<node>, every public hub and zone price held (MISO and PJM not included)
   type: text
   values:
     distinct: 39
@@ -47,7 +48,6 @@ columns:
     - ercot:HB_BUSAVG
     - ercot:HB_HOUSTON
   missing_cells: 0
-  particular: <iso>:<node>, every public hub and zone price held (MISO and PJM not included)
 - name: variable
   shared: true
   type: text
@@ -101,11 +101,11 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: the market is in the variable''s prefix (dam or rtm)'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 880
-  particular: 'Not filled: the market is in the variable''s prefix (dam or rtm)'
 - name: node
   shared: true
   type: text
@@ -141,11 +141,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 880
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: dam_above_200_hours_share_pct
   label: 'Day-ahead: share of the window''s hours with a price above USD 200 per MWh'

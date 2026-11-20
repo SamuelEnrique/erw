@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_gas_production:<area>:<series stem>
   type: text
   values:
     distinct: 184
@@ -45,7 +46,6 @@ columns:
     - eia_gas_production:NUS:N9070US
     - eia_gas_production:NUS:NGM_EPG0_FGS_NUS_MMC
   missing_cells: 0
-  particular: eia_gas_production:<area>:<series stem>
 - name: variable
   shared: true
   type: text
@@ -96,13 +96,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 47805
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name
   type: text
   values:
     distinct: 184
@@ -113,7 +114,6 @@ columns:
     - Alabama Natural Gas Marketed Production (MMcf)
     - Alabama Natural Gas Vented and Flared (MMcf)
   missing_cells: 0
-  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -138,11 +138,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 47805
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: dry_production
   label: Dry natural gas production (FPD), million cubic feet in the month

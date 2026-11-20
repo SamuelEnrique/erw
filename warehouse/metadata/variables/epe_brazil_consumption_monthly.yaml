@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: epe:br:<state>:<captive or free>:<sector>
   type: text
   values:
     distinct: 354
@@ -44,7 +45,6 @@ columns:
     - epe:br:ac:captive:industrial
     - epe:br:ac:captive:poder_publico
   missing_cells: 0
-  particular: epe:br:<state>:<captive or free>:<sector>
 - name: variable
   shared: true
   type: text
@@ -84,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: BR-<state>
   type: text
   values:
     distinct: 27
@@ -94,16 +95,16 @@ columns:
     - BR-AP
     - BR-BA
   missing_cells: 0
-  particular: BR-<state>
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 105032
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The state, class and sector as EPE names them in Portuguese, not a pricing node
   type: text
   values:
     distinct: 354
@@ -114,7 +115,6 @@ columns:
     - 'AC: Cativo: Industrial'
     - 'AC: Cativo: Poder Público'
   missing_cells: 0
-  particular: The state, class and sector as EPE names them in Portuguese, not a pricing node
 - name: source
   shared: true
   type: text
@@ -138,12 +138,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-06-03T16:54:55Z': 105032
   missing_cells: 0
-  particular: The workbook's Last-Modified (UTC)
 - name: x_rows
   label: The number of EPE's rows summed into the value (over system, the sector's lower levels, voltage and band)
   unit: count

@@ -32,6 +32,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: wfigs:<IRWIN id, lower case, braces dropped>
   type: text
   values:
     distinct: more than 5000
@@ -42,7 +43,6 @@ columns:
     - wfigs:0033fe45-c7c5-43fc-97fb-6e678ce9bda8
     - wfigs:0034f9b4-3b53-4eb7-9f3f-fdec1c52bbfa
   missing_cells: 0
-  particular: wfigs:<IRWIN id, lower case, braces dropped>
 - name: event_date
   shared: true
   type: date
@@ -53,12 +53,12 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: wildfire on every row
   type: text
   values:
     list:
       wildfire: 6222
   missing_cells: 0
-  particular: wildfire on every row
 - name: parties
   shared: true
   type: empty
@@ -91,13 +91,13 @@ columns:
   missing_cells: 6222
 - name: status
   shared: true
+  particular: out or contained where those times are given, else empty
   type: text
   values:
     list:
       contained: 470
       out: 4513
   missing_cells: 1239
-  particular: out or contained where those times are given, else empty
 - name: source
   shared: true
   type: text
@@ -321,10 +321,10 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The answer's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-10-23T23:06:52Z': 6222
   missing_cells: 0
-  particular: The answer's Last-Modified (UTC)
 second_look: null

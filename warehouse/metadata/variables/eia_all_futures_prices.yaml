@@ -38,11 +38,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:<EIA series id>
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: eia:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -81,18 +81,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: nymex on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: nymex on every row
 - name: node
   shared: true
+  particular: The contract number, 1 to 4 (1 the earliest delivery month)
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The contract number, 1 to 4 (1 the earliest delivery month)
 - name: source
   shared: true
   type: text
@@ -113,11 +113,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 21240
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: futures_price
   label: 'Official daily NYMEX closing price of the contract: USD per barrel for crude oil, USD per gallon for heating oil

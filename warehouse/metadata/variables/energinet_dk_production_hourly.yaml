@@ -35,13 +35,13 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: energinet:DK1 or energinet:DK2, the price area
   type: text
   values:
     list:
       energinet:DK1: 327093
       energinet:DK2: 280218
   missing_cells: 0
-  particular: energinet:DK1 or energinet:DK2, the price area
 - name: variable
   shared: true
   type: text
@@ -80,28 +80,28 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: DK on every row
   type: text
   values:
     list:
       DK: 607311
   missing_cells: 0
-  particular: DK on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 607311
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The price area (DK1 or DK2), not a pricing node
   type: text
   values:
     list:
       DK1: 327093
       DK2: 280218
   missing_cells: 0
-  particular: The price area (DK1 or DK2), not a pricing node
 - name: source
   shared: true
   type: text
@@ -126,12 +126,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The API answer's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-10-24T01:51:12Z': 607311
   missing_cells: 0
-  particular: The API answer's Last-Modified (UTC)
 - name: x_hour_dk
   label: The hour in Danish local time (Energinet's HourDK)
   unit: none

@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: hagstova:fo:<source or consumer group>
   type: text
   values:
     list:
@@ -54,7 +55,6 @@ columns:
       hagstova:fo:transport_communication: 29
       hagstova:fo:wind: 33
   missing_cells: 0
-  particular: hagstova:fo:<source or consumer group>
 - name: variable
   shared: true
   type: text
@@ -93,21 +93,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: FO on every row
   type: text
   values:
     list:
       FO: 421
   missing_cells: 0
-  particular: FO on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 421
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The category as Statistics Faroe Islands names it, not a pricing node
   type: text
   values:
     list:
@@ -128,7 +129,6 @@ columns:
       Transport, mail, and communication: 29
       Wind: 33
   missing_cells: 0
-  particular: The category as Statistics Faroe Islands names it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -154,11 +154,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 421
-  particular: 'Not filled: no cell holds a value'
 - name: x_table
   label: 'The table''s code: UO03020 (production by source) or UO03030 (sales by consumer group)'
   unit: none

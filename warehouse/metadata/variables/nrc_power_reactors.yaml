@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: nrc_reactor:<docket number>
   type: text
   values:
     distinct: 130
@@ -45,17 +46,17 @@ columns:
     - nrc_reactor:05000018
     - nrc_reactor:050000289
   missing_cells: 0
-  particular: nrc_reactor:<docket number>
 - name: entity_type
   shared: true
+  particular: Always generator (a reactor unit)
   type: text
   values:
     list:
       generator: 130
   missing_cells: 0
-  particular: Always generator (a reactor unit)
 - name: name
   shared: true
+  particular: The list's name (the dataset's for a retired unit)
   type: text
   values:
     distinct: 130
@@ -66,9 +67,9 @@ columns:
     - Beaver Valley 2
     - Big Rock Point
   missing_cells: 0
-  particular: The list's name (the dataset's for a retired unit)
 - name: geo
   shared: true
+  particular: US-<state> from the location's last two letters; empty where none is read
   type: text
   values:
     distinct: 36
@@ -79,7 +80,6 @@ columns:
     - US-CA
     - US-CO
   missing_cells: 2
-  particular: US-<state> from the location's last two letters; empty where none is read
 - name: lat
   shared: true
   type: empty
@@ -94,33 +94,34 @@ columns:
   missing_cells: 130
 - name: capacity_mw
   shared: true
+  particular: The operating dataset's Capacity MWe
   type: number
   values:
     distinct: 84
     lowest: 519.0
     highest: 1401.0
   missing_cells: 37
-  particular: The operating dataset's Capacity MWe
 - name: status
   shared: true
+  particular: operating (on the list) or retired (in decommissioning)
   type: text
   values:
     list:
       operating: 95
       retired: 35
   missing_cells: 0
-  particular: operating (on the list) or retired (in decommissioning)
 - name: status_date
   shared: true
+  particular: A retired unit's shutdown date
   type: date
   values:
     distinct: 33
     earliest: '1963-12-19'
     latest: '2021-04-30'
   missing_cells: 95
-  particular: A retired unit's shutdown date
 - name: operator
   shared: true
+  particular: The list's owner and operator
   type: text
   values:
     distinct: 29
@@ -131,7 +132,6 @@ columns:
     - DTE Electric Company
     - Dominion Generation
   missing_cells: 35
-  particular: The list's owner and operator
 - name: source
   shared: true
   type: text

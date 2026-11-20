@@ -31,6 +31,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: attention:<sector>:<geo>, the entities of attention_index_weekly
   type: text
   values:
     distinct: 184
@@ -41,7 +42,6 @@ columns:
     - attention:datacenters:US-CA
     - attention:datacenters:US-DC
   missing_cells: 0
-  particular: attention:<sector>:<geo>, the entities of attention_index_weekly
 - name: variable
   shared: true
   type: text
@@ -84,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US or US-<state> for those places; empty for the place all
   type: text
   values:
     distinct: 47
@@ -94,7 +95,6 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 400
-  particular: US or US-<state> for those places; empty for the place all
 - name: source
   shared: true
   type: text

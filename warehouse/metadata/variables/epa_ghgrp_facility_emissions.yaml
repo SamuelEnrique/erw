@@ -37,6 +37,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ghgrp:<facility id>, or ghgrp:<facility id>:<state> for transmission pipelines and local distribution companies,
+    a row a state where the emissions occur
   type: text
   values:
     distinct: more than 5000
@@ -47,8 +49,6 @@ columns:
     - ghgrp:1000004
     - ghgrp:1000005
   missing_cells: 0
-  particular: ghgrp:<facility id>, or ghgrp:<facility id>:<state> for transmission pipelines and local distribution companies,
-    a row a state where the emissions occur
 - name: variable
   shared: true
   type: text
@@ -94,6 +94,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'US-<state>: the state where the emissions occur where the sheet gives it, else the facility''s state'
   type: text
   values:
     distinct: 54
@@ -104,16 +105,16 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: 'US-<state>: the state where the emissions occur where the sheet gives it, else the facility''s state'
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 70338
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The facility's name, not a pricing node
   type: text
   values:
     distinct: more than 5000
@@ -124,7 +125,6 @@ columns:
     - 121 REGIONAL DISPOSAL FACILITY
     - 15-18565/15-18662
   missing_cells: 0
-  particular: The facility's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -148,12 +148,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The summary zip's Last-Modified time (2024-10-15)
   type: utc time
   values:
     list:
       '2024-10-15T14:42:16Z': 70338
   missing_cells: 0
-  particular: The summary zip's Last-Modified time (2024-10-15)
 - name: x_segment
   label: 'The sheet (segment) of EPA''s data summary the row comes from: Direct Point Emitters, Onshore Oil & Gas Prod., Gathering
     & Boosting, Transmission Pipelines, LDC - Direct Emissions (local gas distribution companies), SF6 from Elec. Equip.'

@@ -135,8 +135,8 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 - **Time:** ts_utc is the local (Pacific) operating day at 00:00:00Z.
 - **Revisions:** Merged by (entity, variable, ts_utc); a daily run re-reads the reports of the last 14 days, so a day read again replaces its rows and the rest is kept. vintage is not filled.
-- **Source:** caiso:production_curtailments Production and curtailments data (5-minute),  (days before 2026-01-01) (https://www.caiso.com/library/production-curtailments-data)
-- **Source:** caiso:daily_renewable_report Daily Renewable Report (curtailment and output),  (days from 2026-01-01) (https://www.caiso.com/library/daily-renewable-reports)
+- **Source:** caiso:production_curtailments Production and curtailments data (5-minute), https://www.caiso.com/library/production-curtailments-data (days before 2026-01-01) (https://www.caiso.com/library/production-curtailments-data)
+- **Source:** caiso:daily_renewable_report Daily Renewable Report (curtailment and output), https://www.caiso.com/library/daily-renewable-reports (days from 2026-01-01) (https://www.caiso.com/library/daily-renewable-reports)
 - **Method note:** [`docs/methods/caiso_curtailment_daily.md`](../methods/caiso_curtailment_daily.md)
 - **Cite as:** California ISO (CAISO). Daily Renewable Report (curtailment and output); Production and curtailments data (5-minute). Via the Energy Research Warehouse (ERW), table `caiso_curtailment_daily`.
 
@@ -177,8 +177,8 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 - **Time:** ts_utc is the interval's start in UTC; a day row's ts_utc is the Pacific day at 00:00:00Z. Only intervals with a curtailment above zero are written; every day covered has a day row, zero included.
 - **Revisions:** Merged by (entity, variable, ts_utc); a run that asks no workbook keeps the rows of 2019 to 2025 the table holds. vintage is the yearly workbook's last-modified time; empty on the rows from the daily reports.
-- **Source:** caiso:production_curtailments California ISO, Production and curtailments data (5-minute),  0 workbooks (https://www.caiso.com/library/production-curtailments-data)
-- **Source:** caiso:daily_renewable_report California ISO, Daily Renewable Report,  305 daily reports (0 not written) (https://www.caiso.com/library/daily-renewable-reports)
+- **Source:** caiso:production_curtailments California ISO, Production and curtailments data (5-minute), https://www.caiso.com/library/production-curtailments-data; 0 workbooks (https://www.caiso.com/library/production-curtailments-data)
+- **Source:** caiso:daily_renewable_report California ISO, Daily Renewable Report, https://www.caiso.com/library/daily-renewable-reports; 305 daily reports (0 not written) (https://www.caiso.com/library/daily-renewable-reports)
 - **Method note:** [`docs/methods/caiso_curtailment_intervals.md`](../methods/caiso_curtailment_intervals.md)
 - **Cite as:** California ISO (CAISO). Daily Renewable Report (curtailment and output); Production and curtailments data (5-minute). Via the Energy Research Warehouse (ERW), table `caiso_curtailment_intervals`.
 

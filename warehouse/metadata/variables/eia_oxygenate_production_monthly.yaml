@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_oxygenate_production:<EIA series id>
   type: text
   values:
     distinct: 30
@@ -45,7 +46,6 @@ columns:
     - eia_oxygenate_production:M_EPOOXE_YOP_R10_2
     - eia_oxygenate_production:M_EPOOXE_YOP_R20_1
   missing_cells: 0
-  particular: eia_oxygenate_production:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -85,21 +85,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row, the PADDs included
   type: text
   values:
     list:
       US: 6006
   missing_cells: 0
-  particular: US on every row, the PADDs included
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 6006
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name (the product and area)
   type: text
   values:
     distinct: 30
@@ -110,7 +111,6 @@ columns:
     - East Coast (PADD 1) Oxygenate Plant Production of MTBE (Thousand Barrels)
     - Gulf Coast (PADD 3) Biofuels Plant Net Production of Other Oxygenates (Thousand Barrels per Day)
   missing_cells: 0
-  particular: EIA's series name (the product and area)
 - name: source
   shared: true
   type: text
@@ -135,11 +135,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 6006
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: biofuels_plant_net_production
   label: Biofuels plant net production (YNP) in the month, thousand barrels

@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: desnz_pl:<area or plant type>
   type: text
   values:
     list:
@@ -52,7 +53,6 @@ columns:
       desnz_pl:scotland: 6
       desnz_pl:uk: 90
   missing_cells: 0
-  particular: desnz_pl:<area or plant type>
 - name: variable
   shared: true
   type: text
@@ -92,6 +92,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: GB (the UK, Great Britain, England and Wales and the plant types), GB-SCT or GB-NIR
   type: text
   values:
     list:
@@ -99,16 +100,16 @@ columns:
       GB-NIR: 27
       GB-SCT: 6
   missing_cells: 0
-  particular: GB (the UK, Great Britain, England and Wales and the plant types), GB-SCT or GB-NIR
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 425
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The sheet's row, prefixed with its part (5.10.A, B or C), not a pricing node
   type: text
   values:
     list:
@@ -129,7 +130,6 @@ columns:
       Simultaneous maximum load met, MW Scotland: 6
       Simultaneous maximum load met, MW Total: 30
   missing_cells: 0
-  particular: The sheet's row, prefixed with its part (5.10.A, B or C), not a pricing node
 - name: source
   shared: true
   type: text
@@ -153,12 +153,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time
   type: utc time
   values:
     list:
       '2026-07-29T17:20:11Z': 425
   missing_cells: 0
-  particular: The workbook's last-modified time
 variables:
 - name: load_factor
   label: Plant load factor of a plant type (5.10.B), pct

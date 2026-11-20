@@ -30,6 +30,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: census:county:<FIPS>, the county, not a station
   type: text
   values:
     distinct: 271
@@ -40,7 +41,6 @@ columns:
     - census:county:01081
     - census:county:01083
   missing_cells: 0
-  particular: census:county:<FIPS>, the county, not a station
 - name: variable
   shared: true
   type: text
@@ -71,27 +71,28 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 271
-  particular: 'Not filled: no cell holds a value'
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 271
-  particular: 'Not filled: no cell holds a value'
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 271
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The county's station as NOAA's USAF-WBAN identifier, not a pricing node
   type: text
   values:
     distinct: 216
@@ -102,7 +103,6 @@ columns:
     - 720598-00191
     - 720612-00203
   missing_cells: 0
-  particular: The county's station as NOAA's USAF-WBAN identifier, not a pricing node
 - name: source
   shared: true
   type: text
@@ -126,11 +126,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 271
-  particular: 'Not filled: no cell holds a value'
 - name: x_region
   label: The EIA region the county is chosen for (CAL, CAR, CENT, FLA, MIDA, MIDW, NE, NW, NY, SE, SW, TEN), its primary region
     in eia_county_region

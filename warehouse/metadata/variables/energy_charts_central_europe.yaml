@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: energy_charts:<at|ch|cz>:<type>, Energy-Charts' name as a slug
   type: text
   values:
     distinct: 43
@@ -47,7 +48,6 @@ columns:
     - energy_charts:at:geothermal
     - energy_charts:at:hydro_pumped_storage
   missing_cells: 0
-  particular: energy_charts:<at|ch|cz>:<type>, Energy-Charts' name as a slug
 - name: variable
   shared: true
   type: text
@@ -86,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: AT, CH or CZ (ISO 3166-1 country codes)
   type: text
   values:
     list:
@@ -93,16 +94,16 @@ columns:
       CH: 334070
       CZ: 618037
   missing_cells: 0
-  particular: AT, CH or CZ (ISO 3166-1 country codes)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1419805
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: '''<Country>: <Energy-Charts'' name>'', not a pricing node'
   type: text
   values:
     distinct: 43
@@ -113,7 +114,6 @@ columns:
     - 'Austria: Geothermal'
     - 'Austria: Hydro Run-of-River'
   missing_cells: 0
-  particular: '''<Country>: <Energy-Charts'' name>'', not a pricing node'
 - name: source
   shared: true
   type: text
@@ -159,11 +159,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: the answers carry no date of their own'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1419805
-  particular: 'Not filled: the answers carry no date of their own'
 - name: x_type
   label: Energy-Charts' name of the production type or measure (Biomass, Fossil gas, Nuclear, Load, Residual load, Cross border
     electricity trading and the others)

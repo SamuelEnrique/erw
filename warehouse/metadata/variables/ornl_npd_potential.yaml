@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: ornl_npd:<National Inventory of Dams id>
   type: text
   values:
     distinct: 597
@@ -45,17 +46,17 @@ columns:
     - ornl_npd:AL01256
     - ornl_npd:AL01429
   missing_cells: 0
-  particular: ornl_npd:<National Inventory of Dams id>
 - name: entity_type
   shared: true
+  particular: 'Always project: a potential site at a dam, not a plan'
   type: text
   values:
     list:
       project: 597
   missing_cells: 0
-  particular: 'Always project: a potential site at a dam, not a plan'
 - name: name
   shared: true
+  particular: The dam's name
   type: text
   values:
     distinct: 597
@@ -66,9 +67,9 @@ columns:
     - ADEL MILLDAM
     - ALAMO DAM
   missing_cells: 0
-  particular: The dam's name
 - name: geo
   shared: true
+  particular: US-<state>; empty for a dam on a state border, whose pair (IL/KY) is in state
   type: text
   values:
     distinct: 44
@@ -79,7 +80,6 @@ columns:
     - US-CA
     - US-CO
   missing_cells: 36
-  particular: US-<state>; empty for a dam on a state border, whose pair (IL/KY) is in state
 - name: lat
   shared: true
   type: number
@@ -98,20 +98,20 @@ columns:
   missing_cells: 0
 - name: capacity_mw
   shared: true
+  particular: 'ORNL''s potential capacity: the potential annual energy over a regional capacity factor, an estimate'
   type: number
   values:
     distinct: 597
     lowest: 1.022157
     highest: 496.049783
   missing_cells: 0
-  particular: 'ORNL''s potential capacity: the potential annual energy over a regional capacity factor, an estimate'
 - name: status
   shared: true
+  particular: 'Not filled: a potential, not a plan'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 597
-  particular: 'Not filled: a potential, not a plan'
 - name: status_date
   shared: true
   type: empty
@@ -120,6 +120,7 @@ columns:
   missing_cells: 597
 - name: operator
   shared: true
+  particular: The dam's owner
   type: text
   values:
     distinct: 238
@@ -130,7 +131,6 @@ columns:
     - Anderson Cottonwood Id
     - Arkansas College
   missing_cells: 22
-  particular: The dam's owner
 - name: source
   shared: true
   type: text
@@ -155,12 +155,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time, UTC
   type: utc time
   values:
     list:
       '2024-08-29T14:41:15Z': 597
   missing_cells: 0
-  particular: The workbook's last-modified time, UTC
 - name: nid_id
   label: The dam's National Inventory of Dams identifier
   unit: none

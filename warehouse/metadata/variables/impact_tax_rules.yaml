@@ -38,6 +38,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: erw_tax:<state>:<rule>
   type: text
   values:
     distinct: 130
@@ -48,7 +49,6 @@ columns:
     - erw_tax:az:az_renewable_valuation
     - erw_tax:ca:ca_prop13
   missing_cells: 0
-  particular: erw_tax:<state>:<rule>
 - name: event_date
   shared: true
   type: date
@@ -64,6 +64,7 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: severance_tax, severance_fee, severance_option or property_tax_rule
   type: text
   values:
     list:
@@ -72,9 +73,9 @@ columns:
       severance_option: 24
       severance_tax: 16
   missing_cells: 0
-  particular: severance_tax, severance_fee, severance_option or property_tax_rule
 - name: parties
   shared: true
+  particular: The citation's publisher, or the state on the forecast's property rules; empty on the no-rule rows
   type: text
   values:
     distinct: 55
@@ -85,44 +86,43 @@ columns:
     - Arkansas
     - California
   missing_cells: 7
-  particular: The citation's publisher, or the state on the forecast's property rules; empty on the no-rule rows
 - name: entity_ids
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 130
-  particular: 'Not filled: no cell holds a value'
 - name: mw
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 130
-  particular: 'Not filled: no cell holds a value'
 - name: price
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 130
-  particular: 'Not filled: no cell holds a value'
 - name: currency
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 130
-  particular: 'Not filled: no cell holds a value'
 - name: status
   shared: true
+  particular: held, or no_rule_held where the ERW holds no statute
   type: text
   values:
     list:
       held: 123
       no_rule_held: 7
   missing_cells: 0
-  particular: held, or no_rule_held where the ERW holds no statute
 - name: source
   shared: true
   type: text

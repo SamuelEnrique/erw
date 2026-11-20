@@ -39,6 +39,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ferc714:<PUDL's respondent id>, a planning area
   type: text
   values:
     distinct: 168
@@ -49,7 +50,6 @@ columns:
     - ferc714:101
     - ferc714:102
   missing_cells: 0
-  particular: ferc714:<PUDL's respondent id>, a planning area
 - name: variable
   shared: true
   type: text
@@ -90,12 +90,12 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 198354
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
   type: empty
@@ -131,6 +131,8 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The later filing's due date, 1 June of the year after its report year (PUDL gives no submission time); part
+    of the key
   type: utc time
   values:
     list:
@@ -154,8 +156,6 @@ columns:
       '2025-06-01T00:00:00Z': 9154
       '2026-06-01T00:00:00Z': 9136
   missing_cells: 0
-  particular: The later filing's due date, 1 June of the year after its report year (PUDL gives no submission time); part
-    of the key
 - name: x_report_year
   label: The report year of the later filing
   unit: none

@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_gas_wells:XDG:<area>, EIA's process and area (S<state>, NUS, R3FM the federal Gulf)
   type: text
   values:
     distinct: 36
@@ -43,7 +44,6 @@ columns:
     - eia_gas_wells:XDG:SAL
     - eia_gas_wells:XDG:SAR
   missing_cells: 0
-  particular: eia_gas_wells:XDG:<area>, EIA's process and area (S<state>, NUS, R3FM the federal Gulf)
 - name: variable
   shared: true
   type: text
@@ -82,6 +82,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> for a state, US otherwise
   type: text
   values:
     distinct: 35
@@ -92,16 +93,16 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: US-<state> for a state, US otherwise
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1062
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name
   type: text
   values:
     distinct: 36
@@ -112,7 +113,6 @@ columns:
     - Arkansas Natural Gas Number of Gas and Gas Condensate Wells (Count)
     - California Natural Gas Number of Gas and Gas Condensate Wells (Count)
   missing_cells: 0
-  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -137,11 +137,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1062
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: gas_wells
   label: Number of producing gas and gas condensate wells (XDG)

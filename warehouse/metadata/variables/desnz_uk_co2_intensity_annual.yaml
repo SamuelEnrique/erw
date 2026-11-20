@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: desnz_ci:<fuel> (coal, gas, non_renewable, all_fuels)
   type: text
   values:
     list:
@@ -44,7 +45,6 @@ columns:
       desnz_ci:gas: 30
       desnz_ci:non_renewable: 30
   missing_cells: 0
-  particular: desnz_ci:<fuel> (coal, gas, non_renewable, all_fuels)
 - name: variable
   shared: true
   type: text
@@ -83,21 +83,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always GB, standing for the UK
   type: text
   values:
     list:
       GB: 119
   missing_cells: 0
-  particular: Always GB, standing for the UK
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 119
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The sheet's row label, not a pricing node
   type: text
   values:
     list:
@@ -106,7 +107,6 @@ columns:
       Coal: 29
       Gas: 30
   missing_cells: 0
-  particular: The sheet's row label, not a pricing node
 - name: source
   shared: true
   type: text
@@ -130,12 +130,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time
   type: utc time
   values:
     list:
       '2026-07-29T17:21:08Z': 119
   missing_cells: 0
-  particular: The workbook's last-modified time
 variables:
 - name: co2_intensity
   label: Estimated CO2 emitted per unit of electricity supplied, kgCO2/MWh (the sheet's tonnes per GWh supplied)

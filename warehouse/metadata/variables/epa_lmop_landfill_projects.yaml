@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: lmop:<Landfill ID>:<Project ID>
   type: text
   values:
     distinct: 3399
@@ -44,17 +45,17 @@ columns:
     - lmop:1003:1075-0
     - lmop:1005:1077-0
   missing_cells: 0
-  particular: lmop:<Landfill ID>:<Project ID>
 - name: entity_type
   shared: true
+  particular: Always project, landfills without a project included
   type: text
   values:
     list:
       project: 3399
   missing_cells: 0
-  particular: Always project, landfills without a project included
 - name: name
   shared: true
+  particular: 'The landfill''s name, then '': '' and the project''s name where it has one'
   type: text
   values:
     distinct: 3361
@@ -65,9 +66,9 @@ columns:
     - 3M Company Nevada Missouri Plant SLF
     - 58th Street Landfill
   missing_cells: 0
-  particular: 'The landfill''s name, then '': '' and the project''s name where it has one'
 - name: geo
   shared: true
+  particular: US-<state> of the landfill (Guam, Puerto Rico and the Virgin Islands among them)
   type: text
   values:
     distinct: 53
@@ -78,37 +79,38 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<state> of the landfill (Guam, Puerto Rico and the Virgin Islands among them)
 - name: lat
   shared: true
+  particular: EPA's latitude of the landfill; blank on 321 rows
   type: number
   values:
     distinct: 2302
     lowest: 13.429707
     highest: 64.80476
   missing_cells: 321
-  particular: EPA's latitude of the landfill; blank on 321 rows
 - name: lon
   shared: true
+  particular: EPA's longitude of the landfill; blank on 321 rows
   type: number
   values:
     distinct: 2307
     lowest: -166.50657
     highest: 144.750611
   missing_cells: 321
-  particular: EPA's longitude of the landfill; blank on 321 rows
 - name: capacity_mw
   shared: true
+  particular: 'EPA''s Rated MW Capacity of the project, repeated on each landfill row of a project fed by several landfills:
+    never sum over rows'
   type: number
   values:
     distinct: 197
     lowest: 0.0
     highest: 50.0
   missing_cells: 2615
-  particular: 'EPA''s Rated MW Capacity of the project, repeated on each landfill row of a project fed by several landfills:
-    never sum over rows'
 - name: status
   shared: true
+  particular: operating (Operational), under_construction (Construction), planned (Planned), retired (Shutdown); blank for
+    Candidate, Future Potential, Low Potential and Unknown
   type: text
   values:
     list:
@@ -117,17 +119,16 @@ columns:
       retired: 712
       under_construction: 33
   missing_cells: 1885
-  particular: operating (Operational), under_construction (Construction), planned (Planned), retired (Shutdown); blank for
-    Candidate, Future Potential, Low Potential and Unknown
 - name: status_date
   shared: true
+  particular: 'Not filled: blank in every row'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3399
-  particular: 'Not filled: blank in every row'
 - name: operator
   shared: true
+  particular: The project's owner(s), EPA's Project Owner(s)
   type: text
   values:
     distinct: 186
@@ -138,7 +139,6 @@ columns:
     - Adrian Energy Associates; Energy Power Partners
     - Air Liquide Biogas
   missing_cells: 2671
-  particular: The project's owner(s), EPA's Project Owner(s)
 - name: source
   shared: true
   type: text
@@ -162,12 +162,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's last-modified time (2024-09-20)
   type: utc time
   values:
     list:
       '2024-09-20T16:32:56Z': 3399
   missing_cells: 0
-  particular: The file's last-modified time (2024-09-20)
 - name: ghgrp_id
   label: The landfill's 7-digit facility id in EPA's Greenhouse Gas Reporting Program
   unit: none

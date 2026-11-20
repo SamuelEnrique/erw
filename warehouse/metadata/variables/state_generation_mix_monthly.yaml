@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:<state>, or eia:US for the nation
   type: text
   values:
     distinct: 53
@@ -42,7 +43,6 @@ columns:
     - eia:AZ
     - eia:CA
   missing_cells: 0
-  particular: eia:<state>, or eia:US for the nation
 - name: variable
   shared: true
   type: text
@@ -93,18 +93,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 108125
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 108125
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -130,11 +130,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 108125
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: net_generation_coal_mwh
   label: Net generation from coal (EIA's COW)

@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_renewable_shares:<geo>
   type: text
   values:
     distinct: 37
@@ -47,7 +48,6 @@ columns:
     - eurostat_renewable_shares:BE
     - eurostat_renewable_shares:BG
   missing_cells: 0
-  particular: eurostat_renewable_shares:<geo>
 - name: variable
   shared: true
   type: text
@@ -106,6 +106,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
   type: text
   values:
     distinct: 36
@@ -116,7 +117,6 @@ columns:
     - BE
     - BG
   missing_cells: 95
-  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
 - name: market
   shared: true
   type: empty
@@ -125,6 +125,7 @@ columns:
   missing_cells: 3095
 - name: node
   shared: true
+  particular: <geo> share, <the item's name>, not a pricing node
   type: text
   values:
     distinct: 163
@@ -135,7 +136,6 @@ columns:
     - AL share, Renewable energy - transport
     - AT share, Renewable energy - electricity
   missing_cells: 0
-  particular: <geo> share, <the item's name>, not a pricing node
 - name: source
   shared: true
   type: text

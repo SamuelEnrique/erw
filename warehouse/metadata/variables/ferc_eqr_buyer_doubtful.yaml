@@ -33,12 +33,12 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: ferc_eqr_doubtful:<quarter>:<five-digit number>, pairs ordered by the rows the two groups are filed on, most
+    first
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: ferc_eqr_doubtful:<quarter>:<five-digit number>, pairs ordered by the rows the two groups are filed on, most
-    first
 - name: event_date
   shared: true
   type: date
@@ -47,18 +47,18 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: doubtful_name_pair on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: doubtful_name_pair on every row
 - name: parties
   shared: true
+  particular: The two groups' shown names, joined by a semicolon
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The two groups' shown names, joined by a semicolon
 - name: entity_ids
   shared: true
   type: empty
@@ -85,11 +85,11 @@ columns:
   missing_cells: 1281
 - name: status
   shared: true
+  particular: not_merged on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: not_merged on every row
 - name: source
   shared: true
   type: text

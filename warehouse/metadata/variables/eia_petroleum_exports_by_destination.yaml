@@ -35,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_petroleum_exports:<EIA destination code>:<product>; products are part of EPP0's total, so a sum leaves EPP0
+    out
   type: text
   values:
     distinct: 1145
@@ -45,8 +47,6 @@ columns:
     - eia_petroleum_exports:NUS-NAA:EPLLEA
     - eia_petroleum_exports:NUS-NAA:EPLLPA
   missing_cells: 0
-  particular: eia_petroleum_exports:<EIA destination code>:<product>; products are part of EPP0's total, so a sum leaves EPP0
-    out
 - name: variable
   shared: true
   type: text
@@ -86,21 +86,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row (the exporter)
   type: text
   values:
     list:
       US: 112478
   missing_cells: 0
-  particular: US on every row (the exporter)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 112478
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The destination and product as EIA names them
   type: text
   values:
     distinct: 1098
@@ -111,7 +112,6 @@ columns:
     - ABW, Finished Motor Gasoline
     - ABW, Kerosene-Type Jet Fuel
   missing_cells: 0
-  particular: The destination and product as EIA names them
 - name: source
   shared: true
   type: text
@@ -161,11 +161,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 112478
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: exports
   label: Exports of the product to the destination in the month, thousand barrels

@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: noaa:<airport code>
   type: text
   values:
     list:
@@ -51,7 +52,6 @@ columns:
       noaa:PHL: 22313
       noaa:SAC: 79466
   missing_cells: 0
-  particular: noaa:<airport code>
 - name: variable
   shared: true
   type: text
@@ -83,27 +83,29 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: 'Not filled: observation times are irregular'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 412435
-  particular: 'Not filled: observation times are irregular'
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 412435
-  particular: 'Not filled: no cell holds a value'
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 412435
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: ISD's report type (FM-15 the routine hourly report, FM-12 synoptic, FM-16 special, SY-MT); where two reports
+    share an instant, FM-15 is kept
   type: text
   values:
     list:
@@ -112,8 +114,6 @@ columns:
       FM-16: 43270
       SY-MT: 182
   missing_cells: 0
-  particular: ISD's report type (FM-15 the routine hourly report, FM-12 synoptic, FM-16 special, SY-MT); where two reports
-    share an instant, FM-15 is kept
 - name: source
   shared: true
   type: text
@@ -143,13 +143,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 412435
-  particular: 'Not filled: no cell holds a value'
 - name: ba
   shared: true
+  particular: The grid the station stands for
   type: text
   values:
     list:
@@ -161,7 +162,6 @@ columns:
       pjm: 24693
       swpp: 23427
   missing_cells: 0
-  particular: The grid the station stands for
 - name: x_station_id
   label: NCEI's station identifier
   unit: none

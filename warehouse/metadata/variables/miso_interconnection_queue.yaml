@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: miso_queue:<project number>
   type: text
   values:
     distinct: 3881
@@ -44,24 +45,24 @@ columns:
     - miso_queue:J1003
     - miso_queue:J1004
   missing_cells: 0
-  particular: miso_queue:<project number>
 - name: entity_type
   shared: true
+  particular: project on every row
   type: text
   values:
     list:
       project: 3881
   missing_cells: 0
-  particular: project on every row
 - name: name
   shared: true
+  particular: Empty on every row
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3881
-  particular: Empty on every row
 - name: geo
   shared: true
+  particular: US-<state> where MISO gives a state, else empty
   type: text
   values:
     list:
@@ -82,7 +83,6 @@ columns:
       US-TX: 91
       US-WI: 249
   missing_cells: 211
-  particular: US-<state> where MISO gives a state, else empty
 - name: lat
   shared: true
   type: empty
@@ -97,15 +97,17 @@ columns:
   missing_cells: 3881
 - name: capacity_mw
   shared: true
+  particular: The larger of MISO's summer and winter net MW, as gridstatus reads it
   type: number
   values:
     distinct: 535
     lowest: 0.0
     highest: 2220.0
   missing_cells: 0
-  particular: The larger of MISO's summer and winter net MW, as gridstatus reads it
 - name: status
   shared: true
+  particular: 'active (Active, Pending Revision Approval, Pending Transfer), completed (Done, LEGACY: Done) or withdrawn,
+    from iso_status'
   type: text
   values:
     list:
@@ -113,24 +115,22 @@ columns:
       completed: 557
       withdrawn: 2148
   missing_cells: 0
-  particular: 'active (Active, Pending Revision Approval, Pending Transfer), completed (Done, LEGACY: Done) or withdrawn,
-    from iso_status'
 - name: status_date
   shared: true
+  particular: The withdrawn date of a withdrawn row; no completed row has one
   type: date
   values:
     distinct: 429
     earliest: '2017-02-17'
     latest: '2026-09-18'
   missing_cells: 1755
-  particular: The withdrawn date of a withdrawn row; no completed row has one
 - name: operator
   shared: true
+  particular: Empty on every row
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3881
-  particular: Empty on every row
 - name: source
   shared: true
   type: text
@@ -154,12 +154,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 2026-09-30T00:00:00Z, a timestamp, where other queues carry a day
   type: utc time
   values:
     list:
       '2026-09-30T00:00:00Z': 3881
   missing_cells: 0
-  particular: 2026-09-30T00:00:00Z, a timestamp, where other queues carry a day
 - name: queue_id
   label: MISO's project number of the request
   unit: none

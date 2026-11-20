@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_aeo_2026_emm:<regionId>:<seriesId>; regionId 5-1 to 5-25 an EMM region, 5-0 the United States
   type: text
   values:
     distinct: 2912
@@ -47,7 +48,6 @@ columns:
     - eia_aeo_2026_emm:5-0:cap_NA_elep_NA_ctd_NA_NA_gw
     - eia_aeo_2026_emm:5-0:cap_NA_elep_NA_diurn_NA_NA_gw
   missing_cells: 0
-  particular: eia_aeo_2026_emm:<regionId>:<seriesId>; regionId 5-1 to 5-25 an EMM region, 5-0 the United States
 - name: variable
   shared: true
   type: text
@@ -90,21 +90,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US for 5-0; empty for a region (it spans states)
   type: text
   values:
     list:
       US: 2912
   missing_cells: 72800
-  particular: US for 5-0; empty for a region (it spans states)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 75712
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: '<region>: <series name>'
   type: text
   values:
     distinct: 2600
@@ -115,7 +116,6 @@ columns:
     - 'Florida Reliability Coordinating Council: Electricity : Electric Power Sector : Capacity : Diurnal Storage'
     - 'Florida Reliability Coordinating Council: Electricity : Electric Power Sector : Capacity : Fossil Steam'
   missing_cells: 0
-  particular: '<region>: <series name>'
 - name: source
   shared: true
   type: text
@@ -140,11 +140,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 75712
-  particular: 'Not filled: no cell holds a value'
 - name: x_scenario
   label: EIA's code of the AEO case (cb2026 on every row)
   unit: none

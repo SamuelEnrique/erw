@@ -34,12 +34,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'caiso:ISO in every row: CAISO''s whole system'
   type: text
   values:
     list:
       caiso:ISO: 33927
   missing_cells: 0
-  particular: 'caiso:ISO in every row: CAISO''s whole system'
 - name: variable
   shared: true
   type: text
@@ -86,18 +86,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 33927
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 33927
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -127,11 +127,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 33927
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: demand_forecast_day_ahead_mw
   label: CAISO's day-ahead forecast of demand for the interval, MW

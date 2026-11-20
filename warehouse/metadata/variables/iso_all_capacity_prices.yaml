@@ -5,9 +5,12 @@
 table: iso_all_capacity_prices
 family: iso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One capacity auction's clearing price for one market, zone and delivery period (PJM's Base Residual Auction, NYISO's
+  ICAP spot auction, ISO-NE's Forward Capacity Auction, MISO's Planning Resource Auction), as published.
+time: ts_utc is the first day of the delivery period; x_period_end is its last; freq the period's length (a month, a season
+  or a year).
+vintage_rule: Merged into the table held on (entity, variable, ts_utc); rebuilt from the ERW archive in session 305. vintage
+  is the source document's Last-Modified time or NYISO's Posted Date.
 keys:
 - entity
 - variable
@@ -45,6 +48,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <market's grid>:<zone or location as published>
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
@@ -87,12 +91,15 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Partition column: the auction market (PJM''s base residual auction, NYISO''s ICAP spot, ISO-NE''s forward capacity
+    auction, MISO''s planning resource auction)'
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
 - name: node
   shared: true
+  particular: The zone or location as the publisher names it
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
@@ -117,65 +124,67 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The source document's Last-Modified time, or NYISO's Posted Date; empty where neither was given
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 26
 - name: x_auction
-  label: null
-  unit: null
+  label: The auction as the publisher names it
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector iso_capacity_prices.py; method capacity_and_ancillary.md
 - name: x_period_end
-  label: null
-  unit: null
+  label: The delivery period's last day
+  unit: none
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector iso_capacity_prices.py
 - name: x_note
-  label: null
-  unit: null
+  label: What the publisher says about the price (such as a floor price)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 383
-  missing_meaning: null
+  missing_meaning: The publisher says nothing more
   source_name: null
-  documented_by: null
+  documented_by: connector iso_capacity_prices.py; method capacity_and_ancillary.md
 - name: x_license
-  label: null
-  unit: null
+  label: The row's own license by its source (the table is internal as a whole)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector iso_capacity_prices.py; method capacity_and_ancillary.md
 variables:
 - name: capacity_price
-  label: null
+  label: The auction's clearing price for the zone and delivery period, in its published unit (USD per MW-day or USD per kW-month),
+    not converted
   unit: USD/MW-day; USD/kW-month
   rows: 810
   first: '2007-06-01T00:00:00Z'
   last: '2028-06-01T00:00:00Z'
 - name: capacity_price_existing
-  label: null
+  label: ISO-NE's clearing price paid to existing resources, where the auction paid new and existing apart
   unit: USD/kW-month
   rows: 2
   first: '2017-06-01T00:00:00Z'
   last: '2018-06-01T00:00:00Z'
 - name: capacity_price_new
-  label: null
+  label: ISO-NE's clearing price paid to new resources, where the auction paid new and existing apart
   unit: USD/kW-month
   rows: 2
   first: '2017-06-01T00:00:00Z'

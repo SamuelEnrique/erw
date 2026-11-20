@@ -34,32 +34,32 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: ferc_eqr_buyer_name:<five-digit number>, the name's place in the builder's order (group key, then name)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: ferc_eqr_buyer_name:<five-digit number>, the name's place in the builder's order (group key, then name)
 - name: entity_type
   shared: true
+  particular: company on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: company on every row
 - name: name
   shared: true
+  particular: The buyer name exactly as filed
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The buyer name exactly as filed
 - name: geo
   shared: true
+  particular: US on every row (set by the builder)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: US on every row (set by the builder)
 - name: lat
   shared: true
   type: empty
@@ -80,11 +80,11 @@ columns:
   missing_cells: 17955
 - name: status
   shared: true
+  particular: active on every row (set by the builder)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: active on every row (set by the builder)
 - name: status_date
   shared: true
   type: empty
@@ -117,11 +117,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 17955
-  particular: 'Not filled: no cell holds a value'
 - name: x_merged
   label: yes when the name's group holds more than one name as filed, else no
   unit: none

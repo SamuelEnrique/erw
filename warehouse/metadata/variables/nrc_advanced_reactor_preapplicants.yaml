@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: nrc_preapp:<the name as the page writes it>
   type: text
   values:
     distinct: 43
@@ -44,17 +45,17 @@ columns:
     - nrc_preapp:antares-nuclear-inc
     - nrc_preapp:apco-joshua-falls
   missing_cells: 0
-  particular: nrc_preapp:<the name as the page writes it>
 - name: entity_type
   shared: true
+  particular: Always company
   type: text
   values:
     list:
       company: 43
   missing_cells: 0
-  particular: Always company
 - name: name
   shared: true
+  particular: As the NRC's table writes it; a link's text kept as written
   type: text
   values:
     distinct: 43
@@ -65,14 +66,13 @@ columns:
     - Advance Energy Bridge (AEB)
     - Advanced Float
   missing_cells: 0
-  particular: As the NRC's table writes it; a link's text kept as written
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 43
-  particular: 'Not filled: no cell holds a value'
 - name: lat
   shared: true
   type: empty
@@ -93,11 +93,11 @@ columns:
   missing_cells: 43
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value (activity is in x_active)'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 43
-  particular: 'Not filled: no cell holds a value (activity is in x_active)'
 - name: status_date
   shared: true
   type: empty
@@ -133,12 +133,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The page's last-modified time as the NRC's server gave it, UTC
   type: utc time
   values:
     list:
       '2026-10-23T13:32:13Z': 43
   missing_cells: 0
-  particular: The page's last-modified time as the NRC's server gave it, UTC
 - name: x_technology
   label: The technology column of the NRC's table the name sits in (High Temperature Gas Reactors, Light Water Reactors, Liquid
     Metal Cooled Reactors, Molten Salt Reactors, Other Designs)

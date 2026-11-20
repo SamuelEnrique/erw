@@ -34,12 +34,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: reserve_report:<grid>:<document slug>
   type: text
   values:
     list:
       reserve_report:caiso:caiso_2026_summer_loads_and_resources_assessment_may_2026: 5
   missing_cells: 0
-  particular: reserve_report:<grid>:<document slug>
 - name: variable
   shared: true
   type: text
@@ -74,34 +74,34 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: 'Not filled: the period is named in x_period'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5
-  particular: 'Not filled: the period is named in x_period'
 - name: geo
   shared: true
+  particular: US in every row
   type: text
   values:
     list:
       US: 5
   missing_cells: 0
-  particular: US in every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The document's title, not a price node
   type: text
   values:
     list:
       CAISO, 2026 Summer Loads and Resources Assessment, May 2026: 5
   missing_cells: 0
-  particular: The document's title, not a price node
 - name: source
   shared: true
   type: text
@@ -125,11 +125,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5
-  particular: 'Not filled: no cell holds a value'
 - name: x_grid
   label: The grid the assessment covers
   unit: none

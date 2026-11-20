@@ -35,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: cer_gas_trade:CA (pipeline trade with the U.S.), cer_gas_trade:CA:US_WEST, :US_MIDWEST, :US_EAST (exports by
+    U.S. region of the crossing), cer_gas_trade:CA:LNG (LNG exports)
   type: text
   values:
     list:
@@ -44,8 +46,6 @@ columns:
       cer_gas_trade:CA:US_MIDWEST: 192
       cer_gas_trade:CA:US_WEST: 192
   missing_cells: 0
-  particular: cer_gas_trade:CA (pipeline trade with the U.S.), cer_gas_trade:CA:US_WEST, :US_MIDWEST, :US_EAST (exports by
-    U.S. region of the crossing), cer_gas_trade:CA:LNG (LNG exports)
 - name: variable
   shared: true
   type: text
@@ -85,21 +85,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always CA
   type: text
   values:
     list:
       CA: 1427
   missing_cells: 0
-  particular: Always CA
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1427
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The measure in words (Canada, natural gas export price), not a pricing node
   type: text
   values:
     list:
@@ -112,7 +113,6 @@ columns:
       Canada, natural gas pipeline exports to the U.S. Midwest: 192
       Canada, natural gas pipeline exports to the U.S. West: 192
   missing_cells: 0
-  particular: The measure in words (Canada, natural gas export price), not a pricing node
 - name: source
   shared: true
   type: text
@@ -137,12 +137,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time, one value in every row
   type: utc time
   values:
     list:
       '2026-04-01T18:56:47Z': 1427
   missing_cells: 0
-  particular: The workbook's last-modified time, one value in every row
 variables:
 - name: export_price
   label: The CER's price of Canada's natural gas exports in the month, USD/MMBtu

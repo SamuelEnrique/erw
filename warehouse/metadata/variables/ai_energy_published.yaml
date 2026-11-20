@@ -17,7 +17,9 @@ tier: source
 interval: event
 source:
 - name: 'erw:ai_energy_published the publications named per row (source_url), saved at warehouse/raw/ai_energy_published/
-    with their sha256:'
+    with their sha256: https://arxiv.org/abs/1906.02243; https://arxiv.org/abs/2104.10350; https://arxiv.org/abs/2204.05149;
+    https://arxiv.org/abs/2211.02001; https://arxiv.org/abs/2311.16863; https://arxiv.org/abs/2508.15734; https://blog.samaltman.com/the-gentle-singularity;
+    https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/msc/documents/presentations/CSR/2026-Microsoft-Environmental-Data-Fact-Sheet-PDF.pdf'
   url: https://sustainability.atmeta.com/asset/2025-environmental-data-index
 cite: Energy Research Warehouse (ERW), from published figures. Energy per AI query, as published (docs/methods/ai_energy_published.md).
   Via the Energy Research Warehouse (ERW), table `ai_energy_published`.
@@ -35,6 +37,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: ai_energy:<publication>_<n>
   type: text
   values:
     list:
@@ -62,9 +65,9 @@ columns:
       ai_energy:strubell_2019_1: 1
       ai_energy:strubell_2019_2: 1
   missing_cells: 0
-  particular: ai_energy:<publication>_<n>
 - name: event_date
   shared: true
+  particular: The publication's date
   type: date
   values:
     list:
@@ -78,17 +81,17 @@ columns:
       '2025-09-12': 1
       '2026-07-09': 1
   missing_cells: 0
-  particular: The publication's date
 - name: event_type
   shared: true
+  particular: publication on every row
   type: text
   values:
     list:
       publication: 23
   missing_cells: 0
-  particular: publication on every row
 - name: parties
   shared: true
+  particular: The publisher (the company, or the authors' institution)
   type: text
   values:
     list:
@@ -101,43 +104,42 @@ columns:
       OpenAI (Sam Altman's blog): 1
       University of Massachusetts Amherst: 2
   missing_cells: 0
-  particular: The publisher (the company, or the authors' institution)
 - name: entity_ids
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 23
-  particular: 'Not filled: no cell holds a value'
 - name: mw
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 23
-  particular: 'Not filled: no cell holds a value'
 - name: price
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 23
-  particular: 'Not filled: no cell holds a value'
 - name: currency
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 23
-  particular: 'Not filled: no cell holds a value'
 - name: status
   shared: true
+  particular: published on every row
   type: text
   values:
     list:
       published: 23
   missing_cells: 0
-  particular: published on every row
 - name: source
   shared: true
   type: text

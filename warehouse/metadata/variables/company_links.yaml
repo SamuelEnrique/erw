@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: company_link:<16 hex characters of a SHA-1 of table, row, role and name>
   type: text
   values:
     distinct: more than 5000
@@ -44,17 +45,17 @@ columns:
     - company_link:0002414a68087ee8
     - company_link:0003593db517ae66
   missing_cells: 0
-  particular: company_link:<16 hex characters of a SHA-1 of table, row, role and name>
 - name: entity_type
   shared: true
+  particular: Always company_link
   type: text
   values:
     list:
       company_link: 97198
   missing_cells: 0
-  particular: Always company_link
 - name: name
   shared: true
+  particular: The company's name in company_directory
   type: text
   values:
     distinct: more than 5000
@@ -65,14 +66,13 @@ columns:
     - 1008 Matthews Solar, LLC
     - 1009 Yadkin Solar, LLC
   missing_cells: 0
-  particular: The company's name in company_directory
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 97198
-  particular: 'Not filled: no cell holds a value'
 - name: lat
   shared: true
   type: empty
@@ -87,29 +87,29 @@ columns:
   missing_cells: 97198
 - name: capacity_mw
   shared: true
+  particular: The input row's MW (the same as mw)
   type: number
   values:
     distinct: 4263
     lowest: -53.3
     highest: 10400.0
   missing_cells: 57335
-  particular: The input row's MW (the same as mw)
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 97198
-  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
+  particular: The input row's date (the same as date)
   type: date
   values:
     distinct: 3010
     earliest: '1891-01-01'
     latest: '2039-12-01'
   missing_cells: 23300
-  particular: The input row's date (the same as date)
 - name: operator
   shared: true
   type: empty
@@ -283,13 +283,13 @@ columns:
   documented_by: header; method companies.md
 - name: mw
   shared: true
+  particular: The input row's MW as it states it; on owner rows nameplate times the percent owned
   type: number
   values:
     distinct: 4263
     lowest: -53.3
     highest: 10400.0
   missing_cells: 57335
-  particular: The input row's MW as it states it; on owner rows nameplate times the percent owned
 - name: usd
   label: The deal's dollars as the energy_deals row states them
   unit: USD

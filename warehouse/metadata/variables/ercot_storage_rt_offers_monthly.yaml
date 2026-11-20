@@ -35,12 +35,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'ercot:esr_fleet in every row: every storage resource'
   type: text
   values:
     list:
       ercot:esr_fleet: 175
   missing_cells: 0
-  particular: 'ercot:esr_fleet in every row: every storage resource'
 - name: variable
   shared: true
   type: text
@@ -95,19 +95,19 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
   type: text
   values:
     list:
       ercot_rtm: 175
   missing_cells: 0
-  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 175
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -131,11 +131,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 175
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: days_held
   label: Operating days of the month held

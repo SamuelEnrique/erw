@@ -47,6 +47,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <iso>:<hub>, the operator's hub name
   type: text
   values:
     list:
@@ -70,7 +71,6 @@ columns:
       spp:SPPNORTH_HUB: 5092
       spp:SPPSOUTH_HUB: 5092
   missing_cells: 0
-  particular: <iso>:<hub>, the operator's hub name
 - name: variable
   shared: true
   type: text
@@ -102,15 +102,16 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: PT15M, or PT1H for MISO's hourly rows
   type: text
   values:
     list:
       PT15M: 77900
       PT1H: 7104
   missing_cells: 0
-  particular: PT15M, or PT1H for MISO's hourly rows
 - name: geo
   shared: true
+  particular: US-CA for CAISO, US-TX for ERCOT, a list of 15 states for MISO and of 14 for SPP
   type: text
   values:
     list:
@@ -119,9 +120,9 @@ columns:
       US-CA: 23340
       US-TX: 44376
   missing_cells: 0
-  particular: US-CA for CAISO, US-TX for ERCOT, a list of 15 states for MISO and of 14 for SPP
 - name: market
   shared: true
+  particular: 'caiso_rtm, ercot_rtm, miso_rtm or spp_rtm: the real-time market of the grid the row belongs to'
   type: text
   values:
     list:
@@ -130,9 +131,10 @@ columns:
       miso_rtm: 7104
       spp_rtm: 10184
   missing_cells: 0
-  particular: 'caiso_rtm, ercot_rtm, miso_rtm or spp_rtm: the real-time market of the grid the row belongs to'
 - name: node
   shared: true
+  particular: 'The operator''s trading hub: CAISO TH_NP15_GEN-APND, TH_SP15_GEN-APND, TH_ZP26_GEN-APND; ERCOT HB_HOUSTON,
+    HB_NORTH, HB_SOUTH, HB_WEST and the averages HB_BUSAVG and HB_HUBAVG; MISO''s eight hubs; SPP SPPNORTH_HUB and SPPSOUTH_HUB'
   type: text
   values:
     list:
@@ -156,8 +158,6 @@ columns:
       TH_SP15_GEN-APND: 7780
       TH_ZP26_GEN-APND: 7780
   missing_cells: 0
-  particular: 'The operator''s trading hub: CAISO TH_NP15_GEN-APND, TH_SP15_GEN-APND, TH_ZP26_GEN-APND; ERCOT HB_HOUSTON,
-    HB_NORTH, HB_SOUTH, HB_WEST and the averages HB_BUSAVG and HB_HUBAVG; MISO''s eight hubs; SPP SPPNORTH_HUB and SPPSOUTH_HUB'
 - name: source
   shared: true
   type: text
@@ -192,14 +192,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: ERCOT's document publish time or MISO's file Last-Modified; empty where the source gives no publish time (CAISO,
+    SPP)
   type: utc time
   values:
     distinct: 3210
     earliest: '2026-09-01T11:19:43Z'
     latest: '2026-11-16T06:02:02Z'
   missing_cells: 33524
-  particular: ERCOT's document publish time or MISO's file Last-Modified; empty where the source gives no publish time (CAISO,
-    SPP)
 variables:
 - name: lmp_rtm
   label: 'MISO: hourly real-time ex-post locational marginal price (preliminary report rows have source miso:rt_lmp_prelim)'

@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: ercot_node:<settlement point>
   type: text
   values:
     distinct: 569
@@ -42,17 +43,17 @@ columns:
     - ercot_node:ADL_RN
     - ercot_node:AEEC
   missing_cells: 0
-  particular: ercot_node:<settlement point>
 - name: entity_type
   shared: true
+  particular: 'generator: the resource ERCOT settles at the node'
   type: text
   values:
     list:
       generator: 569
   missing_cells: 0
-  particular: 'generator: the resource ERCOT settles at the node'
 - name: name
   shared: true
+  particular: The settlement point's name
   type: text
   values:
     distinct: 569
@@ -63,15 +64,14 @@ columns:
     - ADL_RN
     - AEEC
   missing_cells: 0
-  particular: The settlement point's name
 - name: geo
   shared: true
+  particular: US-TX in every row
   type: text
   values:
     list:
       US-TX: 569
   missing_cells: 0
-  particular: US-TX in every row
 - name: lat
   shared: true
   type: empty
@@ -92,11 +92,11 @@ columns:
   missing_cells: 569
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 569
-  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -132,11 +132,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 569
-  particular: 'Not filled: no cell holds a value'
 - name: x_station
   label: The settlement point's name up to the first underscore, the station code (7RNCHSLR_ALL gives 7RNCHSLR)
   unit: none

@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: iso_queue:<grid>:<fuel group> for a snapshot row, iso_queue:<grid> for a year row
   type: text
   values:
     distinct: 29
@@ -46,7 +47,6 @@ columns:
     - iso_queue:caiso:other
     - iso_queue:caiso:solar
   missing_cells: 0
-  particular: iso_queue:<grid>:<fuel group> for a snapshot row, iso_queue:<grid> for a year row
 - name: variable
   shared: true
   type: text
@@ -80,34 +80,34 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: Empty on the snapshot rows; P1Y on the year rows
   type: text
   values:
     list:
       P1Y: 430
   missing_cells: 140
-  particular: Empty on the snapshot rows; P1Y on the year rows
 - name: geo
   shared: true
+  particular: US in every row
   type: text
   values:
     list:
       US: 570
   missing_cells: 0
-  particular: US in every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 570
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 570
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -131,13 +131,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The snapshot's date (YYYY-MM-DD), the queue table's retrieval day
   type: date
   values:
     list:
       '2026-10-19': 310
       '2026-10-26': 260
   missing_cells: 0
-  particular: The snapshot's date (YYYY-MM-DD), the queue table's retrieval day
 - name: x_grid
   label: The grid whose queue the row summarizes (caiso, ercot, spp)
   unit: none

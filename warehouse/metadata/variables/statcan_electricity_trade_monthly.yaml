@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: statcan_trade:<area>, the area ca or the province's or territory's postal code in lower case
   type: text
   values:
     list:
@@ -55,7 +56,6 @@ columns:
       statcan_trade:sk: 2287
       statcan_trade:yt: 446
   missing_cells: 0
-  particular: statcan_trade:<area>, the area ca or the province's or territory's postal code in lower case
 - name: variable
   shared: true
   type: text
@@ -94,6 +94,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: CA for Canada, CA-<province> for a province or territory
   type: text
   values:
     list:
@@ -112,16 +113,16 @@ columns:
       CA-SK: 2287
       CA-YT: 446
   missing_cells: 0
-  particular: CA for Canada, CA-<province> for a province or territory
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 25215
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: '<area>: <component> as StatCan names them, not a pricing node'
   type: text
   values:
     distinct: 170
@@ -132,7 +133,6 @@ columns:
     - 'Alberta: Firm deliveries to the United States'
     - 'Alberta: Non-firm deliveries to other provinces'
   missing_cells: 0
-  particular: '<area>: <component> as StatCan names them, not a pricing node'
 - name: source
   shared: true
   type: text
@@ -156,12 +156,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified time of StatCan's zip
   type: utc time
   values:
     list:
       '2026-10-08T12:30:35Z': 25215
   missing_cells: 0
-  particular: The Last-Modified time of StatCan's zip
 - name: x_total
   label: yes where the component is one of StatCan's totals (its name begins Total), never to be summed with its parts
   unit: none

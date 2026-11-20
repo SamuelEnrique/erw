@@ -55,11 +55,11 @@ columns:
   missing_cells: 0
 - name: parties
   shared: true
+  particular: Seller;buyer, the buyer under the name the rules count it as (certain merges applied, doubtful pairs not)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: Seller;buyer, the buyer under the name the rules count it as (certain merges applied, doubtful pairs not)
 - name: entity_ids
   shared: true
   type: empty
@@ -68,18 +68,18 @@ columns:
   missing_cells: 186873
 - name: mw
   shared: true
+  particular: The quantity when filed in MW, or in kW divided by 1,000 (x_mw_source); a quantity of zero is left empty
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 175294
-  particular: The quantity when filed in MW, or in kW divided by 1,000 (x_mw_source); a quantity of zero is left empty
 - name: price
   shared: true
+  particular: USD per MWh, from a rate filed as a number in $/MWH or $/KWH, or read from the words in those units (x_price_source)
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 149127
-  particular: USD per MWh, from a rate filed as a number in $/MWH or $/KWH, or read from the words in those units (x_price_source)
 - name: currency
   shared: true
   type: text

@@ -35,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia923:<balancing authority code>; eia923:none for plants with no code, eia923:state_fuel_increment for EIA's
+    state-fuel level increment rows
   type: text
   values:
     distinct: 68
@@ -45,8 +47,6 @@ columns:
     - eia923:AZPS
     - eia923:BANC
   missing_cells: 0
-  particular: eia923:<balancing authority code>; eia923:none for plants with no code, eia923:state_fuel_increment for EIA's
-    state-fuel level increment rows
 - name: variable
   shared: true
   type: text
@@ -87,26 +87,26 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 515
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 515
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 515
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -133,6 +133,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified time of the year's EIA-923 zip file
   type: utc time
   values:
     list:
@@ -140,7 +141,6 @@ columns:
       '2026-01-12T20:59:57Z': 171
       '2026-09-11T13:28:33Z': 174
   missing_cells: 0
-  particular: The Last-Modified time of the year's EIA-923 zip file
 variables:
 - name: net_generation_mwh
   label: Net generation of the plants coded to the authority in the year (sheet Page 1 Generation and Fuel Data), MWh

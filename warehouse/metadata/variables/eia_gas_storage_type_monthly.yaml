@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_gas_storage_type:<EIA series id>
   type: text
   values:
     list:
@@ -56,7 +57,6 @@ columns:
       eia_gas_storage_type:N5550US2: 391
       eia_gas_storage_type:N5560US2: 391
   missing_cells: 0
-  particular: eia_gas_storage_type:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -95,21 +95,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 8367
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8367
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series description
   type: text
   values:
     list:
@@ -132,7 +133,6 @@ columns:
       U.S. Total Natural Gas in Underground Storage (Base Gas) (MMcf): 614
       U.S. Total Natural Gas in Underground Storage (Working Gas) (MMcf): 614
   missing_cells: 0
-  particular: EIA's series description
 - name: source
   shared: true
   type: text
@@ -158,11 +158,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8367
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: all_base_gas
   label: Base gas in all storage fields at the month's end, million cubic feet

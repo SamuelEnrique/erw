@@ -34,6 +34,8 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: eia860_solar:<plant code>:<generator id>; EIA-860M's tables name the same generator eia860:<plant code>:<generator
+    id>
   type: text
   values:
     distinct: more than 5000
@@ -44,18 +46,17 @@ columns:
     - eia860_solar:10287:BWSOL
     - eia860_solar:10334:PV1
   missing_cells: 0
-  particular: eia860_solar:<plant code>:<generator id>; EIA-860M's tables name the same generator eia860:<plant code>:<generator
-    id>
 - name: entity_type
   shared: true
+  particular: Always generator
   type: text
   values:
     list:
       generator: 8520
   missing_cells: 0
-  particular: Always generator
 - name: name
   shared: true
+  particular: The plant's name
   type: text
   values:
     distinct: more than 5000
@@ -66,9 +67,9 @@ columns:
     - 1 Commercial
     - 10 Briggs Solar NG, LLC (East)
   missing_cells: 0
-  particular: The plant's name
 - name: geo
   shared: true
+  particular: US-<plant state>
   type: text
   values:
     distinct: 50
@@ -79,32 +80,33 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<plant state>
 - name: lat
   shared: true
+  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8520
-  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
 - name: lon
   shared: true
+  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8520
-  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
 - name: capacity_mw
   shared: true
+  particular: EIA's nameplate capacity (AC)
   type: number
   values:
     distinct: 552
     lowest: 0.1
     highest: 2250.0
   missing_cells: 0
-  particular: EIA's nameplate capacity (AC)
 - name: status
   shared: true
+  particular: 'EIA''s code (x_eia_status) as the standard''s word: OP, OA, OS operating; RE retired; CN withdrawn; IP suspended
+    (the solar file has no Proposed sheet)'
   type: text
   values:
     list:
@@ -113,19 +115,18 @@ columns:
       suspended: 36
       withdrawn: 313
   missing_cells: 0
-  particular: 'EIA''s code (x_eia_status) as the standard''s word: OP, OA, OS operating; RE retired; CN withdrawn; IP suspended
-    (the solar file has no Proposed sheet)'
 - name: status_date
   shared: true
+  particular: The first day of the month of operation (operable) or of retirement (retired); empty for the canceled and postponed
   type: date
   values:
     distinct: 223
     earliest: '2001-05-01'
     latest: '2025-12-01'
   missing_cells: 349
-  particular: The first day of the month of operation (operable) or of retirement (retired); empty for the canceled and postponed
 - name: operator
   shared: true
+  particular: The reporting utility's name (EIA's Utility Name)
   type: text
   values:
     distinct: 2703
@@ -136,7 +137,6 @@ columns:
     - 1009 Yadkin Solar, LLC
     - 1034 Catherine Lake Solar, LLC
   missing_cells: 0
-  particular: The reporting utility's name (EIA's Utility Name)
 - name: source
   shared: true
   type: text
@@ -160,12 +160,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The data year, 2025
   type: integer
   values:
     list:
       '2025': 8520
   missing_cells: 0
-  particular: The data year, 2025
 - name: x_plant_code
   label: EIA's plant code
   unit: none

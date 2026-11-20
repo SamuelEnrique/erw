@@ -36,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'statec_trade:lu:<STATEC''s code, lower-cased>: l01 imports, l02 exports, sl01 to sl06 by country, ssl01 and
+    ssl02 Germany''s split'
   type: text
   values:
     list:
@@ -50,8 +52,6 @@ columns:
       statec_trade:lu:ssl01: 37
       statec_trade:lu:ssl02: 38
   missing_cells: 0
-  particular: 'statec_trade:lu:<STATEC''s code, lower-cased>: l01 imports, l02 exports, sl01 to sl06 by country, ssl01 and
-    ssl02 Germany''s split'
 - name: variable
   shared: true
   type: text
@@ -90,21 +90,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always LU (Luxembourg)
   type: text
   values:
     list:
       LU: 584
   missing_cells: 0
-  particular: Always LU (Luxembourg)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 584
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: STATEC's code and label (SL01 From Belgium), not a pricing node
   type: text
   values:
     list:
@@ -119,7 +120,6 @@ columns:
       SSL01 Société Électrique de l'Our (SEO): 37
       SSL02 Others: 38
   missing_cells: 0
-  particular: STATEC's code and label (SL01 From Belgium), not a pricing node
 - name: source
   shared: true
   type: text
@@ -143,11 +143,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 584
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: electricity_exports
   label: Electricity Luxembourg exported in the year, to the destination the node names (or in total), MWh (STATEC's GWh times

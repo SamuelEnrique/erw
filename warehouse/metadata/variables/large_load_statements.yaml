@@ -52,18 +52,18 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: large_load_statement on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: large_load_statement on every row
 - name: parties
   shared: true
+  particular: The entity the statement is filed under
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The entity the statement is filed under
 - name: entity_ids
   shared: true
   type: empty
@@ -72,11 +72,11 @@ columns:
   missing_cells: 798
 - name: mw
   shared: true
+  particular: The quantity as written, in MW (gigawatts times 1,000); empty for a range or a wait row
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 226
-  particular: The quantity as written, in MW (gigawatts times 1,000); empty for a range or a wait row
 - name: price
   shared: true
   type: empty
@@ -91,11 +91,11 @@ columns:
   missing_cells: 798
 - name: status
   shared: true
+  particular: The stage in the document's own words (the same as stage_as_worded)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 5
-  particular: The stage in the document's own words (the same as stage_as_worded)
 - name: source
   shared: true
   type: text
@@ -104,11 +104,11 @@ columns:
   missing_cells: 0
 - name: source_url
   shared: true
+  particular: The utility's or operator's own document, or the copy a commission, the SEC or an operator posts
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The utility's or operator's own document, or the copy a commission, the SEC or an operator posts
 - name: entity_group
   label: The group the entity is counted under (one of the eighty chosen entities, or a body outside them)
   unit: none
@@ -121,18 +121,18 @@ columns:
   documented_by: connector large_load_statements.py
 - name: entity
   shared: true
+  particular: The utility, operator or other body the statement is about, as its collector named it
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The utility, operator or other body the statement is about, as its collector named it
 - name: entity_type
   shared: true
+  particular: The kind of body, as its collector recorded it
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The kind of body, as its collector recorded it
 - name: parent_company
   label: The entity's parent company, as its collector recorded it
   unit: none

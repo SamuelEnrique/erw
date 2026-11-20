@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: eia861_utility:<utility number>:<state>:<year>
   type: text
   values:
     distinct: more than 5000
@@ -43,17 +44,17 @@ columns:
     - eia861_utility:10000:MO:2018
     - eia861_utility:10000:MO:2019
   missing_cells: 0
-  particular: eia861_utility:<utility number>:<state>:<year>
 - name: entity_type
   shared: true
+  particular: Always utility
   type: text
   values:
     list:
       utility: 22716
   missing_cells: 0
-  particular: Always utility
 - name: name
   shared: true
+  particular: The utility's name as EIA writes it
   type: text
   values:
     distinct: 3754
@@ -64,9 +65,9 @@ columns:
     - 4-County Electric Power Assn
     - 4Change Energy Company
   missing_cells: 0
-  particular: The utility's name as EIA writes it
 - name: geo
   shared: true
+  particular: US-<state>, or US for the 10 rows EIA gives with no state
   type: text
   values:
     distinct: 58
@@ -77,7 +78,6 @@ columns:
     - US-AR
     - US-AS
   missing_cells: 0
-  particular: US-<state>, or US for the 10 rows EIA gives with no state
 - name: lat
   shared: true
   type: empty
@@ -98,13 +98,14 @@ columns:
   missing_cells: 22716
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 22716
-  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
+  particular: The data year's 1 January
   type: date
   values:
     list:
@@ -120,7 +121,6 @@ columns:
       '2024-01-01': 1703
       '2025-01-01': 1720
   missing_cells: 0
-  particular: The data year's 1 January
 - name: operator
   shared: true
   type: empty
@@ -170,11 +170,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 22716
-  particular: 'Not filled: no cell holds a value'
 - name: x_utility_number
   label: EIA's utility identifier
   unit: none

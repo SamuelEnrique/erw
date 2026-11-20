@@ -34,13 +34,13 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: caiso:<node>, the hub's CAISO name
   type: text
   values:
     list:
       caiso:TH_NP15_GEN-APND: 1512
       caiso:TH_SP15_GEN-APND: 1512
   missing_cells: 0
-  particular: caiso:<node>, the hub's CAISO name
 - name: variable
   shared: true
   type: text
@@ -86,21 +86,21 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'caiso_dam in every row: CAISO''s day-ahead market'
   type: text
   values:
     list:
       caiso_dam: 3024
   missing_cells: 0
-  particular: 'caiso_dam in every row: CAISO''s day-ahead market'
 - name: node
   shared: true
+  particular: 'CAISO''s name of the trading hub price node: TH_NP15_GEN-APND (NP15) or TH_SP15_GEN-APND (SP15)'
   type: text
   values:
     list:
       TH_NP15_GEN-APND: 1512
       TH_SP15_GEN-APND: 1512
   missing_cells: 0
-  particular: 'CAISO''s name of the trading hub price node: TH_NP15_GEN-APND (NP15) or TH_SP15_GEN-APND (SP15)'
 - name: source
   shared: true
   type: text
@@ -130,11 +130,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3024
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: lmp_dam
   label: Day-ahead locational marginal price (the price of energy at the hub in the day-ahead market), from CAISO's OASIS

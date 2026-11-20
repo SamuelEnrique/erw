@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: bcrp_pe:crude_oil, bcrp_pe:natural_gas_liquids or bcrp_pe:natural_gas
   type: text
   values:
     list:
@@ -42,7 +43,6 @@ columns:
       bcrp_pe:natural_gas: 320
       bcrp_pe:natural_gas_liquids: 320
   missing_cells: 0
-  particular: bcrp_pe:crude_oil, bcrp_pe:natural_gas_liquids or bcrp_pe:natural_gas
 - name: variable
   shared: true
   type: text
@@ -82,21 +82,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: PE on every row
   type: text
   values:
     list:
       PE: 960
   missing_cells: 0
-  particular: PE on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 960
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: BCRP's series name in Spanish, with its unit, not a pricing node
   type: text
   values:
     list:
@@ -104,7 +105,6 @@ columns:
       Hidrocarburos - Líquidos de gas natural (miles de barriles): 320
       Hidrocarburos - Petróleo (miles de barriles): 320
   missing_cells: 0
-  particular: BCRP's series name in Spanish, with its unit, not a pricing node
 - name: source
   shared: true
   type: text
@@ -129,11 +129,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 960
-  particular: 'Not filled: no cell holds a value'
 - name: x_series_code
   label: BCRP's code of the series (PN01882AM, PN01883AM, PN01884AM)
   unit: none

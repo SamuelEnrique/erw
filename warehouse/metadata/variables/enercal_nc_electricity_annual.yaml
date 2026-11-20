@@ -37,11 +37,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: enercal:nc:<block>:<item>, each block with its total
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: enercal:nc:<block>:<item>, each block with its total
 - name: variable
   shared: true
   type: text
@@ -74,25 +74,25 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The territory's two-letter ISO 3166-1 code on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The territory's two-letter ISO 3166-1 code on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 83
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The report's label of the row, not a pricing node
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The report's label of the row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -113,11 +113,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The report's Last-Modified time as the server sent it
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The report's Last-Modified time as the server sent it
 - name: x_period
   label: The report's year (July to June) as it labels it
   unit: none

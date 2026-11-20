@@ -15,8 +15,8 @@ license: public
 tier: model_extracted
 interval: event
 source:
-- name: erw:large_load_public ERW derived table, docs/methods/large_load_public.md,  each row's source_url is the regulator's,
-    the SEC's or the publisher's own copy of the document
+- name: erw:large_load_public ERW derived table, docs/methods/large_load_public.md, https://github.com/SamuelEnrique/erw/blob/main/docs/methods/large_load_public.md;
+    each row's source_url is the regulator's, the SEC's or the publisher's own copy of the document
   url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/large_load_public.md
 cite: Energy Research Warehouse (ERW), derived. The large-load statements whose source document is public, as facts with a
   link (warehouse/derived/large_load_public.py). Via the Energy Research Warehouse (ERW), table `large_load_public`.
@@ -55,14 +55,15 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: Always large_load_statement
   type: text
   values:
     list:
       large_load_statement: 341
   missing_cells: 0
-  particular: Always large_load_statement
 - name: parties
   shared: true
+  particular: The entity, as the statements table names it
   type: text
   values:
     distinct: 67
@@ -73,7 +74,6 @@ columns:
     - American Electric Power
     - Appalachian Power (AEP)
   missing_cells: 0
-  particular: The entity, as the statements table names it
 - name: entity_ids
   shared: true
   type: empty
@@ -82,13 +82,13 @@ columns:
   missing_cells: 341
 - name: mw
   shared: true
+  particular: Megawatts on a row_kind mw row
   type: number
   values:
     distinct: 170
     lowest: 5.32039
     highest: 474000.0
   missing_cells: 101
-  particular: Megawatts on a row_kind mw row
 - name: price
   shared: true
   type: empty
@@ -103,6 +103,7 @@ columns:
   missing_cells: 341
 - name: status
   shared: true
+  particular: The stage as one of the ERW's five classes, or not classed; not the document's words
   type: text
   values:
     list:
@@ -113,7 +114,6 @@ columns:
       5 under construction or energized: 34
       not classed: 177
   missing_cells: 0
-  particular: The stage as one of the ERW's five classes, or not classed; not the document's words
 - name: source
   shared: true
   type: text
@@ -123,6 +123,7 @@ columns:
   missing_cells: 0
 - name: source_url
   shared: true
+  particular: The regulator's, the SEC's or the publisher's own copy of the document
   type: text
   values:
     distinct: 124
@@ -133,7 +134,6 @@ columns:
     - https://docs.cpuc.ca.gov/PublishedDocs/Efile/G000/M556/K897/556897173.PDF
     - https://docs.cpuc.ca.gov/PublishedDocs/Efile/G000/M604/K023/604023792.PDF
   missing_cells: 0
-  particular: The regulator's, the SEC's or the publisher's own copy of the document
 - name: entity_group
   label: The group the entity is counted under (67 entities in 55 groups), as the builder names it
   unit: none

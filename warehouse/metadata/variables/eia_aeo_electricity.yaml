@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_aeo_2026:<seriesId>:<case>
   type: text
   values:
     distinct: 1309
@@ -43,7 +44,6 @@ columns:
     - eia_aeo_2026:cap_NA_elep_NA_cuc_NA_usa_gw:electrnp
     - eia_aeo_2026:cap_NA_elep_NA_cuc_NA_usa_gw:highZTC
   missing_cells: 0
-  particular: eia_aeo_2026:<seriesId>:<case>
 - name: variable
   shared: true
   type: text
@@ -84,21 +84,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 34034
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 34034
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's name of the series
   type: text
   values:
     distinct: 111
@@ -109,7 +110,6 @@ columns:
     - 'Electricity : Electric Power Sector : Combined Heat and Power : Other'
     - 'Electricity : Electric Power Sector : Combined Heat and Power : Petroleum'
   missing_cells: 0
-  particular: EIA's name of the series
 - name: source
   shared: true
   type: text
@@ -176,11 +176,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: the release is in the entity id'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 34034
-  particular: 'Not filled: the release is in the entity id'
 - name: x_table
   label: The AEO table the series is read from (8 or 9)
   unit: none

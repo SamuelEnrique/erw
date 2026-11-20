@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_gas_price:<process>:<area>, EIA's process code and area code (S<state> or NUS)
   type: text
   values:
     distinct: 257
@@ -46,7 +47,6 @@ columns:
     - eia_gas_price:PCS:SAR
     - eia_gas_price:PCS:SAZ
   missing_cells: 0
-  particular: eia_gas_price:<process>:<area>, EIA's process code and area code (S<state> or NUS)
 - name: variable
   shared: true
   type: text
@@ -85,6 +85,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation
   type: text
   values:
     distinct: 52
@@ -95,16 +96,16 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: US-<state>, or US for the nation
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 72550
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name
   type: text
   values:
     distinct: 257
@@ -115,7 +116,6 @@ columns:
     - Alabama Price of Natural Gas Sold to Commercial Consumers (Dollars per Thousand Cubic Feet)
     - Alaska Natural Gas Industrial Price (Dollars per Thousand Cubic Feet)
   missing_cells: 0
-  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -140,11 +140,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 72550
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: price_citygate
   label: 'Citygate price (EIA process PG1: gas delivered to the local distribution company), USD per thousand cubic feet'

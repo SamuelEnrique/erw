@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<region> (CAL, CAR, CENT, FLA, MIDA, MIDW, NE, NW, NY, SE, SW, TEN)
   type: text
   values:
     list:
@@ -53,7 +54,6 @@ columns:
       eia930:TEN: 593892
       eia930:TEX: 595804
   missing_cells: 0
-  particular: eia930:<region> (CAL, CAR, CENT, FLA, MIDA, MIDW, NE, NW, NY, SE, SW, TEN)
 - name: variable
   shared: true
   type: text
@@ -103,6 +103,7 @@ columns:
   missing_cells: 0
 - name: ba
   shared: true
+  particular: The region's code, lowercase
   type: text
   values:
     list:
@@ -120,7 +121,6 @@ columns:
       ten: 593892
       tex: 595804
   missing_cells: 0
-  particular: The region's code, lowercase
 - name: x_bas
   label: How many balancing authorities were summed for the region-hour
   unit: count

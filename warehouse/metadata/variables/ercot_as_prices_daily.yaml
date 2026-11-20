@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<service>, the ancillary service (ECRS, NSPIN, REGDN, REGUP, RRS)
   type: text
   values:
     list:
@@ -41,7 +42,6 @@ columns:
       ercot:REGUP: 16125
       ercot:RRS: 16125
   missing_cells: 0
-  particular: ercot:<service>, the ancillary service (ECRS, NSPIN, REGDN, REGUP, RRS)
 - name: variable
   shared: true
   type: text
@@ -88,14 +88,15 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
   type: text
   values:
     list:
       ercot_dam: 70695
   missing_cells: 0
-  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
 - name: node
   shared: true
+  particular: The ancillary service, not a place
   type: text
   values:
     list:
@@ -105,7 +106,6 @@ columns:
       REGUP: 16125
       RRS: 16125
   missing_cells: 0
-  particular: The ancillary service, not a place
 - name: source
   shared: true
   type: text
@@ -149,11 +149,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 70695
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: mcpc_dam_hours
   label: The hours of the day held

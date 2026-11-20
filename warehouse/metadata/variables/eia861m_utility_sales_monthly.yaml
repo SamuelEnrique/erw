@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia861m:<EIA utility number>:<state>
   type: text
   values:
     distinct: 763
@@ -44,7 +45,6 @@ columns:
     - eia861m:10066:CO
     - eia861m:10071:HI
   missing_cells: 0
-  particular: eia861m:<EIA utility number>:<state>
 - name: variable
   shared: true
   type: text
@@ -85,6 +85,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>
   type: text
   values:
     distinct: 52
@@ -95,16 +96,16 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<state>
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1051488
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The utility's name, not a pricing node
   type: text
   values:
     distinct: 402
@@ -115,7 +116,6 @@ columns:
     - AGC Division of APG Inc
     - AGC Division of APGI Inc
   missing_cells: 0
-  particular: The utility's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -157,11 +157,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1051488
-  particular: 'Not filled: no cell holds a value'
 - name: x_utility_number
   label: EIA's utility number
   unit: none

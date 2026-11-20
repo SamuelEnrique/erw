@@ -34,12 +34,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ssb:norway on every row
   type: text
   values:
     list:
       ssb:norway: 5550
   missing_cells: 0
-  particular: ssb:norway on every row
 - name: variable
   shared: true
   type: text
@@ -78,21 +78,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: NO on every row
   type: text
   values:
     list:
       'NO': 5550
   missing_cells: 0
-  particular: NO on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5550
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The line's name as SSB writes it, not a pricing node
   type: text
   values:
     distinct: 26
@@ -103,7 +104,6 @@ columns:
     - Consumption in extraction of crude petroleum and natural gas
     - Consumption in households
   missing_cells: 0
-  particular: The line's name as SSB writes it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -127,12 +127,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: SSB's updated time of the table (UTC)
   type: utc time
   values:
     list:
       '2026-10-19T06:00:00Z': 5550
   missing_cells: 0
-  particular: SSB's updated time of the table (UTC)
 - name: x_code
   label: 'SSB''s code for the line (1, 1.1, ..., 7.42: its place in the balance)'
   unit: none

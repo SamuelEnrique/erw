@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: fbos:fj:efl (units produced and sold) or fbos:fj:<consumer class> (units sold)
   type: text
   values:
     list:
@@ -45,7 +46,6 @@ columns:
       fbos:fj:industrial: 14
       fbos:fj:others: 13
   missing_cells: 0
-  particular: fbos:fj:efl (units produced and sold) or fbos:fj:<consumer class> (units sold)
 - name: variable
   shared: true
   type: text
@@ -96,21 +96,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: FJ on every row
   type: text
   values:
     list:
       FJ: 83
   missing_cells: 0
-  particular: FJ on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 83
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: FBoS's row label, not a pricing node
   type: text
   values:
     list:
@@ -121,7 +122,6 @@ columns:
       Units Produced (kwh): 14
       Units Sold (kwh): 14
   missing_cells: 0
-  particular: FBoS's row label, not a pricing node
 - name: source
   shared: true
   type: text
@@ -147,11 +147,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 83
-  particular: 'Not filled: no cell holds a value'
 - name: x_label
   label: FBoS's row label as printed (the same as node)
   unit: none

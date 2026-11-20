@@ -35,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <iso>:queue_<entry year> for all positions, <iso>:tech_<group>:queue_<entry year> for a technology group (storage,
+    solar, solar_storage, wind, gas, other, not_stated)
   type: text
   values:
     distinct: 741
@@ -45,8 +47,6 @@ columns:
     - caiso:queue_2002
     - caiso:queue_2003
   missing_cells: 0
-  particular: <iso>:queue_<entry year> for all positions, <iso>:tech_<group>:queue_<entry year> for a technology group (storage,
-    solar, solar_storage, wind, gas, other, not_stated)
 - name: variable
   shared: true
   type: text
@@ -88,13 +88,14 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8990
-  particular: 'Not filled: no cell holds a value'
 - name: market
   shared: true
+  particular: '<iso>_queue: the queue of the ISO the row summarizes'
   type: text
   values:
     list:
@@ -105,14 +106,13 @@ columns:
       nyiso_queue: 2056
       spp_queue: 1980
   missing_cells: 0
-  particular: '<iso>_queue: the queue of the ISO the row summarizes'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8990
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -137,11 +137,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8990
-  particular: 'Not filled: no cell holds a value'
 - name: x_iso
   label: The ISO whose queue the row summarizes (CAISO, ERCOT, ISO-NE, MISO, NYISO, SPP)
   unit: none

@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: isone:<node>, the node's ISO-NE name
   type: text
   values:
     list:
@@ -47,7 +48,6 @@ columns:
       isone:.Z.VERMONT: 1777
       isone:.Z.WCMASS: 1777
   missing_cells: 0
-  particular: isone:<node>, the node's ISO-NE name
 - name: variable
   shared: true
   type: text
@@ -86,22 +86,24 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO-NE's six states in every row, also for a zone in one state
   type: text
   values:
     list:
       US-CT,US-MA,US-ME,US-NH,US-RI,US-VT: 15993
   missing_cells: 0
-  particular: ISO-NE's six states in every row, also for a zone in one state
 - name: market
   shared: true
+  particular: 'isone_rtm in every row: ISO-NE''s real-time energy market'
   type: text
   values:
     list:
       isone_rtm: 15993
   missing_cells: 0
-  particular: 'isone_rtm in every row: ISO-NE''s real-time energy market'
 - name: node
   shared: true
+  particular: 'ISO-NE''s name of the location: .H.INTERNAL_HUB (the Internal Hub) or .Z.<zone> for the eight load zones (CONNECTICUT,
+    MAINE, NEMASSBOST, NEWHAMPSHIRE, RHODEISLAND, SEMASS, VERMONT, WCMASS)'
   type: text
   values:
     list:
@@ -115,17 +117,15 @@ columns:
       .Z.VERMONT: 1777
       .Z.WCMASS: 1777
   missing_cells: 0
-  particular: 'ISO-NE''s name of the location: .H.INTERNAL_HUB (the Internal Hub) or .Z.<zone> for the eight load zones (CONNECTICUT,
-    MAINE, NEMASSBOST, NEWHAMPSHIRE, RHODEISLAND, SEMASS, VERMONT, WCMASS)'
 - name: source
   shared: true
+  particular: isone:rt_lmp_hourly_final for a final row, isone:rt_lmp_hourly_prelim for a preliminary row
   type: text
   values:
     list:
       isone:rt_lmp_hourly_final: 14697
       isone:rt_lmp_hourly_prelim: 1296
   missing_cells: 0
-  particular: isone:rt_lmp_hourly_final for a final row, isone:rt_lmp_hourly_prelim for a preliminary row
 - name: source_url
   shared: true
   type: text
@@ -148,13 +148,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The final file's Last-Modified; empty on preliminary rows (publish time not given by the source)
   type: utc time
   values:
     distinct: 68
     earliest: '2026-08-27T17:35:33Z'
     latest: '2026-11-13T21:30:13Z'
   missing_cells: 1296
-  particular: The final file's Last-Modified; empty on preliminary rows (publish time not given by the source)
 variables:
 - name: lmp_rtm
   label: Hourly real-time locational marginal price (the price of energy at the location in the real-time market), ISO-NE's

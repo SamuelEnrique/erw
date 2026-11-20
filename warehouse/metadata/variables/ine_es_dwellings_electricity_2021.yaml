@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ine_viv:es, ine_viv:ccaa_<code>, ine_viv:prov_<code> or ine_viv:mun_<code>, INE's codes
   type: text
   values:
     distinct: 3257
@@ -46,7 +47,6 @@ columns:
     - ine_viv:ccaa_04
     - ine_viv:ccaa_05
   missing_cells: 0
-  particular: ine_viv:es, ine_viv:ccaa_<code>, ine_viv:prov_<code> or ine_viv:mun_<code>, INE's codes
 - name: variable
   shared: true
   type: text
@@ -85,21 +85,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ES on every row, whatever the area
   type: text
   values:
     list:
       ES: 58626
   missing_cells: 0
-  particular: ES on every row, whatever the area
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 58626
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: INE's area code and name with the measure in Spanish, not a pricing node
   type: text
   values:
     distinct: more than 5000
@@ -110,7 +111,6 @@ columns:
     - '01 Andalucía: Viviendas con consumo entre 2.001 y 3.000 kwh'
     - '01 Andalucía: Viviendas con consumo entre 3.001 y 4.000 kwh'
   missing_cells: 0
-  particular: INE's area code and name with the measure in Spanish, not a pricing node
 - name: source
   shared: true
   type: text
@@ -134,12 +134,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The CSV's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-03-02T13:17:24Z': 58626
   missing_cells: 0
-  particular: The CSV's Last-Modified (UTC)
 - name: x_level
   label: 'The area''s level: nation, ccaa (autonomous community or city), province or municipality'
   unit: none

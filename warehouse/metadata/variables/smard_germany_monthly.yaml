@@ -34,12 +34,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: smard:de on every row
   type: text
   values:
     list:
       smard:de: 1800
   missing_cells: 0
-  particular: smard:de on every row
 - name: variable
   shared: true
   type: text
@@ -78,21 +78,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: DE on every row
   type: text
   values:
     list:
       DE: 1800
   missing_cells: 0
-  particular: DE on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1800
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The column as SMARD writes it, not a pricing node
   type: text
   values:
     list:
@@ -110,7 +111,6 @@ columns:
       Wind onshore: 141
       grid load: 141
   missing_cells: 0
-  particular: The column as SMARD writes it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -134,11 +134,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1800
-  particular: 'Not filled: no cell holds a value'
 - name: x_file
   label: The file of SMARD's download the value is read from (actual generation or actual consumption)
   unit: none

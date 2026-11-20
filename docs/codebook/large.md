@@ -58,7 +58,7 @@ Shape: events. Keys: `event_id`. License: public; tier: model_extracted. Rows re
 
 - **Time:** event_date is the document's date (event_date_basis 'document').
 - **Revisions:** Rewritten whole by each run of the builder (warehouse/derived/large_load_public.py) from large_load_statements.
-- **Source:** erw:large_load_public ERW derived table, docs/methods/large_load_public.md,  each row's source_url is the regulator's, the SEC's or the publisher's own copy of the document (https://github.com/SamuelEnrique/erw/blob/main/docs/methods/large_load_public.md)
+- **Source:** erw:large_load_public ERW derived table, docs/methods/large_load_public.md, https://github.com/SamuelEnrique/erw/blob/main/docs/methods/large_load_public.md; each row's source_url is the regulator's, the SEC's or the publisher's own copy of the document (https://github.com/SamuelEnrique/erw/blob/main/docs/methods/large_load_public.md)
 - **Method note:** [`docs/methods/large_load_public.md`](../methods/large_load_public.md)
 - **Cite as:** Energy Research Warehouse (ERW), derived. The large-load statements whose source document is public, as facts with a link (warehouse/derived/large_load_public.py). Via the Energy Research Warehouse (ERW), table `large_load_public`.
 

@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_gas_storage:<process>:<area>
   type: text
   values:
     distinct: 205
@@ -45,7 +46,6 @@ columns:
     - eia_gas_storage:SAB:R84
     - eia_gas_storage:SAB:R85
   missing_cells: 0
-  particular: eia_gas_storage:<process>:<area>
 - name: variable
   shared: true
   type: text
@@ -96,13 +96,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 55015
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name
   type: text
   values:
     distinct: 205
@@ -113,7 +114,6 @@ columns:
     - AGA Eastern Consuming Region Natural Gas in Underground Storage (Base Gas) (MMcf)
     - AGA Eastern Consuming Region Natural Gas in Underground Storage (Working Gas) (MMcf)
   missing_cells: 0
-  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -138,11 +138,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 55015
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: base_gas
   label: Base gas (gas left in place to keep pressure) at the month's end (SAB), million cubic feet

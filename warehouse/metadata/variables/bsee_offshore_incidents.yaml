@@ -33,6 +33,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: bsee_incident:<serial>
   type: text
   values:
     distinct: 4818
@@ -43,7 +44,6 @@ columns:
     - bsee_incident:-25879
     - bsee_incident:-25880
   missing_cells: 0
-  particular: bsee_incident:<serial>
 - name: event_date
   shared: true
   type: date
@@ -54,14 +54,15 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: offshore_incident on every row
   type: text
   values:
     list:
       offshore_incident: 4818
   missing_cells: 0
-  particular: offshore_incident on every row
 - name: parties
   shared: true
+  particular: The operator
   type: text
   values:
     distinct: 95
@@ -72,9 +73,9 @@ columns:
     - Arena Offshore, LP
     - Array Petroleum, LLC
   missing_cells: 0
-  particular: The operator
 - name: entity_ids
   shared: true
+  particular: lease:<number>
   type: text
   values:
     distinct: 683
@@ -85,7 +86,6 @@ columns:
     - lease:00026
     - lease:00031
   missing_cells: 606
-  particular: lease:<number>
 - name: mw
   shared: true
   type: empty
@@ -106,11 +106,11 @@ columns:
   missing_cells: 4818
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4818
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text

@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_steo:<seriesId>
   type: text
   values:
     distinct: 54
@@ -47,7 +48,6 @@ columns:
     - eia_steo:ESCMU_HAK
     - eia_steo:ESCMU_MAC
   missing_cells: 0
-  particular: eia_steo:<seriesId>
 - name: variable
   shared: true
   type: text
@@ -90,21 +90,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row, the census division series included
   type: text
   values:
     list:
       US: 10195
   missing_cells: 0
-  particular: US on every row, the census division series included
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 10195
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series description
   type: text
   values:
     distinct: 54
@@ -115,7 +116,6 @@ columns:
     - Natural Gas Henry Hub Spot Price ($/mmBtu)
     - Natural gas share of U.S. electricity generation
   missing_cells: 0
-  particular: EIA's series description
 - name: source
   shared: true
   type: text
@@ -143,13 +143,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The release's date at 00:00:00Z, part of the key
   type: utc time
   values:
     list:
       '2026-10-06T00:00:00Z': 5088
       '2026-11-10T00:00:00Z': 5107
   missing_cells: 0
-  particular: The release's date at 00:00:00Z, part of the key
 - name: x_kind
   label: forecast for a period from the release's own month (or year) on, history for EIA's figure for an earlier period
   unit: none

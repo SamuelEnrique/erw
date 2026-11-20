@@ -35,12 +35,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'ercot:HB_HUBAVG on every row: the hub the points are compared with'
   type: text
   values:
     list:
       ercot:HB_HUBAVG: 1344
   missing_cells: 0
-  particular: 'ercot:HB_HUBAVG on every row: the hub the points are compared with'
 - name: variable
   shared: true
   type: text
@@ -100,21 +100,21 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: ercot_dam or ercot_rtm
   type: text
   values:
     list:
       ercot_dam: 1092
       ercot_rtm: 252
   missing_cells: 0
-  particular: ercot_dam or ercot_rtm
 - name: node
   shared: true
+  particular: HB_HUBAVG on every row
   type: text
   values:
     list:
       HB_HUBAVG: 1344
   missing_cells: 0
-  particular: HB_HUBAVG on every row
 - name: source
   shared: true
   type: text
@@ -138,11 +138,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1344
-  particular: 'Not filled: no cell holds a value'
 - name: x_market
   label: 'The market: dam (day-ahead) or rtm (real time)'
   unit: none

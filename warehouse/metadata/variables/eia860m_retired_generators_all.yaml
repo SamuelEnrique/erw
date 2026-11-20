@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: eia860:<plant id>:<generator id>
   type: text
   values:
     distinct: more than 5000
@@ -44,17 +45,17 @@ columns:
     - eia860:10008:CG-1
     - eia860:10008:CG-3
   missing_cells: 0
-  particular: eia860:<plant id>:<generator id>
 - name: entity_type
   shared: true
+  particular: Always generator
   type: text
   values:
     list:
       generator: 7334
   missing_cells: 0
-  particular: Always generator
 - name: name
   shared: true
+  particular: EIA's plant name
   type: text
   values:
     distinct: 2654
@@ -65,9 +66,9 @@ columns:
     - 3 MW LLC
     - 5 in 1 Dam Hydroelectric
   missing_cells: 0
-  particular: EIA's plant name
 - name: geo
   shared: true
+  particular: US-<plant state>
   type: text
   values:
     distinct: 52
@@ -78,7 +79,6 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<plant state>
 - name: lat
   shared: true
   type: number
@@ -97,32 +97,33 @@ columns:
   missing_cells: 44
 - name: capacity_mw
   shared: true
+  particular: EIA's nameplate capacity, equal to nameplate_mw in every row
   type: number
   values:
     distinct: 776
     lowest: 0.1
     highest: 1425.6
   missing_cells: 0
-  particular: EIA's nameplate capacity, equal to nameplate_mw in every row
 - name: status
   shared: true
+  particular: Always retired
   type: text
   values:
     list:
       retired: 7334
   missing_cells: 0
-  particular: Always retired
 - name: status_date
   shared: true
+  particular: The first day of EIA's retirement month (equal to retirement_date in every row)
   type: date
   values:
     distinct: 309
     earliest: '1972-11-01'
     latest: '2026-08-01'
   missing_cells: 0
-  particular: The first day of EIA's retirement month (equal to retirement_date in every row)
 - name: operator
   shared: true
+  particular: EIA's Entity Name, the utility that operated the generator
   type: text
   values:
     distinct: 1721
@@ -133,7 +134,6 @@ columns:
     - 8309 Tujunga Avenue Corp
     - A & N Electric Coop
   missing_cells: 0
-  particular: EIA's Entity Name, the utility that operated the generator
 - name: source
   shared: true
   type: text
@@ -157,12 +157,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: EIA's inventory month, YYYY-MM
   type: text
   values:
     list:
       2026-08: 7334
   missing_cells: 0
-  particular: EIA's inventory month, YYYY-MM
 - name: plant_id
   label: EIA's plant identifier
   unit: none

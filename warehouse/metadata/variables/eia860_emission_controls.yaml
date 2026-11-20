@@ -35,6 +35,8 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: eia860_control:<plant code>:<equipment type>:<control ids>, each id written <kind>_<id> and joined with '+';
+    ends in ':' for the 24 controls with no id
   type: text
   values:
     distinct: more than 5000
@@ -45,18 +47,17 @@ columns:
     - eia860_control:10013:ACI:mercury_1
     - eia860_control:10013:ACI:mercury_2
   missing_cells: 0
-  particular: eia860_control:<plant code>:<equipment type>:<control ids>, each id written <kind>_<id> and joined with '+';
-    ends in ':' for the 24 controls with no id
 - name: entity_type
   shared: true
+  particular: Always equipment (Decision 54)
   type: text
   values:
     list:
       equipment: 5375
   missing_cells: 0
-  particular: Always equipment (Decision 54)
 - name: name
   shared: true
+  particular: The plant's name and the equipment type
   type: text
   values:
     distinct: 2615
@@ -67,9 +68,9 @@ columns:
     - ' CD'
     - ' EK'
   missing_cells: 0
-  particular: The plant's name and the equipment type
 - name: geo
   shared: true
+  particular: US-<plant state>, or US for the 27 controls at plants no boiler, standards or cooling sheet names
   type: text
   values:
     distinct: 51
@@ -80,30 +81,31 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: US-<plant state>, or US for the 27 controls at plants no boiler, standards or cooling sheet names
 - name: lat
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5375
-  particular: Not filled
 - name: lon
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5375
-  particular: Not filled
 - name: capacity_mw
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5375
-  particular: Not filled
 - name: status
   shared: true
+  particular: 'EIA''s equipment status code (x_eia_status) as the standard''s word: OP, SB, OS, SC, OZ operating; PL planned;
+    CO, TS under_construction; RE retired; CN withdrawn; empty for the one row with no code'
   type: text
   values:
     list:
@@ -113,20 +115,19 @@ columns:
       under_construction: 8
       withdrawn: 19
   missing_cells: 1
-  particular: 'EIA''s equipment status code (x_eia_status) as the standard''s word: OP, SB, OS, SC, OZ operating; PL planned;
-    CO, TS under_construction; RE retired; CN withdrawn; empty for the one row with no code'
 - name: status_date
   shared: true
+  particular: The first day of the month in service (operating) or of retirement (retired); empty for 72 retired controls
+    with no retirement date and the others
   type: date
   values:
     distinct: 633
     earliest: '1950-06-01'
     latest: '2026-12-01'
   missing_cells: 106
-  particular: The first day of the month in service (operating) or of retirement (retired); empty for 72 retired controls
-    with no retirement date and the others
 - name: operator
   shared: true
+  particular: EIA's Utility Name; empty for the 27 controls at plants no other sheet names
   type: text
   values:
     distinct: 692
@@ -137,7 +138,6 @@ columns:
     - AG Energy LP
     - AGC Division of APGI Inc
   missing_cells: 27
-  particular: EIA's Utility Name; empty for the 27 controls at plants no other sheet names
 - name: source
   shared: true
   type: text
@@ -161,12 +161,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The data year, 2025
   type: integer
   values:
     list:
       '2025': 5375
   missing_cells: 0
-  particular: The data year, 2025
 - name: x_plant_code
   label: EIA's plant code
   unit: none

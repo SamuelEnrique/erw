@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<BA>
   type: text
   values:
     distinct: 70
@@ -46,7 +47,6 @@ columns:
     - eia930:AVRN
     - eia930:AZPS
   missing_cells: 0
-  particular: eia930:<BA>
 - name: variable
   shared: true
   type: text
@@ -92,6 +92,7 @@ columns:
   missing_cells: 0
 - name: ba
   shared: true
+  particular: The balancing authority's code, lowercase
   type: text
   values:
     distinct: 70
@@ -102,7 +103,6 @@ columns:
     - avrn
     - azps
   missing_cells: 0
-  particular: The balancing authority's code, lowercase
 - name: x_region
   label: EIA's region the file names for the authority in that file
   unit: none

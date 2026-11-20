@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: lbnl:<Berkeley Lab's entity>:<q_id>; a repeated pair takes its row number after a colon
   type: text
   values:
     distinct: more than 5000
@@ -44,17 +45,17 @@ columns:
     - lbnl:AEC:GI-103
     - lbnl:AEC:GI-104
   missing_cells: 0
-  particular: lbnl:<Berkeley Lab's entity>:<q_id>; a repeated pair takes its row number after a colon
 - name: entity_type
   shared: true
+  particular: Always project
   type: text
   values:
     list:
       project: 38201
   missing_cells: 0
-  particular: Always project
 - name: name
   shared: true
+  particular: The project name, else the q_id
   type: text
   values:
     distinct: more than 5000
@@ -65,9 +66,9 @@ columns:
     - 0 Highland Lake Rd - Wallkill
     - 01 37MW Connell
   missing_cells: 0
-  particular: The project name, else the q_id
 - name: geo
   shared: true
+  particular: US-<state>; empty where the file gives no state
   type: text
   values:
     distinct: 52
@@ -78,7 +79,6 @@ columns:
     - US-CA
     - US-CO
   missing_cells: 1235
-  particular: US-<state>; empty where the file gives no state
 - name: lat
   shared: true
   type: empty
@@ -93,15 +93,16 @@ columns:
   missing_cells: 38201
 - name: capacity_mw
   shared: true
+  particular: mw_1 + mw_2 + mw_3, as Berkeley Lab adds them for a hybrid; 16 rows negative as the file gives them
   type: number
   values:
     distinct: more than 5000
     lowest: -75.0
     highest: 16875.0
   missing_cells: 0
-  particular: mw_1 + mw_2 + mw_3, as Berkeley Lab adds them for a hybrid; 16 rows negative as the file gives them
 - name: status
   shared: true
+  particular: 'From q_status: active, withdrawn, suspended, operational written operating; empty for unknown'
   type: text
   values:
     list:
@@ -110,18 +111,18 @@ columns:
       suspended: 668
       withdrawn: 24221
   missing_cells: 10
-  particular: 'From q_status: active, withdrawn, suspended, operational written operating; empty for unknown'
 - name: status_date
   shared: true
+  particular: on_date for operating, wd_date for withdrawn, else q_date
   type: date
   values:
     distinct: more than 5000
     earliest: '1982-06-30'
     latest: '2026-01-16'
   missing_cells: 10230
-  particular: on_date for operating, wd_date for withdrawn, else q_date
 - name: operator
   shared: true
+  particular: The utility
   type: text
   values:
     distinct: 386
@@ -132,7 +133,6 @@ columns:
     - AEP
     - AEP/OGE
   missing_cells: 7855
-  particular: The utility
 - name: source
   shared: true
   type: text
@@ -156,12 +156,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The edition, as text
   type: text
   values:
     list:
       2026 edition (through 2025): 38201
   missing_cells: 0
-  particular: The edition, as text
 - name: q_id
   label: The request's queue identifier as Berkeley Lab's file gives it (9 are dates as Excel turned them)
   unit: none

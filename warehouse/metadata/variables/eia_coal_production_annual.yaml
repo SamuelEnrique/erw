@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_coal_production:<stateRegionId>:<coalRankId>:<mineTypeId>
   type: text
   values:
     distinct: 422
@@ -45,7 +46,6 @@ columns:
     - eia_coal_production:AK:TOT:SUR
     - eia_coal_production:AL:BIT:ALL
   missing_cells: 0
-  particular: eia_coal_production:<stateRegionId>:<coalRankId>:<mineTypeId>
 - name: variable
   shared: true
   type: text
@@ -107,6 +107,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> for a state; US for a region or the U.S.
   type: text
   values:
     distinct: 27
@@ -117,16 +118,16 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: US-<state> for a state; US for a region or the U.S.
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 22630
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's area, rank and mine type names
   type: text
   values:
     distinct: 422
@@ -137,7 +138,6 @@ columns:
     - Alabama Bituminous All
     - Alabama Bituminous Surface
   missing_cells: 0
-  particular: EIA's area, rank and mine type names
 - name: source
   shared: true
   type: text
@@ -162,11 +162,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 22630
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: employees
   label: Average employees, as EIA gives them

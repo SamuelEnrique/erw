@@ -2115,7 +2115,7 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 
 - **Time:** No time column. vintage is EIA's update month of the layer (2020-01); the table is a snapshot as read on its retrieved_at.
 - **Revisions:** Rewritten whole by each run (write_snapshot).
-- **Source:** eia:hgl_pipelines U.S. Energy Information Administration, HGL Pipelines (updated January 2020), as served by Penn State's PASDA:  in batches (sha256 9e3a5b3a06958a436d3ef6c34e192f11ba8824502006e9ba0b41728ca2a7256b, saved at warehouse/raw/hifld_lines/20261120T024611Z/hgl.geojson) (https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/47/query)
+- **Source:** eia:hgl_pipelines U.S. Energy Information Administration, HGL Pipelines (updated January 2020), as served by Penn State's PASDA: https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/47/query, in batches (sha256 9e3a5b3a06958a436d3ef6c34e192f11ba8824502006e9ba0b41728ca2a7256b, saved at warehouse/raw/hifld_lines/20261120T024611Z/hgl.geojson) (https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/47/query)
 - **Method note:** [`docs/methods/map_layers.md`](../methods/map_layers.md)
 - **Cite as:** U.S. Energy Information Administration, served by Penn State PASDA. HGL Pipelines (updated January 2020), PASDA map service HIFLD_FEMA layer 47. Via the Energy Research Warehouse (ERW), table `eia_hgl_pipelines`.
 
@@ -4065,7 +4065,7 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 
 - **Time:** No time column. Each x_status_ column holds EIA's status for one period; vintage is the workbook's last-modified time.
 - **Revisions:** Rewritten whole by each run (write_snapshot).
-- **Source:** eia:uranium_production_quarterly U.S. Energy Information Administration, Domestic Uranium Production Report (Quarterly), Forms EIA-851Q and EIA-851A,  (Release Date: August 2026) (https://www.eia.gov/uranium/production/quarterly/)
+- **Source:** eia:uranium_production_quarterly U.S. Energy Information Administration, Domestic Uranium Production Report (Quarterly), Forms EIA-851Q and EIA-851A, https://www.eia.gov/uranium/production/quarterly/ (Release Date: August 2026) (https://www.eia.gov/uranium/production/quarterly/)
 - **Method note:** [`docs/methods/eia_uranium_production.md`](../methods/eia_uranium_production.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). Domestic Uranium Production Report (Quarterly). Via the Energy Research Warehouse (ERW), table `eia_uranium_facilities`.
 
@@ -4173,7 +4173,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 - **Time:** ts_utc is the quarter's first day (freq P3M) or the year's 1 January (freq P1Y, a count at the year's end), at 00:00:00Z.
 - **Revisions:** Rewritten whole by each run (write_snapshot); vintage is the workbook's last-modified time.
-- **Source:** eia:uranium_production_quarterly U.S. Energy Information Administration, Domestic Uranium Production Report (Quarterly), Forms EIA-851Q and EIA-851A,  (Release Date: August 2026) (https://www.eia.gov/uranium/production/quarterly/)
+- **Source:** eia:uranium_production_quarterly U.S. Energy Information Administration, Domestic Uranium Production Report (Quarterly), Forms EIA-851Q and EIA-851A, https://www.eia.gov/uranium/production/quarterly/ (Release Date: August 2026) (https://www.eia.gov/uranium/production/quarterly/)
 - **Method note:** [`docs/methods/eia_uranium_production.md`](../methods/eia_uranium_production.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). Domestic Uranium Production Report (Quarterly). Via the Energy Research Warehouse (ERW), table `eia_uranium_production_quarterly`.
 

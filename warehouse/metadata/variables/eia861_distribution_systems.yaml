@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia861_ds:<utility number>:<state>, with no balancing authority (EIA's column is read past)
   type: text
   values:
     distinct: 3035
@@ -45,7 +46,6 @@ columns:
     - eia861_ds:10009:TX
     - eia861_ds:1000:AR
   missing_cells: 0
-  particular: eia861_ds:<utility number>:<state>, with no balancing authority (EIA's column is read past)
 - name: variable
   shared: true
   type: text
@@ -93,6 +93,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, territories included
   type: text
   values:
     distinct: 56
@@ -103,16 +104,16 @@ columns:
     - US-AS
     - US-AZ
   missing_cells: 0
-  particular: US-<state>, territories included
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 34947
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The utility's name, not a pricing node
   type: text
   values:
     distinct: 2999
@@ -123,7 +124,6 @@ columns:
     - AEP Texas North Company
     - AES Indiana
   missing_cells: 0
-  particular: The utility's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -167,11 +167,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 34947
-  particular: 'Not filled: no cell holds a value'
 - name: x_utility_number
   label: EIA's utility identifier
   unit: none

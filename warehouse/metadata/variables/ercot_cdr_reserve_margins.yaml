@@ -37,6 +37,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'ercot_cdr:<season>:<peak_load | peak_net_load>: each season at ERCOT''s peak load hour and at its peak net
+    load hour'
   type: text
   values:
     list:
@@ -49,8 +51,6 @@ columns:
       ercot_cdr:winter:peak_load: 200
       ercot_cdr:winter:peak_net_load: 200
   missing_cells: 0
-  particular: 'ercot_cdr:<season>:<peak_load | peak_net_load>: each season at ERCOT''s peak load hour and at its peak net
-    load hour'
 - name: variable
   shared: true
   type: text
@@ -115,14 +115,15 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: ercot in every row
   type: text
   values:
     list:
       ercot: 1600
   missing_cells: 0
-  particular: ercot in every row
 - name: node
   shared: true
+  particular: ERCOT's season and hour as printed (Summer 2026, peak load hour 17), not a price node
   type: text
   values:
     distinct: 40
@@ -133,7 +134,6 @@ columns:
     - Fall 2027, peak net load hour 20
     - Fall 2028, peak load hour 17
   missing_cells: 0
-  particular: ERCOT's season and hour as printed (Summer 2026, peak load hour 17), not a price node
 - name: source
   shared: true
   type: text
@@ -157,12 +157,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The report's posting date at 00:00:00Z (from its address)
   type: utc time
   values:
     list:
       '2025-12-19T00:00:00Z': 1600
   missing_cells: 0
-  particular: The report's posting date at 00:00:00Z (from its address)
 - name: x_hour
   label: The hour ending ERCOT names for the season's peak load or peak net load
   unit: none

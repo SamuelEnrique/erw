@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: nrc:<unit name lower-cased, other characters as one underscore>
   type: text
   values:
     distinct: 99
@@ -43,7 +44,6 @@ columns:
     - nrc:beaver_valley_2
     - nrc:braidwood_1
   missing_cells: 0
-  particular: nrc:<unit name lower-cased, other characters as one underscore>
 - name: variable
   shared: true
   type: text
@@ -82,21 +82,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always US
   type: text
   values:
     list:
       US: 237570
   missing_cells: 0
-  particular: Always US
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 237570
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The NRC's unit name as written, not a pricing node
   type: text
   values:
     distinct: 99
@@ -107,7 +108,6 @@ columns:
     - Beaver Valley 2
     - Braidwood 1
   missing_cells: 0
-  particular: The NRC's unit name as written, not a pricing node
 - name: source
   shared: true
   type: text
@@ -138,11 +138,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 237570
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: power_pct
   label: The reactor's power as a percent of its licensed power on the morning of the report (whole numbers, 0 to 100)

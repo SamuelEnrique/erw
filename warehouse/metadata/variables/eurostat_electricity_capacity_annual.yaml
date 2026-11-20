@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_epc:<Eurostat geo code>:<SIEC code>; fuel groups overlap, so a sum double counts
   type: text
   values:
     distinct: 1072
@@ -45,7 +46,6 @@ columns:
     - eurostat_epc:AL:HYD
     - eurostat_epc:AL:LF_G3000
   missing_cells: 0
-  particular: eurostat_epc:<Eurostat geo code>:<SIEC code>; fuel groups overlap, so a sum double counts
 - name: variable
   shared: true
   type: text
@@ -84,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020 and EA21
   type: text
   values:
     distinct: 38
@@ -94,7 +95,6 @@ columns:
     - BE
     - BG
   missing_cells: 12450
-  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020 and EA21
 - name: market
   shared: true
   type: empty
@@ -103,6 +103,7 @@ columns:
   missing_cells: 159060
 - name: node
   shared: true
+  particular: The SIEC code's English name (the fuel group), not a pricing node
   type: text
   values:
     distinct: 27
@@ -113,7 +114,6 @@ columns:
     - Geothermal
     - Hydro
   missing_cells: 0
-  particular: The SIEC code's English name (the fuel group), not a pricing node
 - name: source
   shared: true
   type: text

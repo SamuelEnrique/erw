@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <iso>:<hub or zone> (the price board's main hubs, with CAISO NP15 and ERCOT's LZ_HOUSTON and LZ_NORTH)
   type: text
   values:
     list:
@@ -49,7 +50,6 @@ columns:
       nyiso:N.Y.C.: 243
       spp:SPPNORTH_HUB: 243
   missing_cells: 0
-  particular: <iso>:<hub or zone> (the price board's main hubs, with CAISO NP15 and ERCOT's LZ_HOUSTON and LZ_NORTH)
 - name: variable
   shared: true
   type: text
@@ -101,6 +101,8 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: <iso>_dam on day-ahead rows, <iso>_rtm on real-time rows; empty on the hours_in_month rows, which belong to
+    neither
   type: text
   values:
     list:
@@ -117,8 +119,6 @@ columns:
       spp_dam: 108
       spp_rtm: 108
   missing_cells: 492
-  particular: <iso>_dam on day-ahead rows, <iso>_rtm on real-time rows; empty on the hours_in_month rows, which belong to
-    neither
 - name: node
   shared: true
   type: text

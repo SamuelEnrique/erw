@@ -19,9 +19,11 @@ license: public
 tier: source
 interval: P1D;PT1H;PT5M
 source:
-- name: caiso:production_curtailments California ISO, Production and curtailments data (5-minute),  0 workbooks
+- name: caiso:production_curtailments California ISO, Production and curtailments data (5-minute), https://www.caiso.com/library/production-curtailments-data;
+    0 workbooks
   url: https://www.caiso.com/library/production-curtailments-data
-- name: caiso:daily_renewable_report California ISO, Daily Renewable Report,  305 daily reports (0 not written)
+- name: caiso:daily_renewable_report California ISO, Daily Renewable Report, https://www.caiso.com/library/daily-renewable-reports;
+    305 daily reports (0 not written)
   url: https://www.caiso.com/library/daily-renewable-reports
 cite: California ISO (CAISO). Daily Renewable Report (curtailment and output); Production and curtailments data (5-minute).
   Via the Energy Research Warehouse (ERW), table `caiso_curtailment_intervals`.
@@ -39,12 +41,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'caiso:ISO in every row: CAISO''s whole system; the data does not locate a curtailment'
   type: text
   values:
     list:
       caiso:ISO: 486469
   missing_cells: 0
-  particular: 'caiso:ISO in every row: CAISO''s whole system; the data does not locate a curtailment'
 - name: variable
   shared: true
   type: text
@@ -77,6 +79,8 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: PT5M for the 5-minute rows (MW, to 2025-12-31), PT1H for the hourly rows (MWh, from 2026-01-01), P1D for the
+    day totals
   type: text
   values:
     list:
@@ -84,8 +88,6 @@ columns:
       PT1H: 17579
       PT5M: 463166
   missing_cells: 0
-  particular: PT5M for the 5-minute rows (MW, to 2025-12-31), PT1H for the hourly rows (MWh, from 2026-01-01), P1D for the
-    day totals
 - name: geo
   shared: true
   type: text
@@ -95,27 +97,27 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 486469
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 486469
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
+  particular: caiso:production_curtailments (yearly workbooks, to 2025) or caiso:daily_renewable_report (from 2026)
   type: text
   values:
     list:
       caiso:daily_renewable_report: 18189
       caiso:production_curtailments: 468280
   missing_cells: 0
-  particular: caiso:production_curtailments (yearly workbooks, to 2025) or caiso:daily_renewable_report (from 2026)
 - name: source_url
   shared: true
   type: text
@@ -138,6 +140,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time (UTC); empty on the rows from the Daily Renewable Report
   type: utc time
   values:
     list:
@@ -150,7 +153,6 @@ columns:
       '2026-01-07T18:50:30Z': 37387
       '2026-02-13T23:52:51Z': 41401
   missing_cells: 18189
-  particular: The workbook's last-modified time (UTC); empty on the rows from the Daily Renewable Report
 variables:
 - name: curtailed_solar_day_mwh
   label: Solar curtailed in the Pacific day, MWh; one row for every day covered, zero included

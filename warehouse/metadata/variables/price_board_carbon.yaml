@@ -5,9 +5,12 @@
 table: price_board_carbon
 family: price
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: 'One figure of the price board for one carbon allowance auction series (CARB''s or RGGI''s): the latest price with its
+  allowances offered and sold, the price before it, or the change between them.'
+time: ts_utc is the auction's date as its input table gives it (CARB publishes only the month, so the first of the month);
+  freq P3M.
+vintage_rule: Rewritten whole by each run from carb_auction_allowance_prices and rggi_auction_allowance_prices; an input absent
+  from the machine has its rows carried from the last run, and the header says so. vintage is not filled.
 keys:
 - entity
 - variable
@@ -31,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <program>:<auction series>, one series of CARB's or RGGI's auctions
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
@@ -73,12 +77,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 15
 - name: node
   shared: true
+  particular: The auction's name
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
@@ -103,37 +109,38 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 15
 variables:
 - name: allowances_offered
-  label: null
+  label: The allowances offered in the newest auction
   unit: count
   rows: 3
   first: '2026-08-01T00:00:00Z'
   last: '2026-09-09T00:00:00Z'
 - name: allowances_sold
-  label: null
+  label: The allowances sold in the newest auction
   unit: count
   rows: 3
   first: '2026-08-01T00:00:00Z'
   last: '2026-09-09T00:00:00Z'
 - name: latest_price
-  label: null
+  label: The newest auction's price (CARB's settlement price, RGGI's clearing price), in the row's unit
   unit: USD/short_ton; USD/tCO2
   rows: 3
   first: '2026-08-01T00:00:00Z'
   last: '2026-09-09T00:00:00Z'
 - name: previous_price
-  label: null
+  label: The price of the auction before it, dated with that auction's date
   unit: USD/short_ton; USD/tCO2
   rows: 3
   first: '2026-05-01T00:00:00Z'
   last: '2026-06-03T00:00:00Z'
 - name: price_change
-  label: null
+  label: latest_price minus previous_price
   unit: USD/short_ton; USD/tCO2
   rows: 3
   first: '2026-08-01T00:00:00Z'

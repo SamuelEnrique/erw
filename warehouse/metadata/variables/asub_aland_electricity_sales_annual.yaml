@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: asub:ax:<region>:<sector>; sectors total, households, agriculture, industry, services, public_sector
   type: text
   values:
     list:
@@ -56,7 +57,6 @@ columns:
       asub:ax:mariehamns_energi:services: 35
       asub:ax:mariehamns_energi:total: 35
   missing_cells: 0
-  particular: asub:ax:<region>:<sector>; sectors total, households, agriculture, industry, services, public_sector
 - name: variable
   shared: true
   type: text
@@ -95,21 +95,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: AX on every row
   type: text
   values:
     list:
       AX: 603
   missing_cells: 0
-  particular: AX on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 603
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The region and sector as ASUB names them in Swedish, not a pricing node
   type: text
   values:
     list:
@@ -132,7 +133,6 @@ columns:
       'Åland, totalt: Service': 35
       'Åland, totalt: Totalt': 35
   missing_cells: 0
-  particular: The region and sector as ASUB names them in Swedish, not a pricing node
 - name: source
   shared: true
   type: text
@@ -156,11 +156,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 603
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: exports
   label: Aland's electricity exports in the year (the region export)

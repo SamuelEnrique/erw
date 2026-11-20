@@ -63,18 +63,18 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: large_load_wait on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: large_load_wait on every row
 - name: parties
   shared: true
+  particular: The publisher whose queue holds the request
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The publisher whose queue holds the request
 - name: entity_ids
   shared: true
   type: empty
@@ -83,11 +83,11 @@ columns:
   missing_cells: 2745
 - name: mw
   shared: true
+  particular: The request's megawatts as written in the last copy that holds a number
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 209
-  particular: The request's megawatts as written in the last copy that holds a number
 - name: price
   shared: true
   type: empty
@@ -102,11 +102,11 @@ columns:
   missing_cells: 2745
 - name: status
   shared: true
+  particular: The stage in the publisher's words, or its status in the last copy
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The stage in the publisher's words, or its status in the last copy
 - name: source
   shared: true
   type: text
@@ -115,18 +115,18 @@ columns:
   missing_cells: 0
 - name: source_url
   shared: true
+  particular: The copy that bounds the interval's end (or the last copy)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The copy that bounds the interval's end (or the last copy)
 - name: entity
   shared: true
+  particular: The publisher whose queue holds the request
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The publisher whose queue holds the request
 - name: entity_group
   label: The group the publisher is counted under (the publisher itself)
   unit: none

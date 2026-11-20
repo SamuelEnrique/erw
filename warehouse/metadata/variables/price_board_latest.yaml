@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <iso>:<hub or zone>, the price location the board reads
   type: text
   values:
     distinct: 39
@@ -42,7 +43,6 @@ columns:
     - ercot:HB_BUSAVG
     - ercot:HB_HOUSTON
   missing_cells: 0
-  particular: <iso>:<hub or zone>, the price location the board reads
 - name: variable
   shared: true
   type: text
@@ -97,6 +97,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: <iso>_dam for day-ahead rows, <iso>_rtm for real-time rows
   type: text
   values:
     list:
@@ -113,7 +114,6 @@ columns:
       spp_dam: 84
       spp_rtm: 68
   missing_cells: 0
-  particular: <iso>_dam for day-ahead rows, <iso>_rtm for real-time rows
 - name: node
   shared: true
   type: text

@@ -32,6 +32,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: doe_grip:<round>:<12 hex of the SHA-1 of program|applicant|project>, the ERW's own (DOE gives none)
   type: text
   values:
     distinct: 105
@@ -42,7 +43,6 @@ columns:
     - doe_grip:first:14d939c1195c
     - doe_grip:first:175192a11973
   missing_cells: 0
-  particular: doe_grip:<round>:<12 hex of the SHA-1 of program|applicant|project>, the ERW's own (DOE gives none)
 - name: event_date
   shared: true
   type: date
@@ -54,14 +54,15 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: Always grip_selection
   type: text
   values:
     list:
       grip_selection: 105
   missing_cells: 0
-  particular: Always grip_selection
 - name: parties
   shared: true
+  particular: The applicant or selectee
   type: text
   values:
     distinct: 100
@@ -72,7 +73,6 @@ columns:
     - Ameresco, Inc.
     - American Electric Power Service Corporation
   missing_cells: 0
-  particular: The applicant or selectee
 - name: entity_ids
   shared: true
   type: empty
@@ -99,6 +99,7 @@ columns:
   missing_cells: 105
 - name: status
   shared: true
+  particular: 'DOE''s status, lower-cased: awarded, selected or withdrawn'
   type: text
   values:
     list:
@@ -106,7 +107,6 @@ columns:
       selected: 44
       withdrawn: 1
   missing_cells: 0
-  particular: 'DOE''s status, lower-cased: awarded, selected or withdrawn'
 - name: source
   shared: true
   type: text

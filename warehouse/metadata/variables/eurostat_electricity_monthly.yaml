@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_elec:<Eurostat geo code>
   type: text
   values:
     distinct: 40
@@ -46,7 +47,6 @@ columns:
     - eurostat_elec:BE
     - eurostat_elec:BG
   missing_cells: 0
-  particular: eurostat_elec:<Eurostat geo code>
 - name: variable
   shared: true
   type: text
@@ -85,6 +85,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
   type: text
   values:
     distinct: 39
@@ -95,7 +96,6 @@ columns:
     - BE
     - BG
   missing_cells: 3406
-  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
 - name: market
   shared: true
   type: empty
@@ -104,6 +104,7 @@ columns:
   missing_cells: 130025
 - name: node
   shared: true
+  particular: The SIEC or NRG_BAL code's English name, not a pricing node
   type: text
   values:
     distinct: 30
@@ -114,7 +115,6 @@ columns:
     - Combustible fuels - non-renewable - other
     - Combustible fuels - renewable
   missing_cells: 0
-  particular: The SIEC or NRG_BAL code's English name, not a pricing node
 - name: source
   shared: true
   type: text

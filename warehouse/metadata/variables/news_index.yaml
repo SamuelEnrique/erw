@@ -65,23 +65,24 @@ columns:
   missing_cells: 0
 - name: event_date
   shared: true
+  particular: The story's publish time, UTC
   type: utc time
   values:
     distinct: more than 5000
     earliest: '2025-01-01T08:00:00Z'
     latest: '2026-12-01T12:00:00Z'
   missing_cells: 0
-  particular: The story's publish time, UTC
 - name: event_type
   shared: true
+  particular: Always news
   type: text
   values:
     list:
       news: 20852
   missing_cells: 0
-  particular: Always news
 - name: source
   shared: true
+  particular: The outlet
   type: text
   values:
     distinct: 77
@@ -92,9 +93,9 @@ columns:
     - Bloomberg Media
     - Bloomberg Mercury
   missing_cells: 0
-  particular: The outlet
 - name: source_url
   shared: true
+  particular: The story's link; a news.google.com link where Google News could not be resolved to the outlet
   type: text
   values:
     distinct: more than 5000
@@ -105,7 +106,6 @@ columns:
     - https://electrek.co/2026/09/24/byd-releases-first-official-images-bigger-seagull-ev/
     - https://electrek.co/2026/09/24/comma-ai-openpilot-nhtsa-investigation-crashes/
   missing_cells: 0
-  particular: The story's link; a news.google.com link where Google News could not be resolved to the outlet
 - name: sector
   label: 'The model''s sector of the story (one of the scorer''s sectors: datacenter_power, gas, nuclear, policy, oil and
     the others)'

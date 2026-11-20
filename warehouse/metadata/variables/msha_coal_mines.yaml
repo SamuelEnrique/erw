@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: msha_mine:<MINE_ID>, seven digits (EIA's coal tables drop the leading zero)
   type: text
   values:
     distinct: more than 5000
@@ -44,17 +45,17 @@ columns:
     - msha_mine:0100166
     - msha_mine:0100167
   missing_cells: 0
-  particular: msha_mine:<MINE_ID>, seven digits (EIA's coal tables drop the leading zero)
 - name: entity_type
   shared: true
+  particular: plant on every row (a mine)
   type: text
   values:
     list:
       plant: 35736
   missing_cells: 0
-  particular: plant on every row (a mine)
 - name: name
   shared: true
+  particular: The current mine name
   type: text
   values:
     distinct: more than 5000
@@ -65,9 +66,9 @@ columns:
     - '# 2 Seam Elkhorn'
     - '# 2 Surface'
   missing_cells: 0
-  particular: The current mine name
 - name: geo
   shared: true
+  particular: US-<state>
   type: text
   values:
     distinct: 33
@@ -78,34 +79,35 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<state>
 - name: lat
   shared: true
+  particular: As MSHA gives it; empty where zero or out of range
   type: number
   values:
     distinct: more than 5000
     lowest: 0.000278
     highest: 89.6297
   missing_cells: 11789
-  particular: As MSHA gives it; empty where zero or out of range
 - name: lon
   shared: true
+  particular: As MSHA gives it; empty where zero or out of range
   type: number
   values:
     distinct: more than 5000
     lowest: -148.966111
     highest: -0.000278
   missing_cells: 11789
-  particular: As MSHA gives it; empty where zero or out of range
 - name: capacity_mw
   shared: true
+  particular: 'Not filled: a mine has no MW'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 35736
-  particular: 'Not filled: a mine has no MW'
 - name: status
   shared: true
+  particular: active (Active, New Mine), suspended (Temporarily Idled, NonProducing) or retired (Abandoned, Abandoned and
+    Sealed), from MSHA's current status
   type: text
   values:
     list:
@@ -113,19 +115,18 @@ columns:
       retired: 34439
       suspended: 592
   missing_cells: 0
-  particular: active (Active, New Mine), suspended (Temporarily Idled, NonProducing) or retired (Abandoned, Abandoned and
-    Sealed), from MSHA's current status
 - name: status_date
   shared: true
+  particular: The current status date
   type: date
   values:
     distinct: more than 5000
     earliest: '1925-01-01'
     latest: '2026-10-22'
   missing_cells: 0
-  particular: The current status date
 - name: operator
   shared: true
+  particular: The current operator
   type: text
   values:
     distinct: more than 5000
@@ -136,7 +137,6 @@ columns:
     - 101 Coal, Inc.
     - 12 Vein Coal
   missing_cells: 0
-  particular: The current operator
 - name: source
   shared: true
   type: text
@@ -160,12 +160,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-10-23T11:58:31Z': 35736
   missing_cells: 0
-  particular: The file's Last-Modified (UTC)
 - name: x_mine_status
   label: MSHA's current mine status in its words (Active, New Mine, Temporarily Idled, NonProducing, Abandoned, Abandoned
     and Sealed)

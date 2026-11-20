@@ -35,12 +35,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'ercot:system in every row: ERCOT''s whole system'
   type: text
   values:
     list:
       ercot:system: 816
   missing_cells: 0
-  particular: 'ercot:system in every row: ERCOT''s whole system'
 - name: variable
   shared: true
   type: text
@@ -86,21 +86,21 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
   type: text
   values:
     list:
       ercot_dam: 816
   missing_cells: 0
-  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
 - name: node
   shared: true
+  particular: 'The text ''Total_DAM_Energy_Bought, summed over settlement points'' in every row: the figure summed, not a
+    place'
   type: text
   values:
     list:
       Total_DAM_Energy_Bought, summed over settlement points: 816
   missing_cells: 0
-  particular: 'The text ''Total_DAM_Energy_Bought, summed over settlement points'' in every row: the figure summed, not a
-    place'
 - name: source
   shared: true
   type: text
@@ -130,11 +130,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 816
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: dam_cleared_energy
   label: The sum of ERCOT's Total_DAM_Energy_Bought over every settlement point for the hour (NP4-192-CD); ERCOT names no

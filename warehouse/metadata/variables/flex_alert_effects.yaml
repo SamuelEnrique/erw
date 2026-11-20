@@ -40,12 +40,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:CISO on every row
   type: text
   values:
     list:
       eia930:CISO: 3429
   missing_cells: 0
-  particular: eia930:CISO on every row
 - name: variable
   shared: true
   type: text
@@ -100,18 +100,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3429
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3429
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -135,11 +135,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3429
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: actual_mw
   label: Actual demand in the hour (EIA-930 hourly demand)

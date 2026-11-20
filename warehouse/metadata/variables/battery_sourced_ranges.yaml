@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <source>:<technology>:<case>, for example nlr_atb_2025:utility_battery_10h:advanced
   type: text
   values:
     list:
@@ -58,7 +59,6 @@ columns:
       nlr_atb_2025:utility_battery_8h:conservative: 5
       nlr_atb_2025:utility_battery_8h:moderate: 5
   missing_cells: 0
-  particular: <source>:<technology>:<case>, for example nlr_atb_2025:utility_battery_10h:advanced
 - name: variable
   shared: true
   type: text
@@ -100,12 +100,12 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 90
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
   type: empty
@@ -141,12 +141,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's date
   type: utc time
   values:
     list:
       '2026-08-27T00:00:00Z': 90
   missing_cells: 0
-  particular: The workbook's date
 - name: x_case
   label: 'The case on the cost scale: low, mid or high'
   unit: none

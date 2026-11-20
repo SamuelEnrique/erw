@@ -17,7 +17,8 @@ license: public
 tier: source
 interval: P1Y
 source:
-- name: doe:afdc_station_counts DOE, Alternative Fuels Data Center, Historical Station Counts,  (linked from
+- name: doe:afdc_station_counts DOE, Alternative Fuels Data Center, Historical Station Counts, https://afdc.energy.gov/files/docs/historical-station-counts.xlsx
+    (linked from
   url: https://afdc.energy.gov/stations/states
 cite: 'U.S. Department of Energy (DOE). Alternative Fuels Data Center: Historical Alternative Fueling Station Counts. Via
   the Energy Research Warehouse (ERW), table `afdc_station_counts_annual`.'
@@ -35,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: afdc_st:<state code>, or afdc_st:US for each sheet's own Total row
   type: text
   values:
     distinct: 52
@@ -45,7 +47,6 @@ columns:
     - afdc_st:AZ
     - afdc_st:CA
   missing_cells: 0
-  particular: afdc_st:<state code>, or afdc_st:US for each sheet's own Total row
 - name: variable
   shared: true
   type: text
@@ -101,6 +102,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US on the Total row
   type: text
   values:
     distinct: 52
@@ -111,16 +113,16 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: US-<state>, or US on the Total row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 13520
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'The sheet''s column as printed (Electric: Level 2), not a pricing node'
   type: text
   values:
     list:
@@ -146,7 +148,6 @@ columns:
       Total: 364
       Totald: 624
   missing_cells: 0
-  particular: 'The sheet''s column as printed (Electric: Level 2), not a pricing node'
 - name: source
   shared: true
   type: text
@@ -170,12 +171,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's Last-Modified time
   type: utc time
   values:
     list:
       '2026-06-23T22:12:10Z': 13520
   missing_cells: 0
-  particular: The workbook's Last-Modified time
 - name: x_layout
   label: 'The form of the year''s sheet: 2007_2013 (one number a fuel) or 2014_on (levels and designations under Electric,
     Hydrogen and Propane)'

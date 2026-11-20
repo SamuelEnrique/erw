@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<settlement point>
   type: text
   values:
     distinct: 312
@@ -46,7 +47,6 @@ columns:
     - ercot:ALAMO_ST_RN
     - ercot:ALP_BESS_RN
   missing_cells: 0
-  particular: ercot:<settlement point>
 - name: variable
   shared: true
   type: text
@@ -92,14 +92,15 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
   type: text
   values:
     list:
       ercot_rtm: 1570608
   missing_cells: 0
-  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
 - name: node
   shared: true
+  particular: The settlement point's name
   type: text
   values:
     distinct: 312
@@ -110,7 +111,6 @@ columns:
     - ALAMO_ST_RN
     - ALP_BESS_RN
   missing_cells: 0
-  particular: The settlement point's name
 - name: source
   shared: true
   type: text
@@ -140,11 +140,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1570608
-  particular: 'Not filled: no cell holds a value'
 - name: x_point_type
   label: 'ERCOT''s type of the settlement point: RN resource node, LZ load zone, HU hub, LZ_DC DC tie, SH HB_BUSAVG, AH HB_HUBAVG'
   unit: none

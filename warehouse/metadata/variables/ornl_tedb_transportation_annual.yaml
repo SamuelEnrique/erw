@@ -5,9 +5,11 @@
 table: ornl_tedb_transportation_annual
 family: ornl
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's figure for one row of a table of ORNL's Transportation Energy Data Book (energy by end-use sector, transportation
+  energy by source, energy by mode and fuel, or light-duty vehicle sales).
+time: ts_utc is the year's first day; freq P1Y.
+vintage_rule: 'Merged on (entity, variable, ts_utc): a new edition replaces the years it restates and the years it no longer
+  prints stay. vintage is the zip''s last-modified time.'
 keys:
 - entity
 - variable
@@ -36,6 +38,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ornl_tedb:<table>:<row>, a sector or a mode's path built from the label's level
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
@@ -78,12 +81,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 674
 - name: node
   shared: true
+  particular: The row's or column's label as printed
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
@@ -108,141 +113,142 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The data book zip's last-modified time
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
 - name: x_table
-  label: null
-  unit: null
+  label: The data book's table the row is read from
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ornl_tedb_transportation_annual.md
 - name: x_edition
-  label: null
-  unit: null
+  label: The data book's edition
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ornl_tedb_transportation_annual.md
 variables:
 - name: energy_consumption
-  label: null
+  label: Energy consumption of the end-use sector (Table 2.2; the book's quadrillion Btu times 1,000)
   unit: TBtu
   rows: 175
   first: '1950-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: energy_use
-  label: null
+  label: Transportation energy use (Table 2.4), or energy use of the mode (Table 2.8)
   unit: TBtu
   rows: 97
   first: '1950-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: energy_use_diesel
-  label: null
+  label: Diesel used by the mode (Table 2.7)
   unit: TBtu
   rows: 21
   first: '2023-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: energy_use_electricity
-  label: null
+  label: Electricity used by the mode (Table 2.7)
   unit: TBtu
   rows: 14
   first: '2023-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: energy_use_gasoline
-  label: null
+  label: Gasoline used by the mode (Table 2.7)
   unit: TBtu
   rows: 17
   first: '2023-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: energy_use_jet_fuel
-  label: null
+  label: Jet fuel used by the mode (Table 2.7)
   unit: TBtu
   rows: 6
   first: '2023-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: energy_use_lpg
-  label: null
+  label: Liquefied petroleum gas used by the mode (Table 2.7)
   unit: TBtu
   rows: 7
   first: '2023-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: energy_use_natural_gas
-  label: null
+  label: Natural gas used by the mode (Table 2.7)
   unit: TBtu
   rows: 6
   first: '2023-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: energy_use_residual_fuel_oil
-  label: null
+  label: Residual fuel oil used by the mode (Table 2.7)
   unit: TBtu
   rows: 4
   first: '2023-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: energy_use_total
-  label: null
+  label: Total energy used by the mode, all fuels (Table 2.7)
   unit: TBtu
   rows: 28
   first: '2023-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: sales_battery_electric
-  label: null
+  label: Battery electric light-duty vehicles sold (Table 6.2; the book's thousands times 1,000)
   unit: count
   rows: 26
   first: '1999-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: sales_hybrid
-  label: null
+  label: Hybrid light-duty vehicles sold (Table 6.2; the book's thousands times 1,000)
   unit: count
   rows: 26
   first: '1999-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: sales_light_duty
-  label: null
+  label: All light-duty vehicles sold (Table 6.2; the book's thousands times 1,000)
   unit: count
   rows: 26
   first: '1999-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: sales_plugin_hybrid
-  label: null
+  label: Plug-in hybrid light-duty vehicles sold (Table 6.2; the book's thousands times 1,000)
   unit: count
   rows: 26
   first: '1999-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: share_coal
-  label: null
+  label: Coal's share of transportation energy use (Table 2.4; the book's fraction times 100)
   unit: pct
   rows: 39
   first: '1950-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: share_electricity
-  label: null
+  label: Electricity's share of transportation energy use (Table 2.4; the book's fraction times 100)
   unit: pct
   rows: 39
   first: '1950-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: share_natural_gas
-  label: null
+  label: Natural gas's share of transportation energy use (Table 2.4; the book's fraction times 100)
   unit: pct
   rows: 39
   first: '1950-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: share_petroleum
-  label: null
+  label: Petroleum's share of transportation energy use (Table 2.4; the book's fraction times 100)
   unit: pct
   rows: 39
   first: '1950-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: share_renewables
-  label: null
+  label: Renewables' share of transportation energy use (Table 2.4; the book's fraction times 100)
   unit: pct
   rows: 39
   first: '1950-01-01T00:00:00Z'

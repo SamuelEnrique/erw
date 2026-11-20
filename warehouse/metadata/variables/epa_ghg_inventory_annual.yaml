@@ -37,6 +37,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: epa_ghgi:<sector> for the seven sectors of Table 2-10 (electric_power_industry, industry, transportation and
+    the others), or epa_ghgi:us for the three national lines
   type: text
   values:
     list:
@@ -49,8 +51,6 @@ columns:
       epa_ghgi:u_s_territories: 132
       epa_ghgi:us: 99
   missing_cells: 0
-  particular: epa_ghgi:<sector> for the seven sectors of Table 2-10 (electric_power_industry, industry, transportation and
-    the others), or epa_ghgi:us for the three national lines
 - name: variable
   shared: true
   type: text
@@ -89,26 +89,26 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always US
   type: text
   values:
     list:
       US: 5016
   missing_cells: 0
-  particular: Always US
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5016
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5016
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -132,12 +132,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The zip's Last-Modified time (2024-08-26)
   type: utc time
   values:
     list:
       '2024-08-26T14:52:48Z': 5016
   missing_cells: 0
-  particular: The zip's Last-Modified time (2024-08-26)
 - name: x_table
   label: 'The Inventory''s Chapter 2 table the row comes from: 2-10 (by economic sector), 2-11 (electric power by gas) or
     2-12 (sectors with electricity distributed)'

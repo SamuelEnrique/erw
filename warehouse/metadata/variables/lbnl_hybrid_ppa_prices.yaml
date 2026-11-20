@@ -54,12 +54,12 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: Always ppa_hybrid
   type: text
   values:
     list:
       ppa_hybrid: 113
   missing_cells: 0
-  particular: Always ppa_hybrid
 - name: parties
   shared: true
   type: empty
@@ -68,6 +68,7 @@ columns:
   missing_cells: 113
 - name: entity_ids
   shared: true
+  particular: lbnl_solar:<EIA ID> for each EIA id the row names; a retrofit names the PV plant and the battery
   type: text
   values:
     distinct: 82
@@ -78,25 +79,24 @@ columns:
     - lbnl_solar:58542;lbnl_solar:65857
     - lbnl_solar:59871
   missing_cells: 0
-  particular: lbnl_solar:<EIA ID> for each EIA id the row names; a retrofit names the PV plant and the battery
 - name: mw
   shared: true
+  particular: The PV capacity, MW-AC
   type: number
   values:
     distinct: 61
     lowest: 7.0
     highest: 700.0
   missing_cells: 0
-  particular: The PV capacity, MW-AC
 - name: price
   shared: true
+  particular: The PV plus battery price levelized over the term, real 2024 USD per MWh of PV output (the sheet's PV+BESS_$_per_MWh-PV_real)
   type: number
   values:
     distinct: 113
     lowest: 18.48697031937399
     highest: 206.40673223651368
   missing_cells: 0
-  particular: The PV plus battery price levelized over the term, real 2024 USD per MWh of PV output (the sheet's PV+BESS_$_per_MWh-PV_real)
 - name: currency
   shared: true
   type: text
@@ -106,11 +106,11 @@ columns:
   missing_cells: 0
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 113
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text

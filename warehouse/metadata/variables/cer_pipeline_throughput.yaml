@@ -36,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: cer_pipe:<pipeline>:<key point>, with :<product>:<trade type> for an oil line's volumes and :<direction> for
+    a gas line
   type: text
   values:
     distinct: 54
@@ -46,8 +48,6 @@ columns:
     - cer_pipe:cochin_pipeline:ft_saskatchewan:condensate:import
     - cer_pipe:cochin_pipeline:regina:refined_petroleum_products:import
   missing_cells: 0
-  particular: cer_pipe:<pipeline>:<key point>, with :<product>:<trade type> for an oil line's volumes and :<direction> for
-    a gas line
 - name: variable
   shared: true
   type: text
@@ -79,30 +79,31 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: P1M for an oil line, P1D for a gas line
   type: text
   values:
     list:
       P1D: 403912
       P1M: 4161
   missing_cells: 0
-  particular: P1M for an oil line, P1D for a gas line
 - name: geo
   shared: true
+  particular: Always CA
   type: text
   values:
     list:
       CA: 408073
   missing_cells: 0
-  particular: Always CA
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 408073
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The pipeline, key point (and product) in the CER's words, not a pricing node
   type: text
   values:
     distinct: 44
@@ -113,7 +114,6 @@ columns:
     - Cochin pipeline, Ft. Saskatchewan, condensate
     - Cochin pipeline, Regina, refined petroleum products
   missing_cells: 0
-  particular: The pipeline, key point (and product) in the CER's words, not a pricing node
 - name: source
   shared: true
   type: text
@@ -153,6 +153,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: Each pipeline file's last-modified time
   type: utc time
   values:
     list:
@@ -165,7 +166,6 @@ columns:
       '2026-08-27T21:32:40Z': 213510
       '2026-08-27T21:33:30Z': 100670
   missing_cells: 0
-  particular: Each pipeline file's last-modified time
 - name: x_company
   label: The company that operates the pipeline, as the CER writes it
   unit: none

@@ -35,6 +35,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: fema:<declaration>:<state and county FIPS>:<place code>
   type: text
   values:
     distinct: more than 5000
@@ -45,7 +46,6 @@ columns:
     - fema:DR-4207-VT:50007:99007
     - fema:DR-4207-VT:50009:99009
   missing_cells: 0
-  particular: fema:<declaration>:<state and county FIPS>:<place code>
 - name: event_date
   shared: true
   type: date
@@ -56,6 +56,7 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: major_disaster, emergency or fire_management
   type: text
   values:
     list:
@@ -63,17 +64,17 @@ columns:
       fire_management: 779
       major_disaster: 14950
   missing_cells: 0
-  particular: major_disaster, emergency or fire_management
 - name: parties
   shared: true
+  particular: FEMA on every row
   type: text
   values:
     list:
       FEMA: 26199
   missing_cells: 0
-  particular: FEMA on every row
 - name: entity_ids
   shared: true
+  particular: US-<state>, and fips:<state><county> where FEMA names a county
   type: text
   values:
     distinct: 3277
@@ -84,7 +85,6 @@ columns:
     - US-AK;fips:02020
     - US-AK;fips:02050
   missing_cells: 0
-  particular: US-<state>, and fips:<state><county> where FEMA names a county
 - name: mw
   shared: true
   type: empty
@@ -105,13 +105,13 @@ columns:
   missing_cells: 26199
 - name: status
   shared: true
+  particular: open, or closed where FEMA gives a closeout date
   type: text
   values:
     list:
       closed: 9733
       open: 16466
   missing_cells: 0
-  particular: open, or closed where FEMA gives a closeout date
 - name: source
   shared: true
   type: text
@@ -300,9 +300,9 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 26199
-  particular: 'Not filled: no cell holds a value'
 second_look: null

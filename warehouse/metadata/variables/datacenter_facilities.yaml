@@ -45,12 +45,12 @@ columns:
   missing_cells: 0
 - name: entity_type
   shared: true
+  particular: Always datacenter
   type: text
   values:
     list:
       datacenter: 458
   missing_cells: 0
-  particular: Always datacenter
 - name: name
   shared: true
   type: text
@@ -65,6 +65,7 @@ columns:
   missing_cells: 155
 - name: geo
   shared: true
+  particular: US-<state> where a source states a US state; empty otherwise (no source records a country)
   type: text
   values:
     distinct: 38
@@ -75,7 +76,6 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 180
-  particular: US-<state> where a source states a US state; empty otherwise (no source records a country)
 - name: lat
   shared: true
   type: number
@@ -94,15 +94,16 @@ columns:
   missing_cells: 227
 - name: capacity_mw
   shared: true
+  particular: mw, as a source states it (mw_from names the member)
   type: number
   values:
     distinct: 46
     lowest: 1.0
     highest: 10400.0
   missing_cells: 400
-  particular: mw, as a source states it (mw_from names the member)
 - name: status
   shared: true
+  particular: From the news member where there is one (dated), else the operator's stated status; empty where none is stated
   type: text
   values:
     list:
@@ -113,7 +114,6 @@ columns:
       under_construction: 14
       withdrawn: 9
   missing_cells: 301
-  particular: From the news member where there is one (dated), else the operator's stated status; empty where none is stated
 - name: status_date
   shared: true
   type: empty
@@ -165,12 +165,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The build's date, YYYY-MM-DD
   type: date
   values:
     list:
       '2026-11-15': 458
   missing_cells: 0
-  particular: The build's date, YYYY-MM-DD
 - name: kind
   label: 'The kind of source of the facility''s first member: news, operator or queue'
   unit: none

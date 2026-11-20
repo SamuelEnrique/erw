@@ -40,6 +40,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: iso:<grid>
   type: text
   values:
     list:
@@ -51,7 +52,6 @@ columns:
       iso:pjm: 274780
       iso:spp: 274656
   missing_cells: 0
-  particular: iso:<grid>
 - name: variable
   shared: true
   type: text
@@ -90,6 +90,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The states of the grid, comma-separated
   type: text
   values:
     list:
@@ -101,16 +102,16 @@ columns:
       US-NY: 274788
       US-TX: 274497
   missing_cells: 0
-  particular: The states of the grid, comma-separated
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1921373
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The grid's name (CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP), not a pricing node
   type: text
   values:
     list:
@@ -122,7 +123,6 @@ columns:
       PJM: 274780
       SPP: 274656
   missing_cells: 0
-  particular: The grid's name (CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP), not a pricing node
 - name: source
   shared: true
   type: text
@@ -154,13 +154,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1921373
-  particular: 'Not filled: no cell holds a value'
 - name: ba
   shared: true
+  particular: The grid's EIA-930 code, to join eia930 tables
   type: text
   values:
     list:
@@ -172,7 +173,6 @@ columns:
       pjm: 274780
       swpp: 274656
   missing_cells: 0
-  particular: The grid's EIA-930 code, to join eia930 tables
 - name: x_interpolated
   label: How many of the five stations' temperatures in the hour are interpolated (across at most 3 hours)
   unit: count

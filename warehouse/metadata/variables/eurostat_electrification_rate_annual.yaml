@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_electrification:<geo>:<NRG_BAL code>
   type: text
   values:
     distinct: 1319
@@ -44,7 +45,6 @@ columns:
     - eurostat_electrification:AL:FC_IND_E
     - eurostat_electrification:AL:FC_IND_FBT_E
   missing_cells: 0
-  particular: eurostat_electrification:<geo>:<NRG_BAL code>
 - name: variable
   shared: true
   type: text
@@ -83,6 +83,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
   type: text
   values:
     distinct: 38
@@ -93,7 +94,6 @@ columns:
     - BE
     - BG
   missing_cells: 1399
-  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
 - name: market
   shared: true
   type: empty
@@ -102,6 +102,7 @@ columns:
   missing_cells: 38269
 - name: node
   shared: true
+  particular: <geo> electrification rate, <the item's name>, not a pricing node
   type: text
   values:
     distinct: 1319
@@ -112,7 +113,6 @@ columns:
     - AL electrification rate, Energy sector - not elsewhere specified - energy use
     - AL electrification rate, Energy sector - oil and natural gas extraction plants - energy use
   missing_cells: 0
-  particular: <geo> electrification rate, <the item's name>, not a pricing node
 - name: source
   shared: true
   type: text

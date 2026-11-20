@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: ornl_hydro_pipeline:<FERC docket>, or ornl_hydro_pipeline:none-<project name slug> where there is no docket
   type: text
   values:
     distinct: 196
@@ -44,15 +45,14 @@ columns:
     - ornl_hydro_pipeline:CD22-5
     - ornl_hydro_pipeline:CD22-6
   missing_cells: 0
-  particular: ornl_hydro_pipeline:<FERC docket>, or ornl_hydro_pipeline:none-<project name slug> where there is no docket
 - name: entity_type
   shared: true
+  particular: Always project
   type: text
   values:
     list:
       project: 196
   missing_cells: 0
-  particular: Always project
 - name: name
   shared: true
   type: text
@@ -67,6 +67,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>
   type: text
   values:
     distinct: 33
@@ -77,7 +78,6 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<state>
 - name: lat
   shared: true
   type: number
@@ -96,33 +96,34 @@ columns:
   missing_cells: 0
 - name: capacity_mw
   shared: true
+  particular: The project's proposed capacity (Capacity_MW)
   type: number
   values:
     distinct: 123
     lowest: 0.003
     highest: 5287.0
   missing_cells: 0
-  particular: The project's proposed capacity (Capacity_MW)
 - name: status
   shared: true
+  particular: under_construction where ORNL writes Under Construction, else planned (issued or pending permits, licenses and
+    exemptions included)
   type: text
   values:
     list:
       planned: 189
       under_construction: 7
   missing_cells: 0
-  particular: under_construction where ORNL writes Under Construction, else planned (issued or pending permits, licenses and
-    exemptions included)
 - name: status_date
   shared: true
+  particular: The snapshot's day, 2025-12-31, not the date the status took effect
   type: date
   values:
     list:
       '2025-12-31': 196
   missing_cells: 0
-  particular: The snapshot's day, 2025-12-31, not the date the status took effect
 - name: operator
   shared: true
+  particular: The developer (Project_developer)
   type: text
   values:
     distinct: 161
@@ -133,7 +134,6 @@ columns:
     - Allegheny Hydro, LLC.
     - BOST3 Hydroelectric LLC
   missing_cells: 0
-  particular: The developer (Project_developer)
 - name: source
   shared: true
   type: text
@@ -158,12 +158,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time, UTC
   type: utc time
   values:
     list:
       '2026-04-20T17:05:22Z': 196
   missing_cells: 0
-  particular: The workbook's last-modified time, UTC
 - name: ferc_docket
   label: The project's FERC docket number (P- a license or exemption, CD- a qualifying conduit), as ORNL writes it
   unit: none

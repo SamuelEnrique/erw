@@ -36,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: onrr_revenue:<class>:<category>:<place>:<revenue type>:<lease type>:<commodity>:<product>, none where ONRR leaves
+    a part empty
   type: text
   values:
     distinct: more than 5000
@@ -46,8 +48,6 @@ columns:
     - onrr_revenue:federal:not_tied_to_a_lease:none:rents:none:not_tied_to_a_commodity:none
     - onrr_revenue:federal:offshore:alaska:bonus:oil_gas:oil_gas_pre_production:none
   missing_cells: 0
-  particular: onrr_revenue:<class>:<category>:<place>:<revenue type>:<lease type>:<commodity>:<product>, none where ONRR leaves
-    a part empty
 - name: variable
   shared: true
   type: text
@@ -86,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or empty (offshore, not tied to a lease, or Native American revenue ONRR gives no state for)
   type: text
   values:
     distinct: 40
@@ -96,16 +97,16 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 20303
-  particular: US-<state>, or empty (offshore, not tied to a lease, or Native American revenue ONRR gives no state for)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 413554
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Place: revenue type, commodity in ONRR''s words, not a pricing node'
   type: text
   values:
     distinct: more than 5000
@@ -116,7 +117,6 @@ columns:
     - 'Abbeville, South Carolina: Royalties, Gold, Gold Placer'
     - 'Adams, Colorado: Bonus, Oil & gas (pre-production)'
   missing_cells: 0
-  particular: 'Place: revenue type, commodity in ONRR''s words, not a pricing node'
 - name: source
   shared: true
   type: text
@@ -140,12 +140,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's last-modified time, one value
   type: utc time
   values:
     list:
       '2026-10-21T17:11:24Z': 413554
   missing_cells: 0
-  particular: The file's last-modified time, one value
 - name: x_land_class
   label: 'ONRR''s land class: Federal or Native American'
   unit: none

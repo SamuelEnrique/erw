@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_nonhh_bands:<geo>:<band>
   type: text
   values:
     distinct: 253
@@ -45,7 +46,6 @@ columns:
     - eurostat_nonhh_bands:AL:MWH500-1999
     - eurostat_nonhh_bands:AL:MWH70000-149999
   missing_cells: 0
-  particular: eurostat_nonhh_bands:<geo>:<band>
 - name: variable
   shared: true
   type: text
@@ -91,6 +91,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2
   type: text
   values:
     distinct: 37
@@ -101,7 +102,6 @@ columns:
     - BE
     - BG
   missing_cells: 0
-  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2
 - name: market
   shared: true
   type: empty
@@ -110,6 +110,7 @@ columns:
   missing_cells: 2013
 - name: node
   shared: true
+  particular: <geo> non-household electricity, <the band>, not a pricing node
   type: text
   values:
     distinct: 253
@@ -120,7 +121,6 @@ columns:
     - AL non-household electricity, band ID, 2,000 to 19,999 MWh
     - AL non-household electricity, band IE, 20,000 to 69,999 MWh
   missing_cells: 0
-  particular: <geo> non-household electricity, <the band>, not a pricing node
 - name: source
   shared: true
   type: text

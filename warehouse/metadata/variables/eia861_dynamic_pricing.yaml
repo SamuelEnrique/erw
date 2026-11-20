@@ -36,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia861_dp:<utility number>:<state>:<balancing authority>; ends in a colon before 2017 (no balancing authority
+    column) and where EIA gives none
   type: text
   values:
     distinct: 1751
@@ -46,8 +48,6 @@ columns:
     - eia861_dp:10000:MO:SWPP
     - 'eia861_dp:10005:KS:'
   missing_cells: 0
-  particular: eia861_dp:<utility number>:<state>:<balancing authority>; ends in a colon before 2017 (no balancing authority
-    column) and where EIA gives none
 - name: variable
   shared: true
   type: text
@@ -95,6 +95,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>
   type: text
   values:
     distinct: 54
@@ -105,16 +106,16 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<state>
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 33157
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The utility's name, not a pricing node
   type: text
   values:
     distinct: 974
@@ -125,7 +126,6 @@ columns:
     - AES Indiana
     - ALLETE, Inc.
   missing_cells: 0
-  particular: The utility's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -169,11 +169,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 33157
-  particular: 'Not filled: no cell holds a value'
 - name: x_utility_number
   label: EIA's utility identifier
   unit: none

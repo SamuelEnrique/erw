@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_refinery_production:<EIA series id>
   type: text
   values:
     distinct: 1488
@@ -45,7 +46,6 @@ columns:
     - eia_refinery_production:MAPRP2B2
     - eia_refinery_production:MAPRP2C1
   missing_cells: 0
-  particular: eia_refinery_production:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -85,21 +85,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row, the PADDs and districts included
   type: text
   values:
     list:
       US: 326819
   missing_cells: 0
-  particular: US on every row, the PADDs and districts included
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 326819
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name (the product and area)
   type: text
   values:
     distinct: 1488
@@ -110,7 +111,6 @@ columns:
     - East Coast (PADD 1) Refinery and Blender Net Production of Aviation Gasoline (Thousand Barrels)
     - East Coast (PADD 1) Refinery and Blender Net Production of Conventional Motor Gasoline (Thousand Barrels per Day)
   missing_cells: 0
-  particular: EIA's series name (the product and area)
 - name: source
   shared: true
   type: text
@@ -137,11 +137,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 326819
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: net_production
   label: Refinery and blender net production of the product in the month, thousand barrels

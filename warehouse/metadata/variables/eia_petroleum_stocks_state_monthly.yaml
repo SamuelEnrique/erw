@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_petroleum_stocks_state:<EIA series id>
   type: text
   values:
     distinct: 593
@@ -45,7 +46,6 @@ columns:
     - eia_petroleum_stocks_state:E_EPOBGC0_STR_R30_MBBL
     - eia_petroleum_stocks_state:E_EPOBGC0_STR_R40_MBBL
   missing_cells: 0
-  particular: eia_petroleum_stocks_state:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -84,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for a PADD or the nation
   type: text
   values:
     distinct: 51
@@ -94,16 +95,16 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: US-<state>, or US for a PADD or the nation
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 73997
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name
   type: text
   values:
     distinct: 593
@@ -117,7 +118,6 @@ columns:
     - Alabama Distillate Fuel Oil, Greater Than 500 ppm Sulfur Stocks at Refineries, Bulk Terminals, and Natural Gas Plants
       (Thousand Barrels)
   missing_cells: 0
-  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -142,11 +142,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 73997
-  particular: 'Not filled: no cell holds a value'
 - name: x_area
   label: EIA's area code (NUS, a PADD such as R10, or a state)
   unit: none

@@ -41,6 +41,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<FROM>-<TO> on interchange_mw rows; eia930:<respondent> on demand_mw rows
   type: text
   values:
     distinct: 424
@@ -51,7 +52,6 @@ columns:
     - eia930:AECI
     - eia930:AECI-MISO
   missing_cells: 0
-  particular: eia930:<FROM>-<TO> on interchange_mw rows; eia930:<respondent> on demand_mw rows
 - name: variable
   shared: true
   type: text
@@ -142,6 +142,7 @@ columns:
   missing_cells: 266833
 - name: ba
   shared: true
+  particular: FROM on interchange rows, the respondent on demand rows, lowercase
   type: text
   values:
     distinct: 79
@@ -152,7 +153,6 @@ columns:
     - avrn
     - azps
   missing_cells: 0
-  particular: FROM on interchange rows, the respondent on demand rows, lowercase
 - name: x_to_ba
   label: The neighbour (TO) of an interchange row, EIA-930 code in lowercase
   unit: none

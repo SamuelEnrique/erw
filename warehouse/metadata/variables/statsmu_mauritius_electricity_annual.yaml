@@ -41,12 +41,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: statsmu:MU (the Republic of Mauritius) on every row
   type: text
   values:
     list:
       statsmu:MU: 79
   missing_cells: 0
-  particular: statsmu:MU (the Republic of Mauritius) on every row
 - name: variable
   shared: true
   type: text
@@ -94,27 +94,27 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: MU on every row
   type: text
   values:
     list:
       MU: 79
   missing_cells: 0
-  particular: MU on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 79
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: Mauritius on every row, not a pricing node
   type: text
   values:
     list:
       Mauritius: 79
   missing_cells: 0
-  particular: Mauritius on every row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -140,13 +140,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The edition's workbook's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2024-06-07T07:40:46Z': 29
       '2026-06-05T04:58:07Z': 50
   missing_cells: 0
-  particular: The edition's workbook's Last-Modified (UTC)
 variables:
 - name: capacity_effective
   label: Effective capacity (Table 7; not defined by the source)

@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: The price table's own entity, <iso>:<node>
   type: text
   values:
     distinct: 39
@@ -45,7 +46,6 @@ columns:
     - ercot:HB_BUSAVG
     - ercot:HB_HOUSTON
   missing_cells: 0
-  particular: The price table's own entity, <iso>:<node>
 - name: variable
   shared: true
   type: text
@@ -86,13 +86,14 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 21879
-  particular: 'Not filled: no cell holds a value'
 - name: market
   shared: true
+  particular: The ISO the row belongs to (caiso, ercot, isone, miso, nyiso, spp), not a market code
   type: text
   values:
     list:
@@ -103,9 +104,9 @@ columns:
       nyiso: 7117
       spp: 648
   missing_cells: 0
-  particular: The ISO the row belongs to (caiso, ercot, isone, miso, nyiso, spp), not a market code
 - name: node
   shared: true
+  particular: The hub or zone, the part of entity after the colon
   type: text
   values:
     distinct: 39
@@ -116,7 +117,6 @@ columns:
     - .Z.NEMASSBOST
     - .Z.NEWHAMPSHIRE
   missing_cells: 0
-  particular: The hub or zone, the part of entity after the colon
 - name: source
   shared: true
   type: text
@@ -141,11 +141,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 21879
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: da_mean_usd
   label: Mean of the day's day-ahead hourly prices (every hour required), USD/MWh

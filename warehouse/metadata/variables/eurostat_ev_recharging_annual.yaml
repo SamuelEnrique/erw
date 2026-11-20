@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_ev_recharging:<geo>
   type: text
   values:
     distinct: 33
@@ -44,7 +45,6 @@ columns:
     - eurostat_ev_recharging:CH
     - eurostat_ev_recharging:CY
   missing_cells: 0
-  particular: eurostat_ev_recharging:<geo>
 - name: variable
   shared: true
   type: text
@@ -89,6 +89,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2
   type: text
   values:
     distinct: 33
@@ -99,7 +100,6 @@ columns:
     - CH
     - CY
   missing_cells: 0
-  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2
 - name: market
   shared: true
   type: empty
@@ -108,6 +108,7 @@ columns:
   missing_cells: 465
 - name: node
   shared: true
+  particular: <geo> <the infrastructure's name>, <number or power output>, not a pricing node
   type: text
   values:
     distinct: 119
@@ -118,7 +119,6 @@ columns:
     - BE Recharging point, number
     - BE Recharging pool, number
   missing_cells: 0
-  particular: <geo> <the infrastructure's name>, <number or power output>, not a pricing node
 - name: source
   shared: true
   type: text

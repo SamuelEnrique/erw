@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<hub>
   type: text
   values:
     list:
@@ -44,7 +45,6 @@ columns:
       ercot:HB_SOUTH: 4004
       ercot:HB_WEST: 4004
   missing_cells: 0
-  particular: ercot:<hub>
 - name: variable
   shared: true
   type: text
@@ -92,14 +92,16 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
   type: text
   values:
     list:
       ercot_rtm: 24024
   missing_cells: 0
-  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
 - name: node
   shared: true
+  particular: 'ERCOT''s trading hub: HB_HOUSTON, HB_NORTH, HB_SOUTH, HB_WEST, HB_HUBAVG (average of the four) and HB_BUSAVG
+    (average over the hubs'' buses)'
   type: text
   values:
     list:
@@ -110,8 +112,6 @@ columns:
       HB_SOUTH: 4004
       HB_WEST: 4004
   missing_cells: 0
-  particular: 'ERCOT''s trading hub: HB_HOUSTON, HB_NORTH, HB_SOUTH, HB_WEST, HB_HUBAVG (average of the four) and HB_BUSAVG
-    (average over the hubs'' buses)'
 - name: source
   shared: true
   type: text
@@ -135,11 +135,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 24024
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: all_iqr
   label: 75th less 25th percentile of all intervals' prices, USD/MWh

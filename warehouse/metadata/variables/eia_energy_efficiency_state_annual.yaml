@@ -35,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_efficiency:<state>:<time period slug>:<sector>; time period reporting_year or expected_life_cycle_of_programs;
+    sectors RES, COM, IND, TRN, TOT
   type: text
   values:
     distinct: 520
@@ -45,8 +47,6 @@ columns:
     - eia_efficiency:AK:expected_life_cycle_of_programs:TOT
     - eia_efficiency:AK:expected_life_cycle_of_programs:TRN
   missing_cells: 0
-  particular: eia_efficiency:<state>:<time period slug>:<sector>; time period reporting_year or expected_life_cycle_of_programs;
-    sectors RES, COM, IND, TRN, TOT
 - name: variable
   shared: true
   type: text
@@ -97,6 +97,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation
   type: text
   values:
     distinct: 52
@@ -107,16 +108,16 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: US-<state>, or US for the nation
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 19740
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's names of state, time period and sector
   type: text
   values:
     distinct: 520
@@ -127,7 +128,6 @@ columns:
     - Alabama, Expected Life Cycle of Programs, residential
     - Alabama, Expected Life Cycle of Programs, transportation
   missing_cells: 0
-  particular: EIA's names of state, time period and sector
 - name: source
   shared: true
   type: text
@@ -152,11 +152,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 19740
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: all_other_costs
   label: All other costs of the programs, USD (EIA's thousand dollars times 1,000)

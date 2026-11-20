@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: The input row's entity_id
   type: text
   values:
     distinct: more than 5000
@@ -43,7 +44,6 @@ columns:
     - caiso_queue:1001
     - caiso_queue:1002
   missing_cells: 0
-  particular: The input row's entity_id
 - name: entity_type
   shared: true
   type: text
@@ -66,6 +66,7 @@ columns:
   missing_cells: 6960
 - name: geo
   shared: true
+  particular: US-<state>, or US where the source states no state
   type: text
   values:
     distinct: 53
@@ -76,7 +77,6 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: US-<state>, or US where the source states no state
 - name: lat
   shared: true
   type: number
@@ -95,16 +95,17 @@ columns:
   missing_cells: 790
 - name: capacity_mw
   shared: true
+  particular: 'As the source states it: EIA''s nameplate, or the queue''s requested MW (a queue may state a negative repowering
+    request)'
   type: number
   values:
     distinct: 4395
     lowest: -53.3
     highest: 4000.0
   missing_cells: 278
-  particular: 'As the source states it: EIA''s nameplate, or the queue''s requested MW (a queue may state a negative repowering
-    request)'
 - name: status
   shared: true
+  particular: The input row's status; empty where the source gives none
   type: text
   values:
     list:
@@ -116,7 +117,6 @@ columns:
       under_construction: 1032
       withdrawn: 8761
   missing_cells: 34
-  particular: The input row's status; empty where the source gives none
 - name: status_date
   shared: true
   type: date
@@ -127,6 +127,7 @@ columns:
   missing_cells: 8193
 - name: operator
   shared: true
+  particular: EIA's operator, or the queue's interconnection customer (operator_role)
   type: text
   values:
     distinct: more than 5000
@@ -137,7 +138,6 @@ columns:
     - 1008 Matthews Solar, LLC
     - 1009 Yadkin Solar, LLC
   missing_cells: 11199
-  particular: EIA's operator, or the queue's interconnection customer (operator_role)
 - name: source
   shared: true
   type: text
@@ -167,6 +167,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'The input row''s vintage: EIA''s month (YYYY-MM) or the queue''s'
   type: text
   values:
     list:
@@ -175,7 +176,6 @@ columns:
       '2026-09-30T00:00:00Z': 3881
       '2026-11-05': 8844
   missing_cells: 0
-  particular: 'The input row''s vintage: EIA''s month (YYYY-MM) or the queue''s'
 - name: project_id
   label: The project's id, the same as entity_id
   unit: none
@@ -232,13 +232,13 @@ columns:
   documented_by: method energy_projects.md
 - name: mw
   shared: true
+  particular: capacity_mw as the source states it
   type: number
   values:
     distinct: 4395
     lowest: -53.3
     highest: 4000.0
   missing_cells: 278
-  particular: capacity_mw as the source states it
 - name: state
   label: The state as the source states it, reduced to its postal code
   unit: none

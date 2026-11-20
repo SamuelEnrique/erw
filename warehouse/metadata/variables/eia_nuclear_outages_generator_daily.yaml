@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_nuclear_outages_gen:<facility>:<generator>, EIA's plant and reactor ids
   type: text
   values:
     distinct: 107
@@ -44,7 +45,6 @@ columns:
     - eia_nuclear_outages_gen:1729:2
     - eia_nuclear_outages_gen:1922:1
   missing_cells: 0
-  particular: eia_nuclear_outages_gen:<facility>:<generator>, EIA's plant and reactor ids
 - name: variable
   shared: true
   type: text
@@ -84,21 +84,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 2149671
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2149671
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The plant's name and the reactor
   type: text
   values:
     distinct: 107
@@ -109,7 +110,6 @@ columns:
     - Beaver Valley, reactor 2
     - Braidwood Generation Station, reactor 1
   missing_cells: 0
-  particular: The plant's name and the reactor
 - name: source
   shared: true
   type: text
@@ -154,11 +154,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2149671
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: capacity
   label: The reactor's generating capacity, MW

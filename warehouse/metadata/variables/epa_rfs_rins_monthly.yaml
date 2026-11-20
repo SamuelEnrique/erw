@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: epa_rfs:d<code> (d3 to d7)
   type: text
   values:
     list:
@@ -45,7 +46,6 @@ columns:
       epa_rfs:d6: 390
       epa_rfs:d7: 146
   missing_cells: 0
-  particular: epa_rfs:d<code> (d3 to d7)
 - name: variable
   shared: true
   type: text
@@ -85,21 +85,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always US
   type: text
   values:
     list:
       US: 1632
   missing_cells: 0
-  particular: Always US
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1632
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The D code's name as EPA's fuel type file gives it, not a pricing node
   type: text
   values:
     list:
@@ -109,7 +110,6 @@ columns:
       Cellulosic Diesel: 146
       Renewable Fuel: 390
   missing_cells: 0
-  particular: The D code's name as EPA's fuel type file gives it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -133,12 +133,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's Last-Modified time
   type: utc time
   values:
     list:
       '2026-10-14T21:35:00Z': 1632
   missing_cells: 0
-  particular: The file's Last-Modified time
 variables:
 - name: batch_volume
   label: The renewable fuel's volume produced in the month, in gallons (EPA's BATCH_VOLUME)

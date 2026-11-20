@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<service>, the ancillary service
   type: text
   values:
     list:
@@ -45,7 +46,6 @@ columns:
       ercot:REGUP: 77399
       ercot:RRS: 77399
   missing_cells: 0
-  particular: ercot:<service>, the ancillary service
 - name: variable
   shared: true
   type: text
@@ -91,14 +91,16 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
   type: text
   values:
     list:
       ercot_dam: 339332
   missing_cells: 0
-  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
 - name: node
   shared: true
+  particular: 'The ancillary service, not a place: REGUP Regulation Up, REGDN Regulation Down, RRS Responsive Reserve, NSPIN
+    Non-Spin, ECRS ERCOT Contingency Reserve Service (from June 2023)'
   type: text
   values:
     list:
@@ -108,8 +110,6 @@ columns:
       REGUP: 77399
       RRS: 77399
   missing_cells: 0
-  particular: 'The ancillary service, not a place: REGUP Regulation Up, REGDN Regulation Down, RRS Responsive Reserve, NSPIN
-    Non-Spin, ECRS ERCOT Contingency Reserve Service (from June 2023)'
 - name: source
   shared: true
   type: text
@@ -162,6 +162,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The publish time of ERCOT's yearly or daily document the row came from
   type: utc time
   values:
     list:
@@ -181,7 +182,6 @@ columns:
       '2026-10-28T17:32:48Z': 120
       '2026-10-29T17:33:24Z': 120
   missing_cells: 0
-  particular: The publish time of ERCOT's yearly or daily document the row came from
 variables:
 - name: mcpc_dam
   label: Day-ahead market clearing price for capacity of the service (MCPC), USD per MW held for one hour

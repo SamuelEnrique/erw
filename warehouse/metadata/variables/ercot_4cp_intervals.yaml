@@ -39,12 +39,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'ercot:system in every row: ERCOT''s whole system'
   type: text
   values:
     list:
       ercot:system: 28
   missing_cells: 0
-  particular: 'ercot:system in every row: ERCOT''s whole system'
 - name: variable
   shared: true
   type: text
@@ -90,20 +90,20 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_4cp in every row: the four coincident peak calculation'
   type: text
   values:
     list:
       ercot_4cp: 28
   missing_cells: 0
-  particular: 'ercot_4cp in every row: the four coincident peak calculation'
 - name: node
   shared: true
+  particular: ERCOT in every row, not a price node
   type: text
   values:
     list:
       ERCOT: 28
   missing_cells: 0
-  particular: ERCOT in every row, not a price node
 - name: source
   shared: true
   type: text
@@ -135,6 +135,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: ERCOT's posting date of the workbook at 00:00:00Z; empty for the years of the 1996-2020 zip, which states none
   type: utc time
   values:
     list:
@@ -143,7 +144,6 @@ columns:
       '2024-11-25T00:00:00Z': 4
       '2025-11-24T00:00:00Z': 4
   missing_cells: 12
-  particular: ERCOT's posting date of the workbook at 00:00:00Z; empty for the years of the 1996-2020 zip, which states none
 - name: x_year
   label: The year of the summer whose peaks the row is one of
   unit: none

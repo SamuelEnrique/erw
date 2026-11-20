@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<region> (CAL, CAR, CENT, FLA, MIDA, MIDW, NE, NW, NY, SE, SW, TEN)
   type: text
   values:
     list:
@@ -54,7 +55,6 @@ columns:
       eia930:TEN: 293960
       eia930:TEX: 293656
   missing_cells: 0
-  particular: eia930:<region> (CAL, CAR, CENT, FLA, MIDA, MIDW, NE, NW, NY, SE, SW, TEN)
 - name: variable
   shared: true
   type: text
@@ -100,6 +100,7 @@ columns:
   missing_cells: 0
 - name: ba
   shared: true
+  particular: The region's code, lowercase
   type: text
   values:
     list:
@@ -117,7 +118,6 @@ columns:
       ten: 293960
       tex: 293656
   missing_cells: 0
-  particular: The region's code, lowercase
 - name: x_basis
   label: adjusted when every summed value was EIA's adjusted value; reported for the forecast, which has only the reported
     column

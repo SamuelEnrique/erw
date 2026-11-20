@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_ev_power:<geo>:<POWER code>
   type: text
   values:
     distinct: 277
@@ -44,7 +45,6 @@ columns:
     - eurostat_ev_power:AT:AC_KW_LT7P4
     - eurostat_ev_power:AT:DC
   missing_cells: 0
-  particular: eurostat_ev_power:<geo>:<POWER code>
 - name: variable
   shared: true
   type: text
@@ -88,6 +88,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2
   type: text
   values:
     distinct: 33
@@ -98,7 +99,6 @@ columns:
     - CH
     - CY
   missing_cells: 0
-  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2
 - name: market
   shared: true
   type: empty
@@ -107,6 +107,7 @@ columns:
   missing_cells: 1171
 - name: node
   shared: true
+  particular: <geo> recharging points, <the power category>, not a pricing node
   type: text
   values:
     distinct: 277
@@ -117,7 +118,6 @@ columns:
     - AT recharging points, DC 150 to 350 kW (ultra-fast, level 1)
     - AT recharging points, DC 350 kW and above (ultra-fast, level 2)
   missing_cells: 0
-  particular: <geo> recharging points, <the power category>, not a pricing node
 - name: source
   shared: true
   type: text

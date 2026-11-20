@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: statcan_pd:<area>, the area ca or a province's or territory's postal code in lower case
   type: text
   values:
     list:
@@ -55,7 +56,6 @@ columns:
       statcan_pd:sk: 312
       statcan_pd:yt: 168
   missing_cells: 0
-  particular: statcan_pd:<area>, the area ca or a province's or territory's postal code in lower case
 - name: variable
   shared: true
   type: text
@@ -113,6 +113,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: CA for Canada, CA-<province> for a province or territory
   type: text
   values:
     list:
@@ -131,16 +132,16 @@ columns:
       CA-SK: 312
       CA-YT: 168
   missing_cells: 0
-  particular: CA for Canada, CA-<province> for a province or territory
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3909
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: '<area>: <component> as StatCan names them, not a pricing node'
   type: text
   values:
     distinct: 229
@@ -151,7 +152,6 @@ columns:
     - 'Alberta: Exports of electricity to the United States, secondary'
     - 'Alberta: Imports of electricity from the United States, purchased'
   missing_cells: 0
-  particular: '<area>: <component> as StatCan names them, not a pricing node'
 - name: source
   shared: true
   type: text
@@ -175,12 +175,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified time of StatCan's zip
   type: utc time
   values:
     list:
       '2026-10-16T12:30:33Z': 3909
   missing_cells: 0
-  particular: The Last-Modified time of StatCan's zip
 - name: x_component
   label: The component of supply and disposition, StatCan's name (the variable is its slug)
   unit: none

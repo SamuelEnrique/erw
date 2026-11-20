@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:generation:<location>:<fueltypeid>; ALL is the sum of the sources except DPV (estimated small-scale solar)
   type: text
   values:
     distinct: 759
@@ -45,7 +46,6 @@ columns:
     - eia:generation:AK:DPV
     - eia:generation:AK:HYC
   missing_cells: 0
-  particular: eia:generation:<location>:<fueltypeid>; ALL is the sum of the sources except DPV (estimated small-scale solar)
 - name: variable
   shared: true
   type: text
@@ -84,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation; empty for an EIA census region
   type: text
   values:
     distinct: 53
@@ -94,21 +95,20 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 40208
-  particular: US-<state>, or US for the nation; empty for an EIA census region
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 201076
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: EIA''s names (location, source) are in the header''s Series line'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 201076
-  particular: 'Not filled: EIA''s names (location, source) are in the header''s Series line'
 - name: source
   shared: true
   type: text
@@ -138,11 +138,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 201076
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: net_generation
   label: Net electricity generation from the source, all sectors, MWh (EIA's thousand MWh times 1,000)

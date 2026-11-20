@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_ieo2023:<tableId>:<regionId>:<seriesId>
   type: text
   values:
     distinct: 576
@@ -45,7 +46,6 @@ columns:
     - eia_ieo2023:10:0-0:emi_co2_fossil_anz_mtonne
     - eia_ieo2023:10:0-0:emi_co2_fossil_apc_mtonne
   missing_cells: 0
-  particular: eia_ieo2023:<tableId>:<regionId>:<seriesId>
 - name: variable
   shared: true
   type: text
@@ -87,20 +87,21 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: world regions have no ISO 3166-2 code'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 17856
-  particular: 'Not filled: world regions have no ISO 3166-2 code'
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 17856
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'EIA''s series name, <what> : <region> : <fuel>'
   type: text
   values:
     distinct: 574
@@ -111,7 +112,6 @@ columns:
     - 'Carbon dioxide emissions : Americas'
     - 'Carbon dioxide emissions : Americas : Brazil'
   missing_cells: 0
-  particular: 'EIA''s series name, <what> : <region> : <fuel>'
 - name: source
   shared: true
   type: text
@@ -145,11 +145,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: the release is in the entity id'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 17856
-  particular: 'Not filled: the release is in the entity id'
 - name: x_history
   label: 'EIA''s flag: HISTORIC for a year EIA marks as history, PROJECTION for its model result'
   unit: none

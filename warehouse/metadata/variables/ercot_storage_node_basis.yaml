@@ -39,6 +39,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<settlement point> of a storage resource, or ercot:esr_nodes for the rows that sum the points up
   type: text
   values:
     distinct: 294
@@ -49,7 +50,6 @@ columns:
     - ercot:ALAMO_ST_RN
     - ercot:ALP_BESS_RN
   missing_cells: 0
-  particular: ercot:<settlement point> of a storage resource, or ercot:esr_nodes for the rows that sum the points up
 - name: variable
   shared: true
   type: text
@@ -95,14 +95,15 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
   type: text
   values:
     list:
       ercot_rtm: 2064
   missing_cells: 0
-  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
 - name: node
   shared: true
+  particular: The settlement point's name; empty on the ercot:esr_nodes summary rows
   type: text
   values:
     distinct: 293
@@ -113,7 +114,6 @@ columns:
     - ALAMO_ST_RN
     - ALP_BESS_RN
   missing_cells: 13
-  particular: The settlement point's name; empty on the ercot:esr_nodes summary rows
 - name: source
   shared: true
   type: text
@@ -137,11 +137,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2064
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: intervals
   label: 15-minute intervals both the node's and the hub's prices hold

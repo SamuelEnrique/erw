@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: cbecs:<heading>_<category>, slugged; cbecs:all for all buildings
   type: text
   values:
     distinct: 270
@@ -47,7 +48,6 @@ columns:
     - cbecs:building_floorspace_square_feet_1_001_to_5_000
     - cbecs:building_floorspace_square_feet_200_001_to_500_000
   missing_cells: 0
-  particular: cbecs:<heading>_<category>, slugged; cbecs:all for all buildings
 - name: variable
   shared: true
   type: text
@@ -87,21 +87,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row (census regions are categories)
   type: text
   values:
     list:
       US: 5944
   missing_cells: 0
-  particular: US on every row (census regions are categories)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5944
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The category as EIA prints it
   type: text
   values:
     distinct: 231
@@ -112,7 +113,6 @@ columns:
     - 1% to 50%
     - 1,001 to 5,000
   missing_cells: 0
-  particular: The category as EIA prints it
 - name: source
   shared: true
   type: text
@@ -140,6 +140,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time from EIA's server
   type: utc time
   values:
     list:
@@ -147,7 +148,6 @@ columns:
       '2022-12-16T16:51:21Z': 1785
       '2023-07-28T13:37:19Z': 2907
   missing_cells: 0
-  particular: The workbook's last-modified time from EIA's server
 - name: x_heading
   label: The heading the category sits under (for example Principal building activity), a footnote letter set aside
   unit: none

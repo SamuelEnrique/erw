@@ -37,12 +37,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_uranium:us
   type: text
   values:
     list:
       eia_uranium:us: 763
   missing_cells: 0
-  particular: eia_uranium:us
 - name: variable
   shared: true
   type: text
@@ -105,21 +105,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 763
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 763
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's heading
   type: text
   values:
     distinct: 31
@@ -130,7 +131,6 @@ columns:
     - Foreign purchases by owners and operators of U.S. civilian nuclear power reactors
     - Foreign sales
   missing_cells: 0
-  particular: EIA's heading
 - name: source
   shared: true
   type: text
@@ -159,11 +159,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 763
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: broker_purchases_from_foreign
   label: U.S. broker and trader purchases from foreign suppliers, pounds U3O8 equivalent (S3a)

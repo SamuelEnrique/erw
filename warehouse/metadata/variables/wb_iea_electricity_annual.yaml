@@ -5,9 +5,11 @@
 table: wb_iea_electricity_annual
 family: wb
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One economy's value of one World Development Indicator on electricity (consumption per person, or the renewable share
+  of output) for one year, from the World Bank's API.
+time: ts_utc is 1 January of the year; freq P1Y.
+vintage_rule: A snapshot, rewritten whole by each run from the two indicators' API answers; vintage is the answer's Last-Modified
+  time where the API gives one (the World Bank's last update of each indicator is in the header).
 keys:
 - entity
 - variable
@@ -32,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: wb:<ISO3 code of the economy>
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
@@ -68,18 +71,21 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The World Bank's ISO2 code of the economy (not always a US subdivision)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 8220
 - name: node
   shared: true
+  particular: The economy's name
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
@@ -104,49 +110,51 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified time of the API's answer
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
 - name: x_indicator
-  label: null
-  unit: null
+  label: The World Bank's indicator id
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector wb_wdi_electricity.py
 - name: x_region
-  label: null
-  unit: null
+  label: The World Bank's region group of the economy
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: region.value
+  documented_by: connector wb_wdi_electricity.py
 - name: x_income
-  label: null
-  unit: null
+  label: The World Bank's income group of the economy
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: incomeLevel.value
+  documented_by: connector wb_wdi_electricity.py
 variables:
 - name: electricity_consumption_per_person
-  label: null
+  label: Electric power consumption per person, kWh (World Bank indicator EG.USE.ELEC.KH.PC, sourced to the IEA's Energy Statistics)
   unit: kWh/person
   rows: 3775
   first: '2000-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: renewable_output_share
-  label: null
+  label: Renewable electricity output as a percent of total electricity output (World Bank indicator EG.ELC.RNEW.ZS, sourced
+    to the IEA's Energy Statistics)
   unit: pct
   rows: 4445
   first: '2000-01-01T00:00:00Z'

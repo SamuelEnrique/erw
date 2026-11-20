@@ -38,6 +38,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: caiso:<TAC area> under CAISO's own names (PGE-TAC, SCE-TAC, SDGE-TAC, VEA-TAC, MWD-TAC), or caiso:system for
+    the area CAISO names CA ISO-TAC, its own total
   type: text
   values:
     list:
@@ -48,8 +50,6 @@ columns:
       caiso:VEA-TAC: 45274
       caiso:system: 45274
   missing_cells: 0
-  particular: caiso:<TAC area> under CAISO's own names (PGE-TAC, SCE-TAC, SDGE-TAC, VEA-TAC, MWD-TAC), or caiso:system for
-    the area CAISO names CA ISO-TAC, its own total
 - name: variable
   shared: true
   type: text
@@ -95,14 +95,15 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: caiso_load in every row
   type: text
   values:
     list:
       caiso_load: 271644
   missing_cells: 0
-  particular: caiso_load in every row
 - name: node
   shared: true
+  particular: The TAC area as CAISO names it (CA ISO-TAC for the total); a TAC area is not a trading hub (NP15, SP15, ZP26)
   type: text
   values:
     list:
@@ -113,7 +114,6 @@ columns:
       SDGE-TAC: 45274
       VEA-TAC: 45274
   missing_cells: 0
-  particular: The TAC area as CAISO names it (CA ISO-TAC for the total); a TAC area is not a trading hub (NP15, SP15, ZP26)
 - name: source
   shared: true
   type: text
@@ -143,11 +143,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 271644
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: load
   label: CAISO's SYS_FCST_ACT_MW, Total Actual Hourly Integrated Load, for the area and hour, MW over the hour (OASIS SLD_FCST,

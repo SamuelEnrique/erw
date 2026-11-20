@@ -31,6 +31,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: egrid:<ORISPL>, the DOE/EIA plant code
   type: text
   values:
     distinct: more than 5000
@@ -41,7 +42,6 @@ columns:
     - egrid:10003
     - egrid:10004
   missing_cells: 0
-  particular: egrid:<ORISPL>, the DOE/EIA plant code
 - name: entity_type
   shared: true
   type: text
@@ -91,29 +91,30 @@ columns:
   missing_cells: 0
 - name: capacity_mw
   shared: true
+  particular: eGRID's plant nameplate capacity (NAMEPCAP)
   type: number
   values:
     distinct: 2193
     lowest: 0.3
     highest: 6809.0
   missing_cells: 1
-  particular: eGRID's plant nameplate capacity (NAMEPCAP)
 - name: status
   shared: true
+  particular: 'Not filled: eGRID gives no status'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 12612
-  particular: 'Not filled: eGRID gives no status'
 - name: status_date
   shared: true
+  particular: 'Not filled: eGRID gives no status'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 12612
-  particular: 'Not filled: eGRID gives no status'
 - name: operator
   shared: true
+  particular: The utility's name (eGRID's UTLSRVNM)
   type: text
   values:
     distinct: more than 5000
@@ -124,7 +125,6 @@ columns:
     - 1009 Yadkin Solar, LLC
     - 1034 Catherine Lake Solar, LLC
   missing_cells: 0
-  particular: The utility's name (eGRID's UTLSRVNM)
 - name: source
   shared: true
   type: text
@@ -148,12 +148,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: eGRID2023, the edition's name (not a date)
   type: text
   values:
     list:
       eGRID2023: 12612
   missing_cells: 0
-  particular: eGRID2023, the edition's name (not a date)
 - name: data_year
   label: eGRID's data year
   unit: none

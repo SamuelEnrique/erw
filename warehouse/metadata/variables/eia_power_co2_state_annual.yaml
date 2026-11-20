@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_power_co2:<state>:<fuel>; fuels COL, NG, PET, OTH and ALL (a sum leaves ALL out)
   type: text
   values:
     distinct: 256
@@ -44,7 +45,6 @@ columns:
     - eia_power_co2:AK:OTH
     - eia_power_co2:AK:PET
   missing_cells: 0
-  particular: eia_power_co2:<state>:<fuel>; fuels COL, NG, PET, OTH and ALL (a sum leaves ALL out)
 - name: variable
   shared: true
   type: text
@@ -84,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation
   type: text
   values:
     distinct: 52
@@ -94,16 +95,16 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: US-<state>, or US for the nation
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 10640
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: <state>, <fuel> in EIA's names
   type: text
   values:
     distinct: 256
@@ -114,7 +115,6 @@ columns:
     - Alabama, Petroleum
     - Alabama, Total
   missing_cells: 0
-  particular: <state>, <fuel> in EIA's names
 - name: source
   shared: true
   type: text
@@ -139,11 +139,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 10640
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: co2
   label: Carbon dioxide emitted by power plants burning the fuel, tonnes of CO2 (EIA's thousand metric tons times 1,000)

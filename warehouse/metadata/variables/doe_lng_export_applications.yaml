@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: doe_lng:<docket>, the row's FTA docket, else its non-FTA docket
   type: text
   values:
     distinct: 135
@@ -44,17 +45,17 @@ columns:
     - doe_lng:11-127-LNG
     - doe_lng:11-145-LNG
   missing_cells: 0
-  particular: doe_lng:<docket>, the row's FTA docket, else its non-FTA docket
 - name: entity_type
   shared: true
+  particular: Always project
   type: text
   values:
     list:
       project: 135
   missing_cells: 0
-  particular: Always project
 - name: name
   shared: true
+  particular: The applicant as printed
   type: text
   values:
     distinct: 112
@@ -65,14 +66,13 @@ columns:
     - Alturas LLC
     - American LNG Marketing LLC
   missing_cells: 0
-  particular: The applicant as printed
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 135
-  particular: 'Not filled: no cell holds a value'
 - name: lat
   shared: true
   type: empty
@@ -93,6 +93,8 @@ columns:
   missing_cells: 135
 - name: status
   shared: true
+  particular: 'The ERW''s: active when either part is approved, planned when a part is under review or in abeyance and none
+    approved, withdrawn otherwise'
   type: text
   values:
     list:
@@ -100,16 +102,14 @@ columns:
       planned: 10
       withdrawn: 34
   missing_cells: 0
-  particular: 'The ERW''s: active when either part is approved, planned when a part is under review or in abeyance and none
-    approved, withdrawn otherwise'
 - name: status_date
   shared: true
+  particular: The summary's date
   type: date
   values:
     list:
       '2026-09-30': 135
   missing_cells: 0
-  particular: The summary's date
 - name: operator
   shared: true
   type: empty

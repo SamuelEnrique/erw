@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: noaa:<USAF-WBAN>, the station (the node of noaa_region_stations)
   type: text
   values:
     distinct: 216
@@ -47,7 +48,6 @@ columns:
     - noaa:720598-00191
     - noaa:720612-00203
   missing_cells: 0
-  particular: noaa:<USAF-WBAN>, the station (the node of noaa_region_stations)
 - name: variable
   shared: true
   type: text
@@ -86,13 +86,13 @@ columns:
   missing_cells: 0
 - name: source
   shared: true
+  particular: noaa:isd_lite for hours before 2025-08-01, noaa:lcd_v2 (Local Climatological Data v2) from it
   type: text
   values:
     list:
       noaa:isd_lite: 1095570
       noaa:lcd_v2: 757871
   missing_cells: 0
-  particular: noaa:isd_lite for hours before 2025-08-01, noaa:lcd_v2 (Local Climatological Data v2) from it
 variables:
 - name: temperature_f
   label: The station's temperature in the hour, degrees F; runs of at most three missing hours between two measured hours

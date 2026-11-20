@@ -34,12 +34,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: scb:se on every row
   type: text
   values:
     list:
       scb:se: 6059
   missing_cells: 0
-  particular: scb:se on every row
 - name: variable
   shared: true
   type: text
@@ -78,21 +78,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: SE on every row
   type: text
   values:
     list:
       SE: 6059
   missing_cells: 0
-  particular: SE on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 6059
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: SCB's label as written, not a pricing node
   type: text
   values:
     list:
@@ -108,7 +109,6 @@ columns:
       sum of supply: 632
       wind: 356
   missing_cells: 0
-  particular: SCB's label as written, not a pricing node
 - name: source
   shared: true
   type: text
@@ -132,12 +132,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: SCB's updated time of the table (UTC)
   type: utc time
   values:
     list:
       '2026-10-09T06:00:00Z': 6059
   missing_cells: 0
-  particular: SCB's updated time of the table (UTC)
 - name: x_code
   label: SCB's code of the type of production (Tot, Vatten, Vind, Karn and others)
   unit: none

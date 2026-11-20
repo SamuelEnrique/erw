@@ -40,12 +40,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: erw:flex_alert_model on every row
   type: text
   values:
     list:
       erw:flex_alert_model: 881
   missing_cells: 0
-  particular: erw:flex_alert_model on every row
 - name: variable
   shared: true
   type: text
@@ -84,12 +84,12 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: Empty on the model's figures (a parameter, not a time series); P1D on the held-out days' rows
   type: text
   values:
     list:
       P1D: 297
   missing_cells: 584
-  particular: Empty on the model's figures (a parameter, not a time series); P1D on the held-out days' rows
 - name: geo
   shared: true
   type: text
@@ -99,18 +99,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 881
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 881
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -134,11 +134,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 881
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: alert_days_hotter_than_threshold
   label: Alert days at least as hot as the held-out threshold temperature

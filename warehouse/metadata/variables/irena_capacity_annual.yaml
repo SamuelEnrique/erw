@@ -35,11 +35,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: irena:<country code as IRENA writes it, ISO alpha-3>
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: irena:<country code as IRENA writes it, ISO alpha-3>
 - name: variable
   shared: true
   type: text
@@ -72,25 +72,25 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: IRENA''s ISO alpha-3 codes are not the standard''s geo'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 20662
-  particular: 'Not filled: IRENA''s ISO alpha-3 codes are not the standard''s geo'
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 20662
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The country's name, not a pricing node
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The country's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -111,11 +111,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 20662
-  particular: 'Not filled: no cell holds a value'
 - name: x_technology_code
   label: IRENA's code of the technology
   unit: none

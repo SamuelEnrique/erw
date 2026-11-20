@@ -35,12 +35,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'ercot:system in every row: ERCOT''s whole system'
   type: text
   values:
     list:
       ercot:system: 603156
   missing_cells: 0
-  particular: 'ercot:system in every row: ERCOT''s whole system'
 - name: variable
   shared: true
   type: text
@@ -86,14 +86,15 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
   type: text
   values:
     list:
       ercot_rtm: 603156
   missing_cells: 0
-  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
 - name: node
   shared: true
+  particular: The adder as ERCOT names it (RTORPA, RTOFFPA, RTORDPA, RTRDPA), not a place
   type: text
   values:
     list:
@@ -102,7 +103,6 @@ columns:
       RTORPA: 201756
       RTRDPA: 16550
   missing_cells: 0
-  particular: The adder as ERCOT names it (RTORPA, RTOFFPA, RTORDPA, RTRDPA), not a place
 - name: source
   shared: true
   type: text
@@ -152,6 +152,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The publish time of ERCOT's yearly workbook the row came from
   type: utc time
   values:
     list:
@@ -169,7 +170,6 @@ columns:
       '2026-01-08T23:58:14Z': 1294
       '2026-11-15T16:12:49Z': 15256
   missing_cells: 0
-  particular: The publish time of ERCOT's yearly workbook the row came from
 variables:
 - name: rtoffpa_max
   label: Off-line reserve price adder (RTOFFPA), the largest value an interval of the hour carried, USD/MWh

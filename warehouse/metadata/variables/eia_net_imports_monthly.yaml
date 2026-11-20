@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_net_imports:<EIA series id>
   type: text
   values:
     distinct: 530
@@ -47,7 +48,6 @@ columns:
     - eia_net_imports:MCRNTUS2
     - eia_net_imports:MCRNTUSAG2
   missing_cells: 0
-  particular: eia_net_imports:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -86,21 +86,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row (the importer)
   type: text
   values:
     list:
       US: 65501
   missing_cells: 0
-  particular: US on every row (the importer)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 65501
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series description
   type: text
   values:
     distinct: 530
@@ -111,7 +112,6 @@ columns:
     - U.S. Net Imports from Albania of Crude Oil and Petroleum Products (Thousand Barrels per Day)
     - U.S. Net Imports from Albania of Total Petroleum Products (Thousand Barrels per Day)
   missing_cells: 0
-  particular: EIA's series description
 - name: source
   shared: true
   type: text
@@ -149,11 +149,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 65501
-  particular: 'Not filled: no cell holds a value'
 - name: x_partner
   label: 'The trading partner: its ISO 3166 three-letter code as EIA gives it, or EIA''s area code for the world (NUS-Z00),
     a group (OPEC, non-OPEC, Persian Gulf) or a country EIA gives no three-letter code'

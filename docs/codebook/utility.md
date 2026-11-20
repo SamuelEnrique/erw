@@ -18,7 +18,7 @@ Shape: events. Keys: `event_id`. License: public; tier: model_extracted. Rows re
 
 - **Time:** No time column; event_date is the first full date the figure's words print, else the day the document was read (x_date_kind says which).
 - **Revisions:** Merged by event_id (iso_prices.write_csv), a row of a later run replacing the one with the same event_id and earlier rows kept; no vintage column.
-- **Source:** research:large_load_2026-11-13, docs/research/large_load/utilities_2026-11-13.csv (window P4 of the portable laptop, sessions 5300 to 5304; method  each row's source_url is the document it was read in. No request is made by this connector. (https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md)
+- **Source:** research:large_load_2026-11-13, docs/research/large_load/utilities_2026-11-13.csv (window P4 of the portable laptop, sessions 5300 to 5304; method https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md); each row's source_url is the document it was read in. No request is made by this connector. (https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md)
 - **Method note:** [`docs/methods/large_load_research.md`](../methods/large_load_research.md)
 - **Cite as:** US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_queue_totals`.
 
@@ -55,7 +55,7 @@ Shape: events. Keys: `event_id`. License: public; tier: model_extracted. Rows re
 
 - **Time:** event_date is a date (no time zone) that the document prints; where the document prints a month only (7 rows) it is the day the document was read (x_date_kind says which).
 - **Revisions:** Rewritten whole from the committed research file (changes_2026-11-13.csv) by each run of the connector; no vintage column. Rows whose only source asks written permission are held and named in the header, not written.
-- **Source:** research:large_load_2026-11-13, docs/research/large_load/changes_2026-11-13.csv (window P4 of the portable laptop, sessions 5300 to 5304; method  each row's source_url is the document it was read in. No request is made by this connector. (https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md)
+- **Source:** research:large_load_2026-11-13, docs/research/large_load/changes_2026-11-13.csv (window P4 of the portable laptop, sessions 5300 to 5304; method https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md); each row's source_url is the document it was read in. No request is made by this connector. (https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md)
 - **Method note:** [`docs/methods/large_load_research.md`](../methods/large_load_research.md)
 - **Cite as:** US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rule_changes`.
 
@@ -95,7 +95,7 @@ Shape: events. Keys: `event_id`. License: public; tier: model_extracted. Rows re
 
 - **Time:** event_date is a date (no time zone), the rule's status date as the documents print it, else the day the document was read (x_date_kind says which).
 - **Revisions:** Rewritten whole from the committed research file (utilities_2026-11-13.csv) by each run of the connector; no vintage column. Rows whose only source asks written permission are held and named in the header, not written.
-- **Source:** research:large_load_2026-11-13, docs/research/large_load/utilities_2026-11-13.csv (window P4 of the portable laptop, sessions 5300 to 5304; method  each row's source_url is the document it was read in. No request is made by this connector. (https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md)
+- **Source:** research:large_load_2026-11-13, docs/research/large_load/utilities_2026-11-13.csv (window P4 of the portable laptop, sessions 5300 to 5304; method https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md); each row's source_url is the document it was read in. No request is made by this connector. (https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md)
 - **Method note:** [`docs/methods/large_load_research.md`](../methods/large_load_research.md)
 - **Cite as:** US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rules`.
 

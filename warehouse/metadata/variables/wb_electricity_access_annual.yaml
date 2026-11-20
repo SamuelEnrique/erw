@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: wb:<ISO3 code>
   type: text
   values:
     distinct: 215
@@ -43,7 +44,6 @@ columns:
     - wb:ALB
     - wb:AND
   missing_cells: 0
-  particular: wb:<ISO3 code>
 - name: variable
   shared: true
   type: text
@@ -105,6 +105,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The World Bank's ISO2 country code (a country, not an ISO 3166-2 subdivision)
   type: text
   values:
     distinct: 215
@@ -115,7 +116,6 @@ columns:
     - AG
     - AL
   missing_cells: 0
-  particular: The World Bank's ISO2 country code (a country, not an ISO 3166-2 subdivision)
 - name: market
   shared: true
   type: empty
@@ -124,6 +124,7 @@ columns:
   missing_cells: 5350
 - name: node
   shared: true
+  particular: The economy's name, not a pricing node
   type: text
   values:
     distinct: 215
@@ -134,7 +135,6 @@ columns:
     - Andorra
     - Angola
   missing_cells: 0
-  particular: The economy's name, not a pricing node
 - name: source
   shared: true
   type: text

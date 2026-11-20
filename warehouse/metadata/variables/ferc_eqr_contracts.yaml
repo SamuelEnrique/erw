@@ -36,33 +36,33 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: ferc_eqr:<quarter>:<company identifier>:<FERC contract id>:<n>, n the row's place among the rows of that contract
+    id in the filing
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: ferc_eqr:<quarter>:<company identifier>:<FERC contract id>:<n>, n the row's place among the rows of that contract
-    id in the filing
 - name: event_date
   shared: true
+  particular: The contract's execution date (FERC's contract_execution_date)
   type: date
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The contract's execution date (FERC's contract_execution_date)
 - name: event_type
   shared: true
+  particular: contract on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: contract on every row
 - name: parties
   shared: true
+  particular: Seller, then buyer, as filed
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: Seller, then buyer, as filed
 - name: entity_ids
   shared: true
   type: empty
@@ -71,18 +71,18 @@ columns:
   missing_cells: 186873
 - name: mw
   shared: true
+  particular: The quantity, only when its units are MW
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 174704
-  particular: The quantity, only when its units are MW
 - name: price
   shared: true
+  particular: The rate, only when its units are $/MWH, in USD
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 149968
-  particular: The rate, only when its units are $/MWH, in USD
 - name: currency
   shared: true
   type: text
@@ -91,11 +91,11 @@ columns:
   missing_cells: 149968
 - name: status
   shared: true
+  particular: terminated when an actual termination date is filed, else in_force
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: terminated when an actual termination date is filed, else in_force
 - name: source
   shared: true
   type: text

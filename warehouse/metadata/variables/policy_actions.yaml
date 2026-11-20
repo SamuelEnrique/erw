@@ -33,6 +33,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: federalregister:<document number>, or <source>:<12 hex of a SHA-1 of the link>
   type: text
   values:
     distinct: 2063
@@ -43,9 +44,9 @@ columns:
     - cpuc:1d14a83bb859
     - cpuc:1e20a865d59a
   missing_cells: 0
-  particular: federalregister:<document number>, or <source>:<12 hex of a SHA-1 of the link>
 - name: event_date
   shared: true
+  particular: The publication date (Register) or the release date (news)
   type: text
   values:
     distinct: 272
@@ -56,18 +57,18 @@ columns:
     - '2025-10-10'
     - '2025-10-14'
   missing_cells: 0
-  particular: The publication date (Register) or the release date (news)
 - name: event_type
   shared: true
+  particular: filing (a Register document) or announcement (a news release)
   type: text
   values:
     list:
       announcement: 271
       filing: 1792
   missing_cells: 0
-  particular: filing (a Register document) or announcement (a news release)
 - name: parties
   shared: true
+  particular: The agencies, as named
   type: text
   values:
     distinct: 32
@@ -78,7 +79,6 @@ columns:
     - Energy Department;Bonneville Power Administration
     - Energy Department;Federal Energy Regulatory Commission
   missing_cells: 0
-  particular: The agencies, as named
 - name: entity_ids
   shared: true
   type: empty
@@ -105,6 +105,7 @@ columns:
   missing_cells: 2063
 - name: status
   shared: true
+  particular: The Register's action line ('Final rule.', 'Notice of availability.') or 'news release'
   type: text
   values:
     distinct: 244
@@ -116,7 +117,6 @@ columns:
       order imposing procedures.
     - Acceptance for docketing; opportunity to request a hearing and to petition for leave to intervene.
   missing_cells: 942
-  particular: The Register's action line ('Final rule.', 'Notice of availability.') or 'news release'
 - name: source
   shared: true
   type: text

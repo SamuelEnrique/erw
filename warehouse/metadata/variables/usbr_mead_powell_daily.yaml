@@ -36,13 +36,13 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: usbr_hydrodata:<Reclamation's site number> (919 Lake Powell, 921 Lake Mead)
   type: text
   values:
     list:
       usbr_hydrodata:919: 92544
       usbr_hydrodata:921: 99964
   missing_cells: 0
-  particular: usbr_hydrodata:<Reclamation's site number> (919 Lake Powell, 921 Lake Mead)
 - name: variable
   shared: true
   type: text
@@ -83,28 +83,28 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always US-AZ
   type: text
   values:
     list:
       US-AZ: 192508
   missing_cells: 0
-  particular: Always US-AZ
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 192508
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The lake and its dam, not a pricing node
   type: text
   values:
     list:
       Lake Mead (Hoover Dam): 99964
       Lake Powell (Glen Canyon Dam): 92544
   missing_cells: 0
-  particular: The lake and its dam, not a pricing node
 - name: source
   shared: true
   type: text
@@ -135,6 +135,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: Each data file's Last-Modified time
   type: utc time
   values:
     list:
@@ -146,7 +147,6 @@ columns:
       '2026-10-23T22:37:54Z': 33808
       '2026-10-23T22:37:57Z': 33501
   missing_cells: 0
-  particular: Each data file's Last-Modified time
 variables:
 - name: inflow
   label: Water flowing into the lake, ft3/s (cubic feet per second; Lake Powell only)

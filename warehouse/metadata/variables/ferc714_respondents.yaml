@@ -31,11 +31,11 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: ferc714:<PUDL's respondent id>, the entity of the ferc714_area_demand tables
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: ferc714:<PUDL's respondent id>, the entity of the ferc714_area_demand tables
 - name: entity_type
   shared: true
   type: text
@@ -44,11 +44,11 @@ columns:
   missing_cells: 0
 - name: name
   shared: true
+  particular: The respondent's name as filed (PUDL's respondent_name_ferc714)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The respondent's name as filed (PUDL's respondent_name_ferc714)
 - name: geo
   shared: true
   type: text
@@ -75,11 +75,11 @@ columns:
   missing_cells: 219
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 219
-  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -112,11 +112,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified time of PUDL's parquet file
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The Last-Modified time of PUDL's parquet file
 - name: respondent_id_ferc714
   label: PUDL's respondent id, which links FERC's CSV-year and XBRL-year ids for the same filer
   unit: none

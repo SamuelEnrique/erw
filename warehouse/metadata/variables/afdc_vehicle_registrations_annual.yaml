@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: afdc_reg:<state code>, or afdc_reg:US for the page's own United States row
   type: text
   values:
     distinct: 52
@@ -46,7 +47,6 @@ columns:
     - afdc_reg:AZ
     - afdc_reg:CA
   missing_cells: 0
-  particular: afdc_reg:<state code>, or afdc_reg:US for the page's own United States row
 - name: variable
   shared: true
   type: text
@@ -93,6 +93,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US
   type: text
   values:
     distinct: 52
@@ -103,16 +104,16 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: US-<state>, or US
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 6240
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The page's column name (Electric (EV)), not a pricing node
   type: text
   values:
     list:
@@ -129,7 +130,6 @@ columns:
       Propane: 520
       Unknown Fuel: 520
   missing_cells: 0
-  particular: The page's column name (Electric (EV)), not a pricing node
 - name: source
   shared: true
   type: text
@@ -171,11 +171,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: the pages send no Last-Modified'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 6240
-  particular: 'Not filled: the pages send no Last-Modified'
 variables:
 - name: registrations_biodiesel
   label: Biodiesel vehicles registered, count (rounded to the closest 100)

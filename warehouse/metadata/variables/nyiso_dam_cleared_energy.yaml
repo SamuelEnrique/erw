@@ -33,12 +33,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'nyiso:system in every row: NYISO''s whole system'
   type: text
   values:
     list:
       nyiso:system: 10441
   missing_cells: 0
-  particular: 'nyiso:system in every row: NYISO''s whole system'
 - name: variable
   shared: true
   type: text
@@ -84,20 +84,20 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'nyiso_dam in every row: NYISO''s day-ahead market'
   type: text
   values:
     list:
       nyiso_dam: 10441
   missing_cells: 0
-  particular: 'nyiso_dam in every row: NYISO''s day-ahead market'
 - name: node
   shared: true
+  particular: 'Total Load Scheduled in every row: NYISO''s column read, not a place'
   type: text
   values:
     list:
       Total Load Scheduled: 10441
   missing_cells: 0
-  particular: 'Total Load Scheduled in every row: NYISO''s column read, not a place'
 - name: source
   shared: true
   type: text
@@ -152,11 +152,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 10441
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: dam_cleared_energy
   label: NYISO's column Total Load Scheduled for the hour, MW over the hour (P-30, Day-Ahead Market Daily Energy Report);

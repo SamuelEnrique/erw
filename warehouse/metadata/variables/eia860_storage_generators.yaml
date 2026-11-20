@@ -35,6 +35,8 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: eia860_storage:<plant code>:<generator id>; EIA-860M's tables name the same generator eia860:<plant code>:<generator
+    id>
   type: text
   values:
     distinct: 1782
@@ -45,18 +47,17 @@ columns:
     - eia860_storage:10493:BES1
     - eia860_storage:1355:BESS
   missing_cells: 0
-  particular: eia860_storage:<plant code>:<generator id>; EIA-860M's tables name the same generator eia860:<plant code>:<generator
-    id>
 - name: entity_type
   shared: true
+  particular: Always generator
   type: text
   values:
     list:
       generator: 1782
   missing_cells: 0
-  particular: Always generator
 - name: name
   shared: true
+  particular: The plant's name
   type: text
   values:
     distinct: 1691
@@ -67,9 +68,9 @@ columns:
     - 15 Lincoln
     - 160 Tihonet Rd Hybrid(CSG)
   missing_cells: 0
-  particular: The plant's name
 - name: geo
   shared: true
+  particular: US-<plant state>
   type: text
   values:
     distinct: 50
@@ -80,32 +81,33 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<plant state>
 - name: lat
   shared: true
+  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1782
-  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
 - name: lon
   shared: true
+  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1782
-  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
 - name: capacity_mw
   shared: true
+  particular: EIA's nameplate capacity
   type: number
   values:
     distinct: 362
     lowest: 0.1
     highest: 1200.0
   missing_cells: 0
-  particular: EIA's nameplate capacity
 - name: status
   shared: true
+  particular: 'EIA''s code (x_eia_status) as the standard''s word: OP, SB, OA, OS operating; P, L, T planned; U, V, TS under_construction;
+    RE retired; CN withdrawn; IP suspended'
   type: text
   values:
     list:
@@ -116,20 +118,19 @@ columns:
       under_construction: 316
       withdrawn: 97
   missing_cells: 0
-  particular: 'EIA''s code (x_eia_status) as the standard''s word: OP, SB, OA, OS operating; P, L, T planned; U, V, TS under_construction;
-    RE retired; CN withdrawn; IP suspended'
 - name: status_date
   shared: true
+  particular: The first day of the month of operation (operable) or of retirement (retired); empty for the proposed, canceled
+    and postponed
   type: date
   values:
     distinct: 134
     earliest: '1991-06-01'
     latest: '2025-12-01'
   missing_cells: 735
-  particular: The first day of the month of operation (operable) or of retirement (retired); empty for the proposed, canceled
-    and postponed
 - name: operator
   shared: true
+  particular: The reporting utility's name (EIA's Utility Name)
   type: text
   values:
     distinct: 993
@@ -140,7 +141,6 @@ columns:
     - 174 Power Global Corp.
     - 196TRE WHAM8 Solar, LLC
   missing_cells: 0
-  particular: The reporting utility's name (EIA's Utility Name)
 - name: source
   shared: true
   type: text
@@ -164,12 +164,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The data year, 2025
   type: integer
   values:
     list:
       '2025': 1782
   missing_cells: 0
-  particular: The data year, 2025
 - name: x_plant_code
   label: EIA's plant code
   unit: none

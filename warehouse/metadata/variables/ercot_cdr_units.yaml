@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: ercot_cdr_unit:<unit code, else INR, else the unit's name>:<fuel>
   type: text
   values:
     distinct: 1772
@@ -44,17 +45,17 @@ columns:
     - ercot_cdr_unit:19599_GOLD_SPIKE:SOLAR_O
     - ercot_cdr_unit:19INR0022:WIND_C
   missing_cells: 0
-  particular: ercot_cdr_unit:<unit code, else INR, else the unit's name>:<fuel>
 - name: entity_type
   shared: true
+  particular: generator in every row
   type: text
   values:
     list:
       generator: 1772
   missing_cells: 0
-  particular: generator in every row
 - name: name
   shared: true
+  particular: ERCOT's unit name
   type: text
   values:
     distinct: 1755
@@ -65,40 +66,41 @@ columns:
     - A4 PEARSALL DGR U1 (LIFE CYCLE POWER, LCP)
     - A4 PEARSALL DGR U2 (LIFE CYCLE POWER, LCP)
   missing_cells: 0
-  particular: ERCOT's unit name
 - name: geo
   shared: true
+  particular: US-TX in every row
   type: text
   values:
     list:
       US-TX: 1772
   missing_cells: 0
-  particular: US-TX in every row
 - name: lat
   shared: true
+  particular: 'Empty in every row: the sheet gives no coordinates'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1772
-  particular: 'Empty in every row: the sheet gives no coordinates'
 - name: lon
   shared: true
+  particular: 'Empty in every row: the sheet gives no coordinates'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1772
-  particular: 'Empty in every row: the sheet gives no coordinates'
 - name: capacity_mw
   shared: true
+  particular: ERCOT's installed capacity of the unit
   type: number
   values:
     distinct: 989
     lowest: -400.0
     highest: 1390.0
   missing_cells: 0
-  particular: ERCOT's installed capacity of the unit
 - name: status
   shared: true
+  particular: 'Mapped from the first part of ERCOT''s CDR status (x_cdr_status): OPER and RMR to operating, PLAN to planned,
+    MOTH and EXT to suspended'
   type: text
   values:
     list:
@@ -106,24 +108,22 @@ columns:
       planned: 313
       suspended: 17
   missing_cells: 0
-  particular: 'Mapped from the first part of ERCOT''s CDR status (x_cdr_status): OPER and RMR to operating, PLAN to planned,
-    MOTH and EXT to suspended'
 - name: status_date
   shared: true
+  particular: The in-service date as ERCOT gives it; empty for the four DC ties and the planned group row
   type: date
   values:
     distinct: 873
     earliest: '1928-01-01'
     latest: '2029-07-01'
   missing_cells: 5
-  particular: The in-service date as ERCOT gives it; empty for the four DC ties and the planned group row
 - name: operator
   shared: true
+  particular: 'Empty in every row: the sheet names no operator'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1772
-  particular: 'Empty in every row: the sheet names no operator'
 - name: source
   shared: true
   type: text
@@ -147,12 +147,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The report's posting date (from the workbook's address)
   type: utc time
   values:
     list:
       '2025-12-19T00:00:00Z': 1772
   missing_cells: 0
-  particular: The report's posting date (from the workbook's address)
 - name: x_unit_code
   label: ERCOT's unit code
   unit: none

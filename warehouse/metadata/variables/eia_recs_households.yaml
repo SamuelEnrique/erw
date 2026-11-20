@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: recs:<heading>_<category>, slugged; recs:all for all homes
   type: text
   values:
     distinct: 77
@@ -47,7 +48,6 @@ columns:
     - recs:2020_annual_household_income_20_000_to_39_999
     - recs:2020_annual_household_income_40_000_to_59_999
   missing_cells: 0
-  particular: recs:<heading>_<category>, slugged; recs:all for all homes
 - name: variable
   shared: true
   type: text
@@ -87,21 +87,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row (census regions are categories)
   type: text
   values:
     list:
       US: 2802
   missing_cells: 0
-  particular: US on every row (census regions are categories)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2802
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The category as EIA prints it
   type: text
   values:
     distinct: 73
@@ -112,7 +113,6 @@ columns:
     - $20,000 to $39,999
     - $40,000 to $59,999
   missing_cells: 0
-  particular: The category as EIA prints it
 - name: source
   shared: true
   type: text
@@ -138,13 +138,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time from EIA's server
   type: utc time
   values:
     list:
       '2024-03-18T20:38:32Z': 1364
       '2024-03-26T12:42:35Z': 1438
   missing_cells: 0
-  particular: The workbook's last-modified time from EIA's server
 - name: x_heading
   label: The heading the category sits under (for example Housing unit type), as EIA prints it
   unit: none

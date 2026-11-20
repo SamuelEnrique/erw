@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: eia860:<plant id>:<generator id>
   type: text
   values:
     distinct: 260
@@ -43,17 +44,17 @@ columns:
     - eia860:113:3
     - eia860:1157:3
   missing_cells: 0
-  particular: eia860:<plant id>:<generator id>
 - name: entity_type
   shared: true
+  particular: Always generator
   type: text
   values:
     list:
       generator: 260
   missing_cells: 0
-  particular: Always generator
 - name: name
   shared: true
+  particular: EIA's plant name
   type: text
   values:
     distinct: 117
@@ -64,9 +65,9 @@ columns:
     - Anchor Wind, LLC
     - Androscoggin Energy Center
   missing_cells: 0
-  particular: EIA's plant name
 - name: geo
   shared: true
+  particular: US-<plant state>
   type: text
   values:
     distinct: 40
@@ -77,7 +78,6 @@ columns:
     - US-CO
     - US-CT
   missing_cells: 0
-  particular: US-<plant state>
 - name: lat
   shared: true
   type: number
@@ -96,23 +96,24 @@ columns:
   missing_cells: 0
 - name: capacity_mw
   shared: true
+  particular: EIA's nameplate capacity, the same as nameplate_mw
   type: number
   values:
     distinct: 79
     lowest: 0.1
     highest: 820.0
   missing_cells: 0
-  particular: EIA's nameplate capacity, the same as nameplate_mw
 - name: status
   shared: true
+  particular: Always retired
   type: text
   values:
     list:
       retired: 260
   missing_cells: 0
-  particular: Always retired
 - name: status_date
   shared: true
+  particular: The first day of EIA's retirement month (the same as retirement_date)
   type: date
   values:
     list:
@@ -137,9 +138,9 @@ columns:
       '2026-08-01': 13
       '2026-09-01': 3
   missing_cells: 0
-  particular: The first day of EIA's retirement month (the same as retirement_date)
 - name: operator
   shared: true
+  particular: EIA's Entity Name, the utility that operated the generator
   type: text
   values:
     distinct: 110
@@ -150,7 +151,6 @@ columns:
     - Alaska Village Elec Coop, Inc
     - Ameresco Federal Solutions
   missing_cells: 0
-  particular: EIA's Entity Name, the utility that operated the generator
 - name: source
   shared: true
   type: text
@@ -174,12 +174,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: EIA's inventory month, YYYY-MM
   type: text
   values:
     list:
       2026-09: 260
   missing_cells: 0
-  particular: EIA's inventory month, YYYY-MM
 - name: plant_id
   label: EIA's plant identifier
   unit: none

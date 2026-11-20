@@ -33,12 +33,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_nuclear_outages:US
   type: text
   values:
     list:
       eia_nuclear_outages:US: 21702
   missing_cells: 0
-  particular: eia_nuclear_outages:US
 - name: variable
   shared: true
   type: text
@@ -78,27 +78,27 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 21702
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 21702
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: U.S. nuclear fleet
   type: text
   values:
     list:
       U.S. nuclear fleet: 21702
   missing_cells: 0
-  particular: U.S. nuclear fleet
 - name: source
   shared: true
   type: text
@@ -123,11 +123,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 21702
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: capacity
   label: Nuclear generating capacity, MW

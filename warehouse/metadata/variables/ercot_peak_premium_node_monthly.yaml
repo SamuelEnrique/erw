@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<settlement point>, every point of ercot_rtm_node_prices (resource nodes, hubs and load zones)
   type: text
   values:
     distinct: 312
@@ -44,7 +45,6 @@ columns:
     - ercot:ALAMO_ST_RN
     - ercot:ALP_BESS_RN
   missing_cells: 0
-  particular: ercot:<settlement point>, every point of ercot_rtm_node_prices (resource nodes, hubs and load zones)
 - name: variable
   shared: true
   type: text
@@ -92,14 +92,15 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
   type: text
   values:
     list:
       ercot_rtm: 17472
   missing_cells: 0
-  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
 - name: node
   shared: true
+  particular: The settlement point's name
   type: text
   values:
     distinct: 312
@@ -110,7 +111,6 @@ columns:
     - ALAMO_ST_RN
     - ALP_BESS_RN
   missing_cells: 0
-  particular: The settlement point's name
 - name: source
   shared: true
   type: text
@@ -134,11 +134,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 17472
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: all_iqr
   label: 75th less 25th percentile of all intervals' prices, USD/MWh

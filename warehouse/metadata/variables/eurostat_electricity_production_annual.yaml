@@ -38,6 +38,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_electricity_production:<geo>:<SIEC>; the products overlap, so a sum takes one level
   type: text
   values:
     distinct: 2256
@@ -48,7 +49,6 @@ columns:
     - eurostat_electricity_production:AL:C0110
     - eurostat_electricity_production:AL:C0121
   missing_cells: 0
-  particular: eurostat_electricity_production:<geo>:<SIEC>; the products overlap, so a sum takes one level
 - name: variable
   shared: true
   type: text
@@ -87,6 +87,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
   type: text
   values:
     distinct: 38
@@ -97,7 +98,6 @@ columns:
     - BE
     - BG
   missing_cells: 1960
-  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
 - name: market
   shared: true
   type: empty
@@ -106,6 +106,7 @@ columns:
   missing_cells: 73988
 - name: node
   shared: true
+  particular: <geo> gross electricity production, <the SIEC product's name>, not a pricing node
   type: text
   values:
     distinct: 2256
@@ -116,7 +117,6 @@ columns:
     - AL gross electricity production, Biogases
     - AL gross electricity production, Bitumen
   missing_cells: 0
-  particular: <geo> gross electricity production, <the SIEC product's name>, not a pricing node
 - name: source
   shared: true
   type: text

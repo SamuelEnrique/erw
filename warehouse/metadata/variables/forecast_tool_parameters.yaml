@@ -18,9 +18,10 @@ tier: derived
 interval: ''
 source:
 - name: 'eia:capital_cost_aeo2025 U.S. Energy Information Administration (EIA), Capital Cost and Performance Characteristic
-    Estimates for Utility Scale Electric Power Generating Technologies (AEO2025), Appendix A,  nlr:jedi_models National Laboratory
-    of the Rockies (NLR, formerly NREL), JEDI models (Jobs and Economic Development Impact),  erw:forecast_gas: the study''s
-    heat rate, JEDI''s default capacity factor, eia_steo_forecasts'' NGHHUUS and EIA''s heat content'
+    Estimates for Utility Scale Electric Power Generating Technologies (AEO2025), Appendix A, https://www.eia.gov/analysis/studies/powerplants/capitalcost/pdf/capital_cost_AEO2025.pdf;
+    nlr:jedi_models National Laboratory of the Rockies (NLR, formerly NREL), JEDI models (Jobs and Economic Development Impact),
+    https://www.nlr.gov/analysis/jedi/models; erw:forecast_gas: the study''s heat rate, JEDI''s default capacity factor, eia_steo_forecasts''
+    NGHHUUS and EIA''s heat content'
   url: https://www.nlr.gov/analysis/jedi/models
 cite: Energy Research Warehouse (ERW); National Laboratory of the Rockies (NLR, formerly NREL); U.S. Energy Information Administration
   (EIA). Capital Cost and Performance Characteristic Estimates for Utility Scale Electric Power Generating Technologies (AEO2025),
@@ -41,6 +42,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: forecast:<file>:<technology>:<place>, file eia_capex, jedi_costs, jedi_taxable or gas; place us, a state code,
+    or <state>_<city>
   type: text
   values:
     distinct: 559
@@ -51,8 +54,6 @@ columns:
     - forecast:eia_capex:geothermal:ca_modesto
     - forecast:eia_capex:geothermal:ca_sacramento
   missing_cells: 0
-  particular: forecast:<file>:<technology>:<place>, file eia_capex, jedi_costs, jedi_taxable or gas; place us, a state code,
-    or <state>_<city>
 - name: variable
   shared: true
   type: text
@@ -95,33 +96,33 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: 'Not filled: a parameter, not a time series'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 768
-  particular: 'Not filled: a parameter, not a time series'
 - name: geo
   shared: true
+  particular: US on every row, whatever the place (x_place names it)
   type: text
   values:
     list:
       US: 768
   missing_cells: 0
-  particular: US on every row, whatever the place (x_place names it)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 768
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 768
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -150,11 +151,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 768
-  particular: 'Not filled: no cell holds a value'
 - name: x_technology
   label: 'The generating technology: geothermal, land_based_wind, natural_gas or utility_pv'
   unit: none

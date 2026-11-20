@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:<Monthly Energy Review series id (MSN)>
   type: text
   values:
     list:
@@ -64,7 +65,6 @@ columns:
       eia:TETCBUS: 643
       eia:WYTCBUS: 523
   missing_cells: 0
-  particular: eia:<Monthly Energy Review series id (MSN)>
 - name: variable
   shared: true
   type: text
@@ -103,26 +103,26 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 15180
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 15180
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: EIA''s series names are in the header''s Series line'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 15180
-  particular: 'Not filled: EIA''s series names are in the header''s Series line'
 - name: source
   shared: true
   type: text
@@ -157,11 +157,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 15180
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: consumption
   label: Primary energy consumption of the source, trillion Btu

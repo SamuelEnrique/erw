@@ -34,6 +34,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: rule:<document>:<section>
   type: text
   values:
     distinct: 85
@@ -44,9 +45,9 @@ columns:
     - rule:caiso_large_load_enhancements_draft_final_proposal:2_initiative_timeline_and_next_steps
     - rule:caiso_large_load_enhancements_draft_final_proposal:a_1_definition_of_large_load_proposal
   missing_cells: 0
-  particular: rule:<document>:<section>
 - name: event_date
   shared: true
+  particular: The date the step prints, else the document's own date (x_date_kind)
   type: date
   values:
     list:
@@ -68,17 +69,17 @@ columns:
       '2026-10-28': 5
       '2027-04-09': 1
   missing_cells: 0
-  particular: The date the step prints, else the document's own date (x_date_kind)
 - name: event_type
   shared: true
+  particular: Always connection_rule
   type: text
   values:
     list:
       connection_rule: 85
   missing_cells: 0
-  particular: Always connection_rule
 - name: parties
   shared: true
+  particular: Who acts in the step
   type: text
   values:
     list:
@@ -107,7 +108,6 @@ columns:
       qualified electric utility: 4
       utility or generation provider: 2
   missing_cells: 0
-  particular: Who acts in the step
 - name: entity_ids
   shared: true
   type: empty
@@ -116,6 +116,7 @@ columns:
   missing_cells: 85
 - name: mw
   shared: true
+  particular: A load size the step prints
   type: integer
   values:
     list:
@@ -125,7 +126,6 @@ columns:
       '50': 7
       '75': 1
   missing_cells: 73
-  particular: A load size the step prints
 - name: price
   shared: true
   type: empty
@@ -140,12 +140,12 @@ columns:
   missing_cells: 85
 - name: status
   shared: true
+  particular: Always stated
   type: text
   values:
     list:
       stated: 85
   missing_cells: 0
-  particular: Always stated
 - name: source
   shared: true
   type: text

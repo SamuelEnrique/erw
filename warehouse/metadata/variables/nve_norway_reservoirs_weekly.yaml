@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'nve:no:<area>: no (the country), no1 to no5 (price areas), region_1 to region_3 (water regions)'
   type: text
   values:
     list:
@@ -48,7 +49,6 @@ columns:
       nve:no:region_2: 4977
       nve:no:region_3: 4977
   missing_cells: 0
-  particular: 'nve:no:<area>: no (the country), no1 to no5 (price areas), region_1 to region_3 (water regions)'
 - name: variable
   shared: true
   type: text
@@ -88,21 +88,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: NO on every row, whatever the area
   type: text
   values:
     list:
       'NO': 44793
   missing_cells: 0
-  particular: NO on every row, whatever the area
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 44793
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: NVE's area type and number with the ISO week, not a pricing node
   type: text
   values:
     distinct: more than 5000
@@ -113,7 +114,6 @@ columns:
     - EL 1, 1995-W04
     - EL 1, 1995-W05
   missing_cells: 0
-  particular: NVE's area type and number with the ISO week, not a pricing node
 - name: source
   shared: true
   type: text
@@ -137,11 +137,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 44793
-  particular: 'Not filled: no cell holds a value'
 - name: x_iso_week
   label: The ISO week (YYYY-Www)
   unit: none

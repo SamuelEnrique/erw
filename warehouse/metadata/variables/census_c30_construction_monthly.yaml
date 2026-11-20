@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: census_c30:<owner>:<type>
   type: text
   values:
     distinct: 110
@@ -47,7 +48,6 @@ columns:
     - census_c30:federal:educational
     - census_c30:federal:health_care
   missing_cells: 0
-  particular: census_c30:<owner>:<type>
 - name: variable
   shared: true
   type: text
@@ -86,12 +86,12 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 82760
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
   type: empty
@@ -100,6 +100,7 @@ columns:
   missing_cells: 82760
 - name: node
   shared: true
+  particular: The column as the Census Bureau names it (the same as x_column), not a pricing node
   type: text
   values:
     distinct: 110
@@ -110,7 +111,6 @@ columns:
     - Auxiliary building
     - Building supply store
   missing_cells: 0
-  particular: The column as the Census Bureau names it (the same as x_column), not a pricing node
 - name: source
   shared: true
   type: text

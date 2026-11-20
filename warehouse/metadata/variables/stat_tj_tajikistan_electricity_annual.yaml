@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: tajstat:tj:<item>
   type: text
   values:
     list:
@@ -53,7 +54,6 @@ columns:
       tajstat:tj:thermal: 34
       tajstat:tj:transport: 35
   missing_cells: 0
-  particular: tajstat:tj:<item>
 - name: variable
   shared: true
   type: text
@@ -92,21 +92,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: TJ on every row
   type: text
   values:
     list:
       TJ: 475
   missing_cells: 0
-  particular: TJ on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 475
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The row's label, not a pricing node
   type: text
   values:
     list:
@@ -125,7 +126,6 @@ columns:
       Total internal consumption (by sector): 35
       Transport: 35
   missing_cells: 0
-  particular: The row's label, not a pricing node
 - name: source
   shared: true
   type: text
@@ -149,12 +149,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-09-26T05:32:16Z': 475
   missing_cells: 0
-  particular: The workbook's Last-Modified (UTC)
 variables:
 - name: consumption
   label: Consumption, total or by sector

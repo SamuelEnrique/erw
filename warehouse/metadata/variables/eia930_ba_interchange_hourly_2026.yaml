@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<reporting BA>-<neighbour>
   type: text
   values:
     distinct: 316
@@ -47,7 +48,6 @@ columns:
     - eia930:AECI-SWPP
     - eia930:AECI-TVA
   missing_cells: 0
-  particular: eia930:<reporting BA>-<neighbour>
 - name: variable
   shared: true
   type: text
@@ -93,6 +93,7 @@ columns:
   missing_cells: 0
 - name: ba
   shared: true
+  particular: The reporting balancing authority, lowercase
   type: text
   values:
     distinct: 62
@@ -103,7 +104,6 @@ columns:
     - azps
     - banc
   missing_cells: 0
-  particular: The reporting balancing authority, lowercase
 - name: x_diba
   label: 'The neighbour: EIA''s Directly Interconnected Balancing Authority, its code'
   unit: none

@@ -35,12 +35,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: statee:ee on every row
   type: text
   values:
     list:
       statee:ee: 1344
   missing_cells: 0
-  particular: statee:ee on every row
 - name: variable
   shared: true
   type: text
@@ -79,21 +79,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: EE on every row
   type: text
   values:
     list:
       EE: 1344
   missing_cells: 0
-  particular: EE on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1344
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The indicator as Statistics Estonia writes it, not a pricing node
   type: text
   values:
     list:
@@ -104,7 +105,6 @@ columns:
       Imports of electricity, GWh: 260
       Total electricity production, GWh: 260
   missing_cells: 0
-  particular: The indicator as Statistics Estonia writes it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -128,11 +128,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1344
-  particular: 'Not filled: no cell holds a value'
 - name: x_code
   label: Statistics Estonia's code of the indicator (PROD_E, PROD_E_HYDR, PROD_E_WIND, PROD_E_SOLAR, IMPORTS, EXPORTS)
   unit: none

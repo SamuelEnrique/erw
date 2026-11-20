@@ -17,7 +17,8 @@ license: public
 tier: source
 interval: PT3H
 source:
-- name: gfz:kp_ap_since_1932 GFZ Potsdam, Kp_ap_since_1932.txt,  (listed on
+- name: gfz:kp_ap_since_1932 GFZ Potsdam, Kp_ap_since_1932.txt, https://kp.gfz-potsdam.de/fileadmin/files_for_gfz_cms/Kp_ap_since_1932.txt
+    (listed on
   url: https://kp.gfz-potsdam.de/en/data
 cite: GFZ Helmholtz Centre for Geosciences (Potsdam). Geomagnetic Kp index (Kp and ap since 1932). Via the Energy Research
   Warehouse (ERW), table `gfz_kp_index_3h`.
@@ -34,12 +35,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: gfz:kp on every row
   type: text
   values:
     list:
       gfz:kp: 277032
   missing_cells: 0
-  particular: gfz:kp on every row
 - name: variable
   shared: true
   type: text
@@ -78,26 +79,26 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: a planetary index'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 277032
-  particular: 'Not filled: a planetary index'
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 277032
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: planetary on every row, not a pricing node
   type: text
   values:
     list:
       planetary: 277032
   missing_cells: 0
-  particular: planetary on every row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -121,12 +122,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-10-22T23:52:43Z': 277032
   missing_cells: 0
-  particular: The file's Last-Modified (UTC)
 - name: x_ap
   label: The interval's ap, GFZ's equivalent amplitude (unitless; times 2 nT, the disturbance at 50 degrees geomagnetic latitude)
   unit: index

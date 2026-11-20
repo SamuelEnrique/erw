@@ -35,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_net_metering:<state>:<technology slug>:<sector>; technologies all_technologies, and for 2013 to 2019 photovoltaic,
+    wind, other_technologies; sectors RES, COM, IND, TRN, TOT
   type: text
   values:
     distinct: 1031
@@ -45,8 +47,6 @@ columns:
     - eia_net_metering:AK:all_technologies:TOT
     - eia_net_metering:AK:all_technologies:TRN
   missing_cells: 0
-  particular: eia_net_metering:<state>:<technology slug>:<sector>; technologies all_technologies, and for 2013 to 2019 photovoltaic,
-    wind, other_technologies; sectors RES, COM, IND, TRN, TOT
 - name: variable
   shared: true
   type: text
@@ -96,6 +96,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation
   type: text
   values:
     distinct: 52
@@ -106,16 +107,16 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: US-<state>, or US for the nation
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 16226
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's names of state, technology and sector
   type: text
   values:
     distinct: 1031
@@ -126,7 +127,6 @@ columns:
     - Alabama, All Technologies, residential
     - Alabama, All Technologies, transportation
   missing_cells: 0
-  particular: EIA's names of state, technology and sector
 - name: source
   shared: true
   type: text
@@ -151,11 +151,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 16226
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: capacity
   label: Net-metered generating capacity, MW

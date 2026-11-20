@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: wb_pink:<series name as a slug>
   type: text
   values:
     list:
@@ -51,7 +52,6 @@ columns:
       wb_pink:tin: 801
       wb_pink:zinc: 801
   missing_cells: 0
-  particular: wb_pink:<series name as a slug>
 - name: variable
   shared: true
   type: text
@@ -92,11 +92,11 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Empty on every row: world markets'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 11139
-  particular: 'Empty on every row: world markets'
 - name: market
   shared: true
   type: empty
@@ -105,6 +105,7 @@ columns:
   missing_cells: 11139
 - name: node
   shared: true
+  particular: The series' name as the workbook writes it, not a pricing node
   type: text
   values:
     list:
@@ -124,7 +125,6 @@ columns:
       Tin: 801
       Zinc: 801
   missing_cells: 0
-  particular: The series' name as the workbook writes it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -148,12 +148,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's Last-Modified time as the server sent it
   type: utc time
   values:
     list:
       '2026-10-02T18:57:55Z': 11139
   missing_cells: 0
-  particular: The workbook's Last-Modified time as the server sent it
 variables:
 - name: price
   label: 'The commodity''s monthly price, nominal US dollars: USD/bbl for crude oil, USD/t for coal and the metals, USD/MMBtu

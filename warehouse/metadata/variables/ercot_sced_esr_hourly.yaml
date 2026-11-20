@@ -18,7 +18,8 @@ license: public
 tier: source
 interval: PT1H
 source:
-- name: ercot:NP3-965-ER ERCOT, 60-Day SCED Disclosure Reports (report type 13052),  document list
+- name: ercot:NP3-965-ER ERCOT, 60-Day SCED Disclosure Reports (report type 13052), https://www.ercot.com/mp/data-products/data-product-details?id=NP3-965-ER;
+    document list
   url: https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=13052
 cite: 'Electric Reliability Council of Texas (ERCOT). 60-Day SCED Disclosure Reports (the file 60d_ESR_Data_in_SCED: Energy
   Storage Resources in real time). Via the Energy Research Warehouse (ERW), table `ercot_sced_esr_hourly`.'
@@ -42,6 +43,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<Resource Name>, the storage resource
   type: text
   values:
     distinct: 342
@@ -52,7 +54,6 @@ columns:
     - ercot:ALAMO_ST_ESR1
     - ercot:ALP_BESS_ESR1
   missing_cells: 0
-  particular: ercot:<Resource Name>, the storage resource
 - name: variable
   shared: true
   type: text
@@ -98,14 +99,16 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
   type: text
   values:
     list:
       ercot_rtm: 1637727
   missing_cells: 0
-  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
 - name: node
   shared: true
+  particular: The resource's settlement point as ercot_dam_esr_awards names it; empty for the three resources that file never
+    names
   type: text
   values:
     distinct: 293
@@ -116,8 +119,6 @@ columns:
     - ALAMO_ST_RN
     - ALP_BESS_RN
   missing_cells: 6935
-  particular: The resource's settlement point as ercot_dam_esr_awards names it; empty for the three resources that file never
-    names
 - name: source
   shared: true
   type: text
@@ -147,13 +148,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The operating day plus 60 days at 00:00:00Z (when ERCOT publishes the disclosure)
   type: utc time
   values:
     distinct: 208
     earliest: '2026-04-02T00:00:00Z'
     latest: '2026-10-26T00:00:00Z'
   missing_cells: 0
-  particular: The operating day plus 60 days at 00:00:00Z (when ERCOT publishes the disclosure)
 - name: x_qse
   label: The scheduling entity (QSE) of the resource, ERCOT's code
   unit: none

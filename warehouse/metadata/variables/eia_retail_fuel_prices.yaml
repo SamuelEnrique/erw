@@ -34,6 +34,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:<EIA series id> (EMM_EPMR_PTE_NUS_DPG regular gasoline, EMM_EPM0_PTE_NUS_DPG all grades, EMD_EPD2D_PTE_NUS_DPG
+    No. 2 diesel)
   type: text
   values:
     list:
@@ -41,8 +43,6 @@ columns:
       eia:EMM_EPM0_PTE_NUS_DPG: 1754
       eia:EMM_EPMR_PTE_NUS_DPG: 1885
   missing_cells: 0
-  particular: eia:<EIA series id> (EMM_EPMR_PTE_NUS_DPG regular gasoline, EMM_EPM0_PTE_NUS_DPG all grades, EMD_EPD2D_PTE_NUS_DPG
-    No. 2 diesel)
 - name: variable
   shared: true
   type: text
@@ -81,26 +81,26 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 5343
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5343
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: EIA''s series names are in the header''s Series line'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5343
-  particular: 'Not filled: EIA''s series names are in the header''s Series line'
 - name: source
   shared: true
   type: text
@@ -135,11 +135,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5343
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: retail_price
   label: U.S. weekly retail price of the fuel the series names, USD a gallon

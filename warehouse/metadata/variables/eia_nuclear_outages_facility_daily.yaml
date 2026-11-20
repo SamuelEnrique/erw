@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_nuclear_outages:<facility>, EIA's plant id
   type: text
   values:
     distinct: 66
@@ -44,7 +45,6 @@ columns:
     - eia_nuclear_outages:1729
     - eia_nuclear_outages:1922
   missing_cells: 0
-  particular: eia_nuclear_outages:<facility>, EIA's plant id
 - name: variable
   shared: true
   type: text
@@ -84,21 +84,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 1312872
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1312872
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The plant's name
   type: text
   values:
     distinct: 66
@@ -109,7 +110,6 @@ columns:
     - Browns Ferry
     - Brunswick
   missing_cells: 0
-  particular: The plant's name
 - name: source
   shared: true
   type: text
@@ -136,11 +136,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1312872
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: capacity
   label: The plant's nuclear generating capacity, MW

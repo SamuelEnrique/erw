@@ -34,6 +34,8 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: eia860_multifuel:<plant code>:<generator id>; EIA-860M's tables name the same generator eia860:<plant code>:<generator
+    id>
   type: text
   values:
     distinct: 3785
@@ -44,18 +46,17 @@ columns:
     - eia860_multifuel:10017:GEN8
     - eia860_multifuel:10017:GEN9
   missing_cells: 0
-  particular: eia860_multifuel:<plant code>:<generator id>; EIA-860M's tables name the same generator eia860:<plant code>:<generator
-    id>
 - name: entity_type
   shared: true
+  particular: Always generator
   type: text
   values:
     list:
       generator: 3785
   missing_cells: 0
-  particular: Always generator
 - name: name
   shared: true
+  particular: The plant's name
   type: text
   values:
     distinct: 1064
@@ -66,9 +67,9 @@ columns:
     - A B Brown
     - A L Pierce
   missing_cells: 0
-  particular: The plant's name
 - name: geo
   shared: true
+  particular: US-<plant state>
   type: text
   values:
     distinct: 51
@@ -79,32 +80,33 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<plant state>
 - name: lat
   shared: true
+  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3785
-  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
 - name: lon
   shared: true
+  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3785
-  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
 - name: capacity_mw
   shared: true
+  particular: EIA's nameplate capacity
   type: number
   values:
     distinct: 746
     lowest: 0.2
     highest: 1245.6
   missing_cells: 0
-  particular: EIA's nameplate capacity
 - name: status
   shared: true
+  particular: 'EIA''s code (x_eia_status) as the standard''s word: OP, SB, OA, OS operating; P, L, T, OT planned; U, V, TS
+    under_construction; RE retired; CN withdrawn; IP suspended'
   type: text
   values:
     list:
@@ -115,20 +117,19 @@ columns:
       under_construction: 12
       withdrawn: 29
   missing_cells: 0
-  particular: 'EIA''s code (x_eia_status) as the standard''s word: OP, SB, OA, OS operating; P, L, T, OT planned; U, V, TS
-    under_construction; RE retired; CN withdrawn; IP suspended'
 - name: status_date
   shared: true
+  particular: The first day of the month of operation (operable) or of retirement (retired); empty for the proposed, canceled
+    and postponed
   type: date
   values:
     distinct: 792
     earliest: '1915-01-01'
     latest: '2025-12-01'
   missing_cells: 103
-  particular: The first day of the month of operation (operable) or of retirement (retired); empty for the proposed, canceled
-    and postponed
 - name: operator
   shared: true
+  particular: The reporting utility's name (EIA's Utility Name)
   type: text
   values:
     distinct: 727
@@ -139,7 +140,6 @@ columns:
     - ALLETE, Inc.
     - ARCO Products Co-Watson
   missing_cells: 0
-  particular: The reporting utility's name (EIA's Utility Name)
 - name: source
   shared: true
   type: text
@@ -163,12 +163,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The data year, 2025
   type: integer
   values:
     list:
       '2025': 3785
   missing_cells: 0
-  particular: The data year, 2025
 - name: x_plant_code
   label: EIA's plant code
   unit: none

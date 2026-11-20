@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_coal_mine:<mineMSHAId>:<coalRankId>:<mineTypeId>
   type: text
   values:
     distinct: more than 5000
@@ -45,7 +46,6 @@ columns:
     - eia_coal_mine:100329:PRP:UND
     - eia_coal_mine:100340:PRP:SUR
   missing_cells: 0
-  particular: eia_coal_mine:<mineMSHAId>:<coalRankId>:<mineTypeId>
 - name: variable
   shared: true
   type: text
@@ -107,6 +107,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>; EIA's regions KYE, KYW, PAA, PAB, WVN and WVS put in their state
   type: text
   values:
     distinct: 26
@@ -117,16 +118,16 @@ columns:
     - US-AZ
     - US-CO
   missing_cells: 0
-  particular: US-<state>; EIA's regions KYE, KYW, PAA, PAB, WVN and WVS put in their state
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 72852
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The mine's name
   type: text
   values:
     distinct: more than 5000
@@ -137,7 +138,6 @@ columns:
     - '# 1 Prep Plant'
     - '# 1 Refuse'
   missing_cells: 0
-  particular: The mine's name
 - name: source
   shared: true
   type: text
@@ -162,11 +162,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 72852
-  particular: 'Not filled: no cell holds a value'
 - name: x_msha_id
   label: The mine's identifier at the Mine Safety and Health Administration (MSHA)
   unit: none

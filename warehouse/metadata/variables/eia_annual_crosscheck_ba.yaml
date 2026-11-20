@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<BA>, eia930:US48 for the Lower 48
   type: text
   values:
     list:
@@ -46,7 +47,6 @@ columns:
       eia930:SWPP: 18
       eia930:US48: 18
   missing_cells: 0
-  particular: eia930:<BA>, eia930:US48 for the Lower 48
 - name: variable
   shared: true
   type: text
@@ -88,26 +88,26 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 144
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 144
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 144
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -131,11 +131,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 144
-  particular: 'Not filled: no cell holds a value'
 - name: x_reason
   label: The likely reason for the gap, by the ERW's rule (within 2 percent, missing hours, or the likely cause by the gap's
     sign); hypotheses, not EIA's statements

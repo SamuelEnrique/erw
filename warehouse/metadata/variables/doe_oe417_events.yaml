@@ -38,6 +38,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: doe417:<year>-<row in the year's summary>
   type: text
   values:
     distinct: 3313
@@ -48,7 +49,6 @@ columns:
     - doe417:2016-0004
     - doe417:2016-0005
   missing_cells: 0
-  particular: doe417:<year>-<row in the year's summary>
 - name: event_date
   shared: true
   type: date
@@ -59,6 +59,8 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: The first event type the summary lists, lower case with underscores; not_given where only the comment box's
+    label is listed
   type: text
   values:
     distinct: 63
@@ -69,8 +71,6 @@ columns:
     - cyber_attack
     - cyber_event
   missing_cells: 0
-  particular: The first event type the summary lists, lower case with underscores; not_given where only the comment box's
-    label is listed
 - name: parties
   shared: true
   type: empty
@@ -85,13 +85,13 @@ columns:
   missing_cells: 3313
 - name: mw
   shared: true
+  particular: The demand lost, where the summary prints a plain number
   type: number
   values:
     distinct: 357
     lowest: 0.0
     highest: 160000.0
   missing_cells: 1441
-  particular: The demand lost, where the summary prints a plain number
 - name: price
   shared: true
   type: empty
@@ -106,12 +106,12 @@ columns:
   missing_cells: 3313
 - name: status
   shared: true
+  particular: restored where a restoration day is printed, else empty
   type: text
   values:
     list:
       restored: 2619
   missing_cells: 694
-  particular: restored where a restoration day is printed, else empty
 - name: source
   shared: true
   type: text
@@ -373,10 +373,10 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbooks' Last-Modified time, UTC
   type: utc time
   values:
     list:
       '2026-10-08T14:56:58Z': 3313
   missing_cells: 0
-  particular: The workbooks' Last-Modified time, UTC
 second_look: null

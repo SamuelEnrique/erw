@@ -38,6 +38,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: census:county:<five-digit state and county FIPS>; Connecticut's planning regions and former counties each under
+    their own code
   type: text
   values:
     distinct: 3152
@@ -48,8 +50,6 @@ columns:
     - census:county:01007
     - census:county:01009
   missing_cells: 0
-  particular: census:county:<five-digit state and county FIPS>; Connecticut's planning regions and former counties each under
-    their own code
 - name: variable
   shared: true
   type: text
@@ -88,12 +88,12 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: Empty on the population_census_2020 rows (a single count, not an interval)
   type: text
   values:
     list:
       P1Y: 25150
   missing_cells: 3143
-  particular: Empty on the population_census_2020 rows (a single count, not an interval)
 - name: geo
   shared: true
   type: text
@@ -114,6 +114,7 @@ columns:
   missing_cells: 28293
 - name: node
   shared: true
+  particular: The Bureau's county name (CTYNAME), not a pricing node
   type: text
   values:
     distinct: 1887
@@ -124,7 +125,6 @@ columns:
     - Ada County
     - Adair County
   missing_cells: 0
-  particular: The Bureau's county name (CTYNAME), not a pricing node
 - name: source
   shared: true
   type: text

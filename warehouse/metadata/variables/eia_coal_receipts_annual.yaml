@@ -36,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_coal_receipt:<mineMSHAId>:<plantId>:<supplier>:<coalRankId>:<contractType>:<transportationMode>; rank TOT
+    is EIA's sum of the ranks beside it
   type: text
   values:
     distinct: more than 5000
@@ -46,8 +48,6 @@ columns:
     - eia_coal_receipt:100114:4143:TWENTY_MILE:TOT:Spot_Market_Purchase:Rail
     - eia_coal_receipt:100315:2866:RESOURCE_FUELS:BIT:Contract_Purchase:Rail
   missing_cells: 0
-  particular: eia_coal_receipt:<mineMSHAId>:<plantId>:<supplier>:<coalRankId>:<contractType>:<transportationMode>; rank TOT
-    is EIA's sum of the ranks beside it
 - name: variable
   shared: true
   type: text
@@ -105,6 +105,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<plant state>
   type: text
   values:
     distinct: 47
@@ -115,16 +116,16 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<plant state>
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 270547
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: <mine> to <plant>
   type: text
   values:
     distinct: more than 5000
@@ -135,7 +136,6 @@ columns:
     - '#1 (ALLIANCE  COAL) to Winyah'
     - '#1 (ALLIANCE ENERGY) to Cross'
   missing_cells: 0
-  particular: <mine> to <plant>
 - name: source
   shared: true
   type: text
@@ -160,11 +160,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 270547
-  particular: 'Not filled: no cell holds a value'
 - name: x_msha_id
   label: The mine's identifier at the Mine Safety and Health Administration (MSHA)
   unit: none

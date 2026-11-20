@@ -38,11 +38,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: llwaitsum:<publisher>:<interval>
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: llwaitsum:<publisher>:<interval>
 - name: variable
   shared: true
   type: text
@@ -69,11 +69,11 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 138
-  particular: 'Not filled: no cell holds a value'
 - name: geo
   shared: true
   type: text

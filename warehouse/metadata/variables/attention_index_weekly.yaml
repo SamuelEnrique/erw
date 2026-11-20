@@ -35,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'attention:<sector>:<geo>: sector one of datacenters, transmission, gas, nuclear, solar_wind, storage, oil_lng
+    or energy (any energy sector); geo all, US or a state code; attention:corpus:all holds the week''s denominators'
   type: text
   values:
     distinct: 185
@@ -45,8 +47,6 @@ columns:
     - attention:datacenters:US-AR
     - attention:datacenters:US-CA
   missing_cells: 0
-  particular: 'attention:<sector>:<geo>: sector one of datacenters, transmission, gas, nuclear, solar_wind, storage, oil_lng
-    or energy (any energy sector); geo all, US or a state code; attention:corpus:all holds the week''s denominators'
 - name: variable
   shared: true
   type: text
@@ -87,6 +87,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US or US-<state> for those places; empty for the place all and the corpus entity
   type: text
   values:
     distinct: 47
@@ -97,7 +98,6 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 512
-  particular: US or US-<state> for those places; empty for the place all and the corpus entity
 - name: source
   shared: true
   type: text

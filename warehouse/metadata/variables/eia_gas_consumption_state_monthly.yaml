@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_gas_consumption:<process>:<area>
   type: text
   values:
     distinct: 208
@@ -44,7 +45,6 @@ columns:
     - eia_gas_consumption:VCS:SAL
     - eia_gas_consumption:VCS:SAR
   missing_cells: 0
-  particular: eia_gas_consumption:<process>:<area>
 - name: variable
   shared: true
   type: text
@@ -95,13 +95,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 63420
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name
   type: text
   values:
     distinct: 208
@@ -112,7 +113,6 @@ columns:
     - Alaska Natural Gas Deliveries to Electric Power Consumers (MMcf)
     - Alaska Natural Gas Industrial Consumption (MMcf)
   missing_cells: 0
-  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -137,11 +137,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 63420
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: consumption_commercial
   label: Natural gas delivered to commercial consumers (VCS), million cubic feet

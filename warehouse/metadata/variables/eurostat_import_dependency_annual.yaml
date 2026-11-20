@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_import_dependency:<geo>:<SIEC>
   type: text
   values:
     distinct: 507
@@ -42,7 +43,6 @@ columns:
     - eurostat_import_dependency:AL:C0129
     - eurostat_import_dependency:AL:C0210
   missing_cells: 0
-  particular: eurostat_import_dependency:<geo>:<SIEC>
 - name: variable
   shared: true
   type: text
@@ -81,6 +81,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
   type: text
   values:
     distinct: 38
@@ -91,7 +92,6 @@ columns:
     - BE
     - BG
   missing_cells: 455
-  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
 - name: market
   shared: true
   type: empty
@@ -100,6 +100,7 @@ columns:
   missing_cells: 16627
 - name: node
   shared: true
+  particular: <geo> import dependency, <the SIEC product's name>, not a pricing node
   type: text
   values:
     distinct: 507
@@ -110,7 +111,6 @@ columns:
     - AL import dependency, Lignite
     - AL import dependency, Natural gas
   missing_cells: 0
-  particular: <geo> import dependency, <the SIEC product's name>, not a pricing node
 - name: source
   shared: true
   type: text

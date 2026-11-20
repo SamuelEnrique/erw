@@ -38,11 +38,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ice:<ICE product, slugged>
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: ice:<ICE product, slugged>
 - name: variable
   shared: true
   type: text
@@ -75,25 +75,25 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> where one state holds the hub, else empty
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 2541
-  particular: US-<state> where one state holds the hub, else empty
 - name: market
   shared: true
+  particular: ICE's region as EIA's page names it
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: ICE's region as EIA's page names it
 - name: node
   shared: true
+  particular: ICE's price hub (the product as ICE writes it)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: ICE's price hub (the product as ICE writes it)
 - name: source
   shared: true
   type: text
@@ -114,11 +114,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time from EIA's server
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The workbook's last-modified time from EIA's server
 - name: x_trade_date
   label: The date the trade was made (before the delivery start)
   unit: none

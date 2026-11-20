@@ -19,8 +19,9 @@ license: public
 tier: derived
 interval: P1D
 source:
-- name: erw:ercot_storage_dam_offers ERW derived table, ERCOT storage resources' day-ahead offers (docs/methods/ercot_storage_dam_offers.md),  computed
-    from ERCOT's 60-Day DAM Disclosure Reports (NP3-966-ER), the files 60d_DAM_ESR_Data and 60d_DAM_ESR_ASOffers
+- name: erw:ercot_storage_dam_offers ERW derived table, ERCOT storage resources' day-ahead offers (docs/methods/ercot_storage_dam_offers.md),
+    https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_storage_dam_offers.md; computed from ERCOT's 60-Day
+    DAM Disclosure Reports (NP3-966-ER), the files 60d_DAM_ESR_Data and 60d_DAM_ESR_ASOffers
   url: https://www.ercot.com/mp/data-products/data-product-details?id=NP3-966-ER
 cite: Energy Research Warehouse (ERW), derived. ERCOT storage resources' day-ahead offers by day and by month (docs/methods/ercot_storage_dam_offers.md).
   Via the Energy Research Warehouse (ERW), table `ercot_storage_dam_offers_daily`.
@@ -45,12 +46,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'ercot:esr_fleet in every row: every storage resource'
   type: text
   values:
     list:
       ercot:esr_fleet: 20982
   missing_cells: 0
-  particular: 'ercot:esr_fleet in every row: every storage resource'
 - name: variable
   shared: true
   type: text
@@ -98,19 +99,19 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
   type: text
   values:
     list:
       ercot_dam: 20982
   missing_cells: 0
-  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 20982
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -140,13 +141,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: ERCOT's publication time of the day's 60-day disclosure zip
   type: utc time
   values:
     distinct: 269
     earliest: '2026-02-04T22:53:33Z'
     latest: '2026-10-30T12:41:46Z'
   missing_cells: 0
-  particular: ERCOT's publication time of the day's 60-day disclosure zip
 variables:
 - name: as_award_mwh
   label: The five ancillary services' awards together, MWh

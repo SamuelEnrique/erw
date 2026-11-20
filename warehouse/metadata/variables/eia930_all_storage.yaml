@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<respondent> (ERCO, ISNE, MISO, SWPP, US48); CISO, NYIS and PJM report no BAT series
   type: text
   values:
     list:
@@ -42,7 +43,6 @@ columns:
       eia930:SWPP: 6792
       eia930:US48: 17880
   missing_cells: 0
-  particular: eia930:<respondent> (ERCO, ISNE, MISO, SWPP, US48); CISO, NYIS and PJM report no BAT series
 - name: variable
   shared: true
   type: text
@@ -81,6 +81,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The respondent's states, comma-separated; US for US48
   type: text
   values:
     list:
@@ -90,7 +91,6 @@ columns:
       US-CT,US-MA,US-ME,US-NH,US-RI,US-VT: 17712
       US-TX: 17688
   missing_cells: 0
-  particular: The respondent's states, comma-separated; US for US48
 - name: market
   shared: true
   type: empty

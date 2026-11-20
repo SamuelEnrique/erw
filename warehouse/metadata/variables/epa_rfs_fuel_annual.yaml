@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: epa_rfs:d<code>:<EPA's fuel category code>
   type: text
   values:
     distinct: 32
@@ -45,7 +46,6 @@ columns:
     - epa_rfs:d3:200
     - epa_rfs:d3:215
   missing_cells: 0
-  particular: epa_rfs:d<code>:<EPA's fuel category code>
 - name: variable
   shared: true
   type: text
@@ -100,21 +100,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always US
   type: text
   values:
     list:
       US: 568
   missing_cells: 0
-  particular: Always US
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 568
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The fuel category as EPA names it, not a pricing node (the same as x_fuel_category)
   type: text
   values:
     list:
@@ -142,7 +143,6 @@ columns:
       Renewable Naphtha (EV 1.5): 28
       Renewable Natural Gas - RNG: 10
   missing_cells: 0
-  particular: The fuel category as EPA names it, not a pricing node (the same as x_fuel_category)
 - name: source
   shared: true
   type: text
@@ -166,12 +166,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's Last-Modified time
   type: utc time
   values:
     list:
       '2026-10-14T21:34:41Z': 568
   missing_cells: 0
-  particular: The file's Last-Modified time
 - name: x_fuel_category
   label: The renewable fuel category as EPA names it (Biodiesel (EV 1.5), Cellulosic Ethanol (EV 1.0) and the others)
   unit: none

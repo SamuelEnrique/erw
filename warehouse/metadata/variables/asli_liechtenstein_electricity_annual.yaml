@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'asli:li:<item>: production, imports, exports, consumption'
   type: text
   values:
     list:
@@ -43,7 +44,6 @@ columns:
       asli:li:imports: 41
       asli:li:production: 41
   missing_cells: 0
-  particular: 'asli:li:<item>: production, imports, exports, consumption'
 - name: variable
   shared: true
   type: text
@@ -82,21 +82,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: LI on every row
   type: text
   values:
     list:
       LI: 164
   missing_cells: 0
-  particular: LI on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 164
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The table's column in German, not a pricing node
   type: text
   values:
     list:
@@ -105,7 +106,6 @@ columns:
       Produktion im Inland: 41
       Verbrauch im Inland: 41
   missing_cells: 0
-  particular: The table's column in German, not a pricing node
 - name: source
   shared: true
   type: text
@@ -130,11 +130,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 164
-  particular: 'Not filled: no cell holds a value'
 - name: x_pv_method
   label: 'How photovoltaic production is counted: old (to 2021) or new (from 2022); the Office changed its method in 2023'
   unit: none

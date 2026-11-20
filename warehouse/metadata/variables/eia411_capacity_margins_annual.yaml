@@ -38,6 +38,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia411:<assessment area as EIA names it>
   type: text
   values:
     list:
@@ -58,7 +59,6 @@ columns:
       eia411:tre: 271
       eia411:wecc: 271
   missing_cells: 0
-  particular: eia411:<assessment area as EIA names it>
 - name: variable
   shared: true
   type: text
@@ -98,21 +98,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row, whatever the area
   type: text
   values:
     list:
       US: 2924
   missing_cells: 0
-  particular: US on every row, whatever the area
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2924
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The assessment area as EIA names it, with its interconnection, not a pricing node
   type: text
   values:
     list:
@@ -134,7 +135,6 @@ columns:
       TRE (ERCOT): 271
       WECC (Western Interconnection): 271
   missing_cells: 0
-  particular: The assessment area as EIA names it, with its interconnection, not a pricing node
 - name: source
   shared: true
   type: text
@@ -160,11 +160,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2924
-  particular: 'Not filled: no cell holds a value'
 - name: x_projected
   label: actual, or projected (EIA's E years)
   unit: none
