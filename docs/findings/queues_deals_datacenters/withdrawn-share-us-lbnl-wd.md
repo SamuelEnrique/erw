@@ -2,7 +2,7 @@
 
 Draft `scan-deep-72e9a2889ce4` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The share of the MW leaving the queue in the United States that was withdrawn rather than brought online was 88.7 percent of MW leaving the queue in 2024, against 65.8 percent of MW leaving the queue in 2005, the first year this measure counts.
+**The finding.** The share of the MW leaving the queue in the United States that was withdrawn rather than brought online was 88.7 percent of MW leaving the queue in 2024, against 65.8 percent of MW leaving the queue in 2005, the first year of the window the hunt read; the table holds the measure from 1999.
 
 ![Withdrawn, not built, the United States](withdrawn-share-us-lbnl-wd.png)
 

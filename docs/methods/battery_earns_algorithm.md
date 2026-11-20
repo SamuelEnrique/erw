@@ -290,20 +290,20 @@ The package a reader runs is `replication/battery/` in the repository:
 
 **What is compared.** The model's ancillary revenue (`battery_stack_monthly`, `ercot:HB_HUBAVG`, `<strategy>_<N>h_revenue_ancillary_usd_per_mw`) beside the day-ahead ancillary awards of every Energy Storage Resource in ERCOT (`ercot_storage_dam_awards_monthly`, `ercot:esr_fleet`, `revenue_ancillary_usd_per_mw`), from ERCOT's 60-Day DAM Disclosure Reports (see [its note](ercot_storage_dam_awards.md) and the page `/cost-of-power/battery/awards`). Both value awards at the same day-ahead clearing prices.
 
-**Window.** The local months both tables hold whole (`days_held = days_in_month` in each): January to July 2026, seven months. December 2025 (26 days) and August 2026 (5 days) are partial in the awards and are left out, not scaled.
+**Window.** The local months both tables hold whole (`days_held = days_in_month` in each): January to August 2026, eight months (session 7052, chain 370, done-line request 261: the snapshot written again on 17 November 2026 from the tables the awards page reads; until then it was the build of 10 October, January to July). December 2025 (26 days) is partial in the awards and is left out, not scaled; the awards hold no month after August yet.
 
-**Unit.** USD per kW of power and month: the sum over the seven months, divided by 1,000 and by 7. The model's kW is the battery's rated power. **The fleet's kW** is the month's `mw`: the sum over every storage resource in the file of its highest HSL (high sustained limit) in the month, a resource with no award included: 17,180 MW in January 2026 to 21,365 MW in July.
+**Unit.** USD per kW of power and month: the sum over the eight months, divided by 1,000 and by 8. The model's kW is the battery's rated power. **The fleet's kW** is the month's `mw`: the sum over every storage resource in the file of its highest HSL (high sustained limit) in the month, a resource with no award included: 17,180 MW in January 2026 to 21,423 MW in August.
 
 | Strategy, duration | Model | Fleet | Ratio |
 |---|---|---|---|
-| Perfect foresight, 2 hours | 2.26 | 0.40 | 5.71 |
-| Perfect foresight, 4 hours (the default) | 2.25 | 0.40 | 5.66 |
-| Perfect foresight, 8 hours | 2.06 | 0.40 | 5.20 |
-| Day-ahead schedule, 2 hours | 2.24 | 0.40 | 5.64 |
-| Day-ahead schedule, 4 hours | 2.17 | 0.40 | 5.48 |
-| Day-ahead schedule, 8 hours | 1.86 | 0.40 | 4.69 |
+| Perfect foresight, 2 hours | 2.15 | 0.37 | 5.75 |
+| Perfect foresight, 4 hours (the default) | 2.14 | 0.37 | 5.71 |
+| Perfect foresight, 8 hours | 1.98 | 0.37 | 5.29 |
+| Day-ahead schedule, 2 hours | 2.10 | 0.37 | 5.60 |
+| Day-ahead schedule, 4 hours | 2.06 | 0.37 | 5.49 |
+| Day-ahead schedule, 8 hours | 1.78 | 0.37 | 4.74 |
 
-**Why the model is higher: it sells more megawatts, not at better prices.** In the mean hour of those months the default model holds 142 percent of its rated power in awards (Regulation Up 45, Regulation Down 78, Responsive Reserve 3, ECRS 2, Non-Spin 15; upward and downward power count separately). The fleet held 21.6 percent of its `mw` (Regulation Up 2.4, Regulation Down 1.9, Responsive Reserve 6.6, ECRS 4.6, Non-Spin 6.1; from `ercot_dam_esr_awards`, megawatt-hours awarded over `mw` times the month's hours). Regulation is the gap: the model takes 122 percent of its power in the two regulation products, the fleet 4.4 percent.
+**Why the model is higher: it sells more megawatts, not at better prices.** In the mean hour of January to July 2026 (the window as this paragraph was first written; not computed again for August) the default model holds 142 percent of its rated power in awards (Regulation Up 45, Regulation Down 78, Responsive Reserve 3, ECRS 2, Non-Spin 15; upward and downward power count separately). The fleet held 21.6 percent of its `mw` (Regulation Up 2.4, Regulation Down 1.9, Responsive Reserve 6.6, ECRS 4.6, Non-Spin 6.1; from `ercot_dam_esr_awards`, megawatt-hours awarded over `mw` times the month's hours). Regulation is the gap: the model takes 122 percent of its power in the two regulation products, the fleet 4.4 percent.
 
 **Caveats.**
 - The model is a price taker with perfect foresight of the day's prices: it takes as many megawatts of each product as its power and energy allow, at the posted price. ERCOT buys a fixed quantity of each product; a fleet of about 20,000 MW cannot all hold regulation at once.

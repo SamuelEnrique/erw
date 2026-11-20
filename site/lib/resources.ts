@@ -23,9 +23,64 @@ export type Layer = {
   point_spacing_km?: number; columns_meaning?: Record<string, string>;
   /** Session 159: fields of the source the hover lists under a feature's value, each with the words to show for it. */
   hover_fields?: [string, string][];
+  /** Session 8603: one short line that says what the layer measures, in plain words, when the list of layers carries one (lib/resources.ts measureLine). */
+  measure?: string;
 };
 export type Missing = { id?: string; group?: string; title?: string; reason?: string; why?: string };
 export type Manifest = { built_at_utc?: string; layers: Layer[]; missing?: Missing[] };
+
+/** Session 8607 (chain 504, data request 542): the data machine adds layers in a second list beside the first
+ *  (data/resources/manifest_added.json, in the first's form; the first is not changed, chain 501's rule). The page
+ *  reads both as one: the first's layers in their order, then each added layer whose id the first does not hold (the
+ *  first wins a name); the first's missing list, then each added entry not named there and not now held as a layer.
+ *  `built_at_utc` stays the first's; `added_built_at_utc` is the second's. With no second list, the first as it is. */
+export function mergeManifests(first: Manifest, added: Manifest | null | undefined): Manifest & { added_built_at_utc?: string } {
+  if (!added || typeof added !== "object") return first;
+  const layers = [...(first.layers ?? [])];
+  for (const l of Array.isArray(added.layers) ? added.layers : []) if (l && typeof l.id === "string" && !layers.some((x) => x.id === l.id)) layers.push(l);
+  const missing = [...(first.missing ?? [])];
+  for (const x of Array.isArray(added.missing) ? added.missing : []) {
+    if (!x || (x.id && (missing.some((y) => y.id === x.id) || layers.some((l) => l.id === x.id)))) continue;
+    missing.push(x);
+  }
+  return { built_at_utc: first.built_at_utc, layers, missing, added_built_at_utc: typeof added.built_at_utc === "string" ? added.built_at_utc : undefined };
+}
+
+/** Session 8607: the fields a layer's entry asks the hover to list. The first list writes each as a pair, the field
+ *  and the words to show for it; the added list may write the field alone, and then the words are the field's own name
+ *  as the source writes it, in sentence case ("PROVINCE" reads "Province", "gen_mwh_yr" reads "Gen mwh yr"). Anything
+ *  else is left out; undefined when nothing is asked. */
+export function hoverPairs(v: unknown): [string, string][] | undefined {
+  if (!Array.isArray(v)) return undefined;
+  const out: [string, string][] = [];
+  for (const f of v) {
+    if (Array.isArray(f) && typeof f[0] === "string" && typeof f[1] === "string") out.push([f[0], f[1]]);
+    else if (typeof f === "string" && f.trim()) { const words = f.trim().replace(/_+/g, " ").toLowerCase(); out.push([f, words.charAt(0).toUpperCase() + words.slice(1)]); }
+  }
+  return out.length ? out : undefined;
+}
+
+/** Session 8618 (data request 553): the data machine's file of hover fields for layers whose entry names none
+ *  (data/resources/hover_fields_added.json: `layers`, by a layer's id, each with `hover_fields` in the pair form, the
+ *  words the publisher's own description of the column). */
+export type HoverFieldsAdded = { built_at_utc?: string; layers?: Record<string, { hover_fields?: unknown } | null | undefined> };
+
+/** A list of layers with the added hover fields put in: a layer whose own entry names fields keeps them (the list of
+ *  layers wins), a layer that names none takes the added file's, and a layer the file does not hold, or holds with
+ *  nothing the page can read as a field, is left as it is. The file is not there on most days and that is no fault:
+ *  the list comes back unchanged. Nothing else of a layer is touched. */
+export function withHoverFields<M extends Manifest>(manifest: M, added: HoverFieldsAdded | null | undefined): M {
+  const by = added && typeof added === "object" && added.layers && typeof added.layers === "object" ? added.layers : null;
+  if (!by) return manifest;
+  return {
+    ...manifest,
+    layers: (manifest.layers ?? []).map((l) => {
+      if (!l || hoverPairs(l.hover_fields)) return l;
+      const pairs = hoverPairs(by[l.id]?.hover_fields);
+      return pairs ? { ...l, hover_fields: pairs } : l;
+    }),
+  };
+}
 
 /** Every file a layer names, in the manifest's order: a grid's levels, or the one file of its shapes or points. */
 export function filesOf(l: Layer): string[] {
@@ -53,6 +108,13 @@ export const GROUPS = [
   { id: "hydropower", label: "Hydropower", color: "--color-fuel-hydro" },
   { id: "biomass", label: "Biomass", color: "--color-fuel-nuclear" },
   { id: "offshore_wind", label: "Offshore wind", color: "--color-fuel-storage" },
+  // session 8603 (chain 504; the owner's list of 7 October 2026 as chain 504 gives it: sun, wind, geothermal heat,
+  // hydropower potential, oil and gas, coal, uranium, critical minerals): the three kinds the map did not name. They
+  // stand after the seven it had, so no switch moved. Until a layer of the kind is among the files, its switch is
+  // greyed with its reason (EXPECTED below), as "Gross capacity factor" has been since session 159.
+  { id: "coal", label: "Coal", color: "--color-fuel-coal" },
+  { id: "uranium", label: "Uranium", color: "--color-accent" },
+  { id: "critical_minerals", label: "Critical minerals", color: "--color-muted" },
 ] as const;
 const OTHER_COLOR = "--color-fuel-coal";
 
@@ -60,6 +122,9 @@ const OTHER_COLOR = "--color-fuel-coal";
 export function groupId(written: string): string {
   const g = (written ?? "").toLowerCase().replace(/[^a-z]+/g, "_").replace(/^_|_$/g, "");
   if (/offshore/.test(g)) return "offshore_wind";
+  if (/coal/.test(g)) return "coal";                                       // session 8603; before oil and gas, so "coalbed gas" would be coal's
+  if (/uranium/.test(g)) return "uranium";
+  if (/mineral|lithium|rare_earth/.test(g)) return "critical_minerals";
   if (/oil|gas|basin|play|petroleum/.test(g)) return "oil_gas";
   if (/hydro(?!thermal)/.test(g)) return "hydropower";
   if (/geotherm|hydrothermal/.test(g)) return "geothermal";
@@ -70,7 +135,7 @@ export function groupId(written: string): string {
 }
 export const groupColor = (group: string) => GROUPS.find((g) => g.id === group)?.color ?? OTHER_COLOR;
 
-export const EXPECTED: { group: string; label: string; match: RegExp }[] = [
+export const EXPECTED: { group: string; label: string; match: RegExp; /** session 8603: why the layer is not held, when more can be said than that it is not */ why?: string }[] = [
   { group: "wind", label: "Wind speed at 100 m", match: /speed/ },
   { group: "wind", label: "Gross capacity factor", match: /capacity.?factor|(^|[^a-z])cf([^a-z]|$)/ },
   { group: "solar", label: "Global horizontal irradiance", match: /ghi|global.?horizontal/ },
@@ -83,7 +148,37 @@ export const EXPECTED: { group: string; label: string; match: RegExp }[] = [
   { group: "biomass", label: "Biomass", match: /bio|billion/ },
   { group: "offshore_wind", label: "Lease areas", match: /lease/ },
   { group: "offshore_wind", label: "Planning areas", match: /planning/ },
+  { group: "coal", label: "Coal fields", match: /coal/, why: "No layer of coal fields is among the resource files of the site yet (site/data/resources). The publishers named for it are the U.S. Geological Survey and the Energy Information Administration; nothing is drawn in its place." },
+  { group: "uranium", label: "Uranium", match: /uranium/, why: "No layer of uranium is among the resource files of the site yet (site/data/resources). The publishers named for it are the U.S. Geological Survey and the Energy Information Administration; nothing is drawn in its place." },
+  { group: "critical_minerals", label: "Critical mineral deposits", match: /mineral|lithium|rare/, why: "No layer of critical mineral deposits is among the resource files of the site yet (site/data/resources). The publisher named for it is the U.S. Geological Survey; nothing is drawn in its place." },
 ];
+
+// Session 8603: under each switch, one short line that says what the layer measures, in plain words. The words are
+// written here from each layer's section of the method note (docs/methods/resources.md, "What it is"), not from the
+// publisher's field names. A layer this table does not know (one the data side adds later) says its own line when its
+// entry of the list of layers carries one (`measure`), and otherwise the source's own label of its value.
+export const MEASURE: Record<string, string> = {
+  wind_speed_100m: "The average speed of the wind 100 meters above the ground, modelled over 2007 to 2013.",
+  wind_capacity_factor: "The share of its full output a wind turbine of 2035 would average at each site, by the laboratory's model.",
+  solar_ghi: "The sunlight a flat, level surface receives in an average day.",
+  solar_dni: "The direct sunlight a surface kept facing the sun receives in an average day.",
+  geothermal_hydrothermal_sites: "Each natural hot-water system already found, and the electric power it is estimated to be able to supply.",
+  geothermal_hydrothermal_favorability: "How likely the ground is to hold a hot-water system not yet found, in classes.",
+  geothermal_egs_favorability: "How well deep hot rock suits an engineered geothermal reservoir, from class 1 (most) to class 5 (least).",
+  oil_gas_basins: "The outline of each basin of sedimentary rock that holds a shale play, and its area.",
+  oil_gas_plays: "The general area of each tight oil and shale gas play, and its area.",
+  hydropower_npd: "The power each existing dam with no generator could supply if one were added.",
+  hydropower_nsd: "The power that could be built on stretches of river with no dam today, summed by watershed.",
+  biomass: "The crop, forest and mill residues and urban wood waste a county yields in a year.",
+  offshore_wind_leases: "The outline of each ocean lease issued for wind, and its area: a right to propose a project, not a wind farm.",
+  offshore_wind_planning_areas: "Ocean areas the bureau was studying for wind leases until it rescinded them on July 30, 2025.",
+};
+/** The line under a layer's switch: this table's, else the layer's own `measure`, else the source's label of its value, else nothing. */
+export function measureLine(l: Pick<Layer, "id" | "value_label"> & { measure?: string }): string {
+  const own = MEASURE[l.id] ?? l.measure ?? l.value_label ?? "";
+  const line = own.trim();
+  return line && !/[.!?]$/.test(line) ? `${line}.` : line;
+}
 export const NOT_HELD = "not held";
 const NO_REASON = "This layer is not among the resource layers the warehouse holds yet.";
 
@@ -106,7 +201,7 @@ export function toggleGroups(m: Manifest): ToggleGroup[] {
       if (held.some((l) => e.match.test(words(l)))) continue;
       const said = missing.find((x) => !used.has(x) && e.match.test(words(x)));
       if (said) used.add(said);
-      items.push({ held: false, key: `${id}:${e.label}`, label: said?.title ?? e.label, reason: said?.reason ?? said?.why ?? NO_REASON });
+      items.push({ held: false, key: `${id}:${e.label}`, label: said?.title ?? e.label, reason: said?.reason ?? said?.why ?? e.why ?? NO_REASON });
     }
     for (const x of missing) {
       if (used.has(x) || held.some((l) => l.id === x.id)) continue;
@@ -344,6 +439,20 @@ export function inGeometry(g: Geometry | null | undefined, lon: number, lat: num
   return false;
 }
 /** The box of a geometry: [west, south, east, north]; null for one with no coordinates. */
+/** Session 8608 (the reader's read of the resource map): a state's outline with its name and its box, and the state a
+ *  point lies in. The outlines are the ones the map already draws (the Census Bureau's cartographic boundaries, as
+ *  us-atlas holds them). A point at sea, or in no state's outline, is in none: null, never the nearest. */
+export type StateShape = { name: string; geometry: Geometry; box: [number, number, number, number] };
+export function stateShapes(features: { name?: string | null; geometry: Geometry | null | undefined }[]): StateShape[] {
+  const out: StateShape[] = [];
+  for (const f of features) { const box = f.geometry ? boxOf(f.geometry) : null; if (f.name && f.geometry && box) out.push({ name: f.name, geometry: f.geometry, box }); }
+  return out;
+}
+export function stateAt(shapes: StateShape[], lon: number, lat: number): string | null {
+  for (const s of shapes) if (lon >= s.box[0] && lon <= s.box[2] && lat >= s.box[1] && lat <= s.box[3] && inGeometry(s.geometry, lon, lat)) return s.name;
+  return null;
+}
+
 export function boxOf(g: Geometry | null | undefined): [number, number, number, number] | null {
   let w = Infinity, s = Infinity, e = -Infinity, n = -Infinity;
   const walk = (c: unknown) => {

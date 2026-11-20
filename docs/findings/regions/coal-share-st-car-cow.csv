@@ -1,0 +1,30 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate coal_share, region st_car_cow (North and South Carolina (EIA's Carolinas region))
+# Computed 2026-11-19T11:17:47Z by warehouse/analysis/findings/deep/regions.py (coal_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: coal's share of the states' net generation (percent), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+st_car_cow,2001,53.06276420594473,12.0,1
+st_car_cow,2002,50.732790941324815,12.0,1
+st_car_cow,2003,50.69153871416782,12.0,1
+st_car_cow,2004,51.04043963663353,12.0,1
+st_car_cow,2005,50.85942897781573,12.0,1
+st_car_cow,2006,51.21107761423218,12.0,1
+st_car_cow,2007,52.05851293534371,12.0,1
+st_car_cow,2008,51.87693505599881,12.0,1
+st_car_cow,2009,45.55849478860218,12.0,1
+st_car_cow,2010,47.08223626473678,12.0,1
+st_car_cow,2011,42.43127863751361,12.0,1
+st_car_cow,2012,37.16701372752705,12.0,1
+st_car_cow,2013,32.316374831712565,12.0,1
+st_car_cow,2014,34.68787905771425,12.0,1
+st_car_cow,2015,27.811292156073648,12.0,1
+st_car_cow,2016,25.657459955169454,12.0,1
+st_car_cow,2017,23.74729650315325,12.0,1
+st_car_cow,2018,21.911377024874614,12.0,1
+st_car_cow,2019,19.68753366590691,12.0,1
+st_car_cow,2020,14.918591115958643,12.0,1
+st_car_cow,2021,15.589525563716759,12.0,1
+st_car_cow,2022,12.412597648913728,12.0,1
+st_car_cow,2023,12.908616486352784,12.0,1
+st_car_cow,2024,14.406579157984709,12.0,1
+st_car_cow,2025,15.11769834069607,12.0,1
