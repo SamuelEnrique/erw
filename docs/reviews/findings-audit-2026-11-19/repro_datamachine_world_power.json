@@ -1,0 +1,268 @@
+[
+ {
+  "draft": "world_power/eu-net-imports-eu-el.reproduce.py",
+  "ok": true,
+  "printed_first": 15.479103,
+  "printed_last": -6.479277,
+  "expected": {
+   "first_year": 2016,
+   "first": 15.479103,
+   "last_year": 2025,
+   "last": -6.479277,
+   "change": -21.95838
+  },
+  "tolerance": 0.1097919
+ },
+ {
+  "draft": "world_power/eu-net-imports-eu-eu27-2020.reproduce.py",
+  "ok": true,
+  "printed_first": -0.012399,
+  "printed_last": -0.973073,
+  "expected": {
+   "first_year": 2016,
+   "first": -0.012399,
+   "last_year": 2025,
+   "last": -0.973073,
+   "change": -0.960674
+  },
+  "tolerance": 0.00480337
+ },
+ {
+  "draft": "world_power/eu-net-imports-eu-pt.reproduce.py",
+  "ok": true,
+  "printed_first": -9.97587,
+  "printed_last": 17.664467,
+  "expected": {
+   "first_year": 2016,
+   "first": -9.97587,
+   "last_year": 2025,
+   "last": 17.664467,
+   "change": 27.640336
+  },
+  "tolerance": 0.13820168000000002
+ },
+ {
+  "draft": "world_power/eu-share-coal-eu-el.reproduce.py",
+  "ok": true,
+  "printed_first": 31.831455,
+  "printed_last": 5.292061,
+  "expected": {
+   "first_year": 2017,
+   "first": 31.831455,
+   "last_year": 2025,
+   "last": 5.292061,
+   "change": -26.539395
+  },
+  "tolerance": 0.132696975
+ },
+ {
+  "draft": "world_power/eu-share-coal-eu-eu27-2020.reproduce.py",
+  "ok": true,
+  "printed_first": 20.895972,
+  "printed_last": 9.189087,
+  "expected": {
+   "first_year": 2017,
+   "first": 20.895972,
+   "last_year": 2025,
+   "last": 9.189087,
+   "change": -11.706885
+  },
+  "tolerance": 0.058534425
+ },
+ {
+  "draft": "world_power/eu-share-coal-eu-pl.reproduce.py",
+  "ok": true,
+  "printed_first": 78.242721,
+  "printed_last": 51.079679,
+  "expected": {
+   "first_year": 2017,
+   "first": 78.242721,
+   "last_year": 2025,
+   "last": 51.079679,
+   "change": -27.163043
+  },
+  "tolerance": 0.135815215
+ },
+ {
+  "draft": "world_power/eu-share-gas-eu-eu27-2020.reproduce.py",
+  "ok": true,
+  "printed_first": 13.09859,
+  "printed_last": 16.844736,
+  "expected": {
+   "first_year": 2017,
+   "first": 13.09859,
+   "last_year": 2025,
+   "last": 16.844736,
+   "change": 3.746146
+  },
+  "tolerance": 0.01873073
+ },
+ {
+  "draft": "world_power/eu-share-gas-eu-pt.reproduce.py",
+  "ok": true,
+  "printed_first": 30.817507,
+  "printed_last": 14.603596,
+  "expected": {
+   "first_year": 2017,
+   "first": 30.817507,
+   "last_year": 2025,
+   "last": 14.603596,
+   "change": -16.21391
+  },
+  "tolerance": 0.08106954999999999
+ },
+ {
+  "draft": "world_power/eu-share-nuclear-eu-be.reproduce.py",
+  "ok": true,
+  "printed_first": 51.934786,
+  "printed_last": 33.724368,
+  "expected": {
+   "first_year": 2016,
+   "first": 51.934786,
+   "last_year": 2025,
+   "last": 33.724368,
+   "change": -18.210418
+  },
+  "tolerance": 0.09105209
+ },
+ {
+  "draft": "world_power/eu-share-nuclear-eu-de.reproduce.py",
+  "ok": true,
+  "printed_first": 15.264203,
+  "printed_last": 0.0,
+  "expected": {
+   "first_year": 2016,
+   "first": 15.264203,
+   "last_year": 2025,
+   "last": 0.0,
+   "change": -15.264203
+  },
+  "tolerance": 0.076321015
+ },
+ {
+  "draft": "world_power/eu-share-nuclear-eu-eu27-2020.reproduce.py",
+  "ok": true,
+  "printed_first": 27.405299,
+  "printed_last": 23.281734,
+  "expected": {
+   "first_year": 2016,
+   "first": 27.405299,
+   "last_year": 2025,
+   "last": 23.281734,
+   "change": -4.123565
+  },
+  "tolerance": 0.020617825000000003
+ },
+ {
+  "draft": "world_power/eu-share-solar-eu-eu27-2020.reproduce.py",
+  "ok": true,
+  "printed_first": 3.795076,
+  "printed_last": 13.005123,
+  "expected": {
+   "first_year": 2017,
+   "first": 3.795076,
+   "last_year": 2025,
+   "last": 13.005123,
+   "change": 9.210047
+  },
+  "tolerance": 0.046050234999999995
+ },
+ {
+  "draft": "world_power/eu-share-solar-eu-nl.reproduce.py",
+  "ok": true,
+  "printed_first": 1.683988,
+  "printed_last": 19.367247,
+  "expected": {
+   "first_year": 2017,
+   "first": 1.683988,
+   "last_year": 2025,
+   "last": 19.367247,
+   "change": 17.68326
+  },
+  "tolerance": 0.0884163
+ },
+ {
+  "draft": "world_power/eu-share-wind-eu-eu27-2020.reproduce.py",
+  "ok": true,
+  "printed_first": 10.00102,
+  "printed_last": 17.739489,
+  "expected": {
+   "first_year": 2016,
+   "first": 10.00102,
+   "last_year": 2025,
+   "last": 17.739489,
+   "change": 7.738469
+  },
+  "tolerance": 0.038692345
+ },
+ {
+  "draft": "world_power/eu-share-wind-eu-fi.reproduce.py",
+  "ok": true,
+  "printed_first": 4.621397,
+  "printed_last": 27.916419,
+  "expected": {
+   "first_year": 2016,
+   "first": 4.621397,
+   "last_year": 2025,
+   "last": 27.916419,
+   "change": 23.295022
+  },
+  "tolerance": 0.11647510999999999
+ },
+ {
+  "draft": "world_power/eu-share-wind-eu-nl.reproduce.py",
+  "ok": true,
+  "printed_first": 7.158442,
+  "printed_last": 24.313723,
+  "expected": {
+   "first_year": 2016,
+   "first": 7.158442,
+   "last_year": 2025,
+   "last": 24.313723,
+   "change": 17.155281
+  },
+  "tolerance": 0.085776405
+ },
+ {
+  "draft": "world_power/fr-mean-gas-fr.reproduce.py",
+  "ok": true,
+  "printed_first": 3924.434696,
+  "printed_last": 1871.0664,
+  "expected": {
+   "first_year": 2020,
+   "first": 3924.434696,
+   "last_year": 2025,
+   "last": 1871.0664,
+   "change": -2053.368296
+  },
+  "tolerance": 10.26684148
+ },
+ {
+  "draft": "world_power/fr-mean-solar-fr.reproduce.py",
+  "ok": true,
+  "printed_first": 1418.946197,
+  "printed_last": 3711.944391,
+  "expected": {
+   "first_year": 2020,
+   "first": 1418.946197,
+   "last_year": 2025,
+   "last": 3711.944391,
+   "change": 2292.998194
+  },
+  "tolerance": 11.464990969999999
+ },
+ {
+  "draft": "world_power/fr-mean-wind-fr.reproduce.py",
+  "ok": true,
+  "printed_first": 4517.87742,
+  "printed_last": 5663.088838,
+  "expected": {
+   "first_year": 2020,
+   "first": 4517.87742,
+   "last_year": 2025,
+   "last": 5663.088838,
+   "change": 1145.211418
+  },
+  "tolerance": 5.72605709
+ }
+]

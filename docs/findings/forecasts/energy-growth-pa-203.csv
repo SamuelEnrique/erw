@@ -1,0 +1,21 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate energy_growth, region pa_203 (MISO (FERC 714 planning area 203))
+# Computed 2026-11-19T12:04:19Z by warehouse/analysis/findings/deep/forecasts.py (energy_growth); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the yearly growth a filing forecasts for the area's net energy, from its first forecast year to its tenth (percent a year), the observations it rests on, and whether the year is full
+# Tables: ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+pa_203,2009,-1.4035492899833857,1.0,1
+pa_203,2011,-1.226141716577045,1.0,1
+pa_203,2012,0.6553724556950913,1.0,1
+pa_203,2013,0.36308016769306395,1.0,1
+pa_203,2014,1.0455510926413059,1.0,1
+pa_203,2015,0.8036411999695403,1.0,1
+pa_203,2016,0.45656386522647807,1.0,1
+pa_203,2017,0.2582353052425823,1.0,1
+pa_203,2018,0.25207383158303287,1.0,1
+pa_203,2019,0.37637620357977575,1.0,1
+pa_203,2020,0.06890868847961862,1.0,1
+pa_203,2021,0.4293796867395505,1.0,1
+pa_203,2022,0.5635812843625798,1.0,1
+pa_203,2023,1.4948288667284482,1.0,1
+pa_203,2024,2.040653249580915,1.0,1
+pa_203,2025,2.6960031788832994,1.0,1

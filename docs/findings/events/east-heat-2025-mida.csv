@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), event east_heat_2025, region MIDA (the Mid-Atlantic (EIA's region))
+# Computed 2026-11-19T11:32:42Z by warehouse/analysis/findings/deep/events.py; plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the window's highest hour of demand (MW) from 06-20 to 06-28, the hours it rests on, and whether it is the event year
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,event_year
+MIDA,2019,136567.0,216,0
+MIDA,2020,124821.0,216,0
+MIDA,2021,141879.0,216,0
+MIDA,2022,129047.0,216,0
+MIDA,2023,116740.0,216,0
+MIDA,2024,147976.0,216,0
+MIDA,2025,160560.0,216,1
+MIDA,2026,121815.0,216,0

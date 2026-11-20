@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate energy_growth, region pa_119 (PJM Interconnection, LLC (FERC 714 planning area 119))
+# Computed 2026-11-19T12:04:19Z by warehouse/analysis/findings/deep/forecasts.py (energy_growth); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the yearly growth a filing forecasts for the area's net energy, from its first forecast year to its tenth (percent a year), the observations it rests on, and whether the year is full
+# Tables: ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+pa_119,2006,1.5434352040789134,1.0,1
+pa_119,2007,1.4612648467707379,1.0,1
+pa_119,2008,1.7095420983014087,1.0,1
+pa_119,2009,1.75740972395928,1.0,1
+pa_119,2010,2.216559100070725,1.0,1
+pa_119,2011,1.4677940592737748,1.0,1
+pa_119,2012,1.463666018980958,1.0,1
+pa_119,2013,1.0657000688518714,1.0,1
+pa_119,2014,0.9606614741135111,1.0,1
+pa_119,2015,0.7365958832846076,1.0,1
+pa_119,2016,0.2251907682311982,1.0,1
+pa_119,2017,0.3662822583712977,1.0,1
+pa_119,2018,0.43750003900129286,1.0,1
+pa_119,2019,0.7458685778388929,1.0,1
+pa_119,2020,0.3434885966252743,1.0,1
+pa_119,2021,0.7607772021988257,1.0,1
+pa_119,2022,1.529435793223155,1.0,1
+pa_119,2023,2.370106228331026,1.0,1
+pa_119,2024,5.121925034043517,1.0,1
+pa_119,2025,5.539544571112831,1.0,1

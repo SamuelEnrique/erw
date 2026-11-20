@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate seds_gas_power, region sd_fl (Florida)
+# Computed 2026-11-19T12:27:14Z by warehouse/analysis/findings/deep/demand.py (seds_gas_power); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the natural gas the state's electric power sector consumed (TBtu), the observations it rests on, and whether the year is full
+# Tables: eia_seds_state_energy
+region,year,value,n_observations,full_year
+sd_fl,1990,191.639,1.0,1
+sd_fl,1991,204.152,1.0,1
+sd_fl,1992,205.664,1.0,1
+sd_fl,1993,190.425,1.0,1
+sd_fl,1994,215.022,1.0,1
+sd_fl,1995,374.454,1.0,1
+sd_fl,1996,341.069,1.0,1
+sd_fl,1997,353.28000000000003,1.0,1
+sd_fl,1998,339.67400000000004,1.0,1
+sd_fl,1999,380.704,1.0,1
+sd_fl,2000,377.526,1.0,1
+sd_fl,2001,389.95,1.0,1
+sd_fl,2002,535.17,1.0,1
+sd_fl,2003,553.485,1.0,1
+sd_fl,2004,604.037,1.0,1
+sd_fl,2005,652.071,1.0,1
+sd_fl,2006,762.892,1.0,1
+sd_fl,2007,794.434,1.0,1
+sd_fl,2008,820.0120000000001,1.0,1
+sd_fl,2009,935.701,1.0,1
+sd_fl,2010,999.482,1.0,1
+sd_fl,2011,1059.418,1.0,1
+sd_fl,2012,1155.145,1.0,1
+sd_fl,2013,1050.503,1.0,1
+sd_fl,2014,1058.227,1.0,1
+sd_fl,2015,1184.19,1.0,1
+sd_fl,2016,1207.869,1.0,1
+sd_fl,2017,1213.642,1.0,1
+sd_fl,2018,1294.916,1.0,1
+sd_fl,2019,1351.48,1.0,1
+sd_fl,2020,1394.33,1.0,1
+sd_fl,2021,1350.141,1.0,1
+sd_fl,2022,1424.421,1.0,1
+sd_fl,2023,1438.163,1.0,1
+sd_fl,2024,1493.238,1.0,1
