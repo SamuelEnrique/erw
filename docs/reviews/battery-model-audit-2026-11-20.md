@@ -27,6 +27,7 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 | 3 | Energy is paid the hourly mean; ERCOT settles real-time energy every 15 minutes | +2.23 (+2.7 percent) | +14.4 | `wip/audit-battery-3` |
 | 4 | Degradation cuts the whole revenue 2.6 percent a year; the model's own runs lose 1.1 percent a year at that fade | none (year 1) | +44.76 | `wip/audit-battery-4` |
 | 5 | The "Breakeven toll" (USD 4.19 per kW-month) only covers debt 1.25 times; equity breaks even at 13.62 | the toll figure: 4.19 against 13.62 | at the 4.19 toll: -845.78 | `wip/audit-battery-5` (fix in words) |
+| 6 | "Each figure is an upper bound" is false: findings 2 and 3 together give 88.81; with finding 1 as well, 83.02 | the bound: +7.41 (+9.1 percent) | +47.6 | `wip/audit-battery-6` (fix in words) |
 
 ## 1. Regulation is never called
 
@@ -73,9 +74,19 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 - **The test.** `tests/test_audit_battery_5.py` on `wip/audit-battery-5`. Through `finance.ts` (run by Node): the toll is 4.19, NPV at it -845.78, below merchant, and the zero-NPV toll 13.62 (passes on main). The label test fails on main and passes on the branch.
 - **The fix on the branch.** In words only, no figure moves: the label becomes "Toll for 1.25 times coverage" in `view.ts` and `Scenarios.tsx`; `tests/test_session296.py` follows; the note's line 423 says what the figure is and is not, with the two figures above. Whether to add the zero-NPV toll as a figure is the owner's ruling. The generator page carries the same label (`site/app/cost-of-power/seller/SellerScenarios.tsx`); not changed here.
 
+## 6. "Each figure is an upper bound" is false
+
+- **Where.** Decision 3 (`site/lib/decisions.ts` line 117, the note's section 12 item 3): "so each figure is an upper bound". The year chart's sentence (`site/app/cost-of-power/battery/page.tsx` lines 177 and 178: "This is an upper bound"), the strategy line (line 181) and its hover (`BatteryForm.tsx` line 16). The note, section 4.11 line 212. The dispatch file's header (`warehouse/derived/battery_dispatch_export.py` line 260).
+- **Why it is false.** Findings 2 and 3 are rules that hold the figure below what a battery that foresaw the prices could earn under every other rule of the model. A bound has to sit above everything it bounds.
+- **How much.** On the default case's last twelve months, 15-minute energy and the charge carried across midnight, together: USD 88.81 per kW against 81.40, +7.41 (+9.1 percent). The page's figure is 8.3 percent under that bound.
+- **It is not a lower bound either.** Add finding 1 (regulation called at the measured 17 percent) to the same program: 83.02, +1.61 (+2.0 percent). The biases roughly cancel at the default; perfect foresight, a price taker and the hub still push it above what an operator gets. The honest word is "optimistic", not "upper bound".
+- **The test.** `tests/test_audit_battery_6.py` on `wip/audit-battery-6`. December 2025 from the public file: the carried program (checked equal to `solve_day` on each day) earns 11.6 percent more than the model's days; quarter prices inside flat hours pay. Both pass on main. A third test, that no page text or decision says "upper bound", fails on main and passes on the branch.
+- **The fix on the branch.** Words only, no figure moves: decision 3 and the note's section 12 (kept word for word, `tests/test_session5001.py` passes), the chart's two sentences ("This is optimistic, not an upper bound: ..."), the strategy line and hover, the note's section 4.11. `tests/test_session102.py` and `site/scripts/test-battery-stack.mjs` follow; the second needs the built site and was not run here.
+
 ## The deploys of this file (rule 8)
 
 Every page is in review, so a visitor sees the in-review page at all 25 addresses; this file changes no page. Each push: `node site/scripts/snapshot-live.mjs take` before, the after once the Vercel deployment of a commit holding the push showed success, then `compare`.
 
 - Push 1 (finding 1), merge `291223a4`; deployed in `194cf4c3`, success 21:08:35 UTC. `s9840-f1-before` against `s9840-f1-after`: 0 differences on 25 pages. Expected.
 - Push 2 (findings 2 to 4), merge `fd3d8fd8`; success 21:14:18 UTC. `s9840-f2to4-before` against `s9840-f2to4-after`: 0 differences. Expected.
+- Push 3 (finding 5), merge `0b89df07`; success about 21:19:26 UTC. `s9840-f5-before` against `s9840-f5-after`: 0 differences. Expected.
