@@ -9,7 +9,7 @@ import { Tabs } from "@/components/tool/Tabs";
 import { SourceLine, Tip, ToolHeader, ToolPage } from "@/components/tool/ToolPage";
 import { TableDownloads } from "@/components/tool/TableDownloads";
 import mapJson from "@/data/map.json";
-import { SOURCE_RULE, faceOf, sourceOf, sourceWords, whole, type MapFile } from "@/lib/projectmap";
+import { SOURCE_RULE, faceOf, heldDatacenters, sourceOf, sourceWords, whole, type MapFile } from "@/lib/projectmap";
 import { one, tabOf } from "@/lib/tabs";
 import { ResourcesView } from "../resources/view";
 import { Num, heldBy } from "@/components/Num";   // session 1855 (datacenter faults row 6)
@@ -55,7 +55,7 @@ export default async function MapPage({ searchParams }: { searchParams: Promise<
 
 /** The first tab: every unit, queue position and datacenter on the map of the states (what /map drew before session 239). */
 async function ProjectsView() {
-  const f = mapJson as unknown as MapFile;
+  const f = heldDatacenters(mapJson as unknown as MapFile);   // session 7628 (wip/alt-datacenters-1): the datacenter layer held
   const topo = statesTopo as unknown as Topology<{ states: GeometryCollection }>;
   const c = f.counts;
   // session 349: the queue positions not placed on the map, read from energy_projects (the check key's own count): their

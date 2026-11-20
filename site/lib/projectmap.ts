@@ -22,6 +22,27 @@ export type MapFile = {
   };
 };
 
+/** Session 7628, the other choice of the ruling on the map's datacenter layer (wip/alt-datacenters-1, not landed): the
+ * datacenter tracker is held whole (datacenter_facilities, license needed), so the map's copy is held too, as bare
+ * points: each datacenter keeps its place, its state and its grid, and loses its name, its operator, its MW and the
+ * card's details (city, developer, power, utility, sources). The count of points stays; the layer's MW leaves every
+ * sum. Every reader of the map's file (the page and /map/card) reads it through this. */
+export const HOLD_DATACENTER_LAYER = true;
+export function heldDatacenters(f: MapFile): MapFile {
+  if (!HOLD_DATACENTER_LAYER) return f;
+  const dc = f.kinds[KIND.datacenter], from = dc.start, to = dc.start + dc.rows;
+  const at = (i: number) => i >= from && i < to;
+  const blank = (xs: string[]) => xs.map(() => "");
+  return {
+    ...f,
+    counts: { ...f.counts, datacenter_mw: 0 },
+    n: f.n.map((v, i) => (at(i) ? 0 : v)), mw: f.mw.map((v, i) => (at(i) ? null : v)), o: f.o.map((v, i) => (at(i) ? -1 : v)),
+    id: f.id.map((v, i) => (at(i) ? "" : v)),
+    more: { ...f.more, datacenter: { city: blank(f.more.datacenter.city), developer: blank(f.more.datacenter.developer), power: blank(f.more.datacenter.power),
+      utility: blank(f.more.datacenter.utility), from: f.more.datacenter.from, urls: f.more.datacenter.urls.map(() => []) } },
+  };
+}
+
 /** What only the unit card reads. The page leaves it out and reads it once, at the first click on a unit, from
  *  /map/card (app/map/card/route.ts), the same file. */
 export const CARD_KEYS = ["id", "o", "c", "tx", "operators", "counties", "technologies", "more"] as const;

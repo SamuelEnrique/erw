@@ -4,12 +4,12 @@
 // unit. Under /map and without an extension, so the release gate covers it: a visitor is answered with the in-review
 // page, as for the page itself. Made when the site is built; it asks nothing of Supabase.
 import mapJson from "@/data/map.json";
-import { CARD_KEYS, type MapFile } from "@/lib/projectmap";
+import { CARD_KEYS, heldDatacenters, type MapFile } from "@/lib/projectmap";
 
 export const dynamic = "force-static";
 
 export function GET() {
-  const f = mapJson as unknown as MapFile;
+  const f = heldDatacenters(mapJson as unknown as MapFile);   // session 7628 (wip/alt-datacenters-1): the datacenter layer held
   const body = Object.fromEntries(["built", ...CARD_KEYS].map((k) => [k, f[k as keyof MapFile]]));
   return Response.json(body, { headers: { "X-Robots-Tag": "noindex" } });
 }
