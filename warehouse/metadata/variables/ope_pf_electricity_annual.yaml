@@ -5,9 +5,10 @@
 table: ope_pf_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's value of French Polynesia's electricity (total or renewable production, final consumption, or losses), from
+  the Observatoire Polynesien de l'Energie's energy balance.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is the balance's Last-Modified time.
 keys:
 - entity
 - variable
@@ -39,6 +40,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: 'ope:pf:<item>: total, renewable, final consumption or losses'
 - name: variable
   shared: true
   type: text
@@ -75,18 +77,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The territory's two-letter ISO 3166-1 code on every row
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 52
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The balance's label, not a pricing node
 - name: source
   shared: true
   type: text
@@ -111,21 +116,22 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The balance's Last-Modified time as the server sent it
 variables:
 - name: consumption
-  label: null
+  label: Final electricity consumption
   unit: MWh
   rows: 15
   first: '2010-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: generation
-  label: null
+  label: Electricity production, total or renewable
   unit: MWh
   rows: 26
   first: '2010-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: losses
-  label: null
+  label: Electricity losses
   unit: MWh
   rows: 11
   first: '2014-01-01T00:00:00Z'

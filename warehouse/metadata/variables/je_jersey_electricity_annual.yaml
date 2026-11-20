@@ -127,7 +127,7 @@ columns:
   source_name: null
   documented_by: connector je_jersey_electricity.py; method je_jersey_electricity_annual.md
 - name: x_toe
-  label: The figure as printed, in tonnes of oil equivalent (value is it times 11.63, the report's own factor)
+  label: The figure as printed, in tonnes of oil equivalent (value is it converted by the report's own factor)
   unit: toe
   type: number
   values:

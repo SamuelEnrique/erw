@@ -5,9 +5,9 @@
 table: statnett_norway_daily
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One day's electricity production or consumption of all Norway, from Statnett's Production and Consumption data.
+time: ts_utc is Norway's day (Europe/Oslo) at 00:00:00Z, a label; freq P1D; days ended before the retrieval only.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is not filled.
 keys:
 - entity
 - variable
@@ -35,6 +35,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: One entity, the country
 - name: variable
   shared: true
   type: text
@@ -71,18 +72,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 4960
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 4960
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -107,15 +111,16 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 4960
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: consumption
-  label: null
+  label: Norway's electricity consumption in the day, as Statnett publishes it
   unit: MWh
   rows: 2480
   first: '2020-01-01T00:00:00Z'
   last: '2026-10-23T00:00:00Z'
 - name: production
-  label: null
+  label: Norway's electricity production in the day, as Statnett publishes it
   unit: MWh
   rows: 2480
   first: '2020-01-01T00:00:00Z'

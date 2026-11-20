@@ -5,9 +5,11 @@
 table: treasury_1603_awards
 family: other_sources
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: 'One award of the Treasury''s Section 1603 program (payments for specified energy property in lieu of tax credits): its
+  business, state, technology, amount funded and award date, from the awardee list.'
+time: event_date is the award date; x_as_of is the date the list's title gives.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot) from the awardee list; the table has no vintage
+  column.
 keys:
 - event_id
 license: internal
@@ -35,54 +37,63 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: treasury_1603:<the first 12 hex digits of a SHA-1 of the business, state, technology, amount and date>
 - name: event_date
   shared: true
   type: date
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The award date
 - name: event_type
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: grant_award on every row
 - name: parties
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The business as the Treasury names it
 - name: entity_ids
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: 'US-<state or territory>: an ISO 3166-2 code of the award''s state, not an entity_id of an entities table'
 - name: mw
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 10012
+  particular: 'Not filled: the list gives no capacity'
 - name: price
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 10012
+  particular: 'Not filled: the award is not a price per MWh'
 - name: currency
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 10012
+  particular: 'Not filled: no cell holds a value'
 - name: status
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: awarded on every row
 - name: source
   shared: true
   type: text
@@ -96,43 +107,43 @@ columns:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
 - name: x_state
-  label: null
-  unit: null
+  label: The award's state or territory, two-letter code
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: State
+  documented_by: header; connector treasury_1603.py; method treasury_1603_awards.md
 - name: x_technology
-  label: null
-  unit: null
+  label: The award's technology as the Treasury names it
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Technology
+  documented_by: header; connector treasury_1603.py; method treasury_1603_awards.md
 - name: x_funded_usd
-  label: null
-  unit: null
+  label: The amount funded, whole US dollars
+  unit: USD
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Funded
+  documented_by: header; connector treasury_1603.py; method treasury_1603_awards.md
 - name: x_as_of
-  label: null
-  unit: null
+  label: The date the list's title gives (Awardees as of)
+  unit: none
   type: date
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector treasury_1603.py; method treasury_1603_awards.md
 second_look: null

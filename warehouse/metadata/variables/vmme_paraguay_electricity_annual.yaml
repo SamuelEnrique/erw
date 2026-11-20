@@ -5,9 +5,10 @@
 table: vmme_paraguay_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's value of one item of Paraguay's electricity balance (gross generation, imports, exports, own use, losses,
+  supply, final consumption), from VMME's Balance Energetico Nacional cuadro 3.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is the document's Last-Modified time.
 keys:
 - entity
 - variable
@@ -38,6 +39,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: vmme:py:<item>
 - name: variable
   shared: true
   type: text
@@ -74,18 +76,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 38
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: VMME's label of the row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -110,45 +115,46 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The document's Last-Modified time as the server sent it
 variables:
 - name: exports
-  label: null
+  label: Electricity exported (printed with a minus sign, written positive)
   unit: MWh
   rows: 2
   first: '2023-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: final_consumption
-  label: null
+  label: Final electricity consumption
   unit: MWh
   rows: 12
   first: '2023-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: gross_generation
-  label: null
+  label: Gross electricity generation
   unit: MWh
   rows: 12
   first: '2023-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Electricity imported
   unit: MWh
   rows: 2
   first: '2023-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: losses
-  label: null
+  label: Losses (printed with a minus sign, written positive)
   unit: MWh
   rows: 6
   first: '2023-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: own_use
-  label: null
+  label: Own use (printed with a minus sign, written positive)
   unit: MWh
   rows: 2
   first: '2023-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: supply
-  label: null
+  label: Electricity supply
   unit: MWh
   rows: 2
   first: '2023-01-01T00:00:00Z'

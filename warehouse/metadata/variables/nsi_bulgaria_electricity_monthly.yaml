@@ -5,9 +5,11 @@
 table: nsi_bulgaria_electricity_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's value of one item of Bulgaria's electricity (gross or net production, net production by source, imports,
+  exports, net consumption), from NSI's Production and deliveries of electricity workbook.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; x_period keeps the month. The workbook holds only some years,
+  so months between are absent.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is the workbook's Last-Modified time.
 keys:
 - entity
 - variable
@@ -37,6 +39,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: 'nsi:bg:<item>: the total, or a source of net production'
 - name: variable
   shared: true
   type: text
@@ -73,18 +76,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 157
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: NSI's row label, not a pricing node
 - name: source
   shared: true
   type: text
@@ -109,43 +115,44 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The workbook's Last-Modified time as the server sent it
 - name: x_period
-  label: null
-  unit: null
+  label: The month, YYYY-MM
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector nsi_bulgaria_electricity.py; method nsi_bulgaria_electricity_monthly.md
 variables:
 - name: exports
-  label: null
+  label: Electricity exported
   unit: MWh
   rows: 19
   first: '2019-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: gross_production
-  label: null
+  label: Gross electricity production
   unit: MWh
   rows: 19
   first: '2019-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Electricity imported
   unit: MWh
   rows: 19
   first: '2019-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_consumption
-  label: null
+  label: Net electricity consumption
   unit: MWh
   rows: 19
   first: '2019-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_production
-  label: null
+  label: Net electricity production, in total or by source
   unit: MWh
   rows: 81
   first: '2019-01-01T00:00:00Z'

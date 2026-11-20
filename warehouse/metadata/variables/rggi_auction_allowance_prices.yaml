@@ -5,9 +5,10 @@
 table: rggi_auction_allowance_prices
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One RGGI CO2 allowance auction's value of one result, for its current-vintage or future-vintage allowances.
+time: ts_utc is the auction date at 00:00:00Z; freq P3M.
+vintage_rule: 'Merged by (entity, variable, ts_utc) (ip.write_csv): each run reads the whole page; a value RGGI changes replaces
+  the old row, and a row RGGI no longer shows stays in the file; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -35,6 +36,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: 'rggi:<current or future>_auction: the auction''s current-vintage or future-vintage allowances'
 - name: variable
   shared: true
   type: text
@@ -71,18 +73,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's code (US) on every row
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 304
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The auction as RGGI names it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -107,27 +112,29 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 304
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: allowances_offered
-  label: null
+  label: Allowances offered (one allowance is one short ton of CO2); RGGI's offered quantity does not count the Cost Containment
+    Reserve
   unit: count
   rows: 85
   first: '2008-09-25T00:00:00Z'
   last: '2026-09-09T00:00:00Z'
 - name: allowances_sold
-  label: null
+  label: Allowances sold
   unit: count
   rows: 85
   first: '2008-09-25T00:00:00Z'
   last: '2026-09-09T00:00:00Z'
 - name: ccr_allowances_sold
-  label: null
+  label: Cost Containment Reserve (CCR) allowances sold
   unit: count
   rows: 51
   first: '2014-03-05T00:00:00Z'
   last: '2026-09-09T00:00:00Z'
 - name: clearing_price
-  label: null
+  label: The auction's clearing price, USD per short ton of CO2
   unit: USD/short_ton
   rows: 83
   first: '2008-09-25T00:00:00Z'

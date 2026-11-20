@@ -5,9 +5,12 @@
 table: usaspending_doe_obligations
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One fiscal year's (or one fiscal period's to date) value of one Department of Energy budget measure (budgetary resources,
+  obligations, outlays, award obligations by category), from USAspending.gov.
+time: ts_utc is the fiscal year's first day, 1 October of the year before (freq P1Y), or the fiscal period's month's first
+  day for obligated_to_date (freq P1M from fiscal 2022, P3M before).
+vintage_rule: 'Rewritten whole as one snapshot by each run (ip.write_snapshot): USAspending revises its figures at the same
+  addresses, so each run asks all again; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -39,6 +42,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: usaspending:doe for the department, or usaspending:doe:<award category>
 - name: variable
   shared: true
   type: text
@@ -69,24 +73,28 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: P1Y for the yearly measures; P1M or P3M for obligated_to_date
 - name: geo
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's code (US) on every row
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 163
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The department, or the department and the award category, not a pricing node
 - name: source
   shared: true
   type: text
@@ -111,63 +119,64 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 163
+  particular: 'Not filled: no cell holds a value'
 - name: x_fiscal_year
-  label: null
-  unit: null
+  label: The federal fiscal year (1 October to 30 September), named by the year it ends
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector usaspending_doe.py; method usaspending_doe_obligations.md
 - name: x_period
-  label: null
-  unit: null
+  label: The fiscal period the obligations to date run through (1 is October)
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 90
-  missing_meaning: null
+  missing_meaning: Empty on the yearly rows (every variable but obligated_to_date)
   source_name: null
-  documented_by: null
+  documented_by: header; connector usaspending_doe.py; method usaspending_doe_obligations.md
 - name: x_partial
-  label: null
-  unit: null
+  label: yes for a fiscal year not yet closed when the run read it
+  unit: none
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 163
-  missing_meaning: null
+  missing_meaning: The fiscal year had closed when the run read it (every row as read)
   source_name: null
-  documented_by: null
+  documented_by: header; connector usaspending_doe.py; method usaspending_doe_obligations.md
 variables:
 - name: award_obligations
-  label: null
+  label: The fiscal year's obligations in the award category (can be negative where de-obligations exceed new awards)
   unit: USD
   rows: 60
   first: '2016-10-01T00:00:00Z'
   last: '2025-10-01T00:00:00Z'
 - name: budgetary_resources
-  label: null
+  label: The department's budgetary resources in the fiscal year
   unit: USD
   rows: 10
   first: '2016-10-01T00:00:00Z'
   last: '2025-10-01T00:00:00Z'
 - name: obligated
-  label: null
+  label: The department's obligations in the fiscal year
   unit: USD
   rows: 10
   first: '2016-10-01T00:00:00Z'
   last: '2025-10-01T00:00:00Z'
 - name: obligated_to_date
-  label: null
+  label: The fiscal year's obligations through the fiscal period
   unit: USD
   rows: 73
   first: '2017-03-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: outlayed
-  label: null
+  label: The department's outlays in the fiscal year
   unit: USD
   rows: 10
   first: '2016-10-01T00:00:00Z'

@@ -5,9 +5,12 @@
 table: pse_poland_balance_15min
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One quarter hour's value of one quantity of Poland's power balance (demand, generation by kind of unit, storage charging,
+  wind, solar, cross-border exchange), from PSE's report his-wlk-cal.
+time: ts_utc is the quarter hour's start (PSE's period in UTC); freq PT15M; x_business_date is PSE's business day in Polish
+  local time.
+vintage_rule: 'Rewritten whole as one snapshot by each run (ip.write_snapshot): each year is asked again since PSE republishes
+  its figures; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -38,6 +41,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: One entity, the country's system
 - name: variable
   shared: true
   type: text
@@ -74,18 +78,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 909219
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The national power system (KSE), not a pricing node
 - name: source
   shared: true
   type: text
@@ -110,109 +117,112 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 909219
+  particular: 'Not filled: no cell holds a value'
 - name: x_field
-  label: null
-  unit: null
+  label: PSE's field name of the quantity
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector pse_poland.py; method pse_poland_balance_15min.md
 - name: x_business_date
-  label: null
-  unit: null
+  label: PSE's business day of the quarter hour, Polish local time
+  unit: none
   type: date
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: business_date
+  documented_by: header; connector pse_poland.py; method pse_poland_balance_15min.md
 variables:
 - name: charging_jgm
-  label: null
+  label: The scheduled storage units' charging power (never positive)
   unit: MW
   rows: 82753
   first: '2024-06-13T21:45:00Z'
   last: '2026-10-23T21:45:00Z'
 - name: demand
-  label: null
+  label: Power demand of the national power system (KSE)
   unit: MW
   rows: 82753
   first: '2024-06-13T21:45:00Z'
   last: '2026-10-23T21:45:00Z'
 - name: exchange_non_parallel
-  label: null
+  label: The domestic balance of non-parallel cross-border exchange (positive a flow into Poland)
   unit: MW
   rows: 82753
   first: '2024-06-13T21:45:00Z'
   last: '2026-10-23T21:45:00Z'
 - name: exchange_parallel
-  label: null
+  label: The domestic balance of parallel cross-border exchange (positive a flow into Poland)
   unit: MW
   rows: 82753
   first: '2024-06-13T21:45:00Z'
   last: '2026-10-23T21:45:00Z'
 - name: generation_jga
-  label: null
+  label: Generation of the scheduled generator units JGa
   unit: MW
   rows: 1
   first: '2024-06-13T21:45:00Z'
   last: '2024-06-13T21:45:00Z'
 - name: generation_jgm1
-  label: null
+  label: Generation of scheduled energy storage units, ZAK 1
   unit: MW
   rows: 82753
   first: '2024-06-13T21:45:00Z'
   last: '2026-10-23T21:45:00Z'
 - name: generation_jgm2
-  label: null
+  label: Generation of scheduled energy storage units, ZAK 2
   unit: MW
   rows: 33980
   first: '2025-11-03T23:00:00Z'
   last: '2026-10-23T21:45:00Z'
 - name: generation_jgw1
-  label: null
+  label: Generation of scheduled generating units, ZAK 1
   unit: MW
   rows: 82753
   first: '2024-06-13T21:45:00Z'
   last: '2026-10-23T21:45:00Z'
 - name: generation_jgw2
-  label: null
+  label: Generation of scheduled generating units, ZAK 2
   unit: MW
   rows: 29852
   first: '2025-12-16T23:00:00Z'
   last: '2026-10-23T21:45:00Z'
 - name: generation_jgz2
-  label: null
+  label: Generation of scheduled wind and photovoltaic units, ZAK 2
   unit: MW
   rows: 17856
   first: '2026-04-20T22:00:00Z'
   last: '2026-10-23T21:45:00Z'
 - name: generation_jnwrb
-  label: null
+  label: Generation of units not actively participating in the balancing market
   unit: MW
   rows: 82753
   first: '2024-06-13T21:45:00Z'
   last: '2026-10-23T21:45:00Z'
 - name: generation_scheduled_total
-  label: null
+  label: Generation of the scheduled units, JGw, JGm, JGz and JGa together (PSE's jg)
   unit: MW
   rows: 82753
   first: '2024-06-13T21:45:00Z'
   last: '2026-10-23T21:45:00Z'
 - name: solar
-  label: null
+  label: Solar generation
   unit: MW
   rows: 82753
   first: '2024-06-13T21:45:00Z'
   last: '2026-10-23T21:45:00Z'
 - name: wind
-  label: null
+  label: Wind generation
   unit: MW
   rows: 82753
   first: '2024-06-13T21:45:00Z'
   last: '2026-10-23T21:45:00Z'
-second_look: null
+second_look:
+- ZAK 1 and ZAK 2 in the labels of generation_jgw1, generation_jgw2, generation_jgm1, generation_jgm2 and generation_jgz2
+  are PSE's terms; what they stand for is not written in the connector or the method note.

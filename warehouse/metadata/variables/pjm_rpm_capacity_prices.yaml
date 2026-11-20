@@ -5,9 +5,11 @@
 table: pjm_rpm_capacity_prices
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One PJM locational deliverability area's (LDA's) Base Residual Auction clearing price for one delivery year, the headline
+  product only.
+time: ts_utc is the start of the delivery year, 1 June at 00:00:00Z; freq P1Y.
+vintage_rule: Merged by (entity, variable, ts_utc) (ip.write_csv); each run writes the whole table again from the workbook
+  as it stands, and a later auction adds a delivery year; vintage is not filled.
 keys:
 - entity
 - variable
@@ -37,6 +39,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: pjm:<LDA as PJM names it>
 - name: variable
   shared: true
   type: text
@@ -73,18 +76,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's code (US) on every row, whatever the LDA
 - name: market
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: PJM's Base Residual Auction on every row (a different market name from the same prices in iso_all_capacity_prices)
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The locational deliverability area as PJM names it (a zone of the capacity market)
 - name: source
   shared: true
   type: text
@@ -109,9 +115,11 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 234
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: capacity_price_usd_per_mw_day
-  label: null
+  label: 'The Base Residual Auction''s resource clearing price for the LDA, US dollars per MW of capacity a day: the single
+    product to 2013/14, Annual 2014/15 to 2017/18, Capacity Performance from 2018/19'
   unit: USD/MW-day
   rows: 234
   first: '2007-06-01T00:00:00Z'

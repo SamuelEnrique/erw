@@ -5,9 +5,10 @@
 table: statai_anguilla_electricity_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's electricity generation in Anguilla, ANGLEC's figures, from the Anguilla Statistics Department's Energy Statistics
+  table 2.4.2-1.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; whole years only.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is the workbook's Last-Modified time.
 keys:
 - entity
 - variable
@@ -37,6 +38,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: One entity, the utility's generation
 - name: variable
   shared: true
   type: text
@@ -73,18 +75,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The territory's two-letter ISO 3166-1 code on every row
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 372
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The table's label, not a pricing node
 - name: source
   shared: true
   type: text
@@ -109,9 +114,10 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The workbook's Last-Modified time as the server sent it
 variables:
 - name: generation
-  label: null
+  label: Electricity generated in the month (the table's kWh divided by 1,000)
   unit: MWh
   rows: 372
   first: '1995-01-01T00:00:00Z'

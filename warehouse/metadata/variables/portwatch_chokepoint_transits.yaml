@@ -5,9 +5,12 @@
 table: portwatch_chokepoint_transits
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One day's vessel transits, or their deadweight tonnage, of one kind of vessel through one chokepoint (the Strait of Hormuz,
+  the Suez Canal or the Panama Canal), from IMF PortWatch.
+time: ts_utc is PortWatch's date at 00:00:00Z; freq P1D.
+vintage_rule: 'Merged by (entity, variable, ts_utc) (ip.write_csv): each run reads the full history the service offers, replaces
+  the rows it reads again and keeps a day the service stops serving; vintage is not filled. The table was rebuilt from the
+  ERW archive (warehouse/restore_tables.py).'
 keys:
 - entity
 - variable
@@ -36,6 +39,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: portwatch:<PortWatch's port id of the chokepoint>
 - name: variable
   shared: true
   type: text
@@ -72,18 +76,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 120498
+  particular: 'Not filled: no cell holds a value'
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 120498
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The chokepoint's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -108,87 +115,88 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 120498
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: capacity
-  label: null
+  label: Deadweight tonnage of all the day's transits
   unit: dwt
   rows: 8607
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-08T00:00:00Z'
 - name: capacity_cargo
-  label: null
+  label: Deadweight tonnage of the day's cargo ship transits
   unit: dwt
   rows: 8607
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-08T00:00:00Z'
 - name: capacity_container
-  label: null
+  label: Deadweight tonnage of the day's container ship transits
   unit: dwt
   rows: 8607
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-08T00:00:00Z'
 - name: capacity_dry_bulk
-  label: null
+  label: Deadweight tonnage of the day's dry bulk carrier transits
   unit: dwt
   rows: 8607
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-08T00:00:00Z'
 - name: capacity_general_cargo
-  label: null
+  label: Deadweight tonnage of the day's general cargo ship transits
   unit: dwt
   rows: 8607
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-08T00:00:00Z'
 - name: capacity_roro
-  label: null
+  label: Deadweight tonnage of the day's roll-on roll-off ship transits
   unit: dwt
   rows: 8607
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-08T00:00:00Z'
 - name: capacity_tanker
-  label: null
+  label: Deadweight tonnage of the day's tanker transits
   unit: dwt
   rows: 8607
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-08T00:00:00Z'
 - name: n_cargo
-  label: null
+  label: 'Cargo ship transits in the day: container, dry bulk, general cargo and roll-on roll-off'
   unit: count
   rows: 8607
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-08T00:00:00Z'
 - name: n_container
-  label: null
+  label: Container ship transits in the day
   unit: count
   rows: 8607
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-08T00:00:00Z'
 - name: n_dry_bulk
-  label: null
+  label: Dry bulk carrier transits in the day
   unit: count
   rows: 8607
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-08T00:00:00Z'
 - name: n_general_cargo
-  label: null
+  label: General cargo ship transits in the day
   unit: count
   rows: 8607
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-08T00:00:00Z'
 - name: n_roro
-  label: null
+  label: Roll-on roll-off ship transits in the day
   unit: count
   rows: 8607
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-08T00:00:00Z'
 - name: n_tanker
-  label: null
+  label: Tanker transits in the day
   unit: count
   rows: 8607
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-08T00:00:00Z'
 - name: n_total
-  label: null
+  label: 'All vessel transits in the day: tankers plus cargo ships'
   unit: count
   rows: 8607
   first: '2019-01-01T00:00:00Z'

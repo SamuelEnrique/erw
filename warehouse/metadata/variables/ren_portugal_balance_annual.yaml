@@ -5,9 +5,12 @@
 table: ren_portugal_balance_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's value of one row of mainland Portugal's electricity balance (production by source, storage, the commercial
+  exchanges, consumption), from REN's Data Hub monthly balance, December's year to date.
+time: ts_utc is the year's 1 January at 00:00:00Z, a label for the calendar year; the value is REN's year to date at the end
+  of December; freq P1Y.
+vintage_rule: 'Merged by (entity, variable, ts_utc) (ip.write_csv): a run replaces the rows it reads again and keeps rows
+  from earlier runs; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -39,6 +42,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: One entity, the country
 - name: variable
   shared: true
   type: text
@@ -75,18 +79,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: 'The country''s two-letter ISO 3166-1 code on every row: the balance of mainland Portugal'
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 146
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -111,165 +118,166 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 146
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: battery_charging
-  label: null
+  label: Battery charging (Baterias)
   unit: MWh
   rows: 2
   first: '2024-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: battery_injection
-  label: null
+  label: Battery injection (Injecao de Baterias)
   unit: MWh
   rows: 2
   first: '2024-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: biomass_cogeneration
-  label: null
+  label: Biomass production in cogeneration
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: biomass_other
-  label: null
+  label: Other biomass production
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: coal
-  label: null
+  label: Coal production (Carvao)
   unit: MWh
   rows: 2
   first: '2020-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: consumption
-  label: null
+  label: Consumption (CONSUMO)
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: exports_commercial
-  label: null
+  label: Exports, commercial value (Exportacao (valor comercial))
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: imports_commercial
-  label: null
+  label: Imports, commercial value (Importacao (valor comercial))
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: natural_gas
-  label: null
+  label: Natural gas production (Gas Natural)
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: natural_gas_cogeneration
-  label: null
+  label: Natural gas production in cogeneration
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: natural_gas_combined_cycle
-  label: null
+  label: Natural gas production in combined cycle
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: net_imports
-  label: null
+  label: Net imports (SALDO IMPORTADOR), negative a net export
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: non_renewable
-  label: null
+  label: Non-renewable production (Producao nao Renovavel)
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_thermal
-  label: null
+  label: Other thermal production (Outra Termica)
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_thermal_cogeneration
-  label: null
+  label: Other thermal production in cogeneration
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_thermal_other
-  label: null
+  label: Other thermal production, other
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: production_total
-  label: null
+  label: Total production, storage production included (REN's PRODUCAO TOTAL)
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: pumped_storage_production
-  label: null
+  label: Production from pumped storage (Producao por Bombagem)
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: pumping_consumption
-  label: null
+  label: Consumption for pumping (Bombagem)
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: renewable
-  label: null
+  label: Renewable production (Producao Renovavel)
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: renewable_biomass
-  label: null
+  label: Biomass production (Biomassa)
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: renewable_hydro
-  label: null
+  label: Hydro production, natural inflow (Hidrica)
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: renewable_solar
-  label: null
+  label: Solar production (Solar)
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: renewable_wave
-  label: null
+  label: Wave production (Ondas)
   unit: MWh
   rows: 2
   first: '2024-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: renewable_wind
-  label: null
+  label: Wind production (Eolica)
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: storage_consumption
-  label: null
+  label: Consumption for storage (CONSUMO PARA ARMAZENAMENTO)
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: storage_production
-  label: null
+  label: Production from storage (Producao por Armazenamento)
   unit: MWh
   rows: 6
   first: '2020-01-01T00:00:00Z'
