@@ -201,6 +201,9 @@ def spp_time(s):
 
 def spp_constraints(day, text, rec):
     x = spp_frame(text)
+    if "Contingency Name" not in x.columns and day < pd.Timestamp("2022-01-01"):
+        # the files before 2022 print no contingency name (seen in the 2021 zip): the key is the name alone there
+        x["Contingency Name"] = ""
     need = ["Constraint Name", "Constraint Type", "NERCID", "State", "Shadow Price", "Monitored Facility",
             "Contingent Facility", "Contingency Name"]
     miss = [c for c in need if c not in x.columns]
@@ -225,7 +228,7 @@ def spp_constraints(day, text, rec):
     return pd.DataFrame({
         # session 9000: SPP's 2023 files list one constraint under two contingencies in an hour (TMP831_29014 on
         # 2023-11-08), so the contingency is part of the key for SPP as for CAISO
-        "entity": "spp:" + x["Constraint Name"] + "|" + x["Contingency Name"], "variable": "shadow_price_dam", "ts_utc": x["ts"].map(utc_text),
+        "entity": "spp:" + x["Constraint Name"] + x["Contingency Name"].map(lambda c: f"|{c}" if c else ""), "variable": "shadow_price_dam", "ts_utc": x["ts"].map(utc_text),
         "value": pd.to_numeric(x["Shadow Price"], errors="raise"), "unit": "USD/MWh", "freq": "PT1H",
         "geo": SPP_GEO, "market": "spp_dam", "node": "", "source": SPP_BC["source"], "source_url": rec["url"],
         "retrieved_at": rec["retrieved_at"], "vintage": "",
