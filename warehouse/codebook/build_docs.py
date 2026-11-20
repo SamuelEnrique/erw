@@ -243,10 +243,41 @@ def render():
     return out
 
 
+def site_json():
+    """site/data/codebook_methods.json: for each method note (its slug), the public tables it documents, each with
+    its row and its columns as [name, label, unit, type, values], for the variables table of /data/methods/<slug>.
+    Shared columns carry _shared.yaml's label and unit. Internal tables are never named on the site."""
+    import json
+    shared, cov, fam, docs = load_all()
+    by = defaultdict(list)
+    for t in sorted(docs):
+        d = docs[t]
+        if cov.get(t, {}).get("license") != "public" or not d.get("method"):
+            continue
+        cols = []
+        for c in d.get("columns") or []:
+            if c.get("shared"):
+                s = shared.get(c["name"], {})
+                label = s.get("label", "") + (f". Here: {c['particular']}" if c.get("particular") else "")
+                unit = s.get("unit", "")
+            else:
+                label, unit = c.get("label") or "", c.get("unit") or ""
+            cols.append([c["name"], label.replace(EM, " - "), unit, c.get("type") or "",
+                         values_text(c.get("values")).replace(EM, " - ")])
+        by[Path(d["method"]).stem].append({"table": t, "row": (d.get("row") or "").replace(EM, " - "),
+                                           "read": (d.get("read") or {}).get("date") or "", "columns": cols})
+    return json.dumps(dict(sorted(by.items())), ensure_ascii=False, separators=(",", ":")) + "\n"
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument("--check", action="store_true")
+    p.add_argument("--site", action="store_true", help="also write site/data/codebook_methods.json")
     a = p.parse_args(argv)
+    if a.site:
+        sp = ROOT / "site" / "data" / "codebook_methods.json"
+        sp.write_text(site_json(), encoding="utf-8", newline="\n")
+        print(f"wrote {sp} ({sp.stat().st_size // 1024} KB)")
     out = render()
     if a.check:
         bad = [n for n, text in out.items()

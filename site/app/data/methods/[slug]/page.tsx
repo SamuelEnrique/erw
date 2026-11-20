@@ -3,6 +3,7 @@ import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { notFound } from "next/navigation";
 import { DOCS, render } from "@/lib/markdown";
+import { Codebook } from "@/components/Codebook";
 
 export const dynamicParams = false;
 
@@ -24,6 +25,8 @@ export default async function Method({ params }: PageProps<"/data/methods/[slug]
         <Link href="/data#methods">Data</Link> / <code className="font-mono">docs/methods/{slug}.md</code>
       </p>
       <article className="prose-erw" dangerouslySetInnerHTML={{ __html: render(md, `docs/methods/${slug}.md`) }} />
+      {/* chain 630: the variables of the public tables this note documents, under what the page showed before */}
+      <Codebook slug={slug} />
     </Brand>
   );
 }
