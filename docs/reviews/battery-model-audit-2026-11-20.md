@@ -169,6 +169,28 @@ On the table's current last twelve months (November 2025 to October 2026), 4 hou
 - Both findings hold on every open case, in the same direction and about the same size; CAISO leans harder on regulation, so calling it costs more.
 - CAISO's column applies ERCOT's measured 17 percent: no CAISO deployment is held, so it is a sensitivity, not a measure.
 
+## The decisions block, line by line
+
+The 17 decisions at the page's foot (`site/lib/decisions.ts`, `BATTERY_DECISIONS`; the note's section 12), each against this audit:
+
+1. One optimization a day, nothing counted twice: **right** (checked below).
+2. Each day from empty, one cycle, 86 percent split evenly: **as stated**; what the empty start costs is **finding 2**.
+3. Prices known in advance, "so each figure is an upper bound": **false**, **finding 6** (with 2 and 3).
+4. A price taker; reserves never called: **finding 7** past about 500 MW; **finding 1** for regulation (right for the other reserves).
+5. Energy at the hub: as stated; not tested here.
+6. The required durations by the market's rule: **right as stated** (code, note and page agree); the rules' texts not read again.
+7. Never filled, never scaled: **right** (checked below).
+8. The 90 percent month and whole months: **right**; the replication's window is **finding 11**.
+9. The outlier month: as stated; not recomputed.
+10. One page, three questions: layout, not a model matter.
+11. Scenarios A and B, A sets the headline: **right** (checked below).
+12. Capital cost and fixed O&M from Lazard and the ATB: as stated; the sources not read again.
+13. Debt 20 percent at 8 percent over 20 years: arithmetic **right**; a money payment beside real revenue is **finding 9**.
+14. NPV to equity at 12 percent: on flows before tax, **finding 8**; on real flows, **finding 9**.
+15. Degradation as a revenue cut: **finding 4**.
+16. The tax credit and the stress repeats at 0: what the credit's default is worth is **finding 8**; the year it lands is the generator audit's finding 3.
+17. The grids open, in review and not built: as stated.
+
 ## What was checked and found right
 
 - **The objective.** `solve_day` line 267: the cost of charging less the revenue of discharging and of each award. Energy at `p x (d - c)` (USD per MWh times MWh in an hour), each award at its price (USD per MW for the hour times MW). Right.
