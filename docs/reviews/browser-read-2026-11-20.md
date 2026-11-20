@@ -458,6 +458,13 @@ Pictures: `docs/reviews/browser-read-2026-11-20/conditions/as-it-opens-1280.png`
 
 Picture: `docs/reviews/browser-read-2026-11-20/codebook/variables-table-1280.png` (a method page's variables).
 
+### The third landing (17:47 UTC), read on production at about 18:00 UTC
+
+- **`/conditions`, "the window at a glance"** (`runs/c620/n_glance.mjs`): under each operator, the day of each strip's highest figure in the window. Each line was recomputed here from the operator's file and the window the page names, for seven views (ERCOT as it opens; CAISO; SPP beside CAISO; ERCOT in Uri; CAISO in the September 2022 heat; PJM beside MISO; ERCOT on a chosen day): 23 of 23 checks at 1280 px, 30 of 30 at 390 px, no sideways scroll. As the page opens: "Highest peak demand: 65,888 MW, on 2026-11-02".
+- **`/congestion`**, whose table figures now carry keys into the page file: the figures set beside the file again, 3,752 of 3,752 at 1280 px and 538 of 538 at 390 px.
+
+Picture: `docs/reviews/browser-read-2026-11-20/conditions/at-a-glance-1280.png`.
+
 ### `/states`, the answer to data request 563
 
 On production after the landing, Texas's last section reads "Not held for this place: S.B. 6 was found but is withheld: its text was not read on a host that allows this reader ...". The page no longer reads as "Texas has no law".
