@@ -346,4 +346,6 @@ columns:
   source_name: null
   documented_by: header; connector hifld_lines.py
 second_look:
-- 'x_inferred (HIFLD''s INFERRED, Y or N): what it marks is not written in the connector, the method note or the header.'
+- 'x_inferred (HIFLD''s INFERRED, Y or N): what it marks is not written in the connector, the method note or the header. Read
+  again on 20 November 2026: PASDA''s layer 178 (HIFLD_FEMA MapServer, f=json) gives the field only its name as alias and
+  a layer description that is empty; still not documented by the source.'

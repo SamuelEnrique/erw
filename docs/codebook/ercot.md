@@ -484,7 +484,7 @@ Variables (1):
 |---|---|---|---|---|---|
 | `hsl_mw` | The resource's High Sustained Limit (HSL) for the hour, the most it can sustain, MW, as ERCOT prints it | MW | 2042277 | 2025-12-06T06:00:00Z | 2026-09-01T04:00:00Z |
 
-Waiting for a second look: x_dme: the meaning of ERCOT's DME column is not written in the header, the connector or the method note.; x_resource_status: ERCOT's codes ON, OUT, ONTEST and ONOS are kept as printed and not spelled out in the repository's documents..
+Waiting for a second look: x_dme: the meaning of ERCOT's DME column is not written in the header, the connector or the method note. Read again on 20 November 2026: no file of the repository spells it out; ERCOT's own report definitions were not found at a stable address in one try, and no address was guessed further.; x_resource_status: ERCOT's codes ON, OUT, ONTEST and ONOS are kept as printed and not spelled out in the repository's documents..
 
 ### `ercot_grid_notices`
 

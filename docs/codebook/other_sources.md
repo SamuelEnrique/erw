@@ -617,7 +617,7 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `x_remarks` | BLM's remarks (the source's name: Remarks) | none | text | for example 5/28/10Deleted Sec26&27l;4/28/11enXcoverbal2 incl. samelands; Amended 8/11, 6.5 sections of LWCF land within project; within 29Palms Base expansionzone, Amended 1/15/2008; Amended via POD 2/2011; 42 distinct | 13: BLM leaves the field blank |
 | `x_in_time` | not documented by the source (the source's name: InTime) | none | text | 1st | 0 |
 
-Waiting for a second look: x_in_time (BLM's InTime, 1st on every row): what it marks is not written in the connector, the method note or the header..
+Waiting for a second look: x_in_time (BLM's InTime, 1st on every row): what it marks is not written in the connector, the method note or the header. Read again on 20 November 2026 in the connector (it copies the field as served) and the method note: still not documented by the source..
 
 ### `blm_oil_gas_statistics_annual`
 
@@ -2111,7 +2111,7 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `x_val_date` | HIFLD's validation date of the line (the source's name: VAL_DATE) | none | date | 2014-06-06 to 2024-08-02; 635 distinct | 0 |
 | `x_raw_sha256` | The SHA-256 of the raw GeoJSON file the row was read from | none | text | ba039a3a2b7259dc6b474d2ffcf408f3bd3f628dfd7cab5ef5e7cf513094de10 | 0 |
 
-Waiting for a second look: x_inferred (HIFLD's INFERRED, Y or N): what it marks is not written in the connector, the method note or the header..
+Waiting for a second look: x_inferred (HIFLD's INFERRED, Y or N): what it marks is not written in the connector, the method note or the header. Read again on 20 November 2026: PASDA's layer 178 (HIFLD_FEMA MapServer, f=json) gives the field only its name as alias and a layer description that is empty; still not documented by the source..
 
 ### `ieso_generation_fuel_hourly`
 
