@@ -141,9 +141,11 @@ class Section(unittest.TestCase):
         self.assertIn("EIA's newest close when this was written (7 days before this issue)", hh)
 
     def test_us48_demand_against_the_same_weekday_a_year_before(self):
-        d = next(ln for ln in self.lines if ln.startswith("**US48 demand, yesterday:**"))
-        self.assertIn("peaked at 623,000 MW in the hour starting 2026-10-20 23:00 UTC [", d)
-        self.assertIn("the same weekday a year before (2025-10-21) peaked at 601,500 MW in the hour starting 2025-10-21 23:00 UTC [", d)
+        # ruling alternative 1 (wip/alt-site-digest-1): the heading names the day; main: "**US48 demand, yesterday:**"
+        d = next(ln for ln in self.lines if ln.startswith("**US48 demand, yesterday (Eastern day):**"))
+        # alternative 1: the fixture's day starts at Eastern midnight, 04:00 UTC; main: 2026-10-20 23:00 UTC and 2025-10-21 23:00 UTC
+        self.assertIn("peaked at 623,000 MW in the hour starting 2026-10-21 03:00 UTC [", d)
+        self.assertIn("the same weekday a year before (2025-10-21) peaked at 601,500 MW in the hour starting 2025-10-22 03:00 UTC [", d)
         self.assertIn("so +3.6% on the year.", d)
         self.assertEqual(dt.date(2025, 10, 21).weekday(), dt.date(2026, 10, 20).weekday())
 

@@ -1654,7 +1654,9 @@ class Session1439NumbersBlock(unittest.TestCase):
         day = pd.Timestamp("2026-10-25", tz="UTC")
 
         def fetch(table, start=None, end=None, **k):
-            d = pd.Timestamp(start)
+            # ruling alternative 1 (wip/alt-site-digest-1): a day is read from Eastern midnight (04:00 UTC in October);
+            # main: d = pd.Timestamp(start), matched to UTC midnight
+            d = pd.Timestamp(start) - pd.Timedelta(hours=4)
             if d == day or d == day - pd.Timedelta(days=7):
                 v = 470627.0 if d == day else 455000.0
                 return pd.DataFrame([{"variable": "demand_mw", "ts_utc": d + pd.Timedelta(hours=23), "value": v}])

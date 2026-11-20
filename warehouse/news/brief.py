@@ -1482,14 +1482,26 @@ def not_held_why(week, first):
     return f"the hourly table starts on {first:%Y-%m-%d} and holds no hour of {week:%Y-%m-%d}"
 
 
+# Ruling alternative 1 of the Digest (session 7711, branch wip/alt-site-digest-1; not a default on main): the US48 day
+# is the Eastern day. The Central day gives the same peaks on the 33 days of the live set the impact file read.
+DEMAND_DAY_TZ = "America/New_York"
+
+
 def demand_lines(digest_date, log, notes, store=None):
     """US48 demand's peak hour of yesterday (the UTC day before the issue) and, where the warehouse holds it, the peak of
     the same weekday a year before (364 days earlier); the two values and their hours, and the change in percent."""
     day = pd.Timestamp(digest_date).tz_localize("UTC") - pd.Timedelta(days=1)
-    out = ["", "**US48 demand, yesterday:** "]
+    out = ["", f"**US48 demand, yesterday ({ZONE_WORDS.get(DEMAND_DAY_TZ, DEMAND_DAY_TZ)} day):** "]
 
     def peak(d):
-        df = erw.fetch("eia930_all_demand", start=d, end=d + pd.Timedelta(days=1), ba="us48")
+        # ruling alternative 1 of the Digest (session 7711, branch wip/alt-site-digest-1; not a default on main): the day
+        # is the Eastern day, midnight to midnight in America/New_York, so that the US evening peak (19:00 or 20:00
+        # Eastern, 23:00 to 01:00 UTC) stays in its own day. main reads the UTC day, whose first hour is the evening peak
+        # of the US day before. d names the calendar date; the hours read are that date's Eastern day, in UTC.
+        lo = pd.Timestamp(d.strftime("%Y-%m-%d")).tz_localize(DEMAND_DAY_TZ).tz_convert("UTC")
+        hi = (pd.Timestamp(d.strftime("%Y-%m-%d")) + pd.Timedelta(days=1)).tz_localize(DEMAND_DAY_TZ).tz_convert("UTC")
+        df = erw.fetch("eia930_all_demand", start=lo, end=hi, ba="us48")
+        df = df[(df["ts_utc"] >= lo) & (df["ts_utc"] < hi)] if "ts_utc" in df.columns and len(df) else df
         df = df[df["variable"] == "demand_mw"]
         if df.empty:
             return None
