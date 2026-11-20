@@ -170,3 +170,6 @@ The 23 decisions at the page's foot (`site/lib/decisions.ts`, `GENERATOR_DECISIO
 Every page is in review; this file changes no page. Snapshots as in the battery audit (`s9840-<label>-before` and `-after`, `node site/scripts/snapshot-live.mjs`).
 
 - Push 1 (findings 1 to 5, with the battery file's record of its push 6), merge `df0ac9d0`; success about 21:42 UTC. `s9840-g1to5-before` against `s9840-g1to5-after`: 0 differences on 25 pages. Expected.
+- Push 2 (findings 6 to 8, the closing sections), merge `1100015c`; deployed within `7bb43879` (confirmed 22:04 UTC). `s9840-g6to8-before` against `s9840-g6to8-after`: 0 differences. Expected.
+- The battery file's push of its finding 11, merge `7bb43879`; success, confirmed 22:04 UTC. `s9840-f11-before` against `s9840-f11-after`: 0 differences. Expected.
+- GitHub's unsigned allowance (60 requests an hour, shared with this machine's other windows) ran out at 21:45 UTC; from then on a deploy was watched by the live page's Vercel deployment id and confirmed with one status request once the allowance returned (22:04 UTC).
