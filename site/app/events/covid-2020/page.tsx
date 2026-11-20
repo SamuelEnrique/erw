@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { EventStudy } from "@/components/EventStudy";
 import { EventDecisions } from "../Decisions";
+import { WholeCountrySection, type PageProps } from "../WholeCountry";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
 import { LineChart, type Line } from "@/components/LineChart";
@@ -63,7 +64,7 @@ function lowest(rows: SeriesRow[], entity: string, from = ""): SeriesRow | undef
   return xs.length ? xs.reduce((a, b) => (b.value < a.value ? b : a)) : undefined;
 }
 
-export default async function Covid() {
+export default async function Covid({ searchParams }: PageProps = {}) {
   const got = await attempt(async () => {
     const [weeks, demand, prices] = await Promise.all([
       series(T, { event: EV, variable: "demand_pct_vs_baseline_week" }),
@@ -170,6 +171,9 @@ export default async function Covid() {
       {/* session 47: the event study */}
       <EventStudy event="covid_2020" grids={["eia930:US48", "eia930:CISO", "eia930:ERCO", "eia930:ISNE", "eia930:MISO", "eia930:NYIS", "eia930:PJM", "eia930:SWPP"]} primary="eia930:US48" price />
       {/* session 7531: the page's decisions (Decisions.tsx), each with its default and source on hover */}
+      {/* session 8410 (chain 503): EIA's thirteen regions across the event, from the data machine's file (WholeCountry.tsx) */}
+      <WholeCountrySection event="covid_2020" path="/events/covid-2020" first="CAL" searchParams={searchParams}
+        firstWhy="California is drawn first: the page above dates its weeks from California's stay-at-home order (Executive Order N-33-20)." />
       <EventDecisions event="covid_2020" />
     </div>
     </Brand>
