@@ -26,6 +26,7 @@ Chain: `queue/done/601-night-20-november-desktop-grid-conditions.md`. Progress: 
 - Gate 3 landed: `af0c235ce` (16:32 UTC, task/c630-codebook-desk, GitHub run 44770651271): landing row 3 of window 2 (the codebook) with rows H1 to H3. Read on production: `/congestion`'s lists under their headings, no "SPP SPP"; `/conditions` on ERCOT says its adder and alerts hold nothing in the window, with the file's last day; `/data/methods/grid_congestion` lists the new tables' variables. Row 3 and data request 568 marked (`2110a16d6`).
 - Gate 6 (`b8f7909c9`): every step passed, 16:14 to 17:06 UTC; check-values read 352 figures on the five new views, each equal to its page file. Pushed to `task/c601-trace` at 17:06.
 - The data lock: GitHub's daily run has held it since 14:21 UTC (its job may run 300 minutes; it is the first run since 17 November to pass its merge tests, request 565). SPP's 2021 to 2014 price years were not pulled: the watcher stood down at 16:40 so the data machine's 17:00 run would find the lock free; that run has waited behind GitHub's since 17:00.
+- Data request 565 done: the GitHub daily run of 14:00 UTC passed its merge tests and loaded the live set; EIA-930 demand and generation now end 2026-11-19 23:00 UTC (were 11-15), CAISO storage 11-20 07:55, carbon intensity 11-17 23:00. Its load still reads failed on four tables: three refused by the loader's older-than-live guard (correct), and `sources` (below).
 
 ## Decisions made without you
 
@@ -38,7 +39,7 @@ Chain: `queue/done/601-night-20-november-desktop-grid-conditions.md`. Progress: 
 
 ## For Samuel's ruling (the default taken)
 
-- Nothing new beyond session 9000's.
+- The live `sources` table holds one row that `warehouse/metadata/sources.csv` lacks, "IEA – International Energy Agency", so every daily load reads failed on `sources`. `python warehouse/supabase/load.py --prune` would delete it. Default taken: not deleted (a live row goes only with your word).
 
 ## Needs the key
 
