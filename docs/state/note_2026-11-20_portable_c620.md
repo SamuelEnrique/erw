@@ -2,7 +2,20 @@
 
 Energy Research Warehouse (ERW). Sessions 9600 and 9601, from 10:26 UTC. Written at 12:30 UTC and kept current; the last line says when. Model spend USD 0. Nothing published; `site/lib/release.ts` not touched; every page in review. Every read is of production (`https://erw-flame.vercel.app`) in the internal view, at 1280 px with a mouse and at 390 px with a finger's screen.
 
-## Read this before anything else: a build was started and stopped, and the chain has stood down
+## Read this first: since 19:20 UTC the chain is the desktop's second window's
+
+At Samuel's word the desktop's second window (`C:\Users\Shared\Documents\erw-w2`, session 9203) took the chain over when this laptop stood down. Its own rules held: no landing, no warehouse table, no data lock, every build and browser check under `scripts/buildlock.py`. `queue/next/621-resume-chain-620.md` is removed and no resume file is written.
+
+- **The ten fixes are seen in a build and their landing is requested,** as one row: row 4 of `docs/state/landing_request_window2.md`, branch `wip/w2-c620-fixes` at `1d7b451a6`. That branch is the ten branches merged onto main without a conflict, plus one more fix (below). Built twice on the desktop (68 s and 99 s, 6.5 to 8 GB free). In the build: the back button 16 of 16, the tour 101 of 103 (the Digest pair, a ruling), the other eight fixes 16 of 16. The tests that name a changed file: 544 passed, and the 2 that fail fail the same way on main. Rows 44 to 53 of this laptop's landing file are left as they were, with a note under them.
+- **One more fix, found walking the tour as a reader:** stop 8 sent a reader to Tennessee's Network tab "for the map". That tab opens on the 3D network, as your ruling has it, and the map is one more press, on Map. The stop also said "Ask" stands "at the foot of the page", where on a wide screen it is beside the tool. Both mended in the stop's words, with a test; seen in the build.
+- **Read in full, with five readers' cases, every figure against its page file and the hand checks:** `/demand?view=country` (6,431 figures), `/supply#whole-country` (11,119), the events' whole-country section over four events (912). None differs from its file. The keyboard reached the foot on each (62, 236 and 101 stops), a finger brought up a card on every chart (8, 14 and 15), and the back button and fresh links kept their lists true.
+- **New for your ruling** (each page left as it is):
+  - On an event page, a pair of regions' mean and its baseline's each rest on their own hours. The section's own note says every figure uses the hours both hold. This touches 10 of the 224 pairs, and Elliott's Central and Canada most (17 MW over 267 hours against a baseline over 219). The old laptop's pending branch rewrites the same lines and keeps the same rule, so it is not edited here.
+  - On `/supply`, a pair with both reports at 0 reads its percent as "not held yet". That percent can never be held.
+- **Filed:** data request 570. The region page files have not been rebuilt since 19 November, so Tennessee's latest hour held is 17 November 05:00 UTC while the Lower 48 beside it reads 19 November.
+- **Pictures:** the tour's stops 8 to 16 and each page they open (`tour/`); the demand, supply and events reads (`demand-country/`, `supply-country/`, `events-country/`); the fixes as the build shows them (`fixes-seen-in-a-build/`); and ten pages that had none (`more/`). All are under `docs/reviews/browser-read-2026-11-20/`, also on GitHub at `https://github.com/SamuelEnrique/erw/tree/main/docs/reviews/browser-read-2026-11-20`.
+
+## Before that: a build was started and stopped on the laptop, and the laptop stood down
 
 - At 18:29 UTC the laptop had 2.2 GB of memory free and the one build of the ten fixes was started (`local/c620-build` in `C:\Users\lossa\Documents\erw-c504`). Claude Code stopped it before it finished, because the system ran critically low on memory; at 18:47 UTC 425 MB were free with nothing of the chain's running. It left no process and no changed file.
 - It is not started again: Claude Code's own instruction is to start it again only when asked. So the ten fixes are still on their branches, not seen in a build, and no landing is requested (rows 44 to 53 of `docs/state/landing_request_portable.md`).
@@ -67,4 +80,4 @@ Energy Research Warehouse (ERW). Sessions 9600 and 9601, from 10:26 UTC. Written
 
 - Nothing.
 
-Last written: 18:48 UTC, session 9602.
+Last written: 18:48 UTC, session 9602; the section at the top by the desktop's second window at 22:15 UTC, session 9203.
