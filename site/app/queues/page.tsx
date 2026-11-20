@@ -4,6 +4,7 @@ import { Brand } from "@/components/Brand";
 import { SiteLink } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import fileJson from "@/data/queues.json";
+import connectJson from "@/data/siting/connect.json";
 import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
 import { QUEUES_DECISIONS } from "@/lib/decisions";
 import { GRIDS, TABLE, TECHS, choices, href, noneWithdrawn, onYears, outcome, peakActive, queueOf, two, viewOf, whole, withdrawnOf, yearsOf, type Grid, type QueueFile, type Tech, type View } from "@/lib/queues";
@@ -22,6 +23,11 @@ export const metadata: Metadata = { title: "The interconnection queue", robots: 
 
 const file = fileJson as unknown as QueueFile;
 const METHOD = "/data/methods/interconnection_queue_summary";
+// Session 7630 (wip/alt-queues-1, not landed): the All grids tab's own file of waits, the requests that reached operation
+// in its operation years (Berkeley Lab's file by the same rules), each grid's median in months and its count; a second
+// wait beside the median over every year, for a grid's every-technology view, where the file holds a median
+const CONNECT = connectJson as unknown as { from: number; to: number; min_n: number; grids: Record<string, { n: number; median: number | null }> };
+const recentWait = (grid: string, tech: string) => { const g = CONNECT.grids[grid]; return tech === "all" && g && g.median !== null && g.n >= CONNECT.min_n ? { n: g.n, median: g.median } : null; };
 const COLOR = { operating: "var(--color-fuel-nuclear)", withdrawn: "var(--color-rule)", open: "var(--color-accent)", active: "var(--color-accent)", line: "var(--color-ink)" };
 const N = ({ k, children }: { k: string; children: string }) => <span data-n={k}>{children}</span>;
 const NOT = <span className="text-muted">not held</span>;
@@ -212,7 +218,10 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
                 <HeadlineNumber label="Withdrawn" value={<Withdrawn v={view} k="head|withdrawn" grid={grid} tech={tech} />} unit={w.past_withdrawn_share_pct !== undefined ? "percent" : undefined}
                   note={w.past_withdrawn_share_pct !== undefined ? <>By capacity: {share(w.past_mw_withdrawn_share_pct, "head|withdrawn_mw")} percent. Still active or suspended: {share(w.past_open_share_pct, "head|open")} percent of the requests.</> : null} />
                 <HeadlineNumber label="Request to operation" value={w.median_years_to_operation === undefined ? notMedian(grid.slug) : share(w.median_years_to_operation, "head|median")} unit={w.median_years_to_operation !== undefined ? "years, median" : undefined}
-                  note={<>Over <N k="head|dated">{whole(w.years_to_operation_n)}</N> of the <N k="head|operating_requests">{whole(w.operating_requests)}</N> requests that reached operation: the ones with both dates.</>} />
+                  note={<>Over <N k="head|dated">{whole(w.years_to_operation_n)}</N> of the <N k="head|operating_requests">{whole(w.operating_requests)}</N> requests that reached operation: the ones with both dates.
+                    {/* session 7630, the other choice of the ruling on a second wait (wip/alt-queues-1, not landed): the requests that
+                        reached operation in the last three operation years, as the All grids tab counts them (data/siting/connect.json) */}
+                    {(() => { const r = recentWait(grid.slug, tech.slug); return r ? <span data-recent-wait={grid.slug}> Of those that reached operation in {CONNECT.from} to {CONNECT.to}: <strong>{(r.median / 12).toFixed(2)}</strong> years, median, over {whole(r.n)} requests, the figure the All grids tab draws ({r.median.toFixed(1)} months).</span> : null; })()}</>} />
               </HeadlineRow>
 
               <ToolSection title="Active capacity, by the year it entered">
