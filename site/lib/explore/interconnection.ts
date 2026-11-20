@@ -100,6 +100,17 @@ export function valueOf(rows: Row[], iso: string, year: number, variable: string
   return r === undefined ? undefined : Number(r.value);
 }
 
+/** Ruling alternative 2 (session 7710, branch wip/alt-interconnection-2; not a default on main): the page opens on the
+ *  newest complete entry year with at least this many positions entered, not the newest complete year whatever its count
+ *  (CAISO's 2023, 4 positions, as main opens). */
+export const OPENING_MIN_POSITIONS = 20;
+/** The year the page opens on: the newest of `complete` with at least OPENING_MIN_POSITIONS entered, else the newest of
+ *  `complete`, else null. */
+export function openingYear(rows: Row[], iso: string, complete: number[]): number | null {
+  const tens = complete.filter((y) => (valueOf(rows, iso, y, "positions_entered") ?? 0) >= OPENING_MIN_POSITIONS);
+  return tens.length ? tens[tens.length - 1] : complete.length ? complete[complete.length - 1] : null;
+}
+
 /** The commit that fixed the build's read (session 367, 005b590d, 20 October 2026 19:45:54 UTC): a table whose header
  *  says it was built before this was built by the faulty read (the method note, "A fault in the first build"). */
 export const FIXED_AT = "2026-10-20T19:45:54Z";
