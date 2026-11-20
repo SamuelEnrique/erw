@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate energy_growth, region pa_16 (Arizona Public Service Company (FERC 714 planning area 16))
+# Computed 2026-11-19T12:04:18Z by warehouse/analysis/findings/deep/forecasts.py (energy_growth); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the yearly growth a filing forecasts for the area's net energy, from its first forecast year to its tenth (percent a year), the observations it rests on, and whether the year is full
+# Tables: ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+pa_16,2006,2.897089420992205,1.0,1
+pa_16,2007,2.3037813007254604,1.0,1
+pa_16,2008,2.013203312327816,1.0,1
+pa_16,2009,1.2752591447920514,1.0,1
+pa_16,2010,1.2841378284806026,1.0,1
+pa_16,2011,1.2900908132384092,1.0,1
+pa_16,2012,1.4435424156074905,1.0,1
+pa_16,2013,1.8023630895913856,1.0,1
+pa_16,2014,1.6541608606546188,1.0,1
+pa_16,2015,1.6217748958163414,1.0,1
+pa_16,2016,1.877641971910493,1.0,1
+pa_16,2017,1.674419032006469,1.0,1
+pa_16,2018,1.7483937197683153,1.0,1
+pa_16,2019,3.155092891465694,1.0,1
+pa_16,2020,3.2051868396054672,1.0,1
+pa_16,2021,2.498144971494942,1.0,1
+pa_16,2022,5.350396805645574,1.0,1
+pa_16,2023,5.131796289883828,1.0,1
+pa_16,2024,4.957116659323879,1.0,1
+pa_16,2025,7.335731324392536,1.0,1

@@ -1,0 +1,23 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate energy_revision, region pa_137 (Seminole Electric Cooperative, Inc. (FERC 714 planning area 137))
+# Computed 2026-11-19T12:53:47Z by warehouse/analysis/findings/deep/forecasts.py (energy_revision); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: how much a filing changed its forecast of the year 5 ahead against the filing a year before (percent), the observations it rests on, and whether the year is full
+# Tables: ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+pa_137,2007,-5.200759505395269,1.0,1
+pa_137,2008,-11.426963129749513,1.0,1
+pa_137,2009,-4.08522520335074,1.0,1
+pa_137,2010,-2.5194037205864217,1.0,1
+pa_137,2011,-4.430263238632881,1.0,1
+pa_137,2012,-3.514993156650492,1.0,1
+pa_137,2013,0.6156165588290685,1.0,1
+pa_137,2014,-10.825275193091288,1.0,1
+pa_137,2016,1.252581784262774,1.0,1
+pa_137,2017,-1.4982488001037741,1.0,1
+pa_137,2018,-0.35017184358990816,1.0,1
+pa_137,2019,0.28922167234397556,1.0,1
+pa_137,2020,-0.797316965133199,1.0,1
+pa_137,2021,3.881350583780363,1.0,1
+pa_137,2022,4.342864007688618,1.0,1
+pa_137,2023,1.7263973562759993,1.0,1
+pa_137,2024,7.858124828155066,1.0,1
+pa_137,2025,2.925661814984859,1.0,1

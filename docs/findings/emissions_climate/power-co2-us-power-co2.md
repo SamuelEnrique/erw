@@ -2,7 +2,7 @@
 
 Draft `scan-deep-13f51f12c4f5` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The CO2 the US electric power sector emitted was 1,532.0 million tCO2 in 2022, against 2,258.7 million tCO2 in 2001, the first year this measure counts.
+**The finding.** The CO2 the US electric power sector emitted was 1,532.0 million tCO2 in 2022, against 2,258.7 million tCO2 in 2001, the first year of the window the hunt read; the table holds the measure from 1970.
 
 ![The power sector's co2, the United States](power-co2-us-power-co2.png)
 
