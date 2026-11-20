@@ -169,6 +169,13 @@ def page_rows(out=None):
     q["lat"], q["lon"] = pd.to_numeric(q["lat"], errors="coerce"), pd.to_numeric(q["lon"], errors="coerce")
     q["precision"] = q["geo_precision"].map(PRECISION)
     q["date"] = q["date"].map(_date)
+    # session 7052 (done-line request 109): the report's proposed in-service date beside the queue date, 0 where none
+    # session 8012 (chain 505): a table without the column fails loudly. The data machine's daily copy restored an
+    # energy_projects archived before session 7052 added proposed_date, and the old fallback wrote 0 for every
+    # position: map.json lost every proposed date on 19 November and test 7052 failed every landing
+    if "proposed_date" not in q:
+        raise ValueError("energy_projects holds no proposed_date column (an older copy of the table?): rebuild it with warehouse/derived/energy_projects.py")
+    q["proposed"] = q["proposed_date"].map(_date)
     q["card_id"] = q["entity_id"]
     q["role"] = (q["operator_role"] == "developer").astype(int)
     q["technology_text"] = q["technology"]
@@ -198,7 +205,7 @@ def page_rows(out=None):
             "eia_status", "eia_status_label", "source_status", "city", "developer", "power_source", "utility", "source_urls", "source_kind"]
     parts = []
     for frame in (d[d["kind"] == "operating"], d[d["kind"] == "planned"], q, dc):
-        f = frame.reindex(columns=text + ["mw", "lat", "lon", "precision", "date", "role"]).copy()
+        f = frame.reindex(columns=text + ["mw", "lat", "lon", "precision", "date", "role", "proposed"]).copy()
         f[text] = f[text].fillna("")
         f["sort_mw"] = f["mw"].fillna(-1.0)
         parts.append(f.sort_values(["sort_mw", "entity_id"], ascending=[False, True]))
@@ -270,7 +277,9 @@ def build_page(out=None, card=True):
         # what one kind alone carries, a row of the kind a position (the row's position less kinds[].start)
         "more": {
             "operating": {"codes": [{"code": c, "label": labels.get(c, "")} for c in EIA_OPERATING], "code": [EIA_OPERATING.index(x) for x in op["eia_status"]]},
-            "queue": {"statuses": q_status, "status": [qs_i[x] for x in q["source_status"]], "developer": [int(x) for x in q["role"]]},
+            "queue": {"statuses": q_status, "status": [qs_i[x] for x in q["source_status"]], "developer": [int(x) for x in q["role"]],
+                      # session 7052: the proposed in-service date the operator's report states, as `d` writes a date (0: none)
+                      "proposed": [0 if pd.isna(x) else int(x) for x in q["proposed"]]},
             "datacenter": {"city": list(dc["city"]), "developer": list(dc["developer"]), "power": list(dc["power_source"]), "utility": list(dc["utility"]),
                            "from": list(dc["source_kind"]), "urls": [[x for x in urls.split(";") if x] for urls in dc["source_urls"]]},
         },

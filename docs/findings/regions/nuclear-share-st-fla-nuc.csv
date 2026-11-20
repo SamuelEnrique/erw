@@ -1,0 +1,30 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate nuclear_share, region st_fla_nuc (Florida (the state))
+# Computed 2026-11-19T11:17:52Z by warehouse/analysis/findings/deep/regions.py (nuclear_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: nuclear's share of the states' net generation (percent), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+st_fla_nuc,2001,16.540546893568386,12.0,1
+st_fla_nuc,2002,16.57426583078201,12.0,1
+st_fla_nuc,2003,14.571035748913669,12.0,1
+st_fla_nuc,2004,14.311329796543362,12.0,1
+st_fla_nuc,2005,13.056975623850741,12.0,1
+st_fla_nuc,2006,14.04519388683308,12.0,1
+st_fla_nuc,2007,12.993434882773855,12.0,1
+st_fla_nuc,2008,14.630186443605572,12.0,1
+st_fla_nuc,2009,13.3597470072329,12.0,1
+st_fla_nuc,2010,10.447990524535488,12.0,1
+st_fla_nuc,2011,9.921544089253219,12.0,1
+st_fla_nuc,2012,8.082427547090413,12.0,1
+st_fla_nuc,2013,11.927150781175863,12.0,1
+st_fla_nuc,2014,12.11579959454767,12.0,1
+st_fla_nuc,2015,11.845164102898947,12.0,1
+st_fla_nuc,2016,12.305782526062083,12.0,1
+st_fla_nuc,2017,12.225073975315722,12.0,1
+st_fla_nuc,2018,12.000861724488205,12.0,1
+st_fla_nuc,2019,11.85165023642335,12.0,1
+st_fla_nuc,2020,11.728904087503018,12.0,1
+st_fla_nuc,2021,11.905632412717253,12.0,1
+st_fla_nuc,2022,11.883776825337712,12.0,1
+st_fla_nuc,2023,11.524398068076284,12.0,1
+st_fla_nuc,2024,10.917508422155265,12.0,1
+st_fla_nuc,2025,11.402098837623715,12.0,1
