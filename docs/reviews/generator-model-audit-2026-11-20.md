@@ -19,6 +19,7 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 | # | Finding | Revenue, USD per kW (59.85) | NPV or price | Branch |
 |---|---|---|---|---|
 | 1 | The NPV holds no tax and no depreciation, yet is discounted at a cost of equity | none | NPV +240.52 per kW after federal tax | `wip/audit-generator-1` |
+| 2 | Flat real flows, a fixed money debt payment and a money discount rate in one sum | none | NPV +59.72 to +77.42 per kW (inflation 2 to 2.5 percent) | `wip/audit-generator-2` |
 
 ## 1. The NPV holds no tax and no depreciation
 
@@ -28,3 +29,11 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 - **The credits.** The page's credit fields (investment and production) default to 0. Whether a new solar plant still qualifies (the credits' end dates and start-of-construction rules) is the project's; this audit does not claim it does.
 - **The test.** `tests/test_audit_generator_1.py` on `wip/audit-generator-1`: through `finance.ts` the default holds no credit, the debt payment is 7,078,769 for 100 MW and NPV -766.62; after tax, -526.10.
 - **Not fixed.** The owner's ruling, with the battery page's finding 8.
+
+## 2. Two kinds of dollars in one sum
+
+- **Where.** `site/lib/seller/finance.ts` lines 207 (`debtService`, a level payment), 214 (`revenueInYear`, flat apart from degradation), 241 to 254 (`flows`, `npv`). The note, section 11.3 line 522 ("no inflation").
+- **Why it is wrong.** Revenue and fixed O&M are flat in today's dollars, the debt payment is fixed in money for 35 years, and 12 percent is a money rate. The battery page's finding 9, over a longer life.
+- **How much.** Money flows (revenue and O&M rising with inflation, the debt fixed) at 12 percent: NPV USD -706.90 per kW at 2 percent inflation (+59.72) and -689.20 at 2.5 percent (+77.42). The inflation rate is this audit's assumption, not a source's.
+- **The test.** `tests/test_audit_generator_2.py` on `wip/audit-generator-2`: the payment is one number in all 35 years and income falls by the degradation alone; the two money-flow NPVs.
+- **Not fixed.** A new assumption: the owner's ruling.
