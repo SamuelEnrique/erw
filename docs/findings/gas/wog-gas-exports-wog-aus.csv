@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate wog_gas_exports, region wog_aus (Australia)
+# Computed 2026-11-19T13:25:10Z by warehouse/analysis/findings/deep/gas.py (wog_gas_exports); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the country's dry natural gas exports (billion cubic feet), the observations it rests on, and whether the year is full
+# Tables: eia_world_oil_gas_annual
+region,year,value,n_observations,full_year
+wog_aus,1990,98.6,1.0,1
+wog_aus,1991,168.0,1.0,1
+wog_aus,1992,201.08361,1.0,1
+wog_aus,1993,233.64,1.0,1
+wog_aus,1994,271.14857,1.0,1
+wog_aus,1995,323.62666,1.0,1
+wog_aus,1996,345.486645,1.0,1
+wog_aus,1997,338.211755,1.0,1
+wog_aus,1998,345.02755,1.0,1
+wog_aus,1999,357.31717,1.0,1
+wog_aus,2000,362.04938,1.0,1
+wog_aus,2001,344.10936,1.0,1
+wog_aus,2002,347.28771,1.0,1
+wog_aus,2003,375.89286,1.0,1
+wog_aus,2004,380.095345,1.0,1
+wog_aus,2005,508.571315,1.0,1
+wog_aus,2006,577.7534,1.0,1
+wog_aus,2007,688.35998,1.0,1
+wog_aus,2008,656.92963,1.0,1
+wog_aus,2009,740.096455,1.0,1
+wog_aus,2010,858.08387,1.0,1
+wog_aus,2011,958.484415,1.0,1
+wog_aus,2012,906.11227,1.0,1
+wog_aus,2013,1128.80866,1.0,1
+wog_aus,2014,1116.483725,1.0,1
+wog_aus,2015,1202.97016,1.0,1
+wog_aus,2016,2071.014082,1.0,1
+wog_aus,2017,2619.620305,1.0,1
+wog_aus,2018,3200.279449,1.0,1
+wog_aus,2019,3546.225075,1.0,1
+wog_aus,2020,3592.398226,1.0,1
+wog_aus,2021,3739.072111,1.0,1
+wog_aus,2022,3745.885122,1.0,1
+wog_aus,2023,3713.126189,1.0,1
+wog_aus,2024,3739.954626,1.0,1

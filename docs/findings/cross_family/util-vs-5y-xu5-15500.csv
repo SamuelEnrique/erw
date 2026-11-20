@@ -1,0 +1,10 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate util_vs_5y, region xu5_15500 (Puget Sound Energy, Inc. (EIA utility 15500, FERC 714 planning area 129; WA))
+# Computed 2026-11-19T13:07:50Z by warehouse/analysis/findings/deep/cross_family.py (util_vs_5y); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's retail sales against the net energy the utility's filing of 5 years before forecast, percent (percent), the observations it rests on, and whether the year is full
+# Tables: eia861m_utility_sales_monthly, ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+xu5_15500,2019,-24.593781924134937,1.0,1
+xu5_15500,2020,-28.46604481333714,1.0,1
+xu5_15500,2022,-9.49914095134411,1.0,1
+xu5_15500,2023,-17.514567529228376,1.0,1
+xu5_15500,2025,-7.807985345761059,1.0,1

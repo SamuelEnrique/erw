@@ -1,0 +1,9 @@
+# The daily prices job committed nothing to main from 16 to 19 November 2026 (session 8013, chain 505 part F)
+
+Energy Research Warehouse (ERW). Read on 19 November 2026 at about 22:55 UTC from the GitHub runs (job logs read with the token) and `queue/summary/2026-11-18-health.md`.
+
+- **What a reader saw:** `/internal/health` and the health summaries counted the daily prices job as stale on main (3.9 days on 18 November); its last commit on main was "Daily prices 2026-11-15". Every run was green on GitHub.
+- **The cause:** the job's last step before the commit, "merge tests" (the whole suite on the run's results merged with main), failed in one test: `tests/test_session7014_profiles.py`, `test_the_runner_skips_them_and_builds_nothing`, `AssertionError: 75 != 0` (run 44539050689, 19 November 14:00 UTC; the same at 14:13 and 14:27 UTC in its retry, and on 18 November in runs 44319484886 and 44403667312). The step runs under `warehouse/health.py`, which sets `ERW_SKIP_EXIT=75`, so the skip the test asks about exits 75 there.
+- **The fix:** session 8009 (data request 543) sets the variable aside inside the test (`b58288920`). It reached main with chain 501's desk after the 14:00 UTC run of 19 November, so that run still failed. The run of 20 November 14:00 UTC is the first with it.
+- **A second cause, not fixed (for Samuel's ruling):** the evening run of 19 November (21:54 UTC, run 44623492343) skipped itself: its gate counts the day done when a run's "daily run" step passed, even when the merge tests then refused the commit. So a refused commit is not retried the same day. Counting only a "Daily prices <day>" commit on main would retry, but a retry can send the digest twice, which is why session 61 wrote the gate this way. Default taken: the gate is unchanged.
+- **What to check on 20 November:** a "Daily prices 2026-11-20" commit on main after the 14:00 UTC run.

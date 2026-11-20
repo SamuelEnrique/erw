@@ -1,0 +1,11 @@
+# Progress of chain 581 (19 to 20 November 2026, lab-desktop, one session)
+
+The chain: `queue/done/581-evening-19-november-desktop-states-curtailment-map-layers.md`. One line a landing, request, file, table, page or view, its state and session. The resume file: `queue/next/582-resume-chain-581.md`.
+
+| Part | Item | What | State | Session |
+|---|---|---|---|---|
+| start | the chain file | taken by lab-desktop at 02:04 UTC on 20 November (`71c8458f7`); 540 (portable) and 591 (old laptop) left where they are; chain 505's resume file was already removed (`a2b0a3300`), so nothing of chain 505 to close | done | 8014 |
+| start | resume file | `queue/next/582-resume-chain-581.md` committed alone and pushed (`d33244fdf`); snapshots: the queue move and the resume file were pushed without a before snapshot; `c581-s8014-after` against chain 505's last `c505-close-after`: 0 differences in all 25 pages | done | 8014 |
+| A | landing desk | no row marked requested in any `landing_request_*.md`; data requests: five_tools 2 (waits on Samuel's ruling), five_tools 5 (an old stack's), forecast 5 (stopped by the comptroller's robots file), 561 (waits on the old laptop's tests): none to do | nothing requested | 8014 |
+| B | what exists | no `/states` page and no `site/data/states/`. Held, all public: `state_generation_mix_monthly` (53 places, 2001-01 to 2026-08), `eia_state_generation_monthly`, `eia_retail_sales_monthly` and `eia_retail_electricity_prices` (to 2026-08; sales, customers, price; no revenue), `eia860m_*` (vintage 2026-09), `eia_power_co2_state_annual` (1990 to 2024), `eia_gas_consumption_state_monthly` and `_production_` (to 2026-07), `eia_seds_state_energy` with the residential and industrial SEDS tables (to 2024), `eia_state_source_disposition_annual` (the state profiles, to 2024), `eia_county_region` with `census_county_population`, `state_large_load_laws` (27 laws, 25 states), `severance_rules.json` (TX, LA, NM). Read by state on pages today: `/industry` (industrial SEDS and sales), `/policy` (state laws), `/consumption`, the generation mix pages (the mix of a state). Nothing is built twice: `/states` reads the same tables into one place's file | done | 8014 |
+| B1 | the contract | `docs/state/page_files_states.md`, with a real sample (Vermont) | done | 8014 |

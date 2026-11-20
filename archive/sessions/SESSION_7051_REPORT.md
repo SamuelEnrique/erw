@@ -21,6 +21,17 @@ Precheck passed. Session number 7051 free. Freeze: none.
 - **179, not a fault now** (the live set holds October). **169, not a fault** (EIA publishes no value for those months). **160, 161** done with requests 79 and 80. **260** read.
 - **130 and 121, ruling** (ruling 2: ERCOT's days of 6 to 8 November not refilled). **143, ruling:** EIA's SPP workbook holds the CO2 generated for every hour of December 2025 to February 2026 but leaves the consumed side blank, and session 6's ruling (a) writes a day only with both. **162, checked:** CAISO's autumn days are missing from `caiso_battery_storage` itself (the Today's Outlook connectors' clock-change rule); the connector's fix open.
 
+## Later in the session
+
+- **Desk gate i** (`cb5a633c4`) passed every step; desk stack b landed through `task/7051-desk` (run 44024522952) at `4b7aa450b`. Snapshots `before-cb5a633c`, `after-cb5a633c`: **0 differences**. Rows 37 to 43 marked (`d4b3927fb`).
+- **149, done.** The board set a weekly series beside the newest value at least 365 days back (EIA's storage week ending 2026-11-06 against 2025-10-31); now the same week a year before (2025-11-07), as `/supply` and EIA's report do; the board rebuilt; its replication 30,670 of 30,670.
+- **154, done.** NYISO's and ISO-NE's cleared rows in the public supply file carry status and note only.
+- **141, done.** The comparison's mean daily spread over whole days (ERCOT HB_BUSAVG 47.19 USD/MWh day-ahead, 365 days).
+- **180, in part.** CAISO's real-time prices of 15 October pulled from OASIS into the hub history; the curtailment shares and worth rebuilt (SP15 October priced in 744 of 744 hours). Today's Outlook's hours of those days are open.
+- **190, done.** Active MW by part type in the queue summary (US battery parts 544,128 MW, the note's cross-check); the replication 17,304 of 17,304.
+- **153 and 182, ruling** (ruling 2's paths; session 149's rule on the Texas file).
+- **Gate j** failed four tests, every one from this session's changes: the battery levels' rebuild had dropped the CAISO levels' rooftop solar shape (the builder now keeps a shape the moving window cannot rebuild), and three tests pinned text or positions I had moved. Fixed. **Gate k** (`b262bc871`) passed every step; chain 370's branch landed through `task/7051-data` (run 44032669821) at `f675235c5`. Snapshots `before-b262bc87`, `after-b262bc87`: **0 differences**.
+
 ## Errors
 
 - **The live set lacked California's intensity of generation from 04:23 to 04:46 UTC.** For request 143 I rebuilt the carbon tables by hand and loaded them without the daily run's next step, `caiso_join.py --apply`, which writes California's rows from CAISO's own data. `/learn/problems/know-your-grid` then threw on a missing row (gate h's floor). The join was run and the three tables loaded again (79 daily and 7,472 hourly rows written). Every page is in review: no visitor saw it. Saved as a rule for later sessions.
