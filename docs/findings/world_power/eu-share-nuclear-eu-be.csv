@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate eu_share_nuclear, region eu_be (Belgium)
+# Computed 2026-11-19T13:14:46Z by warehouse/analysis/findings/deep/world_power.py (eu_share_nuclear); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: nuclear's share of the country's net production (percent), the observations it rests on, and whether the year is full
+# Tables: eurostat_electricity_monthly
+region,year,value,n_observations,full_year
+eu_be,2016,51.934785890404065,12.0,1
+eu_be,2017,49.85717428737378,12.0,1
+eu_be,2018,39.004063826935386,12.0,1
+eu_be,2019,47.56460246847436,12.0,1
+eu_be,2020,38.70612065709811,12.0,1
+eu_be,2021,50.57104611983755,12.0,1
+eu_be,2022,46.43177198407712,12.0,1
+eu_be,2023,40.67429484599725,12.0,1
+eu_be,2024,41.84990619126347,12.0,1
+eu_be,2025,33.724368316813546,12.0,1

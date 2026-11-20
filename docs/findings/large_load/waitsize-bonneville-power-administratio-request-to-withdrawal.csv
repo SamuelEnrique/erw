@@ -1,0 +1,8 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), waitsize_bonneville_power_administratio_request_to_withdrawal
+# Computed 2026-11-19T12:40:18Z by warehouse/analysis/findings/deep/large_load.py
+# Tables: large_load_waits (internal: license needed)
+size_class,median_at_least_months,median_at_most_months,measured
+under 20 MW,42.809034907597535,56.2135523613963,9
+20 to under 100 MW,29.04312114989733,42.41478439425051,21
+100 to under 300 MW,10.184804928131417,24.032854209445585,16
+300 MW and over,17.05133470225873,27.433264887063654,15

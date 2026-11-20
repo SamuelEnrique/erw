@@ -265,6 +265,54 @@ catalogue_hold:
   # session 483: node_basis_daily, out of the live set (no reader in Supabase) and held for Redivis's storage: not in the
   # live catalogue either, so /data does not name a table it cannot link
   - node_basis_daily
+  # session 7801 (chain 401 part C, internal tier): EIA-930 hour by hour for every balancing authority and region, read by
+  # no page, not in the live set and not on Redivis (about 3.6 GB): in coverage and the archive, not in the live catalogue
+  - eia930_region_hourly
+  - eia930_ba_demand_hourly
+  - eia930_ba_supply_hourly
+  - eia930_region_pair_hourly
+  - eia930_ba_interchange_hourly_2018
+  - eia930_ba_interchange_hourly_2019
+  - eia930_ba_interchange_hourly_2020
+  - eia930_ba_interchange_hourly_2021
+  - eia930_ba_interchange_hourly_2022
+  - eia930_ba_interchange_hourly_2023
+  - eia930_ba_interchange_hourly_2024
+  - eia930_ba_interchange_hourly_2025
+  - eia930_ba_interchange_hourly_2026
+  # sessions 7802 and 7803 (chain 401 part C, tables 4 to 8, internal tier): read by no page, not in the live set or on Redivis
+  - census_county_population
+  - eia_county_region
+  - noaa_region_stations
+  - region_weather_hourly
+  - iso_hub_prices_history_2018
+  - noaa_region_station_hourly_2018
+  - noaa_region_station_hourly_2019
+  - noaa_region_station_hourly_2020
+  - noaa_region_station_hourly_2021
+  - noaa_region_station_hourly_2022
+  - noaa_region_station_hourly_2023
+  - noaa_region_station_hourly_2024
+  - noaa_region_station_hourly_2025
+  - noaa_region_station_hourly_2026
+  # session 8000 (chain 501, step B2): the balancing authority areas, read by no page from the live set (the page reads site/data/regions/ba_boundaries.json)
+  - ba_boundaries
+  # session 8001 (chain 501, step B5): net generation by source for the thirteen regions, read by the page files under site/data/regions/, not by the live set
+  - eia930_region_fuel_hourly
+  # session 8002 (chain 501, part C): who trades with whom; the page reads site/data/regions/trade_matrix.json, not the live set
+  - interchange_pair_daily
+  - interchange_pair_monthly
+  - ba_trade_partners
+  - interchange_event_pairs
+  # session 8003 (chain 501, step D2): energy use by industry; the page reads site/data/industry.json, not the live set
+  - eia_seds_industrial_annual
+  - eia_aeo_industrial
+  # sessions 8005 and 8006 (chain 501, steps D3 and D1): energy per AI query as published, and the resource map's layers
+  - ai_energy_published
+  - resource_layer_features
+  # session 8012 (chain 505, part D1): the forecast beside what happened; the page reads site/data/regions/forecast/, not the live set
+  - eia930_forecast_error_hourly
+  - eia930_forecast_error_daily
   # session 489: the public tables of sessions 485 to 496 and 507, held on the data machine and in the archive, not loaded, and
   # not on Redivis (an upload is a person's, and the account's free 10 GB is full, session 363): not in the live
   # catalogue, so /data does not name tables it cannot link
