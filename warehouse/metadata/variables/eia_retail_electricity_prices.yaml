@@ -5,9 +5,10 @@
 table: eia_retail_electricity_prices
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or census division's, or the nation's) monthly average retail price of electricity in one sector.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Each run asks for the full history and merges it on (entity, variable, ts_utc), keeping EIA's newest value;
+  a row EIA stops giving is kept. The copy held was rebuilt from the ERW archive by restore_tables.py. vintage is not filled.
 keys:
 - entity
 - variable
@@ -42,6 +43,7 @@ columns:
     - eia:retail_price:AK:OTH
     - eia:retail_price:AK:RES
   missing_cells: 0
+  particular: eia:retail_price:<stateid>:<sectorid>
 - name: variable
   shared: true
   type: text
@@ -90,18 +92,21 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 18480
+  particular: US-<state>, or US for the nation; empty for an EIA census division
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 114574
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 114574
+  particular: 'Not filled: EIA''s names (state, sector) are in the header''s Series line'
 - name: source
   shared: true
   type: text
@@ -175,9 +180,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 114574
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: retail_price
-  label: null
+  label: Average retail price of electricity in the sector, USD per MWh (EIA's cents per kWh times 10)
   unit: USD/MWh
   rows: 114574
   first: '2001-01-01T00:00:00Z'

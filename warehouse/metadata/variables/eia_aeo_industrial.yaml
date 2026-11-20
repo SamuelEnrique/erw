@@ -5,9 +5,10 @@
 table: eia_aeo_industrial
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One series of EIA's Annual Energy Outlook 2026 industrial sub-sector tables (an industry's energy use of one fuel), in
+  one case (scenario), for one projected year, in trillion Btu.
+time: ts_utc is 1 January of the projected year at 00:00:00Z (freq P1Y); a year, not an instant.
+vintage_rule: Rewritten whole by each run (write_snapshot) from the newest AEO release the API lists; vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +45,8 @@ columns:
     - eia_aeo_2026:cnsm_NA_idal_aap_dfo_NA_NA_trlbtu.a0df3d:electrnp
     - eia_aeo_2026:cnsm_NA_idal_aap_dfo_NA_NA_trlbtu.a0df3d:highZTC
   missing_cells: 0
+  particular: eia_aeo_2026:<seriesId>.<h>:<case>, h six hex digits of the sha1 of the series' name, since EIA gives one seriesId
+    to two series
 - name: variable
   shared: true
   type: text
@@ -87,12 +90,14 @@ columns:
     list:
       US: 75504
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 75504
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -105,6 +110,7 @@ columns:
     - 'Aluminum Industry : Energy Use : Petroleum Coke'
     - 'Aluminum Industry : Energy Use : Petroleum Subtotal'
   missing_cells: 0
+  particular: EIA's name of the series (industry, measure and fuel)
 - name: source
   shared: true
   type: text
@@ -153,9 +159,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 75504
+  particular: 'Not filled: no cell holds a value'
 - name: x_series_id
-  label: null
-  unit: null
+  label: EIA's series identifier in the AEO (one id can name two series)
+  unit: none
   type: text
   values:
     distinct: 259
@@ -166,12 +173,12 @@ columns:
     - cnsm_NA_idal_aap_pck_NA_NA_trlbtu
     - cnsm_NA_idal_aap_pet_NA_NA_trlbtu
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: seriesId
+  documented_by: header; connector eia_aeo_industrial.py
 - name: x_table_id
-  label: null
-  unit: null
+  label: The EIA API's identifier of the AEO table the series is read from
+  unit: none
   type: integer
   values:
     list:
@@ -187,12 +194,12 @@ columns:
       '42': 3146
       '43': 9152
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: tableId
+  documented_by: header; connector eia_aeo_industrial.py
 - name: x_table
-  label: null
-  unit: null
+  label: The AEO's own table number (24 to 34), one table per industry
+  unit: none
   type: integer
   values:
     list:
@@ -208,12 +215,13 @@ columns:
       '33': 18018
       '34': 9152
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_aeo_industrial.py
 - name: x_industry
-  label: null
-  unit: null
+  label: The industry of the table (refining, food, paper, bulk chemicals, glass, cement and lime, iron and steel, aluminum,
+    metal-based durables, other manufacturing, nonmanufacturing)
+  unit: none
   type: text
   values:
     list:
@@ -229,12 +237,12 @@ columns:
       paper: 3146
       refining: 8008
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eia_aeo_industrial.py; method industry_page.md
 - name: x_scenario
-  label: null
-  unit: null
+  label: EIA's code of the AEO case (scenario) the projection belongs to
+  unit: none
   type: text
   values:
     list:
@@ -250,12 +258,12 @@ columns:
       lowZTC: 6864
       lowogs: 6864
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: scenario
+  documented_by: header; connector eia_aeo_industrial.py
 - name: x_scenario_name
-  label: null
-  unit: null
+  label: EIA's name of the case
+  unit: none
   type: text
   values:
     list:
@@ -271,23 +279,23 @@ columns:
       Low Oil and Gas Supply: 6864
       Low Zero-Carbon Technology Cost: 6864
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: scenarioDescription
+  documented_by: connector eia_aeo_industrial.py
 - name: x_history
-  label: null
-  unit: null
+  label: EIA's flag saying whether the year is history or projection (every row here is PROJECTION)
+  unit: none
   type: text
   values:
     list:
       PROJECTION: 75504
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: history
+  documented_by: header; connector eia_aeo_industrial.py; data
 variables:
 - name: consumption
-  label: null
+  label: Projected energy use by the industry of the fuel the series names, in trillion Btu
   unit: TBtu
   rows: 75504
   first: '2025-01-01T00:00:00Z'

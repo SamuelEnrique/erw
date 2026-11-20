@@ -5,9 +5,10 @@
 table: eia_lng_exports_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One LNG export terminal's monthly export volume or export price, as EIA reports it.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Each run asks for the full history and merges it on (entity, variable, ts_utc), keeping EIA's newest value;
+  a row EIA stops giving is kept. The copy held was rebuilt from the ERW archive by restore_tables.py. vintage is not filled.
 keys:
 - entity
 - variable
@@ -53,6 +54,8 @@ columns:
       eia:NGM_EPG0_PNG_YPLAQ-Z00_DMCF: 21
       eia:NGM_EPG0_PNG_YSPL-Z00_DMCF: 91
   missing_cells: 0
+  particular: 'eia:<EIA series id>: NGM_EPG0_ENG_Y<terminal>-Z00_MMCF for a volume, NGM_EPG0_PNG_Y<terminal>-Z00_DMCF for
+    a price'
 - name: variable
   shared: true
   type: text
@@ -97,18 +100,21 @@ columns:
     list:
       US: 1100
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1100
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1100
+  particular: 'Not filled: EIA''s series names are in the header''s Series line'
 - name: source
   shared: true
   type: text
@@ -139,15 +145,16 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 1100
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: export_price
-  label: null
+  label: Price of the terminal's LNG exports, USD per thousand cubic feet
   unit: USD/Mcf
   rows: 455
   first: '2013-11-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: export_volume
-  label: null
+  label: LNG exported from the terminal in the month, million cubic feet
   unit: MMcf
   rows: 645
   first: '2013-11-01T00:00:00Z'

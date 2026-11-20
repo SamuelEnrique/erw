@@ -5,9 +5,10 @@
 table: eia_state_capacity_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or the nation's) net summer generating capacity of one producer type and one energy source at one year,
+  from EIA's State Electricity Profiles.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +45,8 @@ columns:
     - eia_state_capacity:AK:EU:HYC
     - eia_state_capacity:AK:EU:NG
   missing_cells: 0
+  particular: eia_state_capacity:<state>:<producertypeid>:<energysourceid>; producer types EU, IPP, TOT (both); sources ALL,
+    a fuel or a part of one
 - name: variable
   shared: true
   type: text
@@ -92,12 +95,14 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
+  particular: US-<state>, or US for the nation
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 56719
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -110,6 +115,7 @@ columns:
     - Alabama, All sectors, Hydroelectric
     - Alabama, All sectors, Natural Gas
   missing_cells: 0
+  particular: EIA's descriptions (state, sector, source)
 - name: source
   shared: true
   type: text
@@ -138,9 +144,11 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 56719
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: net_summer_capacity
-  label: null
+  label: Net summer capacity (the most a plant can deliver in summer, less its own use), MW; a sum takes one level and leaves
+    ALL and TOT out
   unit: MW
   rows: 56719
   first: '1990-01-01T00:00:00Z'

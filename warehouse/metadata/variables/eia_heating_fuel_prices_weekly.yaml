@@ -5,9 +5,10 @@
 table: eia_heating_fuel_prices_weekly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One week's residential or wholesale price of heating oil or propane in one state, PADD or the nation, in the heating
+  season.
+time: ts_utc is EIA's week date at 00:00:00Z (freq P1W); weeks outside the heating season have no rows.
+vintage_rule: Rewritten whole by each run (write_snapshot); a saved page is reused unless asked fresh. vintage is not filled.
 keys:
 - entity
 - variable
@@ -43,6 +44,7 @@ columns:
     - eia_heating_price:W_EPD2F_PRS_R1Y_DPG
     - eia_heating_price:W_EPD2F_PRS_R1Z_DPG
   missing_cells: 0
+  particular: eia_heating_price:<EIA series id> (one product, process and area)
 - name: variable
   shared: true
   type: text
@@ -91,12 +93,14 @@ columns:
     - US-CO
     - US-CT
   missing_cells: 0
+  particular: US-<state> for a state, US for the U.S. and for a PADD
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 48534
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -109,6 +113,7 @@ columns:
     - Arkansas Propane Wholesale/Resale Price (Dollars per Gallon)
     - Central Atlantic (PADD 1B) No. 2 Heating Oil Residential Price (Dollars per Gallon)
   missing_cells: 0
+  particular: EIA's series name (heating oil or propane)
 - name: source
   shared: true
   type: text
@@ -137,15 +142,16 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 48534
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: residential_price
-  label: null
+  label: Residential price (EIA process PRS) of heating oil or propane, USD a gallon
   unit: USD/gal
   rows: 27174
   first: '2012-01-02T00:00:00Z'
   last: '2026-10-19T00:00:00Z'
 - name: wholesale_price
-  label: null
+  label: Wholesale price (EIA process PWR) of heating oil or propane, USD a gallon
   unit: USD/gal
   rows: 21360
   first: '2013-10-07T00:00:00Z'

@@ -5,9 +5,12 @@
 table: eia_basin_production_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One producing region's monthly crude oil production or marketed natural gas production, as EIA's Short-Term Energy Outlook
+  gives its history.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (the file is deleted and the whole series from 2015 written again), so the Outlook's
+  revisions are taken; months later than three before the run, EIA's estimates and forecast, are not written. vintage is not
+  filled.
 keys:
 - entity
 - variable
@@ -49,6 +52,7 @@ columns:
       eia:NGMPPM: 140
       eia:NGMPR48: 140
   missing_cells: 0
+  particular: eia:<Short-Term Energy Outlook series id>
 - name: variable
   shared: true
   type: text
@@ -93,12 +97,14 @@ columns:
     list:
       US: 1680
   missing_cells: 0
+  particular: US on every row, the regions included
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1680
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -117,6 +123,7 @@ columns:
       Natural Gas Permian Marketed Production: 140
       Natural Gas Rest of U.S. Marketed Production: 140
   missing_cells: 0
+  particular: EIA's name of the series (the producing region)
 - name: source
   shared: true
   type: text
@@ -145,15 +152,18 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 1680
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: crude_production
-  label: null
+  label: Crude oil production of the region, thousand barrels a day (the Outlook's million barrels a day times 1,000); the
+    R48 series is the rest of the Lower 48, not a total
   unit: kbbl/d
   rows: 840
   first: '2015-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: gas_marketed_production
-  label: null
+  label: Marketed natural gas production of the region, billion cubic feet a day as published; the R48 series is the rest
+    of the U.S., not a total
   unit: bcf/d
   rows: 840
   first: '2015-01-01T00:00:00Z'

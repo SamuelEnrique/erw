@@ -5,9 +5,12 @@
 table: utility_large_load_tariffs
 family: utility
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One figure (a minimum load, a demand charge, an energy charge, a term) that one utility's filed large-load schedule prints,
+  as of the schedule's effective date.
+time: ts_utc is the schedule's effective date at 00:00:00Z (a date, not an instant); freq is blank, a tariff in force from
+  that day.
+vintage_rule: The filed rows are rewritten whole from the registry (warehouse/sources/large_load_tariffs/) by each run, keeping
+  only other connectors' rows (OpenEI's, none written); schedules held for a license are named in the header and not written.
 keys:
 - entity
 - variable
@@ -63,6 +66,7 @@ columns:
       filed:5416:large_load_tariff_llt_with_schedule_hlf: 3
       filed:7140:rules_and_regulations_for_electric_service_a1_d13_and_d14_cu: 1
   missing_cells: 0
+  particular: filed:<EIA utility id>:<schedule slug>
 - name: variable
   shared: true
   type: text
@@ -121,6 +125,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 86
+  particular: 'Not filled: a tariff is in force from its effective date'
 - name: geo
   shared: true
   type: text
@@ -141,12 +146,14 @@ columns:
       US-VA: 12
       US-WA: 7
   missing_cells: 0
+  particular: US-<state> of the utility
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 86
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -174,6 +181,7 @@ columns:
       Service Classification No. 7, Large General Service with Time-of-Use Metering, S.C. 7-4 Transmission: 3
       Service Classification No. 9, General - Large, Rate II - General - Large - Time-of-Day: 4
   missing_cells: 0
+  particular: The schedule's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -212,6 +220,7 @@ columns:
       https://www.santeecooper.com/Rates/_pdfs/Industrial-Wholesale/L-25-LL-FINAL.pdf: 6
       https://www.selc.org/wp-content/uploads/2026/10/2026-10-06-Duke-Energy-LLT-Settlement.pdf: 3
   missing_cells: 0
+  particular: The filed document's address (for New York, the Electronic Tariff System's listing of the tariff's leaves)
 - name: retrieved_at
   shared: true
   type: utc time
@@ -240,9 +249,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 86
+  particular: 'Not filled: no cell holds a value'
 - name: x_eia_id
-  label: null
-  unit: null
+  label: The utility's EIA-861 utility number
+  unit: none
   type: integer
   values:
     list:
@@ -268,12 +278,12 @@ columns:
       '5416': 3
       '7140': 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: eia_id
+  documented_by: connector large_load_tariffs.py; source warehouse/sources/large_load_tariffs/README.md
 - name: x_utility
-  label: null
-  unit: null
+  label: The utility as the filing names it
+  unit: none
   type: text
   values:
     list:
@@ -300,12 +310,12 @@ columns:
       Union Electric Company d/b/a Ameren Missouri: 9
       Virginia Electric and Power Company (Dominion Energy Virginia): 3
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: utility
+  documented_by: connector large_load_tariffs.py; source warehouse/sources/large_load_tariffs/README.md
 - name: x_sector
-  label: null
-  unit: null
+  label: The customer class the schedule serves, as written in the registry file
+  unit: none
   type: text
   values:
     list:
@@ -341,12 +351,12 @@ columns:
       large-scale service requests (100 MW or more within five years): 1
       new or expanded large loads of 50 MW or more: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: sector
+  documented_by: connector large_load_tariffs.py; source warehouse/sources/large_load_tariffs/README.md
 - name: x_state
-  label: null
-  unit: null
+  label: The utility's state, two-letter postal code
+  unit: none
   type: text
   values:
     list:
@@ -365,12 +375,12 @@ columns:
       VA: 12
       WA: 7
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: state
+  documented_by: connector large_load_tariffs.py
 - name: x_grid
-  label: null
-  unit: null
+  label: The grid operator (ISO) or balancing authority the load is in
+  unit: none
   type: text
   values:
     list:
@@ -388,12 +398,12 @@ columns:
       SOCO: 2
       SPP: 20
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: grid
+  documented_by: source warehouse/sources/large_load_tariffs/README.md
 - name: x_schedule
-  label: null
-  unit: null
+  label: The schedule's own name
+  unit: none
   type: text
   values:
     list:
@@ -419,12 +429,12 @@ columns:
       Service Classification No. 7, Large General Service with Time-of-Use Metering, S.C. 7-4 Transmission: 3
       Service Classification No. 9, General - Large, Rate II - General - Large - Time-of-Day: 4
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: schedule
+  documented_by: source warehouse/sources/large_load_tariffs/README.md
 - name: x_tariff_sheet
-  label: null
-  unit: null
+  label: The tariff book and sheet (or leaf) numbers the schedule is printed on
+  unit: none
   type: text
   values:
     list:
@@ -459,12 +469,12 @@ columns:
       no tariff sheet; S.B. 132 (2025 General Session, enrolled): 1
       no tariff sheet; the Opinion and Order's terms of the 10/23 Stipulation, as modified: 3
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: tariff_sheet
+  documented_by: source warehouse/sources/large_load_tariffs/README.md
 - name: x_voltage
-  label: null
-  unit: null
+  label: The delivery voltage the schedule states, in its words with the page
+  unit: none
   type: text
   values:
     list:
@@ -488,12 +498,12 @@ columns:
         substation where high side delivery is from transmission facilities of at least 34,500 volts (p. 1)
       : 5
   missing_cells: 24
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The registry file gives no voltage text
+  source_name: voltage
+  documented_by: connector large_load_tariffs.py; source warehouse/sources/large_load_tariffs/README.md
 - name: x_commission
-  label: null
-  unit: null
+  label: The commission (or board) the schedule is filed with or reviewed by
+  unit: none
   type: text
   values:
     list:
@@ -518,12 +528,12 @@ columns:
       Virginia State Corporation Commission: 3
       Washington Utilities and Transportation Commission: 3
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: commission
+  documented_by: source warehouse/sources/large_load_tariffs/README.md
 - name: x_docket
-  label: null
-  unit: null
+  label: The docket, case or advice letter of the filing, as written in the registry
+  unit: none
   type: text
   values:
     list:
@@ -545,12 +555,12 @@ columns:
       S.B. 132, 2025 General Session (Utah Legislature): 1
       UM 2377: 3
   missing_cells: 22
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The registry file names no docket
+  source_name: docket
+  documented_by: connector large_load_tariffs.py; source warehouse/sources/large_load_tariffs/README.md
 - name: x_document
-  label: null
-  unit: null
+  label: 'The document read: the filing or order and its part'
+  unit: none
   type: text
   values:
     list:
@@ -606,24 +616,24 @@ columns:
         in Florida PSC Document No. 05289-2026 (Docket No. 20260064-EI, filed 18 August 2026)
       : 3
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: document
+  documented_by: source warehouse/sources/large_load_tariffs/README.md
 - name: x_page
-  label: null
-  unit: null
+  label: The page of the filed document the figure is printed on
+  unit: none
   type: integer
   values:
     distinct: 35
     lowest: 1
     highest: 688
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: page
+  documented_by: header; connector large_load_tariffs.py; method large_load_tariffs.md
 - name: x_printed
-  label: null
-  unit: null
+  label: The figure in the words the schedule prints it (value is this figure in the row's unit)
+  unit: none
   type: text
   values:
     distinct: 81
@@ -634,12 +644,12 @@ columns:
     - (1) minimum distribution charge of 85% contracted demand; (2) minimum transmission charge of 85% contracted demand
     - A monthly charge for each Delivery Point of ... $3,605.00
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: printed
+  documented_by: header; method large_load_tariffs.md
 - name: x_min_bill
-  label: null
-  unit: null
+  label: The schedule's minimum bill terms, in its own words with the page
+  unit: none
   type: text
   values:
     list:
@@ -696,12 +706,12 @@ columns:
         a minimum period of 36 months (p. 1)
       : 2
   missing_cells: 14
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The schedule's registry file gives no minimum bill words
+  source_name: terms.min_bill
+  documented_by: connector large_load_tariffs.py; method large_load_tariffs.md
 - name: x_collateral
-  label: null
-  unit: null
+  label: The schedule's collateral or credit terms, in its own words with the page
+  unit: none
   type: text
   values:
     list:
@@ -757,12 +767,12 @@ columns:
         charges under the ESA (p. 91)
       : 3
   missing_cells: 35
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The registry file gives no collateral words
+  source_name: terms.collateral
+  documented_by: connector large_load_tariffs.py; source warehouse/sources/large_load_tariffs/README.md
 - name: x_exit_fee
-  label: null
-  unit: null
+  label: The schedule's exit fee or termination terms, in its own words with the page
+  unit: none
   type: text
   values:
     list:
@@ -812,12 +822,12 @@ columns:
         applicable, the cost to remove the facilities (p. 4)
       : 5
   missing_cells: 36
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The registry file gives no exit fee words
+  source_name: terms.exit_fee
+  documented_by: connector large_load_tariffs.py; source warehouse/sources/large_load_tariffs/README.md
 - name: x_ramp
-  label: null
-  unit: null
+  label: The schedule's load ramp provisions (how the load may build up), in its own words with the page
+  unit: none
   type: text
   values:
     list:
@@ -836,12 +846,13 @@ columns:
       : 4
       the contract minimum billing demand times the applicable ramp-up percentages as specified in the contract (p. 2): 4
   missing_cells: 46
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The registry file gives no ramp words
+  source_name: terms.ramp
+  documented_by: connector large_load_tariffs.py; source warehouse/sources/large_load_tariffs/README.md
 - name: x_term
-  label: null
-  unit: null
+  label: The schedule's contract term provisions, in its own words with the page; a rider is named here when the schedule
+    names it
+  unit: none
   type: text
   values:
     list:
@@ -885,12 +896,13 @@ columns:
         written notice (Sheets 76 and 77) (p. 20)
       : 10
   missing_cells: 13
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The registry file gives no term words
+  source_name: terms.term
+  documented_by: connector large_load_tariffs.py; method large_load_tariffs.md
 - name: x_status
-  label: null
-  unit: null
+  label: 'The schedule''s state: adopted (in force), ordered (a commission ordered it, no sheet yet), proposed (filed, pending)
+    or framework (a statute or agreements with no rate schedule)'
+  unit: none
   type: text
   values:
     list:
@@ -899,23 +911,23 @@ columns:
       ordered: 3
       proposed: 6
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: status
+  documented_by: method large_load_tariffs.md
 - name: x_license
-  label: null
-  unit: null
+  label: The row's license; public on every written row
+  unit: none
   type: text
   values:
     list:
       public: 86
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method large_load_tariffs.md
 - name: x_notes
-  label: null
-  unit: null
+  label: What the schedule prints that has no variable (demand blocks, per-kVA charges, a closed schedule) and other notes
+  unit: none
   type: text
   values:
     list:
@@ -1021,84 +1033,84 @@ columns:
         value of the facilities plus removal.'
       : 5
   missing_cells: 41
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The registry file has no notes
+  source_name: notes
+  documented_by: method large_load_tariffs.md
 variables:
 - name: collateral_months
-  label: null
+  label: Collateral stated as months of bills
   unit: month
   rows: 4
   first: '2025-04-25T00:00:00Z'
   last: '2026-03-09T00:00:00Z'
 - name: demand_charge
-  label: null
+  label: The schedule's one delivery demand charge, USD per kW of demand per month
   unit: USD/kW-month
   rows: 6
   first: '2023-04-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: demand_charge_summer
-  label: null
+  label: The demand charge in the summer season, USD per kW-month
   unit: USD/kW-month
   rows: 3
   first: '2026-01-04T00:00:00Z'
   last: '2026-03-09T00:00:00Z'
 - name: demand_charge_winter
-  label: null
+  label: The demand charge in the winter season, USD per kW-month
   unit: USD/kW-month
   rows: 4
   first: '2026-01-04T00:00:00Z'
   last: '2026-03-09T00:00:00Z'
 - name: energy_charge
-  label: null
+  label: The schedule's one energy charge for delivery or bundled service, USD/MWh
   unit: USD/MWh
   rows: 6
   first: '2023-04-01T00:00:00Z'
   last: '2026-03-09T00:00:00Z'
 - name: energy_charge_summer
-  label: null
+  label: The energy charge in the summer season, USD/MWh
   unit: USD/MWh
   rows: 1
   first: '2026-01-04T00:00:00Z'
   last: '2026-01-04T00:00:00Z'
 - name: energy_charge_winter
-  label: null
+  label: The energy charge in the winter season, USD/MWh
   unit: USD/MWh
   rows: 1
   first: '2026-01-04T00:00:00Z'
   last: '2026-01-04T00:00:00Z'
 - name: fixed_charge
-  label: null
+  label: The customer or facilities charge, USD a month
   unit: USD
   rows: 12
   first: '2023-04-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: grid_charge_substation
-  label: null
+  label: Evergy's LLPS substation grid charge, USD per kW-month
   unit: USD/kW-month
   rows: 2
   first: '2026-03-09T00:00:00Z'
   last: '2026-03-09T00:00:00Z'
 - name: grid_charge_transmission
-  label: null
+  label: Evergy's LLPS transmission grid charge, USD per kW-month
   unit: USD/kW-month
   rows: 2
   first: '2026-03-09T00:00:00Z'
   last: '2026-03-09T00:00:00Z'
 - name: min_bill_pct
-  label: null
+  label: A minimum bill or take-or-pay share of contract demand, where printed as a share, percent
   unit: pct
   rows: 11
   first: '2025-04-25T00:00:00Z'
   last: '2027-01-01T00:00:00Z'
 - name: min_contract_years
-  label: null
+  label: The shortest contract term the schedule takes, years
   unit: year
   rows: 14
   first: '2018-02-15T00:00:00Z'
   last: '2027-01-01T00:00:00Z'
 - name: min_demand_mw
-  label: null
+  label: The smallest load the schedule takes, MW
   unit: MW
   rows: 20
   first: '2018-02-15T00:00:00Z'

@@ -1,0 +1,238 @@
+# Codebook: census
+
+Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
+
+**What the family holds.** 6 public tables (6 series; tiers: 6 source); 0 documented in full.
+
+- [`census_bps_state_annual`](#census_bps_state_annual): U.S. Census Bureau, Building Permits Survey, new housing units, buildings and value authorized by building permits by state and structure type, 2015 to 2025, a year (session 2154)
+- [`census_c30_construction_monthly`](#census_c30_construction_monthly): U.S. Census Bureau, Construction Spending (C30), the value of construction put in place by type and owner, a month, 1993-01 to 2026-08 (session 2258)
+- [`census_cbp_hosting_annual`](#census_cbp_hosting_annual): U.S. Census Bureau, County Business Patterns, NAICS 518210 (data processing, hosting and related services; from 2022 computing infrastructure providers, data processing, web hosting, and related services), by state, 2012 to 2023 (session 2160)
+- [`census_county_population`](#census_county_population): county population, the 2020 census count and the Census Bureau's estimates of 1 July 2018 to 2025 (session 7802)
+- [`census_metro_population`](#census_metro_population): the Census Bureau's population of metropolitan statistical areas, whole and by state part, the estimates base of 1 April 2020 and the estimate of 1 July 2025 (session 129)
+- [`census_qss_utilities_hosting_quarterly`](#census_qss_utilities_hosting_quarterly): U.S. Census Bureau, Quarterly Services Survey, 2024 benchmark dataset, the revenue and expenses of the utilities (NAICS 22, 2211, 2212, 2213) and of data processing and hosting (518), 2003-10 to 2024-10 (session 2264)
+
+### `census_bps_state_annual`
+
+What a row is: not yet written.
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 6732.
+
+- **Source:** census:bps_state_annual U.S. Census Bureau, Building Permits Survey, annual state files (https://www2.census.gov/econ/bps/State/)
+- **Method note:** [`docs/methods/census_bps_state_annual.md`](../methods/census_bps_state_annual.md)
+- **Cite as:** Census Bureau. Building Permits Survey: annual state files. Via the Energy Research Warehouse (ERW), table `census_bps_state_annual`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example census_bps:ak, census_bps:al, census_bps:ar; 51 distinct | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2015-01-01T00:00:00Z, 2016-01-01T00:00:00Z, 2017-01-01T00:00:00Z, 2018-01-01T00:00:00Z, 2019-01-01T00:00:00Z, 2020-01-01T00:00:00Z, 2021-01-01T00:00:00Z, 2022-01-01T00:00:00Z, 2023-01-01T00:00:00Z, 2024-01-01T00:00:00Z, 2025-01-01T00:00:00Z | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 46062625000.0; 4073 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | USD, count | 0 |
+| `freq` | How long the interval of the row is | none | text | P1Y | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US-AK, US-AL, US-AR; 51 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 6732 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Alabama, Alaska, Arizona; 51 distinct | 0 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | census:bps_state_annual | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | https://www2.census.gov/econ/bps/State/st2015a.txt, https://www2.census.gov/econ/bps/State/st2016a.txt, https://www2.census.gov/econ/bps/State/st2017a.txt, https://www2.census.gov/econ/bps/State/st2018a.txt, https://www2.census.gov/econ/bps/State/st2019a.txt, https://www2.census.gov/econ/bps/State/st2020a.txt, https://www2.census.gov/econ/bps/State/st2021a.txt, https://www2.census.gov/econ/bps/State/st2022a.txt, https://www2.census.gov/econ/bps/State/st2023a.txt, https://www2.census.gov/econ/bps/State/st2024a.txt, https://www2.census.gov/econ/bps/State/st2025a.txt | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T23:53:30Z, 2026-10-23T23:54:24Z, 2026-10-23T23:55:39Z, 2026-10-23T23:55:42Z, 2026-10-23T23:55:44Z, 2026-10-23T23:55:46Z, 2026-10-23T23:55:48Z, 2026-10-23T23:55:50Z, 2026-10-23T23:55:52Z, 2026-10-23T23:55:54Z, 2026-10-23T23:55:56Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2016-09-30T13:17:03Z, 2017-05-01T12:06:07Z, 2018-05-01T11:26:06Z, 2019-06-20T12:29:57Z, 2020-05-01T15:09:42Z, 2021-05-03T11:37:40Z, 2022-04-27T21:02:59Z, 2024-04-23T19:28:45Z, 2025-05-01T12:10:36Z, 2025-09-18T15:15:30Z, 2026-05-14T13:30:25Z | 0 |
+| `x_fips` | not yet written |  | integer | 1 to 56; 51 distinct | 0 |
+| `x_code` | not yet written |  | integer | 1 to 56; 51 distinct | 0 |
+
+Variables (12):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `buildings_1_unit` |  | count | 561 | 2015-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `buildings_2_units` |  | count | 561 | 2015-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `buildings_3_4_units` |  | count | 561 | 2015-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `buildings_5_plus_units` |  | count | 561 | 2015-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `units_1_unit` |  | count | 561 | 2015-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `units_2_units` |  | count | 561 | 2015-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `units_3_4_units` |  | count | 561 | 2015-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `units_5_plus_units` |  | count | 561 | 2015-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `value_1_unit` |  | USD | 561 | 2015-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `value_2_units` |  | USD | 561 | 2015-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `value_3_4_units` |  | USD | 561 | 2015-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `value_5_plus_units` |  | USD | 561 | 2015-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+
+### `census_c30_construction_monthly`
+
+What a row is: not yet written.
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 82760.
+
+- **Source:** census:c30_construction_spending U.S. Census Bureau, Construction Spending, monthly time series (privsatime, privtime, pubsatime, pubtime) (https://www.census.gov/construction/c30/historical_data.html)
+- **Method note:** [`docs/methods/census_c30_construction_monthly.md`](../methods/census_c30_construction_monthly.md)
+- **Cite as:** U.S. Census Bureau. Construction Spending (C30), monthly time series by type. Via the Energy Research Warehouse (ERW), table `census_c30_construction_monthly`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example census_c30:federal:amusement_and_recreation, census_c30:federal:commercial, census_c30:federal:conservation_and_development; 110 distinct | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 1993-01-01T00:00:00Z to 2026-08-01T00:00:00Z; 404 distinct | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 1745310000000.0; more than 5000 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | USD | 0 |
+| `freq` | How long the interval of the row is | none | text | P1M | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 82760 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Air, Amusement and Recreation, Automotive; 110 distinct | 0 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | census:c30_construction_spending | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | https://www.census.gov/construction/c30/xlsx/privsatime.xlsx, https://www.census.gov/construction/c30/xlsx/privtime.xlsx, https://www.census.gov/construction/c30/xlsx/pubsatime.xlsx, https://www.census.gov/construction/c30/xlsx/pubtime.xlsx | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T04:17:06Z, 2026-10-24T04:17:09Z, 2026-10-24T04:17:14Z, 2026-10-24T04:17:38Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-10-01T14:00:31Z, 2026-10-01T14:01:56Z, 2026-10-01T14:02:13Z, 2026-10-01T15:28:41Z | 0 |
+| `x_column` | not yet written |  | text | for example Air, Amusement and Recreation, Automotive; 110 distinct | 0 |
+| `x_status` | not yet written |  | text | p, r | 82100 |
+
+Variables (2):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `value_put_in_place` |  | USD | 41380 | 1993-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `value_put_in_place_saar` |  | USD | 41380 | 1993-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
+
+### `census_cbp_hosting_annual`
+
+What a row is: not yet written.
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1836.
+
+- **Source:** census:cbp_state_518210 U.S. Census Bureau, County Business Patterns, state files (https://www2.census.gov/programs-surveys/cbp/datasets/)
+- **Method note:** [`docs/methods/census_cbp_hosting_annual.md`](../methods/census_cbp_hosting_annual.md)
+- **Cite as:** Census Bureau. County Business Patterns: state files, NAICS 518210. Via the Energy Research Warehouse (ERW), table `census_cbp_hosting_annual`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example census_cbp_518210:ak, census_cbp_518210:al, census_cbp_518210:ar; 51 distinct | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2012-01-01T00:00:00Z, 2013-01-01T00:00:00Z, 2014-01-01T00:00:00Z, 2015-01-01T00:00:00Z, 2016-01-01T00:00:00Z, 2017-01-01T00:00:00Z, 2018-01-01T00:00:00Z, 2019-01-01T00:00:00Z, 2020-01-01T00:00:00Z, 2021-01-01T00:00:00Z, 2022-01-01T00:00:00Z, 2023-01-01T00:00:00Z | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 27301760000.0; 1536 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | USD, count | 0 |
+| `freq` | How long the interval of the row is | none | text | P1Y | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US-AK, US-AL, US-AR; 51 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 1836 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example AK, AL, AR; 51 distinct | 0 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | census:cbp_state_518210 | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | https://www2.census.gov/programs-surveys/cbp/datasets/2012/cbp12st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2013/cbp13st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2014/cbp14st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2015/cbp15st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2016/cbp16st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2017/cbp17st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2018/cbp18st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2019/cbp19st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2020/cbp20st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2021/cbp21st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2022/cbp22st.zip, https://www2.census.gov/programs-surveys/cbp/datasets/2023/cbp23st.zip | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T00:23:53Z, 2026-10-24T00:24:51Z, 2026-10-24T00:24:56Z, 2026-10-24T00:25:00Z, 2026-10-24T00:25:05Z, 2026-10-24T00:25:09Z, 2026-10-24T00:25:14Z, 2026-10-24T00:25:18Z, 2026-10-24T00:25:22Z, 2026-10-24T00:25:26Z, 2026-10-24T00:25:30Z, 2026-10-24T00:25:35Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2017-05-09T20:25:03Z, 2017-05-19T11:34:13Z, 2018-04-19T18:27:42Z, 2018-09-12T13:55:44Z, 2018-09-13T13:14:51Z, 2019-11-26T18:58:28Z, 2020-06-25T11:01:49Z, 2021-04-22T10:53:32Z, 2022-04-28T10:35:51Z, 2023-04-27T11:41:44Z, 2024-06-27T11:29:29Z, 2025-06-26T12:00:29Z | 0 |
+| `x_emp_noise` | not yet written |  | text | D, G, H, J, S | 0 |
+| `x_ap_noise` | not yet written |  | text | D, G, H, J | 0 |
+| `x_naics_vintage` | not yet written |  | integer | 2017, 2022 | 0 |
+
+Variables (3):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `annual_payroll` |  | USD | 612 | 2012-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
+| `employment` |  | count | 612 | 2012-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
+| `establishments` |  | count | 612 | 2012-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
+
+### `census_county_population`
+
+What a row is: not yet written.
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 28293.
+
+- **Source:** census:popest/intercensal_county_2010_2020 2010-2020 Intercensal County Population Estimates (by age group and sex) (https://www.census.gov/data/datasets/time-series/demo/popest/intercensal-2010-2020-counties.html)
+- **Source:** census:popest/co-est2025-alldata County Population Totals, Vintage 2025 (co-est2025-alldata.csv) (https://www.census.gov/data/datasets/time-series/demo/popest/2020s-counties-total.html)
+- **Method note:** [`docs/methods/county_population_and_regions.md`](../methods/county_population_and_regions.md)
+- **Cite as:** U.S. Census Bureau. 2010-2020 Intercensal County Population Estimates (by age group and sex); County Population Totals, Vintage 2025. Via the Energy Research Warehouse (ERW), table `census_county_population`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example census:county:01001, census:county:01003, census:county:01005; 3152 distinct | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2018-07-01T00:00:00Z, 2019-07-01T00:00:00Z, 2020-04-01T00:00:00Z, 2020-07-01T00:00:00Z, 2021-07-01T00:00:00Z, 2022-07-01T00:00:00Z, 2023-07-01T00:00:00Z, 2024-07-01T00:00:00Z, 2025-07-01T00:00:00Z | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | integer | 46 to 10098683; more than 5000 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | count | 0 |
+| `freq` | How long the interval of the row is | none | text | P1Y | 3143 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US-AK, US-AL, US-AR; 51 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 28293 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Abbeville County, Acadia Parish, Accomack County; 1887 distinct | 0 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | census:popest/co-est2025-alldata, census:popest/intercensal_county_2010_2020 | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | for example https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/intercensal/county/asrh/cc-est2020int-agesex-01.csv, https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/intercensal/county/asrh/cc-est2020int-agesex-02.csv, https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/intercensal/county/asrh/cc-est2020int-agesex-04.csv; 52 distinct | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-18T01:26:49Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 28293 |
+| `x_state` | not yet written |  | text | for example Alabama, Alaska, Arizona; 51 distinct | 0 |
+| `x_product` | not yet written |  | text | intercensal 2010-2020, vintage 2025 | 0 |
+
+Variables (2):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `population_census_2020` |  | count | 3143 | 2020-04-01T00:00:00Z | 2020-04-01T00:00:00Z |
+| `population_estimate` |  | count | 25150 | 2018-07-01T00:00:00Z | 2025-07-01T00:00:00Z |
+
+### `census_metro_population`
+
+What a row is: not yet written.
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1650.
+
+- **Source:** census:popest_cbsa U.S. Census Bureau, Population Estimates Program, Metropolitan and Micropolitan Statistical Areas Totals, vintage 2025 (https://www.census.gov/data/tables/time-series/demo/popest/2020s-total-metro-and-micro-statistical-areas.html)
+- **Method note:** [`docs/methods/census_metro_population.md`](../methods/census_metro_population.md)
+- **Cite as:** U.S. Census Bureau. Population Estimates Program, Metropolitan and Micropolitan Statistical Areas Totals (vintage 2025). Via the Energy Research Warehouse (ERW), table `census_metro_population`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example census:cbsa:10180, census:cbsa:10180:48, census:cbsa:10420; 825 distinct | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2020-04-01T00:00:00Z, 2025-07-01T00:00:00Z | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | integer | 4570 to 20112448; 960 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | count | 0 |
+| `freq` | How long the interval of the row is | none | empty | no cell holds a value | 1650 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 1650 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Abilene, TX, Akron, OH, Albany, GA; 387 distinct | 0 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | census:popest_cbsa | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/metro/totals/cbsa-est2025-alldata.csv | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-06T00:36:54Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | integer | 2025 | 0 |
+| `x_state` | not yet written |  | integer | 1 to 56; 51 distinct | 774 |
+| `x_counties` | not yet written |  | integer | 1, 10, 11, 12, 13, 14, 15, 17, 2, 29, 3, 4, 5, 6, 7, 8, 9 | 774 |
+
+Variables (2):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `population_2025` |  | count | 825 | 2025-07-01T00:00:00Z | 2025-07-01T00:00:00Z |
+| `population_base_2020` |  | count | 825 | 2020-04-01T00:00:00Z | 2020-04-01T00:00:00Z |
+
+### `census_qss_utilities_hosting_quarterly`
+
+What a row is: not yet written.
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 784.
+
+- **Source:** census:qss_benchmark U.S. Census Bureau, Quarterly Services Survey, Historical Annual Benchmark Dataset (2024) (https://www.census.gov/services/qss/benchmark.html)
+- **Method note:** [`docs/methods/census_qss_utilities_hosting_quarterly.md`](../methods/census_qss_utilities_hosting_quarterly.md)
+- **Cite as:** U.S. Census Bureau. Quarterly Services Survey, Historical Annual Benchmark Dataset (2024). Via the Energy Research Warehouse (ERW), table `census_qss_utilities_hosting_quarterly`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | census_qss:22, census_qss:2211, census_qss:2212, census_qss:2213, census_qss:518 | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2003-10-01T00:00:00Z to 2024-10-01T00:00:00Z; 85 distinct | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | 252000000.0 to 205605000000.0; 778 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | USD | 0 |
+| `freq` | How long the interval of the row is | none | text | P3M | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 784 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | 2211: Electric Power Generation, Transmission and Distribution, 2212: Natural Gas Distribution, 2213: Water, Sewage and Other Systems, 22: Utilities, 518: Data Processing, Hosting, and Related Services | 0 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | census:qss_benchmark | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | https://www2.census.gov/services/qss/2024/qss-mf-24.csv | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T04:42:06Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2025-05-22T14:15:27Z | 0 |
+| `x_cv` | not yet written |  | number | 1.6 to 29.8; 120 distinct | 0 |
+
+Variables (5):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `revenue_from_businesses` |  | USD | 45 | 2003-10-01T00:00:00Z | 2017-07-01T00:00:00Z |
+| `revenue_from_governments` |  | USD | 60 | 2003-10-01T00:00:00Z | 2021-07-01T00:00:00Z |
+| `revenue_from_households` |  | USD | 29 | 2003-10-01T00:00:00Z | 2022-04-01T00:00:00Z |
+| `total_revenue` |  | USD | 325 | 2003-10-01T00:00:00Z | 2024-10-01T00:00:00Z |
+| `total_revenue_sa` |  | USD | 325 | 2003-10-01T00:00:00Z | 2024-10-01T00:00:00Z |
+

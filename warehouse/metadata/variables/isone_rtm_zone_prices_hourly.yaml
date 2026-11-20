@@ -5,9 +5,12 @@
 table: isone_rtm_zone_prices_hourly
 family: isone
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: ISO-NE's hourly real-time locational marginal price (final, or preliminary until the final is posted) at one of its eight
+  load zones or its Internal Hub for one hour.
+time: ts_utc is the start of the hour in UTC (ISO-NE's hour ending, Eastern, read with gridstatus's helper); operating days
+  are America/New_York days.
+vintage_rule: Merged by (entity, variable, ts_utc); a preliminary day is replaced by the final one when a later run's three-day
+  window holds it, and a final day is replaced only while it is in a run's window. vintage is the final file's Last-Modified.
 keys:
 - entity
 - variable
@@ -44,6 +47,7 @@ columns:
       isone:.Z.VERMONT: 1777
       isone:.Z.WCMASS: 1777
   missing_cells: 0
+  particular: isone:<node>, the node's ISO-NE name
 - name: variable
   shared: true
   type: text
@@ -87,6 +91,7 @@ columns:
     list:
       US-CT,US-MA,US-ME,US-NH,US-RI,US-VT: 15993
   missing_cells: 0
+  particular: ISO-NE's six states in every row, also for a zone in one state
 - name: market
   shared: true
   type: text
@@ -94,6 +99,7 @@ columns:
     list:
       isone_rtm: 15993
   missing_cells: 0
+  particular: 'isone_rtm in every row: ISO-NE''s real-time energy market'
 - name: node
   shared: true
   type: text
@@ -109,6 +115,8 @@ columns:
       .Z.VERMONT: 1777
       .Z.WCMASS: 1777
   missing_cells: 0
+  particular: 'ISO-NE''s name of the location: .H.INTERNAL_HUB (the Internal Hub) or .Z.<zone> for the eight load zones (CONNECTICUT,
+    MAINE, NEMASSBOST, NEWHAMPSHIRE, RHODEISLAND, SEMASS, VERMONT, WCMASS)'
 - name: source
   shared: true
   type: text
@@ -117,6 +125,7 @@ columns:
       isone:rt_lmp_hourly_final: 14697
       isone:rt_lmp_hourly_prelim: 1296
   missing_cells: 0
+  particular: isone:rt_lmp_hourly_final for a final row, isone:rt_lmp_hourly_prelim for a preliminary row
 - name: source_url
   shared: true
   type: text
@@ -145,9 +154,11 @@ columns:
     earliest: '2026-08-27T17:35:33Z'
     latest: '2026-11-13T21:30:13Z'
   missing_cells: 1296
+  particular: The final file's Last-Modified; empty on preliminary rows (publish time not given by the source)
 variables:
 - name: lmp_rtm
-  label: null
+  label: Hourly real-time locational marginal price (the price of energy at the location in the real-time market), ISO-NE's
+    own hourly figure
   unit: USD/MWh
   rows: 15993
   first: '2026-08-26T04:00:00Z'

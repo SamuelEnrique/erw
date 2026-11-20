@@ -5,9 +5,10 @@
 table: company_aliases
 family: company
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One name a company of the company database goes by, as one input table writes it in one role, with the first row that
+  uses it and the count of rows.
+time: No time column; the table is a snapshot of the ERW's tables as built (vintage reads 20261116 on every row).
+vintage_rule: Rewritten whole by each run of the builder (warehouse/derived/companies.py) from the tables held.
 keys:
 - entity_id
 license: public
@@ -40,6 +41,7 @@ columns:
     - company_alias:0002b3a05b8cdcb1
     - company_alias:0004d5952693ec45
   missing_cells: 0
+  particular: company_alias:<16 hex characters of a SHA-1 of company, name, table and role>
 - name: entity_type
   shared: true
   type: text
@@ -47,6 +49,7 @@ columns:
     list:
       company_alias: 25986
   missing_cells: 0
+  particular: Always company_alias
 - name: name
   shared: true
   type: text
@@ -59,12 +62,14 @@ columns:
     - 1008 Matthews Solar, LLC
     - 1009 Yadkin Solar, LLC
   missing_cells: 0
+  particular: The name as written in the input table (the same as alias)
 - name: geo
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 25986
+  particular: 'Not filled: no cell holds a value'
 - name: lat
   shared: true
   type: empty
@@ -89,6 +94,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 25986
+  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -130,8 +136,8 @@ columns:
       '20261116': 25986
   missing_cells: 0
 - name: company_id
-  label: null
-  unit: null
+  label: 'The company the name belongs to: the entity_id of company_directory'
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -142,12 +148,12 @@ columns:
     - company:1st-rochdale-cooperative-group
     - company:212-solar-development
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector companies.py; method companies.md
 - name: company_name
-  label: null
-  unit: null
+  label: The company's name in company_directory
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -158,12 +164,12 @@ columns:
     - 1008 Matthews Solar, LLC
     - 1009 Yadkin Solar, LLC
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector companies.py; method companies.md
 - name: alias
-  label: null
-  unit: null
+  label: The name as the input table writes it
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -174,12 +180,13 @@ columns:
     - 1008 Matthews Solar, LLC
     - 1009 Yadkin Solar, LLC
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector companies.py
 - name: normalized
-  label: null
-  unit: null
+  label: 'The name normalized for matching: ASCII, lower case, punctuation and legal forms (Inc, LLC, Corp) dropped, EIA''s
+    abbreviations expanded'
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -190,12 +197,12 @@ columns:
     - 1008 matthews solar
     - 1009 yadkin solar
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method companies.md
 - name: input_table
-  label: null
-  unit: null
+  label: The ERW table the name is written in
+  unit: none
   type: text
   values:
     list:
@@ -213,12 +220,13 @@ columns:
       policy_actions: 70
       utility_service_territories: 2909
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method companies.md
 - name: role
-  label: null
-  unit: null
+  label: What the company is in that table's rows (operator, owner, buyer, seller, utility, interconnection_customer, agency,
+    licensee and the others)
+  unit: none
   type: text
   values:
     list:
@@ -235,12 +243,12 @@ columns:
       service_territory: 2909
       utility: 3782
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method companies.md; data
 - name: first_row
-  label: null
-  unit: null
+  label: The first input row with the name (its entity_id or event_id)
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -251,24 +259,24 @@ columns:
     - datacenter:05e72e9231b9523b
     - datacenter:079c16b85e73e417
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: n_rows
-  label: null
-  unit: null
+  label: The number of input rows that write the name in that table and role
+  unit: count
   type: integer
   values:
     distinct: 141
     lowest: 1
     highest: 1115
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector companies.py
 - name: match_rule
-  label: null
-  unit: null
+  label: 'The rule that matched the name to the company: eia_id, reviewed_alias, anchored_name, name or company_word'
+  unit: none
   type: text
   values:
     list:
@@ -278,12 +286,13 @@ columns:
       name: 2834
       reviewed_alias: 34
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method companies.md
 - name: confidence
-  label: null
-  unit: null
+  label: 'The confidence of the match, set by its rule: eia_id 1.0, reviewed_alias 0.95, anchored_name 0.9, name 0.85, company_word
+    0.7'
+  unit: none
   type: number
   values:
     list:
@@ -293,19 +302,19 @@ columns:
       '0.95': 34
       '1.0': 22727
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method companies.md
 - name: license
-  label: null
-  unit: null
+  label: 'The input table''s license: internal where its publisher asks for written permission, else public'
+  unit: none
   type: text
   values:
     list:
       internal: 1879
       public: 24107
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method companies.md
 second_look: null

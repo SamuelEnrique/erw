@@ -5,9 +5,12 @@
 table: utility_large_load_rules
 family: utility
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One US utility's (or one state commission's) rule for connecting large loads, such as data centers, with its terms as
+  the documents print them, read by the ERW's research pass of 13 November 2026.
+time: event_date is a date (no time zone), the rule's status date as the documents print it, else the day the document was
+  read (x_date_kind says which).
+vintage_rule: Rewritten whole from the committed research file (utilities_2026-11-13.csv) by each run of the connector; no
+  vintage column. Rows whose only source asks written permission are held and named in the header, not written.
 keys:
 - event_id
 license: public
@@ -43,6 +46,7 @@ columns:
     - llrule:aep-08
     - llrule:ameren_evergy_spp-01
   missing_cells: 0
+  particular: llrule:<row_id>
 - name: event_date
   shared: true
   type: date
@@ -51,6 +55,7 @@ columns:
     earliest: '2010-01-01'
     latest: '2026-11-13'
   missing_cells: 0
+  particular: The rule's status date the documents print, else the day read (x_date_kind)
 - name: event_type
   shared: true
   type: text
@@ -58,6 +63,7 @@ columns:
     list:
       large_load_rule: 100
   missing_cells: 0
+  particular: Always large_load_rule
 - name: parties
   shared: true
   type: text
@@ -70,6 +76,7 @@ columns:
     - Ameren Illinois Company d/b/a Ameren Illinois
     - Arizona Public Service Company
   missing_cells: 0
+  particular: The utility or commission whose rule it is
 - name: entity_ids
   shared: true
   type: empty
@@ -82,6 +89,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 100
+  particular: 'Not filled: the files print sizes as phrases (x_threshold_mw)'
 - name: price
   shared: true
   type: empty
@@ -105,6 +113,7 @@ columns:
       ordered: 1
       proposed: 25
   missing_cells: 0
+  particular: 'The rule''s state: ordered, proposed, approved, in effect, denied or withdrawn'
 - name: source
   shared: true
   type: text
@@ -124,9 +133,10 @@ columns:
     - https://apps.puc.state.or.us/orders/2026ords/26-154.pdf
     - https://apps.puc.state.or.us/orders/2026ords/26-443.pdf
   missing_cells: 0
+  particular: The document the rule was read in
 - name: x_row_id
-  label: null
-  unit: null
+  label: The research file's identifier of the rule (<group>-<number>)
+  unit: none
   type: text
   values:
     distinct: 100
@@ -137,12 +147,12 @@ columns:
     - aep-08
     - ameren_evergy_spp-01
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: row_id
+  documented_by: header; connector large_load_research.py
 - name: x_group
-  label: null
-  unit: null
+  label: The research pass's group of utilities the rule was read under (aep, dominion, duke and the others)
+  unit: none
   type: text
   values:
     list:
@@ -164,12 +174,12 @@ columns:
       tva_southeast: 6
       xcel_plains: 8
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: group
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
 - name: x_utility
-  label: null
-  unit: null
+  label: The utility or commission whose rule it is, as the filing names it
+  unit: none
   type: text
   values:
     distinct: 80
@@ -180,12 +190,12 @@ columns:
     - Ameren Illinois Company d/b/a Ameren Illinois
     - Arizona Public Service Company
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: utility
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
 - name: x_state
-  label: null
-  unit: null
+  label: The state of the utility, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 39
@@ -196,12 +206,13 @@ columns:
     - CA
     - CO
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: state
+  documented_by: connector large_load_research.py; data
 - name: x_iso_region
-  label: null
-  unit: null
+  label: 'The grid operator (ISO) or balancing authority where the load would sit: the ERW''s own classification, not a cited
+    value'
+  unit: none
   type: text
   values:
     distinct: 32
@@ -212,12 +223,12 @@ columns:
     - CPLE and CPLW (Duke Energy Progress balancing authorities), no RTO
     - DUK (Duke Energy Carolinas balancing authority), no RTO
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: iso_region
+  documented_by: method large_load_research.md; source docs/research/large_load/README.md
 - name: x_rule_name
-  label: null
-  unit: null
+  label: The rule's name as the documents print it (schedule, tariff sheet or code section)
+  unit: none
   type: text
   values:
     distinct: 100
@@ -232,12 +243,12 @@ columns:
     - Ameren Missouri Service Classification No. 11(M), Large Load Customer Service (LLCS), MO.P.S.C. Schedule No. 6, Sheets
       61.4 to 61.19
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: rule_name
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
 - name: x_status_date
-  label: null
-  unit: null
+  label: The date the documents state for the rule's status, as printed
+  unit: none
   type: text
   values:
     distinct: 65
@@ -248,12 +259,12 @@ columns:
     - '2023-07-01'
     - 2024-09
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: status date
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
 - name: x_status_cite
-  label: null
-  unit: null
+  label: The page or section and the words that state the rule's status and date
+  unit: none
   type: text
   values:
     distinct: 99
@@ -275,24 +286,24 @@ columns:
       Power Service Customer Affordability Enhancement Plan: "Evergy Kansas Central and Evergy Metro requested expedited treatment
       of the application and that the KCC issue an order in February 2027."'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: status cites
+  documented_by: header; source docs/research/large_load/README.md
 - name: x_date_kind
-  label: null
-  unit: null
+  label: Whether event_date is the date the documents state ('stated date') or the day the document was read ('date read')
+  unit: none
   type: text
   values:
     list:
       date read: 27
       stated date: 73
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_research.py; method large_load_research.md
 - name: x_docket
-  label: null
-  unit: null
+  label: The docket or case number of the rule as printed, or 'not published'
+  unit: none
   type: text
   values:
     distinct: 66
@@ -303,12 +314,12 @@ columns:
     - 25-055-P
     - 25-0826
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: docket
+  documented_by: source docs/research/large_load/README.md
 - name: x_docket_cite
-  label: null
-  unit: null
+  label: The page or section and the words that print the docket
+  unit: none
   type: text
   values:
     distinct: 93
@@ -324,12 +335,13 @@ columns:
       (read 2026-11-13) p. 74, PUCT stamp on Sheet 2 (6.3.2): "Approved on: APR 17 2026" | https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF
       (read 2026-11-13) p. 1, filing receipt: "Filed Date - 2026-09-18 01:19:42 PM Control Number - 58481 Item Number - 218"'
   missing_cells: 2
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Empty where the docket is 'not published' (2 rows)
+  source_name: docket cites
+  documented_by: header; data
 - name: x_threshold_mw
-  label: null
-  unit: null
+  label: The size of load the rule applies to, as a phrase the documents print (for example 50 MW at a load factor of 85 percent
+    or higher), or 'not published'
+  unit: none
   type: text
   values:
     distinct: 64
@@ -345,12 +357,12 @@ columns:
       anywhere in the territory have their Contract Demand summed'
     - 25 MW monthly maximum demand (the Commission's definition of a large load customer in Order No. 10829)
   missing_cells: 10
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Empty where the value is held in the ERW's registry (x_held) or withheld for a license (x_withheld)
+  source_name: threshold_mw
+  documented_by: header; method large_load_research.md
 - name: x_threshold_mw_cite
-  label: null
-  unit: null
+  label: The page or section and the words for x_threshold_mw
+  unit: none
   type: text
   values:
     distinct: 92
@@ -365,12 +377,12 @@ columns:
       (read 2026-11-13) p. 11: "that sets the terms by which the data center will receive service under ELL’s Large Load High
       Load Factor Power Service (LLHLFPSL) rate schedule."'
   missing_cells: 8
-  missing_meaning: null
+  missing_meaning: Empty where the value is held or withheld, or 'not published'
   source_name: null
-  documented_by: null
+  documented_by: header; data
 - name: x_min_demand
-  label: null
-  unit: null
+  label: The minimum demand or minimum bill the customer must pay for, as printed, or 'not published'
+  unit: none
   type: text
   values:
     distinct: 48
@@ -391,12 +403,12 @@ columns:
       the billing demand charge plus excess facilities charge; the customer must contract for demand and load factor sufficient
       to protect the cooperative's investment
   missing_cells: 8
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Empty where the value is held in the ERW's registry (x_held) or withheld (x_withheld)
+  source_name: min_demand
+  documented_by: header; source docs/research/large_load/README.md
 - name: x_min_demand_cite
-  label: null
-  unit: null
+  label: The page or section and the words for x_min_demand
+  unit: none
   type: text
   values:
     distinct: 89
@@ -425,12 +437,12 @@ columns:
       stated in Schedule 1." | https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF (read 2026-11-13) p. 9, Proposed
       Order, Finding of Fact 41: "Contract Capacity stated in Schedule 1 times 70% times billing hours in the month."'
   missing_cells: 7
-  missing_meaning: null
+  missing_meaning: Empty where the value is held or withheld, or 'not published'
   source_name: null
-  documented_by: null
+  documented_by: header; data
 - name: x_contract_term
-  label: null
-  unit: null
+  label: The contract length the rule requires, as printed, or 'not published'
+  unit: none
   type: text
   values:
     distinct: 49
@@ -445,12 +457,12 @@ columns:
       five-year terms subject to NDPSC approval; needs an NDPSC waiver of Rate 45's three-to-five-year term
     - 15 years or more (minimum initial term of 15 years)
   missing_cells: 4
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Empty where the value is held in the ERW's registry (x_held) or withheld (x_withheld)
+  source_name: contract_term
+  documented_by: header; source docs/research/large_load/README.md
 - name: x_contract_term_cite
-  label: null
-  unit: null
+  label: The page or section and the words for x_contract_term
+  unit: none
   type: text
   values:
     distinct: 89
@@ -482,12 +494,12 @@ columns:
       contract shall renew annually for successive one-year tenns (each a"Renewal Tenn") until Company or Customer provide
       the other party notice at least five years prior to the end of the Contract Term or Renewal Term, as applicable."'
   missing_cells: 4
-  missing_meaning: null
+  missing_meaning: Empty where the value is held or withheld, or 'not published'
   source_name: null
-  documented_by: null
+  documented_by: header; data
 - name: x_collateral
-  label: null
-  unit: null
+  label: The security or collateral the customer must post, as printed, or 'not published'
+  unit: none
   type: text
   values:
     distinct: 63
@@ -514,12 +526,12 @@ columns:
     - 24 times the previous maximum monthly non-fuel bill (the maximum expected bill in the first contract year), recomputed
       annually and updated if 10% greater
   missing_cells: 3
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Empty where the value is held in the ERW's registry (x_held) or withheld (x_withheld)
+  source_name: collateral
+  documented_by: header; source docs/research/large_load/README.md
 - name: x_collateral_cite
-  label: null
-  unit: null
+  label: The page or section and the words for x_collateral
+  unit: none
   type: text
   values:
     distinct: 94
@@ -573,12 +585,12 @@ columns:
       percent of the cost of infrastructure improvements or additions for loads over four megawatts" | p. 1: "This repeal
       does not impact the utility’s authority to assess a deposit or other security as necessary."'
   missing_cells: 3
-  missing_meaning: null
+  missing_meaning: Empty where the value is held or withheld, or 'not published'
   source_name: null
-  documented_by: null
+  documented_by: header; data
 - name: x_exit_fee
-  label: null
-  unit: null
+  label: What the customer pays on leaving or terminating early, as printed, or 'not published'
+  unit: none
   type: text
   values:
     distinct: 44
@@ -597,12 +609,12 @@ columns:
       Revenue Deficiency for the remaining term, that deficiency being reduced by the termination payments collected or owed'
     - Early Termination Fee (amount not public); ELL files for approval of its use after receipt
   missing_cells: 3
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Empty where the value is held in the ERW's registry (x_held) or withheld (x_withheld)
+  source_name: exit_fee
+  documented_by: header; source docs/research/large_load/README.md
 - name: x_exit_fee_cite
-  label: null
-  unit: null
+  label: The page or section and the words for x_exit_fee
+  unit: none
   type: text
   values:
     distinct: 92
@@ -647,12 +659,12 @@ columns:
       (read 2026-11-13) p. 5, 10. Term and Termination: "Upon termination of Service, all outstanding amounts shall become
       immediately due and payable."'
   missing_cells: 3
-  missing_meaning: null
+  missing_meaning: Empty where the value is held or withheld, or 'not published'
   source_name: null
-  documented_by: null
+  documented_by: header; data
 - name: x_study_timeline
-  label: null
-  unit: null
+  label: The time and terms of the utility's study of the load request, as printed, or 'not published'
+  unit: none
   type: text
   values:
     distinct: 30
@@ -674,12 +686,12 @@ columns:
     - 'Commission review: the commission approves or denies a new large load service contract within 270 days of the utility''s
       filing, which must include a no harm test; no engineering study clock'
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Empty where the value is withheld for a license (x_withheld)
+  source_name: study_timeline
+  documented_by: header; source docs/research/large_load/README.md
 - name: x_study_timeline_cite
-  label: null
-  unit: null
+  label: The page or section and the words for x_study_timeline
+  unit: none
   type: text
   values:
     distinct: 95
@@ -713,12 +725,12 @@ columns:
     - 'https://psc.ga.gov/site/downloads/annual_reports/2025_GAPSC_Annual_Report.pdf (read 2026-11-13) p. 18: "Georgia Power
       also must provide the PSC all new contracts with data centers at least 30 days before execution."'
   missing_cells: 1
-  missing_meaning: null
+  missing_meaning: Empty where the value is withheld
   source_name: null
-  documented_by: null
+  documented_by: header; data
 - name: x_connection_timeline
-  label: null
-  unit: null
+  label: The time to connect the load, as printed, or 'not published'
+  unit: none
   type: text
   values:
     distinct: 28
@@ -736,12 +748,12 @@ columns:
     - Expected to begin taking service in December 2027, with maximum load by December 2028 (DTE Electric's expectation as
       reported by the MPSC)
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Empty where the value is withheld for a license (x_withheld)
+  source_name: connection_timeline
+  documented_by: header; source docs/research/large_load/README.md
 - name: x_connection_timeline_cite
-  label: null
-  unit: null
+  label: The page or section and the words for x_connection_timeline
+  unit: none
   type: text
   values:
     distinct: 94
@@ -779,12 +791,13 @@ columns:
       give the entity requesting Construction Service an estimated completion date and an estimated cost for all charges to
       be assessed"'
   missing_cells: 1
-  missing_meaning: null
+  missing_meaning: Empty where the value is withheld
   source_name: null
-  documented_by: null
+  documented_by: header; data
 - name: x_queue_size
-  label: null
-  unit: null
+  label: The utility's queue of large-load requests, as printed by the utility, its commission or its grid operator (a phrase),
+    'not published', or a pointer to the same utility's other row ('see row')
+  unit: none
   type: text
   values:
     distinct: 54
@@ -802,12 +815,12 @@ columns:
       design pending the Interconnection Agreement, 1 cancelled); as reported in Appendix B of the DPS report, which prints
       no as-of date
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Empty where the value is withheld for a license (x_withheld)
+  source_name: queue_size
+  documented_by: header; source docs/research/large_load/README.md; data
 - name: x_queue_size_cite
-  label: null
-  unit: null
+  label: The page or section and the words for x_queue_size
+  unit: none
   type: text
   values:
     distinct: 70
@@ -829,12 +842,12 @@ columns:
       p. 1, Overview: "As of September 2026, there are nearly 14 gigawatts of large load requests in the New York Independent
       System Operator''s (NYISO) interconnection queue, with over 8 gigawatts entering in 2025 alone."'
   missing_cells: 29
-  missing_meaning: null
+  missing_meaning: Empty where the value is 'not published', a 'see row' pointer, or withheld
   source_name: null
-  documented_by: null
+  documented_by: header; data
 - name: x_source_title
-  label: null
-  unit: null
+  label: The document's own title
+  unit: none
   type: text
   values:
     distinct: 98
@@ -850,23 +863,23 @@ columns:
     - Ameren Missouri's compliance tariff sheets for Large Load Customer Service, issued 5 December 2025, effective 4 January
       2026 (Missouri PSC EFIS document 859644), General Rules and Regulations Sheets 122, 125 and 126
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: source_title
+  documented_by: source docs/research/large_load/README.md
 - name: x_date_read
-  label: null
-  unit: null
+  label: The day the document was read by the research pass
+  unit: none
   type: date
   values:
     list:
       '2026-11-13': 100
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: date_read
+  documented_by: connector large_load_research.py
 - name: x_quoted_clause
-  label: null
-  unit: null
+  label: The page or section and the words that make the document a large-load rule
+  unit: none
   type: text
   values:
     distinct: 100
@@ -884,12 +897,12 @@ columns:
     - 'Electric Service Agreements under review: "An ESA between Minnesota Power and Harmony Group, LLC (a subsidiary of Alphabet/Google)
       for a data center in Hermantown, Minnesota."'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: quoted_clause
+  documented_by: source docs/research/large_load/README.md
 - name: x_license_basis
-  label: null
-  unit: null
+  label: 'Why the row may be public: the copy it was read from (a commission''s docket copy, an SEC filing and so on)'
+  unit: none
   type: text
   values:
     distinct: 91
@@ -901,24 +914,26 @@ columns:
     - 'City of Austin public records (services.austintexas.gov: council backup, ordinance, Austin Energy presentation)'
     - Evergy's Form 10-Q on SEC EDGAR
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: license_basis
+  documented_by: connector large_load_research.py; method large_load_research.md
 - name: x_withheld
-  label: null
-  unit: null
+  label: The fields of this public row left empty because they rest only on a host whose terms ask written permission, joined
+    by ';'
+  unit: none
   type: text
   values:
     list:
       collateral;connection_timeline;study_timeline: 1
       queue_size: 1
   missing_cells: 98
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Empty where no field is withheld (98 of 100 rows)
+  source_name: internal_fields
+  documented_by: connector large_load_research.py; method large_load_research.md
 - name: x_held
-  label: null
-  unit: null
+  label: 'The fields whose value the ERW''s own registry already holds, each with the registry file (field: registry/file),
+    joined by ''; '''
+  unit: none
   type: text
   values:
     list:
@@ -944,12 +959,13 @@ columns:
         contract_term: large_load_tariffs/portland_general_electric_schedule_96.yaml; exit_fee: large_load_tariffs/portland_general_electric_schedule_96.yaml'
       : 1
   missing_cells: 89
-  missing_meaning: null
+  missing_meaning: Empty where no field is held in the registry
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_research.py; method large_load_research.md
 - name: x_erw_overlap
-  label: null
-  unit: null
+  label: 'How the row compares with the ERW''s registries: the file and the old value where they differ, or that the rule
+    is not held'
+  unit: none
   type: text
   values:
     distinct: 40
@@ -973,12 +989,12 @@ columns:
       (minimum term, upfront payments, security and collateral, minimum payment, no figures); this row is the PSC's procedure
       under it, not held.
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: erw_overlap
+  documented_by: source docs/research/large_load/README.md; data
 - name: x_notes
-  label: null
-  unit: null
+  label: 'The research pass''s notes on the row: leads, refusals, what waits'
+  unit: none
   type: text
   values:
     distinct: 100
@@ -1021,7 +1037,7 @@ columns:
       without a SLLIA; CIAC not refundable (statewide row)''. Corrected by the independent audit of session 5304 (A-23): collateral
       now names the guaranty and the letter of credit the rule accepts.'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: notes
+  documented_by: source docs/research/large_load/README.md
 second_look: null

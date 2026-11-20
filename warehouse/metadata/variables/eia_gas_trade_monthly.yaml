@@ -5,9 +5,11 @@
 table: eia_gas_trade_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's natural gas imports or exports through one route (pipeline with Canada or Mexico, LNG in all, or one point
+  of exit), in million cubic feet.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (the file is deleted and the history from January 2015 written again), so EIA's
+  revisions are taken. vintage is not filled.
 keys:
 - entity
 - variable
@@ -45,6 +47,7 @@ columns:
     - eia:N9132CN2
     - eia:N9132MX2
   missing_cells: 0
+  particular: eia:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -88,12 +91,14 @@ columns:
     list:
       US: 1999
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1999
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -106,6 +111,7 @@ columns:
     - Cameron (Calcasieu Pass), LA Liquefied Natural Gas Exports to All Countries
     - Cameron, LA Liquefied Natural Gas Exports
   missing_cells: 0
+  particular: EIA's name of the series without its unit
 - name: source
   shared: true
   type: text
@@ -159,15 +165,17 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 1999
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: export_volume
-  label: null
+  label: Natural gas exported in the month (by pipeline to Canada or Mexico, LNG in all, or through one point of exit), million
+    cubic feet
   unit: MMcf
   rows: 1579
   first: '2015-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: import_volume
-  label: null
+  label: Natural gas imported in the month (by pipeline from Canada or Mexico, or as LNG), million cubic feet
   unit: MMcf
   rows: 420
   first: '2015-01-01T00:00:00Z'

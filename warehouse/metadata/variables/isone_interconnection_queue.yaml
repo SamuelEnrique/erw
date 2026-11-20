@@ -5,9 +5,11 @@
 table: isone_interconnection_queue
 family: isone
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One position (a request, or a unit or phase of one) in ISO-NE's interconnection queue of generation and other projects
+  asking to connect to the grid.
+time: No time column. Dates are ISO-NE's, YYYY-MM-DD; vintage is the retrieval date. The table is a snapshot of the queue
+  as read on its retrieved_at.
+vintage_rule: A snapshot rewritten whole by each run (Mondays); earlier queues are kept in the archive and the raw files.
 keys:
 - entity_id
 license: public
@@ -40,6 +42,8 @@ columns:
     - isone_queue:1000
     - isone_queue:1001
   missing_cells: 0
+  particular: isone_queue:<queue id>, with :<n> added where ISO-NE lists one queue id on several rows (units, phases), n in
+    ISO-NE's row order
 - name: entity_type
   shared: true
   type: text
@@ -72,6 +76,7 @@ columns:
       US-RI: 123
       US-VT: 109
   missing_cells: 32
+  particular: US-<state> from ISO-NE's State; empty where the state is not a US state or DC (New Brunswick's NB) or not given
 - name: lat
   shared: true
   type: empty
@@ -92,6 +97,8 @@ columns:
     lowest: -21.2
     highest: 2400.0
   missing_cells: 278
+  particular: ISO-NE's requested capacity as gridstatus reads it (Capacity (MW)); a negative value is a net reduction as ISO-NE
+    states it
 - name: status
   shared: true
   type: text
@@ -101,6 +108,7 @@ columns:
       completed: 364
       withdrawn: 1337
   missing_cells: 0
+  particular: active, withdrawn or completed, mapped one to one from iso_status
 - name: status_date
   shared: true
   type: date
@@ -109,12 +117,14 @@ columns:
     earliest: '2006-04-13'
     latest: '2026-10-29'
   missing_cells: 556
+  particular: The withdrawn date of a withdrawn row; ISO-NE gives no in-service date, so no completed row has one
 - name: operator
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1751
+  particular: The interconnecting entity; empty in every row, ISO-NE does not give it
 - name: source
   shared: true
   type: text
@@ -143,21 +153,22 @@ columns:
     list:
       '2026-11-05': 1751
   missing_cells: 0
+  particular: The retrieval date (retrieved_at's day), not a publication date
 - name: queue_id
-  label: null
-  unit: null
+  label: ISO-NE's queue number of the request
+  unit: none
   type: integer
   values:
     distinct: 1601
     lowest: 1
     highest: 1601
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Queue ID
+  documented_by: connector iso_queues.py; method isone_interconnection_queue.md
 - name: county
-  label: null
-  unit: null
+  label: The county (or counties) of the project as ISO-NE writes it
+  unit: none
   type: text
   values:
     distinct: 112
@@ -168,12 +179,12 @@ columns:
     - Androscoggin
     - Androscoggin/Franklin
   missing_cells: 116
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ISO-NE gives no county
+  source_name: County
+  documented_by: connector iso_queues.py
 - name: state
-  label: null
-  unit: null
+  label: The state of the project, two-letter code as ISO-NE gives it (NB for New Brunswick kept)
+  unit: none
   type: text
   values:
     list:
@@ -186,12 +197,12 @@ columns:
       RI: 123
       VT: 109
   missing_cells: 31
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ISO-NE gives no state
+  source_name: State
+  documented_by: connector iso_queues.py; method isone_interconnection_queue.md
 - name: poi
-  label: null
-  unit: null
+  label: 'The point of interconnection: the substation or line where the project would connect'
+  unit: none
   type: text
   values:
     distinct: 1442
@@ -203,12 +214,12 @@ columns:
     - 11.5kV bus at Brookfield owned existing Rumford Falls Substation which is connected to the CMP 115kV 218 Line.
     - 115 kV B128 line; 18.88 miles from Barre B128 and 5.3 miles from French King
   missing_cells: 27
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ISO-NE gives no location
+  source_name: Interconnection Location
+  documented_by: connector iso_queues.py
 - name: zone
-  label: null
-  unit: null
+  label: ISO-NE's load zone of the project (ME, SEMA, WMA, CT, RI, NH, BHE, VT, SWCT, BOST, CMA, NOR, SME)
+  unit: none
   type: text
   values:
     list:
@@ -226,12 +237,12 @@ columns:
       VT: 113
       WMA: 213
   missing_cells: 43
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ISO-NE gives no zone
+  source_name: Zone
+  documented_by: connector iso_queues.py; method isone_interconnection_queue.md
 - name: transmission_owner
-  label: null
-  unit: null
+  label: The transmission owner the project connects to, as ISO-NE writes it
+  unit: none
   type: text
   values:
     list:
@@ -245,12 +256,13 @@ columns:
       TEUS: 1
       UI: 9
   missing_cells: 1105
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ISO-NE gives none (empty in most rows)
+  source_name: Transmission Owner
+  documented_by: connector iso_queues.py; method isone_interconnection_queue.md
 - name: fuel_technology
-  label: null
-  unit: null
+  label: The generation type in EIA's fuel codes, several joined by spaces for a hybrid (SUN solar, BAT battery, WND wind,
+    NG natural gas, DFO distillate oil, WAT water and others)
+  unit: none
   type: text
   values:
     distinct: 36
@@ -261,12 +273,12 @@ columns:
     - BLQ DFO KER WDS
     - BLQ WDS
   missing_cells: 265
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ISO-NE gives no generation type
+  source_name: Generation Type
+  documented_by: connector iso_queues.py; method isone_interconnection_queue.md
 - name: iso_status
-  label: null
-  unit: null
+  label: ISO-NE's own status of the request (Active, Withdrawn, Completed)
+  unit: none
   type: text
   values:
     list:
@@ -274,53 +286,53 @@ columns:
       Completed: 364
       Withdrawn: 1337
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Status
+  documented_by: connector iso_queues.py
 - name: queue_date
-  label: null
-  unit: null
+  label: The date the request entered the queue
+  unit: none
   type: date
   values:
     distinct: 982
     earliest: '1996-06-07'
     latest: '2025-01-14'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Queue Date
+  documented_by: connector iso_queues.py
 - name: proposed_in_service_date
-  label: null
-  unit: null
+  label: The date the project proposes to begin operating
+  unit: none
   type: date
   values:
     distinct: 748
     earliest: '2007-05-31'
     latest: '2033-03-27'
   missing_cells: 225
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ISO-NE gives no proposed date
+  source_name: Proposed Completion Date
+  documented_by: connector iso_queues.py
 - name: actual_in_service_date
-  label: null
-  unit: null
+  label: The date the project began operating
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1751
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'Empty in every row: ISO-NE does not give it'
+  source_name: Actual Completion Date, In-Service Date or Op Date (gridstatus)
+  documented_by: connector iso_queues.py; method isone_interconnection_queue.md
 - name: withdrawn_date
-  label: null
-  unit: null
+  label: The date the request was withdrawn
+  unit: none
   type: date
   values:
     distinct: 606
     earliest: '2006-04-13'
     latest: '2026-10-29'
   missing_cells: 556
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not withdrawn, or withdrawn with no date given
+  source_name: Withdrawn Date
+  documented_by: connector iso_queues.py
 second_look: null

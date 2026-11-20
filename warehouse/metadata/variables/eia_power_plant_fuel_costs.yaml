@@ -5,9 +5,12 @@
 table: eia_power_plant_fuel_costs
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One location's monthly average cost of coal or natural gas delivered to the electric power sector, in one unit (per MMBtu,
+  per short ton, per Mcf), from Form EIA-923.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M); the header's words on a survey Monday do not concern this
+  table.
+vintage_rule: Rewritten whole by each run (the file is deleted and the history from January 2019 written again), so EIA's
+  revisions are taken; the copy held was rebuilt from the ERW archive by restore_tables.py. vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +47,7 @@ columns:
     - eia:plant_fuel_cost:AL:NG
     - eia:plant_fuel_cost:AR:COW
   missing_cells: 0
+  particular: eia:plant_fuel_cost:<location>:<COW|NG>, COW all coal products, NG natural gas
 - name: variable
   shared: true
   type: text
@@ -94,12 +98,14 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 2714
+  particular: US, or US-<state>; empty for an EIA census division
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 13160
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -112,6 +118,7 @@ columns:
     - Arkansas
     - California
   missing_cells: 0
+  particular: EIA's name of the location
 - name: source
   shared: true
   type: text
@@ -149,21 +156,22 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 13160
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: cost_per_mcf
-  label: null
+  label: Average cost of natural gas delivered to power plants, USD per thousand cubic feet
   unit: USD/Mcf
   rows: 3604
   first: '2019-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: cost_per_mmbtu
-  label: null
+  label: Average cost of the fuel delivered to power plants, USD per million Btu (coal and gas)
   unit: USD/MMBtu
   rows: 6580
   first: '2019-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: cost_per_short_ton
-  label: null
+  label: Average cost of coal delivered to power plants, USD per short ton
   unit: USD/short_ton
   rows: 2976
   first: '2019-01-01T00:00:00Z'

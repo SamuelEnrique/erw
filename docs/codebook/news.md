@@ -1,0 +1,31 @@
+# Codebook: news
+
+Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
+
+**What the family holds.** 1 public tables (1 events; tiers: 1 model_extracted); 0 documented in full.
+
+- [`news_index`](#news_index): Public news index: links, metadata and model scores
+
+### `news_index`
+
+What a row is: not yet written.
+
+Shape: events. Keys: `event_id`. License: public; tier: model_extracted. Rows read on 2026-11-20: 20852.
+
+- **Method note:** [`docs/methods/news_index.md`](../methods/news_index.md)
+- **Cite as:** ANS Nuclear Newswire; Africa Sustainable Futures Awards; Bloomberg; Bloomberg Media; Bloomberg Mercury; Bloomberg.com; CTVC; California ISO; California Public Utilities Commission (.gov); California State Portal \| CA.gov; Canary Media; CivicPlus; DOE newsroom; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; EIA Today in Energy; EPA's Central Data Exchange (CDX) (.gov); Electrek; Electric Reliability Council of Texas (ERCOT); Energy-Storage.news; FT Channels; Federal Energy Regulatory Commission (.gov); Financial Times; Hart Energy; Heatmap News; Hydrogen Insight; IEA - International Energy Agency; ISO-NE newsroom; JPT Homepage; LNG Prime; Latitude Media; MISO Help Center; Midcontinent Independent System Operator; Midcontinent Independent System Operator (MISO); NYISO; Natural Gas Intelligence; OPEC: Publications; OilPrice.com; Organization of the Petroleum Exporting Countries; PJM newsroom; POWER Magazine; PUC Interchange (.gov); Public Utility Commission of Texas (.gov); Reuters; Rigzone; Southwest Power Pool; Southwest Power Pool (SPP); T&D World; Texas.gov; U.S. Environmental Protection Agency (.gov); Utility Dive; WSJ; World Nuclear News; bloomberg.com; caiso.com; careers.misoenergy.org; cdn.misoenergy.org; commodities-volatility-asia.live.ft.com; cpuc.ca.gov; ep.ft.com; ercot.com; ft.com; hartenergy.com; hydrogeninsight.com; ia.cpuc.ca.gov; jpt.spe.org; lei.bloomberg.com; mercury.bloomberg.com; misoenergy.org; nepis.epa.gov; nyiso mis; nyiso.com; partners.wsj.com; pv magazine USA; rmb.reuters.com; wsj.com. news stories; news stories [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]; news stories via feed 'Bloomberg energy (via Google News)'; news stories via feed 'CAISO newsroom'; news stories via feed 'CPUC news'; news stories via feed 'CTVC'; news stories via feed 'Canary Media'; news stories via feed 'DOE newsroom'; news stories via feed 'Data Center Frontier'; news stories via feed 'Data Center Knowledge'; news stories via feed 'EIA Today in Energy'; news stories via feed 'EPA news'; news stories via feed 'ERCOT newsroom'; news stories via feed 'Electrek'; news stories via feed 'Energy-Storage.news'; news stories via feed 'FERC news'; news stories via feed 'FT energy (via Google News)'; news stories via feed 'Hart Energy'; news stories via feed 'Hydrogen Insight'; news stories via feed 'IEA news'; news stories via feed 'ISO-NE newsroom'; news stories via feed 'JPT (SPE)'; news stories via feed 'LNG Prime'; news stories via feed 'Latitude Media'; news stories via feed 'NYISO newsroom'; news stories via feed 'Natural Gas Intelligence'; news stories via feed 'OPEC press releases'; news stories via feed 'PJM newsroom'; news stories via feed 'POWER Magazine'; news stories via feed 'Reuters energy (via Google News)'; news stories via feed 'Rigzone'; news stories via feed 'SPP newsroom'; news stories via feed 'T&D World'; news stories via feed 'Texas PUC news'; news stories via feed 'Utility Dive'; news stories via feed 'WSJ energy (via Google News)'; news stories via feed 'World Nuclear News'. Via the Energy Research Warehouse (ERW), table `news_index`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents | none | text | for example news:0002d08a67749b5e, news:00033d20ba36769a, news:000b33f9848c9907; more than 5000 distinct | 0 |
+| `event_date` | The date the event happened or was announced (each table's file says which) | none | utc time | 2025-01-01T08:00:00Z to 2026-12-01T12:00:00Z; more than 5000 distinct | 0 |
+| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others) | none | text | news | 0 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | for example ANS Nuclear Newswire, Africa Sustainable Futures Awards, Bloomberg; 77 distinct | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | for example https://9to5toys.com/2026/10/05/free-1500-amazon-gift-card-amazon-autos/, https://electrek.co/2026/09/23/bmw-fast-tracks-new-i3-reservations-opening-next-week/, https://electrek.co/2026/09/24/anker-security-cameras-early-prime-day-sale-ecoflow-monthly-madness-flash-sale-ego-snow-blower/; more than 5000 distinct | 0 |
+| `sector` | not yet written |  | text | capital, company, datacenter_power, deal, gas, generation, geopolitics, grid_conditions, hydrogen, interconnection, lng, nuclear, oil, other, policy, power_prices, ppa, renewables, storage, transmission, transport | 0 |
+| `region` | not yet written |  | text | for example ASEAN, Abu Dhabi, Afghanistan; 313 distinct | 0 |
+| `significance` | not yet written |  | integer | 0, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9 | 0 |
+| `ai_power_relevance` | not yet written |  | integer | 0, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9 | 0 |
+| `cluster_id` | not yet written |  | text | for example news:0002d08a67749b5e, news:00033d20ba36769a, news:000f8781ffe9a3fe; more than 5000 distinct | 0 |
+| `headline` | not yet written |  | text | for example $100 billion OpenAI-Nvidia megadeal on ice, $20 million Montana retreat draws family back, $20 million mountain home features suites designed by daughters; more than 5000 distinct | 632 |
+

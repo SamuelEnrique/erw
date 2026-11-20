@@ -5,9 +5,11 @@
 table: eia_petroleum_supply_weekly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One week's value of one U.S. petroleum supply series (a stock, crude production, refinery utilization, crude input or
+  a trade flow), from EIA's Weekly Petroleum Status Report.
+time: ts_utc is the Friday the report week ends, at 00:00:00Z (freq P1W).
+vintage_rule: Rewritten whole by each run (the file is deleted and the history from 2010 written again), so EIA's revisions
+  are taken and a week EIA stops giving leaves. vintage is not filled.
 keys:
 - entity
 - variable
@@ -48,6 +50,7 @@ columns:
     - eia:WCRIMUS2
     - eia:WCRNTUS2
   missing_cells: 0
+  particular: eia:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -93,12 +96,14 @@ columns:
     list:
       US: 26268
   missing_cells: 0
+  particular: US on every row, the PADD series included
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 26268
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -111,6 +116,7 @@ columns:
     - East Coast (PADD 1) Refiner Net Input of Crude Oil
     - Gulf Coast (PADD 3) Percent Utilization of Refinery Operable Capacity
   missing_cells: 0
+  particular: EIA's description of the series with its unit removed
 - name: source
   shared: true
   type: text
@@ -156,33 +162,36 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 26268
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: crude_input
-  label: null
+  label: Refiner net input of crude oil (U.S. or a PADD), thousand barrels a day
   unit: kbbl/d
   rows: 5280
   first: '2010-01-01T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: flow
-  label: null
+  label: Imports, exports or net imports of crude, petroleum products or distillate, thousand barrels a day (negative net
+    imports are net exports)
   unit: kbbl/d
   rows: 8778
   first: '2010-01-01T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: production
-  label: null
+  label: Field production of crude oil (U.S., Lower 48 or Alaska), thousand barrels a day
   unit: kbbl/d
   rows: 2640
   first: '2010-01-01T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: stocks
-  label: null
+  label: Ending stocks of crude (excluding or in the Strategic Petroleum Reserve, or at Cushing), total gasoline or distillate
+    fuel oil, thousand barrels
   unit: kbbl
   rows: 4400
   first: '2010-01-01T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: utilization
-  label: null
+  label: Percent utilization of refinery operable capacity (U.S. or a PADD)
   unit: pct
   rows: 5170
   first: '2010-01-01T00:00:00Z'

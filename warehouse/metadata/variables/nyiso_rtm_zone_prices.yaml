@@ -5,9 +5,12 @@
 table: nyiso_rtm_zone_prices
 family: nyiso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: NYISO's real-time zonal energy price (LBMP, the marginal price of energy at a location) of one of its eleven load zones,
+  as a 15-minute time-weighted mean of its 5-minute (RTD) prices.
+time: ts_utc is the start of the quarter hour in UTC; operating days are America/New_York days. NYISO stamps each price at
+  its interval end; the connector weights each by its interval length and splits an interval at a quarter-hour boundary.
+vintage_rule: Merged by (entity, variable, ts_utc); a day read again in a later run's three-day window replaces its rows.
+  vintage is the file's Last-Modified.
 keys:
 - entity
 - variable
@@ -46,6 +49,7 @@ columns:
       nyiso:NORTH: 7300
       nyiso:WEST: 7300
   missing_cells: 0
+  particular: nyiso:<zone>, the zone's NYISO name
 - name: variable
   shared: true
   type: text
@@ -96,6 +100,7 @@ columns:
     list:
       nyiso_rtm: 80300
   missing_cells: 0
+  particular: 'nyiso_rtm in every row: NYISO''s real-time market, its 5-minute RTD prices'
 - name: node
   shared: true
   type: text
@@ -113,6 +118,8 @@ columns:
       NORTH: 7300
       WEST: 7300
   missing_cells: 0
+  particular: 'NYISO''s name of the load zone, one of eleven: CAPITL, CENTRL, DUNWOD, GENESE, HUD VL, LONGIL, MHK VL, MILLWD,
+    N.Y.C., NORTH, WEST'
 - name: source
   shared: true
   type: text
@@ -148,9 +155,11 @@ columns:
     earliest: '2026-09-01T03:57:09Z'
     latest: '2026-11-16T04:57:07Z'
   missing_cells: 0
+  particular: The Last-Modified of the day's file (report P-24A)
 variables:
 - name: lmp_rtm_15m_mean
-  label: null
+  label: Real-time zonal LBMP (the price of energy in the zone in the real-time market), the 15-minute time-weighted mean
+    of NYISO's 5-minute RTD prices, rounded to 4 decimals
   unit: USD/MWh
   rows: 80300
   first: '2026-08-26T04:00:00Z'

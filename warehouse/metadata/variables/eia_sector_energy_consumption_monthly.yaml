@@ -5,9 +5,11 @@
 table: eia_sector_energy_consumption_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's U.S. energy consumption of one source by the industrial or commercial sector, from EIA's Monthly Energy Review
+  (Tables 2.3 and 2.4).
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Each run asks for the full history and merges it on (entity, variable, ts_utc), keeping EIA's newest value;
+  a row EIA stops giving is kept. The copy held was rebuilt from the ERW archive by restore_tables.py. vintage is not filled.
 keys:
 - entity
 - variable
@@ -52,6 +54,7 @@ columns:
       eia:TNCCBUS: 643
       eia:TNICBUS: 643
   missing_cells: 0
+  particular: eia:<Monthly Energy Review series id (MSN)>, for example CLICBUS coal consumed by the industrial sector
 - name: variable
   shared: true
   type: text
@@ -95,18 +98,21 @@ columns:
     list:
       US: 9002
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 9002
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 9002
+  particular: 'Not filled: EIA''s series names are in the header''s Series line'
 - name: source
   shared: true
   type: text
@@ -140,9 +146,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 9002
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: energy_consumption
-  label: null
+  label: Energy consumed by the sector from the source the series names, trillion Btu as EIA publishes it
   unit: TBtu
   rows: 9002
   first: '1973-01-01T00:00:00Z'

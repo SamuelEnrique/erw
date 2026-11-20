@@ -5,9 +5,11 @@
 table: eia_regional_retail_fuel_prices
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One week's retail price of regular gasoline or No. 2 diesel in one region, state or city, from EIA's Gasoline and Diesel
+  Fuel Update.
+time: ts_utc is EIA's survey Monday at 00:00:00Z (freq P1W).
+vintage_rule: Rewritten whole by each run (the file is deleted and the history from 2019 written again), so EIA's revisions
+  are taken; the copy held was rebuilt from the ERW archive by restore_tables.py. vintage is not filled.
 keys:
 - entity
 - variable
@@ -43,6 +45,7 @@ columns:
     - eia:EMD_EPD2D_PTE_R1Y_DPG
     - eia:EMD_EPD2D_PTE_R1Z_DPG
   missing_cells: 0
+  particular: eia:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -95,12 +98,14 @@ columns:
       US-TX: 410
       US-WA: 410
   missing_cells: 11479
+  particular: US for the nation, US-<state> for a state; empty for a PADD, a sub-PADD, PADD 5 except California, and a city
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 16399
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -113,6 +118,7 @@ columns:
     - CLEVELAND
     - COLORADO
   missing_cells: 0
+  particular: EIA's area name (region, state or city)
 - name: source
   shared: true
   type: text
@@ -155,9 +161,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 16399
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: retail_price
-  label: null
+  label: Weekly retail price of regular gasoline or No. 2 diesel in the area, USD a gallon
   unit: USD/gal
   rows: 16399
   first: '2019-01-07T00:00:00Z'

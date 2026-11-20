@@ -5,9 +5,11 @@
 table: nyiso_load_queue
 family: nyiso
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One request by a large electricity user (a data center, a factory and others) to connect its load to NYISO's grid, a
+  row of the queue workbook's sheet Load Projects.
+time: No time column. Dates are as the sheet prints them (<x>_printed) and as YYYY-MM-DD where the cell is a full date (<x>_date);
+  vintage is the retrieval date. A snapshot of the sheet as read on its retrieved_at.
+vintage_rule: A snapshot rewritten whole by each weekly run; earlier sheets stay in the archive and the raw files.
 keys:
 - entity_id
 license: public
@@ -43,6 +45,7 @@ columns:
     - nyiso_load_queue:0423
     - nyiso_load_queue:0580
   missing_cells: 0
+  particular: nyiso_load_queue:<Queue Number as printed>
 - name: entity_type
   shared: true
   type: text
@@ -62,6 +65,7 @@ columns:
     - Al Tech Steel Site
     - Alcoa East Energy Allocation Project
   missing_cells: 0
+  particular: 'The sheet''s Project: Project Name'
 - name: geo
   shared: true
   type: text
@@ -71,6 +75,7 @@ columns:
       US-NY: 71
       US-PA: 2
   missing_cells: 0
+  particular: US-<state> where the state is a two-letter code or a state's name
 - name: lat
   shared: true
   type: empty
@@ -91,6 +96,7 @@ columns:
     lowest: 14.38
     highest: 1935.0
   missing_cells: 0
+  particular: 'The sheet''s Peak MW load as printed: the request''s peak load, not a generator''s capacity'
 - name: status
   shared: true
   type: text
@@ -100,12 +106,15 @@ columns:
       completed: 4
       withdrawn: 17
   missing_cells: 0
+  particular: 'Read from the words of the sheet''s key: withdrawn where they hold Withdrawn (code 0), completed only for In
+    Service Commercial (14), active for every other code'
 - name: status_date
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 74
+  particular: 'Empty in every row: the sheet prints no date of withdrawal or of entering service'
 - name: operator
   shared: true
   type: text
@@ -118,6 +127,7 @@ columns:
     - American Data Center Partners LLC
     - Arconic Corporation
   missing_cells: 0
+  particular: The sheet's Developer Name
 - name: source
   shared: true
   type: text
@@ -146,43 +156,44 @@ columns:
     list:
       '2026-10-07': 74
   missing_cells: 0
+  particular: The retrieval date (YYYY-MM-DD)
 - name: workbook_last_modified
-  label: null
-  unit: null
+  label: The HTTP Last-Modified time of NYISO's workbook as retrieved, UTC
+  unit: none
   type: utc time
   values:
     list:
       '2026-09-11T17:26:02Z': 74
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector nyiso_load_queue.py
 - name: sheet
-  label: null
-  unit: null
+  label: The workbook sheet the row is read from (Load Projects)
+  unit: none
   type: text
   values:
     list:
       Load Projects: 74
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector nyiso_load_queue.py
 - name: sheet_row
-  label: null
-  unit: null
+  label: The row number on that sheet
+  unit: none
   type: integer
   values:
     distinct: 74
     lowest: 2
     highest: 75
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector nyiso_load_queue.py
 - name: queue_id
-  label: null
-  unit: null
+  label: NYISO's queue number of the request, as printed
+  unit: none
   type: text
   values:
     distinct: 74
@@ -193,12 +204,12 @@ columns:
     - '0423'
     - 0580
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Queue Number
+  documented_by: connector nyiso_load_queue.py
 - name: county
-  label: null
-  unit: null
+  label: The county of the request, as typed on the sheet
+  unit: none
   type: text
   values:
     distinct: 32
@@ -209,12 +220,12 @@ columns:
     - Cayuga
     - Clearfield
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: County
+  documented_by: connector nyiso_load_queue.py
 - name: state
-  label: null
-  unit: null
+  label: The state of the request, as typed on the sheet (a code, or a name such as New York)
+  unit: none
   type: text
   values:
     list:
@@ -223,12 +234,12 @@ columns:
       New York: 1
       PA: 2
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: State
+  documented_by: connector nyiso_load_queue.py; method nyiso_load_queue.md
 - name: poi
-  label: null
-  unit: null
+  label: 'The point (or points) of interconnection: the substation or line where the load would connect'
+  unit: none
   type: text
   values:
     distinct: 68
@@ -239,12 +250,12 @@ columns:
     - 230kV lines 77 and 78
     - 345 kV POI via a loop on the existing Oakdale-Fraser Line 32. The interconnection substation will have a ring bus configuration.
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Points of Interconnection
+  documented_by: connector nyiso_load_queue.py
 - name: zone
-  label: null
-  unit: null
+  label: NYISO's load zone letter, A to K
+  unit: none
   type: text
   values:
     list:
@@ -258,12 +269,12 @@ columns:
       H: 2
       K: 3
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: NYISO Zone
+  documented_by: connector nyiso_load_queue.py
 - name: zone_entity
-  label: null
-  unit: null
+  label: The zone's id in the ERW's NYISO price and load tables (nyiso:WEST for A, nyiso:CENTRL for C and so on)
+  unit: none
   type: text
   values:
     list:
@@ -277,12 +288,12 @@ columns:
       nyiso:NORTH: 7
       nyiso:WEST: 12
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: Empty only where the sheet gives no zone (none here)
   source_name: null
-  documented_by: null
+  documented_by: connector nyiso_load_queue.py; method nyiso_load_queue.md
 - name: transmission_owner
-  label: null
-  unit: null
+  label: The connecting transmission owner or utility, as the sheet writes it
+  unit: none
   type: text
   values:
     list:
@@ -297,12 +308,12 @@ columns:
       National Grid: 13
       O&R: 6
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: CTO/Utility
+  documented_by: connector nyiso_load_queue.py
 - name: affected_transmission_owner
-  label: null
-  unit: null
+  label: Other transmission owners the request affects, as the sheet writes them
+  unit: none
   type: text
   values:
     list:
@@ -317,12 +328,12 @@ columns:
       National Grid: 6
       National Grid, NYSEG, Transco, IMEU: 1
   missing_cells: 58
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The sheet's cell is blank
+  source_name: Affected Transmission Owner (ATO)
+  documented_by: connector nyiso_load_queue.py
 - name: end_use
-  label: null
-  unit: null
+  label: NYISO's code of what the load is for (DAT, DAT-AI, DAT-CM, M-CG, M-CH, M-IN, RD, O)
+  unit: none
   type: text
   values:
     list:
@@ -335,12 +346,13 @@ columns:
       O: 1
       RD: 5
   missing_cells: 23
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The sheet's cell is blank
+  source_name: End-Use
+  documented_by: connector nyiso_load_queue.py
 - name: end_use_words
-  label: null
-  unit: null
+  label: The words of the end-use code from the sheet's own key (Data Center (general), AI Datacenter, Cryptocurrency mining
+    and others)
+  unit: none
   type: text
   values:
     list:
@@ -353,34 +365,34 @@ columns:
       Other: 1
       Research and Development: 5
   missing_cells: 23
-  missing_meaning: null
+  missing_meaning: No end-use code printed
   source_name: null
-  documented_by: null
+  documented_by: connector nyiso_load_queue.py; method nyiso_load_queue.md
 - name: record_type
-  label: null
-  unit: null
+  label: The sheet's record type (Load Interconnection on every row)
+  unit: none
   type: text
   values:
     list:
       Load Interconnection: 74
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Record Type Name
+  documented_by: connector nyiso_load_queue.py; method nyiso_load_queue.md
 - name: type_fuel
-  label: null
-  unit: null
+  label: The sheet's Type/Fuel code (L on every row)
+  unit: none
   type: text
   values:
     list:
       L: 74
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Type/Fuel
+  documented_by: connector nyiso_load_queue.py; data
 - name: iso_status
-  label: null
-  unit: null
+  label: NYISO's status code of the request as printed (0 to 14)
+  unit: none
   type: integer
   values:
     list:
@@ -396,12 +408,13 @@ columns:
       '8': 1
       '9': 3
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: 'Project Status #'
+  documented_by: connector nyiso_load_queue.py
 - name: iso_status_words
-  label: null
-  unit: null
+  label: The words of the status code from the sheet's own key (Withdrawn, SRIS/SIS Pending, Under Construction, In Service
+    Commercial and others)
+  unit: none
   type: text
   values:
     list:
@@ -417,12 +430,12 @@ columns:
       Under Construction: 4
       Withdrawn: 17
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector nyiso_load_queue.py; method nyiso_load_queue.md
 - name: sis_bundle
-  label: null
-  unit: null
+  label: The System Impact Study (SIS) bundle the request is studied in, as the sheet prints it (25-1, 26-4, N/A and others)
+  unit: none
   type: text
   values:
     list:
@@ -435,12 +448,12 @@ columns:
       26-4: 4
       N/A: 15
   missing_cells: 36
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The sheet's cell is blank
+  source_name: SIS Bundle
+  documented_by: connector nyiso_load_queue.py; docs/accelerator/large_load_waits.md
 - name: availability_of_studies
-  label: null
-  unit: null
+  label: Which studies are available for the request, as the sheet prints it (SIS, FS, N/A)
+  unit: none
   type: text
   values:
     list:
@@ -448,12 +461,12 @@ columns:
       SIS: 19
       SIS, FS: 1
   missing_cells: 53
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The sheet's cell is blank
+  source_name: Availability of Studies
+  documented_by: connector nyiso_load_queue.py
 - name: queue_date_printed
-  label: null
-  unit: null
+  label: The date the request was submitted, as the sheet shows it
+  unit: none
   type: text
   values:
     distinct: 64
@@ -464,24 +477,24 @@ columns:
     - 01-31-25
     - 03-07-25
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: IR Submission Date
+  documented_by: connector nyiso_load_queue.py
 - name: queue_date
-  label: null
-  unit: null
+  label: The date the request was submitted, YYYY-MM-DD
+  unit: none
   type: date
   values:
     distinct: 61
     earliest: '2005-11-02'
     latest: '2026-08-28'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The cell is not a full date (none here)
+  source_name: IR Submission Date
+  documented_by: connector nyiso_load_queue.py
 - name: last_updated_printed
-  label: null
-  unit: null
+  label: The date NYISO last updated the request's row, as the sheet shows it
+  unit: none
   type: text
   values:
     list:
@@ -507,12 +520,12 @@ columns:
       11-30-11: 1
       12-31-25: 8
   missing_cells: 2
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The sheet's cell is blank
+  source_name: Last Updated Date
+  documented_by: connector nyiso_load_queue.py
 - name: last_updated_date
-  label: null
-  unit: null
+  label: The date NYISO last updated the request's row, YYYY-MM-DD
+  unit: none
   type: date
   values:
     list:
@@ -538,52 +551,52 @@ columns:
       '2026-08-31': 4
       '2026-09-30': 2
   missing_cells: 2
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The cell is blank or not a full date
+  source_name: Last Updated Date
+  documented_by: connector nyiso_load_queue.py
 - name: ia_tender_printed
-  label: null
-  unit: null
+  label: The sheet's IA Tender Date as shown
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 74
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'Empty in every row: the sheet''s cells are blank'
+  source_name: IA Tender Date
+  documented_by: connector nyiso_load_queue.py
 - name: ia_tender_date
-  label: null
-  unit: null
+  label: The sheet's IA Tender Date, YYYY-MM-DD
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 74
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'Empty in every row: the sheet''s cells are blank'
+  source_name: IA Tender Date
+  documented_by: connector nyiso_load_queue.py
 - name: fs_completion_printed
-  label: null
-  unit: null
+  label: The sheet's FS Completion Date as shown
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 74
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'Empty in every row: the sheet''s cells are blank'
+  source_name: FS Completion Date
+  documented_by: connector nyiso_load_queue.py
 - name: fs_completion_date
-  label: null
-  unit: null
+  label: The sheet's FS Completion Date, YYYY-MM-DD
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 74
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'Empty in every row: the sheet''s cells are blank'
+  source_name: FS Completion Date
+  documented_by: connector nyiso_load_queue.py
 - name: proposed_initial_backfeed_printed
-  label: null
-  unit: null
+  label: The proposed initial backfeed date as the sheet prints it, month and year (11-2026)
+  unit: none
   type: text
   values:
     distinct: 32
@@ -594,22 +607,22 @@ columns:
     - 01-2029
     - 01-2030
   missing_cells: 6
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The sheet's cell is blank
+  source_name: Proposed Initial Backfeed Date
+  documented_by: connector nyiso_load_queue.py
 - name: proposed_initial_backfeed_date
-  label: null
-  unit: null
+  label: The proposed initial backfeed date, YYYY-MM-DD where the cell holds a full date
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 74
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'Empty in every row: the sheet prints month and year only'
+  source_name: Proposed Initial Backfeed Date
+  documented_by: connector nyiso_load_queue.py
 - name: proposed_initial_backfeed_month
-  label: null
-  unit: null
+  label: The proposed initial backfeed month, YYYY-MM, no day added
+  unit: none
   type: text
   values:
     distinct: 31
@@ -620,7 +633,10 @@ columns:
     - 2026-07
     - 2026-10
   missing_cells: 10
-  missing_meaning: null
-  source_name: null
-  documented_by: null
-second_look: null
+  missing_meaning: The cell is blank or does not read as a month and year
+  source_name: Proposed Initial Backfeed Date
+  documented_by: connector nyiso_load_queue.py
+second_look:
+- type_fuel holds L on every row; what NYISO's code L stands for is not documented by the source as the repository holds it.
+- The sheet's abbreviations IA (in IA Tender Date) and FS (in FS Completion Date) are not spelled out in the repository's
+  documents.
