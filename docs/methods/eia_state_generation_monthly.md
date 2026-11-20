@@ -51,3 +51,17 @@ Public: a work of the U.S. government (record 1 of `license_reads.csv`).
 - The route's finer energy sources: only the 14 of `GEN_FUELS` are asked.
 - Plants: generation by plant is `eia923_plant_fuel_monthly` (method note `eia923_monthly.md`).
 - Months before 2001.
+
+## Wyoming's natural gas in July and August 2026 (session 7052, chain 370, done-line request 263)
+
+`eia:generation:WY:NG` reads 1,034,450.83 MWh for July 2026 and 1,060,503.7 MWh for August 2026, about 39 percent above
+the series' record before (765,381.4 MWh, July 2024). EIA's own API (electric-power-operational-data, Wyoming, natural
+gas, all sectors, asked 17 November 2026) gives the same, 1,034.45083 and 1,060.5037 thousand MWh: it is EIA's figure as
+published, not a unit slip or a row counted twice in the warehouse. A cause consistent with it, not proven: EIA-860M lists
+326.4 MW of PacifiCorp's Naughton plant as natural gas (the coal units converted, keeping their first operating years),
+and Wyoming's coal held level over the same months (2,523,457 and 2,401,786 MWh against 2,643,766 and 2,489,208 a year
+before), so the gas is in addition. At 1,929.7 MW of gas nameplate in Wyoming, August's figure is a capacity factor of
+about 74 percent. EIA's monthly state figures for recent months are partly estimated and revised later; the value is held
+as published and is not entered in `known_data_faults` (no fault is shown). The findings scanner may flag it: it is an
+unusual value, and EIA's.
+

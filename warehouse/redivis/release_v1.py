@@ -440,6 +440,41 @@ STORAGE_HELD["ercot_peak_premium_node_monthly"] = ("held: first written on 16 No
 # Session 7022 (chain 301): the fleet's real-time offers by price (done-line request 30), the same
 STORAGE_HELD["ercot_storage_rt_offers_monthly"] = ("held: first written on 16 November 2026 (chain 301, session 7022), after the v1 "
                                                    "package was prepared: in v1 when the owner adds it to the package's list")
+# Session 7052 (chain 370): CAISO's 5-minute demand on the Flex Alert days (done-line request 201), the same
+STORAGE_HELD["caiso_outlook_demand"] = ("held: first written on 17 November 2026 (chain 370, session 7052), after the v1 "
+                                        "package was prepared: in v1 when the owner adds it to the package's list")
+# Session 7801 (chain 401): EIA-930 hour by hour for every balancing authority and region (part C, tables 1 to 3), public,
+# written after the v1 package was prepared, about 3.6 GB together: held as the other late tables are, and not uploaded
+for _t in ("eia930_region_hourly", "eia930_ba_demand_hourly", "eia930_ba_supply_hourly", "eia930_region_pair_hourly",
+           *(f"eia930_ba_interchange_hourly_{_y}" for _y in range(2018, 2027))):
+    STORAGE_HELD[_t] = ("held: first written on 18 November 2026 (chain 401, session 7801), after the v1 package was prepared; "
+                        "not on Redivis (about 3.6 GB for the thirteen tables): in v1 when the owner adds it to the package's list")
+# Sessions 7802 and 7803 (chain 401 part C, tables 4 to 8): county population, county to region, the regions' stations and
+# weather, and the hub prices of July 2018 to July 2023, public, written after the v1 package was prepared: held the same way
+for _t in ("census_county_population", "eia_county_region", "noaa_region_stations", "region_weather_hourly",
+           "iso_hub_prices_history_2018", *(f"noaa_region_station_hourly_{_y}" for _y in range(2018, 2027))):
+    STORAGE_HELD[_t] = ("held: first written on 18 November 2026 (chain 401, sessions 7802 and 7803), after the v1 package was "
+                        "prepared; not on Redivis: in v1 when the owner adds it to the package's list")
+
+# Session 8000 (chain 501, step B2): the balancing authority areas, public, written after the v1 package was prepared: held the same way
+STORAGE_HELD["ba_boundaries"] = ("held: first written on 19 November 2026 (chain 501, session 8000), after the v1 package was "
+                                 "prepared; not on Redivis: in v1 when the owner adds it to the package's list")
+# Session 8001 (chain 501, step B5): net generation by source for the thirteen regions, public, about 740 MB: held the same way
+STORAGE_HELD["eia930_region_fuel_hourly"] = ("held: first written on 19 November 2026 (chain 501, session 8001), after the v1 package "
+                                             "was prepared; not on Redivis (about 740 MB): in v1 when the owner adds it to the package's list")
+# Session 8002 (chain 501, part C): who trades with whom, four derived tables, public: held the same way
+for _t in ("interchange_pair_daily", "interchange_pair_monthly", "ba_trade_partners", "interchange_event_pairs",
+           "eia_seds_industrial_annual", "eia_aeo_industrial",  # session 8003 (step D2)
+           "ai_energy_published", "resource_layer_features"):  # sessions 8005 and 8006 (steps D3 and D1)
+    STORAGE_HELD[_t] = ("held: first written on 19 November 2026 (chain 501, session 8002), after the v1 package was prepared; "
+                        "not on Redivis: in v1 when the owner adds it to the package's list")
+
+
+# Session 8012 (chain 505, part D1): the day-ahead demand forecast beside the demand that came, two derived tables, public
+# (about 490 MB hourly): held the same way
+for _t in ("eia930_forecast_error_hourly", "eia930_forecast_error_daily"):
+    STORAGE_HELD[_t] = ("held: first written on 19 November 2026 (chain 505, session 8012), after the v1 package was prepared; "
+                        "not on Redivis: in v1 when the owner adds it to the package's list")
 
 
 UNSETTLED_WHY = "its ERW verdict is unsettled (docs/licenses.md: a publisher's terms not read or not settled); out of v1 until it is settled (chain 229, session 4109)"

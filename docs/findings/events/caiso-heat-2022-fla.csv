@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), event caiso_heat_2022, region FLA (Florida (EIA's region))
+# Computed 2026-11-19T11:32:40Z by warehouse/analysis/findings/deep/events.py; plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the window's highest hour of demand (MW) from 08-31 to 09-09, the hours it rests on, and whether it is the event year
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,event_year
+FLA,2018,44347.0,240,0
+FLA,2020,48834.0,240,0
+FLA,2021,45640.0,239,0
+FLA,2022,50172.0,240,1
+FLA,2023,48726.0,240,0
+FLA,2024,47232.0,240,0
+FLA,2025,47273.0,239,0
+FLA,2026,47544.0,240,0

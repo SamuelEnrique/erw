@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate exp_product, region xp_epp0 (all petroleum products)
+# Computed 2026-11-19T12:51:14Z by warehouse/analysis/findings/deep/oil_products_world.py (exp_product); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: US exports of the product to the world (thousand barrels a day), the observations it rests on, and whether the year is full
+# Tables: eia_petroleum_exports_by_destination
+region,year,value,n_observations,full_year
+xp_epp0,2015,4272.978082191781,12.0,1
+xp_epp0,2016,4669.6557377049185,12.0,1
+xp_epp0,2017,5218.183561643836,12.0,1
+xp_epp0,2018,5553.186301369863,12.0,1
+xp_epp0,2019,5489.657534246576,12.0,1
+xp_epp0,2020,5292.098360655737,12.0,1
+xp_epp0,2021,5573.07397260274,12.0,1
+xp_epp0,2022,5943.6164383561645,12.0,1
+xp_epp0,2023,6152.967123287671,12.0,1
+xp_epp0,2024,6615.390710382514,12.0,1
+xp_epp0,2025,6823.375342465753,12.0,1
+xp_epp0,2026,4412.884931506849,7.0,0
