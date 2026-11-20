@@ -12,7 +12,7 @@ None. Every snapshot comparison: 0 differences on the 25 pages (all in review, r
 - `/curtailment/where-when` (new view; `/curtailment` unchanged): a month by hour grid for any place and year or every year held, coloured by CAISO's curtailed MWh or by a hub's share of hours below zero; the trend by year; the places ranked; two side by side. NYISO and ISO-NE prices named with "license needed", MISO paused, ERCOT's estimate not drawn.
 - The old laptop's rows 57 (the tour's resource stop opens the Resources tab) and 58 (the fifth problem set of the whole country, the findings audit's last 29 drafts, request 561's tests).
 - Landed `8c460eb9b`: `/map`'s two line switches (transmission of 230 kV and above, EIA's HGL pipelines), four new board rows (aluminum, zinc, lead, tin, World Bank monthly), `/storage/places`, `/queues/places`.
-- Gate 4 (request 561's edition of 2026-11-20, ten sets; row G1, `/states`' empty years say "none"): every step passed, pushed to `task/c581-req561`.
+- Landed `d4ac24564`: request 561's edition of 2026-11-20 (ten sets, each with its dated copy); row G1, `/states`' empty years say "none".
 
 ## Commits and landings
 
@@ -21,7 +21,7 @@ None. Every snapshot comparison: 0 differences on the 25 pages (all in review, r
 - Gate 2 (`21d801d94`, B, C, rows 57, 58): every step passed; landed `4f7325f9f` (task/c581-curtail, GitHub run 44668262083), snapshots `c581-deskC-before` and `c581-deskC-after`, 0 differences.
 - Docs push `ca57b20e2`: snapshots `c581-docs1-before`, `-after`, 0 differences.
 - Gate 3 (`1956e1e6a`, D, E, F1, F2): every step passed; landed `8c460eb9b` (task/c581-map, GitHub run 44672752457), snapshots `c581-deskD-before` and `c581-deskD-after`, 0 differences.
-- Gate 4 (`f72da2dbe`, request 561, row G1): every step passed; pushed `9fe7236d8` to `task/c581-req561`, snapshot `c581-deskE-before`.
+- Gate 4 (`f72da2dbe`, request 561, row G1): every step passed; landed `d4ac24564` (task/c581-req561, GitHub run 44675948440), snapshots `c581-deskE-before` and `c581-deskE-after`, 0 differences.
 - Each gate's clean-up step failed on a locked folder (as on chain 505's gates); the worktrees were pruned and the folders `erw-land-21d801d9`, `erw-land-1956e1e6`, `erw-land-f72da2db` are left in place.
 
 ## Tables
