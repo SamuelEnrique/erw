@@ -47,8 +47,9 @@ class TheMoves(unittest.TestCase):
         rows = pd.DataFrame(m.cells(NOW, "2026-09", "https://www.eia.gov/electricity/data/eia860m/"))
         mw = rows[rows["variable"] == "planned_mw"]
         self.assertAlmostEqual(mw["value"].sum(), 395.0)
-        dc = rows[(rows["variable"] == "datacenter_mw") & (rows["value"] > 0)]
-        self.assertEqual(list(dc["entity"]), ["eia860m_pipeline:ERCO:TX:SUN:P:2028"])
+        # ruling alternative 2 (a) (wip/alt-site-data-machine-2): no datacenter_mw row is written; main: one, for the tagged cell
+        self.assertEqual(int((rows["variable"] == "datacenter_mw").sum()), 0)
+        self.assertEqual(sorted(set(rows["variable"])), ["planned_count", "planned_mw"])
         self.assertTrue(m.DATACENTER.search("Abilene Data Center Solar"))
         self.assertTrue(m.DATACENTER.search("Argonne National Laboratory"))
         self.assertFalse(m.DATACENTER.search("Labette County Wind"))
