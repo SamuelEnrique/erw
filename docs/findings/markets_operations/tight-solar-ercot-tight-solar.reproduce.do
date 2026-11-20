@@ -20,11 +20,13 @@ generate int year = real(substr(ts_utc, 1, 4))
 
 keep year variable value
 
+replace variable = "solar" if variable == "tight_solar_share_of_capacity_pct"
+
 reshape wide value, i(year) j(variable) string
 
-drop if missing(valuetight_solar_share_of_capacity_pct)
+drop if missing(valuesolar)
 
-generate double measure = valuetight_solar_share_of_capacity_pct * 1.0
+generate double measure = valuesolar * 1.0
 
 generate byte n = 1
 

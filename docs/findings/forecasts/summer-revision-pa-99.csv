@@ -1,0 +1,24 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate summer_revision, region pa_99 (Nevada Power Company (FERC 714 planning area 99))
+# Computed 2026-11-19T12:53:45Z by warehouse/analysis/findings/deep/forecasts.py (summer_revision); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: how much a filing changed its forecast of the year 5 ahead against the filing a year before (percent), the observations it rests on, and whether the year is full
+# Tables: ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+pa_99,2007,-0.4780241667773244,1.0,1
+pa_99,2008,-11.314865392118612,1.0,1
+pa_99,2009,-10.884549109707065,1.0,1
+pa_99,2010,0.8774728781110408,1.0,1
+pa_99,2011,-3.3823989978077007,1.0,1
+pa_99,2012,-4.428457234212635,1.0,1
+pa_99,2013,0.0,1.0,1
+pa_99,2014,-1.7387065323366868,1.0,1
+pa_99,2015,0.03287851389117691,1.0,1
+pa_99,2016,6.394112837285371,1.0,1
+pa_99,2017,-3.3190578158458273,1.0,1
+pa_99,2018,5.612164916131057,1.0,1
+pa_99,2019,-1.4872625533794759,1.0,1
+pa_99,2020,-0.9318148202928533,1.0,1
+pa_99,2021,3.015592821418056,1.0,1
+pa_99,2022,-0.11301031219098645,1.0,1
+pa_99,2023,-0.04181767493727229,1.0,1
+pa_99,2024,4.220107571369458,1.0,1
+pa_99,2025,14.373875032141935,1.0,1

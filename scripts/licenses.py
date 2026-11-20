@@ -51,6 +51,7 @@ OWN = {"ERW", "Anthropic"}          # the ERW's own work and its own bills: no p
 GRIDS = {"CAISO", "ERCOT", "ISO-NE", "MISO", "NYISO", "SPP", "PJM"}
 # a registry name, or a host a story was read on, to the short name the verdicts file uses
 CANON = [
+    (r"^Oak Ridge National Laboratory \(HydroSource\)", "Oak Ridge National Laboratory (ORNL), HydroSource"),  # session 8006: the resource layers' registry rows name HydroSource so
     (r"California (ISO|Independent System Operator)|^caiso\.com$|^CAISO$", "CAISO"), (r"New York (ISO|Independent System Operator)|^nyiso\.com$", "NYISO"),
     (r"Energy Information Administration|^EIA ", "EIA"), (r"Electric Reliability Council|^ercot\.com$", "ERCOT"), (r"ISO New England|^ISO-NE", "ISO-NE"),
     (r"^nyiso mis$", "NYISO"),  # session 311: the news feed of NYISO's market notices is NYISO's

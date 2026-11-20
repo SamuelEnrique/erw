@@ -2,7 +2,7 @@
 
 Draft `scan-deep-7c7ba78c393d` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** US LNG exports as a share of US dry gas production was 14.0 percent of dry production in 2025, against 0.1 percent of dry production in 2015, the first full year the ERW holds.
+**The finding.** US LNG exports as a share of US dry gas production were 14.0 percent of dry production in 2025, against 0.1 percent of dry production in 2015, the first full year the ERW holds.
 
 ![Lng's share of us gas, the United States](lng-share-us-lng.png)
 

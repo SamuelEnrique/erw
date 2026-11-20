@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate eu_net_imports, region eu_el (Greece)
+# Computed 2026-11-19T13:14:45Z by warehouse/analysis/findings/deep/world_power.py (eu_net_imports); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: imports less exports as a percent of the electricity available (percent), the observations it rests on, and whether the year is full
+# Tables: eurostat_electricity_monthly
+region,year,value,n_observations,full_year
+eu_el,2016,15.479102507699077,12.0,1
+eu_el,2017,11.042336086586602,12.0,1
+eu_el,2018,11.642102639944927,12.0,1
+eu_el,2019,17.58516317103628,12.0,1
+eu_el,2020,16.584304971878705,12.0,1
+eu_el,2021,6.708464827943154,12.0,1
+eu_el,2022,6.727741777149854,12.0,1
+eu_el,2023,9.812539659036764,12.0,1
+eu_el,2024,-0.6187324526189127,12.0,1
+eu_el,2025,-6.479277432987699,12.0,1
