@@ -238,6 +238,8 @@ def property_tax(P, x, i):
         elif kind == "valuation":
             if r.get("requires") == "option" and not option:
                 continue
+            if r.get("requires") == "no_option" and option:   # ruling alternative 1 (wip/alt-impact-1): wind with no ordinance
+                continue
             if x["levy"] is None:
                 return None, None, [r]            # the levy is the reader's and is not given
             base = mw * r["usd_per_mw_value"] if "usd_per_mw_value" in r else spend
