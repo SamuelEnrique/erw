@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ba_peak_mw, region ba_azps (Arizona Public Service (AZPS, EIA-930 balancing authority))
+# Computed 2026-11-19T11:43:45Z by warehouse/analysis/findings/deep/authorities.py (ba_peak_mw); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's highest hour of demand (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+ba_azps,2018,7272.0,4409.0,0
+ba_azps,2019,7026.0,8753.0,1
+ba_azps,2020,7595.0,8783.0,1
+ba_azps,2021,7586.0,8755.0,1
+ba_azps,2022,7551.0,8753.0,1
+ba_azps,2023,8334.0,8749.0,1
+ba_azps,2024,8814.0,8779.0,1
+ba_azps,2025,8499.0,8756.0,1
+ba_azps,2026,8982.0,7683.0,0

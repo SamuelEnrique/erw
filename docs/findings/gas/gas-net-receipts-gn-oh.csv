@@ -1,0 +1,33 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate gas_net_receipts, region gn_oh (Ohio)
+# Computed 2026-11-19T12:11:33Z by warehouse/analysis/findings/deep/gas.py (gas_net_receipts); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the state's net interstate receipts of natural gas (Bcf), the observations it rests on, and whether the year is full
+# Tables: eia_gas_interstate_annual
+region,year,value,n_observations,full_year
+gn_oh,1997,826.767,1.0,1
+gn_oh,1998,766.728,1.0,1
+gn_oh,1999,819.664,1.0,1
+gn_oh,2000,728.282,1.0,1
+gn_oh,2001,759.745,1.0,1
+gn_oh,2002,699.643,1.0,1
+gn_oh,2003,758.606,1.0,1
+gn_oh,2004,812.749,1.0,1
+gn_oh,2005,743.03,1.0,1
+gn_oh,2006,706.143,1.0,1
+gn_oh,2007,769.166,1.0,1
+gn_oh,2008,755.268,1.0,1
+gn_oh,2009,731.084,1.0,1
+gn_oh,2010,764.263,1.0,1
+gn_oh,2011,710.322,1.0,1
+gn_oh,2012,801.419,1.0,1
+gn_oh,2013,709.958,1.0,1
+gn_oh,2014,590.099,1.0,1
+gn_oh,2015,-48.385,1.0,1
+gn_oh,2016,-527.089,1.0,1
+gn_oh,2017,-951.403,1.0,1
+gn_oh,2018,-1142.112,1.0,1
+gn_oh,2019,-1271.705,1.0,1
+gn_oh,2020,-1215.942,1.0,1
+gn_oh,2021,-1041.05,1.0,1
+gn_oh,2022,-691.351,1.0,1
+gn_oh,2023,-672.299,1.0,1
+gn_oh,2024,-608.453,1.0,1

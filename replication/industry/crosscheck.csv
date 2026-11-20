@@ -1,0 +1,60 @@
+year,check,a,a_value,b,b_value,diff_pct
+1990,"industrial total, TBtu","Monthly Energy Review, twelve months",30977.921,"State Energy Data System, United States",30961.91,0.05
+1991,"industrial total, TBtu","Monthly Energy Review, twelve months",30583.864,"State Energy Data System, United States",30546.841,0.12
+1992,"industrial total, TBtu","Monthly Energy Review, twelve months",31832.219,"State Energy Data System, United States",31829.411,0.01
+1993,"industrial total, TBtu","Monthly Energy Review, twelve months",31831.803,"State Energy Data System, United States",31852.424,-0.06
+1994,"industrial total, TBtu","Monthly Energy Review, twelve months",32769.666,"State Energy Data System, United States",32796.396,-0.08
+1995,"industrial total, TBtu","Monthly Energy Review, twelve months",33113.855,"State Energy Data System, United States",33171.726,-0.17
+1996,"industrial total, TBtu","Monthly Energy Review, twelve months",33966.107,"State Energy Data System, United States",34037.197,-0.21
+1997,"industrial total, TBtu","Monthly Energy Review, twelve months",34259.415,"State Energy Data System, United States",34395.699,-0.4
+1998,"industrial total, TBtu","Monthly Energy Review, twelve months",33995.906,"State Energy Data System, United States",33982.229,0.04
+1999,"industrial total, TBtu","Monthly Energy Review, twelve months",33924.692,"State Energy Data System, United States",33878.265,0.14
+2000,"industrial total, TBtu","Monthly Energy Review, twelve months",33945.088,"State Energy Data System, United States",33941.823,0.01
+2001,"industrial total, TBtu","Monthly Energy Review, twelve months",32150.643,"State Energy Data System, United States",32152.473,-0.01
+2001,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3400.431,"State Energy Data System, United States",3400.431,-0.0
+2002,"industrial total, TBtu","Monthly Energy Review, twelve months",32009.457,"State Energy Data System, United States",32094.803,-0.27
+2002,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3378.691,"State Energy Data System, United States",3378.691,-0.0
+2003,"industrial total, TBtu","Monthly Energy Review, twelve months",31879.475,"State Energy Data System, United States",31966.94,-0.27
+2003,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3454.218,"State Energy Data System, United States",3454.218,-0.0
+2004,"industrial total, TBtu","Monthly Energy Review, twelve months",32862.51,"State Energy Data System, United States",32952.795,-0.27
+2004,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3472.903,"State Energy Data System, United States",3472.903,-0.0
+2005,"industrial total, TBtu","Monthly Energy Review, twelve months",31797.162,"State Energy Data System, United States",31896.055,-0.31
+2005,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3477.36,"State Energy Data System, United States",3477.36,0.0
+2006,"industrial total, TBtu","Monthly Energy Review, twelve months",31704.271,"State Energy Data System, United States",31797.012,-0.29
+2006,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3450.547,"State Energy Data System, United States",3450.547,0.0
+2007,"industrial total, TBtu","Monthly Energy Review, twelve months",31768.011,"State Energy Data System, United States",31900.522,-0.42
+2007,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3506.963,"State Energy Data System, United States",3506.963,-0.0
+2008,"industrial total, TBtu","Monthly Energy Review, twelve months",30679.748,"State Energy Data System, United States",30807.111,-0.41
+2008,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3444.469,"State Energy Data System, United States",3444.469,0.0
+2009,"industrial total, TBtu","Monthly Energy Review, twelve months",27775.428,"State Energy Data System, United States",27873.853,-0.35
+2009,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3130.225,"State Energy Data System, United States",3130.225,-0.0
+2010,"industrial total, TBtu","Monthly Energy Review, twelve months",29952.892,"State Energy Data System, United States",30033.583,-0.27
+2010,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3313.807,"State Energy Data System, United States",3313.807,-0.0
+2011,"industrial total, TBtu","Monthly Energy Review, twelve months",30115.601,"State Energy Data System, United States",30227.883,-0.37
+2011,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3382.369,"State Energy Data System, United States",3382.369,-0.0
+2012,"industrial total, TBtu","Monthly Energy Review, twelve months",30220.58,"State Energy Data System, United States",30323.858,-0.34
+2012,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3363.256,"State Energy Data System, United States",3363.256,-0.0
+2013,"industrial total, TBtu","Monthly Energy Review, twelve months",30755.305,"State Energy Data System, United States",30818.006,-0.2
+2013,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3362.021,"State Energy Data System, United States",3362.021,-0.0
+2014,"industrial total, TBtu","Monthly Energy Review, twelve months",30913.772,"State Energy Data System, United States",30979.656,-0.21
+2014,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3403.73,"State Energy Data System, United States",3403.73,-0.0
+2015,"industrial total, TBtu","Monthly Energy Review, twelve months",30604.794,"State Energy Data System, United States",30647.235,-0.14
+2015,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3365.964,"State Energy Data System, United States",3365.964,0.0
+2016,"industrial total, TBtu","Monthly Energy Review, twelve months",30506.346,"State Energy Data System, United States",30539.089,-0.11
+2016,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3332.552,"State Energy Data System, United States",3332.552,0.0
+2017,"industrial total, TBtu","Monthly Energy Review, twelve months",30825.126,"State Energy Data System, United States",30892.053,-0.22
+2017,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3358.425,"State Energy Data System, United States",3358.425,-0.0
+2018,"industrial total, TBtu","Monthly Energy Review, twelve months",31805.444,"State Energy Data System, United States",31825.729,-0.06
+2018,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3414.295,"State Energy Data System, United States",3414.295,-0.0
+2019,"industrial total, TBtu","Monthly Energy Review, twelve months",31707.83,"State Energy Data System, United States",31720.862,-0.04
+2019,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3420.028,"State Energy Data System, United States",3420.028,-0.0
+2020,"industrial total, TBtu","Monthly Energy Review, twelve months",30302.238,"State Energy Data System, United States",30295.267,0.02
+2020,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3272.388,"State Energy Data System, United States",3272.388,-0.0
+2021,"industrial total, TBtu","Monthly Energy Review, twelve months",31378.117,"State Energy Data System, United States",31376.391,0.01
+2021,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3414.093,"State Energy Data System, United States",3414.093,0.0
+2022,"industrial total, TBtu","Monthly Energy Review, twelve months",31168.756,"State Energy Data System, United States",31147.159,0.07
+2022,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3481.823,"State Energy Data System, United States",3481.823,0.0
+2023,"industrial total, TBtu","Monthly Energy Review, twelve months",31044.589,"State Energy Data System, United States",31020.145,0.08
+2023,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3443.58,"State Energy Data System, United States",3443.58,0.0
+2024,"industrial total, TBtu","Monthly Energy Review, twelve months",31395.037,"State Energy Data System, United States",31356.63,0.12
+2024,"electricity sold to industry, TBtu","Form EIA-861M, twelve months at 3,412 Btu per kWh",3530.001,"State Energy Data System, United States",3530.001,0.0

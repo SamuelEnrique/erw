@@ -1,0 +1,380 @@
+[
+ {
+  "draft": "regions/coal-share-st-car-cow.reproduce.py",
+  "ok": true,
+  "printed_first": 53.062764,
+  "printed_last": 15.117698,
+  "expected": {
+   "first_year": 2001,
+   "first": 53.062764,
+   "last_year": 2025,
+   "last": 15.117698,
+   "change": -37.945066
+  },
+  "tolerance": 0.18972533
+ },
+ {
+  "draft": "regions/coal-share-st-se-cow.reproduce.py",
+  "ok": true,
+  "printed_first": 60.23071,
+  "printed_last": 14.427176,
+  "expected": {
+   "first_year": 2001,
+   "first": 60.23071,
+   "last_year": 2025,
+   "last": 14.427176,
+   "change": -45.803535
+  },
+  "tolerance": 0.22901767499999998
+ },
+ {
+  "draft": "regions/coal-share-st-sw-cow.reproduce.py",
+  "ok": true,
+  "printed_first": 55.425895,
+  "printed_last": 11.160537,
+  "expected": {
+   "first_year": 2001,
+   "first": 55.425895,
+   "last_year": 2025,
+   "last": 11.160537,
+   "change": -44.265358
+  },
+  "tolerance": 0.22132679
+ },
+ {
+  "draft": "regions/coal-share-st-ten-cow.reproduce.py",
+  "ok": true,
+  "printed_first": 62.07525,
+  "printed_last": 23.883665,
+  "expected": {
+   "first_year": 2001,
+   "first": 62.07525,
+   "last_year": 2025,
+   "last": 23.883665,
+   "change": -38.191585
+  },
+  "tolerance": 0.19095792500000003
+ },
+ {
+  "draft": "regions/gas-share-st-car-ng.reproduce.py",
+  "ok": true,
+  "printed_first": 1.311592,
+  "printed_last": 32.427984,
+  "expected": {
+   "first_year": 2001,
+   "first": 1.311592,
+   "last_year": 2025,
+   "last": 32.427984,
+   "change": 31.116392
+  },
+  "tolerance": 0.15558196000000002
+ },
+ {
+  "draft": "regions/gas-share-st-fla-ng.reproduce.py",
+  "ok": true,
+  "printed_first": 22.817946,
+  "printed_last": 72.952655,
+  "expected": {
+   "first_year": 2001,
+   "first": 22.817946,
+   "last_year": 2025,
+   "last": 72.952655,
+   "change": 50.134709
+  },
+  "tolerance": 0.250673545
+ },
+ {
+  "draft": "regions/gas-share-st-se-ng.reproduce.py",
+  "ok": true,
+  "printed_first": 5.531663,
+  "printed_last": 42.212073,
+  "expected": {
+   "first_year": 2001,
+   "first": 5.531663,
+   "last_year": 2025,
+   "last": 42.212073,
+   "change": 36.68041
+  },
+  "tolerance": 0.18340205
+ },
+ {
+  "draft": "regions/gas-share-st-sw-ng.reproduce.py",
+  "ok": true,
+  "printed_first": 14.377471,
+  "printed_last": 40.520639,
+  "expected": {
+   "first_year": 2001,
+   "first": 14.377471,
+   "last_year": 2025,
+   "last": 40.520639,
+   "change": 26.143168
+  },
+  "tolerance": 0.13071584
+ },
+ {
+  "draft": "regions/gen-ratio-rg-se.reproduce.py",
+  "ok": true,
+  "printed_first": 103.844458,
+  "printed_last": 105.993189,
+  "expected": {
+   "first_year": 2019,
+   "first": 103.844458,
+   "last_year": 2025,
+   "last": 105.993189,
+   "change": 2.148732
+  },
+  "tolerance": 0.01074366
+ },
+ {
+  "draft": "regions/mean-mw-rd-fla.reproduce.py",
+  "ok": true,
+  "printed_first": 27821.22199,
+  "printed_last": 30560.114773,
+  "expected": {
+   "first_year": 2021,
+   "first": 27821.22199,
+   "last_year": 2025,
+   "last": 30560.114773,
+   "change": 2738.892783
+  },
+  "tolerance": 13.694463915
+ },
+ {
+  "draft": "regions/mean-mw-rd-nw.reproduce.py",
+  "ok": true,
+  "printed_first": 39829.278333,
+  "printed_last": 42601.532769,
+  "expected": {
+   "first_year": 2019,
+   "first": 39829.278333,
+   "last_year": 2025,
+   "last": 42601.532769,
+   "change": 2772.254436
+  },
+  "tolerance": 13.86127218
+ },
+ {
+  "draft": "regions/mean-mw-rd-sw.reproduce.py",
+  "ok": true,
+  "printed_first": 11944.636886,
+  "printed_last": 13987.216324,
+  "expected": {
+   "first_year": 2019,
+   "first": 11944.636886,
+   "last_year": 2025,
+   "last": 13987.216324,
+   "change": 2042.579439
+  },
+  "tolerance": 10.212897195
+ },
+ {
+  "draft": "regions/mean-mw-rd-ten.reproduce.py",
+  "ok": true,
+  "printed_first": 18185.506621,
+  "printed_last": 19488.539726,
+  "expected": {
+   "first_year": 2019,
+   "first": 18185.506621,
+   "last_year": 2025,
+   "last": 19488.539726,
+   "change": 1303.033105
+  },
+  "tolerance": 6.5151655250000005
+ },
+ {
+  "draft": "regions/nuclear-share-st-fla-nuc.reproduce.py",
+  "ok": true,
+  "printed_first": 16.540547,
+  "printed_last": 11.402099,
+  "expected": {
+   "first_year": 2001,
+   "first": 16.540547,
+   "last_year": 2025,
+   "last": 11.402099,
+   "change": -5.138448
+  },
+  "tolerance": 0.02569224
+ },
+ {
+  "draft": "regions/nuclear-share-st-se-nuc.reproduce.py",
+  "ok": true,
+  "printed_first": 26.28184,
+  "printed_last": 32.526127,
+  "expected": {
+   "first_year": 2001,
+   "first": 26.28184,
+   "last_year": 2025,
+   "last": 32.526127,
+   "change": 6.244287
+  },
+  "tolerance": 0.031221435
+ },
+ {
+  "draft": "regions/nuclear-share-st-sw-nuc.reproduce.py",
+  "ok": true,
+  "printed_first": 23.254046,
+  "printed_last": 20.089622,
+  "expected": {
+   "first_year": 2001,
+   "first": 23.254046,
+   "last_year": 2025,
+   "last": 20.089622,
+   "change": -3.164424
+  },
+  "tolerance": 0.01582212
+ },
+ {
+  "draft": "regions/nuclear-share-st-ten-nuc.reproduce.py",
+  "ok": true,
+  "printed_first": 29.698445,
+  "printed_last": 38.87958,
+  "expected": {
+   "first_year": 2001,
+   "first": 29.698445,
+   "last_year": 2025,
+   "last": 38.87958,
+   "change": 9.181134
+  },
+  "tolerance": 0.04590567
+ },
+ {
+  "draft": "regions/peak-mw-rd-car.reproduce.py",
+  "ok": true,
+  "printed_first": 41648.0,
+  "printed_last": 47130.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 41648.0,
+   "last_year": 2025,
+   "last": 47130.0,
+   "change": 5482.0
+  },
+  "tolerance": 27.41
+ },
+ {
+  "draft": "regions/peak-mw-rd-fla.reproduce.py",
+  "ok": true,
+  "printed_first": 49784.0,
+  "printed_last": 54587.0,
+  "expected": {
+   "first_year": 2021,
+   "first": 49784.0,
+   "last_year": 2025,
+   "last": 54587.0,
+   "change": 4803.0
+  },
+  "tolerance": 24.015
+ },
+ {
+  "draft": "regions/peak-mw-rd-nw.reproduce.py",
+  "ok": true,
+  "printed_first": 58211.0,
+  "printed_last": 64107.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 58211.0,
+   "last_year": 2025,
+   "last": 64107.0,
+   "change": 5896.0
+  },
+  "tolerance": 29.48
+ },
+ {
+  "draft": "regions/peak-mw-rd-sw.reproduce.py",
+  "ok": true,
+  "printed_first": 23822.0,
+  "printed_last": 27330.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 23822.0,
+   "last_year": 2025,
+   "last": 27330.0,
+   "change": 3508.0
+  },
+  "tolerance": 17.54
+ },
+ {
+  "draft": "regions/solar-share-st-fla-sun.reproduce.py",
+  "ok": true,
+  "printed_first": 0.0,
+  "printed_last": 9.287825,
+  "expected": {
+   "first_year": 2001,
+   "first": 0.0,
+   "last_year": 2025,
+   "last": 9.287825,
+   "change": 9.287825
+  },
+  "tolerance": 0.046439125
+ },
+ {
+  "draft": "regions/solar-share-st-nw-sun.reproduce.py",
+  "ok": true,
+  "printed_first": 0.0,
+  "printed_last": 8.011874,
+  "expected": {
+   "first_year": 2001,
+   "first": 0.0,
+   "last_year": 2025,
+   "last": 8.011874,
+   "change": 8.011874
+  },
+  "tolerance": 0.040059370000000004
+ },
+ {
+  "draft": "regions/solar-share-st-sw-sun.reproduce.py",
+  "ok": true,
+  "printed_first": 0.000396,
+  "printed_last": 13.962588,
+  "expected": {
+   "first_year": 2001,
+   "first": 0.000396,
+   "last_year": 2025,
+   "last": 13.962588,
+   "change": 13.962192
+  },
+  "tolerance": 0.06981096
+ },
+ {
+  "draft": "regions/top-winter-rd-car.reproduce.py",
+  "ok": true,
+  "printed_first": 4.0,
+  "printed_last": 37.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 4.0,
+   "last_year": 2025,
+   "last": 37.0,
+   "change": 33.0
+  },
+  "tolerance": 0.165
+ },
+ {
+  "draft": "regions/winter-summer-rd-se.reproduce.py",
+  "ok": true,
+  "printed_first": 89.249952,
+  "printed_last": 100.217724,
+  "expected": {
+   "first_year": 2019,
+   "first": 89.249952,
+   "last_year": 2025,
+   "last": 100.217724,
+   "change": 10.967772
+  },
+  "tolerance": 0.05483886
+ },
+ {
+  "draft": "regions/winter-summer-rd-ten.reproduce.py",
+  "ok": true,
+  "printed_first": 94.023945,
+  "printed_last": 109.213721,
+  "expected": {
+   "first_year": 2019,
+   "first": 94.023945,
+   "last_year": 2025,
+   "last": 109.213721,
+   "change": 15.189776
+  },
+  "tolerance": 0.07594888
+ }
+]
