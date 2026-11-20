@@ -39,6 +39,7 @@ def src(*parts):
 
 
 class TheWords(unittest.TestCase):
+    @unittest.skip("ruling alternative 1 (wip/alt-interconnection-1): ERCOT's statuses take the common words again, as the builder reads its operation by the day of approval to synchronize; the other choice is pinned in tests/test_alt_interconnection_1.py")
     def test_ercots_statuses_have_words_of_their_own_and_no_other_queue_has(self):
         lib = src("site", "lib", "explore", "interconnection.ts")
         self.assertIn('ercot: { operating: { label: "Agreement signed", short: "Signed" }, waiting: { label: "No agreement yet", short: "No agreement" } },', lib)
