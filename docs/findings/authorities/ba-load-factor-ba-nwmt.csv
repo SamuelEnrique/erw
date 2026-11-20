@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ba_load_factor, region ba_nwmt (NorthWestern Energy (Montana) (NWMT, EIA-930 balancing authority))
+# Computed 2026-11-19T12:57:37Z by warehouse/analysis/findings/deep/authorities.py (ba_load_factor); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's mean hour of demand as a percent of its highest (percent), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+ba_nwmt,2018,73.39758849453703,4409.0,0
+ba_nwmt,2019,73.39125615007912,8685.0,1
+ba_nwmt,2020,72.34145039437989,8783.0,1
+ba_nwmt,2021,48.96572870368528,8758.0,1
+ba_nwmt,2022,68.57460106290839,8760.0,1
+ba_nwmt,2023,68.4491103684143,8760.0,1
+ba_nwmt,2024,65.83494602394751,8783.0,1
+ba_nwmt,2025,67.22238775316376,8754.0,1
+ba_nwmt,2026,62.36919206075895,7684.0,0

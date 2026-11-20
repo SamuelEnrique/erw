@@ -1,0 +1,422 @@
+[
+ {
+  "draft": "events/caiso-heat-2022-cal.reproduce.py",
+  "ok": true,
+  "printed_first": 48414.0,
+  "printed_last": 63622.0,
+  "expected": {
+   "first_year": 2018,
+   "first": 48414.0,
+   "last_year": 2022,
+   "last": 63622.0,
+   "change": 15208.0
+  },
+  "tolerance": 76.04
+ },
+ {
+  "draft": "events/caiso-heat-2022-fla.reproduce.py",
+  "ok": true,
+  "printed_first": 44347.0,
+  "printed_last": 50172.0,
+  "expected": {
+   "first_year": 2018,
+   "first": 44347.0,
+   "last_year": 2022,
+   "last": 50172.0,
+   "change": 5825.0
+  },
+  "tolerance": 29.125
+ },
+ {
+  "draft": "events/caiso-heat-2022-nw.reproduce.py",
+  "ok": true,
+  "printed_first": 45178.0,
+  "printed_last": 59312.0,
+  "expected": {
+   "first_year": 2018,
+   "first": 45178.0,
+   "last_year": 2022,
+   "last": 59312.0,
+   "change": 14134.0
+  },
+  "tolerance": 70.67
+ },
+ {
+  "draft": "events/cold-2025-car.reproduce.py",
+  "ok": true,
+  "printed_first": 40888.0,
+  "printed_last": 47130.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 40888.0,
+   "last_year": 2025,
+   "last": 47130.0,
+   "change": 6242.0
+  },
+  "tolerance": 31.21
+ },
+ {
+  "draft": "events/cold-2025-fla.reproduce.py",
+  "ok": true,
+  "printed_first": 33094.0,
+  "printed_last": 43974.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 33094.0,
+   "last_year": 2025,
+   "last": 43974.0,
+   "change": 10880.0
+  },
+  "tolerance": 54.4
+ },
+ {
+  "draft": "events/cold-2025-mida.reproduce.py",
+  "ok": true,
+  "printed_first": 132175.0,
+  "printed_last": 144420.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 132175.0,
+   "last_year": 2025,
+   "last": 144420.0,
+   "change": 12245.0
+  },
+  "tolerance": 61.225
+ },
+ {
+  "draft": "events/cold-2025-ten.reproduce.py",
+  "ok": true,
+  "printed_first": 27801.0,
+  "printed_last": 35086.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 27801.0,
+   "last_year": 2025,
+   "last": 35086.0,
+   "change": 7285.0
+  },
+  "tolerance": 36.425000000000004
+ },
+ {
+  "draft": "events/cold-2025-tex.reproduce.py",
+  "ok": true,
+  "printed_first": 54656.0,
+  "printed_last": 77426.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 54656.0,
+   "last_year": 2025,
+   "last": 77426.0,
+   "change": 22770.0
+  },
+  "tolerance": 113.85000000000001
+ },
+ {
+  "draft": "events/cold-2026-cent.reproduce.py",
+  "ok": true,
+  "printed_first": 40344.0,
+  "printed_last": 45653.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 40344.0,
+   "last_year": 2026,
+   "last": 45653.0,
+   "change": 5309.0
+  },
+  "tolerance": 26.545
+ },
+ {
+  "draft": "events/cold-2026-fla.reproduce.py",
+  "ok": true,
+  "printed_first": 32499.0,
+  "printed_last": 52211.0,
+  "expected": {
+   "first_year": 2021,
+   "first": 32499.0,
+   "last_year": 2026,
+   "last": 52211.0,
+   "change": 19712.0
+  },
+  "tolerance": 98.56
+ },
+ {
+  "draft": "events/cold-2026-se.reproduce.py",
+  "ok": true,
+  "printed_first": 41445.0,
+  "printed_last": 47809.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 41445.0,
+   "last_year": 2026,
+   "last": 47809.0,
+   "change": 6364.0
+  },
+  "tolerance": 31.82
+ },
+ {
+  "draft": "events/cold-2026-ten.reproduce.py",
+  "ok": true,
+  "printed_first": 27755.0,
+  "printed_last": 32685.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 27755.0,
+   "last_year": 2026,
+   "last": 32685.0,
+   "change": 4930.0
+  },
+  "tolerance": 24.650000000000002
+ },
+ {
+  "draft": "events/cold-2026-tex.reproduce.py",
+  "ok": true,
+  "printed_first": 54656.0,
+  "printed_last": 75599.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 54656.0,
+   "last_year": 2026,
+   "last": 75599.0,
+   "change": 20943.0
+  },
+  "tolerance": 104.715
+ },
+ {
+  "draft": "events/covid-2020-car.reproduce.py",
+  "ok": true,
+  "printed_first": 23021.09198,
+  "printed_last": 20643.759511,
+  "expected": {
+   "first_year": 2019,
+   "first": 23021.09198,
+   "last_year": 2020,
+   "last": 20643.759511,
+   "change": -2377.332469
+  },
+  "tolerance": 11.886662345
+ },
+ {
+  "draft": "events/covid-2020-fla.reproduce.py",
+  "ok": true,
+  "printed_first": 26751.620133,
+  "printed_last": 26518.1069,
+  "expected": {
+   "first_year": 2021,
+   "first": 26751.620133,
+   "last_year": 2020,
+   "last": 26518.1069,
+   "change": -233.513233
+  },
+  "tolerance": 1.167566165
+ },
+ {
+  "draft": "events/covid-2020-mida.reproduce.py",
+  "ok": true,
+  "printed_first": 83192.446105,
+  "printed_last": 76468.831522,
+  "expected": {
+   "first_year": 2019,
+   "first": 83192.446105,
+   "last_year": 2020,
+   "last": 76468.831522,
+   "change": -6723.614583
+  },
+  "tolerance": 33.618072915
+ },
+ {
+  "draft": "events/covid-2020-se.reproduce.py",
+  "ok": true,
+  "printed_first": 25476.662138,
+  "printed_last": 22943.584239,
+  "expected": {
+   "first_year": 2019,
+   "first": 25476.662138,
+   "last_year": 2020,
+   "last": 22943.584239,
+   "change": -2533.077899
+  },
+  "tolerance": 12.665389495
+ },
+ {
+  "draft": "events/covid-2020-ten.reproduce.py",
+  "ok": true,
+  "printed_first": 16628.13587,
+  "printed_last": 14970.077899,
+  "expected": {
+   "first_year": 2019,
+   "first": 16628.13587,
+   "last_year": 2020,
+   "last": 14970.077899,
+   "change": -1658.057971
+  },
+  "tolerance": 8.290289855
+ },
+ {
+  "draft": "events/east-heat-2025-car.reproduce.py",
+  "ok": true,
+  "printed_first": 39320.0,
+  "printed_last": 44754.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 39320.0,
+   "last_year": 2025,
+   "last": 44754.0,
+   "change": 5434.0
+  },
+  "tolerance": 27.17
+ },
+ {
+  "draft": "events/east-heat-2025-mida.reproduce.py",
+  "ok": true,
+  "printed_first": 136567.0,
+  "printed_last": 160560.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 136567.0,
+   "last_year": 2025,
+   "last": 160560.0,
+   "change": 23993.0
+  },
+  "tolerance": 119.965
+ },
+ {
+  "draft": "events/east-heat-2025-midw.reproduce.py",
+  "ok": true,
+  "printed_first": 113477.0,
+  "printed_last": 127603.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 113477.0,
+   "last_year": 2025,
+   "last": 127603.0,
+   "change": 14126.0
+  },
+  "tolerance": 70.63
+ },
+ {
+  "draft": "events/east-heat-2025-ne.reproduce.py",
+  "ok": true,
+  "printed_first": 19408.0,
+  "printed_last": 25898.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 19408.0,
+   "last_year": 2025,
+   "last": 25898.0,
+   "change": 6490.0
+  },
+  "tolerance": 32.45
+ },
+ {
+  "draft": "events/east-heat-2025-ten.reproduce.py",
+  "ok": true,
+  "printed_first": 27092.0,
+  "printed_last": 31240.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 27092.0,
+   "last_year": 2025,
+   "last": 31240.0,
+   "change": 4148.0
+  },
+  "tolerance": 20.740000000000002
+ },
+ {
+  "draft": "events/elliott-2022-car.reproduce.py",
+  "ok": true,
+  "printed_first": 33078.0,
+  "printed_last": 44630.0,
+  "expected": {
+   "first_year": 2018,
+   "first": 33078.0,
+   "last_year": 2022,
+   "last": 44630.0,
+   "change": 11552.0
+  },
+  "tolerance": 57.76
+ },
+ {
+  "draft": "events/elliott-2022-fla.reproduce.py",
+  "ok": true,
+  "printed_first": 30329.0,
+  "printed_last": 42612.0,
+  "expected": {
+   "first_year": 2018,
+   "first": 30329.0,
+   "last_year": 2022,
+   "last": 42612.0,
+   "change": 12283.0
+  },
+  "tolerance": 61.415
+ },
+ {
+  "draft": "events/elliott-2022-nw.reproduce.py",
+  "ok": true,
+  "printed_first": 48625.0,
+  "printed_last": 58947.0,
+  "expected": {
+   "first_year": 2018,
+   "first": 48625.0,
+   "last_year": 2022,
+   "last": 58947.0,
+   "change": 10322.0
+  },
+  "tolerance": 51.61
+ },
+ {
+  "draft": "events/elliott-2022-se.reproduce.py",
+  "ok": true,
+  "printed_first": 31608.0,
+  "printed_last": 45131.0,
+  "expected": {
+   "first_year": 2018,
+   "first": 31608.0,
+   "last_year": 2022,
+   "last": 45131.0,
+   "change": 13523.0
+  },
+  "tolerance": 67.615
+ },
+ {
+  "draft": "events/elliott-2022-ten.reproduce.py",
+  "ok": true,
+  "printed_first": 22240.0,
+  "printed_last": 33225.0,
+  "expected": {
+   "first_year": 2018,
+   "first": 22240.0,
+   "last_year": 2022,
+   "last": 33225.0,
+   "change": 10985.0
+  },
+  "tolerance": 54.925000000000004
+ },
+ {
+  "draft": "events/ercot-heat-2023-midw.reproduce.py",
+  "ok": true,
+  "printed_first": 122300.0,
+  "printed_last": 132438.0,
+  "expected": {
+   "first_year": 2018,
+   "first": 122300.0,
+   "last_year": 2023,
+   "last": 132438.0,
+   "change": 10138.0
+  },
+  "tolerance": 50.69
+ },
+ {
+  "draft": "events/uri-2021-se.reproduce.py",
+  "ok": true,
+  "printed_first": 34323.0,
+  "printed_last": 41999.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 34323.0,
+   "last_year": 2021,
+   "last": 41999.0,
+   "change": 7676.0
+  },
+  "tolerance": 38.38
+ }
+]
