@@ -17,7 +17,7 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 - **Size.** Past about 500 MW the battery is paid for reserves ERCOT does not buy (finding 7).
 - **The model findings hold on every open case.** ERCOT and CAISO, both strategies, on the table's current twelve months: the empty start costs 6.3 to 7.6 percent, regulation called 7.9 to 13.0 percent (CAISO at ERCOT's measured rate), and 15-minute energy adds 2.7 to 3.5 percent under perfect foresight.
 - **The replication proves a window the page has left.** The table now gives November 2025 to October 2026, USD 80.34 per kW; the public file and the replication still show 81.40 (finding 11).
-- **Wording fixes are on branches 5, 6 and 10, and the note's words on 1 and 2,** and move no figure. Every other fix moves figures and is the owner's ruling; each finding has a test on its own branch.
+- **Wording fixes move no figure.** Branches 5, 6 and 10 fix the page's words; branches 1, 2, 3, 4, 7, 8 and 9 add the measured effect to the note, where a reader of the method looks. Every other fix moves figures and is the owner's ruling; each finding has a test on its own branch (11 needs the data machine to write the public file again).
 
 ## How every number here was computed
 
