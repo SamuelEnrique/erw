@@ -5,9 +5,10 @@
 table: eia_capacity_factors_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One energy source and technology's monthly capacity factor or time adjusted capacity for U.S. utility-scale generators,
+  from EIA's Electric Power Annual Tables 4.8.A and 4.8.B.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot); vintage is the workbook's last-modified time.
 keys:
 - entity
 - variable
@@ -54,6 +55,7 @@ columns:
       eia_epa_cf:wind:all: 72
       eia_epa_cf:wood:all: 72
   missing_cells: 0
+  particular: eia_epa_cf:<energy source>:<technology>, all where EIA gives no technology
 - name: variable
   shared: true
   type: text
@@ -98,12 +100,14 @@ columns:
     list:
       US: 1224
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1224
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -127,6 +131,7 @@ columns:
       Wind: 72
       Wood: 72
   missing_cells: 0
+  particular: EIA's row name (source, technology)
 - name: source
   shared: true
   type: text
@@ -157,15 +162,16 @@ columns:
       '2026-10-19T22:48:17Z': 576
       '2026-10-19T22:48:21Z': 648
   missing_cells: 0
+  particular: The workbook's last-modified time from EIA's server
 variables:
 - name: capacity_factor
-  label: null
+  label: 'Capacity factor in the month: the energy generated over what the capacity could make, a ratio'
   unit: ratio
   rows: 612
   first: '2023-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: time_adjusted_capacity
-  label: null
+  label: Summer capacity in operation the whole month, MW
   unit: MW
   rows: 612
   first: '2023-01-01T00:00:00Z'

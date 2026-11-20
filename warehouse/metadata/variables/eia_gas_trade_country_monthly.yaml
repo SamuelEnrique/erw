@@ -5,9 +5,10 @@
 table: eia_gas_trade_country_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's U.S. natural gas exports or imports with one country by one mode (pipeline, LNG, compressed, trucked), as
+  a volume or a price.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -46,6 +47,7 @@ columns:
     - eia_gas_trade:N9102CN3
     - eia_gas_trade:N9102MX2
   missing_cells: 0
+  particular: eia_gas_trade:<EIA series id>; countries are parts of the U.S. total of the same mode
 - name: variable
   shared: true
   type: text
@@ -90,12 +92,14 @@ columns:
     list:
       US: 30337
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 30337
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -108,6 +112,7 @@ columns:
     - Liquefied U.S. Natural Gas Exports (MMcf)
     - Liquefied U.S. Natural Gas Exports by Truck (MMcf)
   missing_cells: 0
+  particular: EIA's series name (the mode and the country)
 - name: source
   shared: true
   type: text
@@ -137,15 +142,16 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 30337
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: price
-  label: null
+  label: Price of the gas exported or imported, USD per thousand cubic feet
   unit: USD/Mcf
   rows: 9458
   first: '1989-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: volume
-  label: null
+  label: Natural gas exported or imported in the month, million cubic feet
   unit: MMcf
   rows: 20879
   first: '1973-01-01T00:00:00Z'

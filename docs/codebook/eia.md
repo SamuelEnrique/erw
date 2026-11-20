@@ -2,32 +2,32 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 112 public tables (5 entities, 1 events, 106 series; tiers: 2 derived, 110 source); 26 documented in full.
+**What the family holds.** 112 public tables (5 entities, 1 events, 106 series; tiers: 2 derived, 110 source); 46 documented in full.
 
-- [`eia_aeo_electricity`](#eia_aeo_electricity): EIA Annual Energy Outlook 2026, electricity Tables 8 and 9, every case (session 490)
-- [`eia_aeo_emm_regions`](#eia_aeo_emm_regions): EIA Annual Energy Outlook 2026, Table 54, electric power projections by Electricity Market Module region, case cb2026 (session 913)
+- [`eia_aeo_electricity`](#eia_aeo_electricity): One series of EIA's Annual Energy Outlook 2026 electricity Tables 8 and 9 (capacity, generation or a price), in one case (scenario), for one projected year.
+- [`eia_aeo_emm_regions`](#eia_aeo_emm_regions): One series of EIA's Annual Energy Outlook 2026 Table 54 (electric power projections) for one Electricity Market Module region or the U.S., case cb2026, for one projected year.
 - [`eia_aeo_industrial`](#eia_aeo_industrial): One series of EIA's Annual Energy Outlook 2026 industrial sub-sector tables (an industry's energy use of one fuel), in one case (scenario), for one projected year, in trillion Btu.
-- [`eia_annual_crosscheck_ba`](#eia_annual_crosscheck_ba): EIA-930's hourly net generation summed by year against EIA's annual figure (Form EIA-923, summed by balancing authority), session 323
-- [`eia_annual_generation_ba`](#eia_annual_generation_ba): EIA's annual net generation by balancing authority, summed from Form EIA-923's plant-level annual files (session 323)
+- [`eia_annual_crosscheck_ba`](#eia_annual_crosscheck_ba): One balancing authority's (or the Lower 48's) year of EIA-930's hourly net generation summed, set against EIA-923's annual figure, with the gap and the hours counted.
+- [`eia_annual_generation_ba`](#eia_annual_generation_ba): One balancing authority's year of net generation, storage net generation or plant count, summed from Form EIA-923's plant rows by their Balancing Authority Code.
 - [`eia_basin_production_monthly`](#eia_basin_production_monthly): One producing region's monthly crude oil production or marketed natural gas production, as EIA's Short-Term Energy Outlook gives its history.
-- [`eia_biofuel_plants`](#eia_biofuel_plants): U.S. Energy Information Administration (EIA), U.S. Biofuels Plant Production Capacity (as of January 1, 2026) and the fuel ethanol, biodiesel and renewable diesel plant capacity reports (as of January 1, 2025), Form EIA-819: each plant's capacity, state and PADD, a year a row (session 2031)
-- [`eia_capacity_factors_annual`](#eia_capacity_factors_annual): EIA, Electric Power Annual, Tables 4.8.A and 4.8.B: capacity factors and time adjusted capacity of U.S. utility-scale generators by energy source and technology, a year (session 984)
-- [`eia_capacity_factors_monthly`](#eia_capacity_factors_monthly): EIA, Electric Power Annual, Tables 4.8.A and 4.8.B: capacity factors and time adjusted capacity of U.S. utility-scale generators by energy source and technology, a month (session 984)
-- [`eia_cbecs_commercial_buildings`](#eia_cbecs_commercial_buildings): EIA, 2018 Commercial Buildings Energy Consumption Survey (CBECS), consumption and expenditure by building or household characteristic, as EIA's tables C1, C2, E1 print them (session 2017)
-- [`eia_co2_state_annual`](#eia_co2_state_annual): EIA, energy-related CO2 emissions by state, sector and fuel, a year (session 530)
-- [`eia_coal_delivered_price_annual`](#eia_coal_delivered_price_annual): EIA, the average delivered price of coal by state or region and consuming sector, a year (session 553)
-- [`eia_coal_distribution_quarterly`](#eia_coal_distribution_quarterly): EIA, Annual Coal Distribution Report, U.S. domestic coal shipments by origin, destination state, consuming sector and mode, a quarter, 2024 (session 957)
-- [`eia_coal_mine_production_annual`](#eia_coal_mine_production_annual): EIA, coal production and employees by mine, a year (session 694)
-- [`eia_coal_price_rank_annual`](#eia_coal_price_rank_annual): EIA, the average sales price of coal by state or region and rank, a year (session 572)
-- [`eia_coal_prices_annual`](#eia_coal_prices_annual): EIA, the average sales price of coal by producing state or region and market type, a year (session 519)
-- [`eia_coal_production_annual`](#eia_coal_production_annual): EIA, coal production by producing state or region, coal rank and mine type, with the mines and their employees, a year (session 685)
-- [`eia_coal_receipts_annual`](#eia_coal_receipts_annual): EIA, coal receipts at power plants: each mine to each plant by supplier, rank, contract type and transport mode, a year (session 875)
-- [`eia_coal_trade_price_annual`](#eia_coal_trade_price_annual): EIA, the price of U.S. coal exports and imports by country, rank and customs district, a year (session 573)
+- [`eia_biofuel_plants`](#eia_biofuel_plants): One fuel ethanol, biodiesel or renewable diesel plant's production capacity as of 1 January of one year (Form EIA-819); a plant appears once a year.
+- [`eia_capacity_factors_annual`](#eia_capacity_factors_annual): One energy source and technology's yearly capacity factor or time adjusted capacity for U.S. utility-scale generators, from EIA's Electric Power Annual Tables 4.8.A and 4.8.B.
+- [`eia_capacity_factors_monthly`](#eia_capacity_factors_monthly): One energy source and technology's monthly capacity factor or time adjusted capacity for U.S. utility-scale generators, from EIA's Electric Power Annual Tables 4.8.A and 4.8.B.
+- [`eia_cbecs_commercial_buildings`](#eia_cbecs_commercial_buildings): One category of commercial buildings (by a building characteristic, or all buildings) and one figure from EIA's 2018 Commercial Buildings Energy Consumption Survey tables C1, C2 and E1.
+- [`eia_co2_state_annual`](#eia_co2_state_annual): One state's (or the nation's) energy-related carbon dioxide emissions of one sector and one fuel for one year.
+- [`eia_coal_delivered_price_annual`](#eia_coal_delivered_price_annual): One state's, census division's or the nation's yearly average delivered price of coal to one consuming sector.
+- [`eia_coal_distribution_quarterly`](#eia_coal_distribution_quarterly): One quarter's domestic coal shipments of 2024 along one flow (origin, destination state, consuming sector, transport mode), from EIA's Annual Coal Distribution Report.
+- [`eia_coal_mine_production_annual`](#eia_coal_mine_production_annual): One coal mine's (by MSHA id, coal rank and mine type) yearly production or average employees, from EIA's Annual Coal Report.
+- [`eia_coal_price_rank_annual`](#eia_coal_price_rank_annual): One state's, region's or the nation's yearly average sales price of coal of one rank, from EIA's Annual Coal Report.
+- [`eia_coal_prices_annual`](#eia_coal_prices_annual): One producing state's, region's or the nation's yearly average sales price of coal in one market type, from EIA's Annual Coal Report.
+- [`eia_coal_production_annual`](#eia_coal_production_annual): One producing state's, region's or the nation's yearly coal production, number of mines or average employees, by coal rank and mine type, from EIA's Annual Coal Report.
+- [`eia_coal_receipts_annual`](#eia_coal_receipts_annual): One year's coal received at one power plant from one mine, by supplier, coal rank, contract type and transport mode, with its price and quality (Form EIA-923).
+- [`eia_coal_trade_price_annual`](#eia_coal_trade_price_annual): One year's average price of U.S. coal exports or imports of one rank with one country through one customs district, from EIA's Quarterly Coal Report.
 - [`eia_county_region`](#eia_county_region): One county of the lower 48 states and the District of Columbia, with the balancing authority (grid operator area) and EIA region it is assigned to by the ERW's rule from EIA-861.
 - [`eia_crude_first_purchase_prices`](#eia_crude_first_purchase_prices): One crude stream's or state's monthly average first purchase price (the price paid at the lease, as crude is first bought) as EIA reports it.
-- [`eia_crude_imports_by_country`](#eia_crude_imports_by_country): Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261106T003628Z-github (2026-11-06T00:36:28Z); that run's own header of the table follows
-- [`eia_crude_imports_detail_monthly`](#eia_crude_imports_detail_monthly): EIA, crude oil imports by country of origin, destination and grade, a month (session 632)
-- [`eia_crude_production_state_monthly`](#eia_crude_production_state_monthly): EIA, crude oil field production by state, region and federal offshore area, a month (session 527)
+- [`eia_crude_imports_by_country`](#eia_crude_imports_by_country): One month's U.S. crude oil imports from one country of origin (or in all), as EIA reports them.
+- [`eia_crude_imports_detail_monthly`](#eia_crude_imports_detail_monthly): One month's crude oil imports from one country of origin to one destination (refinery, state, PADD or the U.S.) of one grade, from EIA's company level imports (Form EIA-814).
+- [`eia_crude_production_state_monthly`](#eia_crude_production_state_monthly): One month's crude oil field production of one state, region or federal offshore area, in the month or per day.
 - [`eia_crude_quality_monthly`](#eia_crude_quality_monthly): EIA, crude oil input qualities at refineries (average API gravity and sulfur content), the U.S., the PADDs and the refining districts, a month (session 2244)
 - [`eia_crude_reserves_annual`](#eia_crude_reserves_annual): EIA, crude oil proved reserves and their changes by state and area, a year (session 551)
 - [`eia_crude_stream_prices`](#eia_crude_stream_prices): One crude stream's or area's monthly average price, as one of four EIA measures (first purchase price, landed cost or F.O.B. cost of imports, refiners' acquisition cost).
@@ -119,79 +119,83 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 
 ### `eia_aeo_electricity`
 
-What a row is: not yet written.
+One series of EIA's Annual Energy Outlook 2026 electricity Tables 8 and 9 (capacity, generation or a price), in one case (scenario), for one projected year.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 34034.
 
+- **Time:** ts_utc is 1 January of the projected year at 00:00:00Z (freq P1Y).
+- **Revisions:** Rewritten whole by each run (write_snapshot); the release is in the entity id, vintage is not filled.
 - **Source:** eia:aeo U.S. Energy Information Administration, Annual Energy Outlook 2026 (API v2, route aeo/2026) (https://www.eia.gov/outlooks/aeo/)
 - **Method note:** [`docs/methods/eia_aeo_electricity.md`](../methods/eia_aeo_electricity.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). Annual Energy Outlook (API v2, Tables 8 and 9). Via the Energy Research Warehouse (ERW), table `eia_aeo_electricity`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia_aeo_2026:cap_NA_elep_NA_cuc_NA_usa_gw:altelec, eia_aeo_2026:cap_NA_elep_NA_cuc_NA_usa_gw:alttrnp, eia_aeo_2026:cap_NA_elep_NA_cuc_NA_usa_gw:cb2026; 1309 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia_aeo_2026:<seriesId>:<case> | none | text | for example eia_aeo_2026:cap_NA_elep_NA_cuc_NA_usa_gw:altelec, eia_aeo_2026:cap_NA_elep_NA_cuc_NA_usa_gw:alttrnp, eia_aeo_2026:cap_NA_elep_NA_cuc_NA_usa_gw:cb2026; 1309 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2025-01-01T00:00:00Z to 2050-01-01T00:00:00Z; 26 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -43447357.0 to 6775515137.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW, MWh, USD/kWh | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 34034 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Electricity : Direct Use, Electricity : Electric Power Sector : Combined Heat and Power : Coal, Electricity : Electric Power Sector : Combined Heat and Power : Natural Gas; 111 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US on every row | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 34034 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: EIA's name of the series | none | text | for example Electricity : Direct Use, Electricity : Electric Power Sector : Combined Heat and Power : Coal, Electricity : Electric Power Sector : Combined Heat and Power : Natural Gas; 111 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:aeo | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=altelec&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=alttrnp&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=cb2026&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=electrnp&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=highZTC&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=higheldmd&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=highogs&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=hm2026&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=lm2026&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=lowZTC&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=8&facets%5Bscenario%5D%5B%5D=lowogs&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=altelec&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=alttrnp&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=cb2026&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=electrnp&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=highZTC&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=higheldmd&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=highogs&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=hm2026&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=lm2026&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=lowZTC&length=5000, https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=9&facets%5Bscenario%5D%5B%5D=lowogs&length=5000 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-21T18:31:12Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 34034 |
-| `x_table` | not yet written |  | integer | 8, 9 | 0 |
-| `x_scenario` | not yet written |  | text | altelec, alttrnp, cb2026, electrnp, highZTC, higheldmd, highogs, hm2026, lm2026, lowZTC, lowogs | 0 |
-| `x_scenario_name` | not yet written |  | text | Alternative Electricity, Alternative Electricity and Transportation, Alternative Transportation, Counterfactual Baseline case, High Economic Growth, High Electricity Demand, High Oil and Gas Supply, High Zero-Carbon Technology Cost, Low Economic Growth, Low Oil and Gas Supply, Low Zero-Carbon Technology Cost | 0 |
-| `x_history` | not yet written |  | text | PROJECTION | 0 |
-| `x_region` | not yet written |  | text | 0-0 | 0 |
-| `x_dollar_year` | not yet written |  | text | 2025, nominal | 29458 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: the release is in the entity id | none | empty | no cell holds a value | 34034 |
+| `x_table` | The AEO table the series is read from (8 or 9) (the source's name: tableId) | none | integer | 8, 9 | 0 |
+| `x_scenario` | EIA's code of the AEO case (scenario) the projection belongs to (the source's name: scenario) | none | text | altelec, alttrnp, cb2026, electrnp, highZTC, higheldmd, highogs, hm2026, lm2026, lowZTC, lowogs | 0 |
+| `x_scenario_name` | EIA's name of the case (the source's name: scenarioDescription) | none | text | Alternative Electricity, Alternative Electricity and Transportation, Alternative Transportation, Counterfactual Baseline case, High Economic Growth, High Electricity Demand, High Oil and Gas Supply, High Zero-Carbon Technology Cost, Low Economic Growth, Low Oil and Gas Supply, Low Zero-Carbon Technology Cost | 0 |
+| `x_history` | EIA's flag saying whether the year is history or projection (every row here is PROJECTION) (the source's name: history) | none | text | PROJECTION | 0 |
+| `x_region` | EIA's region identifier of the series (0-0, the United States, on every row) (the source's name: regionId) | none | text | 0-0 | 0 |
+| `x_dollar_year` | The dollars a price is in: 2025 for the AEO's real 2025 dollars, or nominal | none | text | 2025, nominal | 29458: Not a price (a capacity or a generation row) |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `value` |  | MW; MWh; USD/kWh | 34034 | 2025-01-01T00:00:00Z | 2050-01-01T00:00:00Z |
+| `value` | The AEO series the entity names: capacity in MW (EIA's GW times 1,000), generation in MWh (EIA's billion kWh) or a price in USD per kWh (cents times 0.01); the unit column says which | MW; MWh; USD/kWh | 34034 | 2025-01-01T00:00:00Z | 2050-01-01T00:00:00Z |
 
 ### `eia_aeo_emm_regions`
 
-What a row is: not yet written.
+One series of EIA's Annual Energy Outlook 2026 Table 54 (electric power projections) for one Electricity Market Module region or the U.S., case cb2026, for one projected year.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 75712.
 
+- **Time:** ts_utc is 1 January of the projected year at 00:00:00Z (freq P1Y).
+- **Revisions:** Rewritten whole by each run (write_snapshot); vintage is not filled.
 - **Source:** eia:aeo_regions U.S. Energy Information Administration, Annual Energy Outlook 2026, Table 54 (API v2, route aeo/2026, tableId 62) (https://www.eia.gov/outlooks/aeo/)
 - **Method note:** [`docs/methods/eia_aeo_emm_regions.md`](../methods/eia_aeo_emm_regions.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). Annual Energy Outlook (API v2, Table 54 by EMM region). Via the Energy Research Warehouse (ERW), table `eia_aeo_emm_regions`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia_aeo_2026_emm:5-0:cap_NA_elep_NA_NA_NA_NA_gw, eia_aeo_2026_emm:5-0:cap_NA_elep_NA_cl_NA_NA_gw, eia_aeo_2026_emm:5-0:cap_NA_elep_NA_cmc_NA_NA_gw; 2912 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia_aeo_2026_emm:<regionId>:<seriesId>; regionId 5-1 to 5-25 an EMM region, 5-0 the United States | none | text | for example eia_aeo_2026_emm:5-0:cap_NA_elep_NA_NA_NA_NA_gw, eia_aeo_2026_emm:5-0:cap_NA_elep_NA_cl_NA_NA_gw, eia_aeo_2026_emm:5-0:cap_NA_elep_NA_cmc_NA_NA_gw; 2912 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2025-01-01T00:00:00Z to 2050-01-01T00:00:00Z; 26 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -22434444.0 to 6272780762.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW, MWh, TBtu, USD/MMBtu, USD/kWh | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 72800 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 75712 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Florida Reliability Coordinating Council: Electricity : Electric Power Sector : Capacity : Coal, Florida Reliability Coordinating Council: Electricity : Electric Power Sector : Capacity : Combined Cycle, Florida Reliability Coordinating Council: Electricity : Electric Power Sector : Capacity : Combustion Turbine/Diesel; 2600 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US for 5-0; empty for a region (it spans states) | none | text | US | 72800 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 75712 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: <region>: <series name> | none | text | for example Florida Reliability Coordinating Council: Electricity : Electric Power Sector : Capacity : Coal, Florida Reliability Coordinating Council: Electricity : Electric Power Sector : Capacity : Combined Cycle, Florida Reliability Coordinating Council: Electricity : Electric Power Sector : Capacity : Combustion Turbine/Diesel; 2600 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:aeo_regions | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.eia.gov/v2/aeo/2026/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BtableId%5D%5B%5D=62&facets%5Bscenario%5D%5B%5D=cb2026 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T08:17:25Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 75712 |
-| `x_scenario` | not yet written |  | text | cb2026 | 0 |
-| `x_scenario_name` | not yet written |  | text | Counterfactual Baseline case | 0 |
-| `x_history` | not yet written |  | text | PROJECTION | 0 |
-| `x_region` | not yet written |  | text | for example 5-0, 5-1, 5-10; 26 distinct | 0 |
-| `x_region_name` | not yet written |  | text | for example Florida Reliability Coordinating Council, Midcontinent / Central, Midcontinent / East; 26 distinct | 0 |
-| `x_dollar_year` | not yet written |  | text | 2025, nominal | 59488 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 75712 |
+| `x_scenario` | EIA's code of the AEO case (cb2026 on every row) (the source's name: scenario) | none | text | cb2026 | 0 |
+| `x_scenario_name` | EIA's name of the case (Counterfactual Baseline case) (the source's name: scenarioDescription) | none | text | Counterfactual Baseline case | 0 |
+| `x_history` | EIA's flag saying whether the year is history or projection (every row here is PROJECTION) (the source's name: history) | none | text | PROJECTION | 0 |
+| `x_region` | EIA's Electricity Market Module region identifier (5-1 to 5-25, or 5-0 for the United States) (the source's name: regionId) | none | text | for example 5-0, 5-1, 5-10; 26 distinct | 0 |
+| `x_region_name` | EIA's name of the region (the source's name: regionName) | none | text | for example Florida Reliability Coordinating Council, Midcontinent / Central, Midcontinent / East; 26 distinct | 0 |
+| `x_dollar_year` | The dollars a price is in: 2025 for the AEO's real 2025 dollars, or nominal | none | text | 2025, nominal | 59488: Not a price (a quantity row) |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `value` |  | MW; MWh; TBtu; USD/MMBtu; USD/kWh | 75712 | 2025-01-01T00:00:00Z | 2050-01-01T00:00:00Z |
+| `value` | The Table 54 series the entity names: capacity in MW, generation in MWh, energy in TBtu (quads times 1,000), or a price in USD per kWh or USD per MMBtu; the unit column says which. A total and its parts overlap | MW; MWh; TBtu; USD/MMBtu; USD/kWh | 75712 | 2025-01-01T00:00:00Z | 2050-01-01T00:00:00Z |
 
 ### `eia_aeo_industrial`
 
@@ -236,75 +240,79 @@ Variables (1):
 
 ### `eia_annual_crosscheck_ba`
 
-What a row is: not yet written.
+One balancing authority's (or the Lower 48's) year of EIA-930's hourly net generation summed, set against EIA-923's annual figure, with the gap and the hours counted.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: derived. Rows read on 2026-11-20: 144.
 
+- **Time:** ts_utc is 1 January of the year at 00:00:00Z (freq P1Y); EIA-930's hours are summed by their UTC start.
+- **Revisions:** Rewritten whole by each run of the builder (the file is deleted, then written); vintage is not filled.
 - **Source:** erw:eia_annual_crosscheck_ba ERW cross-check of EIA's hourly and annual generation by balancing authority (https://github.com/SamuelEnrique/erw/blob/main/docs/methods/eia_annual_crosscheck.md)
 - **Method note:** [`docs/methods/eia_annual_crosscheck.md`](../methods/eia_annual_crosscheck.md)
 - **Cite as:** Energy Research Warehouse (ERW), derived. Cross-check of EIA-930's hourly sums against EIA-923's annual net generation by balancing authority (session 323). Via the Energy Research Warehouse (ERW), table `eia_annual_crosscheck_ba`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | eia930:CISO, eia930:ERCO, eia930:ISNE, eia930:MISO, eia930:NYIS, eia930:PJM, eia930:SWPP, eia930:US48 | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia930:<BA>, eia930:US48 for the Lower 48 | none | text | eia930:CISO, eia930:ERCO, eia930:ISNE, eia930:MISO, eia930:NYIS, eia930:PJM, eia930:SWPP, eia930:US48 | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2023-01-01T00:00:00Z, 2024-01-01T00:00:00Z, 2025-01-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -214127374.999 to 4494650070.999; 104 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MWh, count, pct | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 144 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | empty | no cell holds a value | 144 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US on every row | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 144 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 144 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:eia_annual_crosscheck_ba | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://github.com/SamuelEnrique/erw/blob/main/docs/methods/eia_annual_crosscheck.md | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-19T23:00:42Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 144 |
-| `x_reason` | not yet written |  | text | likely: EIA-930 higher because the BA meters generation from plants EIA-923 codes to another balancing authority (dynamic schedules, pseudo-ties), or EIA-930's own reporting, likely: EIA-930 higher because the BA meters generation from plants EIA-923 codes to another balancing authority (dynamic schedules, pseudo-ties), or EIA-930's own reporting (EIA-930 also lacks 1 of the year's 8784 hours), likely: EIA-930 lower because it counts what the balancing authority meters, while EIA-923 counts each plant's own net generation, industrial self-generation consumed on site among it; or plants coded to the BA are scheduled into a neighbour, likely: EIA-930 lower because it counts what the balancing authority meters, while EIA-923 counts each plant's own net generation, industrial self-generation consumed on site among it; or plants coded to the BA are scheduled into a neighbour (EIA-930 also lacks 2 of the year's 8760 hours), likely: EIA-930 lower because it counts what the balancing authority meters, while EIA-923 counts each plant's own net generation, industrial self-generation consumed on site among it; or plants coded to the BA are scheduled into a neighbour (EIA-930 also lacks 23 of the year's 8760 hours), likely: EIA-930 lower because it counts what the balancing authority meters, while EIA-923 counts each plant's own net generation, industrial self-generation consumed on site among it; or plants coded to the BA are scheduled into a neighbour (EIA-930 also lacks 24 of the year's 8784 hours), likely: EIA-930 lower because it counts what the balancing authority meters, while EIA-923 counts each plant's own net generation, industrial self-generation consumed on site among it; or plants coded to the BA are scheduled into a neighbour (EIA-930 also lacks 48 of the year's 8760 hours), likely: EIA-930 lower because it counts what the balancing authority meters, while EIA-923 counts each plant's own net generation, industrial self-generation consumed on site among it; or plants coded to the BA are scheduled into a neighbour (EIA-930 also lacks 48 of the year's 8784 hours), within 2 percent: the two counts agree to the size of what each leaves out (EIA-930 also lacks 25 of the year's 8760 hours), within 2 percent: the two counts agree to the size of what each leaves out (EIA-930 also lacks 47 of the year's 8784 hours) | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 144 |
+| `x_reason` | The likely reason for the gap, by the ERW's rule (within 2 percent, missing hours, or the likely cause by the gap's sign); hypotheses, not EIA's statements | none | text | likely: EIA-930 higher because the BA meters generation from plants EIA-923 codes to another balancing authority (dynamic schedules, pseudo-ties), or EIA-930's own reporting, likely: EIA-930 higher because the BA meters generation from plants EIA-923 codes to another balancing authority (dynamic schedules, pseudo-ties), or EIA-930's own reporting (EIA-930 also lacks 1 of the year's 8784 hours), likely: EIA-930 lower because it counts what the balancing authority meters, while EIA-923 counts each plant's own net generation, industrial self-generation consumed on site among it; or plants coded to the BA are scheduled into a neighbour, likely: EIA-930 lower because it counts what the balancing authority meters, while EIA-923 counts each plant's own net generation, industrial self-generation consumed on site among it; or plants coded to the BA are scheduled into a neighbour (EIA-930 also lacks 2 of the year's 8760 hours), likely: EIA-930 lower because it counts what the balancing authority meters, while EIA-923 counts each plant's own net generation, industrial self-generation consumed on site among it; or plants coded to the BA are scheduled into a neighbour (EIA-930 also lacks 23 of the year's 8760 hours), likely: EIA-930 lower because it counts what the balancing authority meters, while EIA-923 counts each plant's own net generation, industrial self-generation consumed on site among it; or plants coded to the BA are scheduled into a neighbour (EIA-930 also lacks 24 of the year's 8784 hours), likely: EIA-930 lower because it counts what the balancing authority meters, while EIA-923 counts each plant's own net generation, industrial self-generation consumed on site among it; or plants coded to the BA are scheduled into a neighbour (EIA-930 also lacks 48 of the year's 8760 hours), likely: EIA-930 lower because it counts what the balancing authority meters, while EIA-923 counts each plant's own net generation, industrial self-generation consumed on site among it; or plants coded to the BA are scheduled into a neighbour (EIA-930 also lacks 48 of the year's 8784 hours), within 2 percent: the two counts agree to the size of what each leaves out (EIA-930 also lacks 25 of the year's 8760 hours), within 2 percent: the two counts agree to the size of what each leaves out (EIA-930 also lacks 47 of the year's 8784 hours) | 0 |
 
 Variables (6):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `eia923_net_generation_mwh` |  | MWh | 24 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `eia930_hours` |  | count | 24 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `eia930_net_generation_mwh` |  | MWh | 24 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `expected_hours` |  | count | 24 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `gap_mwh` |  | MWh | 24 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `gap_pct` |  | pct | 24 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `eia923_net_generation_mwh` | EIA-923's annual net generation of the plants coded to the authority, storage included, MWh | MWh | 24 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `eia930_hours` | The hours EIA-930 reported in the year | count | 24 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `eia930_net_generation_mwh` | The year's sum of EIA-930's hourly net generation for the authority, MWh | MWh | 24 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `expected_hours` | The hours in the year | count | 24 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `gap_mwh` | EIA-930's sum less EIA-923's, MWh | MWh | 24 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `gap_pct` | The gap as a percent of EIA-923's figure | pct | 24 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 
 ### `eia_annual_generation_ba`
 
-What a row is: not yet written.
+One balancing authority's year of net generation, storage net generation or plant count, summed from Form EIA-923's plant rows by their Balancing Authority Code.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 515.
 
+- **Time:** ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+- **Revisions:** Rewritten whole by each run (the file is deleted and rebuilt from the annual files); vintage is the year's file's Last-Modified time.
 - **Source:** eia:eia923_annual U.S. Energy Information Administration, Form EIA-923 Power Plant Operations Report, annual files (https://www.eia.gov/electricity/data/eia923/)
 - **Method note:** [`docs/methods/eia_annual_generation_ba.md`](../methods/eia_annual_generation_ba.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). Form EIA-923 Power Plant Operations Report, annual files (net generation by plant, summed by balancing authority). Via the Energy Research Warehouse (ERW), table `eia_annual_generation_ba`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia923:AECI, eia923:AVA, eia923:AVRN; 68 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia923:<balancing authority code>; eia923:none for plants with no code, eia923:state_fuel_increment for EIA's state-fuel level increment rows | none | text | for example eia923:AECI, eia923:AVA, eia923:AVRN; 68 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2023-01-01T00:00:00Z, 2024-01-01T00:00:00Z, 2025-01-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -1108134.0 to 879123805.594; 424 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MWh, count | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 515 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | empty | no cell holds a value | 515 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US on every row | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 515 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 515 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:eia923_annual | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.eia.gov/electricity/data/eia923/archive/xls/f923_2023.zip, https://www.eia.gov/electricity/data/eia923/archive/xls/f923_2024.zip, https://www.eia.gov/electricity/data/eia923/xls/f923_2025.zip | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-19T21:08:49Z, 2026-10-19T21:08:50Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2025-08-19T13:42:05Z, 2026-01-12T20:59:57Z, 2026-09-11T13:28:33Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The Last-Modified time of the year's EIA-923 zip file | none | utc time | 2025-08-19T13:42:05Z, 2026-01-12T20:59:57Z, 2026-09-11T13:28:33Z | 0 |
 
 Variables (3):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `net_generation_mwh` |  | MWh | 201 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `plants` |  | count | 201 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `storage_net_generation_mwh` |  | MWh | 113 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `net_generation_mwh` | Net generation of the plants coded to the authority in the year (sheet Page 1 Generation and Fuel Data), MWh | MWh | 201 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `plants` | The plants with a row coded to the authority | count | 201 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `storage_net_generation_mwh` | Net generation of the storage plants coded to the authority (sheet Page 1 Energy Storage, negative), MWh | MWh | 113 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 
 ### `eia_basin_production_monthly`
 
@@ -343,483 +351,509 @@ Variables (2):
 
 ### `eia_biofuel_plants`
 
-What a row is: not yet written.
+One fuel ethanol, biodiesel or renewable diesel plant's production capacity as of 1 January of one year (Form EIA-819); a plant appears once a year.
 
 Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 2026-11-20: 511.
 
+- **Time:** No time column. status_date is the 1 January the capacity is as of; x_year names that year.
+- **Revisions:** Rewritten whole by each run (write_snapshot); vintage is each workbook's last-modified time.
 - **Source:** eia:biofuels_capacity EIA, U.S. Biofuels Plant Production Capacity (https://www.eia.gov/biofuels/capacity/)
 - **Method note:** [`docs/methods/eia_biofuel_plants.md`](../methods/eia_biofuel_plants.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). U.S. Biofuels Plant Production Capacity; U.S. Fuel Ethanol, Biodiesel, and Renewable Diesel Fuel and Other Biofuels Plant Production Capacity. Via the Energy Research Warehouse (ERW), table `eia_biofuel_plants`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity_id` | The identifier of the thing, as namespace:native_id | none | text | for example eia_biofuel:2025:biodiesel:al:1, eia_biofuel:2025:biodiesel:ar:1, eia_biofuel:2025:biodiesel:ca:1; 511 distinct | 0 |
-| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists) | none | text | plant | 0 |
-| `name` | The thing's name, as the publisher writes it | none | text | for example ABERDEEN II, ADAMS, ADKINS ENERGY; 469 distinct | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US-AL, US-AR, US-CA; 39 distinct | 0 |
+| `entity_id` | The identifier of the thing, as namespace:native_id. Here: eia_biofuel:<year>:<fuel>:<state>:<n>, n the plant's place among its year, fuel and state in EIA's workbook | none | text | for example eia_biofuel:2025:biodiesel:al:1, eia_biofuel:2025:biodiesel:ar:1, eia_biofuel:2025:biodiesel:ca:1; 511 distinct | 0 |
+| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists). Here: plant on every row | none | text | plant | 0 |
+| `name` | The thing's name, as the publisher writes it. Here: The facility (2026); the city for 2025, whose sheets name no facility | none | text | for example ABERDEEN II, ADAMS, ADKINS ENERGY; 469 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state> of the plant | none | text | for example US-AL, US-AR, US-CA; 39 distinct | 0 |
 | `lat` | Latitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 511 |
 | `lon` | Longitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 511 |
-| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it | MW | empty | no cell holds a value | 511 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | text | active | 0 |
-| `status_date` | The date the status took effect, or was reported where the effective date is unknown | none | date | 2025-01-01, 2026-01-01 | 0 |
-| `operator` | The operator or owner, as the publisher writes it | none | text | for example ABSOLUTE ENERGY LLC, ACE ETHANOL LLC, ADKINS ENERGY LLC; 462 distinct | 0 |
+| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it. Here: Not filled: the capacities are in gallons and barrels, in x_ columns | MW | empty | no cell holds a value | 511 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: active on every row | none | text | active | 0 |
+| `status_date` | The date the status took effect, or was reported where the effective date is unknown. Here: The 1 January the capacity is as of | none | date | 2025-01-01, 2026-01-01 | 0 |
+| `operator` | The operator or owner, as the publisher writes it. Here: The entity or respondent as EIA writes it | none | text | for example ABSOLUTE ENERGY LLC, ACE ETHANOL LLC, ADKINS ENERGY LLC; 462 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:biofuels_capacity | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.eia.gov/biofuels/biodiesel/capacity/biodieselcapacity.xlsx, https://www.eia.gov/biofuels/capacity/biofuelscapacity.xlsx, https://www.eia.gov/biofuels/renewable/capacity/renewablescapacity.xlsx, https://www.eia.gov/petroleum/ethanolcapacity/ethanolcapacity.xlsx | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T18:54:11Z, 2026-10-23T18:54:13Z, 2026-10-23T18:54:14Z, 2026-10-23T18:54:53Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2025-09-19T19:11:44Z, 2025-09-19T20:23:45Z, 2025-09-22T16:47:13Z, 2026-09-09T21:16:23Z | 0 |
-| `x_year` | not yet written |  | integer | 2025, 2026 | 0 |
-| `x_fuel` | not yet written |  | text | biodiesel, ethanol, renewable_diesel_and_other | 0 |
-| `x_facility_type` | not yet written |  | text | Biodiesel, Ethanol, Renewable Diesel Fuel and Other Biofuels | 0 |
-| `x_padd` | not yet written |  | text | PADD 1, PADD 2, PADD 3, PADD 4, PADD 5 | 0 |
-| `x_city` | not yet written |  | text | for example Aberdeen, Adams, Adrian; 231 distinct | 253 |
-| `x_capacity_mmgal_per_year` | not yet written |  | text | for example (s), 0, 1; 142 distinct | 0 |
-| `x_capacity_kbbl_per_day` | not yet written |  | text | for example (s), 0, 1; 29 distinct | 0 |
-| `x_coprocessing` | not yet written |  | text | yes | 507 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The workbook's last-modified time from EIA's server | none | utc time | 2025-09-19T19:11:44Z, 2025-09-19T20:23:45Z, 2025-09-22T16:47:13Z, 2026-09-09T21:16:23Z | 0 |
+| `x_year` | The year whose 1 January the capacity is as of | none | integer | 2025, 2026 | 0 |
+| `x_fuel` | The fuel: ethanol, biodiesel, or renewable diesel and other biofuels | none | text | biodiesel, ethanol, renewable_diesel_and_other | 0 |
+| `x_facility_type` | EIA's facility type (2026); for 2025 the workbook's fuel in the combined report's words (the source's name: Facility type) | none | text | Biodiesel, Ethanol, Renewable Diesel Fuel and Other Biofuels | 0 |
+| `x_padd` | The Petroleum Administration for Defense District (PADD, EIA's fuel-supply region) of the plant (the source's name: PADD) | none | text | PADD 1, PADD 2, PADD 3, PADD 4, PADD 5 | 0 |
+| `x_city` | The plant's city as the 2025 workbooks print it (the source's name: City) | none | text | for example Aberdeen, Adams, Adrian; 231 distinct | 253: A 2026 row (the 2026 workbook names the facility, not the city) |
+| `x_capacity_mmgal_per_year` | What the plant can make in a year, million gallons, as published ((s) is less than 0.5) (the source's name: Capacity (MMgal/yr)) | million gallons per year | text | for example (s), 0, 1; 142 distinct | 0 |
+| `x_capacity_kbbl_per_day` | What the plant can make in a day, thousand barrels, as published ((s) is less than 0.5) (the source's name: Capacity (Mb/d)) | kbbl/d | text | for example (s), 0, 1; 29 distinct | 0 |
+| `x_coprocessing` | yes where EIA's footnote marks a refinery co-processing renewable feedstock with petroleum | none | text | yes | 507: EIA marks no co-processing |
 
 ### `eia_capacity_factors_annual`
 
-What a row is: not yet written.
+One energy source and technology's yearly capacity factor or time adjusted capacity for U.S. utility-scale generators, from EIA's Electric Power Annual Tables 4.8.A and 4.8.B.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 374.
 
+- **Time:** ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+- **Revisions:** Rewritten whole by each run (write_snapshot); vintage is the workbook's last-modified time.
 - **Source:** eia:electric_power_annual U.S. Energy Information Administration, Electric Power Annual (https://www.eia.gov/electricity/annual/)
 - **Method note:** [`docs/methods/eia_capacity_factors.md`](../methods/eia_capacity_factors.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). Electric Power Annual (Tables 4.8.A, 4.8.B and 8.1). Via the Energy Research Warehouse (ERW), table `eia_capacity_factors_annual`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | eia_epa_cf:coal:all, eia_epa_cf:geothermal:all, eia_epa_cf:hydroelectric:all, eia_epa_cf:natural_gas:combined_cycle, eia_epa_cf:natural_gas:gas_turbine, eia_epa_cf:natural_gas:internal_combustion, eia_epa_cf:natural_gas:steam_turbine, eia_epa_cf:nuclear:all, eia_epa_cf:other_biomass:all, eia_epa_cf:other_fossil_gas:all, eia_epa_cf:petroleum:gas_turbine, eia_epa_cf:petroleum:internal_combustion, eia_epa_cf:petroleum:steam_turbine, eia_epa_cf:solar:photovoltaic, eia_epa_cf:solar:thermal, eia_epa_cf:wind:all, eia_epa_cf:wood:all | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia_epa_cf:<energy source>:<technology>, all where EIA gives no technology | none | text | eia_epa_cf:coal:all, eia_epa_cf:geothermal:all, eia_epa_cf:hydroelectric:all, eia_epa_cf:natural_gas:combined_cycle, eia_epa_cf:natural_gas:gas_turbine, eia_epa_cf:natural_gas:internal_combustion, eia_epa_cf:natural_gas:steam_turbine, eia_epa_cf:nuclear:all, eia_epa_cf:other_biomass:all, eia_epa_cf:other_fossil_gas:all, eia_epa_cf:petroleum:gas_turbine, eia_epa_cf:petroleum:internal_combustion, eia_epa_cf:petroleum:steam_turbine, eia_epa_cf:solar:photovoltaic, eia_epa_cf:solar:thermal, eia_epa_cf:wind:all, eia_epa_cf:wood:all | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2015-01-01T00:00:00Z, 2016-01-01T00:00:00Z, 2017-01-01T00:00:00Z, 2018-01-01T00:00:00Z, 2019-01-01T00:00:00Z, 2020-01-01T00:00:00Z, 2021-01-01T00:00:00Z, 2022-01-01T00:00:00Z, 2023-01-01T00:00:00Z, 2024-01-01T00:00:00Z, 2025-01-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.01 to 292281.3; 334 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW, ratio | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 374 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Coal, Geothermal, Hydroelectric, Natural Gas, Combined Cycle, Natural Gas, Gas Turbine, Natural Gas, Internal Combustion, Natural Gas, Steam Turbine, Nuclear, Other Biomass, Other Fossil Gas, Petroleum, Gas Turbine, Petroleum, Internal Combustion, Petroleum, Steam Turbine, Solar, Photovoltaic, Solar, Thermal, Wind, Wood | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US on every row | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 374 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: EIA's row name (source, technology) | none | text | Coal, Geothermal, Hydroelectric, Natural Gas, Combined Cycle, Natural Gas, Gas Turbine, Natural Gas, Internal Combustion, Natural Gas, Steam Turbine, Nuclear, Other Biomass, Other Fossil Gas, Petroleum, Gas Turbine, Petroleum, Internal Combustion, Petroleum, Steam Turbine, Solar, Photovoltaic, Solar, Thermal, Wind, Wood | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:electric_power_annual | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.eia.gov/electricity/annual/xls/epa_04_08_a.xlsx, https://www.eia.gov/electricity/annual/xls/epa_04_08_b.xlsx | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T14:07:24Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-10-19T22:48:17Z, 2026-10-19T22:48:21Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The workbook's last-modified time from EIA's server | none | utc time | 2026-10-19T22:48:17Z, 2026-10-19T22:48:21Z | 0 |
 
 Variables (2):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `capacity_factor` |  | ratio | 187 | 2015-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `time_adjusted_capacity` |  | MW | 187 | 2015-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `capacity_factor` | Capacity factor: the energy generated over what the capacity could make running all year, a ratio | ratio | 187 | 2015-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `time_adjusted_capacity` | Summer capacity in operation the whole month, a year's the months' time weighted average, MW | MW | 187 | 2015-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 
 ### `eia_capacity_factors_monthly`
 
-What a row is: not yet written.
+One energy source and technology's monthly capacity factor or time adjusted capacity for U.S. utility-scale generators, from EIA's Electric Power Annual Tables 4.8.A and 4.8.B.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1224.
 
+- **Time:** ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+- **Revisions:** Rewritten whole by each run (write_snapshot); vintage is the workbook's last-modified time.
 - **Source:** eia:electric_power_annual U.S. Energy Information Administration, Electric Power Annual (https://www.eia.gov/electricity/annual/)
 - **Method note:** [`docs/methods/eia_capacity_factors.md`](../methods/eia_capacity_factors.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). Electric Power Annual (Tables 4.8.A, 4.8.B and 8.1). Via the Energy Research Warehouse (ERW), table `eia_capacity_factors_monthly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | eia_epa_cf:coal:all, eia_epa_cf:geothermal:all, eia_epa_cf:hydroelectric:all, eia_epa_cf:natural_gas:combined_cycle, eia_epa_cf:natural_gas:gas_turbine, eia_epa_cf:natural_gas:internal_combustion, eia_epa_cf:natural_gas:steam_turbine, eia_epa_cf:nuclear:all, eia_epa_cf:other_biomass:all, eia_epa_cf:other_fossil_gas:all, eia_epa_cf:petroleum:gas_turbine, eia_epa_cf:petroleum:internal_combustion, eia_epa_cf:petroleum:steam_turbine, eia_epa_cf:solar:photovoltaic, eia_epa_cf:solar:thermal, eia_epa_cf:wind:all, eia_epa_cf:wood:all | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia_epa_cf:<energy source>:<technology>, all where EIA gives no technology | none | text | eia_epa_cf:coal:all, eia_epa_cf:geothermal:all, eia_epa_cf:hydroelectric:all, eia_epa_cf:natural_gas:combined_cycle, eia_epa_cf:natural_gas:gas_turbine, eia_epa_cf:natural_gas:internal_combustion, eia_epa_cf:natural_gas:steam_turbine, eia_epa_cf:nuclear:all, eia_epa_cf:other_biomass:all, eia_epa_cf:other_fossil_gas:all, eia_epa_cf:petroleum:gas_turbine, eia_epa_cf:petroleum:internal_combustion, eia_epa_cf:petroleum:steam_turbine, eia_epa_cf:solar:photovoltaic, eia_epa_cf:solar:thermal, eia_epa_cf:wind:all, eia_epa_cf:wood:all | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2023-01-01T00:00:00Z to 2025-12-01T00:00:00Z; 36 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.009 to 293802.5; 744 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW, ratio | 0 |
 | `freq` | How long the interval of the row is | none | text | P1M | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 1224 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Coal, Geothermal, Hydroelectric, Natural Gas, Combined Cycle, Natural Gas, Gas Turbine, Natural Gas, Internal Combustion, Natural Gas, Steam Turbine, Nuclear, Other Biomass, Other Fossil Gas, Petroleum, Gas Turbine, Petroleum, Internal Combustion, Petroleum, Steam Turbine, Solar, Photovoltaic, Solar, Thermal, Wind, Wood | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US on every row | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1224 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: EIA's row name (source, technology) | none | text | Coal, Geothermal, Hydroelectric, Natural Gas, Combined Cycle, Natural Gas, Gas Turbine, Natural Gas, Internal Combustion, Natural Gas, Steam Turbine, Nuclear, Other Biomass, Other Fossil Gas, Petroleum, Gas Turbine, Petroleum, Internal Combustion, Petroleum, Steam Turbine, Solar, Photovoltaic, Solar, Thermal, Wind, Wood | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:electric_power_annual | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.eia.gov/electricity/annual/xls/epa_04_08_a.xlsx, https://www.eia.gov/electricity/annual/xls/epa_04_08_b.xlsx | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T14:07:24Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-10-19T22:48:17Z, 2026-10-19T22:48:21Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The workbook's last-modified time from EIA's server | none | utc time | 2026-10-19T22:48:17Z, 2026-10-19T22:48:21Z | 0 |
 
 Variables (2):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `capacity_factor` |  | ratio | 612 | 2023-01-01T00:00:00Z | 2025-12-01T00:00:00Z |
-| `time_adjusted_capacity` |  | MW | 612 | 2023-01-01T00:00:00Z | 2025-12-01T00:00:00Z |
+| `capacity_factor` | Capacity factor in the month: the energy generated over what the capacity could make, a ratio | ratio | 612 | 2023-01-01T00:00:00Z | 2025-12-01T00:00:00Z |
+| `time_adjusted_capacity` | Summer capacity in operation the whole month, MW | MW | 612 | 2023-01-01T00:00:00Z | 2025-12-01T00:00:00Z |
 
 ### `eia_cbecs_commercial_buildings`
 
-What a row is: not yet written.
+One category of commercial buildings (by a building characteristic, or all buildings) and one figure from EIA's 2018 Commercial Buildings Energy Consumption Survey tables C1, C2 and E1.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 5944.
 
+- **Time:** ts_utc is 1 January of the survey year (2018) at 00:00:00Z (freq P1Y).
+- **Revisions:** Written whole each run (write_snapshot) from the saved workbooks; EIA's revision is taken only when the saved copy is gone. vintage is each workbook's last-modified time.
 - **Source:** eia:cbecs_2018 U.S. Energy Information Administration, 2018 Commercial Buildings Energy Consumption Survey (CBECS) (https://www.eia.gov/consumption/commercial/data/2018/)
 - **Method note:** [`docs/methods/eia_buildings_surveys.md`](../methods/eia_buildings_surveys.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). 2018 Commercial Buildings Energy Consumption Survey (CBECS): consumption and expenditures, Tables C1, C2, E1. Via the Energy Research Warehouse (ERW), table `eia_cbecs_commercial_buildings`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example cbecs:all, cbecs:building_floorspace_square_feet_100_001_to_200_000, cbecs:building_floorspace_square_feet_10_001_to_25_000; 270 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: cbecs:<heading>_<category>, slugged; cbecs:all for all buildings | none | text | for example cbecs:all, cbecs:building_floorspace_square_feet_100_001_to_200_000, cbecs:building_floorspace_square_feet_10_001_to_25_000; 270 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2018-01-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 141238000000.0; 2552 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | TBtu, USD, count | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 5944 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example 0, 1, 1 elevator; 231 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US on every row (census regions are categories) | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 5944 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The category as EIA prints it | none | text | for example 0, 1, 1 elevator; 231 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:cbecs_2018 | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.eia.gov/consumption/commercial/data/2018/ce/xls/c1.xlsx, https://www.eia.gov/consumption/commercial/data/2018/ce/xls/c2.xlsx, https://www.eia.gov/consumption/commercial/data/2018/ce/xls/e1.xlsx | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T18:37:24Z, 2026-10-23T18:37:26Z, 2026-10-23T18:37:27Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2022-12-15T11:32:48Z, 2022-12-16T16:51:21Z, 2023-07-28T13:37:19Z | 0 |
-| `x_heading` | not yet written |  | text | for example Building floorspace (square feet), Census region and division, Climate zone; 42 distinct | 23 |
-| `x_level` | not yet written |  | integer | 0, 1 | 0 |
-| `x_parent` | not yet written |  | text | Any elevators, Any refrigeration, Any type of renovation, Desktop computers, Government owned, Health care, Mercantile, Midwest, Nongovernment owned, Northeast, South, West | 5019 |
-| `x_table` | not yet written |  | text | C1, C2, E1 | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The workbook's last-modified time from EIA's server | none | utc time | 2022-12-15T11:32:48Z, 2022-12-16T16:51:21Z, 2023-07-28T13:37:19Z | 0 |
+| `x_heading` | The heading the category sits under (for example Principal building activity), a footnote letter set aside | none | text | for example Building floorspace (square feet), Census region and division, Climate zone; 42 distinct | 23: The all-buildings row, which sits under no heading |
+| `x_level` | The category's indent: 0 a category, 1 a part of the category above it (add level-0 rows only) | none | integer | 0, 1 | 0 |
+| `x_parent` | The category a level-1 row is a part of | none | text | Any elevators, Any refrigeration, Any type of renovation, Desktop computers, Government owned, Health care, Mercantile, Midwest, Nongovernment owned, Northeast, South, West | 5019: A level-0 row (a part of no other category) |
+| `x_table` | The CBECS table the figure is read from (C1, C2 or E1) | none | text | C1, C2, E1 | 0 |
 
 Variables (23):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `buildings` |  | count | 270 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `consumption_district_heat` |  | TBtu | 212 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `consumption_electricity_primary` |  | TBtu | 269 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `consumption_electricity_site` |  | TBtu | 269 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `consumption_fuel_oil` |  | TBtu | 233 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `consumption_natural_gas` |  | TBtu | 263 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `consumption_sum_major_fuels` |  | TBtu | 269 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `enduse_computing` |  | TBtu | 258 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `enduse_cooking` |  | TBtu | 262 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `enduse_cooling` |  | TBtu | 266 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `enduse_lighting` |  | TBtu | 267 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `enduse_office_equipment` |  | TBtu | 261 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `enduse_other` |  | TBtu | 266 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `enduse_refrigeration` |  | TBtu | 264 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `enduse_space_heating` |  | TBtu | 267 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `enduse_total` |  | TBtu | 269 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `enduse_ventilation` |  | TBtu | 267 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `enduse_water_heating` |  | TBtu | 260 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `expenditure_district_heat` |  | USD | 213 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `expenditure_electricity` |  | USD | 269 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `expenditure_fuel_oil` |  | USD | 237 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `expenditure_natural_gas` |  | USD | 264 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
-| `expenditure_sum_major_fuels` |  | USD | 269 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `buildings` | Number of buildings (C1, thousand buildings times 1,000) | count | 270 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `consumption_district_heat` | District heat consumed, trillion Btu (C1) | TBtu | 212 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `consumption_electricity_primary` | Electricity consumed, counted as the primary energy used to make it, trillion Btu (C1) | TBtu | 269 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `consumption_electricity_site` | Electricity consumed, at the site, trillion Btu (C1) | TBtu | 269 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `consumption_fuel_oil` | Fuel oil consumed, trillion Btu (C1) | TBtu | 233 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `consumption_natural_gas` | Natural gas consumed, trillion Btu (C1) | TBtu | 263 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `consumption_sum_major_fuels` | Consumption of the major fuels together, trillion Btu (C1) | TBtu | 269 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `enduse_computing` | Major fuels' consumption for computing, trillion Btu (E1) | TBtu | 258 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `enduse_cooking` | Major fuels' consumption for cooking, trillion Btu (E1) | TBtu | 262 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `enduse_cooling` | Major fuels' consumption for cooling, trillion Btu (E1) | TBtu | 266 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `enduse_lighting` | Major fuels' consumption for lighting, trillion Btu (E1) | TBtu | 267 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `enduse_office_equipment` | Major fuels' consumption for office equipment, trillion Btu (E1) | TBtu | 261 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `enduse_other` | Major fuels' consumption for other end uses, trillion Btu (E1) | TBtu | 266 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `enduse_refrigeration` | Major fuels' consumption for refrigeration, trillion Btu (E1) | TBtu | 264 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `enduse_space_heating` | Major fuels' consumption for space heating, trillion Btu (E1) | TBtu | 267 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `enduse_total` | Major fuels' consumption for all end uses, trillion Btu (E1) | TBtu | 269 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `enduse_ventilation` | Major fuels' consumption for ventilation, trillion Btu (E1) | TBtu | 267 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `enduse_water_heating` | Major fuels' consumption for water heating, trillion Btu (E1) | TBtu | 260 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `expenditure_district_heat` | Expenditure on district heat, USD (C2) | USD | 213 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `expenditure_electricity` | Expenditure on electricity, USD (C2) | USD | 269 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `expenditure_fuel_oil` | Expenditure on fuel oil, USD (C2) | USD | 237 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `expenditure_natural_gas` | Expenditure on natural gas, USD (C2) | USD | 264 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
+| `expenditure_sum_major_fuels` | Expenditure on the major fuels together, USD (C2, million dollars times 1,000,000) | USD | 269 | 2018-01-01T00:00:00Z | 2018-01-01T00:00:00Z |
 
 ### `eia_co2_state_annual`
 
-What a row is: not yet written.
+One state's (or the nation's) energy-related carbon dioxide emissions of one sector and one fuel for one year.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 66144.
 
+- **Time:** ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+- **Revisions:** Rewritten whole by each run (write_snapshot). vintage is not filled.
 - **Source:** eia:co2-emissions/co2-emissions-aggregates U.S. Energy Information Administration, State Energy-Related Carbon Dioxide Emissions (API v2, route co2-emissions/co2-emissions-aggregates) (https://www.eia.gov/environment/emissions/state/)
 - **Method note:** [`docs/methods/eia_co2_state_annual.md`](../methods/eia_co2_state_annual.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). State Energy-Related Carbon Dioxide Emissions (API v2). Via the Energy Research Warehouse (ERW), table `eia_co2_state_annual`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia_co2:AK:CC:CO, eia_co2:AK:CC:NG, eia_co2:AK:CC:PE; 1248 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia_co2:<state>:<sectorId>:<fuelId>; sectors CC, EC, IC, RC, TC and TT (all); fuels CO, NG, PE and TO (all) | none | text | for example eia_co2:AK:CC:CO, eia_co2:AK:CC:NG, eia_co2:AK:CC:PE; 1248 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 1970-01-01T00:00:00Z to 2022-01-01T00:00:00Z; 53 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 5990393938.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | tCO2 | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US, US-AK, US-AL; 52 distinct | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 66144 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Alabama, Commercial carbon dioxide emissions, All Fuels, Alabama, Commercial carbon dioxide emissions, Coal, Alabama, Commercial carbon dioxide emissions, Natural Gas; 1248 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state>, or US for the nation | none | text | for example US, US-AK, US-AL; 52 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 66144 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: EIA's names (state, sector, fuel) | none | text | for example Alabama, Commercial carbon dioxide emissions, All Fuels, Alabama, Commercial carbon dioxide emissions, Coal, Alabama, Commercial carbon dioxide emissions, Natural Gas; 1248 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:co2-emissions/co2-emissions-aggregates | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.eia.gov/v2/co2-emissions/co2-emissions-aggregates/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&start=1970 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-21T21:47:54Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 66144 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 66144 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `co2` |  | tCO2 | 66144 | 1970-01-01T00:00:00Z | 2022-01-01T00:00:00Z |
+| `co2` | Energy-related carbon dioxide emissions of the sector and fuel, tonnes of CO2 (EIA's million metric tons times 1,000,000); a sum takes one level and leaves TT and TO out | tCO2 | 66144 | 1970-01-01T00:00:00Z | 2022-01-01T00:00:00Z |
 
 ### `eia_coal_delivered_price_annual`
 
-What a row is: not yet written.
+One state's, census division's or the nation's yearly average delivered price of coal to one consuming sector.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 3213.
 
+- **Time:** ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+- **Revisions:** Rewritten whole by each run (write_snapshot). vintage is not filled.
 - **Source:** eia:coal/consumption-and-quality U.S. Energy Information Administration, Quarterly Coal Report, consumption and quality (API v2, route coal/consumption-and-quality) (https://www.eia.gov/coal/production/quarterly/)
 - **Method note:** [`docs/methods/eia_coal_prices.md`](../methods/eia_coal_prices.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). Quarterly Coal Report, consumption and quality, delivered price (API v2). Via the Energy Research Warehouse (ERW), table `eia_coal_delivered_price_annual`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia_coal_delivered:90:1, eia_coal_delivered:AK:1, eia_coal_delivered:AK:8; 228 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia_coal_delivered:<location>:<sector> | none | text | for example eia_coal_delivered:90:1, eia_coal_delivered:AK:1, eia_coal_delivered:AK:8; 228 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2000-01-01T00:00:00Z to 2025-01-01T00:00:00Z; 26 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 227.42; 2228 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | USD/short_ton | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US, US-AK, US-AL; 50 distinct | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 3213 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Alabama, Electric Power, Alabama, Electric Utility, Alabama, Independent Power Producers; 228 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state> for a state; US for a census division or the U.S. | none | text | for example US, US-AK, US-AL; 50 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 3213 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: EIA's names (location, sector) | none | text | for example Alabama, Electric Power, Alabama, Electric Utility, Alabama, Independent Power Producers; 228 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:coal/consumption-and-quality | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.eia.gov/v2/coal/consumption-and-quality/data/?api_key=REDACTED&frequency=annual&data%5B%5D=price&start=2000 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-21T22:17:07Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 3213 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 3213 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `price` |  | USD/short_ton | 3213 | 2000-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `price` | Average delivered price of coal to the sector, USD per short ton | USD/short_ton | 3213 | 2000-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 
 ### `eia_coal_distribution_quarterly`
 
-What a row is: not yet written.
+One quarter's domestic coal shipments of 2024 along one flow (origin, destination state, consuming sector, transport mode), from EIA's Annual Coal Distribution Report.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1207.
 
+- **Time:** ts_utc is the first day of the quarter at 00:00:00Z (freq P3M).
+- **Revisions:** Rewritten whole by each run (write_snapshot); vintage is the workbook's last-modified time.
 - **Source:** eia:coal_distribution U.S. Energy Information Administration, Annual Coal Distribution Report (domestic distribution by origin and by destination state) (https://www.eia.gov/coal/distribution/annual/)
 - **Method note:** [`docs/methods/eia_coal_distribution_quarterly.md`](../methods/eia_coal_distribution_quarterly.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). Annual Coal Distribution Report (domestic distribution by origin and destination state). Via the Energy Research Warehouse (ERW), table `eia_coal_distribution_quarterly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia_coal_flow:alabama:alabama:coke_plant:truck, eia_coal_flow:alabama:alabama:electric_power_sector:railroad, eia_coal_flow:alabama:alabama:industrial_plants_excluding_coke:railroad; 351 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia_coal_flow:<origin>:<destination>:<consumer type>:<mode> | none | text | for example eia_coal_flow:alabama:alabama:coke_plant:truck, eia_coal_flow:alabama:alabama:electric_power_sector:railroad, eia_coal_flow:alabama:alabama:industrial_plants_excluding_coke:railroad; 351 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2024-01-01T00:00:00Z, 2024-04-01T00:00:00Z, 2024-07-01T00:00:00Z, 2024-10-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 1.0 to 70447035.0; 1185 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | short_ton | 0 |
 | `freq` | How long the interval of the row is | none | text | P3M | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US, US-AK, US-AL; 42 distinct | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 1207 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Alabama to Alabama, Coke Plant, Truck, Alabama to Alabama, Electric Power Sector, Railroad, Alabama to Alabama, Industrial Plants Excluding Coke, Railroad; 351 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<destination state>, US for EIA's U.S. rows | none | text | for example US, US-AK, US-AL; 42 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1207 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: <origin> to <destination>, consumer type, mode, in EIA's words | none | text | for example Alabama to Alabama, Coke Plant, Truck, Alabama to Alabama, Electric Power Sector, Railroad, Alabama to Alabama, Industrial Plants Excluding Coke, Railroad; 351 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:coal_distribution | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.eia.gov/coal/distribution/annual/xls/o_24state.xlsx | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T12:47:50Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2025-10-30T13:23:20Z | 0 |
-| `x_origin` | not yet written |  | text | Alabama, Alaska, Colorado, Illinois, Indiana, Kentucky (East), Kentucky (West), Louisiana, Maryland, Mississippi, Missouri, Montana, New Mexico, North Dakota, Ohio, Pennsylvania (Anthracite), Pennsylvania (Bituminous), Texas, U.S. (All States), Utah, Virginia, West Virginia (Northern), West Virginia (Southern), Wyoming | 0 |
-| `x_destination` | not yet written |  | text | for example Alabama, Alaska, Arizona; 42 distinct | 0 |
-| `x_consumer_type` | not yet written |  | text | Coke Plant, Commercial/Institutional, Electric Power Sector, Industrial Plants Excluding Coke | 0 |
-| `x_mode` | not yet written |  | text | Railroad, River, Tidewater Piers, Tramway and Conveyor, Truck | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The workbook's last-modified time from EIA's server | none | utc time | 2025-10-30T13:23:20Z | 0 |
+| `x_origin` | The coal-origin state or region as EIA writes it (U.S. (All States) is EIA's total level) (the source's name: Origin State) | none | text | Alabama, Alaska, Colorado, Illinois, Indiana, Kentucky (East), Kentucky (West), Louisiana, Maryland, Mississippi, Missouri, Montana, New Mexico, North Dakota, Ohio, Pennsylvania (Anthracite), Pennsylvania (Bituminous), Texas, U.S. (All States), Utah, Virginia, West Virginia (Northern), West Virginia (Southern), Wyoming | 0 |
+| `x_destination` | The destination state as EIA writes it | none | text | for example Alabama, Alaska, Arizona; 42 distinct | 0 |
+| `x_consumer_type` | The consuming sector as EIA writes it (electric power, industrial plants excluding coke, coke plant, commercial and institutional) (the source's name: Consumer Type) | none | text | Coke Plant, Commercial/Institutional, Electric Power Sector, Industrial Plants Excluding Coke | 0 |
+| `x_mode` | The transport mode as EIA writes it (railroad, river, truck and the others) (the source's name: Transportation Mode) | none | text | Railroad, River, Tidewater Piers, Tramway and Conveyor, Truck | 0 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `shipments` |  | short_ton | 1207 | 2024-01-01T00:00:00Z | 2024-10-01T00:00:00Z |
+| `shipments` | Coal shipped along the flow in the quarter, short tons | short_ton | 1207 | 2024-01-01T00:00:00Z | 2024-10-01T00:00:00Z |
 
 ### `eia_coal_mine_production_annual`
 
-What a row is: not yet written.
+One coal mine's (by MSHA id, coal rank and mine type) yearly production or average employees, from EIA's Annual Coal Report.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 72852.
 
+- **Time:** ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+- **Revisions:** Rewritten whole by each run (write_snapshot). vintage is not filled.
 - **Source:** eia:coal/mine-production U.S. Energy Information Administration, Annual Coal Report, mine-level production (Form EIA-7A and MSHA Form 7000-2; API v2, route coal/mine-production) (https://www.eia.gov/coal/data.php)
 - **Method note:** [`docs/methods/eia_coal_mine_production_annual.md`](../methods/eia_coal_mine_production_annual.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). Annual Coal Report, mine-level production (API v2). Via the Energy Research Warehouse (ERW), table `eia_coal_mine_production_annual`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia_coal_mine:100163:BIT:SUR, eia_coal_mine:100163:BIT:UND, eia_coal_mine:100329:PRP:SUR; more than 5000 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia_coal_mine:<mineMSHAId>:<coalRankId>:<mineTypeId> | none | text | for example eia_coal_mine:100163:BIT:SUR, eia_coal_mine:100163:BIT:UND, eia_coal_mine:100329:PRP:SUR; more than 5000 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2001-01-01T00:00:00Z, 2002-01-01T00:00:00Z, 2003-01-01T00:00:00Z, 2004-01-01T00:00:00Z, 2005-01-01T00:00:00Z, 2006-01-01T00:00:00Z, 2007-01-01T00:00:00Z, 2008-01-01T00:00:00Z, 2009-01-01T00:00:00Z, 2010-01-01T00:00:00Z, 2011-01-01T00:00:00Z, 2012-01-01T00:00:00Z, 2013-01-01T00:00:00Z, 2014-01-01T00:00:00Z, 2015-01-01T00:00:00Z, 2016-01-01T00:00:00Z, 2017-01-01T00:00:00Z, 2018-01-01T00:00:00Z, 2019-01-01T00:00:00Z, 2020-01-01T00:00:00Z, 2021-01-01T00:00:00Z, 2022-01-01T00:00:00Z, 2023-01-01T00:00:00Z, 2024-01-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 117965515.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | count, short_ton | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US-AK, US-AL, US-AR; 26 distinct | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 72852 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example # 1, # 1 Loading Dock, # 1 Plant; more than 5000 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state>; EIA's regions KYE, KYW, PAA, PAB, WVN and WVS put in their state | none | text | for example US-AK, US-AL, US-AR; 26 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 72852 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The mine's name | none | text | for example # 1, # 1 Loading Dock, # 1 Plant; more than 5000 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:coal/mine-production | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.eia.gov/v2/coal/mine-production/data/?api_key=REDACTED&frequency=annual&data%5B%5D=production&data%5B%5D=average-employees&data%5B%5D=latitude&data%5B%5D=longitude&data%5B%5D=operating-company&data%5B%5D=refuse-flag&start=2001 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T00:35:18Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 72852 |
-| `x_msha_id` | not yet written |  | integer | 100163 to 5001977; 4665 distinct | 0 |
-| `x_state` | not yet written |  | text | for example AK, AL, AR; 29 distinct | 0 |
-| `x_county` | not yet written |  | text | for example Adair, Adams, Allegany; 229 distinct | 0 |
-| `x_supply_region` | not yet written |  | text | Appalachia Central, Appalachia Northern, Appalachia Southern, Illinois Basin, Other Interior, Other Western, Powder River Basin, Uinta Basin | 0 |
-| `x_rank` | not yet written |  | text | Anthracite, Bituminous, Lignite, Preparation Plant, Subbituminous | 0 |
-| `x_mine_type` | not yet written |  | text | Refuse, Surface, Underground | 0 |
-| `x_status` | not yet written |  | text | Active, Active, men not working, not producing, Active, men working, not producing, Mine closed by MSHA, New, under construction, Permanently abandoned, Temporarily closed | 0 |
-| `x_operator` | not yet written |  | text | for example 101 Coal Inc., 101 Coal, Inc., 17 West Mining Inc; 4926 distinct | 0 |
-| `x_latitude` | not yet written |  | number | 28.683056 to 63.856944; 3402 distinct | 12817 |
-| `x_longitude` | not yet written |  | number | -148.966111 to -5.4625; 3540 distinct | 12817 |
-| `x_refuse` | not yet written |  | text | Yes | 71778 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 72852 |
+| `x_msha_id` | The mine's identifier at the Mine Safety and Health Administration (MSHA) (the source's name: mineMSHAId) | none | integer | 100163 to 5001977; 4665 distinct | 0 |
+| `x_state` | EIA's state code of the mine, its regions (KYE, KYW, PAA, PAB, WVN, WVS) kept | none | text | for example AK, AL, AR; 29 distinct | 0 |
+| `x_county` | The mine's county as EIA writes it (the source's name: mineCountyName) | none | text | for example Adair, Adams, Allegany; 229 distinct | 0 |
+| `x_supply_region` | EIA's coal supply region of the mine (Powder River Basin, Appalachia Central and the others) (the source's name: supplyRegionDescription) | none | text | Appalachia Central, Appalachia Northern, Appalachia Southern, Illinois Basin, Other Interior, Other Western, Powder River Basin, Uinta Basin | 0 |
+| `x_rank` | The coal rank (anthracite, bituminous, subbituminous, lignite) or Preparation Plant, as EIA writes it (the source's name: coalRankDescription) | none | text | Anthracite, Bituminous, Lignite, Preparation Plant, Subbituminous | 0 |
+| `x_mine_type` | The mine type (surface, underground, refuse) (the source's name: mineTypeDescription) | none | text | Refuse, Surface, Underground | 0 |
+| `x_status` | The mine's status as EIA writes it (Active, Temporarily closed, Permanently abandoned and the others) (the source's name: mineStatusDescription) | none | text | Active, Active, men not working, not producing, Active, men working, not producing, Mine closed by MSHA, New, under construction, Permanently abandoned, Temporarily closed | 0 |
+| `x_operator` | The operating company, cut at 30 characters by EIA (the source's name: operating-company) | none | text | for example 101 Coal Inc., 101 Coal, Inc., 17 West Mining Inc; 4926 distinct | 0 |
+| `x_latitude` | The mine's latitude as EIA gives it (the source's name: latitude) | degree | number | 28.683056 to 63.856944; 3402 distinct | 12817: EIA gives no latitude |
+| `x_longitude` | The mine's longitude as EIA gives it (the source's name: longitude) | degree | number | -148.966111 to -5.4625; 3540 distinct | 12817: EIA gives no longitude |
+| `x_refuse` | Yes for a refuse recovery operation (coal recovered from waste piles) (the source's name: refuse-flag) | none | text | Yes | 71778: EIA gives no refuse flag |
 
 Variables (2):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `employees` |  | count | 35367 | 2001-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `production` |  | short_ton | 37485 | 2001-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `employees` | The mine's average employees in the year, as EIA gives them | count | 35367 | 2001-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `production` | Coal produced by the mine in the year, short tons (a 0 EIA gives is kept) | short_ton | 37485 | 2001-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
 
 ### `eia_coal_price_rank_annual`
 
-What a row is: not yet written.
+One state's, region's or the nation's yearly average sales price of coal of one rank, from EIA's Annual Coal Report.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 2843.
 
+- **Time:** ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+- **Revisions:** Rewritten whole by each run (write_snapshot). vintage is not filled.
 - **Source:** eia:coal/price-by-rank U.S. Energy Information Administration, Annual Coal Report, average sales price by rank (API v2, route coal/price-by-rank) (https://www.eia.gov/coal/annual/)
 - **Method note:** [`docs/methods/eia_coal_prices.md`](../methods/eia_coal_prices.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). Annual Coal Report, average sales price by rank (API v2). Via the Energy Research Warehouse (ERW), table `eia_coal_price_rank_annual`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia_coal_price_rank:AL:BIT, eia_coal_price_rank:AL:TOT, eia_coal_price_rank:APC:BIT; 128 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia_coal_price_rank:<stateRegionId>:<coalRankId> | none | text | for example eia_coal_price_rank:AL:BIT, eia_coal_price_rank:AL:TOT, eia_coal_price_rank:APC:BIT; 128 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2001-01-01T00:00:00Z, 2002-01-01T00:00:00Z, 2003-01-01T00:00:00Z, 2004-01-01T00:00:00Z, 2005-01-01T00:00:00Z, 2006-01-01T00:00:00Z, 2007-01-01T00:00:00Z, 2008-01-01T00:00:00Z, 2009-01-01T00:00:00Z, 2010-01-01T00:00:00Z, 2011-01-01T00:00:00Z, 2012-01-01T00:00:00Z, 2013-01-01T00:00:00Z, 2014-01-01T00:00:00Z, 2015-01-01T00:00:00Z, 2016-01-01T00:00:00Z, 2017-01-01T00:00:00Z, 2018-01-01T00:00:00Z, 2019-01-01T00:00:00Z, 2020-01-01T00:00:00Z, 2021-01-01T00:00:00Z, 2022-01-01T00:00:00Z, 2023-01-01T00:00:00Z, 2024-01-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 5.68 to 269.0; 1521 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | USD/short_ton | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US, US-AL, US-CO, US-IL, US-IN, US-KY, US-MD, US-MT, US-ND, US-NM, US-OH, US-OK, US-PA, US-TN, US-TX, US-UT, US-VA, US-WA, US-WV, US-WY | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 2843 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Alabama, All, Alabama, Bituminous, Appalachia Central, All; 128 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state> for a state; US for a region or the U.S. | none | text | US, US-AL, US-CO, US-IL, US-IN, US-KY, US-MD, US-MT, US-ND, US-NM, US-OH, US-OK, US-PA, US-TN, US-TX, US-UT, US-VA, US-WA, US-WV, US-WY | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 2843 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: EIA's area and rank names | none | text | for example Alabama, All, Alabama, Bituminous, Appalachia Central, All; 128 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:coal/price-by-rank | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.eia.gov/v2/coal/price-by-rank/data/?api_key=REDACTED&frequency=annual&data%5B%5D=price&start=2001 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-21T23:48:37Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 2843 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 2843 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `price` |  | USD/short_ton | 2843 | 2001-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `price` | Average sales price of the coal, USD per short ton | USD/short_ton | 2843 | 2001-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
 
 ### `eia_coal_prices_annual`
 
-What a row is: not yet written.
+One producing state's, region's or the nation's yearly average sales price of coal in one market type, from EIA's Annual Coal Report.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 2781.
 
+- **Time:** ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+- **Revisions:** Rewritten whole by each run (write_snapshot). vintage is not filled.
 - **Source:** eia:coal/market-sales-price U.S. Energy Information Administration, Annual Coal Report, average sales price (API v2, route coal/market-sales-price) (https://www.eia.gov/coal/annual/)
 - **Method note:** [`docs/methods/eia_coal_prices.md`](../methods/eia_coal_prices.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). Annual Coal Report, average sales price (API v2). Via the Energy Research Warehouse (ERW), table `eia_coal_prices_annual`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia_coal_price:AK:TOT, eia_coal_price:AL:OM, eia_coal_price:AL:TOT; 145 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia_coal_price:<stateRegionId>:<marketTypeId> | none | text | for example eia_coal_price:AK:TOT, eia_coal_price:AL:OM, eia_coal_price:AL:TOT; 145 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2001-01-01T00:00:00Z, 2002-01-01T00:00:00Z, 2003-01-01T00:00:00Z, 2004-01-01T00:00:00Z, 2005-01-01T00:00:00Z, 2006-01-01T00:00:00Z, 2007-01-01T00:00:00Z, 2008-01-01T00:00:00Z, 2009-01-01T00:00:00Z, 2010-01-01T00:00:00Z, 2011-01-01T00:00:00Z, 2012-01-01T00:00:00Z, 2013-01-01T00:00:00Z, 2014-01-01T00:00:00Z, 2015-01-01T00:00:00Z, 2016-01-01T00:00:00Z, 2017-01-01T00:00:00Z, 2018-01-01T00:00:00Z, 2019-01-01T00:00:00Z, 2020-01-01T00:00:00Z, 2021-01-01T00:00:00Z, 2022-01-01T00:00:00Z, 2023-01-01T00:00:00Z, 2024-01-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 5.62 to 333.58; 2134 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | USD/short_ton | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US, US-AK, US-AL; 26 distinct | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 2781 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Alabama Open Market, Alabama Total, Alaska Total; 145 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state> for a state; US for a region or the U.S. | none | text | for example US, US-AK, US-AL; 26 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 2781 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: EIA's area and market names | none | text | for example Alabama Open Market, Alabama Total, Alaska Total; 145 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:coal/market-sales-price | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.eia.gov/v2/coal/market-sales-price/data/?api_key=REDACTED&frequency=annual&data%5B%5D=price&start=2001 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-21T20:21:08Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 2781 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 2781 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `price` |  | USD/short_ton | 2781 | 2001-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `price` | Average sales price of the coal, USD per short ton | USD/short_ton | 2781 | 2001-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
 
 ### `eia_coal_production_annual`
 
-What a row is: not yet written.
+One producing state's, region's or the nation's yearly coal production, number of mines or average employees, by coal rank and mine type, from EIA's Annual Coal Report.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 22630.
 
+- **Time:** ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+- **Revisions:** Rewritten whole by each run (write_snapshot). vintage is not filled.
 - **Source:** eia:coal/aggregate-production U.S. Energy Information Administration, Annual Coal Report, state aggregates (Form EIA-7A and MSHA Form 7000-2; API v2, route coal/aggregate-production) (https://www.eia.gov/coal/annual/)
 - **Method note:** [`docs/methods/eia_coal_production_annual.md`](../methods/eia_coal_production_annual.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). Annual Coal Report, state aggregate production (API v2). Via the Energy Research Warehouse (ERW), table `eia_coal_production_annual`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia_coal_production:AK:SUB:ALL, eia_coal_production:AK:SUB:SUR, eia_coal_production:AK:TOT:ALL; 422 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia_coal_production:<stateRegionId>:<coalRankId>:<mineTypeId> | none | text | for example eia_coal_production:AK:SUB:ALL, eia_coal_production:AK:SUB:SUR, eia_coal_production:AK:TOT:ALL; 422 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2001-01-01T00:00:00Z, 2002-01-01T00:00:00Z, 2003-01-01T00:00:00Z, 2004-01-01T00:00:00Z, 2005-01-01T00:00:00Z, 2006-01-01T00:00:00Z, 2007-01-01T00:00:00Z, 2008-01-01T00:00:00Z, 2009-01-01T00:00:00Z, 2010-01-01T00:00:00Z, 2011-01-01T00:00:00Z, 2012-01-01T00:00:00Z, 2013-01-01T00:00:00Z, 2014-01-01T00:00:00Z, 2015-01-01T00:00:00Z, 2016-01-01T00:00:00Z, 2017-01-01T00:00:00Z, 2018-01-01T00:00:00Z, 2019-01-01T00:00:00Z, 2020-01-01T00:00:00Z, 2021-01-01T00:00:00Z, 2022-01-01T00:00:00Z, 2023-01-01T00:00:00Z, 2024-01-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 1171808669.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | count, short_ton | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US, US-AK, US-AL; 27 distinct | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 22630 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Alabama All All, Alabama All Surface, Alabama All Underground; 422 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state> for a state; US for a region or the U.S. | none | text | for example US, US-AK, US-AL; 27 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 22630 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: EIA's area, rank and mine type names | none | text | for example Alabama All All, Alabama All Surface, Alabama All Underground; 422 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:coal/aggregate-production | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.eia.gov/v2/coal/aggregate-production/data/?api_key=REDACTED&frequency=annual&data%5B%5D=production&data%5B%5D=number-of-mines&data%5B%5D=average-employees&start=2001 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-22T10:51:47Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 22630 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 22630 |
 
 Variables (3):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `employees` |  | count | 3808 | 2001-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `mines` |  | count | 9399 | 2001-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `production` |  | short_ton | 9423 | 2001-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `employees` | Average employees, as EIA gives them | count | 3808 | 2001-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `mines` | Number of mines | count | 9399 | 2001-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `production` | Coal produced, short tons | short_ton | 9423 | 2001-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
 
 ### `eia_coal_receipts_annual`
 
-What a row is: not yet written.
+One year's coal received at one power plant from one mine, by supplier, coal rank, contract type and transport mode, with its price and quality (Form EIA-923).
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 270547.
 
+- **Time:** ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+- **Revisions:** Rewritten whole by each run (write_snapshot). vintage is not filled.
 - **Source:** eia:coal/shipments/receipts U.S. Energy Information Administration, coal receipts at power plants (Form EIA-923; API v2, route coal/shipments/receipts) (https://www.eia.gov/coal/data/browser/)
 - **Method note:** [`docs/methods/eia_coal_receipts_annual.md`](../methods/eia_coal_receipts_annual.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). Coal receipts at power plants (Form EIA-923, API v2). Via the Energy Research Warehouse (ERW), table `eia_coal_receipts_annual`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia_coal_receipt:100114:10675:ALPHA_COAL:BIT:Contract_Purchase:Tidewater_Piers, eia_coal_receipt:100114:10675:ALPHA_COAL:TOT:Contract_Purchase:Tidewater_Piers, eia_coal_receipt:100114:4143:TWENTY_MILE:BIT:Spot_Market_Purchase:Rail; more than 5000 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia_coal_receipt:<mineMSHAId>:<plantId>:<supplier>:<coalRankId>:<contractType>:<transportationMode>; rank TOT is EIA's sum of the ranks beside it | none | text | for example eia_coal_receipt:100114:10675:ALPHA_COAL:BIT:Contract_Purchase:Tidewater_Piers, eia_coal_receipt:100114:10675:ALPHA_COAL:TOT:Contract_Purchase:Tidewater_Piers, eia_coal_receipt:100114:4143:TWENTY_MILE:BIT:Spot_Market_Purchase:Rail; more than 5000 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2008-01-01T00:00:00Z, 2009-01-01T00:00:00Z, 2010-01-01T00:00:00Z, 2011-01-01T00:00:00Z, 2012-01-01T00:00:00Z, 2013-01-01T00:00:00Z, 2014-01-01T00:00:00Z, 2015-01-01T00:00:00Z, 2016-01-01T00:00:00Z, 2017-01-01T00:00:00Z, 2018-01-01T00:00:00Z, 2019-01-01T00:00:00Z, 2020-01-01T00:00:00Z, 2021-01-01T00:00:00Z, 2022-01-01T00:00:00Z, 2023-01-01T00:00:00Z, 2024-01-01T00:00:00Z, 2025-01-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.07 to 10141666.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | Btu/lb, USD/short_ton, pct, short_ton | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US-AK, US-AL, US-AR; 47 distinct | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 270547 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example # 1 (SIDNEY) to Indian River Generating Station, #1 (ALLIANCE  COAL) to Cross, #1 (ALLIANCE  COAL) to Harllee Branch; more than 5000 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<plant state> | none | text | for example US-AK, US-AL, US-AR; 47 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 270547 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: <mine> to <plant> | none | text | for example # 1 (SIDNEY) to Indian River Generating Station, #1 (ALLIANCE  COAL) to Cross, #1 (ALLIANCE  COAL) to Harllee Branch; more than 5000 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:coal/shipments/receipts | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.eia.gov/v2/coal/shipments/receipts/data/?api_key=REDACTED&frequency=annual&data%5B%5D=quantity&data%5B%5D=price&data%5B%5D=heat-content&data%5B%5D=sulfur-content&data%5B%5D=ash-content&start=2008 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T03:39:59Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 270547 |
-| `x_msha_id` | not yet written |  | integer | 100114 to 5000030; 1129 distinct | 0 |
-| `x_mine_state` | not yet written |  | text | for example AK, AL, AR; 28 distinct | 0 |
-| `x_mine_county` | not yet written |  | text | for example Allegany, Anderson, Atascosa; 114 distinct | 99965 |
-| `x_mine_basin` | not yet written |  | text | Appalachia Central, Appalachia Northern, Appalachia Southern, Illinois Basin, Other Interior, Other Western, Powder River Basin, Uinta Basin | 0 |
-| `x_mine_type` | not yet written |  | text | Surface, Underground | 0 |
-| `x_plant_id` | not yet written |  | integer | 3 to 56848; 471 distinct | 0 |
-| `x_plant_state` | not yet written |  | text | for example AK, AL, AR; 47 distinct | 0 |
-| `x_supplier` | not yet written |  | text | for example 101 COAL,INC., 1081 MINE, 1202215; 1205 distinct | 0 |
-| `x_rank` | not yet written |  | text | All, Anthracite, Bituminous, Lignite, Subbituminous, Waste Coal | 0 |
-| `x_contract_type` | not yet written |  | text | Contract Purchase, New Contract, Spot-Market Purchase | 750 |
-| `x_transport_mode` | not yet written |  | text | Great Lakes, Pipeline, Rail, River, Tidewater Piers, Tramway/Conveyor, Truck, Water | 8 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 270547 |
+| `x_msha_id` | The mine's identifier at the Mine Safety and Health Administration (MSHA) | none | integer | 100114 to 5000030; 1129 distinct | 0 |
+| `x_mine_state` | The mine's state, EIA's code (the source's name: mineStateId) | none | text | for example AK, AL, AR; 28 distinct | 0 |
+| `x_mine_county` | The mine's county as EIA writes it (the source's name: mineCountyName) | none | text | for example Allegany, Anderson, Atascosa; 114 distinct | 99965: EIA gives no county |
+| `x_mine_basin` | The mine's coal basin as EIA writes it (Powder River Basin, Illinois Basin and the others) (the source's name: mineBasinDescription) | none | text | Appalachia Central, Appalachia Northern, Appalachia Southern, Illinois Basin, Other Interior, Other Western, Powder River Basin, Uinta Basin | 0 |
+| `x_mine_type` | The mine type (surface or underground) (the source's name: mineTypeDescription) | none | text | Surface, Underground | 0 |
+| `x_plant_id` | EIA's plant code of the receiving power plant, as in eia860_plants_annual | none | integer | 3 to 56848; 471 distinct | 0 |
+| `x_plant_state` | The receiving plant's state | none | text | for example AK, AL, AR; 47 distinct | 0 |
+| `x_supplier` | The coal supplier as EIA writes it | none | text | for example 101 COAL,INC., 1081 MINE, 1202215; 1205 distinct | 0 |
+| `x_rank` | The coal rank as EIA writes it (All is EIA's sum of the ranks; leave it out of a sum over ranks) (the source's name: coalRankDescription) | none | text | All, Anthracite, Bituminous, Lignite, Subbituminous, Waste Coal | 0 |
+| `x_contract_type` | The purchase type (contract, new contract, spot-market purchase) | none | text | Contract Purchase, New Contract, Spot-Market Purchase | 750: EIA gives no contract type |
+| `x_transport_mode` | The mode the coal was carried in (rail, river, truck and the others) | none | text | Great Lakes, Pipeline, Rail, River, Tidewater Piers, Tramway/Conveyor, Truck, Water | 8: EIA gives no transport mode |
 
 Variables (5):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `ash_content` |  | pct | 56858 | 2008-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `heat_content` |  | Btu/lb | 56858 | 2008-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `price` |  | USD/short_ton | 43115 | 2008-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `quantity` |  | short_ton | 56858 | 2008-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `sulfur_content` |  | pct | 56858 | 2008-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `ash_content` | Ash content of the coal, percent by weight | pct | 56858 | 2008-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `heat_content` | Heat content of the coal, Btu per pound | Btu/lb | 56858 | 2008-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `price` | Price of the coal received, USD per short ton | USD/short_ton | 43115 | 2008-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `quantity` | Coal received, short tons | short_ton | 56858 | 2008-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `sulfur_content` | Sulfur content of the coal, percent by weight | pct | 56858 | 2008-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 
 ### `eia_coal_trade_price_annual`
 
-What a row is: not yet written.
+One year's average price of U.S. coal exports or imports of one rank with one country through one customs district, from EIA's Quarterly Coal Report.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 24623.
 
+- **Time:** ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+- **Revisions:** Rewritten whole by each run (write_snapshot). vintage is not filled.
 - **Source:** eia:coal/exports-imports-quantity-price U.S. Energy Information Administration, Quarterly Coal Report, exports and imports (API v2, route coal/exports-imports-quantity-price) (https://www.eia.gov/coal/production/quarterly/)
 - **Method note:** [`docs/methods/eia_coal_prices.md`](../methods/eia_coal_prices.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). Quarterly Coal Report, exports and imports (API v2). Via the Energy Research Warehouse (ERW), table `eia_coal_trade_price_annual`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia_coal_trade:Exports:COK:AE:BA_MD, eia_coal_trade:Exports:COK:AE:HG_TX, eia_coal_trade:Exports:COK:AE:LA_CA; 3460 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia_coal_trade:<exportImportType>:<coalRankId>:<countryId>:<customsDistrictId> | none | text | for example eia_coal_trade:Exports:COK:AE:BA_MD, eia_coal_trade:Exports:COK:AE:HG_TX, eia_coal_trade:Exports:COK:AE:LA_CA; 3460 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2000-01-01T00:00:00Z to 2025-01-01T00:00:00Z; 26 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 7.92 to 9546.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | USD/short_ton | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 24623 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Exports, Afghanistan, All, Seattle, WA, Exports, Afghanistan, All, Total, Exports, Afghanistan, Steam Coal, Seattle, WA; 3460 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US on every row | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 24623 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: EIA's names (exports or imports, country, rank, customs district) | none | text | for example Exports, Afghanistan, All, Seattle, WA, Exports, Afghanistan, All, Total, Exports, Afghanistan, Steam Coal, Seattle, WA; 3460 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:coal/exports-imports-quantity-price | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.eia.gov/v2/coal/exports-imports-quantity-price/data/?api_key=REDACTED&frequency=annual&data%5B%5D=price&start=2000 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-21T23:48:44Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 24623 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 24623 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `price` |  | USD/short_ton | 24623 | 2000-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `price` | Average price of the coal exported or imported, USD per short ton | USD/short_ton | 24623 | 2000-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 
 ### `eia_county_region`
 
@@ -897,100 +931,106 @@ Variables (1):
 
 ### `eia_crude_imports_by_country`
 
-What a row is: not yet written.
+One month's U.S. crude oil imports from one country of origin (or in all), as EIA reports them.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 22657.
 
+- **Time:** ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+- **Revisions:** Each run asks for the full history and merges it on (entity, variable, ts_utc), keeping EIA's newest value; a row EIA stops giving is kept. The copy held was rebuilt from the ERW archive by restore_tables.py. vintage is not filled.
 - **Source:** eia:petroleum/move/impcus U.S. Imports by Country of Origin (crude oil) (https://www.eia.gov/dnav/pet/pet_move_impcus_a2_nus_ep00_im0_mbbl_m.htm)
 - **Method note:** [`docs/methods/eia_crude_imports_by_country.md`](../methods/eia_crude_imports_by_country.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). U.S. Imports by Country of Origin (crude oil). Via the Energy Research Warehouse (ERW), table `eia_crude_imports_by_country`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia:ESM_EPC0_IM0_NUS-NSS_MBBLD, eia:MCRIMGB2, eia:MCRIMIT2; 82 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia:<EIA series id> | none | text | for example eia:ESM_EPC0_IM0_NUS-NSS_MBBLD, eia:MCRIMGB2, eia:MCRIMIT2; 82 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 1920-01-01T00:00:00Z to 2026-08-01T00:00:00Z; 1280 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 10765.0; 3340 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | kbbl/d | 0 |
 | `freq` | How long the interval of the row is | none | text | P1M | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 22657 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | empty | no cell holds a value | 22657 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US on every row | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 22657 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Not filled: EIA's series names are in the header's Series line | none | empty | no cell holds a value | 22657 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:petroleum/move/impcus | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.eia.gov/v2/petroleum/move/impcus/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=value&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000&facets%5Bproduct%5D%5B%5D=EPC0&facets%5Bprocess%5D%5B%5D=IM0, https://api.eia.gov/v2/petroleum/move/impcus/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=value&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=10000&length=5000&facets%5Bproduct%5D%5B%5D=EPC0&facets%5Bprocess%5D%5B%5D=IM0, https://api.eia.gov/v2/petroleum/move/impcus/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=value&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=15000&length=5000&facets%5Bproduct%5D%5B%5D=EPC0&facets%5Bprocess%5D%5B%5D=IM0, https://api.eia.gov/v2/petroleum/move/impcus/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=value&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=20000&length=5000&facets%5Bproduct%5D%5B%5D=EPC0&facets%5Bprocess%5D%5B%5D=IM0, https://api.eia.gov/v2/petroleum/move/impcus/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=value&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=25000&length=5000&facets%5Bproduct%5D%5B%5D=EPC0&facets%5Bprocess%5D%5B%5D=IM0, https://api.eia.gov/v2/petroleum/move/impcus/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=value&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=30000&length=5000&facets%5Bproduct%5D%5B%5D=EPC0&facets%5Bprocess%5D%5B%5D=IM0, https://api.eia.gov/v2/petroleum/move/impcus/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=value&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=35000&length=5000&facets%5Bproduct%5D%5B%5D=EPC0&facets%5Bprocess%5D%5B%5D=IM0, https://api.eia.gov/v2/petroleum/move/impcus/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=value&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=5000&length=5000&facets%5Bproduct%5D%5B%5D=EPC0&facets%5Bprocess%5D%5B%5D=IM0 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-09-29T00:59:35Z, 2026-09-29T00:59:37Z, 2026-09-29T00:59:39Z, 2026-09-29T00:59:41Z, 2026-09-29T00:59:43Z, 2026-09-29T00:59:45Z, 2026-09-29T00:59:47Z, 2026-09-29T00:59:48Z, 2026-09-30T19:21:27Z, 2026-11-05T23:10:41Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 22657 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 22657 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `imports` |  | kbbl/d | 22657 | 1920-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `imports` | U.S. crude oil imports from the country the series names, thousand barrels a day | kbbl/d | 22657 | 1920-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
 
 ### `eia_crude_imports_detail_monthly`
 
-What a row is: not yet written.
+One month's crude oil imports from one country of origin to one destination (refinery, state, PADD or the U.S.) of one grade, from EIA's company level imports (Form EIA-814).
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 183393.
 
+- **Time:** ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+- **Revisions:** Rewritten whole by each run (write_snapshot). vintage is not filled.
 - **Source:** eia:crude-oil-imports U.S. Energy Information Administration, Company Level Imports, crude oil imports by country to destination (API v2, route crude-oil-imports, Form EIA-814) (https://www.eia.gov/petroleum/imports/companylevel/)
 - **Method note:** [`docs/methods/eia_crude_imports_detail_monthly.md`](../methods/eia_crude_imports_detail_monthly.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). Company Level Imports, crude oil imports by country to destination (API v2, Form EIA-814). Via the Energy Research Warehouse (ERW), table `eia_crude_imports_detail_monthly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia_crude_imports:CTY_AE:PP_3:HSO, eia_crude_imports:CTY_AE:PP_3:LSO, eia_crude_imports:CTY_AE:PP_3:MED; more than 5000 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia_crude_imports:<originId>:<destinationId>:<gradeId>; destinations nest, so a sum takes one destination type | none | text | for example eia_crude_imports:CTY_AE:PP_3:HSO, eia_crude_imports:CTY_AE:PP_3:LSO, eia_crude_imports:CTY_AE:PP_3:MED; more than 5000 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2009-01-01T00:00:00Z to 2026-07-01T00:00:00Z; 211 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 1.0 to 101161.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | kbbl | 0 |
 | `freq` | How long the interval of the row is | none | text | P1M | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 183393 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Albania to CPI OPERATIONS LLC / PAULSBORO / NJ (Refinery), Heavy Sour, Albania to New Jersey (Port State), Heavy Sour, Albania to New Jersey (Refinery State), Heavy Sour; more than 5000 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US on every row | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 183393 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The origin, destination (with its type) and grade in EIA's names | none | text | for example Albania to CPI OPERATIONS LLC / PAULSBORO / NJ (Refinery), Heavy Sour, Albania to New Jersey (Port State), Heavy Sour, Albania to New Jersey (Refinery State), Heavy Sour; more than 5000 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:crude-oil-imports | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.eia.gov/v2/crude-oil-imports/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=quantity&facets%5BoriginType%5D%5B%5D=CTY&start=2009-01&end=2010-12, https://api.eia.gov/v2/crude-oil-imports/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=quantity&facets%5BoriginType%5D%5B%5D=CTY&start=2011-01 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-22T06:54:47Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 183393 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 183393 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `imports` |  | kbbl | 183393 | 2009-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
+| `imports` | Crude oil imported in the month along the origin, destination and grade, thousand barrels | kbbl | 183393 | 2009-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
 
 ### `eia_crude_production_state_monthly`
 
-What a row is: not yet written.
+One month's crude oil field production of one state, region or federal offshore area, in the month or per day.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 25644.
 
+- **Time:** ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+- **Revisions:** Rewritten whole by each run (write_snapshot). vintage is not filled.
 - **Source:** eia:petroleum/crd/crpdn U.S. Energy Information Administration, Petroleum Supply Monthly, crude oil field production (API v2, route petroleum/crd/crpdn) (https://www.eia.gov/petroleum/supply/monthly/)
 - **Method note:** [`docs/methods/eia_crude_production_state_monthly.md`](../methods/eia_crude_production_state_monthly.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). Petroleum Supply Monthly, crude oil field production (API v2). Via the Energy Research Warehouse (ERW), table `eia_crude_production_state_monthly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia_crude_production:NUS:MCRFPUS, eia_crude_production:R10:MCRFPP1, eia_crude_production:R20:MCRFPP2; 43 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia_crude_production:<area>:<series stem>; regions R10 to R50 are sums of states and offshore areas | none | text | for example eia_crude_production:NUS:MCRFPUS, eia_crude_production:R10:MCRFPP1, eia_crude_production:R20:MCRFPP2; 43 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2001-01-01T00:00:00Z to 2026-07-01T00:00:00Z; 307 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 433840.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | kbbl, kbbl/d | 0 |
 | `freq` | How long the interval of the row is | none | text | P1M | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US, US-AK, US-AL; 33 distinct | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 25644 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Alabama Field Production of Crude Oil (Thousand Barrels per Day), Alabama Field Production of Crude Oil (Thousand Barrels), Alaska Field Production of Crude Oil (Thousand Barrels per Day); 84 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state> for a state; US for the U.S., the regions and the offshore areas | none | text | for example US, US-AK, US-AL; 33 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 25644 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: EIA's series name | none | text | for example Alabama Field Production of Crude Oil (Thousand Barrels per Day), Alabama Field Production of Crude Oil (Thousand Barrels), Alaska Field Production of Crude Oil (Thousand Barrels per Day); 84 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:petroleum/crd/crpdn | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.eia.gov/v2/petroleum/crd/crpdn/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bprocess%5D%5B%5D=FPF&start=2001-01 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-21T21:14:11Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 25644 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 25644 |
 
 Variables (2):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `field_production` |  | kbbl | 12822 | 2001-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
-| `field_production_per_day` |  | kbbl/d | 12822 | 2001-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
+| `field_production` | Crude oil field production in the month, thousand barrels | kbbl | 12822 | 2001-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
+| `field_production_per_day` | Crude oil field production, thousand barrels a day | kbbl/d | 12822 | 2001-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
 
 ### `eia_crude_quality_monthly`
 

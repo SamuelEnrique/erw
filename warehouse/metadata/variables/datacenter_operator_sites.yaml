@@ -5,9 +5,11 @@
 table: datacenter_operator_sites
 family: datacenter
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One datacenter site (a region, campus, facility or announced site) on one of nine operators' own public lists (AWS, Microsoft,
+  Google, Meta, Oracle, Digital Realty, Equinix, Vantage, Switch).
+time: No time column; one snapshot a run, vintage the run's date (YYYYMMDD) and retrieved_at its time in UTC.
+vintage_rule: Each full run replaces the table (a site an operator no longer lists leaves it); a run with --only replaces
+  only those operators' rows; sites repeated within a run are kept once.
 keys:
 - entity_id
 license: public
@@ -41,6 +43,8 @@ columns:
     - dcsite:009a6a437e28b929
     - dcsite:0147a4365a30ca75
   missing_cells: 0
+  particular: 'dcsite: plus the first 16 hex digits of the SHA-1 of operator|site_type|operator_code (the name where there
+    is no code)'
 - name: entity_type
   shared: true
   type: text
@@ -48,6 +52,7 @@ columns:
     list:
       datacenter: 264
   missing_cells: 0
+  particular: Always datacenter
 - name: name
   shared: true
   type: text
@@ -72,6 +77,7 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
+  particular: US-<state>, or US where the page names no state
 - name: lat
   shared: true
   type: number
@@ -97,6 +103,7 @@ columns:
       '237': 1
       '495': 1
   missing_cells: 261
+  particular: mw, only where the page states it, with its words in mw_span
 - name: status
   shared: true
   type: text
@@ -105,6 +112,7 @@ columns:
       operating: 27
       planned: 21
   missing_cells: 216
+  particular: 'Only where the page states one: Google''s inDevelopment flag, Oracle''s Live or Coming soon'
 - name: status_date
   shared: true
   type: empty
@@ -165,20 +173,21 @@ columns:
     list:
       '20261105': 264
   missing_cells: 0
+  particular: The run's date, YYYYMMDD
 - name: kind
-  label: null
-  unit: null
+  label: 'Always operator: the row is from an operator''s own list'
+  unit: none
   type: text
   values:
     list:
       operator: 264
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method datacenter_operator_sites.md
 - name: site_type
-  label: null
-  unit: null
+  label: 'What the operator lists: region, campus, facility or announced_site'
+  unit: none
   type: text
   values:
     list:
@@ -187,12 +196,12 @@ columns:
       facility: 148
       region: 38
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method datacenter_operator_sites.md
 - name: operator_code
-  label: null
-  unit: null
+  label: The operator's own code for the site, where its page gives one (for example ACC4)
+  unit: none
   type: text
   values:
     distinct: 165
@@ -203,12 +212,12 @@ columns:
     - ACC7
     - AT1
   missing_cells: 96
-  missing_meaning: null
+  missing_meaning: The page gives no code (the name keys the row)
   source_name: null
-  documented_by: null
+  documented_by: method datacenter_operator_sites.md; data
 - name: place_text
-  label: null
-  unit: null
+  label: The page's own words for the place
+  unit: none
   type: text
   values:
     distinct: 250
@@ -219,12 +228,12 @@ columns:
     - ACC7 21625 Gresham Drive Ashburn, VA 20147
     - ALABAMA Montgomery
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method datacenter_operator_sites.md
 - name: state
-  label: null
-  unit: null
+  label: The US state, two-letter postal code, only where the page names it
+  unit: none
   type: text
   values:
     distinct: 33
@@ -235,12 +244,12 @@ columns:
     - CA
     - FL
   missing_cells: 54
-  missing_meaning: null
+  missing_meaning: The page names no state (a region named by a direction or a city)
   source_name: null
-  documented_by: null
+  documented_by: header; method datacenter_operator_sites.md
 - name: county
-  label: null
-  unit: null
+  label: The county, as the page names it
+  unit: none
   type: text
   values:
     list:
@@ -261,12 +270,12 @@ columns:
       Storey County: 1
       Wilbarger County: 1
   missing_cells: 248
-  missing_meaning: null
+  missing_meaning: The page names no county
   source_name: null
-  documented_by: null
+  documented_by: connector run.py; data
 - name: city
-  label: null
-  unit: null
+  label: The city, as the page names it
+  unit: none
   type: text
   values:
     distinct: 101
@@ -277,9 +286,9 @@ columns:
     - Altoona
     - Ashburn
   missing_cells: 89
-  missing_meaning: null
+  missing_meaning: The page names no city
   source_name: null
-  documented_by: null
+  documented_by: connector run.py; data
 - name: mw
   shared: true
   type: integer
@@ -290,8 +299,8 @@ columns:
       '495': 1
   missing_cells: 261
 - name: mw_span
-  label: null
-  unit: null
+  label: The page's exact words for the MW, checked against the page text (Vantage's critical IT load, Switch's power)
+  unit: none
   type: text
   values:
     list:
@@ -299,12 +308,12 @@ columns:
       up to 237 MW of power: 1
       up to 495 MW of power: 1
   missing_cells: 261
-  missing_meaning: null
+  missing_meaning: The page states no MW
   source_name: null
-  documented_by: null
+  documented_by: header; method datacenter_operator_sites.md
 - name: status_text
-  label: null
-  unit: null
+  label: 'The page''s own status words: Oracle''s Live or Coming soon, Google''s inDevelopment flag'
+  unit: none
   type: text
   values:
     list:
@@ -312,12 +321,12 @@ columns:
       '"inDevelopment": true': 21
       Live: 4
   missing_cells: 216
-  missing_meaning: null
+  missing_meaning: The page states no status
   source_name: null
-  documented_by: null
+  documented_by: method datacenter_operator_sites.md; data
 - name: detail
-  label: null
-  unit: null
+  label: 'More words from the page: the location card or sentence (Azure, Meta, Switch) or the metro (Digital Realty, Equinix)'
+  unit: none
   type: text
   values:
     distinct: 54
@@ -333,12 +342,13 @@ columns:
     - $1 billion+ investment; 2026 break ground; 1,000 skilled trade workers on site at peak construction; ~100 operational
       jobs supported once completed
   missing_cells: 81
-  missing_meaning: null
+  missing_meaning: The connector keeps no more words for that operator
   source_name: null
-  documented_by: null
+  documented_by: connector azure.py; connector meta.py; connector switch.py; connector digital_realty.py; connector equinix.py
 - name: geo_precision
-  label: null
-  unit: null
+  label: 'How lat and lon were placed: operator (the page''s coordinates), county or place (the Census gazetteer''s internal
+    point of the stated county or city), or none'
+  unit: none
   type: text
   values:
     list:
@@ -347,12 +357,12 @@ columns:
       operator: 83
       place: 101
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method datacenter_operator_sites.md
 - name: geo_note
-  label: null
-  unit: null
+  label: Why the row was placed as it was, or not placed (for example 'no US state stated')
+  unit: none
   type: text
   values:
     distinct: 87
@@ -363,7 +373,7 @@ columns:
     - city 'Stanton Springs' not a unique place in the gazetteer for GA
     - city 'Tahoe Reno' not a unique place in the gazetteer for NV
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector run.py; method datacenter_operator_sites.md
 second_look: null

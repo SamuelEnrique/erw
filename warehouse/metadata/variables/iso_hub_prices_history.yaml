@@ -5,9 +5,12 @@
 table: iso_hub_prices_history
 family: iso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The day-ahead or real-time price at the main hub of CAISO, MISO, NYISO, ISO-NE or SPP for one interval, a history from
+  2023-07-06 (CAISO) or 2024-09-01.
+time: ts_utc is the start of the interval in UTC; day-ahead and MISO's real-time are hourly, the other real-time prices 15-minute
+  means of 5-minute prices.
+vintage_rule: The daily run merges the live tables' rows of these hubs into this table by (entity, variable, ts_utc); never
+  trimmed. A day is written only when every interval of every hub is there.
 keys:
 - entity
 - variable
@@ -71,6 +74,7 @@ columns:
       nyiso:N.Y.C.: 93053
       spp:SPPNORTH_HUB: 95737
   missing_cells: 0
+  particular: <iso>:<hub>, the operator's hub or zone name
 - name: variable
   shared: true
   type: text
@@ -108,6 +112,7 @@ columns:
       PT15M: 457072
       PT1H: 153605
   missing_cells: 0
+  particular: PT1H for day-ahead and MISO's real-time rows, PT15M for the other real-time rows
 - name: geo
   shared: true
   type: text
@@ -135,6 +140,7 @@ columns:
       spp_dam: 19321
       spp_rtm: 76416
   missing_cells: 0
+  particular: '<iso>_dam or <iso>_rtm for caiso, isone, miso, nyiso and spp: the grid''s day-ahead or real-time market'
 - name: node
   shared: true
   type: text
@@ -147,6 +153,8 @@ columns:
       TH_NP15_GEN-APND: 147509
       TH_SP15_GEN-APND: 147509
   missing_cells: 0
+  particular: 'Each grid''s main hub: CAISO TH_SP15_GEN-APND and TH_NP15_GEN-APND, MISO INDIANA.HUB, NYISO the N.Y.C. zone,
+    ISO-NE .H.INTERNAL_HUB, SPP SPPNORTH_HUB'
 - name: source
   shared: true
   type: text
@@ -192,21 +200,23 @@ columns:
     earliest: '2024-08-31T16:32:46Z'
     latest: '2026-11-16T04:57:07Z'
   missing_cells: 461703
+  particular: The file's publish time where the source gives one; empty on most rows
 variables:
 - name: lmp_dam
-  label: null
+  label: Day-ahead locational marginal price (NYISO's LBMP), hourly
   unit: USD/MWh
   rows: 135317
   first: '2023-07-06T07:00:00Z'
   last: '2026-11-17T07:00:00Z'
 - name: lmp_rtm
-  label: null
+  label: MISO's hourly real-time locational marginal price (final, or preliminary ex-post until final)
   unit: USD/MWh
   rows: 18288
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-03T04:00:00Z'
 - name: lmp_rtm_15m_mean
-  label: null
+  label: Real-time locational marginal price as a 15-minute mean of the 5-minute prices (the mean of exactly three; NYISO's
+    time-weighted), rounded to 4 decimals
   unit: USD/MWh
   rows: 457072
   first: '2023-07-06T07:00:00Z'

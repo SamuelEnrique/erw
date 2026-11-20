@@ -5,9 +5,10 @@
 table: eia_gas_other_uses_state_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or the nation's) yearly natural gas used as vehicle fuel, lease and plant fuel or pipeline fuel, or delivered
+  to consumers, from EIA's Natural Gas Annual.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -45,6 +46,7 @@ columns:
     - eia_gas_other_uses:VDV:SAR
     - eia_gas_other_uses:VDV:SAZ
   missing_cells: 0
+  particular: eia_gas_other_uses:<process>:<area>
 - name: variable
   shared: true
   type: text
@@ -122,6 +124,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 3838
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -134,6 +137,7 @@ columns:
     - Alaska Natural Gas Vehicle Fuel Consumption (MMcf)
     - Arizona Natural Gas Pipeline and Distribution Use (MMcf)
   missing_cells: 0
+  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -162,27 +166,29 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 3838
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: consumption_lease_and_plant_fuel
-  label: null
+  label: Natural gas used as lease and plant fuel (VGL), million cubic feet; the nation's only
   unit: MMcf
   rows: 25
   first: '2001-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: consumption_pipeline_fuel
-  label: null
+  label: Natural gas used as pipeline and distribution fuel (VGP), million cubic feet
   unit: MMcf
   rows: 1245
   first: '2001-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: consumption_vehicle_fuel
-  label: null
+  label: Natural gas used as vehicle fuel (VDV), million cubic feet
   unit: MMcf
   rows: 1277
   first: '2001-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: delivered_to_consumers
-  label: null
+  label: Volume delivered to consumers (VGT), million cubic feet; holds residential, commercial, industrial, electric power
+    and vehicle fuel, so leave it out of a sum
   unit: MMcf
   rows: 1291
   first: '2001-01-01T00:00:00Z'

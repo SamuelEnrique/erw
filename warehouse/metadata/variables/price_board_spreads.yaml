@@ -5,9 +5,12 @@
 table: price_board_spreads
 family: price
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One day's spark spread, implied heat rate or day-ahead mean at an ISO main hub, or that day's Henry Hub gas price or
+  Brent less WTI oil spread.
+time: ts_utc is the local operating day (or the trading date for the fuel rows) at 00:00:00Z (freq P1D); x_gas_date is the
+  Henry Hub date used.
+vintage_rule: Rewritten whole by each run of the builder; ERCOT's rows built from ercot_all_hub_prices_history are carried
+  from the last run when the history is not on the machine (header). vintage is not filled.
 keys:
 - entity
 - variable
@@ -42,6 +45,7 @@ columns:
       nyiso:N.Y.C.: 240
       spp:SPPNORTH_HUB: 243
   missing_cells: 0
+  particular: <iso>:<main hub> for power rows; eia:henry_hub; erw:brent_minus_wti
 - name: variable
   shared: true
   type: text
@@ -94,6 +98,7 @@ columns:
       US-NY: 240
       US-TX: 1233
   missing_cells: 246
+  particular: Empty on the brent_minus_wti rows (world oil prices)
 - name: market
   shared: true
   type: text
@@ -106,6 +111,7 @@ columns:
       nyiso_dam: 240
       spp_dam: 243
   missing_cells: 493
+  particular: <iso>_dam on the power rows; empty on the fuel rows
 - name: node
   shared: true
   type: text
@@ -118,6 +124,7 @@ columns:
       SPPNORTH_HUB: 243
       TH_SP15_GEN-APND: 246
   missing_cells: 493
+  particular: The main hub on the power rows; empty on the fuel rows
 - name: source
   shared: true
   type: text
@@ -147,8 +154,8 @@ columns:
     note: no cell holds a value
   missing_cells: 2812
 - name: x_gas_date
-  label: null
-  unit: null
+  label: 'The date of the Henry Hub price used: the operating day, or the latest trading day up to 4 days before it'
+  unit: none
   type: text
   values:
     distinct: 470
@@ -159,36 +166,36 @@ columns:
     - '2025-10-02T00:00:00Z'
     - '2025-10-03T00:00:00Z'
   missing_cells: 246
-  missing_meaning: null
+  missing_meaning: Empty on the brent_minus_wti rows
   source_name: null
-  documented_by: null
+  documented_by: header; connector price_board.py; method price_board.md
 variables:
 - name: brent_minus_wti
-  label: null
+  label: Brent spot less WTI Cushing spot oil price, on the dates both are published
   unit: USD/bbl
   rows: 246
   first: '2025-11-17T00:00:00Z'
   last: '2026-11-11T00:00:00Z'
 - name: da_daily_mean
-  label: null
+  label: Day-ahead daily mean price at the ISO's main hub
   unit: USD/MWh
   rows: 773
   first: '2025-09-29T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: henry_hub
-  label: null
+  label: EIA's Henry Hub natural gas spot price (trading dates)
   unit: USD/MMBtu
   rows: 247
   first: '2025-11-17T00:00:00Z'
   last: '2026-11-11T00:00:00Z'
 - name: implied_heat_rate
-  label: null
+  label: Day-ahead daily mean over Henry Hub, MMBtu per MWh
   unit: MMBtu/MWh
   rows: 773
   first: '2025-09-29T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: spark_spread_7
-  label: null
+  label: Day-ahead daily mean less 7.0 MMBtu/MWh (an assumed heat rate) times Henry Hub
   unit: USD/MWh
   rows: 773
   first: '2025-09-29T00:00:00Z'

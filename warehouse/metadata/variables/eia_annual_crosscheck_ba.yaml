@@ -5,9 +5,10 @@
 table: eia_annual_crosscheck_ba
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One balancing authority's (or the Lower 48's) year of EIA-930's hourly net generation summed, set against EIA-923's annual
+  figure, with the gap and the hours counted.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y); EIA-930's hours are summed by their UTC start.
+vintage_rule: Rewritten whole by each run of the builder (the file is deleted, then written); vintage is not filled.
 keys:
 - entity
 - variable
@@ -45,6 +46,7 @@ columns:
       eia930:SWPP: 18
       eia930:US48: 18
   missing_cells: 0
+  particular: eia930:<BA>, eia930:US48 for the Lower 48
 - name: variable
   shared: true
   type: text
@@ -91,18 +93,21 @@ columns:
     list:
       US: 144
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 144
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 144
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -130,9 +135,11 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 144
+  particular: 'Not filled: no cell holds a value'
 - name: x_reason
-  label: null
-  unit: null
+  label: The likely reason for the gap, by the ERW's rule (within 2 percent, missing hours, or the likely cause by the gap's
+    sign); hypotheses, not EIA's statements
+  unit: none
   type: text
   values:
     list:
@@ -173,42 +180,42 @@ columns:
         8784 hours)'
       : 6
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_annual_crosscheck.py; method eia_annual_crosscheck.md
 variables:
 - name: eia923_net_generation_mwh
-  label: null
+  label: EIA-923's annual net generation of the plants coded to the authority, storage included, MWh
   unit: MWh
   rows: 24
   first: '2023-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: eia930_hours
-  label: null
+  label: The hours EIA-930 reported in the year
   unit: count
   rows: 24
   first: '2023-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: eia930_net_generation_mwh
-  label: null
+  label: The year's sum of EIA-930's hourly net generation for the authority, MWh
   unit: MWh
   rows: 24
   first: '2023-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: expected_hours
-  label: null
+  label: The hours in the year
   unit: count
   rows: 24
   first: '2023-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: gap_mwh
-  label: null
+  label: EIA-930's sum less EIA-923's, MWh
   unit: MWh
   rows: 24
   first: '2023-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: gap_pct
-  label: null
+  label: The gap as a percent of EIA-923's figure
   unit: pct
   rows: 24
   first: '2023-01-01T00:00:00Z'

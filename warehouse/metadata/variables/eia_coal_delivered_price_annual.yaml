@@ -5,9 +5,9 @@
 table: eia_coal_delivered_price_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's, census division's or the nation's yearly average delivered price of coal to one consuming sector.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -43,6 +43,7 @@ columns:
     - eia_coal_delivered:AK:94
     - eia_coal_delivered:AK:98
   missing_cells: 0
+  particular: eia_coal_delivered:<location>:<sector>
 - name: variable
   shared: true
   type: text
@@ -91,12 +92,14 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
+  particular: US-<state> for a state; US for a census division or the U.S.
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3213
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -109,6 +112,7 @@ columns:
     - Alabama, Other Industrial
     - Alaska, Commercial and Institutional
   missing_cells: 0
+  particular: EIA's names (location, sector)
 - name: source
   shared: true
   type: text
@@ -136,9 +140,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 3213
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: price
-  label: null
+  label: Average delivered price of coal to the sector, USD per short ton
   unit: USD/short_ton
   rows: 3213
   first: '2000-01-01T00:00:00Z'

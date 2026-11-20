@@ -5,9 +5,10 @@
 table: eia_crude_imports_detail_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's crude oil imports from one country of origin to one destination (refinery, state, PADD or the U.S.) of one
+  grade, from EIA's company level imports (Form EIA-814).
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +45,7 @@ columns:
     - eia_crude_imports:CTY_AE:PP_5:HSO
     - eia_crude_imports:CTY_AE:PP_5:LSO
   missing_cells: 0
+  particular: eia_crude_imports:<originId>:<destinationId>:<gradeId>; destinations nest, so a sum takes one destination type
 - name: variable
   shared: true
   type: text
@@ -87,12 +89,14 @@ columns:
     list:
       US: 183393
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 183393
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -105,6 +109,7 @@ columns:
     - Albania to PADD1 (East Coast) (Port PADD), Heavy Sour
     - Albania to PADD1 (East Coast) (Refinery PADD), Heavy Sour
   missing_cells: 0
+  particular: The origin, destination (with its type) and grade in EIA's names
 - name: source
   shared: true
   type: text
@@ -135,9 +140,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 183393
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: imports
-  label: null
+  label: Crude oil imported in the month along the origin, destination and grade, thousand barrels
   unit: kbbl
   rows: 183393
   first: '2009-01-01T00:00:00Z'

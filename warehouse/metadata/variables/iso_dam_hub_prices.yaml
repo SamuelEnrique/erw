@@ -5,9 +5,11 @@
 table: iso_dam_hub_prices
 family: iso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The day-ahead price at one trading hub of CAISO, ERCOT, MISO or SPP for one hour.
+time: ts_utc is the start of the hour in UTC; operating days are each grid's local days.
+vintage_rule: Merged by (entity, variable, ts_utc) into each grid's member and consolidated by market; a day is asked on about
+  three runs (and once more as a forward day), a value asked again replacing the old one; nothing trims the table. vintage
+  is the operator's publish time where known (ERCOT's document time, MISO's file Last-Modified), empty for CAISO and SPP.
 keys:
 - entity
 - variable
@@ -65,6 +67,7 @@ columns:
       spp:SPPNORTH_HUB: 1969
       spp:SPPSOUTH_HUB: 1969
   missing_cells: 0
+  particular: <iso>:<hub>, the operator's hub name
 - name: variable
   shared: true
   type: text
@@ -111,6 +114,7 @@ columns:
       US-CA: 5979
       US-TX: 11670
   missing_cells: 0
+  particular: US-CA for CAISO, US-TX for ERCOT, a list of 15 states for MISO and of 14 for SPP
 - name: market
   shared: true
   type: text
@@ -121,6 +125,7 @@ columns:
       miso_dam: 7488
       spp_dam: 3938
   missing_cells: 0
+  particular: 'caiso_dam, ercot_dam, miso_dam or spp_dam: the day-ahead market of the grid the row belongs to'
 - name: node
   shared: true
   type: text
@@ -146,6 +151,9 @@ columns:
       TH_SP15_GEN-APND: 1993
       TH_ZP26_GEN-APND: 1993
   missing_cells: 0
+  particular: 'The operator''s trading hub: CAISO TH_NP15_GEN-APND, TH_SP15_GEN-APND, TH_ZP26_GEN-APND; ERCOT HB_HOUSTON,
+    HB_NORTH, HB_SOUTH, HB_WEST and the averages HB_BUSAVG and HB_HUBAVG; MISO''s eight hubs (ARKANSAS.HUB to TEXAS.HUB);
+    SPP SPPNORTH_HUB and SPPSOUTH_HUB'
 - name: source
   shared: true
   type: text
@@ -184,15 +192,18 @@ columns:
     earliest: '2026-08-25T17:42:39Z'
     latest: '2026-11-15T18:33:00Z'
   missing_cells: 9917
+  particular: ERCOT's document publish time or MISO's file Last-Modified; empty on CAISO's and SPP's rows (publish time not
+    given by the source)
 variables:
 - name: lmp_dam
-  label: null
+  label: 'Day-ahead locational marginal price (the price of energy at the hub in the day-ahead market): CAISO, MISO (ex-post)
+    and SPP'
   unit: USD/MWh
   rows: 17405
   first: '2026-08-26T05:00:00Z'
   last: '2026-11-17T07:00:00Z'
 - name: spp_dam
-  label: null
+  label: ERCOT's day-ahead settlement point price at the hub (spp here is ERCOT's 'settlement point price', not the grid SPP)
   unit: USD/MWh
   rows: 11670
   first: '2026-08-26T05:00:00Z'

@@ -5,9 +5,11 @@
 table: battery_stack_stress_daily
 family: battery
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One modelled battery's revenue by stream on one local day inside a stress event's window, for one hub, strategy and duration,
+  per MW of rated power.
+time: ts_utc is the market's local day at 00:00:00Z (freq P1D).
+vintage_rule: Rebuilt by each run of the builder, except that a (hub, strategy, duration, day) held in the earlier file and
+  not reached by the run's inputs keeps its earlier rows; vintage is not filled.
 keys:
 - entity
 - variable
@@ -41,6 +43,7 @@ columns:
       caiso:TH_SP15_GEN-APND: 630
       ercot:HB_HUBAVG: 1260
   missing_cells: 0
+  particular: <market>:<hub> (ercot:HB_HUBAVG, caiso:TH_SP15_GEN-APND)
 - name: variable
   shared: true
   type: text
@@ -93,6 +96,7 @@ columns:
       caiso: 630
       ercot: 1260
   missing_cells: 0
+  particular: The grid (ercot, caiso), the partition column
 - name: node
   shared: true
   type: text
@@ -132,20 +136,20 @@ columns:
     note: no cell holds a value
   missing_cells: 1890
 - name: x_strategy
-  label: null
-  unit: null
+  label: 'The strategy: foresight (perfect foresight, the upper bound) or dayahead (the day-ahead schedule, no real-time trading)'
+  unit: none
   type: text
   values:
     list:
       dayahead: 945
       foresight: 945
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector battery_stack.py
 - name: x_duration_hours
-  label: null
-  unit: null
+  label: 'The battery''s duration: hours of discharge at full power (2, 4 or 8)'
+  unit: hour
   type: integer
   values:
     list:
@@ -153,12 +157,12 @@ columns:
       '4': 630
       '8': 630
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector battery_stack.py
 - name: x_metric
-  label: null
-  unit: null
+  label: The measure, the part of the variable after <strategy>_<N>h_
+  unit: none
   type: text
   values:
     list:
@@ -166,12 +170,13 @@ columns:
       revenue_energy_usd_per_mw: 630
       revenue_total_usd_per_mw: 630
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector battery_stack.py
 - name: event
-  label: null
-  unit: null
+  label: 'The stress event whose window holds the day: uri_2021 (Winter Storm Uri), elliott_2022 (Winter Storm Elliott), ercot_heat_2023
+    (the summer 2023 heat), or caiso_notices_<first day> (a run of CAISO''s own system-wide notices)'
+  unit: none
   type: text
   values:
     list:
@@ -189,114 +194,114 @@ columns:
       ercot_heat_2023: 738
       uri_2021: 324
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method battery_stack.md
 variables:
 - name: dayahead_2h_revenue_ancillary_usd_per_mw
-  label: null
+  label: '2-hour battery, day-ahead schedule: ancillary services revenue (the products summed), USD per MW'
   unit: USD/MW
   rows: 105
   first: '2021-02-07T00:00:00Z'
   last: '2026-10-08T00:00:00Z'
 - name: dayahead_2h_revenue_energy_usd_per_mw
-  label: null
+  label: '2-hour battery, day-ahead schedule: energy revenue, USD per MW'
   unit: USD/MW
   rows: 105
   first: '2021-02-07T00:00:00Z'
   last: '2026-10-08T00:00:00Z'
 - name: dayahead_2h_revenue_total_usd_per_mw
-  label: null
+  label: '2-hour battery, day-ahead schedule: total revenue, energy plus ancillary,, USD per MW'
   unit: USD/MW
   rows: 105
   first: '2021-02-07T00:00:00Z'
   last: '2026-10-08T00:00:00Z'
 - name: dayahead_4h_revenue_ancillary_usd_per_mw
-  label: null
+  label: '4-hour battery, day-ahead schedule: ancillary services revenue (the products summed), USD per MW'
   unit: USD/MW
   rows: 105
   first: '2021-02-07T00:00:00Z'
   last: '2026-10-08T00:00:00Z'
 - name: dayahead_4h_revenue_energy_usd_per_mw
-  label: null
+  label: '4-hour battery, day-ahead schedule: energy revenue, USD per MW'
   unit: USD/MW
   rows: 105
   first: '2021-02-07T00:00:00Z'
   last: '2026-10-08T00:00:00Z'
 - name: dayahead_4h_revenue_total_usd_per_mw
-  label: null
+  label: '4-hour battery, day-ahead schedule: total revenue, energy plus ancillary,, USD per MW'
   unit: USD/MW
   rows: 105
   first: '2021-02-07T00:00:00Z'
   last: '2026-10-08T00:00:00Z'
 - name: dayahead_8h_revenue_ancillary_usd_per_mw
-  label: null
+  label: '8-hour battery, day-ahead schedule: ancillary services revenue (the products summed), USD per MW'
   unit: USD/MW
   rows: 105
   first: '2021-02-07T00:00:00Z'
   last: '2026-10-08T00:00:00Z'
 - name: dayahead_8h_revenue_energy_usd_per_mw
-  label: null
+  label: '8-hour battery, day-ahead schedule: energy revenue, USD per MW'
   unit: USD/MW
   rows: 105
   first: '2021-02-07T00:00:00Z'
   last: '2026-10-08T00:00:00Z'
 - name: dayahead_8h_revenue_total_usd_per_mw
-  label: null
+  label: '8-hour battery, day-ahead schedule: total revenue, energy plus ancillary,, USD per MW'
   unit: USD/MW
   rows: 105
   first: '2021-02-07T00:00:00Z'
   last: '2026-10-08T00:00:00Z'
 - name: foresight_2h_revenue_ancillary_usd_per_mw
-  label: null
+  label: '2-hour battery, perfect foresight: ancillary services revenue (the products summed), USD per MW'
   unit: USD/MW
   rows: 105
   first: '2021-02-07T00:00:00Z'
   last: '2026-10-08T00:00:00Z'
 - name: foresight_2h_revenue_energy_usd_per_mw
-  label: null
+  label: '2-hour battery, perfect foresight: energy revenue, USD per MW'
   unit: USD/MW
   rows: 105
   first: '2021-02-07T00:00:00Z'
   last: '2026-10-08T00:00:00Z'
 - name: foresight_2h_revenue_total_usd_per_mw
-  label: null
+  label: '2-hour battery, perfect foresight: total revenue, energy plus ancillary,, USD per MW'
   unit: USD/MW
   rows: 105
   first: '2021-02-07T00:00:00Z'
   last: '2026-10-08T00:00:00Z'
 - name: foresight_4h_revenue_ancillary_usd_per_mw
-  label: null
+  label: '4-hour battery, perfect foresight: ancillary services revenue (the products summed), USD per MW'
   unit: USD/MW
   rows: 105
   first: '2021-02-07T00:00:00Z'
   last: '2026-10-08T00:00:00Z'
 - name: foresight_4h_revenue_energy_usd_per_mw
-  label: null
+  label: '4-hour battery, perfect foresight: energy revenue, USD per MW'
   unit: USD/MW
   rows: 105
   first: '2021-02-07T00:00:00Z'
   last: '2026-10-08T00:00:00Z'
 - name: foresight_4h_revenue_total_usd_per_mw
-  label: null
+  label: '4-hour battery, perfect foresight: total revenue, energy plus ancillary,, USD per MW'
   unit: USD/MW
   rows: 105
   first: '2021-02-07T00:00:00Z'
   last: '2026-10-08T00:00:00Z'
 - name: foresight_8h_revenue_ancillary_usd_per_mw
-  label: null
+  label: '8-hour battery, perfect foresight: ancillary services revenue (the products summed), USD per MW'
   unit: USD/MW
   rows: 105
   first: '2021-02-07T00:00:00Z'
   last: '2026-10-08T00:00:00Z'
 - name: foresight_8h_revenue_energy_usd_per_mw
-  label: null
+  label: '8-hour battery, perfect foresight: energy revenue, USD per MW'
   unit: USD/MW
   rows: 105
   first: '2021-02-07T00:00:00Z'
   last: '2026-10-08T00:00:00Z'
 - name: foresight_8h_revenue_total_usd_per_mw
-  label: null
+  label: '8-hour battery, perfect foresight: total revenue, energy plus ancillary,, USD per MW'
   unit: USD/MW
   rows: 105
   first: '2021-02-07T00:00:00Z'

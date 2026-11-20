@@ -5,9 +5,10 @@
 table: eia_aeo_emm_regions
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One series of EIA's Annual Energy Outlook 2026 Table 54 (electric power projections) for one Electricity Market Module
+  region or the U.S., case cb2026, for one projected year.
+time: ts_utc is 1 January of the projected year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot); vintage is not filled.
 keys:
 - entity
 - variable
@@ -46,6 +47,7 @@ columns:
     - eia_aeo_2026_emm:5-0:cap_NA_elep_NA_ctd_NA_NA_gw
     - eia_aeo_2026_emm:5-0:cap_NA_elep_NA_diurn_NA_NA_gw
   missing_cells: 0
+  particular: eia_aeo_2026_emm:<regionId>:<seriesId>; regionId 5-1 to 5-25 an EMM region, 5-0 the United States
 - name: variable
   shared: true
   type: text
@@ -93,12 +95,14 @@ columns:
     list:
       US: 2912
   missing_cells: 72800
+  particular: US for 5-0; empty for a region (it spans states)
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 75712
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -111,6 +115,7 @@ columns:
     - 'Florida Reliability Coordinating Council: Electricity : Electric Power Sector : Capacity : Diurnal Storage'
     - 'Florida Reliability Coordinating Council: Electricity : Electric Power Sector : Capacity : Fossil Steam'
   missing_cells: 0
+  particular: '<region>: <series name>'
 - name: source
   shared: true
   type: text
@@ -139,42 +144,43 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 75712
+  particular: 'Not filled: no cell holds a value'
 - name: x_scenario
-  label: null
-  unit: null
+  label: EIA's code of the AEO case (cb2026 on every row)
+  unit: none
   type: text
   values:
     list:
       cb2026: 75712
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: scenario
+  documented_by: header; connector eia_aeo_regions.py
 - name: x_scenario_name
-  label: null
-  unit: null
+  label: EIA's name of the case (Counterfactual Baseline case)
+  unit: none
   type: text
   values:
     list:
       Counterfactual Baseline case: 75712
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: scenarioDescription
+  documented_by: connector eia_aeo_regions.py
 - name: x_history
-  label: null
-  unit: null
+  label: EIA's flag saying whether the year is history or projection (every row here is PROJECTION)
+  unit: none
   type: text
   values:
     list:
       PROJECTION: 75712
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: history
+  documented_by: connector eia_aeo_regions.py; method eia_aeo_emm_regions.md
 - name: x_region
-  label: null
-  unit: null
+  label: EIA's Electricity Market Module region identifier (5-1 to 5-25, or 5-0 for the United States)
+  unit: none
   type: text
   values:
     distinct: 26
@@ -185,12 +191,12 @@ columns:
     - 5-11
     - 5-12
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: regionId
+  documented_by: header; connector eia_aeo_regions.py; method eia_aeo_emm_regions.md
 - name: x_region_name
-  label: null
-  unit: null
+  label: EIA's name of the region
+  unit: none
   type: text
   values:
     distinct: 26
@@ -201,24 +207,25 @@ columns:
     - Midcontinent / South
     - Midcontinent / West
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: regionName
+  documented_by: connector eia_aeo_regions.py; method eia_aeo_emm_regions.md
 - name: x_dollar_year
-  label: null
-  unit: null
+  label: 'The dollars a price is in: 2025 for the AEO''s real 2025 dollars, or nominal'
+  unit: none
   type: text
   values:
     list:
       '2025': 8112
       nominal: 8112
   missing_cells: 59488
-  missing_meaning: null
+  missing_meaning: Not a price (a quantity row)
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_aeo_regions.py; method eia_aeo_emm_regions.md
 variables:
 - name: value
-  label: null
+  label: 'The Table 54 series the entity names: capacity in MW, generation in MWh, energy in TBtu (quads times 1,000), or
+    a price in USD per kWh or USD per MMBtu; the unit column says which. A total and its parts overlap'
   unit: MW; MWh; TBtu; USD/MMBtu; USD/kWh
   rows: 75712
   first: '2025-01-01T00:00:00Z'

@@ -5,9 +5,10 @@
 table: caiso_dam_alert_day_hub_prices
 family: caiso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: CAISO's day-ahead locational marginal price at the NP15 or SP15 trading hub for one hour of an alert or emergency day,
+  or of a comparison day of the Flex Alert scorecard.
+time: ts_utc is the start of the hour in UTC; the days are Pacific days, scattered, not a window.
+vintage_rule: Merged by (entity, variable, ts_utc); a day once written is not asked again. vintage is not filled.
 keys:
 - entity
 - variable
@@ -39,6 +40,7 @@ columns:
       caiso:TH_NP15_GEN-APND: 1512
       caiso:TH_SP15_GEN-APND: 1512
   missing_cells: 0
+  particular: caiso:<node>, the hub's CAISO name
 - name: variable
   shared: true
   type: text
@@ -89,6 +91,7 @@ columns:
     list:
       caiso_dam: 3024
   missing_cells: 0
+  particular: 'caiso_dam in every row: CAISO''s day-ahead market'
 - name: node
   shared: true
   type: text
@@ -97,6 +100,7 @@ columns:
       TH_NP15_GEN-APND: 1512
       TH_SP15_GEN-APND: 1512
   missing_cells: 0
+  particular: 'CAISO''s name of the trading hub price node: TH_NP15_GEN-APND (NP15) or TH_SP15_GEN-APND (SP15)'
 - name: source
   shared: true
   type: text
@@ -130,9 +134,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 3024
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: lmp_dam
-  label: null
+  label: Day-ahead locational marginal price (the price of energy at the hub in the day-ahead market), from CAISO's OASIS
   unit: USD/MWh
   rows: 3024
   first: '2023-07-14T07:00:00Z'

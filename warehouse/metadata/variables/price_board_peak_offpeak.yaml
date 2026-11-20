@@ -5,9 +5,12 @@
 table: price_board_peak_offpeak
 family: price
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One ISO main hub's peak, off-peak or all-hours price measure for one market, per complete operating day of the last 90,
+  or per ERCOT operating year since 2015.
+time: ts_utc is the local operating day at 00:00:00Z (freq P1D), or for the year_ rows the first day of ERCOT's operating
+  year (freq P1Y, the current year to date).
+vintage_rule: Rewritten whole by each run of the builder; ERCOT's rows built from ercot_all_hub_prices_history are carried
+  from the last run when the history is not on the machine (header). vintage is not filled.
 keys:
 - entity
 - variable
@@ -41,6 +44,7 @@ columns:
       nyiso:N.Y.C.: 804
       spp:SPPNORTH_HUB: 633
   missing_cells: 0
+  particular: <iso>:<main hub>, one per ISO
 - name: variable
   shared: true
   type: text
@@ -109,6 +113,7 @@ columns:
       spp_dam: 417
       spp_rtm: 216
   missing_cells: 0
+  particular: <iso>_dam for day-ahead rows, <iso>_rtm for real-time rows
 - name: node
   shared: true
   type: text
@@ -151,133 +156,133 @@ columns:
   missing_cells: 5028
 variables:
 - name: da_all_mean
-  label: null
+  label: 'Day-ahead: mean price of all the day''s hours'
   unit: USD/MWh
   rows: 502
   first: '2026-07-02T00:00:00Z'
   last: '2026-11-16T00:00:00Z'
 - name: da_offpeak_intervals
-  label: null
+  label: 'Day-ahead: intervals counted in the off-peak mean'
   unit: count
   rows: 502
   first: '2026-07-02T00:00:00Z'
   last: '2026-11-16T00:00:00Z'
 - name: da_offpeak_mean
-  label: null
+  label: 'Day-ahead: mean price of the day''s off-peak hours'
   unit: USD/MWh
   rows: 502
   first: '2026-07-02T00:00:00Z'
   last: '2026-11-16T00:00:00Z'
 - name: da_peak_intervals
-  label: null
+  label: 'Day-ahead: intervals counted in the peak mean'
   unit: count
   rows: 367
   first: '2026-07-02T00:00:00Z'
   last: '2026-11-16T00:00:00Z'
 - name: da_peak_mean
-  label: null
+  label: 'Day-ahead: mean price of the day''s peak hours (hours ending 7 to 22 local on a peak day)'
   unit: USD/MWh
   rows: 367
   first: '2026-07-02T00:00:00Z'
   last: '2026-11-16T00:00:00Z'
 - name: da_peak_minus_offpeak
-  label: null
+  label: 'Day-ahead: the day''s peak mean less its off-peak mean (peak days only)'
   unit: USD/MWh
   rows: 367
   first: '2026-07-02T00:00:00Z'
   last: '2026-11-16T00:00:00Z'
 - name: da_year_all_mean
-  label: null
+  label: 'Day-ahead, ERCOT HB_HUBAVG: mean of all hours of the operating year'
   unit: USD/MWh
   rows: 12
   first: '2015-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: da_year_days
-  label: null
+  label: 'Day-ahead, ERCOT HB_HUBAVG: the complete operating days included in the year'
   unit: count
   rows: 12
   first: '2015-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: da_year_offpeak_mean
-  label: null
+  label: 'Day-ahead, ERCOT HB_HUBAVG: mean of the year''s off-peak hours'
   unit: USD/MWh
   rows: 12
   first: '2015-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: da_year_peak_mean
-  label: null
+  label: 'Day-ahead, ERCOT HB_HUBAVG: mean of the year''s peak hours'
   unit: USD/MWh
   rows: 12
   first: '2015-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: da_year_peak_minus_offpeak
-  label: null
+  label: 'Day-ahead, ERCOT HB_HUBAVG: the year''s peak mean less its off-peak mean'
   unit: USD/MWh
   rows: 12
   first: '2015-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: rt_all_mean
-  label: null
+  label: 'Real-time: mean price of all the day''s hours'
   unit: USD/MWh
   rows: 445
   first: '2026-06-30T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: rt_offpeak_intervals
-  label: null
+  label: 'Real-time: intervals counted in the off-peak mean'
   unit: count
   rows: 445
   first: '2026-06-30T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: rt_offpeak_mean
-  label: null
+  label: 'Real-time: mean price of the day''s off-peak hours'
   unit: USD/MWh
   rows: 445
   first: '2026-06-30T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: rt_peak_intervals
-  label: null
+  label: 'Real-time: intervals counted in the peak mean'
   unit: count
   rows: 322
   first: '2026-06-30T00:00:00Z'
   last: '2026-11-14T00:00:00Z'
 - name: rt_peak_mean
-  label: null
+  label: 'Real-time: mean price of the day''s peak hours (hours ending 7 to 22 local on a peak day)'
   unit: USD/MWh
   rows: 322
   first: '2026-06-30T00:00:00Z'
   last: '2026-11-14T00:00:00Z'
 - name: rt_peak_minus_offpeak
-  label: null
+  label: 'Real-time: the day''s peak mean less its off-peak mean (peak days only)'
   unit: USD/MWh
   rows: 322
   first: '2026-06-30T00:00:00Z'
   last: '2026-11-14T00:00:00Z'
 - name: rt_year_all_mean
-  label: null
+  label: 'Real-time, ERCOT HB_HUBAVG: mean of all hours of the operating year'
   unit: USD/MWh
   rows: 12
   first: '2015-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: rt_year_days
-  label: null
+  label: 'Real-time, ERCOT HB_HUBAVG: the complete operating days included in the year'
   unit: count
   rows: 12
   first: '2015-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: rt_year_offpeak_mean
-  label: null
+  label: 'Real-time, ERCOT HB_HUBAVG: mean of the year''s off-peak hours'
   unit: USD/MWh
   rows: 12
   first: '2015-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: rt_year_peak_mean
-  label: null
+  label: 'Real-time, ERCOT HB_HUBAVG: mean of the year''s peak hours'
   unit: USD/MWh
   rows: 12
   first: '2015-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: rt_year_peak_minus_offpeak
-  label: null
+  label: 'Real-time, ERCOT HB_HUBAVG: the year''s peak mean less its off-peak mean'
   unit: USD/MWh
   rows: 12
   first: '2015-01-01T00:00:00Z'

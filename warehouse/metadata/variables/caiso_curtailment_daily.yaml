@@ -5,9 +5,10 @@
 table: caiso_curtailment_daily
 family: caiso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: CAISO's wind or solar curtailment (all, or by reason) or wind or solar output for one Pacific day.
+time: ts_utc is the local (Pacific) operating day at 00:00:00Z.
+vintage_rule: Merged by (entity, variable, ts_utc); a daily run re-reads the reports of the last 14 days, so a day read again
+  replaces its rows and the rest is kept. vintage is not filled.
 keys:
 - entity
 - variable
@@ -39,6 +40,7 @@ columns:
     list:
       caiso:ISO: 25308
   missing_cells: 0
+  particular: 'caiso:ISO in every row: CAISO''s whole system'
 - name: variable
   shared: true
   type: text
@@ -88,12 +90,14 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 25308
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 25308
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -102,6 +106,7 @@ columns:
       caiso:daily_renewable_report: 2416
       caiso:production_curtailments: 22892
   missing_cells: 0
+  particular: caiso:production_curtailments for days before 2026-01-01, caiso:daily_renewable_report from 2026-01-01
 - name: source_url
   shared: true
   type: text
@@ -128,51 +133,52 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 25308
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: curtailed_solar_local_mwh
-  label: null
+  label: Solar energy curtailed to relieve local congestion (CAISO's reason Local, published from 2022), MWh
   unit: MWh
   rows: 1779
   first: '2022-01-01T00:00:00Z'
   last: '2026-11-14T00:00:00Z'
 - name: curtailed_solar_mwh
-  label: null
+  label: Solar energy CAISO curtailed in the day, all reasons, MWh
   unit: MWh
   rows: 4580
   first: '2014-05-02T00:00:00Z'
   last: '2026-11-14T00:00:00Z'
 - name: curtailed_solar_system_mwh
-  label: null
+  label: Solar energy curtailed for system-wide oversupply (CAISO's reason System, published from 2022), MWh
   unit: MWh
   rows: 1779
   first: '2022-01-01T00:00:00Z'
   last: '2026-11-14T00:00:00Z'
 - name: curtailed_wind_local_mwh
-  label: null
+  label: Wind energy curtailed to relieve local congestion (CAISO's reason Local, published from 2022), MWh
   unit: MWh
   rows: 1779
   first: '2022-01-01T00:00:00Z'
   last: '2026-11-14T00:00:00Z'
 - name: curtailed_wind_mwh
-  label: null
+  label: Wind energy CAISO curtailed in the day, all reasons, MWh
   unit: MWh
   rows: 4580
   first: '2014-05-02T00:00:00Z'
   last: '2026-11-14T00:00:00Z'
 - name: curtailed_wind_system_mwh
-  label: null
+  label: Wind energy curtailed for system-wide oversupply (CAISO's reason System, published from 2022), MWh
   unit: MWh
   rows: 1779
   first: '2022-01-01T00:00:00Z'
   last: '2026-11-14T00:00:00Z'
 - name: solar_generation_mwh
-  label: null
+  label: CAISO's solar output in the day, MWh; curtailed energy is not in it
   unit: MWh
   rows: 4516
   first: '2014-05-01T00:00:00Z'
   last: '2026-11-14T00:00:00Z'
 - name: wind_generation_mwh
-  label: null
+  label: CAISO's wind output in the day, MWh; curtailed energy is not in it
   unit: MWh
   rows: 4516
   first: '2014-05-01T00:00:00Z'

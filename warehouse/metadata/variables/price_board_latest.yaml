@@ -5,9 +5,10 @@
 table: price_board_latest
 family: price
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One hub or zone's value of one price board measure for one market (day-ahead or real-time), over its latest days.
+time: ts_utc of a daily value is the local operating day at 00:00:00Z; a latest_interval row carries its interval's own start
+  and freq (PT15M or PT1H).
+vintage_rule: Rewritten whole by each run of the builder (a function of its inputs as they stand); vintage is not filled.
 keys:
 - entity
 - variable
@@ -41,6 +42,7 @@ columns:
     - ercot:HB_BUSAVG
     - ercot:HB_HOUSTON
   missing_cells: 0
+  particular: <iso>:<hub or zone>, the price location the board reads
 - name: variable
   shared: true
   type: text
@@ -111,6 +113,7 @@ columns:
       spp_dam: 84
       spp_rtm: 68
   missing_cells: 0
+  particular: <iso>_dam for day-ahead rows, <iso>_rtm for real-time rows
 - name: node
   shared: true
   type: text
@@ -153,163 +156,163 @@ columns:
   missing_cells: 3250
 variables:
 - name: da_avg_30d
-  label: null
+  label: 'Day-ahead: mean of the daily means of the complete days among the last 30 days ending on the latest day'
   unit: USD/MWh
   rows: 39
   first: '2026-10-03T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: da_avg_7d
-  label: null
+  label: 'Day-ahead: mean of the daily means of the complete days among the last 7 days ending on the latest day'
   unit: USD/MWh
   rows: 39
   first: '2026-10-03T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: da_daily_mean
-  label: null
+  label: 'Day-ahead: mean of the day''s intervals, for each complete day of the last 30 up to the latest complete day'
   unit: USD/MWh
   rows: 1168
   first: '2026-09-04T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: da_day_change
-  label: null
+  label: 'Day-ahead: latest day''s mean less the previous day''s'
   unit: USD/MWh
   rows: 39
   first: '2026-10-03T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: da_day_change_pct
-  label: null
+  label: 'Day-ahead: the day change as a percent of the previous day''s mean (its absolute value)'
   unit: pct
   rows: 39
   first: '2026-10-03T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: da_days_30d
-  label: null
+  label: 'Day-ahead: how many complete days the 30-day mean is over'
   unit: count
   rows: 39
   first: '2026-10-03T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: da_days_7d
-  label: null
+  label: 'Day-ahead: how many complete days the 7-day mean is over'
   unit: count
   rows: 39
   first: '2026-10-03T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: da_intervals_30d
-  label: null
+  label: 'Day-ahead: intervals the source table holds in the 30 days before its newest'
   unit: count
   rows: 39
   first: '2026-10-04T04:00:00Z'
   last: '2026-11-07T07:00:00Z'
 - name: da_latest_day_mean
-  label: null
+  label: 'Day-ahead: the daily mean of the latest complete day (can be tomorrow, already cleared)'
   unit: USD/MWh
   rows: 39
   first: '2026-10-03T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: da_latest_interval
-  label: null
+  label: 'Day-ahead: the newest interval''s price in the source table, as published'
   unit: USD/MWh
   rows: 39
   first: '2026-10-04T04:00:00Z'
   last: '2026-11-07T07:00:00Z'
 - name: da_max_30d
-  label: null
+  label: 'Day-ahead: the highest daily mean of the last 30 days'
   unit: USD/MWh
   rows: 39
   first: '2026-10-03T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: da_min_30d
-  label: null
+  label: 'Day-ahead: the lowest daily mean of the last 30 days'
   unit: USD/MWh
   rows: 39
   first: '2026-10-03T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: da_minus_rt
-  label: null
+  label: Day-ahead daily mean less real-time daily mean, on the latest day both are complete (on the day-ahead row)
   unit: USD/MWh
   rows: 39
   first: '2026-10-02T00:00:00Z'
   last: '2026-11-04T00:00:00Z'
 - name: da_previous_day_mean
-  label: null
+  label: 'Day-ahead: the daily mean of the day before the latest, only if that day is complete'
   unit: USD/MWh
   rows: 39
   first: '2026-10-02T00:00:00Z'
   last: '2026-11-05T00:00:00Z'
 - name: rt_avg_30d
-  label: null
+  label: 'Real-time: mean of the daily means of the complete days among the last 30 days ending on the latest day'
   unit: USD/MWh
   rows: 39
   first: '2026-10-02T00:00:00Z'
   last: '2026-11-04T00:00:00Z'
 - name: rt_avg_7d
-  label: null
+  label: 'Real-time: mean of the daily means of the complete days among the last 7 days ending on the latest day'
   unit: USD/MWh
   rows: 39
   first: '2026-10-02T00:00:00Z'
   last: '2026-11-04T00:00:00Z'
 - name: rt_daily_mean
-  label: null
+  label: 'Real-time: mean of the day''s intervals, for each complete day of the last 30 up to the latest complete day'
   unit: USD/MWh
   rows: 1107
   first: '2026-09-03T00:00:00Z'
   last: '2026-11-04T00:00:00Z'
 - name: rt_day_change
-  label: null
+  label: 'Real-time: latest day''s mean less the previous day''s'
   unit: USD/MWh
   rows: 39
   first: '2026-10-02T00:00:00Z'
   last: '2026-11-04T00:00:00Z'
 - name: rt_day_change_pct
-  label: null
+  label: 'Real-time: the day change as a percent of the previous day''s mean (its absolute value)'
   unit: pct
   rows: 39
   first: '2026-10-02T00:00:00Z'
   last: '2026-11-04T00:00:00Z'
 - name: rt_days_30d
-  label: null
+  label: 'Real-time: how many complete days the 30-day mean is over'
   unit: count
   rows: 39
   first: '2026-10-02T00:00:00Z'
   last: '2026-11-04T00:00:00Z'
 - name: rt_days_7d
-  label: null
+  label: 'Real-time: how many complete days the 7-day mean is over'
   unit: count
   rows: 39
   first: '2026-10-02T00:00:00Z'
   last: '2026-11-04T00:00:00Z'
 - name: rt_intervals_30d
-  label: null
+  label: 'Real-time: intervals the source table holds in the 30 days before its newest'
   unit: count
   rows: 39
   first: '2026-10-03T04:00:00Z'
   last: '2026-11-05T07:45:00Z'
 - name: rt_latest_day_mean
-  label: null
+  label: 'Real-time: the daily mean of the latest complete day'
   unit: USD/MWh
   rows: 39
   first: '2026-10-02T00:00:00Z'
   last: '2026-11-04T00:00:00Z'
 - name: rt_latest_interval
-  label: null
+  label: 'Real-time: the newest interval''s price in the source table, as published'
   unit: USD/MWh
   rows: 39
   first: '2026-10-03T04:00:00Z'
   last: '2026-11-05T07:45:00Z'
 - name: rt_max_30d
-  label: null
+  label: 'Real-time: the highest daily mean of the last 30 days'
   unit: USD/MWh
   rows: 39
   first: '2026-10-02T00:00:00Z'
   last: '2026-11-04T00:00:00Z'
 - name: rt_min_30d
-  label: null
+  label: 'Real-time: the lowest daily mean of the last 30 days'
   unit: USD/MWh
   rows: 39
   first: '2026-10-02T00:00:00Z'
   last: '2026-11-04T00:00:00Z'
 - name: rt_previous_day_mean
-  label: null
+  label: 'Real-time: the daily mean of the day before the latest, only if that day is complete'
   unit: USD/MWh
   rows: 39
   first: '2026-10-01T00:00:00Z'

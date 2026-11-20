@@ -5,9 +5,11 @@
 table: battery_stack_monthly
 family: battery
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One modelled battery's value of one revenue or day-count measure for one hub, strategy, duration (2, 4 or 8 hours) and
+  local month, per MW of rated power (ERCOT and CAISO).
+time: ts_utc is the first day of the market's local month at 00:00:00Z (freq P1M).
+vintage_rule: Rebuilt by each run of the builder, except that a (hub, strategy, duration, month) whose earlier file rested
+  on more days keeps its earlier rows, and months the run's inputs no longer reach are carried; vintage is not filled.
 keys:
 - entity
 - variable
@@ -41,6 +43,7 @@ columns:
       caiso:TH_SP15_GEN-APND: 3120
       ercot:HB_HUBAVG: 8514
   missing_cells: 0
+  particular: <market>:<hub> (ercot:HB_HUBAVG, caiso:TH_SP15_GEN-APND)
 - name: variable
   shared: true
   type: text
@@ -95,6 +98,7 @@ columns:
       caiso: 3120
       ercot: 8514
   missing_cells: 0
+  particular: The grid (ercot, caiso), the partition column
 - name: node
   shared: true
   type: text
@@ -149,20 +153,20 @@ columns:
     note: no cell holds a value
   missing_cells: 11634
 - name: x_strategy
-  label: null
-  unit: null
+  label: 'The strategy: foresight (perfect foresight, the upper bound) or dayahead (the day-ahead schedule, no real-time trading)'
+  unit: none
   type: text
   values:
     list:
       dayahead: 5817
       foresight: 5817
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector battery_stack.py
 - name: x_duration_hours
-  label: null
-  unit: null
+  label: 'The battery''s duration: hours of discharge at full power (2, 4 or 8)'
+  unit: hour
   type: integer
   values:
     list:
@@ -170,12 +174,12 @@ columns:
       '4': 3878
       '8': 3878
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector battery_stack.py
 - name: x_metric
-  label: null
-  unit: null
+  label: The measure, the part of the variable after <strategy>_<N>h_
+  unit: none
   type: text
   values:
     list:
@@ -196,582 +200,588 @@ columns:
       revenue_spin_usd_per_mw: 240
       revenue_total_usd_per_mw: 876
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector battery_stack.py
 variables:
 - name: dayahead_2h_days_held
-  label: null
+  label: '2-hour battery, day-ahead schedule: days solved (every hour of every price held)'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_2h_days_in_month
-  label: null
+  label: '2-hour battery, day-ahead schedule: days in the month'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_2h_days_left_out
-  label: null
+  label: '2-hour battery, day-ahead schedule: days left out (a price hour not held)'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_2h_days_left_out_ancillary
-  label: null
+  label: '2-hour battery, day-ahead schedule: days left out for an ancillary price not held'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_2h_days_left_out_energy
-  label: null
+  label: '2-hour battery, day-ahead schedule: days left out for an energy price not held'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_2h_discharged_mwh_per_mw
-  label: null
+  label: '2-hour battery, day-ahead schedule: energy delivered to the grid, MWh per MW'
   unit: MWh/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_2h_revenue_ancillary_usd_per_mw
-  label: null
+  label: '2-hour battery, day-ahead schedule: ancillary services revenue (the products summed) over the held days, USD per
+    MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_2h_revenue_ecrs_usd_per_mw
-  label: null
+  label: '2-hour battery, day-ahead schedule: revenue from ERCOT Contingency Reserve Service over the held days, USD per MW'
   unit: USD/MW
   rows: 41
   first: '2023-06-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: dayahead_2h_revenue_energy_usd_per_mw
-  label: null
+  label: '2-hour battery, day-ahead schedule: energy revenue over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_2h_revenue_nonspin_usd_per_mw
-  label: null
+  label: '2-hour battery, day-ahead schedule: revenue from CAISO Non-Spinning Reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 40
   first: '2023-08-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_2h_revenue_nspin_usd_per_mw
-  label: null
+  label: '2-hour battery, day-ahead schedule: revenue from ERCOT Non-Spin reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 106
   first: '2018-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: dayahead_2h_revenue_regdn_usd_per_mw
-  label: null
+  label: '2-hour battery, day-ahead schedule: revenue from Regulation Down over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_2h_revenue_regup_usd_per_mw
-  label: null
+  label: '2-hour battery, day-ahead schedule: revenue from Regulation Up over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_2h_revenue_rrs_usd_per_mw
-  label: null
+  label: '2-hour battery, day-ahead schedule: revenue from ERCOT Responsive Reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 106
   first: '2018-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: dayahead_2h_revenue_spin_usd_per_mw
-  label: null
+  label: '2-hour battery, day-ahead schedule: revenue from CAISO Spinning Reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 40
   first: '2023-08-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_2h_revenue_total_usd_per_mw
-  label: null
+  label: '2-hour battery, day-ahead schedule: total revenue, energy plus ancillary, over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_4h_days_held
-  label: null
+  label: '4-hour battery, day-ahead schedule: days solved (every hour of every price held)'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_4h_days_in_month
-  label: null
+  label: '4-hour battery, day-ahead schedule: days in the month'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_4h_days_left_out
-  label: null
+  label: '4-hour battery, day-ahead schedule: days left out (a price hour not held)'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_4h_days_left_out_ancillary
-  label: null
+  label: '4-hour battery, day-ahead schedule: days left out for an ancillary price not held'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_4h_days_left_out_energy
-  label: null
+  label: '4-hour battery, day-ahead schedule: days left out for an energy price not held'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_4h_discharged_mwh_per_mw
-  label: null
+  label: '4-hour battery, day-ahead schedule: energy delivered to the grid, MWh per MW'
   unit: MWh/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_4h_revenue_ancillary_usd_per_mw
-  label: null
+  label: '4-hour battery, day-ahead schedule: ancillary services revenue (the products summed) over the held days, USD per
+    MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_4h_revenue_ecrs_usd_per_mw
-  label: null
+  label: '4-hour battery, day-ahead schedule: revenue from ERCOT Contingency Reserve Service over the held days, USD per MW'
   unit: USD/MW
   rows: 41
   first: '2023-06-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: dayahead_4h_revenue_energy_usd_per_mw
-  label: null
+  label: '4-hour battery, day-ahead schedule: energy revenue over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_4h_revenue_nonspin_usd_per_mw
-  label: null
+  label: '4-hour battery, day-ahead schedule: revenue from CAISO Non-Spinning Reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 40
   first: '2023-08-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_4h_revenue_nspin_usd_per_mw
-  label: null
+  label: '4-hour battery, day-ahead schedule: revenue from ERCOT Non-Spin reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 106
   first: '2018-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: dayahead_4h_revenue_regdn_usd_per_mw
-  label: null
+  label: '4-hour battery, day-ahead schedule: revenue from Regulation Down over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_4h_revenue_regup_usd_per_mw
-  label: null
+  label: '4-hour battery, day-ahead schedule: revenue from Regulation Up over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_4h_revenue_rrs_usd_per_mw
-  label: null
+  label: '4-hour battery, day-ahead schedule: revenue from ERCOT Responsive Reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 106
   first: '2018-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: dayahead_4h_revenue_spin_usd_per_mw
-  label: null
+  label: '4-hour battery, day-ahead schedule: revenue from CAISO Spinning Reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 40
   first: '2023-08-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_4h_revenue_total_usd_per_mw
-  label: null
+  label: '4-hour battery, day-ahead schedule: total revenue, energy plus ancillary, over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_8h_days_held
-  label: null
+  label: '8-hour battery, day-ahead schedule: days solved (every hour of every price held)'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_8h_days_in_month
-  label: null
+  label: '8-hour battery, day-ahead schedule: days in the month'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_8h_days_left_out
-  label: null
+  label: '8-hour battery, day-ahead schedule: days left out (a price hour not held)'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_8h_days_left_out_ancillary
-  label: null
+  label: '8-hour battery, day-ahead schedule: days left out for an ancillary price not held'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_8h_days_left_out_energy
-  label: null
+  label: '8-hour battery, day-ahead schedule: days left out for an energy price not held'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_8h_discharged_mwh_per_mw
-  label: null
+  label: '8-hour battery, day-ahead schedule: energy delivered to the grid, MWh per MW'
   unit: MWh/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_8h_revenue_ancillary_usd_per_mw
-  label: null
+  label: '8-hour battery, day-ahead schedule: ancillary services revenue (the products summed) over the held days, USD per
+    MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_8h_revenue_ecrs_usd_per_mw
-  label: null
+  label: '8-hour battery, day-ahead schedule: revenue from ERCOT Contingency Reserve Service over the held days, USD per MW'
   unit: USD/MW
   rows: 41
   first: '2023-06-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: dayahead_8h_revenue_energy_usd_per_mw
-  label: null
+  label: '8-hour battery, day-ahead schedule: energy revenue over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_8h_revenue_nonspin_usd_per_mw
-  label: null
+  label: '8-hour battery, day-ahead schedule: revenue from CAISO Non-Spinning Reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 40
   first: '2023-08-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_8h_revenue_nspin_usd_per_mw
-  label: null
+  label: '8-hour battery, day-ahead schedule: revenue from ERCOT Non-Spin reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 106
   first: '2018-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: dayahead_8h_revenue_regdn_usd_per_mw
-  label: null
+  label: '8-hour battery, day-ahead schedule: revenue from Regulation Down over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_8h_revenue_regup_usd_per_mw
-  label: null
+  label: '8-hour battery, day-ahead schedule: revenue from Regulation Up over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_8h_revenue_rrs_usd_per_mw
-  label: null
+  label: '8-hour battery, day-ahead schedule: revenue from ERCOT Responsive Reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 106
   first: '2018-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: dayahead_8h_revenue_spin_usd_per_mw
-  label: null
+  label: '8-hour battery, day-ahead schedule: revenue from CAISO Spinning Reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 40
   first: '2023-08-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: dayahead_8h_revenue_total_usd_per_mw
-  label: null
+  label: '8-hour battery, day-ahead schedule: total revenue, energy plus ancillary, over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_2h_days_held
-  label: null
+  label: '2-hour battery, perfect foresight: days solved (every hour of every price held)'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_2h_days_in_month
-  label: null
+  label: '2-hour battery, perfect foresight: days in the month'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_2h_days_left_out
-  label: null
+  label: '2-hour battery, perfect foresight: days left out (a price hour not held)'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_2h_days_left_out_ancillary
-  label: null
+  label: '2-hour battery, perfect foresight: days left out for an ancillary price not held'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_2h_days_left_out_energy
-  label: null
+  label: '2-hour battery, perfect foresight: days left out for an energy price not held'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_2h_discharged_mwh_per_mw
-  label: null
+  label: '2-hour battery, perfect foresight: energy delivered to the grid, MWh per MW'
   unit: MWh/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_2h_revenue_ancillary_usd_per_mw
-  label: null
+  label: '2-hour battery, perfect foresight: ancillary services revenue (the products summed) over the held days, USD per
+    MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_2h_revenue_ecrs_usd_per_mw
-  label: null
+  label: '2-hour battery, perfect foresight: revenue from ERCOT Contingency Reserve Service over the held days, USD per MW'
   unit: USD/MW
   rows: 41
   first: '2023-06-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: foresight_2h_revenue_energy_usd_per_mw
-  label: null
+  label: '2-hour battery, perfect foresight: energy revenue over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_2h_revenue_nonspin_usd_per_mw
-  label: null
+  label: '2-hour battery, perfect foresight: revenue from CAISO Non-Spinning Reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 40
   first: '2023-08-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_2h_revenue_nspin_usd_per_mw
-  label: null
+  label: '2-hour battery, perfect foresight: revenue from ERCOT Non-Spin reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 106
   first: '2018-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: foresight_2h_revenue_regdn_usd_per_mw
-  label: null
+  label: '2-hour battery, perfect foresight: revenue from Regulation Down over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_2h_revenue_regup_usd_per_mw
-  label: null
+  label: '2-hour battery, perfect foresight: revenue from Regulation Up over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_2h_revenue_rrs_usd_per_mw
-  label: null
+  label: '2-hour battery, perfect foresight: revenue from ERCOT Responsive Reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 106
   first: '2018-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: foresight_2h_revenue_spin_usd_per_mw
-  label: null
+  label: '2-hour battery, perfect foresight: revenue from CAISO Spinning Reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 40
   first: '2023-08-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_2h_revenue_total_usd_per_mw
-  label: null
+  label: '2-hour battery, perfect foresight: total revenue, energy plus ancillary, over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_4h_days_held
-  label: null
+  label: '4-hour battery, perfect foresight: days solved (every hour of every price held)'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_4h_days_in_month
-  label: null
+  label: '4-hour battery, perfect foresight: days in the month'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_4h_days_left_out
-  label: null
+  label: '4-hour battery, perfect foresight: days left out (a price hour not held)'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_4h_days_left_out_ancillary
-  label: null
+  label: '4-hour battery, perfect foresight: days left out for an ancillary price not held'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_4h_days_left_out_energy
-  label: null
+  label: '4-hour battery, perfect foresight: days left out for an energy price not held'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_4h_discharged_mwh_per_mw
-  label: null
+  label: '4-hour battery, perfect foresight: energy delivered to the grid, MWh per MW'
   unit: MWh/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_4h_revenue_ancillary_usd_per_mw
-  label: null
+  label: '4-hour battery, perfect foresight: ancillary services revenue (the products summed) over the held days, USD per
+    MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_4h_revenue_ecrs_usd_per_mw
-  label: null
+  label: '4-hour battery, perfect foresight: revenue from ERCOT Contingency Reserve Service over the held days, USD per MW'
   unit: USD/MW
   rows: 41
   first: '2023-06-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: foresight_4h_revenue_energy_usd_per_mw
-  label: null
+  label: '4-hour battery, perfect foresight: energy revenue over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_4h_revenue_nonspin_usd_per_mw
-  label: null
+  label: '4-hour battery, perfect foresight: revenue from CAISO Non-Spinning Reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 40
   first: '2023-08-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_4h_revenue_nspin_usd_per_mw
-  label: null
+  label: '4-hour battery, perfect foresight: revenue from ERCOT Non-Spin reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 106
   first: '2018-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: foresight_4h_revenue_regdn_usd_per_mw
-  label: null
+  label: '4-hour battery, perfect foresight: revenue from Regulation Down over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_4h_revenue_regup_usd_per_mw
-  label: null
+  label: '4-hour battery, perfect foresight: revenue from Regulation Up over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_4h_revenue_rrs_usd_per_mw
-  label: null
+  label: '4-hour battery, perfect foresight: revenue from ERCOT Responsive Reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 106
   first: '2018-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: foresight_4h_revenue_spin_usd_per_mw
-  label: null
+  label: '4-hour battery, perfect foresight: revenue from CAISO Spinning Reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 40
   first: '2023-08-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_4h_revenue_total_usd_per_mw
-  label: null
+  label: '4-hour battery, perfect foresight: total revenue, energy plus ancillary, over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_8h_days_held
-  label: null
+  label: '8-hour battery, perfect foresight: days solved (every hour of every price held)'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_8h_days_in_month
-  label: null
+  label: '8-hour battery, perfect foresight: days in the month'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_8h_days_left_out
-  label: null
+  label: '8-hour battery, perfect foresight: days left out (a price hour not held)'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_8h_days_left_out_ancillary
-  label: null
+  label: '8-hour battery, perfect foresight: days left out for an ancillary price not held'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_8h_days_left_out_energy
-  label: null
+  label: '8-hour battery, perfect foresight: days left out for an energy price not held'
   unit: count
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_8h_discharged_mwh_per_mw
-  label: null
+  label: '8-hour battery, perfect foresight: energy delivered to the grid, MWh per MW'
   unit: MWh/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_8h_revenue_ancillary_usd_per_mw
-  label: null
+  label: '8-hour battery, perfect foresight: ancillary services revenue (the products summed) over the held days, USD per
+    MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_8h_revenue_ecrs_usd_per_mw
-  label: null
+  label: '8-hour battery, perfect foresight: revenue from ERCOT Contingency Reserve Service over the held days, USD per MW'
   unit: USD/MW
   rows: 41
   first: '2023-06-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: foresight_8h_revenue_energy_usd_per_mw
-  label: null
+  label: '8-hour battery, perfect foresight: energy revenue over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_8h_revenue_nonspin_usd_per_mw
-  label: null
+  label: '8-hour battery, perfect foresight: revenue from CAISO Non-Spinning Reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 40
   first: '2023-08-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_8h_revenue_nspin_usd_per_mw
-  label: null
+  label: '8-hour battery, perfect foresight: revenue from ERCOT Non-Spin reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 106
   first: '2018-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: foresight_8h_revenue_regdn_usd_per_mw
-  label: null
+  label: '8-hour battery, perfect foresight: revenue from Regulation Down over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_8h_revenue_regup_usd_per_mw
-  label: null
+  label: '8-hour battery, perfect foresight: revenue from Regulation Up over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_8h_revenue_rrs_usd_per_mw
-  label: null
+  label: '8-hour battery, perfect foresight: revenue from ERCOT Responsive Reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 106
   first: '2018-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: foresight_8h_revenue_spin_usd_per_mw
-  label: null
+  label: '8-hour battery, perfect foresight: revenue from CAISO Spinning Reserve over the held days, USD per MW'
   unit: USD/MW
   rows: 40
   first: '2023-08-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: foresight_8h_revenue_total_usd_per_mw
-  label: null
+  label: '8-hour battery, perfect foresight: total revenue, energy plus ancillary, over the held days, USD per MW'
   unit: USD/MW
   rows: 146
   first: '2018-01-01T00:00:00Z'
