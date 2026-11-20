@@ -12,6 +12,15 @@ At Samuel's word the desktop's second window (`C:\Users\Shared\Documents\erw-w2`
 - **New for your ruling** (each page left as it is):
   - On an event page, a pair of regions' mean and its baseline's each rest on their own hours. The section's own note says every figure uses the hours both hold. This touches 10 of the 224 pairs, and Elliott's Central and Canada most (17 MW over 267 hours against a baseline over 219). The old laptop's pending branch rewrites the same lines and keeps the same rule, so it is not edited here.
   - On `/supply`, a pair with both reports at 0 reads its percent as "not held yet". That percent can never be held.
+- **After that (21:30 UTC to 00:30 UTC on 21 November):**
+  - A third fix, on `/curtailment/where-when`: the trend table named no fuel over solar alone (3,482 GWh "curtailment", where `/curtailment` gives 3,765.6 for wind and solar). It now names its fuel, seen in a build, and row 4 names `4f3247287`.
+  - Every page check-values knows: 9,067 of 9,067 figures match Supabase.
+  - The pages that draw from files were set beside them, with none differing: the board's 271 rows (4,150 figures over two widths), `/prices/compare`, `/contracts` (227 rows in `ferc_eqr_contracts`), `/companies` and `/severance`'s calculator.
+  - The keyboard alone reaches the foot of all 27 menu pages, with a focus mark at every stop.
+  - Part C has eleven pairs now. CAISO's curtailment by year agrees between its two pages, and WTI agrees between the severance tool and the board.
+  - A fourth fix: `/events/covid-2020` was 392 px wide at 390 px with a chart switched to its table. It is mended, seen in a build, and row 4 now names `923d4cb4f`.
+  - On the nine event pages, 146 held figures read "license needed MW" or "license needed%": the unit stays after the hold's words. Not mended here; it goes with your ruling on those pages' hold.
+  - Rows 418 to 422: the old laptop's three branches, which never reached main, each do what their row asks on a build of today's main. Their landing is the desk's.
 - **Filed:** data request 570. The region page files have not been rebuilt since 19 November, so Tennessee's latest hour held is 17 November 05:00 UTC while the Lower 48 beside it reads 19 November.
 - **Pictures:** the tour's stops 8 to 16 and each page they open (`tour/`); the demand, supply and events reads (`demand-country/`, `supply-country/`, `events-country/`); the fixes as the build shows them (`fixes-seen-in-a-build/`); and ten pages that had none (`more/`). All are under `docs/reviews/browser-read-2026-11-20/`, also on GitHub at `https://github.com/SamuelEnrique/erw/tree/main/docs/reviews/browser-read-2026-11-20`.
 
@@ -80,4 +89,4 @@ At Samuel's word the desktop's second window (`C:\Users\Shared\Documents\erw-w2`
 
 - Nothing.
 
-Last written: 18:48 UTC, session 9602; the section at the top by the desktop's second window at 22:15 UTC, session 9203.
+Last written: 18:48 UTC, session 9602; the section at the top by the desktop's second window, last at 00:35 UTC on 21 November, session 9203.

@@ -1,0 +1,3 @@
+# Session 9872: chain 610, part E
+
+Energy Research Warehouse (ERW). 20 November 2026, the desktop's third window. More pages added to `site/scripts/test-reader-pages-render.mjs` on `wip/9871-reader-pages-tests` (row 13): 9872 `/data/standard`, the tour's sixteen stops and the three largest company pages (49 checks, with stand-ins for `next/navigation`); 9873 `/states`, `/conditions`, `/congestion`, `/attention` and `/deals/capital` (74 checks). Every page passed: one h1, no skipped level, named buttons, tips with targets, captioned tables. The first report is [`SESSION_9871_REPORT.md`](SESSION_9871_REPORT.md).

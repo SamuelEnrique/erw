@@ -17,6 +17,17 @@ Energy Research Warehouse (ERW). 20 November 2026, from about 19:20 UTC. Folder 
 - **Filed:** data request 570 (the region page files not rebuilt after 19 November).
 - **For Samuel's ruling:** a pair's hours on the event pages (10 of 224 pairs rest on each side's own hours, where the section's note says the hours both hold); "not held yet" for a percent that can never be held on `/supply`.
 
+## After the first report (21:30 UTC on)
+
+- **Part E, part A again:** rows 418 to 422, which wait on the old laptop's three branches that never reached main. Read on a local build of main with the three merged in (no conflict): each does what its row asks, and 421's case no longer arises. Notes are under the tables of `browser_reads_wanted.md` and `landing_request_oldlaptop.md`, and chain 601's session was told. The local branch is deleted; nothing of it is pushed.
+- **Part E, the five sellable tools:** check-values on production, 4,119 of 4,122 figures match Supabase, and the three match on a second read (a page cached before the live set's load). A reader's case for each tool.
+- **Part E, every page check-values knows** (180 addresses): 9,067 of 9,067 match. The one failure is `/policy`'s floor, a held page the landing gate passes on "license needed".
+- **Part E, the keyboard alone on the 22 other pages of the menu:** each reaches its foot with a focus mark at every stop. A finger on every chart: three charts give their figures only as the browser's tooltip (row S2).
+- **Part C:** three more pairs. C8 (two "last twelve months" a month apart) is noted, C9 (the regions' latest hour) is data request 570, and C10 (CAISO's curtailment by year) agrees. Under C10, `/curtailment/where-when`'s trend table named no fuel over solar alone. Mended on the stack (`4f3247287`, with `tests/test_session9203_where_when_trend.py`), built a third time (101 s), seen, and row 4 moved to it.
+- **Part E, the pages that draw from files:** set beside their files, with none differing: `/board` (4,150 figures over two widths), `/prices/compare` (102), `/companies` (400), `/contracts` (227 rows found in `ferc_eqr_contracts`) and `/severance`'s calculator. Pair C11 (WTI on `/severance` and the board) agrees.
+- **Part B at 390 px:** the demand, supply and events figures read again at a phone's width, none differs. `/events/covid-2020` was 392 px wide at 390 with a chart switched to its table. Mended (`923d4cb4f`, `tests/test_session9203_covid_phone.py`), built a fourth time (84 s) and seen, and row 4 moved to it. Noted, not mended: 146 held figures on the nine event pages read "license needed MW" or "license needed%".
+- **Decision:** the stray units after the event pages' held figures are not mended. They are 146 places of prose over nine pages, two of which the old laptop's pending branch changes, and the hold itself waits on Samuel's ruling.
+
 ## Decisions made without a human
 
 - The ten fix branches are requested as ONE stacked row, not ten, so the desk's gate runs once.
@@ -29,4 +40,4 @@ Energy Research Warehouse (ERW). 20 November 2026, from about 19:20 UTC. Folder 
 
 ## To finish
 
-- The desk lands row 4 of `docs/state/landing_request_window2.md` (`wip/w2-c620-fixes` at `1d7b451a6`) through its gate. After the landing, data request 567 (a new dated edition of the resource set).
+- The desk lands row 4 of `docs/state/landing_request_window2.md` (`wip/w2-c620-fixes` at `923d4cb4f`) through its gate. After the landing, data request 567 (a new dated edition of the resource set).
