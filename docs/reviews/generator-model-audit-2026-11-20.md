@@ -111,6 +111,33 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 - **The test.** `tests/test_audit_generator_9.py` on `wip/audit-generator-9`: from `site/data/merchant_snapshot.json`, the rule's margin equals the page's rows, 1,772 run hours, 403 starts, a quarter of them one hour long, a median run under USD 30 per MW, and more than a fifth of the margin gone at a start cost of USD 50.
 - **Not fixed.** A start cost (and a minimum run) is a new assumption: the owner's ruling.
 
+## The decisions block, line by line
+
+The 22 decisions at the page's foot (`site/lib/decisions.ts`, `GENERATOR_DECISIONS`), each against this audit:
+
+1. Merchant, every MWh at the hour's price: as stated; selling below zero is **finding 6**.
+2. The fleet's shape, "nothing is trimmed": as stated; the hours are **right**; the month-start nameplate is **finding 7**.
+3. The battery, "so its figure is an upper bound": **false**, **finding 5**.
+4. The peaker, no start cost: **finding 9**.
+5. The 90 and 95 percent months: as stated; checked on the default only.
+6. The hub chosen prices everything: not tested.
+7. The capture rate beside every capture price: **right** (the weightings, below).
+8. One page, three questions: layout, not a model matter.
+9. Costs from Lazard: as stated; the sources not read again.
+10. Debt 60 percent at 8 percent over the life: arithmetic **right**; beside real revenue, **finding 2**.
+11. Scenarios A and B: the shared block, checked on the battery page.
+12. NPV at 12 percent: before tax, **finding 1**; on real flows, **finding 2**.
+13. Solar 0.7 percent, a battery 2.6: the note's table is **finding 8**; a battery's cut one for one is the battery audit's finding 4.
+14. A PPA's term is the life: as stated; what the contract is paid on is **finding 4**.
+15. Values held at their bounds: not a model matter.
+16. The downloads by license: not a model matter.
+17. The plant with a battery beside it, "labelled an upper bound": not read.
+18. The reader's own year: not a model matter.
+19. The scenarios priced on the last twelve months: as stated.
+20. The credits at 0, "the ITC arrives in year 1": the year is **finding 3**; tax is **finding 1**.
+21. A plant at a node: not tested.
+22. The PPA's shape: the "generated" shape's volume is **finding 4**; the block's is right not to degrade.
+
 ## What was checked and found right
 
 - **The revenue.** The public hourly file gives the page's 59.8523 per kW and 2,579.9 MWh per MW for its twelve months: price times the fleet's generation over the month's nameplate, summed.
