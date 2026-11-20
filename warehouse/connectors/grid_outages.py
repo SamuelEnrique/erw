@@ -127,6 +127,10 @@ def spp_rows(day, text, rec):
     for c in x.columns:
         x[c] = x[c].str.strip()
     hour_col = "Market Hour" if "Market Hour" in x.columns else None
+    if "BAA" not in x.columns and pd.Timestamp(day) < pd.Timestamp("2026-04-01"):
+        # before SPP's western area joined its market (1 April 2026) the file has no BAA column: it covers the one
+        # area, SPP (the files from April name SPP, SWPW and Total)
+        x["BAA"] = "SPP"
     baa = "BAA" if "BAA" in x.columns else None
     if hour_col is None or baa is None or "Outaged MW" not in x.columns:
         raise RuntimeError(f"SPP outage file {day.date()}: columns {list(x.columns)}: layout changed")

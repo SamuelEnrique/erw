@@ -172,7 +172,13 @@ def spp_texts(raw, doc, feed, log, gaps):
 
 def spp_frame(text):
     x = pd.read_csv(io.StringIO(text), dtype=str, keep_default_na=False)
-    x.columns = [c.strip() for c in x.columns]
+    # SPP's older files name the columns in capitals with underscores (GMTINTERVALEND, SETTLEMENT_LOCATION; seen in
+    # DA-LMP-SL files of 2025); they are read as the newer names, nothing else changes
+    upper = {"INTERVAL": "Interval", "GMTINTERVALEND": "GMTIntervalEnd", "SETTLEMENT_LOCATION": "Settlement Location",
+             "PNODE": "Pnode", "CONSTRAINT_NAME": "Constraint Name", "CONSTRAINT_TYPE": "Constraint Type",
+             "SHADOW_PRICE": "Shadow Price", "MONITORED_FACILITY": "Monitored Facility",
+             "CONTINGENT_FACILITY": "Contingent Facility", "CONTINGENCY_NAME": "Contingency Name", "STATE": "State"}
+    x.columns = [upper.get(c.strip(), c.strip()) for c in x.columns]
     for c in x.columns:
         x[c] = x[c].str.strip()
     if "GMTIntervalEnd" not in x.columns:
