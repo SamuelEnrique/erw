@@ -1,0 +1,38 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate s2s_out, region s2out_texas (Texas)
+# Computed 2026-11-19T12:48:33Z by warehouse/analysis/findings/deep/gas.py (s2s_out); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the summed capacity of the pipeline crossings out of the state (bcf a day), the observations it rests on, and whether the year is full
+# Tables: eia_state_to_state_capacity
+region,year,value,n_observations,full_year
+s2out_texas,1990,16.1642,1.0,1
+s2out_texas,1994,16.9841,1.0,1
+s2out_texas,1995,16.9841,1.0,1
+s2out_texas,1996,17.2611,1.0,1
+s2out_texas,1997,17.4891,1.0,1
+s2out_texas,1998,17.2941,1.0,1
+s2out_texas,1999,17.8141,1.0,1
+s2out_texas,2000,18.0741,1.0,1
+s2out_texas,2001,18.0741,1.0,1
+s2out_texas,2002,18.7391,1.0,1
+s2out_texas,2003,19.1371,1.0,1
+s2out_texas,2004,19.4821,1.0,1
+s2out_texas,2005,19.5871,1.0,1
+s2out_texas,2006,19.7291,1.0,1
+s2out_texas,2007,21.6421,1.0,1
+s2out_texas,2008,23.9181,1.0,1
+s2out_texas,2009,27.2771,1.0,1
+s2out_texas,2010,29.4571,1.0,1
+s2out_texas,2011,32.069,1.0,1
+s2out_texas,2012,32.069,1.0,1
+s2out_texas,2013,32.671,1.0,1
+s2out_texas,2014,34.986,1.0,1
+s2out_texas,2015,35.126,1.0,1
+s2out_texas,2016,35.696,1.0,1
+s2out_texas,2017,38.196,1.0,1
+s2out_texas,2018,39.511,1.0,1
+s2out_texas,2019,42.111,1.0,1
+s2out_texas,2020,42.381,1.0,1
+s2out_texas,2021,42.381,1.0,1
+s2out_texas,2022,42.381,1.0,1
+s2out_texas,2023,42.381,1.0,1
+s2out_texas,2024,42.381,1.0,1
+s2out_texas,2025,42.745,1.0,1
