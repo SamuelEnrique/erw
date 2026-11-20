@@ -445,9 +445,18 @@ Read with `runs/c620/n_conditions.mjs` and `runs/c620/n_conditions_file.py`.
 | # | What was done | What was seen | What should be seen | State |
 |---:|---|---|---|---|
 | 1 | The page as it opens (ERCOT, the newest 35 days) | Two charts with axes and nothing on them, their seven ticks all reading "01-01 00:00": "Online reserve price adder" and "Hours the adder was above zero". The file's note says ERCOT's adder ended on 4 December 2025; the window holds no value. The same for "megawatts out of service" with CAISO in the September 2022 heat and with SPP and CAISO in Elliott | A strip with no value in the window drawn blank with its reason | filed (data request 568) |
-| 2 | "Table" on the demand chart | 500 rows of the window's 841 hours, the oldest first: the newest fourteen days are not in the table | The newest hours | filed (data request 568) |
+| 2 | "Table" on the demand chart | 500 rows of the window's 841 hours, the oldest first | Withdrawn: my misread. The table pages 500 rows at a time and says "Rows 1 to 500 of 841" with Earlier and Later under it (the shared chart's own paging); the newest fourteen days are under Later. The data machine's answer to request 568 said so | not a fault |
 
 Pictures: `docs/reviews/browser-read-2026-11-20/conditions/as-it-opens-1280.png` (ERCOT, demand against the forecast); `ercot-beside-caiso-1280.png`.
+
+### The second landing (about 16:38 UTC), read on production at 17:05 to 17:25 UTC
+
+- **`/conditions`, the answer to request 568.** Read again in the same ten views at 1280 px and three at 390 px: no chart is drawn with nothing on it any more (21 of 21 and 9 of 9 checks). As the page opens ERCOT has two charts, and the adder's strip says in words that no figure is held in the window and gives the file's last day. Row 1 above is fixed on production.
+- **`/congestion`, its headings and labels changed.** The figures were set beside the file again: 3,752 of 3,752 at 1280 px, 538 of 538 at 390 px.
+- **The variables table on the method pages** (the desktop's second window, chain 630; `runs/c620/n_codebook.mjs`). The codebook file names 475 method pages, 589 tables and 10,557 variables. At 1280 px, on the 473 pages that exist, every table is drawn and each of 10,443 variables' five cells is the file's (`site/data/codebook_methods.json`); no page scrolls sideways; none takes five seconds. At 390 px the variables are drawn as blocks inside the screen on the 24 pages sampled. All 614 method pages were opened again at 390 px: the same six scroll sideways as before the landing (mended on `wip/9601-method-pages-phone`), and none new.
+- **Four method notes have no page** (`digest_scoring`, `forecast`, `roundup_selection`, `thesis_builder`: each answers "No page at this address"); none is linked from `/data`, so no reader is sent to them. Two of them have variables in the codebook file that are therefore never drawn. Noted.
+
+Picture: `docs/reviews/browser-read-2026-11-20/codebook/variables-table-1280.png` (a method page's variables).
 
 ### `/states`, the answer to data request 563
 

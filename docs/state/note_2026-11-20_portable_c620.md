@@ -18,12 +18,12 @@ Energy Research Warehouse (ERW). Sessions 9600 and 9601, from 10:26 UTC. Written
 - **Part C, the same number in two places:** seven pairs. Three agree to the megawatt; three are different things and say so; one read as a contradiction and is mended.
 - **Part D, the first minute:** as a stranger every address is the in-review page; as a reviewer 52 of 53 addresses of the menu, the home page and the tour answer with their heading.
 - **Part E:** the five sellable tools and 22 more pages of the menu at 390 px with a finger, and the five tools with the keyboard alone: no fault. Every page with a fixed address (80) at both widths: one more phone fault (`/data/faults`).
-- **Landed during the night and read on production (13:50 UTC):** the data machine's `/congestion` (4,290 figures agree with its file; no fault) and `/conditions` (two faults, filed).
+- **Landed during the night and read on production (13:50 UTC):** the data machine's `/congestion` (4,290 figures agree with its file; no fault) and `/conditions` (one fault, filed and since fixed).
 
 ## Faults: found, fixed, filed
 
-- **Found:** 10 site faults of pages this laptop may mend, 2 on the data machine's new page, 4 data faults, 1 landing that did not happen.
-- **On `/conditions` (filed, request 568):** as the page opens, two charts are drawn with axes and nothing on them (ERCOT's reserve adder ended in December 2025; the strip should be blank with its reason); the demand chart's table holds 500 of the window's 841 hours, the newest fourteen days missing.
+- **Found:** 10 site faults of pages this laptop may mend, 1 on the data machine's new page, 4 data faults, 1 landing that did not happen.
+- **On `/conditions` (filed, request 568; fixed by the data machine at 16:32 UTC and seen fixed on production):** as the page opened, two charts were drawn with axes and nothing on them (ERCOT's reserve adder ended in December 2025). A second point of mine was wrong and is withdrawn: the chart's table pages 500 rows at a time.
 - **`/data/faults` at 390 px** (417 px wide) is the tenth fix, on `wip/9602-faults-page-phone`.
 - **Fixed, each on its own branch with a test (the first 9):** the back button and the lists; the findings page at 390 px (470 px wide); the resource problem set's legend (it gave 2.81 to 6.50, the map shows 1.6 to 6.9); "Net imports met -592 percent of its demand" in the Grid tool's panel (26 of 58 authorities); the tour's stale headings (stops 1, 4, 11 and 12); the Policy page; the Grid map's "twelve months" (34.86 on the map, 34.59 on `/prices/compare`: different windows, now said); a transmission line's end printed as "UNKNOWN201257" (a third of the lines); six method pages that scroll sideways on a phone.
 - **Filed for the data machine (5):** 562 (an entry of Arizona Public Service in North Carolina on `/queues/places`), 563 (Texas's law; answered at 13:43 UTC: the page now says S.B. 6 was found and is withheld), 565 (the live set), 567 (the dated edition of the resource set), 568 (`/conditions`).
@@ -60,4 +60,4 @@ Energy Research Warehouse (ERW). Sessions 9600 and 9601, from 10:26 UTC. Written
 
 - Nothing.
 
-Last written: 16:32 UTC, session 9602.
+Last written: 17:21 UTC, session 9602.
