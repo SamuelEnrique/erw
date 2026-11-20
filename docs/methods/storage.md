@@ -69,7 +69,7 @@ CAISO reports no battery series to EIA-930, so its rows come from CAISO's own da
 
 - **Input.** `caiso_battery_storage`, variable `batteries_mw`: CAISO's Today's Outlook "Total batteries", 5-minute, MW, positive discharging, negative charging. It includes the batteries of hybrid plants, which CAISO publishes as part of the total.
 - **Hours.** Each hour is the mean of its twelve 5-minute values, so its MW over the hour is its MWh. The five variables above then follow from those hourly values, with the same formulas, so CAISO's day compares with the EIA-930 BAs'.
-- **Days.** Pacific (America/Los_Angeles) local days. A day is written only when every 5-minute interval is present (288, or 276 and 300 on the daylight saving days).
+- **Days.** Pacific (America/Los_Angeles) local days. A day is written only when every 5-minute interval is present (288, or 276 and 300 on the daylight saving days). The autumn day is never whole: CAISO's own file for it prints 288 rows, listing 01:00 to 01:55 once (read for 1 November 2026 in session 7052, done-line request 162), so one of the day's two 01:00 hours is not published; 2 November 2025 and 1 November 2026 are left out for that reason, not for the clock conversion.
 - **Marking.** Entity `caiso:ISO`, partition `ba` = `ciso`, and the row's `source` is `erw:storage_daily_cycle_caiso` (the EIA-930 rows' is `erw:storage_daily_cycle`), with this section as its `source_url`. The site labels them as CAISO's data.
 - **History.** From 2025-08-24, the start of `caiso_battery_storage`. The daily run computes the table after both inputs are refreshed.
 

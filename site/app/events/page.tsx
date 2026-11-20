@@ -9,6 +9,7 @@ import { series, type SeriesRow } from "@/lib/data";
 import { shown } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
 import { EventDecisions } from "./Decisions";
+import { RegionsReached } from "./WholeCountry";
 
 // Session 36B: the Historical Event Analyzer's index (session 36C: two events; session 39: five, each a card with its
 // dates, its grids and one headline number read from event_window_daily, docs/methods/events.md).
@@ -80,6 +81,8 @@ export default async function Events() {
                     <><strong><Num check={`series|${T}|${r.entity}|${r.variable}|${r.ts_utc}|${c.event}`} raw={r.value}>{shown(r.value)}</Num></strong> {c.unit}, {r.ts_utc.slice(0, 10)}</>
                   ) : <span className="text-muted">not held</span>}
                 </p>
+                {/* session 8410 (chain 503): how many of EIA's thirteen regions the event reached, from the event's file of the whole country */}
+                <RegionsReached event={c.event} />
               </div>
             );
           })}

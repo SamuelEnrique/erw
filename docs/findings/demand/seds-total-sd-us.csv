@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate seds_total, region sd_us (the United States)
+# Computed 2026-11-19T12:27:13Z by warehouse/analysis/findings/deep/demand.py (seds_total); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the state's total energy consumption (TBtu), the observations it rests on, and whether the year is full
+# Tables: eia_seds_state_energy
+region,year,value,n_observations,full_year
+sd_us,1990,82277.974,1.0,1
+sd_us,1991,82212.657,1.0,1
+sd_us,1992,83842.84700000001,1.0,1
+sd_us,1993,85220.279,1.0,1
+sd_us,1994,87080.163,1.0,1
+sd_us,1995,88732.046,1.0,1
+sd_us,1996,91474.194,1.0,1
+sd_us,1997,92105.715,1.0,1
+sd_us,1998,92614.839,1.0,1
+sd_us,1999,94212.808,1.0,1
+sd_us,2000,96686.06,1.0,1
+sd_us,2001,94391.208,1.0,1
+sd_us,2002,95582.476,1.0,1
+sd_us,2003,95806.58,1.0,1
+sd_us,2004,98044.608,1.0,1
+sd_us,2005,98108.764,1.0,1
+sd_us,2006,97231.383,1.0,1
+sd_us,2007,98987.749,1.0,1
+sd_us,2008,96657.598,1.0,1
+sd_us,2009,91630.574,1.0,1
+sd_us,2010,95129.103,1.0,1
+sd_us,2011,93969.435,1.0,1
+sd_us,2012,91664.394,1.0,1
+sd_us,2013,94234.417,1.0,1
+sd_us,2014,95322.209,1.0,1
+sd_us,2015,94462.877,1.0,1
+sd_us,2016,94072.893,1.0,1
+sd_us,2017,93892.854,1.0,1
+sd_us,2018,97391.985,1.0,1
+sd_us,2019,96564.778,1.0,1
+sd_us,2020,88856.912,1.0,1
+sd_us,2021,93348.743,1.0,1
+sd_us,2022,94937.305,1.0,1
+sd_us,2023,93699.729,1.0,1
+sd_us,2024,94543.438,1.0,1

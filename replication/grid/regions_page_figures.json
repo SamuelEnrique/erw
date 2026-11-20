@@ -1,0 +1,2960 @@
+{
+ "what": "the figures the Grid tool's region tabs draw, read from the page",
+ "base": "a local build",
+ "taken": "2026-11-19T16:54:59Z",
+ "index_built": "2026-11-19T12:16:11Z",
+ "files_built": {
+  "CAL": {
+   "mix": "2026-11-19T14:52:47Z",
+   "trade": "2026-11-19T12:03:49Z"
+  },
+  "CAR": {
+   "mix": "2026-11-19T14:52:51Z",
+   "trade": "2026-11-19T12:03:49Z"
+  },
+  "CENT": {
+   "mix": "2026-11-19T14:52:55Z",
+   "trade": "2026-11-19T12:03:49Z"
+  },
+  "FLA": {
+   "mix": "2026-11-19T14:52:59Z",
+   "trade": "2026-11-19T12:03:49Z"
+  },
+  "MIDA": {
+   "mix": "2026-11-19T14:53:03Z",
+   "trade": "2026-11-19T12:03:49Z"
+  },
+  "MIDW": {
+   "mix": "2026-11-19T14:53:07Z",
+   "trade": "2026-11-19T12:03:49Z"
+  },
+  "NE": {
+   "mix": "2026-11-19T14:53:11Z",
+   "trade": "2026-11-19T12:03:49Z"
+  },
+  "NW": {
+   "mix": "2026-11-19T14:53:15Z",
+   "trade": "2026-11-19T12:03:49Z"
+  },
+  "NY": {
+   "mix": "2026-11-19T14:53:19Z",
+   "trade": "2026-11-19T12:03:49Z"
+  },
+  "SE": {
+   "mix": "2026-11-19T14:53:23Z",
+   "trade": "2026-11-19T12:03:49Z"
+  },
+  "SW": {
+   "mix": "2026-11-19T14:53:27Z",
+   "trade": "2026-11-19T12:03:49Z"
+  },
+  "TEN": {
+   "mix": "2026-11-19T14:53:31Z",
+   "trade": "2026-11-19T12:03:49Z"
+  },
+  "TEX": {
+   "mix": "2026-11-19T14:53:35Z",
+   "trade": "2026-11-19T12:03:49Z"
+  }
+ },
+ "regions": {
+  "CAL": {
+   "name": "California",
+   "mix": {
+    "state": "CAL",
+    "now": "2026-11-17T07:00:00Z",
+    "figures": {
+     "Demand": "27,649 MW",
+     "Net generation": "21,635 MW",
+     "Net imports": "+5,141 MW"
+    },
+    "now_rows": [
+     [
+      "Natural gas",
+      "12,453",
+      "57.6%"
+     ],
+     [
+      "Coal",
+      "-5",
+      "-0.0%"
+     ],
+     [
+      "Nuclear",
+      "2,202",
+      "10.2%"
+     ],
+     [
+      "Wind",
+      "4,597",
+      "21.3%"
+     ],
+     [
+      "Solar",
+      "-52",
+      "-0.2%"
+     ],
+     [
+      "Hydro",
+      "1,351",
+      "6.2%"
+     ],
+     [
+      "Storage",
+      "6",
+      "0.0%"
+     ],
+     [
+      "Other",
+      "1,083",
+      "5.0%"
+     ]
+    ],
+    "period": "2026-10",
+    "shares_rows": [
+     [
+      "Natural gas",
+      "50.8%",
+      "10,113,345"
+     ],
+     [
+      "Solar",
+      "23.5%",
+      "4,678,321"
+     ],
+     [
+      "Hydro",
+      "8.6%",
+      "1,706,117"
+     ],
+     [
+      "Wind",
+      "7.9%",
+      "1,564,405"
+     ],
+     [
+      "Nuclear",
+      "5.5%",
+      "1,086,601"
+     ],
+     [
+      "Other",
+      "3.9%",
+      "781,346"
+     ],
+     [
+      "Coal",
+      "-0.0%",
+      "-894"
+     ],
+     [
+      "Storage",
+      "-0.0%",
+      "-2,018"
+     ],
+     [
+      "Net generation",
+      "",
+      "19,927,223"
+     ]
+    ],
+    "days_line": "31 days held of 31.",
+    "months_not_held": "1 of the 99 months from August 2018 to October 2026 is not held: May 2026.",
+    "months_after": null,
+    "hours_drawn": 840,
+    "cal": "Year after year: net load by hour in October",
+    "years_rows": [
+     [
+      "2018",
+      "20,301",
+      "10:00",
+      "33,872",
+      "19:00",
+      "13,571",
+      "31"
+     ],
+     [
+      "2019",
+      "17,511",
+      "10:00",
+      "32,495",
+      "19:00",
+      "14,984",
+      "28"
+     ],
+     [
+      "2020",
+      "19,429",
+      "10:00",
+      "35,930",
+      "18:00",
+      "16,501",
+      "28"
+     ],
+     [
+      "2021",
+      "16,013",
+      "12:00",
+      "31,928",
+      "18:00",
+      "15,915",
+      "31"
+     ],
+     [
+      "2022",
+      "16,944",
+      "12:00",
+      "33,804",
+      "19:00",
+      "16,860",
+      "31"
+     ],
+     [
+      "2023",
+      "14,216",
+      "12:00",
+      "33,863",
+      "19:00",
+      "19,646",
+      "31"
+     ],
+     [
+      "2024",
+      "16,121",
+      "12:00",
+      "34,541",
+      "19:00",
+      "18,419",
+      "31"
+     ],
+     [
+      "2025",
+      "13,222",
+      "14:00",
+      "31,133",
+      "19:00",
+      "17,911",
+      "31"
+     ],
+     [
+      "2026",
+      "17,397",
+      "11:00",
+      "36,492",
+      "18:00",
+      "19,095",
+      "31"
+     ]
+    ],
+    "net_load_without": null
+   },
+   "trade": {
+    "state": "CAL",
+    "month": "2026-11",
+    "rows": [
+     [
+      "Southwest SW",
+      "+1,221,813",
+      "+954,837",
+      "+58,957",
+      "363, 291, 290"
+     ],
+     [
+      "Northwest NW",
+      "+380,766",
+      "+380,215",
+      "+908",
+      "335, 339, 335"
+     ],
+     [
+      "Mexico MEX",
+      "-13,068",
+      "not held",
+      "not held",
+      "363, 0, 0"
+     ],
+     [
+      "All neighbours",
+      "not held",
+      "",
+      "",
+      ""
+     ]
+    ],
+    "part_month": "November 2026 is a part of a month here: the region's own reports hold at most 363 of its 721 hours.",
+    "part_month_chart": "The last point, November 2026, is a part of a month: at most 363 of its 721 hours."
+   }
+  },
+  "CAR": {
+   "name": "Carolinas",
+   "mix": {
+    "state": "CAR",
+    "now": "2026-11-17T04:00:00Z",
+    "figures": {
+     "Demand": "26,107 MW",
+     "Net generation": "25,775 MW",
+     "Net imports": "+343 MW"
+    },
+    "now_rows": [
+     [
+      "Natural gas",
+      "8,724",
+      "33.9%"
+     ],
+     [
+      "Coal",
+      "4,244",
+      "16.5%"
+     ],
+     [
+      "Nuclear",
+      "11,158",
+      "43.3%"
+     ],
+     [
+      "Wind",
+      "not held",
+      ""
+     ],
+     [
+      "Solar",
+      "-15",
+      "-0.1%"
+     ],
+     [
+      "Hydro",
+      "380",
+      "1.5%"
+     ],
+     [
+      "Storage",
+      "-4",
+      "-0.0%"
+     ],
+     [
+      "Other",
+      "1,288",
+      "5.0%"
+     ]
+    ],
+    "period": "2026-10",
+    "shares_rows": [
+     [
+      "Nuclear",
+      "48.2%",
+      "8,157,950"
+     ],
+     [
+      "Natural gas",
+      "26.6%",
+      "4,493,510"
+     ],
+     [
+      "Coal",
+      "15.0%",
+      "2,539,860"
+     ],
+     [
+      "Solar",
+      "5.5%",
+      "932,436"
+     ],
+     [
+      "Other",
+      "3.2%",
+      "540,880"
+     ],
+     [
+      "Hydro",
+      "1.5%",
+      "249,583"
+     ],
+     [
+      "Storage",
+      "-0.0%",
+      "-3,612"
+     ],
+     [
+      "Wind",
+      "not held",
+      "not held"
+     ],
+     [
+      "Net generation",
+      "",
+      "16,910,607"
+     ]
+    ],
+    "days_line": "31 days held of 31.",
+    "months_not_held": "5 of the 96 months from November 2018 to October 2026 are not held.",
+    "months_after": null,
+    "hours_drawn": 840,
+    "cal": "Year after year: net load by hour in October",
+    "years_rows": [
+     [
+      "2019",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "29"
+     ],
+     [
+      "2020",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2021",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2022",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2023",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2024",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2025",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2026",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ]
+    ],
+    "net_load_without": "wind"
+   },
+   "trade": {
+    "state": "CAR",
+    "month": "2026-11",
+    "rows": [
+     [
+      "Southeast SE",
+      "+589,669",
+      "+635,470",
+      "-83",
+      "336, 362, 336"
+     ],
+     [
+      "Mid-Atlantic MIDA",
+      "-561,386",
+      "-388,607",
+      "+19,402",
+      "336, 228, 228"
+     ],
+     [
+      "Tennessee TEN",
+      "+30,513",
+      "+30,782",
+      "0",
+      "336, 362, 336"
+     ],
+     [
+      "All neighbours",
+      "not held",
+      "",
+      "",
+      ""
+     ]
+    ],
+    "part_month": "November 2026 is a part of a month here: the region's own reports hold at most 336 of its 721 hours.",
+    "part_month_chart": "The last point, November 2026, is a part of a month: at most 336 of its 721 hours."
+   }
+  },
+  "CENT": {
+   "name": "Central",
+   "mix": {
+    "state": "CENT",
+    "now": "2026-11-17T05:00:00Z",
+    "figures": {
+     "Demand": "31,305 MW",
+     "Net generation": "32,000 MW",
+     "Net imports": "-380 MW"
+    },
+    "now_rows": [
+     [
+      "Natural gas",
+      "6,601",
+      "20.6%"
+     ],
+     [
+      "Coal",
+      "6,143",
+      "19.2%"
+     ],
+     [
+      "Nuclear",
+      "1,223",
+      "3.8%"
+     ],
+     [
+      "Wind",
+      "17,741",
+      "55.4%"
+     ],
+     [
+      "Solar",
+      "0",
+      "0.0%"
+     ],
+     [
+      "Hydro",
+      "262",
+      "0.8%"
+     ],
+     [
+      "Storage",
+      "0",
+      "0.0%"
+     ],
+     [
+      "Other",
+      "30",
+      "0.1%"
+     ]
+    ],
+    "period": "2026-10",
+    "shares_rows": [
+     [
+      "Wind",
+      "40.6%",
+      "9,918,030"
+     ],
+     [
+      "Natural gas",
+      "26.0%",
+      "6,359,752"
+     ],
+     [
+      "Coal",
+      "24.3%",
+      "5,939,060"
+     ],
+     [
+      "Nuclear",
+      "3.7%",
+      "904,555"
+     ],
+     [
+      "Hydro",
+      "2.7%",
+      "666,069"
+     ],
+     [
+      "Solar",
+      "2.3%",
+      "557,255"
+     ],
+     [
+      "Other",
+      "0.2%",
+      "56,966"
+     ],
+     [
+      "Storage",
+      "0.1%",
+      "32,480"
+     ],
+     [
+      "Net generation",
+      "",
+      "24,434,167"
+     ]
+    ],
+    "days_line": "31 days held of 31.",
+    "months_not_held": "6 of the 98 months from September 2018 to October 2026 are not held.",
+    "months_after": null,
+    "hours_drawn": 840,
+    "cal": "Year after year: net load by hour in October",
+    "years_rows": [
+     [
+      "2018",
+      "21,813",
+      "09:00",
+      "23,599",
+      "19:00",
+      "1,786",
+      "31"
+     ],
+     [
+      "2019",
+      "18,756",
+      "09:00",
+      "20,164",
+      "19:00",
+      "1,408",
+      "31"
+     ],
+     [
+      "2020",
+      "19,312",
+      "09:00",
+      "21,846",
+      "18:00",
+      "2,535",
+      "31"
+     ],
+     [
+      "2021",
+      "17,335",
+      "09:00",
+      "20,540",
+      "17:00",
+      "3,205",
+      "31"
+     ],
+     [
+      "2022",
+      "18,571",
+      "09:00",
+      "20,562",
+      "18:00",
+      "1,992",
+      "31"
+     ],
+     [
+      "2023",
+      "17,299",
+      "09:00",
+      "19,276",
+      "18:00",
+      "1,977",
+      "31"
+     ],
+     [
+      "2024",
+      "17,296",
+      "09:00",
+      "24,137",
+      "16:00",
+      "6,841",
+      "31"
+     ],
+     [
+      "2025",
+      "20,060",
+      "09:00",
+      "23,105",
+      "17:00",
+      "3,045",
+      "31"
+     ],
+     [
+      "2026",
+      "18,806",
+      "09:00",
+      "23,041",
+      "18:00",
+      "4,236",
+      "31"
+     ]
+    ],
+    "net_load_without": null
+   },
+   "trade": {
+    "state": "CENT",
+    "month": "2026-11",
+    "rows": [
+     [
+      "Texas TEX",
+      "-118,689",
+      "-60,266",
+      "-62,380",
+      "337, 362, 337"
+     ],
+     [
+      "Midwest MIDW",
+      "-27,873",
+      "-29,088",
+      "+1,215",
+      "337, 337, 337"
+     ],
+     [
+      "Canada CAN",
+      "+23,070",
+      "not held",
+      "not held",
+      "337, 0, 0"
+     ],
+     [
+      "Northwest NW",
+      "not held",
+      "-47,845",
+      "not held",
+      "0, 338, 0"
+     ],
+     [
+      "Southwest SW",
+      "0",
+      "0",
+      "0",
+      "337, 339, 313"
+     ],
+     [
+      "All neighbours",
+      "not held",
+      "",
+      "",
+      ""
+     ]
+    ],
+    "part_month": "November 2026 is a part of a month here: the region's own reports hold at most 337 of its 721 hours.",
+    "part_month_chart": "The last point, November 2026, is a part of a month: at most 337 of its 721 hours."
+   }
+  },
+  "FLA": {
+   "name": "Florida",
+   "mix": {
+    "state": "FLA",
+    "now": "2026-11-17T04:00:00Z",
+    "figures": {
+     "Demand": "23,480 MW",
+     "Net generation": "23,244 MW",
+     "Net imports": "+344 MW"
+    },
+    "now_rows": [
+     [
+      "Natural gas",
+      "17,501",
+      "75.3%"
+     ],
+     [
+      "Coal",
+      "1,404",
+      "6.0%"
+     ],
+     [
+      "Nuclear",
+      "3,898",
+      "16.8%"
+     ],
+     [
+      "Wind",
+      "not held",
+      ""
+     ],
+     [
+      "Solar",
+      "0",
+      "0.0%"
+     ],
+     [
+      "Hydro",
+      "11",
+      "0.1%"
+     ],
+     [
+      "Storage",
+      "-1",
+      "-0.0%"
+     ],
+     [
+      "Other",
+      "431",
+      "1.9%"
+     ]
+    ],
+    "period": "2026-09",
+    "shares_rows": [
+     [
+      "Natural gas",
+      "71.3%",
+      "17,651,485"
+     ],
+     [
+      "Nuclear",
+      "11.0%",
+      "2,736,204"
+     ],
+     [
+      "Solar",
+      "8.7%",
+      "2,152,797"
+     ],
+     [
+      "Coal",
+      "6.7%",
+      "1,668,864"
+     ],
+     [
+      "Other",
+      "2.3%",
+      "556,251"
+     ],
+     [
+      "Hydro",
+      "0.1%",
+      "11,519"
+     ],
+     [
+      "Storage",
+      "-0.0%",
+      "-1,780"
+     ],
+     [
+      "Wind",
+      "not held",
+      "not held"
+     ],
+     [
+      "Net generation",
+      "",
+      "24,775,340"
+     ]
+    ],
+    "days_line": "30 days held of 30.",
+    "months_not_held": "15 of the 97 months from September 2018 to September 2026 are not held.",
+    "months_after": "October 2026 is not held: the newest month held is September 2026.",
+    "hours_drawn": 840,
+    "cal": "Year after year: net load by hour in September",
+    "years_rows": [
+     [
+      "2018",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "30"
+     ],
+     [
+      "2019",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "30"
+     ],
+     [
+      "2021",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "30"
+     ],
+     [
+      "2022",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "30"
+     ],
+     [
+      "2023",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "29"
+     ],
+     [
+      "2024",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "30"
+     ],
+     [
+      "2025",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "30"
+     ],
+     [
+      "2026",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "30"
+     ]
+    ],
+    "net_load_without": "wind"
+   },
+   "trade": {
+    "state": "FLA",
+    "month": "2026-11",
+    "rows": [
+     [
+      "Southeast SE",
+      "+152,859",
+      "+164,656",
+      "+186",
+      "336, 362, 336"
+     ],
+     [
+      "All neighbours",
+      "not held",
+      "",
+      "",
+      ""
+     ]
+    ],
+    "part_month": "November 2026 is a part of a month here: the region's own reports hold at most 336 of its 721 hours.",
+    "part_month_chart": "The last point, November 2026, is a part of a month: at most 336 of its 721 hours."
+   }
+  },
+  "MIDA": {
+   "name": "Mid-Atlantic",
+   "mix": {
+    "state": "MIDA",
+    "now": "2026-11-17T04:00:00Z",
+    "figures": {
+     "Demand": "93,003 MW",
+     "Net generation": "93,842 MW",
+     "Net imports": "-82 MW"
+    },
+    "now_rows": [
+     [
+      "Natural gas",
+      "38,766",
+      "41.3%"
+     ],
+     [
+      "Coal",
+      "16,135",
+      "17.2%"
+     ],
+     [
+      "Nuclear",
+      "30,847",
+      "32.9%"
+     ],
+     [
+      "Wind",
+      "3,077",
+      "3.3%"
+     ],
+     [
+      "Solar",
+      "11",
+      "0.0%"
+     ],
+     [
+      "Hydro",
+      "1,057",
+      "1.1%"
+     ],
+     [
+      "Storage",
+      "not held",
+      ""
+     ],
+     [
+      "Other",
+      "3,949",
+      "4.2%"
+     ]
+    ],
+    "period": "2026-10",
+    "shares_rows": [
+     [
+      "Natural gas",
+      "38.5%",
+      "24,837,841"
+     ],
+     [
+      "Nuclear",
+      "32.1%",
+      "20,698,336"
+     ],
+     [
+      "Coal",
+      "15.6%",
+      "10,071,106"
+     ],
+     [
+      "Other",
+      "4.5%",
+      "2,912,518"
+     ],
+     [
+      "Solar",
+      "4.1%",
+      "2,627,576"
+     ],
+     [
+      "Wind",
+      "3.6%",
+      "2,296,342"
+     ],
+     [
+      "Hydro",
+      "1.6%",
+      "1,026,545"
+     ],
+     [
+      "Storage",
+      "not held",
+      "not held"
+     ],
+     [
+      "Net generation",
+      "",
+      "64,470,264"
+     ]
+    ],
+    "days_line": "31 days held of 31.",
+    "months_not_held": "2 of the 97 months from October 2018 to October 2026 are not held: January 2020, June 2022.",
+    "months_after": null,
+    "hours_drawn": 840,
+    "cal": "Year after year: net load by hour in October",
+    "years_rows": [
+     [
+      "2018",
+      "84,260",
+      "09:00",
+      "90,434",
+      "19:00",
+      "6,174",
+      "31"
+     ],
+     [
+      "2019",
+      "78,881",
+      "09:00",
+      "84,924",
+      "19:00",
+      "6,043",
+      "31"
+     ],
+     [
+      "2020",
+      "76,576",
+      "09:00",
+      "81,290",
+      "19:00",
+      "4,715",
+      "31"
+     ],
+     [
+      "2021",
+      "77,422",
+      "09:00",
+      "85,981",
+      "19:00",
+      "8,560",
+      "31"
+     ],
+     [
+      "2022",
+      "74,448",
+      "14:00",
+      "81,156",
+      "19:00",
+      "6,709",
+      "30"
+     ],
+     [
+      "2023",
+      "76,119",
+      "09:00",
+      "84,907",
+      "19:00",
+      "8,788",
+      "31"
+     ],
+     [
+      "2024",
+      "73,092",
+      "11:00",
+      "84,325",
+      "19:00",
+      "11,233",
+      "31"
+     ],
+     [
+      "2025",
+      "75,089",
+      "11:00",
+      "88,259",
+      "19:00",
+      "13,170",
+      "31"
+     ],
+     [
+      "2026",
+      "76,171",
+      "11:00",
+      "91,786",
+      "19:00",
+      "15,616",
+      "31"
+     ]
+    ],
+    "net_load_without": null
+   },
+   "trade": {
+    "state": "MIDA",
+    "month": "2026-11",
+    "rows": [
+     [
+      "New York NY",
+      "-595,806",
+      "-739,194",
+      "+92,049",
+      "336, 361, 336"
+     ],
+     [
+      "Midwest MIDW",
+      "-471,694",
+      "-887,973",
+      "+360,572",
+      "336, 361, 336"
+     ],
+     [
+      "Carolinas CAR",
+      "+388,607",
+      "+561,386",
+      "+19,402",
+      "228, 336, 228"
+     ],
+     [
+      "Tennessee TEN",
+      "+247,551",
+      "+346,710",
+      "-66,602",
+      "336, 362, 336"
+     ],
+     [
+      "All neighbours",
+      "not held",
+      "",
+      "",
+      ""
+     ]
+    ],
+    "part_month": "November 2026 is a part of a month here: the region's own reports hold at most 336 of its 721 hours.",
+    "part_month_chart": "The last point, November 2026, is a part of a month: at most 336 of its 721 hours."
+   }
+  },
+  "MIDW": {
+   "name": "Midwest",
+   "mix": {
+    "state": "MIDW",
+    "now": "2026-11-17T04:00:00Z",
+    "figures": {
+     "Demand": "78,796 MW",
+     "Net generation": "81,452 MW",
+     "Net imports": "-659 MW"
+    },
+    "now_rows": [
+     [
+      "Natural gas",
+      "30,130",
+      "37.0%"
+     ],
+     [
+      "Coal",
+      "20,803",
+      "25.5%"
+     ],
+     [
+      "Nuclear",
+      "8,896",
+      "10.9%"
+     ],
+     [
+      "Wind",
+      "20,663",
+      "25.4%"
+     ],
+     [
+      "Solar",
+      "12",
+      "0.0%"
+     ],
+     [
+      "Hydro",
+      "631",
+      "0.8%"
+     ],
+     [
+      "Storage",
+      "-35",
+      "-0.0%"
+     ],
+     [
+      "Other",
+      "352",
+      "0.4%"
+     ]
+    ],
+    "period": "2026-10",
+    "shares_rows": [
+     [
+      "Natural gas",
+      "37.1%",
+      "21,303,309"
+     ],
+     [
+      "Coal",
+      "27.8%",
+      "15,973,132"
+     ],
+     [
+      "Wind",
+      "14.7%",
+      "8,439,972"
+     ],
+     [
+      "Nuclear",
+      "11.7%",
+      "6,729,542"
+     ],
+     [
+      "Solar",
+      "6.8%",
+      "3,895,958"
+     ],
+     [
+      "Hydro",
+      "1.0%",
+      "595,538"
+     ],
+     [
+      "Other",
+      "0.8%",
+      "444,492"
+     ],
+     [
+      "Storage",
+      "-0.0%",
+      "-13,116"
+     ],
+     [
+      "Net generation",
+      "",
+      "57,368,827"
+     ]
+    ],
+    "days_line": "31 days held of 31.",
+    "months_not_held": "1 of the 87 months from August 2019 to October 2026 is not held: March 2021.",
+    "months_after": null,
+    "hours_drawn": 840,
+    "cal": "Year after year: net load by hour in October",
+    "years_rows": [
+     [
+      "2019",
+      "68,433",
+      "09:00",
+      "71,506",
+      "18:00",
+      "3,074",
+      "31"
+     ],
+     [
+      "2020",
+      "64,195",
+      "09:00",
+      "68,619",
+      "18:00",
+      "4,424",
+      "30"
+     ],
+     [
+      "2021",
+      "66,781",
+      "09:00",
+      "72,468",
+      "18:00",
+      "5,688",
+      "31"
+     ],
+     [
+      "2022",
+      "60,898",
+      "09:00",
+      "66,230",
+      "18:00",
+      "5,332",
+      "31"
+     ],
+     [
+      "2023",
+      "62,301",
+      "09:00",
+      "68,921",
+      "18:00",
+      "6,620",
+      "31"
+     ],
+     [
+      "2024",
+      "55,703",
+      "09:00",
+      "68,837",
+      "18:00",
+      "13,135",
+      "31"
+     ],
+     [
+      "2025",
+      "55,749",
+      "09:00",
+      "71,755",
+      "18:00",
+      "16,006",
+      "31"
+     ],
+     [
+      "2026",
+      "54,277",
+      "09:00",
+      "75,205",
+      "18:00",
+      "20,928",
+      "31"
+     ]
+    ],
+    "net_load_without": null
+   },
+   "trade": {
+    "state": "MIDW",
+    "month": "2026-11",
+    "rows": [
+     [
+      "Mid-Atlantic MIDA",
+      "+887,973",
+      "+471,694",
+      "+360,572",
+      "361, 336, 336"
+     ],
+     [
+      "Tennessee TEN",
+      "-704,405",
+      "-743,047",
+      "+38,642",
+      "362, 362, 362"
+     ],
+     [
+      "Canada CAN",
+      "+486,922",
+      "not held",
+      "not held",
+      "361, 0, 0"
+     ],
+     [
+      "Central CENT",
+      "+29,088",
+      "+27,873",
+      "+1,215",
+      "337, 337, 337"
+     ],
+     [
+      "Southeast SE",
+      "-1,149",
+      "-39,562",
+      "+38,279",
+      "361, 362, 361"
+     ],
+     [
+      "All neighbours",
+      "not held",
+      "",
+      "",
+      ""
+     ]
+    ],
+    "part_month": "November 2026 is a part of a month here: the region's own reports hold at most 362 of its 721 hours.",
+    "part_month_chart": "The last point, November 2026, is a part of a month: at most 362 of its 721 hours."
+   }
+  },
+  "NE": {
+   "name": "New England",
+   "mix": {
+    "state": "NE",
+    "now": "2026-11-17T04:00:00Z",
+    "figures": {
+     "Demand": "12,033 MW",
+     "Net generation": "11,121 MW",
+     "Net imports": "+911 MW"
+    },
+    "now_rows": [
+     [
+      "Natural gas",
+      "7,091",
+      "63.8%"
+     ],
+     [
+      "Coal",
+      "0",
+      "0.0%"
+     ],
+     [
+      "Nuclear",
+      "2,081",
+      "18.7%"
+     ],
+     [
+      "Wind",
+      "920",
+      "8.3%"
+     ],
+     [
+      "Solar",
+      "3",
+      "0.0%"
+     ],
+     [
+      "Hydro",
+      "391",
+      "3.5%"
+     ],
+     [
+      "Storage",
+      "4",
+      "0.0%"
+     ],
+     [
+      "Other",
+      "631",
+      "5.7%"
+     ]
+    ],
+    "period": "2026-10",
+    "shares_rows": [
+     [
+      "Natural gas",
+      "52.5%",
+      "4,311,254"
+     ],
+     [
+      "Nuclear",
+      "24.6%",
+      "2,015,583"
+     ],
+     [
+      "Wind",
+      "11.0%",
+      "904,170"
+     ],
+     [
+      "Hydro",
+      "4.9%",
+      "401,428"
+     ],
+     [
+      "Other",
+      "4.5%",
+      "366,663"
+     ],
+     [
+      "Solar",
+      "2.2%",
+      "182,669"
+     ],
+     [
+      "Storage",
+      "0.3%",
+      "26,886"
+     ],
+     [
+      "Coal",
+      "0.0%",
+      "0"
+     ],
+     [
+      "Net generation",
+      "",
+      "8,208,653"
+     ]
+    ],
+    "days_line": "30 days held of 31.",
+    "months_not_held": null,
+    "months_after": null,
+    "hours_drawn": 840,
+    "cal": "Year after year: net load by hour in October",
+    "years_rows": [
+     [
+      "2018",
+      "12,623",
+      "14:00",
+      "14,340",
+      "18:00",
+      "1,716",
+      "31"
+     ],
+     [
+      "2019",
+      "11,910",
+      "12:00",
+      "13,716",
+      "18:00",
+      "1,806",
+      "31"
+     ],
+     [
+      "2020",
+      "11,557",
+      "13:00",
+      "13,587",
+      "18:00",
+      "2,030",
+      "30"
+     ],
+     [
+      "2021",
+      "11,340",
+      "11:00",
+      "13,772",
+      "18:00",
+      "2,432",
+      "31"
+     ],
+     [
+      "2022",
+      "10,451",
+      "12:00",
+      "13,390",
+      "18:00",
+      "2,939",
+      "31"
+     ],
+     [
+      "2023",
+      "10,251",
+      "11:00",
+      "13,632",
+      "18:00",
+      "3,381",
+      "31"
+     ],
+     [
+      "2024",
+      "9,233",
+      "12:00",
+      "13,297",
+      "18:00",
+      "4,064",
+      "31"
+     ],
+     [
+      "2025",
+      "9,214",
+      "12:00",
+      "13,313",
+      "18:00",
+      "4,100",
+      "31"
+     ],
+     [
+      "2026",
+      "7,911",
+      "12:00",
+      "12,589",
+      "18:00",
+      "4,678",
+      "30"
+     ]
+    ],
+    "net_load_without": null
+   },
+   "trade": {
+    "state": "NE",
+    "month": "2026-11",
+    "rows": [
+     [
+      "New York NY",
+      "+412,906",
+      "+411,083",
+      "+1,823",
+      "361, 361, 361"
+     ],
+     [
+      "Canada CAN",
+      "-89,620",
+      "not held",
+      "not held",
+      "361, 0, 0"
+     ],
+     [
+      "All neighbours",
+      "+323,286",
+      "",
+      "",
+      ""
+     ]
+    ],
+    "part_month": "November 2026 is a part of a month here: the region's own reports hold at most 361 of its 721 hours.",
+    "part_month_chart": "The last point, November 2026, is a part of a month: at most 361 of its 721 hours."
+   }
+  },
+  "NW": {
+   "name": "Northwest",
+   "mix": {
+    "state": "NW",
+    "now": "2026-11-17T05:00:00Z",
+    "figures": {
+     "Demand": "42,296 MW",
+     "Net generation": "40,507 MW",
+     "Net imports": "+617 MW"
+    },
+    "now_rows": [
+     [
+      "Natural gas",
+      "10,552",
+      "26.1%"
+     ],
+     [
+      "Coal",
+      "7,468",
+      "18.4%"
+     ],
+     [
+      "Nuclear",
+      "1,152",
+      "2.8%"
+     ],
+     [
+      "Wind",
+      "6,625",
+      "16.4%"
+     ],
+     [
+      "Solar",
+      "-6",
+      "-0.0%"
+     ],
+     [
+      "Hydro",
+      "14,088",
+      "34.8%"
+     ],
+     [
+      "Storage",
+      "-205",
+      "-0.5%"
+     ],
+     [
+      "Other",
+      "833",
+      "2.1%"
+     ]
+    ],
+    "period": "2026-10",
+    "shares_rows": [
+     [
+      "Natural gas",
+      "29.6%",
+      "8,521,181"
+     ],
+     [
+      "Hydro",
+      "23.2%",
+      "6,692,247"
+     ],
+     [
+      "Coal",
+      "19.0%",
+      "5,464,091"
+     ],
+     [
+      "Wind",
+      "14.5%",
+      "4,187,322"
+     ],
+     [
+      "Solar",
+      "7.5%",
+      "2,150,587"
+     ],
+     [
+      "Nuclear",
+      "3.0%",
+      "853,730"
+     ],
+     [
+      "Other",
+      "2.4%",
+      "699,634"
+     ],
+     [
+      "Storage",
+      "0.8%",
+      "231,746"
+     ],
+     [
+      "Net generation",
+      "",
+      "28,800,538"
+     ]
+    ],
+    "days_line": "31 days held of 31.",
+    "months_not_held": "24 of the 94 months from January 2019 to October 2026 are not held.",
+    "months_after": null,
+    "hours_drawn": 839,
+    "cal": "Year after year: net load by hour in October",
+    "years_rows": [
+     [
+      "2019",
+      "31,844",
+      "14:00",
+      "36,730",
+      "18:00",
+      "4,886",
+      "29"
+     ],
+     [
+      "2021",
+      "28,942",
+      "13:00",
+      "33,632",
+      "18:00",
+      "4,690",
+      "31"
+     ],
+     [
+      "2022",
+      "29,501",
+      "13:00",
+      "35,958",
+      "18:00",
+      "6,457",
+      "30"
+     ],
+     [
+      "2023",
+      "28,723",
+      "13:00",
+      "36,196",
+      "18:00",
+      "7,473",
+      "31"
+     ],
+     [
+      "2024",
+      "27,899",
+      "11:00",
+      "35,148",
+      "18:00",
+      "7,249",
+      "29"
+     ],
+     [
+      "2025",
+      "25,986",
+      "14:00",
+      "35,015",
+      "18:00",
+      "9,029",
+      "30"
+     ],
+     [
+      "2026",
+      "28,854",
+      "13:00",
+      "36,568",
+      "18:00",
+      "7,713",
+      "31"
+     ]
+    ],
+    "net_load_without": null
+   },
+   "trade": {
+    "state": "NW",
+    "month": "2026-11",
+    "rows": [
+     [
+      "Southwest SW",
+      "-419,381",
+      "-343,364",
+      "+4,799",
+      "337, 267, 240"
+     ],
+     [
+      "California CAL",
+      "-380,215",
+      "-380,766",
+      "+908",
+      "339, 335, 335"
+     ],
+     [
+      "Central CENT",
+      "+47,845",
+      "not held",
+      "not held",
+      "338, 0, 0"
+     ],
+     [
+      "Canada CAN",
+      "+15,238",
+      "not held",
+      "not held",
+      "364, 0, 0"
+     ],
+     [
+      "All neighbours",
+      "not held",
+      "",
+      "",
+      ""
+     ]
+    ],
+    "part_month": "November 2026 is a part of a month here: the region's own reports hold at most 364 of its 721 hours.",
+    "part_month_chart": "The last point, November 2026, is a part of a month: at most 364 of its 721 hours."
+   }
+  },
+  "NY": {
+   "name": "New York",
+   "mix": {
+    "state": "NY",
+    "now": "2026-11-17T04:00:00Z",
+    "figures": {
+     "Demand": "15,291 MW",
+     "Net generation": "14,200 MW",
+     "Net imports": "+1,088 MW"
+    },
+    "now_rows": [
+     [
+      "Natural gas",
+      "7,370",
+      "51.9%"
+     ],
+     [
+      "Coal",
+      "not held",
+      ""
+     ],
+     [
+      "Nuclear",
+      "3,344",
+      "23.6%"
+     ],
+     [
+      "Wind",
+      "1,000",
+      "7.0%"
+     ],
+     [
+      "Solar",
+      "not held",
+      ""
+     ],
+     [
+      "Hydro",
+      "2,284",
+      "16.1%"
+     ],
+     [
+      "Storage",
+      "not held",
+      ""
+     ],
+     [
+      "Other",
+      "202",
+      "1.4%"
+     ]
+    ],
+    "period": "2026-10",
+    "shares_rows": [
+     [
+      "Natural gas",
+      "46.8%",
+      "4,482,535"
+     ],
+     [
+      "Nuclear",
+      "24.7%",
+      "2,367,259"
+     ],
+     [
+      "Hydro",
+      "19.8%",
+      "1,892,516"
+     ],
+     [
+      "Wind",
+      "6.0%",
+      "574,710"
+     ],
+     [
+      "Other",
+      "2.8%",
+      "264,219"
+     ],
+     [
+      "Coal",
+      "not held",
+      "not held"
+     ],
+     [
+      "Solar",
+      "not held",
+      "not held"
+     ],
+     [
+      "Storage",
+      "not held",
+      "not held"
+     ],
+     [
+      "Net generation",
+      "",
+      "9,581,239"
+     ]
+    ],
+    "days_line": "31 days held of 31.",
+    "months_not_held": null,
+    "months_after": null,
+    "hours_drawn": 840,
+    "cal": "Year after year: net load by hour in October",
+    "years_rows": [
+     [
+      "2018",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2019",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2020",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2021",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2022",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2023",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2024",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "30"
+     ],
+     [
+      "2025",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2026",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ]
+    ],
+    "net_load_without": "solar"
+   },
+   "trade": {
+    "state": "NY",
+    "month": "2026-11",
+    "rows": [
+     [
+      "Mid-Atlantic MIDA",
+      "+739,194",
+      "+595,806",
+      "+92,049",
+      "361, 336, 336"
+     ],
+     [
+      "New England NE",
+      "-411,083",
+      "-412,906",
+      "+1,823",
+      "361, 361, 361"
+     ],
+     [
+      "Canada CAN",
+      "+219,862",
+      "not held",
+      "not held",
+      "361, 0, 0"
+     ],
+     [
+      "All neighbours",
+      "+547,973",
+      "",
+      "",
+      ""
+     ]
+    ],
+    "part_month": "November 2026 is a part of a month here: the region's own reports hold at most 361 of its 721 hours.",
+    "part_month_chart": "The last point, November 2026, is a part of a month: at most 361 of its 721 hours."
+   }
+  },
+  "SE": {
+   "name": "Southeast",
+   "mix": {
+    "state": "SE",
+    "now": "2026-11-17T05:00:00Z",
+    "figures": {
+     "Demand": "24,964 MW",
+     "Net generation": "26,981 MW",
+     "Net imports": "-2,014 MW"
+    },
+    "now_rows": [
+     [
+      "Natural gas",
+      "14,193",
+      "52.6%"
+     ],
+     [
+      "Coal",
+      "5,000",
+      "18.5%"
+     ],
+     [
+      "Nuclear",
+      "8,309",
+      "30.8%"
+     ],
+     [
+      "Wind",
+      "not held",
+      ""
+     ],
+     [
+      "Solar",
+      "-1",
+      "-0.0%"
+     ],
+     [
+      "Hydro",
+      "-572",
+      "-2.1%"
+     ],
+     [
+      "Storage",
+      "-2",
+      "-0.0%"
+     ],
+     [
+      "Other",
+      "54",
+      "0.2%"
+     ]
+    ],
+    "period": "2026-10",
+    "shares_rows": [
+     [
+      "Natural gas",
+      "47.4%",
+      "9,523,560"
+     ],
+     [
+      "Nuclear",
+      "24.9%",
+      "5,002,433"
+     ],
+     [
+      "Coal",
+      "20.1%",
+      "4,047,281"
+     ],
+     [
+      "Solar",
+      "5.6%",
+      "1,133,688"
+     ],
+     [
+      "Hydro",
+      "1.0%",
+      "202,817"
+     ],
+     [
+      "Other",
+      "1.0%",
+      "203,763"
+     ],
+     [
+      "Storage",
+      "-0.0%",
+      "-7,125"
+     ],
+     [
+      "Wind",
+      "not held",
+      "not held"
+     ],
+     [
+      "Net generation",
+      "",
+      "20,106,417"
+     ]
+    ],
+    "days_line": "31 days held of 31.",
+    "months_not_held": "3 of the 98 months from September 2018 to October 2026 are not held: November 2024, December 2024, January 2025.",
+    "months_after": null,
+    "hours_drawn": 840,
+    "cal": "Year after year: net load by hour in October",
+    "years_rows": [
+     [
+      "2018",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "29"
+     ],
+     [
+      "2019",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2020",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2021",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2022",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2023",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2024",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "28"
+     ],
+     [
+      "2025",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ],
+     [
+      "2026",
+      "not held",
+      "",
+      "",
+      "",
+      "",
+      "31"
+     ]
+    ],
+    "net_load_without": "wind"
+   },
+   "trade": {
+    "state": "SE",
+    "month": "2026-11",
+    "rows": [
+     [
+      "Carolinas CAR",
+      "-635,470",
+      "-589,669",
+      "-83",
+      "362, 336, 336"
+     ],
+     [
+      "Florida FLA",
+      "-164,656",
+      "-152,859",
+      "+186",
+      "362, 336, 336"
+     ],
+     [
+      "Tennessee TEN",
+      "+65,136",
+      "+64,872",
+      "+264",
+      "362, 362, 362"
+     ],
+     [
+      "Midwest MIDW",
+      "+39,562",
+      "+1,149",
+      "+38,279",
+      "362, 361, 361"
+     ],
+     [
+      "All neighbours",
+      "-695,428",
+      "",
+      "",
+      ""
+     ]
+    ],
+    "part_month": "November 2026 is a part of a month here: the region's own reports hold at most 362 of its 721 hours.",
+    "part_month_chart": "The last point, November 2026, is a part of a month: at most 362 of its 721 hours."
+   }
+  },
+  "SW": {
+   "name": "Southwest",
+   "mix": {
+    "state": "SW",
+    "now": "2026-11-17T06:00:00Z",
+    "figures": {
+     "Demand": "12,201 MW",
+     "Net generation": "14,923 MW",
+     "Net imports": "-3,080 MW"
+    },
+    "now_rows": [
+     [
+      "Natural gas",
+      "7,634",
+      "51.2%"
+     ],
+     [
+      "Coal",
+      "2,084",
+      "14.0%"
+     ],
+     [
+      "Nuclear",
+      "3,057",
+      "20.5%"
+     ],
+     [
+      "Wind",
+      "1,413",
+      "9.5%"
+     ],
+     [
+      "Solar",
+      "59",
+      "0.4%"
+     ],
+     [
+      "Hydro",
+      "192",
+      "1.3%"
+     ],
+     [
+      "Storage",
+      "446",
+      "3.0%"
+     ],
+     [
+      "Other",
+      "38",
+      "0.3%"
+     ]
+    ],
+    "period": "2026-10",
+    "shares_rows": [
+     [
+      "Natural gas",
+      "45.5%",
+      "5,206,675"
+     ],
+     [
+      "Nuclear",
+      "17.7%",
+      "2,023,758"
+     ],
+     [
+      "Coal",
+      "15.0%",
+      "1,714,500"
+     ],
+     [
+      "Solar",
+      "13.6%",
+      "1,556,047"
+     ],
+     [
+      "Wind",
+      "6.8%",
+      "773,106"
+     ],
+     [
+      "Hydro",
+      "2.2%",
+      "252,945"
+     ],
+     [
+      "Other",
+      "0.2%",
+      "24,347"
+     ],
+     [
+      "Storage",
+      "-0.8%",
+      "-94,957"
+     ],
+     [
+      "Net generation",
+      "",
+      "11,456,421"
+     ]
+    ],
+    "days_line": "31 days held of 31.",
+    "months_not_held": "10 of the 95 months from December 2018 to October 2026 are not held.",
+    "months_after": null,
+    "hours_drawn": 840,
+    "cal": "Year after year: net load by hour in October",
+    "years_rows": [
+     [
+      "2019",
+      "8,053",
+      "09:00",
+      "12,526",
+      "18:00",
+      "4,473",
+      "31"
+     ],
+     [
+      "2020",
+      "8,842",
+      "09:00",
+      "14,292",
+      "17:00",
+      "5,450",
+      "31"
+     ],
+     [
+      "2021",
+      "7,840",
+      "09:00",
+      "12,094",
+      "18:00",
+      "4,254",
+      "31"
+     ],
+     [
+      "2022",
+      "8,039",
+      "09:00",
+      "12,143",
+      "18:00",
+      "4,104",
+      "31"
+     ],
+     [
+      "2023",
+      "8,415",
+      "09:00",
+      "13,730",
+      "17:00",
+      "5,315",
+      "30"
+     ],
+     [
+      "2025",
+      "6,466",
+      "09:00",
+      "13,556",
+      "18:00",
+      "7,091",
+      "31"
+     ],
+     [
+      "2026",
+      "5,610",
+      "10:00",
+      "13,846",
+      "18:00",
+      "8,236",
+      "31"
+     ]
+    ],
+    "net_load_without": null
+   },
+   "trade": {
+    "state": "SW",
+    "month": "2026-11",
+    "rows": [
+     [
+      "California CAL",
+      "-954,837",
+      "-1,221,813",
+      "+58,957",
+      "291, 363, 290"
+     ],
+     [
+      "Northwest NW",
+      "+343,364",
+      "+419,381",
+      "+4,799",
+      "267, 337, 240"
+     ],
+     [
+      "Central CENT",
+      "0",
+      "0",
+      "0",
+      "339, 337, 313"
+     ],
+     [
+      "All neighbours",
+      "not held",
+      "",
+      "",
+      ""
+     ]
+    ],
+    "part_month": "November 2026 is a part of a month here: the region's own reports hold at most 339 of its 721 hours.",
+    "part_month_chart": "The last point, November 2026, is a part of a month: at most 339 of its 721 hours."
+   }
+  },
+  "TEN": {
+   "name": "Tennessee",
+   "mix": {
+    "state": "TEN",
+    "now": "2026-11-17T05:00:00Z",
+    "figures": {
+     "Demand": "18,344 MW",
+     "Net generation": "16,689 MW",
+     "Net imports": "+1,653 MW"
+    },
+    "now_rows": [
+     [
+      "Natural gas",
+      "7,682",
+      "46.0%"
+     ],
+     [
+      "Coal",
+      "2,417",
+      "14.5%"
+     ],
+     [
+      "Nuclear",
+      "6,041",
+      "36.2%"
+     ],
+     [
+      "Wind",
+      "0",
+      "0.0%"
+     ],
+     [
+      "Solar",
+      "-5",
+      "-0.0%"
+     ],
+     [
+      "Hydro",
+      "504",
+      "3.0%"
+     ],
+     [
+      "Storage",
+      "not held",
+      ""
+     ],
+     [
+      "Other",
+      "50",
+      "0.3%"
+     ]
+    ],
+    "period": "2026-10",
+    "shares_rows": [
+     [
+      "Nuclear",
+      "41.6%",
+      "5,100,486"
+     ],
+     [
+      "Natural gas",
+      "30.5%",
+      "3,743,913"
+     ],
+     [
+      "Coal",
+      "15.5%",
+      "1,900,763"
+     ],
+     [
+      "Hydro",
+      "9.6%",
+      "1,179,158"
+     ],
+     [
+      "Solar",
+      "2.7%",
+      "325,079"
+     ],
+     [
+      "Other",
+      "0.1%",
+      "16,040"
+     ],
+     [
+      "Wind",
+      "0.0%",
+      "0"
+     ],
+     [
+      "Storage",
+      "not held",
+      "not held"
+     ],
+     [
+      "Net generation",
+      "",
+      "12,265,439"
+     ]
+    ],
+    "days_line": "31 days held of 31.",
+    "months_not_held": "11 of the 100 months from July 2018 to October 2026 are not held.",
+    "months_after": null,
+    "hours_drawn": 840,
+    "cal": "Year after year: net load by hour in October",
+    "years_rows": [
+     [
+      "2018",
+      "17,169",
+      "09:00",
+      "18,836",
+      "18:00",
+      "1,667",
+      "28"
+     ],
+     [
+      "2019",
+      "16,231",
+      "09:00",
+      "17,872",
+      "18:00",
+      "1,641",
+      "31"
+     ],
+     [
+      "2020",
+      "15,689",
+      "09:00",
+      "16,941",
+      "18:00",
+      "1,252",
+      "31"
+     ],
+     [
+      "2022",
+      "15,699",
+      "11:00",
+      "16,770",
+      "19:00",
+      "1,071",
+      "31"
+     ],
+     [
+      "2024",
+      "15,928",
+      "09:00",
+      "18,457",
+      "17:00",
+      "2,529",
+      "31"
+     ],
+     [
+      "2025",
+      "16,305",
+      "09:00",
+      "18,700",
+      "18:00",
+      "2,395",
+      "31"
+     ],
+     [
+      "2026",
+      "16,297",
+      "09:00",
+      "20,152",
+      "17:00",
+      "3,855",
+      "31"
+     ]
+    ],
+    "net_load_without": null
+   },
+   "trade": {
+    "state": "TEN",
+    "month": "2026-11",
+    "rows": [
+     [
+      "Midwest MIDW",
+      "+743,047",
+      "+704,405",
+      "+38,642",
+      "362, 362, 362"
+     ],
+     [
+      "Mid-Atlantic MIDA",
+      "-346,710",
+      "-247,551",
+      "-66,602",
+      "362, 336, 336"
+     ],
+     [
+      "Southeast SE",
+      "-64,872",
+      "-65,136",
+      "+264",
+      "362, 362, 362"
+     ],
+     [
+      "Carolinas CAR",
+      "-30,782",
+      "-30,513",
+      "0",
+      "362, 336, 336"
+     ],
+     [
+      "All neighbours",
+      "+300,683",
+      "",
+      "",
+      ""
+     ]
+    ],
+    "part_month": "November 2026 is a part of a month here: the region's own reports hold at most 362 of its 721 hours.",
+    "part_month_chart": "The last point, November 2026, is a part of a month: at most 362 of its 721 hours."
+   }
+  },
+  "TEX": {
+   "name": "Texas",
+   "mix": {
+    "state": "TEX",
+    "now": "2026-11-17T05:00:00Z",
+    "figures": {
+     "Demand": "48,040 MW",
+     "Net generation": "47,574 MW",
+     "Net imports": "+463 MW"
+    },
+    "now_rows": [
+     [
+      "Natural gas",
+      "29,912",
+      "62.9%"
+     ],
+     [
+      "Coal",
+      "7,597",
+      "16.0%"
+     ],
+     [
+      "Nuclear",
+      "3,871",
+      "8.1%"
+     ],
+     [
+      "Wind",
+      "7,387",
+      "15.5%"
+     ],
+     [
+      "Solar",
+      "0",
+      "0.0%"
+     ],
+     [
+      "Hydro",
+      "94",
+      "0.2%"
+     ],
+     [
+      "Storage",
+      "-1,287",
+      "-2.7%"
+     ],
+     [
+      "Other",
+      "0",
+      "0.0%"
+     ]
+    ],
+    "period": "2026-10",
+    "shares_rows": [
+     [
+      "Natural gas",
+      "45.0%",
+      "18,691,874"
+     ],
+     [
+      "Wind",
+      "20.9%",
+      "8,668,614"
+     ],
+     [
+      "Solar",
+      "15.1%",
+      "6,273,932"
+     ],
+     [
+      "Coal",
+      "11.3%",
+      "4,671,814"
+     ],
+     [
+      "Nuclear",
+      "8.0%",
+      "3,328,219"
+     ],
+     [
+      "Other",
+      "0.1%",
+      "39,204"
+     ],
+     [
+      "Hydro",
+      "0.1%",
+      "22,063"
+     ],
+     [
+      "Storage",
+      "-0.5%",
+      "-192,845"
+     ],
+     [
+      "Net generation",
+      "",
+      "41,502,875"
+     ]
+    ],
+    "days_line": "31 days held of 31.",
+    "months_not_held": "1 of the 100 months from July 2018 to October 2026 is not held: December 2025.",
+    "months_after": null,
+    "hours_drawn": 840,
+    "cal": "Year after year: net load by hour in October",
+    "years_rows": [
+     [
+      "2018",
+      "31,984",
+      "09:00",
+      "38,335",
+      "16:00",
+      "6,351",
+      "31"
+     ],
+     [
+      "2019",
+      "31,275",
+      "09:00",
+      "39,098",
+      "16:00",
+      "7,822",
+      "31"
+     ],
+     [
+      "2020",
+      "30,253",
+      "09:00",
+      "39,491",
+      "16:00",
+      "9,238",
+      "31"
+     ],
+     [
+      "2021",
+      "28,715",
+      "09:00",
+      "38,652",
+      "18:00",
+      "9,937",
+      "31"
+     ],
+     [
+      "2022",
+      "28,075",
+      "09:00",
+      "39,717",
+      "18:00",
+      "11,642",
+      "31"
+     ],
+     [
+      "2023",
+      "29,697",
+      "09:00",
+      "42,304",
+      "19:00",
+      "12,607",
+      "31"
+     ],
+     [
+      "2024",
+      "25,660",
+      "10:00",
+      "48,374",
+      "18:00",
+      "22,714",
+      "31"
+     ],
+     [
+      "2025",
+      "23,407",
+      "10:00",
+      "50,296",
+      "19:00",
+      "26,889",
+      "31"
+     ],
+     [
+      "2026",
+      "24,289",
+      "10:00",
+      "50,079",
+      "19:00",
+      "25,790",
+      "31"
+     ]
+    ],
+    "net_load_without": null
+   },
+   "trade": {
+    "state": "TEX",
+    "month": "2026-11",
+    "rows": [
+     [
+      "Central CENT",
+      "+60,266",
+      "+118,689",
+      "-62,380",
+      "362, 337, 337"
+     ],
+     [
+      "Mexico MEX",
+      "-1,063",
+      "not held",
+      "not held",
+      "362, 0, 0"
+     ],
+     [
+      "All neighbours",
+      "+59,203",
+      "",
+      "",
+      ""
+     ]
+    ],
+    "part_month": "November 2026 is a part of a month here: the region's own reports hold at most 362 of its 721 hours.",
+    "part_month_chart": "The last point, November 2026, is a part of a month: at most 362 of its 721 hours."
+   }
+  }
+ }
+}
