@@ -139,7 +139,9 @@ function Built({ f }: { f: StateFile }) {
   const going = byYearTable(p.retiring_by_year);
   const gone = byYearTable(p.retired_by_year);
   const cell = (t: Record<string, Record<string, { nameplate_mw: number | null }>>, y: string, g: string, k: string, s: string) =>
-    <Fig key={y} v={t[y]?.[g]?.nameplate_mw ?? null} src={s} k={k} fmt={whole} reason="None listed for this year." />;
+    // session 8014 (part G, row G1): a year and source with no unit in EIA-860M is "none" (EIA lists no such unit), not
+    // "not held" (which says the source does not cover it)
+    t[y]?.[g] ? <Fig key={y} v={t[y][g].nameplate_mw ?? null} src={s} k={k} fmt={whole} /> : <span key={y} className="cursor-help text-muted" title={`EIA-860M lists no such unit for this year. ${s}`} data-none={k}>none</span>;
   return (
     <>
       <ToolTable
