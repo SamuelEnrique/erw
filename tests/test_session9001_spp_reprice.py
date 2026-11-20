@@ -47,6 +47,17 @@ class OnlyTheDaysOwnFile(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             gc.spp_texts(raw, {"year": 2021, "days": [pd.Timestamp("2021-02-15")]}, feed, None, [])
 
+    def test_an_identical_copy_outside_by_day_is_read_once(self):
+        # 2016's zip: 2016/07/DA-LMP-SL-201607180100.csv and 2016/07/By_Day/DA-LMP-SL-201607180100.csv, the same bytes
+        import grid_congestion as gc
+        feed = {"prefix": "DA-LMP-SL", "report": "Day-Ahead LMP by Settlement Location"}
+        day = pd.Timestamp("2016-07-18")
+        raw = year_zip({"2016/07/DA-LMP-SL-201607180100.csv": "same", "2016/07/By_Day/DA-LMP-SL-201607180100.csv": "same"})
+        gaps = []
+        self.assertEqual(gc.spp_texts(raw, {"year": 2016, "days": [day]}, feed, None, gaps), [(day, "same")])
+        self.assertEqual(len(gaps), 1)
+        self.assertIn("read once", gaps[0])
+
 
 if __name__ == "__main__":
     unittest.main()
