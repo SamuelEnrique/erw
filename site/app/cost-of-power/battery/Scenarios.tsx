@@ -184,7 +184,7 @@ export function BatteryHeadline({ ms, x, gridName, gridFrom }: { ms: Month[]; x:
       note={r ? <>To equity, scenario A, at {plain(a.hurdle)} percent: USD {num(r.npv)} per kW for {size}.</> : <>No twelve consecutive months are held.</>} />,
     irr: <HeadlineNumber key="irr" label="IRR" value={r ? (r.irr === null ? <span className="text-muted" data-headline-raw="">none</span> : <span data-headline-raw={r.irr}>{num(r.irr, 1)}<span className="ml-1 font-sans text-sm text-muted">percent</span></span>) : none}
       note={r ? (r.irr === null ? <>To equity, scenario A: no rate from -99 to 1,000 percent sets NPV to zero.</> : <>To equity, scenario A, a year.</>) : <>No twelve consecutive months are held.</>} />,
-    toll: <HeadlineNumber key="toll" label="Breakeven toll" value={r ? (r.toll === null ? <span className="text-muted" data-headline-raw="">no debt</span> : <span data-headline-raw={r.toll}>USD {num(r.toll)}<span className="ml-1 font-sans text-sm text-muted">per kW-month</span></span>) : none}
+    toll: <HeadlineNumber key="toll" label="Toll for 1.25 times coverage" value={r ? (r.toll === null ? <span className="text-muted" data-headline-raw="">no debt</span> : <span data-headline-raw={r.toll}>USD {num(r.toll)}<span className="ml-1 font-sans text-sm text-muted">per kW-month</span></span>) : none}
       note={<>A toll on the whole battery at which coverage is 1.25 times, scenario A.</>} />,
     payback: <HeadlineNumber key="payback" label="Payback year" value={fl ? (payback === null ? <span className="text-muted" data-headline-raw="">none</span> : <span data-headline-raw={payback}>{payback === 0 ? "none needed" : `year ${payback}`}</span>) : none}
       note={fl ? (payback === null ? <>Scenario A&apos;s cash flows to equity, added up without discounting, stay negative through year {plain(a.life)}.</> : payback === 0 ? <>No equity is paid in at year 0.</> : <>The first year scenario A&apos;s cash flows to equity, added up from year 0 without discounting, are no longer negative.</>) : <>No twelve consecutive months are held.</>} />,
@@ -374,7 +374,7 @@ export function Scenarios({ x }: { x: Inputs }) {
       (c) => (c.r ? { v: usd(c.r.npv * scale), raw: c.r.npv, note: `USD ${num(c.r.npv)} per kW at ${plain(c.y.hurdle)} percent` } : none)),
     row("irr", "IRR", "to equity, percent a year",
       (c) => (c.r ? (c.r.irr === null ? { v: "none", raw: null, note: "no rate from -99 to 1,000 percent sets NPV to zero" } : { v: `${num(c.r.irr, 1)} percent`, raw: c.r.irr }) : none)),
-    row("toll", "Breakeven toll", "a toll on the whole battery: the price at which coverage reaches 1.25 times, USD per kW-month",
+    row("toll", "Toll for 1.25 times coverage", "a toll on the whole battery: the price at which coverage reaches 1.25 times, USD per kW-month",
       (c) => (c.r ? (c.r.toll === null ? { v: "no debt", raw: null } : { v: `USD ${num(c.r.toll)}`, raw: c.r.toll }) : none)),
     row("tail", "Merchant tail after the contract", `the years after the debt's term, for ${size}, at the hurdle rate`,
       (c) => (c.r ? { v: usd(c.r.tail.pv * scale), raw: c.r.tail.pv, note: c.r.tail.years > 0 ? `years ${c.r.tail.from} to ${c.r.tail.to}` : c.y.term > c.y.life ? `0 years: the term of ${plain(c.y.term)} years is cut to the life, ${plain(c.y.life)} years` : `0 years: the term and the life are both ${plain(c.y.life)} years` } : none)),

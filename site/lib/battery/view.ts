@@ -26,7 +26,7 @@ export const HEADS: { key: HeadKey; label: string; words: string }[] = [
   { key: "cover", label: "Debt coverage, last twelve months", words: "revenue less fixed O&M over the debt payments, scenario A" },
   { key: "npv", label: "NPV at the hurdle rate", words: "to equity, scenario A" },
   { key: "irr", label: "IRR", words: "to equity, scenario A" },
-  { key: "toll", label: "Breakeven toll", words: "the price of a toll on the whole battery at which coverage is 1.25, scenario A" },
+  { key: "toll", label: "Toll for 1.25 times coverage", words: "the price of a toll on the whole battery at which coverage is 1.25, scenario A" },
   { key: "payback", label: "Payback year", words: "the first year the cash flows to equity, added up without discounting, are no longer negative" },
   { key: "npveq", label: "NPV per dollar of equity", words: "scenario A's NPV over the equity paid in" },
 ];

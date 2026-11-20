@@ -161,7 +161,7 @@ class TheBox(unittest.TestCase):
         v = src("site", "lib", "battery", "view.ts")
         self.assertEqual(re.findall(r'key: "(\w+)", label: "([^"]+)", words:', v)[:8],
                          [("l12", "Last twelve months, all streams"), ("bad", "A bad month: the 10th percentile, last 36 months"), ("cover", "Debt coverage, last twelve months"),
-                          ("npv", "NPV at the hurdle rate"), ("irr", "IRR"), ("toll", "Breakeven toll"), ("payback", "Payback year"), ("npveq", "NPV per dollar of equity")])
+                          ("npv", "NPV at the hurdle rate"), ("irr", "IRR"), ("toll", "Toll for 1.25 times coverage"), ("payback", "Payback year"), ("npveq", "NPV per dollar of equity")])
         self.assertIn('{ key: "revenue", label: "Revenue by stream"', v)
         self.assertIn('{ key: "debt", label: "Debt"', v)
         self.assertIn("HEADS_MAX = 6, CHARTS_MAX = 3", v)
