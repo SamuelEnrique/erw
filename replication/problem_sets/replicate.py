@@ -528,6 +528,13 @@ def edition_value(k, rows, figs, rules, snap_ercot, bills):
         if not vals:
             return None
         return max(vals) if p[0] == "series_max" else sum(vals)
+    if p[0] == "pf":
+        # session 8905 (chain 590, data request 561): a figure of a set of the whole country, read from a committed page
+        # file; the edition keeps it as a row of its own (scripts/build-problem-edition.mjs: source the file, variable
+        # the key, note "page file"), since the file moves after the edition's day. A calc of two such figures
+        # recomputes through the calc case below.
+        r = [r for r in rows if r["note"] == "page file" and r["source"] == f"site/data/{p[1]}" and r["variable"] == k]
+        return num(r[0]) if r else None
     if p[0] == "spotmean":
         vals = [num(r) for r in rows if r["entity"] == p[1] and r["ts_utc"].startswith(p[2])]
         return sum(vals) / len(vals) if vals else None

@@ -8,7 +8,7 @@
 // answer, the line and the steps] } } }, the worked example included. Reads the committed page files only.
 import fs from "node:fs";
 
-const SLUGS = ["who-trades-with-whom", "storm-across-the-country", "under-the-ground-and-in-the-wind", "where-energy-goes"];
+const SLUGS = ["who-trades-with-whom", "storm-across-the-country", "under-the-ground-and-in-the-wind", "where-energy-goes", "your-own-balancing-authority"];  // session 8905: the fifth
 const out = process.argv[2];
 if (!out) { console.error("usage: problem-sets-country-figures.mjs <out.json>"); process.exitCode = 2; }
 else {

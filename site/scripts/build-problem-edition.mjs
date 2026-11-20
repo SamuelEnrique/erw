@@ -25,6 +25,8 @@ const date = process.argv[2] ?? new Date().toISOString().slice(0, 10);
 if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) { console.error(`not a date: ${date}`); process.exit(2); }
 
 const { problemSet, SETS } = await import("@/lib/problems");
+// session 8905 (chain 590, data request 561): a page file's figure inside a calc is written as a row too, read from the file
+const { pfValue } = await import("@/lib/pagefile");
 let REST = process.env.SUPABASE_URL.replace(/\/$/, "");
 if (!REST.endsWith("/rest/v1")) REST += "/rest/v1";
 const KEY = process.env.SUPABASE_ANON_KEY;
@@ -65,10 +67,15 @@ async function rowsOf(k, v, u) {
     const t = (await q({ table_name: "eq.cost_of_power_monthly", entity: `eq.${ent}`, variable: "eq.rt_load_weighted", ts_utc: `eq.${p[3]}` })).map((r) => ({ source: "cost_of_power_monthly", ...r }));
     return v === undefined ? t : [...t, { source: FILES.bill, entity: "", variable: k, ts_utc: "", value: v, unit: u ?? "", event: "", note: "computed" }];
   }
-  if (v === undefined) return [];  // a key inside a calc whose own figure is not shown: its rows come with the shown figure
   // session 8901: a figure read from a committed page file (pf|<file under site/data>|<path>) is a row of its own, its
-  // source the file and its variable the key, as the page file holds it
-  if (p[0] === "pf") return [{ source: `site/data/${p[1]}`, entity: "", variable: k, ts_utc: "", value: v, unit: u ?? "", event: "", note: "page file" }];
+  // source the file and its variable the key, as the page file holds it. Session 8905 (data request 561): also when it
+  // sits inside a calc and is not shown itself, its value read from the file as it is on the edition's day, so the
+  // replication can recompute the calc from the edition's rows alone (the file moves after that day)
+  if (p[0] === "pf") {
+    const val = v ?? pfValue(k);
+    return val === undefined ? [] : [{ source: `site/data/${p[1]}`, entity: "", variable: k, ts_utc: "", value: val, unit: u ?? "", event: "", note: "page file" }];
+  }
+  if (v === undefined) return [];  // a key inside a calc whose own figure is not shown: its rows come with the shown figure
   return [{ source: FILES[p[0]] ?? p[0], entity: "", variable: k, ts_utc: "", value: v, unit: u ?? "", event: "", note: "computed" }];
 }
 const isV = (x) => typeof x === "object" && x !== null && "k" in x;

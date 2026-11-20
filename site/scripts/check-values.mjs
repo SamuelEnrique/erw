@@ -158,6 +158,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 8901 (chain 507, part C): the four sets of the whole country, every figure a pf| key into a committed page file
   "/learn/problems/who-trades-with-whom", "/learn/problems/storm-across-the-country", "/learn/problems/under-the-ground-and-in-the-wind",
   "/learn/problems/where-energy-goes",
+  // session 8905 (chain 590, part C): the fifth set of the whole country
+  "/learn/problems/your-own-balancing-authority",
   // session 49: the network's default node card (ERCOT)
   "/network",
   // session 72 (session 69's finish): the storage build-out

@@ -17,6 +17,8 @@ import unittest
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SITE = os.path.join(ROOT, "site")
+# session 8905 (chain 590): the sets of the whole country, each a module of site/lib/problemsets/ (common.ts is shared)
+COUNTRY_SLUGS = sorted(f[:-3] for f in os.listdir(os.path.join(SITE, "lib", "problemsets")) if f.endswith(".ts") and f != "common.ts")
 
 
 def src(*p):
@@ -37,9 +39,19 @@ class TheEdition(unittest.TestCase):
         self.assertRegex(self.ed["built_at"], r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 
     def test_all_five_sets_of_five(self):
-        self.assertEqual([s["slug"] for s in self.ed["sets"]], ["know-your-grid", "prices-and-your-bill", "when-the-grid-broke", "storage-and-taxes", "networks-and-money"])
+        # session 8905 (chain 590, data request 561): an edition built after 19 November also holds the sets of the whole
+        # country (site/lib/problemsets/), after the five: each of six to eight questions, every figure from a page file
+        five = ["know-your-grid", "prices-and-your-bill", "when-the-grid-broke", "storage-and-taxes", "networks-and-money"]
+        slugs = [s["slug"] for s in self.ed["sets"]]
+        self.assertEqual(slugs[:5], five)
+        country = set(COUNTRY_SLUGS)
+        self.assertTrue(set(slugs[5:]) <= country, slugs[5:])
         for s in self.ed["sets"]:
-            self.assertEqual(len(s["questions"]), 5, s["slug"])
+            n = len(s["questions"])
+            if s["slug"] in five:
+                self.assertEqual(n, 5, s["slug"])
+            else:
+                self.assertTrue(6 <= n <= 8, (s["slug"], n))
             for q in s["questions"]:
                 self.assertTrue(any(isinstance(p, dict) for p in q["answer"]), q["id"])
 
@@ -56,13 +68,16 @@ class TheEdition(unittest.TestCase):
                 self.assertEqual(len(rows), q["rows"], q["csv"])
                 self.assertGreater(len(rows), 0, q["csv"])
                 for r in rows:
-                    self.assertTrue(r["note"] == "computed" or r["source"] in q["tables"] or r["source"] in ("cost_of_power_monthly", "eia_fuel_spot_prices"), (q["id"], r["source"]))
+                    # session 8905: a figure read from a committed page file is a row of its own, its source the file
+                    page_file = r["note"] == "page file" and r["source"].startswith("site/data/")
+                    self.assertTrue(page_file or r["note"] == "computed" or r["source"] in q["tables"] or r["source"] in ("cost_of_power_monthly", "eia_fuel_spot_prices"), (q["id"], r["source"]))
                 self.assertNotIn(chr(0x2014), "\n".join(lines))
 
     def test_the_rows_give_back_the_answer(self):
         # set A question 1: the two peaks are the largest of the 24 hours of each grid in the download
         s = next(x for x in self.ed["sets"] if x["slug"] == "know-your-grid")
-        q = s["questions"][0]
+        # session 8905 (data request 561): by its id; an edition built after session 3650 asks set A in the guide's order
+        q = next(x for x in s["questions"] if x["id"] == "a1")
         with open(os.path.join(SITE, "public", *q["csv"].strip("/").split("/")), encoding="utf-8") as f:
             rows = list(csv.DictReader(io.StringIO("\n".join(ln for ln in f.read().splitlines() if not ln.startswith("#")))))
         peaks = [p["v"] for p in q["answer"] if isinstance(p, dict)][:2]

@@ -29,6 +29,7 @@ const teacherPage = await import("../app/learn/problems/[slug]/[edition]/teacher
 const MODULES = {
   "who-trades-with-whom": "who-trades-with-whom", "storm-across-the-country": "storm-across-the-country",
   "under-the-ground-and-in-the-wind": "under-the-ground-and-in-the-wind", "where-energy-goes": "where-energy-goes",
+  "your-own-balancing-authority": "your-own-balancing-authority",  // session 8905 (chain 590)
 };
 const CITES = JSON.parse(fs.readFileSync(path.join(site, "data", "table_citations.json"), "utf-8"));
 const cite = (t) => CITES[t];
@@ -71,7 +72,7 @@ const outsideStrings = (s) => s.replace(/`(?:\\.|[^`\\])*`|"(?:\\.|[^"\\])*"|'(?
 
 let questions = 0, keys = 0, drawnFound = 0;
 const slugs = Object.keys(MODULES);
-check(JSON.stringify(SETS.slice(-4).map((s) => s.slug)) === JSON.stringify(slugs), "the four sets come after the five, in order");
+check(JSON.stringify(SETS.slice(-slugs.length).map((s) => s.slug)) === JSON.stringify(slugs), "the sets of the whole country come after the five, in order");  // session 8905: five of them now
 check(JSON.stringify(SETS.slice(0, 5).map((s) => s.slug)) === JSON.stringify(["know-your-grid", "prices-and-your-bill", "when-the-grid-broke", "storage-and-taxes", "networks-and-money"]), "the five keep their place");
 const editionParams = [...editionPage.generateStaticParams(), ...teacherPage.generateStaticParams()];
 
