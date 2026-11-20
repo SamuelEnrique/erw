@@ -56,6 +56,39 @@ class GeneratorShape(unittest.TestCase):
         self.assertEqual(sum(1 for x in h if x["mwh"] / x["cap"] > 1), 184)
         self.assertEqual((round(cap["2025-10"]), round(cap["2026-09"])), (28045, 32760))
 
+    def test_6_caiso_sells_a_third_of_its_energy_below_zero(self):
+        """CAISO: the fleet's solar output per MW (site/data/seller/hybrid.json, from 2025-11-01) against SP15's real-time
+        hourly price in the page's own snapshot (site/data/merchant_snapshot.json), November 2025 to September 2026.
+        Session 9841: 32.3 percent of the energy below zero, USD -5.49 per kW of 26.82; stopping there gains 20.5 percent."""
+        import json
+        from datetime import datetime, timedelta, timezone
+        data = os.path.join(ROOT, "site", "data")
+        with open(os.path.join(data, "seller", "hybrid.json"), encoding="utf-8") as f:
+            hy = json.load(f)["grids"]["caiso"]
+        with open(os.path.join(data, "merchant_snapshot.json"), encoding="utf-8") as f:
+            sn = json.load(f)["isos"]["caiso"]
+        t0 = datetime.fromisoformat(hy["t0"].replace("Z", "+00:00"))
+        s0 = datetime.fromisoformat(sn["start"].replace("Z", "+00:00"))
+        off = int((t0 - s0).total_seconds() // 3600)
+        keep = {"2025-11", "2025-12"} | {f"2026-{k:02d}" for k in range(1, 10)}
+        rev = neg = e = neg_e = 0.0
+        for i in range(min(len(hy["solar"]), len(sn["price"]) - off)):
+            p, g = sn["price"][off + i], hy["solar"][i]
+            if p is None or g is None:
+                continue
+            ts = t0 + timedelta(hours=i)
+            # the local (Pacific) month: UTC less 8 hours in standard time, 7 in daylight time
+            local = ts - timedelta(hours=7 if 3 <= ts.month <= 10 else 8)
+            if local.strftime("%Y-%m") not in keep:
+                continue
+            rev += p * g
+            e += g
+            if p < 0:
+                neg += p * g
+                neg_e += g
+        self.assertGreater(neg_e / e, 0.25, f"{100 * neg_e / e:.1f} percent of the energy sold below zero")
+        self.assertGreater(-neg / rev, 0.15, f"stopping below zero gains {100 * -neg / rev:.1f} percent")
+
 
 if __name__ == "__main__":
     unittest.main()
