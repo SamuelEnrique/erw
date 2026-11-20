@@ -57,6 +57,7 @@ import datetime as dt
 import io
 import json
 import os
+import re
 import sys
 import time
 import traceback
@@ -159,10 +160,20 @@ def spp_texts(raw, doc, feed, log, gaps):
         return [(doc["days"][0], raw.decode("utf-8-sig"))]
     z = zipfile.ZipFile(io.BytesIO(raw))
     names = {}
+    # Session 9001: only a day's own file, <prefix>-YYYYMMDD0100.csv (its By_Day folder). SPP's 2021 price zip also holds
+    # a RePrice folder (DA-LMP-SL-202102130100-R1-RC6.csv and the like: one hour reposted after Winter Storm Uri), whose
+    # names begin with the same date; matched by date alone, a repriced hour replaced its day's file and the pull stopped
+    # on a repeated hour. The day as first published is read; the repriced files are listed in the gaps.
+    day_file = re.compile(re.escape(feed["prefix"]) + r"-(\d{8})0100\.csv$")
     for n in z.namelist():
         base = n.rsplit("/", 1)[-1]
-        if base.startswith(feed["prefix"] + "-") and base.endswith(".csv"):
-            names[base[len(feed["prefix"]) + 1:len(feed["prefix"]) + 9]] = n
+        m = day_file.fullmatch(base)
+        if m:
+            if m.group(1) in names:
+                raise RuntimeError(f"SPP {feed['report']}: two files for {m.group(1)} in the {doc['year']} zip: {names[m.group(1)]}, {n}")
+            names[m.group(1)] = n
+        elif base.startswith(feed["prefix"] + "-") and base.endswith(".csv") and "/RePrice/" in n:
+            gaps.append(f"SPP {feed['report']}: {n} (a repriced file) not read; the day as first published is")
     out = []
     for d in doc["days"]:
         n = names.get(d.strftime("%Y%m%d"))
