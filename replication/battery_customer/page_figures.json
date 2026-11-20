@@ -12,7 +12,7 @@
     "offPeakRate": "",
     "batteryKw": "",
     "batteryKwh": "",
-    "peakHours": "2",
+    "peakHours": "4",
     "days": "21",
     "roundTrip": "86"
    },
@@ -34,8 +34,8 @@
     {
      "key": "start_peakHours",
      "name": "As it opens: the starting value of peakHours",
-     "shown": "2",
-     "value": 2,
+     "shown": "4",
+     "value": 4,
      "tolerance": 0.5
     },
     {

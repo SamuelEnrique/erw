@@ -1,7 +1,7 @@
 case,key,name,shown,value,tolerance
 opens,waiting_needed,As it opens: fields still needed,6,6,0.5
 opens,waiting_fields,As it opens: fields in all,9,9,0.5
-opens,start_peakHours,As it opens: the starting value of peakHours,2,2,0.5
+opens,start_peakHours,As it opens: the starting value of peakHours,4,4,0.5
 opens,start_days,As it opens: the starting value of days,21,21,0.5
 opens,start_roundTrip,As it opens: the starting value of roundTrip,86,86,0.5
 browser-proof,sum_battery_kw,"The summary: the battery's power, as typed (kW)",200,200,0.5

@@ -94,7 +94,7 @@ class Arithmetic(unittest.TestCase):
         self.assertEqual(d["none"], {"ok": False, "missing": ["peakKw", "demandCharge", "peakRate", "offPeakRate", "batteryKw", "batteryKwh", "peakHours", "days", "roundTrip"]})
         self.assertEqual(d["some"]["missing"], ["demandCharge", "peakRate", "offPeakRate", "batteryKw", "batteryKwh"])
         # the six fields that are the reader's bill and battery start empty: no number is assumed for them
-        self.assertEqual(d["starts"], {"peakHours": "2", "days": "21", "roundTrip": "86"})
+        self.assertEqual(d["starts"], {"peakHours": "4", "days": "21", "roundTrip": "86"})   # 4: ruling alternative 1, wip/alt-battery-customer-1 (main: 2)
 
 
 SENDERS = ["fetch(", "XMLHttpRequest", "sendBeacon", "WebSocket", "EventSource", "localStorage", "sessionStorage", "indexedDB", "document.cookie",

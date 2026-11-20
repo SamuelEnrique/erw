@@ -7,7 +7,7 @@
       "id": "opens",
       "kind": "the page as it opens",
       "name": "The page as it opens: three starting values, six fields empty",
-      "typed": { "peakKw": "", "demandCharge": "", "peakRate": "", "offPeakRate": "", "batteryKw": "", "batteryKwh": "", "peakHours": "2", "days": "21", "roundTrip": "86" }
+      "typed": { "peakKw": "", "demandCharge": "", "peakRate": "", "offPeakRate": "", "batteryKw": "", "batteryKwh": "", "peakHours": "4", "days": "21", "roundTrip": "86" }
     },
     {
       "id": "browser-proof",

@@ -28,7 +28,7 @@ export const FIELDS: Field[] = [
   { key: "offPeakRate", label: "Energy rate, off-peak hours", unit: "USD per kWh", hint: "The rate in the hours the battery would charge, in dollars.", min: 0, max: 5, zero: true },
   { key: "batteryKw", label: "Battery power", unit: "kW", hint: "How fast it can discharge.", min: 0, max: 1e6 },
   { key: "batteryKwh", label: "Battery energy", unit: "kWh", hint: "How much it holds. Energy over power is its duration.", min: 0, max: 1e7 },
-  { key: "peakHours", label: "How long your peak lasts", unit: "hours", hint: "How long your own demand stays near its highest, in the hours your demand charge counts. The battery must hold its discharge this long to lower the peak.", start: "2", min: 0, max: 24 },
+  { key: "peakHours", label: "How long your peak lasts", unit: "hours", hint: "How long your own demand stays near its highest, in the hours your demand charge counts. The battery must hold its discharge this long to lower the peak.", start: "4", min: 0, max: 24 },   // ruling alternative 1 (wip/alt-battery-customer-1, not a default on main): Seattle City Light's peak-rate hours; main starts at 2
   { key: "days", label: "Days a month it runs", unit: "days", hint: "The days with peak-rate hours: about 21 if weekends are off-peak.", start: "21", min: 0, max: 31, zero: true },
   { key: "roundTrip", label: "Round trip", unit: "percent", hint: "Of each kWh put in, how much comes back out.", start: "86", min: 1, max: 100 },
 ];
