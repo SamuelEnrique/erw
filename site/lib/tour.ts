@@ -70,7 +70,9 @@ export const NEW_STOPS: Stop[] = [
   {
     href: "/grid", title: "Every region of the grid", seconds: 40, landed: true,
     line: "The Grid tool beyond the seven grids: the thirteen regions EIA reports, six of them new to the site, each with its mix, its trade and the balancing authorities inside it, and the map of every balancing authority under the network view.",
-    look: "Pick Tennessee, or any of the thirteen regions, in the region list at the top; open its network view for the map; then read \"Ask\" at the foot of the page.",
+    // session 9203 (chain 620, the desktop's second window): the Network tab opens on the 3D network (the standing
+    // ruling), and the map is one press further, on Map; "Ask" stands beside the tool on a wide screen, under it on a phone
+    look: "Pick Tennessee, or any of the thirteen regions, in the region list at the top; open its Network tab, then press Map for the map; then read \"Ask\", beside the tool on a wide screen and under it on a phone.",
     headings: ["Ask"],
   },
   {
