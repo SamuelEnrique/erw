@@ -5,7 +5,7 @@ Energy Research Warehouse (ERW). Machine: SamuelPersonal (Samuel's own laptop). 
 ## What was done
 
 - **The pack:** https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/weekend-2026-11-21.md, eight parts in the chain file's order, each with its minutes (about 160 in all; the thirty-minute path alone frees most of the machine work).
-  - First version (parts 1 to 3) pushed at 19:32 UTC, about five minutes after the session began; the whole pack in the second push.
+  - First version (parts 1 to 3) pushed at 19:32 UTC, about five minutes after the session began; the whole pack in the second push; a read-through in the third (77 has no branch, the four pages reached from the tour named, two lines that promised too much made exact).
 - **Read:** every note under `docs/state/` dated 10 November on (103 with sections for Samuel, gathered by `runs/c610_extract_rulings.py`); the notes since 17 November in full where they wait for Samuel (chains 501, 502, 503, 504, 505, 506, 507, 581, 590, 620, 630); the ranked list, the one-sitting sheet, the defaults list, last night's page and the table of branches; the Stata README; the five signature packs and every method note's sign-off block; `docs/licenses.md`'s three lists and its letters; the browser read of today.
 - **The branch for each group** was read from the table of branches by `runs/c610_group_branches.py` (not committed: `runs/` is ignored): 41 of the 45 switches of groups S1 to S3 sit on 23 branches `wip/switch-<tool>`; 27 and 65 are kept apart; 30 and 116 were never built.
 - **Every address of part 7** was checked against main's routes (`site/app/`), the tour's stops (`site/lib/tour.ts`, 16 stops, 8 to 16 new), the problem sets (`site/lib/problemsets/`) and today's edition file.
