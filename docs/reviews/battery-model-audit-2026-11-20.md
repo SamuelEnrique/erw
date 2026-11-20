@@ -26,6 +26,7 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 | 2 | Each day starts empty: the reset costs USD 5.23 per kW, four times the note's bound of 1.29 | +5.23 (+6.4 percent) | +33.6 | `wip/audit-battery-2` |
 | 3 | Energy is paid the hourly mean; ERCOT settles real-time energy every 15 minutes | +2.23 (+2.7 percent) | +14.4 | `wip/audit-battery-3` |
 | 4 | Degradation cuts the whole revenue 2.6 percent a year; the model's own runs lose 1.1 percent a year at that fade | none (year 1) | +44.76 | `wip/audit-battery-4` |
+| 5 | The "Breakeven toll" (USD 4.19 per kW-month) only covers debt 1.25 times; equity breaks even at 13.62 | the toll figure: 4.19 against 13.62 | at the 4.19 toll: -845.78 | `wip/audit-battery-5` (fix in words) |
 
 ## 1. Regulation is never called
 
@@ -63,3 +64,18 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 - **How much.** The headline (year 1) does not move. NPV at the defaults: USD -653.04 per kW on the model's own fade path against -697.80, +44.76 per kW (USD 4.48 million for 100 MW). Twenty years of revenue: 1,459 per kW against 1,282 (+14 percent).
 - **The test.** `tests/test_audit_battery_4.py` on `wip/audit-battery-4`: the faded battery keeps more than 98.5 percent of its revenue after one year and more than 75 percent after nineteen, while `finance.ts` (run by Node) gives `R x 0.974^(t - 1)` under both methods.
 - **Not fixed.** The fix is a fade path from the model (a table of revenue by faded duration, or a ratio the page reads) and moves NPV, IRR and payback: the owner's ruling. The same path would make the augmentation option's revenue right.
+
+## 5. The "Breakeven toll" is not a breakeven
+
+- **Where.** `site/lib/battery/finance.ts` lines 283 to 289 (`breakevenToll`: `(1.25 x debt + fom) / 12`), the label in `site/lib/battery/view.ts` line 29 and `site/app/cost-of-power/battery/Scenarios.tsx` lines 187 and 377. The note, section 11.1 line 423, and the cross-check row of line 563, which sets this toll beside Lazard's levelized cost of storage.
+- **Why it is wrong.** The figure is the toll at which debt is covered 1.25 times: it sizes the lender's loan. At 20 percent debt it is small, and it says nothing about whether the owner breaks even. "Breakeven" reads as the price at which the battery pays for itself.
+- **How much.** Default case: the page prints USD 4.19 per kW-month. With the page's own contract arithmetic (the whole battery tolled at that price for the debt's 20 years), equity's NPV at 12 percent is USD -845.78 per kW (USD -84.58 million for 100 MW), worse than the merchant case's -697.80. The toll at which equity's NPV is zero is USD 13.62 per kW-month: the page's figure is 31 percent of it.
+- **The test.** `tests/test_audit_battery_5.py` on `wip/audit-battery-5`. Through `finance.ts` (run by Node): the toll is 4.19, NPV at it -845.78, below merchant, and the zero-NPV toll 13.62 (passes on main). The label test fails on main and passes on the branch.
+- **The fix on the branch.** In words only, no figure moves: the label becomes "Toll for 1.25 times coverage" in `view.ts` and `Scenarios.tsx`; `tests/test_session296.py` follows; the note's line 423 says what the figure is and is not, with the two figures above. Whether to add the zero-NPV toll as a figure is the owner's ruling. The generator page carries the same label (`site/app/cost-of-power/seller/SellerScenarios.tsx`); not changed here.
+
+## The deploys of this file (rule 8)
+
+Every page is in review, so a visitor sees the in-review page at all 25 addresses; this file changes no page. Each push: `node site/scripts/snapshot-live.mjs take` before, the after once the Vercel deployment of a commit holding the push showed success, then `compare`.
+
+- Push 1 (finding 1), merge `291223a4`; deployed in `194cf4c3`, success 21:08:35 UTC. `s9840-f1-before` against `s9840-f1-after`: 0 differences on 25 pages. Expected.
+- Push 2 (findings 2 to 4), merge `fd3d8fd8`; success 21:14:18 UTC. `s9840-f2to4-before` against `s9840-f2to4-after`: 0 differences. Expected.
