@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate seds_elec_spend, region sd_us (the United States)
+# Computed 2026-11-19T12:30:30Z by warehouse/analysis/findings/deep/tariffs_policy.py (seds_elec_spend); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the state's total expenditure on electricity (billion USD), the observations it rests on, and whether the year is full
+# Tables: eia_seds_state_energy
+region,year,value,n_observations,full_year
+sd_us,1990,176.6909,1.0,1
+sd_us,1991,184.7672,1.0,1
+sd_us,1992,186.9055,1.0,1
+sd_us,1993,196.5316,1.0,1
+sd_us,1994,200.8313,1.0,1
+sd_us,1995,205.8764,1.0,1
+sd_us,1996,211.1054,1.0,1
+sd_us,1997,213.8434,1.0,1
+sd_us,1998,218.3615,1.0,1
+sd_us,1999,218.4128,1.0,1
+sd_us,2000,231.5775,1.0,1
+sd_us,2001,245.4828,1.0,1
+sd_us,2002,247.5982,1.0,1
+sd_us,2003,257.9923,1.0,1
+sd_us,2004,268.1332,1.0,1
+sd_us,2005,295.7869,1.0,1
+sd_us,2006,323.9625,1.0,1
+sd_us,2007,340.9247,1.0,1
+sd_us,2008,360.4539,1.0,1
+sd_us,2009,350.435,1.0,1
+sd_us,2010,365.9127,1.0,1
+sd_us,2011,368.0094,1.0,1
+sd_us,2012,360.8629,1.0,1
+sd_us,2013,372.0681,1.0,1
+sd_us,2014,389.8721,1.0,1
+sd_us,2015,388.3442,1.0,1
+sd_us,2016,383.5668,1.0,1
+sd_us,2017,387.2221,1.0,1
+sd_us,2018,403.349,1.0,1
+sd_us,2019,398.7742,1.0,1
+sd_us,2020,390.9336,1.0,1
+sd_us,2021,419.304,1.0,1
+sd_us,2022,481.7572,1.0,1
+sd_us,2023,488.1243,1.0,1
+sd_us,2024,511.0999,1.0,1

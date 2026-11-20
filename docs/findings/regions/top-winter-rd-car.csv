@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate top_winter, region rd_car (the Carolinas (EIA's region))
+# Computed 2026-11-19T11:17:52Z by warehouse/analysis/findings/deep/regions.py (top_winter); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the share of the year's 100 highest hours of demand that fell in January, February or December (percent of the top hours), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+rd_car,2018,0.0,4411.0,0
+rd_car,2019,4.0,8758.0,1
+rd_car,2020,1.0,8783.0,1
+rd_car,2021,0.0,8760.0,1
+rd_car,2022,21.0,8760.0,1
+rd_car,2023,0.0,8759.0,1
+rd_car,2024,17.0,8784.0,1
+rd_car,2025,37.0,8711.0,1
+rd_car,2026,28.999999999999996,7468.0,0
