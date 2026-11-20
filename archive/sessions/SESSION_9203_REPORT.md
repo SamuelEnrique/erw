@@ -37,4 +37,4 @@ Energy Research Warehouse (ERW). 20 November 2026, from about 19:20 UTC. Folder 
 
 ## To finish
 
-- The desk lands row 4 of `docs/state/landing_request_window2.md` (`wip/w2-c620-fixes` at `4f3247287`) through its gate. After the landing, data request 567 (a new dated edition of the resource set).
+- The desk lands row 4 of `docs/state/landing_request_window2.md` (`wip/w2-c620-fixes` at `923d4cb4f`) through its gate. After the landing, data request 567 (a new dated edition of the resource set).
