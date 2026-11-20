@@ -8,6 +8,9 @@ Resumed chain 505 from `queue/done/550-resume-chain-505.md` (551 put back). The 
 
 - **Stack L landed** (`f10ebfbca`, 00:26 UTC on 20 November). Two new pages: `/industry` (energy use by industry) and `/ai-energy` (energy per AI query, as published). In the Grid tool, clicking an authority now opens "Its own facts": what it owns, what is planned, what it generates and its carbon intensity, its trading partners, its record demand and growth, and its large-load rows, with the region's sum in a fold. The map's areas can be colored by price as a reader's choice (carbon still opens): ERCOT is red at USD 54.09, SPP green at 31.93, NYISO and PJM blank with "license needed". `/demand?view=country` has a section "Forecast against actual" (for California against ERCOT: a mean miss of 4.53 against 2.40 percent of demand), with CAISO's and ERCOT's own wind and solar forecasts. From the old laptop: the findings audit on `/internal/findings` (row 54) and five new tour stops (row 55). Snapshots `c505-deskL-before` against `c505-deskL-after`: 0 differences. Every page named here was read on production at 1280 and 390 px, with no sideways scroll and no console error.
 
+- **Stack M landed** (`601ff994f`, 01:43 UTC): the old laptop's four problem sets on the whole country. Snapshots: 0 differences. Data request 561's dated edition was built but not committed, because it fails tests 293 and 7534 (see the request's row).
+- Requests 559 (migration 039 applied) and 560 (answered from the table) are done.
+
 ## Commits
 
 - `339cafcd6` queue move; `551` resume file put back.

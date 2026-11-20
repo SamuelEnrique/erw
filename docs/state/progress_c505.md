@@ -39,3 +39,6 @@ The chain: `queue/done/505-day-19-november-desktop-pages-authorities-prices.md`.
 | A | data request 559 | migration 039 applied (`apply.py --only 039`); `scanner_drafts_list_from` read back from pg_proc | done | 8013 |
 | A | data request 560 | answered from the table, read only: the monthly table is EIA's Natural Gas Monthly and holds months the Annual withholds; a mean of months is not the Annual's price | done | 8013 |
 | A | stack M | the old laptop's row 56 (`7288617a8`, four problem sets) on main: gating from 00:35 UTC at `3d294973f`; data request 561 (a dated edition) after it lands | gating | 8013 |
+| A | stack M | landed `601ff994f` (01:43 UTC): the old laptop's row 56; snapshots `c505-deskM-before` and `c505-deskM-after`, 0 differences | landed | 8013 |
+| A | data request 561 | the edition of 2026-11-20 built (9 sets, 52 questions) and not committed: it fails tests 293 and 7534; kept in `runs/c505/edition_2026-11-20/` on lab-desktop | waiting on the tests | 8013 |
+| end | the chain | note `docs/state/note_2026-11-19_data_c505.md`; resume file 551 removed; the queue step run | done | 8013 |
