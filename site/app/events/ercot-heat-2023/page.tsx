@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { EventStudy } from "@/components/EventStudy";
 import { EventDecisions } from "../Decisions";
+import { WholeCountrySection, type PageProps } from "../WholeCountry";
 import { EventWindow, N, day, find, pickOf } from "../EventWindow";
 
 // Session 39: the summer 2023 heat in ERCOT, event ercot_heat_2023 of event_window_daily (docs/methods/events.md), with
@@ -16,7 +17,7 @@ const RECORDS = "https://www.ercot.com/news/release/09142023-ercot-provides-new"
 const E = "eia930:ERCO", HUB = "ercot:HB_HUBAVG";
 const inWin = (d: string) => d >= "2023-08-01" && d <= "2023-09-10";
 
-export default function ErcotHeat2023() {
+export default function ErcotHeat2023({ searchParams }: PageProps = {}) {
   return (
     <Brand>
     <div>
@@ -67,6 +68,9 @@ export default function ErcotHeat2023() {
     {/* session 47: the event study */}
     <EventStudy event="ercot_heat_2023" grids={["eia930:ERCO"]} primary="eia930:ERCO" price />
     {/* session 7531: the page's decisions (Decisions.tsx), each with its default and source on hover */}
+    {/* session 8410 (chain 503): EIA's thirteen regions across the event, from the data machine's file (WholeCountry.tsx) */}
+    <WholeCountrySection event="ercot_heat_2023" path="/events/ercot-heat-2023" first="TEX" searchParams={searchParams}
+      firstWhy="Texas is drawn first: the page above is about ERCOT, which is among Texas's balancing authorities." />
     <EventDecisions event="ercot_heat_2023" />
     </div>
     </Brand>
