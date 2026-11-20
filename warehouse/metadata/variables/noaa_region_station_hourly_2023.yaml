@@ -5,9 +5,11 @@
 table: noaa_region_station_hourly_2023
 family: noaa
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The temperature at one station chosen for EIA's regions' weather in one UTC hour of 2023.
+time: ts_utc is the hour in UTC; the reading is ISD-Lite's for the hour (from ten minutes before the hour up to it, the closest
+  to it).
+vintage_rule: A snapshot written whole by each run of the connector (one table a UTC year); not in the daily run. No vintage
+  column.
 keys:
 - entity
 - variable
@@ -44,6 +46,7 @@ columns:
     - noaa:720598-00191
     - noaa:720612-00203
   missing_cells: 0
+  particular: noaa:<USAF-WBAN>, the station (the node of noaa_region_stations)
 - name: variable
   shared: true
   type: text
@@ -87,9 +90,11 @@ columns:
     list:
       noaa:isd_lite: 1888010
   missing_cells: 0
+  particular: noaa:isd_lite in every row
 variables:
 - name: temperature_f
-  label: null
+  label: The station's temperature in the hour, degrees F; runs of at most three missing hours between two measured hours
+    are interpolated on a straight line
   unit: degF
   rows: 1888010
   first: '2023-01-01T00:00:00Z'

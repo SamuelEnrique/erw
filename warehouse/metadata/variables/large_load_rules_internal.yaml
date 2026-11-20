@@ -357,7 +357,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 44
-  missing_meaning: The regulator's terms were not read (terms class not quoted)
+  missing_meaning: No address of the regulator's terms was recorded for the row
   source_name: null
   documented_by: connector large_load_rules.py
 - name: retrieved_at

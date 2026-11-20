@@ -5,9 +5,11 @@
 table: texas_transmission_matrix
 family: erw_derived
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One figure of the Public Utility Commission of Texas's wholesale transmission charge matrix for ERCOT (a provider's transmission
+  cost of service, access fee or average 4CP, a total, or a statewide rate), as the document prints it.
+time: event_date is the day the document was filed with the Commission (a date).
+vintage_rule: Merged by event_id (the document and the figure's key); a run that reads a document again replaces its rows
+  with the same key. No vintage column.
 keys:
 - event_id
 license: internal
@@ -68,18 +70,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: wholesale_transmission_charge on every row
 - name: parties
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The Public Utility Commission of Texas, the publisher
 - name: entity_ids
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 807
+  particular: The ERW entity of the transmission service provider whose code the row carries, where the connector maps one
 - name: mw
   shared: true
   type: empty
@@ -98,12 +103,14 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: USD on every row
 - name: status
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: approved or filed, by the Commission's order on the matrix (docket_status gives the words)
 - name: source
   shared: true
   type: text
@@ -122,246 +129,252 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The calendar year the matrix sets charges for, not an operating year of a history table
 - name: matrix
-  label: null
-  unit: null
+  label: Which of the year's matrices the figure is from (2026 has two)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 283
-  missing_meaning: null
+  missing_meaning: The year has one matrix
   source_name: null
-  documented_by: null
+  documented_by: connector texas_transmission_matrix.py
 - name: docket
-  label: null
-  unit: null
+  label: The Commission's docket number
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_transmission_matrix.py
 - name: item
-  label: null
-  unit: null
+  label: The item number of the filing within the docket
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_transmission_matrix.py
 - name: date_filed
-  label: null
-  unit: null
+  label: The day the document was filed with the Commission
+  unit: none
   type: date
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_transmission_matrix.py
 - name: document_title
-  label: null
-  unit: null
+  label: The document's title
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector texas_transmission_matrix.py
 - name: sheet_caption_as_written
-  label: null
-  unit: null
+  label: The sheet's own words for what a figure is (Parameters, or Attachment E's caption of what a column entity pays or
+    collects)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 1
-  missing_meaning: null
+  missing_meaning: The figure is from the Commission's order, not a matrix sheet
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_transmission_matrix.py
 - name: member_file
-  label: null
-  unit: null
+  label: The attachment file inside the item's ZIP the page was read from
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 1
-  missing_meaning: null
+  missing_meaning: The document is not in a ZIP (the Commission's order)
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_transmission_matrix.py
 - name: page
-  label: null
-  unit: null
+  label: The page of the attachment the figure was read from
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_transmission_matrix.py
 - name: entity_name
-  label: null
-  unit: null
+  label: The name on the figure's line (a transmission service provider, or the line's own name for a total or statewide rate)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 321
-  missing_meaning: null
+  missing_meaning: An Attachment E column total (its entity is the column's code)
   source_name: null
-  documented_by: null
+  documented_by: connector texas_transmission_matrix.py; data
 - name: entity_code
-  label: null
-  unit: null
+  label: The provider's code on the line, or for an Attachment E total the column's code
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 19
-  missing_meaning: null
+  missing_meaning: A line with no code (a total, a statewide rate, the order's sentence, or Attachment E's last Total column)
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_transmission_matrix.py; data
 - name: quantity
-  label: null
-  unit: null
+  label: 'What the figure is: a provider''s transmission cost of service, access fee or average 4CP, the TOTAL line''s figures,
+    the postage stamp rate, the export hourly rate, the order''s ERCOT average 4CP load, or an Attachment E total'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_transmission_matrix.py
 - name: amount
-  label: null
-  unit: null
+  label: 'The printed figure as a decimal (commas and spaces dropped): USD for a cost of service, USD per kW of average 4CP
+    for an access fee, kW for average 4CP'
+  unit: unit_as_written
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: value_as_written
-  label: null
-  unit: null
+  label: The figure as the page's text has it
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_transmission_matrix.py
 - name: unit_as_written
-  label: null
-  unit: null
+  label: The figure's unit, kept only where it is printed on the page
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 465
-  missing_meaning: null
+  missing_meaning: No unit printed on the page for that quantity (or the quantity has no unit set, as for the cost of service
+    and Attachment E totals)
   source_name: null
-  documented_by: null
+  documented_by: connector texas_transmission_matrix.py; data
 - name: column_header_as_written
-  label: null
-  unit: null
+  label: The header words of the figure's column as printed
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_transmission_matrix.py
 - name: column_checked
-  label: null
-  unit: null
+  label: yes when code matched the line's figures to the page's header columns and the session read the page itself, else
+    no
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_transmission_matrix.py
 - name: column_check
-  label: null
-  unit: null
+  label: How the column was checked
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector texas_transmission_matrix.py
 - name: sentence
-  label: null
-  unit: null
+  label: The line the figure was read from, found literally in the page's extracted text
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_transmission_matrix.py
 - name: checks
-  label: null
-  unit: null
+  label: What was found literally on the page (line, value or spaced value), joined by ';'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector texas_transmission_matrix.py
 - name: figures_in_sentence
-  label: null
-  unit: null
+  label: How many figures the line holds
+  unit: count
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector texas_transmission_matrix.py
 - name: digits_spaced_in_text
-  label: null
-  unit: null
+  label: yes when the page's text sets spaces inside the figure, else no
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_transmission_matrix.py
 - name: scan_url
-  label: null
-  unit: null
+  label: The address of the item's own PDF on the Commission's Interchange, a scan with no text
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 1
-  missing_meaning: null
+  missing_meaning: The document has no scan beside it (the Commission's order)
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_transmission_matrix.py
 - name: scan_page
-  label: null
-  unit: null
+  label: The page of the scan where the same sheet stands
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 1
-  missing_meaning: null
+  missing_meaning: No scan beside the document
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_transmission_matrix.py
 - name: docket_status
-  label: null
-  unit: null
+  label: Where the docket stands, in words (the order that approved the matrix, with its filing date and item)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_transmission_matrix.py
 - name: retrieved_at
   shared: true
   type: utc time
@@ -369,33 +382,35 @@ columns:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
 - name: model_id
-  label: null
-  unit: null
+  label: The Claude model that read the page
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector texas_transmission_matrix.py
 - name: read_run_id
-  label: null
-  unit: null
+  label: The run in which the model read the page
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector texas_transmission_matrix.py
 - name: request_id
-  label: null
-  unit: null
+  label: Anthropic's request id of the model's reading
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
-second_look: null
+  documented_by: connector texas_transmission_matrix.py
+second_look:
+- 'status: the header''s Shape line says the 2026 matrices are filed with no signed order, but the connector now writes approved
+  for them (the Order filed 5 November 2026, item 88) and the data agree with the connector; the header line is stale'

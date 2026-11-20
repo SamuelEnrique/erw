@@ -5,9 +5,11 @@
 table: energy_deals_evidence
 family: energy
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One deal of energy_deals and one news story that shows it, with the evidence sentence and the story's own words for the
+  deal's stage, confidence and figures.
+time: event_date is the story's publish time in UTC.
+vintage_rule: 'Merged by event_id (<deal_id>|<story_id>): each extraction run adds the rows of the stories it checked. No
+  vintage column.'
 keys:
 - event_id
 license: internal
@@ -40,18 +42,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: <deal_id>|<story_id>
 - name: event_date
   shared: true
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The story's publish time, UTC
 - name: event_type
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: deal_evidence on every row
 - name: parties
   shared: true
   type: empty
@@ -88,76 +93,80 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 652
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The outlet of the story
 - name: source_url
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The story's link
 - name: deal_id
-  label: null
-  unit: null
+  label: The deal of energy_deals the sentence shows (its event_id)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector extract.py
 - name: story_id
-  label: null
-  unit: null
+  label: The story the sentence is from, its event_id in news_stories
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector extract.py
 - name: evidence
-  label: null
-  unit: null
+  label: One sentence (or the title) copied verbatim from the story that shows the transaction; it must stand in the story
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector extract.py; method energy_deals.md
 - name: stage_text
-  label: null
-  unit: null
+  label: The story's exact words the deal's stage was read from
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 607
-  missing_meaning: null
+  missing_meaning: The words do not say a stage, or the row predates the stage field
   source_name: null
-  documented_by: null
+  documented_by: connector extract.py; method energy_deals.md
 - name: confidence_basis
-  label: null
-  unit: null
+  label: The model's words for its confidence, kept only where they stand in the story
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 599
-  missing_meaning: null
+  missing_meaning: No basis given or found in the story, or the row predates the field
   source_name: null
-  documented_by: null
+  documented_by: method energy_deals.md; connector fields.py
 - name: spans
-  label: null
-  unit: null
+  label: The story's words each figure was read from (mw, mwh, dollars, price, term_years), as field and words joined by ';
+    '
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 623
-  missing_meaning: null
+  missing_meaning: No figure was read, or the row predates the field
   source_name: null
-  documented_by: null
+  documented_by: connector fields.py
 second_look: null

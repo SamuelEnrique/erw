@@ -5,9 +5,10 @@
 table: statat_austria_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's value of one item of Austria's electricity balance (trade, transformation input and output by plant type,
+  owner and fuel, final energy use by sector, energy sector use by branch), from Statistics Austria's energy balances.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y; 1970 to 2024.
+vintage_rule: Rewritten whole as one snapshot by each run from the saved spreadsheet; vintage is the file's Last-Modified.
 keys:
 - entity
 - variable
@@ -45,6 +46,7 @@ columns:
     - statat_ele:branch:electricity_chp_and_heat_plants
     - statat_ele:branch:oil_and_gas_extraction
   missing_cells: 0
+  particular: statat_ele:at (a total), statat_ele:<plant>[:<owner>[:<fuel>[:<sub-fuel>]]], statat_ele:sector:<sector> or statat_ele:branch:<branch>
 - name: variable
   shared: true
   type: text
@@ -88,12 +90,14 @@ columns:
     list:
       AT: 6675
   missing_cells: 0
+  particular: AT on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 6675
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -106,6 +110,7 @@ columns:
     - Energy sector use / Electricity, CHP and heat plants
     - Energy sector use / Oil and gas extraction
   missing_cells: 0
+  particular: The sheet's labels joined, not a pricing node
 - name: source
   shared: true
   type: text
@@ -134,51 +139,52 @@ columns:
     list:
       '2025-11-07T08:00:30Z': 6675
   missing_cells: 0
+  particular: The spreadsheet's Last-Modified (UTC)
 variables:
 - name: energy_sector_use
-  label: null
+  label: The energy sector's use, by branch
   unit: MWh
   rows: 185
   first: '1970-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: exports
-  label: null
+  label: Exports of electricity
   unit: MWh
   rows: 55
   first: '1970-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: final_energy_use
-  label: null
+  label: Final energy use, by sector
   unit: MWh
   rows: 1265
   first: '1970-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: gross_inland_consumption
-  label: null
+  label: Gross inland consumption of electricity (its net imports)
   unit: MWh
   rows: 55
   first: '1970-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Imports of electricity
   unit: MWh
   rows: 55
   first: '1970-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: transformation_input
-  label: null
+  label: Electricity used as transformation input
   unit: MWh
   rows: 165
   first: '1970-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: transformation_output
-  label: null
+  label: 'Transformation output: electricity generated, by plant type, owner and fuel'
   unit: MWh
   rows: 4840
   first: '1970-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: transport_losses
-  label: null
+  label: Transport losses
   unit: MWh
   rows: 55
   first: '1970-01-01T00:00:00Z'

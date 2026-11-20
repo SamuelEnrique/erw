@@ -132,7 +132,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The collecting pass's word for the kind of body (not the standard's entity types)
+  particular: The kind of body, as its collector recorded it
 - name: parent_company
   label: The entity's parent company, as its collector recorded it
   unit: none

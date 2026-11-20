@@ -5,9 +5,10 @@
 table: stat_kz_kazakhstan_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's value of one item of the electricity column of Kazakhstan's fuel and energy balance (output by plant class,
+  trade, own use, losses, consumption by sector), from the Bureau of National Statistics.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y; 2022 to 2025.
+vintage_rule: Rewritten whole as one snapshot by each run from the yearly workbooks; vintage is each workbook's Last-Modified.
 keys:
 - entity
 - variable
@@ -59,6 +60,7 @@ columns:
       statkz:kz:transport: 4
       statkz:kz:wind: 4
   missing_cells: 0
+  particular: 'statkz:kz:<item>: a plant class, a balance item or a sector'
 - name: variable
   shared: true
   type: text
@@ -104,12 +106,14 @@ columns:
     list:
       KZ: 84
   missing_cells: 0
+  particular: KZ on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 84
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -122,6 +126,7 @@ columns:
     - Combined Heat and Power Plants (CHPP) (main activity) - electricity and heat generation
     - Combined Heat and Power Plants (CHPP) (secondary activity)
   missing_cells: 0
+  particular: The row's label in the balance, not a pricing node
 - name: source
   shared: true
   type: text
@@ -159,45 +164,46 @@ columns:
       '2025-08-01T04:35:25Z': 21
       '2026-08-03T06:42:05Z': 21
   missing_cells: 0
+  particular: The year's workbook's Last-Modified (UTC)
 variables:
 - name: consumption
-  label: null
+  label: Final consumption, total or by sector
   unit: MWh
   rows: 28
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: exports
-  label: null
+  label: Exports (written positive)
   unit: MWh
   rows: 4
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: generation
-  label: null
+  label: Electricity output, total or by plant class
   unit: MWh
   rows: 36
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Imports
   unit: MWh
   rows: 4
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: losses
-  label: null
+  label: Losses
   unit: MWh
   rows: 4
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: own_use
-  label: null
+  label: Own use
   unit: MWh
   rows: 4
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: statistical_difference
-  label: null
+  label: Statistical difference
   unit: MWh
   rows: 4
   first: '2022-01-01T00:00:00Z'

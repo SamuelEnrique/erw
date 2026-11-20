@@ -5,9 +5,11 @@
 table: statsmu_mauritius_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's value of one Mauritius electricity measure (generation by source, renewable share, sales, capacity, peak demand),
+  from Statistics Mauritius' Energy and Water Statistics.
+time: 'ts_utc is the year''s 1 January at 00:00:00Z; freq P1Y; 2017 to 2025 (Tables 7 and 8: 2022 to 2025).'
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s years replace the same keys and older ones are kept; vintage
+  is the edition''s workbook''s Last-Modified.'
 keys:
 - entity
 - variable
@@ -44,6 +46,7 @@ columns:
     list:
       statsmu:MU: 79
   missing_cells: 0
+  particular: statsmu:MU (the Republic of Mauritius) on every row
 - name: variable
   shared: true
   type: text
@@ -96,12 +99,14 @@ columns:
     list:
       MU: 79
   missing_cells: 0
+  particular: MU on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 79
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -109,6 +114,7 @@ columns:
     list:
       Mauritius: 79
   missing_cells: 0
+  particular: Mauritius on every row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -140,99 +146,100 @@ columns:
       '2024-06-07T07:40:46Z': 29
       '2026-06-05T04:58:07Z': 50
   missing_cells: 0
+  particular: The edition's workbook's Last-Modified (UTC)
 variables:
 - name: capacity_effective
-  label: null
+  label: Effective capacity (Table 7; not defined by the source)
   unit: MW
   rows: 4
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_installed
-  label: null
+  label: Installed capacity, including plants not exporting to the CEB (Table 7)
   unit: MW
   rows: 4
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: electricity_sold
-  label: null
+  label: The CEB's electricity sales (Table 1)
   unit: MWh
   rows: 9
   first: '2017-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: generation_bagasse
-  label: null
+  label: Generation from bagasse (and fuelwood in the 2025 edition) (Table 8)
   unit: MWh
   rows: 4
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: generation_coal
-  label: null
+  label: Generation from coal (Table 8)
   unit: MWh
   rows: 4
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: generation_fuel_oil_diesel
-  label: null
+  label: Generation from fuel oil and diesel (Table 8)
   unit: MWh
   rows: 4
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: generation_gas_turbine_kerosene
-  label: null
+  label: Generation from gas turbines on kerosene (Table 8)
   unit: MWh
   rows: 4
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: generation_hydro
-  label: null
+  label: Generation from hydro (Table 8)
   unit: MWh
   rows: 4
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: generation_landfill_gas
-  label: null
+  label: Generation from landfill gas (Table 8)
   unit: MWh
   rows: 4
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: generation_photovoltaic
-  label: null
+  label: Generation from photovoltaics (Table 8)
   unit: MWh
   rows: 4
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: generation_renewable
-  label: null
+  label: Generation from renewables (Table 8)
   unit: MWh
   rows: 4
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: generation_total
-  label: null
+  label: Electricity generation, every producer's, own use included (Table 1)
   unit: MWh
   rows: 9
   first: '2017-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: generation_wind
-  label: null
+  label: Generation from wind (Table 8)
   unit: MWh
   rows: 4
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: peak_demand_mauritius
-  label: null
+  label: Peak demand, island of Mauritius (Table 7)
   unit: MW
   rows: 4
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: peak_demand_rodrigues
-  label: null
+  label: Peak demand, Rodrigues (Table 7)
   unit: MW
   rows: 4
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: renewable_share
-  label: null
+  label: Share of generation from renewables (Table 1)
   unit: pct
   rows: 9
   first: '2017-01-01T00:00:00Z'

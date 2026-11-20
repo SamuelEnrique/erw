@@ -133,8 +133,7 @@ variables:
   first: '2025-03-01T05:00:00Z'
   last: '2026-10-05T03:00:00Z'
 - name: as_price_dam_tmsr
-  label: 'Day-ahead Ten Minute Spinning Reserve clearing price: the price of reserve from running units that can deliver within
-    ten minutes, US dollars per MW for the hour'
+  label: Day-ahead Ten Minute Spinning Reserve clearing price, US dollars per MW for the hour
   unit: USD/MW-hour
   rows: 13991
   first: '2025-03-01T05:00:00Z'

@@ -5,9 +5,12 @@
 table: texas_delivery_charges
 family: erw_derived
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One charge figure (a delivery charge for a load at transmission voltage) as a Texas wires utility's Tariff for Retail
+  Delivery Service, or a Public Utility Commission of Texas filing, prints it.
+time: event_date is the effective date printed on the figure's page where it reads as a date, else the day the document was
+  retrieved (event_date_basis says which).
+vintage_rule: Merged by event_id (the document and a hash of page, class, charge, figure and line); a run that reads a document
+  again replaces its rows with the same key. No vintage column.
 keys:
 - event_id
 license: internal
@@ -73,18 +76,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: tariff_charge for a tariff's figure, wholesale_transmission_charge for a Commission order's
 - name: parties
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The publisher of the document (the utility, or the Commission)
 - name: entity_ids
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The entity the document belongs to, as the connector names it
 - name: mw
   shared: true
   type: empty
@@ -103,12 +109,14 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: USD on every row
 - name: status
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 73
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -122,155 +130,156 @@ columns:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
 - name: utility
-  label: null
-  unit: null
+  label: The publisher of the document the figure is read from (the utility, or the Commission for its order)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector texas_delivery_charges.py
 - name: rate_class
-  label: null
-  unit: null
+  label: The rate class the charge applies to, as the page names it (the model's reading)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_delivery_charges.py
 - name: schedule
-  label: null
-  unit: null
+  label: The rate schedule or rider the charge belongs to, as the page names it (the model's reading)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_delivery_charges.py
 - name: charge_name
-  label: null
-  unit: null
+  label: The charge's name as the page words it (the model's reading)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_delivery_charges.py
 - name: amount
-  label: null
-  unit: null
+  label: The printed figure as a decimal (commas dropped, negative when printed in parentheses), in the unit of unit_as_written
+  unit: unit_as_written
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_delivery_charges.py
 - name: value_as_written
-  label: null
-  unit: null
+  label: The figure exactly as the page prints it
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_delivery_charges.py
 - name: unit_as_written
-  label: null
-  unit: null
+  label: The charge's unit in the tariff's own words, outside the standard's unit vocabulary
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 4
-  missing_meaning: null
+  missing_meaning: No unit is printed on the page for the figure
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_delivery_charges.py
 - name: effective_date_as_written
-  label: null
-  unit: null
+  label: The effective date as the page prints it
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 1
-  missing_meaning: null
+  missing_meaning: No effective date is printed on the page
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_delivery_charges.py
 - name: event_date_basis
-  label: null
-  unit: null
+  label: 'What event_date is: the effective date printed on the page, or the date the document was retrieved'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_delivery_charges.py
 - name: document_title
-  label: null
-  unit: null
+  label: The document's title
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector texas_delivery_charges.py
 - name: page
-  label: null
-  unit: null
+  label: The page of the document the figure was read from
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_delivery_charges.py
 - name: sentence
-  label: null
-  unit: null
+  label: The sentence or table line the figure was read from, found literally in the page's extracted text
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_delivery_charges.py
 - name: checks
-  label: null
-  unit: null
+  label: What was found literally on the page (line, value, unit, effective date, charge name, rate class, schedule), joined
+    by ';'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_delivery_charges.py
 - name: figures_in_sentence
-  label: null
-  unit: null
+  label: How many decimal figures the sentence holds; above 1, which column belongs to the class is the model's reading
+  unit: count
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_delivery_charges.py
 - name: class_in_sentence
-  label: null
-  unit: null
+  label: yes when the sentence itself names the rate class, else no
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector texas_delivery_charges.py
 - name: retrieved_at
   shared: true
   type: utc time
@@ -278,33 +287,33 @@ columns:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
 - name: model_id
-  label: null
-  unit: null
+  label: The Claude model that read the page
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector texas_delivery_charges.py
 - name: read_run_id
-  label: null
-  unit: null
+  label: The run in which the model read the page
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector texas_delivery_charges.py
 - name: request_id
-  label: null
-  unit: null
+  label: Anthropic's request id of the model's reading
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector texas_delivery_charges.py
 second_look: null

@@ -5,9 +5,10 @@
 table: sne_panama_generation_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Panama's total gross generation in one month, from the Secretaria Nacional de Energia's Cuadro GE-10.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; 1980-01 to 2021-12.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s months replace the same keys and older ones are kept; vintage
+  is the workbook''s Last-Modified.'
 keys:
 - entity
 - variable
@@ -38,6 +39,7 @@ columns:
     list:
       sne:PA: 504
   missing_cells: 0
+  particular: sne:PA on every row
 - name: variable
   shared: true
   type: text
@@ -81,12 +83,14 @@ columns:
     list:
       PA: 504
   missing_cells: 0
+  particular: PA on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 504
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -94,6 +98,7 @@ columns:
     list:
       Panama: 504
   missing_cells: 0
+  particular: Panama on every row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -122,9 +127,10 @@ columns:
     list:
       '2024-04-01T15:57:18Z': 504
   missing_cells: 0
+  particular: The workbook's Last-Modified (UTC)
 variables:
 - name: generation_gross_total
-  label: null
+  label: Total gross generation in the month (the Canal Authority's plants included from 2000, so the series breaks there)
   unit: MWh
   rows: 504
   first: '1980-01-01T00:00:00Z'
