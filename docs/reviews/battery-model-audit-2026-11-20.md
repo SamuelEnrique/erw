@@ -28,6 +28,7 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 | 4 | Degradation cuts the whole revenue 2.6 percent a year; the model's own runs lose 1.1 percent a year at that fade | none (year 1) | +44.76 | `wip/audit-battery-4` |
 | 5 | The "Breakeven toll" (USD 4.19 per kW-month) only covers debt 1.25 times; equity breaks even at 13.62 | the toll figure: 4.19 against 13.62 | at the 4.19 toll: -845.78 | `wip/audit-battery-5` (fix in words) |
 | 6 | "Each figure is an upper bound" is false: findings 2 and 3 together give 88.81; with finding 1 as well, 83.02 | the bound: +7.41 (+9.1 percent) | +47.6 | `wip/audit-battery-6` (fix in words) |
+| 7 | The size runs to 5,000 MW and scales linearly; past about 500 MW the battery is paid for reserves ERCOT never buys | none at 100 MW; -27.0 percent of revenue at 5,000 MW (September 2026) | none at 100 MW | `wip/audit-battery-7` |
 
 ## 1. Regulation is never called
 
@@ -82,6 +83,18 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 - **It is not a lower bound either.** Add finding 1 (regulation called at the measured 17 percent) to the same program: 83.02, +1.61 (+2.0 percent). The biases roughly cancel at the default; perfect foresight, a price taker and the hub still push it above what an operator gets. The honest word is "optimistic", not "upper bound".
 - **The test.** `tests/test_audit_battery_6.py` on `wip/audit-battery-6`. December 2025 from the public file: the carried program (checked equal to `solve_day` on each day) earns 11.6 percent more than the model's days; quarter prices inside flat hours pay. Both pass on main. A third test, that no page text or decision says "upper bound", fails on main and passes on the branch.
 - **The fix on the branch.** Words only, no figure moves: decision 3 and the note's section 12 (kept word for word, `tests/test_session5001.py` passes), the chart's two sentences ("This is optimistic, not an upper bound: ..."), the strategy line and hover, the note's section 4.11. `tests/test_session102.py` and `site/scripts/test-battery-stack.mjs` follow; the second needs the built site and was not run here.
+
+## 7. The size field pays for reserves ERCOT never buys
+
+- **Where.** `site/lib/batterystack.ts` line 106 (`mw` from 1 to 5,000) and line 447 (`scaled`: every dollar figure is the per-MW figure times the size), read by the headline's "USD for the reader's size". The note, section 2 line 28, section 4.11 line 208 ("large sizes are overstated, ancillary income most of all"), section 6 line 249 ("Price taker: assumed"). Decision 4.
+- **Why it is wrong.** A price taker is a fair assumption for one battery that is small beside the market. ERCOT buys a fixed quantity of each reserve: in September 2026 its day-ahead plan held a median of 387 MW of Reg Up and 393 MW of Reg Down (`ercot_as_quantities`). At 100 MW the model already holds 57 and 78 MW of them in the mean hour, 15 and 20 percent of the whole market. The page says large sizes are overstated, then prints them scaled.
+- **How much.** The 672 hours of September 2026 both tables hold, the model's own hourly awards times the size, against ERCOT's plan hour by hour:
+  - 100 MW: never above ERCOT's purchase. No effect at the default.
+  - 500 MW: Reg Down above ERCOT's whole purchase in 47 percent of hours; 2.7 percent of the hours' revenue is for megawatts ERCOT does not buy.
+  - 1,000 MW: 79 percent of hours; 10.8 percent of revenue.
+  - 5,000 MW: 83 percent of hours; 27.0 percent of revenue (USD 8.0 million of 29.6 million in that month), 89 percent of the regulation revenue.
+- **The test.** `tests/test_audit_battery_7.py` on `wip/audit-battery-7`: the page's library (run by Node) reads 5,000 MW and scales the twelve months by exactly 50; the public file's September 2026 awards at 5,000 MW sit above ERCOT's plan in most hours and more than a fifth of the revenue is for megawatts never bought. It reads `ercot_as_quantities` where it is on the machine, else the figures read here.
+- **Not fixed.** Lowering the size's bound, or a line when the awards outgrow the market, is the owner's ruling. ERCOT's plan is held for 40 days only (from 3 September 2026), so a check across the twelve months needs its history.
 
 ## The deploys of this file (rule 8)
 
