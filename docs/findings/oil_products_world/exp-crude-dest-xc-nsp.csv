@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate exp_crude_dest, region xc_nsp (Spain)
+# Computed 2026-11-19T12:51:15Z by warehouse/analysis/findings/deep/oil_products_world.py (exp_crude_dest); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: US crude oil exports to the destination (thousand barrels a day), the observations it rests on, and whether the year is full
+# Tables: eia_petroleum_exports_by_destination
+region,year,value,n_observations,full_year
+xc_nsp,2015,7.156164383561644,5.0,0
+xc_nsp,2016,8.55464480874317,4.0,0
+xc_nsp,2017,21.528767123287672,7.0,0
+xc_nsp,2018,22.246575342465754,10.0,0
+xc_nsp,2019,46.94794520547945,12.0,1
+xc_nsp,2020,62.98907103825137,11.0,1
+xc_nsp,2021,86.37808219178082,12.0,1
+xc_nsp,2022,165.52328767123288,12.0,1
+xc_nsp,2023,201.9890410958904,12.0,1
+xc_nsp,2024,211.5327868852459,12.0,1
+xc_nsp,2025,190.86027397260273,12.0,1
+xc_nsp,2026,91.76164383561644,7.0,0

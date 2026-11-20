@@ -29,7 +29,15 @@ class DraftsList(unittest.TestCase):
         self.assertIn("p_limit: String(LIST_LIMIT)", body)
 
     def test_the_page_still_lists_through_listDrafts(self):
-        self.assertIn("drafts = await listDrafts();", src("site", "app", "internal", "findings", "page.tsx"))
+        # chain 507 (session 8900): the page reads every page of the list (listAllDrafts, migration 039), which falls
+        # back to listDrafts and its 500 while migration 039 is not applied
+        page = src("site", "app", "internal", "findings", "page.tsx")
+        self.assertIn("({ drafts, capped } = await listAllDrafts());", page)
+        lib = src("site", "lib", "scanner.ts")
+        body = lib[lib.index("export async function listAllDrafts"):]
+        body = body[: body.index("\n}\n")]
+        self.assertIn("scanner_drafts_list_from", body)
+        self.assertIn("await listDrafts()", body)
 
 
 if __name__ == "__main__":

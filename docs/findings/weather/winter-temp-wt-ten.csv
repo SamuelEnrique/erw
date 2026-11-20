@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate winter_temp, region wt_ten (Tennessee (EIA's region))
+# Computed 2026-11-19T11:23:50Z by warehouse/analysis/findings/deep/weather.py (winter_temp); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean temperature of the year's January, February and December hours (F), the observations it rests on, and whether the year is full
+# Tables: region_weather_hourly
+region,year,value,n_observations,full_year
+wt_ten,2018,44.422016460905354,729.0,0
+wt_ten,2019,45.28225791433892,2148.0,1
+wt_ten,2020,44.10972947318462,2107.0,1
+wt_ten,2021,44.68522317188983,2106.0,1
+wt_ten,2022,42.34004400977995,2045.0,1
+wt_ten,2023,47.77483214649034,1966.0,1
+wt_ten,2024,44.184764448761534,2059.0,1
+wt_ten,2025,41.280285024154594,2070.0,1
+wt_ten,2026,41.68742326909351,1401.0,0
