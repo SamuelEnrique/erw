@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ba_top_winter, region ba_psei (Puget Sound Energy (PSEI, EIA-930 balancing authority))
+# Computed 2026-11-19T12:57:36Z by warehouse/analysis/findings/deep/authorities.py (ba_top_winter); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the share of the year's 100 highest hours of demand that fell in January, February or December (percent of the top hours), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+ba_psei,2018,100.0,591.0,0
+ba_psei,2019,90.0,8376.0,1
+ba_psei,2020,8.0,109.0,0
+ba_psei,2021,94.0,8752.0,1
+ba_psei,2022,97.0,8760.0,1
+ba_psei,2023,66.0,8760.0,1
+ba_psei,2024,100.0,8784.0,1
+ba_psei,2025,100.0,8760.0,1
+ba_psei,2026,94.0,7688.0,0
