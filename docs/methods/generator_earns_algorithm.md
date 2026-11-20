@@ -89,7 +89,7 @@ A month's battery figures are the sums of its solved days; its `hours` field is 
 - Henry Hub is the day's spot price (`eia_fuel_spot_prices`, `eia:henry_hub`), or the last trading day's before a day without one. The day is the grid's local day.
 - Margin = the sum over run hours of price less cost. Energy = the run hours (1 MWh per MW each). "Price while running" = sales over run hours.
 - At the default heat rate and variable O&M the page reads the month's row. At any other, it computes the same rule again from the snapshot's hourly prices (rounded to the cent) and Henry Hub (rounded to a tenth of a cent).
-- Not modeled: start cost, minimum run, ramp limits, outages, and the gas basis (a New York or New England plant pays more than Henry Hub in winter, so its margin is overstated).
+- Not modeled: start cost, minimum run, ramp limits, outages, and the gas basis (a New York or New England plant pays more than Henry Hub in winter, so its margin is overstated). What the missing start cost can be worth (the audit of session 9841, `docs/reviews/generator-model-audit-2026-11-20.md`, finding 9): in ERCOT over the page's last twelve months the rule starts the plant 403 times for 1,772 run hours, a quarter of the runs one hour long, the median run earning about USD 25 per MW; at a start cost of USD 25, 50 or 100 per MW the margin of USD 48.15 per kW falls by 14, 23 or 36 percent. No figure of the page moves with this sentence.
 
 ### 3.5 Months, and which count
 
