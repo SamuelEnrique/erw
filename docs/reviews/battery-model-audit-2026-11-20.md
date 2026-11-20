@@ -14,6 +14,8 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 - **The page's words and its figures disagree twice more.** The "Breakeven toll" covers debt 1.25 times and leaves equity worse off than merchant (finding 5). "4 hours at rated power" is 3.71 hours in the model (finding 10).
 - **The finance leaves out what a developer's NPV holds.** No tax and no depreciation against an after-tax rate (+118.95 per kW; +426.14 with the 30 percent credit, finding 8), two kinds of dollars in one sum (+40 to +61, finding 9), degradation cut one for one with capacity where the model's own runs lose less than half of that (+44.76, finding 4).
 - **Size.** Past about 500 MW the battery is paid for reserves ERCOT does not buy (finding 7).
+- **The two largest model findings hold on every open case.** ERCOT and CAISO, both strategies, on the table's current twelve months: the empty start costs 6.3 to 7.6 percent, regulation called 7.9 to 13.0 percent (CAISO at ERCOT's measured rate).
+- **The replication proves a window the page has left.** The table now gives November 2025 to October 2026, USD 80.34 per kW; the public file and the replication still show 81.40 (finding 11).
 - **Wording fixes are on branches 5, 6 and 10** and move no figure. Every other fix moves figures and is the owner's ruling; each finding has a test on its own branch.
 
 ## How every number here was computed
@@ -41,7 +43,6 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 | 3 | Energy is paid the hourly mean; ERCOT settles real-time energy every 15 minutes | +2.23 (+2.7 percent) | +14.4 | `wip/audit-battery-3` |
 | 5 | The "Breakeven toll" (USD 4.19 per kW-month) only covers debt 1.25 times; equity breaks even at 13.62 | the toll figure: 4.19 against 13.62 | at the 4.19 toll: -845.78 | `wip/audit-battery-5` (fix in words) |
 | 7 | The size runs to 5,000 MW and scales linearly; past about 500 MW the battery is paid for reserves ERCOT never buys | none at 100 MW; -27.0 percent of revenue at 5,000 MW (September 2026) | none at 100 MW | `wip/audit-battery-7` |
-
 | 11 | The public file, the replication and the note's section 11.2 prove October 2025 to September 2026; the table has moved to November to October | the default's headline in the table: 80.34, not 81.40 | | `wip/audit-battery-11` |
 
 - Ranked by how far the default case's NPV moves, per kW (the smaller end of a range). Finding 11 is about what the replication proves, not about the model, and comes last. Finding 6 is findings 2 and 3 together. Finding 5 moves a printed figure, not NPV. Finding 7 moves nothing at the default 100 MW.
