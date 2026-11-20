@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate gen_ratio, region rg_se (the Southeast (EIA's region))
+# Computed 2026-11-19T11:17:48Z by warehouse/analysis/findings/deep/regions.py (gen_ratio); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the region's net generation as a percent of its demand (percent), the observations it rests on, and whether the year is full
+# Tables: eia930_region_hourly, eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+rg_se,2018,104.53985713782905,3162.0,0
+rg_se,2019,103.84445761241241,8759.0,1
+rg_se,2020,103.28047435516454,8784.0,1
+rg_se,2021,103.55429920476851,8045.0,1
+rg_se,2022,102.26087988762616,8760.0,1
+rg_se,2023,105.07185183875391,8760.0,1
+rg_se,2024,105.22040806994542,8761.0,1
+rg_se,2025,105.99318937115993,8760.0,1
+rg_se,2026,105.48198301877491,7663.0,0

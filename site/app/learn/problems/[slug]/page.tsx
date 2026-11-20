@@ -7,9 +7,9 @@ import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { shown } from "@/lib/format";
 import { problemSet, SETS, type Part, type Question } from "@/lib/problems";
-import { GUIDE, sourceOfKey } from "@/lib/problemkit";  // session 3650: the outcome line, and each figure's source as its hover
+import { GUIDE, pageFilesOf, sourceOfKey } from "@/lib/problemkit";  // session 3650: the outcome line, and each figure's source as its hover
 import citations from "@/data/table_citations.json";
-import { editionPath, editions, longDate, teacherPath } from "@/lib/problemEditions";
+import { editionHolds, editionPath, editions, longDate, teacherPath } from "@/lib/problemEditions";
 import { attempt } from "@/lib/supabase";
 import { ProblemDecisions } from "../Decisions";  // session 7534 (chain 304): the decisions block
 
@@ -38,13 +38,26 @@ function Parts({ parts }: { parts: Part[] }) {
   );
 }
 
+/** A question's tables, each linked to /data. Session 8901: and the committed page files its figures read (a set of the
+ *  whole country), named as paths; the tables' words are left out when a question reads no table (the resource map's
+ *  list of layers names none). */
+function Sources({ q }: { q: Question }) {
+  const files = pageFilesOf(q);
+  return (
+    <p className="mb-2 text-xs text-muted">
+      {q.tables.length || !files.length ? <>Tables: {q.tables.map((t, i) => <span key={t}>{i ? ", " : ""}<Link href={`/data#${t}`} className="font-mono">{t}</Link></span>)}</> : null}
+      {files.length ? <span data-page-files>{q.tables.length ? ". " : ""}Page file{files.length > 1 ? "s" : ""}: {files.map((f, i) => <span key={f}>{i ? ", " : ""}<span className="font-mono">site/data/{f}</span></span>)}</span> : null}
+    </p>
+  );
+}
+
 /** Session 3650: the worked example, open: the question, its solution step by step, the one-line computation and the answer. */
 function Example({ q }: { q: Question }) {
   return (
     <div className="mb-6" data-example>
       <Section title="Worked example">
         <p className="mb-1 max-w-3xl">{q.q}</p>
-        <p className="mb-2 text-xs text-muted">Tables: {q.tables.map((t, i) => <span key={t}>{i ? ", " : ""}<Link href={`/data#${t}`} className="font-mono">{t}</Link></span>)}</p>
+        <Sources q={q} />
         <div className="max-w-3xl border border-rule bg-panel p-2 text-sm">
           <ol className="list-decimal pl-6">
             {q.steps.map((s, i) => <li key={i}><Parts parts={s} /></li>)}
@@ -75,7 +88,8 @@ export default async function Problems({ params }: { params: Promise<{ slug: str
         <p><strong>For teachers.</strong> {meta.teacher}</p>
         <p className="mt-1 text-xs text-muted">Pages: {meta.pages.map((p, i) => <span key={p.href}>{i ? ", " : ""}<Link href={p.href}>{p.label}</Link></span>)}.</p>
         {/* session 293 (Samuel's ruling 8a): for a class, a dated edition whose numbers do not move, with a teacher's copy */}
-        {editions().length ? (
+        {/* session 8901: only when the edition holds this set (a set added after it has no copy) */}
+        {editions().length && editionHolds(slug, editions()[0]) ? (
           <p className="mt-1 text-xs" data-editions>For a class: <Link href={editionPath(slug, editions()[0])}>the edition of {longDate(editions()[0])}</Link>, whose numbers do not move, each question with the rows it needs, and <Link href={teacherPath(slug, editions()[0])}>its teacher&apos;s copy</Link> with the answers.</p>
         ) : null}
       </div>
@@ -92,7 +106,7 @@ export default async function Problems({ params }: { params: Promise<{ slug: str
                 <p className="mb-1 max-w-3xl">{q.q}</p>
                 {/* session 369: the day the figures belong to, checked by check-values with lib/gridday.ts (the page's own rule) */}
                 {q.day ? <p className="mb-1 text-xs text-muted" data-day>Figures of <Num check={q.day.k} raw={q.day.d}>{q.day.d}</Num>: {q.day.note}.</p> : null}
-                <p className="mb-2 text-xs text-muted">Tables: {q.tables.map((t, i) => <span key={t}>{i ? ", " : ""}<Link href={`/data#${t}`} className="font-mono">{t}</Link></span>)}</p>
+                <Sources q={q} />
                 <details className="max-w-3xl border border-rule bg-panel p-2 text-sm">
                   <summary className="cursor-pointer text-accent">Show answer</summary>
                   <p className="mt-2"><strong>Answer.</strong> <Parts parts={q.answer} /></p>

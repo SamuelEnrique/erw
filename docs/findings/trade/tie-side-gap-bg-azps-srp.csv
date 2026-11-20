@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate tie_side_gap, region bg_azps_srp (Arizona Public Service (AZPS) and the Salt River Project (SRP))
+# Computed 2026-11-19T11:05:24Z by warehouse/analysis/findings/deep/trade.py (tie_side_gap); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean absolute difference between the two balancing authorities' reports on their tie (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_interchange_hourly_2018, eia930_ba_interchange_hourly_2019, eia930_ba_interchange_hourly_2020, eia930_ba_interchange_hourly_2021, eia930_ba_interchange_hourly_2022, eia930_ba_interchange_hourly_2023, eia930_ba_interchange_hourly_2024, eia930_ba_interchange_hourly_2025, eia930_ba_interchange_hourly_2026
+region,year,value,n_observations,full_year
+bg_azps_srp,2018,2315.458905885403,3857.0,0
+bg_azps_srp,2019,3003.6024305555557,8640.0,1
+bg_azps_srp,2020,1837.685950413223,8712.0,1
+bg_azps_srp,2021,118.53869863013699,8760.0,1
+bg_azps_srp,2022,144.512100456621,8760.0,1
+bg_azps_srp,2023,111.7291095890411,8760.0,1
+bg_azps_srp,2024,170.22470238095238,8736.0,1
+bg_azps_srp,2025,197.3785388127854,8760.0,1
+bg_azps_srp,2026,198.2667362651703,7663.0,0

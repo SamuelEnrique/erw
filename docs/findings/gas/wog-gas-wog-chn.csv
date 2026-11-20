@@ -1,0 +1,50 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate wog_gas, region wog_chn (China)
+# Computed 2026-11-19T13:25:09Z by warehouse/analysis/findings/deep/gas.py (wog_gas); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the country's dry natural gas production (billion cubic feet), the observations it rests on, and whether the year is full
+# Tables: eia_world_oil_gas_annual
+region,year,value,n_observations,full_year
+wog_chn,1980,505.0,1.0,1
+wog_chn,1981,450.0,1.0,1
+wog_chn,1982,381.0,1.0,1
+wog_chn,1983,431.0,1.0,1
+wog_chn,1984,438.0,1.0,1
+wog_chn,1985,457.0,1.0,1
+wog_chn,1986,484.0,1.0,1
+wog_chn,1987,494.0,1.0,1
+wog_chn,1988,491.0,1.0,1
+wog_chn,1989,505.0,1.0,1
+wog_chn,1990,508.0,1.0,1
+wog_chn,1991,526.0,1.0,1
+wog_chn,1992,533.2565,1.0,1
+wog_chn,1993,558.33,1.0,1
+wog_chn,1994,588.7,1.0,1
+wog_chn,1995,601.41,1.0,1
+wog_chn,1996,711.844455,1.0,1
+wog_chn,1997,801.29735,1.0,1
+wog_chn,1998,821.603475,1.0,1
+wog_chn,1999,889.337645,1.0,1
+wog_chn,2000,962.33375,1.0,1
+wog_chn,2001,1070.39765,1.0,1
+wog_chn,2002,1152.6816,1.0,1
+wog_chn,2003,1211.3045,1.0,1
+wog_chn,2004,1439.4394,1.0,1
+wog_chn,2005,1762.9248,1.0,1
+wog_chn,2006,2066.56317,1.0,1
+wog_chn,2007,2446.27005,1.0,1
+wog_chn,2008,2685.3526,1.0,1
+wog_chn,2009,2975.00623,1.0,1
+wog_chn,2010,3323.807165,1.0,1
+wog_chn,2011,3655.181614,1.0,1
+wog_chn,2012,3838.044791,1.0,1
+wog_chn,2013,4193.708467,1.0,1
+wog_chn,2014,4516.408191,1.0,1
+wog_chn,2015,4670.818275,1.0,1
+wog_chn,2016,5007.397558,1.0,1
+wog_chn,2017,5358.897365,1.0,1
+wog_chn,2018,5839.130074,1.0,1
+wog_chn,2019,6332.548363,1.0,1
+wog_chn,2020,6922.082591,1.0,1
+wog_chn,2021,7479.346847,1.0,1
+wog_chn,2022,7994.972429,1.0,1
+wog_chn,2023,8454.385801,1.0,1
+wog_chn,2024,9126.850389,1.0,1

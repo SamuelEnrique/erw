@@ -1,0 +1,1130 @@
+figure,the_map,the_publisher,same
+"outlines, count",51,51,yes
+OCS-A 0506: name (the source's LEASE_NU_1),OCS-A 0506 - The Narragansett Electric Company,OCS-A 0506 - The Narragansett Electric Company,yes
+"OCS-A 0506: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0506: area, acres (the hover's figure; the source's ACRES, none where it is 0)",,,yes
+OCS-A 0506: the unit the hover gives,acres,acres,yes
+OCS-A 0506: LEASE_NUMB,OCS-A 0506,OCS-A 0506,yes
+OCS-A 0506: LEASE_DOCU,https://www.boem.gov/sites/default/files/documents/about-boem/ROW-Grant-OCS-A-0506_0.pdf,https://www.boem.gov/sites/default/files/documents/about-boem/ROW-Grant-OCS-A-0506_0.pdf,yes
+OCS-A 0506: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/sea2shore-renewable-link,https://www.boem.gov/renewable-energy/state-activities/sea2shore-renewable-link,yes
+OCS-A 0506: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0506: RESOURCE,Wind,Wind,yes
+OCS-A 0506: COMPANY,The Narragansett Electric Company,The Narragansett Electric Company,yes
+OCS-A 0506: LEASE_NU_1,OCS-A 0506 - The Narragansett Electric Company,OCS-A 0506 - The Narragansett Electric Company,yes
+OCS-A 0506: LEASE_DATE,12/01/2014,12/01/2014,yes
+OCS-A 0506: LEASE_TERM,50 Years,50 Years,yes
+OCS-A 0506: PROJECT_EA,12/01/2014,12/01/2014,yes
+OCS-A 0506: ACRES,0,0.0,yes
+OCS-A 0506: STATE,Rhode Island,Rhode Island,yes
+OCS-A 0506: PROTRACTIO,NK19-07,NK19-07,yes
+OCS-A 0506: PROTRACT_1,Providence,Providence,yes
+OCS-A 0506: PROJECT_NA,sea2shore: The Renewable Link,sea2shore: The Renewable Link,yes
+OCS-A 0506: PROJECT__1,,,yes
+OCS-A 0506: PROJECT__2,,,yes
+OCS-A 0506: FAST41,n/a - constructed,n/a - constructed,yes
+OCS-P 0561: name (the source's LEASE_NU_1),"OCS-P 0561 - RWE Offshore Wind Holdings, LLC","OCS-P 0561 - RWE Offshore Wind Holdings, LLC",yes
+"OCS-P 0561: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-P 0561: area, acres (the hover's figure; the source's ACRES, none where it is 0)",63338,63338.0,yes
+OCS-P 0561: the unit the hover gives,acres,acres,yes
+OCS-P 0561: LEASE_NUMB,OCS-P 0561,OCS-P 0561,yes
+OCS-P 0561: LEASE_DOCU,https://www.boem.gov/renewable-energy/state-activities/boemrwepocsrlease-0561,https://www.boem.gov/renewable-energy/state-activities/boemrwepocsrlease-0561,yes
+OCS-P 0561: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/california,https://www.boem.gov/renewable-energy/state-activities/california,yes
+OCS-P 0561: LEASE_TYPE,Commercial,Commercial,yes
+OCS-P 0561: RESOURCE,Wind,Wind,yes
+OCS-P 0561: COMPANY,"RWE Offshore Wind Holdings, LLC","RWE Offshore Wind Holdings, LLC",yes
+OCS-P 0561: LEASE_NU_1,"OCS-P 0561 - RWE Offshore Wind Holdings, LLC","OCS-P 0561 - RWE Offshore Wind Holdings, LLC",yes
+OCS-P 0561: LEASE_DATE,06/01/2023,06/01/2023,yes
+OCS-P 0561: LEASE_TERM,33 Years,33 Years,yes
+OCS-P 0561: PROJECT_EA,,,yes
+OCS-P 0561: ACRES,63338,63338.0,yes
+OCS-P 0561: STATE,CA,CA,yes
+OCS-P 0561: PROTRACTIO,NK10-07,NK10-07,yes
+OCS-P 0561: PROTRACT_1,,,yes
+OCS-P 0561: PROJECT_NA,,,yes
+OCS-P 0561: PROJECT__1,,,yes
+OCS-P 0561: PROJECT__2,,,yes
+OCS-P 0561: FAST41,,,yes
+OCS-P 0562: name (the source's LEASE_NU_1),OCS-P 0562 - California North Floating LLC,OCS-P 0562 - California North Floating LLC,yes
+"OCS-P 0562: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-P 0562: area, acres (the hover's figure; the source's ACRES, none where it is 0)",69031,69031.0,yes
+OCS-P 0562: the unit the hover gives,acres,acres,yes
+OCS-P 0562: LEASE_NUMB,OCS-P 0562,OCS-P 0562,yes
+OCS-P 0562: LEASE_DOCU,https://www.boem.gov/renewable-energy/state-activities/boemca-north-floatpocsrlease-0562,https://www.boem.gov/renewable-energy/state-activities/boemca-north-floatpocsrlease-0562,yes
+OCS-P 0562: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/california,https://www.boem.gov/renewable-energy/state-activities/california,yes
+OCS-P 0562: LEASE_TYPE,Commercial,Commercial,yes
+OCS-P 0562: RESOURCE,Wind,Wind,yes
+OCS-P 0562: COMPANY,California North Floating LLC,California North Floating LLC,yes
+OCS-P 0562: LEASE_NU_1,OCS-P 0562 - California North Floating LLC,OCS-P 0562 - California North Floating LLC,yes
+OCS-P 0562: LEASE_DATE,06/01/2023,06/01/2023,yes
+OCS-P 0562: LEASE_TERM,33 Years,33 Years,yes
+OCS-P 0562: PROJECT_EA,,,yes
+OCS-P 0562: ACRES,69031,69031.0,yes
+OCS-P 0562: STATE,CA,CA,yes
+OCS-P 0562: PROTRACTIO,NK10-07,NK10-07,yes
+OCS-P 0562: PROTRACT_1,,,yes
+OCS-P 0562: PROJECT_NA,,,yes
+OCS-P 0562: PROJECT__1,,,yes
+OCS-P 0562: PROJECT__2,,,yes
+OCS-P 0562: FAST41,,,yes
+OCS-P 0563: name (the source's LEASE_NU_1),OCS-P 0563 - Equinor wind US LLC,OCS-P 0563 - Equinor wind US LLC,yes
+"OCS-P 0563: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-P 0563: area, acres (the hover's figure; the source's ACRES, none where it is 0)",80062,80062.0,yes
+OCS-P 0563: the unit the hover gives,acres,acres,yes
+OCS-P 0563: LEASE_NUMB,OCS-P 0563,OCS-P 0563,yes
+OCS-P 0563: LEASE_DOCU,https://www.boem.gov/renewable-energy/state-activities/boemequinorpocsrlease-0563,https://www.boem.gov/renewable-energy/state-activities/boemequinorpocsrlease-0563,yes
+OCS-P 0563: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/california,https://www.boem.gov/renewable-energy/state-activities/california,yes
+OCS-P 0563: LEASE_TYPE,Commercial,Commercial,yes
+OCS-P 0563: RESOURCE,Wind,Wind,yes
+OCS-P 0563: COMPANY,Equinor wind US LLC,Equinor wind US LLC,yes
+OCS-P 0563: LEASE_NU_1,OCS-P 0563 - Equinor wind US LLC,OCS-P 0563 - Equinor wind US LLC,yes
+OCS-P 0563: LEASE_DATE,06/01/2023,06/01/2023,yes
+OCS-P 0563: LEASE_TERM,33 Years,33 Years,yes
+OCS-P 0563: PROJECT_EA,,,yes
+OCS-P 0563: ACRES,80062,80062.0,yes
+OCS-P 0563: STATE,CA,CA,yes
+OCS-P 0563: PROTRACTIO,NI10-02,NI10-02,yes
+OCS-P 0563: PROTRACT_1,,,yes
+OCS-P 0563: PROJECT_NA,,,yes
+OCS-P 0563: PROJECT__1,,,yes
+OCS-P 0563: PROJECT__2,,,yes
+OCS-P 0563: FAST41,,,yes
+OCS-P 0564: name (the source's LEASE_NU_1),OCS-P 0564 - Golden State Wind LLC,OCS-P 0564 - Golden State Wind LLC,yes
+"OCS-P 0564: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-P 0564: area, acres (the hover's figure; the source's ACRES, none where it is 0)",80418,80418.0,yes
+OCS-P 0564: the unit the hover gives,acres,acres,yes
+OCS-P 0564: LEASE_NUMB,OCS-P 0564,OCS-P 0564,yes
+OCS-P 0564: LEASE_DOCU,https://www.boem.gov/renewable-energy/state-activities/boemccowpocsrlease-0564,https://www.boem.gov/renewable-energy/state-activities/boemccowpocsrlease-0564,yes
+OCS-P 0564: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/california,https://www.boem.gov/renewable-energy/state-activities/california,yes
+OCS-P 0564: LEASE_TYPE,Commercial,Commercial,yes
+OCS-P 0564: RESOURCE,Wind,Wind,yes
+OCS-P 0564: COMPANY,Golden State Wind LLC,Golden State Wind LLC,yes
+OCS-P 0564: LEASE_NU_1,OCS-P 0564 - Golden State Wind LLC,OCS-P 0564 - Golden State Wind LLC,yes
+OCS-P 0564: LEASE_DATE,06/01/2023,06/01/2023,yes
+OCS-P 0564: LEASE_TERM,33 Years,33 Years,yes
+OCS-P 0564: PROJECT_EA,,,yes
+OCS-P 0564: ACRES,80418,80418.0,yes
+OCS-P 0564: STATE,CA,CA,yes
+OCS-P 0564: PROTRACTIO,NI10-03,NI10-03,yes
+OCS-P 0564: PROTRACT_1,,,yes
+OCS-P 0564: PROJECT_NA,,,yes
+OCS-P 0564: PROJECT__1,,,yes
+OCS-P 0564: PROJECT__2,,,yes
+OCS-P 0564: FAST41,,,yes
+OCS-P 0565: name (the source's LEASE_NU_1),OCS-P 0565 - Invenergy California Offshore LLC,OCS-P 0565 - Invenergy California Offshore LLC,yes
+"OCS-P 0565: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-P 0565: area, acres (the hover's figure; the source's ACRES, none where it is 0)",80418,80418.0,yes
+OCS-P 0565: the unit the hover gives,acres,acres,yes
+OCS-P 0565: LEASE_NUMB,OCS-P 0565,OCS-P 0565,yes
+OCS-P 0565: LEASE_DOCU,https://www.boem.gov/renewable-energy/state-activities/boeminvenergypocsrlease-0565,https://www.boem.gov/renewable-energy/state-activities/boeminvenergypocsrlease-0565,yes
+OCS-P 0565: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/california,https://www.boem.gov/renewable-energy/state-activities/california,yes
+OCS-P 0565: LEASE_TYPE,Commercial,Commercial,yes
+OCS-P 0565: RESOURCE,Wind,Wind,yes
+OCS-P 0565: COMPANY,Invenergy California Offshore LLC,Invenergy California Offshore LLC,yes
+OCS-P 0565: LEASE_NU_1,OCS-P 0565 - Invenergy California Offshore LLC,OCS-P 0565 - Invenergy California Offshore LLC,yes
+OCS-P 0565: LEASE_DATE,06/01/2023,06/01/2023,yes
+OCS-P 0565: LEASE_TERM,33 Years,33 Years,yes
+OCS-P 0565: PROJECT_EA,,,yes
+OCS-P 0565: ACRES,80418,80418.0,yes
+OCS-P 0565: STATE,CA,CA,yes
+OCS-P 0565: PROTRACTIO,NI10-03,NI10-03,yes
+OCS-P 0565: PROTRACT_1,,,yes
+OCS-P 0565: PROJECT_NA,,,yes
+OCS-P 0565: PROJECT__1,,,yes
+OCS-P 0565: PROJECT__2,,,yes
+OCS-P 0565: FAST41,,,yes
+OCS-A 0482: name (the source's LEASE_NU_1),OCS-A 0482 - GSOE I  LLC,OCS-A 0482 - GSOE I  LLC,yes
+"OCS-A 0482: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0482: area, acres (the hover's figure; the source's ACRES, none where it is 0)",70098,70098.0,yes
+OCS-A 0482: the unit the hover gives,acres,acres,yes
+OCS-A 0482: LEASE_NUMB,OCS-A 0482,OCS-A 0482,yes
+OCS-A 0482: LEASE_DOCU,https://www.boem.gov/Assignment-of-Lease-OCS-A-0482/,https://www.boem.gov/Assignment-of-Lease-OCS-A-0482/,yes
+OCS-A 0482: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/delaware-activities,https://www.boem.gov/renewable-energy/state-activities/delaware-activities,yes
+OCS-A 0482: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0482: RESOURCE,Wind,Wind,yes
+OCS-A 0482: COMPANY,"GSOE I, LLC","GSOE I, LLC",yes
+OCS-A 0482: LEASE_NU_1,OCS-A 0482 - GSOE I  LLC,OCS-A 0482 - GSOE I  LLC,yes
+OCS-A 0482: LEASE_DATE,12/01/2012,12/01/2012,yes
+OCS-A 0482: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0482: PROJECT_EA,TBD,TBD,yes
+OCS-A 0482: ACRES,70098,70098.0,yes
+OCS-A 0482: STATE,Delaware,Delaware,yes
+OCS-A 0482: PROTRACTIO,NJ18-05,NJ18-05,yes
+OCS-A 0482: PROTRACT_1,Salisbury,Salisbury,yes
+OCS-A 0482: PROJECT_NA,GSOE 1,GSOE 1,yes
+OCS-A 0482: PROJECT__1,,,yes
+OCS-A 0482: PROJECT__2,,,yes
+OCS-A 0482: FAST41,,,yes
+OCS-A 0483: name (the source's LEASE_NU_1),OCS-A 0483 - Virginia Electric and Power Company,OCS-A 0483 - Virginia Electric and Power Company,yes
+"OCS-A 0483: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0483: area, acres (the hover's figure; the source's ACRES, none where it is 0)",112799,112799.0,yes
+OCS-A 0483: the unit the hover gives,acres,acres,yes
+OCS-A 0483: LEASE_NUMB,OCS-A 0483,OCS-A 0483,yes
+OCS-A 0483: LEASE_DOCU,https://www.boem.gov/VA-Lease-OCS-A/,https://www.boem.gov/VA-Lease-OCS-A/,yes
+OCS-A 0483: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/CVOW-C,https://www.boem.gov/renewable-energy/state-activities/CVOW-C,yes
+OCS-A 0483: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0483: RESOURCE,Wind,Wind,yes
+OCS-A 0483: COMPANY,Virginia Electric and Power Company,Virginia Electric and Power Company,yes
+OCS-A 0483: LEASE_NU_1,OCS-A 0483 - Virginia Electric and Power Company,OCS-A 0483 - Virginia Electric and Power Company,yes
+OCS-A 0483: LEASE_DATE,11/01/2013,11/01/2013,yes
+OCS-A 0483: LEASE_TERM,33 Years,33 Years,yes
+OCS-A 0483: PROJECT_EA,TBD,TBD,yes
+OCS-A 0483: ACRES,112799,112799.0,yes
+OCS-A 0483: STATE,Virginia,Virginia,yes
+OCS-A 0483: PROTRACTIO,NJ18-11,NJ18-11,yes
+OCS-A 0483: PROTRACT_1,Currituck Sound,Currituck Sound,yes
+OCS-A 0483: PROJECT_NA,Coastal Virginia Offshore Wind Project,Coastal Virginia Offshore Wind Project,yes
+OCS-A 0483: PROJECT__1,,,yes
+OCS-A 0483: PROJECT__2,,,yes
+OCS-A 0483: FAST41,https://www.permits.performance.gov/permitting-project/coastal-virginia-offshore-wind-commercial-project,https://www.permits.performance.gov/permitting-project/coastal-virginia-offshore-wind-commercial-project,yes
+OCS-A 0486: name (the source's LEASE_NU_1),"OCS-A 0486 - Revolution Wind, LLC","OCS-A 0486 - Revolution Wind, LLC",yes
+"OCS-A 0486: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0486: area, acres (the hover's figure; the source's ACRES, none where it is 0)",83789,83789.0,yes
+OCS-A 0486: the unit the hover gives,acres,acres,yes
+OCS-A 0486: LEASE_NUMB,OCS-A 0486,OCS-A 0486,yes
+OCS-A 0486: LEASE_DOCU,https://www.boem.gov/Renewable-Energy-Program/State-Activities/RI/Executed-Lease-OCS-A-0486.aspx,https://www.boem.gov/Renewable-Energy-Program/State-Activities/RI/Executed-Lease-OCS-A-0486.aspx,yes
+OCS-A 0486: LEASE_DO_1,https://www.boem.gov/Revolution-Wind,https://www.boem.gov/Revolution-Wind,yes
+OCS-A 0486: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0486: RESOURCE,Wind,Wind,yes
+OCS-A 0486: COMPANY,"Revolution Wind, LLC","Revolution Wind, LLC",yes
+OCS-A 0486: LEASE_NU_1,"OCS-A 0486 - Revolution Wind, LLC","OCS-A 0486 - Revolution Wind, LLC",yes
+OCS-A 0486: LEASE_DATE,10/01/2013,10/01/2013,yes
+OCS-A 0486: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0486: PROJECT_EA,TBD,TBD,yes
+OCS-A 0486: ACRES,83789,83789.0,yes
+OCS-A 0486: STATE,Rhode Island / Massachusetts,Rhode Island / Massachusetts,yes
+OCS-A 0486: PROTRACTIO,NK19-07,NK19-07,yes
+OCS-A 0486: PROTRACT_1,Providence,Providence,yes
+OCS-A 0486: PROJECT_NA,Revolution Wind,Revolution Wind,yes
+OCS-A 0486: PROJECT__1,,,yes
+OCS-A 0486: PROJECT__2,,,yes
+OCS-A 0486: FAST41,https://www.permits.performance.gov/permitting-project/revolution-wind-farm-project,https://www.permits.performance.gov/permitting-project/revolution-wind-farm-project,yes
+OCS-A 0487: name (the source's LEASE_NU_1),OCS-A 0487 - Sunrise Wind LLC,OCS-A 0487 - Sunrise Wind LLC,yes
+"OCS-A 0487: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0487: area, acres (the hover's figure; the source's ACRES, none where it is 0)",109952,109952.0,yes
+OCS-A 0487: the unit the hover gives,acres,acres,yes
+OCS-A 0487: LEASE_NUMB,OCS-A 0487,OCS-A 0487,yes
+OCS-A 0487: LEASE_DOCU,https://www.boem.gov/renewable-energy/ocs-0487ocs-0530-lease-consolidation,https://www.boem.gov/renewable-energy/ocs-0487ocs-0530-lease-consolidation,yes
+OCS-A 0487: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/sunrise-wind-activities,https://www.boem.gov/renewable-energy/state-activities/sunrise-wind-activities,yes
+OCS-A 0487: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0487: RESOURCE,Wind,Wind,yes
+OCS-A 0487: COMPANY,"Sunrise Wind, LLC","Sunrise Wind, LLC",yes
+OCS-A 0487: LEASE_NU_1,OCS-A 0487 - Sunrise Wind LLC,OCS-A 0487 - Sunrise Wind LLC,yes
+OCS-A 0487: LEASE_DATE,10/01/2013,10/01/2013,yes
+OCS-A 0487: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0487: PROJECT_EA,TBD,TBD,yes
+OCS-A 0487: ACRES,109952,109952.0,yes
+OCS-A 0487: STATE,Rhode Island / Massachusetts,Rhode Island / Massachusetts,yes
+OCS-A 0487: PROTRACTIO,NK19-07,NK19-07,yes
+OCS-A 0487: PROTRACT_1,Providence,Providence,yes
+OCS-A 0487: PROJECT_NA,Sunrise Wind,Sunrise Wind,yes
+OCS-A 0487: PROJECT__1,,,yes
+OCS-A 0487: PROJECT__2,,,yes
+OCS-A 0487: FAST41,https://www.permits.performance.gov/permitting-project/sunrise-wind-farm,https://www.permits.performance.gov/permitting-project/sunrise-wind-farm,yes
+OCS-A 0490: name (the source's LEASE_NU_1),OCS-A 0490 - US Wind Inc.,OCS-A 0490 - US Wind Inc.,yes
+"OCS-A 0490: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0490: area, acres (the hover's figure; the source's ACRES, none where it is 0)",79707,79707.0,yes
+OCS-A 0490: the unit the hover gives,acres,acres,yes
+OCS-A 0490: LEASE_NUMB,OCS-A 0490,OCS-A 0490,yes
+OCS-A 0490: LEASE_DOCU,https://www.boem.gov/SIGNED-Fully-Executed-Lease-Amendment-OCS-A-0490/,https://www.boem.gov/SIGNED-Fully-Executed-Lease-Amendment-OCS-A-0490/,yes
+OCS-A 0490: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/us-wind,https://www.boem.gov/renewable-energy/state-activities/us-wind,yes
+OCS-A 0490: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0490: RESOURCE,Wind,Wind,yes
+OCS-A 0490: COMPANY,US Wind Inc.,US Wind Inc.,yes
+OCS-A 0490: LEASE_NU_1,OCS-A 0490 - US Wind Inc.,OCS-A 0490 - US Wind Inc.,yes
+OCS-A 0490: LEASE_DATE,12/01/2014,12/01/2014,yes
+OCS-A 0490: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0490: PROJECT_EA,TBD,TBD,yes
+OCS-A 0490: ACRES,79707,79707.0,yes
+OCS-A 0490: STATE,Maryland,Maryland,yes
+OCS-A 0490: PROTRACTIO,NJ18-05,NJ18-05,yes
+OCS-A 0490: PROTRACT_1,Salisbury,Salisbury,yes
+OCS-A 0490: PROJECT_NA,Maryland Offshore Wind Project,Maryland Offshore Wind Project,yes
+OCS-A 0490: PROJECT__1,<Null>,<Null>,yes
+OCS-A 0490: PROJECT__2,,,yes
+OCS-A 0490: FAST41,https://www.permits.performance.gov/permitting-project/maryland-offshore-wind-project,https://www.permits.performance.gov/permitting-project/maryland-offshore-wind-project,yes
+OCS-A 0497: name (the source's LEASE_NU_1),OCS-A 0497 - Virginia Department of Energy,OCS-A 0497 - Virginia Department of Energy,yes
+"OCS-A 0497: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0497: area, acres (the hover's figure; the source's ACRES, none where it is 0)",2135,2135.0,yes
+OCS-A 0497: the unit the hover gives,acres,acres,yes
+OCS-A 0497: LEASE_NUMB,OCS-A 0497,OCS-A 0497,yes
+OCS-A 0497: LEASE_DOCU,https://www.boem.gov/sites/default/files/renewable-energy-program/OCS-A-0497-Lease.pdf,https://www.boem.gov/sites/default/files/renewable-energy-program/OCS-A-0497-Lease.pdf,yes
+OCS-A 0497: LEASE_DO_1,https://www.boem.gov/cvow/,https://www.boem.gov/cvow/,yes
+OCS-A 0497: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0497: RESOURCE,Wind,Wind,yes
+OCS-A 0497: COMPANY,Virginia Department of Energy,Virginia Department of Energy,yes
+OCS-A 0497: LEASE_NU_1,OCS-A 0497 - Virginia Department of Energy,OCS-A 0497 - Virginia Department of Energy,yes
+OCS-A 0497: LEASE_DATE,04/01/2015,04/01/2015,yes
+OCS-A 0497: LEASE_TERM,30 Years,30 Years,yes
+OCS-A 0497: PROJECT_EA,3/23/2016,3/23/2016,yes
+OCS-A 0497: ACRES,2135,2135.0,yes
+OCS-A 0497: STATE,Virginia,Virginia,yes
+OCS-A 0497: PROTRACTIO,NJ18-11,NJ18-11,yes
+OCS-A 0497: PROTRACT_1,Currituck Sound,Currituck Sound,yes
+OCS-A 0497: PROJECT_NA,Coastal Virginia Offshore Wind Project-Pilot,Coastal Virginia Offshore Wind Project-Pilot,yes
+OCS-A 0497: PROJECT__1,,,yes
+OCS-A 0497: PROJECT__2,,,yes
+OCS-A 0497: FAST41,n/a - constructed,n/a - constructed,yes
+OCS-A 0498: name (the source's LEASE_NU_1),OCS-A 0498 - Ocean Wind LLC,OCS-A 0498 - Ocean Wind LLC,yes
+"OCS-A 0498: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0498: area, acres (the hover's figure; the source's ACRES, none where it is 0)",75526,75526.0,yes
+OCS-A 0498: the unit the hover gives,acres,acres,yes
+OCS-A 0498: LEASE_NUMB,OCS-A 0498,OCS-A 0498,yes
+OCS-A 0498: LEASE_DOCU,https://www.boem.gov/renewable-energy/ocs-0498ocs-0532-lease-segregation,https://www.boem.gov/renewable-energy/ocs-0498ocs-0532-lease-segregation,yes
+OCS-A 0498: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/ocean-wind-1,https://www.boem.gov/renewable-energy/state-activities/ocean-wind-1,yes
+OCS-A 0498: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0498: RESOURCE,Wind,Wind,yes
+OCS-A 0498: COMPANY,Ocean Wind LLC,Ocean Wind LLC,yes
+OCS-A 0498: LEASE_NU_1,OCS-A 0498 - Ocean Wind LLC,OCS-A 0498 - Ocean Wind LLC,yes
+OCS-A 0498: LEASE_DATE,03/01/2016,03/01/2016,yes
+OCS-A 0498: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0498: PROJECT_EA,TBD,TBD,yes
+OCS-A 0498: ACRES,75526,75526.0,yes
+OCS-A 0498: STATE,New Jersey,New Jersey,yes
+OCS-A 0498: PROTRACTIO,NJ18-02,NJ18-02,yes
+OCS-A 0498: PROTRACT_1,Wilmington,Wilmington,yes
+OCS-A 0498: PROJECT_NA,Ocean Wind 1,Ocean Wind 1,yes
+OCS-A 0498: PROJECT__1,,,yes
+OCS-A 0498: PROJECT__2,,,yes
+OCS-A 0498: FAST41,https://www.permits.performance.gov/permitting-projects/ocean-wind-project,https://www.permits.performance.gov/permitting-projects/ocean-wind-project,yes
+OCS-A 0500: name (the source's LEASE_NU_1),OCS-A 0500 - Bay State Wind LLC,OCS-A 0500 - Bay State Wind LLC,yes
+"OCS-A 0500: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0500: area, acres (the hover's figure; the source's ACRES, none where it is 0)",144823,144823.0,yes
+OCS-A 0500: the unit the hover gives,acres,acres,yes
+OCS-A 0500: LEASE_NUMB,OCS-A 0500,OCS-A 0500,yes
+OCS-A 0500: LEASE_DOCU,https://www.boem.gov/Lease-OCS-A-0500/,https://www.boem.gov/Lease-OCS-A-0500/,yes
+OCS-A 0500: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/bay-state-wind-ocs-0500,https://www.boem.gov/renewable-energy/state-activities/bay-state-wind-ocs-0500,yes
+OCS-A 0500: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0500: RESOURCE,Wind,Wind,yes
+OCS-A 0500: COMPANY,Bay State Wind LLC,Bay State Wind LLC,yes
+OCS-A 0500: LEASE_NU_1,OCS-A 0500 - Bay State Wind LLC,OCS-A 0500 - Bay State Wind LLC,yes
+OCS-A 0500: LEASE_DATE,04/01/2015,04/01/2015,yes
+OCS-A 0500: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0500: PROJECT_EA,TBD,TBD,yes
+OCS-A 0500: ACRES,144823,144823.0,yes
+OCS-A 0500: STATE,Massachusetts,Massachusetts,yes
+OCS-A 0500: PROTRACTIO,NK19-07,NK19-07,yes
+OCS-A 0500: PROTRACT_1,Providence,Providence,yes
+OCS-A 0500: PROJECT_NA,Bay State Wind,Bay State Wind,yes
+OCS-A 0500: PROJECT__1,,,yes
+OCS-A 0500: PROJECT__2,,,yes
+OCS-A 0500: FAST41,https://www.permits.performance.gov/permitting-projects/bay-state-wind-project,https://www.permits.performance.gov/permitting-projects/bay-state-wind-project,yes
+OCS-A 0501: name (the source's LEASE_NU_1),OCS-A 0501 - Vineyard Wind LLC,OCS-A 0501 - Vineyard Wind LLC,yes
+"OCS-A 0501: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0501: area, acres (the hover's figure; the source's ACRES, none where it is 0)",65296,65296.0,yes
+OCS-A 0501: the unit the hover gives,acres,acres,yes
+OCS-A 0501: LEASE_NUMB,OCS-A 0501,OCS-A 0501,yes
+OCS-A 0501: LEASE_DOCU,https://www.boem.gov/Lease-OCS-A-0501/,https://www.boem.gov/Lease-OCS-A-0501/,yes
+OCS-A 0501: LEASE_DO_1,https://www.boem.gov/vineyard-wind,https://www.boem.gov/vineyard-wind,yes
+OCS-A 0501: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0501: RESOURCE,Wind,Wind,yes
+OCS-A 0501: COMPANY,Vineyard Wind 1 LLC,Vineyard Wind 1 LLC,yes
+OCS-A 0501: LEASE_NU_1,OCS-A 0501 - Vineyard Wind LLC,OCS-A 0501 - Vineyard Wind LLC,yes
+OCS-A 0501: LEASE_DATE,04/01/2015,04/01/2015,yes
+OCS-A 0501: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0501: PROJECT_EA,TBD,TBD,yes
+OCS-A 0501: ACRES,65296,65296.0,yes
+OCS-A 0501: STATE,Massachusetts,Massachusetts,yes
+OCS-A 0501: PROTRACTIO,NK19-07,NK19-07,yes
+OCS-A 0501: PROTRACT_1,Providence,Providence,yes
+OCS-A 0501: PROJECT_NA,Vineyard Wind 1 Offshore Wind Project,Vineyard Wind 1 Offshore Wind Project,yes
+OCS-A 0501: PROJECT__1,,,yes
+OCS-A 0501: PROJECT__2,,,yes
+OCS-A 0501: FAST41,https://www.permits.performance.gov/permitting-projects/vineyard-wind,https://www.permits.performance.gov/permitting-projects/vineyard-wind,yes
+OCS-A 0512: name (the source's LEASE_NU_1),"OCS-A 0512  -  Empire Offshore Wind, LLC","OCS-A 0512  -  Empire Offshore Wind, LLC",yes
+"OCS-A 0512: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0512: area, acres (the hover's figure; the source's ACRES, none where it is 0)",79350,79350.0,yes
+OCS-A 0512: the unit the hover gives,acres,acres,yes
+OCS-A 0512: LEASE_NUMB,OCS-A 0512,OCS-A 0512,yes
+OCS-A 0512: LEASE_DOCU,https://www.boem.gov/sites/default/files/renewable-energy-program/State-Activities/NY/OCS-A-0512-Lease.pdf,https://www.boem.gov/sites/default/files/renewable-energy-program/State-Activities/NY/OCS-A-0512-Lease.pdf,yes
+OCS-A 0512: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/empire-wind,https://www.boem.gov/renewable-energy/state-activities/empire-wind,yes
+OCS-A 0512: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0512: RESOURCE,Wind,Wind,yes
+OCS-A 0512: COMPANY,"Empire Offshore Wind , LLC","Empire Offshore Wind , LLC",yes
+OCS-A 0512: LEASE_NU_1,"OCS-A 0512  -  Empire Offshore Wind, LLC","OCS-A 0512  -  Empire Offshore Wind, LLC",yes
+OCS-A 0512: LEASE_DATE,04/01/2017,04/01/2017,yes
+OCS-A 0512: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0512: PROJECT_EA,TBD,TBD,yes
+OCS-A 0512: ACRES,79350,79350.0,yes
+OCS-A 0512: STATE,New York,New York,yes
+OCS-A 0512: PROTRACTIO,NK18-12,NK18-12,yes
+OCS-A 0512: PROTRACT_1,New York,New York,yes
+OCS-A 0512: PROJECT_NA,Empire Wind,Empire Wind,yes
+OCS-A 0512: PROJECT__1,,,yes
+OCS-A 0512: PROJECT__2,,,yes
+OCS-A 0512: FAST41,https://www.permits.performance.gov/permitting-project/empire-wind-energy-project,https://www.permits.performance.gov/permitting-project/empire-wind-energy-project,yes
+OCS-A 0517: name (the source's LEASE_NU_1),"OCS-A 0517 - South Fork Wind, LLC","OCS-A 0517 - South Fork Wind, LLC",yes
+"OCS-A 0517: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0517: area, acres (the hover's figure; the source's ACRES, none where it is 0)",13700,13700.0,yes
+OCS-A 0517: the unit the hover gives,acres,acres,yes
+OCS-A 0517: LEASE_NUMB,OCS-A 0517,OCS-A 0517,yes
+OCS-A 0517: LEASE_DOCU,https://www.boem.gov/renewable-energy/ocs-0517ocs-0486-lease-segregation,https://www.boem.gov/renewable-energy/ocs-0517ocs-0486-lease-segregation,yes
+OCS-A 0517: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/south-fork,https://www.boem.gov/renewable-energy/state-activities/south-fork,yes
+OCS-A 0517: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0517: RESOURCE,Wind,Wind,yes
+OCS-A 0517: COMPANY,"South Fork Wind, LLC","South Fork Wind, LLC",yes
+OCS-A 0517: LEASE_NU_1,"OCS-A 0517 - South Fork Wind, LLC","OCS-A 0517 - South Fork Wind, LLC",yes
+OCS-A 0517: LEASE_DATE,10/01/2013,10/01/2013,yes
+OCS-A 0517: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0517: PROJECT_EA,TBD,TBD,yes
+OCS-A 0517: ACRES,13700,13700.0,yes
+OCS-A 0517: STATE,Rhode Island / Massachusetts,Rhode Island / Massachusetts,yes
+OCS-A 0517: PROTRACTIO,NK19-07,NK19-07,yes
+OCS-A 0517: PROTRACT_1,Providence,Providence,yes
+OCS-A 0517: PROJECT_NA,South Fork Wind Farm,South Fork Wind Farm,yes
+OCS-A 0517: PROJECT__1,,,yes
+OCS-A 0517: PROJECT__2,,,yes
+OCS-A 0517: FAST41,https://www.permits.performance.gov/permitting-projects/south-fork-wind-farm-and-south-fork-export-cable,https://www.permits.performance.gov/permitting-projects/south-fork-wind-farm-and-south-fork-export-cable,yes
+OCS-A 0519: name (the source's LEASE_NU_1),OCS-A 0519 - Skipjack Offshore Energy LLC,OCS-A 0519 - Skipjack Offshore Energy LLC,yes
+"OCS-A 0519: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0519: area, acres (the hover's figure; the source's ACRES, none where it is 0)",26332,26332.0,yes
+OCS-A 0519: the unit the hover gives,acres,acres,yes
+OCS-A 0519: LEASE_NUMB,OCS-A 0519,OCS-A 0519,yes
+OCS-A 0519: LEASE_DOCU,https://www.boem.gov/renewable-energy/ocs-0519ocs-0482-lease-segregation,https://www.boem.gov/renewable-energy/ocs-0519ocs-0482-lease-segregation,yes
+OCS-A 0519: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/delaware-activities,https://www.boem.gov/renewable-energy/state-activities/delaware-activities,yes
+OCS-A 0519: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0519: RESOURCE,Wind,Wind,yes
+OCS-A 0519: COMPANY,"Skipjack Offshore Energy, LLC","Skipjack Offshore Energy, LLC",yes
+OCS-A 0519: LEASE_NU_1,OCS-A 0519 - Skipjack Offshore Energy LLC,OCS-A 0519 - Skipjack Offshore Energy LLC,yes
+OCS-A 0519: LEASE_DATE,12/01/2012,12/01/2012,yes
+OCS-A 0519: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0519: PROJECT_EA,TBD,TBD,yes
+OCS-A 0519: ACRES,26332,26332.0,yes
+OCS-A 0519: STATE,Delaware,Delaware,yes
+OCS-A 0519: PROTRACTIO,NJ18-05,NJ18-05,yes
+OCS-A 0519: PROTRACT_1,Salisbury,Salisbury,yes
+OCS-A 0519: PROJECT_NA,Skipjack Wind Farm,Skipjack Wind Farm,yes
+OCS-A 0519: PROJECT__1,,,yes
+OCS-A 0519: PROJECT__2,,,yes
+OCS-A 0519: FAST41,https://www.permits.performance.gov/permitting-project/skipjack-wind-farm,https://www.permits.performance.gov/permitting-project/skipjack-wind-farm,yes
+OCS-A 0520: name (the source's LEASE_NU_1),OCS-A 0520 - Beacon Wind LLC,OCS-A 0520 - Beacon Wind LLC,yes
+"OCS-A 0520: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0520: area, acres (the hover's figure; the source's ACRES, none where it is 0)",128881,128881.0,yes
+OCS-A 0520: the unit the hover gives,acres,acres,yes
+OCS-A 0520: LEASE_NUMB,OCS-A 0520,OCS-A 0520,yes
+OCS-A 0520: LEASE_DOCU,https://www.boem.gov/MA-LEASE-OCS-A-0520-package/,https://www.boem.gov/MA-LEASE-OCS-A-0520-package/,yes
+OCS-A 0520: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/beacon-wind,https://www.boem.gov/renewable-energy/state-activities/beacon-wind,yes
+OCS-A 0520: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0520: RESOURCE,Wind,Wind,yes
+OCS-A 0520: COMPANY,Beacon Wind LLC,Beacon Wind LLC,yes
+OCS-A 0520: LEASE_NU_1,OCS-A 0520 - Beacon Wind LLC,OCS-A 0520 - Beacon Wind LLC,yes
+OCS-A 0520: LEASE_DATE,04/01/2019,04/01/2019,yes
+OCS-A 0520: LEASE_TERM,33 Years,33 Years,yes
+OCS-A 0520: PROJECT_EA,TBD,TBD,yes
+OCS-A 0520: ACRES,128881,128881.0,yes
+OCS-A 0520: STATE,Massachusetts,Massachusetts,yes
+OCS-A 0520: PROTRACTIO,NK19-07,NK19-07,yes
+OCS-A 0520: PROTRACT_1,Providence,Providence,yes
+OCS-A 0520: PROJECT_NA,Beacon Wind,Beacon Wind,yes
+OCS-A 0520: PROJECT__1,,,yes
+OCS-A 0520: PROJECT__2,,,yes
+OCS-A 0520: FAST41,https://www.permits.performance.gov/permitting-project/beacon-wind,https://www.permits.performance.gov/permitting-project/beacon-wind,yes
+OCS-A 0521: name (the source's LEASE_NU_1),OCS-A 0521 - SouthCoast Wind Energy LLC,OCS-A 0521 - SouthCoast Wind Energy LLC,yes
+"OCS-A 0521: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0521: area, acres (the hover's figure; the source's ACRES, none where it is 0)",127388,127388.0,yes
+OCS-A 0521: the unit the hover gives,acres,acres,yes
+OCS-A 0521: LEASE_NUMB,OCS-A 0521,OCS-A 0521,yes
+OCS-A 0521: LEASE_DOCU,https://www.boem.gov/MA-LEASE-OCS-A-0521-package/,https://www.boem.gov/MA-LEASE-OCS-A-0521-package/,yes
+OCS-A 0521: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/southcoast-wind-formerly-mayflower-wind,https://www.boem.gov/renewable-energy/state-activities/southcoast-wind-formerly-mayflower-wind,yes
+OCS-A 0521: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0521: RESOURCE,Wind,Wind,yes
+OCS-A 0521: COMPANY,SouthCoast Wind Energy LLC,SouthCoast Wind Energy LLC,yes
+OCS-A 0521: LEASE_NU_1,OCS-A 0521 - SouthCoast Wind Energy LLC,OCS-A 0521 - SouthCoast Wind Energy LLC,yes
+OCS-A 0521: LEASE_DATE,04/01/2019,04/01/2019,yes
+OCS-A 0521: LEASE_TERM,33 Years,33 Years,yes
+OCS-A 0521: PROJECT_EA,TBD,TBD,yes
+OCS-A 0521: ACRES,127388,127388.0,yes
+OCS-A 0521: STATE,Massachusetts,Massachusetts,yes
+OCS-A 0521: PROTRACTIO,NK19-10,NK19-10,yes
+OCS-A 0521: PROTRACT_1,Block Island Shelf,Block Island Shelf,yes
+OCS-A 0521: PROJECT_NA,SouthCoast Wind,SouthCoast Wind,yes
+OCS-A 0521: PROJECT__1,,,yes
+OCS-A 0521: PROJECT__2,,,yes
+OCS-A 0521: FAST41,https://www.permits.performance.gov/permitting-project/southcoast-wind-energy-llc-southcoast-wind,https://www.permits.performance.gov/permitting-project/southcoast-wind-energy-llc-southcoast-wind,yes
+OCS-A 0522: name (the source's LEASE_NU_1),OCS-A 0522 - Vineyard Northeast LLC,OCS-A 0522 - Vineyard Northeast LLC,yes
+"OCS-A 0522: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0522: area, acres (the hover's figure; the source's ACRES, none where it is 0)",132370,132370.0,yes
+OCS-A 0522: the unit the hover gives,acres,acres,yes
+OCS-A 0522: LEASE_NUMB,OCS-A 0522,OCS-A 0522,yes
+OCS-A 0522: LEASE_DOCU,https://www.boem.gov/MA-LEASE-OCS-A-0522-package/,https://www.boem.gov/MA-LEASE-OCS-A-0522-package/,yes
+OCS-A 0522: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/commercial-leases-ocs-0520-0521-and-0522,https://www.boem.gov/renewable-energy/state-activities/commercial-leases-ocs-0520-0521-and-0522,yes
+OCS-A 0522: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0522: RESOURCE,Wind,Wind,yes
+OCS-A 0522: COMPANY,Vineyard Northeast LLC,Vineyard Northeast LLC,yes
+OCS-A 0522: LEASE_NU_1,OCS-A 0522 - Vineyard Northeast LLC,OCS-A 0522 - Vineyard Northeast LLC,yes
+OCS-A 0522: LEASE_DATE,04/01/2019,04/01/2019,yes
+OCS-A 0522: LEASE_TERM,33 Years,33 Years,yes
+OCS-A 0522: PROJECT_EA,TBD,TBD,yes
+OCS-A 0522: ACRES,132370,132370.0,yes
+OCS-A 0522: STATE,Massachusetts,Massachusetts,yes
+OCS-A 0522: PROTRACTIO,NK19-10,NK19-10,yes
+OCS-A 0522: PROTRACT_1,Block Island Shelf,Block Island Shelf,yes
+OCS-A 0522: PROJECT_NA,Vineyard Northeast,Vineyard Northeast,yes
+OCS-A 0522: PROJECT__1,,,yes
+OCS-A 0522: PROJECT__2,,,yes
+OCS-A 0522: FAST41,,,yes
+OCS-A 0532: name (the source's LEASE_NU_1),OCS-A 0532 - Orsted North America Inc.,OCS-A 0532 - Orsted North America Inc.,yes
+"OCS-A 0532: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0532: area, acres (the hover's figure; the source's ACRES, none where it is 0)",84955,84955.0,yes
+OCS-A 0532: the unit the hover gives,acres,acres,yes
+OCS-A 0532: LEASE_NUMB,OCS-A 0532,OCS-A 0532,yes
+OCS-A 0532: LEASE_DOCU,https://www.boem.gov/renewable-energy/ocs-0498ocs-0532-lease-segregation,https://www.boem.gov/renewable-energy/ocs-0498ocs-0532-lease-segregation,yes
+OCS-A 0532: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/new-jersey-activities,https://www.boem.gov/renewable-energy/state-activities/new-jersey-activities,yes
+OCS-A 0532: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0532: RESOURCE,Wind,Wind,yes
+OCS-A 0532: COMPANY,Orsted North America Inc.,Orsted North America Inc.,yes
+OCS-A 0532: LEASE_NU_1,OCS-A 0532 - Orsted North America Inc.,OCS-A 0532 - Orsted North America Inc.,yes
+OCS-A 0532: LEASE_DATE,03/01/2016,03/01/2016,yes
+OCS-A 0532: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0532: PROJECT_EA,TBD,TBD,yes
+OCS-A 0532: ACRES,84955,84955.0,yes
+OCS-A 0532: STATE,New Jersey,New Jersey,yes
+OCS-A 0532: PROTRACTIO,NJ18-02,NJ18-02,yes
+OCS-A 0532: PROTRACT_1,Wilmington,Wilmington,yes
+OCS-A 0532: PROJECT_NA,Ocean Wind 2,Ocean Wind 2,yes
+OCS-A 0532: PROJECT__1,,,yes
+OCS-A 0532: PROJECT__2,,,yes
+OCS-A 0532: FAST41,,,yes
+OCS-A 0537: name (the source's LEASE_NU_1),"OCS-A 0537 - Bluepoint Wind, LLC","OCS-A 0537 - Bluepoint Wind, LLC",yes
+"OCS-A 0537: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0537: area, acres (the hover's figure; the source's ACRES, none where it is 0)",71522,71522.0,yes
+OCS-A 0537: the unit the hover gives,acres,acres,yes
+OCS-A 0537: LEASE_NUMB,OCS-A 0537,OCS-A 0537,yes
+OCS-A 0537: LEASE_DOCU,https://www.boem.gov/renewable-energy/state-activities/lease-ocs-0537,https://www.boem.gov/renewable-energy/state-activities/lease-ocs-0537,yes
+OCS-A 0537: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/new-york-bight,https://www.boem.gov/renewable-energy/state-activities/new-york-bight,yes
+OCS-A 0537: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0537: RESOURCE,Wind,Wind,yes
+OCS-A 0537: COMPANY,"Bluepoint Wind, LLC","Bluepoint Wind, LLC",yes
+OCS-A 0537: LEASE_NU_1,"OCS-A 0537 - Bluepoint Wind, LLC","OCS-A 0537 - Bluepoint Wind, LLC",yes
+OCS-A 0537: LEASE_DATE,05/01/2022,05/01/2022,yes
+OCS-A 0537: LEASE_TERM,33 Years,33 Years,yes
+OCS-A 0537: PROJECT_EA,TBD,TBD,yes
+OCS-A 0537: ACRES,71522,71522.0,yes
+OCS-A 0537: STATE,NY/NJ,NY/NJ,yes
+OCS-A 0537: PROTRACTIO,NK18-12,NK18-12,yes
+OCS-A 0537: PROTRACT_1,New York,New York,yes
+OCS-A 0537: PROJECT_NA,,,yes
+OCS-A 0537: PROJECT__1,,,yes
+OCS-A 0537: PROJECT__2,,,yes
+OCS-A 0537: FAST41,,,yes
+OCS-A 0538: name (the source's LEASE_NU_1),OCS-A 0538 - Attentive Energy LLC,OCS-A 0538 - Attentive Energy LLC,yes
+"OCS-A 0538: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0538: area, acres (the hover's figure; the source's ACRES, none where it is 0)",84332,84332.0,yes
+OCS-A 0538: the unit the hover gives,acres,acres,yes
+OCS-A 0538: LEASE_NUMB,OCS-A 0538,OCS-A 0538,yes
+OCS-A 0538: LEASE_DOCU,https://www.boem.gov/renewable-energy/state-activities/lease-ocs-0538,https://www.boem.gov/renewable-energy/state-activities/lease-ocs-0538,yes
+OCS-A 0538: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/new-york-bight,https://www.boem.gov/renewable-energy/state-activities/new-york-bight,yes
+OCS-A 0538: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0538: RESOURCE,Wind,Wind,yes
+OCS-A 0538: COMPANY,Attentive Energy LLC,Attentive Energy LLC,yes
+OCS-A 0538: LEASE_NU_1,OCS-A 0538 - Attentive Energy LLC,OCS-A 0538 - Attentive Energy LLC,yes
+OCS-A 0538: LEASE_DATE,05/01/2022,05/01/2022,yes
+OCS-A 0538: LEASE_TERM,33 Years,33 Years,yes
+OCS-A 0538: PROJECT_EA,TBD,TBD,yes
+OCS-A 0538: ACRES,84332,84332.0,yes
+OCS-A 0538: STATE,NY/NJ,NY/NJ,yes
+OCS-A 0538: PROTRACTIO,NJ18-03,NJ18-03,yes
+OCS-A 0538: PROTRACT_1,Hudson Canyon,Hudson Canyon,yes
+OCS-A 0538: PROJECT_NA,,,yes
+OCS-A 0538: PROJECT__1,,,yes
+OCS-A 0538: PROJECT__2,,,yes
+OCS-A 0538: FAST41,,,yes
+OCS-A 0539: name (the source's LEASE_NU_1),"OCS-A 0539 - Community Offshore Wind, LLC","OCS-A 0539 - Community Offshore Wind, LLC",yes
+"OCS-A 0539: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0539: area, acres (the hover's figure; the source's ACRES, none where it is 0)",125964,125964.0,yes
+OCS-A 0539: the unit the hover gives,acres,acres,yes
+OCS-A 0539: LEASE_NUMB,OCS-A 0539,OCS-A 0539,yes
+OCS-A 0539: LEASE_DOCU,https://www.boem.gov/renewable-energy/state-activities/lease-ocs-0539,https://www.boem.gov/renewable-energy/state-activities/lease-ocs-0539,yes
+OCS-A 0539: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/new-york-bight,https://www.boem.gov/renewable-energy/state-activities/new-york-bight,yes
+OCS-A 0539: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0539: RESOURCE,Wind,Wind,yes
+OCS-A 0539: COMPANY,"Community Offshore Wind, LLC","Community Offshore Wind, LLC",yes
+OCS-A 0539: LEASE_NU_1,"OCS-A 0539 - Community Offshore Wind, LLC","OCS-A 0539 - Community Offshore Wind, LLC",yes
+OCS-A 0539: LEASE_DATE,05/01/2022,05/01/2022,yes
+OCS-A 0539: LEASE_TERM,33 Years,33 Years,yes
+OCS-A 0539: PROJECT_EA,TBD,TBD,yes
+OCS-A 0539: ACRES,125964,125964.0,yes
+OCS-A 0539: STATE,NY/NJ,NY/NJ,yes
+OCS-A 0539: PROTRACTIO,NJ18-03,NJ18-03,yes
+OCS-A 0539: PROTRACT_1,Hudson Canyon,Hudson Canyon,yes
+OCS-A 0539: PROJECT_NA,,,yes
+OCS-A 0539: PROJECT__1,,,yes
+OCS-A 0539: PROJECT__2,,,yes
+OCS-A 0539: FAST41,,,yes
+OCS-A 0541: name (the source's LEASE_NU_1),"OCS-A 0541 - Atlantic Shores Offshore Wind Bight, LLC","OCS-A 0541 - Atlantic Shores Offshore Wind Bight, LLC",yes
+"OCS-A 0541: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0541: area, acres (the hover's figure; the source's ACRES, none where it is 0)",79351,79351.0,yes
+OCS-A 0541: the unit the hover gives,acres,acres,yes
+OCS-A 0541: LEASE_NUMB,OCS-A 0541,OCS-A 0541,yes
+OCS-A 0541: LEASE_DOCU,https://www.boem.gov/renewable-energy/state-activities/lease-ocs-0541,https://www.boem.gov/renewable-energy/state-activities/lease-ocs-0541,yes
+OCS-A 0541: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/new-york-bight,https://www.boem.gov/renewable-energy/state-activities/new-york-bight,yes
+OCS-A 0541: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0541: RESOURCE,Wind,Wind,yes
+OCS-A 0541: COMPANY,"Atlantic Shores Offshore Wind Bight, LLC","Atlantic Shores Offshore Wind Bight, LLC",yes
+OCS-A 0541: LEASE_NU_1,"OCS-A 0541 - Atlantic Shores Offshore Wind Bight, LLC","OCS-A 0541 - Atlantic Shores Offshore Wind Bight, LLC",yes
+OCS-A 0541: LEASE_DATE,05/01/2022,05/01/2022,yes
+OCS-A 0541: LEASE_TERM,33 Years,33 Years,yes
+OCS-A 0541: PROJECT_EA,TBD,TBD,yes
+OCS-A 0541: ACRES,79351,79351.0,yes
+OCS-A 0541: STATE,NY/NJ,NY/NJ,yes
+OCS-A 0541: PROTRACTIO,NJ18-03,NJ18-03,yes
+OCS-A 0541: PROTRACT_1,Hudson Canyon,Hudson Canyon,yes
+OCS-A 0541: PROJECT_NA,,,yes
+OCS-A 0541: PROJECT__1,,,yes
+OCS-A 0541: PROJECT__2,,,yes
+OCS-A 0541: FAST41,,,yes
+OCS-A 0542: name (the source's LEASE_NU_1),OCS-A 0542 - Invenergy Wind Offshore LLC,OCS-A 0542 - Invenergy Wind Offshore LLC,yes
+"OCS-A 0542: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0542: area, acres (the hover's figure; the source's ACRES, none where it is 0)",83976,83976.0,yes
+OCS-A 0542: the unit the hover gives,acres,acres,yes
+OCS-A 0542: LEASE_NUMB,OCS-A 0542,OCS-A 0542,yes
+OCS-A 0542: LEASE_DOCU,https://www.boem.gov/renewable-energy/state-activities/lease-ocs-0542,https://www.boem.gov/renewable-energy/state-activities/lease-ocs-0542,yes
+OCS-A 0542: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/new-york-bight,https://www.boem.gov/renewable-energy/state-activities/new-york-bight,yes
+OCS-A 0542: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0542: RESOURCE,Wind,Wind,yes
+OCS-A 0542: COMPANY,Invenergy Wind Offshore LLC,Invenergy Wind Offshore LLC,yes
+OCS-A 0542: LEASE_NU_1,OCS-A 0542 - Invenergy Wind Offshore LLC,OCS-A 0542 - Invenergy Wind Offshore LLC,yes
+OCS-A 0542: LEASE_DATE,05/01/2022,05/01/2022,yes
+OCS-A 0542: LEASE_TERM,33 Years,33 Years,yes
+OCS-A 0542: PROJECT_EA,TBD,TBD,yes
+OCS-A 0542: ACRES,83976,83976.0,yes
+OCS-A 0542: STATE,NY/NJ,NY/NJ,yes
+OCS-A 0542: PROTRACTIO,NJ18-03,NJ18-03,yes
+OCS-A 0542: PROTRACT_1,Hudson Canyon,Hudson Canyon,yes
+OCS-A 0542: PROJECT_NA,,,yes
+OCS-A 0542: PROJECT__1,,,yes
+OCS-A 0542: PROJECT__2,,,yes
+OCS-A 0542: FAST41,,,yes
+OCS-A 0544: name (the source's LEASE_NU_1),OCS-A 0544 - Vineyard Mid-Atlantic LLC,OCS-A 0544 - Vineyard Mid-Atlantic LLC,yes
+"OCS-A 0544: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0544: area, acres (the hover's figure; the source's ACRES, none where it is 0)",43056,43056.0,yes
+OCS-A 0544: the unit the hover gives,acres,acres,yes
+OCS-A 0544: LEASE_NUMB,OCS-A 0544,OCS-A 0544,yes
+OCS-A 0544: LEASE_DOCU,https://www.boem.gov/renewable-energy/state-activities/lease-ocs-0544,https://www.boem.gov/renewable-energy/state-activities/lease-ocs-0544,yes
+OCS-A 0544: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/new-york-bight,https://www.boem.gov/renewable-energy/state-activities/new-york-bight,yes
+OCS-A 0544: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0544: RESOURCE,Wind,Wind,yes
+OCS-A 0544: COMPANY,Vineyard Mid-Atlantic LLC,Vineyard Mid-Atlantic LLC,yes
+OCS-A 0544: LEASE_NU_1,OCS-A 0544 - Vineyard Mid-Atlantic LLC,OCS-A 0544 - Vineyard Mid-Atlantic LLC,yes
+OCS-A 0544: LEASE_DATE,05/01/2022,05/01/2022,yes
+OCS-A 0544: LEASE_TERM,33 Years,33 Years,yes
+OCS-A 0544: PROJECT_EA,TBD,TBD,yes
+OCS-A 0544: ACRES,43056,43056.0,yes
+OCS-A 0544: STATE,NY/NJ,NY/NJ,yes
+OCS-A 0544: PROTRACTIO,NK18-12,NK18-12,yes
+OCS-A 0544: PROTRACT_1,New York,New York,yes
+OCS-A 0544: PROJECT_NA,,,yes
+OCS-A 0544: PROJECT__1,,,yes
+OCS-A 0544: PROJECT__2,,,yes
+OCS-A 0544: FAST41,,,yes
+OCS-A 0545: name (the source's LEASE_NU_1),"OCS-A 0545 - TotalEnergies Carolina Long Bay, LLC","OCS-A 0545 - TotalEnergies Carolina Long Bay, LLC",yes
+"OCS-A 0545: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0545: area, acres (the hover's figure; the source's ACRES, none where it is 0)",54937,54937.0,yes
+OCS-A 0545: the unit the hover gives,acres,acres,yes
+OCS-A 0545: LEASE_NUMB,OCS-A 0545,OCS-A 0545,yes
+OCS-A 0545: LEASE_DOCU,https://www.boem.gov/sites/default/files/documents/renewable-energy/state-activities/Commercial%20Lease%20OCS-A%200545.pdf,https://www.boem.gov/sites/default/files/documents/renewable-energy/state-activities/Commercial%20Lease%20OCS-A%200545.pdf,yes
+OCS-A 0545: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/carolina-long-bay,https://www.boem.gov/renewable-energy/state-activities/carolina-long-bay,yes
+OCS-A 0545: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0545: RESOURCE,Wind,Wind,yes
+OCS-A 0545: COMPANY,"TotalEnergies Carolina Long Bay, LLC","TotalEnergies Carolina Long Bay, LLC",yes
+OCS-A 0545: LEASE_NU_1,"OCS-A 0545 - TotalEnergies Carolina Long Bay, LLC","OCS-A 0545 - TotalEnergies Carolina Long Bay, LLC",yes
+OCS-A 0545: LEASE_DATE,06/01/2022,06/01/2022,yes
+OCS-A 0545: LEASE_TERM,33 Years,33 Years,yes
+OCS-A 0545: PROJECT_EA,,,yes
+OCS-A 0545: ACRES,54937,54937.0,yes
+OCS-A 0545: STATE,North Carolina,North Carolina,yes
+OCS-A 0545: PROTRACTIO,NI18-07,NI18-07,yes
+OCS-A 0545: PROTRACT_1,Cape Fear,Cape Fear,yes
+OCS-A 0545: PROJECT_NA,,,yes
+OCS-A 0545: PROJECT__1,,,yes
+OCS-A 0545: PROJECT__2,,,yes
+OCS-A 0545: FAST41,,,yes
+OCS-A 0546: name (the source's LEASE_NU_1),"OCS-A 0546 - Duke Energy Renewables Wind, LLC","OCS-A 0546 - Duke Energy Renewables Wind, LLC",yes
+"OCS-A 0546: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0546: area, acres (the hover's figure; the source's ACRES, none where it is 0)",55154,55154.0,yes
+OCS-A 0546: the unit the hover gives,acres,acres,yes
+OCS-A 0546: LEASE_NUMB,OCS-A 0546,OCS-A 0546,yes
+OCS-A 0546: LEASE_DOCU,https://www.boem.gov/renewable-energy/state-activities/commercial-lease-ocs-0546,https://www.boem.gov/renewable-energy/state-activities/commercial-lease-ocs-0546,yes
+OCS-A 0546: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/carolina-long-bay,https://www.boem.gov/renewable-energy/state-activities/carolina-long-bay,yes
+OCS-A 0546: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0546: RESOURCE,Wind,Wind,yes
+OCS-A 0546: COMPANY,"Duke Energy Renewables Wind, LLC","Duke Energy Renewables Wind, LLC",yes
+OCS-A 0546: LEASE_NU_1,"OCS-A 0546 - Duke Energy Renewables Wind, LLC","OCS-A 0546 - Duke Energy Renewables Wind, LLC",yes
+OCS-A 0546: LEASE_DATE,06/01/2022,06/01/2022,yes
+OCS-A 0546: LEASE_TERM,33 Years,33 Years,yes
+OCS-A 0546: PROJECT_EA,,,yes
+OCS-A 0546: ACRES,55154,55154.0,yes
+OCS-A 0546: STATE,North Carolina,North Carolina,yes
+OCS-A 0546: PROTRACTIO,NI18-07,NI18-07,yes
+OCS-A 0546: PROTRACT_1,Cape Fear,Cape Fear,yes
+OCS-A 0546: PROJECT_NA,,,yes
+OCS-A 0546: PROJECT__1,,,yes
+OCS-A 0546: PROJECT__2,,,yes
+OCS-A 0546: FAST41,,,yes
+OCS-A 0549: name (the source's LEASE_NU_1),"OCS-A 0549 - Atlantic Shores Offshore Wind, LLC","OCS-A 0549 - Atlantic Shores Offshore Wind, LLC",yes
+"OCS-A 0549: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0549: area, acres (the hover's figure; the source's ACRES, none where it is 0)",81129,81129.0,yes
+OCS-A 0549: the unit the hover gives,acres,acres,yes
+OCS-A 0549: LEASE_NUMB,OCS-A 0549,OCS-A 0549,yes
+OCS-A 0549: LEASE_DOCU,https://www.boem.gov/renewable-energy/ocs-0549ocs-0499-lease-segregation,https://www.boem.gov/renewable-energy/ocs-0549ocs-0499-lease-segregation,yes
+OCS-A 0549: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/new-jersey/atlantic-shores-north-ocs-0549,https://www.boem.gov/renewable-energy/state-activities/new-jersey/atlantic-shores-north-ocs-0549,yes
+OCS-A 0549: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0549: RESOURCE,Wind,Wind,yes
+OCS-A 0549: COMPANY,"Atlantic Shores Offshore Wind, LLC","Atlantic Shores Offshore Wind, LLC",yes
+OCS-A 0549: LEASE_NU_1,"OCS-A 0549 - Atlantic Shores Offshore Wind, LLC","OCS-A 0549 - Atlantic Shores Offshore Wind, LLC",yes
+OCS-A 0549: LEASE_DATE,03/01/2016,03/01/2016,yes
+OCS-A 0549: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0549: PROJECT_EA,TBD,TBD,yes
+OCS-A 0549: ACRES,81129,81129.0,yes
+OCS-A 0549: STATE,New Jersey,New Jersey,yes
+OCS-A 0549: PROTRACTIO,NJ18-02,NJ18-02,yes
+OCS-A 0549: PROTRACT_1,Wilmington,Wilmington,yes
+OCS-A 0549: PROJECT_NA,Atlantic Shores North,Atlantic Shores North,yes
+OCS-A 0549: PROJECT__1,,,yes
+OCS-A 0549: PROJECT__2,,,yes
+OCS-A 0549: FAST41,https://www.permits.performance.gov/permitting-project/atlantic-shores-north,https://www.permits.performance.gov/permitting-project/atlantic-shores-north,yes
+OCS-A 0497: name (the source's LEASE_NU_1),OCS-A 0497 - Virginia Department of Energy,OCS-A 0497 - Virginia Department of Energy,yes
+"OCS-A 0497: kind (lease area, with the source's LEASE_TYPE)",lease area (Easement),lease area (Easement),yes
+"OCS-A 0497: area, acres (the hover's figure; the source's ACRES, none where it is 0)",578,578.0,yes
+OCS-A 0497: the unit the hover gives,acres,acres,yes
+OCS-A 0497: LEASE_NUMB,OCS-A 0497,OCS-A 0497,yes
+OCS-A 0497: LEASE_DOCU,https://www.boem.gov/sites/default/files/renewable-energy-program/OCS-A-0497-Lease.pdf,https://www.boem.gov/sites/default/files/renewable-energy-program/OCS-A-0497-Lease.pdf,yes
+OCS-A 0497: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/coastal-virginia-offshore-wind-project-cvow,https://www.boem.gov/renewable-energy/state-activities/coastal-virginia-offshore-wind-project-cvow,yes
+OCS-A 0497: LEASE_TYPE,Easement,Easement,yes
+OCS-A 0497: RESOURCE,Wind,Wind,yes
+OCS-A 0497: COMPANY,Virginia Department of Energy,Virginia Department of Energy,yes
+OCS-A 0497: LEASE_NU_1,OCS-A 0497 - Virginia Department of Energy,OCS-A 0497 - Virginia Department of Energy,yes
+OCS-A 0497: LEASE_DATE,04/01/2015,04/01/2015,yes
+OCS-A 0497: LEASE_TERM,30 Years,30 Years,yes
+OCS-A 0497: PROJECT_EA,3/23/2016,3/23/2016,yes
+OCS-A 0497: ACRES,578,578.0,yes
+OCS-A 0497: STATE,Virginia,Virginia,yes
+OCS-A 0497: PROTRACTIO,NJ18-11,NJ18-11,yes
+OCS-A 0497: PROTRACT_1,Currituck Sound,Currituck Sound,yes
+OCS-A 0497: PROJECT_NA,Coastal Virginia Offshore Wind Project-Pilot,Coastal Virginia Offshore Wind Project-Pilot,yes
+OCS-A 0497: PROJECT__1,,,yes
+OCS-A 0497: PROJECT__2,,,yes
+OCS-A 0497: FAST41,n/a - constructed,n/a - constructed,yes
+OCS-A 0517: name (the source's LEASE_NU_1),"OCS-A 0517 - South Fork Wind, LLC","OCS-A 0517 - South Fork Wind, LLC",yes
+"OCS-A 0517: kind (lease area, with the source's LEASE_TYPE)",lease area (Easement),lease area (Easement),yes
+"OCS-A 0517: area, acres (the hover's figure; the source's ACRES, none where it is 0)",2723,2723.0,yes
+OCS-A 0517: the unit the hover gives,acres,acres,yes
+OCS-A 0517: LEASE_NUMB,OCS-A 0517,OCS-A 0517,yes
+OCS-A 0517: LEASE_DOCU,https://www.boem.gov/sites/default/files/documents/renewable-energy/OCS-A-0517_OCS-A-0486-Lease-Segregation.pdf,https://www.boem.gov/sites/default/files/documents/renewable-energy/OCS-A-0517_OCS-A-0486-Lease-Segregation.pdf,yes
+OCS-A 0517: LEASE_DO_1,,,yes
+OCS-A 0517: LEASE_TYPE,Easement,Easement,yes
+OCS-A 0517: RESOURCE,Wind,Wind,yes
+OCS-A 0517: COMPANY,"South Fork Wind, LLC","South Fork Wind, LLC",yes
+OCS-A 0517: LEASE_NU_1,"OCS-A 0517 - South Fork Wind, LLC","OCS-A 0517 - South Fork Wind, LLC",yes
+OCS-A 0517: LEASE_DATE,10/01/2013,10/01/2013,yes
+OCS-A 0517: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0517: PROJECT_EA,"September 12, 2022","September 12, 2022",yes
+OCS-A 0517: ACRES,2723,2723.0,yes
+OCS-A 0517: STATE,New York,New York,yes
+OCS-A 0517: PROTRACTIO,NK19-07,NK19-07,yes
+OCS-A 0517: PROTRACT_1,Providence,Providence,yes
+OCS-A 0517: PROJECT_NA,South Fork Wind Farm,South Fork Wind Farm,yes
+OCS-A 0517: PROJECT__1,,,yes
+OCS-A 0517: PROJECT__2,,,yes
+OCS-A 0517: FAST41,https://www.permits.performance.gov/permitting-projects/south-fork-wind-farm-and-south-fork-export-cable,https://www.permits.performance.gov/permitting-projects/south-fork-wind-farm-and-south-fork-export-cable,yes
+OCS-A 0501: name (the source's LEASE_NU_1),OCS-A 0501 - Vineyard Wind LLC,OCS-A 0501 - Vineyard Wind LLC,yes
+"OCS-A 0501: kind (lease area, with the source's LEASE_TYPE)",lease area (Easement),lease area (Easement),yes
+"OCS-A 0501: area, acres (the hover's figure; the source's ACRES, none where it is 0)",2163,2163.0,yes
+OCS-A 0501: the unit the hover gives,acres,acres,yes
+OCS-A 0501: LEASE_NUMB,OCS-A 0501,OCS-A 0501,yes
+OCS-A 0501: LEASE_DOCU,https://www.boem.gov/sites/default/files/renewable-energy-program/State-Activities/MA/Lease-OCS-A-0501.pdf,https://www.boem.gov/sites/default/files/renewable-energy-program/State-Activities/MA/Lease-OCS-A-0501.pdf,yes
+OCS-A 0501: LEASE_DO_1,https://www.boem.gov/vineyard-wind,https://www.boem.gov/vineyard-wind,yes
+OCS-A 0501: LEASE_TYPE,Easement,Easement,yes
+OCS-A 0501: RESOURCE,Wind,Wind,yes
+OCS-A 0501: COMPANY,Vineyard Wind 1 LLC,Vineyard Wind 1 LLC,yes
+OCS-A 0501: LEASE_NU_1,OCS-A 0501 - Vineyard Wind LLC,OCS-A 0501 - Vineyard Wind LLC,yes
+OCS-A 0501: LEASE_DATE,04/01/2015,04/01/2015,yes
+OCS-A 0501: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0501: PROJECT_EA,7/15/2021,7/15/2021,yes
+OCS-A 0501: ACRES,2163,2163.0,yes
+OCS-A 0501: STATE,Massachussets,Massachussets,yes
+OCS-A 0501: PROTRACTIO,,,yes
+OCS-A 0501: PROTRACT_1,,,yes
+OCS-A 0501: PROJECT_NA,Vineyard Wind 1 Offshore Wind Project,Vineyard Wind 1 Offshore Wind Project,yes
+OCS-A 0501: PROJECT__1,,,yes
+OCS-A 0501: PROJECT__2,,,yes
+OCS-A 0501: FAST41,https://www.permits.performance.gov/permitting-projects/vineyard-wind,https://www.permits.performance.gov/permitting-projects/vineyard-wind,yes
+OCS-A 0501: name (the source's LEASE_NU_1),OCS-A 0501 - Vineyard Wind LLC,OCS-A 0501 - Vineyard Wind LLC,yes
+"OCS-A 0501: kind (lease area, with the source's LEASE_TYPE)",lease area (Easement),lease area (Easement),yes
+"OCS-A 0501: area, acres (the hover's figure; the source's ACRES, none where it is 0)",1429,1429.0,yes
+OCS-A 0501: the unit the hover gives,acres,acres,yes
+OCS-A 0501: LEASE_NUMB,OCS-A 0501,OCS-A 0501,yes
+OCS-A 0501: LEASE_DOCU,https://www.boem.gov/sites/default/files/renewable-energy-program/State-Activities/MA/Lease-OCS-A-0501.pdf,https://www.boem.gov/sites/default/files/renewable-energy-program/State-Activities/MA/Lease-OCS-A-0501.pdf,yes
+OCS-A 0501: LEASE_DO_1,https://www.boem.gov/vineyard-wind,https://www.boem.gov/vineyard-wind,yes
+OCS-A 0501: LEASE_TYPE,Easement,Easement,yes
+OCS-A 0501: RESOURCE,Wind,Wind,yes
+OCS-A 0501: COMPANY,Vineyard Wind 1 LLC,Vineyard Wind 1 LLC,yes
+OCS-A 0501: LEASE_NU_1,OCS-A 0501 - Vineyard Wind LLC,OCS-A 0501 - Vineyard Wind LLC,yes
+OCS-A 0501: LEASE_DATE,04/01/2015,04/01/2015,yes
+OCS-A 0501: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0501: PROJECT_EA,7/15/2021,7/15/2021,yes
+OCS-A 0501: ACRES,1429,1429.0,yes
+OCS-A 0501: STATE,Massachussets,Massachussets,yes
+OCS-A 0501: PROTRACTIO,,,yes
+OCS-A 0501: PROTRACT_1,,,yes
+OCS-A 0501: PROJECT_NA,Vineyard Wind 1 Offshore Wind Project,Vineyard Wind 1 Offshore Wind Project,yes
+OCS-A 0501: PROJECT__1,,,yes
+OCS-A 0501: PROJECT__2,,,yes
+OCS-A 0501: FAST41,https://www.permits.performance.gov/permitting-projects/vineyard-wind,https://www.permits.performance.gov/permitting-projects/vineyard-wind,yes
+OCS-G 37334 Provisional: name (the source's LEASE_NU_1),"OCS-G 37334 - RWE Offshore US Gulf, LLC","OCS-G 37334 - RWE Offshore US Gulf, LLC",yes
+"OCS-G 37334 Provisional: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-G 37334 Provisional: area, acres (the hover's figure; the source's ACRES, none where it is 0)",102479,102479.0,yes
+OCS-G 37334 Provisional: the unit the hover gives,acres,acres,yes
+OCS-G 37334 Provisional: LEASE_NUMB,OCS-G 37334 Provisional,OCS-G 37334 Provisional,yes
+OCS-G 37334 Provisional: LEASE_DOCU,,,yes
+OCS-G 37334 Provisional: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/gulf-america-activities,https://www.boem.gov/renewable-energy/state-activities/gulf-america-activities,yes
+OCS-G 37334 Provisional: LEASE_TYPE,Commercial,Commercial,yes
+OCS-G 37334 Provisional: RESOURCE,Wind,Wind,yes
+OCS-G 37334 Provisional: COMPANY,"RWE Offshore US Gulf, LLC","RWE Offshore US Gulf, LLC",yes
+OCS-G 37334 Provisional: LEASE_NU_1,"OCS-G 37334 - RWE Offshore US Gulf, LLC","OCS-G 37334 - RWE Offshore US Gulf, LLC",yes
+OCS-G 37334 Provisional: LEASE_DATE,,,yes
+OCS-G 37334 Provisional: LEASE_TERM,39 years,39 years,yes
+OCS-G 37334 Provisional: PROJECT_EA,,,yes
+OCS-G 37334 Provisional: ACRES,102479,102479.0,yes
+OCS-G 37334 Provisional: STATE,Louisanna/Texas,Louisanna/Texas,yes
+OCS-G 37334 Provisional: PROTRACTIO,NH15-08,NH15-08,yes
+OCS-G 37334 Provisional: PROTRACT_1,Port Arthur,Port Arthur,yes
+OCS-G 37334 Provisional: PROJECT_NA,,,yes
+OCS-G 37334 Provisional: PROJECT__1,,,yes
+OCS-G 37334 Provisional: PROJECT__2,,,yes
+OCS-G 37334 Provisional: FAST41,,,yes
+OCS-A 0498: name (the source's LEASE_NU_1),OCS-A 0498 - Ocean Wind LLC,OCS-A 0498 - Ocean Wind LLC,yes
+"OCS-A 0498: kind (lease area, with the source's LEASE_TYPE)",lease area (Easement),lease area (Easement),yes
+"OCS-A 0498: area, acres (the hover's figure; the source's ACRES, none where it is 0)",,,yes
+OCS-A 0498: the unit the hover gives,acres,acres,yes
+OCS-A 0498: LEASE_NUMB,OCS-A 0498,OCS-A 0498,yes
+OCS-A 0498: LEASE_DOCU,https://www.boem.gov/sites/default/files/documents/renewable-energy/OCS-A-0498_OCS-A-0532-Lease-Segregation.pdf,https://www.boem.gov/sites/default/files/documents/renewable-energy/OCS-A-0498_OCS-A-0532-Lease-Segregation.pdf,yes
+OCS-A 0498: LEASE_DO_1,https://www.boem.gov/sites/default/files/documents/renewable-energy/OCS-A-0498_OCS-A-0532-Lease-Segregation.pdf,https://www.boem.gov/sites/default/files/documents/renewable-energy/OCS-A-0498_OCS-A-0532-Lease-Segregation.pdf,yes
+OCS-A 0498: LEASE_TYPE,Easement,Easement,yes
+OCS-A 0498: RESOURCE,Wind,Wind,yes
+OCS-A 0498: COMPANY,Ocean Wind LLC,Ocean Wind LLC,yes
+OCS-A 0498: LEASE_NU_1,OCS-A 0498 - Ocean Wind LLC,OCS-A 0498 - Ocean Wind LLC,yes
+OCS-A 0498: LEASE_DATE,03/01/2016,03/01/2016,yes
+OCS-A 0498: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0498: PROJECT_EA,09/21/2023,09/21/2023,yes
+OCS-A 0498: ACRES,0,0.0,yes
+OCS-A 0498: STATE,New Jersey,New Jersey,yes
+OCS-A 0498: PROTRACTIO,NJ18-02,NJ18-02,yes
+OCS-A 0498: PROTRACT_1,NJ18-02,NJ18-02,yes
+OCS-A 0498: PROJECT_NA,Ocean Wind 1,Ocean Wind 1,yes
+OCS-A 0498: PROJECT__1,,,yes
+OCS-A 0498: PROJECT__2,,,yes
+OCS-A 0498: FAST41,https://www.permits.performance.gov/permitting-projects/ocean-wind-project,https://www.permits.performance.gov/permitting-projects/ocean-wind-project,yes
+OCS-A 0498: name (the source's LEASE_NU_1),OCS-A 0498 - Ocean Wind LLC,OCS-A 0498 - Ocean Wind LLC,yes
+"OCS-A 0498: kind (lease area, with the source's LEASE_TYPE)",lease area (Easement),lease area (Easement),yes
+"OCS-A 0498: area, acres (the hover's figure; the source's ACRES, none where it is 0)",,,yes
+OCS-A 0498: the unit the hover gives,acres,acres,yes
+OCS-A 0498: LEASE_NUMB,OCS-A 0498,OCS-A 0498,yes
+OCS-A 0498: LEASE_DOCU,https://www.boem.gov/sites/default/files/documents/renewable-energy/OCS-A-0498_OCS-A-0532-Lease-Segregation.pdf,https://www.boem.gov/sites/default/files/documents/renewable-energy/OCS-A-0498_OCS-A-0532-Lease-Segregation.pdf,yes
+OCS-A 0498: LEASE_DO_1,https://www.boem.gov/sites/default/files/documents/renewable-energy/OCS-A-0498_OCS-A-0532-Lease-Segregation.pdf,https://www.boem.gov/sites/default/files/documents/renewable-energy/OCS-A-0498_OCS-A-0532-Lease-Segregation.pdf,yes
+OCS-A 0498: LEASE_TYPE,Easement,Easement,yes
+OCS-A 0498: RESOURCE,Wind,Wind,yes
+OCS-A 0498: COMPANY,Ocean Wind LLC,Ocean Wind LLC,yes
+OCS-A 0498: LEASE_NU_1,OCS-A 0498 - Ocean Wind LLC,OCS-A 0498 - Ocean Wind LLC,yes
+OCS-A 0498: LEASE_DATE,03/01/2016,03/01/2016,yes
+OCS-A 0498: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0498: PROJECT_EA,09/21/2023,09/21/2023,yes
+OCS-A 0498: ACRES,0,0.0,yes
+OCS-A 0498: STATE,New Jersey,New Jersey,yes
+OCS-A 0498: PROTRACTIO,NJ18-02,NJ18-02,yes
+OCS-A 0498: PROTRACT_1,NJ18-02,NJ18-02,yes
+OCS-A 0498: PROJECT_NA,Ocean Wind 1,Ocean Wind 1,yes
+OCS-A 0498: PROJECT__1,,,yes
+OCS-A 0498: PROJECT__2,,,yes
+OCS-A 0498: FAST41,https://www.permits.performance.gov/permitting-projects/ocean-wind-project,https://www.permits.performance.gov/permitting-projects/ocean-wind-project,yes
+OCS-A 0559: name (the source's LEASE_NU_1),"OCS-A 0559 - Kitty Hawk North, LLC","OCS-A 0559 - Kitty Hawk North, LLC",yes
+"OCS-A 0559: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0559: area, acres (the hover's figure; the source's ACRES, none where it is 0)",38964,38964.0,yes
+OCS-A 0559: the unit the hover gives,acres,acres,yes
+OCS-A 0559: LEASE_NUMB,OCS-A 0559,OCS-A 0559,yes
+OCS-A 0559: LEASE_DOCU,https://www.boem.gov/Lease-OCS-A-0508/,https://www.boem.gov/Lease-OCS-A-0508/,yes
+OCS-A 0559: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/kitty-hawk-activities,https://www.boem.gov/renewable-energy/state-activities/kitty-hawk-activities,yes
+OCS-A 0559: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0559: RESOURCE,Wind,Wind,yes
+OCS-A 0559: COMPANY,"Kitty Hawk North, LLC","Kitty Hawk North, LLC",yes
+OCS-A 0559: LEASE_NU_1,"OCS-A 0559 - Kitty Hawk North, LLC","OCS-A 0559 - Kitty Hawk North, LLC",yes
+OCS-A 0559: LEASE_DATE,11/21/2023,11/21/2023,yes
+OCS-A 0559: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0559: PROJECT_EA,TBD,TBD,yes
+OCS-A 0559: ACRES,38964,38964.0,yes
+OCS-A 0559: STATE,North Carolina,North Carolina,yes
+OCS-A 0559: PROTRACTIO,NJ18-11,NJ18-11,yes
+OCS-A 0559: PROTRACT_1,Currituck Sound,Currituck Sound,yes
+OCS-A 0559: PROJECT_NA,Kitty Hawk North,Kitty Hawk North,yes
+OCS-A 0559: PROJECT__1,,,yes
+OCS-A 0559: PROJECT__2,,,yes
+OCS-A 0559: FAST41,https://www.permits.performance.gov/permitting-project/fast-41-covered-projects/kitty-hawk-north-wind-project,https://www.permits.performance.gov/permitting-project/fast-41-covered-projects/kitty-hawk-north-wind-project,yes
+OCS-A 0534: name (the source's LEASE_NU_1),OCS-A 0534 Park City Wind LLC,OCS-A 0534 Park City Wind LLC,yes
+"OCS-A 0534: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0534: area, acres (the hover's figure; the source's ACRES, none where it is 0)",,,yes
+OCS-A 0534: the unit the hover gives,acres,acres,yes
+OCS-A 0534: LEASE_NUMB,OCS-A 0534,OCS-A 0534,yes
+OCS-A 0534: LEASE_DOCU,https://www.boem.gov/sites/default/files/documents/renewable-energy/state-activities/Assignment-Approved-Lease-Segregated-OCS-A%200534-OCS-A%200561.pdf,https://www.boem.gov/sites/default/files/documents/renewable-energy/state-activities/Assignment-Approved-Lease-Segregated-OCS-A%200534-OCS-A%200561.pdf,yes
+OCS-A 0534: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/massachusetts-activities,https://www.boem.gov/renewable-energy/state-activities/massachusetts-activities,yes
+OCS-A 0534: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0534: RESOURCE,Wind,Wind,yes
+OCS-A 0534: COMPANY,Park City Wind LLC,Park City Wind LLC,yes
+OCS-A 0534: LEASE_NU_1,OCS-A 0534 Park City Wind LLC,OCS-A 0534 Park City Wind LLC,yes
+OCS-A 0534: LEASE_DATE,06/28/2021,06/28/2021,yes
+OCS-A 0534: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0534: PROJECT_EA,TBD,TBD,yes
+OCS-A 0534: ACRES,0,0.0,yes
+OCS-A 0534: STATE,Massachussets,Massachussets,yes
+OCS-A 0534: PROTRACTIO,null,null,yes
+OCS-A 0534: PROTRACT_1,null,null,yes
+OCS-A 0534: PROJECT_NA,New England Wind 1,New England Wind 1,yes
+OCS-A 0534: PROJECT__1,,,yes
+OCS-A 0534: PROJECT__2,,,yes
+OCS-A 0534: FAST41,,,yes
+OCS-A 0561: name (the source's LEASE_NU_1),OCS-A 0561 - Commonwealth Wind LLC,OCS-A 0561 - Commonwealth Wind LLC,yes
+"OCS-A 0561: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0561: area, acres (the hover's figure; the source's ACRES, none where it is 0)",,,yes
+OCS-A 0561: the unit the hover gives,acres,acres,yes
+OCS-A 0561: LEASE_NUMB,OCS-A 0561,OCS-A 0561,yes
+OCS-A 0561: LEASE_DOCU,https://www.boem.gov/sites/default/files/documents/renewable-energy/state-activities/Assignment-Approved-Lease-Segregated-OCS-A%200534-OCS-A%200561.pdf,https://www.boem.gov/sites/default/files/documents/renewable-energy/state-activities/Assignment-Approved-Lease-Segregated-OCS-A%200534-OCS-A%200561.pdf,yes
+OCS-A 0561: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/massachusetts-activities,https://www.boem.gov/renewable-energy/state-activities/massachusetts-activities,yes
+OCS-A 0561: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0561: RESOURCE,Wind,Wind,yes
+OCS-A 0561: COMPANY,Commonwealth Wind LLC,Commonwealth Wind LLC,yes
+OCS-A 0561: LEASE_NU_1,OCS-A 0561 - Commonwealth Wind LLC,OCS-A 0561 - Commonwealth Wind LLC,yes
+OCS-A 0561: LEASE_DATE,05/15/2024,05/15/2024,yes
+OCS-A 0561: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0561: PROJECT_EA,TBD,TBD,yes
+OCS-A 0561: ACRES,0,0.0,yes
+OCS-A 0561: STATE,Massachusetts,Massachusetts,yes
+OCS-A 0561: PROTRACTIO,null,null,yes
+OCS-A 0561: PROTRACT_1,null,null,yes
+OCS-A 0561: PROJECT_NA,New England Wind 2,New England Wind 2,yes
+OCS-A 0561: PROJECT__1,,,yes
+OCS-A 0561: PROJECT__2,,,yes
+OCS-A 0561: FAST41,,,yes
+OCS-A 0553: name (the source's LEASE_NU_1),OCS-A 0553 - Pine Tree Offshore Wind LLC,OCS-A 0553 - Pine Tree Offshore Wind LLC,yes
+"OCS-A 0553: kind (lease area, with the source's LEASE_TYPE)",lease area (Research),lease area (Research),yes
+"OCS-A 0553: area, acres (the hover's figure; the source's ACRES, none where it is 0)",14945,14945.0,yes
+OCS-A 0553: the unit the hover gives,acres,acres,yes
+OCS-A 0553: LEASE_NUMB,OCS-A 0553,OCS-A 0553,yes
+OCS-A 0553: LEASE_DOCU,https://www.boem.gov/sites/default/files/documents/renewable-energy/state-activities/5915_Fully%20Executed%20Lease%20OCS-A%200553%20BOEM%20signed.pdf,https://www.boem.gov/sites/default/files/documents/renewable-energy/state-activities/5915_Fully%20Executed%20Lease%20OCS-A%200553%20BOEM%20signed.pdf,yes
+OCS-A 0553: LEASE_DO_1,https://www.boem.gov/sites/default/files/documents/renewable-energy/state-activities/5915_Fully%20Executed%20Lease%20OCS-A%200553%20BOEM%20signed.pdf,https://www.boem.gov/sites/default/files/documents/renewable-energy/state-activities/5915_Fully%20Executed%20Lease%20OCS-A%200553%20BOEM%20signed.pdf,yes
+OCS-A 0553: LEASE_TYPE,Research,Research,yes
+OCS-A 0553: RESOURCE,Wind,Wind,yes
+OCS-A 0553: COMPANY,Pine Tree Offshore Wind LLC,Pine Tree Offshore Wind LLC,yes
+OCS-A 0553: LEASE_NU_1,OCS-A 0553 - Pine Tree Offshore Wind LLC,OCS-A 0553 - Pine Tree Offshore Wind LLC,yes
+OCS-A 0553: LEASE_DATE,08/19/2024,08/19/2024,yes
+OCS-A 0553: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0553: PROJECT_EA,TBD,TBD,yes
+OCS-A 0553: ACRES,14945,14945.0,yes
+OCS-A 0553: STATE,Maine,Maine,yes
+OCS-A 0553: PROTRACTIO,NK19-02,NK19-02,yes
+OCS-A 0553: PROTRACT_1,Bath,Bath,yes
+OCS-A 0553: PROJECT_NA,Gulf of Maine Research Lease,Gulf of Maine Research Lease,yes
+OCS-A 0553: PROJECT__1,,,yes
+OCS-A 0553: PROJECT__2,,,yes
+OCS-A 0553: FAST41,,,yes
+OCS-A 0508: name (the source's LEASE_NU_1),"OCS-A 0508 - Kitty Hawk Wind, LLC","OCS-A 0508 - Kitty Hawk Wind, LLC",yes
+"OCS-A 0508: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0508: area, acres (the hover's figure; the source's ACRES, none where it is 0)",83443,83443.0,yes
+OCS-A 0508: the unit the hover gives,acres,acres,yes
+OCS-A 0508: LEASE_NUMB,OCS-A 0508,OCS-A 0508,yes
+OCS-A 0508: LEASE_DOCU,https://www.boem.gov/Lease-OCS-A-0508/,https://www.boem.gov/Lease-OCS-A-0508/,yes
+OCS-A 0508: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/kitty-hawk-activities,https://www.boem.gov/renewable-energy/state-activities/kitty-hawk-activities,yes
+OCS-A 0508: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0508: RESOURCE,Wind,Wind,yes
+OCS-A 0508: COMPANY,"Kitty Hawk Wind, LLC","Kitty Hawk Wind, LLC",yes
+OCS-A 0508: LEASE_NU_1,"OCS-A 0508 - Kitty Hawk Wind, LLC","OCS-A 0508 - Kitty Hawk Wind, LLC",yes
+OCS-A 0508: LEASE_DATE,11/01/2017,11/01/2017,yes
+OCS-A 0508: LEASE_TERM,25 Years,25 Years,yes
+OCS-A 0508: PROJECT_EA,TBD,TBD,yes
+OCS-A 0508: ACRES,83443,83443.0,yes
+OCS-A 0508: STATE,North Carolina,North Carolina,yes
+OCS-A 0508: PROTRACTIO,NJ18-11,NJ18-11,yes
+OCS-A 0508: PROTRACT_1,Currituck Sound,Currituck Sound,yes
+OCS-A 0508: PROJECT_NA,Kitty Hawk South,Kitty Hawk South,yes
+OCS-A 0508: PROJECT__1,,,yes
+OCS-A 0508: PROJECT__2,,,yes
+OCS-A 0508: FAST41,https://www.permits.performance.gov/permitting-project/fast-41-covered-projects/kitty-hawk-south-offshore-wind-project,https://www.permits.performance.gov/permitting-project/fast-41-covered-projects/kitty-hawk-south-offshore-wind-project,yes
+OCS-A 0564: name (the source's LEASE_NU_1),"OCS-A 0564 - Avangrid Renewables, LLC","OCS-A 0564 - Avangrid Renewables, LLC",yes
+"OCS-A 0564: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0564: area, acres (the hover's figure; the source's ACRES, none where it is 0)",98565,98565.0,yes
+OCS-A 0564: the unit the hover gives,acres,acres,yes
+OCS-A 0564: LEASE_NUMB,OCS-A 0564,OCS-A 0564,yes
+OCS-A 0564: LEASE_DOCU,,,yes
+OCS-A 0564: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/maine/gulf-maine,https://www.boem.gov/renewable-energy/state-activities/maine/gulf-maine,yes
+OCS-A 0564: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0564: RESOURCE,Wind,Wind,yes
+OCS-A 0564: COMPANY,"Avangrid Renewables, LLC","Avangrid Renewables, LLC",yes
+OCS-A 0564: LEASE_NU_1,"OCS-A 0564 - Avangrid Renewables, LLC","OCS-A 0564 - Avangrid Renewables, LLC",yes
+OCS-A 0564: LEASE_DATE,12/16/2024,12/16/2024,yes
+OCS-A 0564: LEASE_TERM,35 Years,35 Years,yes
+OCS-A 0564: PROJECT_EA,TDB,TDB,yes
+OCS-A 0564: ACRES,98565,98565.0,yes
+OCS-A 0564: STATE,Massachusetts,Massachusetts,yes
+OCS-A 0564: PROTRACTIO,NK19-05,NK19-05,yes
+OCS-A 0564: PROTRACT_1,Cashes Ledge,Cashes Ledge,yes
+OCS-A 0564: PROJECT_NA,,,yes
+OCS-A 0564: PROJECT__1,,,yes
+OCS-A 0564: PROJECT__2,,,yes
+OCS-A 0564: FAST41,,,yes
+OCS-A 0568: name (the source's LEASE_NU_1),"OCS-A 0568 - Avangrid Renewables, LLC","OCS-A 0568 - Avangrid Renewables, LLC",yes
+"OCS-A 0568: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0568: area, acres (the hover's figure; the source's ACRES, none where it is 0)",124897,124897.0,yes
+OCS-A 0568: the unit the hover gives,acres,acres,yes
+OCS-A 0568: LEASE_NUMB,OCS-A 0568,OCS-A 0568,yes
+OCS-A 0568: LEASE_DOCU,,,yes
+OCS-A 0568: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/maine/gulf-maine,https://www.boem.gov/renewable-energy/state-activities/maine/gulf-maine,yes
+OCS-A 0568: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0568: RESOURCE,Wind,Wind,yes
+OCS-A 0568: COMPANY,"Avangrid Renewables, LLC","Avangrid Renewables, LLC",yes
+OCS-A 0568: LEASE_NU_1,"OCS-A 0568 - Avangrid Renewables, LLC","OCS-A 0568 - Avangrid Renewables, LLC",yes
+OCS-A 0568: LEASE_DATE,12/16/2024,12/16/2024,yes
+OCS-A 0568: LEASE_TERM,35 Years,35 Years,yes
+OCS-A 0568: PROJECT_EA,TDB,TDB,yes
+OCS-A 0568: ACRES,124897,124897.0,yes
+OCS-A 0568: STATE,Massachusetts,Massachusetts,yes
+OCS-A 0568: PROTRACTIO,NK19-05,NK19-05,yes
+OCS-A 0568: PROTRACT_1,Cashes Ledge,Cashes Ledge,yes
+OCS-A 0568: PROJECT_NA,,,yes
+OCS-A 0568: PROJECT__1,,,yes
+OCS-A 0568: PROJECT__2,,,yes
+OCS-A 0568: FAST41,,,yes
+OCS-A 0562: name (the source's LEASE_NU_1),"OCS-A 0562 - Invenergy NE Offshore Wind, LLC","OCS-A 0562 - Invenergy NE Offshore Wind, LLC",yes
+"OCS-A 0562: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0562: area, acres (the hover's figure; the source's ACRES, none where it is 0)",97854,97854.0,yes
+OCS-A 0562: the unit the hover gives,acres,acres,yes
+OCS-A 0562: LEASE_NUMB,OCS-A 0562,OCS-A 0562,yes
+OCS-A 0562: LEASE_DOCU,,,yes
+OCS-A 0562: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/maine/gulf-maine,https://www.boem.gov/renewable-energy/state-activities/maine/gulf-maine,yes
+OCS-A 0562: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0562: RESOURCE,Wind,Wind,yes
+OCS-A 0562: COMPANY,"Invenergy NE Offshore Wind, LLC","Invenergy NE Offshore Wind, LLC",yes
+OCS-A 0562: LEASE_NU_1,"OCS-A 0562 - Invenergy NE Offshore Wind, LLC","OCS-A 0562 - Invenergy NE Offshore Wind, LLC",yes
+OCS-A 0562: LEASE_DATE,12/16/2024,12/16/2024,yes
+OCS-A 0562: LEASE_TERM,35 Years,35 Years,yes
+OCS-A 0562: PROJECT_EA,TDB,TDB,yes
+OCS-A 0562: ACRES,97854,97854.0,yes
+OCS-A 0562: STATE,Maine,Maine,yes
+OCS-A 0562: PROTRACTIO,NK19-02,NK19-02,yes
+OCS-A 0562: PROTRACT_1,Bath,Bath,yes
+OCS-A 0562: PROJECT_NA,,,yes
+OCS-A 0562: PROJECT__1,,,yes
+OCS-A 0562: PROJECT__2,,,yes
+OCS-A 0562: FAST41,,,yes
+OCS-A 0567: name (the source's LEASE_NU_1),"OCS-A 0567 - Invenergy NE Offshore Wind, LLC","OCS-A 0567 - Invenergy NE Offshore Wind, LLC",yes
+"OCS-A 0567: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0567: area, acres (the hover's figure; the source's ACRES, none where it is 0)",117780,117780.0,yes
+OCS-A 0567: the unit the hover gives,acres,acres,yes
+OCS-A 0567: LEASE_NUMB,OCS-A 0567,OCS-A 0567,yes
+OCS-A 0567: LEASE_DOCU,,,yes
+OCS-A 0567: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/maine/gulf-maine,https://www.boem.gov/renewable-energy/state-activities/maine/gulf-maine,yes
+OCS-A 0567: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0567: RESOURCE,Wind,Wind,yes
+OCS-A 0567: COMPANY,"Invenergy NE Offshore Wind, LLC","Invenergy NE Offshore Wind, LLC",yes
+OCS-A 0567: LEASE_NU_1,"OCS-A 0567 - Invenergy NE Offshore Wind, LLC","OCS-A 0567 - Invenergy NE Offshore Wind, LLC",yes
+OCS-A 0567: LEASE_DATE,12/16/2024,12/16/2024,yes
+OCS-A 0567: LEASE_TERM,35 Years,35 Years,yes
+OCS-A 0567: PROJECT_EA,TDB,TDB,yes
+OCS-A 0567: ACRES,117780,117780.0,yes
+OCS-A 0567: STATE,Massachusetts,Massachusetts,yes
+OCS-A 0567: PROTRACTIO,NK19-05,NK19-05,yes
+OCS-A 0567: PROTRACT_1,Cashes Ledge,Cashes Ledge,yes
+OCS-A 0567: PROJECT_NA,,,yes
+OCS-A 0567: PROJECT__1,,,yes
+OCS-A 0567: PROJECT__2,,,yes
+OCS-A 0567: FAST41,,,yes
+OCS-A 0557: name (the source's LEASE_NU_1),OCS-A 0557 - Equinor Wind US LLC,OCS-A 0557 - Equinor Wind US LLC,yes
+"OCS-A 0557: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0557: area, acres (the hover's figure; the source's ACRES, none where it is 0)",101443,101443.0,yes
+OCS-A 0557: the unit the hover gives,acres,acres,yes
+OCS-A 0557: LEASE_NUMB,OCS-A 0557,OCS-A 0557,yes
+OCS-A 0557: LEASE_DOCU,https://www.boem.gov/sites/default/files/documents/renewable-energy/state-activities/CenAt%20OCS-A%200557%20A-2%20edit.pdf,https://www.boem.gov/sites/default/files/documents/renewable-energy/state-activities/CenAt%20OCS-A%200557%20A-2%20edit.pdf,yes
+OCS-A 0557: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/central-atlantic,https://www.boem.gov/renewable-energy/state-activities/central-atlantic,yes
+OCS-A 0557: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0557: RESOURCE,Wind,Wind,yes
+OCS-A 0557: COMPANY,Equinor Wind US LLC,Equinor Wind US LLC,yes
+OCS-A 0557: LEASE_NU_1,OCS-A 0557 - Equinor Wind US LLC,OCS-A 0557 - Equinor Wind US LLC,yes
+OCS-A 0557: LEASE_DATE,08/14/2024,08/14/2024,yes
+OCS-A 0557: LEASE_TERM,35 Years,35 Years,yes
+OCS-A 0557: PROJECT_EA,TDB,TDB,yes
+OCS-A 0557: ACRES,101443,101443.0,yes
+OCS-A 0557: STATE,Delaware/Maryland,Delaware/Maryland,yes
+OCS-A 0557: PROTRACTIO,NJ18-05,NJ18-05,yes
+OCS-A 0557: PROTRACT_1,Salisbury,Salisbury,yes
+OCS-A 0557: PROJECT_NA,,,yes
+OCS-A 0557: PROJECT__1,,,yes
+OCS-A 0557: PROJECT__2,,,yes
+OCS-A 0557: FAST41,,,yes
+OCS-A 0558: name (the source's LEASE_NU_1),OCS-A 0558 -  Virginia Electric and Power Co,OCS-A 0558 -  Virginia Electric and Power Co,yes
+"OCS-A 0558: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0558: area, acres (the hover's figure; the source's ACRES, none where it is 0)",176505,176505.0,yes
+OCS-A 0558: the unit the hover gives,acres,acres,yes
+OCS-A 0558: LEASE_NUMB,OCS-A 0558,OCS-A 0558,yes
+OCS-A 0558: LEASE_DOCU,https://www.boem.gov/sites/default/files/documents/renewable-energy/state-activities/CenAt%20OCS-A%200558%20C-1%20edit.pdf,https://www.boem.gov/sites/default/files/documents/renewable-energy/state-activities/CenAt%20OCS-A%200558%20C-1%20edit.pdf,yes
+OCS-A 0558: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/central-atlantic,https://www.boem.gov/renewable-energy/state-activities/central-atlantic,yes
+OCS-A 0558: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0558: RESOURCE,Wind,Wind,yes
+OCS-A 0558: COMPANY,Virginia Electric and Power Co,Virginia Electric and Power Co,yes
+OCS-A 0558: LEASE_NU_1,OCS-A 0558 -  Virginia Electric and Power Co,OCS-A 0558 -  Virginia Electric and Power Co,yes
+OCS-A 0558: LEASE_DATE,08/14/2024,08/14/2024,yes
+OCS-A 0558: LEASE_TERM,35 Years,35 Years,yes
+OCS-A 0558: PROJECT_EA,TDB,TDB,yes
+OCS-A 0558: ACRES,176505,176505.0,yes
+OCS-A 0558: STATE,Virginia,Virginia,yes
+OCS-A 0558: PROTRACTIO,NJ18-11,NJ18-11,yes
+OCS-A 0558: PROTRACT_1,Currituck Sound,Currituck Sound,yes
+OCS-A 0558: PROJECT_NA,,,yes
+OCS-A 0558: PROJECT__1,,,yes
+OCS-A 0558: PROJECT__2,,,yes
+OCS-A 0558: FAST41,,,yes
+OCS-A 0499: name (the source's LEASE_NU_1),"OCS-A 0499 - Atlantic Shores Offshore Wind (ASOW) Project 1, LLC","OCS-A 0499 - Atlantic Shores Offshore Wind (ASOW) Project 1, LLC",yes
+"OCS-A 0499: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0499: area, acres (the hover's figure; the source's ACRES, none where it is 0)",58712,58712.0,yes
+OCS-A 0499: the unit the hover gives,acres,acres,yes
+OCS-A 0499: LEASE_NUMB,OCS-A 0499,OCS-A 0499,yes
+OCS-A 0499: LEASE_DOCU,https://www.boem.gov/sites/default/files/documents/oil-gas-energy/OCS-A%200499%20Lease.pdf,https://www.boem.gov/sites/default/files/documents/oil-gas-energy/OCS-A%200499%20Lease.pdf,yes
+OCS-A 0499: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/atlantic-shores-south,https://www.boem.gov/renewable-energy/state-activities/atlantic-shores-south,yes
+OCS-A 0499: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0499: RESOURCE,Wind,Wind,yes
+OCS-A 0499: COMPANY,"Atlantic Shores Offshore Wind (ASOW) Project 1, LLC","Atlantic Shores Offshore Wind (ASOW) Project 1, LLC",yes
+OCS-A 0499: LEASE_NU_1,"OCS-A 0499 - Atlantic Shores Offshore Wind (ASOW) Project 1, LLC","OCS-A 0499 - Atlantic Shores Offshore Wind (ASOW) Project 1, LLC",yes
+OCS-A 0499: LEASE_DATE,03/01/2016,03/01/2016,yes
+OCS-A 0499: LEASE_TERM,30 Years,30 Years,yes
+OCS-A 0499: PROJECT_EA,TBD,TBD,yes
+OCS-A 0499: ACRES,58712,58712.0,yes
+OCS-A 0499: STATE,New Jersey,New Jersey,yes
+OCS-A 0499: PROTRACTIO,NJ18-02,NJ18-02,yes
+OCS-A 0499: PROTRACT_1,Wilmington,Wilmington,yes
+OCS-A 0499: PROJECT_NA,Atlantic Shores South,Atlantic Shores South,yes
+OCS-A 0499: PROJECT__1,,,yes
+OCS-A 0499: PROJECT__2,,,yes
+OCS-A 0499: FAST41,,,yes
+OCS-A 0570: name (the source's LEASE_NU_1),"OCS-A 0570 - Atlantic Shores Offshore Wind (ASOW) Project 2, LLC","OCS-A 0570 - Atlantic Shores Offshore Wind (ASOW) Project 2, LLC",yes
+"OCS-A 0570: kind (lease area, with the source's LEASE_TYPE)",lease area (Commercial),lease area (Commercial),yes
+"OCS-A 0570: area, acres (the hover's figure; the source's ACRES, none where it is 0)",43439,43439.0,yes
+OCS-A 0570: the unit the hover gives,acres,acres,yes
+OCS-A 0570: LEASE_NUMB,OCS-A 0570,OCS-A 0570,yes
+OCS-A 0570: LEASE_DOCU,https://www.boem.gov/sites/default/files/documents/renewable-energy/state-activities/Segregation%20and%20Designations.pdf,https://www.boem.gov/sites/default/files/documents/renewable-energy/state-activities/Segregation%20and%20Designations.pdf,yes
+OCS-A 0570: LEASE_DO_1,https://www.boem.gov/renewable-energy/state-activities/atlantic-shores-south,https://www.boem.gov/renewable-energy/state-activities/atlantic-shores-south,yes
+OCS-A 0570: LEASE_TYPE,Commercial,Commercial,yes
+OCS-A 0570: RESOURCE,Wind,Wind,yes
+OCS-A 0570: COMPANY,"Atlantic Shores Offshore Wind (ASOW) Project 2, LLC","Atlantic Shores Offshore Wind (ASOW) Project 2, LLC",yes
+OCS-A 0570: LEASE_NU_1,"OCS-A 0570 - Atlantic Shores Offshore Wind (ASOW) Project 2, LLC","OCS-A 0570 - Atlantic Shores Offshore Wind (ASOW) Project 2, LLC",yes
+OCS-A 0570: LEASE_DATE,09/30/2024,09/30/2024,yes
+OCS-A 0570: LEASE_TERM,30 Years,30 Years,yes
+OCS-A 0570: PROJECT_EA,TBD,TBD,yes
+OCS-A 0570: ACRES,43439,43439.0,yes
+OCS-A 0570: STATE,New Jersey,New Jersey,yes
+OCS-A 0570: PROTRACTIO,NJ18-02,NJ18-02,yes
+OCS-A 0570: PROTRACT_1,Wilmington,Wilmington,yes
+OCS-A 0570: PROJECT_NA,Atlantic Shores South,Atlantic Shores South,yes
+OCS-A 0570: PROJECT__1,,,yes
+OCS-A 0570: PROJECT__2,,,yes
+OCS-A 0570: FAST41,,,yes
+"smallest area, acres",578,578.0,yes
+"mean area, acres",75124.08695652174,75124.08695652174,yes
+"largest area, acres",176505,176505.0,yes
+"outlines with an area, the list of layers' count",46,46,yes
+"features, the list of layers' count",51,51,yes
+the unit of the list of layers,acres,acres,yes
