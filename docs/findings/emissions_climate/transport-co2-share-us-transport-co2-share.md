@@ -2,7 +2,7 @@
 
 Draft `scan-deep-2b91680ae020` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** Transport's share of US energy-related CO2 was 37.3 percent of US energy CO2 in 2022, against 32.3 percent of US energy CO2 in 2001, the first year this measure counts.
+**The finding.** Transport's share of US energy-related CO2 was 37.3 percent of US energy CO2 in 2022, against 32.3 percent of US energy CO2 in 2001, the first year of the window the hunt read; the table holds the measure from 1970.
 
 ![Transport's share of us co2, the United States](transport-co2-share-us-transport-co2-share.png)
 

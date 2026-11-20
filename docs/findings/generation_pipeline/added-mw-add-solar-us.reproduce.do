@@ -20,9 +20,23 @@ collapse (sum) measure = nameplate_mw, by(operating_year)
 
 rename operating_year year
 
+tempfile got
+
+save `got'
+
+clear
+
+set obs 16
+
+generate int year = 2009 + _n
+
+merge 1:1 year using `got', nogenerate
+
+replace measure = 0 if missing(measure)
+
 generate byte n = 1
 
-* A year with no unit is a year of zero MW, as the Python prints it.
+* A year with no unit is a year of zero MW, as the Python prints it: the years 2010 to 2025 are added above.
 
 sort year
 
