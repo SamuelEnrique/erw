@@ -709,7 +709,7 @@ SECTOR_RULES = [
     (r"^ercot_rtm_price_adders$", "power"),  # session 244: ERCOT's real-time reserve price adders by hour (the ORDC's scarcity signal), from June 2014
     (r"^scarcity_hours_by_grid$", "power"),  # session 254: each grid's own scarcity signal beside the USD 1,000 price count, by hour, 36 months (derived)
     (r"^(constraints_binding_hourly|price_congestion_hourly|constraints_binding_(monthly|yearly)|price_congestion_monthly)$", "power"),  # session 9000 (chain 601, part C): binding constraints and the congestion part of price, SPP and CAISO, and their roll-ups
-    (r"^(generation_outages|operating_reserves_hourly|scarcity_pricing_hours|grid_alerts|tie_flows_5min)$", "power"),  # session 9000 (chain 601, parts D to F): out of service, reserves, scarcity, alerts, ties
+    (r"^(generation_outages_hourly|operating_reserves_hourly|scarcity_pricing_hours|grid_all_alerts|caiso_tie_flows_5min)$", "power"),  # session 9000 (chain 601, parts D to F): out of service, reserves, scarcity, alerts, ties
     (r"^price_years_by_window$", "power"),  # session 357: each economics page's figure under every window of years held (derived)
     (r"^(node_basis_(daily|summary)|ercot_node_prices_hourly)$", "power"),  # session 358: ERCOT's settlement points against the hub, by day and month (derived), and their hourly prices (internal)
     (r"^ercot_4cp_intervals$", "power"),  # session 359: ERCOT's four coincident-peak intervals by year
