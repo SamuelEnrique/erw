@@ -2,7 +2,7 @@
 
 Draft `scan-deep-5f1d006e0f13` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The MW of US battery entering service in the year against the MW of US battery requested in the year was 7.0 percent of MW requested in 2024, against 0.0 percent of MW requested in 2010, the first year this measure counts.
+**The finding.** The MW of US battery entering service in the year against the MW of US battery requested in the year was 7.0 percent of MW requested in 2024, against 0.0 percent of MW requested in 2010, the first year of the window the hunt read; the table holds the measure from 2008.
 
 ![Built against asked for, US battery](built-per-asked-us-battery-built-asked.png)
 

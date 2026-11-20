@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate exp_crude_dest, region xc_nnl (the Netherlands)
+# Computed 2026-11-19T12:51:14Z by warehouse/analysis/findings/deep/oil_products_world.py (exp_crude_dest); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: US crude oil exports to the destination (thousand barrels a day), the observations it rests on, and whether the year is full
+# Tables: eia_petroleum_exports_by_destination
+region,year,value,n_observations,full_year
+xc_nnl,2015,5.931506849315069,3.0,0
+xc_nnl,2016,43.013661202185794,10.0,0
+xc_nnl,2017,92.18630136986302,12.0,1
+xc_nnl,2018,131.74794520547945,12.0,1
+xc_nnl,2019,278.7890410958904,12.0,1
+xc_nnl,2020,297.5136612021858,12.0,1
+xc_nnl,2021,285.66301369863015,12.0,1
+xc_nnl,2022,359.0301369863014,12.0,1
+xc_nnl,2023,623.7287671232876,12.0,1
+xc_nnl,2024,789.8551912568306,12.0,1
+xc_nnl,2025,862.082191780822,12.0,1
+xc_nnl,2026,601.1315068493151,7.0,0
