@@ -7,7 +7,12 @@ import { FindingCard } from "@/components/analysis/FindingCard";
 import { Section } from "@/components/Section";
 import { VERDICTS, VERDICT_DOC } from "@/lib/findingverdicts";
 import { COOKIE } from "@/lib/release";
-import { listDrafts, needsPublisher, STATE_WORDS, type Draft } from "@/lib/scanner";
+import { listAllDrafts, needsPublisher, STATE_WORDS, type Draft } from "@/lib/scanner";
+import { AuditBrowser } from "@/components/analysis/AuditBrowser";
+import { AuditPanel, SheetHead } from "@/components/analysis/AuditPanel";
+import { Tip } from "@/components/tool/ToolPage";
+import { AUDIT, SHEET, auditOf, blockedReason } from "@/lib/findingaudit";
+import type { BrowseItem } from "@/lib/findingauditwords";
 import { internalOk } from "@/lib/thesis/server";
 
 // Session 181: the scanner's review list (docs/methods/automated_analysis_scanner.md). Internal: no nav link, not
@@ -92,19 +97,47 @@ function PublisherLine({ d }: { d: Draft }) {
 }
 
 function DraftBlock({ d }: { d: Draft }) {
+  // chain 507: the findings audit of 19 November 2026 beside the draft (its verdict, four checks, already known, second
+  // route, tables and files), the sheet's head on the forty, and Approve stopped where the audit says why
+  const audit = auditOf(d.id);
   return (
     <div className="border border-rule p-3" data-draft-id={d.id} data-draft-rule={d.rule} data-draft-strength={d.strength} data-draft-verdict-of={VERDICTS[d.id]?.verdict ?? "none"}>
+      {audit?.sheet ? <SheetHead id={d.id} row={audit} /> : null}
       <p className="mb-2 text-xs text-muted">
         Raised {day(d.raised_at)} by {d.rule === "hunt" ? "the weekly hunt" : "scanner"} {d.scanner_version}; rule {d.rule}; strength {d.strength.toLocaleString("en-US", { maximumFractionDigits: 2 })}; table{" "}
         <span className="font-mono">{d.table_name}</span>; flagged {d.flag_date}
       </p>
+      <AuditPanel id={d.id} row={audit} />
       <VerdictLine id={d.id} />
       <PublisherLine d={d} />
       <FindingCard card={d.card} roundup={false} />
       {d.card.hunt ? <HuntFiles id={d.id} hunt={d.card.hunt} /> : null}
-      <DraftReview id={d.id} state={d.state} history={d.state_history ?? []} requestId={d.request_id} fullCard={fullCardWords(d)} />
+      <DraftReview id={d.id} state={d.state} history={d.state_history ?? []} requestId={d.request_id} fullCard={fullCardWords(d)} blocked={blockedReason(d.id)} />
     </div>
   );
+}
+
+// chain 507: one of the sheet's forty that the review list did not return (the list stops at 500 drafts until migration
+// 039 is applied): its head, its audit and the control, the state taken as a draft (all 613 drafts were on 19 November)
+function SheetOnlyBlock({ id }: { id: string }) {
+  const audit = auditOf(id);
+  if (!audit) return null;
+  return (
+    <div className="border border-rule p-3" data-draft-id={id} data-draft-unlisted="1">
+      <SheetHead id={id} row={audit} />
+      <p className="mb-2 text-xs">
+        Not among the drafts the review list returned<Tip label="why not listed" id={`unlisted-${id}`}>The database function returns the newest 500 drafts; this one is older. Migration 039 (scanner_drafts_list_from) reads every page; until it is applied the state shown is taken as a draft, and a ruling may answer &quot;no such draft&quot;.</Tip>
+      </p>
+      <AuditPanel id={id} row={audit} />
+      <DraftReview id={id} state="draft" history={[]} requestId={null} fullCard="this draft is not in the list the page read; ask after migration 039 is applied" blocked={blockedReason(id)} />
+    </div>
+  );
+}
+
+function browseItem(d: Draft): BrowseItem {
+  const a = auditOf(d.id);
+  const text = `${a?.sentence ?? ""} ${a?.title ?? d.card.title ?? ""} ${a?.slug ?? ""} ${d.table_name}`.toLowerCase();
+  return { id: d.id, family: a?.family ?? "", verdict: a?.verdict ?? "none", known: a?.known.state ?? "none", reader: a?.sheet?.reader ?? "", rank: a?.sheet?.rank ?? 0, text, ruling: d.state };
 }
 
 export default async function FindingsReviewPage() {
@@ -112,8 +145,9 @@ export default async function FindingsReviewPage() {
   if (want.length < 24 || !(await internalOk((await cookies()).get(COOKIE)?.value))) notFound();
 
   let drafts: Draft[];
+  let capped = false;
   try {
-    drafts = await listDrafts();
+    ({ drafts, capped } = await listAllDrafts());
   } catch (e) {
     return (
       <Brand>
@@ -124,9 +158,20 @@ export default async function FindingsReviewPage() {
       </Brand>
     );
   }
+  const count = (s: Draft["state"]) => drafts.filter((d) => d.state === s).length;
+  // chain 507: the drafts waiting for a ruling, in the list's order (newest and strongest first), then the sheet's drafts
+  // the list did not return; the browser shows the sheet of forty first, in the sheet's order, and filters the rest.
+  // The ruled drafts are listed under "Ruled" as before.
   const open = drafts.filter((d) => d.state === "draft" || d.state === "full_card_asked");
   const ruled = drafts.filter((d) => d.state === "approved" || d.state === "dismissed");
-  const count = (s: Draft["state"]) => drafts.filter((d) => d.state === s).length;
+  const listed = new Set(drafts.map((d) => d.id));
+  const unlisted = SHEET.filter((s) => !listed.has(s.id));
+  const openItems: BrowseItem[] = [
+    ...open.map(browseItem),
+    ...unlisted.map(({ id, row }) => ({ id, family: row.family, verdict: row.verdict, known: row.known.state, reader: row.sheet?.reader ?? "", rank: row.sheet?.rank ?? 0,
+      text: `${row.sentence} ${row.title} ${row.slug}`.toLowerCase(), ruling: "draft" })),
+  ];
+  const auditedNotListed = Object.keys(AUDIT.drafts).filter((id) => !listed.has(id)).length;
   return (
     <Brand>
     <div data-drafts={drafts.length}>
@@ -141,9 +186,21 @@ export default async function FindingsReviewPage() {
           <div key={s} className="bg-panel p-3"><div className="text-xs text-muted">{STATE_WORDS[s]}</div><div className="text-2xl tabular-nums" data-n={s}>{count(s)}</div></div>
         ))}
       </div>
-      <Section title="Waiting for a ruling" aside={`${open.length}`}>
-        {open.length === 0 ? <p className="text-sm text-muted" data-open-drafts="0">No draft waits.</p> : (
-          <div className="flex flex-col gap-8" data-open-drafts={open.length}>{open.map((d) => <DraftBlock key={d.id} d={d} />)}</div>
+      <p className="mb-4 text-sm" data-audit-source="1">
+        The findings audit of 19 November 2026 beside every draft of the findings hunt
+        <Tip label="the audit" id="audit-source">Chain 506 checked each of the {Object.keys(AUDIT.drafts).length} drafts of docs/findings four ways (the sentence, the figure reproduced, the Stata file read, the chart), asked whether a publisher already printed it, and ranked forty for a Stata run. The audit: {AUDIT.audit}. The sheet: {AUDIT.sheet_doc}. Approve is stopped on a draft the audit did not reproduce, withdrew, or found on a table that is not public.</Tip>
+        {capped ? (
+          <span data-audit-capped={auditedNotListed}>; the review list stopped at 500 drafts, and {auditedNotListed} audited drafts are not in it
+            <Tip label="the 500 limit" id="audit-capped">The database function returns the newest 500. Migration 039 (scanner_drafts_list_from) reads every page; until it is applied the sheet&apos;s drafts beyond the 500 are drawn from the audit with the state taken as a draft, and the others are not shown.</Tip></span>
+        ) : null}
+      </p>
+      <Section title="Waiting for a ruling" aside={`${openItems.length}`}>
+        {openItems.length === 0 ? <p className="text-sm text-muted" data-open-drafts="0">No draft waits.</p> : (
+          <div data-open-drafts={openItems.length}>
+            <AuditBrowser items={openItems} readers={AUDIT.readers}>
+              {[...open.map((d) => <DraftBlock key={d.id} d={d} />), ...unlisted.map(({ id }) => <SheetOnlyBlock key={id} id={id} />)]}
+            </AuditBrowser>
+          </div>
         )}
       </Section>
       <Section title="Ruled" aside={`${ruled.length}`}>

@@ -197,8 +197,26 @@ def headline_mark(chart, headline):
     return None
 
 
+def watch_source_line(template, src):
+    """Session 7052 (chain 370, done-line request 262): a watch line's stored source names the publisher of the series
+    charted, by session 1896's rule (warehouse/news/roundup.py, chart_source_line), not every publisher of its table:
+    W45's Lower 48 battery chart read "Energy Research Warehouse (ERW), derived, Energy Research Warehouse (ERW),
+    derived from California ISO" for EIA-930's series. Anything the rule cannot find keeps the line as it was."""
+    try:
+        here = os.path.dirname(os.path.abspath(__file__))
+        news = os.path.abspath(os.path.join(here, "..", "..", "news"))
+        if news not in sys.path:
+            sys.path.insert(0, news)
+        import roundup  # noqa: E402  (the Roundup's rule, one copy)
+        return roundup.chart_source_line({"template": template, "source_line": src}, lambda *a: None)
+    except Exception:
+        return src
+
+
 def result(template, params, title, subtitle, frame, tables, chart, headline, facts, extra_source=""):
     src = source_line(tables, extra_source)
+    if template.startswith("watch_"):
+        src = watch_source_line(template, src)
     chart = dict(chart, title=title, subtitle=subtitle, source=src, name=template)
     if "mark" not in chart:  # session 533: the headline ringed where the chart holds it
         m = headline_mark(chart, headline)
