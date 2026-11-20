@@ -5,9 +5,10 @@
 table: utility_service_territories
 family: utility
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One utility serving one county of one state or territory, as EIA's Form EIA-861 service territory sheet lists the pair
+  for 2025.
+time: No time column; vintage is 'EIA-861 2025', the data year. A snapshot as read on its retrieved_at.
+vintage_rule: One data year a run; a run replaces the table whole, so it holds one year.
 keys:
 - entity_id
 license: public
@@ -40,6 +41,7 @@ columns:
     - eia861:10000:KS:Douglas
     - eia861:10000:KS:Franklin
   missing_cells: 0
+  particular: eia861:<utility number>:<state>:<county>
 - name: entity_type
   shared: true
   type: text
@@ -47,6 +49,7 @@ columns:
     list:
       utility: 11893
   missing_cells: 0
+  particular: Always utility
 - name: name
   shared: true
   type: text
@@ -59,6 +62,7 @@ columns:
     - AEP Texas North Company
     - AES Indiana
   missing_cells: 0
+  particular: The utility's name as EIA writes it
 - name: geo
   shared: true
   type: text
@@ -71,6 +75,7 @@ columns:
     - US-AS
     - US-AZ
   missing_cells: 0
+  particular: US-<state> of the county
 - name: lat
   shared: true
   type: empty
@@ -95,6 +100,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 11893
+  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -135,21 +141,22 @@ columns:
     list:
       EIA-861 2025: 11893
   missing_cells: 0
+  particular: EIA-861 <data year>, not a time
 - name: x_utility_number
-  label: null
-  unit: null
+  label: EIA's utility identifier, the key of eia861_utility_sales and of OpenEI's eiaid
+  unit: none
   type: integer
   values:
     distinct: 2909
     lowest: 34
     highest: 66866
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Utility Number
+  documented_by: method utility_service_territories.md
 - name: x_state
-  label: null
-  unit: null
+  label: The state or territory, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 56
@@ -160,12 +167,12 @@ columns:
     - AS
     - AZ
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: State
+  documented_by: method utility_service_territories.md
 - name: x_county
-  label: null
-  unit: null
+  label: EIA's county name (no FIPS code)
+  unit: none
   type: text
   values:
     distinct: 1932
@@ -176,41 +183,42 @@ columns:
     - Ada
     - Adair
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: County
+  documented_by: method utility_service_territories.md
 - name: x_short_form
-  label: null
-  unit: null
+  label: Y when the utility filed EIA's short form
+  unit: none
   type: text
   values:
     list:
       Y: 2899
   missing_cells: 8994
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The utility did not file the short form
+  source_name: Short Form
+  documented_by: header; method utility_service_territories.md
 - name: x_data_year
-  label: null
-  unit: null
+  label: The data year of EIA's sheet
+  unit: none
   type: integer
   values:
     list:
       '2025': 11893
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Data Year
+  documented_by: method utility_service_territories.md
 - name: x_sheet
-  label: null
-  unit: null
+  label: 'The sheet of EIA''s workbook the row is from: Counties_States, or Counties_Territories (Puerto Rico and the other
+    territories)'
+  unit: none
   type: text
   values:
     list:
       Counties_States: 11803
       Counties_Territories: 90
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method utility_service_territories.md
 second_look: null

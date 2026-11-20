@@ -5,9 +5,11 @@
 table: eia_fuel_spot_prices
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One trading day's spot price of Henry Hub natural gas, WTI Cushing crude or Brent crude, as EIA reports it.
+time: ts_utc is the trading date at 00:00:00Z (freq P1D), a date, not an instant; trading days only.
+vintage_rule: Each run asks for the whole daily history and merges it on (entity, variable, ts_utc); a revised value replaces
+  the old, a row EIA stops giving stays. The copy held was rebuilt from the ERW archive by restore_tables.py. vintage is not
+  filled.
 keys:
 - entity
 - variable
@@ -41,6 +43,7 @@ columns:
       eia:henry_hub: 7503
       eia:wti_cushing: 10292
   missing_cells: 0
+  particular: eia:henry_hub (RNGWHHD), eia:wti_cushing (RWTC) or eia:brent (RBRTE)
 - name: variable
   shared: true
   type: text
@@ -86,18 +89,21 @@ columns:
       US-LA: 7503
       US-OK: 10292
   missing_cells: 10019
+  particular: US-LA for Henry Hub, US-OK for WTI Cushing, empty for Brent (not a U.S. place)
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27814
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27814
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -142,9 +148,11 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 27814
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: spot_price
-  label: null
+  label: 'The day''s spot price: USD per MMBtu for Henry Hub, USD a barrel for WTI and Brent (the unit column says which);
+    negative values are real'
   unit: USD/MMBtu; USD/bbl
   rows: 27814
   first: '1986-01-02T00:00:00Z'

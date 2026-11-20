@@ -5,9 +5,12 @@
 table: utility_large_load_rule_changes
 family: utility
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One filing, order, effective date, amendment, suspension, hearing or other change to a US utility's large-load rule,
+  15 August to 13 November 2026, as the ERW's research pass read it in the document.
+time: event_date is a date (no time zone) that the document prints; where the document prints a month only (7 rows) it is
+  the day the document was read (x_date_kind says which).
+vintage_rule: Rewritten whole from the committed research file (changes_2026-11-13.csv) by each run of the connector; no vintage
+  column. Rows whose only source asks written permission are held and named in the header, not written.
 keys:
 - event_id
 license: public
@@ -43,6 +46,7 @@ columns:
     - llchange:east_changes-04
     - llchange:east_changes-05
   missing_cells: 0
+  particular: llchange:<change_id>
 - name: event_date
   shared: true
   type: date
@@ -51,6 +55,7 @@ columns:
     earliest: '2026-08-18'
     latest: '2026-11-13'
   missing_cells: 0
+  particular: The change's date where the document prints a day, else the day the document was read (x_date_kind)
 - name: event_type
   shared: true
   type: text
@@ -58,6 +63,7 @@ columns:
     list:
       large_load_rule_change: 94
   missing_cells: 0
+  particular: Always large_load_rule_change
 - name: parties
   shared: true
   type: text
@@ -84,6 +90,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 94
+  particular: 'Not filled: the files print sizes as phrases'
 - name: price
   shared: true
   type: empty
@@ -110,6 +117,7 @@ columns:
       other: 26
       suspended: 7
   missing_cells: 0
+  particular: 'The kind of change: filed, order issued, approved, in effect, amended, suspended, hearing set or other'
 - name: source
   shared: true
   type: text
@@ -129,9 +137,10 @@ columns:
     - https://apps.puc.state.or.us/edockets/docket.asp?DocketID=24470
     - https://apps.puc.state.or.us/orders/2026ords/26-309.pdf
   missing_cells: 0
+  particular: The document the change was read in
 - name: x_change_id
-  label: null
-  unit: null
+  label: The research file's identifier of the change (<group>-<number>)
+  unit: none
   type: text
   values:
     distinct: 94
@@ -142,12 +151,13 @@ columns:
     - east_changes-04
     - east_changes-05
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: change_id
+  documented_by: header; connector large_load_research.py
 - name: x_group
-  label: null
-  unit: null
+  label: The research pass's group of utilities or documents the change was read under (east_changes, operators_federal and
+    the others)
+  unit: none
   type: text
   values:
     list:
@@ -157,12 +167,12 @@ columns:
       south_changes: 29
       west_changes: 19
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: group
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
 - name: x_utility
-  label: null
-  unit: null
+  label: The utility (or grid operator or commission) whose rule changed, as the document names it
+  unit: none
   type: text
   values:
     distinct: 53
@@ -175,12 +185,12 @@ columns:
     - Baltimore Gas and Electric Company; Potomac Electric Power Company; Delmarva Power & Light Company (Maryland); and Maryland's
       other electric companies
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: utility
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
 - name: x_state
-  label: null
-  unit: null
+  label: The state of the utility, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 34
@@ -191,12 +201,12 @@ columns:
     - CA
     - CO
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: state
+  documented_by: connector large_load_research.py; data
 - name: x_rule_name
-  label: null
-  unit: null
+  label: The rule the change concerns, as the research file or the ERW's registry names it
+  unit: none
   type: text
   values:
     distinct: 74
@@ -208,12 +218,12 @@ columns:
     - COMAR 20.96.01, Large Load Study and Tariff Requirements (Maryland PSC rulemaking RM 93), under Public Utilities Article
       4-212
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: rule_name
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
 - name: x_date
-  label: null
-  unit: null
+  label: The change's date as the document prints it, YYYY-MM-DD, or YYYY-MM where it prints a month only
+  unit: none
   type: text
   values:
     distinct: 47
@@ -224,24 +234,25 @@ columns:
     - '2026-08-21'
     - '2026-08-24'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: date
+  documented_by: connector large_load_research.py; method large_load_research.md
 - name: x_date_kind
-  label: null
-  unit: null
+  label: Whether event_date is the date the document states ('stated date') or the day the document was read ('date read')
+  unit: none
   type: text
   values:
     list:
       date read: 7
       stated date: 87
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_research.py; method large_load_research.md
 - name: x_affects
-  label: null
-  unit: null
+  label: 'What the change alters: a rule''s row_id in utility_large_load_rules, a registry file of the ERW (large_load_tariffs/
+    or large_load_connection_rules/), or ''new'''
+  unit: none
   type: text
   values:
     distinct: 49
@@ -252,12 +263,12 @@ columns:
     - ameren_evergy_spp-09
     - ameren_evergy_spp-10
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: affects
+  documented_by: header; source docs/research/large_load/README.md
 - name: x_docket
-  label: null
-  unit: null
+  label: The docket or case number as printed, or 'not published'
+  unit: none
   type: text
   values:
     distinct: 61
@@ -268,12 +279,12 @@ columns:
     - 25-055-P
     - 25-R318-01 and 24-035-43
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: docket
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
 - name: x_what
-  label: null
-  unit: null
+  label: One plain sentence of what changed, in the document's own terms
+  unit: none
   type: text
   values:
     distinct: 93
@@ -290,12 +301,12 @@ columns:
       the ACC in 2026 (a contract, so the earlier choice of no row may stand).
     - AWEC petitioned the Oregon Court of Appeals for judicial review of Orders No. 26-309, 26-154 and 26-239.
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: what
+  documented_by: source docs/research/large_load/README.md
 - name: x_cite
-  label: null
-  unit: null
+  label: The page or section of the document and the words that state the change and its date
+  unit: none
   type: text
   values:
     distinct: 93
@@ -323,12 +334,12 @@ columns:
       Data Center Agreements: "In addition, we expect to manage the output of approximately 2.1 GW of third-party contracted
       resources through a privately managed microgrid under the Company''s LPCS tariff."'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: cites
+  documented_by: header; source docs/research/large_load/README.md
 - name: x_source_title
-  label: null
-  unit: null
+  label: The document's own title
+  unit: none
   type: text
   values:
     distinct: 84
@@ -341,23 +352,24 @@ columns:
     - Application, Request for Variance, and Request for Expedited Treatment, File No. ET-2026-0184 (Missouri PSC EFIS)
     - Arkansas PSC Docket 25-055-P, Order No. 13 (Doc. 103)
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: source_title
+  documented_by: source docs/research/large_load/README.md
 - name: x_date_read
-  label: null
-  unit: null
+  label: The day the document was read by the research pass
+  unit: none
   type: date
   values:
     list:
       '2026-11-13': 94
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: date_read
+  documented_by: header; connector large_load_research.py
 - name: x_license_basis
-  label: null
-  unit: null
+  label: 'Why the row may be public: the copy it was read from (a commission''s copy, a filed tariff, an SEC filing and so
+    on)'
+  unit: none
   type: text
   values:
     distinct: 63
@@ -370,7 +382,7 @@ columns:
     - Grant PUD's own post (a public utility district)
     - Grant PUD's own posted policy (a public utility district), as the dataset row
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: license_basis
+  documented_by: connector large_load_research.py; method large_load_research.md
 second_look: null

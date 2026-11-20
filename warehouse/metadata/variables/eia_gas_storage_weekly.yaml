@@ -5,9 +5,11 @@
 table: eia_gas_storage_weekly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One region's (or the Lower 48's) working gas in underground storage at the end of one report week, from EIA's Weekly
+  Natural Gas Storage Report.
+time: ts_utc is the Friday the report week ends, at 00:00:00Z (freq P1W).
+vintage_rule: Rewritten whole by each run (the file is deleted and the history from 2010 written again), so EIA's revisions
+  are taken. vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +46,7 @@ columns:
       eia:NW2_EPG0_SWO_R35_BCF: 880
       eia:NW2_EPG0_SWO_R48_BCF: 880
   missing_cells: 0
+  particular: eia:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -87,12 +90,14 @@ columns:
     list:
       US: 7040
   missing_cells: 0
+  particular: US on every row, the regions included
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 7040
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -107,6 +112,7 @@ columns:
       Weekly Salt Region Natural Gas Working Underground Storage: 880
       Weekly South Central Region Natural Gas Working Underground Storage: 880
   missing_cells: 0
+  particular: EIA's name of the series (the region)
 - name: source
   shared: true
   type: text
@@ -138,9 +144,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 7040
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: working_gas
-  label: null
+  label: Working gas in underground storage (gas available to withdraw), billion cubic feet, as EIA publishes it
   unit: bcf
   rows: 7040
   first: '2010-01-01T00:00:00Z'

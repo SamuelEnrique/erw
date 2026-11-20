@@ -5,9 +5,10 @@
 table: eia_county_region
 family: eia
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One county of the lower 48 states and the District of Columbia, with the balancing authority (grid operator area) and
+  EIA region it is assigned to by the ERW's rule from EIA-861.
+time: No time column. vintage names the EIA-861 data year (2025); the table is a snapshot as built on its retrieved_at.
+vintage_rule: Rewritten whole by each run of the builder (write_snapshot); vintage holds the EIA-861 data year used.
 keys:
 - entity_id
 license: public
@@ -41,6 +42,7 @@ columns:
     - census:county:01007
     - census:county:01009
   missing_cells: 0
+  particular: census:county:<five-digit FIPS code>
 - name: entity_type
   shared: true
   type: text
@@ -48,6 +50,7 @@ columns:
     list:
       county: 3117
   missing_cells: 0
+  particular: county on every row
 - name: name
   shared: true
   type: text
@@ -60,6 +63,7 @@ columns:
     - Ada County
     - Adair County
   missing_cells: 0
+  particular: The Census Bureau's county name (the newest it prints)
 - name: geo
   shared: true
   type: text
@@ -72,6 +76,7 @@ columns:
     - US-CA
     - US-CO
   missing_cells: 0
+  particular: US-<state> of the county
 - name: lat
   shared: true
   type: empty
@@ -96,6 +101,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 3117
+  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -122,6 +128,7 @@ columns:
     list:
       https://github.com/SamuelEnrique/erw/blob/main/docs/methods/county_population_and_regions.md: 3117
   missing_cells: 0
+  particular: The ERW method note of the rule, since the table is derived
 - name: retrieved_at
   shared: true
   type: utc time
@@ -141,9 +148,10 @@ columns:
     list:
       EIA-861 2025: 3117
   missing_cells: 0
+  particular: Text naming the EIA-861 data year (EIA-861 2025), not a UTC time
 - name: x_state
-  label: null
-  unit: null
+  label: The county's state, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 49
@@ -154,24 +162,25 @@ columns:
     - CA
     - CO
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eia_county_region.py
 - name: x_fips
-  label: null
-  unit: null
+  label: The county's five-digit FIPS code (state and county), the Census Bureau's
+  unit: none
   type: integer
   values:
     distinct: 3117
     lowest: 1001
     highest: 56045
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_county_region.py
 - name: x_ba_primary
-  label: null
-  unit: null
+  label: 'The county''s primary balancing authority, EIA-930 code: the one whose serving utilities have the most retail customers
+    in the state'
+  unit: none
   type: text
   values:
     distinct: 37
@@ -182,12 +191,14 @@ columns:
     - BPAT
     - CHPD
   missing_cells: 24
-  missing_meaning: null
+  missing_meaning: 'No balancing authority: EIA-861 lists no utility for the county, or its utilities name none (x_basis says
+    which)'
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_county_region.py; method county_population_and_regions.md
 - name: x_region
-  label: null
-  unit: null
+  label: The primary balancing authority's EIA-930 region (CAL, TEX, MIDW and the others), from the newest EIA-930 BALANCE
+    file
+  unit: none
   type: text
   values:
     list:
@@ -205,24 +216,25 @@ columns:
       TEN: 132
       TEX: 186
   missing_cells: 64
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No primary balancing authority, or the newest EIA-930 BALANCE file gives it no region
+  source_name: Region
+  documented_by: header; connector eia_county_region.py; method county_population_and_regions.md
 - name: x_shared
-  label: null
-  unit: null
+  label: Y when EIA-861 lists utilities of more than one balancing authority in the county, else N
+  unit: none
   type: text
   values:
     list:
       N: 2090
       Y: 1027
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_county_region.py; method county_population_and_regions.md
 - name: x_bas
-  label: null
-  unit: null
+  label: Every balancing authority listed in the county, each with its serving utilities' retail customers in the state and
+    how many utilities, separated by semicolons, primary first
+  unit: none
   type: text
   values:
     distinct: 2115
@@ -233,12 +245,12 @@ columns:
     - AECI (17,349 customers, 2 utilities)
     - AECI (25,844 customers, 1 utilities)
   missing_cells: 24
-  missing_meaning: null
+  missing_meaning: No balancing authority (see x_basis)
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_county_region.py; method county_population_and_regions.md
 - name: x_regions
-  label: null
-  unit: null
+  label: The EIA-930 regions of every listed balancing authority, separated by semicolons
+  unit: none
   type: text
   values:
     distinct: 37
@@ -249,12 +261,13 @@ columns:
     - CAL;SW
     - CAR
   missing_cells: 53
-  missing_meaning: null
+  missing_meaning: No balancing authority, or none of the listed ones has a region in the BALANCE file
   source_name: null
-  documented_by: null
+  documented_by: connector eia_county_region.py; method county_population_and_regions.md
 - name: x_ba_by_count
-  label: null
-  unit: null
+  label: The balancing authority with the most serving utilities in the county (the other rule, kept for a reader who prefers
+    it)
+  unit: none
   type: text
   values:
     distinct: 40
@@ -265,12 +278,12 @@ columns:
     - BANC
     - BPAT
   missing_cells: 24
-  missing_meaning: null
+  missing_meaning: No balancing authority (see x_basis)
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_county_region.py; method county_population_and_regions.md
 - name: x_utilities
-  label: null
-  unit: null
+  label: EIA-861 utility numbers of every utility EIA lists as serving the county, separated by semicolons
+  unit: none
   type: text
   values:
     distinct: 2624
@@ -281,12 +294,12 @@ columns:
     - 10000;10005;16854;6965
     - 10000;10019;1148;22500;6019
   missing_cells: 12
-  missing_meaning: null
+  missing_meaning: EIA-861 lists no utility for the county
   source_name: null
-  documented_by: null
+  documented_by: connector eia_county_region.py
 - name: x_basis
-  label: null
-  unit: null
+  label: How the county's balancing authority was decided (one, shared with the primary by customers, or why there is none)
+  unit: none
   type: text
   values:
     list:
@@ -295,7 +308,7 @@ columns:
       one balancing authority: 2066
       'shared: primary by the serving utilities'' customers in the state': 1027
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eia_county_region.py; method county_population_and_regions.md
 second_look: null

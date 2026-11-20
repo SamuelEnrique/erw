@@ -5,9 +5,11 @@
 table: eia_retail_fuel_prices
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One week's U.S. retail price of gasoline (regular or all grades) or No. 2 diesel, from EIA's Gasoline and Diesel Fuel
+  Update.
+time: ts_utc is the week date EIA reports at 00:00:00Z (freq P1W).
+vintage_rule: Each run asks for the full history and merges it on (entity, variable, ts_utc), keeping EIA's newest value;
+  a row EIA stops giving is kept. The copy held was rebuilt from the ERW archive by restore_tables.py. vintage is not filled.
 keys:
 - entity
 - variable
@@ -39,6 +41,8 @@ columns:
       eia:EMM_EPM0_PTE_NUS_DPG: 1754
       eia:EMM_EPMR_PTE_NUS_DPG: 1885
   missing_cells: 0
+  particular: eia:<EIA series id> (EMM_EPMR_PTE_NUS_DPG regular gasoline, EMM_EPM0_PTE_NUS_DPG all grades, EMD_EPD2D_PTE_NUS_DPG
+    No. 2 diesel)
 - name: variable
   shared: true
   type: text
@@ -82,18 +86,21 @@ columns:
     list:
       US: 5343
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5343
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5343
+  particular: 'Not filled: EIA''s series names are in the header''s Series line'
 - name: source
   shared: true
   type: text
@@ -132,9 +139,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 5343
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: retail_price
-  label: null
+  label: U.S. weekly retail price of the fuel the series names, USD a gallon
   unit: USD/gal
   rows: 5343
   first: '1990-08-20T00:00:00Z'

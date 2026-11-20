@@ -5,9 +5,11 @@
 table: nyiso_dam_zone_prices
 family: nyiso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: NYISO's day-ahead zonal energy price (LBMP, the marginal price of energy at a location) of one of its eleven load zones
+  for one hour.
+time: ts_utc is the start of the hour in UTC; operating days are America/New_York days.
+vintage_rule: Merged by (entity, variable, ts_utc); each operating day is read on several consecutive runs (as a forward day,
+  then in the window) and the last read stands. vintage is the file's HTTP Last-Modified.
 keys:
 - entity
 - variable
@@ -46,6 +48,7 @@ columns:
       nyiso:NORTH: 1945
       nyiso:WEST: 1945
   missing_cells: 0
+  particular: nyiso:<zone>, the zone's NYISO name
 - name: variable
   shared: true
   type: text
@@ -96,6 +99,7 @@ columns:
     list:
       nyiso_dam: 21395
   missing_cells: 0
+  particular: 'nyiso_dam in every row: NYISO''s day-ahead market'
 - name: node
   shared: true
   type: text
@@ -113,6 +117,8 @@ columns:
       NORTH: 1945
       WEST: 1945
   missing_cells: 0
+  particular: 'NYISO''s name of the load zone, one of eleven: CAPITL, CENTRL, DUNWOD, GENESE, HUD VL, LONGIL, MHK VL, MILLWD,
+    N.Y.C., NORTH, WEST'
 - name: source
   shared: true
   type: text
@@ -148,9 +154,10 @@ columns:
     earliest: '2026-08-30T13:33:05Z'
     latest: '2026-11-15T14:32:05Z'
   missing_cells: 0
+  particular: The HTTP Last-Modified of the day's file (report P-2A)
 variables:
 - name: lmp_dam
-  label: null
+  label: Day-ahead zonal LBMP (the price of energy in the zone in the day-ahead market), as NYISO prints it
   unit: USD/MWh
   rows: 21395
   first: '2026-08-26T04:00:00Z'

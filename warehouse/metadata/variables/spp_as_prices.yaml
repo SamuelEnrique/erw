@@ -5,9 +5,12 @@
 table: spp_as_prices
 family: spp
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The day-ahead market clearing price of one operating reserve product, for one of SPP's two named reserve regions, for
+  one hour.
+time: ts_utc is the start of the hour in UTC (SPP's GMTIntervalEnd less one hour); operating days are Central (America/Chicago)
+  days.
+vintage_rule: Merged by (entity, variable, ts_utc), a day already in the raw files is not asked again; one run (4 October
+  2026) wrote every row and none has refreshed it since. vintage is not filled.
 keys:
 - entity
 - variable
@@ -37,6 +40,7 @@ columns:
       spp:SPP: 128184
       spp:SWPW: 31248
   missing_cells: 0
+  particular: spp:SPP (every file) or spp:SWPW (files from 2026-04-01), the reserve region the file names
 - name: variable
   shared: true
   type: text
@@ -80,6 +84,7 @@ columns:
     list:
       US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 159432
   missing_cells: 0
+  particular: The same list of fourteen states in every row (SPP's footprint), whatever the region
 - name: market
   shared: true
   type: text
@@ -87,6 +92,7 @@ columns:
     list:
       spp_dam: 159432
   missing_cells: 0
+  particular: 'spp_dam in every row: SPP''s day-ahead market'
 - name: node
   shared: true
   type: text
@@ -95,6 +101,7 @@ columns:
       SPP: 128184
       SWPW: 31248
   missing_cells: 0
+  particular: The reserve region as SPP's file names it, SPP or SWPW; SPP's numbered reserve zones are not held
 - name: source
   shared: true
   type: text
@@ -128,47 +135,50 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 159432
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: as_price_dam_rampdn
-  label: null
+  label: Day-ahead clearing price of ramp capability down (SPP's RampDN), USD per MW held for one hour; 0.0 in every hour
+    held
   unit: USD/MW-hour
   rows: 22776
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-04T04:00:00Z'
 - name: as_price_dam_rampup
-  label: null
+  label: Day-ahead clearing price of ramp capability up (SPP's RampUP), USD per MW held for one hour
   unit: USD/MW-hour
   rows: 22776
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-04T04:00:00Z'
 - name: as_price_dam_regdn
-  label: null
+  label: Day-ahead clearing price of regulation down (SPP's RegDN), USD per MW held for one hour
   unit: USD/MW-hour
   rows: 22776
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-04T04:00:00Z'
 - name: as_price_dam_regup
-  label: null
+  label: Day-ahead clearing price of regulation up (SPP's RegUP), USD per MW held for one hour
   unit: USD/MW-hour
   rows: 22776
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-04T04:00:00Z'
 - name: as_price_dam_spin
-  label: null
+  label: Day-ahead clearing price of spinning reserve (SPP's Spin), USD per MW held for one hour
   unit: USD/MW-hour
   rows: 22776
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-04T04:00:00Z'
 - name: as_price_dam_supp
-  label: null
+  label: Day-ahead clearing price of supplemental reserve (SPP's Supp), USD per MW held for one hour
   unit: USD/MW-hour
   rows: 22776
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-04T04:00:00Z'
 - name: as_price_dam_uncup
-  label: null
+  label: Day-ahead clearing price of uncertainty reserve up (SPP's UncUP), USD per MW held for one hour
   unit: USD/MW-hour
   rows: 22776
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-04T04:00:00Z'
-second_look: null
+second_look:
+- What SPP's region SWPW stands for is not stated in SPP's file and not documented.

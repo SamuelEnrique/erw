@@ -5,9 +5,11 @@
 table: isone_dam_zone_prices
 family: isone
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: ISO-NE's day-ahead locational marginal price at one of its eight load zones or its Internal Hub for one hour.
+time: ts_utc is the start of the hour in UTC (gridstatus's reading of the file's hour ending, Eastern); operating days are
+  America/New_York days.
+vintage_rule: Merged by (entity, variable, ts_utc); a day read again (as a forward day, then in up to three windows) replaces
+  its rows, the latest published file winning, and the table grows past the window. vintage is the file's HTTP Last-Modified.
 keys:
 - entity
 - variable
@@ -43,6 +45,7 @@ columns:
       isone:.Z.VERMONT: 1945
       isone:.Z.WCMASS: 1945
   missing_cells: 0
+  particular: isone:<node>, the node's ISO-NE name
 - name: variable
   shared: true
   type: text
@@ -86,6 +89,7 @@ columns:
     list:
       US-CT,US-MA,US-ME,US-NH,US-RI,US-VT: 17505
   missing_cells: 0
+  particular: ISO-NE's six states in every row, also for a zone in one state
 - name: market
   shared: true
   type: text
@@ -93,6 +97,7 @@ columns:
     list:
       isone_dam: 17505
   missing_cells: 0
+  particular: 'isone_dam in every row: ISO-NE''s day-ahead energy market'
 - name: node
   shared: true
   type: text
@@ -108,6 +113,8 @@ columns:
       .Z.VERMONT: 1945
       .Z.WCMASS: 1945
   missing_cells: 0
+  particular: 'ISO-NE''s name of the location: .H.INTERNAL_HUB (the Internal Hub) or .Z.<zone> for the eight load zones (CONNECTICUT,
+    MAINE, NEMASSBOST, NEWHAMPSHIRE, RHODEISLAND, SEMASS, VERMONT, WCMASS)'
 - name: source
   shared: true
   type: text
@@ -143,9 +150,11 @@ columns:
     earliest: '2026-08-25T16:42:05Z'
     latest: '2026-11-15T17:40:14Z'
   missing_cells: 0
+  particular: The HTTP Last-Modified of the day's file (WW_DALMP_ISO_<YYYYMMDD>.csv)
 variables:
 - name: lmp_dam
-  label: null
+  label: Day-ahead locational marginal price (the price of energy at the location in the day-ahead market), as ISO-NE prints
+    it
   unit: USD/MWh
   rows: 17505
   first: '2026-08-26T04:00:00Z'

@@ -1,0 +1,204 @@
+# Codebook: spp
+
+Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
+
+**What the family holds.** 5 public tables (1 entities, 4 series; tiers: 5 source); 2 documented in full.
+
+- [`spp_as_prices`](#spp_as_prices): The day-ahead market clearing price of one operating reserve product, for one of SPP's two named reserve regions, for one hour.
+- [`spp_as_quantities`](#spp_as_quantities): SPP day-ahead operating reserve quantities cleared, hourly, the system rows (session 100)
+- [`spp_curtailment_daily`](#spp_curtailment_daily): The wind or solar energy SPP reports curtailed for one reason (or in all) in one balancing authority area on one day.
+- [`spp_dam_cleared_energy`](#spp_dam_cleared_energy): SPP, demand cleared in the day-ahead market by hour and balancing authority area (Marketplace portal, Market Clearing, DA-MC files, Total Demand) (session 136)
+- [`spp_interconnection_queue`](#spp_interconnection_queue): Rebuilt from the ERW archive by warehouse/archive/restore.py, as of run 20261106T003628Z-github (2026-11-06T00:36:28Z); that run's own header of the table follows
+
+### `spp_as_prices`
+
+The day-ahead market clearing price of one operating reserve product, for one of SPP's two named reserve regions, for one hour.
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 159432.
+
+- **Time:** ts_utc is the start of the hour in UTC (SPP's GMTIntervalEnd less one hour); operating days are Central (America/Chicago) days.
+- **Revisions:** Merged by (entity, variable, ts_utc), a day already in the raw files is not asked again; one run (4 October 2026) wrote every row and none has refreshed it since. vintage is not filled.
+- **Source:** spp:DA-MCP SPP, Day-Ahead Market Clearing Prices (MCP) for operating reserve (https://portal.spp.org/pages/da-mcp)
+- **Method note:** [`docs/methods/spp_as_prices.md`](../methods/spp_as_prices.md)
+- **Cite as:** Southwest Power Pool (SPP). Day-Ahead Market Clearing Prices (MCP) for operating reserve. Via the Energy Research Warehouse (ERW), table `spp_as_prices`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: spp:SPP (every file) or spp:SWPW (files from 2026-04-01), the reserve region the file names | none | text | spp:SPP, spp:SWPW | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2024-09-01T05:00:00Z to 2026-10-04T04:00:00Z; more than 5000 distinct | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 447.0; more than 5000 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | USD/MW-hour | 0 |
+| `freq` | How long the interval of the row is | none | text | PT1H | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: The same list of fourteen states in every row (SPP's footprint), whatever the region | none | text | US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: spp_dam in every row: SPP's day-ahead market | none | text | spp_dam | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The reserve region as SPP's file names it, SPP or SWPW; SPP's numbered reserve zones are not held | none | text | SPP, SWPW | 0 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | spp:DA-MCP | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | for example https://portal.spp.org/file-browser-api/download/da-mcp?path=/2024/2024.zip, https://portal.spp.org/file-browser-api/download/da-mcp?path=/2025/01/DA-MCP-202501010100.csv, https://portal.spp.org/file-browser-api/download/da-mcp?path=/2025/01/DA-MCP-202501020100.csv; 642 distinct | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-04T03:33:35Z to 2026-10-04T03:56:53Z; 642 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 159432 |
+
+Variables (7):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `as_price_dam_rampdn` | Day-ahead clearing price of ramp capability down (SPP's RampDN), USD per MW held for one hour; 0.0 in every hour held | USD/MW-hour | 22776 | 2024-09-01T05:00:00Z | 2026-10-04T04:00:00Z |
+| `as_price_dam_rampup` | Day-ahead clearing price of ramp capability up (SPP's RampUP), USD per MW held for one hour | USD/MW-hour | 22776 | 2024-09-01T05:00:00Z | 2026-10-04T04:00:00Z |
+| `as_price_dam_regdn` | Day-ahead clearing price of regulation down (SPP's RegDN), USD per MW held for one hour | USD/MW-hour | 22776 | 2024-09-01T05:00:00Z | 2026-10-04T04:00:00Z |
+| `as_price_dam_regup` | Day-ahead clearing price of regulation up (SPP's RegUP), USD per MW held for one hour | USD/MW-hour | 22776 | 2024-09-01T05:00:00Z | 2026-10-04T04:00:00Z |
+| `as_price_dam_spin` | Day-ahead clearing price of spinning reserve (SPP's Spin), USD per MW held for one hour | USD/MW-hour | 22776 | 2024-09-01T05:00:00Z | 2026-10-04T04:00:00Z |
+| `as_price_dam_supp` | Day-ahead clearing price of supplemental reserve (SPP's Supp), USD per MW held for one hour | USD/MW-hour | 22776 | 2024-09-01T05:00:00Z | 2026-10-04T04:00:00Z |
+| `as_price_dam_uncup` | Day-ahead clearing price of uncertainty reserve up (SPP's UncUP), USD per MW held for one hour | USD/MW-hour | 22776 | 2024-09-01T05:00:00Z | 2026-10-04T04:00:00Z |
+
+Waiting for a second look: What SPP's region SWPW stands for is not stated in SPP's file and not documented..
+
+### `spp_as_quantities`
+
+What a row is: not yet written.
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 159768.
+
+- **Source:** spp:DA-MC SPP, Day-Ahead Market Clearing (operating reserve cleared, by hour) (https://portal.spp.org/pages/market-clearing)
+- **Method note:** [`docs/methods/spp_as_quantities.md`](../methods/spp_as_quantities.md)
+- **Cite as:** Southwest Power Pool (SPP). Day-Ahead Market Clearing (operating reserve cleared, by hour). Via the Energy Research Warehouse (ERW), table `spp_as_quantities`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | spp:SPP, spp:SWPW | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2024-09-01T05:00:00Z to 2026-10-05T04:00:00Z; more than 5000 distinct | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | integer | 0 to 4970; 3008 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | MW | 0 |
+| `freq` | How long the interval of the row is | none | text | PT1H | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | spp_dam | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | SPP, SWPW | 0 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | spp:DA-MC | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | for example https://portal.spp.org/file-browser-api/download/market-clearing?path=/2024/2024.zip, https://portal.spp.org/file-browser-api/download/market-clearing?path=/2025/01/DA-MC-202501010100.csv, https://portal.spp.org/file-browser-api/download/market-clearing?path=/2025/01/DA-MC-202501020100.csv; 643 distinct | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-04T11:32:49Z to 2026-10-04T11:50:47Z; 642 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 159768 |
+
+Variables (7):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `quantity_mw_dam_rampdn` |  | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
+| `quantity_mw_dam_rampup` |  | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
+| `quantity_mw_dam_regdn` |  | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
+| `quantity_mw_dam_regup` |  | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
+| `quantity_mw_dam_spin` |  | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
+| `quantity_mw_dam_supp` |  | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
+| `quantity_mw_dam_uncup` |  | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
+
+### `spp_curtailment_daily`
+
+The wind or solar energy SPP reports curtailed for one reason (or in all) in one balancing authority area on one day.
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 38800.
+
+- **Time:** ts_utc is the Central (America/Chicago) date of the 5-minute intervals' starts, at 00:00:00Z.
+- **Revisions:** Merged by (entity, variable, ts_utc) into the table held; the daily run re-reads the 10 days before today, so SPP's changes to those days replace the old rows. vintage is not filled.
+- **Source:** spp:ver_curtailments VER Curtailments (5-minute, by BAA),  (files (https://portal.spp.org/file-browser-api/download/ver-curtailments)
+- **Method note:** [`docs/methods/spp_curtailment_daily.md`](../methods/spp_curtailment_daily.md)
+- **Cite as:** Southwest Power Pool (SPP). VER Curtailments (5-minute, by BAA). Via the Energy Research Warehouse (ERW), table `spp_curtailment_daily`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: The balancing authority area: spp:SPP, or spp:SWPW (SPP's western area, in the files since SPP's western expansion); older files with no area column are SPP's | none | text | spp:SPP, spp:SWPW | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2014-03-01T00:00:00Z to 2026-11-15T00:00:00Z; 4642 distinct | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 225848.743; more than 5000 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | MWh | 0 |
+| `freq` | How long the interval of the row is | none | text | P1D | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 38800 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 38800 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 38800 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | spp:ver_curtailments | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | for example https://portal.spp.org/file-browser-api/download/ver-curtailments?path=/2014/2014.zip, https://portal.spp.org/file-browser-api/download/ver-curtailments?path=/2015/2015.zip, https://portal.spp.org/file-browser-api/download/ver-curtailments?path=/2016/2016.zip; 695 distinct | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-09-27T08:42:33Z to 2026-11-16T14:50:06Z; 32 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 38800 |
+
+Variables (8):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `curtailed_solar_economic_mwh` | Solar energy SPP reports 'curtailed for energy' (economic dispatch) in the day, MWh | MWh | 4850 | 2014-03-01T00:00:00Z | 2026-11-15T00:00:00Z |
+| `curtailed_solar_manual_mwh` | Solar energy curtailed by manual operator instruction in the day, MWh | MWh | 4850 | 2014-03-01T00:00:00Z | 2026-11-15T00:00:00Z |
+| `curtailed_solar_mwh` | Solar energy curtailed in the day, the sum of redispatch, manual and economic, MWh | MWh | 4850 | 2014-03-01T00:00:00Z | 2026-11-15T00:00:00Z |
+| `curtailed_solar_redispatch_mwh` | Solar energy curtailed by redispatch (congestion) in the day, MWh (5-minute MW x 5/60, summed) | MWh | 4850 | 2014-03-01T00:00:00Z | 2026-11-15T00:00:00Z |
+| `curtailed_wind_economic_mwh` | Wind energy SPP reports 'curtailed for energy' (economic dispatch) in the day, MWh | MWh | 4850 | 2014-03-01T00:00:00Z | 2026-11-15T00:00:00Z |
+| `curtailed_wind_manual_mwh` | Wind energy curtailed by manual operator instruction in the day, MWh | MWh | 4850 | 2014-03-01T00:00:00Z | 2026-11-15T00:00:00Z |
+| `curtailed_wind_mwh` | Wind energy curtailed in the day, the sum of redispatch, manual and economic, MWh | MWh | 4850 | 2014-03-01T00:00:00Z | 2026-11-15T00:00:00Z |
+| `curtailed_wind_redispatch_mwh` | Wind energy curtailed by redispatch (congestion) in the day, MWh (5-minute MW x 5/60, summed) | MWh | 4850 | 2014-03-01T00:00:00Z | 2026-11-15T00:00:00Z |
+
+### `spp_dam_cleared_energy`
+
+What a row is: not yet written.
+
+Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 16178.
+
+- **Source:** spp:DA-MC:cleared Southwest Power Pool (SPP), Marketplace portal, Market Clearing, day-ahead files (DA-MC), cleared demand (https://portal.spp.org/pages/market-clearing)
+- **Method note:** [`docs/methods/spp_dam_cleared_energy.md`](../methods/spp_dam_cleared_energy.md)
+- **Cite as:** Southwest Power Pool (SPP). Marketplace portal, Market Clearing, day-ahead files (DA-MC), cleared demand. Via the Energy Research Warehouse (ERW), table `spp_dam_cleared_energy`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | spp:SPP, spp:SWPW | 0 |
+| `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
+| `ts_utc` | The time of the observation, in UTC | none | utc time | 2025-09-01T05:00:00Z to 2026-11-18T05:00:00Z; more than 5000 distinct | 0 |
+| `value` | The number observed, in the row's unit | the row's unit column | number | 1934.3 to 61332.1; more than 5000 distinct | 0 |
+| `unit` | The unit of the row's value | none | text | MW | 0 |
+| `freq` | How long the interval of the row is | none | text | PT1H | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | spp_dam | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Total Demand | 0 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | spp:DA-MC:cleared | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | for example https://portal.spp.org/file-browser-api/download/market-clearing?path=/2025/09/DA-MC-202509010100.csv, https://portal.spp.org/file-browser-api/download/market-clearing?path=/2025/09/DA-MC-202509020100.csv, https://portal.spp.org/file-browser-api/download/market-clearing?path=/2025/09/DA-MC-202509030100.csv; 443 distinct | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-04T11:40:59Z to 2026-11-17T08:40:15Z; 442 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 16178 |
+
+Variables (1):
+
+| Variable | Label | Unit | Rows | First | Last |
+|---|---|---|---|---|---|
+| `dam_cleared_energy` |  | MW | 16178 | 2025-09-01T05:00:00Z | 2026-11-18T05:00:00Z |
+
+### `spp_interconnection_queue`
+
+What a row is: not yet written.
+
+Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 2026-11-20: 3079.
+
+- **Source:** spp:interconnection_queue SPP Generation Interconnection Queue summary (https://opsportal.spp.org/Studies/GenerateSummaryCSV)
+- **Method note:** [`docs/methods/spp_interconnection_queue.md`](../methods/spp_interconnection_queue.md)
+- **Cite as:** Southwest Power Pool (SPP). Generation Interconnection Queue summary. Via the Energy Research Warehouse (ERW), table `spp_interconnection_queue`.
+
+| Column | Label | Unit | Type | Values | Empty cells |
+|---|---|---|---|---|---|
+| `entity_id` | The identifier of the thing, as namespace:native_id | none | text | for example spp_queue:2017-G2, spp_queue:2018-G6, spp_queue:2019-G1; 3079 distinct | 0 |
+| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists) | none | text | project | 0 |
+| `name` | The thing's name, as the publisher writes it | none | empty | no cell holds a value | 3079 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-AR, US-AZ, US-CO, US-IA, US-KS, US-LA, US-MN, US-MO, US-MT, US-ND, US-NE, US-NM, US-OK, US-SD, US-TX, US-WY | 27 |
+| `lat` | Latitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 3079 |
+| `lon` | Longitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 3079 |
+| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it | MW | number | 0.0 to 4000.0; 642 distinct | 0 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | text | active, completed, suspended, withdrawn | 34 |
+| `status_date` | The date the status took effect, or was reported where the effective date is unknown | none | date | 2002-01-01 to 2026-10-19; 749 distinct | 1264 |
+| `operator` | The operator or owner, as the publisher writes it | none | empty | no cell holds a value | 3079 |
+| `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | spp:interconnection_queue | 0 |
+| `source_url` | The address of the exact document the row was read from | none | text | https://opsportal.spp.org/Studies/GenerateSummaryCSV | 0 |
+| `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-05T23:22:47Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC | none | date | 2026-11-05 | 0 |
+| `queue_id` | not yet written |  | text | for example 2017-G2, 2018-G6, 2019-G1; 3079 distinct | 0 |
+| `county` | not yet written |  | text | for example 8 Sites, Aberdeen, Abernathy; 949 distinct | 28 |
+| `state` | not yet written |  | text | AR, AZ, CO, IA, KS, LA, MN, MO, MT, ND, NE, NM, OK, SD, TX, TX/OK, WY | 26 |
+| `poi` | not yet written |  | text | for example 115 kV Fort Dodge Substation, 115kV Monolith Substation, 115kV North Fort Dodge Substation; 1885 distinct | 424 |
+| `zone` | not yet written |  | empty | no cell holds a value | 3079 |
+| `transmission_owner` | not yet written |  | text | for example AECC, AECI, AEP; 74 distinct | 99 |
+| `fuel_technology` | not yet written |  | text | for example Battery/Storage, Battery/Storage - Battery, Hybrid; 44 distinct | 11 |
+| `iso_status` | not yet written |  | text | DISIS STAGE, FACILITY STUDY STAGE, IA FULLY EXECUTED/COMMERCIAL OPERATION, IA FULLY EXECUTED/ON SCHEDULE, IA FULLY EXECUTED/ON SUSPENSION, IA PENDING, ICS, SPECIAL STUDY, TERMINATED, WITHDRAWN | 34 |
+| `queue_date` | not yet written |  | date | 1999-09-20 to 2026-09-09; 916 distinct | 47 |
+| `proposed_in_service_date` | not yet written |  | date | 2002-01-01 to 2035-02-01; 582 distinct | 1110 |
+| `actual_in_service_date` | not yet written |  | date | 2002-01-01 to 2035-02-01; 582 distinct | 1110 |
+| `withdrawn_date` | not yet written |  | date | 2002-03-04 to 2026-10-19; 534 distinct | 1562 |
+

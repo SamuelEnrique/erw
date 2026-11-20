@@ -5,9 +5,11 @@
 table: eia_retail_sales_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or census division's, or the nation's) monthly retail sales of electricity, or number of customers, in one
+  sector (Form EIA-861M).
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Each run asks for the full history and merges it on (entity, variable, ts_utc), keeping EIA's newest value;
+  a row EIA stops giving is kept. The copy held was rebuilt from the ERW archive by restore_tables.py. vintage is not filled.
 keys:
 - entity
 - variable
@@ -43,6 +45,8 @@ columns:
     - eia:customers:AK:OTH
     - eia:customers:AK:RES
   missing_cells: 0
+  particular: eia:retail_sales:<stateid>:<sectorid> or eia:customers:<stateid>:<sectorid>; sectors RES, COM, IND, TRA, OTH
+    (EIA's older series), ALL
 - name: variable
   shared: true
   type: text
@@ -92,18 +96,21 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 36904
+  particular: US-<state>, or US for the nation; empty for an EIA census division
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 228947
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 228947
+  particular: 'Not filled: EIA''s names (state, sector) are in the header''s Series line'
 - name: source
   shared: true
   type: text
@@ -137,15 +144,16 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 228947
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: customers
-  label: null
+  label: Number of retail electricity customers in the sector, EIA's count as published (0 before January 2008)
   unit: count
   rows: 114393
   first: '2001-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: retail_sales
-  label: null
+  label: Electricity sold to retail customers in the sector in the month, MWh (EIA's million kWh times 1,000)
   unit: MWh
   rows: 114554
   first: '2001-01-01T00:00:00Z'

@@ -5,9 +5,11 @@
 table: eia_steo_forecasts
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One series' value for one month (or year) as one release of EIA's Short-Term Energy Outlook gives it, forecast or history;
+  each release kept.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M), or 1 January of the year for the annual series (freq P1Y).
+vintage_rule: Every release kept, the key (entity, variable, ts_utc, vintage) with vintage the release's date; a rerun of
+  the same release replaces its own rows, a new release adds rows beside the old.
 keys:
 - entity
 - variable
@@ -45,6 +47,7 @@ columns:
     - eia_steo:ESCMU_HAK
     - eia_steo:ESCMU_MAC
   missing_cells: 0
+  particular: eia_steo:<seriesId>
 - name: variable
   shared: true
   type: text
@@ -92,12 +95,14 @@ columns:
     list:
       US: 10195
   missing_cells: 0
+  particular: US on every row, the census division series included
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 10195
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -110,6 +115,7 @@ columns:
     - Natural Gas Henry Hub Spot Price ($/mmBtu)
     - Natural gas share of U.S. electricity generation
   missing_cells: 0
+  particular: EIA's series description
 - name: source
   shared: true
   type: text
@@ -143,21 +149,22 @@ columns:
       '2026-10-06T00:00:00Z': 5088
       '2026-11-10T00:00:00Z': 5107
   missing_cells: 0
+  particular: The release's date at 00:00:00Z, part of the key
 - name: x_kind
-  label: null
-  unit: null
+  label: forecast for a period from the release's own month (or year) on, history for EIA's figure for an earlier period
+  unit: none
   type: text
   values:
     list:
       forecast: 1539
       history: 8656
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_steo.py; method eia_steo_forecasts.md
 - name: x_units_published
-  label: null
-  unit: null
+  label: EIA's unit as published, before the ERW's conversion (cents per kWh, percentage and the others)
+  unit: none
   type: text
   values:
     list:
@@ -167,12 +174,13 @@ columns:
       dollars per million Btu: 192
       percentage: 1536
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: unit
+  documented_by: connector eia_steo.py; method eia_steo_forecasts.md
 variables:
 - name: value
-  label: null
+  label: 'The Outlook series the entity names: retail electricity price (USD per kWh, nominal), Henry Hub spot price (USD
+    per MMBtu), a generation share (ratio) or the GDP implicit price deflator (index, 2017 = 100); the unit column says which'
   unit: USD/MMBtu; USD/kWh; index; ratio
   rows: 10195
   first: '2009-01-01T00:00:00Z'

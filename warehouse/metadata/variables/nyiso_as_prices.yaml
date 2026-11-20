@@ -5,9 +5,10 @@
 table: nyiso_as_prices
 family: nyiso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: NYISO's day-ahead price of one ancillary service (a reserve product or regulation) in one reserve region for one hour.
+time: ts_utc is the start of the hour in UTC; operating days are America/New_York days.
+vintage_rule: Merged by (entity, variable, ts_utc); one run (4 October 2026) wrote every row and none has refreshed it since.
+  vintage is not filled.
 keys:
 - entity
 - variable
@@ -41,6 +42,7 @@ columns:
       nyiso:NYCA: 18336
       nyiso:WEST: 55008
   missing_cells: 0
+  particular: nyiso:<region>, the reserve region as NYISO's file names it
 - name: variable
   shared: true
   type: text
@@ -91,6 +93,7 @@ columns:
     list:
       nyiso_dam: 293376
   missing_cells: 0
+  particular: 'nyiso_dam in every row: NYISO''s day-ahead market'
 - name: node
   shared: true
   type: text
@@ -103,6 +106,9 @@ columns:
       NYCA: 18336
       WEST: 55008
   missing_cells: 0
+  particular: 'The reserve region: five of NYISO''s eleven load zones, one for each set of zones that can price reserves apart
+    (CAPITL, HUD VL, LONGIL, N.Y.C., WEST; WEST also stands for GENESE, CENTRL, NORTH and MHK VL, HUD VL for MILLWD and DUNWOD),
+    and NYCA, the whole control area, for regulation'
 - name: source
   shared: true
   type: text
@@ -136,27 +142,30 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 293376
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: as_price_dam_nsync10
-  label: null
+  label: Day-ahead price of 10-minute non-synchronous reserve (NYISO's 10 Min Non-Synchronous Reserve), USD per MW held for
+    one hour
   unit: USD/MW-hour
   rows: 91680
   first: '2024-09-01T04:00:00Z'
   last: '2026-10-05T03:00:00Z'
 - name: as_price_dam_op30
-  label: null
+  label: Day-ahead price of 30-minute operating reserve (NYISO's 30 Min Operating Reserve), USD per MW held for one hour
   unit: USD/MW-hour
   rows: 91680
   first: '2024-09-01T04:00:00Z'
   last: '2026-10-05T03:00:00Z'
 - name: as_price_dam_reg
-  label: null
+  label: Day-ahead price of regulation capacity for the whole control area (NYISO's NYCA Regulation Capacity), USD per MW
+    held for one hour
   unit: USD/MW-hour
   rows: 18336
   first: '2024-09-01T04:00:00Z'
   last: '2026-10-05T03:00:00Z'
 - name: as_price_dam_spin10
-  label: null
+  label: Day-ahead price of 10-minute spinning reserve (NYISO's 10 Min Spinning Reserve), USD per MW held for one hour
   unit: USD/MW-hour
   rows: 91680
   first: '2024-09-01T04:00:00Z'
