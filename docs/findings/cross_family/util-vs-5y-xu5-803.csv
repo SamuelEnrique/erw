@@ -1,0 +1,12 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate util_vs_5y, region xu5_803 (Arizona Public Service Company (EIA utility 803, FERC 714 planning area 16; AZ))
+# Computed 2026-11-19T13:07:51Z by warehouse/analysis/findings/deep/cross_family.py (util_vs_5y); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's retail sales against the net energy the utility's filing of 5 years before forecast, percent (percent), the observations it rests on, and whether the year is full
+# Tables: eia861m_utility_sales_monthly, ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+xu5_803,2019,-12.890881958607137,1.0,1
+xu5_803,2020,-8.525871952773766,1.0,1
+xu5_803,2021,-9.909864852699524,1.0,1
+xu5_803,2022,-6.740425683714301,1.0,1
+xu5_803,2023,-4.729382544434479,1.0,1
+xu5_803,2024,-3.3484815732812034,1.0,1
+xu5_803,2025,-1.113467074884178,1.0,1

@@ -1,0 +1,51 @@
+slug,result,detail
+exp-crude-dest-xc-nnl,agree,"Agree: EIA's own table of crude exports by destination (https://www.eia.gov/dnav/pet/pet_move_expc_a_EPC0_EEX_mbblpd_a.htm, read 19 November 2026) gives the Netherlands 790 thousand barrels a day in 2024 and 862 in 2025; ours 789.9 and 862.1. A secondary source's 825 for 2024 is not EIA's figure."
+exp-product-xp-epc0,agree,"Agree: EIA's own table of crude exports by destination (https://www.eia.gov/dnav/pet/pet_move_expc_a_EPC0_EEX_mbblpd_a.htm, read 19 November 2026) gives total US crude exports of 4,093 thousand barrels a day in 2024 and 3,961 in 2025; ours 4,093.2 and 3,961.3."
+dc-construction-us-dc-build,agree,"Agree within the warehouse: the mean of Census's seasonally adjusted annual rates for 2025 is 49.71 billion USD against the sum of the not adjusted months, 49.74 (table as retrieved 24 October 2026, after Census's annual revision of July 2026). Statista, citing Census, gives about 41 billion for 2025: by its implied 2024 figure (about 31 billion against our 34.8) an earlier vintage."
+ba-load-factor-ba-erco,agree,"Agree within 0.1 point: ERCOT own system load (table ercot_zone_load_hourly, from ERCOT native load files) gives a load factor of 66.603 percent in 2025 and 58.685 in 2019, against the draft 66.648 and 58.762 from EIA-930."
+sub-p99-ercot-sub-fwes,disagree,"Disagree: ERCOT own Far West weather-zone load (table ercot_zone_load_hourly) gives a 99th-percentile hour of 8,469 MW in 2025 and 4,343 in 2020, against the draft 8,763 and 4,337 from EIA-930 subregion FWES: 3.5 percent apart in 2025. Off the sheet under the chain rule."
+sub-mean-ercot-sub-fwes,disagree,"Disagree: ERCOT own Far West weather-zone load gives a mean hour of 7,478 MW in 2025 and 3,719 in 2020, against the draft 7,606 and 3,682 from EIA-930: 1.7 percent apart in 2025."
+pair-flow-rp-can-ny,in part,"In part: EIA-930 daily interchange between NYIS and the Canadian authorities (table eia930_daily_interchange) gives 1,991 MW on average in 2019 against the draft 1,992; for 2025 the daily table holds 318 of 365 days (265.8 MW on those days), so the two cannot be set side by side for 2025."
+daily-spread-ercot-hb-south,other measure,"Not the same measure: ERCOT daily hub table (ercot_hub_prices_daily) gives a median rt_max less rt_min of 63.26 USD per MWh in 2025 and 27.65 in 2015 against the draft 50.76 and 18.12; its daily maximum and minimum are not of hourly prices, so it is not a second route."
+util-commercial-u861-19876-va,agree,"Agree: EIA-861 annual sales (table eia861_utility_sales, part A) give Virginia Electric and Power 41.60 TWh of commercial sales in 2017 and 60.09 in 2025, against the draft 41.54 and 60.09 from EIA-861M. The 2025 annual value equals the monthly sum exactly, so for 2025 the two may not be independent; 2017 is."
+util-commercial-u861-14127-ne,agree,"Agree: EIA-861 annual sales give Omaha Public Power District 3.67 TWh of commercial sales in 2017 and 7.88 in 2025, against the draft 3.67 and 7.88. The annual series jumps 42 percent from 2022 (3.80) to 2023 (5.39) in one year."
+seds-elec-comm-sd-va,agree,"Agree within 1 percent: EIA-861 annual sales summed over Virginia utilities (parts A and B) give 77.99 TWh of commercial sales in 2024, against the draft 78.7 from the State Energy Data System."
+lng-share-us-lng,none found,No second route in the warehouse: EIA annual gas balance (eia_gas_balance_annual) has dry production but no LNG line.
+sub-mean-pjm-sub-dom,none found,No second route in the warehouse: it holds no PJM zone load of its own; EIA-930 subregion demand is the only source.
+tight-solar-ercot-tight-solar,none found,No second route in the warehouse: the tightest hours exist only in grid_stress_yearly.
+midday-discount-ercot-lz-west,none found,No second route in the warehouse for hourly real-time zone prices before 28 September 2026 (ercot_rtm_node_prices begins then).
+evening-premium-ercot-hb-south,none found,"No second route in the warehouse for hourly real-time hub prices before 28 September 2026; ercot_hub_prices_daily holds daily means, not the evening hours."
+cheapest-hour-ercot-hb-north,none found,No second route in the warehouse for hourly real-time hub prices before 28 September 2026.
+wide-spread-days-ercot-lz-west,none found,No second route in the warehouse for hourly real-time zone prices before 28 September 2026.
+region-against-rn-ne,none found,"No second route in the warehouse: the only other interchange tables are daily, and a share of hours needs hours."
+battery-per-peak-caiso-bat-peak,none found,No second route in the warehouse: the fleet is EIA-860M and the peak days EIA-930; caiso_battery_storage begins in August 2025.
+gas-heat-rate-hr-gas-us,none found,No second route in the warehouse: EIA-923 plant fuel is the only source of fuel and generation by plant for 2001 and 2024.
+henry-hub-volatility-us-henry-hub,none found,No second route in the warehouse: Henry Hub daily spot prices are only in eia_fuel_spot_prices.
+gasoline-crack-crack-gasoline,none found,No second route in the warehouse: both spot series are only in eia_fuel_spot_prices.
+tariff-min-bill-pct,agree,"Agree with the publisher: Berkeley Lab review of rate designs for large loads (August 2026) gives a median minimum bill of 80 percent of contracted demand, as ours."
+ba-co2-intensity-ba-erco,none found,No second route in the warehouse: EIA-930 emissions estimates are the only hourly CO2 by authority.
+cold-2026-tex,agree,"Agree: ERCOT own system load (ercot_zone_load_hourly) gives a highest hour of 75,572 MW from 23 January to 2 February 2026 and a mean of 56,899 MW over the same days of 2019 to 2025 (32.8 percent above), against the draft 75,599 MW and 32.9 percent from EIA-930; ERCOT monthly overview prints 75,572 MW."
+east-heat-2025-mida,in part,"In part: PJM preliminary peak of 162,401 MW on 24 June 2025 against the draft 160,560 MW (EIA-930 Mid-Atlantic region): 1.1 percent apart, PJM integrated peak against EIA-930 hourly demand; the warehouse holds no PJM load of its own to set beside it."
+res-over-ind-res-ind-gap-us,disagree,"Disagree: EIA Electric Power Monthly table 5.3 (https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_3, opened 19 November 2026) gives 17.23 and 8.51 cents a kWh for 2025, a gap of 87.2 USD per MWh, against the draft 87.7. Off the sheet."
+saidi-saidi-ne,disagree,"Disagree: EIA Electric Power Annual table 11.3 (https://www.eia.gov/electricity/annual/html/epa_11_03.html, opened 19 November 2026) gives Nebraska 547.3 minutes with major events in 2025 against the draft 542.8. Off the sheet."
+co2-gas-co2-chn,disagree,"Disagree by method: Climate Change Tracker gives about 890 million tonnes for China gas CO2 in 2024 against EIA 831.9 (search result, page not opened). Off the sheet."
+power-construction-us-power-build,in part,"In part: the mean of Census adjusted annual rates for private electric construction is 128.00 billion USD for 2025 against the summed months 128.04, but 16.58 against 16.39 for 1993 (1.2 percent apart). Off the sheet under the strict rule."
+commercial-sales-com-sales-us,agree,"Agree: EIA Electric Power Monthly table 5.1 (https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_1, opened 19 November 2026) gives 1,503,310 thousand MWh of commercial sales for 2025; the draft 1,503.3 TWh."
+eu-share-coal-eu-el,agree,"Agree at the publishers precision: Ember gives about 5 percent and CCPI 5.4 percent for Greece coal in 2025; the draft 5.3 from Eurostat (search results, pages not opened)."
+us-enrichment-share-us-enrich-origin,agree,"Agree: EIA Uranium Marketing Annual Report 2025 gives a US-origin enrichment share of 23 percent; the draft 22.8 (search result, page not opened)."
+wc-exports-wc-idn,agree,"Agree: Statistics Indonesia gives 557.76 million tonnes exported in 2024, which is 614.8 million short tons; the draft 614.8 (search result, page not opened)."
+uranium-price-us-uranium-price,agree,"Agree: EIA Uranium Marketing Annual Report 2025 prints 58.46 USD a pound for 2025; the draft 58.46 (search result, page not opened)."
+us-origin-uranium-us-uranium-origin,agree,"Agree at the publisher precision: EIA prints 7 percent US-origin for 2025; the draft 7.2 (search result, page not opened)."
+wc-consumption-wc-ind,agree,"Agree: EIA international data as republished by The Global Economy give 1,371.1 million short tons for 2024; the same source as the draft, so not independent."
+power-co2-per-mwh-co2mwh-us,none found,"No second route in the warehouse: EIA power-sector CO2 and generation are the only sources for 2022; EIA published 387 kg per MWh for 2020, a year the draft does not compare."
+coal-share-st-se-cow,none found,No second route found for Georgia and Alabama together.
+gas-share-st-fla-ng,in part,In part: EIA state profile gives about 75 percent for 2024; the draft table gives 2025 (73.0); the two years differ.
+solar-share-st-sw-sun,none found,No second route found for Arizona and New Mexico together.
+cdd-wd-tex,none found,No second route in the warehouse: the population-weighted regional temperature is the only hourly temperature for EIA regions.
+eu-share-solar-eu-eu27-2020,agree,"Agree at the publisher precision: Ember gives 13 percent for EU solar in 2025; the draft 13.0 from Eurostat (search result, page not opened)."
+eu-net-imports-eu-pt,in part,"In part: Portuguese sources give imports at 17 percent of demand in 2025; the draft 17.7 percent of electricity available (Eurostat), a different base."
+eu-share-wind-eu-fi,agree,"Agree: Renewables Finland gives 27.9 percent for 2025; the draft 27.9 from Eurostat (search result, page not opened)."
+us-liquids-share-us-world-liquids,none found,No second route found: no publisher printing the US share of world liquids.
+wog-gas-exports-wog-usa,agree,"Agree: EIA Natural Gas Annual table 9 gives 4,367 Bcf of LNG and 3,339 Bcf by pipeline in 2024, 7,706 together; the draft 7,707 (search result, page not opened)."
+reactor-power-rp-us,agree,"Agree within 0.3 point: NukeWorker from the NRC daily reports gives 91.38 percent for 2025, EIA a 91 percent capacity factor; the draft 91.1."
+elliott-2022-car,none found,No second route in the warehouse: the Carolinas region exists only in EIA-930; Duke figures cover Duke alone.

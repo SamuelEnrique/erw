@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate pair_flow, region rp_midw_ten (the Midwest to Tennessee)
+# Computed 2026-11-19T11:05:21Z by warehouse/analysis/findings/deep/trade.py (pair_flow); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean hourly flow between two of EIA's regions, in its standing direction over 2019 to 2025 (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_region_pair_hourly
+region,year,value,n_observations,full_year
+rp_midw_ten,2018,1264.3720244842439,4411.0,0
+rp_midw_ten,2019,1082.8922374429224,8760.0,1
+rp_midw_ten,2020,1121.4974920200639,8772.0,1
+rp_midw_ten,2021,1472.233105022831,8760.0,1
+rp_midw_ten,2022,2142.649086757991,8760.0,1
+rp_midw_ten,2023,1380.9601598173515,8760.0,1
+rp_midw_ten,2024,1898.6955828779599,8784.0,1
+rp_midw_ten,2025,1789.3848173515983,8760.0,1
+rp_midw_ten,2026,2229.5785695640825,7662.0,0

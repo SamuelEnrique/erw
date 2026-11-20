@@ -1,0 +1,12 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate util_vs_3y, region xu3_12293 (Memphis Light, Gas and Water (EIA utility 12293, FERC 714 planning area 90; TN))
+# Computed 2026-11-19T13:07:52Z by warehouse/analysis/findings/deep/cross_family.py (util_vs_3y); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's retail sales against the net energy the utility's filing of 3 years before forecast, percent (percent), the observations it rests on, and whether the year is full
+# Tables: eia861m_utility_sales_monthly, ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+xu3_12293,2019,-9.25914112737386,1.0,1
+xu3_12293,2020,-9.173984666870671,1.0,1
+xu3_12293,2021,-5.444531309340739,1.0,1
+xu3_12293,2022,-6.057393813211343,1.0,1
+xu3_12293,2023,-6.017513203716129,1.0,1
+xu3_12293,2024,-6.638370814811855,1.0,1
+xu3_12293,2025,-7.2621453749044385,1.0,1
