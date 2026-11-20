@@ -24,7 +24,7 @@ Builder: `warehouse/derived/congestion_page.py`. Method: `docs/methods/grid_cong
 | `places.<op>[].by_year.<year>` | | `hours`, `lmp_mean`, `congestion_mean`, `congestion_share_pct`, `hours_congestion_up`, `hours_congestion_down`, `congestion_max`, `congestion_min` |
 | `places.<op>[].hod_month_congestion_mean.<year>` | USD/MWh | twelve rows of 24 means of the congestion part, `null` for a cell with no hour held |
 
-A real sample follows when the file is first built from the warehouse.
+A real sample (the file built on 20 November 2026 at 12:13 UTC; lists cut) is at the end of this contract.
 
 ## 2. `site/data/conditions/<operator>.json` and `index.json` (part G, the page `/conditions`)
 
@@ -40,3 +40,19 @@ Builder: `warehouse/derived/conditions_page.py`. Method: `docs/methods/grid_cond
 | `hourly_columns`, `hourly.<window id>[]` | MW, count, USD/MWh | `[ts_utc, demand, forecast, out_total, out_planned, out_forced, cons_n, cons_max, adder]`, one row an hour of the window |
 | `alert_columns`, `alerts[]` | | `[date, kind, start, end, source_url]`, CAISO and ERCOT |
 | `index.json` | | `built`, `method`, `contract`, `license`, `recent_days` (35), `events[]` (`id`, `title`, `start`, `end`, from `site/data/regions/events/`), `operators[]` (`op`, `name`, `ba`, `strips` status by strip, `first_day`, `last_day`) |
+
+## Real samples (built 20 November 2026; lists cut to their first entries)
+
+`congestion.json`, CAISO's constraint whose shadow price summed highest in 2025, and its first place:
+
+```json
+{"constraints": {"caiso": {"years": ["2025", "2026"], "top": {"2025": {"by_cost": ["caiso:39021_SC21ATP _70.0_34888_ARVIN   _70.0_BR_1 _1|PG1 WHELRG-WEEDPC 70", "caiso:24723_CONTROL _115_24865_TAP188  _115_BR_2 _1|Base Case"]}}, "constraints": {"caiso:39021_SC21ATP _70.0_34888_ARVIN   _70.0_BR_1 _1|PG1 WHELRG-WEEDPC 70": {"name": "39021_SC21ATP _70.0_34888_ARVIN   _70.0_BR_1 _1", "contingency": "PG1 WHELRG-WEEDPC 70", "monitored": null, "type": null, "nerc_id": null, "first": "2021-05-11T19:00:00Z", "last": "2026-10-09T00:00:00Z", "hours": 3530, "abs_mean": 223.44, "abs_max": 4418.41, "cost": 788752.0, "by_year": {"2025": {"hours": 1785, "abs_mean": 310.3, "abs_max": 2220.31, "cost": 553893.0}}, "monthly": [["2021-05", 7, 58.42, 133.77, 58.42], ["2021-06", 40, 98.78, 1950.59, 98.78]], "hod_month": [[30, 33, 28, 41, 64, 66]]}}}}, "places": {"caiso": [{"id": "caiso:DLAP_PGAE-APND", "node": "DLAP_PGAE-APND", "name": "PG&E default load area", "time": "Pacific clock time (CAISO's operating day)", "years": ["2023", "2024", "2025", "2026"], "first": "2023-08-10T07:00:00Z", "last": "2026-11-21T07:00:00Z", "monthly_columns": ["month", "hours", "lmp_mean", "energy_mean", "congestion_mean", "loss_mean", "ghg_mean", "congestion_share_pct"], "monthly": [["2023-08", 528, 71.64, 75.53, -3.47, -0.42, 0.0, -4.8], ["2023-09", 720, 43.79, 41.03, 2.64, 0.12, 0.0, 6.0]], "by_year": {"2025": {"hours": 8760, "lmp_mean": 40.62, "congestion_mean": 2.65, "congestion_share_pct": 6.5, "hours_congestion_up": 5675, "hours_congestion_down": 2622, "congestion_max": 38.14, "congestion_min": -16.16}}}]}}
+
+```
+
+`ercot.json` on 15 February 2021 (Winter Storm Uri), and two of its hours:
+
+```json
+{"op": "ercot", "strips": {"out": {"status": "source needed", "why": "ERCOT publishes this only on paths its robots file disallows, or through an API whose key has not been made (the owner's ruling of 6 November 2026)"}, "scarcity": "shown"}, "daily_columns": ["day", "demand_peak", "demand_min", "forecast_peak", "out_mean", "out_max", "cons_hours", "cons_max", "adder_hours", "adder_max", "alerts"], "daily": [["2021-02-15", 65255.0, 43776.0, 76783.0, null, null, null, null, 22, 3185.5, 2]], "hourly_columns": ["t", "demand", "forecast", "out_total", "out_planned", "out_forced", "cons_n", "cons_max", "adder"], "hourly": {"uri_2021": [["2021-02-15T14:00:00Z", 49849.0, 74356.0, null, null, null, null, null, 3112.0], ["2021-02-15T15:00:00Z", 49597.0, 75857.0, null, null, null, null, null, 3185.5]]}}
+
+```
