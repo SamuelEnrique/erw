@@ -308,11 +308,19 @@ def price_series(rows):
     })[ip.SERIES_COLS]
 
 
-def write(name, new, cols, header, log):
+def write(name, new, cols, header, log, keep_since=None):
+    """Merge new rows into the table by (entity, variable, ts_utc). keep_since: a rolling table drops rows before this
+    UTC time (caiso_tie_flows_5min keeps 35 days); the count dropped is in the file's last header line."""
     path = os.path.join(ip.OUT_DIR, name + ".csv")
     ip._require_lock(path, f"writing {name}")
     old = ip.read_series(path, cols) if os.path.exists(path) else None
     merged, st = ip.merge_series(old, new[cols], KEY, cols)
+    dropped = 0
+    if keep_since is not None:
+        n0 = len(merged)
+        merged = merged[merged["ts_utc"] >= keep_since]
+        dropped = n0 - len(merged)
+        header = list(header) + [f"Rolling: rows before {keep_since} are dropped; this run dropped {dropped}."]
     merged = merged.sort_values(["market", "ts_utc", "entity", "variable"]).reset_index(drop=True)
     by_market = "; ".join(f"{m}: {len(g)} rows, {g['ts_utc'].min()} to {g['ts_utc'].max()}, "
                           f"{g['entity'].nunique()} entities" for m, g in merged.groupby("market"))
