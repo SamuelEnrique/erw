@@ -26,8 +26,8 @@ One address, one view. From the top:
 |---|---|---|---|---|
 | Your peak demand | kW | empty | more than 0, up to 1,000,000 | refused |
 | Demand charge | USD per kW a month | empty | 0 to 500 | taken |
-| Energy rate, peak hours | USD per kWh | empty | 0 to 5 | taken |
-| Energy rate, off-peak hours | USD per kWh | empty | 0 to 5 | taken |
+| Energy rate, peak hours | USD per kWh | empty | 0 to 1 (0 to 5 on the site; ruling alternative 5, wip/alt-battery-customer-5) | taken |
+| Energy rate, off-peak hours | USD per kWh | empty | 0 to 1 (0 to 5 on the site) | taken |
 | Battery power | kW | empty | more than 0, up to 1,000,000 | refused |
 | Battery energy | kWh | empty | more than 0, up to 10,000,000 | refused |
 | How long your peak lasts | hours | 2 | more than 0, up to 24 | refused |
