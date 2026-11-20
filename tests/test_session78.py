@@ -61,6 +61,10 @@ class Constant(unittest.TestCase):
                     if not f.endswith(exts):
                         continue
                     rel = os.path.relpath(os.path.join(d, f), ROOT).replace("\\", "/")
+                    if rel.startswith("warehouse/metadata/variables/"):
+                        # session 9000: the codebook (chain 630, session 9202) describes each table's columns in words,
+                        # the join's date among them; a document, as the docstring sets aside, and it builds nothing
+                        continue
                     with open(os.path.join(d, f), encoding="utf-8", errors="replace") as fh:
                         text = fh.read()
                     if re.search(r"2025-12-16|16 December 2025|December 16, 2025", text) and rel not in allowed:
