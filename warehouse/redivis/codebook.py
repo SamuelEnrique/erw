@@ -41,9 +41,14 @@ def _clean(s):
     return ("" if s is None else str(s)).replace(EM, " - ").replace("\r", " ").replace("\n", " ").strip()
 
 
+MORE = " [...]"
+
+
 def _cut(s, n):
+    """At most n characters: a longer text is cut and ends in " [...]" (session 9001: it kept n - 5 characters and added
+    six, so nine descriptions came to 2,001 and Redivis refused the first, which stopped the run)."""
     s = _clean(s)
-    return s if len(s) <= n else s[: n - 5].rstrip() + " [...]"
+    return s if len(s) <= n else s[: n - len(MORE)].rstrip() + MORE
 
 
 def _values(v):
@@ -217,8 +222,11 @@ def apply(target, only, yes):
             continue
         rt = ds.table(t)
         if t in desc and (rt.get().properties.get("description") or "") != desc[t]:
-            rt.update(description=desc[t])
-            done_t += 1
+            try:
+                rt.update(description=desc[t])
+                done_t += 1
+            except Exception as exc:  # noqa: BLE001 - session 9001: a refused description is printed; the run goes on
+                print(f"{t}: description refused ({type(exc).__name__}: {str(exc)[:160]})", flush=True)
         done_v += set_labels(rt, t)
     print(f"set {done_t} table descriptions and {done_v} variable labels in the draft of "
           f"{target or 'the default dataset'}; nothing released")
