@@ -3,7 +3,7 @@ import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, InputPanel, SourceLine, Tip, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
-  ENTITY, INVENTORY_ENTITY, INVENTORY_TABLE, INVENTORY_VARIABLES, MODEL_ENTITY, MODEL_GAP_VARIABLES, MODEL_TABLE, MODEL_VARIABLES, OFFERS_TABLE, OFFER_VARIABLES, TABLE, VARIABLES, MODEL_PREFIX, energyAwardShare, gapOf,
+  ENTITY, INVENTORY_ENTITY, INVENTORY_TABLE, INVENTORY_VARIABLES, MODEL_ENTITY, MODEL_GAP_VARIABLES, MODEL_GAP_VARIABLES_4H, MODEL_PREFIX_4H, MODEL_TABLE, MODEL_VARIABLES, MODEL_VARIABLES_4H, OFFERS_TABLE, OFFER_VARIABLES, TABLE, VARIABLES, MODEL_PREFIX, energyAwardShare, gapOf,
   inventoryOf, kw, monthName, monthsOf, newestComplete, perKw, servicesOf,
   shortMonth, span, summary, whole, years,
   type Month, type Row,
@@ -41,7 +41,7 @@ async function fleetRows(): Promise<Row[]> {
 }
 async function modelRows(): Promise<Row[]> {
   return rest<Row>("series", { select: "variable,ts_utc,value", table_name: `eq.${MODEL_TABLE}`, entity: `eq.${MODEL_ENTITY}`,
-    variable: `in.(${MODEL_VARIABLES.join(",")})`, order: "variable,ts_utc" }, HOURLY);
+    variable: `in.(${[...MODEL_VARIABLES, ...MODEL_VARIABLES_4H].join(",")})`, order: "variable,ts_utc" }, HOURLY);   // 4H: wip/alt-battery-awards-1
 }
 async function offerRows(): Promise<Row[]> {
   return rest<Row>("series", { select: "variable,ts_utc,value", table_name: `eq.${OFFERS_TABLE}`, entity: `eq.${ENTITY}`,
@@ -65,7 +65,7 @@ async function inventoryRows(): Promise<Row[]> {
 /** The model's rows the offers section sets beside the offers: from the offers table's first month on. */
 async function modelGapRows(from: string): Promise<Row[]> {
   return rest<Row>("series", { select: "variable,ts_utc,value", table_name: `eq.${MODEL_TABLE}`, entity: `eq.${MODEL_ENTITY}`,
-    variable: `in.(${MODEL_GAP_VARIABLES.join(",")})`, ts_utc: `gte.${from}`, order: "variable,ts_utc" }, HOURLY);
+    variable: `in.(${[...MODEL_GAP_VARIABLES, ...MODEL_GAP_VARIABLES_4H].join(",")})`, ts_utc: `gte.${from}`, order: "variable,ts_utc" }, HOURLY);   // 4H: wip/alt-battery-awards-1
 }
 
 /** Day-ahead awards by month, USD per kW, stacked: energy net of charging, then ancillary services. A month whose days
@@ -127,9 +127,13 @@ export default async function Awards() {
   const firstOffer = offers.reduce((a, r) => (a === "" || r.ts_utc < a ? r.ts_utc : a), "");
   const readGapModel = firstOffer ? await attempt(() => modelGapRows(firstOffer)) : null;
   const gap = read.ok && readOffers.ok && readGapModel?.ok ? gapOf(read.data, offers, readGapModel.data) : null;
+  // ruling alternative 1 (wip/alt-battery-awards-1, not a default on main): the same model for a 4-hour battery, beside the 2-hour
+  const gap4 = read.ok && readOffers.ok && readGapModel?.ok ? gapOf(read.data, offers, readGapModel.data, MODEL_PREFIX_4H) : null;
   const offersUnread = !readOffers.ok ? readOffers.reason : readGapModel && !readGapModel.ok ? `the model's rows for the same months: ${readGapModel.reason}` : null;
   const ms = monthsOf(read.ok ? read.data : [], readModel.ok ? readModel.data : []);
   const ys = years(ms);
+  const ms4 = new Map(monthsOf(read.ok ? read.data : [], readModel.ok ? readModel.data : [], MODEL_PREFIX_4H).map((r) => [r.m, r]));
+  const ys4 = new Map(years([...ms4.values()]).map((r) => [r.y, r]));
   const newest = newestComplete(ms);
   const sentence = summary(ms);
   const share = energyAwardShare(ms);
@@ -191,9 +195,12 @@ export default async function Awards() {
 
               <ToolSection title="By month" note={<>The last column is the model&apos;s, not ERCOT&apos;s: the battery page&apos;s day-ahead schedule for one 2-hour battery at the hub average, for the whole month.
                 Beside a partial month it covers more days than the awards do, and the two are not to be compared.{readModel.ok ? "" : ` The model's table could not be read: ${readModel.reason}`}</>}>
-                <ToolTable caption="Day-ahead awards by month" minWidth={760}
+                <ToolTable caption="Day-ahead awards by month" minWidth={880}
                   head={["Month", "Days held", "Resources", "MW", "Energy, USD per kW", "Ancillary services, USD per kW", "Total awarded, USD per kW",
-                    <>The model&apos;s<span className="mt-0.5 block text-xs opacity-80">2-hour battery, day-ahead schedule, USD per kW</span></>]}
+                    <>The model&apos;s<span className="mt-0.5 block text-xs opacity-80">2-hour battery, day-ahead schedule, USD per kW</span></>,
+                    <span key="h4">The model&apos;s, 4-hour<Tip id="awards-model-4h-month" label="the 4-hour battery's column"><span data-awards-4h-head="1">The same model for a 4-hour battery, beside the 2-hour: the
+                    battery page&apos;s day-ahead schedule at the hub average, for the whole month. ERCOT&apos;s fleet holds about 1.9 hours of energy per MW of power (Potomac Economics, 2025 State of the Market Report, June 2026).
+                    Default on the site: the 2-hour battery only. Source: battery_stack_monthly, dayahead_4h rows.</span></Tip></span>]}
                   rows={[...ms].reverse().map((r) => ({
                     key: r.m, muted: !r.complete,
                     cells: [
@@ -207,17 +214,21 @@ export default async function Awards() {
                         : <span key="a" data-awards-services={r.m} title={servicesOf(r)!} className="cursor-help border-b border-dotted border-muted">{kw(r.ancillary)}</span>,
                       <span key="t" data-awards-total={r.m} data-awards-raw={r.total}>{kw(r.total)}</span>,
                       r.model === null ? notHeld : <span key="x" data-awards-model={r.m} data-awards-raw={r.model.total}>{kw(r.model.total)}{r.complete && r.model.whole ? null : <span className="block text-xs text-muted">{r.model.whole ? "whole month" : "the model's month is partial"}</span>}</span>,
+                      ((m4) => m4 === null ? notHeld : <span key="x4" data-awards-model-4h={r.m} data-awards-raw={m4.total}>{kw(m4.total)}{r.complete && m4.whole ? null : <span className="block text-xs text-muted">{m4.whole ? "whole month" : "the model's month is partial"}</span>}</span>)(ms4.get(r.m)?.model ?? null),
                     ],
                   }))} />
               </ToolSection>
 
               <ToolSection title="By year" note={<>A year&apos;s figure is the sum of its months&apos; figures per kW, over the days held; no partial month is scaled up. The model&apos;s figure stands beside the awards only over the
                 months held whole, the same months for both. It is the model&apos;s: one 2-hour battery scheduled against day-ahead prices, on <Link href="/cost-of-power/battery">the battery page</Link>.</>}>
-                <ToolTable caption="Day-ahead awards by year" minWidth={820}
+                <ToolTable caption="Day-ahead awards by year" minWidth={1040}
                   head={["Year", "Days held", "Energy, USD per kW", "Ancillary services, USD per kW", "Total awarded, USD per kW", "Months held whole",
                     <>Awarded over them<span className="mt-0.5 block text-xs opacity-80">USD per kW</span></>,
                     <>The model&apos;s, same months<span className="mt-0.5 block text-xs opacity-80">2-hour battery, day-ahead schedule, USD per kW</span></>,
-                    "Awards as a share of the model's"]}
+                    "Awards as a share of the model's",
+                    <span key="y4">The model&apos;s 4-hour, same months<Tip id="awards-model-4h-year" label="the 4-hour battery's year"><span data-awards-4h-year-head="1">The same model for a 4-hour battery over the same months held
+                    whole, and the awards as a share of it. Default on the site: the 2-hour battery only. Source: battery_stack_monthly, dayahead_4h rows.</span></Tip></span>,
+                    "Awards as a share of the 4-hour"]}
                   rows={ys.map((r) => ({
                     key: r.y,
                     cells: [
@@ -228,6 +239,8 @@ export default async function Awards() {
                       r.awardsComplete === null ? <span key="a" className="text-muted">no month held whole</span> : kw(r.awardsComplete),
                       r.modelComplete === null ? <span key="x" className="text-muted">not set beside it: {r.noModel}</span> : <span key="x" data-awards-model-year={r.y} data-awards-raw={r.modelComplete}>{kw(r.modelComplete)}</span>,
                       r.modelComplete === null || r.awardsComplete === null || r.modelComplete <= 0 ? "" : `${Math.round((r.awardsComplete / r.modelComplete) * 100)}%`,
+                      ((y4) => y4?.modelComplete == null ? <span key="x4" className="text-muted">not set beside it{y4?.noModel ? `: ${y4.noModel}` : ""}</span> : <span key="x4" data-awards-model-4h-year={r.y} data-awards-raw={y4.modelComplete}>{kw(y4.modelComplete)}</span>)(ys4.get(r.y)),
+                      ((y4) => y4?.modelComplete == null || y4.awardsComplete === null || y4.modelComplete <= 0 ? "" : `${Math.round((y4.awardsComplete / y4.modelComplete) * 100)}%`)(ys4.get(r.y)),
                     ],
                   }))} />
               </ToolSection>
@@ -249,7 +262,7 @@ export default async function Awards() {
                 </div>
               </ToolSection>
 
-              <OffersSection gap={gap} unread={offersUnread} loaded={offers.length > 0} />
+              <OffersSection gap={gap} gap4={gap4} unread={offersUnread} loaded={offers.length > 0} />
 
               <RealTimeSection months={rtMonths} basis={readBasis.ok ? basisOf(readBasis.data) : null} unread={readRt.ok ? null : readRt.reason} basisUnread={readBasis.ok ? null : readBasis.reason} />
             </>
