@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate winter_growth, region pa_16 (Arizona Public Service Company (FERC 714 planning area 16))
+# Computed 2026-11-19T12:04:18Z by warehouse/analysis/findings/deep/forecasts.py (winter_growth); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the yearly growth a filing forecasts for the area's winter peak, from its first forecast year to its tenth (percent a year), the observations it rests on, and whether the year is full
+# Tables: ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+pa_16,2006,3.2649627863693187,1.0,1
+pa_16,2007,2.5908703010700807,1.0,1
+pa_16,2008,2.5554050672161432,1.0,1
+pa_16,2009,1.5222470479975492,1.0,1
+pa_16,2010,1.5909153661544773,1.0,1
+pa_16,2011,2.1043793590243887,1.0,1
+pa_16,2012,2.26277848696137,1.0,1
+pa_16,2013,2.5617606322535513,1.0,1
+pa_16,2014,2.4716962443672497,1.0,1
+pa_16,2015,1.7290319379902774,1.0,1
+pa_16,2016,2.6607719887438375,1.0,1
+pa_16,2017,2.4867033043550313,1.0,1
+pa_16,2018,2.4732331442785194,1.0,1
+pa_16,2019,3.3298425937951404,1.0,1
+pa_16,2020,3.5048613179173183,1.0,1
+pa_16,2021,2.641539062169218,1.0,1
+pa_16,2022,5.097729766264458,1.0,1
+pa_16,2023,5.236503712452345,1.0,1
+pa_16,2024,5.481560450758316,1.0,1
+pa_16,2025,7.464785268607588,1.0,1
