@@ -10,11 +10,14 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 ## In short
 
 - **The arithmetic is right.** Every figure the page prints follows from the model's monthly table as the note says, and the model, re-solved from the page's own prices, gives 81.4022 per kW for the page's window. Nothing double counts a megawatt.
-- **The model's rules are not what the page says they are.** "Each figure is an upper bound" is false: two of the model's own rules (an empty battery each midnight, the hourly mean of a 15-minute price) hold it 8.3 percent under a foreseeing battery's 88.81 per kW (findings 2, 3, 6). "Reserves are never called" is false for regulation: ERCOT's storage shows 17 percent of an award moving each hour, worth -7.9 percent (finding 1). At the default the biases roughly cancel (83.02 with all three).
+- **"Each figure is an upper bound" is false.** Two of the model's own rules (an empty battery each midnight, the hourly mean of a 15-minute price) hold it 8.3 percent under a foreseeing battery's 88.81 per kW (findings 2, 3, 6).
+- **"Reserves are never called" is false for regulation.** ERCOT's storage shows 17 percent of an award moving each hour, worth -7.3 to -7.9 percent (finding 1). At the default the biases roughly cancel: 83.02 with all three.
 - **The page's words and its figures disagree twice more.** The "Breakeven toll" covers debt 1.25 times and leaves equity worse off than merchant (finding 5). "4 hours at rated power" is 3.71 hours in the model (finding 10).
 - **The finance leaves out what a developer's NPV holds.** No tax and no depreciation against an after-tax rate (+118.95 per kW; +426.14 with the 30 percent credit, finding 8), two kinds of dollars in one sum (+40 to +61, finding 9), degradation cut one for one with capacity where the model's own runs lose less than half of that (+44.76, finding 4).
 - **Size.** Past about 500 MW the battery is paid for reserves ERCOT does not buy (finding 7).
-- **Wording fixes are on branches 5, 6 and 10** and move no figure. Every other fix moves figures and is the owner's ruling; each finding has a test on its own branch.
+- **The model findings hold on every open case.** ERCOT and CAISO, both strategies, on the table's current twelve months: the empty start costs 6.3 to 7.6 percent, regulation called 7.9 to 13.0 percent (CAISO at ERCOT's measured rate), and 15-minute energy adds 2.7 to 3.5 percent under perfect foresight.
+- **The replication proves a window the page has left.** The table now gives November 2025 to October 2026, USD 80.34 per kW; the public file and the replication still show 81.40 (finding 11).
+- **Wording fixes move no figure.** Branches 5, 6 and 10 fix the page's words; branches 1, 2, 3, 4, 7, 8 and 9 add the measured effect to the note, where a reader of the method looks. Every other fix moves figures and is the owner's ruling; each finding has a test on its own branch (11 needs the data machine to write the public file again).
 
 ## How every number here was computed
 
@@ -34,24 +37,28 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 | 8 | The NPV holds no tax, no depreciation, and by default no credit, yet is discounted at a cost of equity | none | +118.95 after federal tax; +426.14 with the 30 percent credit as well | `wip/audit-battery-8` |
 | 6 | "Each figure is an upper bound" is false: findings 2 and 3 together give 88.81; with finding 1 as well, 83.02 | the bound: +7.41 (+9.1 percent) | +47.6 | `wip/audit-battery-6` (fix in words) |
 | 4 | Degradation cuts the whole revenue 2.6 percent a year; the model's own runs lose 1.1 percent a year at that fade | none (year 1) | +44.76 | `wip/audit-battery-4` |
-| 1 | Regulation is never called; ERCOT's storage shows 17 percent of an award moving each hour | -6.44 (-7.9 percent) | -41.4 | `wip/audit-battery-1` |
 | 9 | Flat real revenue, a fixed money debt payment and a money discount rate in one sum | none | +39.67 to +60.95 (inflation 2 to 2.5 percent) | `wip/audit-battery-9` |
+| 1 | Regulation is never called; ERCOT's storage shows 17 percent of an award moving each hour | -5.97 to -6.44 (-7.3 to -7.9 percent) | -38.4 to -41.4 | `wip/audit-battery-1` |
 | 2 | Each day starts empty: the reset costs USD 5.23 per kW, four times the note's bound of 1.29 | +5.23 (+6.4 percent) | +33.6 | `wip/audit-battery-2` |
 | 10 | "A 4-hour battery discharges at its rated power for 4 hours": in the model it delivers 3.71 MWh per MW | +2.60 (+3.2 percent) if read as the page says | +16.7 | `wip/audit-battery-10` (fix in words) |
 | 3 | Energy is paid the hourly mean; ERCOT settles real-time energy every 15 minutes | +2.23 (+2.7 percent) | +14.4 | `wip/audit-battery-3` |
 | 5 | The "Breakeven toll" (USD 4.19 per kW-month) only covers debt 1.25 times; equity breaks even at 13.62 | the toll figure: 4.19 against 13.62 | at the 4.19 toll: -845.78 | `wip/audit-battery-5` (fix in words) |
 | 7 | The size runs to 5,000 MW and scales linearly; past about 500 MW the battery is paid for reserves ERCOT never buys | none at 100 MW; -27.0 percent of revenue at 5,000 MW (September 2026) | none at 100 MW | `wip/audit-battery-7` |
+| 11 | The public file, the replication and the note's section 11.2 prove October 2025 to September 2026; the table has moved to November to October | the default's headline in the table: 80.34, not 81.40 | | `wip/audit-battery-11` |
 
-- Ranked by how far the default case's NPV moves, per kW (the smaller end of a range). Finding 6 is findings 2 and 3 together. Finding 5 moves a printed figure, not NPV. Finding 7 moves nothing at the default 100 MW.
+- Ranked by how far the default case's NPV moves, per kW (the smaller end of a range). Finding 11 is about what the replication proves, not about the model, and comes last. Finding 6 is findings 2 and 3 together. Finding 5 moves a printed figure, not NPV. Finding 7 moves nothing at the default 100 MW.
 
 ## 1. Regulation is never called
 
 - **Where.** `warehouse/derived/battery_stack.py` line 28 (the docstring), lines 211 to 217 (the state of charge moves only with charge and discharge), line 267 (the objective pays an award its price, nothing else). The note, section 3.4 ("Reserves are never deployed"), section 4.11 and section 6 ("Reserves called: never, assumed"). Decision 4 (`site/lib/decisions.ts` line 119).
 - **Why it is wrong.** ERCOT deploys regulation all the time. In `ercot_sced_esr_hourly`, over the 56,845 resource-hours in which a storage resource held regulation and no other reserve, its output moved off its base point by 0.168 MWh per MW of Reg Up and 0.181 per MW of Reg Down, net within each hour (least squares). Hours with no reserve moved about a sixth as much (mean 0.54 MWh against 3.20).
+- **The other reserves are not called, as the model assumes.** In hours holding RRS, ECRS or Non-Spin alone, output moved off its base point about as much as in hours with no reserve: mean 0.37 to 0.99 MWh against 0.54, 2 to 6 percent of the award. The fault is regulation's alone.
 - **The model leans on regulation.** In the mean hour of January to July 2026 it holds 44.6 percent of its power in Reg Up and 77.7 percent in Reg Down: 122 percent of its power in regulation.
 - **The schedule it is paid for cannot be delivered.** Take `solve_day`'s own schedule and call regulation at 17 percent: on 342 of the 365 days the model's own `check_day` finds a limit broken (empty, full, or the energy behind a reserve).
 - **How much.** Re-optimized with regulation called (the energy paid at the hour's price, the round-trip loss on it, Reg Up's energy counted in the one-cycle limit): USD 74.96 per kW, -6.44 (-7.9 percent). Of that, -3.93 is the energy and its losses and -2.51 the cycle limit. Called at 10 percent: 76.09; at 30 percent: 74.06. The battery then holds Reg Up 0.09 and Reg Down 0.35 MW per MW, not 0.47 and 0.76.
+- **With the call's timing.** Real calls lean the battery's way: upward movement falls in dear hours (the hub's mean 23.49 against 21.92 over the hours) and downward in cheap ones (19.43). Fitted by fifths of the hub price, the called share runs from 0.118 to 0.223 of Reg Up and from 0.223 to 0.116 of Reg Down. Re-run with each hour's own shares: USD 75.43 per kW, -5.97 (-7.3 percent). So the finding's effect is -5.97 to -6.44 per kW.
 - **The test.** `tests/test_audit_battery_1.py` on `wip/audit-battery-1`: the paid schedule of every day of the last twelve months, with regulation called at 0.17, breaks `check_day` on at least 300 days (342 measured). On a machine with the SCED table it measures the share again (between 0.10 and 0.25).
+- **The note's words, fixed on the branch.** The note's section 4.11 says what ERCOT's telemetry shows and what calling it is worth; no figure moves.
 - **Not fixed.** The fix is a model change (an energy flow per regulation award in the state of charge, the objective and the cycle row) and moves every figure: the owner's ruling. The measurement is real-time telemetry under ERCOT's real-time co-optimization (from 5 December 2025); the deployed energy is priced here at the hour's mean real-time price.
 
 ## 2. Each day starts empty, and the cost is four times what the note says
@@ -59,9 +66,12 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 - **Where.** `warehouse/derived/battery_stack.py` lines 211 to 217 (`soc_row(-1)` is an empty battery at every day's first hour) and line 405 (each local day solved alone). The note, section 3.4 line 81 ("`s = 0` at the start of every local day"), section 5 lines 229 and 230, section 6 line 246. Decision 2 (`site/lib/decisions.ts` line 114).
 - **What the note claims.** Section 5: the empty start "understates the result: at most USD 1.29 per kW over the last twelve months" (1 MW of the best-paid upward product in every first hour), and energy left at midnight is small (mean 0.023 MWh per MW). Both figures check: 1.2877 and 0.0227.
 - **Why the bound is wrong.** It counts one channel, the first hour's reserves. The reset also stops the battery from charging before midnight for the next morning's peak, and from carrying stored energy behind overnight reserves. Winter, with two peaks a day, shows it most: December 2025 gains 11.6 percent, January 2026 9.3 percent.
-- **How much.** The model's program with the state of charge carried across midnight within each calendar month, every other rule unchanged (one cycle per local day, 86 percent, hourly, the day's required durations): USD 86.63 per kW against 81.40, +5.23 (+6.4 percent). Carried over the month's end as well, it would be a little more.
+- **Real batteries do not start the day empty.** In `ercot_sced_esr_hourly` (February to August 2026, 316 resources), the energy stored at local midnight was, fleet-weighted, 23 percent of each resource's highest state of charge in the sample (the median resource-midnight 18.5 percent); only a quarter of resource-midnights held under 5 percent. The fleet's charge runs from 23 percent at midnight to 64 percent at 17:00 and back.
+- **It needs no more foresight than an operator has.** ERCOT's day-ahead market clears the next day's prices in the early afternoon, so an operator deciding what to hold at midnight already knows tomorrow's day-ahead prices; the day-ahead schedule's own reset costs it as much (+6.3 percent, the section on the other open cases).
+- **How much.** The model's program with the state of charge carried across midnight within each calendar month, every other rule unchanged (one cycle per local day, 86 percent, hourly, the day's required durations): USD 86.63 per kW against 81.40, +5.23 (+6.4 percent). Carried across every midnight of the twelve months (one program of 8,760 hours): 86.93, +5.53 (+6.8 percent).
 - **The test.** `tests/test_audit_battery_2.py` on `wip/audit-battery-2`, with `tests/audit_battery_lp.py` (the restated program). It shows the restatement equals `solve_day` on all 365 days, gives the page's 81.4022, then finds the carried figure more than four times the note's bound above it.
-- **Not fixed.** A carried state of charge is a model change that moves every figure: the owner's ruling. The note's section 5 sentence is wrong as written whatever the ruling, and can be corrected in words.
+- **The note's words, fixed on the branch.** Section 5 gains what the empty start costs in all (5.23 to 5.53 per kW) and what ERCOT's storage holds at midnight; no figure moves.
+- **Not fixed.** A carried state of charge is a model change that moves every figure: the owner's ruling.
 
 ## 3. Energy is paid the hourly mean of a price ERCOT settles every 15 minutes
 
@@ -143,6 +153,50 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 - **The test.** `tests/test_audit_battery_10.py` on `wip/audit-battery-10`: on a day that fills and empties the battery, `solve_day` delivers exactly `D x sqrt(0.86)` at 2, 4 and 8 hours, and no day of the public file delivers more than 3.7094 MWh per MW (passes on main). The words test fails on main and passes on the branch.
 - **The fix on the branch.** Words only, no figure moves: the hover and the link titles say what is stored and what is delivered (3.71 MWh per MW at 4 hours, 1.85 at 2, 7.42 at 8), and the note's section 3.4 says what `D` is. Changing the model to the page's words would move every figure: the owner's ruling.
 
+## 11. The replication proves a window the page has left
+
+- **Where.** `replication/battery/page_figures.json` (its window: last twelve months October 2025 to September 2026) and `replicate.py` (it reads only the public file and that JSON); `site/public/battery/erw_2026_battery_dispatch.csv` (months 2023-10 to 2026-09). The note, section 7.1 ("On 6 November 2026: 22 of 22") and section 11.2 (the figures of 14 October, "when October 2026 is complete every one moves, and the script, this table and the pack change together").
+- **Why it is wrong.** October 2026 is now whole in the table, so the page's last twelve months are November 2025 to October 2026. `replicate.py` compares the public file with the figures written for it, so it passes whatever the table says: it proves the arithmetic of a page that is no longer shown.
+- **How much.** The table on the data machine (built 14 November) gives the default case USD 80.34 per kW over November 2025 to October 2026, against the replication's 81.40 (-1.06, -1.3 percent). Re-solved on today's prices, 80.40: the table's October holds one day fewer than the prices now do (CAISO's likewise, 30 days against 31).
+- **The test.** `tests/test_audit_battery_11.py` on `wip/audit-battery-11`: `replicate.py` exits 0 on its own window (passes anywhere); on a machine with the table, the page's own rule applied to the table must give the replication's window. Run against the main checkout's table (read only) it fails: 2025-11 to 2026-10 against 2025-10 to 2026-09.
+- **Not fixed.** Writing the public file and the page figures again is the data machine's (`warehouse/derived/battery_dispatch_export.py`, then the replication's JSON), outside this window's rules. Findings 1 to 10 hold on the new window (next section).
+
+## The same checks on the other open cases
+
+On the table's current last twelve months (November 2025 to October 2026), 4 hours, prices read from the main checkout through the model's own readers, the model re-solved to the table before any rule moved (the one month that differs, October 2026, by the day the table lacks, is taken as re-solved):
+
+| Case | The table's twelve months, USD per kW | Carried across midnight (finding 2) | Regulation called at 17 percent (finding 1) | 15-minute energy (finding 3) |
+|---|---|---|---|---|
+| ERCOT, perfect foresight (the default) | 80.40 re-solved (table 80.34) | +5.58 (+6.9 percent) | -6.39 (-7.9 percent) | +2.20 (+2.7 percent) |
+| ERCOT, day-ahead schedule | 72.59 | +4.57 (+6.3 percent) | -6.41 (-8.8 percent) | does not apply (hourly by design) |
+| CAISO, perfect foresight | 80.12 re-solved (table 79.80) | +6.06 (+7.6 percent) | -10.27 (-12.8 percent) | +2.82 (+3.5 percent; 15-minute means of 5-minute prices) |
+| CAISO, day-ahead schedule | 65.96 | +4.46 (+6.8 percent) | -8.57 (-13.0 percent) | does not apply |
+
+- Findings 1 and 2 hold on every open case, and finding 3 on both perfect-foresight cases, in the same direction and about the same size; CAISO leans harder on regulation, so calling it costs more.
+- CAISO's column applies ERCOT's measured 17 percent: no CAISO deployment is held, so it is a sensitivity, not a measure.
+
+## The decisions block, line by line
+
+The 17 decisions at the page's foot (`site/lib/decisions.ts`, `BATTERY_DECISIONS`; the note's section 12), each against this audit:
+
+1. One optimization a day, nothing counted twice: **right** (checked below).
+2. Each day from empty, one cycle, 86 percent split evenly: **as stated**; what the empty start costs is **finding 2**.
+3. Prices known in advance, "so each figure is an upper bound": **false**, **finding 6** (with 2 and 3).
+4. A price taker; reserves never called: **finding 7** past about 500 MW; **finding 1** for regulation (right for the other reserves).
+5. Energy at the hub: as stated; not tested here.
+6. The required durations by the market's rule: **right as stated** (code, note and page agree); the rules' texts not read again.
+7. Never filled, never scaled: **right** (checked below).
+8. The 90 percent month and whole months: **right**; the replication's window is **finding 11**.
+9. The outlier month: as stated; not recomputed.
+10. One page, three questions: layout, not a model matter.
+11. Scenarios A and B, A sets the headline: **right** (checked below).
+12. Capital cost and fixed O&M from Lazard and the ATB: as stated; the sources not read again.
+13. Debt 20 percent at 8 percent over 20 years: arithmetic **right**; a money payment beside real revenue is **finding 9**.
+14. NPV to equity at 12 percent: on flows before tax, **finding 8**; on real flows, **finding 9**.
+15. Degradation as a revenue cut: **finding 4**.
+16. The tax credit and the stress repeats at 0: what the credit's default is worth is **finding 8**; the year it lands is the generator audit's finding 3.
+17. The grids open, in review and not built: as stated.
+
 ## What was checked and found right
 
 - **The objective.** `solve_day` line 267: the cost of charging less the revenue of discharging and of each award. Energy at `p x (d - c)` (USD per MWh times MWh in an hour), each award at its price (USD per MW for the hour times MW). Right.
@@ -163,8 +217,8 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 
 ## Not covered, or left open
 
-- **CAISO.** The same code; not recomputed here. Its regulation mileage payments are left out (an understatement), and its 25-hour days are left out because the hub history lacks them.
-- **The day-ahead schedule.** Findings 1, 2 and 7 apply to it as well; finding 3 does not. Not recomputed.
+- **CAISO.** Findings 1 and 2 recomputed (the section above); the others not. Its regulation mileage payments are left out (an understatement), and its 25-hour days are left out because the hub history lacks them.
+- **The day-ahead schedule.** Findings 1 and 2 recomputed for ERCOT and CAISO (above); finding 3 does not apply; finding 7 applies and was not recomputed.
 - **Real-time reserve prices** since ERCOT's real-time co-optimization (5 December 2025): a foreseeing battery could also sell reserves in real time. Not modelled, not quantified: the reserve table holds day-ahead prices.
 - **The stress repeats** add the peak event's whole window revenue on top of a normal year, so the window's ordinary days count twice: about USD 4 per kW of Uri's 3,105.51 (0.1 percent). Negligible.
 
