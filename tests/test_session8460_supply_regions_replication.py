@@ -280,9 +280,11 @@ class TheSource(unittest.TestCase):
         self.assertIn('"/supply": "review"', src("site", "lib", "release.ts"))
 
     def test_the_read_names_its_reader_its_cases_and_what_waits(self):
+        # session 9001 (chain 601's desk): session 8490 read the five cases on the real files and the state table no
+        # longer says "waits for the files"; the read is held to its section on the real files instead
         read = src("docs", "reviews", "supply-regions-read-2026-11-19.md")
-        for said in ("## The reader and the five cases", "## State on 19 November 2026", "## Gaps found before any file", "waits for the files",
-                     "https://erw-flame.vercel.app/supply?region=ten&b=car&year=2025#whole-country", "Hourly Electric Grid Monitor", "Electric Power Monthly"):
+        for said in ("## The reader and the five cases", "## State on 19 November 2026", "## Gaps found before any file", "## The five cases on the real files (session 8490)",
+                     "https://erw-flame.vercel.app/supply?region=ten&b=car&year=2025#whole-country", "Hourly Electric Grid Monitor", "## The cross-check (session 8490)"):
             self.assertIn(said, read, said)
         self.assertNotRegex(read, r"\b(should|recommend)\b")
 
