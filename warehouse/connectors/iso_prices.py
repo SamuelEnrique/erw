@@ -1146,12 +1146,25 @@ def run_market_per_day(ctx, spec):
     nodes = spec["nodes"]
     log(f"{spec['name']}: {spec['describe']} (per-day completeness)")
     parts, gaps = [], []
+    fetched = {}
+    if ONLY_DAYS:  # session 7052: the named days fetched side by side (the market's own workers), then each checked as before
+        from concurrent.futures import ThreadPoolExecutor
+        named = [d for d in pd.date_range(start, end, freq="D", inclusive="left") if d.date() in ONLY_DAYS]
+        pool = ThreadPoolExecutor(max_workers=max(1, min(len(named), spec.get("workers", 1))))
+        fetched = {d: pool.submit(pull_days, [d], spec["fetch"], nodes, spec["source"], spec["page"], log,
+                                  what=spec["name"], data_url=ctx.get("data_url")) for d in named}
+        pool.shutdown(wait=False)
     for day in pd.date_range(start, end, freq="D", inclusive="left"):
+        if ONLY_DAYS and day.date() not in ONLY_DAYS:  # session 7052: --only-days
+            continue
         d0 = pd.Timestamp(day.date()).tz_localize(tz)
         d1 = pd.Timestamp(day.date() + dt.timedelta(days=1)).tz_localize(tz)
         try:
-            rows, _ = pull_days([day], spec["fetch"], nodes, spec["source"], spec["page"], log,
-                                what=spec["name"], data_url=ctx.get("data_url"))
+            if day in fetched:
+                rows, _ = fetched[day].result()
+            else:
+                rows, _ = pull_days([day], spec["fetch"], nodes, spec["source"], spec["page"], log,
+                                    what=spec["name"], data_url=ctx.get("data_url"))
             rows = rows[(rows["interval_start"] >= d0) & (rows["interval_start"] < d1)]
             rows = latest_per_key(rows, log)
             if spec.get("irregular"):  # session 49: NYISO's irregular RTD stamps, as run_market reads them
@@ -1187,10 +1200,23 @@ def run_market_per_day(ctx, spec):
     return gaps
 
 
+# Session 7052 (chain 370, done-line request 122): --only-days asks the named operating days and no other. A per-day
+# market fetches only those days (a complete one is merged into its table, earlier rows of every other day kept, as any
+# per-day run keeps them); a market whose completeness rule is the whole window is not run, since a window of a few
+# scattered days would fail it. SPP's daily RTBM files are about 50 MB each, so ten missing days no longer mean the
+# whole 45-day window (about 2 GB).
+ONLY_DAYS = None
+
+
 def run_iso(ctx, specs):
     failures = 0
     ctx["specs"] = specs
     for spec in specs:
+        if ONLY_DAYS and not spec.get("per_day"):
+            ctx["log"](f"{spec['name']}: not asked (--only-days is for a per-day market; this one's completeness rule is the whole window)")
+            ctx["results"].append(dict(table=spec["file"], market=spec["name"], status="skipped",
+                                       detail="--only-days: a whole-window market is not run"))
+            continue
         try:
             if spec.get("per_day"):
                 gaps = run_market_per_day(ctx, spec)
@@ -1961,6 +1987,8 @@ def main(argv=None):
     ap.add_argument("--days", type=int, default=30, help="complete operating days (default 30)")
     ap.add_argument("--out-dir", help="write CSVs, logs and raw files under this directory "
                     "instead of the repository (for trial runs)")
+    ap.add_argument("--only-days", metavar="YYYY-MM-DD,...",
+                    help="session 7052: these operating days only, for the per-day markets (a whole-window market is not run)")
     ap.add_argument("--backfill-from", type=int, metavar="YEAR",
                     help="ercot only: write yearly history tables from YEAR's archives (session 8)")
     args = ap.parse_args(argv)
@@ -1971,7 +1999,15 @@ def main(argv=None):
             ap.error("--backfill-from is for ercot only")
         return 1 if backfill_ercot(args.backfill_from) else 0
     isos = sorted(ISOS) if args.iso == "all" else [args.iso]
-    failures = sum(run(i, args.days) for i in isos)
+    days = args.days
+    if args.only_days:
+        global ONLY_DAYS
+        ONLY_DAYS = {dt.date.fromisoformat(x.strip()) for x in args.only_days.split(",") if x.strip()}
+        today = dt.datetime.now(dt.timezone.utc).date()
+        if max(ONLY_DAYS) >= today:
+            ap.error("--only-days: an operating day must be complete (before today)")
+        days = max(days, (today - min(ONLY_DAYS)).days + 1)  # the window reaches the earliest day named
+    failures = sum(run(i, days) for i in isos)
     return 1 if failures else 0
 
 
