@@ -4,7 +4,7 @@ Energy Research Warehouse (ERW). Sessions 9600 and 9601, from 10:26 UTC. Written
 
 ## Read these first: the five worst things found
 
-1. **The live set has not been loaded since 16 November.** Demand and generation end on 15 November 23:00 UTC, carbon intensity on 12 November. On the Grid tool every authority reads "Demand: not held for this hour" for the 53 newest hours, ERCOT's page heads its demand "Nov 15, 5:00 PM CST", the map's carbon color is 12 November's, and the board's day-ahead prices are four days old. Data request 565 (it is request 543 again, a day after 543 was marked fixed).
+1. **The live set was not loaded from 16 November until about 16:00 UTC on 20 November** (it now holds demand to 19 November 23:00 UTC; the Grid map's hover still shows none for its newest 53 hours until its hourly file is refreshed). As read through the night: Demand and generation end on 15 November 23:00 UTC, carbon intensity on 12 November. On the Grid tool every authority reads "Demand: not held for this hour" for the 53 newest hours, ERCOT's page heads its demand "Nov 15, 5:00 PM CST", the map's carbon color is 12 November's, and the board's day-ahead prices are four days old. Data request 565 (it is request 543 again, a day after 543 was marked fixed).
 2. **Three of the old laptop's branches read "landed" and their last fixes are not on production.** Sessions 8470, 8480 and 8490 (15 commits to the events, demand and supply pages). The landing rows took newer heads after the desk had landed the older ones, and the state stayed "landed". A note stands at the foot of `docs/state/landing_request_oldlaptop.md`.
 3. **After the browser's back button a list keeps the later choice** while the page and its address go back: the table says PacifiCorp, the list says Duke. On every page that draws the site's shared list (13 page files). Mended on a branch.
 4. **The menu's "Policy" opens a page that is the two words "license needed".** No heading, no way to the two views that do draw. Mended on a branch (nothing held is drawn).
@@ -60,4 +60,4 @@ Energy Research Warehouse (ERW). Sessions 9600 and 9601, from 10:26 UTC. Written
 
 - Nothing.
 
-Last written: 13:59 UTC, session 9602.
+Last written: 16:32 UTC, session 9602.
