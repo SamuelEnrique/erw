@@ -11,13 +11,13 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 
 - **The arithmetic is right.** Every figure the page prints follows from the model's monthly table as the note says, and the model, re-solved from the page's own prices, gives 81.4022 per kW for the page's window. Nothing double counts a megawatt.
 - **"Each figure is an upper bound" is false.** Two of the model's own rules (an empty battery each midnight, the hourly mean of a 15-minute price) hold it 8.3 percent under a foreseeing battery's 88.81 per kW (findings 2, 3, 6).
-- **"Reserves are never called" is false for regulation.** ERCOT's storage shows 17 percent of an award moving each hour, worth -7.9 percent (finding 1). At the default the biases roughly cancel: 83.02 with all three.
+- **"Reserves are never called" is false for regulation.** ERCOT's storage shows 17 percent of an award moving each hour, worth -7.3 to -7.9 percent (finding 1). At the default the biases roughly cancel: 83.02 with all three.
 - **The page's words and its figures disagree twice more.** The "Breakeven toll" covers debt 1.25 times and leaves equity worse off than merchant (finding 5). "4 hours at rated power" is 3.71 hours in the model (finding 10).
 - **The finance leaves out what a developer's NPV holds.** No tax and no depreciation against an after-tax rate (+118.95 per kW; +426.14 with the 30 percent credit, finding 8), two kinds of dollars in one sum (+40 to +61, finding 9), degradation cut one for one with capacity where the model's own runs lose less than half of that (+44.76, finding 4).
 - **Size.** Past about 500 MW the battery is paid for reserves ERCOT does not buy (finding 7).
 - **The model findings hold on every open case.** ERCOT and CAISO, both strategies, on the table's current twelve months: the empty start costs 6.3 to 7.6 percent, regulation called 7.9 to 13.0 percent (CAISO at ERCOT's measured rate), and 15-minute energy adds 2.7 to 3.5 percent under perfect foresight.
 - **The replication proves a window the page has left.** The table now gives November 2025 to October 2026, USD 80.34 per kW; the public file and the replication still show 81.40 (finding 11).
-- **Wording fixes are on branches 5, 6 and 10, and the note's words on 1 and 2,** and move no figure. Every other fix moves figures and is the owner's ruling; each finding has a test on its own branch.
+- **Wording fixes move no figure.** Branches 5, 6 and 10 fix the page's words; branches 1, 2, 3, 4, 7, 8 and 9 add the measured effect to the note, where a reader of the method looks. Every other fix moves figures and is the owner's ruling; each finding has a test on its own branch (11 needs the data machine to write the public file again).
 
 ## How every number here was computed
 
@@ -37,8 +37,8 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 | 8 | The NPV holds no tax, no depreciation, and by default no credit, yet is discounted at a cost of equity | none | +118.95 after federal tax; +426.14 with the 30 percent credit as well | `wip/audit-battery-8` |
 | 6 | "Each figure is an upper bound" is false: findings 2 and 3 together give 88.81; with finding 1 as well, 83.02 | the bound: +7.41 (+9.1 percent) | +47.6 | `wip/audit-battery-6` (fix in words) |
 | 4 | Degradation cuts the whole revenue 2.6 percent a year; the model's own runs lose 1.1 percent a year at that fade | none (year 1) | +44.76 | `wip/audit-battery-4` |
-| 1 | Regulation is never called; ERCOT's storage shows 17 percent of an award moving each hour | -6.44 (-7.9 percent) | -41.4 | `wip/audit-battery-1` |
 | 9 | Flat real revenue, a fixed money debt payment and a money discount rate in one sum | none | +39.67 to +60.95 (inflation 2 to 2.5 percent) | `wip/audit-battery-9` |
+| 1 | Regulation is never called; ERCOT's storage shows 17 percent of an award moving each hour | -5.97 to -6.44 (-7.3 to -7.9 percent) | -38.4 to -41.4 | `wip/audit-battery-1` |
 | 2 | Each day starts empty: the reset costs USD 5.23 per kW, four times the note's bound of 1.29 | +5.23 (+6.4 percent) | +33.6 | `wip/audit-battery-2` |
 | 10 | "A 4-hour battery discharges at its rated power for 4 hours": in the model it delivers 3.71 MWh per MW | +2.60 (+3.2 percent) if read as the page says | +16.7 | `wip/audit-battery-10` (fix in words) |
 | 3 | Energy is paid the hourly mean; ERCOT settles real-time energy every 15 minutes | +2.23 (+2.7 percent) | +14.4 | `wip/audit-battery-3` |
@@ -56,6 +56,7 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 - **The model leans on regulation.** In the mean hour of January to July 2026 it holds 44.6 percent of its power in Reg Up and 77.7 percent in Reg Down: 122 percent of its power in regulation.
 - **The schedule it is paid for cannot be delivered.** Take `solve_day`'s own schedule and call regulation at 17 percent: on 342 of the 365 days the model's own `check_day` finds a limit broken (empty, full, or the energy behind a reserve).
 - **How much.** Re-optimized with regulation called (the energy paid at the hour's price, the round-trip loss on it, Reg Up's energy counted in the one-cycle limit): USD 74.96 per kW, -6.44 (-7.9 percent). Of that, -3.93 is the energy and its losses and -2.51 the cycle limit. Called at 10 percent: 76.09; at 30 percent: 74.06. The battery then holds Reg Up 0.09 and Reg Down 0.35 MW per MW, not 0.47 and 0.76.
+- **With the call's timing.** Real calls lean the battery's way: upward movement falls in dear hours (the hub's mean 23.49 against 21.92 over the hours) and downward in cheap ones (19.43). Fitted by fifths of the hub price, the called share runs from 0.118 to 0.223 of Reg Up and from 0.223 to 0.116 of Reg Down. Re-run with each hour's own shares: USD 75.43 per kW, -5.97 (-7.3 percent). So the finding's effect is -5.97 to -6.44 per kW.
 - **The test.** `tests/test_audit_battery_1.py` on `wip/audit-battery-1`: the paid schedule of every day of the last twelve months, with regulation called at 0.17, breaks `check_day` on at least 300 days (342 measured). On a machine with the SCED table it measures the share again (between 0.10 and 0.25).
 - **The note's words, fixed on the branch.** The note's section 4.11 says what ERCOT's telemetry shows and what calling it is worth; no figure moves.
 - **Not fixed.** The fix is a model change (an energy flow per regulation award in the state of charge, the objective and the cycle row) and moves every figure: the owner's ruling. The measurement is real-time telemetry under ERCOT's real-time co-optimization (from 5 December 2025); the deployed energy is priced here at the hour's mean real-time price.
