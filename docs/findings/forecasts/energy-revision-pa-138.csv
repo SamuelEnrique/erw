@@ -1,0 +1,24 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate energy_revision, region pa_138 (Sierra Pacific Resources (FERC 714 planning area 138))
+# Computed 2026-11-19T12:53:44Z by warehouse/analysis/findings/deep/forecasts.py (energy_revision); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: how much a filing changed its forecast of the year 5 ahead against the filing a year before (percent), the observations it rests on, and whether the year is full
+# Tables: ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+pa_138,2007,5.693842663919146,1.0,1
+pa_138,2008,-11.86433914182745,1.0,1
+pa_138,2009,-3.055217023256418,1.0,1
+pa_138,2010,0.0,1.0,1
+pa_138,2011,12.171630642564946,1.0,1
+pa_138,2012,6.607749701719712,1.0,1
+pa_138,2013,-9.55768583788662,1.0,1
+pa_138,2014,-1.5001060778256359,1.0,1
+pa_138,2015,-3.0210732671529184,1.0,1
+pa_138,2016,5.162725546804681,1.0,1
+pa_138,2017,3.8812743341400058,1.0,1
+pa_138,2018,-16.069761621327284,1.0,1
+pa_138,2019,8.283520612135643,1.0,1
+pa_138,2020,-1.0322888315071999,1.0,1
+pa_138,2021,2.0949176773126688,1.0,1
+pa_138,2022,1.2466312829662485,1.0,1
+pa_138,2023,0.0,1.0,1
+pa_138,2024,40.706767688818466,1.0,1
+pa_138,2025,66.78426081322468,1.0,1

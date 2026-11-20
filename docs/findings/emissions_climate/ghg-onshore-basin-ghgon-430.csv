@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ghg_onshore_basin, region ghgon_430 (onshore oil and gas production in the Permian Basin)
+# Computed 2026-11-19T12:11:35Z by warehouse/analysis/findings/deep/emissions_climate.py (ghg_onshore_basin); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the emissions reported for onshore oil and gas production in the basin (million t CO2e), the observations it rests on, and whether the year is full
+# Tables: epa_ghgrp_facility_emissions
+region,year,value,n_observations,full_year
+ghgon_430,2015,13.557403093999998,1.0,1
+ghgon_430,2016,12.723755809,1.0,1
+ghgon_430,2017,15.800843098300003,1.0,1
+ghgon_430,2018,23.376260448399997,1.0,1
+ghgon_430,2019,32.079963454,1.0,1
+ghgon_430,2020,23.783967422000003,1.0,1
+ghgon_430,2021,23.298585949999996,1.0,1
+ghgon_430,2022,23.216368638,1.0,1
+ghgon_430,2023,29.21807783,1.0,1

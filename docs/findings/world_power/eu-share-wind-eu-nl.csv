@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate eu_share_wind, region eu_nl (the Netherlands)
+# Computed 2026-11-19T13:14:46Z by warehouse/analysis/findings/deep/world_power.py (eu_share_wind); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: wind's share of the country's net production (percent), the observations it rests on, and whether the year is full
+# Tables: eurostat_electricity_monthly
+region,year,value,n_observations,full_year
+eu_nl,2016,7.158441746562011,12.0,1
+eu_nl,2017,9.630473184422666,12.0,1
+eu_nl,2018,10.909684965099181,12.0,1
+eu_nl,2019,9.788002746475879,12.0,1
+eu_nl,2020,12.770205803039039,12.0,1
+eu_nl,2021,15.189437938893807,12.0,1
+eu_nl,2022,17.871862106715426,12.0,1
+eu_nl,2023,24.688027145327656,12.0,1
+eu_nl,2024,27.217944275367806,12.0,1
+eu_nl,2025,24.313723204518187,12.0,1

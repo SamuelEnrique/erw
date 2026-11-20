@@ -27,6 +27,13 @@ export function span(f: LoadFile): { first: Report; last: Report } | null {
 export const impossible = (f: LoadFile): Report[] => f.reports.filter((r) => r.simultaneous !== undefined && r.nonsimultaneous !== undefined && r.simultaneous > r.nonsimultaneous);
 
 /** A report's month as ERCOT wrote it, when it is not the report's own month and year (the reports of early 2026 say 2025). */
+/** Chain 305 (session 7603, the tracker read as its reader): the month and year of the report's own day, "April 2026",
+ * for the note beside a month as written that is not it. The note named the year alone, so the report of 24 April 2026
+ * that writes "March 2026" read "(as written; the report is of 2026)", which says nothing of what differs. */
+export function reportMonth(r: Report): string {
+  return `${MONTHS[Number(r.day.slice(5, 7)) - 1]} ${r.day.slice(0, 4)}`;
+}
+
 export function monthMismatch(r: Report): boolean {
   if (!r.month_as_written) return false;
   const [m, y] = r.month_as_written.split(" ");
