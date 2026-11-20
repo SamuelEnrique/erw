@@ -262,8 +262,13 @@ def site_json():
                 unit = s.get("unit", "")
             else:
                 label, unit = c.get("label") or "", c.get("unit") or ""
-            cols.append([c["name"], label.replace(EM, " - "), unit, c.get("type") or "",
-                         values_text(c.get("values")).replace(EM, " - ")])
+            vt = values_text(c.get("values"))
+            if "see" in (c.get("values") or {}):
+                # the page shows no variables table: name the variables here (the documents list them in full)
+                names = [v["name"] for v in d.get("variables") or []]
+                vt = f"{len(names)} variables: " + ", ".join(names[:12]) + (
+                    f" and {len(names) - 12} more (docs/codebook/)" if len(names) > 12 else "")
+            cols.append([c["name"], label.replace(EM, " - "), unit, c.get("type") or "", vt.replace(EM, " - ")])
         by[Path(d["method"]).stem].append({"table": t, "row": (d.get("row") or "").replace(EM, " - "),
                                            "read": (d.get("read") or {}).get("date") or "", "columns": cols})
     return json.dumps(dict(sorted(by.items())), ensure_ascii=False, separators=(",", ":")) + "\n"
