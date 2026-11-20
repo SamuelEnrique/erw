@@ -14,7 +14,7 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 - **The page's words and its figures disagree twice more.** The "Breakeven toll" covers debt 1.25 times and leaves equity worse off than merchant (finding 5). "4 hours at rated power" is 3.71 hours in the model (finding 10).
 - **The finance leaves out what a developer's NPV holds.** No tax and no depreciation against an after-tax rate (+118.95 per kW; +426.14 with the 30 percent credit, finding 8), two kinds of dollars in one sum (+40 to +61, finding 9), degradation cut one for one with capacity where the model's own runs lose less than half of that (+44.76, finding 4).
 - **Size.** Past about 500 MW the battery is paid for reserves ERCOT does not buy (finding 7).
-- **The two largest model findings hold on every open case.** ERCOT and CAISO, both strategies, on the table's current twelve months: the empty start costs 6.3 to 7.6 percent, regulation called 7.9 to 13.0 percent (CAISO at ERCOT's measured rate).
+- **The model findings hold on every open case.** ERCOT and CAISO, both strategies, on the table's current twelve months: the empty start costs 6.3 to 7.6 percent, regulation called 7.9 to 13.0 percent (CAISO at ERCOT's measured rate), and 15-minute energy adds 2.7 to 3.5 percent under perfect foresight.
 - **The replication proves a window the page has left.** The table now gives November 2025 to October 2026, USD 80.34 per kW; the public file and the replication still show 81.40 (finding 11).
 - **Wording fixes are on branches 5, 6 and 10** and move no figure. Every other fix moves figures and is the owner's ruling; each finding has a test on its own branch.
 
@@ -161,14 +161,14 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 
 On the table's current last twelve months (November 2025 to October 2026), 4 hours, prices read from the main checkout through the model's own readers, the model re-solved to the table before any rule moved (the one month that differs, October 2026, by the day the table lacks, is taken as re-solved):
 
-| Case | The table's twelve months, USD per kW | Carried across midnight (finding 2) | Regulation called at 17 percent (finding 1) |
-|---|---|---|---|
-| ERCOT, perfect foresight (the default) | 80.40 re-solved (table 80.34) | +5.58 (+6.9 percent) | -6.39 (-7.9 percent) |
-| ERCOT, day-ahead schedule | 72.59 | +4.57 (+6.3 percent) | -6.41 (-8.8 percent) |
-| CAISO, perfect foresight | 80.12 re-solved (table 79.80) | +6.06 (+7.6 percent) | -10.27 (-12.8 percent) |
-| CAISO, day-ahead schedule | 65.96 | +4.46 (+6.8 percent) | -8.57 (-13.0 percent) |
+| Case | The table's twelve months, USD per kW | Carried across midnight (finding 2) | Regulation called at 17 percent (finding 1) | 15-minute energy (finding 3) |
+|---|---|---|---|---|
+| ERCOT, perfect foresight (the default) | 80.40 re-solved (table 80.34) | +5.58 (+6.9 percent) | -6.39 (-7.9 percent) | +2.20 (+2.7 percent) |
+| ERCOT, day-ahead schedule | 72.59 | +4.57 (+6.3 percent) | -6.41 (-8.8 percent) | does not apply (hourly by design) |
+| CAISO, perfect foresight | 80.12 re-solved (table 79.80) | +6.06 (+7.6 percent) | -10.27 (-12.8 percent) | +2.82 (+3.5 percent; 15-minute means of 5-minute prices) |
+| CAISO, day-ahead schedule | 65.96 | +4.46 (+6.8 percent) | -8.57 (-13.0 percent) | does not apply |
 
-- Both findings hold on every open case, in the same direction and about the same size; CAISO leans harder on regulation, so calling it costs more.
+- Findings 1 and 2 hold on every open case, and finding 3 on both perfect-foresight cases, in the same direction and about the same size; CAISO leans harder on regulation, so calling it costs more.
 - CAISO's column applies ERCOT's measured 17 percent: no CAISO deployment is held, so it is a sensitivity, not a measure.
 
 ## The decisions block, line by line
