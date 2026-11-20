@@ -29,6 +29,12 @@ const PAGES = [
   ["/queues/places", "../app/queues/places/page.tsx"],
   ["/storage/places", "../app/storage/places/page.tsx"],
   ["/curtailment/where-when", "../app/curtailment/where-when/page.tsx"],
+  // session 9873: the tier after (three to five test files each)
+  ["/states", "../app/states/page.tsx"],
+  ["/conditions", "../app/conditions/page.tsx"],
+  ["/congestion", "../app/congestion/page.tsx"],
+  ["/attention", "../app/attention/page.tsx"],
+  ["/deals/capital", "../app/deals/capital/page.tsx"],
 ];
 
 // the pages read files; what a shared component would ask of the database is answered with no rows by a stand-in for

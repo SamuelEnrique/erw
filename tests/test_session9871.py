@@ -17,7 +17,7 @@ import unittest
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SITE = os.path.join(ROOT, "site")
-PAGES = ["/ai-energy", "/industry", "/queues/places", "/storage/places", "/curtailment/where-when"]
+PAGES = ["/ai-energy", "/industry", "/queues/places", "/storage/places", "/curtailment/where-when", "/states", "/conditions", "/congestion", "/attention", "/deals/capital"]
 
 
 class TheFivePages(unittest.TestCase):
@@ -35,7 +35,7 @@ class TheFivePages(unittest.TestCase):
         last = [line for line in r.stdout.splitlines() if line.endswith("passed")][-1]
         got, of = last.split(" passed")[0].split(" of ")
         self.assertEqual(got, of)
-        self.assertGreaterEqual(int(of), 49)
+        self.assertGreaterEqual(int(of), 74)
 
 
 if __name__ == "__main__":
