@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate eu_share_gas, region eu_pt (Portugal)
+# Computed 2026-11-19T13:14:46Z by warehouse/analysis/findings/deep/world_power.py (eu_share_gas); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: natural gas's share of the country's net production (percent), the observations it rests on, and whether the year is full
+# Tables: eurostat_electricity_monthly
+region,year,value,n_observations,full_year
+eu_pt,2017,30.817506657448103,12.0,1
+eu_pt,2018,24.844624257553587,12.0,1
+eu_pt,2019,31.06638512322869,12.0,1
+eu_pt,2020,31.500091974113342,12.0,1
+eu_pt,2021,28.088487825008063,12.0,1
+eu_pt,2022,34.20582336129892,12.0,1
+eu_pt,2023,20.609615767792295,12.0,1
+eu_pt,2024,9.590542560262154,12.0,1
+eu_pt,2025,14.603596236655946,12.0,1

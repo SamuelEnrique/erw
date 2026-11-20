@@ -1,0 +1,17 @@
+# How a utility revises its forecast: net energy: Seminole Electric Cooperative, Inc. (FERC 714 planning area 137)
+
+Draft `scan-deep-cd256ca7e55a` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
+
+**The finding.** The revision Seminole Electric Cooperative, Inc. (FERC 714 planning area 137) made to its forecast of its net energy 5 years ahead, against its filing of the year before, was 2.9 percent in 2025, against -5.2 percent in 2007, the first filing that can be compared.
+
+![How a utility revises its forecast: net energy, Seminole Electric Cooperative, Inc. (FERC 714 planning area 137)](energy-revision-pa-137.png)
+
+**The figure by full year** (percent): 2007: -5.2, 2008: -11.4, 2009: -4.1, 2010: -2.5, 2011: -4.4, 2012: -3.5, 2013: 0.6, 2014: -10.8, 2016: 1.3, 2017: -1.5, 2018: -0.4, 2019: 0.3, 2020: -0.8, 2021: 3.9, 2022: 4.3, 2023: 1.7, 2024: 7.9, 2025: 2.9.
+
+**The tables and rows.** `ferc714_planning_area_forecasts`; the rows for Seminole Electric Cooperative, Inc. (FERC 714 planning area 137), region key `pa_137` (the card's `hunt.region`), years 2007 to 2025. The yearly values: `energy-revision-pa-137.csv`.
+
+**Its strength.** The change is 1.99 typical yearly moves (a typical move is 4.1 percent, 1.4826 times the median absolute change between full years). Holds in more than one year: 15 of the 17 full years after 2007 lie above 2007's value. Survives a change of window: from 2008 to 2025 the change is 14.4, from 2007 to 2024 it is 13.1. Sample large enough: 2007 holds 1 and 2025 holds 1 observations; the floor is 1. Half the change remains without the first year: from 2008 to 2025 the change is 14.4, 176.6 percent of the change from 2007. At least one typical yearly move: the change is 1.99 typical yearly moves (4.1 percent a year, the median move between full years); the floor is 1.
+
+**Its limits.** The planning area's own forecast as filed in FERC Form 714 (through PUDL): each filing against the one a year before, for the same year 5 years after the filing; a revision of more than double or less than half is left out (a figure in the wrong unit).
+
+**Reproduce.** `python energy-revision-pa-137.reproduce.py <the table's CSV>` and `do energy-revision-pa-137.reproduce.do` (Stata) recompute the figures by year from the tables as the public downloads hold them; each names the expected values at its top.
