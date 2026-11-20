@@ -147,7 +147,7 @@ if (args[0] === "--fixture") {
     const all = { ...checked(html, clashes), ...hovers(html, { a, b }) };
     if (withPoints) {
       const file = fileOf(C.placeOf(a, index));
-      if (file && !V.heldWhyOf(file)) for (const what of ["peak", "average"]) for (const [t, v] of C.dailyPoints(file.daily, what, "all")) {
+      if (file && !V.heldWhyOf(file)) for (const what of ["peak", "average"]) for (const [t, v] of C.dailyPoints(file.daily, what, "all", file.tz)) {
         if (v !== null) all[`cd|a|pt|${new Date(t).toISOString().slice(0, 10)}|${what === "peak" ? "peak" : "avg"}`] = num(v);
       }
     }
