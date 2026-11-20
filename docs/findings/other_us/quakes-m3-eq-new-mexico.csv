@@ -1,0 +1,22 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate quakes_m3, region eq_new_mexico (New Mexico)
+# Computed 2026-11-19T13:04:13Z by warehouse/analysis/findings/deep/other_us.py (quakes_m3); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's earthquakes of magnitude 3.0 and above in the state (earthquakes), the observations it rests on, and whether the year is full
+# Tables: usgs_comcat_earthquakes_south_central
+region,year,value,n_observations,full_year
+eq_new_mexico,2010,5.0,1.0,1
+eq_new_mexico,2011,3.0,1.0,1
+eq_new_mexico,2012,2.0,1.0,1
+eq_new_mexico,2013,4.0,1.0,1
+eq_new_mexico,2014,2.0,1.0,1
+eq_new_mexico,2015,7.0,1.0,1
+eq_new_mexico,2016,2.0,1.0,1
+eq_new_mexico,2017,3.0,1.0,1
+eq_new_mexico,2018,6.0,1.0,1
+eq_new_mexico,2019,7.0,1.0,1
+eq_new_mexico,2020,32.0,1.0,1
+eq_new_mexico,2021,122.0,1.0,1
+eq_new_mexico,2022,119.0,1.0,1
+eq_new_mexico,2023,96.0,1.0,1
+eq_new_mexico,2024,69.0,1.0,1
+eq_new_mexico,2025,83.0,1.0,1
+eq_new_mexico,2026,95.0,1.0,0

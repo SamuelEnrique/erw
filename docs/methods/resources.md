@@ -95,6 +95,170 @@ described, one entry a layer, in `site/data/resources/manifest.json`.
   - The count of rows drawn and not drawn, in all and for each grid, is computed from the live set each time
     the overlay is read; none of it is written into the page.
 
+## Session 8603 (19 November 2026): the switches' lines, the kinds named, a replication, a cross-check, the decisions
+
+Chain 504 set the map beside the owner's list of 7 October 2026 as that chain gives it: one simple map of every kind of energy resource as switches (sun, wind, geothermal heat, hydropower potential, oil and gas, coal, uranium, critical minerals), the resource itself and not what is built on it; a switch a layer; several on at once; a hover with the place, the value, its unit and its source; a short line under each switch. The map had most of it since sessions 146 and 159 (read in a browser at 1280 and 390 px on 19 November: three layers on at once, the hover with latitude and longitude, the value, the unit, the vintage and the publisher). It was not built again. What this session added:
+
+- **A line under each switch** that says what the layer measures in plain words (`MEASURE` in `site/lib/resources.ts`), written from each layer's "What it is" below, not from the publisher's field names. A layer the table does not know says its own line when its entry of the list of layers carries one (`measure`), else the source's label of its value.
+- **Coal, uranium and critical minerals are named.** Each has a group and a switch. No layer of the three is among the files, so each switch is greyed and says so on hover; nothing is drawn in its place. The day a layer of one of them is in the list of layers (its group written "coal", "uranium" or "critical minerals"), its switch is the layer's and the greyed one is gone, with no change of code. The data machine's chain of the same day names the layers it will write (coal fields, uranium, critical mineral deposits).
+- **The map stays a tab of the project map** (`/map?tab=resources`; `/resources` opens it), as the owner's menu of 12 October 2026 has it. It is in review, as every page is.
+
+### Replication: tight oil and shale gas plays (`oil_gas_plays`)
+
+`replication/resources/replicate.py` reads the publisher's file as the publisher serves it and recomputes every figure the map holds for the layer. It is written from this note and the publisher's file, with Python's standard library alone (it reads the shapefile's table and its outlines itself).
+
+- **The file:** <https://www.eia.gov/maps/map_data/TightOil_ShaleGas_Plays_Lower48_EIA.zip>, 323,424 bytes. Its sha256 on 19 November 2026 is the one the layer recorded on 7 October (`c09b3bd2982754cf...`): it is the same file. EIA's robots file allows every path; its terms are "Public domain and use of EIA content".
+- **Result: 556 of 556 figures are the publisher's.** The count of plays (50); for each play its name, its area in square miles (the hover's figure, the source's `Area_sq_mi`) and the nine fields of the source the layer keeps; the smallest, mean and largest area (184.8, 10,280.3 and 59,054.2 square miles). `replication/resources/oil_gas_plays_figures.csv` holds every figure, the map's and the publisher's.
+- **Stata:** `replication/resources/replicate.do` prints the five headline figures from the same table. It has not been run (Stata is not on the machine that wrote it).
+
+### Replication: sedimentary basins (`oil_gas_basins`), the second layer (session 8619)
+
+`replication/resources/replicate_basins.py` does the same for the basins, from this note and the publisher's file, with the same two readers and the same area on the ellipsoid.
+
+- **The file:** <https://www.eia.gov/maps/map_data/SedimentaryBasins_US_EIA.zip>, 440,871 bytes. Its sha256 on 19 November 2026 is the one the layer recorded on 7 October (`02a017ccb84bdcc1...`): it is the same file. The same robots file and terms as the plays' file.
+- **Result: 199 of 199 figures are the publisher's.** The count of basins (32); for each its name as shown, its area in square miles (the hover's figure, the source's `Area_sq_mi`), the unit, and the three fields of the source the layer keeps; the smallest, mean and largest area (1,289.0, 35,362.7 and 160,408.4 square miles). `replication/resources/oil_gas_basins_figures.csv`.
+- **Its cross-checks.** The 32 areas sum to 1,131,605 square miles by the publisher's field and 1,131,631 by its outlines, 0.002 percent apart; every basin agrees within 0.2 percent (the widest: Valley and Ridge, 18,886.4 against 18,920.5). The publisher's square kilometres are its square miles times 2.589988 in every basin. `replication/resources/crosscheck_basins.csv`.
+- **One rule is the layer's own:** a basin's name. EIA writes names in capitals; the layer shows each word with a capital first. The rule is reproduced as it is, with the one name it serves badly: EIA's "TX-LA-MS SALT", three states' codes, reads "Tx-La-Ms Salt" on the map (data request 554).
+- Held by `tests/test_session8619_resources.py`, which builds a small file of the same kind and tries the comparison on it (an altered area and an altered name are each caught), since the publisher's file is not kept in the repository.
+
+### Replication: hydropower at non-powered dams (`hydropower_npd`), the third layer (session 8621)
+
+`replication/resources/replicate_dams.py` compares the layer with Oak Ridge National Laboratory's own table, row for row. The layer keeps every row of it.
+
+- **The file:** <https://hydrosource.s3.us-east-2.amazonaws.com/files/data/datasets/hydropower-capacity-us-npd/TechPotentialNPDs.csv>, 1,594,027 bytes. Its sha256 on 19 November 2026 is the one the layer recorded on 7 October (`84635b4faecc332c...`): it is the same file. HydroSource's robots file allows the read and asks ten seconds between requests (two requests to that site, its robots file and its policy page, were made a second apart before the delay had been read; the file itself is on a storage host with no robots file, and was asked for once). Its terms: "Data hosted on HydroSource is openly shared, without restriction".
+- **Result: 34,014 of 34,014 figures are the publisher's.** The count of dams (2,616); for each its place (the source's longitude and latitude to four decimals), its name, its capacity in MW (the hover's figure, the source's `cap_mw`) and the nine columns kept beside it; the smallest, mean and largest capacity. Only figures that differ are kept, in `replication/resources/hydropower_npd_figures_differ.csv`, which holds none.
+- **Cross-check 1, against the laboratory's own words.** The 2,616 capacities sum to 3,939.3 MW; the file's readme says "A total of nearly 4 GW capacity is estimated across all 2,616 NPDs included in the dataset".
+- **Cross-check 2, the annual generation the hover lists.** The publisher's file also holds twelve monthly figures for each dam, which the web file leaves out. They do not sum to the annual figure: 15,311,641 MWh against 15,244,927 MWh in all, 0.44 percent apart, and dam by dam within 1 percent for 560 and within 5 percent for 2,012 of 2,615. The readme calls each an average over 1980 to 2015 of its own ("averaged for each month of the year", and "average annual generation"), so they are two summaries of one daily series and are not built to sum. The hover shows the publisher's annual figure under the publisher's words, and no month. `replication/resources/crosscheck_dams.csv`.
+- Held by `tests/test_session8621_resources.py`, on rows made up for the test (an altered capacity, a moved place, a changed name and a blank written as zero are each caught).
+
+### Replication: the wind supply curve's sites (`wind_capacity_factor`), the fourth layer (session 8622)
+
+`replication/resources/replicate_wind_sites.py` compares the layer with the laboratory's own table, row for row. The layer keeps every row and seven of its columns.
+
+- **The file:** <https://data.openei.org/files/8314/lbw_open_access_2035_moderate_115hh_170rd_supply_curve.csv>, 12,829,421 bytes. Its sha256 on 19 November 2026 is the one the layer recorded on 7 October (`ef13116bd66f3115...`): it is the same file. The host has no robots file; the dataset's terms: "Content is available under Creative Commons Attribution 4.0 unless otherwise noted".
+- **Result: 395,703 of 395,703 figures are the publisher's**, each to the rounding the web file keeps. The count of sites (56,528); for each its place, its number, its capacity factor (the hover's figure, the source's `capacity_factor_ac`) and the three columns listed under it; the smallest, mean and largest capacity factor from the source's own digits. Only figures that differ are kept, in `replication/resources/wind_capacity_factor_figures_differ.csv`, which holds none.
+- **The web file's rounding, found here:** the place to three decimals and the capacity factor to four, as the layer's entry says; and the wind speed to two decimals and the developable area to one, which the entry does not say (data request 555).
+- **Cross-check.** The sites lie from 25.40 to 49.33 degrees north and from 124.66 to 67.07 degrees west; the dataset's own page states its coverage as 24.91 to 49.49 north and 125.45 to 66.53 west, and the sites of all 49 states of the file lie inside it. The page states no total of sites, capacity or area, so none is set beside the file's (13,662,438 MW on 5,680,243 square kilometres of developable land, summed from its rows). A first cross-check tried, capacity over developable area against the file's capacity density, was dropped: that column is over another area, and the two are not meant to agree. `replication/resources/crosscheck_wind_sites.csv`.
+- Held by `tests/test_session8622_resources.py`, on rows made up for the test.
+
+### Replication: offshore wind lease areas (`offshore_wind_leases`), the fifth layer (session 8623)
+
+`replication/resources/replicate_leases.py` compares the layer with the outlines table of BOEM's own archive.
+
+- **The file:** <https://www.boem.gov/renewable-energy/boem-renewable-energy-shapefiles>, a zip of 1,031,812 bytes. Its sha256 on 19 November 2026 is the one the layer recorded on 7 October (`47c5f33f5d16cede...`): it is the same file. BOEM is an agency of the United States government; its robots file allows the path.
+- **Result: 1,129 of 1,129 figures are the publisher's.** The count of outlines (51); for each its name, its kind (lease area, with the source's `LEASE_TYPE`), its area in acres (the hover's figure, the source's `ACRES`; none where that is 0) and the 18 fields kept; the smallest, mean and largest area. `replication/resources/offshore_wind_leases_figures.csv`.
+- **Cross-check 1: BOEM's acres against the area of its own outline.** For the 46 outlines with an area, the stated acres sum to 3,455,708 and the outlines' own areas to 3,458,946, 0.09 percent apart; 45 agree within 1 percent. The one that does not is the easement of lease OCS-A 0517 (South Fork Wind): 2,723 acres stated against 4,086 for the shape the map draws. The hover shows the stated figure.
+- **Cross-check 2: a lease's type in BOEM's two tables.** The archive also holds a table of lease blocks. For 48 of the 50 outlines found in it, the outline's type is one that table gives the lease. For two it is not, and the map shows the outlines table's word: OCS-A 0497 (Virginia Department of Energy) reads "lease area (Commercial)" and is "Research" and "Easement" in the blocks table; OCS-A 0506 (The Narragansett Electric Company, a cable) reads "lease area (Commercial)" and is "Right-of-Way Grant" there. Data request 556 puts the two before the data machine. `replication/resources/crosscheck_leases.csv`.
+- Held by `tests/test_session8623_resources.py`, on outlines made up for the test.
+
+Why this layer and not the geothermal one, which is smaller: the geothermal files are on ScienceBase, whose robots file names Claude's agents and disallows every path for them, so that host was not read by the session that wrote this (19 November 2026). The layer itself was fetched on 7 October by the data machine's connector under the terms recorded below.
+
+### Cross-check 1: the publisher's area against the area of its own outline
+
+For each play the script computes the area of the publisher's outline on the WGS 84 ellipsoid (the file's own coordinate system) and sets it beside the publisher's `Area_sq_mi`. The 50 areas sum to 514,017 square miles by the publisher's field and 514,014 by its outlines, 0.001 percent apart; every play agrees within 0.04 percent (the largest gap: Floyd-Neal, 5,191.3 against 5,189.3). So the figure the hover shows is the area of the shape the map draws. `replication/resources/crosscheck.csv`.
+
+### Cross-check 2: against areas the same publisher printed earlier
+
+EIA's "Review of Emerging Resources: U.S. Shale Gas and Shale Oil Plays" (July 2011) states an area for several plays. Set beside the layer (`replication/resources/crosscheck_published.csv`, with the review's words and the page of its file):
+
+| Play | The map, square miles | The 2011 review, square miles | Difference | Why |
+|---|---:|---:|---:|---|
+| Marcellus | 58,326.4 | 95,000 | -36,673.6 | the review: the whole formation as the USGS estimated it; the file: the general area of the play |
+| New Albany | 12,564.7 | 43,500 | -30,935.3 | the review: the play's total area, 1,600 of it active |
+| Antrim | 43,796.0 | 12,000 | +31,796.0 | the review: the developed and undeveloped area as it counts them; the file's outline is 41 percent of the Michigan basin |
+| Haynesville-Bossier | 11,166.7 | 9,000 | +2,166.7 | the file outlines the Haynesville and the Bossier together |
+| Fayetteville | 5,852.7 | 9,000 | -3,147.3 | the review counts the central and the western Fayetteville |
+| Woodford-Caney (Arkoma) | 2,892.5 | 2,900 | -7.5 | the two agree |
+| Woodford (Ardmore) | 1,200.3 | 1,800 | -599.7 | the review: a consultant's estimate of the total area |
+| Barnett | 26,311.4 | 6,458 | +19,853.4 | the review: two sections as the USGS estimated them; the file's outline is 75 percent of the Fort Worth basin |
+| Bakken | 25,929.2 | 6,522 | +19,407.2 | the review: the acreage companies had leased in 2011 |
+
+No figure is adjusted to match. The two documents answer different questions under the same names: the 2011 review counts an assessed, leased or active area for its resource estimates, and the 2021 file draws "general areas for shale plays". What follows for a reader is said on the page: a play's area is the area of the outline drawn, not the formation's extent and not a measure of oil or gas (the decision "outline-area").
+
+### Decisions (session 8603)
+
+The page's fold "Decisions on this page" under the map (`site/app/resources/Decisions.tsx`) carries ten choices (nine of session 8603 and one of session 8607), each with its default and its source on hover; `tests/test_session8603.py` holds this list and the page's to one list.
+
+| Key | The choice | Default |
+|---|---|---|
+| `one-file` | Each switch is one publisher's file, drawn as published; layers are never added or blended | One layer, one file, one publisher |
+| `the-resource` | The layers are the resource itself; what is built or planned is a separate set of switches | The resource first; the overlays off until switched on |
+| `kinds-named` | Every kind the list names has a switch; a kind with no layer is greyed and says why | A greyed switch with its reason on hover |
+| `plain-line` | The line under a switch is the page's own plain words; the publisher's description is in this note | One short sentence a layer |
+| `opens-on-wind` | The map opens with the wind speed at 100 meters on | Wind speed at 100 m |
+| `grid-level` | A grid layer is drawn at the finest of its cell sizes whose cell is at least three quarters of a screen pixel | Three quarters of a pixel |
+| `outline-area` | A play's or a basin's area is the publisher's figure for its outline, not the formation's extent | The file's own area |
+| `simplified` | A shape's outline is simplified for the web and no feature is dropped | As each layer's `reduction` says |
+| `one-tab` | The resource map is a tab of the project map, and `/resources` opens it | A tab of `/map` |
+| `two-lists` | The layers come in two lists, the first and one of layers added beside it; they are read as one (session 8607) | The first list wins a name |
+
+## Session 8607 (19 November 2026): a second list of layers, read beside the first
+
+Data request 542 asked the data machine for the coal fields, uranium and critical minerals in the map's form. Its answer is a second list, `site/data/resources/manifest_added.json`, in the first list's form (`built_at_utc`, `layers`, `missing`), because chain 501's rule is that an existing page file is not changed. It holds one layer, the coal fields (602 polygons of the U.S. Geological Survey's Open-File Report 2012-1205, `layers/coal_fields.json`), and names uranium deposits and critical mineral deposits as missing, each with why (the two USGS hosts that serve them refuse automated reading).
+
+What the page does with it (`mergeManifests` in `site/lib/resources.ts`, read on the server in `site/lib/resourcesdata.ts`):
+
+- The two lists are one: the first's layers in their order, then each added layer whose id the first does not hold. Where both name a layer, the first list's entry is drawn.
+- The missing lists are joined: an entry already named in the first, or one that is now a layer, is not repeated. A missing entry's own reason is the one its greyed switch shows.
+- With no second list on the server the page is as it was. A second list that is there and cannot be read is said under the switches ("layers not read", with why on hover), and the first list's layers are drawn.
+- An added layer's file is checked and served like any other: a layer whose file is not on the server joins the missing list with that reason; its address is under `/resources/layer`, behind the release gate.
+- A layer may ask the hover to list fields of its source. The first list writes each as a pair, the field and the words for it; the added list writes the field alone, and then the words are the field's own name in sentence case (`PROVINCE` reads "Province"). No value is computed: a field is printed as the file holds it.
+- The line under the coal fields' switch is the entry's own `measure`. The foot of the method note says when each list was built.
+
+Seen on a build with the data machine's two files copied in from its branch (`wip/c501-desk-b`; they are not on main and are not committed by this session): the switch "Coal fields" is live in its own group with its line; uranium and critical minerals are greyed, each with the data machine's reason on hover; switched on, the fields draw in the coal color over any other layer, and a hover reads, for example, "Blackfeet-Valier Region (Northern Great Plains) (coal field): 7,729.5 square kilometres. Province: Northern Great Plains; Name: Blackfeet-Valier Region; Age: Cretaceous; Rank: Medium and High Volatile Bituminous. Vintage: 2013. U.S. Geological Survey (USGS)". At 390 px nothing is wider than the screen. Pictures: `docs/reviews/resources-2026-11-19/resources-coal-1280.png`, `-390.png` and the two of the switches.
+
+The area in that hover is the data machine's, computed on a sphere from the source's polygon; it is the outline's area and not a measure of coal in place, as the layer's own note says. Held by `tests/test_session8607.py`.
+
+## Session 8608 (19 November 2026): the reader's read, and the state in the hover
+
+Five cases a reader would bring were taken on a build that holds the coal layer (`docs/reviews/resources-read-2026-11-19.md`: a transmission planner on the wind of the Plains, a power trader on the Permian's basin and plays, a student on Appalachia's coal, an AI lab's siting analyst at Phoenix, a battery developer on central Nevada's sun). Four were answered on the page and one half answered (the datacenters are held for a license). The read's one site gap is fixed:
+
+- **The hover names the state under the pointer.** It gave a latitude and a longitude and no place. After the coordinates it now says the state ("33.45 N, 112.07 W, in Arizona"), found among the states' outlines the map already draws (the Census Bureau's cartographic boundaries as `us-atlas` holds them; `stateAt` in `site/lib/resources.ts`). A point at sea, or in no state's outline, names none: the nearest state is never given. No layer's value is touched by it.
+
+Left as they are, each a row of the read: the coal fields' area is in square kilometres where the basins' and plays' are in square miles, and the coal fields' "What it is not" begins with a file's name (both the data machine's, data request 552); a wind or sun layer's hover repeats its vintage sentence with every value (for the owner's ruling). Held by `tests/test_session8608.py`.
+
+## Session 8611 (19 November 2026): the map against the brand
+
+Measured in a browser on a build at 390 and 1280 px against `docs/brand.md`. Two things did not follow it and now do: on a phone the map's nine controls (zoom in and out, the four moves, the three places) are 44 px in both directions, where they were 24 px tall at every width (section 3); and the hover card is fog with a rule-colored edge and no shadow, where it was white with a shadow (sections 3 and 6). Left as it is: the small "i" beside each decision, 16 px, which is the site's shared button on every page with a decisions fold. No figure is touched. Held by `tests/test_session8611_resources.py`.
+
+## Session 8613 (19 November 2026): the coal fields from main, and the check that reads them
+
+The data machine's coal layer and its list reached main on 19 November (the landing desk's stack d), and the branch was merged with main: the layer on the page is now the file main holds, the same bytes the trial of session 8607 used. Seen in a browser on a build at 1280 and 390 px: the Coal group holds "Coal fields" as a switch, 602 fields drawn, the legend in square kilometres, a field's name, area, vintage and publisher on hover; Uranium and Critical minerals stay "not held" with their reasons; the foot names both lists with their dates; no sideways scroll at 390 px.
+
+One gap in the check itself, fixed: `site/scripts/check-resources.mjs` read the first list alone, so an added layer was never switched on by it. It now joins the two lists by the page's rule, written out on its own (the first list wins a name), and checks the coal fields as it checks the other fourteen: 99 checks where there were 97. Three fail, on main too, and all three are the datacenter overlay, which is held for a license and is not read. Held by `tests/test_session8613_resources.py`.
+
+## Session 8614 (19 November 2026): the map's record of what it has drawn
+
+The check failed two layers on some runs and not on others ("0 cells in view", or the coarser level, with the layer on the canvas and the right value under the pointer). The cause was in the page. The map writes a record of what it has drawn when the view comes to rest, by a timer of 160 ms, and the frame the record describes is drawn by the browser's own clock for frames. Where the frame came later than the timer (a busy machine, a tab in the background), the record was written first and stayed wrong until the map next moved. The record is read by the check and by no reader, so no figure and no picture was wrong; the rest now draws a frame that is asked for and not yet drawn before it writes the record, the same frame and no other. The check holds every frame back 400 ms and reads the record: it failed on the build before the change and passes on the build after, and three runs in a row end at 97 of 100, the three the license hold's. Held by `tests/test_session8614_resources.py`.
+
+**A finger on a phone (the same session, the second read).** Until this session a tap on the map showed nothing on a phone. A touch pointer cannot hover, so the browser sends the map a "leave" with the finger's lift, and the leave took off the card the tap had just put up: measured on a build, the card was on the page for 11 ms. It had been so since the page was built; every read at 390 px had pointed with a mouse. A touch's leave is now let pass. The card of a tap stays until the next tap, a drag of the map or a press of one of its buttons, so a long card is read to its end by scrolling the page. On a map narrower than 480 px the card takes the map's width, under or over the finger, where it was a column some 160 px wide beside it. A wide screen is as it was. The check now taps with a finger at 390 px and drags: 102 checks. Rows 11 and 12 of the read; held by the same test file.
+
+## Session 8615 (19 November 2026): the map read by the keyboard
+
+The brand asks that whatever a hover card says be reachable by keyboard. On this map the arrow keys moved the map, plus and minus zoomed it, and no value could be read. When the map takes the keyboard's focus, the card now reads the place at the map's centre, marked by a small ring, and reads it again after each move or zoom; the card is announced to a screen reader as it changes, and only then (under a pointer it is silent, as it was). A pointer takes the reading back, and leaving the map ends it. The map's label says what the keys do. No figure and no picture of a layer is touched; the keys are the ones they were. The check uses the Tab key and an arrow: 105 checks. Row 15 of the read; held by `tests/test_session8615_resources.py`. What the brand also asks, a table under the chart, is not given for a map of up to 150,000 cells: the layers' entries under the map say what each file holds.
+
+The same session probed the page's main part in a browser for what a screen reader needs (`runs/c504_a11y_probe.mjs`): every control a keyboard reaches has a name, every field a label, no id is used twice, no heading skips a level. One thing is wrong and is left for a ruling: this document, shown in the fold under the map, brings its own title as a second heading of level 1. A fix written that session set the levels from the page, round the site's renderer; the site's rule is that markup reaches a page only through the renderer (tests 177 and 5153), so session 8616 took the fix out. The level of a shown document's headings belongs in the renderer itself, which every page shares. Row 17 of the read.
+
+## Session 8618 (19 November 2026): the hover's words for two point layers
+
+Two point layers, the wind supply curve's sites and the identified hot-water systems, named no fields for the hover in the list of layers, so a hover showed their files' column names as written ("resource: 8.35; capacity ac mw: 282"; "Temp C Li: 85"). The data machine answered data request 553 with a file of its own, `site/data/resources/hover_fields_added.json`: for each of the two layers, the columns to list and the words for each, which are the publisher's own description of the column with its unit (the laboratory's column lookup for the wind sites; USGS's metadata for the hot-water systems). The page reads that file where a layer's own entry names no fields; a layer that names its own keeps them, and nothing else of a layer is touched (`withHoverFields` in `site/lib/resources.ts`). On a day the file is not there the hover is as it was. The file also says what the wind sites' name is, the source's `sc_point_gid`; the page shows the number as before and does not yet say that word, which is no plain noun (for the owner's ruling). Row 10 of the read; held by `tests/test_session8618_resources.py`. The words were tried on the real lists with the data machine's real file, which reaches main with its next landing; they have not yet been seen in a browser.
+
+## Sign-off
+
+Session 8609 (chain 504) added this block; the note had none. A session never signs it. Signing it accepts, as the map's rules:
+- each switch is one publisher's file, drawn as published; nothing is computed across layers, and two layers that are on are never added or blended;
+- the layers are the resource itself; what is built or planned is a separate set of switches;
+- every kind the owner's list names has a switch, and a kind with no layer is greyed and says why (uranium and critical minerals today);
+- a play's, a basin's or a coal field's area is the area of the outline drawn, not the formation's extent and not a measure of what is in the ground;
+- the layers come in two lists read as one, the first winning a name;
+- the hover gives the place (coordinates and the state), the value, its unit, the vintage and the publisher.
+
+It leaves open the rulings the signature pack lists (`docs/reviews/resources-signature-pack-2026-11-19.md`), each with its default taken, and data requests 542 (uranium and critical minerals) and 552.
+
+- Signed off by:
+- Date:
+- Items left open ruled, and how:
+
 <!-- The sections below are written from the manifest by resource_layers.py --method-doc -->
 
 ## Wind speed at 100 m (`wind_speed_100m`)
