@@ -72,6 +72,27 @@ Ten branches, each cut from origin/main with its test, pushed. **None has been s
 | `wip/9601-line-ends-unnamed` | `5416bba3e` | A transmission line's end that HIFLD marks "UNKNOWN<number>" | `tests/test_session9601_line_ends_unnamed.py` (4), with the layers': 11 pass | Not seen in a browser |
 | `wip/9601-method-pages-phone` | `c6263da57` | Six method pages that scroll sideways at 390 px | `tests/test_session9601_method_pages_phone.py` (5), with the four older tests that name the stylesheet: 48 pass | The branch's one rule put on production's six pages in the browser: each 390 px wide (they were 392 to 544), tables unchanged, two pages that fitted unchanged |
 
+### Seen in a build, on the desktop (the second window, session 9203, 19:20 to 19:40 UTC)
+
+The chain passed to the desktop's second window when the portable laptop stood down. The ten branches (the nine above and `wip/9602-faults-page-phone`) were merged one after another onto main at `7d3a0797d` as `wip/w2-c620-fixes` (`28a564722`), with no conflict; built under `scripts/buildlock.py` (68 s, 7.7 GB of memory free); served on port 3620 and read in the internal view at 1280 and 390 px; the server then stopped. **Landing requested as one row:** row 4 of `docs/state/landing_request_window2.md`.
+
+| Fix | What the build shows | State |
+|---|---|---|
+| The back button and the lists | `site/scripts/check-back-button.mjs`: 16 of 16 (production fails 4) | seen fixed |
+| The tour's stale headings | `site/scripts/check-tour.mjs`: 101 of 103 over sixteen stops; the two that fail are the Digest stop's headings (row D4, a ruling) | seen fixed |
+| `/internal/findings` at 390 px | 390 px wide | seen fixed |
+| Six method pages at 390 px | `/data/methods/resources` and `interconnection_queue_summary` 390 px wide (were 544 and 421) | seen fixed |
+| `/data/faults` at 390 px | 390 px wide (was 417) | seen fixed |
+| `/policy` | The heading "Policy", links to its two views, "license needed" where the list would be | seen fixed |
+| The resource set's legend | 1.58 to 6.91 on the set's page; 2.81 no longer on it | seen fixed |
+| Seminole Electric's panel | "It sent out, net, power equal to 592 percent of its demand." at 1280 and 390 px | seen fixed |
+| The map's price over twelve months | ERCOT: "34.86 USD/MWh at HB_HUBAVG, day-ahead, the 365 days to 2026-11-16" at both widths | seen fixed |
+| A line's end HIFLD does not name | "an end HIFLD does not name (its mark UNKNOWN202693) to GREAT FALLS (RAINBOW)"; of six line tips read, none prints a bare UNKNOWN mark as a place | seen fixed |
+
+Tests on the head, with `site/node_modules` installed: the 52 test files that name a changed file, 544 passed, 10 skipped, 2 failed (`test_session7534_problem_sets`, `test_session8901_problem_sets_country`), both failing the same way on main. Script: `runs/c620w2/see_fixes.mjs` (this window's folder, not in git).
+
+Pictures: `docs/reviews/browser-read-2026-11-20/fixes-seen-in-a-build/`: `findings-390.png`, `method-resources-390.png`, `faults-390.png` (each page at a phone's width, nothing past the edge); `policy-1280.png` (the Policy page with its heading and views); `resource-set-1280.png` (the set with the new legend figures); `grid-seminole-facts-1280.png` (Seminole's own facts, the new sentence); `grid-price-twelve-months-ercot-1280.png` (ERCOT's card naming its 365 days); `map-line-unnamed-end-1280.png` (a line's tip with an unnamed end).
+
 ## 1. `/internal/findings`: the findings review page
 
 Read for rows 423 to 428 of `docs/state/browser_reads_wanted.md` (`runs/c620/a2_findings.mjs`). No ruling button was pressed.
