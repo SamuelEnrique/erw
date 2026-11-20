@@ -112,7 +112,13 @@ function Body({ f }: { f: Facts }) {
                 </li>
               ))}
             </ul>
-            <span className="block text-xs">{typeof f.trades.net_import_share_of_demand_pct === "number" ? <>Net imports met {pct(f.trades.net_import_share_of_demand_pct)} percent of its demand.</> : <span className="italic text-muted">No share of demand: {f.trades.why ?? "its demand is not held for the year"}</span>}</span>
+            <span className="block text-xs">{typeof f.trades.net_import_share_of_demand_pct === "number" ? (
+              // session 9601 (chain 620): an authority that sends out more than it takes in read "Net imports met -592
+              // percent of its demand" (Seminole Electric); below zero the sentence now speaks of what it sent out
+              f.trades.net_import_share_of_demand_pct < 0
+                ? <span data-facts-share="exports">It sent out, net, power equal to {pct(-f.trades.net_import_share_of_demand_pct)} percent of its demand.</span>
+                : <span data-facts-share="imports">Net imports met {pct(f.trades.net_import_share_of_demand_pct)} percent of its demand.</span>
+            ) :<span className="italic text-muted">No share of demand: {f.trades.why ?? "its demand is not held for the year"}</span>}</span>
           </>
         ) : <Why b={f.trades} />}
       </Row>
