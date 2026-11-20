@@ -1,0 +1,12 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate peak_vs_5y, region xp5_nyis (the New York ISO (NYIS; FERC 714 planning area 100))
+# Computed 2026-11-19T12:19:50Z by warehouse/analysis/findings/deep/cross_family.py (peak_vs_5y); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's actual peak hour against what the area's filing of 5 years before forecast, percent (percent), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_demand_hourly, ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+xp5_nyis,2019,-10.908877751399515,1.0,1
+xp5_nyis,2020,-8.48034387033223,1.0,1
+xp5_nyis,2021,-6.331606531552003,1.0,1
+xp5_nyis,2022,-5.671171031881006,1.0,1
+xp5_nyis,2023,-4.712933753943216,1.0,1
+xp5_nyis,2024,-8.94528550788366,1.0,1
+xp5_nyis,2025,1.2297426120114308,1.0,1

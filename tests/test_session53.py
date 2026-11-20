@@ -96,9 +96,13 @@ class Links(unittest.TestCase):
         routes = src("site", "scripts", "check-routes.mjs")
         # session 300: the home page links the five groups' first pages (lib/pages.ts) and the board, research, the digest and the roundup
         cards = sorted(set(re.findall(r'href="(/[a-z][^"]*)"', home)))
-        stops = re.findall(r'href: "([^"]+)", title:', tour)
+        # chain 507 (session 8902): the ruled seven, then the new stops whose pages have landed (a held stop, landed:
+        # false, is written before its page exists: tests/test_session8902_tour.py)
+        ruled = tour[tour.index("export const RULED_STOPS"):tour.index("export const NEW_STOPS")]
+        stops = re.findall(r'href: "([^"]+)", title:', ruled)
         self.assertGreaterEqual(len(cards), 4)
         self.assertEqual(len(stops), 7)   # session 292 (ruling 11a): seven stops
+        stops += re.findall(r'href: "([^"]+)", title: "[^"]*", seconds: \d+, landed: true,', tour)
         for h in cards + stops + ["/tour"]:
             self.assertTrue(route_exists(h), h)
             self.assertIn(f'"{h}"', routes, f"{h} is not in check-routes")
@@ -116,7 +120,9 @@ class Links(unittest.TestCase):
     def test_tour_minutes(self):
         tour = src("site", "lib", "tour.ts")
         # session 292: seven stops, their seconds a number each, about five minutes in all
-        secs = [int(m) for m in re.findall(r'seconds: (\d+),', tour)]
+        # chain 507 (session 8902): the ruled seven's minutes (the new stops follow them)
+        ruled = tour[tour.index("export const RULED_STOPS"):tour.index("export const NEW_STOPS")]
+        secs = [int(m) for m in re.findall(r'seconds: (\d+),', ruled)]
         self.assertEqual(len(secs), 7)
         self.assertTrue(240 <= sum(secs) <= 330, sum(secs))
         self.assertNotIn(chr(0x2014), tour + src("docs", "tools.md"))
