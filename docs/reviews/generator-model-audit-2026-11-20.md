@@ -15,6 +15,7 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 - **The battery on this page is called an upper bound and sits 2.1 percent under the battery page's own program on the same prices (finding 5).**
 - **The note's table of defaults is two rulings out of date (finding 8, fixed in words on its branch).**
 - **The peaker starts 403 times a year for free.** Its median run earns about USD 25 per MW, so any real start cost takes a large share of its margin: -14 to -36 percent at USD 25 to 100 per MW a start (finding 9).
+- **Wording fixes move no figure.** Branches 5 and 8 fix the page's and the note's words; branches 3, 4 and 9 add the measured effect to the note. Every other fix moves figures and is the owner's ruling.
 
 ## How every number here was computed
 
