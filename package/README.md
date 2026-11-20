@@ -61,7 +61,18 @@ erw.cite("eia_fuel_spot_prices")
 
 erw.license("eia_fuel_spot_prices")["verdict"]   # 'public'
 erw.standard("eia_fuel_spot_prices")["columns"]  # each column: its type (number, utc time, date, text) and whether it is required
+erw.describe("eia_fuel_spot_prices")             # the codebook: what a row is, keys, time, revisions, source, citation
+erw.variables("eia_fuel_spot_prices")            # one row a column: label, unit, type, values, what a missing cell means
 ```
+
+- **`describe(table)` and `variables(table)`** (chain 630) read the codebook: one file a table in
+  `warehouse/metadata/variables/<table>.yaml`, with the column names many tables share defined once in
+  `_shared.yaml`. `describe` gives the table's row in one sentence, its keys, what its timestamp marks, how a revision
+  is kept, its license and tier, its source, its citation and method note, each column (label, unit, type, the values
+  it takes or the lowest and highest held with the date they were read, what an empty cell means, the publisher's own
+  name for it) and, for a series table, each value of `variable` with its unit, rows and span. `variables` is the
+  columns as a DataFrame. In a clone the files are read directly; an installed package reads its shipped copy
+  (`erw/data/codebook.json`, the public tables, written by `package/tools/build_codebook.py`).
 
 - **`fetch(table, entity=, variable=, start=, end=, backend=)`**: `entity` is an entity (`ercot:HB_NORTH`) or a node as
   the grid operator writes it (`HB_NORTH`); `variable` a series variable, an entity type or an event type; `start`

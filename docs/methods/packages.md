@@ -78,6 +78,10 @@ The table's license: `verdict` (`public`, `internal`, `unsettled`), `status` (`l
 
 The table's shape and its columns: `name`, `type` (below), `required` (`yes`, `reserved`, `partition` or `extra`), in the table's own order, and the key (`entity, variable, ts_utc` for a series, plus `vintage` where the table keeps revisions; `entity_id`; `event_id`), from `docs/datastandard.md`.
 
+### `describe(table)` and `variables(table)` (chain 630, Python)
+
+The codebook's entry for the table, from `warehouse/metadata/variables/<table>.yaml` (in a clone) or the copy the package ships (`erw/data/codebook.json`, the public tables, written by `package/tools/build_codebook.py`): what a row is, its keys, its time and revision rule, license, tier, source, citation and method note, and each column with its label, unit, type, values, missing meaning and the source's own name; a shared column's definition comes from `warehouse/metadata/variables/_shared.yaml`, written once. `variables(table)` is the columns as a DataFrame, one row a column. The Stata and R packages do not have them yet.
+
 ## One line a table (session 1008)
 
 Each table's row on `/data` gives the one line that fetches it in each package, from the table's name:

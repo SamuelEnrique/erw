@@ -11,6 +11,8 @@ IRW's Python package, github.com/itemresponsewarehouse/Python-pkg.
     erw.cite("eia_fuel_spot_prices")
     erw.license("eia_fuel_spot_prices")
     erw.standard("eia_fuel_spot_prices")
+    erw.describe("eia_fuel_spot_prices")           # the codebook: what a row is, each column's label, unit and values
+    erw.variables("eia_fuel_spot_prices")          # one row a column (chain 630)
     df = erw.fetch("iso_dam_hub_prices", market="ercot_dam")
     df.attrs["erw"]["sources"]
     erw.filter(iso="ERCOT", market="rtm")
@@ -31,6 +33,7 @@ from .api import (  # noqa: E402
     ERWBadWindow,
     cite,
     coverage,
+    describe,
     fetch,
     filter,
     get_backend,
@@ -44,6 +47,7 @@ from .api import (  # noqa: E402
     standard,
     tables,
     tier,
+    variables,
     version,
 )
 from .backends import Backend, ERWDataNotFound, ERWLicenseHeld, ERWLicenseWarning, LocalBackend  # noqa: E402
@@ -53,7 +57,7 @@ from .remote import RedivisBackend, SupabaseBackend  # noqa: E402
 # Session 1001 (docs/methods/packages.md): the six calls of the one specification are tables, coverage, fetch, cite,
 # license and standard; requests counts the package's requests to Redivis and the live set.
 __all__ = [
-    "tables", "coverage", "fetch", "cite", "license", "standard", "requests",
+    "tables", "coverage", "fetch", "cite", "license", "standard", "requests", "describe", "variables",
     "info", "list_tables", "filter", "sources", "tier", "version", "migrations",
     "get_backend", "set_backend", "Backend", "LocalBackend", "ERWDataNotFound", "ERWLicenseHeld", "ERWLicenseWarning", "ERWBadWindow",
     "RedivisBackend", "SupabaseBackend", "LiveBackend",
