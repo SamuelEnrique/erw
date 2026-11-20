@@ -25,6 +25,7 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 | 4 | An as-generated PPA is paid on energy the plant no longer makes | none | breakeven PPA 58.36 against 61.50 per MWh | `wip/audit-generator-4` |
 | 5 | The page's battery is "an upper bound", yet earns less than the battery page's program on the same prices | battery: -1.23 (-2.1 percent) at 4 hours | battery: NPV -7.9 per kW | `wip/audit-generator-5` |
 | 6 | The merchant plant sells below zero, where a merchant plant would stop | +0.41 (+0.7 percent) if it stopped | NPV +3.2 per kW | `wip/audit-generator-6` |
+| 7 | Output per MW is over the nameplate of the month's start, so new plants add output and not megawatts | -0.34 (-0.6 percent) at mid-month nameplate | NPV -2.6 per kW | `wip/audit-generator-7` (test with 6) |
 
 ## 1. The NPV holds no tax and no depreciation
 
@@ -75,3 +76,11 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 - **How much.** The page's twelve months: 189 negative hours, all with output; 117.7 MWh per MW sold below zero (4.6 percent of the year's energy) for USD -0.41 per kW. A plant that stops below zero: 60.26 per kW against 59.85 (+0.68 percent). It grows: -0.09 per kW in 2024, -0.31 in 2025, -0.32 in the nine months of 2026 held.
 - **The test.** `tests/test_audit_generator_6.py` on `wip/audit-generator-6`: from the public hourly file, 59.8523, 189 hours, -0.4076, 60.2599.
 - **Not fixed.** A curtailment rule moves the revenue: the owner's ruling. A plant that does take a production credit would sell down to minus the credit, which the page's credit field could set.
+
+## 7. Output per MW over the nameplate of the month's start
+
+- **Where.** `warehouse/derived/merchant_revenue.py` lines 111 to 115 (`capacity`: the nameplate operating on the month's first day) and lines 244 to 249 (output per MW = the fleet's generation over that figure for every hour of the month). The note, section 3.2 ("One figure a month"; "Nothing is trimmed").
+- **Why it is wrong.** A plant that starts during the month adds its output to the numerator and not its megawatts to the denominator, so output per MW runs high while the fleet grows. ERCOT's solar grew from 28,045 to 32,760 MW over the page's twelve months; 184 of their hours sit above the nameplate (up to 1.075 MWh per MW).
+- **How much.** With the month's mid-point nameplate (the mean of this month's start and the next month's): USD 59.51 per kW against 59.85 (-0.34, -0.6 percent). The capture price is not affected (it weighs by generation).
+- **The test.** `tests/test_audit_generator_6.py` (the second test) on `wip/audit-generator-7`: 59.5086 at the mid-point nameplate, 184 hours above the nameplate, 28,045 to 32,760 MW.
+- **Not fixed.** Which nameplate a month takes is the owner's ruling; the effect is small and states itself in the over-nameplate hours the page already counts.
