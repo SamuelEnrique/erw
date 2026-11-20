@@ -26,6 +26,7 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 | 5 | The page's battery is "an upper bound", yet earns less than the battery page's program on the same prices | battery: -1.23 (-2.1 percent) at 4 hours | battery: NPV -7.9 per kW | `wip/audit-generator-5` |
 | 6 | The merchant plant sells below zero, where a merchant plant would stop | +0.41 (+0.7 percent) if it stopped | NPV +3.2 per kW | `wip/audit-generator-6` |
 | 7 | Output per MW is over the nameplate of the month's start, so new plants add output and not megawatts | -0.34 (-0.6 percent) at mid-month nameplate | NPV -2.6 per kW | `wip/audit-generator-7` (test with 6) |
+| 8 | The note's table of defaults says hurdle 9.6 and solar degradation 0; the page uses 12 and 0.7 | none | none (words) | `wip/audit-generator-8` (fix in words) |
 
 ## 1. The NPV holds no tax and no depreciation
 
@@ -84,3 +85,10 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 - **How much.** With the month's mid-point nameplate (the mean of this month's start and the next month's): USD 59.51 per kW against 59.85 (-0.34, -0.6 percent). The capture price is not affected (it weighs by generation).
 - **The test.** `tests/test_audit_generator_6.py` (the second test) on `wip/audit-generator-7`: 59.5086 at the mid-point nameplate, 184 hours above the nameplate, 28,045 to 32,760 MW.
 - **Not fixed.** Which nameplate a month takes is the owner's ruling; the effect is small and states itself in the over-nameplate hours the page already counts.
+
+## 8. The note's table of defaults is out of date
+
+- **Where.** `docs/methods/generator_earns_algorithm.md`, section 11.1 lines 495 and 497: degradation "0; a battery 2.6", hurdle rate 9.6. The code: `site/lib/seller/finance.ts` line 76 (`HURDLE = 12`, session 208) and line 85 (`SOLAR_DEG = 0.7`, ruling 7a of 18 October 2026), used by `site/app/cost-of-power/seller/model.ts` line 148. The note's opening paragraph says 12 and section 7 says 0.7; the table, which a reader takes as the defaults, says neither.
+- **How much.** No figure on the page; the note's worked NPV of section 11.4 (USD -78.43 million) is the 9.6 percent figure of sessions 196 to 207. At the page's defaults the NPV is USD -76.66 million (-766.62 per kW, finding 1's mirror).
+- **The test.** `tests/test_audit_generator_8.py` on `wip/audit-generator-8`: the note's two rows against the two constants. Fails on main, passes on the branch.
+- **The fix on the branch.** The two rows in words, with the rulings that set them.
