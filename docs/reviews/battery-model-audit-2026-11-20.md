@@ -42,7 +42,9 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 | 5 | The "Breakeven toll" (USD 4.19 per kW-month) only covers debt 1.25 times; equity breaks even at 13.62 | the toll figure: 4.19 against 13.62 | at the 4.19 toll: -845.78 | `wip/audit-battery-5` (fix in words) |
 | 7 | The size runs to 5,000 MW and scales linearly; past about 500 MW the battery is paid for reserves ERCOT never buys | none at 100 MW; -27.0 percent of revenue at 5,000 MW (September 2026) | none at 100 MW | `wip/audit-battery-7` |
 
-- Ranked by how far the default case's NPV moves, per kW (the smaller end of a range). Finding 6 is findings 2 and 3 together. Finding 5 moves a printed figure, not NPV. Finding 7 moves nothing at the default 100 MW.
+| 11 | The public file, the replication and the note's section 11.2 prove October 2025 to September 2026; the table has moved to November to October | the default's headline in the table: 80.34, not 81.40 | | `wip/audit-battery-11` |
+
+- Ranked by how far the default case's NPV moves, per kW (the smaller end of a range). Finding 11 is about what the replication proves, not about the model, and comes last. Finding 6 is findings 2 and 3 together. Finding 5 moves a printed figure, not NPV. Finding 7 moves nothing at the default 100 MW.
 
 ## 1. Regulation is never called
 
@@ -143,6 +145,28 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 - **The test.** `tests/test_audit_battery_10.py` on `wip/audit-battery-10`: on a day that fills and empties the battery, `solve_day` delivers exactly `D x sqrt(0.86)` at 2, 4 and 8 hours, and no day of the public file delivers more than 3.7094 MWh per MW (passes on main). The words test fails on main and passes on the branch.
 - **The fix on the branch.** Words only, no figure moves: the hover and the link titles say what is stored and what is delivered (3.71 MWh per MW at 4 hours, 1.85 at 2, 7.42 at 8), and the note's section 3.4 says what `D` is. Changing the model to the page's words would move every figure: the owner's ruling.
 
+## 11. The replication proves a window the page has left
+
+- **Where.** `replication/battery/page_figures.json` (its window: last twelve months October 2025 to September 2026) and `replicate.py` (it reads only the public file and that JSON); `site/public/battery/erw_2026_battery_dispatch.csv` (months 2023-10 to 2026-09). The note, section 7.1 ("On 6 November 2026: 22 of 22") and section 11.2 (the figures of 14 October, "when October 2026 is complete every one moves, and the script, this table and the pack change together").
+- **Why it is wrong.** October 2026 is now whole in the table, so the page's last twelve months are November 2025 to October 2026. `replicate.py` compares the public file with the figures written for it, so it passes whatever the table says: it proves the arithmetic of a page that is no longer shown.
+- **How much.** The table on the data machine (built 14 November) gives the default case USD 80.34 per kW over November 2025 to October 2026, against the replication's 81.40 (-1.06, -1.3 percent). Re-solved on today's prices, 80.40: the table's October holds one day fewer than the prices now do (CAISO's likewise, 30 days against 31).
+- **The test.** `tests/test_audit_battery_11.py` on `wip/audit-battery-11`: `replicate.py` exits 0 on its own window (passes anywhere); on a machine with the table, the page's own rule applied to the table must give the replication's window. Run against the main checkout's table (read only) it fails: 2025-11 to 2026-10 against 2025-10 to 2026-09.
+- **Not fixed.** Writing the public file and the page figures again is the data machine's (`warehouse/derived/battery_dispatch_export.py`, then the replication's JSON), outside this window's rules. Findings 1 to 10 hold on the new window (next section).
+
+## The same checks on the other open cases
+
+On the table's current last twelve months (November 2025 to October 2026), 4 hours, prices read from the main checkout through the model's own readers, the model re-solved to the table before any rule moved (the one month that differs, October 2026, by the day the table lacks, is taken as re-solved):
+
+| Case | The table's twelve months, USD per kW | Carried across midnight (finding 2) | Regulation called at 17 percent (finding 1) |
+|---|---|---|---|
+| ERCOT, perfect foresight (the default) | 80.40 re-solved (table 80.34) | +5.58 (+6.9 percent) | -6.39 (-7.9 percent) |
+| ERCOT, day-ahead schedule | 72.59 | +4.57 (+6.3 percent) | -6.41 (-8.8 percent) |
+| CAISO, perfect foresight | 80.12 re-solved (table 79.80) | +6.06 (+7.6 percent) | -10.27 (-12.8 percent) |
+| CAISO, day-ahead schedule | 65.96 | +4.46 (+6.8 percent) | -8.57 (-13.0 percent) |
+
+- Both findings hold on every open case, in the same direction and about the same size; CAISO leans harder on regulation, so calling it costs more.
+- CAISO's column applies ERCOT's measured 17 percent: no CAISO deployment is held, so it is a sensitivity, not a measure.
+
 ## What was checked and found right
 
 - **The objective.** `solve_day` line 267: the cost of charging less the revenue of discharging and of each award. Energy at `p x (d - c)` (USD per MWh times MWh in an hour), each award at its price (USD per MW for the hour times MW). Right.
@@ -163,8 +187,8 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 
 ## Not covered, or left open
 
-- **CAISO.** The same code; not recomputed here. Its regulation mileage payments are left out (an understatement), and its 25-hour days are left out because the hub history lacks them.
-- **The day-ahead schedule.** Findings 1, 2 and 7 apply to it as well; finding 3 does not. Not recomputed.
+- **CAISO.** Findings 1 and 2 recomputed (the section above); the others not. Its regulation mileage payments are left out (an understatement), and its 25-hour days are left out because the hub history lacks them.
+- **The day-ahead schedule.** Findings 1 and 2 recomputed for ERCOT and CAISO (above); finding 3 does not apply; finding 7 applies and was not recomputed.
 - **Real-time reserve prices** since ERCOT's real-time co-optimization (5 December 2025): a foreseeing battery could also sell reserves in real time. Not modelled, not quantified: the reserve table holds day-ahead prices.
 - **The stress repeats** add the peak event's whole window revenue on top of a normal year, so the window's ordinary days count twice: about USD 4 per kW of Uri's 3,105.51 (0.1 percent). Negligible.
 
