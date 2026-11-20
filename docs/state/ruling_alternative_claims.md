@@ -4,4 +4,43 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 
 | Tool | Machine | Session | State | File |
 |---|---|---|---|---|
-| /cost-of-power/battery | portable-laptop | 7620 | claimed | docs/reviews/ruling-alternatives-battery-2026-11-17.md |
+| /cost-of-power/battery | portable-laptop | 7620 | done | docs/reviews/ruling-alternatives-battery-2026-11-17.md |
+| /cost-of-power/seller | portable-laptop | 7621 | done | docs/reviews/ruling-alternatives-seller-2026-11-17.md |
+| /cost-of-power | portable-laptop | 7622 | done | docs/reviews/ruling-alternatives-cost-of-power-2026-11-17.md |
+| Across the five signed tools | portable-laptop | 7623 | done | docs/reviews/ruling-alternatives-five-signed-2026-11-17.md |
+| /attention | portable-laptop | 7624 | done | docs/reviews/ruling-alternatives-attention-2026-11-17.md |
+| /companies | portable-laptop | 7625 | done | docs/reviews/ruling-alternatives-companies-2026-11-17.md |
+| /policy | portable-laptop | 7626 | done | docs/reviews/ruling-alternatives-policy-2026-11-17.md |
+| /deals | portable-laptop | 7627 | done | docs/reviews/ruling-alternatives-deals-2026-11-17.md |
+| /datacenters | portable-laptop | 7628 | done | docs/reviews/ruling-alternatives-datacenters-2026-11-17.md |
+| /research | portable-laptop | 7629 | done | docs/reviews/ruling-alternatives-research-2026-11-17.md |
+| /queues | portable-laptop | 7630 | done | docs/reviews/ruling-alternatives-queues-2026-11-17.md |
+| /curtailment | portable-laptop | 7631 | done | docs/reviews/ruling-alternatives-curtailment-2026-11-17.md |
+| /contracts | samueloldlaptop | 7700 | done | docs/reviews/ruling-alternatives-contracts-2026-11-17.md |
+| /severance | samueloldlaptop | 7702, finished by 7900 | done | docs/reviews/ruling-alternatives-severance-2026-11-17.md |
+| /shoulder | samueloldlaptop | 7703 | done | docs/reviews/ruling-alternatives-shoulder-2026-11-17.md |
+| /battery/customer | samueloldlaptop | 7704 | done | docs/reviews/ruling-alternatives-battery-customer-2026-11-17.md |
+| /cost-of-power/battery/awards | samueloldlaptop | 7705 | done | docs/reviews/ruling-alternatives-battery-awards-2026-11-17.md |
+| /impact | samueloldlaptop | 7706 | done | docs/reviews/ruling-alternatives-impact-2026-11-17.md |
+| Site-wide: Ask (the chat) | samueloldlaptop | 7707 | done | docs/reviews/ruling-alternatives-site-ask-2026-11-17.md |
+| /explore/ercot-peak-premium | samueloldlaptop | 7708 | done | docs/reviews/ruling-alternatives-ercot-peak-premium-2026-11-17.md |
+| /explore/demand-growth | samueloldlaptop | 7709 | done | docs/reviews/ruling-alternatives-demand-growth-2026-11-17.md |
+| /explore/interconnection | samueloldlaptop | 7710 | done | docs/reviews/ruling-alternatives-interconnection-2026-11-17.md |
+| Site-wide: the Digest and the Roundup | samueloldlaptop | 7711 | done | docs/reviews/ruling-alternatives-site-digest-2026-11-17.md |
+| /events | samueloldlaptop | 7712 | done | docs/reviews/ruling-alternatives-events-2026-11-17.md |
+| Site-wide: the data machine and its tables | samueloldlaptop | 7713 | done | docs/reviews/ruling-alternatives-site-data-machine-2026-11-17.md |
+| /grid/caiso/alerts | samueloldlaptop | 7714 | done | docs/reviews/ruling-alternatives-caiso-alerts-2026-11-17.md |
+| /learn/bill | samueloldlaptop | 7715, finished by 7900 | done | docs/reviews/ruling-alternatives-bill-2026-11-17.md |
+| Site-wide: the warehouse's sources and publishers' terms | samueloldlaptop | 7716 | done | docs/reviews/ruling-alternatives-site-sources-2026-11-17.md |
+| /learn/problems | samueloldlaptop | 7717 | done | docs/reviews/ruling-alternatives-problem-sets-2026-11-17.md |
+| /play/battery | samueloldlaptop | 7718 | done | docs/reviews/ruling-alternatives-play-battery-2026-11-17.md |
+| Site-wide: licenses and holds | samueloldlaptop | 7719 | done | docs/reviews/ruling-alternatives-site-licenses-2026-11-17.md |
+| /play/ev | samueloldlaptop | 7720 | done | docs/reviews/ruling-alternatives-ev-game-2026-11-17.md |
+| /map | samueloldlaptop | 7721 | done | docs/reviews/ruling-alternatives-map-2026-11-17.md |
+| /board | samueloldlaptop | 7722 | done | docs/reviews/ruling-alternatives-board-2026-11-17.md |
+| /prices | samueloldlaptop | 7723 | done | docs/reviews/ruling-alternatives-prices-2026-11-17.md |
+| /prices/compare | samueloldlaptop | 7724 | done | docs/reviews/ruling-alternatives-compare-2026-11-17.md |
+| /grid | samueloldlaptop | 7725 | done | docs/reviews/ruling-alternatives-grid-2026-11-17.md |
+| /supply | samueloldlaptop | 7726 | done | docs/reviews/ruling-alternatives-supply-2026-11-17.md |
+| /storage | samueloldlaptop | 7727 | done | docs/reviews/ruling-alternatives-storage-2026-11-17.md |
+| /demand | samueloldlaptop | 7728 | done | docs/reviews/ruling-alternatives-demand-2026-11-17.md |

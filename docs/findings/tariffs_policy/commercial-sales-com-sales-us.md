@@ -2,7 +2,7 @@
 
 Draft `scan-deep-2f409a77aca6` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** Retail electricity sales to the commercial sector in the United States was 1,503.3 TWh in 2025, against 1,083.1 TWh in 2001, the first full year the ERW holds.
+**The finding.** Retail electricity sales to the commercial sector in the United States were 1,503.3 TWh in 2025, against 1,083.1 TWh in 2001, the first full year the ERW holds.
 
 ![What businesses buy, the United States](commercial-sales-com-sales-us.png)
 

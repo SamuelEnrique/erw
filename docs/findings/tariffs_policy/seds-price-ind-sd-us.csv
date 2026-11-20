@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate seds_price_ind, region sd_us (the United States)
+# Computed 2026-11-19T12:30:31Z by warehouse/analysis/findings/deep/tariffs_policy.py (seds_price_ind); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the state's average electricity price to its industrial sector (USD per MWh), the observations it rests on, and whether the year is full
+# Tables: eia_seds_state_energy
+region,year,value,n_observations,full_year
+sd_us,1990,47.495039999999996,1.0,1
+sd_us,1991,48.38216,1.0,1
+sd_us,1992,48.38216,1.0,1
+sd_us,1993,48.51864,1.0,1
+sd_us,1994,47.768,1.0,1
+sd_us,1995,46.676159999999996,1.0,1
+sd_us,1996,46.027879999999996,1.0,1
+sd_us,1997,45.345479999999995,1.0,1
+sd_us,1998,44.79956,1.0,1
+sd_us,1999,44.28776,1.0,1
+sd_us,2000,46.4032,1.0,1
+sd_us,2001,50.429359999999996,1.0,1
+sd_us,2002,48.7916,1.0,1
+sd_us,2003,51.07764,1.0,1
+sd_us,2004,52.47656,1.0,1
+sd_us,2005,57.21923999999999,1.0,1
+sd_us,2006,61.48423999999999,1.0,1
+sd_us,2007,63.83852,1.0,1
+sd_us,2008,69.40008,1.0,1
+sd_us,2009,68.4106,1.0,1
+sd_us,2010,67.86467999999999,1.0,1
+sd_us,2011,68.30824,1.0,1
+sd_us,2012,66.8752,1.0,1
+sd_us,2013,69.12712,1.0,1
+sd_us,2014,71.17432,1.0,1
+sd_us,2015,69.36595999999999,1.0,1
+sd_us,2016,67.93292,1.0,1
+sd_us,2017,69.02476,1.0,1
+sd_us,2018,69.4342,1.0,1
+sd_us,2019,68.37647999999999,1.0,1
+sd_us,2020,66.94344,1.0,1
+sd_us,2021,71.8226,1.0,1
+sd_us,2022,83.28692,1.0,1
+sd_us,2023,80.65968,1.0,1
+sd_us,2024,81.54679999999999,1.0,1
