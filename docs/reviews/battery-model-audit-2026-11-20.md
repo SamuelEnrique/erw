@@ -24,6 +24,7 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 |---|---|---|---|---|
 | 1 | Regulation is never called; ERCOT's storage shows 17 percent of an award moving each hour | -6.44 (-7.9 percent) | -41.4 | `wip/audit-battery-1` |
 | 2 | Each day starts empty: the reset costs USD 5.23 per kW, four times the note's bound of 1.29 | +5.23 (+6.4 percent) | +33.6 | `wip/audit-battery-2` |
+| 3 | Energy is paid the hourly mean; ERCOT settles real-time energy every 15 minutes | +2.23 (+2.7 percent) | +14.4 | `wip/audit-battery-3` |
 
 ## 1. Regulation is never called
 
@@ -43,3 +44,12 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 - **How much.** The model's program with the state of charge carried across midnight within each calendar month, every other rule unchanged (one cycle per local day, 86 percent, hourly, the day's required durations): USD 86.63 per kW against 81.40, +5.23 (+6.4 percent). Carried over the month's end as well, it would be a little more.
 - **The test.** `tests/test_audit_battery_2.py` on `wip/audit-battery-2`, with `tests/audit_battery_lp.py` (the restated program). It shows the restatement equals `solve_day` on all 365 days, gives the page's 81.4022, then finds the carried figure more than four times the note's bound above it.
 - **Not fixed.** A carried state of charge is a model change that moves every figure: the owner's ruling. The note's section 5 sentence is wrong as written whatever the ruling, and can be corrected in words.
+
+## 3. Energy is paid the hourly mean of a price ERCOT settles every 15 minutes
+
+- **Where.** `warehouse/derived/cost_of_power.py` lines 72 to 80 (`hourly`: the four quarter prices of an hour become their mean), used by `warehouse/derived/battery_stack.py` lines 358 and 360. The note, section 3.1 line 48, section 4.11 line 213, section 6 line 247 ("Resolution: hourly, as ancillary prices are hourly"). Decision 3 ("paid the hourly mean of the real-time price").
+- **Why it is wrong for an upper bound.** ERCOT settles real-time energy on 15-minute settlement point prices. A battery under perfect foresight can charge in a cheap quarter and discharge in a dear one inside the same hour; the mean hides that spread. Reserves are bought by the hour, so they can stay hourly; energy need not.
+- **What the note says.** Section 4.11 admits it in words ("can earn more from energy than this shows"), yet decision 3 still calls each figure an upper bound.
+- **How much.** The same program with the four quarter prices of each hour, reserves hourly, every other rule the model's (the midnight reset included): USD 83.64 per kW, +2.23 (+2.7 percent). Energy rises from 54.60 to 57.57 (+5.5 percent); reserves give a little back.
+- **The test.** `tests/test_audit_battery_3.py` on `wip/audit-battery-3`. A day whose hours all have the same mean but whose quarters move: `solve_day` earns nothing from energy, the quarter-priced program earns from the spread. On a machine with ERCOT's 15-minute tables it also recomputes the last twelve months (the quarters' means checked equal to the public file in every hour).
+- **Not fixed.** A 15-minute energy program moves every figure: the owner's ruling. The day-ahead schedule is hourly by ERCOT's own design and is not affected.
