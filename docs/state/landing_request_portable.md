@@ -347,3 +347,5 @@ Written by session 3059 of `queue/done/166-night-6-november-portable-window2-pol
 - `check-resources.mjs` has checks that depend on timing (the mouse wheel's level, Alaska's own files): on this laptop one or two of them fail now and then on main's build and on this one alike; a second run passes them.
 - Land it with `scripts/land_check.py --ref wip/8603-resources --task 8603-resources --port 8603`. No warehouse table, no connector, no builder, no layer file; `site/lib/release.ts` untouched; no hold touched; every page stays in review. The snapshot of the live pages should show no difference (no page is live).
 <!-- end of row 43, chain 504 -->
+
+<!-- A note of 20 November 2026, 19:40 UTC, from the desktop's second window (chain 620 taken over, session 9203); no row above is changed: rows 44 to 53 (the ten fix branches of chain 620) were merged together onto main as `wip/w2-c620-fixes` (`28a564722`), built and seen in that build, and their landing is requested as ONE row, row 4 of `docs/state/landing_request_window2.md`. Land that row, not these ten one by one. -->
