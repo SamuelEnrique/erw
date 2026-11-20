@@ -369,3 +369,22 @@ Read with `runs/c620/d_first_minute.mjs`, `d_menu_phone.mjs`, `d_ways_in.mjs`, `
 
 Pictures: `docs/reviews/browser-read-2026-11-20/first-minute/a-stranger-at-the-home-page-1280.png`; `the-home-page-internal-view-1280.png`; `the-menu-open-390.png` (the last group open under a finger).
 
+## Part E: the pages built before 17 November, at 390 px with a finger
+
+A first pass, the five tools Samuel calls sellable first (`runs/c620/e_phone.mjs`, 12:32 to 12:54 UTC). For each page at 390 px: the time to load; sideways scroll, "undefined", "NaN", "null", an empty chart, an error; every "i" mark that is on the screen tapped (its box inside the screen); every switch tapped; every list changed; every chart tapped at four places; after each step the page's width and its errors. The figures in the page's text at 390 px were set beside the same page at 1280 px.
+
+| Page | Load | "i" marks on the screen | Switches | Lists | Charts under a finger | Width after every step |
+|---|---:|---|---|---|---|---|
+| `/cost-of-power/battery` (what a battery earns) | 0.3 s | 6 of 6 open inside the screen (3 more are in closed folds) | 30 tapped, no error | 7 changed, each changes the page | a card at 4 of 4 places | 390 px |
+| `/cost-of-power/seller` (what a generator earns) | 0.4 s | 2 of 2 | 15 tapped | 6 changed | 2 charts, 4 of 4 each | 390 px |
+| `/cost-of-power` (what a datacenter pays) | 2.4 s | none drawn as marks | 17 tapped | 5 changed | 4 of 4 | 390 px |
+| `/research` (Automated Analysis) | 0.2 s | none | 30 of 221 tapped | 6 changed | 10 charts, 4 of 4 each | 390 px |
+| `/grid` (the Grid tool, the Lower 48) | 1.1 s | none | 6 tapped | 2 changed | 3 charts, 4 of 4 each | 390 px |
+
+- **Then 22 more pages of the menu, the same pass:** `/board`, `/prices`, `/prices/compare`, `/supply`, `/contracts`, `/severance`, `/impact`, `/battery/customer`, `/shoulder`, `/demand`, `/curtailment`, `/storage`, `/datacenters`, `/deals`, `/companies`, `/deals/capital`, `/events`, `/thesis`, `/play/battery`, `/learn/bill`, `/data`, `/about`. On none does the page scroll sideways at any step, show "undefined", draw an empty chart or raise an error; every "i" mark on the screen opens its box under a finger from a fresh page (checked one by one on `/impact`, 29 marks, and `/cost-of-power/battery`).
+- **The figures at 390 px are the figures at 1280 px** on `/cost-of-power/seller` (501 figures in the text) and `/cost-of-power` (497), in the same order. On the battery page, `/research` and `/grid` the text differs only by a chart's own axis labels, which a narrower chart draws fewer of.
+- **Not done in this pass:** the five cases for each of these pages and their figures against the tables. The five tools' figures were replicated for their done line on 14 November (`docs/reviews/five-tools-signature-pack-2026-11-14.md`) and are not replicated again here.
+- **Found in part D and belonging here:** the menu's Policy page (row D1) and six method pages at 390 px (item 4, row 1), both mended on branches.
+
+Pictures at 390 px: `docs/reviews/browser-read-2026-11-20/phone/cost-of-power_battery-390.png`, `cost-of-power_seller-390.png`, `cost-of-power-390.png`, `research-390.png`, `grid-390.png`.
+
