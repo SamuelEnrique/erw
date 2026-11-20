@@ -387,6 +387,29 @@ The old laptop's page (chain 503), read in full on production on 20 November bet
 
 Pictures: `docs/reviews/browser-read-2026-11-20/demand-country/as-it-opens-1280.png` (Tennessee beside the Carolinas, the page as it opens); `year-by-year-1280.png` (the year rows and the record hours); `where-the-growth-is-1280.png` (the month-by-hour grids, the Carolinas' blank August); `ercot-beside-texas-1280.png` (after the choice ERCOT beside the Texas region).
 
+## 19. `/supply#whole-country`: net imports, who trades with whom, the mix by region (read in full by the desktop's second window)
+
+The old laptop's section (chain 503), read on production on 20 November between 20:35 and 21:05 UTC by the desktop's second window (session 9203). Scripts: `runs/c620w2/dump.mjs`, `runs/c620w2/cmp_supply.py` (from `site/data/regions/trade/<region>.json`, `trade_matrix.json` and `mix/<region>.json`, without the page's code), `runs/c620w2/hand.mjs`. The old laptop's last fixes to this page (session 8490: a pair's mean and percent hovers, the months a year holds, a figure that rounds to zero read 0.0, a mix year with no month held) are still not on main.
+
+**Five cases.**
+1. *A TVA trader.* Whom does Tennessee lean on, month by month? Tennessee beside the Midwest: in January 2025 Tennessee took in 999.2 GWh net, 2,163.2 GWh of it from the Midwest, while sending power to the Southeast and the Carolinas. Answered.
+2. *A regulator.* Do the two ends of a line agree? The year's table by neighbour: Tennessee's own report against each neighbour's, the gap over the hours both reported, its percent. Answered; the hover says why the gap need not be the two columns' difference (each column runs over its own side's hours).
+3. *A California analyst.* Who sends California its power? "Who trades with whom, 2025": the Northwest sent 14,800.6 GWh by its own report (14,598.6 by California's), the Southwest 24,249.7 (25,970.3), a gap of 8.3 percent, marked large. Answered.
+4. *A balancing authority's planner.* Its partners in order: 62 authorities, by gross and by net exchange (AECI: MISO, SWPP, SPA, TVA, SIKE by gross). Answered.
+5. *A student.* What does Tennessee run on? The mix by month: January 2025, gas 39.6, nuclear 30.9, coal 18.8, hydro 9.6 percent of 16,294.6 GWh, 31 days of 31 held; storage "not held yet". Answered.
+
+**Figures.** As it opens and with two pairs chosen (Tennessee beside the Midwest; the Northwest beside California): every month of each region's net imports, in all and by neighbour; the year's table by neighbour (own report, the neighbour's, the gap and its percent, months held); the months of 2025; all 25 pairs of regions and 157 pairs of authorities (each side's report, the mean, the gap); the partners of 62 authorities; each month's share by source and the months of 2025 with net generation and days held. **11,119 figures, none differs from its file.** One row the comparer could not place, "PNM and SWPP, no net flow", is the file's own pair with a direction of "none" and both reports 0 for 2025.
+
+**What answers to the hand.** The keyboard alone at 1280 px: 236 stops from the top to the foot, each in sight with a focus mark. A finger at 390 px on the 14 charts, four places each: a card on every one; the page stays 390 px wide. A link carrying two regions opened fresh reads them in its lists; the back button after two choices gives the first choice with lists true. No error.
+
+**Quiet faults.** None. 1.0 to 2.7 s to load at 1280 px (2.7 s the first time, a page not yet in the server's cache).
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| 1 | "Who trades with whom, 2025", the pair PNM and SWPP | Both reports 0.0; the gap's percent reads "not held yet" | A percent of two reports that are both zero can never be held; "not held" with its hover (which says a percent needs two reports not both zero) would not promise a later figure. A choice of words | ruling |
+
+Pictures: `docs/reviews/browser-read-2026-11-20/supply-country/as-it-opens-1280.png` (the page as it opens); `the-whole-country-1280.png` (the section, Tennessee and its neighbours); `who-trades-with-whom-1280.png` (the pairs of regions for 2025); `tennessee-beside-midwest-1280.png` (after choosing Tennessee beside the Midwest).
+
 ## Part C: the same number in two places
 
 Each pair read on production on 20 November between 11:40 and 11:50 UTC (`runs/c620/survey.mjs` into `runs/c620/c1/`, and the page files).
