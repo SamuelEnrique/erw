@@ -11,13 +11,16 @@ let n = 0, failed = 0;
 const ok = (c, what) => { n++; if (c) console.log(`ok   ${what}`); else { failed++; console.log(`FAIL ${what}`); } };
 const count = (h, re) => (h.match(re) ?? []).length;
 
-const two = await drawSupply("a=pjm&b=miso");
+// session 8905 (chain 590): main has since added "The whole country" (session 8430, components/supply/Country.tsx),
+// whose tables have frames of their own and tests of their own; the counts below are of the page's other tables
+const outsideCountry = (h) => h.replace(/<section data-whole-country="supply"[\s\S]*?<\/section>/, "");
+const two = outsideCountry(await drawSupply("a=pjm&b=miso"));
 const box = (/<div id="ab"[^>]*data-burn-ab="pjm\|miso">([\s\S]*?)<\/table>/.exec(two) ?? ["", ""])[1];
 ok(box !== "" && count(box, /data-burn-ab-row=/g) === 2, "with two grids chosen the box draws its table, a row for gas and a row for coal");
 ok(/<\/form><div class="overflow-x-auto"><table\b/.test(box), "browser row 366: the box's table stands inside a frame that scrolls sideways");
 ok(count(two, /<table\b/g) === 10 && count(two, /overflow-x-auto"><table\b/g) === count(two, /<table\b/g), `browser row 366: no table of the page stands outside a scrolling frame (${count(two, /overflow-x-auto"><table\b/g)} of ${count(two, /<table\b/g)})`);
 
-const none = await drawSupply("");
+const none = outsideCountry(await drawSupply(""));
 ok(/data-burn-ab="none"/.test(none) && count(none, /<table\b/g) === 9 && count(none, /overflow-x-auto"><table\b/g) === 9, "with no grid chosen the box draws no table, and the page's nine tables keep their frames");
 // the form's two lists and its button wrap (flex-wrap), so the box is no wider than the screen without its table
 ok(/<form class="mb-2 flex flex-wrap items-end gap-2"/.test(none), "the box's form wraps its lists and its button");
