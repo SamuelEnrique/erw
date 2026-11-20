@@ -1,6 +1,6 @@
 # Session 9871: the five least-tested pages read as a reader (chain 610, part E)
 
-Energy Research Warehouse (ERW). 20 November 2026, 20:44 to 20:58 UTC. The desktop's third window.
+Energy Research Warehouse (ERW). 20 November 2026, 20:41 to 20:50 UTC. The desktop's third window.
 
 ## What was done
 
@@ -10,7 +10,7 @@ Energy Research Warehouse (ERW). 20 November 2026, 20:44 to 20:58 UTC. The deskt
 
 ## Noted, not changed
 
-- The drawing prints React's warning that a list's children lack a unique key on one of the five pages; a reader sees nothing of it. Left for a session that builds.
+- The drawing prints React's warning that a list's children lack a unique key. It comes from the drawing, not the pages: the resolver of async components (`scripts/events-pages.mjs` `resolveAsync`) hands a tag's separate children back as one list, and React asks keys of a list. Nothing for a page to change.
 
 ## Needs the key
 
