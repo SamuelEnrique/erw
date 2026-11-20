@@ -4,7 +4,7 @@ Energy Research Warehouse (ERW). Sessions 9600 and 9601, from 10:26 UTC. Written
 
 ## Read these first: the five worst things found
 
-1. **The live set was not loaded from 16 November until about 16:00 UTC on 20 November** (it now holds demand to 19 November 23:00 UTC; the Grid map's hover still shows none for its newest 53 hours until its hourly file is refreshed). As read through the night: Demand and generation end on 15 November 23:00 UTC, carbon intensity on 12 November. On the Grid tool every authority reads "Demand: not held for this hour" for the 53 newest hours, ERCOT's page heads its demand "Nov 15, 5:00 PM CST", the map's carbon color is 12 November's, and the board's day-ahead prices are four days old. Data request 565 (it is request 543 again, a day after 543 was marked fixed).
+1. **The live set was not loaded from 16 November until about 16:00 UTC on 20 November** (it now holds demand to 19 November 23:00 UTC and the Grid tool shows it again; the load left 16 November out, data request 569). As read through the night: Demand and generation end on 15 November 23:00 UTC, carbon intensity on 12 November. On the Grid tool every authority reads "Demand: not held for this hour" for the 53 newest hours, ERCOT's page heads its demand "Nov 15, 5:00 PM CST", the map's carbon color is 12 November's, and the board's day-ahead prices are four days old. Data request 565 (it is request 543 again, a day after 543 was marked fixed).
 2. **Three of the old laptop's branches read "landed" and their last fixes are not on production.** Sessions 8470, 8480 and 8490 (15 commits to the events, demand and supply pages). The landing rows took newer heads after the desk had landed the older ones, and the state stayed "landed". A note stands at the foot of `docs/state/landing_request_oldlaptop.md`.
 3. **After the browser's back button a list keeps the later choice** while the page and its address go back: the table says PacifiCorp, the list says Duke. On every page that draws the site's shared list (13 page files). Mended on a branch.
 4. **The menu's "Policy" opens a page that is the two words "license needed".** No heading, no way to the two views that do draw. Mended on a branch (nothing held is drawn).
@@ -26,7 +26,7 @@ Energy Research Warehouse (ERW). Sessions 9600 and 9601, from 10:26 UTC. Written
 - **On `/conditions` (filed, request 568; fixed by the data machine at 16:32 UTC and seen fixed on production):** as the page opened, two charts were drawn with axes and nothing on them (ERCOT's reserve adder ended in December 2025). A second point of mine was wrong and is withdrawn: the chart's table pages 500 rows at a time.
 - **`/data/faults` at 390 px** (417 px wide) is the tenth fix, on `wip/9602-faults-page-phone`.
 - **Fixed, each on its own branch with a test (the first 9):** the back button and the lists; the findings page at 390 px (470 px wide); the resource problem set's legend (it gave 2.81 to 6.50, the map shows 1.6 to 6.9); "Net imports met -592 percent of its demand" in the Grid tool's panel (26 of 58 authorities); the tour's stale headings (stops 1, 4, 11 and 12); the Policy page; the Grid map's "twelve months" (34.86 on the map, 34.59 on `/prices/compare`: different windows, now said); a transmission line's end printed as "UNKNOWN201257" (a third of the lines); six method pages that scroll sideways on a phone.
-- **Filed for the data machine (5):** 562 (an entry of Arizona Public Service in North Carolina on `/queues/places`), 563 (Texas's law; answered at 13:43 UTC: the page now says S.B. 6 was found and is withheld), 565 (the live set), 567 (the dated edition of the resource set), 568 (`/conditions`).
+- **Filed for the data machine (6, with 569: no hour of 16 November in the live set):** 562 (an entry of Arizona Public Service in North Carolina on `/queues/places`), 563 (Texas's law; answered at 13:43 UTC: the page now says S.B. 6 was found and is withheld), 565 (the live set), 567 (the dated edition of the resource set), 568 (`/conditions`).
 
 ## Not landed, and why
 
@@ -60,4 +60,4 @@ Energy Research Warehouse (ERW). Sessions 9600 and 9601, from 10:26 UTC. Written
 
 - Nothing.
 
-Last written: 17:21 UTC, session 9602.
+Last written: 17:32 UTC, session 9602.
