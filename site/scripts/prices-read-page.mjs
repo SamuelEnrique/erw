@@ -52,7 +52,7 @@ async function html(tree) {
 }
 
 /** Draws `/prices` (no entity) or `/prices/<entity>` at the render time `now` (ms), on the rows `rowsOf` gives. */
-export async function draw(rowsOf, now, entity) {
+export async function draw(rowsOf, now, entity, b) {
   process.env.SUPABASE_URL = "http://localhost:9/";
   process.env.SUPABASE_ANON_KEY = "stand-in";
   const asked = [];
@@ -66,7 +66,8 @@ export async function draw(rowsOf, now, entity) {
       return { html: await html(createElement(Prices, { searchParams: Promise.resolve({}) })), asked };
     }
     const { default: EntityPrices } = await import("../app/prices/[entity]/page.tsx");
-    return { html: await html(createElement(EntityPrices, { params: Promise.resolve({ entity: encodeURIComponent(entity) }) })), asked };
+    // session 8401 (wip/alt-prices-3): `b`, when given, is the address's ?b= (the second hub of ruling alternative 3)
+    return { html: await html(createElement(EntityPrices, { params: Promise.resolve({ entity: encodeURIComponent(entity) }), searchParams: Promise.resolve(b ? { b } : {}) })), asked };
   } finally {
     globalThis.fetch = realFetch;
     Date.now = realNow;
