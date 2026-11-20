@@ -1,0 +1,196 @@
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
+import { Brand } from "@/components/Brand";
+import { AutoSubmitSelect } from "@/components/AutoSubmit";
+import { Hint } from "@/components/demand/Hint";
+import { LineChart, type Line } from "@/components/LineChart";
+import { ChartFrame, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { TableDownloads } from "@/components/tool/TableDownloads";
+import { ALL, MONTHS, maxAbs, monthT, yearOf, type Congestion, type Constraint, type Place } from "@/lib/congestion";
+import raw from "@/data/conditions/congestion.json";
+import { CongestionDecisions } from "./Decisions";
+
+// Session 9000 (chain 601, part C): "Congestion", a new page. The binding transmission constraints that the grid
+// operators publish, with their day-ahead shadow prices: which bound most and cost most, by operator and year; when in
+// the day and the year a chosen constraint binds; the hubs and zones where congestion adds most to the price and takes
+// most off it; two places side by side. A constraint is named as the operator names it, with no guess at where it is.
+// Reads data/conditions/congestion.json (warehouse/derived/congestion_page.py, contract
+// docs/state/page_files_conditions.md, method docs/methods/grid_congestion.md). In review, in no menu.
+export const metadata: Metadata = { title: "Congestion", robots: { index: false, follow: false } };
+export const dynamic = "force-dynamic";
+
+const F = raw as unknown as Congestion;
+type Query = Record<string, string | string[] | undefined>;
+const one = (q: Query, k: string) => (typeof q[k] === "string" ? (q[k] as string) : undefined);
+const NONE = "none";
+const usd = (v: number) => `${v.toFixed(2)} USD/MWh`;
+const whole = (v: number) => Math.round(v).toLocaleString("en-US");
+const pct = (v: number) => `${v.toFixed(1)}%`;
+const SHOWN = F.operators.filter((o) => o.status === "shown" && F.constraints[o.id]);
+const PLACES: Place[] = Object.values(F.places).flat();
+const placeOf = (id: string) => PLACES.find((p) => p.id === id) ?? null;
+const opOf = (id: string) => F.operators.find((o) => o.id === id.split(":")[0]);
+
+function Fig({ v, src, k, fmt, reason }: { v: number | null | undefined; src: string; k: string; fmt: (v: number) => string; reason?: string }) {
+  if (v === null || v === undefined) return <span className="cursor-help text-muted" title={reason ?? `Not held in the file. ${src}`} data-not-held={k}>not held</span>;
+  return <span className="cursor-help" title={src} data-fig={k}>{fmt(v)}</span>;
+}
+
+/** The hour of the day against the month. Positive figures shade in the accent, negative in the second series color. */
+function Heat({ cells, label, src, fmt, k, note }: { cells: (number | null)[][]; label: string; src: (i: number, h: number) => string; fmt: (v: number) => string; k: string; note: ReactNode }) {
+  const max = maxAbs(cells);
+  return (
+    <div className="my-3" data-heat={k}>
+      <div className="overflow-x-auto">
+        <table className="min-w-[760px] border-collapse text-[11px]" aria-label={label}>
+          <caption className="mb-1 text-left text-sm text-ink">{label}</caption>
+          <thead><tr><th className="px-1 text-left font-normal text-muted">Month</th>{Array.from({ length: 24 }, (_, h) => <th key={h} className="w-7 px-0 text-center font-normal text-muted">{h}</th>)}</tr></thead>
+          <tbody>
+            {cells.map((row, i) => (
+              <tr key={i}>
+                <th className="px-1 text-left font-normal text-muted">{MONTHS[i]}</th>
+                {row.map((v, h) => {
+                  const share = v === null || max <= 0 ? 0 : Math.abs(v) / max;
+                  const color = v !== null && v < 0 ? "var(--color-series-3)" : "var(--color-accent)";
+                  return <td key={h} className="h-6 w-7 cursor-help border border-white p-0 text-center" title={`${MONTHS[i]}, hour ${h}: ${v === null ? "not held" : fmt(v)}. ${src(i, h)}`}
+                    style={{ background: v === null ? "var(--color-panel)" : `color-mix(in srgb, ${color} ${Math.round(share * 100)}%, white)` }} data-cell={`${k}-${i}-${h}`} />;
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="mt-1 text-xs text-muted">{note} The darkest cell is the grid&apos;s largest figure{max > 0 ? `, ${fmt(max)}` : ""}; a pale grey cell holds no figure.</p>
+    </div>
+  );
+}
+
+function constraintLabel(c: Constraint) {
+  return c.contingency && c.contingency !== "BASE" ? `${c.name} (contingency ${c.contingency})` : c.name;
+}
+
+export default async function CongestionPage({ searchParams }: { searchParams: Promise<Query> }) {
+  const q = await searchParams;
+  const op = SHOWN.some((o) => o.id === one(q, "op")) ? (one(q, "op") as string) : (SHOWN[0]?.id ?? "spp");
+  const O = F.constraints[op];
+  const years = O ? O.years : [];
+  const year = one(q, "year") === ALL || years.includes(one(q, "year") ?? "") ? (one(q, "year") as string) : (years[years.length - 1] ?? ALL);
+  const top = O?.top[year] ?? O?.top[ALL] ?? { by_hours: [], by_cost: [] };
+  const keys = O ? Object.keys(O.constraints) : [];
+  const ck = keys.includes(one(q, "c") ?? "") ? (one(q, "c") as string) : (top.by_cost[0] ?? keys[0] ?? "");
+  const C = O?.constraints[ck];
+  const placeIds = PLACES.map((p) => p.id);
+  const a = placeIds.includes(one(q, "a") ?? "") ? (one(q, "a") as string) : (placeIds.find((p) => p.startsWith(`${op}:`)) ?? placeIds[0]);
+  const bRaw = one(q, "b");
+  const b = bRaw && bRaw !== NONE && placeIds.includes(bRaw) && bRaw !== a ? bRaw : NONE;
+  const A = placeOf(a) as Place;
+  const B = b !== NONE ? placeOf(b) : null;
+  const pyears = [...new Set([...(A?.years ?? []), ...(B?.years ?? [])])].sort();
+  const py = pyears.includes(one(q, "py") ?? "") ? (one(q, "py") as string) : (pyears[pyears.length - 1] ?? "");
+  const src = F.sources[op];
+  const yearWords = year === ALL ? `every year held (${years[0]} to ${years[years.length - 1]})` : year;
+  const rowOf = (k: string, i: number) => {
+    const c = O.constraints[k];
+    const y = yearOf(c, year);
+    const s = `${src.constraints}. ${F.sign_rule}`;
+    return { key: k, highlight: k === ck, cells: [
+      <a key="n" className="break-all underline" href={`/congestion?op=${op}&year=${year}&c=${encodeURIComponent(k)}#when`} data-rank={i + 1}>{i + 1}. {constraintLabel(c)}</a>,
+      <Fig key="h" v={y?.hours} src={`Hours it bound in the day-ahead market, ${yearWords}. ${s}`} k={`h-${i}`} fmt={whole} />,
+      <Fig key="m" v={y?.abs_mean} src={`Mean size of its shadow price over the hours it bound. ${s}`} k={`m-${i}`} fmt={usd} />,
+      <Fig key="x" v={y?.abs_max} src={`Highest size of its shadow price. ${s}`} k={`x-${i}`} fmt={usd} />,
+      <Fig key="c" v={y?.cost} src={`${F.cost_rule} ${s}`} k={`c-${i}`} fmt={whole} />,
+    ] };
+  };
+  const head = ["Constraint, as the operator names it", "Hours bound", "Mean shadow price", "Highest", "Summed (USD/MWh x hours)"];
+  const ranked = PLACES.filter((p) => p.by_year[py]).map((p) => ({ p, y: p.by_year[py] })).sort((x, z) => (z.y.congestion_mean ?? 0) - (x.y.congestion_mean ?? 0));
+  const congLines: Line[] = [A, ...(B ? [B] : [])].map((p, i) => ({ label: `${opOf(p.id)?.name} ${p.name}`, color: i ? "series-3" : "accent",
+    points: p.monthly.filter((m) => m[4] !== null).map((m) => ({ t: monthT(m[0]), v: m[4] as number })) }));
+  const shareLines: Line[] = [A, ...(B ? [B] : [])].map((p, i) => ({ label: `${opOf(p.id)?.name} ${p.name}`, color: i ? "series-3" : "accent",
+    points: p.monthly.filter((m) => m[7] !== null).map((m) => ({ t: monthT(m[0]), v: m[7] as number })) }));
+  const hoursLine: Line[] = C ? [{ label: constraintLabel(C), color: "accent", points: C.monthly.map((m) => ({ t: monthT(m[0]), v: m[1] })) }] : [];
+  const placeOptions = PLACES.map((p) => ({ value: p.id, label: `${opOf(p.id)?.name} ${p.name}` }));
+  const blank = F.operators.filter((o) => o.status !== "shown");
+
+  return (
+    <Brand>
+    <ToolPage>
+      <div data-congestion="1">
+      <ToolHeader
+        title="Congestion"
+        lead={<>Where the wires were full: the transmission constraints that bound in each operator&apos;s day-ahead market, with the shadow price the operator published, and the part of each hub&apos;s and zone&apos;s price that came from congestion. Two places can stand side by side. {" "}
+          <Hint words="What it does not say" why="The page shows what the operators published. A constraint is named as the operator names it, with no guess at where it is on a map. It gives no advice and makes no estimate of its own." /></>}
+        under={<p className="mt-2 text-xs text-muted" data-license-line="1">License: public. File built {F.built.slice(0, 10)}.</p>}
+      />
+
+      <form method="get" action="/congestion#top" className="mb-3 flex flex-wrap items-end gap-3 text-sm [&_label]:max-w-full [&_select]:max-w-full" data-congestion-form="1">
+        <AutoSubmitSelect name="op" value={op} options={SHOWN.map((o) => ({ value: o.id, label: o.name }))} label="Operator" />
+        <AutoSubmitSelect name="year" value={year} options={[{ value: ALL, label: "Every year held" }, ...[...years].reverse().map((y) => ({ value: y, label: y }))]} label="Year" />
+        <AutoSubmitSelect name="c" value={ck} options={keys.map((k) => ({ value: k, label: constraintLabel(O.constraints[k]) }))} label="Constraint" />
+        <AutoSubmitSelect name="a" value={a} options={placeOptions} label="Place" />
+        <AutoSubmitSelect name="b" value={b} options={[{ value: NONE, label: "No second place" }, ...placeOptions.filter((o) => o.value !== a)]} label="Side by side with" />
+        <AutoSubmitSelect name="py" value={py} options={[...pyears].reverse().map((y) => ({ value: y, label: y }))} label="Year of the places" />
+        <button type="submit" className="border border-rule bg-white px-3 py-1 text-sm">Show</button>
+      </form>
+
+      <ToolSection title="The constraints that bound most and cost most" id="top">
+        {O ? (
+          <>
+            <p className="mb-2 text-sm" data-held-line="1">{O.constraints_by_year[year] !== undefined ? <>{whole(O.constraints_by_year[year])} constraints bound in {whole(O.hours_by_year[year])} constraint-hours over {O.days_held[year]} days held in {year}.</> : <>Every year held: {years.join(", ")}.</>} {" "}
+              <Hint words="(source)" why={`${src.constraints}. Hours in ${O.time}. ${F.sign_rule}`} /></p>
+            <ToolTable minWidth={720} caption={`${F.operators.find((o) => o.id === op)?.name}: the constraints that bound most hours, ${yearWords}`} head={head} rows={top.by_hours.map(rowOf)} />
+            <ToolTable minWidth={720} caption={`${F.operators.find((o) => o.id === op)?.name}: the constraints whose shadow price summed highest, ${yearWords}`} head={head} rows={top.by_cost.map(rowOf)} />
+          </>
+        ) : <p className="text-sm text-muted">No constraint of this operator is held.</p>}
+        <p className="mt-2 text-sm" data-not-drawn="1">Not drawn: {blank.map((o) => <span key={o.id} className="mr-2 cursor-help text-muted underline decoration-dotted" title={`${o.status}: ${o.why ?? ""}`} data-blank={o.id}>{o.name} ({o.status})</span>)}</p>
+      </ToolSection>
+
+      <ToolSection title="When a constraint binds" id="when">
+        {C ? (
+          <>
+            <p className="mb-1 text-sm" data-constraint={ck}><span className="font-medium break-all">{constraintLabel(C)}</span>{C.monitored ? <>: monitored element {C.monitored}</> : null}{C.type ? <>, type {C.type}</> : null}{C.nerc_id ? <>, NERC flowgate {C.nerc_id}</> : null}. Bound {whole(C.hours)} hours from {C.first.slice(0, 10)} to {C.last.slice(0, 10)}. {" "}
+              <Hint words="(source)" why={`${src.constraints}. ${F.sign_rule}`} /></p>
+            <Heat cells={C.hod_month} k="c" label={`${constraintLabel(C)}: hours bound, by month and hour of the day, every year held`} src={() => `Hours it bound in that hour of the day in that month, every year held summed. ${src.constraints}.`} fmt={whole} note={<>Hours of the day in {O.time}.</>} />
+            <ChartFrame title="Hours bound, by month" tip={<Hint words=" (source)" why={`${src.constraints}. A month with no point is a month it did not bind in the day-ahead market.`} />}>
+              <LineChart lines={hoursLine} unit="hours" x="month" ariaLabel="Hours the constraint bound by month" />
+            </ChartFrame>
+          </>
+        ) : <p className="text-sm text-muted">No constraint chosen.</p>}
+      </ToolSection>
+
+      <ToolSection title="Where congestion adds to the price and where it takes off" id="places">
+        <ToolTable minWidth={680} caption={`Hubs and zones by their mean congestion part, ${py}, the largest addition first`} head={["Place", "Mean LMP", "Mean congestion part", "Share of the price", "Hours it added", "Hours it took off"]}
+          rows={ranked.map(({ p, y }) => {
+            const s = `${F.sources[p.id.split(":")[0]].prices}. ${p.time}.`;
+            return { key: p.id, highlight: p.id === a || p.id === b, cells: [
+              <a key="n" className="underline" href={`/congestion?op=${op}&year=${year}&c=${encodeURIComponent(ck)}&a=${encodeURIComponent(p.id)}&py=${py}#side`}>{opOf(p.id)?.name} {p.name}</a>,
+              <Fig key="l" v={y.lmp_mean} src={`Mean day-ahead LMP over ${y.hours} hours held. ${s}`} k={`pl-${p.id}`} fmt={usd} />,
+              <Fig key="c" v={y.congestion_mean} src={`Mean congestion part over ${y.hours} hours held; highest ${y.congestion_max}, lowest ${y.congestion_min}. ${s}`} k={`pc-${p.id}`} fmt={usd} />,
+              <Fig key="s" v={y.congestion_share_pct} src={`${F.share_rule} ${s}`} k={`ps-${p.id}`} fmt={pct} reason={`The mean LMP was not above zero. ${s}`} />,
+              <Fig key="u" v={y.hours_congestion_up} src={`Hours whose congestion part was above zero. ${s}`} k={`pu-${p.id}`} fmt={whole} />,
+              <Fig key="d" v={y.hours_congestion_down} src={`Hours whose congestion part was below zero. ${s}`} k={`pd-${p.id}`} fmt={whole} />,
+            ] };
+          })} />
+      </ToolSection>
+
+      <ToolSection title="Two places side by side" id="side">
+        <ChartFrame title="Mean congestion part of the day-ahead price, by month (USD/MWh)" tip={<Hint words=" (source)" why={[A, ...(B ? [B] : [])].map((p) => F.sources[p.id.split(":")[0]].prices).join("; ")} />}>
+          <LineChart lines={congLines} unit="USD/MWh" x="month" ariaLabel="Mean congestion part by month" />
+        </ChartFrame>
+        <ChartFrame title="Share of the price that was congestion, by month" tip={<Hint words=" (source)" why={F.share_rule} />}>
+          <LineChart lines={shareLines} unit="%" x="month" ariaLabel="Congestion share of the price by month" />
+        </ChartFrame>
+        {[A, ...(B ? [B] : [])].map((p, i) => {
+          const g = p.hod_month_congestion_mean[py];
+          return g ? <Heat key={p.id} cells={g} k={i ? "pb" : "pa"} label={`${opOf(p.id)?.name} ${p.name}: mean congestion part by month and hour of the day, ${py} (USD/MWh)`} src={() => `${F.sources[p.id.split(":")[0]].prices}.`} fmt={usd} note={<>Hours of the day in {p.time}. Positive (adds to the price) in the accent color, negative (takes off) in the second color.</>} />
+            : <p key={p.id} className="text-sm text-muted">No hour of {p.name} is held in {py}.</p>;
+        })}
+      </ToolSection>
+
+      <CongestionDecisions />
+      <TableDownloads tables={F.tables} />
+      <SourceLine tables={F.tables} note={<>Method: <a href="/data/methods/grid_congestion">the page&apos;s method note</a>. The operators&apos; constraints, shadow prices and price parts as published; the page counts hours, sums and averages them, and computes only the shares it names.</>} />
+      </div>
+    </ToolPage>
+    </Brand>
+  );
+}
