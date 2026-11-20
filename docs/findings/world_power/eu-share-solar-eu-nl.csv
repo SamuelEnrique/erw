@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate eu_share_solar, region eu_nl (the Netherlands)
+# Computed 2026-11-19T13:14:46Z by warehouse/analysis/findings/deep/world_power.py (eu_share_solar); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: solar's share of the country's net production (percent), the observations it rests on, and whether the year is full
+# Tables: eurostat_electricity_monthly
+region,year,value,n_observations,full_year
+eu_nl,2017,1.6839877691197171,12.0,1
+eu_nl,2018,2.1527947447215015,12.0,1
+eu_nl,2019,4.538543137727488,12.0,1
+eu_nl,2020,7.2968573979546285,12.0,1
+eu_nl,2021,9.742017765475024,12.0,1
+eu_nl,2022,14.917577778872795,12.0,1
+eu_nl,2023,16.92394025866946,12.0,1
+eu_nl,2024,18.01662608103125,12.0,1
+eu_nl,2025,19.367247459382867,12.0,1
