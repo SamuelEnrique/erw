@@ -1,0 +1,478 @@
+[
+ {
+  "draft": "trade/pair-against-rp-can-ne.reproduce.py",
+  "ok": true,
+  "printed_first": 0.0,
+  "printed_last": 29.509132,
+  "expected": {
+   "first_year": 2019,
+   "first": 0.0,
+   "last_year": 2025,
+   "last": 29.509132,
+   "change": 29.509132
+  },
+  "tolerance": 0.14754566
+ },
+ {
+  "draft": "trade/pair-against-rp-cent-nw.reproduce.py",
+  "ok": true,
+  "printed_first": 50.742009,
+  "printed_last": 15.652472,
+  "expected": {
+   "first_year": 2019,
+   "first": 50.742009,
+   "last_year": 2025,
+   "last": 15.652472,
+   "change": -35.089537
+  },
+  "tolerance": 0.175447685
+ },
+ {
+  "draft": "trade/pair-against-summer-rp-can-ny.reproduce.py",
+  "ok": true,
+  "printed_first": 0.0,
+  "printed_last": 49.818841,
+  "expected": {
+   "first_year": 2019,
+   "first": 0.0,
+   "last_year": 2025,
+   "last": 49.818841,
+   "change": 49.818841
+  },
+  "tolerance": 0.249094205
+ },
+ {
+  "draft": "trade/pair-against-summer-rp-se-car.reproduce.py",
+  "ok": true,
+  "printed_first": 39.221014,
+  "printed_last": 7.880435,
+  "expected": {
+   "first_year": 2019,
+   "first": 39.221014,
+   "last_year": 2025,
+   "last": 7.880435,
+   "change": -31.34058
+  },
+  "tolerance": 0.1567029
+ },
+ {
+  "draft": "trade/pair-flow-rp-can-midw.reproduce.py",
+  "ok": true,
+  "printed_first": 1972.51136,
+  "printed_last": 277.022831,
+  "expected": {
+   "first_year": 2019,
+   "first": 1972.51136,
+   "last_year": 2025,
+   "last": 277.022831,
+   "change": -1695.488529
+  },
+  "tolerance": 8.477442645
+ },
+ {
+  "draft": "trade/pair-flow-rp-can-ne.reproduce.py",
+  "ok": true,
+  "printed_first": 1945.426826,
+  "printed_last": 432.337215,
+  "expected": {
+   "first_year": 2019,
+   "first": 1945.426826,
+   "last_year": 2025,
+   "last": 432.337215,
+   "change": -1513.089612
+  },
+  "tolerance": 7.5654480600000005
+ },
+ {
+  "draft": "trade/pair-flow-rp-can-ny.reproduce.py",
+  "ok": true,
+  "printed_first": 1991.598516,
+  "printed_last": 211.028082,
+  "expected": {
+   "first_year": 2019,
+   "first": 1991.598516,
+   "last_year": 2025,
+   "last": 211.028082,
+   "change": -1780.570434
+  },
+  "tolerance": 8.902852170000001
+ },
+ {
+  "draft": "trade/pair-flow-rp-car-mida.reproduce.py",
+  "ok": true,
+  "printed_first": 362.543721,
+  "printed_last": 767.140698,
+  "expected": {
+   "first_year": 2019,
+   "first": 362.543721,
+   "last_year": 2025,
+   "last": 767.140698,
+   "change": 404.596977
+  },
+  "tolerance": 2.022984885
+ },
+ {
+  "draft": "trade/pair-flow-rp-cent-midw.reproduce.py",
+  "ok": true,
+  "printed_first": 1019.352525,
+  "printed_last": 562.551997,
+  "expected": {
+   "first_year": 2019,
+   "first": 1019.352525,
+   "last_year": 2025,
+   "last": 562.551997,
+   "change": -456.800527
+  },
+  "tolerance": 2.284002635
+ },
+ {
+  "draft": "trade/pair-flow-rp-cent-nw.reproduce.py",
+  "ok": true,
+  "printed_first": 7.1629,
+  "printed_last": 253.995319,
+  "expected": {
+   "first_year": 2019,
+   "first": 7.1629,
+   "last_year": 2025,
+   "last": 253.995319,
+   "change": 246.83242
+  },
+  "tolerance": 1.2341621
+ },
+ {
+  "draft": "trade/pair-flow-rp-midw-ten.reproduce.py",
+  "ok": true,
+  "printed_first": 1082.892237,
+  "printed_last": 1789.384817,
+  "expected": {
+   "first_year": 2019,
+   "first": 1082.892237,
+   "last_year": 2025,
+   "last": 1789.384817,
+   "change": 706.49258
+  },
+  "tolerance": 3.5324629
+ },
+ {
+  "draft": "trade/pair-flow-rp-se-car.reproduce.py",
+  "ok": true,
+  "printed_first": 414.025821,
+  "printed_last": 1059.343076,
+  "expected": {
+   "first_year": 2019,
+   "first": 414.025821,
+   "last_year": 2025,
+   "last": 1059.343076,
+   "change": 645.317255
+  },
+  "tolerance": 3.2265862750000003
+ },
+ {
+  "draft": "trade/pair-side-gap-rg-cal-sw.reproduce.py",
+  "ok": true,
+  "printed_first": 7.162567,
+  "printed_last": 244.194861,
+  "expected": {
+   "first_year": 2019,
+   "first": 7.162567,
+   "last_year": 2025,
+   "last": 244.194861,
+   "change": 237.032294
+  },
+  "tolerance": 1.1851614700000002
+ },
+ {
+  "draft": "trade/pair-side-gap-rg-cent-midw.reproduce.py",
+  "ok": true,
+  "printed_first": 38.403212,
+  "printed_last": 28.100643,
+  "expected": {
+   "first_year": 2021,
+   "first": 38.403212,
+   "last_year": 2024,
+   "last": 28.100643,
+   "change": -10.302569
+  },
+  "tolerance": 0.051512845
+ },
+ {
+  "draft": "trade/pair-side-gap-rg-midw-se.reproduce.py",
+  "ok": true,
+  "printed_first": 30.269075,
+  "printed_last": 125.46153,
+  "expected": {
+   "first_year": 2019,
+   "first": 30.269075,
+   "last_year": 2025,
+   "last": 125.46153,
+   "change": 95.192454
+  },
+  "tolerance": 0.47596227
+ },
+ {
+  "draft": "trade/region-against-rn-cal.reproduce.py",
+  "ok": true,
+  "printed_first": 0.392428,
+  "printed_last": 5.020776,
+  "expected": {
+   "first_year": 2019,
+   "first": 0.392428,
+   "last_year": 2025,
+   "last": 5.020776,
+   "change": 4.628347
+  },
+  "tolerance": 0.023141735
+ },
+ {
+  "draft": "trade/region-against-rn-ne.reproduce.py",
+  "ok": true,
+  "printed_first": 0.045662,
+  "printed_last": 27.780315,
+  "expected": {
+   "first_year": 2019,
+   "first": 0.045662,
+   "last_year": 2025,
+   "last": 27.780315,
+   "change": 27.734653
+  },
+  "tolerance": 0.13867326500000002
+ },
+ {
+  "draft": "trade/region-net-rn-cal.reproduce.py",
+  "ok": true,
+  "printed_first": 22.561817,
+  "printed_last": 15.614078,
+  "expected": {
+   "first_year": 2019,
+   "first": 22.561817,
+   "last_year": 2025,
+   "last": 15.614078,
+   "change": -6.947739
+  },
+  "tolerance": 0.034738695
+ },
+ {
+  "draft": "trade/region-net-rn-cent.reproduce.py",
+  "ok": true,
+  "printed_first": 3.77442,
+  "printed_last": 2.431868,
+  "expected": {
+   "first_year": 2019,
+   "first": 3.77442,
+   "last_year": 2025,
+   "last": 2.431868,
+   "change": -1.342552
+  },
+  "tolerance": 0.00671276
+ },
+ {
+  "draft": "trade/region-net-rn-ne.reproduce.py",
+  "ok": true,
+  "printed_first": 19.22465,
+  "printed_last": 7.05157,
+  "expected": {
+   "first_year": 2019,
+   "first": 19.22465,
+   "last_year": 2025,
+   "last": 7.05157,
+   "change": -12.17308
+  },
+  "tolerance": 0.06086540000000001
+ },
+ {
+  "draft": "trade/region-net-rn-ny.reproduce.py",
+  "ok": true,
+  "printed_first": 15.775663,
+  "printed_last": 12.592394,
+  "expected": {
+   "first_year": 2019,
+   "first": 15.775663,
+   "last_year": 2025,
+   "last": 12.592394,
+   "change": -3.18327
+  },
+  "tolerance": 0.01591635
+ },
+ {
+  "draft": "trade/region-net-rn-ten.reproduce.py",
+  "ok": true,
+  "printed_first": -1.127384,
+  "printed_last": 4.868298,
+  "expected": {
+   "first_year": 2019,
+   "first": -1.127384,
+   "last_year": 2025,
+   "last": 4.868298,
+   "change": 5.995682
+  },
+  "tolerance": 0.029978410000000004
+ },
+ {
+  "draft": "trade/tie-flow-bt-bpat-ciso.reproduce.py",
+  "ok": true,
+  "printed_first": 791.967237,
+  "printed_last": 345.295434,
+  "expected": {
+   "first_year": 2019,
+   "first": 791.967237,
+   "last_year": 2025,
+   "last": 345.295434,
+   "change": -446.671804
+  },
+  "tolerance": 2.23335902
+ },
+ {
+  "draft": "trade/tie-flow-bt-hqt-nyis.reproduce.py",
+  "ok": true,
+  "printed_first": 1264.687329,
+  "printed_last": -544.084932,
+  "expected": {
+   "first_year": 2019,
+   "first": 1264.687329,
+   "last_year": 2025,
+   "last": -544.084932,
+   "change": -1808.77226
+  },
+  "tolerance": 9.0438613
+ },
+ {
+  "draft": "trade/tie-flow-bt-ieso-miso.reproduce.py",
+  "ok": true,
+  "printed_first": 1075.644937,
+  "printed_last": 389.953767,
+  "expected": {
+   "first_year": 2019,
+   "first": 1075.644937,
+   "last_year": 2025,
+   "last": 389.953767,
+   "change": -685.69117
+  },
+  "tolerance": 3.42845585
+ },
+ {
+  "draft": "trade/tie-flow-bt-ldwp-ciso.reproduce.py",
+  "ok": true,
+  "printed_first": 2128.276712,
+  "printed_last": 443.962466,
+  "expected": {
+   "first_year": 2019,
+   "first": 2128.276712,
+   "last_year": 2025,
+   "last": 443.962466,
+   "change": -1684.314247
+  },
+  "tolerance": 8.421571235
+ },
+ {
+  "draft": "trade/tie-flow-bt-mheb-miso.reproduce.py",
+  "ok": true,
+  "printed_first": 896.866423,
+  "printed_last": -112.930936,
+  "expected": {
+   "first_year": 2019,
+   "first": 896.866423,
+   "last_year": 2025,
+   "last": -112.930936,
+   "change": -1009.797359
+  },
+  "tolerance": 5.048986795
+ },
+ {
+  "draft": "trade/tie-flow-bt-miso-tva.reproduce.py",
+  "ok": true,
+  "printed_first": 1263.629224,
+  "printed_last": 2014.676561,
+  "expected": {
+   "first_year": 2019,
+   "first": 1263.629224,
+   "last_year": 2025,
+   "last": 2014.676561,
+   "change": 751.047338
+  },
+  "tolerance": 3.75523669
+ },
+ {
+  "draft": "trade/tie-flow-bt-nevp-ciso.reproduce.py",
+  "ok": true,
+  "printed_first": -34.957719,
+  "printed_last": 1079.172603,
+  "expected": {
+   "first_year": 2019,
+   "first": -34.957719,
+   "last_year": 2025,
+   "last": 1079.172603,
+   "change": 1114.130322
+  },
+  "tolerance": 5.57065161
+ },
+ {
+  "draft": "trade/tie-flow-bt-soco-sceg.reproduce.py",
+  "ok": true,
+  "printed_first": 430.200687,
+  "printed_last": 1116.093836,
+  "expected": {
+   "first_year": 2019,
+   "first": 430.200687,
+   "last_year": 2025,
+   "last": 1116.093836,
+   "change": 685.893149
+  },
+  "tolerance": 3.429465745
+ },
+ {
+  "draft": "trade/tie-side-gap-bg-azps-srp.reproduce.py",
+  "ok": true,
+  "printed_first": 3003.602431,
+  "printed_last": 197.378539,
+  "expected": {
+   "first_year": 2019,
+   "first": 3003.602431,
+   "last_year": 2025,
+   "last": 197.378539,
+   "change": -2806.223892
+  },
+  "tolerance": 14.03111946
+ },
+ {
+  "draft": "trade/tie-side-gap-bg-bpat-pge.reproduce.py",
+  "ok": true,
+  "printed_first": 3.555505,
+  "printed_last": 520.934132,
+  "expected": {
+   "first_year": 2019,
+   "first": 3.555505,
+   "last_year": 2025,
+   "last": 520.934132,
+   "change": 517.378628
+  },
+  "tolerance": 2.5868931400000004
+ },
+ {
+  "draft": "trade/tie-side-gap-bg-bpat-scl.reproduce.py",
+  "ok": true,
+  "printed_first": 379.056554,
+  "printed_last": 143.76621,
+  "expected": {
+   "first_year": 2019,
+   "first": 379.056554,
+   "last_year": 2025,
+   "last": 143.76621,
+   "change": -235.290344
+  },
+  "tolerance": 1.17645172
+ },
+ {
+  "draft": "trade/tie-side-gap-bg-ciso-srp.reproduce.py",
+  "ok": true,
+  "printed_first": 1.534491,
+  "printed_last": 229.367539,
+  "expected": {
+   "first_year": 2019,
+   "first": 1.534491,
+   "last_year": 2025,
+   "last": 229.367539,
+   "change": 227.833048
+  },
+  "tolerance": 1.13916524
+ }
+]

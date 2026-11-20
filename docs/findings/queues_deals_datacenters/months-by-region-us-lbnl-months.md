@@ -2,7 +2,7 @@
 
 Draft `scan-deep-3a40649cbec1` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The median months from interconnection request to commercial operation in the United States was 62.8 months in 2024, against 17.6 months in 2005, the first year this measure counts.
+**The finding.** The median months from interconnection request to commercial operation in the United States was 62.8 months in 2024, against 17.6 months in 2005, the first year of the window the hunt read; the table holds the measure from 2000.
 
 ![The wait in the queue, the United States](months-by-region-us-lbnl-months.png)
 

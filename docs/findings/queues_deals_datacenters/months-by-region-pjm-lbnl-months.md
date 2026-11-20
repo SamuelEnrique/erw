@@ -2,7 +2,7 @@
 
 Draft `scan-deep-b087f09de0f6` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The median months from interconnection request to commercial operation in PJM was 70.3 months in 2024, against 15.0 months in 2005, the first year this measure counts.
+**The finding.** The median months from interconnection request to commercial operation in PJM was 70.3 months in 2024, against 15.0 months in 2005, the first year of the window the hunt read; the table holds the measure from 2000.
 
 ![The wait in the queue, PJM](months-by-region-pjm-lbnl-months.png)
 

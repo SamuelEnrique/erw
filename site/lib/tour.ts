@@ -7,9 +7,12 @@
 // stop's page has them: site/scripts/check-tour.mjs opens each page and fails when one is gone.
 // Until session 292: five stops (the network, ERCOT's grid page, the price board, Winter Storm Uri, what a generator
 // earns), a list of links with no way back.
-export type Stop = { href: string; title: string; seconds: number; line: string; look: string; headings: string[] };
+// Chain 507 (session 8902): `landed` is false for a stop whose page is not yet on main; such a stop is written here and
+// held back from the path until its page lands (the flag is turned by the session that lands it, with check-tour run).
+export type Stop = { href: string; title: string; seconds: number; line: string; look: string; headings: string[]; landed?: boolean };
 
-export const STOPS: Stop[] = [
+/** The seven stops of Samuel's ruling 11a (14 October 2026), in the ruled order. */
+export const RULED_STOPS: Stop[] = [
   {
     href: "/cost-of-power/battery", title: "What a battery earns", seconds: 45,
     line: "A grid battery of your size in ERCOT or CAISO: what it earned from selling power and from the grid's reserves, year by year, and whether that pays for building it.",
@@ -53,6 +56,60 @@ export const STOPS: Stop[] = [
     headings: ["Top of the industry", "ERW's Numbers Today"],
   },
 ];
+
+/** Chain 507 (session 8902): what the site gained from 17 November 2026, after the ruled seven. No numbers: each page
+ * carries its own. The headings each `look` quotes are read from the pages on main (19 November 2026); check-tour reads
+ * them again on a build. */
+export const NEW_STOPS: Stop[] = [
+  {
+    href: "/grid", title: "Every region of the grid", seconds: 40, landed: true,
+    line: "The Grid tool beyond the seven grids: the thirteen regions EIA reports, six of them new to the site, each with its mix, its trade and the balancing authorities inside it, and the map of every balancing authority under the network view.",
+    look: "Pick Tennessee, or any of the thirteen regions, in the region list at the top; open its network view for the map; then read \"Ask\" at the foot of the page.",
+    headings: ["Ask"],
+  },
+  {
+    href: "/events/elliott-2022", title: "A storm across the country", seconds: 40, landed: true,
+    line: "An event page now follows the storm beyond one grid: each region across the event, what ran against the baseline, and the power that moved between regions.",
+    look: "Read \"The whole country\", then \"Power between regions, pair by pair\".",
+    headings: ["The whole country", "Each region across the event", "Power between regions, pair by pair"],
+  },
+  {
+    href: "/demand", title: "Demand in every region", seconds: 35, landed: true,
+    line: "How much power each place uses, year by year since 2019, for the grids and the regions and balancing authorities of the whole country, two places side by side.",
+    look: "Read \"Year by year\", then \"Where the growth is\".",
+    headings: ["Year by year", "Where the growth is"],
+  },
+  {
+    href: "/supply", title: "Who trades with whom", seconds: 35, landed: true,
+    line: "Supply and trade for the whole country: each region's net imports by month and by neighbour, and the pairs that trade, with the gap where the two sides' reports differ.",
+    look: "Read \"The whole country\", then \"Who trades with whom\".",
+    headings: ["The whole country", "Who trades with whom"],
+  },
+  {
+    href: "/map", title: "What is under the ground and in the wind", seconds: 35, landed: true,
+    line: "The resource map: where the coal, the gas, the sun and the wind are, each layer in its own unit, beside what is built or planned. A resource is not a power plant.",
+    look: "Read \"What is built or planned\", then \"How the map is drawn\".",
+    headings: ["The project map", "What is built or planned", "How the map is drawn"],
+  },
+  {
+    href: "/industry", title: "Where energy goes", seconds: 35, landed: true,
+    line: "Energy by industry, by fuel and by state: who uses the country's energy, as the publishers count it.",
+    look: "Read \"The industrial sector, month by month\", then \"States, year by year\".",
+    headings: ["The industrial sector, month by month", "States, year by year"],
+  },
+  {
+    href: "/ai-energy", title: "Energy per AI query", seconds: 30, landed: true,
+    line: "The energy a query to an AI model uses, as each publisher printed it, with who measured it and how.",
+    look: "Read \"Every figure, as printed\", then \"The publishers\".",
+    headings: ["Every figure, as printed", "The publishers"],
+  },
+];
+
+/** The guided path: the ruled seven, then the new stops whose pages have landed. */
+export const STOPS: Stop[] = [...RULED_STOPS, ...NEW_STOPS.filter((s) => s.landed)];
+
+/** The stops written and held back until their pages land. */
+export const HELD_STOPS: Stop[] = NEW_STOPS.filter((s) => !s.landed);
 
 /** The tour's length: the stops' seconds, rounded to the nearest minute. */
 export const MINUTES = Math.round(STOPS.reduce((a, s) => a + s.seconds, 0) / 60);

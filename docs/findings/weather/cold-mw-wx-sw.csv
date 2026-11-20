@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate cold_mw, region wx_sw (the Southwest (EIA's region))
+# Computed 2026-11-19T11:23:48Z by warehouse/analysis/findings/deep/weather.py (cold_mw); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean demand in the year's 50 coldest hours (MW), the observations it rests on, and whether the year is full
+# Tables: region_weather_hourly, eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+wx_sw,2018,11529.52,3832.0,0
+wx_sw,2019,12771.68,8708.0,1
+wx_sw,2020,11932.22,8720.0,1
+wx_sw,2021,11628.04,8014.0,1
+wx_sw,2022,12871.96,8724.0,1
+wx_sw,2023,13257.7,8712.0,1
+wx_sw,2024,13907.4,8738.0,1
+wx_sw,2025,13934.9,8628.0,1
+wx_sw,2026,13333.16,7250.0,0
