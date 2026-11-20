@@ -372,7 +372,7 @@ columns:
   source_name: null
   documented_by: method lbnl_interconnection_queue.md
 - name: poi_name
-  label: not documented by the source
+  label: 'The point of interconnection''s name: may be a substation name or a transmission line tap'
   unit: none
   type: text
   values:
@@ -385,10 +385,10 @@ columns:
     - '#10012 METEOR 5 Substation 345kV'
   missing_cells: 2813
   missing_meaning: The file's cell is blank
-  source_name: null
-  documented_by: data
+  source_name: poi_name
+  documented_by: source Berkeley Lab, Queued Up data file (thru 2025), sheet 04. Data Codebook, read 2026-11-20
 - name: service
-  label: not documented by the source
+  label: 'The interconnection service type: one of NRIS, ERIS, NRIS/ERIS or Other'
   unit: none
   type: text
   values:
@@ -399,10 +399,11 @@ columns:
       Other: 819
   missing_cells: 10797
   missing_meaning: The file's cell is blank
-  source_name: null
-  documented_by: data
+  source_name: service
+  documented_by: source Berkeley Lab, Queued Up data file (thru 2025), sheet 04. Data Codebook, read 2026-11-20
 - name: project_type
-  label: not documented by the source
+  label: 'The type of project or interconnection request: one of Generation, Surplus, Upgrade or Replacement (Berkeley Lab:
+    not all upgrades or uprates are identified)'
   unit: none
   type: text
   values:
@@ -413,8 +414,8 @@ columns:
       Upgrade: 80
   missing_cells: 1224
   missing_meaning: The file's cell is blank
-  source_name: null
-  documented_by: data
+  source_name: project_type
+  documented_by: source Berkeley Lab, Queued Up data file (thru 2025), sheet 04. Data Codebook, read 2026-11-20
 - name: type_clean
   label: Berkeley Lab's clean type of the request (Solar, Battery, Gas, Wind, Solar+Battery and the others)
   unit: none
@@ -561,7 +562,7 @@ columns:
   source_name: null
   documented_by: method interconnection_queue_summary.md; method lbnl_interconnection_queue.md
 - name: prop_year
-  label: not documented by the source
+  label: The proposed online year from the interconnection application, derived from prop_date
   unit: none
   type: number
   values:
@@ -570,10 +571,6 @@ columns:
     highest: 2057.0
   missing_cells: 5265
   missing_meaning: The file gives none (as prop_date)
-  source_name: null
-  documented_by: data
-second_look:
-- 'poi_name, service (ERIS, NRIS, NRIS/ERIS, Other) and project_type (Generation, Replacement, Surplus, Upgrade): Berkeley
-  Lab''s own codebook sheet (''04. Data Codebook'') defines them, but the repository holds no copy of it and no method note
-  or connector says what they mean.'
-- 'prop_year: no note says it is the year of prop_date, though it is empty on exactly the rows prop_date is (5,265).'
+  source_name: prop_year
+  documented_by: source Berkeley Lab, Queued Up data file (thru 2025), sheet 04. Data Codebook, read 2026-11-20
+second_look: null

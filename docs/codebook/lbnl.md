@@ -106,9 +106,9 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `state` | The state as the file gives it | none | text | for example AL, AR, AZ; 52 distinct | 1235: The file gives no state |
 | `county` | The county as the file gives it | none | text | for example Abbeville, Acadia Parish, Accomack; 1673 distinct | 2063: The file gives no county |
 | `fips_code` | The FIPS code the file gives, which places the request with its state and county (filled values end in '.0' on the data machine) | none | number | 1001.0 to 3610136003.0; 2637 distinct | 1770: The file gives no code |
-| `poi_name` | not documented by the source | none | text | for example "18CAMPBELLW‚Äù, ‚Äú18CAMPBELLB, # 7044 Marion 345kV, # 79601 Stillman Substation 138 kV; more than 5000 distinct | 2813: The file's cell is blank |
-| `service` | not documented by the source | none | text | ERIS, NRIS, NRIS/ERIS, Other | 10797: The file's cell is blank |
-| `project_type` | not documented by the source | none | text | Generation, Replacement, Surplus, Upgrade | 1224: The file's cell is blank |
+| `poi_name` | The point of interconnection's name: may be a substation name or a transmission line tap (the source's name: poi_name) | none | text | for example "18CAMPBELLW‚Äù, ‚Äú18CAMPBELLB, # 7044 Marion 345kV, # 79601 Stillman Substation 138 kV; more than 5000 distinct | 2813: The file's cell is blank |
+| `service` | The interconnection service type: one of NRIS, ERIS, NRIS/ERIS or Other (the source's name: service) | none | text | ERIS, NRIS, NRIS/ERIS, Other | 10797: The file's cell is blank |
+| `project_type` | The type of project or interconnection request: one of Generation, Surplus, Upgrade or Replacement (Berkeley Lab: not all upgrades or uprates are identified) (the source's name: project_type) | none | text | Generation, Replacement, Surplus, Upgrade | 1224: The file's cell is blank |
 | `type_clean` | Berkeley Lab's clean type of the request (Solar, Battery, Gas, Wind, Solar+Battery and the others) | none | text | for example Battery, Battery+Other Storage, Coal; 49 distinct | 0 |
 | `type_1` | The type of the request's first part | none | text | Battery, Coal, Diesel, Gas, Geothermal, Hydro, Hydrogen, Nuclear, Offshore Wind, Oil, Other, Other Storage, Solar, Wind | 0 |
 | `type_2` | The type of the request's second part (a hybrid's) | none | text | Battery, Coal, Diesel, Gas, Geothermal, Hydro, Oil, Other, Other Storage, Wind | 33144: The request has one part |
@@ -117,9 +117,7 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `mw_2` | The capacity of the request's second part, as filed | MW | number | 1.0 to 2107.4; 431 distinct | 37105: The request has one part |
 | `mw_3` | The capacity of the request's third part, as filed | MW | number | 1.0, 100.0, 1200.0, 1403.0, 151.6, 1650.0, 185.0, 203.94, 204.16, 204.93, 205.92, 207.92, 252.0, 28.38, 304.668, 310.3, 375.0, 405.9, 406.098, 500.0, 515.1, 60.0, 600.0, 90.0, 990.0 | 38156: The request has fewer than three parts |
 | `q_year` | The year the request entered the queue (filled values end in '.0' on the data machine) | none | number | 1995.0 to 2025.0; 30 distinct | 665: The file gives no year entered |
-| `prop_year` | not documented by the source | none | number | 1980.0 to 2057.0; 50 distinct | 5265: The file gives none (as prop_date) |
-
-Waiting for a second look: poi_name, service (ERIS, NRIS, NRIS/ERIS, Other) and project_type (Generation, Replacement, Surplus, Upgrade): Berkeley Lab's own codebook sheet ('04. Data Codebook') defines them, but the repository holds no copy of it and no method note or connector says what they mean.; prop_year: no note says it is the year of prop_date, though it is empty on exactly the rows prop_date is (5,265)..
+| `prop_year` | The proposed online year from the interconnection application, derived from prop_date (the source's name: prop_year) | none | number | 1980.0 to 2057.0; 50 distinct | 5265: The file gives none (as prop_date) |
 
 ### `lbnl_ppa_prices`
 

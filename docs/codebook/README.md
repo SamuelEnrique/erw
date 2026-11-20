@@ -7,8 +7,8 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 - Public tables with a metadata file: 582; documented in full (what a row is, and every column's label and unit): 582.
 - Columns: 10453; documented: 10453 (a shared column is documented once, below).
 - Variables of the series tables (values of `variable`): 6924; labelled: 6924.
-- Entries that read "not documented by the source": 9.
-- Column names that two or more tables label differently (names that may mean two things): 300.
+- Entries that read "not documented by the source": 5.
+- Column names that two or more tables label differently (names that may mean two things): 301.
 
 ## The families
 
