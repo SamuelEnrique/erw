@@ -2,7 +2,7 @@
 
 Draft `scan-deep-3f1caaff9a19` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The MW of battery requests, the United States was 157,429 MW in 2024, against 0 MW in 2005, the first year this measure counts.
+**The finding.** The MW of battery requests in the United States was 157,429 MW in 2024, against 0 MW in 2005, the first year this measure counts.
 
 ![What was asked for, battery requests, the United States](requested-by-type-us-req-battery.png)
 
