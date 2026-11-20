@@ -14,6 +14,7 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 - **Two code faults in the contract and the credit.** An as-generated PPA is paid on energy the plant no longer makes, so the breakeven PPA price reads 58.36 where it is 61.50 per MWh (finding 4). The same tax credit lands a year later here than on the battery page (finding 3).
 - **The battery on this page is called an upper bound and sits 2.1 percent under the battery page's own program on the same prices (finding 5).**
 - **The note's table of defaults is two rulings out of date (finding 8, fixed in words on its branch).**
+- **The peaker starts 403 times a year for free.** Its median run earns about USD 25 per MW, so any real start cost takes a large share of its margin: -14 to -36 percent at USD 25 to 100 per MW a start (finding 9).
 
 ## How every number here was computed
 
@@ -35,6 +36,7 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 | 6 | The merchant plant sells below zero, where a merchant plant would stop | +0.41 (+0.7 percent) if it stopped | NPV +3.2 per kW | `wip/audit-generator-6` |
 | 7 | Output per MW is over the nameplate of the month's start, so new plants add output and not megawatts | -0.34 (-0.6 percent) at mid-month nameplate | NPV -2.6 per kW | `wip/audit-generator-7` (test with 6) |
 | 8 | The note's table of defaults says hurdle 9.6 and solar degradation 0; the page uses 12 and 0.7 | none | none (words) | `wip/audit-generator-8` (fix in words) |
+| 9 | The peaker starts 403 times a year with no start cost; the median run earns about USD 25 per MW | peaker margin 48.15: -14 to -36 percent at a start cost of USD 25 to 100 per MW | peaker NPV -53 to -138 per kW | `wip/audit-generator-9` |
 
 ## 1. The NPV holds no tax and no depreciation
 
@@ -101,22 +103,31 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 - **The test.** `tests/test_audit_generator_8.py` on `wip/audit-generator-8`: the note's two rows against the two constants. Fails on main, passes on the branch.
 - **The fix on the branch.** The two rows in words, with the rulings that set them.
 
+## 9. The peaker starts for free
+
+- **Where.** `warehouse/derived/merchant_revenue.py` lines 283 to 291 (run in every hour whose price is above Henry Hub times the heat rate plus variable O&M; the margin is the sum of price less cost over those hours) and lines 21 to 24 ("No start costs, minimum run, ramp limits, outages or gas basis"). The note, section 3.4 line 92. Decision 4 (`site/lib/decisions.ts` line 66).
+- **Why it matters.** The rule takes every profitable hour as its own run. In ERCOT over the page's last twelve months it starts the plant 403 times for 1,772 run hours (4.4 hours a run); a quarter of the runs last one hour, and the median run earns about USD 25 per MW, the order of what a start costs a real peaker. Stated in the note, but not small.
+- **How much.** The rule's margin, from the page's own snapshot arrays, is USD 48.15 per kW (the snapshot's rows: 48.1461). With a start cost per MW and the runs that would not pay their start skipped: USD 25: 41.55 (-13.7 percent, 203 starts); USD 50: 37.20 (-22.7 percent); USD 100: 31.01 (-35.6 percent). The start costs are this audit's sensitivity, not a source's; the page cites none. On the peaker's 30-year life at 12 percent, NPV moves by -53 to -138 per kW. 2024 and 2025 behave the same (502 and 411 starts).
+- **The test.** `tests/test_audit_generator_9.py` on `wip/audit-generator-9`: from `site/data/merchant_snapshot.json`, the rule's margin equals the page's rows, 1,772 run hours, 403 starts, a quarter of them one hour long, a median run under USD 30 per MW, and more than a fifth of the margin gone at a start cost of USD 50.
+- **Not fixed.** A start cost (and a minimum run) is a new assumption: the owner's ruling.
+
 ## What was checked and found right
 
 - **The revenue.** The public hourly file gives the page's 59.8523 per kW and 2,579.9 MWh per MW for its twelve months: price times the fleet's generation over the month's nameplate, summed.
 - **The hours.** EIA-930's hour-ending time is read as the hour's start less one hour (`fuel_hours`, line 102). Checked against the sun: the output-weighted centre of the day falls at 12:43 in January (standard time) and 13:41 in June (daylight time), where solar noon is in Texas. An hour's shift would show.
 - **The price.** The same hub-average real-time hourly mean as the battery page (complete hours only), from the same tables in the same order.
+- **The two weightings the note owns up to** (section 6, items 7 and 8), recomputed from the public file: the model's capture price 23.20 against the capture file's 23.27 per MWh; the spans table's "price of every hour" (the mean of the months' means) 32.12 against 32.17 over the hours with a value. As stated, and small.
 - **The debt.** 1,375 x 1,000 x 100 x 0.6 x `crf(0.08, 35)` = 7,078,769; coverage (59.85 - 12.5) / 70.79 = 0.67; the price for 1.25 times coverage, 39.14 per MWh; the breakeven PPA, 58.36 per MWh: each as the page.
 - **The breakeven PPA price is a breakeven.** It is the contract price at which NPV to equity is zero, and the page keeps the coverage price under its own name. The battery page's finding 5 asks for this form.
 - **The battery's dynamic program** (`battery_day`) finds the exact optimum of its own rules: each state of charge and energy cycled kept exactly, the better of two paths kept. Its rules, not its arithmetic, are finding 5.
-- **The peaker's rule.** Run where the price is strictly above Henry Hub (the day's, or the last trading day's) times the heat rate plus variable O&M; CAISO adds the allowance cost. Read, not recomputed.
+- **The peaker's rule.** Run where the price is strictly above Henry Hub (the day's, or the last trading day's) times the heat rate plus variable O&M; CAISO adds the allowance cost. ERCOT's recomputed from the snapshot's own arrays: 48.15 per kW against the rows' 48.1461, the same 1,772 run hours. Its rule, not its arithmetic, is finding 9.
 
 ## Not covered, or left open
 
-- **Wind, the battery and the peaker as the page's own assets**, other grids and other hubs: the same code; only the solar default was recomputed.
+- **Wind, other grids and other hubs**: the same code, not recomputed. Of the other assets, ERCOT's battery (finding 5) and peaker (finding 9) were recomputed; their finance was not.
 - **The plant with a battery beside it** (`seller_hybrid.py`) and the pasted profile: not read.
-- **The capture file** (`capture_price.py`) beside the model: the note's own item 7 (two fleets of weights, 23.27 against 23.20) was not recomputed.
-- **The fleet's own curtailment**: EIA-930 counts what was generated, so energy the fleet curtailed is missing from a plant that would not have curtailed it. Not measured.
+- **The capture file's own build** (`capture_price.py`, every hub and zone): not re-run; only the default hub's figure was recomputed (above).
+- **The fleet's own curtailment.** EIA-930 counts what was generated, so the plant inherits the fleet's curtailment while it is paid the hub's price. Only an indication, outside the page's window: in the 1,271 hours `ercot_wind_solar_hsl_hourly` holds (28 September to 20 November 2026), the solar fleet's High Sustained Limit less its generation was 5.5 percent of its potential; only 11 percent of it fell in negative-price hours; valued at the hub-average price (USD 30.25 per MWh where curtailed) it was worth 6.7 percent of the generated energy. Much of that is local congestion, which a plant at its own node would see as a low price instead; the table's history is too short to measure the page's twelve months.
 - **The capital cost's basis** (per kW of AC or DC capacity) against an output per MW of AC nameplate: not checked against Lazard's text.
 
 ## The deploys of this file (rule 8)
