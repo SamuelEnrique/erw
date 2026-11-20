@@ -1,0 +1,308 @@
+# The codebook's metadata of table eia861m_utility_sales_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia861m_utility_sales_monthly
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:eia861m U.S. Energy Information Administration, Form EIA-861M, sales to ultimate customers
+  url: https://www.eia.gov/electricity/data/eia861m/
+cite: U.S. Energy Information Administration (EIA). Form EIA-861M, monthly sales to ultimate customers. Via the Energy Research
+  Warehouse (ERW), table `eia861m_utility_sales_monthly`.
+method: docs/methods/eia861m_utility_sales_monthly.md
+header_title: Form EIA-861M, each sampled utility's retail sales, revenue and customers by state and sector, a month (session
+  511)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia861m:<utility number>:<state>; variable <sector>_sales (MWh),
+  <sector>_revenue (USD, EIA''s thousand dollars times 1,000) or <sector>_customers (count); ts_utc the month''s first day;
+  freq P1M; node the utility''s name; x_* EIA''s own fields.'
+read:
+  date: '2026-11-20'
+  rows: 1051488
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 763
+    examples:
+    - eia861m:10000:KS
+    - eia861m:10000:MO
+    - eia861m:10005:KS
+    - eia861m:10066:CO
+    - eia861m:10071:HI
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 115
+    earliest: '2017-01-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 1926363000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 350488
+      USD: 350487
+      count: 350513
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 1051488
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1051488
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 402
+    examples:
+    - 4-County Electric Power Assn
+    - A & N Electric Coop
+    - AES Indiana
+    - AGC Division of APG Inc
+    - AGC Division of APGI Inc
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia861m: 1051488
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia861m/archive/xls/retail_sales_2017.xlsx: 105560
+      https://www.eia.gov/electricity/data/eia861m/archive/xls/retail_sales_2018.xlsx: 110656
+      https://www.eia.gov/electricity/data/eia861m/archive/xls/retail_sales_2019.xlsx: 110815
+      https://www.eia.gov/electricity/data/eia861m/archive/xls/retail_sales_2020.xlsx: 109538
+      https://www.eia.gov/electricity/data/eia861m/archive/xls/sales_ult_cust_2021.xlsx: 105834
+      https://www.eia.gov/electricity/data/eia861m/archive/xls/sales_ult_cust_2022.xlsx: 106631
+      https://www.eia.gov/electricity/data/eia861m/archive/xls/sales_ult_cust_2023.xlsx: 107807
+      https://www.eia.gov/electricity/data/eia861m/archive/xls/sales_ult_cust_2024.xlsx: 114486
+      https://www.eia.gov/electricity/data/eia861m/archive/xls/sales_ult_cust_2025.xlsx: 115567
+      https://www.eia.gov/electricity/data/eia861m/xls/sales_ult_cust_2026.xlsx: 64594
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T19:29:43Z': 115567
+      '2026-10-21T19:29:44Z': 64594
+      '2026-10-21T20:26:09Z': 105560
+      '2026-10-21T20:26:10Z': 110656
+      '2026-10-21T20:26:12Z': 110815
+      '2026-10-21T20:26:13Z': 109538
+      '2026-10-21T20:26:15Z': 105834
+      '2026-10-21T20:26:16Z': 106631
+      '2026-10-21T20:26:18Z': 107807
+      '2026-10-21T20:26:19Z': 114486
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1051488
+- name: x_utility_number
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 369
+    lowest: 84
+    highest: 67121
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ownership
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Behind the Meter: 309820
+      Cooperative: 206676
+      Federal: 35865
+      Investor Owned: 325026
+      Municipal: 120897
+      Political Subdivision: 34140
+      Retail Power Marketer: 63
+      State: 16421
+  missing_cells: 2580
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_data_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Final: 871327
+      Preliminary: 180161
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: commercial_customers
+  label: null
+  unit: count
+  rows: 70152
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: commercial_revenue
+  label: null
+  unit: USD
+  rows: 70147
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: commercial_sales
+  label: null
+  unit: MWh
+  rows: 70148
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: industrial_customers
+  label: null
+  unit: count
+  rows: 70121
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: industrial_revenue
+  label: null
+  unit: USD
+  rows: 70109
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: industrial_sales
+  label: null
+  unit: MWh
+  rows: 70109
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: residential_customers
+  label: null
+  unit: count
+  rows: 69916
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: residential_revenue
+  label: null
+  unit: USD
+  rows: 69905
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: residential_sales
+  label: null
+  unit: MWh
+  rows: 69908
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: total_customers
+  label: null
+  unit: count
+  rows: 70181
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: total_revenue
+  label: null
+  unit: USD
+  rows: 70181
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: total_sales
+  label: null
+  unit: MWh
+  rows: 70180
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: transportation_customers
+  label: null
+  unit: count
+  rows: 70143
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: transportation_revenue
+  label: null
+  unit: USD
+  rows: 70145
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: transportation_sales
+  label: null
+  unit: MWh
+  rows: 70143
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,175 @@
+# The codebook's metadata of table eia_refinery_utilization_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_refinery_utilization_monthly
+family: eia
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:petroleum/pnp/unc U.S. Energy Information Administration, Petroleum Supply Monthly, refinery utilization and capacity
+    (API v2, route petroleum/pnp/unc)
+  url: https://api.eia.gov/v2/petroleum/pnp/unc/
+cite: U.S. Energy Information Administration (EIA). Petroleum Supply Monthly, refinery utilization and capacity (API v2).
+  Via the Energy Research Warehouse (ERW), table `eia_refinery_utilization_monthly`.
+method: docs/methods/eia_refinery_utilization_monthly.md
+header_title: EIA, refinery utilization and capacity, the U.S., the PADDs and the refining districts, a month (session 2334)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_refinery_utilization:<series>; variable gross_input, operable_capacity,
+  operating_capacity, idle_capacity (kbbl/d) or utilization (ratio, EIA''s percent divided by 100); ts_utc the month''s first
+  day; freq P1M; geo US; node EIA''s series description. The PADDs are parts of the U.S. and the districts parts of their
+  PADDs: a sum takes one level.'
+read:
+  date: '2026-11-20'
+  rows: 36672
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 80
+    examples:
+    - eia_refinery_utilization:MGIRI2A2
+    - eia_refinery_utilization:MGIRI2B2
+    - eia_refinery_utilization:MGIRI2C2
+    - eia_refinery_utilization:MGIRI3A2
+    - eia_refinery_utilization:MGIRI3B2
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 499
+    earliest: '1985-01-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 18976.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      kbbl/d: 28688
+      ratio: 7984
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 36672
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 36672
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 36672
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 80
+    examples:
+    - Appalachian No. 1 Refinery District Gross Inputs to Refineries (Thousand Barrels Per Day)
+    - Appalachian No. 1 Refining District Idle Crude Oil Distillation Capacity  (Thousand Barrels per Day)
+    - Appalachian No. 1 Refining District Operable Crude Oil Distillation Capacity  (Thousand Barrels per Calendar Day)
+    - Appalachian No. 1 Refining District Operating Crude Oil Distillation Capacity  (Thousand Barrels per Day)
+    - Appalachian No. 1 Refining District Percent Utilization of Refinery Operable Capacity
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:petroleum/pnp/unc: 36672
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/petroleum/pnp/unc/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bprocess%5D%5B%5D=YIY&facets%5Bprocess%5D%5B%5D=YRL&facets%5Bprocess%5D%5B%5D=YRO&facets%5Bprocess%5D%5B%5D=YRI&facets%5Bprocess%5D%5B%5D=YUP&start=1985-01
+      : 36672
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T07:33:40Z': 5000
+      '2026-10-24T07:33:44Z': 5000
+      '2026-10-24T07:33:48Z': 5000
+      '2026-10-24T07:33:52Z': 5000
+      '2026-10-24T07:33:56Z': 5000
+      '2026-10-24T07:34:00Z': 5000
+      '2026-10-24T07:34:04Z': 5000
+      '2026-10-24T07:34:07Z': 1672
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 36672
+variables:
+- name: gross_input
+  label: null
+  unit: kbbl/d
+  rows: 7984
+  first: '1985-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: idle_capacity
+  label: null
+  unit: kbbl/d
+  rows: 4736
+  first: '1985-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: operable_capacity
+  label: null
+  unit: kbbl/d
+  rows: 7984
+  first: '1985-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: operating_capacity
+  label: null
+  unit: kbbl/d
+  rows: 7984
+  first: '1985-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: utilization
+  label: null
+  unit: ratio
+  rows: 7984
+  first: '1985-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

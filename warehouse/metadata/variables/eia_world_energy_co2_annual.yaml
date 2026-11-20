@@ -1,0 +1,171 @@
+# The codebook's metadata of table eia_world_energy_co2_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_world_energy_co2_annual
+family: eia
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:international_bulk U.S. Energy Information Administration, International Energy Statistics (bulk download)
+  url: https://www.eia.gov/international/data/world
+cite: U.S. Energy Information Administration (EIA). International Energy Statistics (bulk download). Via the Energy Research
+  Warehouse (ERW), table `eia_world_energy_co2_annual`.
+method: docs/methods/eia_world_coal_energy.md
+header_title: EIA, International Energy Statistics, total primary energy and energy-related CO2 emissions of every country
+  and region, a year, from EIA's bulk file (session 937)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_intl:<EIA country or region code>:<EIA product id: 44 total
+  energy, 4411 to 4419 total energy by source; 4008 CO2 from all fuels, 4002 coal and coke, 4006 petroleum and other liquids,
+  4010 consumed natural gas, and EIA''s by-product copies 1, 5 and 3002>; variables production and consumption (TBtu, EIA''s
+  quadrillion Btu times 1,000) and emissions (tCO2, EIA''s million metric tonnes of CO2 times 1,000,000); a total holds its
+  parts: a sum takes one level; ts_utc the year''s 1 January; freq P1Y; geo empty; x_area as in eia_world_electricity_annual:
+  a sum over countries takes country and former only.'
+read:
+  date: '2026-11-20'
+  rows: 246988
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 3701
+    examples:
+    - eia_intl:ABW:1
+    - eia_intl:ABW:3002
+    - eia_intl:ABW:4002
+    - eia_intl:ABW:4006
+    - eia_intl:ABW:4008
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 77
+    earliest: '1949-01-01T00:00:00Z'
+    latest: '2025-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -68286.95066878719
+    highest: 37928008921.28
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      TBtu: 167809
+      tCO2: 79179
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 246988
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 246988
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 246988
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 3589
+    examples:
+    - Afghanistan, CO2 emissions, all fuels
+    - Afghanistan, CO2 emissions, coal and coke
+    - Afghanistan, CO2 emissions, coal and coke (by product)
+    - Afghanistan, CO2 emissions, consumed natural gas
+    - Afghanistan, CO2 emissions, natural gas
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:international_bulk: 246988
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/opendata/bulk/INTL.zip: 246988
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T07:54:07Z': 246988
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-19T19:55:35Z': 246988
+  missing_cells: 0
+- name: x_area
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      country: 206887
+      former: 2596
+      part: 1092
+      region: 36413
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: consumption
+  label: null
+  unit: TBtu
+  rows: 89405
+  first: '1980-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: emissions
+  label: null
+  unit: tCO2
+  rows: 79179
+  first: '1949-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: production
+  label: null
+  unit: TBtu
+  rows: 78404
+  first: '1980-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

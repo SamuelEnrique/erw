@@ -1,0 +1,287 @@
+# The codebook's metadata of table eia_petroleum_snd_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_petroleum_snd_monthly
+family: eia
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:petroleum/sum/snd U.S. Energy Information Administration, Petroleum Supply Monthly, supply and disposition (API
+    v2, route petroleum/sum/snd)
+  url: https://www.eia.gov/petroleum/supply/monthly/
+cite: U.S. Energy Information Administration (EIA). Petroleum Supply Monthly, supply and disposition (API v2). Via the Energy
+  Research Warehouse (ERW), table `eia_petroleum_snd_monthly`.
+method: docs/methods/eia_petroleum_snd_monthly.md
+header_title: EIA, petroleum supply and disposition, crude oil and the main products, the U.S. and the five PADDs, a month
+  (session 555)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_petroleum_snd:<series>; variable the process as a word,
+  with _per_day for kbbl/d; unit kbbl (the month) or kbbl/d; ts_utc the month''s first day; freq P1M; node EIA''s series name.
+  Products: EP00, EPC0, EPM0F, EPD0, EPJK, EPLLPA, EPPR, EPOOXE, EPPK, EPPV, EPPA, EPPC, EPPL, EPL2, EPLLEA, EPLLBAN, EPLLBAI,
+  EPPU, EPOORDB, EPOORDO, EPL0, EPOL, EPLLNG, EPP2, EPOO, EPOOR, EPOBG, EPOBGC0, EPM0C, EPDXL0, EPOORXFE, EPOBGR0, EPPCM,
+  EPD00H, EPDM10, EPPM, EPPP0, EPLOLE, EPPW, EPLLPY, EPOOXXFE, EPPPO, EPLLBYN, EPLLCS, EPOORO, EPM0R, EPPRY, EPPNS, EPPPN,
+  EPPRH, EPPRX, EPLLBYI, EPLLEY, EPOBV, EPOOOXH, EPOOOH, EPPCC, EPPS (EP00 the total holds the others).'
+read:
+  date: '2026-11-20'
+  rows: 523835
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 4459
+    examples:
+    - eia_petroleum_snd:MAPEXP11
+    - eia_petroleum_snd:MAPEXP12
+    - eia_petroleum_snd:MAPEXP21
+    - eia_petroleum_snd:MAPEXP22
+    - eia_petroleum_snd:MAPEXP31
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 139
+    earliest: '2015-01-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -104876.0
+    highest: 2113726.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      kbbl: 281783
+      kbbl/d: 242052
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 523835
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 523835
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 523835
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 4455
+    examples:
+    - East Coast (PADD 1) Asphalt and Road Oil Stock Change (Thousand Barrels per Day)
+    - East Coast (PADD 1) Asphalt and Road Oil Stock Change (Thousand Barrels)
+    - East Coast (PADD 1) Aviation Gasoline Stock Change (Thousand Barrels per Day)
+    - East Coast (PADD 1) Aviation Gasoline Stock Change (Thousand Barrels)
+    - East Coast (PADD 1) Biodiesel Stock Change (Thousand Barrels per Day)
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:petroleum/sum/snd: 523835
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/petroleum/sum/snd/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bproduct%5D%5B%5D=EP00&facets%5Bproduct%5D%5B%5D=EPC0&facets%5Bproduct%5D%5B%5D=EPM0F&facets%5Bproduct%5D%5B%5D=EPD0&facets%5Bproduct%5D%5B%5D=EPJK&facets%5Bproduct%5D%5B%5D=EPLLPA&facets%5Bproduct%5D%5B%5D=EPPR&facets%5Bproduct%5D%5B%5D=EPOOXE&start=2015-01
+      : 100340
+      ? https://api.eia.gov/v2/petroleum/sum/snd/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bproduct%5D%5B%5D=EPL0&facets%5Bproduct%5D%5B%5D=EPOL&facets%5Bproduct%5D%5B%5D=EPLLNG&facets%5Bproduct%5D%5B%5D=EPP2&facets%5Bproduct%5D%5B%5D=EPOO&facets%5Bproduct%5D%5B%5D=EPOOR&facets%5Bproduct%5D%5B%5D=EPOBG&facets%5Bproduct%5D%5B%5D=EPOBGC0&facets%5Bproduct%5D%5B%5D=EPM0C&facets%5Bproduct%5D%5B%5D=EPDXL0&start=2015-01
+      : 134186
+      ? https://api.eia.gov/v2/petroleum/sum/snd/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bproduct%5D%5B%5D=EPOORXFE&facets%5Bproduct%5D%5B%5D=EPOBGR0&facets%5Bproduct%5D%5B%5D=EPPCM&facets%5Bproduct%5D%5B%5D=EPD00H&facets%5Bproduct%5D%5B%5D=EPDM10&facets%5Bproduct%5D%5B%5D=EPPM&facets%5Bproduct%5D%5B%5D=EPPP0&facets%5Bproduct%5D%5B%5D=EPLOLE&facets%5Bproduct%5D%5B%5D=EPPW&facets%5Bproduct%5D%5B%5D=EPLLPY&facets%5Bproduct%5D%5B%5D=EPOOXXFE&facets%5Bproduct%5D%5B%5D=EPPPO&facets%5Bproduct%5D%5B%5D=EPLLBYN&facets%5Bproduct%5D%5B%5D=EPLLCS&facets%5Bproduct%5D%5B%5D=EPOORO&facets%5Bproduct%5D%5B%5D=EPM0R&facets%5Bproduct%5D%5B%5D=EPPRY&start=2015-01
+      : 119187
+      ? https://api.eia.gov/v2/petroleum/sum/snd/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bproduct%5D%5B%5D=EPPK&facets%5Bproduct%5D%5B%5D=EPPV&facets%5Bproduct%5D%5B%5D=EPPA&facets%5Bproduct%5D%5B%5D=EPPC&facets%5Bproduct%5D%5B%5D=EPPL&facets%5Bproduct%5D%5B%5D=EPL2&facets%5Bproduct%5D%5B%5D=EPLLEA&facets%5Bproduct%5D%5B%5D=EPLLBAN&facets%5Bproduct%5D%5B%5D=EPLLBAI&facets%5Bproduct%5D%5B%5D=EPPU&facets%5Bproduct%5D%5B%5D=EPOORDB&facets%5Bproduct%5D%5B%5D=EPOORDO&start=2015-01
+      : 122156
+      ? https://api.eia.gov/v2/petroleum/sum/snd/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bproduct%5D%5B%5D=EPPNS&facets%5Bproduct%5D%5B%5D=EPPPN&facets%5Bproduct%5D%5B%5D=EPPRH&facets%5Bproduct%5D%5B%5D=EPPRX&facets%5Bproduct%5D%5B%5D=EPLLBYI&facets%5Bproduct%5D%5B%5D=EPLLEY&facets%5Bproduct%5D%5B%5D=EPOBV&facets%5Bproduct%5D%5B%5D=EPOOOXH&facets%5Bproduct%5D%5B%5D=EPOOOH&facets%5Bproduct%5D%5B%5D=EPPCC&facets%5Bproduct%5D%5B%5D=EPPS&start=2015-01
+      : 47966
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-22T02:33:32Z': 523835
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 523835
+variables:
+- name: ending_stocks
+  label: null
+  unit: kbbl
+  rows: 40018
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: exports
+  label: null
+  unit: kbbl
+  rows: 27415
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: exports_per_day
+  label: null
+  unit: kbbl/d
+  rows: 27416
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: field_production
+  label: null
+  unit: kbbl
+  rows: 7670
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: field_production_per_day
+  label: null
+  unit: kbbl/d
+  rows: 7670
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: imports
+  label: null
+  unit: kbbl
+  rows: 27007
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: imports_per_day
+  label: null
+  unit: kbbl/d
+  rows: 27007
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: net_receipts
+  label: null
+  unit: kbbl
+  rows: 24049
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: net_receipts_per_day
+  label: null
+  unit: kbbl/d
+  rows: 24049
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: product_supplied
+  label: null
+  unit: kbbl
+  rows: 41005
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: product_supplied_per_day
+  label: null
+  unit: kbbl/d
+  rows: 41283
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: refinery_net_input
+  label: null
+  unit: kbbl
+  rows: 16364
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: refinery_net_input_per_day
+  label: null
+  unit: kbbl/d
+  rows: 16372
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: refinery_net_production
+  label: null
+  unit: kbbl
+  rows: 29297
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: refinery_net_production_per_day
+  label: null
+  unit: kbbl/d
+  rows: 29297
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: renewable_plant_production
+  label: null
+  unit: kbbl
+  rows: 11738
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: renewable_plant_production_per_day
+  label: null
+  unit: kbbl/d
+  rows: 11738
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: stock_change
+  label: null
+  unit: kbbl
+  rows: 40054
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: stock_change_per_day
+  label: null
+  unit: kbbl/d
+  rows: 40054
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: supply_adjustment
+  label: null
+  unit: kbbl
+  rows: 14310
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: supply_adjustment_per_day
+  label: null
+  unit: kbbl/d
+  rows: 14310
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: transfers_to_crude_supply
+  label: null
+  unit: kbbl
+  rows: 2856
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: transfers_to_crude_supply_per_day
+  label: null
+  unit: kbbl/d
+  rows: 2856
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

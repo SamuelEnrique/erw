@@ -1,0 +1,616 @@
+# The codebook's metadata of table eia_lng_liquefaction_projects (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_lng_liquefaction_projects
+family: eia
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: eia:us_liquefaction_capacity U.S. Energy Information Administration, U.S. Liquefaction Capacity (quarterly), listed
+    on
+  url: https://www.eia.gov/naturalgas/data.php
+cite: 'U.S. Energy Information Administration (EIA). U.S. Liquefaction Capacity: LNG export projects, trains and approvals
+  (quarterly). Via the Energy Research Warehouse (ERW), table `eia_lng_liquefaction_projects`.'
+method: docs/methods/eia_lng_liquefaction_projects.md
+header_title: 'EIA, U.S. Liquefaction Capacity: LNG export projects'' trains in operation, commissioning and construction,
+  and the large approved projects, U.S.liquefactioncapacity_2026_Q3.xlsx (session 2021)'
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id eia_lng:<project>:<train> or eia_lng:<project> (approved);
+  entity_type project; status operating, under_construction, planned (approved), or empty for EIA''s Commissioning; status_date
+  the in-service day where EIA gives one; capacity_mw empty. Capacities and authorized quantities in the x_ columns, bcfd
+  (billion cubic feet a day) and mtpa (million tonnes a year) as EIA gives them; x_marks EIA''s footnote marks beside a figure
+  (its notes are in the file).'
+read:
+  date: '2026-11-20'
+  rows: 48
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: 48
+    examples:
+    - eia_lng:alaska_lng
+    - eia_lng:calcasieu_pass:trains_10_18c
+    - eia_lng:calcasieu_pass:trains_1_9c
+    - eia_lng:cameron:train_1b
+    - eia_lng:cameron:train_2b
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      project: 48
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 48
+    examples:
+    - Alaska LNG
+    - Calcasieu Pass, Trains 1-9C
+    - Calcasieu Pass, Trains 10-18C
+    - Cameron LNG Train 4A
+    - Cameron, Train 1B
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 2
+      US-AK: 1
+      US-GA: 2
+      US-LA: 21
+      US-MD: 1
+      US-MS: 1
+      US-TX: 20
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 48
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 48
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 48
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      operating: 20
+      planned: 9
+      under_construction: 15
+  missing_cells: 4
+- name: status_date
+  shared: true
+  type: date
+  values:
+    list:
+      '2016-02-01': 1
+      '2016-08-01': 1
+      '2017-01-01': 1
+      '2017-08-01': 1
+      '2018-03-01': 1
+      '2018-11-01': 1
+      '2018-12-01': 1
+      '2019-05-01': 1
+      '2019-07-01': 1
+      '2019-09-01': 2
+      '2019-12-01': 2
+      '2020-03-01': 1
+      '2020-05-01': 1
+      '2020-08-01': 1
+      '2020-12-01': 1
+      '2021-12-01': 1
+      '2022-03-01': 1
+      '2022-09-01': 1
+      '2024-12-01': 1
+      '2025-02-01': 1
+      '2025-09-01': 1
+      '2026-04-01': 1
+  missing_cells: 24
+- name: operator
+  shared: true
+  type: text
+  values:
+    list:
+      Alaska Gasline Development Corporation (AGDC): 1
+      Berkshire Hathaway BHE GT&S: 1
+      Cameron LNG, LLC: 1
+      Cheniere Energy: 9
+      Corpus Christi Liquefaction Stage III, LLC: 1
+      Corpus Christi Liquefaction, LLC: 1
+      Energy Transfer, LP: 2
+      Fairwood Group: 2
+      Freeport LNG: 1
+      Freeport LNG Development, L.P.: 3
+      Glenfarne Energy Transition, LLC: 1
+      Gulf LNG Liquefaction Company, LLC: 1
+      Kimmeridge Energy Management: 1
+      Kinder Morgan: 2
+      NextDecade Corporation: 5
+      Qatar Petroleum, ExxonMobil: 3
+      Sempra Energy: 2
+      Sempra LNG: 3
+      Venture Global LNG: 4
+      Venture Global LNG, Inc.: 2
+      Woodside Energy: 2
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:us_liquefaction_capacity: 48
+  missing_cells: 0
+- name: x_sheet
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      approved: 9
+      existing_under_construction: 39
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_train
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 31
+    examples:
+    - Train 1
+    - Train 1B
+    - Train 1D
+    - Train 1I
+    - Train 2
+  missing_cells: 9
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Commercial operation: 20
+      Commissioning: 4
+      ? Completed FEED on a new design of one larger-size train, rather than 2 trains as was initially proposed. Awarded EPC
+        contract to Bechtel. FID TBA
+      : 1
+      Completed FEED, awarded EPC contract to Bechtel Energy, issued limited notice to proceed to commence construction, FID TBA: 1
+      Completed FEED, awarded EPC contract to Kiewit Energy. FID TBA: 1
+      ? Completed FEED, awarded EPC contract to Samsung Heavy Industries and Black & Veatch. Project was granted DOE authorization
+        for a 5-year extension to 2029 to commence operations.
+      : 1
+      ? Completed FEED, reviewed EPC tenders, signed a preliminary EPC contract with a consortium led by Technip Energies
+        and KBR, FID TBAD
+      : 1
+      ? Completed FEED, reviewed EPC tenders, signed a preliminary EPC contract with a consortium led by Technip Energies
+        and KBR. FID TBAD
+      : 1
+      Completed FEED, selected engineering, procurement, and construction (EPC) contractor. FID targeted for 2026.: 1
+      Proposed: 1
+      Under Construction: 1
+      Under construction: 13
+      Under constructionH: 1
+      Undergoing FEED: 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_in_service
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 31
+    examples:
+    - 1H2027
+    - 1H2029
+    - '2016-02-01'
+    - '2016-08-01'
+    - '2017-01-01'
+  missing_cells: 9
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_commercial_operation_date
+  label: null
+  unit: null
+  type: date
+  values:
+    list:
+      '2016-05-01': 1
+      '2016-10-01': 1
+      '2017-03-01': 1
+      '2017-10-01': 1
+      '2018-04-01': 1
+      '2019-03-01': 2
+      '2019-07-01': 1
+      '2019-08-01': 1
+      '2019-09-01': 1
+      '2019-11-01': 1
+      '2020-01-01': 1
+      '2020-03-02': 1
+      '2020-04-01': 1
+      '2020-08-01': 1
+      '2020-08-02': 1
+      '2021-03-01': 1
+      '2022-02-01': 1
+      '2022-05-01': 1
+      '2023-10-01': 1
+  missing_cells: 28
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_trains
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 2
+      '2': 4
+      '3': 2
+  missing_cells: 40
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_baseload_bcfd
+  label: null
+  unit: null
+  type: number
+  values:
+    list:
+      '0.16': 2
+      '0.28': 1
+      '0.39': 1
+      '0.53': 2
+      '0.59': 9
+      '0.6': 3
+      '0.61': 1
+      '0.66': 5
+      '0.68': 3
+      '0.69': 1
+      '0.71': 1
+      '0.72': 6
+      '0.73': 1
+      '0.74': 1
+      '0.85': 1
+      '0.96': 1
+      '1.09': 1
+      '1.32': 3
+      '1.58': 2
+      '2.04': 1
+      '2.18': 1
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_baseload_mtpa
+  label: null
+  unit: null
+  type: number
+  values:
+    list:
+      '1.25': 2
+      '10.0': 1
+      '12.0': 2
+      '14.4': 1
+      '16.56': 1
+      '2.0': 1
+      '2.98': 1
+      '4.0': 1
+      '4.4': 1
+      '4.5': 9
+      '4.52': 3
+      '5.0': 5
+      '5.1': 1
+      '5.2': 3
+      '5.25': 1
+      '5.4': 5
+      '5.43': 1
+      '5.5': 1
+      '5.52': 1
+      '5.6': 1
+      '6.67': 1
+      '6.75': 1
+      '8.4': 1
+      '9.9': 2
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_peak_bcfd
+  label: null
+  unit: null
+  type: number
+  values:
+    list:
+      '0.22': 2
+      '0.56': 1
+      '0.58': 1
+      '0.61': 1
+      '0.66': 3
+      '0.74': 1
+      '0.76': 7
+      '0.79': 8
+      '0.8': 6
+      '0.88': 2
+      '0.96': 1
+      '1.05': 1
+      '1.1': 1
+      '1.21': 1
+      '1.43': 1
+      '1.45': 1
+      '1.78': 2
+      '1.89': 1
+      '1.96': 1
+      '2.14': 1
+      '2.17': 1
+      '2.18': 1
+      '2.55': 1
+      '2.86': 1
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_peak_mtpa
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 26
+    lowest: 1.45
+    highest: 20.22
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_doe_fta_bcfd
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 28
+    lowest: 0.25
+    highest: 3.71
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_doe_fta_mtpa
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 26
+    lowest: 2.0
+    highest: 25.28
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_doe_nonfta_bcfd
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 28
+    lowest: 0.21
+    highest: 2.86
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_doe_nonfta_mtpa
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 28
+    lowest: 1.45
+    highest: 20.22
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ferc_bcfd
+  label: null
+  unit: null
+  type: number
+  values:
+    list:
+      '0.22': 2
+      '0.56': 1
+      '0.58': 1
+      '0.61': 1
+      '0.66': 3
+      '0.74': 1
+      '0.76': 7
+      '0.79': 8
+      '0.8': 6
+      '0.88': 2
+      '0.96': 1
+      '1.1': 1
+      '1.2': 1
+      '1.21': 1
+      '1.5': 1
+      '1.55': 1
+      '1.78': 2
+      '1.89': 1
+      '1.96': 1
+      '2.14': 1
+      '2.17': 1
+      '2.18': 1
+      '2.55': 1
+      '2.86': 1
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ferc_mtpa
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 26
+    lowest: 1.45
+    highest: 20.22
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_doe_fta_docket
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 26
+    examples:
+    - 10-160-LNG/12-06-LNG
+    - 10-85-LNG/14-92-LNG/19-125-LNG
+    - 11-115-LNG
+    - 11-145-LNG/14-204-LNG
+    - 11-59-LNG/13-04-LNG
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_doe_nonfta_docket
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 26
+    examples:
+    - 10-111-LNG/15-63-LNG/19-125-LNG
+    - 10-161-LNG/11-161-LNG/16-108-LNG/21-98-LNG
+    - 11-128-LNG
+    - 11-162-LNG/15-67-LNG
+    - 11-59-LNG/13-04-LNG
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ferc_docket
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CP14-120/PF12-8: 2
+      CP14-517-000/CP19-20-000/CP20-459: 3
+      CP15-521-000: 1
+      CP15-550: 2
+      CP15-560-000/CP22-41: 1
+      CP16-116: 1
+      CP16-454/CP16-455: 5
+      CP17-117-000/CP17-180-000: 2
+      CP17-178-000: 1
+      CP17-20-000: 1
+      CP17-470-000: 1
+      CP17-66-000 and CP17-67-000: 2
+      CP18-512/CP18-514/CP26-36-000: 1
+      CP19-502-000: 1
+      CP20-55-000: 1
+      CP22-21-000/CP22-21-001: 2
+      CP23-129-000/CP26-36-000: 1
+      FERC CP15-490; MARAD: 2
+      PF10-24/CP11-72/CP19-515: 4
+      PF11-2/CP12-509/CP15-518-000/CP21-470-000: 3
+      PF12-13/ CP13-25: 3
+      PF12-16/ CP13-113: 1
+      PF12-3/ CP12-507/CP19-514: 3
+      PF13-3/CP14-103: 2
+      PF13-8/CP13-552/CP13-553/CP19-515: 2
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_project_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Brownfield: 25
+      Floating: 2
+      Greenfield: 21
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_marks
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      ? baseload_bcfd:Note A; baseload_mtpa:Note A; peak_bcfd:Note A; peak_mtpa:Note A; doe_nonfta_bcfd:B; ferc_bcfd:n/a;
+        ferc_mtpa:n/a; trains:n/a
+      : 1
+      baseload_mtpa:^; doe_fta_mtpa:^; doe_nonfta_mtpa:^: 1
+      baseload_mtpa:^; peak_mtpa:^; doe_fta_mtpa:^; doe_nonfta_mtpa:^: 1
+      baseload_mtpa:^; peak_mtpa:^; doe_nonfta_mtpa:^; ferc_mtpa:^: 1
+      doe_fta_mtpa:^; doe_nonfta_mtpa:^: 13
+      peak_bcfd:B; doe_fta_mtpa:^; doe_nonfta_mtpa:^; ferc_bcfd:B: 3
+      peak_bcfd:D; doe_fta_mtpa:^; doe_nonfta_mtpa:^; ferc_bcfd:D: 3
+      peak_mtpa:^; doe_fta_mtpa:^: 1
+      peak_mtpa:^; doe_fta_mtpa:^; doe_nonfta_bcfd:+; doe_nonfta_mtpa:^+: 1
+      peak_mtpa:^; doe_fta_mtpa:^; doe_nonfta_bcfd:B; doe_nonfta_mtpa:^: 1
+      peak_mtpa:^; doe_fta_mtpa:^; doe_nonfta_mtpa:^; ferc_mtpa:^: 7
+      peak_mtpa:^; doe_nonfta_mtpa:^; ferc_mtpa:^: 2
+  missing_cells: 13
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/naturalgas/importsexports/liquefactioncapacity/U.S.liquefactioncapacity_2026_Q3.xlsx: 48
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T18:59:44Z': 48
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-01T20:44:22Z': 48
+  missing_cells: 0
+second_look: null

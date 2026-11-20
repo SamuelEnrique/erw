@@ -1,0 +1,272 @@
+# The codebook's metadata of table eia_biofuel_plants (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_biofuel_plants
+family: eia
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: eia:biofuels_capacity EIA, U.S. Biofuels Plant Production Capacity
+  url: https://www.eia.gov/biofuels/capacity/
+cite: U.S. Energy Information Administration (EIA). U.S. Biofuels Plant Production Capacity; U.S. Fuel Ethanol, Biodiesel,
+  and Renewable Diesel Fuel and Other Biofuels Plant Production Capacity. Via the Energy Research Warehouse (ERW), table `eia_biofuel_plants`.
+method: docs/methods/eia_biofuel_plants.md
+header_title: 'U.S. Energy Information Administration (EIA), U.S. Biofuels Plant Production Capacity (as of January 1, 2026)
+  and the fuel ethanol, biodiesel and renewable diesel plant capacity reports (as of January 1, 2025), Form EIA-819: each
+  plant''s capacity, state and PADD, a year a row (session 2031)'
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id eia_biofuel:<year>:<fuel>:<state>:<n> (n the plant''s
+  place among its year, fuel and state in EIA''s workbook); entity_type plant; name the facility (the 2025 sheets name only
+  the city); geo US-<state>; status active; status_date the 1 January the capacity is as of; operator the entity or respondent
+  as EIA writes it; x_capacity_mmgal_per_year and x_capacity_kbbl_per_day as published ((s) is less than 0.5); x_coprocessing
+  yes where EIA marks a refinery co-processing renewable feedstock and petroleum.'
+read:
+  date: '2026-11-20'
+  rows: 511
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: 511
+    examples:
+    - eia_biofuel:2025:biodiesel:al:1
+    - eia_biofuel:2025:biodiesel:ar:1
+    - eia_biofuel:2025:biodiesel:ca:1
+    - eia_biofuel:2025:biodiesel:ca:2
+    - eia_biofuel:2025:biodiesel:ca:3
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      plant: 511
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 469
+    examples:
+    - ABERDEEN II
+    - ADAMS
+    - ADKINS ENERGY
+    - ADRIAN
+    - ALBERT CITY
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 39
+    examples:
+    - US-AL
+    - US-AR
+    - US-CA
+    - US-CO
+    - US-CT
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 511
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 511
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 511
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      active: 511
+  missing_cells: 0
+- name: status_date
+  shared: true
+  type: date
+  values:
+    list:
+      '2025-01-01': 258
+      '2026-01-01': 253
+  missing_cells: 0
+- name: operator
+  shared: true
+  type: text
+  values:
+    distinct: 462
+    examples:
+    - ABSOLUTE ENERGY LLC
+    - ACE ETHANOL LLC
+    - ADKINS ENERGY LLC
+    - ADM
+    - ADM CEDAR RAPIDS IA WET MILL
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:biofuels_capacity: 511
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/biofuels/biodiesel/capacity/biodieselcapacity.xlsx: 48
+      https://www.eia.gov/biofuels/capacity/biofuelscapacity.xlsx: 253
+      https://www.eia.gov/biofuels/renewable/capacity/renewablescapacity.xlsx: 19
+      https://www.eia.gov/petroleum/ethanolcapacity/ethanolcapacity.xlsx: 191
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T18:54:11Z': 253
+      '2026-10-23T18:54:13Z': 191
+      '2026-10-23T18:54:14Z': 48
+      '2026-10-23T18:54:53Z': 19
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2025-09-19T19:11:44Z': 48
+      '2025-09-19T20:23:45Z': 191
+      '2025-09-22T16:47:13Z': 19
+      '2026-09-09T21:16:23Z': 253
+  missing_cells: 0
+- name: x_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '2025': 258
+      '2026': 253
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_fuel
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      biodiesel: 93
+      ethanol: 380
+      renewable_diesel_and_other: 38
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_facility_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Biodiesel: 93
+      Ethanol: 380
+      Renewable Diesel Fuel and Other Biofuels: 38
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_padd
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      PADD 1: 20
+      PADD 2: 413
+      PADD 3: 32
+      PADD 4: 14
+      PADD 5: 32
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_city
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 231
+    examples:
+    - Aberdeen
+    - Adams
+    - Adrian
+    - Albert City
+    - Albert Lea
+  missing_cells: 253
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_capacity_mmgal_per_year
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 142
+    examples:
+    - (s)
+    - '0'
+    - '1'
+    - '100'
+    - '101'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_capacity_kbbl_per_day
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 29
+    examples:
+    - (s)
+    - '0'
+    - '1'
+    - '1.304631441617743'
+    - '10'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_coprocessing
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      'yes': 4
+  missing_cells: 507
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

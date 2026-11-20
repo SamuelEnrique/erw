@@ -1,0 +1,221 @@
+# The codebook's metadata of table desnz_uk_renewables_quarterly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: desnz_uk_renewables_quarterly
+family: desnz
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P3M
+source:
+- name: 'desnz:energy_trends_6_1 UK Department for Energy Security and Net Zero, Energy Trends section 6: renewables, table
+    ET 6.1'
+  url: https://www.gov.uk/government/statistics/energy-trends-section-6-renewables
+cite: 'UK Department for Energy Security and Net Zero (DESNZ). Energy Trends section 6: renewables, table ET 6.1 (renewable
+  electricity capacity and generation). Via the Energy Research Warehouse (ERW), table `desnz_uk_renewables_quarterly`.'
+method: docs/methods/desnz_uk_renewables_quarterly.md
+header_title: UK Department for Energy Security and Net Zero (DESNZ), Energy Trends table 6.1, renewable electricity capacity
+  and generation by technology, a quarter, 2010-01 to 2026-04 (session 2174)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity desnz_et61:<technology>; variable capacity (MW, cumulative
+  at the quarter''s end) or generated (MWh, DESNZ''s GWh times 1,000, estimated where no actual figure exists); ts_utc the
+  quarter''s first day; freq P3M; geo GB. TOTAL and the rows beside it are DESNZ''s own: a sum over the technologies must
+  leave out TOTAL, co_firing (capacity) and non_biodegradable_wastes (generation). Capacity and generation name offshore wind,
+  hydro and co-firing differently: a join by entity misses them.'
+read:
+  date: '2026-11-20'
+  rows: 1982
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      desnz_et61:anaerobic_digestion: 132
+      desnz_et61:animal_biomass_non_ad: 132
+      desnz_et61:co_firing: 66
+      desnz_et61:co_firing_with_fossil_fuels: 66
+      desnz_et61:energy_from_waste: 132
+      desnz_et61:hydro: 66
+      desnz_et61:landfill_gas: 132
+      desnz_et61:large_scale_hydro: 66
+      desnz_et61:liquid_biofuels: 68
+      desnz_et61:non_biodegradable_wastes: 66
+      desnz_et61:offshore_wind: 66
+      desnz_et61:offshore_wind_floating: 66
+      desnz_et61:offshore_wind_seabed: 66
+      desnz_et61:onshore_wind: 132
+      desnz_et61:plant_biomass: 132
+      desnz_et61:sewage_sludge_digestion: 132
+      desnz_et61:shoreline_wave_tidal: 132
+      desnz_et61:small_scale_hydro: 66
+      desnz_et61:solar_photovoltaics: 132
+      desnz_et61:total: 132
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 66
+    earliest: '2010-01-01T00:00:00Z'
+    latest: '2026-04-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1381
+    lowest: 0.0
+    highest: 44054300.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 1024
+      MWh: 958
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P3M: 1982
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      GB: 1982
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1982
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Anaerobic digestion: 132
+      Animal Biomass (non-AD): 132
+      Co-firing: 66
+      Co-firing with fossil fuels: 66
+      Energy from waste: 132
+      Hydro: 66
+      Landfill gas: 132
+      Large scale hydro: 66
+      Liquid biofuels: 68
+      Non-biodegradable wastes: 66
+      Offshore wind: 66
+      Offshore wind - floating: 66
+      Offshore wind - seabed: 66
+      Onshore wind: 132
+      Plant biomass: 132
+      Sewage sludge digestion: 132
+      Shoreline wave / tidal: 132
+      Small scale hydro: 66
+      Solar photovoltaics: 132
+      TOTAL: 132
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      desnz:energy_trends_6_1: 1982
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://assets.publishing.service.gov.uk/media/6aba724dfceb6fb3a65012d2/ET_6.1_SEP_26.xlsx: 1982
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T00:55:17Z': 1982
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-09-28T13:57:33Z': 1982
+  missing_cells: 0
+- name: x_technology
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Anaerobic digestion: 132
+      Animal Biomass (non-AD): 132
+      Co-firing: 66
+      Co-firing with fossil fuels: 66
+      Energy from waste: 132
+      Hydro: 66
+      Landfill gas: 132
+      Large scale hydro: 66
+      Liquid biofuels: 68
+      Non-biodegradable wastes: 66
+      Offshore wind: 66
+      Offshore wind - floating: 66
+      Offshore wind - seabed: 66
+      Onshore wind: 132
+      Plant biomass: 132
+      Sewage sludge digestion: 132
+      Shoreline wave / tidal: 132
+      Small scale hydro: 66
+      Solar photovoltaics: 132
+      TOTAL: 132
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_provisional
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      'no': 1982
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: capacity
+  label: null
+  unit: MW
+  rows: 1024
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: generated
+  label: null
+  unit: MWh
+  rows: 958
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+second_look: null

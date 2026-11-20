@@ -1,0 +1,205 @@
+# The codebook's metadata of table eurostat_gas_import_origin_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_gas_import_origin_annual
+family: eurostat
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eurostat:nrg_ind_idogas Eurostat, Natural gas import dependency by country of origin (nrg_ind_idogas)
+  url: https://ec.europa.eu/eurostat/databrowser/view/nrg_ind_idogas/default/table
+cite: Eurostat (Statistical Office of the European Union). Natural gas import dependency by country of origin (nrg_ind_idogas).
+  Via the Energy Research Warehouse (ERW), table `eurostat_gas_import_origin_annual`.
+method: docs/methods/eurostat_gas_import_origin_annual.md
+header_title: Eurostat, natural gas import dependency by country of origin, annual (nrg_ind_idogas, G3000), 2015 to 2020 (session
+  2821; Eurostat's last update 29/09/22, no later year)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_gas_origin:<geo>:<partner> (DZ Algeria, NG Nigeria,
+  NO Norway, QA Qatar, RU Russia, UK the United Kingdom, US the United States); variable import_dependency_by_origin; unit
+  pct; ts_utc the year''s 1 January; freq P1Y; geo ISO alpha-2 (EL is GR), blank for EU27_2020; x_partner Eurostat''s code;
+  x_flag i (see Eurostat''s metadata).'
+read:
+  date: '2026-11-20'
+  rows: 1253
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 224
+    examples:
+    - eurostat_gas_origin:BA:DZ
+    - eurostat_gas_origin:BA:NG
+    - eurostat_gas_origin:BA:NO
+    - eurostat_gas_origin:BA:QA
+    - eurostat_gas_origin:BA:RU
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2015-01-01T00:00:00Z': 196
+      '2016-01-01T00:00:00Z': 196
+      '2017-01-01T00:00:00Z': 210
+      '2018-01-01T00:00:00Z': 210
+      '2019-01-01T00:00:00Z': 217
+      '2020-01-01T00:00:00Z': 224
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 432
+    lowest: 0.0
+    highest: 100.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      pct: 1253
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 1253
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 32
+    examples:
+    - BA
+    - BE
+    - BG
+    - CZ
+    - DE
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1253
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 224
+    examples:
+    - BA natural gas import dependency on Algeria
+    - BA natural gas import dependency on Nigeria
+    - BA natural gas import dependency on Norway
+    - BA natural gas import dependency on Qatar
+    - BA natural gas import dependency on Russia
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:nrg_ind_idogas: 1253
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nrg_ind_idogas?format=SDMX-CSV&compressed=false: 1253
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-26T06:35:59Z': 1253
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1253
+- name: x_geo_code
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 32
+    examples:
+    - BA
+    - BE
+    - BG
+    - CZ
+    - DE
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_partner
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      DZ: 179
+      NG: 179
+      'NO': 179
+      QA: 179
+      RU: 179
+      UK: 179
+      US: 179
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_flag
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      i: 1253
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_conf_status
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1253
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: import_dependency_by_origin
+  label: null
+  unit: pct
+  rows: 1253
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,230 @@
+# The codebook's metadata of table eurostat_electricity_trade_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_electricity_trade_annual
+family: eurostat
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eurostat:nrg_ti_eh_nrg_te_eh Eurostat, Electricity and derived heat imports (nrg_ti_eh) and exports (nrg_te_eh), electricity
+    (E7000)
+  url: https://ec.europa.eu/eurostat/databrowser/view/nrg_ti_eh/default/table
+cite: Eurostat (Statistical Office of the European Union). Electricity and derived heat imports (nrg_ti_eh) and exports (nrg_te_eh),
+  electricity by partner. Via the Energy Research Warehouse (ERW), table `eurostat_electricity_trade_annual`.
+method: docs/methods/eurostat_electricity_trade_annual.md
+header_title: Eurostat, electricity imports (nrg_ti_eh) and exports (nrg_te_eh) by partner, 2010 to 2024, 39 European countries
+  and the EU aggregates (session 2432)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_elec_trade:<Eurostat geo code>:<partner code>; variable
+  imports or exports; unit MWh (Eurostat''s GWh times 1,000); ts_utc the year''s 1 January; freq P1Y; geo the reporting country''s
+  ISO alpha-2 (Eurostat''s EL is GR), blank for EU27_2020 and EA21; node the partner''s name; x_partner and x_partner_name
+  Eurostat''s partner code and name; x_flag the observation''s status. Each country''s figures are as it reports them: one
+  country''s imports from a partner need not equal the partner''s exports to it.'
+read:
+  date: '2026-11-20'
+  rows: 198783
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - eurostat_elec_trade:AL:AD
+    - eurostat_elec_trade:AL:AE
+    - eurostat_elec_trade:AL:AFR_OTH
+    - eurostat_elec_trade:AL:AL
+    - eurostat_elec_trade:AL:AM
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2010-01-01T00:00:00Z': 12572
+      '2011-01-01T00:00:00Z': 12576
+      '2012-01-01T00:00:00Z': 12576
+      '2013-01-01T00:00:00Z': 12906
+      '2014-01-01T00:00:00Z': 13566
+      '2015-01-01T00:00:00Z': 13566
+      '2016-01-01T00:00:00Z': 13566
+      '2017-01-01T00:00:00Z': 13566
+      '2018-01-01T00:00:00Z': 13566
+      '2019-01-01T00:00:00Z': 13570
+      '2020-01-01T00:00:00Z': 13574
+      '2021-01-01T00:00:00Z': 13248
+      '2022-01-01T00:00:00Z': 13280
+      '2023-01-01T00:00:00Z': 13291
+      '2024-01-01T00:00:00Z': 13360
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 452548956.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 198783
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 198783
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 39
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 10020
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 198783
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 167
+    examples:
+    - Electricity trade with Albania
+    - Electricity trade with Algeria
+    - Electricity trade with Andorra
+    - Electricity trade with Angola
+    - Electricity trade with Argentina
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:nrg_ti_eh_nrg_te_eh: 198783
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nrg_te_eh?format=JSON&lang=EN&siec=E7000&sinceTimePeriod=2010
+      : 99392
+      ? https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nrg_ti_eh?format=JSON&lang=EN&siec=E7000&sinceTimePeriod=2010
+      : 99391
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T11:43:38Z': 99391
+      '2026-10-24T11:43:45Z': 99392
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 198783
+- name: x_geo_code
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 41
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_partner
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 167
+    examples:
+    - AD
+    - AE
+    - AFR_OTH
+    - AL
+    - AM
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_partner_name
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 167
+    examples:
+    - Albania
+    - Algeria
+    - Andorra
+    - Angola
+    - Argentina
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_flag
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 198783
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: exports
+  label: null
+  unit: MWh
+  rows: 99392
+  first: '2010-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: imports
+  label: null
+  unit: MWh
+  rows: 99391
+  first: '2010-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

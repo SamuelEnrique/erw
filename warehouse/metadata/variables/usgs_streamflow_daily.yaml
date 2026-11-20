@@ -1,0 +1,214 @@
+# The codebook's metadata of table usgs_streamflow_daily (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: usgs_streamflow_daily
+family: usgs
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1D
+source:
+- name: usgs:nwis_daily_values U.S. Geological Survey, National Water Information System, daily values service
+  url: https://waterservices.usgs.gov/nwis/dv/
+cite: U.S. Geological Survey (USGS). National Water Information System, daily values (discharge, daily mean). Via the Energy
+  Research Warehouse (ERW), table `usgs_streamflow_daily`.
+method: docs/methods/usgs_streamflow_daily.md
+header_title: U.S. Geological Survey, NWIS daily values, the daily mean discharge at 8 gauges below large hydropower plants,
+  2015-01-01 to 2026-10-22 (session 2113)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity usgs_gauge:<site>; variable discharge (ft3/s, cubic feet a
+  second, the day''s mean); freq P1D; ts_utc the local day written as 00:00 UTC; geo US-<state>; node the gauge''s name; x_site;
+  x_plant the plant above the gauge; x_qual the USGS''s codes (A approved, P provisional, e estimated, R revised).'
+read:
+  date: '2026-11-20'
+  rows: 33421
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      usgs_gauge:06342500: 4313
+      usgs_gauge:09380000: 4310
+      usgs_gauge:09421500: 4054
+      usgs_gauge:11370500: 4313
+      usgs_gauge:11407000: 3926
+      usgs_gauge:12436500: 4259
+      usgs_gauge:13290450: 3935
+      usgs_gauge:14105700: 4311
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 4313
+    earliest: '2015-01-01T00:00:00Z'
+    latest: '2026-10-22T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 2545
+    lowest: 505.0
+    highest: 513000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      ft3/s: 33421
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 33421
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-AZ: 8364
+      US-CA: 8239
+      US-ND: 4313
+      US-OR: 8246
+      US-WA: 4259
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 33421
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      COLORADO RIVER AT LEES FERRY, AZ: 4310
+      COLORADO RV BLW HOOVER DAM, AZ-NV: 4054
+      COLUMBIA RIVER AT GRAND COULEE, WA: 4259
+      COLUMBIA RIVER AT THE DALLES, OR: 4311
+      FEATHER R A OROVILLE CA: 3926
+      MISSOURI RIVER AT BISMARCK, ND: 4313
+      SACRAMENTO R A KESWICK CA: 4313
+      SNAKE RIVER AT HELLS CANYON DAM ID-OR STATE LINE: 3935
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      usgs:nwis_daily_values: 33421
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://waterservices.usgs.gov/nwis/dv/?format=rdb&sites=06342500&parameterCd=00060&statCd=00003&startDT=2015-01-01: 4313
+      https://waterservices.usgs.gov/nwis/dv/?format=rdb&sites=09380000&parameterCd=00060&statCd=00003&startDT=2015-01-01: 4310
+      https://waterservices.usgs.gov/nwis/dv/?format=rdb&sites=09421500&parameterCd=00060&statCd=00003&startDT=2015-01-01: 4054
+      https://waterservices.usgs.gov/nwis/dv/?format=rdb&sites=11370500&parameterCd=00060&statCd=00003&startDT=2015-01-01: 4313
+      https://waterservices.usgs.gov/nwis/dv/?format=rdb&sites=11407000&parameterCd=00060&statCd=00003&startDT=2015-01-01: 3926
+      https://waterservices.usgs.gov/nwis/dv/?format=rdb&sites=12436500&parameterCd=00060&statCd=00003&startDT=2015-01-01: 4259
+      https://waterservices.usgs.gov/nwis/dv/?format=rdb&sites=13290450&parameterCd=00060&statCd=00003&startDT=2015-01-01: 3935
+      https://waterservices.usgs.gov/nwis/dv/?format=rdb&sites=14105700&parameterCd=00060&statCd=00003&startDT=2015-01-01: 4311
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T22:37:20Z': 4311
+      '2026-10-23T22:38:16Z': 4259
+      '2026-10-23T22:38:18Z': 4054
+      '2026-10-23T22:38:20Z': 4310
+      '2026-10-23T22:38:23Z': 4313
+      '2026-10-23T22:38:25Z': 3935
+      '2026-10-23T22:38:27Z': 4313
+      '2026-10-23T22:38:29Z': 3926
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 33421
+- name: x_site
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '06342500': 4313
+      09380000: 4310
+      09421500: 4054
+      '11370500': 4313
+      '11407000': 3926
+      '12436500': 4259
+      '13290450': 3935
+      '14105700': 4311
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_plant
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Garrison: 4313
+      Glen Canyon: 4310
+      Grand Coulee: 4259
+      Hells Canyon: 3935
+      Hoover: 4054
+      Oroville: 3926
+      Shasta: 4313
+      The Dalles: 4311
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_qual
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      A: 24772
+      A:R: 6074
+      A:e: 1232
+      P: 1240
+      P:e: 103
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: discharge
+  label: null
+  unit: ft3/s
+  rows: 33421
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-10-22T00:00:00Z'
+second_look: null

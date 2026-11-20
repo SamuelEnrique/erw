@@ -1,0 +1,406 @@
+# The codebook's metadata of table resource_layer_features (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: resource_layer_features
+family: erw_derived
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: derived
+interval: snapshot
+source:
+- name: 'erw:resource_layer_features the ERW''s reduction of each publisher''s file (warehouse/connectors/resource_layers.py):
+    wind_speed_100m: National Laboratory of the Rockies (NLR), until 2025 the National Renewable Energy Laboratory (NREL),  (sha256
+    3c9f29dedc92e6ef8107ba0272575d255d91fee6d96a7c455c8365bbeae6d109); solar_ghi: National Laboratory of the Rockies (NLR),
+    until 2025 the National Renewable Energy Laboratory (NREL),  (sha256 55531ec07a5f4c47c0c8fe74407f71ca4733fa221c843063b13c9c1f93bca4fc);
+    solar_dni: National Laboratory of the Rockies (NLR), until 2025 the National Renewable Energy Laboratory (NREL),  (sha256
+    97f0e7e621f6fef9d9b15f70a0163f46aa7a0837b66c1fe7d984fad0ff4c2dc0); wind_capacity_factor: National Laboratory of the Rockies
+    (NLR), until 2025 the National Renewable Energy Laboratory (NREL),  (sha256 ef13116bd66f31157b2f7db6369831d63f3098877e91c6163766dbe6da47eb7d);
+    geothermal_hydrothermal_sites: U.S. Geological Survey (USGS),  (sha256 7724cb19112c68c21e50883d7fb73bbe6b98a872f6e319753b5c8c2f7df2bfc7);
+    hydropower_npd: Oak Ridge National Laboratory (HydroSource), for the U.S. Department of Energy,  (sha256 84635b4faecc332c31ab53fbbd7c42be7469d75bb2c1ca3c6827d2ac296aaf2f);
+    geothermal_hydrothermal_favorability: U.S. Geological Survey (USGS),  (sha256 d9eb255587626875580aab4c1705031d63717d79080b530ffe0ce30f206eff78);
+    geothermal_egs_favorability: National Laboratory of the Rockies (NLR), until 2025 the National Renewable Energy Laboratory
+    (NREL),  (sha256 fdf8bcfb6dcc98252ae9a7d6389d27fa0c579d3a72021790b38bf3eb8b76c6af); oil_gas_basins: U.S. Energy Information
+    Administration (EIA),  (sha256 02a017ccb84bdcc15726838098e3cfa73450b9655cf06e28d2eca6f3c04edcff); oil_gas_plays: U.S.
+    Energy Information Administration (EIA),  (sha256 c09b3bd2982754cfb63d12bbbfde6c6c5e8c02eee73e54d231a7c7de73f0541e); hydropower_nsd:
+    Oak Ridge National Laboratory (HydroSource), for the U.S. Department of Energy,  (sha256 a8ab06e4dfea4a31f1dd293d6358af932bd839f4a41d59a181600a3877fb28f9);
+    biomass: National Laboratory of the Rockies (NLR), until 2025 the National Renewable Energy Laboratory (NREL),  (sha256
+    f48ee40d6de1859d6f3cabc841b631a55287c4282bfe974719fd89555672f54d); coal_fields: usgs:of2012_1205_coal_fields  (sha256
+    e491215d0a937cae48cc5e9a2763ea43c85a4d11c183ec7c5b1ac559d2a585a5)'
+  url: https://pubs.usgs.gov/of/2012/1205/Downloads/GIS.zip
+cite: 'Energy Research Warehouse (ERW), derived; National Laboratory of the Rockies (NLR, formerly NREL); Oak Ridge National
+  Laboratory (HydroSource), for the U.S. Department of Energy; U.S. Energy Information Administration (EIA); U.S. Geological
+  Survey (USGS). Favorability of deep enhanced geothermal systems, lower 48, shapefile (2009); Geothermal Favorability Map
+  Derived From Logistic Regression Models (2008 assessment; ScienceBase, doi:10.5066/P137NMXE); Hydropower Potential from
+  New Stream-Reach Development for the Conterminous United States, aggregated summary of HUC10 watersheds (2014, version 1);
+  NSRDB Physical Solar Model version 3 Direct Normal Irradiance, multi-year (1998-2016) annual and monthly averages, GeoTIFF;
+  NSRDB Physical Solar Model version 3 Global Horizontal Irradiance, multi-year (1998-2016) annual and monthly averages, GeoTIFF;
+  Open-File Report 2012-1205: Coal fields of the conterminous United States, National Coal Resource Assessment updated version
+  (East, 2013); Solid biomass resources by county, shapefile (data for 2012, published 2014); Technical Potential for Hydropower
+  Capacity at Non-powered Dams (2024, revised 25 June 2025; doi:10.21951/HydroCapacity_NPD/2570407); The natural resource
+  map''s layers as a table (docs/methods/resource_layers_table.md); Tight Oil and Shale Gas Plays in the U.S., Lower 48, shapefile,
+  updated December 2021; U.S. Sedimentary Basins, shapefile (EIA maps, layer information for interactive state maps); WIND
+  Toolkit, Multi-year (2007-2013) Annual Average Wind Speed at all heights, GeoTIFF, 2 km. Via the Energy Research Warehouse
+  (ERW), table `resource_layer_features`.'
+method: docs/methods/resource_layers_table.md
+header_title: the natural resource map's layers, every cell, site and area, with the USGS coal fields (session 8006, chain
+  501)
+header_shape: 'Shape: entities (docs/datastandard.md v0), entity_type resource (Decision 81). entity_id resource:<layer>:<r..c..
+  for a grid cell, or the feature''s place in its layer>; lat and lon the cell''s center or the feature''s centroid; x_layer,
+  x_kind (grid cell, site or the area''s kind), x_value in x_unit (x_value_label says what it is), x_publisher, x_cell_deg
+  (a grid''s cell), x_area_km2 (an area''s, on a sphere), x_extra (the publisher''s other fields, JSON), x_source_sha256.
+  Method: docs/methods/resource_layers_table.md.'
+read:
+  date: '2026-11-20'
+  rows: 1371628
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - resource:wind_speed_100m:r0c685
+    - resource:wind_speed_100m:r0c686
+    - resource:wind_speed_100m:r0c687
+    - resource:wind_speed_100m:r0c688
+    - resource:wind_speed_100m:r0c689
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      resource: 1371628
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - wind_speed_100m cell r0 c685
+    - wind_speed_100m cell r0 c686
+    - wind_speed_100m cell r0 c687
+    - wind_speed_100m cell r0 c688
+    - wind_speed_100m cell r0 c689
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 1371628
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 19.478
+    highest: 69.30839
+  missing_cells: 0
+- name: lon
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -176.616
+    highest: -65.675
+  missing_cells: 0
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1371628
+- name: status
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1371628
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1371628
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1371628
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:resource_layer_features: 1371026
+      usgs:of2012_1205_coal_fields: 602
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://data.openei.org/files/8314/lbw_open_access_2035_moderate_115hh_170rd_supply_curve.csv: 56528
+      https://hydrosource.s3.us-east-2.amazonaws.com/files/data/datasets/hydropower-capacity-us-npd/TechPotentialNPDs.csv: 2616
+      ? https://hydrosource.s3.us-east-2.amazonaws.com/files/data/datasets/hydropower-potential-new-stream-reach-development-conterminous-united-states/ORNL_NHAAP_NSD_SR_All_v1.zip
+      : 2027
+      https://pubs.usgs.gov/of/2012/1205/Downloads/GIS.zip: 602
+      https://www.eia.gov/maps/map_data/SedimentaryBasins_US_EIA.zip: 32
+      https://www.eia.gov/maps/map_data/TightOil_ShaleGas_Plays_Lower48_EIA.zip: 50
+      https://www.nlr.gov/docs/libraries/gis/egs.zip: 1007
+      https://www.nlr.gov/docs/libraries/gis/nsrdbv3_dni.zip: 436141
+      https://www.nlr.gov/docs/libraries/gis/nsrdbv3_ghi.zip: 436141
+      https://www.nlr.gov/docs/libraries/gis/solid-biomass.zip: 3141
+      https://www.nlr.gov/docs/libraries/gis/us-wind-data.zip: 433080
+      ? https://www.sciencebase.gov/catalog/file/get/6606ed51d34e4df16bd58251?f=__disk__79%2Fb1%2Fce%2F79b1ce18796d6fc4ae5b9292c58bd8aaee4846e5
+      : 10
+      ? https://www.sciencebase.gov/catalog/file/get/6606f534d34e4df16bd58277?f=__disk__ae%2Fbd%2F32%2Faebd32c1cf3b64ce4f19dc6e2535e5a5bc3382da
+      : 253
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-07T21:26:20Z': 82
+      '2026-10-07T21:33:22Z': 433080
+      '2026-10-07T21:33:58Z': 436141
+      '2026-10-07T21:34:33Z': 436141
+      '2026-10-07T21:39:30Z': 253
+      '2026-10-07T21:39:32Z': 10
+      '2026-10-07T21:39:34Z': 1007
+      '2026-10-07T21:39:39Z': 3141
+      '2026-10-07T21:39:41Z': 56528
+      '2026-10-08T08:45:07Z': 2616
+      '2026-10-08T08:47:16Z': 2027
+      '2026-11-19T12:39:54Z': 602
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: text
+  values:
+    list:
+      ? '1998-2016 (the file''s metadata: "The data are averaged from hourly model output over 19 years (1998-2016)"); publication
+        date 2018'
+      : 872282
+      ? '2007-2013 (the file''s metadata: "Multi-year (2007-2013) Annual Average Wind Speed, meters per second, at 100 meters
+        above surface level"); publication date 2015'
+      : 433080
+      ? '2009 (the file''s metadata: analyses "performed by NREL (2009)" on temperature at depth from Southern Methodist University
+        Geothermal Laboratory, Blackwell and Richards, 2009); metadata dated 23 February 2012'
+      : 1007
+      '2013': 602
+      ? 'as of 5-6-2011 (the file''s metadata: "Sedimentary basins associated with the EIA shale plays as of 5-6-2011"); file
+        modified 10 March 2016'
+      : 32
+      'data for 2012 (the file''s metadata: "Data for 2012, in dry metric tons/year"); published 30 October 2014': 3141
+      ? 'published 3 October 2024, revised 25 June 2025 (HydroSource''s page; the file on its server is dated 25 June 2025);
+        the file''s readme: "These estimates represent the conditions over the historical period of 1980-2015"'
+      : 2616
+      ? published 31 December 2014 (HydroSource's page); the file's own metadata is dated 10 January 2014 and its workbook
+        was created on 2013-03-15, version 1; the years of flow behind the estimate are not stated in the files
+      : 2027
+      ? the 2008 assessment (USGS Fact Sheet 2008-3082); the data file is dated 2010 and was released again on ScienceBase
+        on 29 March 2024 (metadata date 20240329)
+      : 253
+      ? the 2008 assessment; the data file is dated 2010 and was released again on ScienceBase on 29 March 2024 (metadata
+        date 20240329)
+      : 10
+      ? the 2024 edition, published 2025-01-01 on the Open Energy Data Initiative; the file models a 2035 turbine ("2035 moderate",
+        115 m hub height, 170 m rotor diameter); the weather years behind the mean are not stated in the files
+      : 56528
+      ? 'updated December 2021 (the file''s metadata: "Updated December 2021 with addition of Spraberry and Wolfcamp Plays
+        in the Permian Basin")'
+      : 50
+  missing_cells: 0
+- name: x_layer
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      biomass: 3141
+      coal_fields: 602
+      geothermal_egs_favorability: 1007
+      geothermal_hydrothermal_favorability: 10
+      geothermal_hydrothermal_sites: 253
+      hydropower_npd: 2616
+      hydropower_nsd: 2027
+      oil_gas_basins: 32
+      oil_gas_plays: 50
+      solar_dni: 436141
+      solar_ghi: 436141
+      wind_capacity_factor: 56528
+      wind_speed_100m: 433080
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_kind
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      HUC10 watershed: 2027
+      coal field: 602
+      county: 3141
+      deep enhanced geothermal favorability class: 1007
+      grid cell: 1305362
+      relative favorability class: 10
+      sedimentary basin: 32
+      site: 59397
+      tight oil and shale gas play: 50
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_value
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 2002700.0
+  missing_cells: 602
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_unit
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      MW: 4643
+      MWe: 253
+      class (1 most favorable, 5 least favorable, 999 not assessed): 1007
+      class (the source's GRIDCODE, 1 to 10): 10
+      dry metric tons/year: 3141
+      kWh/m2/day: 872282
+      m/s: 433080
+      ratio: 56528
+      square miles: 82
+  missing_cells: 602
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_value_label
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Mean Megawatts electric (MWe), the source's MWe_Mean: 253
+      Mean capacity factor across 11.5km grid-cell (the source's capacity_factor_ac): 56528
+      Nominal capacity (the source's cap_mw): 2616
+      ? The HUC10-level Total Potential capacity from identified stream-reaches with capacity greater than 1MW (the source's
+        P_MW_Sum, a HUC10 total)
+      : 2027
+      all solid biomass resources of the county (the source's Total): 3141
+      annual average daily total solar resource: 872282
+      annual mean wind speed: 433080
+      area of the basin (the source's Area_sq_mi): 32
+      area of the play (the source's Area_sq_mi): 50
+      coal field (province, age and rank as USGS gives them): 602
+      relative favorability class (the source's GRIDCODE, with its Descript range): 10
+      relative favorability of the deep enhanced geothermal resource (the source's CLASS): 1007
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_publisher
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      National Laboratory of the Rockies (NLR), until 2025 the National Renewable Energy Laboratory (NREL): 1366038
+      Oak Ridge National Laboratory (HydroSource), for the U.S. Department of Energy: 4643
+      U.S. Energy Information Administration (EIA): 82
+      U.S. Geological Survey: 602
+      U.S. Geological Survey (USGS): 263
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_cell_deg
+  label: null
+  unit: null
+  type: number
+  values:
+    list:
+      '0.05': 1305362
+  missing_cells: 66266
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_area_km2
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 810228.9
+  missing_cells: 1364759
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_extra
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - '{"Basin":"Anadarko","Lithology":"Shale","Shale_play":"Woodford","References":"Hand-drawn boundary around wells from
+      OK Geol Surv","Source":"EIA","Area_sq_mi":3351.7712898,"Area_sq_km":8681.04778802,"ID":"WOO001","Age_shale":"Devonian"}'
+    - '{"Basin":"Appalachian","Lithology":"Mixed Shale & Limestone","Shale_play":"Utica","References":"Appalachian Oil and
+      Natural Gas Research Consortium, and USGS","Source":"EIA","Area_sq_mi":59054.2252868,"Area_sq_km":152949.741338,"ID":"UTI001","Age_shale":"Ordovician"}'
+    - '{"Basin":"Appalachian","Lithology":"Shale","Shale_play":"Chattanooga","References":"5 TN counties with wells operated
+      by CNX and Magellan","Source":"EIA","Area_sq_mi":1448.13143073,"Area_sq_km":3750.6431873,"ID":"CHA001","Age_shale":"Devonian"}'
+    - '{"Basin":"Appalachian","Lithology":"Shale","Shale_play":"Devonian (Ohio)","References":"Milici 2005 slide 15, Devonian
+      Shale thickkness > 100'' in 3 USGS AU''s","Source":"EIA","Area_sq_mi":54664.8490533,"Area_sq_km":141581.309083,"ID":"DEV001","Age_shale":"Devonian"}'
+    - '{"Basin":"Appalachian","Lithology":"Shale","Shale_play":"Marcellus","References":"EIA","Source":"EIA","Area_sq_mi":58326.3781947,"Area_sq_km":151064.626024,"ID":"MARP01","Age_shale":"Middle
+      Devonian"}'
+  missing_cells: 1305362
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_source_sha256
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      02a017ccb84bdcc15726838098e3cfa73450b9655cf06e28d2eca6f3c04edcff: 32
+      3c9f29dedc92e6ef8107ba0272575d255d91fee6d96a7c455c8365bbeae6d109: 433080
+      55531ec07a5f4c47c0c8fe74407f71ca4733fa221c843063b13c9c1f93bca4fc: 436141
+      7724cb19112c68c21e50883d7fb73bbe6b98a872f6e319753b5c8c2f7df2bfc7: 253
+      84635b4faecc332c31ab53fbbd7c42be7469d75bb2c1ca3c6827d2ac296aaf2f: 2616
+      97f0e7e621f6fef9d9b15f70a0163f46aa7a0837b66c1fe7d984fad0ff4c2dc0: 436141
+      a8ab06e4dfea4a31f1dd293d6358af932bd839f4a41d59a181600a3877fb28f9: 2027
+      c09b3bd2982754cfb63d12bbbfde6c6c5e8c02eee73e54d231a7c7de73f0541e: 50
+      d9eb255587626875580aab4c1705031d63717d79080b530ffe0ce30f206eff78: 10
+      e491215d0a937cae48cc5e9a2763ea43c85a4d11c183ec7c5b1ac559d2a585a5: 602
+      ef13116bd66f31157b2f7db6369831d63f3098877e91c6163766dbe6da47eb7d: 56528
+      f48ee40d6de1859d6f3cabc841b631a55287c4282bfe974719fd89555672f54d: 3141
+      fdf8bcfb6dcc98252ae9a7d6389d27fa0c579d3a72021790b38bf3eb8b76c6af: 1007
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

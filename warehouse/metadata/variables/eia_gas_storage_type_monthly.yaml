@@ -1,0 +1,269 @@
+# The codebook's metadata of table eia_gas_storage_type_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_gas_storage_type_monthly
+family: eia
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:natural-gas/stor/type U.S. Energy Information Administration, Natural Gas Monthly, underground natural gas storage
+    by storage type (API v2, route natural-gas/stor/type)
+  url: https://api.eia.gov/v2/natural-gas/stor/type/
+cite: U.S. Energy Information Administration (EIA). Natural Gas Monthly, underground natural gas storage by storage type (API
+  v2). Via the Energy Research Warehouse (ERW), table `eia_gas_storage_type_monthly`.
+method: docs/methods/eia_gas_storage_type_monthly.md
+header_title: EIA, underground natural gas storage by type (all fields, salt, non-salt), the U.S., a month (session 2283)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_gas_storage_type:<series>; variable all_, salt_ or non_salt_
+  base_gas, working_gas, total, injections, withdrawals, net_withdrawals (MMcf); ts_utc the month''s first day; freq P1M;
+  geo US. Base and working gas are month-end stocks, the rest the month''s flows; salt plus non-salt is all fields.'
+read:
+  date: '2026-11-20'
+  rows: 8367
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      eia_gas_storage_type:N5010US2: 614
+      eia_gas_storage_type:N5020US2: 614
+      eia_gas_storage_type:N5030US2: 614
+      eia_gas_storage_type:N5050US2: 611
+      eia_gas_storage_type:N5060US2: 611
+      eia_gas_storage_type:N5070US2: 611
+      eia_gas_storage_type:N5400US2: 391
+      eia_gas_storage_type:N5410US2: 391
+      eia_gas_storage_type:N5420US2: 391
+      eia_gas_storage_type:N5440US2: 391
+      eia_gas_storage_type:N5450US2: 391
+      eia_gas_storage_type:N5460US2: 391
+      eia_gas_storage_type:N5500US2: 391
+      eia_gas_storage_type:N5510US2: 391
+      eia_gas_storage_type:N5520US2: 391
+      eia_gas_storage_type:N5540US2: 391
+      eia_gas_storage_type:N5550US2: 391
+      eia_gas_storage_type:N5560US2: 391
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 614
+    earliest: '1973-12-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -497260.0
+    highest: 8432410.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MMcf: 8367
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 8367
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 8367
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8367
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      U.S. Natural  Gas Underground Storage Withdrawals (MMcf): 611
+      U.S. Natural Gas Non-Salt Underground Storage  - Base Gas  (MMcf): 391
+      U.S. Natural Gas Non-Salt Underground Storage - Total  (MMcf): 391
+      U.S. Natural Gas Non-Salt Underground Storage - Working Gas  (MMcf): 391
+      U.S. Natural Gas Non-Salt Underground Storage Activity-Net  (MMcf): 391
+      U.S. Natural Gas Non-Salt Underground Storage Activity-Withdraw  (MMcf): 391
+      U.S. Natural Gas Non-Salt Underground Storage Injections (MMcf): 391
+      U.S. Natural Gas Salt - Underground Storage - Base Gas  (MMcf): 391
+      U.S. Natural Gas Salt Underground Storage - Total  (MMcf): 391
+      U.S. Natural Gas Salt Underground Storage - Working Gas  (MMcf): 391
+      U.S. Natural Gas Salt Underground Storage Activity-Injects  (MMcf): 391
+      U.S. Natural Gas Salt Underground Storage Activity-Net  (MMcf): 391
+      U.S. Natural Gas Salt Underground Storage Activity-Withdraw  (MMcf): 391
+      U.S. Natural Gas Underground Storage Net Withdrawals (MMcf): 611
+      U.S. Natural Gas Underground Storage Volume (MMcf): 614
+      U.S. Total Natural Gas Injections into Underground Storage (MMcf): 611
+      U.S. Total Natural Gas in Underground Storage (Base Gas) (MMcf): 614
+      U.S. Total Natural Gas in Underground Storage (Working Gas) (MMcf): 614
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:natural-gas/stor/type: 8367
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/natural-gas/stor/type/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bprocess%5D%5B%5D=SAB&facets%5Bprocess%5D%5B%5D=SAO&facets%5Bprocess%5D%5B%5D=SAT&facets%5Bprocess%5D%5B%5D=SAI&facets%5Bprocess%5D%5B%5D=SAW&facets%5Bprocess%5D%5B%5D=SAN&facets%5Bprocess%5D%5B%5D=SSB&facets%5Bprocess%5D%5B%5D=SSO&facets%5Bprocess%5D%5B%5D=SST&facets%5Bprocess%5D%5B%5D=SSI&facets%5Bprocess%5D%5B%5D=SSW&facets%5Bprocess%5D%5B%5D=SSN&facets%5Bprocess%5D%5B%5D=SNB&facets%5Bprocess%5D%5B%5D=SNO&facets%5Bprocess%5D%5B%5D=SNT&facets%5Bprocess%5D%5B%5D=SNI&facets%5Bprocess%5D%5B%5D=SNW&facets%5Bprocess%5D%5B%5D=SNN&start=1973-01
+      : 8367
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T05:17:23Z': 4817
+      '2026-10-24T05:17:27Z': 3550
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8367
+variables:
+- name: all_base_gas
+  label: null
+  unit: MMcf
+  rows: 614
+  first: '1973-12-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: all_injections
+  label: null
+  unit: MMcf
+  rows: 611
+  first: '1975-09-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: all_net_withdrawals
+  label: null
+  unit: MMcf
+  rows: 611
+  first: '1975-09-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: all_total
+  label: null
+  unit: MMcf
+  rows: 614
+  first: '1973-12-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: all_withdrawals
+  label: null
+  unit: MMcf
+  rows: 611
+  first: '1975-09-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: all_working_gas
+  label: null
+  unit: MMcf
+  rows: 614
+  first: '1973-12-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: non_salt_base_gas
+  label: null
+  unit: MMcf
+  rows: 391
+  first: '1994-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: non_salt_injections
+  label: null
+  unit: MMcf
+  rows: 391
+  first: '1994-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: non_salt_net_withdrawals
+  label: null
+  unit: MMcf
+  rows: 391
+  first: '1994-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: non_salt_total
+  label: null
+  unit: MMcf
+  rows: 391
+  first: '1994-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: non_salt_withdrawals
+  label: null
+  unit: MMcf
+  rows: 391
+  first: '1994-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: non_salt_working_gas
+  label: null
+  unit: MMcf
+  rows: 391
+  first: '1994-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: salt_base_gas
+  label: null
+  unit: MMcf
+  rows: 391
+  first: '1994-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: salt_injections
+  label: null
+  unit: MMcf
+  rows: 391
+  first: '1994-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: salt_net_withdrawals
+  label: null
+  unit: MMcf
+  rows: 391
+  first: '1994-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: salt_total
+  label: null
+  unit: MMcf
+  rows: 391
+  first: '1994-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: salt_withdrawals
+  label: null
+  unit: MMcf
+  rows: 391
+  first: '1994-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: salt_working_gas
+  label: null
+  unit: MMcf
+  rows: 391
+  first: '1994-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

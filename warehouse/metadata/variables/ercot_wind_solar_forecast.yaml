@@ -1,0 +1,154 @@
+# The codebook's metadata of table ercot_wind_solar_forecast (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_wind_solar_forecast
+family: ercot
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: ercot:NP4-732-CD ERCOT, NP4-732-CD
+  url: https://www.ercot.com/mp/data-products/data-product-details?id=NP4-732-CD
+- name: ercot:NP4-745-CD ERCOT, NP4-745-CD
+  url: https://www.ercot.com/mp/data-products/data-product-details?id=NP4-745-CD
+cite: 'Electric Reliability Council of Texas (ERCOT). NP4-732-CD: hourly averaged actual and forecasted values; NP4-745-CD:
+  hourly averaged actual and forecasted values. Via the Energy Research Warehouse (ERW), table `ercot_wind_solar_forecast`.'
+method: docs/methods/ercot_wind_solar_forecast.md
+header_title: ERCOT wind and solar, the forecast a day ahead and the actual output, hourly, system-wide (session 133)
+header_shape: 'Shape: series (docs/datastandard.md v0). freq PT1H; ts_utc is the hour''s start. wind_actual_mw and solar_actual_mw:
+  ERCOT''s SYSTEM_WIDE_GEN, from the newest posting that holds the hour. wind_forecast_24h_mw and solar_forecast_24h_mw: ERCOT''s
+  short-term forecast (STWPF, STPPF) for the hour from the newest posting published at least 24 hours before the hour began.
+  MW.'
+read:
+  date: '2026-11-20'
+  rows: 5322
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:SYSTEM: 5322
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 1451
+    earliest: '2026-09-27T05:00:00Z'
+    latest: '2026-11-26T15:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 4175
+    lowest: 0.0
+    highest: 47852.8
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 5322
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 5322
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 5322
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5322
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      SYSTEM: 5322
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:NP4-732-CD: 2661
+      ercot:NP4-745-CD: 2661
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=13028: 2661
+      https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=13483: 2661
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 76
+    earliest: '2026-10-06T09:30:26Z'
+    latest: '2026-11-19T17:41:55Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5322
+variables:
+- name: solar_actual_mw
+  label: null
+  unit: MW
+  rows: 1283
+  first: '2026-09-27T05:00:00Z'
+  last: '2026-11-19T15:00:00Z'
+- name: solar_forecast_24h_mw
+  label: null
+  unit: MW
+  rows: 1378
+  first: '2026-09-30T06:00:00Z'
+  last: '2026-11-26T15:00:00Z'
+- name: wind_actual_mw
+  label: null
+  unit: MW
+  rows: 1283
+  first: '2026-09-27T05:00:00Z'
+  last: '2026-11-19T15:00:00Z'
+- name: wind_forecast_24h_mw
+  label: null
+  unit: MW
+  rows: 1378
+  first: '2026-09-30T06:00:00Z'
+  last: '2026-11-26T15:00:00Z'
+second_look: null

@@ -1,0 +1,300 @@
+# The codebook's metadata of table datacenter_queue_positions (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: datacenter_queue_positions
+family: datacenter
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: derived
+interval: snapshot
+source: []
+cite: Electric Reliability Council of Texas (ERCOT); New York Independent System Operator (NYISO). Generation Interconnection
+  Status (GIS) report; NYISO Interconnection Queue. Via the Energy Research Warehouse (ERW), table `datacenter_queue_positions`.
+method: docs/methods/datacenter_facilities.md
+header_title: ISO queue positions that name a datacenter or a large load (session 22)
+header_shape: 'Shape: entities (docs/datastandard.md), the queue tables'' own columns and rows, plus matched (the words that
+  matched). capacity_mw is the generation or storage the position asks to connect, not the load.'
+read:
+  date: '2026-11-20'
+  rows: 3
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    list:
+      ercot_queue:25INR0688: 1
+      ercot_queue:28INR0499: 1
+      nyiso_queue:1630: 1
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      project: 3
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    list:
+      Alpha Digital Campus Combined-cycle and Co-located Load: 1
+      Giga Texas Data Center: 1
+      Suffern Quarry Data Center: 1
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-NY: 1
+      US-TX: 2
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3
+- name: capacity_mw
+  shared: true
+  type: number
+  values:
+    list:
+      '0.0': 1
+      '133.0': 1
+      '58.26': 1
+  missing_cells: 0
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      active: 1
+      completed: 1
+      withdrawn: 1
+  missing_cells: 0
+- name: status_date
+  shared: true
+  type: date
+  values:
+    list:
+      '2023-12-31': 1
+  missing_cells: 2
+- name: operator
+  shared: true
+  type: text
+  values:
+    list:
+      Giga Texas Energy, LLC: 1
+      Orange & Rockland: 1
+      PowerBridge LLC: 1
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:interconnection_queue: 2
+      nyiso:interconnection_queue: 1
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1293955078: 2
+      https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx: 1
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-09-26T00:06:50Z': 1
+      '2026-11-05T23:21:53Z': 2
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: text
+  values:
+    list:
+      '2026-09-26T00:00:00Z': 1
+      '2026-11-05': 2
+  missing_cells: 0
+- name: queue_id
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      '1630': 1
+      25INR0688: 1
+      28INR0499: 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: county
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Reeves: 1
+      Rockland: 1
+      Travis: 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: state
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      NY: 1
+      TX: 2
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: poi
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      38044 TNCOWPEN__3 345kV: 1
+      ? "HORNSBY Substation POIB# 7047 \r\n\r\nSite will be connected behind the meter at Medium Voltage  24.9 kV with non\
+        \ export controls\r\n\r\nGSU TRANSFORMER\r\n80/106/133MVA\r\n345kV DELTA PRIMARY\r\n24.9kV WYE-G SECONDARY\r\nZ=XX%,\
+        \ 65DEG C RISE"
+      : 1
+      ? We anticipate a new substation being built on our site off of a transmission line tower that abuts our property. Additionally,
+        we may need to tie in for redundancy to the Hillburn Area Substation
+      : 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: zone
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      G: 1
+  missing_cells: 2
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: transmission_owner
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      O&R: 1
+  missing_cells: 2
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: fuel_technology
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Gas - Combined-Cycle: 1
+      Other - Battery Energy Storage: 1
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: iso_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Active: 1
+      Completed: 1
+      Withdrawn: 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: queue_date
+  label: null
+  unit: null
+  type: date
+  values:
+    list:
+      '2023-11-03': 1
+      '2024-08-27': 1
+      '2026-04-28': 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: proposed_in_service_date
+  label: null
+  unit: null
+  type: date
+  values:
+    list:
+      '2027-08-13': 1
+      '2027-12-31': 1
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: actual_in_service_date
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: withdrawn_date
+  label: null
+  unit: null
+  type: date
+  values:
+    list:
+      '2023-12-31': 1
+  missing_cells: 2
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: matched
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Data Center: 2
+      Digital Campus: 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

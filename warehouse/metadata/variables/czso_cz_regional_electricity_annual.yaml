@@ -1,0 +1,223 @@
+# The codebook's metadata of table czso_cz_regional_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: czso_cz_regional_electricity_annual
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: 'czso:comparison_of_regions_14_energy Czech Statistical Office (CZSO), Comparison of Regions in the Czech Republic
+    2025, 14. Energy (source: Energy Regulatory Office)'
+  url: https://csu.gov.cz/produkty/comparison-of-regions-in-the-czech-republic-2025
+cite: Czech Statistical Office (CZSO). Comparison of Regions in the Czech Republic 2025, 14. Energy (tables 14.101 and 14.103).
+  Via the Energy Research Warehouse (ERW), table `czso_cz_regional_electricity_annual`.
+method: docs/methods/czso_cz_regional_electricity_annual.md
+header_title: 'Czech Statistical Office (CZSO), Comparison of Regions in the Czech Republic 2025, tables 14.101 and 14.103:
+  each region''s installed capacity and gross electricity production by type of plant, and its net consumption by activity,
+  2024 (the Energy Regulatory Office''s data) (session 2809)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity czso_regions:<ISO 3166-2 region, or CZ>:<item>; variable installed_capacity
+  (MW, at 31 December), gross_production or net_consumption (MWh, the tables'' GWh times 1,000); ts_utc the year''s 1 January;
+  freq P1Y; geo CZ; x_region, x_table and x_label the tables'' own.'
+read:
+  date: '2026-11-20'
+  rows: 360
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 225
+    examples:
+    - czso_regions:CZ-10:agriculture_forestry
+    - czso_regions:CZ-10:combined_cycle
+    - czso_regions:CZ-10:construction
+    - czso_regions:CZ-10:energy
+    - czso_regions:CZ-10:gas_combustion
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2024-01-01T00:00:00Z': 360
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 312
+    lowest: 0.0
+    highest: 73881775.218
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 120
+      MWh: 240
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 360
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      CZ: 360
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 360
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 255
+    examples:
+    - CZSO CZ, Agriculture and forestry
+    - CZSO CZ, Combined power plants
+    - CZSO CZ, Construction
+    - CZSO CZ, Energy
+    - CZSO CZ, Gas and combustion plants
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      czso:comparison_of_regions_14_energy: 360
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://csu.gov.cz/docs/107508/4491dd21-67d2-55cf-a3e6-926ec9c4b345/33020525.zip?version=1.1: 360
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-26T05:01:44Z': 360
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-02-12T12:46:51Z': 360
+  missing_cells: 0
+- name: x_region
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Hl. m. Praha: 24
+      Jihomoravský: 24
+      Jihočeský: 24
+      Karlovarský: 24
+      Královéhradecký: 24
+      Liberecký: 24
+      Moravskoslezský: 24
+      Olomoucký: 24
+      Pardubický: 24
+      Plzeňský: 24
+      Středočeský: 24
+      Vysočina: 24
+      Zlínský: 24
+      Ústecký: 24
+      Česko Czechia: 24
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_table
+  label: null
+  unit: null
+  type: number
+  values:
+    list:
+      '14.101': 240
+      '14.103': 120
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_label
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Instalovaný výkon elektráren-ských soustrojí k 31. 12. (MW): 15
+      Spotřeba elektřiny netto (GWh): 15
+      Výroba elektřiny brutto (GWh): 15
+      domácnosti: 15
+      doprava: 15
+      energetika: 15
+      fotovoltaické elektrárny: 30
+      jaderné elektrárny: 30
+      obchod, služby, školství a zdravotnictví: 15
+      parní elektrárny: 30
+      paroplynové elektrárny: 30
+      plynové a spalovací elektrárny: 30
+      průmysl: 15
+      stavebnictví: 15
+      vodní elektrárny včetně přečerpávacích: 30
+      větrné elektrárny: 30
+      zemědělství a lesnictví: 15
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: gross_production
+  label: null
+  unit: MWh
+  rows: 120
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+  source_label: paroplynové elektrárny; plynové a spalovací elektrárny; vodní elektrárny včetně přečerpávacích
+- name: installed_capacity
+  label: null
+  unit: MW
+  rows: 120
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+  source_label: paroplynové elektrárny; plynové a spalovací elektrárny; vodní elektrárny včetně přečerpávacích
+- name: net_consumption
+  label: null
+  unit: MWh
+  rows: 120
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+  source_label: energetika; stavebnictví; zemědělství a lesnictví
+second_look: null

@@ -1,0 +1,148 @@
+# The codebook's metadata of table eia_gas_heat_content_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_gas_heat_content_monthly
+family: eia
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:natural-gas/cons/heat U.S. Energy Information Administration, Natural Gas Monthly, heat content of natural gas
+    delivered to consumers (API v2, route natural-gas/cons/heat)
+  url: https://api.eia.gov/v2/natural-gas/cons/heat/
+cite: U.S. Energy Information Administration (EIA). Natural Gas Monthly, heat content of natural gas delivered to consumers
+  (API v2). Via the Energy Research Warehouse (ERW), table `eia_gas_heat_content_monthly`.
+method: docs/methods/eia_gas_heat_content_monthly.md
+header_title: EIA, heat content of natural gas delivered to consumers, the U.S., every state and DC, a month (session 2245)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_gas_heat_content:<series>; variable heat_content (Btu/ft3);
+  ts_utc the month''s first day; freq P1M; geo US or US-<state>; node EIA''s series description (the area). An average: never
+  summed across states.'
+read:
+  date: '2026-11-20'
+  rows: 8476
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - eia_gas_heat_content:NGA_EPG0_VGTH_NUS_BTUCF
+    - eia_gas_heat_content:NGA_EPG0_VGTH_SAK_BTUCF
+    - eia_gas_heat_content:NGA_EPG0_VGTH_SAL_BTUCF
+    - eia_gas_heat_content:NGA_EPG0_VGTH_SAR_BTUCF
+    - eia_gas_heat_content:NGA_EPG0_VGTH_SAZ_BTUCF
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 163
+    earliest: '2013-01-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 186
+    lowest: 901.0
+    highest: 1140.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      Btu/ft3: 8476
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 8476
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8476
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - Alabama Heat Content of Natural Gas Deliveries to Consumers (BTU per Cubic Foot)
+    - Alaska Heat Content of Natural Gas Deliveries to Consumers (BTU per Cubic Foot)
+    - Arizona Heat Content of Natural Gas Deliveries to Consumers (BTU per Cubic Foot)
+    - Arkansas Heat Content of Natural Gas Deliveries to Consumers (BTU per Cubic Foot)
+    - California Heat Content of Natural Gas Deliveries to Consumers (BTU per Cubic Foot)
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:natural-gas/cons/heat: 8476
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/natural-gas/cons/heat/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bprocess%5D%5B%5D=VGTH&start=2012-01
+      : 8476
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T03:44:48Z': 4988
+      '2026-10-24T03:44:52Z': 3488
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8476
+variables:
+- name: heat_content
+  label: null
+  unit: Btu/ft3
+  rows: 8476
+  first: '2013-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

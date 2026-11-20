@@ -1,0 +1,648 @@
+# The codebook's metadata of table eia861_distributed_generation (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia861_distributed_generation
+family: eia861
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:eia861:distributed_generation U.S. Energy Information Administration, Form EIA-861 Annual Electric Power Industry
+    Report (Non_Net_Metering_Distributed_<year>.xlsx)
+  url: https://www.eia.gov/electricity/data/eia861/
+cite: U.S. Energy Information Administration (EIA). Form EIA-861 Annual Electric Power Industry Report, distributed generation
+  not net metered. Via the Energy Research Warehouse (ERW), table `eia861_distributed_generation`.
+method: docs/methods/eia861_distribution.md
+header_title: EIA-861 distributed generation not net metered, each utility by state, technology and sector, a year (session
+  883)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia861_dg:<utility>:<state>:<balancing authority>; variables
+  number_of_generators (count), total_capacity, capacity_backup_only, capacity_utility_owned (MW), <technology>_capacity_<sector>
+  (MW; technologies pv, battery (EIA''s Storage to 2022), wind, hydro, fuel_cell, internal_combustion, combustion_turbine,
+  steam, other, total; sectors residential, commercial, industrial, transportation, direct_connected, total: a sum leaves
+  total out) and battery_energy_<sector> (MWh, 2023 on); ts_utc the data year''s 1 January; freq P1Y; node the utility''s
+  name; x_capacity_type AC or DC, as EIA''s column Type gives the capacity.'
+read:
+  date: '2026-11-20'
+  rows: 179161
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 750
+    examples:
+    - eia861_dg:10000:KS:SWPP
+    - eia861_dg:10000:MO:SWPP
+    - eia861_dg:10005:KS:SWPP
+    - eia861_dg:10012:OK:SWPP
+    - eia861_dg:10056:WI:MISO
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2016-01-01T00:00:00Z': 8245
+      '2017-01-01T00:00:00Z': 16905
+      '2018-01-01T00:00:00Z': 17467
+      '2019-01-01T00:00:00Z': 36608
+      '2020-01-01T00:00:00Z': 17935
+      '2021-01-01T00:00:00Z': 16264
+      '2022-01-01T00:00:00Z': 16184
+      '2023-01-01T00:00:00Z': 17331
+      '2024-01-01T00:00:00Z': 16060
+      '2025-01-01T00:00:00Z': 16162
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 173575.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 172746
+      MWh: 1542
+      count: 4873
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 179161
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 53
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AS
+    - US-AZ
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 179161
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 741
+    examples:
+    - 4-County Electric Power Assn
+    - A & N Electric Coop
+    - AEP Texas Central Company
+    - AEP Texas North Company
+    - AES Indiana
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia861:distributed_generation: 179161
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612016.zip: 8245
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612017.zip: 16905
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612018.zip: 17467
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612019.zip: 36608
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612020.zip: 17935
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612021.zip: 16264
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612022.zip: 16184
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612023.zip: 17331
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612024.zip: 16060
+      https://www.eia.gov/electricity/data/eia861/zip/f8612025.zip: 16162
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T16:56:34Z': 16162
+      '2026-10-21T17:48:28Z': 16060
+      '2026-10-21T17:48:31Z': 17331
+      '2026-10-21T17:48:34Z': 16184
+      '2026-10-21T17:48:37Z': 16264
+      '2026-10-21T17:48:40Z': 17935
+      '2026-10-21T17:48:44Z': 36608
+      '2026-10-21T17:48:48Z': 17467
+      '2026-10-21T17:48:52Z': 16905
+      '2026-10-21T17:48:57Z': 8245
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 179161
+- name: x_utility_number
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 705
+    lowest: 34
+    highest: 66866
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 53
+    examples:
+    - AK
+    - AL
+    - AR
+    - AS
+    - AZ
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ba_code
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 49
+    examples:
+    - AEC
+    - AECI
+    - AMPL
+    - AVA
+    - BANC
+  missing_cells: 3529
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_capacity_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      AC: 130236
+      DC: 19872
+  missing_cells: 29053
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: battery_capacity_commercial
+  label: null
+  unit: MW
+  rows: 1766
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_capacity_direct_connected
+  label: null
+  unit: MW
+  rows: 1595
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_capacity_industrial
+  label: null
+  unit: MW
+  rows: 1584
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_capacity_residential
+  label: null
+  unit: MW
+  rows: 1757
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_capacity_total
+  label: null
+  unit: MW
+  rows: 4480
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_capacity_transportation
+  label: null
+  unit: MW
+  rows: 1545
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_energy_commercial
+  label: null
+  unit: MWh
+  rows: 104
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_energy_direct_connected
+  label: null
+  unit: MWh
+  rows: 65
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_energy_industrial
+  label: null
+  unit: MWh
+  rows: 58
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_energy_residential
+  label: null
+  unit: MWh
+  rows: 118
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_energy_total
+  label: null
+  unit: MWh
+  rows: 1145
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_energy_transportation
+  label: null
+  unit: MWh
+  rows: 52
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_backup_only
+  label: null
+  unit: MW
+  rows: 3141
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_utility_owned
+  label: null
+  unit: MW
+  rows: 3436
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: combustion_turbine_capacity_commercial
+  label: null
+  unit: MW
+  rows: 2021
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: combustion_turbine_capacity_direct_connected
+  label: null
+  unit: MW
+  rows: 1860
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: combustion_turbine_capacity_industrial
+  label: null
+  unit: MW
+  rows: 1895
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: combustion_turbine_capacity_residential
+  label: null
+  unit: MW
+  rows: 1885
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: combustion_turbine_capacity_total
+  label: null
+  unit: MW
+  rows: 4752
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: combustion_turbine_capacity_transportation
+  label: null
+  unit: MW
+  rows: 1838
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: fuel_cell_capacity_commercial
+  label: null
+  unit: MW
+  rows: 1940
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: fuel_cell_capacity_direct_connected
+  label: null
+  unit: MW
+  rows: 1845
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: fuel_cell_capacity_industrial
+  label: null
+  unit: MW
+  rows: 1849
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: fuel_cell_capacity_residential
+  label: null
+  unit: MW
+  rows: 1861
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: fuel_cell_capacity_total
+  label: null
+  unit: MW
+  rows: 4752
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: fuel_cell_capacity_transportation
+  label: null
+  unit: MW
+  rows: 1838
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: hydro_capacity_commercial
+  label: null
+  unit: MW
+  rows: 2128
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: hydro_capacity_direct_connected
+  label: null
+  unit: MW
+  rows: 2085
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: hydro_capacity_industrial
+  label: null
+  unit: MW
+  rows: 1881
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: hydro_capacity_residential
+  label: null
+  unit: MW
+  rows: 1897
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: hydro_capacity_total
+  label: null
+  unit: MW
+  rows: 4754
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: hydro_capacity_transportation
+  label: null
+  unit: MW
+  rows: 1840
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: internal_combustion_capacity_commercial
+  label: null
+  unit: MW
+  rows: 2740
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: internal_combustion_capacity_direct_connected
+  label: null
+  unit: MW
+  rows: 2040
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: internal_combustion_capacity_industrial
+  label: null
+  unit: MW
+  rows: 2138
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: internal_combustion_capacity_residential
+  label: null
+  unit: MW
+  rows: 2034
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: internal_combustion_capacity_total
+  label: null
+  unit: MW
+  rows: 4753
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: internal_combustion_capacity_transportation
+  label: null
+  unit: MW
+  rows: 1856
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: number_of_generators
+  label: null
+  unit: count
+  rows: 4873
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_capacity_commercial
+  label: null
+  unit: MW
+  rows: 2059
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_capacity_direct_connected
+  label: null
+  unit: MW
+  rows: 1871
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_capacity_industrial
+  label: null
+  unit: MW
+  rows: 1938
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_capacity_residential
+  label: null
+  unit: MW
+  rows: 1918
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_capacity_total
+  label: null
+  unit: MW
+  rows: 4761
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_capacity_transportation
+  label: null
+  unit: MW
+  rows: 1849
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: pv_capacity_commercial
+  label: null
+  unit: MW
+  rows: 3346
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: pv_capacity_direct_connected
+  label: null
+  unit: MW
+  rows: 2333
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: pv_capacity_industrial
+  label: null
+  unit: MW
+  rows: 2208
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: pv_capacity_residential
+  label: null
+  unit: MW
+  rows: 3095
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: pv_capacity_total
+  label: null
+  unit: MW
+  rows: 4883
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: pv_capacity_transportation
+  label: null
+  unit: MW
+  rows: 1880
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: steam_capacity_commercial
+  label: null
+  unit: MW
+  rows: 1921
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: steam_capacity_direct_connected
+  label: null
+  unit: MW
+  rows: 1880
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: steam_capacity_industrial
+  label: null
+  unit: MW
+  rows: 1864
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: steam_capacity_residential
+  label: null
+  unit: MW
+  rows: 1861
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: steam_capacity_total
+  label: null
+  unit: MW
+  rows: 4752
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: steam_capacity_transportation
+  label: null
+  unit: MW
+  rows: 1838
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_capacity
+  label: null
+  unit: MW
+  rows: 4872
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_capacity_commercial
+  label: null
+  unit: MW
+  rows: 4861
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_capacity_direct_connected
+  label: null
+  unit: MW
+  rows: 4769
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_capacity_industrial
+  label: null
+  unit: MW
+  rows: 4772
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_capacity_residential
+  label: null
+  unit: MW
+  rows: 4864
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_capacity_total
+  label: null
+  unit: MW
+  rows: 4884
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_capacity_transportation
+  label: null
+  unit: MW
+  rows: 4769
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_capacity_commercial
+  label: null
+  unit: MW
+  rows: 2262
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_capacity_direct_connected
+  label: null
+  unit: MW
+  rows: 1928
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_capacity_industrial
+  label: null
+  unit: MW
+  rows: 1937
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_capacity_residential
+  label: null
+  unit: MW
+  rows: 2172
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_capacity_total
+  label: null
+  unit: MW
+  rows: 4759
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_capacity_transportation
+  label: null
+  unit: MW
+  rows: 1854
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

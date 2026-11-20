@@ -1,0 +1,336 @@
+# The codebook's metadata of table miso_interconnection_queue (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: miso_interconnection_queue
+family: other_sources
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: miso:interconnection_queue MISO Generator Interconnection Queue (giqueue API)
+  url: https://www.misoenergy.org/api/giqueue/getprojects
+cite: 'Midcontinent Independent System Operator (MISO). Generator Interconnection Queue (giqueue API) [PAUSED 2026-10-04:
+  MISO''s terms forbid automated access; pulls paused pending a review of MISO''s terms by a person (docs/methods/miso_pause.md)].
+  Via the Energy Research Warehouse (ERW), table `miso_interconnection_queue`.'
+method: docs/methods/miso_interconnection_queue.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261004T023527Z-local
+  (2026-10-04T02:35:27Z); that run's own header of the table follows
+header_shape: 'Shape: entities (docs/datastandard.md v0). One row per queue position; entity_type project; status harmonized
+  (active, withdrawn, completed, suspended), iso_status the ISO''s own.'
+read:
+  date: '2026-11-20'
+  rows: 3881
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: 3881
+    examples:
+    - miso_queue:J1000
+    - miso_queue:J1001
+    - miso_queue:J1002
+    - miso_queue:J1003
+    - miso_queue:J1004
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      project: 3881
+  missing_cells: 0
+- name: name
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3881
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-AK: 1
+      US-AR: 406
+      US-IA: 229
+      US-IL: 494
+      US-IN: 468
+      US-KY: 63
+      US-LA: 387
+      US-MI: 530
+      US-MN: 285
+      US-MO: 129
+      US-MS: 204
+      US-MT: 1
+      US-ND: 87
+      US-SD: 46
+      US-TX: 91
+      US-WI: 249
+  missing_cells: 211
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3881
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3881
+- name: capacity_mw
+  shared: true
+  type: number
+  values:
+    distinct: 535
+    lowest: 0.0
+    highest: 2220.0
+  missing_cells: 0
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      active: 1176
+      completed: 557
+      withdrawn: 2148
+  missing_cells: 0
+- name: status_date
+  shared: true
+  type: date
+  values:
+    distinct: 429
+    earliest: '2017-02-17'
+    latest: '2026-09-18'
+  missing_cells: 1755
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3881
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      miso:interconnection_queue: 3881
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.misoenergy.org/api/giqueue/getprojects: 3881
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-09-30T23:33:22Z': 3881
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-09-30T00:00:00Z': 3881
+  missing_cells: 0
+- name: queue_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 3880
+    examples:
+    - J1000
+    - J1001
+    - J1002
+    - J1003
+    - J1004
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: county
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 776
+    examples:
+    - Acadia
+    - Acadia Parish
+    - Adair
+    - Adair County
+    - Adams
+  missing_cells: 175
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: state
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      AK: 1
+      AR: 406
+      IA: 229
+      IL: 494
+      IN: 468
+      KY: 63
+      LA: 387
+      MI: 530
+      MN: 285
+      MO: 129
+      MS: 204
+      MT: 1
+      ND: 87
+      SD: 46
+      TX: 91
+      WI: 249
+  missing_cells: 211
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: poi
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 2916
+    examples:
+    - '"18CAMPBELLW”, “18CAMPBELLB'
+    - 08GIBSON (PSI) - 7ALBION   345.0kV
+    - 10CULY13 253500 (F.B. Culley ) - 10AEP_T  353586 (tap between Culley (10CULY13 253500) - Grandview (
+    - 115 kV DARNELL
+    - 115 kV transmission line from Warsaw to Donaldson owned by Otter Tail Power Company
+  missing_cells: 157
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: zone
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3881
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: transmission_owner
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 94
+    examples:
+    - AMEREN ILLINOIS
+    - AMEREN MISSOURI
+    - AMEREN TRANSMISSION COMPANY OF ILLINOIS
+    - AMERICAN TRANSMISSION COMPANY
+    - ARKANSAS ELECTRIC COOPERATIVE CORPORATION
+  missing_cells: 130
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: fuel_technology
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Battery Storage: 745
+      Biomass: 1
+      Coal: 2
+      Combined Cycle: 9
+      Compressed Air Storage: 1
+      Diesel: 4
+      Gas: 121
+      High Voltage DC: 3
+      Hybrid: 347
+      Hydro: 5
+      Nuclear: 8
+      Solar: 1781
+      Waste Heat Recovery: 6
+      Wind: 523
+  missing_cells: 325
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: iso_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Active: 1085
+      Done: 552
+      'LEGACY: Done': 5
+      Pending Revision Approval: 84
+      Pending Transfer: 7
+      Withdrawn: 2148
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: queue_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 619
+    earliest: '2015-04-15'
+    latest: '2026-09-09'
+  missing_cells: 6
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: proposed_in_service_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 337
+    earliest: '1990-12-03'
+    latest: '2030-06-01'
+  missing_cells: 3259
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: actual_in_service_date
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3881
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: withdrawn_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 431
+    earliest: '2017-02-17'
+    latest: '2026-09-22'
+  missing_cells: 1750
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

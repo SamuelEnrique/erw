@@ -1,0 +1,139 @@
+# The codebook's metadata of table desnz_uk_co2_intensity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: desnz_uk_co2_intensity_annual
+family: desnz
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: desnz:dukes_5_14_co2_intensity Department for Energy Security and Net Zero, Digest of UK Energy Statistics (DUKES)
+    2026, table 5.14, Estimated carbon dioxide intensity of electricity supplied
+  url: ''
+cite: UK Department for Energy Security and Net Zero (DESNZ). Digest of UK Energy Statistics (DUKES) 2026, table 5.14, Carbon
+  dioxide intensity of electricity supplied. Via the Energy Research Warehouse (ERW), table `desnz_uk_co2_intensity_annual`.
+method: docs/methods/desnz_uk_co2_intensity_annual.md
+header_title: 'DESNZ, Digest of UK Energy Statistics (DUKES) 2026, table 5.14: the estimated CO2 intensity of the UK''s electricity
+  supplied, by fuel, 1996 to 2025 (session 2729)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity desnz_ci:<fuel> (coal, gas, non_renewable, all_fuels); variable
+  co2_intensity; unit kgCO2/MWh (the sheet''s tonnes per GWh supplied); ts_utc the year''s first day; freq P1Y; geo GB; node
+  the sheet''s row.'
+read:
+  date: '2026-11-20'
+  rows: 119
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      desnz_ci:all_fuels: 30
+      desnz_ci:coal: 29
+      desnz_ci:gas: 30
+      desnz_ci:non_renewable: 30
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 30
+    earliest: '1996-01-01T00:00:00Z'
+    latest: '2025-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 119
+    lowest: 147.25
+    highest: 1020.99
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      kgCO2/MWh: 119
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 119
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      GB: 119
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 119
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      All fuels (including nuclear and renewables): 30
+      All non renewable fuels: 30
+      Coal: 29
+      Gas: 30
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      desnz:dukes_5_14_co2_intensity: 119
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://assets.publishing.service.gov.uk/media/6a6a3684bf4a7aca8f8976c4/DUKES_5.14.xlsx: 119
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T19:33:21Z': 119
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-07-29T17:21:08Z': 119
+  missing_cells: 0
+variables:
+- name: co2_intensity
+  label: null
+  unit: kgCO2/MWh
+  rows: 119
+  first: '1996-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

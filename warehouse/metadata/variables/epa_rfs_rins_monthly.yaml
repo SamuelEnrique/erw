@@ -1,0 +1,148 @@
+# The codebook's metadata of table epa_rfs_rins_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: epa_rfs_rins_monthly
+family: epa
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: epa:rfs_emts U.S. Environmental Protection Agency, Public Data for the Renewable Fuel Standard (EMTS)
+  url: https://www.epa.gov/fuels-registration-reporting-and-compliance-help/public-data-renewable-fuel-standard
+cite: 'U.S. Environmental Protection Agency (EPA). Public Data for the Renewable Fuel Standard: RIN generation and renewable
+  fuel volume production (EMTS). Via the Energy Research Warehouse (ERW), table `epa_rfs_rins_monthly`.'
+method: docs/methods/epa_rfs_rins.md
+header_title: U.S. EPA, Renewable Fuel Standard, RIN generation and renewable fuel volume production by month, by D code,
+  2010-07 to 2026-09 (session 2030)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity epa_rfs:d<code>; variables rins_generated (unit count) and
+  batch_volume (unit gal, the renewable fuel''s volume, Decision 59); ts_utc the month''s first day (EPA''s RIN_YEAR and Production
+  Month); freq P1M; geo US; node the D code''s name as EPA''s fuel type file gives it (D3 Cellulosic Biofuel; D4 Biomass-Based
+  Diesel; D5 Advanced Biofuel; D6 Renewable Fuel; D7 Cellulosic Diesel).'
+read:
+  date: '2026-11-20'
+  rows: 1632
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      epa_rfs:d3: 316
+      epa_rfs:d4: 390
+      epa_rfs:d5: 390
+      epa_rfs:d6: 390
+      epa_rfs:d7: 146
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 195
+    earliest: '2010-07-01T00:00:00Z'
+    latest: '2026-09-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    distinct: 1391
+    lowest: 472
+    highest: 1365563204
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      count: 816
+      gal: 816
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 1632
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 1632
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1632
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Advanced Biofuel: 390
+      Biomass-Based Diesel: 390
+      Cellulosic Biofuel: 316
+      Cellulosic Diesel: 146
+      Renewable Fuel: 390
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      epa:rfs_emts: 1632
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.epa.gov/system/files/other-files/2026-10/rindata_sep2026.csv: 1632
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T18:42:34Z': 1632
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-14T21:35:00Z': 1632
+  missing_cells: 0
+variables:
+- name: batch_volume
+  label: null
+  unit: gal
+  rows: 816
+  first: '2010-07-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: rins_generated
+  label: null
+  unit: count
+  rows: 816
+  first: '2010-07-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+second_look: null

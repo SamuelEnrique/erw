@@ -1,0 +1,149 @@
+# The codebook's metadata of table desnz_uk_derated_capacity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: desnz_uk_derated_capacity_annual
+family: desnz
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: 'desnz:dukes_5_7_plant_capacity Department for Energy Security and Net Zero, Digest of UK Energy Statistics (DUKES)
+    2026, table 5.7, Plant capacity: United Kingdom'
+  url: ''
+cite: 'UK Department for Energy Security and Net Zero (DESNZ). Digest of UK Energy Statistics (DUKES) 2026, table 5.7, Plant
+  capacity: United Kingdom. Via the Energy Research Warehouse (ERW), table `desnz_uk_derated_capacity_annual`.'
+method: docs/methods/desnz_uk_derated_capacity_annual.md
+header_title: 'DESNZ, Digest of UK Energy Statistics (DUKES) 2026, table 5.7: the UK''s de-rated generating capacity by kind
+  of company and fuel, and its thermal stations by type, 1996 to 2025 (session 2734)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity desnz_cap:<mpp|other|all>:<item>; variable derated_capacity
+  (5.7.A) or thermal_capacity (5.7.B); unit MW (wind, solar and small hydro de-rated by 0.43, 0.17 and 0.365, DESNZ''s note
+  4); ts_utc the year''s first day; freq P1Y; geo GB; node the sheet''s labels.'
+read:
+  date: '2026-11-20'
+  rows: 1680
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 50
+    examples:
+    - desnz_cap:all:bioenergy_and_waste
+    - desnz_cap:all:ccgt_stations
+    - desnz_cap:all:coal_fired
+    - desnz_cap:all:conventional_steam_stations
+    - desnz_cap:all:gas_fired
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 30
+    earliest: '1996-01-01T00:00:00Z'
+    latest: '2025-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1158
+    lowest: 0.0
+    highest: 90393.3079
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 1680
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 1680
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      GB: 1680
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1680
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 53
+    examples:
+    - 'All generating companies: Bioenergy and waste'
+    - 'All generating companies: CCGT stations'
+    - 'All generating companies: Coal fired'
+    - 'All generating companies: Conventional steam stations'
+    - 'All generating companies: Gas fired'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      desnz:dukes_5_7_plant_capacity: 1680
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://assets.publishing.service.gov.uk/media/6a6a3622cceb23e8678976bf/DUKES_5.7.xlsx: 1680
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T19:40:40Z': 1680
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-07-29T17:19:30Z': 1680
+  missing_cells: 0
+variables:
+- name: derated_capacity
+  label: null
+  unit: MW
+  rows: 1200
+  first: '1996-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: thermal_capacity
+  label: null
+  unit: MW
+  rows: 480
+  first: '1996-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,458 @@
+# The codebook's metadata of table usace_nid_dams (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: usace_nid_dams
+family: other_sources
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: usace:nid U.S. Army Corps of Engineers, National Inventory of Dams
+  url: https://nid.sec.usace.army.mil/
+cite: U.S. Army Corps of Engineers (USACE). National Inventory of Dams (national download). Via the Energy Research Warehouse
+  (ERW), table `usace_nid_dams`.
+method: docs/methods/usace_nid_dams.md
+header_title: U.S. Army Corps of Engineers, National Inventory of Dams, every dam the inventory lists (data last updated 2026-10-22)
+  (session 982)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id usace_nid:<Federal ID>; entity_type dam; geo US-<state>;
+  operator the owners'' names; capacity_mw and status empty; nid_id the NID ID (shared by a dam''s associated structures);
+  the inventory''s fields renamed with their units.'
+read:
+  date: '2026-11-20'
+  rows: 92788
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - usace_nid:AK00001
+    - usace_nid:AK00002
+    - usace_nid:AK00003
+    - usace_nid:AK00004
+    - usace_nid:AK00005
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      dam: 92788
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - '"E" Pond Treatment'
+    - '#1 Tailings Pond'
+    - '#154'
+    - '#2'
+    - '#3 Slurry Pond'
+  missing_cells: 4335
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 71.266667
+  missing_cells: 162
+- name: lon
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -176.6873
+    highest: 144.7061
+  missing_cells: 162
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 92788
+- name: status
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 92788
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 92788
+- name: operator
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - '& FRY;OLSEN;RUMFORD'
+    - '& FRY;OLSON;RUMFORDS'
+    - (7) RANCH C/O GABRIELLE MANIGAULT
+    - (7) RANCH LLC
+    - ','
+  missing_cells: 6829
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      usace:nid: 92788
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://nid.sec.usace.army.mil/api/nation/csv: 92788
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T13:59:04Z': 92788
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: date
+  values:
+    list:
+      '2026-10-22': 92788
+  missing_cells: 0
+- name: nid_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - AK00001
+    - AK00002
+    - AK00003
+    - AK00004
+    - AK00005
+  missing_cells: 3
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: owner_types
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - Federal
+    - Federal;Local Government
+    - Federal;Private
+    - Federal;State
+    - Federal;State;Local Government
+  missing_cells: 12
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: primary_owner_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Federal: 3552
+      Local Government: 18675
+      Not Listed: 1664
+      Private: 60442
+      Public Utility: 1673
+      State: 6752
+      Tribal Government: 18
+  missing_cells: 12
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: primary_purpose
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Debris Control: 679
+      Fire Protection, Stock, Or Small Fish Pond: 12001
+      Fish and Wildlife Pond: 3186
+      Flood Risk Reduction: 15197
+      Grade Stabilization: 964
+      Hydroelectric: 2114
+      Irrigation: 7696
+      Navigation: 233
+      Other: 7469
+      Recreation: 30954
+      Tailings: 1207
+      Water Supply: 5215
+  missing_cells: 5873
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: purposes
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 571
+    examples:
+    - Debris Control
+    - Debris Control;Debris Control;Other;Other
+    - Debris Control;Fire Protection, Stock, Or Small Fish Pond
+    - Debris Control;Fire Protection, Stock, Or Small Fish Pond;Irrigation;Recreation
+    - Debris Control;Fire Protection, Stock, Or Small Fish Pond;Irrigation;Recreation;Water Supply
+  missing_cells: 5869
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: associated_structure
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      'No': 91776
+      'Yes': 1012
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: county
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1792
+    examples:
+    - Abbeville
+    - Acadia
+    - Accomack
+    - Ada
+    - Adair
+  missing_cells: 155
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: river
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - '"Y" Branch'
+    - '#Name?'
+    - (Dry Water Course)
+    - .
+    - '0'
+  missing_cells: 9047
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: primary_dam_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Arch: 116
+      Buttress: 178
+      Concrete: 2353
+      Earth: 77739
+      Gravity: 2205
+      Masonry: 468
+      Multi-Arch: 21
+      Other: 651
+      Rockfill: 845
+      Roller-Compacted Concrete: 25
+      Stone: 181
+      Timber Crib: 125
+  missing_cells: 7881
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: nid_height_ft
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 382
+    lowest: 0
+    highest: 789
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: dam_length_ft
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 4271
+    lowest: 0.0
+    highest: 470610.0
+  missing_cells: 14087
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: year_completed
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 267
+    lowest: 0
+    highest: 2026
+  missing_cells: 19052
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: nid_storage_acre_ft
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 277540000.0
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: normal_storage_acre_ft
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -48.0
+    highest: 277540000.0
+  missing_cells: 6718
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: surface_area_acres
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 4683
+    lowest: 0.0
+    highest: 20255000.0
+  missing_cells: 20390
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: drainage_area_sq_mi
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 4902
+    lowest: 0.0
+    highest: 8300000.0
+  missing_cells: 30860
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: max_discharge_cfs
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 3707516.0
+  missing_cells: 46769
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: locks_n
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '0': 35128
+      '1': 151
+      '2': 39
+      '3': 1
+      '4': 3
+      '5': 2
+  missing_cells: 57464
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: source_agency
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 69
+    examples:
+    - Alabama
+    - Alaska
+    - Arizona
+    - Arkansas
+    - Bureau of Indian Affairs
+  missing_cells: 3
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: record_updated
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 261
+    examples:
+    - 01/07/2026
+    - 01/08/2025
+    - 01/08/2026
+    - 01/10/2025
+    - 01/14/2025
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: coordinate_given
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      lat ; lon -79.87083333: 1
+      lat ; lon -81.98228: 1
+  missing_cells: 92786
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

@@ -1,0 +1,164 @@
+# The codebook's metadata of table cer_gas_trade (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: cer_gas_trade
+family: cer
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: cer:natural_gas_trade_summary Canada Energy Regulator, Natural Gas Trade Summary (compiled from the CER's monthly
+    Commodity Statistics)
+  url: https://www.cer-rec.gc.ca/en/data-analysis/energy-commodities/natural-gas/statistics/natural-gas-trade-summary/index.html
+cite: Canada Energy Regulator (CER). Natural Gas Trade Summary. Via the Energy Research Warehouse (ERW), table `cer_gas_trade`.
+method: docs/methods/cer_gas_trade.md
+header_title: 'the Canada Energy Regulator, Canada''s natural gas trade with the U.S., a month: pipeline exports in total
+  and by U.S. region, LNG exports, the export price, and historical imports (session 910)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity cer_gas_trade:CA (pipeline trade with the U.S.), cer_gas_trade:CA:US_WEST,
+  :US_MIDWEST, :US_EAST (pipeline exports by the U.S. region of the border crossing; the three sum to CA''s exports), cer_gas_trade:CA:LNG
+  (LNG exports, gaseous equivalent); variables exports and imports (Mcf, the CER''s thousand cubic feet) and export_price
+  and import_price (USD/MMBtu, the CER''s); ts_utc the month''s first day; freq P1M; geo CA.'
+read:
+  date: '2026-11-20'
+  rows: 1427
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      cer_gas_trade:CA: 696
+      cer_gas_trade:CA:LNG: 155
+      cer_gas_trade:CA:US_EAST: 192
+      cer_gas_trade:CA:US_MIDWEST: 192
+      cer_gas_trade:CA:US_WEST: 192
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 192
+    earliest: '2010-01-01T00:00:00Z'
+    latest: '2025-12-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1416
+    lowest: 0.0
+    highest: 332410409.6888432
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      Mcf: 1079
+      USD/MMBtu: 348
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 1427
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      CA: 1427
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1427
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Canada, LNG exports (gaseous equivalent): 155
+      Canada, natural gas export price: 192
+      Canada, natural gas import price: 156
+      Canada, natural gas imports from the U.S.: 156
+      Canada, natural gas pipeline exports to the U.S.: 192
+      Canada, natural gas pipeline exports to the U.S. East: 192
+      Canada, natural gas pipeline exports to the U.S. Midwest: 192
+      Canada, natural gas pipeline exports to the U.S. West: 192
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      cer:natural_gas_trade_summary: 1427
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://www.cer-rec.gc.ca/en/data-analysis/energy-commodities/natural-gas/statistics/natural-gas-trade-summary/natural-gas-trades-summary-resume-echanges-commerciaux-gaz-naturel.xlsx
+      : 1427
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T08:01:13Z': 1427
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-04-01T18:56:47Z': 1427
+  missing_cells: 0
+variables:
+- name: export_price
+  label: null
+  unit: USD/MMBtu
+  rows: 192
+  first: '2010-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: exports
+  label: null
+  unit: Mcf
+  rows: 923
+  first: '2010-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: import_price
+  label: null
+  unit: USD/MMBtu
+  rows: 156
+  first: '2010-01-01T00:00:00Z'
+  last: '2022-12-01T00:00:00Z'
+- name: imports
+  label: null
+  unit: Mcf
+  rows: 156
+  first: '2010-01-01T00:00:00Z'
+  last: '2022-12-01T00:00:00Z'
+second_look: null

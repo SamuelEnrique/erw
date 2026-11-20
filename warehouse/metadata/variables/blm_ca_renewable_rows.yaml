@@ -1,0 +1,384 @@
+# The codebook's metadata of table blm_ca_renewable_rows (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: blm_ca_renewable_rows
+family: other_sources
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: blm:ca_renewable_energy_projects U.S. Department of the Interior, Bureau of Land Management, California State Office,
+    BLM CA Renewable Energy Projects
+  url: https://gis.blm.gov/caarcgis/rest/services/RenewableEnergy/BLM_CA_Renewable_Energy_Projects/FeatureServer
+cite: U.S. Department of the Interior, Bureau of Land Management (BLM). BLM CA Renewable Energy Projects (verified and preliminary
+  renewable energy rights-of-way). Via the Energy Research Warehouse (ERW), table `blm_ca_renewable_rows`.
+method: docs/methods/blm_ca_renewable_rows.md
+header_title: Bureau of Land Management, California's verified and preliminary renewable energy rights-of-way on public lands
+  (BLM CA Renewable Energy Projects) (session 955)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id blm_row:<BLM serial number>; entity_type project; name
+  BLM''s project name; geo US-CA; capacity_mw empty (BLM gives none); status empty (BLM''s disposition in x_disposition);
+  status_date the effective date; x_* BLM''s fields.'
+read:
+  date: '2026-11-20'
+  rows: 57
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: 57
+    examples:
+    - blm_row:CACA009501
+    - blm_row:CACA009755
+    - blm_row:CACA011688A
+    - blm_row:CACA013198
+    - blm_row:CACA013528
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      project: 57
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 55
+    examples:
+    - Aero Power, LLC - Campo
+    - Alta East X, LLC
+    - Alta Windpower Dev. LLC - Alta 1
+    - Alta Windpower Dev. LLC - Southwest
+    - BP-Edom Hills Project
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 57
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 57
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 57
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 57
+- name: status
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 57
+- name: status_date
+  shared: true
+  type: date
+  values:
+    distinct: 32
+    earliest: '1982-12-08'
+    latest: '2014-03-21'
+  missing_cells: 25
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 57
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      blm:ca_renewable_energy_projects: 57
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://gis.blm.gov/caarcgis/rest/services/RenewableEnergy/BLM_CA_Renewable_Energy_Projects/FeatureServer/0/query?where=1%3D1&outFields=*&returnGeometry=false&f=json
+      : 46
+      ? https://gis.blm.gov/caarcgis/rest/services/RenewableEnergy/BLM_CA_Renewable_Energy_Projects/FeatureServer/1/query?where=1%3D1&outFields=*&returnGeometry=false&f=json
+      : 11
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T12:41:42Z': 57
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 57
+- name: x_layer
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      preliminary: 11
+      verified: 46
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_serial_number
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 57
+    examples:
+    - CACA 009501
+    - CACA 009755
+    - CACA 011688A
+    - CACA 013198
+    - CACA 013528
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_disposition
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Authorized: 32
+      Closed: 2
+      Pending: 23
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_case_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      ROW-SOLAR DEV FAC: 16
+      ROW-WIND DEV FAC: 22
+      ROW-WIND PROJ TEST: 19
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_case_type_code
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '283002': 20
+      '283003': 21
+      '283103': 16
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_commodity
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      SOLAR ENERGY FACILITIES: 1
+      Solar Energy Facilities: 15
+      Wind Energy Facilities: 41
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_project_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CSP: 7
+      PV: 6
+      testing: 19
+      turbines: 22
+  missing_cells: 3
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_application_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 50
+    earliest: '1981-03-19'
+    latest: '2016-05-23'
+  missing_cells: 2
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_effective_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 32
+    earliest: '1982-12-08'
+    latest: '2014-03-21'
+  missing_cells: 25
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_expiration_date
+  label: null
+  unit: null
+  type: date
+  values:
+    list:
+      '2013-01-25': 1
+      '2013-03-30': 1
+      '2013-09-06': 1
+      '2014-03-30': 1
+      '2014-06-01': 1
+      '2014-09-30': 1
+      '2015-06-25': 1
+      '2015-12-31': 1
+      '2017-10-25': 1
+      '2022-12-27': 1
+      '2027-02-25': 1
+      '2027-04-01': 1
+      '2028-01-31': 1
+      '2028-12-31': 2
+      '2037-12-14': 1
+      '2038-12-08': 1
+      '2038-12-31': 1
+      '2039-12-31': 1
+      '2040-12-31': 1
+      '2041-12-31': 1
+      '2042-12-31': 2
+      '2043-12-31': 2
+  missing_cells: 32
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_expiration_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '2013': 3
+      '2014': 3
+      '2015': 2
+      '2017': 1
+      '2022': 1
+      '2027': 2
+      '2028': 3
+      '2037': 1
+      '2038': 2
+      '2039': 1
+      '2040': 1
+      '2041': 1
+      '2042': 2
+      '2043': 2
+  missing_cells: 32
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_project_acres
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 36
+    lowest: 20
+    highest: 30810
+  missing_cells: 20
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_blm_acres
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 53
+    lowest: 13
+    highest: 37219
+  missing_cells: 3
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_data_source
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      A. Shaffer legals: 1
+      App. Map: 1
+      Application: 42
+      Application Map: 1
+      ApplicationM&B: 1
+      LR2000: 5
+      MTP Drawing: 2
+      MTP map, legals: 1
+      POD: 1
+      Shapefile-company: 2
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_remarks
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 42
+    examples:
+    - 5/28/10Deleted Sec26&27l;4/28/11enXcoverbal2 incl. samelands; Amended 8/11
+    - 6.5 sections of LWCF land within project; within 29Palms Base expansionzone
+    - Amended 1/15/2008; Amended via POD 2/2011
+    - Amended 1/4/08; Amended 9/22/10
+    - Amended 10/09;12/09;5/10; Lark Canyon OHV & ACEC within project,08/2014
+  missing_cells: 13
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_in_time
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      1st: 57
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

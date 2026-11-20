@@ -1,0 +1,227 @@
+# The codebook's metadata of table irs_soi_energy_credits_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: irs_soi_energy_credits_annual
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: irs:soi_historic_table_2 Internal Revenue Service, SOI Tax Stats, Historic Table 2
+  url: https://www.irs.gov/statistics/soi-tax-stats-historic-table-2
+cite: 'Internal Revenue Service (IRS), Statistics of Income. SOI Tax Stats: Historic Table 2, individual income and tax data
+  by state. Via the Energy Research Warehouse (ERW), table `irs_soi_energy_credits_annual`.'
+method: docs/methods/irs_soi_energy_credits_annual.md
+header_title: 'Internal Revenue Service, Statistics of Income, Historic Table 2 (individual income and tax data by state):
+  the residential energy credits claimed, tax years 2015 to 2023, all incomes (session 2087)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity irs_soi:<SOI''s state code> (US: SOI''s own national row; OA:
+  its other areas); variables residential_energy_credit_returns and _amount (N07260, A07260, 2015 to 2022), and for 2023,
+  when the credit was split, residential_clean_energy_credit_* (N07262, A07262) and energy_efficient_home_improvement_credit_*
+  (N07265, A07265); unit count for returns, USD for amounts (SOI''s thousands of dollars times 1,000); ts_utc the tax year''s
+  first day; freq P1Y; geo US-<state>, US, or empty for OA; x_soi_column SOI''s column.'
+read:
+  date: '2026-11-20'
+  rows: 1074
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 54
+    examples:
+    - irs_soi:AK
+    - irs_soi:AL
+    - irs_soi:AR
+    - irs_soi:AZ
+    - irs_soi:CA
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2015-01-01T00:00:00Z': 106
+      '2016-01-01T00:00:00Z': 106
+      '2017-01-01T00:00:00Z': 106
+      '2018-01-01T00:00:00Z': 108
+      '2019-01-01T00:00:00Z': 108
+      '2020-01-01T00:00:00Z': 108
+      '2021-01-01T00:00:00Z': 108
+      '2022-01-01T00:00:00Z': 108
+      '2023-01-01T00:00:00Z': 216
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    distinct: 1047
+    lowest: 110
+    highest: 7983695000
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD: 537
+      count: 537
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 1074
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 53
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 20
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1074
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 54
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      irs:soi_historic_table_2: 1074
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.irs.gov/pub/irs-soi/15in54cmcsv.csv: 106
+      https://www.irs.gov/pub/irs-soi/16in54cmcsv.csv: 106
+      https://www.irs.gov/pub/irs-soi/17in54cmcsv.csv: 106
+      https://www.irs.gov/pub/irs-soi/18in55cmagi.csv: 108
+      https://www.irs.gov/pub/irs-soi/19in55cmcsv.csv: 108
+      https://www.irs.gov/pub/irs-soi/20in55cmcsv.csv: 108
+      https://www.irs.gov/pub/irs-soi/21in55cmcsv.csv: 108
+      https://www.irs.gov/pub/irs-soi/22in55cmcsv.csv: 108
+      https://www.irs.gov/pub/irs-soi/23in55cmcsv.csv: 216
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T21:13:17Z': 108
+      '2026-10-23T21:13:19Z': 108
+      '2026-10-23T21:13:21Z': 108
+      '2026-10-23T21:13:23Z': 216
+      '2026-10-23T21:14:17Z': 106
+      '2026-10-23T21:14:19Z': 106
+      '2026-10-23T21:14:21Z': 106
+      '2026-10-23T21:14:22Z': 108
+      '2026-10-23T21:14:24Z': 108
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '1970-01-01T00:00:00Z': 106
+      '2019-10-31T02:11:53Z': 106
+      '2020-09-01T02:12:26Z': 108
+      '2021-12-08T13:39:13Z': 108
+      '2022-12-16T23:25:24Z': 108
+      '2024-02-27T03:11:29Z': 108
+      '2025-01-16T03:11:43Z': 108
+      '2025-11-07T08:57:12Z': 106
+      '2026-08-21T14:12:00Z': 216
+  missing_cells: 0
+- name: x_soi_column
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      A07260: 429
+      A07262: 54
+      A07265: 54
+      N07260: 429
+      N07262: 54
+      N07265: 54
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: energy_efficient_home_improvement_credit_amount
+  label: null
+  unit: USD
+  rows: 54
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: energy_efficient_home_improvement_credit_returns
+  label: null
+  unit: count
+  rows: 54
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: residential_clean_energy_credit_amount
+  label: null
+  unit: USD
+  rows: 54
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: residential_clean_energy_credit_returns
+  label: null
+  unit: count
+  rows: 54
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: residential_energy_credit_amount
+  label: null
+  unit: USD
+  rows: 429
+  first: '2015-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: residential_energy_credit_returns
+  label: null
+  unit: count
+  rows: 429
+  first: '2015-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+second_look: null

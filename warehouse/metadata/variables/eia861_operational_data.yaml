@@ -1,0 +1,404 @@
+# The codebook's metadata of table eia861_operational_data (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia861_operational_data
+family: eia861
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:eia861:operational_data U.S. Energy Information Administration, Form EIA-861 Annual Electric Power Industry Report
+    (Operational_Data_<year>.xlsx)
+  url: https://www.eia.gov/electricity/data/eia861/
+cite: U.S. Energy Information Administration (EIA). Form EIA-861 Annual Electric Power Industry Report, operational data.
+  Via the Energy Research Warehouse (ERW), table `eia861_operational_data`.
+method: docs/methods/eia861_operations.md
+header_title: EIA-861 operational data, each utility's peak demand, sources and dispositions of energy and revenue, by state,
+  a year (session 882)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia861_op:<utility>:<state>; variables summer_peak_demand and
+  winter_peak_demand (MW); net_generation, wholesale_purchases, exchange_received, exchange_delivered, exchange_net, wheeled_received,
+  wheeled_delivered, wheeled_net, transmission_by_others_losses, total_sources (MWh, the sources of energy); retail_sales,
+  sales_for_resale, furnished_without_charge, consumed_without_charge, energy_losses, total_disposition (MWh); revenue_retail_sales,
+  revenue_delivery_customers, revenue_sales_for_resale, revenue_credits_adjustments, revenue_transmission, revenue_other,
+  revenue_total (USD, EIA''s thousand dollars times 1,000); net figures can be negative; ts_utc the data year''s 1 January;
+  freq P1Y; node the utility''s name; x_data_type O observed, I imputed.'
+read:
+  date: '2026-11-20'
+  rows: 367768
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 3628
+    examples:
+    - eia861_op:10000:MO
+    - eia861_op:10005:KS
+    - eia861_op:10009:TX
+    - eia861_op:1000:AR
+    - eia861_op:10012:OK
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2015-01-01T00:00:00Z': 32882
+      '2016-01-01T00:00:00Z': 33118
+      '2017-01-01T00:00:00Z': 32954
+      '2018-01-01T00:00:00Z': 32938
+      '2019-01-01T00:00:00Z': 84000
+      '2020-01-01T00:00:00Z': 24344
+      '2021-01-01T00:00:00Z': 27645
+      '2022-01-01T00:00:00Z': 24996
+      '2023-01-01T00:00:00Z': 25030
+      '2024-01-01T00:00:00Z': 24983
+      '2025-01-01T00:00:00Z': 24878
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -2114200000.0
+    highest: 59322890000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 40360
+      MWh: 233380
+      USD: 94028
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 367768
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 58
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AS
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 367768
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 3770
+    examples:
+    - 3 Phases Renewables
+    - 3 Phases Renewables Inc
+    - 3000 Energy Corp
+    - 4-County Electric Power Assn
+    - 4Change Energy Company
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia861:operational_data: 367768
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612015.zip: 32882
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612016.zip: 33118
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612017.zip: 32954
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612018.zip: 32938
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612019.zip: 84000
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612020.zip: 24344
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612021.zip: 27645
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612022.zip: 24996
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612023.zip: 25030
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612024.zip: 24983
+      https://www.eia.gov/electricity/data/eia861/zip/f8612025.zip: 24878
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T16:56:34Z': 24878
+      '2026-10-21T17:48:28Z': 24983
+      '2026-10-21T17:48:31Z': 25030
+      '2026-10-21T17:48:34Z': 24996
+      '2026-10-21T17:48:37Z': 27645
+      '2026-10-21T17:48:40Z': 24344
+      '2026-10-21T17:48:44Z': 84000
+      '2026-10-21T17:48:48Z': 32938
+      '2026-10-21T17:48:52Z': 32954
+      '2026-10-21T17:48:57Z': 33118
+      '2026-10-21T17:49:02Z': 32882
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 367768
+- name: x_utility_number
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 3556
+    lowest: 34
+    highest: 67932
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 57
+    examples:
+    - AK
+    - AL
+    - AR
+    - AS
+    - AZ
+  missing_cells: 150
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ownership
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Behind the Meter: 1738
+      Community Choice Aggregator: 3133
+      Cooperative: 120270
+      Federal: 1573
+      Investor Owned: 34224
+      Municipal: 142243
+      Municipal Mktg Authority: 2337
+      Political Subdivision: 16812
+      Retail Power Marketer: 35516
+      State: 3816
+      Transmission: 1840
+      Unknown: 72
+      Wholesale Power Marketer: 4194
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_nerc_region
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 35
+    examples:
+    - 5-MISE
+    - AK
+    - AS
+    - ASCC
+    - ECAR
+  missing_cells: 44256
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_data_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      O: 367768
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: consumed_without_charge
+  label: null
+  unit: MWh
+  rows: 12647
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: energy_losses
+  label: null
+  unit: MWh
+  rows: 19246
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: exchange_delivered
+  label: null
+  unit: MWh
+  rows: 7178
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: exchange_net
+  label: null
+  unit: MWh
+  rows: 22177
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: exchange_received
+  label: null
+  unit: MWh
+  rows: 8631
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: furnished_without_charge
+  label: null
+  unit: MWh
+  rows: 8841
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: net_generation
+  label: null
+  unit: MWh
+  rows: 11438
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: retail_sales
+  label: null
+  unit: MWh
+  rows: 21073
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: revenue_credits_adjustments
+  label: null
+  unit: USD
+  rows: 8024
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: revenue_delivery_customers
+  label: null
+  unit: USD
+  rows: 5429
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: revenue_other
+  label: null
+  unit: USD
+  rows: 16363
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: revenue_retail_sales
+  label: null
+  unit: USD
+  rows: 21099
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: revenue_sales_for_resale
+  label: null
+  unit: USD
+  rows: 11070
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: revenue_total
+  label: null
+  unit: USD
+  rows: 22730
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: revenue_transmission
+  label: null
+  unit: USD
+  rows: 9313
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: sales_for_resale
+  label: null
+  unit: MWh
+  rows: 10968
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: summer_peak_demand
+  label: null
+  unit: MW
+  rows: 20181
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_disposition
+  label: null
+  unit: MWh
+  rows: 22596
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_sources
+  label: null
+  unit: MWh
+  rows: 22627
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: transmission_by_others_losses
+  label: null
+  unit: MWh
+  rows: 7013
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wheeled_delivered
+  label: null
+  unit: MWh
+  rows: 7364
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wheeled_net
+  label: null
+  unit: MWh
+  rows: 22177
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wheeled_received
+  label: null
+  unit: MWh
+  rows: 7413
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wholesale_purchases
+  label: null
+  unit: MWh
+  rows: 21991
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: winter_peak_demand
+  label: null
+  unit: MW
+  rows: 20179
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,289 @@
+# The codebook's metadata of table battery_sourced_ranges (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: battery_sourced_ranges
+family: battery
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: 'nlr:atb-2025-v1 National Laboratory of the Rockies (NLR), 2025 Electricity Annual Technology Baseline (ATB), workbook
+    2025_v1_Workbook_08-27-2026.xlsx, sheet Utility-Scale Battery - R&D (battery costs from Cole, Ramasamy and Olmez Turan,
+    Cost Projections for Utility-Scale Battery Storage: 2025 Update, NREL/TP-6A40-93281)'
+  url: https://data.openei.org/files/8759/2025_v1_Workbook_08-27-2026.xlsx
+cite: National Laboratory of the Rockies (NLR, formerly NREL). 2025 Electricity Annual Technology Baseline (ATB), workbook
+  2025_v1_Workbook_08-27-2026.xlsx. Via the Energy Research Warehouse (ERW), table `battery_sourced_ranges`.
+method: docs/methods/battery_sourced_ranges.md
+header_title: published low and high cases of the battery's assumptions, one row per source, case and assumption (session
+  306)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity <source>:<technology>:<case>; ts_utc the year the value is
+  for; x_case low, mid or high on the cost scale; x_page where the number stands in the document. Nothing is filled: an assumption
+  a source does not state has no row.'
+read:
+  date: '2026-11-20'
+  rows: 90
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      nlr_atb_2025:utility_battery:advanced: 5
+      nlr_atb_2025:utility_battery:conservative: 5
+      nlr_atb_2025:utility_battery:moderate: 5
+      nlr_atb_2025:utility_battery_10h:advanced: 5
+      nlr_atb_2025:utility_battery_10h:conservative: 5
+      nlr_atb_2025:utility_battery_10h:moderate: 5
+      nlr_atb_2025:utility_battery_2h:advanced: 5
+      nlr_atb_2025:utility_battery_2h:conservative: 5
+      nlr_atb_2025:utility_battery_2h:moderate: 5
+      nlr_atb_2025:utility_battery_4h:advanced: 5
+      nlr_atb_2025:utility_battery_4h:conservative: 5
+      nlr_atb_2025:utility_battery_4h:moderate: 5
+      nlr_atb_2025:utility_battery_6h:advanced: 5
+      nlr_atb_2025:utility_battery_6h:conservative: 5
+      nlr_atb_2025:utility_battery_6h:moderate: 5
+      nlr_atb_2025:utility_battery_8h:advanced: 5
+      nlr_atb_2025:utility_battery_8h:conservative: 5
+      nlr_atb_2025:utility_battery_8h:moderate: 5
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2025-01-01T00:00:00Z': 90
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 56
+    lowest: 0.065
+    highest: 2891.047166
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/kW: 48
+      USD/kW-year: 15
+      USD/kWh: 3
+      ratio: 21
+      year: 3
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 90
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 90
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 90
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 90
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      nlr:atb-2025-v1: 90
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://data.openei.org/files/8759/2025_v1_Workbook_08-27-2026.xlsx: 90
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-19T06:12:19Z': 90
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-08-27T00:00:00Z': 90
+  missing_cells: 0
+- name: x_case
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      high: 30
+      low: 30
+      mid: 30
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_published_case
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Advanced: 30
+      Conservative: 30
+      Moderate: 30
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_duration_h
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '10': 15
+      '2': 15
+      '4': 15
+      '6': 15
+      '8': 15
+  missing_cells: 15
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_document
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      ? 'National Laboratory of the Rockies (NLR), 2025 Electricity Annual Technology Baseline (ATB), workbook 2025_v1_Workbook_08-27-2026.xlsx,
+        sheet Utility-Scale Battery - R&D (battery costs from Cole, Ramasamy and Olmez Turan, Cost Projections for Utility-Scale
+        Battery Storage: 2025 Update, NREL/TP-6A40-93281)'
+      : 90
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_page
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 88
+    examples:
+    - sheet Utility-Scale Battery - R&D, row 104, column 2025
+    - sheet Utility-Scale Battery - R&D, row 105, column 2025
+    - sheet Utility-Scale Battery - R&D, row 106, column 2025
+    - sheet Utility-Scale Battery - R&D, row 107, column 2025
+    - sheet Utility-Scale Battery - R&D, row 108, column 2025
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_dollar_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '2023': 66
+  missing_cells: 24
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: capex
+  label: null
+  unit: USD/kW
+  rows: 15
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: energy_capital_cost
+  label: null
+  unit: USD/kWh
+  rows: 3
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: fixed_om
+  label: null
+  unit: USD/kW-year
+  rows: 15
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: grid_connection_cost
+  label: null
+  unit: USD/kW
+  rows: 15
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: interest_rate_nominal
+  label: null
+  unit: ratio
+  rows: 3
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: overnight_capital_cost
+  label: null
+  unit: USD/kW
+  rows: 15
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: power_capital_cost
+  label: null
+  unit: USD/kW
+  rows: 3
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: return_on_equity_nominal
+  label: null
+  unit: ratio
+  rows: 3
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: round_trip_efficiency
+  label: null
+  unit: ratio
+  rows: 15
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: technical_life
+  label: null
+  unit: year
+  rows: 3
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

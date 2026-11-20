@@ -1,0 +1,139 @@
+# The codebook's metadata of table ieso_ontario_demand_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ieso_ontario_demand_hourly
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: ieso:demand Independent Electricity System Operator, Hourly Demand Report
+  url: https://reports-public.ieso.ca/public/Demand/
+cite: Independent Electricity System Operator (IESO), Ontario. Hourly Demand Report (PUB_Demand). Via the Energy Research
+  Warehouse (ERW), table `ieso_ontario_demand_hourly`.
+method: docs/methods/ieso_ontario_demand_hourly.md
+header_title: Independent Electricity System Operator (IESO), Hourly Demand Report, Ontario, 2025 to 2026-10-23 (session 2070)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity ieso:ontario; variables ontario_demand (Ontario''s consumers)
+  and market_demand (Ontario demand plus exports), MW; ts_utc the hour''s start in UTC (the IESO''s hour ending, Eastern Standard
+  Time all year, less one hour plus five); freq PT1H; vintage the file''s creation.'
+read:
+  date: '2026-11-20'
+  rows: 31680
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      ieso:ontario: 31680
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2025-01-01T05:00:00Z'
+    latest: '2026-10-23T05:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 11536.0
+    highest: 27678.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 31680
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 31680
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      CA-ON: 31680
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 31680
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Ontario: 31680
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ieso:demand: 31680
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://reports-public.ieso.ca/public/Demand/PUB_Demand_2025.csv: 17518
+      https://reports-public.ieso.ca/public/Demand/PUB_Demand_2026.csv: 14162
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T20:04:42Z': 31680
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-01-31T12:30:13Z': 17518
+      '2026-10-23T12:30:09Z': 14162
+  missing_cells: 0
+variables:
+- name: market_demand
+  label: null
+  unit: MW
+  rows: 15840
+  first: '2025-01-01T05:00:00Z'
+  last: '2026-10-23T05:00:00Z'
+- name: ontario_demand
+  label: null
+  unit: MW
+  rows: 15840
+  first: '2025-01-01T05:00:00Z'
+  last: '2026-10-23T05:00:00Z'
+second_look: null

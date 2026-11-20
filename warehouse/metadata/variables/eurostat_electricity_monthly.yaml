@@ -1,0 +1,381 @@
+# The codebook's metadata of table eurostat_electricity_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_electricity_monthly
+family: eurostat
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eurostat:nrg_cb_pem_nrg_cb_em Eurostat, Net electricity generation by type of fuel, monthly data (nrg_cb_pem) and
+    Supply, transformation and consumption of electricity, monthly data (nrg_cb_em)
+  url: https://ec.europa.eu/eurostat/databrowser/view/nrg_cb_pem/default/table
+cite: Eurostat (Statistical Office of the European Union). Net electricity generation by type of fuel, monthly (nrg_cb_pem);
+  Supply, transformation and consumption of electricity, monthly (nrg_cb_em). Via the Energy Research Warehouse (ERW), table
+  `eurostat_electricity_monthly`.
+method: docs/methods/eurostat_electricity_monthly.md
+header_title: Eurostat, monthly electricity statistics, net production by fuel (nrg_cb_pem) and the electricity flows (nrg_cb_em),
+  2016-01 to 2026-08, 39 European countries and the EU (session 2225)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_elec:<Eurostat geo code>; variable net_production:<SIEC
+  code> or flow:<NRG_BAL code> (imports, exports, the supply available for the internal market AIM, distribution losses DL,
+  TI_EHG_EPS); unit MWh (Eurostat''s GWh times 1,000); ts_utc the month''s first day; freq P1M; geo ISO alpha-2 (Eurostat''s
+  EL is GR), blank for EU27_2020; node the code''s English name.'
+read:
+  date: '2026-11-20'
+  rows: 130025
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 40
+    examples:
+    - eurostat_elec:AL
+    - eurostat_elec:AT
+    - eurostat_elec:BA
+    - eurostat_elec:BE
+    - eurostat_elec:BG
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 128
+    earliest: '2016-01-01T00:00:00Z'
+    latest: '2026-08-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -2538.0
+    highest: 271874687.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 130025
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 130025
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 39
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 3406
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 130025
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 30
+    examples:
+    - Available to internal market
+    - Coal and manufactured gases
+    - Combustible fuels
+    - Combustible fuels - non-renewable - other
+    - Combustible fuels - renewable
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:nrg_cb_pem_nrg_cb_em: 130025
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nrg_cb_em?format=SDMX-CSV&compressed=false&startPeriod=2016-01
+      : 31789
+      ? https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nrg_cb_pem?format=SDMX-CSV&compressed=false&startPeriod=2016-01
+      : 98236
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T02:05:25Z': 31789
+      '2026-10-24T02:05:57Z': 98236
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 130025
+- name: x_geo_code
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 40
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_dataset
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      nrg_cb_em: 31789
+      nrg_cb_pem: 98236
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_flag
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      b: 1
+      d: 6
+      e: 4742
+      n: 323
+      p: 354
+      u: 41
+  missing_cells: 124558
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_conf_status
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 130025
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: flow:AIM
+  label: null
+  unit: MWh
+  rows: 4746
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: flow:DL
+  label: null
+  unit: MWh
+  rows: 4145
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: flow:EXP
+  label: null
+  unit: MWh
+  rows: 4745
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: flow:EXP_TO_EU
+  label: null
+  unit: MWh
+  rows: 4337
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: flow:IMP
+  label: null
+  unit: MWh
+  rows: 4745
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: flow:IMP_FROM_EU
+  label: null
+  unit: MWh
+  rows: 4337
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: flow:TI_EHG_EPS
+  label: null
+  unit: MWh
+  rows: 4734
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:C0000
+  label: null
+  unit: MWh
+  rows: 4259
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:CF
+  label: null
+  unit: MWh
+  rows: 4746
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:CF_NR_OTH
+  label: null
+  unit: MWh
+  rows: 4270
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:CF_R
+  label: null
+  unit: MWh
+  rows: 4294
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:FE
+  label: null
+  unit: MWh
+  rows: 1212
+  first: '2023-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:G3000
+  label: null
+  unit: MWh
+  rows: 4201
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:N9000
+  label: null
+  unit: MWh
+  rows: 4746
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:O4000XBIO
+  label: null
+  unit: MWh
+  rows: 4120
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:RA000
+  label: null
+  unit: MWh
+  rows: 4350
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:RA100
+  label: null
+  unit: MWh
+  rows: 4746
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:RA110
+  label: null
+  unit: MWh
+  rows: 4350
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:RA120
+  label: null
+  unit: MWh
+  rows: 4230
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:RA130
+  label: null
+  unit: MWh
+  rows: 4350
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:RA200
+  label: null
+  unit: MWh
+  rows: 4746
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:RA300
+  label: null
+  unit: MWh
+  rows: 4746
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:RA310
+  label: null
+  unit: MWh
+  rows: 4311
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:RA320
+  label: null
+  unit: MWh
+  rows: 4311
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:RA400
+  label: null
+  unit: MWh
+  rows: 4281
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:RA410
+  label: null
+  unit: MWh
+  rows: 4261
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:RA420
+  label: null
+  unit: MWh
+  rows: 4317
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:RA500_5160
+  label: null
+  unit: MWh
+  rows: 4293
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:TOTAL
+  label: null
+  unit: MWh
+  rows: 4746
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_production:X9900
+  label: null
+  unit: MWh
+  rows: 4350
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

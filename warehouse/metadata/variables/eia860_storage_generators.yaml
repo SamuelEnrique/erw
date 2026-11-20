@@ -1,0 +1,918 @@
+# The codebook's metadata of table eia860_storage_generators (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia860_storage_generators
+family: eia860
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: eia:eia860:energy_storage U.S. Energy Information Administration, Form EIA-860 Annual Electric Generator Report, 3_4_Energy_Storage_Y2025.xlsx
+  url: https://www.eia.gov/electricity/data/eia860/
+cite: U.S. Energy Information Administration (EIA). Form EIA-860 Annual Electric Generator Report, energy storage generators'
+  details. Via the Energy Research Warehouse (ERW), table `eia860_storage_generators`.
+method: docs/methods/eia860_schedules.md
+header_title: EIA-860, energy storage generators' details, data year 2025 (session 885)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id eia860_storage:<plant code>:<generator id> (EIA-860M''s
+  tables name the same generator eia860:<plant code>:<generator id>); entity_type generator; name the plant''s name; capacity_mw
+  nameplate; status from EIA''s code (x_eia_status); status_date the month of operation (operable) or of retirement (retired),
+  empty for proposed and canceled. x_* every other column of EIA''s sheet, its heading as a name; x_sheet the sheet.'
+read:
+  date: '2026-11-20'
+  rows: 1782
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: 1782
+    examples:
+    - eia860_storage:10156:BESS1
+    - eia860_storage:1016:11
+    - eia860_storage:10444:LHC1
+    - eia860_storage:10493:BES1
+    - eia860_storage:1355:BESS
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      generator: 1782
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 1691
+    examples:
+    - 0 Hammond St CSG
+    - 0 Middle
+    - 1 Commercial
+    - 15 Lincoln
+    - 160 Tihonet Rd Hybrid(CSG)
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 50
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1782
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1782
+- name: capacity_mw
+  shared: true
+  type: number
+  values:
+    distinct: 362
+    lowest: 0.1
+    highest: 1200.0
+  missing_cells: 0
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      operating: 1012
+      planned: 291
+      retired: 35
+      suspended: 31
+      under_construction: 316
+      withdrawn: 97
+  missing_cells: 0
+- name: status_date
+  shared: true
+  type: date
+  values:
+    distinct: 134
+    earliest: '1991-06-01'
+    latest: '2025-12-01'
+  missing_cells: 735
+- name: operator
+  shared: true
+  type: text
+  values:
+    distinct: 993
+    examples:
+    - 0HAM WHAM8 Solar, LLC
+    - 147 Williamsville Solar 1, LLC
+    - 160TIH WHAM8 Solar, LLC
+    - 174 Power Global Corp.
+    - 196TRE WHAM8 Solar, LLC
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia860:energy_storage: 1782
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia860/xls/eia8602025.zip: 1782
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T03:33:49Z': 1782
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: integer
+  values:
+    list:
+      '2025': 1782
+  missing_cells: 0
+- name: x_plant_code
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 1691
+    lowest: 141
+    highest: 70450
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_generator_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1415
+    examples:
+    - 013A
+    - 013B
+    - 09170
+    - 09751
+    - '1'
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 50
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_eia_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CN: 97
+      IP: 31
+      L: 90
+      OA: 10
+      OP: 988
+      OS: 10
+      P: 141
+      RE: 35
+      SB: 4
+      T: 60
+      TS: 53
+      U: 157
+      V: 106
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_sheet
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Operable: 1012
+      Proposed: 607
+      Retired and Canceled: 163
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_utility_id
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 993
+    lowest: 189
+    highest: 68038
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_county
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 474
+    examples:
+    - Ada
+    - Adams
+    - Addison
+    - Alachua
+    - Alameda
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_technology
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Batteries: 1773
+      Flywheels: 5
+      Natural Gas with Compressed Air Storage: 1
+      Solar Thermal with Energy Storage: 3
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_prime_mover
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      BA: 1773
+      CE: 1
+      CP: 3
+      FW: 5
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_sector_name
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Commercial CHP: 7
+      Commercial Non-CHP: 29
+      Electric Utility: 297
+      IPP CHP: 3
+      IPP Non-CHP: 1434
+      Industrial CHP: 1
+      Industrial Non-CHP: 11
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_sector
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 297
+      '2': 1434
+      '3': 3
+      '4': 29
+      '5': 7
+      '6': 11
+      '7': 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_summer_capacity_mw
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 350
+    lowest: 0.1
+    highest: 1200.0
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_winter_capacity_mw
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 348
+    lowest: 0.1
+    highest: 1200.0
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_operating_month
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 59
+      '10': 78
+      '11': 77
+      '12': 204
+      '2': 37
+      '3': 103
+      '4': 64
+      '5': 83
+      '6': 100
+      '7': 80
+      '8': 79
+      '9': 83
+  missing_cells: 735
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_operating_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1991': 1
+      '2003': 1
+      '2009': 2
+      '2011': 4
+      '2012': 13
+      '2013': 8
+      '2014': 5
+      '2015': 17
+      '2016': 24
+      '2017': 24
+      '2018': 34
+      '2019': 49
+      '2020': 65
+      '2021': 130
+      '2022': 129
+      '2023': 138
+      '2024': 202
+      '2025': 201
+  missing_cells: 735
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_nameplate_energy_capacity_mwh
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 450
+    lowest: 0.2
+    highest: 4800.0
+  missing_cells: 55
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_maximum_charge_rate_mw
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 328
+    lowest: 0.1
+    highest: 2034.2
+  missing_cells: 58
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_maximum_discharge_rate_mw
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 327
+    lowest: 0.1
+    highest: 1200.0
+  missing_cells: 58
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_storage_technology_1
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      ECC: 3
+      FLB: 18
+      LIB: 1647
+      MAB: 5
+      NAB: 8
+      NIB: 10
+      OTH: 26
+      PBB: 5
+  missing_cells: 60
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_storage_technology_2
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      FLB: 4
+      NIB: 2
+      PBB: 1
+  missing_cells: 1775
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_storage_technology_3
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1782
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_storage_technology_4
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1782
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_nameplate_reactive_power_rating
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 467
+    lowest: 0.0
+    highest: 1320.0
+  missing_cells: 89
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_storage_enclosure_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      BL: 58
+      CS: 1540
+      CT: 102
+      OT: 19
+  missing_cells: 63
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_arbitrage
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      PR: 679
+      Y: 390
+  missing_cells: 713
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_frequency_regulation
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      PR: 196
+      Y: 707
+  missing_cells: 879
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_load_following
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      PR: 57
+      Y: 164
+  missing_cells: 1561
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ramping_spinning_reserve
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      PR: 17
+      Y: 507
+  missing_cells: 1258
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_co_located_renewable_firming
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      PR: 65
+      Y: 193
+  missing_cells: 1524
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_transmission_and_distribution_deferral
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      PR: 9
+      Y: 99
+  missing_cells: 1674
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_system_peak_shaving
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      PR: 282
+      Y: 353
+  missing_cells: 1147
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_load_management
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      PR: 102
+      Y: 130
+  missing_cells: 1550
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_voltage_or_reactive_power_support
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      PR: 21
+      Y: 419
+  missing_cells: 1342
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_backup_power
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      PR: 22
+      Y: 147
+  missing_cells: 1613
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_excess_wind_and_solar_generation
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      PR: 251
+      Y: 379
+  missing_cells: 1152
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ac_coupled
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      N: 3
+      Y: 459
+  missing_cells: 1320
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_dc_coupled
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      N: 3
+      Y: 160
+  missing_cells: 1619
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_dc_tightly_coupled
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Y: 54
+  missing_cells: 1728
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_independent
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      N: 12
+      Y: 34
+  missing_cells: 1736
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_direct_support_of_another_unit
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      N: 1097
+      Y: 605
+  missing_cells: 80
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_direct_support_plant_id_1
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 617
+    lowest: 1
+    highest: 70450
+  missing_cells: 1146
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_direct_support_gen_id_1
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 516
+    examples:
+    - 0HAMP
+    - '1'
+    - '10604'
+    - '10892'
+    - '10894'
+  missing_cells: 1142
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_direct_support_plant_id_2
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '55369': 1
+      '56951': 1
+      '57187': 1
+      '57991': 1
+      '58462': 1
+      '59817': 1
+      '60092': 1
+      '61956': 1
+      '6304': 1
+      '64481': 1
+      '64851': 1
+      '64980': 1
+      '65568': 1
+      '6579': 1
+      '67275': 1
+      '67277': 1
+      '67278': 1
+      '67743': 1
+      '68524': 1
+      '68525': 1
+      '68776': 1
+      '69706': 1
+      '69708': 1
+      '69710': 1
+  missing_cells: 1758
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_direct_support_gen_id_2
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      '2': 1
+      4057R: 1
+      4072G: 1
+      4147R: 1
+      4148R: 1
+      4149R: 1
+      4150R: 1
+      4654R: 1
+      4656R: 1
+      4657R: 1
+      AEC2: 1
+      BLCK5: 1
+      BLK2: 1
+      CARPT: 1
+      CAT9: 1
+      CT2: 1
+      GEN03: 1
+      GMSP2: 1
+      PV2: 1
+      PV8: 1
+      SHS02: 1
+      SOL2: 1
+      VESTA: 1
+  missing_cells: 1759
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_direct_support_plant_id_3
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '55369': 1
+      '58462': 1
+      '60092': 1
+      '6304': 1
+      '68777': 1
+  missing_cells: 1777
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_direct_support_gen_id_3
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      BLCK6: 1
+      BLK3: 1
+      PV17: 1
+      SHS03: 1
+      ST1: 1
+  missing_cells: 1777
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_support_t_d_asset
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      N: 1312
+      Y: 389
+  missing_cells: 81
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_current_month
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 25
+      '10': 40
+      '11': 44
+      '12': 125
+      '2': 27
+      '3': 54
+      '4': 55
+      '5': 34
+      '6': 54
+      '7': 59
+      '8': 28
+      '9': 62
+  missing_cells: 1175
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_current_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '2026': 274
+      '2027': 190
+      '2028': 84
+      '2029': 38
+      '2030': 14
+      '2031': 7
+  missing_cells: 1175
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_retirement_month
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 2
+      '11': 4
+      '12': 8
+      '2': 2
+      '3': 1
+      '4': 3
+      '5': 1
+      '6': 1
+      '7': 4
+      '8': 4
+      '9': 5
+  missing_cells: 1747
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_retirement_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '2013': 1
+      '2018': 2
+      '2019': 4
+      '2020': 2
+      '2021': 5
+      '2022': 5
+      '2023': 4
+      '2024': 5
+      '2025': 7
+  missing_cells: 1747
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

@@ -1,0 +1,190 @@
+# The codebook's metadata of table noaa_station_weather_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: noaa_station_weather_hourly
+family: noaa
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: noaa:isd_lite NOAA National Centers for Environmental Information, Integrated Surface Database, ISD-Lite
+  url: https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database
+- name: noaa:lcd_v2 NOAA National Centers for Environmental Information, Local Climatological Data version 2
+  url: https://www.ncei.noaa.gov/products/land-based-station/local-climatological-data
+cite: NOAA National Centers for Environmental Information. ISD-Lite (Integrated Surface Database, hourly); Local Climatological
+  Data v2. Via the Energy Research Warehouse (ERW), table `noaa_station_weather_hourly`.
+method: docs/methods/noaa_station_weather_hourly.md
+header_title: hourly temperature and dew point at the 35 NOAA airport stations behind each grid's weighted weather, as NOAA
+  measured them, 2019 to now (session 129)
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column ba (the grid the station stands for). entity noaa:<GHCN
+  identifier>, node the airport; freq PT1H, ts_utc the hour (the reading taken in the ten minutes up to it). temperature_f
+  and dew_point_f, degrees F: NOAA''s tenths of a degree C times 9/5 plus 32, to two decimals, which turns back to the tenth
+  exactly. Measured values only: an hour NOAA holds no value for has no row, and no interpolated value is written (the grid
+  tables interpolate runs of at most three hours and count them). 4,781,257 rows of a ceiling of 5,000,000. With this table
+  the grid tables can be rebuilt with other weights on a machine that never held NOAA''s files (noaa_grid_weather.py --from-table).'
+read:
+  date: '2026-11-20'
+  rows: 4781257
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 35
+    examples:
+    - noaa:USW00003102
+    - noaa:USW00003927
+    - noaa:USW00003928
+    - noaa:USW00003947
+    - noaa:USW00012921
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2019-01-01T00:00:00Z'
+    latest: '2026-11-07T14:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 387
+    lowest: -36.94
+    highest: 116.96
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      degF: 4781257
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 4781257
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 686081
+      US-CT: 273977
+      US-IL: 137268
+      US-IN: 137343
+      US-KS: 137222
+      US-MA: 274143
+      US-MD: 137348
+      US-MI: 129571
+      US-MN: 137116
+      US-MO: 274472
+      US-NE: 137016
+      US-NY: 672896
+      US-OK: 274517
+      US-PA: 274616
+      US-RI: 137014
+      US-TX: 686083
+      US-VA: 137282
+      US-WI: 137292
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 4781257
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 35
+    examples:
+    - ALB
+    - AUS
+    - BDL
+    - BDR
+    - BOS
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      noaa:isd_lite: 3967189
+      noaa:lcd_v2: 814068
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2019/: 609344
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2020/: 598144
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2021/: 592287
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2022/: 593496
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2023/: 609759
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2024/: 610583
+      https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2025/: 353576
+      https://www.ncei.noaa.gov/access/services/data/v1?dataset=local-climatological-data-v2: 814068
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T18:05:35Z': 4781257
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 4781257
+- name: ba
+  shared: true
+  type: text
+  values:
+    list:
+      ciso: 686081
+      erco: 686083
+      isne: 685134
+      miso: 678491
+      nyis: 672896
+      pjm: 686514
+      swpp: 686058
+  missing_cells: 0
+variables:
+- name: dew_point_f
+  label: null
+  unit: degF
+  rows: 2390431
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-07T14:00:00Z'
+- name: temperature_f
+  label: null
+  unit: degF
+  rows: 2390826
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-07T14:00:00Z'
+second_look: null

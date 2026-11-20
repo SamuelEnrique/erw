@@ -1,0 +1,292 @@
+# The codebook's metadata of table nuclear_fleet_status (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: nuclear_fleet_status
+family: erw_derived
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1Y
+source:
+- name: eia:nuclear-outages U.S. Energy Information Administration, Status of U.S. Nuclear Outages (from the NRC's power reactor
+    status reports); EIA-860M
+  url: ''
+cite: Energy Research Warehouse (ERW), derived. The U.S. reactor fleet by reactor and year, and by grid (docs/methods/nuclear_fleet_status.md).
+  Via the Energy Research Warehouse (ERW), table `nuclear_fleet_status`.
+method: docs/methods/nuclear_fleet_status.md
+header_title: 'the U.S. reactor fleet by reactor and year, and by grid and year: capacity, outages, long outages, available
+  energy, uprates, restarts and retirements (derived, session 2955)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity nuclear_fleet:<facility>:<generator> (a reactor), nuclear_fleet:grid:<BA>,
+  nuclear_fleet:US; ts_utc the year''s first day, freq P1Y; variables capacity_mw (MW), outage_share (ratio), full_outage_days
+  (count), long_outages (count), available_mwh (MWh), days_held (count), capacity_change_mw (MW), reactors (count); x_first
+  and x_last a reactor''s first and last days held.'
+read:
+  date: '2026-11-20'
+  rows: 15048
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 124
+    examples:
+    - nuclear_fleet:1060:1
+    - nuclear_fleet:1590:1
+    - nuclear_fleet:1715:1
+    - nuclear_fleet:1729:2
+    - nuclear_fleet:1922:1
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2007-01-01T00:00:00Z': 692
+      '2008-01-01T00:00:00Z': 796
+      '2009-01-01T00:00:00Z': 796
+      '2010-01-01T00:00:00Z': 796
+      '2011-01-01T00:00:00Z': 796
+      '2012-01-01T00:00:00Z': 796
+      '2013-01-01T00:00:00Z': 762
+      '2014-01-01T00:00:00Z': 767
+      '2015-01-01T00:00:00Z': 761
+      '2016-01-01T00:00:00Z': 762
+      '2017-01-01T00:00:00Z': 755
+      '2018-01-01T00:00:00Z': 760
+      '2019-01-01T00:00:00Z': 754
+      '2020-01-01T00:00:00Z': 734
+      '2021-01-01T00:00:00Z': 726
+      '2022-01-01T00:00:00Z': 715
+      '2023-01-01T00:00:00Z': 715
+      '2024-01-01T00:00:00Z': 715
+      '2025-01-01T00:00:00Z': 722
+      '2026-01-01T00:00:00Z': 728
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 4533
+    lowest: -88.9
+    highest: 804217344.384
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 4169
+      MWh: 2308
+      count: 6263
+      ratio: 2308
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 15048
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 15048
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 15048
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 107
+    examples:
+    - Arkansas Nuclear One, reactor 1
+    - Arkansas Nuclear One, reactor 2
+    - Beaver Valley, reactor 1
+    - Beaver Valley, reactor 2
+    - Braidwood Generation Station, reactor 1
+  missing_cells: 1340
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:nuclear_fleet_status: 15048
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/nuclear_fleet_status.md: 15048
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-19T17:53:25Z': 15048
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 15048
+- name: x_facility
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 66
+    lowest: 46
+    highest: 8907
+  missing_cells: 1340
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_generator
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 7005
+      '2': 5219
+      '3': 1325
+      '4': 159
+  missing_cells: 1340
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ba
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      BPAT: 219
+      CISO: 358
+      CPLE: 636
+      DUK: 1053
+      ERCO: 636
+      FPL: 636
+      ISNE: 497
+      MISO: 1973
+      NYIS: 636
+      PJM: 4479
+      SCEG: 219
+      SOCO: 961
+      SRP: 497
+      SWPP: 358
+      TVA: 997
+      none: 813
+  missing_cells: 80
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_first
+  label: null
+  unit: null
+  type: date
+  values:
+    list:
+      '2007-01-01': 13578
+      '2015-10-27': 83
+      '2022-10-13': 27
+      '2023-08-21': 20
+  missing_cells: 1340
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_last
+  label: null
+  unit: null
+  type: date
+  values:
+    list:
+      '2012-12-31': 164
+      '2014-11-30': 55
+      '2016-09-30': 69
+      '2018-08-31': 83
+      '2019-04-30': 90
+      '2019-08-31': 90
+      '2020-03-31': 91
+      '2020-10-31': 97
+      '2021-03-31': 104
+      '2026-11-19': 12865
+  missing_cells: 1340
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: available_mwh
+  label: null
+  unit: MWh
+  rows: 2308
+  first: '2007-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: capacity_change_mw
+  label: null
+  unit: MW
+  rows: 1861
+  first: '2008-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: capacity_mw
+  label: null
+  unit: MW
+  rows: 2308
+  first: '2007-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: days_held
+  label: null
+  unit: count
+  rows: 1982
+  first: '2007-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: full_outage_days
+  label: null
+  unit: count
+  rows: 1973
+  first: '2007-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: long_outages
+  label: null
+  unit: count
+  rows: 1973
+  first: '2007-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: outage_share
+  label: null
+  unit: ratio
+  rows: 2308
+  first: '2007-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: reactors
+  label: null
+  unit: count
+  rows: 335
+  first: '2007-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+second_look: null

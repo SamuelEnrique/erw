@@ -1,0 +1,324 @@
+# The codebook's metadata of table eurostat_solid_fuels_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_solid_fuels_monthly
+family: eurostat
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eurostat:nrg_cb_sffm Eurostat, Supply and transformation of solid fuels - monthly data (nrg_cb_sffm)
+  url: https://ec.europa.eu/eurostat/databrowser/view/nrg_cb_sffm/default/table
+cite: Eurostat (Statistical Office of the European Union). Supply and transformation of solid fuels - monthly data (nrg_cb_sffm).
+  Via the Energy Research Warehouse (ERW), table `eurostat_solid_fuels_monthly`.
+method: docs/methods/eurostat_solid_fuels_monthly.md
+header_title: Eurostat, monthly solid fuels supply (nrg_cb_sffm), 2016-01 to 2026-09, 37 European countries and the EU (session
+  2364)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_sff:<Eurostat geo code>:<SIEC code> (C0100 hard coal,
+  C0200 brown coal, C0311 coke oven coke, P1100 peat, S2000 oil shale and oil sands); variable flow:<NRG_BAL code>; unit t
+  (Eurostat''s thousand tonnes times 1,000); ts_utc the month''s first day; freq P1M; geo ISO alpha-2 (Eurostat''s EL is GR),
+  blank for EU27_2020; node the fuel and flow.'
+read:
+  date: '2026-11-20'
+  rows: 209040
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 190
+    examples:
+    - eurostat_sff:AL:C0100
+    - eurostat_sff:AL:C0200
+    - eurostat_sff:AL:C0311
+    - eurostat_sff:AL:P1100
+    - eurostat_sff:AL:S2000
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 129
+    earliest: '2016-01-01T00:00:00Z'
+    latest: '2026-09-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -2828701.0
+    highest: 42801000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      t: 209040
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 209040
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 37
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 5681
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 209040
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 49
+    examples:
+    - 'Brown coal: Change in stock'
+    - 'Brown coal: Closing stocks on national territory'
+    - 'Brown coal: Exports'
+    - 'Brown coal: Gross inland deliveries - calculated'
+    - 'Brown coal: Imports'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:nrg_cb_sffm: 209040
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nrg_cb_sffm?format=SDMX-CSV&compressed=false&startPeriod=2016-01
+      : 209040
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T08:58:15Z': 209040
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 209040
+- name: x_geo_code
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 38
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_siec
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      C0100: 70755
+      C0200: 36422
+      C0311: 40429
+      P1100: 27874
+      S2000: 33560
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_nrg_bal
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      EXP: 22238
+      FC_IND: 4358
+      FC_IND_IS: 8685
+      FC_OTH: 4442
+      GID_CAL: 22450
+      GID_OBS: 4199
+      IMP: 22435
+      IMP_FROM_NEU: 8161
+      IPRD: 22239
+      RCV_RCY: 4575
+      STATDIFF: 4192
+      STKCL_NAT: 18173
+      STKOP_NAT: 18174
+      STK_CHG: 22429
+      TI_CO: 4413
+      TI_EHG_MAP: 17877
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_flag
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      b: 814
+      be: 12
+      bn: 5
+      d: 172
+      e: 3965
+      n: 933
+      p: 904
+      u: 67
+  missing_cells: 202168
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_conf_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      C: 6
+  missing_cells: 209034
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: flow:EXP
+  label: null
+  unit: t
+  rows: 22238
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:FC_IND
+  label: null
+  unit: t
+  rows: 4358
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:FC_IND_IS
+  label: null
+  unit: t
+  rows: 8685
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:FC_OTH
+  label: null
+  unit: t
+  rows: 4442
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:GID_CAL
+  label: null
+  unit: t
+  rows: 22450
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:GID_OBS
+  label: null
+  unit: t
+  rows: 4199
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:IMP
+  label: null
+  unit: t
+  rows: 22435
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:IMP_FROM_NEU
+  label: null
+  unit: t
+  rows: 8161
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:IPRD
+  label: null
+  unit: t
+  rows: 22239
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:RCV_RCY
+  label: null
+  unit: t
+  rows: 4575
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:STATDIFF
+  label: null
+  unit: t
+  rows: 4192
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:STKCL_NAT
+  label: null
+  unit: t
+  rows: 18173
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:STKOP_NAT
+  label: null
+  unit: t
+  rows: 18174
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:STK_CHG
+  label: null
+  unit: t
+  rows: 22429
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:TI_CO
+  label: null
+  unit: t
+  rows: 4413
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:TI_EHG_MAP
+  label: null
+  unit: t
+  rows: 17877
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+second_look: null

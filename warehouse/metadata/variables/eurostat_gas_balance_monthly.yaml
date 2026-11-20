@@ -1,0 +1,304 @@
+# The codebook's metadata of table eurostat_gas_balance_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_gas_balance_monthly
+family: eurostat
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eurostat:nrg_cb_gasm Eurostat, Supply, transformation and consumption of gas, monthly data (nrg_cb_gasm)
+  url: https://ec.europa.eu/eurostat/databrowser/view/nrg_cb_gasm/default/table
+cite: Eurostat (Statistical Office of the European Union). Supply, transformation and consumption of gas, monthly data (nrg_cb_gasm).
+  Via the Energy Research Warehouse (ERW), table `eurostat_gas_balance_monthly`.
+method: docs/methods/eurostat_gas_balance_monthly.md
+header_title: Eurostat, supply, transformation and consumption of natural gas, monthly (nrg_cb_gasm), 2015-01 to 2026-09 (session
+  2329)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_gas_balance:<geo>; variable the balance item (indigenous_production,
+  imports, exports, stock_change, inland_consumption_calculated, inland_consumption_observed, transformation_input_electricity_heat_main,
+  final_consumption_industry, final_consumption_other, distribution_losses and the rest; x_nrg_bal Eurostat''s code); unit
+  MWh (Eurostat''s TJ of gross calorific value times 277.7778); ts_utc the month''s first day; freq P1M; geo ISO alpha-2 (EL
+  is GR), blank for the aggregates EU27_2020 and EA21.'
+read:
+  date: '2026-11-20'
+  rows: 53214
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 38
+    examples:
+    - eurostat_gas_balance:AL
+    - eurostat_gas_balance:AT
+    - eurostat_gas_balance:BE
+    - eurostat_gas_balance:BG
+    - eurostat_gas_balance:CY
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 141
+    earliest: '2015-01-01T00:00:00Z'
+    latest: '2026-09-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -250448694.444
+    highest: 675186016.389
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 53214
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 53214
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 36
+    examples:
+    - AL
+    - AT
+    - BE
+    - BG
+    - CY
+  missing_cells: 1724
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 53214
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 580
+    examples:
+    - AL natural gas DL
+    - AL natural gas EXP
+    - AL natural gas FC_IND
+    - AL natural gas FC_OTH
+    - AL natural gas FLARE
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:nrg_cb_gasm: 53214
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nrg_cb_gasm?format=SDMX-CSV&compressed=false&startPeriod=2015-01
+      : 53214
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T07:26:34Z': 53214
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 53214
+- name: x_geo_code
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 38
+    examples:
+    - AL
+    - AT
+    - BE
+    - BG
+    - CY
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_nrg_bal
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      DL: 4542
+      EXP: 4679
+      FC_IND: 779
+      FC_OTH: 854
+      FLARE: 2126
+      IC_CAL_MG: 4871
+      IC_OBS: 4868
+      IMP: 4848
+      INTMARB: 2484
+      IPRD: 4609
+      STATDIFF: 2787
+      STK_CHG_CG: 1485
+      STK_CHG_MG: 4758
+      TI_EHG_MAP: 4813
+      TOS: 2585
+      VENT: 2126
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_flag
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      e: 128
+      n: 25
+      p: 277
+  missing_cells: 52784
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_conf_status
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 53214
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: distribution_losses
+  label: null
+  unit: MWh
+  rows: 4542
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: exports
+  label: null
+  unit: MWh
+  rows: 4679
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: final_consumption_industry
+  label: null
+  unit: MWh
+  rows: 779
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: final_consumption_other
+  label: null
+  unit: MWh
+  rows: 854
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flared
+  label: null
+  unit: MWh
+  rows: 2126
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: imports
+  label: null
+  unit: MWh
+  rows: 4848
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: indigenous_production
+  label: null
+  unit: MWh
+  rows: 4609
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: inland_consumption_calculated
+  label: null
+  unit: MWh
+  rows: 4871
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: inland_consumption_observed
+  label: null
+  unit: MWh
+  rows: 4868
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: international_maritime_bunkers
+  label: null
+  unit: MWh
+  rows: 2484
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: statistical_differences
+  label: null
+  unit: MWh
+  rows: 2787
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: stock_change
+  label: null
+  unit: MWh
+  rows: 4758
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: stock_change_cushion_gas
+  label: null
+  unit: MWh
+  rows: 1485
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: transfer_from_other_sources
+  label: null
+  unit: MWh
+  rows: 2585
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: transformation_input_electricity_heat_main
+  label: null
+  unit: MWh
+  rows: 4813
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: vented
+  label: null
+  unit: MWh
+  rows: 2126
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+second_look: null

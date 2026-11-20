@@ -1,0 +1,192 @@
+# The codebook's metadata of table dfe_ni_electricity_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: dfe_ni_electricity_monthly
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: dfe_ni:electricity_consumption_renewable_generation_2026 Department for the Economy (Northern Ireland), Electricity
+    Consumption and Renewable Generation in Northern Ireland, April 2025 to March 2026 (4 June 2026), figures 6 to 9
+  url: ''
+cite: Department for the Economy (Northern Ireland). Electricity Consumption and Renewable Generation in Northern Ireland,
+  April 2025 to March 2026, figures 6 to 9. Via the Energy Research Warehouse (ERW), table `dfe_ni_electricity_monthly`.
+method: docs/methods/dfe_ni_electricity_monthly.md
+header_title: 'Department for the Economy (Northern Ireland), Electricity Consumption and Renewable Generation in Northern
+  Ireland, April 2025 to March 2026: generation by type and fuel, and trade, a month (session 2544)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity dfe_ni:gb-nir:<item>; variable renewable_generation (total
+  and by type), non_renewable_generation (total and by fuel), imports, exports (written positive), net_imports; unit MWh (DfE''s
+  GWh times 1,000); ts_utc the month''s first day; freq P1M; geo GB-NIR; node DfE''s column header; x_figure the figure''s
+  link text.'
+read:
+  date: '2026-11-20'
+  rows: 1326
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      dfe_ni:gb-nir:bioenergy: 102
+      dfe_ni:gb-nir:coal: 102
+      dfe_ni:gb-nir:distillate_other: 102
+      dfe_ni:gb-nir:gas: 102
+      dfe_ni:gb-nir:hydro_tidal: 102
+      dfe_ni:gb-nir:landfill_gas: 102
+      dfe_ni:gb-nir:solar: 102
+      dfe_ni:gb-nir:total: 510
+      dfe_ni:gb-nir:wind: 102
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 102
+    earliest: '2018-01-01T00:00:00Z'
+    latest: '2026-06-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 440
+    lowest: -136000.0
+    highest: 576000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 1326
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 1326
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      GB-NIR: 1326
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1326
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Bioenergy(GWh): 102
+      Coal (GWh): 102
+      Distillate and Other (GWh): 102
+      Export (Gwh): 102
+      Gas (GWh): 102
+      Hydro/Tidal (GWh): 102
+      Import (GWh): 102
+      Landfill gas (GWh): 102
+      Net imports (Gwh): 102
+      Non-renewable generation (GWh): 102
+      Renewable generation (GWh): 102
+      Solar PV(GWh): 102
+      Wind (GWh): 102
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      dfe_ni:electricity_consumption_renewable_generation_2026: 1326
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://datavis.nisra.gov.uk/Economy/electricity-consumption-and-renewable-generation-report.html: 1326
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T21:58:24Z': 1326
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-09-03T08:30:10Z': 1326
+  missing_cells: 0
+- name: x_figure
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Figure 6.CSV (5kB): 510
+      Figure 7.CSV (4kB): 204
+      Figure 8.CSV (4kB): 306
+      Figure 9.CSV (5kB): 306
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: exports
+  label: null
+  unit: MWh
+  rows: 102
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: imports
+  label: null
+  unit: MWh
+  rows: 102
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: net_imports
+  label: null
+  unit: MWh
+  rows: 102
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: non_renewable_generation
+  label: null
+  unit: MWh
+  rows: 408
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: renewable_generation
+  label: null
+  unit: MWh
+  rows: 612
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+second_look: null

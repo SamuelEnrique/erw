@@ -1,0 +1,146 @@
+# The codebook's metadata of table eia_state_generation_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_state_generation_monthly
+family: eia
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: 'eia:electricity/electric-power-operational-data Electric Power Operational Data: net generation by state, sector
+    and energy source (Form EIA-923, Electric Power Monthly)'
+  url: https://www.eia.gov/electricity/data/browser/
+cite: 'U.S. Energy Information Administration (EIA). Electric Power Operational Data: net generation by state, sector and
+  energy source (Form EIA-923, Electric Power Monthly). Via the Energy Research Warehouse (ERW), table `eia_state_generation_monthly`.'
+method: docs/methods/eia_state_generation_monthly.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261023T152740Z-github
+  (2026-10-23T15:27:40Z); that run's own header of the table follows
+header_shape: 'Shape: series (docs/datastandard.md v0). freq P1M: ts_utc is the date EIA reports at 00:00:00Z (weekly: week-ending
+  date; monthly: first of the month).'
+read:
+  date: '2026-11-20'
+  rows: 201076
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 759
+    examples:
+    - eia:generation:AK:ALL
+    - eia:generation:AK:BIO
+    - eia:generation:AK:COW
+    - eia:generation:AK:DPV
+    - eia:generation:AK:HYC
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 308
+    earliest: '2001-01-01T00:00:00Z'
+    latest: '2026-08-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -997855.0
+    highest: 451966701.13
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 201076
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 201076
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 53
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 40208
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 201076
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 201076
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:electricity/electric-power-operational-data: 201076
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 41
+    examples:
+    - https://api.eia.gov/v2/electricity/electric-power-operational-data/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=generation&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=location&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=fueltypeid&sort%5B2%5D%5Bdirection%5D=asc&offset=0&length=5000&facets%5Bsectorid%5D%5B%5D=99&facets%5Bfueltypeid%5D%5B%5D=ALL&facets%5Bfueltypeid%5D%5B%5D=COW&facets%5Bfueltypeid%5D%5B%5D=PET&facets%5Bfueltypeid%5D%5B%5D=NG&facets%5Bfueltypeid%5D%5B%5D=OOG&facets%5Bfueltypeid%5D%5B%5D=NUC&facets%5Bfueltypeid%5D%5B%5D=HYC&facets%5Bfueltypeid%5D%5B%5D=HPS&facets%5Bfueltypeid%5D%5B%5D=WND&facets%5Bfueltypeid%5D%5B%5D=SUN&facets%5Bfueltypeid%5D%5B%5D=GEO&facets%5Bfueltypeid%5D%5B%5D=BIO&facets%5Bfueltypeid%5D%5B%5D=OTH&facets%5Bfueltypeid%5D%5B%5D=DPV
+    - https://api.eia.gov/v2/electricity/electric-power-operational-data/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=generation&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=location&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=fueltypeid&sort%5B2%5D%5Bdirection%5D=asc&offset=10000&length=5000&facets%5Bsectorid%5D%5B%5D=99&facets%5Bfueltypeid%5D%5B%5D=ALL&facets%5Bfueltypeid%5D%5B%5D=COW&facets%5Bfueltypeid%5D%5B%5D=PET&facets%5Bfueltypeid%5D%5B%5D=NG&facets%5Bfueltypeid%5D%5B%5D=OOG&facets%5Bfueltypeid%5D%5B%5D=NUC&facets%5Bfueltypeid%5D%5B%5D=HYC&facets%5Bfueltypeid%5D%5B%5D=HPS&facets%5Bfueltypeid%5D%5B%5D=WND&facets%5Bfueltypeid%5D%5B%5D=SUN&facets%5Bfueltypeid%5D%5B%5D=GEO&facets%5Bfueltypeid%5D%5B%5D=BIO&facets%5Bfueltypeid%5D%5B%5D=OTH&facets%5Bfueltypeid%5D%5B%5D=DPV
+    - https://api.eia.gov/v2/electricity/electric-power-operational-data/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=generation&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=location&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=fueltypeid&sort%5B2%5D%5Bdirection%5D=asc&offset=100000&length=5000&facets%5Bsectorid%5D%5B%5D=99&facets%5Bfueltypeid%5D%5B%5D=ALL&facets%5Bfueltypeid%5D%5B%5D=COW&facets%5Bfueltypeid%5D%5B%5D=PET&facets%5Bfueltypeid%5D%5B%5D=NG&facets%5Bfueltypeid%5D%5B%5D=OOG&facets%5Bfueltypeid%5D%5B%5D=NUC&facets%5Bfueltypeid%5D%5B%5D=HYC&facets%5Bfueltypeid%5D%5B%5D=HPS&facets%5Bfueltypeid%5D%5B%5D=WND&facets%5Bfueltypeid%5D%5B%5D=SUN&facets%5Bfueltypeid%5D%5B%5D=GEO&facets%5Bfueltypeid%5D%5B%5D=BIO&facets%5Bfueltypeid%5D%5B%5D=OTH&facets%5Bfueltypeid%5D%5B%5D=DPV
+    - https://api.eia.gov/v2/electricity/electric-power-operational-data/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=generation&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=location&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=fueltypeid&sort%5B2%5D%5Bdirection%5D=asc&offset=105000&length=5000&facets%5Bsectorid%5D%5B%5D=99&facets%5Bfueltypeid%5D%5B%5D=ALL&facets%5Bfueltypeid%5D%5B%5D=COW&facets%5Bfueltypeid%5D%5B%5D=PET&facets%5Bfueltypeid%5D%5B%5D=NG&facets%5Bfueltypeid%5D%5B%5D=OOG&facets%5Bfueltypeid%5D%5B%5D=NUC&facets%5Bfueltypeid%5D%5B%5D=HYC&facets%5Bfueltypeid%5D%5B%5D=HPS&facets%5Bfueltypeid%5D%5B%5D=WND&facets%5Bfueltypeid%5D%5B%5D=SUN&facets%5Bfueltypeid%5D%5B%5D=GEO&facets%5Bfueltypeid%5D%5B%5D=BIO&facets%5Bfueltypeid%5D%5B%5D=OTH&facets%5Bfueltypeid%5D%5B%5D=DPV
+    - https://api.eia.gov/v2/electricity/electric-power-operational-data/data/?api_key=REDACTED&frequency=monthly&data%5B0%5D=generation&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=location&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=fueltypeid&sort%5B2%5D%5Bdirection%5D=asc&offset=110000&length=5000&facets%5Bsectorid%5D%5B%5D=99&facets%5Bfueltypeid%5D%5B%5D=ALL&facets%5Bfueltypeid%5D%5B%5D=COW&facets%5Bfueltypeid%5D%5B%5D=PET&facets%5Bfueltypeid%5D%5B%5D=NG&facets%5Bfueltypeid%5D%5B%5D=OOG&facets%5Bfueltypeid%5D%5B%5D=NUC&facets%5Bfueltypeid%5D%5B%5D=HYC&facets%5Bfueltypeid%5D%5B%5D=HPS&facets%5Bfueltypeid%5D%5B%5D=WND&facets%5Bfueltypeid%5D%5B%5D=SUN&facets%5Bfueltypeid%5D%5B%5D=GEO&facets%5Bfueltypeid%5D%5B%5D=BIO&facets%5Bfueltypeid%5D%5B%5D=OTH&facets%5Bfueltypeid%5D%5B%5D=DPV
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 46
+    earliest: '2026-09-29T01:05:09Z'
+    latest: '2026-10-23T14:44:57Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 201076
+variables:
+- name: net_generation
+  label: null
+  unit: MWh
+  rows: 201076
+  first: '2001-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

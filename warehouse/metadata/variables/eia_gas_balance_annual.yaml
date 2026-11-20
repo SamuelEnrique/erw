@@ -1,0 +1,201 @@
+# The codebook's metadata of table eia_gas_balance_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_gas_balance_annual
+family: eia
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:natural-gas/sum/snd U.S. Energy Information Administration, Natural Gas Annual, supply and disposition (API v2,
+    route natural-gas/sum/snd)
+  url: https://www.eia.gov/naturalgas/annual/
+cite: U.S. Energy Information Administration (EIA). Natural Gas Annual, supply and disposition (API v2). Via the Energy Research
+  Warehouse (ERW), table `eia_gas_balance_annual`.
+method: docs/methods/eia_gas_balance_annual.md
+header_title: EIA, natural gas supply and disposition by state, a year (session 557)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_gas_balance:<process>:<area>; variable the process as a
+  word (total_consumption, dry_production, imports_intransit, interstate_receipts, storage_injections, balancing_item...);
+  unit MMcf; ts_utc the year''s 1 January; freq P1Y; node EIA''s series name.'
+read:
+  date: '2026-11-20'
+  rows: 11274
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 460
+    examples:
+    - eia_gas_balance:EEI:NUS-Z00
+    - eia_gas_balance:EEI:R3FM-Z00
+    - eia_gas_balance:EEI:SAK-Z00
+    - eia_gas_balance:EEI:SAL-Z00
+    - eia_gas_balance:EEI:SAR-Z00
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 29
+    earliest: '1997-01-01T00:00:00Z'
+    latest: '2025-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -2019157.0
+    highest: 74778078.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MMcf: 11274
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 11274
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 11274
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 460
+    examples:
+    - Alabama  Natural Gas International Receipts (Million Cubic Feet)
+    - Alabama Dry Natural Gas Production (Million Cubic Feet)
+    - Alabama Natural  Gas Underground Storage Withdrawals (MMcf)
+    - Alabama Natural Gas Balancing Item (MMcf)
+    - Alabama Natural Gas Injections into Underground Storage (MMcf)
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:natural-gas/sum/snd: 11274
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/natural-gas/sum/snd/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5Bprocess%5D%5B%5D=VC0&facets%5Bprocess%5D%5B%5D=FPD&facets%5Bprocess%5D%5B%5D=OVI&facets%5Bprocess%5D%5B%5D=IMI&facets%5Bprocess%5D%5B%5D=EEI&facets%5Bprocess%5D%5B%5D=MIR&facets%5Bprocess%5D%5B%5D=MID&facets%5Bprocess%5D%5B%5D=SAI&facets%5Bprocess%5D%5B%5D=SAW&facets%5Bprocess%5D%5B%5D=VG4&start=1997
+      : 11274
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T23:21:38Z': 11274
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 11274
+variables:
+- name: balancing_item
+  label: null
+  unit: MMcf
+  rows: 1480
+  first: '1997-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: dry_production
+  label: null
+  unit: MMcf
+  rows: 982
+  first: '1997-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: exports_intransit
+  label: null
+  unit: MMcf
+  rows: 676
+  first: '1997-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: imports_intransit
+  label: null
+  unit: MMcf
+  rows: 799
+  first: '1997-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: interstate_deliveries
+  label: null
+  unit: MMcf
+  rows: 1438
+  first: '1997-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: interstate_receipts
+  label: null
+  unit: MMcf
+  rows: 1426
+  first: '1997-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: storage_injections
+  label: null
+  unit: MMcf
+  rows: 903
+  first: '1997-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: storage_withdrawals
+  label: null
+  unit: MMcf
+  rows: 904
+  first: '1997-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: supplemental_fuels
+  label: null
+  unit: MMcf
+  rows: 1183
+  first: '1997-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_consumption
+  label: null
+  unit: MMcf
+  rows: 1483
+  first: '1997-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

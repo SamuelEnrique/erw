@@ -1,0 +1,204 @@
+# The codebook's metadata of table afdc_ev_charging_state_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: afdc_ev_charging_state_annual
+family: afdc
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: afdc:historical_station_counts U.S. Department of Energy, Alternative Fuels Data Center, Historical Alternative Fueling
+    Station Counts
+  url: https://afdc.energy.gov/stations/states
+cite: U.S. Department of Energy (DOE). Historical Alternative Fueling Station Counts (EV charging stations and ports by state).
+  Via the Energy Research Warehouse (ERW), table `afdc_ev_charging_state_annual`.
+method: docs/methods/afdc_ev_charging_state_annual.md
+header_title: 'U.S. Department of Energy, Alternative Fuels Data Center, historical station counts: public and private (non-residential)
+  EV charging stations and ports by state, near the end of December, 2014 to 2025 (session 2155)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity afdc_ev:<state>; variables ev_stations, ev_ports, ev_level1_ports,
+  ev_level2_ports, ev_dcfast_ports (count); freq P1Y; ts_utc 1 January of the year (counted near the end of its December);
+  geo US-<state>; node the state; x_counted_at.'
+read:
+  date: '2026-11-20'
+  rows: 3060
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - afdc_ev:ak
+    - afdc_ev:al
+    - afdc_ev:ar
+    - afdc_ev:az
+    - afdc_ev:ca
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2014-01-01T00:00:00Z': 255
+      '2015-01-01T00:00:00Z': 255
+      '2016-01-01T00:00:00Z': 255
+      '2017-01-01T00:00:00Z': 255
+      '2018-01-01T00:00:00Z': 255
+      '2019-01-01T00:00:00Z': 255
+      '2020-01-01T00:00:00Z': 255
+      '2021-01-01T00:00:00Z': 255
+      '2022-01-01T00:00:00Z': 255
+      '2023-01-01T00:00:00Z': 255
+      '2024-01-01T00:00:00Z': 255
+      '2025-01-01T00:00:00Z': 255
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1341
+    lowest: 0.0
+    highest: 74599.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      count: 3060
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 3060
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3060
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - Alabama
+    - Alaska
+    - Arizona
+    - Arkansas
+    - California
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      afdc:historical_station_counts: 3060
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://afdc.energy.gov/files/docs/historical-station-counts.xlsx: 3060
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T00:01:46Z': 3060
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-06-23T22:12:10Z': 3060
+  missing_cells: 0
+- name: x_counted_at
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      near the end of December 2014: 255
+      near the end of December 2015: 255
+      near the end of December 2016: 255
+      near the end of December 2017: 255
+      near the end of December 2018: 255
+      near the end of December 2019: 255
+      near the end of December 2020: 255
+      near the end of December 2021: 255
+      near the end of December 2022: 255
+      near the end of December 2023: 255
+      near the end of December 2024: 255
+      near the end of December 2025: 255
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: ev_dcfast_ports
+  label: null
+  unit: count
+  rows: 612
+  first: '2014-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: ev_level1_ports
+  label: null
+  unit: count
+  rows: 612
+  first: '2014-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: ev_level2_ports
+  label: null
+  unit: count
+  rows: 612
+  first: '2014-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: ev_ports
+  label: null
+  unit: count
+  rows: 612
+  first: '2014-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: ev_stations
+  label: null
+  unit: count
+  rows: 612
+  first: '2014-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

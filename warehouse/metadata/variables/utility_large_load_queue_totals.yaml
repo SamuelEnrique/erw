@@ -1,0 +1,369 @@
+# The codebook's metadata of table utility_large_load_queue_totals (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: utility_large_load_queue_totals
+family: utility
+shape: events
+row: null
+time: null
+vintage_rule: null
+keys:
+- event_id
+license: public
+tier: model_extracted
+interval: event
+source:
+- name: research:large_load_2026-11-13, docs/research/large_load/utilities_2026-11-13.csv (window P4 of the portable laptop,
+    sessions 5300 to 5304; method  each row's source_url is the document it was read in. No request is made by this connector.
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md
+cite: US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and
+  the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_queue_totals`.
+method: docs/methods/large_load_research.md
+header_title: 'US utilities'' large-load queues as each publisher prints them: a dated total of requested or committed load,
+  or a count of requests, one row a publisher (session 7008, chain 301)'
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id llqueue:<row_id> (the rules file''s row); event_date the
+  first full date the figure''s words print, else the day read (x_date_kind); event_type large_load_queue_total; status ''as
+  printed''; x_figure the figure in the publisher''s words (a phrase: MW, GW, a count of requests or customers, never summed
+  here) with x_figure_cite (page and words); source_url the document the figure stands in. mw empty: the files print sizes
+  as phrases (x_threshold_mw).'
+read:
+  date: '2026-11-20'
+  rows: 34
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: 34
+    examples:
+    - llqueue:aep-06
+    - llqueue:ameren_evergy_spp-01
+    - llqueue:ameren_evergy_spp-07
+    - llqueue:coops_public_power-01
+    - llqueue:coops_public_power-02
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    list:
+      '2025-10-28': 2
+      '2026-02-20': 1
+      '2026-03-31': 1
+      '2026-04-03': 1
+      '2026-04-16': 1
+      '2026-05-06': 2
+      '2026-06-09': 1
+      '2026-08-28': 1
+      '2026-09-25': 1
+      '2026-09-29': 3
+      '2026-09-30': 5
+      '2026-10-28': 1
+      '2026-11-06': 1
+      '2026-11-10': 1
+      '2026-11-13': 12
+  missing_cells: 0
+- name: event_type
+  shared: true
+  type: text
+  values:
+    list:
+      large_load_queue_total: 34
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: text
+  values:
+    distinct: 34
+    examples:
+    - AEP Texas Inc.
+    - Arizona Public Service Company
+    - Basin Electric Power Cooperative
+    - Central Hudson Gas & Electric Corporation
+    - City of Ames Electric Services (City of Ames, Iowa)
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 34
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 34
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 34
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 34
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      as printed: 34
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      research:large_load_2026-11-13: 34
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - https://council.seattle.gov/2026/06/09/city-council-passes-emergency-data-center-moratorium-and-policy-framework/
+    - https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814}
+    - https://edocs.puc.state.or.us/efdocs/HTB/ue463htb346984039.pdf
+    - https://interchange.puc.texas.gov/Documents/60332_3_1687524.PDF
+    - https://psc.ky.gov/order_vault/Orders_2025/202500045_10282025.pdf
+  missing_cells: 0
+- name: x_row_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 34
+    examples:
+    - aep-06
+    - ameren_evergy_spp-01
+    - ameren_evergy_spp-07
+    - coops_public_power-01
+    - coops_public_power-02
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_group
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      aep: 1
+      ameren_evergy_spp: 2
+      coops_public_power: 2
+      coops_public_power_2: 2
+      dominion: 2
+      duke: 1
+      great_lakes: 1
+      northeast: 8
+      northwest_mountain: 2
+      pjm_east: 1
+      remainder: 1
+      southern_florida: 1
+      southwest_california: 4
+      texas: 2
+      tva_southeast: 2
+      xcel_plains: 2
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_utility
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 34
+    examples:
+    - AEP Texas Inc.
+    - Arizona Public Service Company
+    - Basin Electric Power Cooperative
+    - Central Hudson Gas & Electric Corporation
+    - City of Ames Electric Services (City of Ames, Iowa)
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      AZ: 2
+      CA: 1
+      CO, NM, WY, NE: 1
+      GA: 1
+      IA: 2
+      KS: 1
+      KY: 3
+      MI: 1
+      MO: 1
+      ND: 1
+      ND, SD, MT, WY and other member states: 1
+      NJ: 1
+      NV: 1
+      NY: 7
+      OH: 1
+      OR: 1
+      PA: 1
+      TX: 3
+      VA: 2
+      WA: 2
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_iso_region
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      AZPS balancing authority (WECC, no RTO): 1
+      CAISO: 1
+      ERCOT: 2
+      GCPD (Grant County PUD balancing authority), no RTO: 1
+      LG&E and KU balancing authority (LGEE), no RTO: 2
+      MISO: 5
+      NEVP balancing authority (WECC, no RTO): 1
+      NYISO: 7
+      PACW (PacifiCorp West balancing authority), no RTO: 1
+      PJM: 5
+      PJM (DEOK zone): 1
+      SOCO (Southern Company balancing authority, SERC; no RTO): 1
+      SPP: 2
+      SPP (RTO West expansion from 1 April 2026; Eastern Interconnection members served through Basin Electric): 1
+      SPP (Upper Missouri zone, most member load); some members' load in the West outside an RTO: 1
+      TEPC balancing authority (WECC, no RTO): 1
+      outside an ISO (Seattle City Light balancing authority, Western Interconnection): 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_figure
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 34
+    examples:
+    - '2.4 GW of executed agreements (Oracle 1.4 GW, Google 1.0 GW) and a further pipeline of 5 to 6 GW: about 2 GW in advanced
+      discussions and 3 to 4 GW of other opportunities, as of DTE''s EEI Financial Conference deck, 8 to 10 November 2026'
+    - 2.8 GW of demand under electric service agreements Ameren Missouri executed with large load customers in 2026, expected
+      to begin materializing in the second half of 2027 and to reach full capacity in 2030 (Form 10-Q for the quarter ended
+      30 September 2026, filed 6 November 2026)
+    - '36 large (10 MW+) load projects: 12 NYISO-jurisdictional (2,460 MW) and 24 non-NYISO (560 MW); 10 cancelled, 2 in service,
+      the rest in study; as reported in Appendix F of the DPS report, which prints no as-of date'
+    - 4 projects over 10 MW since 2022, about 290 MW of requested peak load, none interconnected (inventory reported to the
+      DPS); as reported in Appendix A of the DPS report, which prints no as-of date
+    - 5 large load projects proposed to connect to the transmission system 2022 to present, about 236 MW of peak load (4 in
+      design pending the Interconnection Agreement, 1 cancelled); as reported in Appendix B of the DPS report, which prints
+      no as-of date
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_figure_cite
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 34
+    examples:
+    - 'Large Load Interconnections in Texas: "AEP Texas has executed Letters of Agreement for approximately 49 gigawatts of
+      incremental load by 2031, including prospective load seeking consideration under ERCOT’s Batch Zero process." | Large
+      Load Interconnections in Texas: "for the 45 gigawatts of prospective load seeking consideration for participation in
+      the Batch Zero process through 2032"'
+    - 'MD&A, Recent Developments: "Tri-State has received and is reviewing applications for seven projects with approximately
+      five gigawatts of potential incremental load by 2034 under the high impact load cycle and associated BYOR projects under
+      the BYOR Program."'
+    - 'Risk Factors, substantially large loads: "Our members have received requests to commit to provide thousands of megawatts
+      of baseload energy to new large loads." | MD&A, Large Load Commercial Program: "NextEra Energy Resources submitted an
+      application under our Large Load Commercial Program in 2025."'
+    - 'https://council.seattle.gov/2026/06/09/city-council-passes-emergency-data-center-moratorium-and-policy-framework/ (read
+      2026-11-13) release text: "follow reports in April that four companies had approached Seattle City Light to build five
+      large-scale data centers. These proposed facilities would have a combined maximum demand of 369 megawatts"'
+    - 'https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814} (read 2026-11-13)
+      p. 1, Overview: "As of September 2026, there are nearly 14 gigawatts of large load requests in the New York Independent
+      System Operator''s (NYISO) interconnection queue, with over 8 gigawatts entering in 2025 alone."'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_date_kind
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      date read: 12
+      the figure's own date: 22
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_source_title
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 33
+    examples:
+    - Alliant Energy Corporation, Interstate Power and Light Company and Wisconsin Power and Light Company combined Form 10-K
+      for 2025
+    - Ameren Missouri's compliance tariff sheets for Large Load Customer Service, issued 5 December 2025, effective 4 January
+      2026 (Missouri PSC EFIS document 859644, tariff tracking JE-2026-0076)
+    - American Electric Power Company, Inc. and subsidiaries (AEP Texas Inc. among the registrants), combined Form 10-Q for
+      the quarterly period ended September 30, 2026 (SEC EDGAR, filed 28 October 2026)
+    - Application of Southwestern Public Service Company for Approval of Large Load Customer Tariff Provisions, PUCT Docket
+      No. 60332, with Attachment A (revised LGS-T tariff)
+    - Basin Electric Power Cooperative, prospectus filed under Rule 424(b)(3) (SEC EDGAR, filed 6 May 2026)
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_date_read
+  label: null
+  unit: null
+  type: date
+  values:
+    list:
+      '2026-11-13': 34
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_license_basis
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 31
+    examples:
+    - AEP's combined Form 10-Q on SEC EDGAR and the PUCT's adoption order in Project 58481 (AEP's own sites allow personal
+      use only and were not used for any value)
+    - Grant PUD's own posted rate schedule, customer service policy and FAQ (a public utility district's board-adopted tariff);
+      the pages read link only a privacy statement, no terms of use
+    - IPL's and WPL's SEC filings (the combined 10-K and 10-Q of Alliant Energy, IPL and WPL)
+    - NV Energy's posted copy of its application to the PUCN for the form and its figures; the PUCN's own docket list and
+      calendar (pucweb1.state.nv.us, no robots file) for the docket, filing date and hearings; the ERW's registry of filed
+      schedules reads nvenergy.com as public; no terms of use page was found linked from the script-rendered nvenergy.com
+      pages read
+    - Oncor's SEC filings (EDGAR), the PUCT's stamped approved copy of Oncor's tariff (Docket 58306, item 758) and the PUCT's
+      adoption order in Project 58481; the two Section 5.7.3 cites are from Oncor's own copy on oncor.com (the PUCT's compliance
+      copy holds only the revised sheets), whose terms allow 'personal, noncommercial, and, as applicable, educational purposes
+      only'; the ERW's registry licensed that filed tariff book public
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

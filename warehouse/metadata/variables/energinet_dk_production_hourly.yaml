@@ -1,0 +1,271 @@
+# The codebook's metadata of table energinet_dk_production_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: energinet_dk_production_hourly
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: energinet:production_consumption_settlement Energinet, Energi Data Service, Production and Consumption - Settlement
+  url: https://www.energidataservice.dk/tso-electricity/ProductionConsumptionSettlement
+cite: Energinet (Energi Data Service). Energi Data Service, Production and Consumption - Settlement (ProductionConsumptionSettlement).
+  Via the Energy Research Warehouse (ERW), table `energinet_dk_production_hourly`.
+method: docs/methods/energinet_dk_production_hourly.md
+header_title: 'Energinet, Energi Data Service, ProductionConsumptionSettlement: Denmark''s production by technology, gross
+  consumption and exchanges an hour, by price area, 2024-12-31 to 2026-10-13 (session 2217)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity energinet:<price area> (DK1, DK2); variable the measure in
+  snake case (central_power ... exchange_great_belt; exchanges negative for export); unit MWh for the hour; ts_utc the hour''s
+  start in UTC; freq PT1H; geo DK. Settlement data, revised for up to two years (Energinet).'
+read:
+  date: '2026-11-20'
+  rows: 607311
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      energinet:DK1: 327093
+      energinet:DK2: 280218
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2024-12-31T23:00:00Z'
+    latest: '2026-10-13T23:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -3472.49
+    highest: 4870.058475
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 607311
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 607311
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      DK: 607311
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 607311
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      DK1: 327093
+      DK2: 280218
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      energinet:production_consumption_settlement: 607311
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.energidataservice.dk/dataset/ProductionConsumptionSettlement?start=2025-01-01T00:00&end=2026-10-15T00:00&limit=0&sort=HourUTC%20ASC
+      : 607311
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T01:51:11Z': 607311
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T01:51:12Z': 607311
+  missing_cells: 0
+- name: x_hour_dk
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - '2025-01-01T00:00:00'
+    - '2025-01-01T01:00:00'
+    - '2025-01-01T02:00:00'
+    - '2025-01-01T03:00:00'
+    - '2025-01-01T04:00:00'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: central_power
+  label: null
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: commercial_power
+  label: null
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: commercial_power_self_con
+  label: null
+  unit: MWh
+  rows: 29186
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-08-31T23:00:00Z'
+- name: exchange_gb
+  label: null
+  unit: MWh
+  rows: 15625
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: exchange_ge
+  label: null
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: exchange_great_belt
+  label: null
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: exchange_nl
+  label: null
+  unit: MWh
+  rows: 15625
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: exchange_no
+  label: null
+  unit: MWh
+  rows: 15625
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: exchange_se
+  label: null
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: gross_consumption
+  label: null
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: hydro_power
+  label: null
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: local_power
+  label: null
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: offshore_wind_ge100mw
+  label: null
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: offshore_wind_lt100mw
+  label: null
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: onshore_wind_ge50kw
+  label: null
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: onshore_wind_lt50kw
+  label: null
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: solar_power_ge10lt40kw
+  label: null
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: solar_power_ge40kw
+  label: null
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: solar_power_lt10kw
+  label: null
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: solar_power_self_con
+  label: null
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: unknown_prod
+  label: null
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+second_look: null

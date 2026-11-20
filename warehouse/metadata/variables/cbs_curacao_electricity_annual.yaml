@@ -1,0 +1,133 @@
+# The codebook's metadata of table cbs_curacao_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: cbs_curacao_electricity_annual
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: 'cbs_cw:manufacturing_electricity_production Central Bureau of Statistics Curacao (CBS Curacao), Manufacturing: electricity
+    production (source: Curacao Water and Power Company, Aqualectra)'
+  url: ''
+cite: 'Central Bureau of Statistics Curacao (CBS). Manufacturing: electricity production (source Aqualectra). Via the Energy
+  Research Warehouse (ERW), table `cbs_curacao_electricity_annual`.'
+method: docs/methods/cbs_curacao_electricity_annual.md
+header_title: 'Central Bureau of Statistics Curacao (CBS), Manufacturing: Curacao''s electricity production a year, from Aqualectra
+  (session 2591)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity cbs_cw:aqualectra; variable production; unit MWh (CBS''s million
+  kWh times 1,000); ts_utc the year''s first day; freq P1Y; geo CW; node CBS''s label.'
+read:
+  date: '2026-11-20'
+  rows: 3
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      cbs_cw:aqualectra: 3
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2022-01-01T00:00:00Z': 1
+      '2023-01-01T00:00:00Z': 1
+      '2024-01-01T00:00:00Z': 1
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    list:
+      '866900.0': 1
+      '916300.0': 1
+      '982800.0': 1
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 3
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 3
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      CW: 3
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Electricity Production (mln kWh): 3
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      cbs_cw:manufacturing_electricity_production: 3
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.cbs.cw/manufacturing-0: 3
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T03:36:57Z': 3
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3
+variables:
+- name: production
+  label: null
+  unit: MWh
+  rows: 3
+  first: '2022-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

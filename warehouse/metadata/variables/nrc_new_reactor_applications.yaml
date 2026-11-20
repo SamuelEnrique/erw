@@ -1,0 +1,366 @@
+# The codebook's metadata of table nrc_new_reactor_applications (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: nrc_new_reactor_applications
+family: nrc
+shape: events
+row: null
+time: null
+vintage_rule: null
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: 'nrc:new_reactors U.S. Nuclear Regulatory Commission, Advanced Reactors: Who We''re Working With'
+  url: https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with
+cite: 'U.S. Nuclear Regulatory Commission (NRC). Advanced Reactors: application projects and pre-application activities. Via
+  the Energy Research Warehouse (ERW), table `nrc_new_reactor_applications`.'
+method: docs/methods/nrc_new_reactors.md
+header_title: U.S. Nuclear Regulatory Commission, the advanced reactor applications under review, one row an application with
+  its applicant, kind, place, design, power and milestones (session 2001)
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id nrc_app:<the page''s name>; event_date the application''s
+  submittal (''When:'', its first date, a month''s first day where it gives a month, x_when as written; or ''Application Tendered'');
+  event_type the kind of application; parties the applicant; mw the electric power the page states (MWe), else empty; status
+  the latest milestone the page marks done (A); x_status_date its date; x_next_milestone and x_next_target the first one marked
+  a target (T) or TBD; x_decision and x_decision_target the permit or license decision''s row; x_reactor_type, x_power_level,
+  x_fuel as written.'
+read:
+  date: '2026-11-20'
+  rows: 6
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    list:
+      nrc_app:dukeenergy: 1
+      nrc_app:eden-radioisotopes-llc-eden-isotope-production-complex: 1
+      nrc_app:long-mott-energy-llc: 1
+      nrc_app:pioneer-units-1-and-2-limited-work-authorization-application: 1
+      nrc_app:tva-clinch-river-cpa: 1
+      nrc_app:university-of-illinois-urbana-champaign-kronos-micro-modular-reactor-kronos-mmr: 1
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    list:
+      '2025-03-31': 1
+      '2025-04-01': 1
+      '2025-12-30': 1
+      '2025-12-31': 1
+      '2026-03-31': 1
+      '2026-05-05': 1
+  missing_cells: 0
+- name: event_type
+  shared: true
+  type: text
+  values:
+    list:
+      construction_permit_application: 4
+      early_site_permit_application: 1
+      limited_work_authorization_application: 1
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: text
+  values:
+    list:
+      Duke Energy: 1
+      Eden Radioisotopes, LLC: 1
+      Long Mott Energy, LLC: 1
+      Palisades SMR, LLC: 1
+      Tennessee Valley Authority (TVA): 1
+      University of Illinois Urbana-Champaign: 1
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 6
+- name: mw
+  shared: true
+  type: integer
+  values:
+    list:
+      '320': 1
+  missing_cells: 5
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 6
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 6
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      Draft Safety Evaluation Report (with information gaps): 1
+      Finalize Final SEIS and Related Activities ( ML26035A285 ): 1
+      Issue Environmental Assessment and Finding of No Significant Impact: 1
+      Review Schedule Established/Schedule Letter Issued to Applicant: 2
+  missing_cells: 1
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      nrc:new_reactors: 6
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/advanced-reactor-application-projects/dukeenergy
+      : 1
+      ? https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/advanced-reactor-application-projects/eden-radioisotopes-llc-eden-isotope-production-complex
+      : 1
+      ? https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/advanced-reactor-application-projects/long-mott-energy-llc
+      : 1
+      ? https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/advanced-reactor-application-projects/pioneer-units-1-and-2-limited-work-authorization-application
+      : 1
+      ? https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/advanced-reactor-application-projects/tva-clinch-river-cpa
+      : 1
+      ? https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/advanced-reactor-application-projects/university-of-illinois-urbana-champaign-kronos-micro-modular-reactor-kronos-mmr
+      : 1
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T15:09:42Z': 1
+      '2026-10-23T15:09:44Z': 1
+      '2026-10-23T15:09:46Z': 1
+      '2026-10-23T15:09:47Z': 1
+      '2026-10-23T15:09:49Z': 1
+      '2026-10-23T15:09:50Z': 1
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T13:14:16Z': 1
+      '2026-10-23T13:17:15Z': 1
+      '2026-10-23T13:18:52Z': 1
+      '2026-10-23T13:30:47Z': 1
+      '2026-10-23T13:31:04Z': 1
+      '2026-10-23T13:45:04Z': 1
+  missing_cells: 0
+- name: x_project
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Clinch River Nuclear Site Application: 1
+      Duke Energy's Belews Creek Early Site Permit Application: 1
+      Eden Radioisotopes, LLC – Eden Isotope Production Complex: 1
+      Long Mott Energy, LLC – Long Mott Generating Station Xe-100 Power Reactor Application: 1
+      Pioneer Units 1 and 2 Limited Work Authorization Application: 1
+      University of Illinois Urbana-Champaign – KRONOS Micro Modular Reactor (KRONOS MMR™): 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_when
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      ? Application submitted December 30, 2025; application accepted and currently under review, February 2025 - May 2027
+        (estimated)
+      : 1
+      April 2025 to present (date of application submittal) February 2022 to April 2025 (pre-application): 1
+      December 31, 2025 (date of application submittal) to present: 1
+      March 31, 2025 (date of application submittal): 1
+      March 31, 2026 (date of application submittal): 1
+      May 5, 2026 (date of application submittal): 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_place
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Calhoun County, Texas: 1
+      Champaign County, Illinois: 1
+      Lea County, New Mexico: 1
+  missing_cells: 3
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      IL: 1
+      NM: 1
+      TX: 1
+  missing_cells: 3
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_what
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Application for a Construction Permit for a small modular reactor (BWRX-300): 1
+      Application for a construction permit for a non-power reactor and production facility: 1
+      Application for a construction permit for a research reactor: 1
+      Application for a construction permit for an advanced power reactor: 1
+      Application for an Early Site Permit: 1
+      Pioneer Units 1 and 2 Phased Construction Permit Application - Limited Work Authorization: 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_reactor_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      High-Temperature Gas-Cooled Reactor (HTGR): 1
+      High-temperature gas-cooled reactor (HTGR): 1
+      Pool-Type Reactor: 1
+  missing_cells: 3
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_power_level
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      2 MWth: 1
+      4-Module plant with 800 MWth/320 MWe: 1
+      45 MWth: 1
+  missing_cells: 3
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_fuel
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Annular cylindrical fuel pellets consisting of TRISO fuel particles embedded in ceramic matrix: 1
+      Graphite Pebbles with TRISO Particle fuel: 1
+  missing_cells: 4
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_status_date
+  label: null
+  unit: null
+  type: date
+  values:
+    list:
+      '2026-04-06': 1
+      '2026-05-18': 1
+      '2026-06-15': 1
+      '2026-06-16': 1
+      '2026-08-31': 1
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_next_milestone
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Draft Environmental Impact Statement: 1
+      Draft Safety Evaluation: 2
+      Final Safety Evaluation: 1
+  missing_cells: 2
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_next_target
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      February 2027 – T: 1
+      May 2027 – T: 1
+      November 2026 – T: 1
+      October 31, 2026 – T: 1
+  missing_cells: 2
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_decision
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Construction Permit Decision: 1
+      Construction Permit Decision ( ML26244A257 ): 1
+  missing_cells: 4
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_decision_target
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      September 28, 2026: 1
+      TBD: 1
+  missing_cells: 4
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_page
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      ? https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/advanced-reactor-application-projects/dukeenergy
+      : 1
+      ? https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/advanced-reactor-application-projects/eden-radioisotopes-llc-eden-isotope-production-complex
+      : 1
+      ? https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/advanced-reactor-application-projects/long-mott-energy-llc
+      : 1
+      ? https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/advanced-reactor-application-projects/pioneer-units-1-and-2-limited-work-authorization-application
+      : 1
+      ? https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/advanced-reactor-application-projects/tva-clinch-river-cpa
+      : 1
+      ? https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/advanced-reactor-application-projects/university-of-illinois-urbana-champaign-kronos-micro-modular-reactor-kronos-mmr
+      : 1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

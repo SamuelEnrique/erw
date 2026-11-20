@@ -1,0 +1,370 @@
+# The codebook's metadata of table eurostat_oil_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_oil_monthly
+family: eurostat
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eurostat:nrg_cb_oilm Eurostat, Supply and transformation of oil and petroleum products - monthly data (nrg_cb_oilm)
+  url: https://ec.europa.eu/eurostat/databrowser/view/nrg_cb_oilm/default/table
+cite: Eurostat (Statistical Office of the European Union). Supply and transformation of oil and petroleum products - monthly
+  data (nrg_cb_oilm). Via the Energy Research Warehouse (ERW), table `eurostat_oil_monthly`.
+method: docs/methods/eurostat_oil_monthly.md
+header_title: Eurostat, monthly oil supply (nrg_cb_oilm), seven products, 2016-01 to 2026-09, 35 European countries and the
+  EU (session 2363)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_oil:<Eurostat geo code>:<SIEC code> (O4100_TOT crude
+  oil, O4600 oil products, O4652XR5210B motor gasoline, O4671XR5220B gas oil and diesel oil, O4661XR5230B kerosene-type jet
+  fuel, each without its biofuel portion, O4680 fuel oil, O4630 LPG); variable flow:<NRG_BAL code>; unit t (Eurostat''s thousand
+  tonnes times 1,000); ts_utc the month''s first day; freq P1M; geo ISO alpha-2 (Eurostat''s EL is GR), blank for EU27_2020;
+  node the product and flow.'
+read:
+  date: '2026-11-20'
+  rows: 457009
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 252
+    examples:
+    - eurostat_oil:AL:O4100_TOT
+    - eurostat_oil:AL:O4600
+    - eurostat_oil:AL:O4630
+    - eurostat_oil:AL:O4652XR5210B
+    - eurostat_oil:AL:O4661XR5230B
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 129
+    earliest: '2016-01-01T00:00:00Z'
+    latest: '2026-09-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -23830282.0
+    highest: 52091000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      t: 457009
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 457009
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 35
+    examples:
+    - AL
+    - AT
+    - BE
+    - BG
+    - CY
+  missing_cells: 14959
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 457009
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 143
+    examples:
+    - 'Crude oil: Backflows'
+    - 'Crude oil: Change in stock'
+    - 'Crude oil: Direct use'
+    - 'Crude oil: Exports'
+    - 'Crude oil: Final consumption - transport sector - rail and domestic navigation - energy use'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:nrg_cb_oilm: 457009
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nrg_cb_oilm?format=SDMX-CSV&compressed=false&startPeriod=2016-01
+      : 457009
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T08:51:54Z': 457009
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 457009
+- name: x_geo_code
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 36
+    examples:
+    - AL
+    - AT
+    - BE
+    - BG
+    - CY
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_siec
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      O4100_TOT: 59514
+      O4600: 66182
+      O4630: 68042
+      O4652XR5210B: 64099
+      O4661XR5230B: 67578
+      O4671XR5220B: 66913
+      O4680: 64681
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_nrg_bal
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 26
+    examples:
+    - BKFLOW
+    - DU
+    - EXP
+    - FC_TRA_RAIL_DNAVI_E
+    - FC_TRA_ROAD_E
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_flag
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      e: 9
+      p: 6712
+  missing_cells: 450288
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_conf_status
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 457009
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: flow:BKFLOW
+  label: null
+  unit: t
+  rows: 24335
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:DU
+  label: null
+  unit: t
+  rows: 3894
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:EXP
+  label: null
+  unit: t
+  rows: 29449
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:FC_TRA_RAIL_DNAVI_E
+  label: null
+  unit: t
+  rows: 3905
+  first: '2019-04-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:FC_TRA_ROAD_E
+  label: null
+  unit: t
+  rows: 5431
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:GD_PI
+  label: null
+  unit: t
+  rows: 28037
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:GID_CAL
+  label: null
+  unit: t
+  rows: 26861
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:GID_OBS
+  label: null
+  unit: t
+  rows: 29680
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:IMP
+  label: null
+  unit: t
+  rows: 29889
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:INTAVI_E
+  label: null
+  unit: t
+  rows: 5592
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:INTMARB
+  label: null
+  unit: t
+  rows: 24588
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:IPRD
+  label: null
+  unit: t
+  rows: 4176
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:IT
+  label: null
+  unit: t
+  rows: 27883
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:ND_TP
+  label: null
+  unit: t
+  rows: 4496
+  first: '2018-09-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:PPR
+  label: null
+  unit: t
+  rows: 27817
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:PT
+  label: null
+  unit: t
+  rows: 25010
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:RCV_RCY
+  label: null
+  unit: t
+  rows: 23891
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:RF
+  label: null
+  unit: t
+  rows: 24405
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:RI_CAL
+  label: null
+  unit: t
+  rows: 2788
+  first: '2018-09-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:RI_OBS
+  label: null
+  unit: t
+  rows: 4230
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:RL
+  label: null
+  unit: t
+  rows: 4180
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:STATDIFF
+  label: null
+  unit: t
+  rows: 18583
+  first: '2018-09-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:STK_CHG
+  label: null
+  unit: t
+  rows: 29926
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:TI_EHG_MAP
+  label: null
+  unit: t
+  rows: 22094
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:TOS
+  label: null
+  unit: t
+  rows: 378
+  first: '2020-12-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: flow:TO_RPI_RO
+  label: null
+  unit: t
+  rows: 25491
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+second_look: null

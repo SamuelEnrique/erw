@@ -1,0 +1,434 @@
+# The codebook's metadata of table eia860_emission_controls (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia860_emission_controls
+family: eia860
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: eia:eia860:emission_controls U.S. Energy Information Administration, Form EIA-860 Annual Electric Generator Report,
+    environmental schedules
+  url: https://www.eia.gov/electricity/data/eia860/
+cite: U.S. Energy Information Administration (EIA). Form EIA-860 Annual Electric Generator Report, emissions control equipment.
+  Via the Energy Research Warehouse (ERW), table `eia860_emission_controls`.
+method: docs/methods/eia860_environment.md
+header_title: EIA-860, emissions control equipment, data year 2025 (session 896)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_type equipment (Decision 54); entity_id eia860_boiler:<plant>:<boiler>,
+  eia860_cooling:<plant>:<cooling id> or eia860_control:<plant>:<equipment type>:<control ids>; name the plant''s name and
+  the part; status from EIA''s code (x_eia_status); status_date the month in service (operating) or retired; x_* EIA''s columns,
+  headings as names.'
+read:
+  date: '2026-11-20'
+  rows: 5375
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - eia860_control:10003:BP:particulate_matter_BLR3+mercury_BLR3
+    - eia860_control:10003:BP:particulate_matter_BVLR5+mercury_BVLR5
+    - eia860_control:10003:OT:particulate_matter_BLR4+mercury_BLR4
+    - eia860_control:10013:ACI:mercury_1
+    - eia860_control:10013:ACI:mercury_2
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      equipment: 5375
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 2615
+    examples:
+    - ' ACI'
+    - ' BP'
+    - ' BR'
+    - ' CD'
+    - ' EK'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5375
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5375
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5375
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      operating: 3712
+      planned: 6
+      retired: 1629
+      under_construction: 8
+      withdrawn: 19
+  missing_cells: 1
+- name: status_date
+  shared: true
+  type: date
+  values:
+    distinct: 633
+    earliest: '1950-06-01'
+    latest: '2026-12-01'
+  missing_cells: 106
+- name: operator
+  shared: true
+  type: text
+  values:
+    distinct: 692
+    examples:
+    - AES Alamitos LLC
+    - AES Huntington Beach LLC
+    - AES Indiana
+    - AG Energy LP
+    - AGC Division of APGI Inc
+  missing_cells: 27
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia860:emission_controls: 5375
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia860/xls/eia8602025.zip: 5375
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T03:33:49Z': 5375
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: integer
+  values:
+    list:
+      '2025': 5375
+  missing_cells: 0
+- name: x_plant_code
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 1101
+    lowest: 3
+    highest: 68493
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 50
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 27
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_eia_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CN: 19
+      CO: 6
+      OP: 3575
+      OS: 80
+      OZ: 3
+      PL: 6
+      RE: 1629
+      SB: 45
+      SC: 9
+      TS: 2
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_utility_id
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 697
+    lowest: 7
+    highest: 67826
+  missing_cells: 27
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_plant_name
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1094
+    examples:
+    - A B Brown
+    - AES Alamitos LLC
+    - AES Huntington Beach LLC
+    - AES Petersburg
+    - Acadia Energy Center
+  missing_cells: 27
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_equipment_type
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 26
+    examples:
+    - ACI
+    - BP
+    - BR
+    - BS
+    - CD
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_particulate_matter_control_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 712
+    examples:
+    - '0001'
+    - '01'
+    - '0100'
+    - '02'
+    - '041'
+  missing_cells: 2956
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_so2_control_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 296
+    examples:
+    - '0001'
+    - '01'
+    - '02'
+    - '031'
+    - '1'
+  missing_cells: 4515
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_nox_control_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 494
+    examples:
+    - '#1NOX'
+    - '#2NOX'
+    - '#3NOX'
+    - '001'
+    - '002'
+  missing_cells: 3758
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_mercury_control_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 382
+    examples:
+    - '#1CARB'
+    - '#2CARB'
+    - '#3CARB'
+    - '01'
+    - '02'
+  missing_cells: 3506
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_acid_gas_control
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Y: 448
+  missing_cells: 4927
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CN: 19
+      CO: 6
+      OP: 3575
+      OS: 80
+      OZ: 3
+      PL: 6
+      RE: 1629
+      SB: 45
+      SC: 9
+      TS: 2
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_inservice_month
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 513
+      '10': 298
+      '11': 323
+      '12': 524
+      '2': 290
+      '3': 306
+      '4': 561
+      '5': 594
+      '6': 1098
+      '7': 354
+      '8': 257
+      '9': 213
+  missing_cells: 44
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_inservice_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 84
+    lowest: 1937
+    highest: 2028
+  missing_cells: 44
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_retirement_month
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 130
+      '10': 129
+      '11': 103
+      '12': 355
+      '2': 55
+      '3': 127
+      '4': 164
+      '5': 112
+      '6': 200
+      '7': 76
+      '8': 50
+      '9': 107
+  missing_cells: 3767
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_retirement_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 40
+    lowest: 1991
+    highest: 2067
+  missing_cells: 3767
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_total_cost_thousand_dollars
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 2095
+    lowest: 0
+    highest: 709100
+  missing_cells: 702
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_steam_plant_type
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 2819
+      '2': 1556
+      '3': 178
+      '4': 795
+  missing_cells: 27
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

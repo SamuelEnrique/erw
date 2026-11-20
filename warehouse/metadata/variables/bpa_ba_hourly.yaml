@@ -1,0 +1,222 @@
+# The codebook's metadata of table bpa_ba_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: bpa_ba_hourly
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: bpa:ba_load_generation Bonneville Power Administration, Transmission Services, VER and Balancing Authority Monitoring
+  url: https://transmission.bpa.gov/Business/Operations/Wind/default.aspx
+cite: 'Bonneville Power Administration (BPA). VER and Balancing Authority Monitoring: Total Load, Wind, Solar, Hydro, Thermal
+  and Net Interchange (five-minute, yearly workbooks). Via the Energy Research Warehouse (ERW), table `bpa_ba_hourly`.'
+method: docs/methods/bpa_ba_hourly.md
+header_title: Bonneville Power Administration, the BPA balancing authority's load and wind, solar, hydro, thermal and nuclear
+  generation and net interchange, five-minute values averaged to the hour, 2020-01-01 to 2026-10-23 (session 2148)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity bpa:bpat; variables load, wind_generation, solar_generation
+  (2022 on), hydro_generation, thermal_generation (BPA''s fossil/biomass), nuclear_generation, net_interchange (positive an
+  export); value the hour''s mean of BPA''s five-minute values (MW, the hour''s MWh); freq PT1H; ts_utc the hour''s start;
+  ba bpat; x_intervals the five-minute values in the hour (12 when full); x_format new (BPA''s UTC column, 2022 on) or old
+  (Pacific local time, 2021 and before, put into UTC by order across the clock changes).'
+read:
+  date: '2026-11-20'
+  rows: 400261
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      bpa:bpat: 400261
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2020-01-01T08:00:00Z'
+    latest: '2026-10-23T06:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -2117.75
+    highest: 14914.5
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 400261
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 400261
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 400261
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 400261
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      BPA balancing authority: 400261
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      bpa:ba_load_generation: 400261
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://transmission.bpa.gov/Business/Operations/Wind/OPITabularReports/WindGenTotalLoadYTD_2020.xls: 52704
+      https://transmission.bpa.gov/Business/Operations/Wind/OPITabularReports/WindGenTotalLoadYTD_2021.xls: 52560
+      https://transmission.bpa.gov/Business/Operations/Wind/OPITabularReports/WindGenTotalLoadYTD_2022.xlsx: 61320
+      https://transmission.bpa.gov/Business/Operations/Wind/OPITabularReports/WindGenTotalLoadYTD_2023.xlsx: 61320
+      https://transmission.bpa.gov/Business/Operations/Wind/OPITabularReports/WindGenTotalLoadYTD_2024.xlsx: 61488
+      https://transmission.bpa.gov/Business/Operations/Wind/OPITabularReports/WindGenTotalLoadYTD_2025.xlsx: 61320
+      https://transmission.bpa.gov/Business/Operations/Wind/OPITabularReports/WindGenTotalLoadYTD_2026.xlsx: 49549
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T23:26:21Z': 61488
+      '2026-10-23T23:26:48Z': 52560
+      '2026-10-23T23:27:11Z': 52704
+      '2026-10-23T23:27:17Z': 61320
+      '2026-10-23T23:27:20Z': 61320
+      '2026-10-23T23:27:23Z': 61320
+      '2026-10-23T23:27:26Z': 49549
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2021-11-01T08:40:13Z': 52704
+      '2022-01-28T09:40:03Z': 52560
+      '2024-05-12T08:40:19Z': 61320
+      '2024-05-14T08:40:18Z': 61320
+      '2025-10-30T08:40:21Z': 61488
+      '2026-01-01T09:40:20Z': 61320
+      '2026-10-23T08:40:16Z': 49549
+  missing_cells: 0
+- name: ba
+  shared: true
+  type: text
+  values:
+    list:
+      bpat: 400261
+  missing_cells: 0
+- name: x_intervals
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '10': 13
+      '11': 56
+      '12': 400177
+      '4': 4
+      '5': 4
+      '7': 7
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_format
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      new: 294997
+      old: 105264
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: hydro_generation
+  label: null
+  unit: MW
+  rows: 59686
+  first: '2020-01-01T08:00:00Z'
+  last: '2026-10-23T06:00:00Z'
+- name: load
+  label: null
+  unit: MW
+  rows: 59687
+  first: '2020-01-01T08:00:00Z'
+  last: '2026-10-23T06:00:00Z'
+- name: net_interchange
+  label: null
+  unit: MW
+  rows: 59687
+  first: '2020-01-01T08:00:00Z'
+  last: '2026-10-23T06:00:00Z'
+- name: nuclear_generation
+  label: null
+  unit: MW
+  rows: 59687
+  first: '2020-01-01T08:00:00Z'
+  last: '2026-10-23T06:00:00Z'
+- name: solar_generation
+  label: null
+  unit: MW
+  rows: 42142
+  first: '2022-01-01T08:00:00Z'
+  last: '2026-10-23T06:00:00Z'
+- name: thermal_generation
+  label: null
+  unit: MW
+  rows: 59686
+  first: '2020-01-01T08:00:00Z'
+  last: '2026-10-23T06:00:00Z'
+- name: wind_generation
+  label: null
+  unit: MW
+  rows: 59686
+  first: '2020-01-01T08:00:00Z'
+  last: '2026-10-23T06:00:00Z'
+second_look: null

@@ -1,0 +1,164 @@
+# The codebook's metadata of table statec_lu_power_capacity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: statec_lu_power_capacity_annual
+family: statec
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: statec:lustat_df_a4201 STATEC, LUSTAT, DF_A4201 Net maximum power (in MWe) and units of the power stations
+  url: ''
+cite: STATEC (Luxembourg). LUSTAT DF_A4201 Net maximum power (in MWe) and units of the power stations. Via the Energy Research
+  Warehouse (ERW), table `statec_lu_power_capacity_annual`.
+method: docs/methods/statec_lu_power_capacity_annual.md
+header_title: 'STATEC, LUSTAT DF_A4201: Luxembourg''s power stations, net maximum power and number, by primary and secondary
+  generation and type, 1960 to 2024 (session 2784)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity statec_cap:lu:<STATEC''s code, lower-cased>; variable net_maximum_power
+  (MW, STATEC''s MWe) or power_stations (count); ts_utc the year''s first day; freq P1Y; geo LU; node the code and STATEC''s
+  label. l01 = sl01 + sl02; sl01 = ssl01..ssl03 (hydropower, wind, solar); sl02 = ssl04 + ssl05 (classic thermal, CHP).'
+read:
+  date: '2026-11-20'
+  rows: 951
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      statec_cap:lu:l01: 84
+      statec_cap:lu:sl01: 84
+      statec_cap:lu:sl02: 85
+      statec_cap:lu:ssl01: 84
+      statec_cap:lu:ssl02: 60
+      statec_cap:lu:ssl03: 55
+      statec_cap:lu:ssl04: 80
+      statec_cap:lu:ssl05: 66
+      statec_cap:lu:sssl01: 85
+      statec_cap:lu:sssl02: 85
+      statec_cap:lu:sssl03: 83
+      statec_cap:lu:sssl04: 56
+      statec_cap:lu:sssl05: 24
+      statec_cap:lu:sssl06: 20
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 44
+    earliest: '1960-01-01T00:00:00Z'
+    latest: '2024-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 430
+    lowest: 0.0
+    highest: 22861.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 476
+      count: 475
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 951
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      LU: 951
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 951
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      L01 Total: 84
+      SL01 Primary generation stations: 84
+      SL02 Secondary generation stations: 85
+      SSL01 Hydropower stations: 84
+      SSL02 Wind power stations: 60
+      SSL03 Solar power stations: 55
+      SSL04 Classic thermal stations: 80
+      SSL05 Combined heat and power stations: 66
+      SSSL01 pumping stations: 85
+      SSSL02 large stations: 85
+      SSSL03 micro stations: 83
+      SSSL04 biomethanation stations: 56
+      SSSL05 woodwaste stations: 24
+      SSSL06 woodpellets stations: 20
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      statec:lustat_df_a4201: 951
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://lustat.statec.lu/rest/data/LU1,DF_A4201,1.0/all?format=csvfilewithlabels: 951
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-26T01:53:49Z': 951
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 951
+variables:
+- name: net_maximum_power
+  label: null
+  unit: MW
+  rows: 476
+  first: '1960-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: power_stations
+  label: null
+  unit: count
+  rows: 475
+  first: '1960-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

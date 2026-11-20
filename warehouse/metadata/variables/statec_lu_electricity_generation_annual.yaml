@@ -1,0 +1,167 @@
+# The codebook's metadata of table statec_lu_electricity_generation_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: statec_lu_electricity_generation_annual
+family: statec
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: statec:lustat_df_a4203 STATEC, LUSTAT, DF_A4203 Electricity generation
+  url: ''
+cite: STATEC (Luxembourg). LUSTAT DF_A4203 Electricity generation. Via the Energy Research Warehouse (ERW), table `statec_lu_electricity_generation_annual`.
+method: docs/methods/statec_lu_electricity_generation_annual.md
+header_title: 'STATEC, LUSTAT DF_A4203 Electricity generation: Luxembourg''s gross and net electricity generation by primary
+  and secondary generation and plant type, 1928 to 2024 (session 2771)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity statec_elec:lu:<STATEC''s code, lower-cased>; variable electricity_generation;
+  unit MWh (the GWh rows, times 1,000; the TJ and ktep rows not written); ts_utc the year''s first day; freq P1Y; geo LU;
+  node the code and STATEC''s label. l01 = sl01 + sl02; sl01 = ssl01..ssl03; sl02 = ssl04 + ssl05; l02 = sl03..sl07 (plant
+  types, net).'
+read:
+  date: '2026-11-20'
+  rows: 942
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      statec_elec:lu:l01: 72
+      statec_elec:lu:l02: 97
+      statec_elec:lu:sl01: 70
+      statec_elec:lu:sl02: 70
+      statec_elec:lu:sl03: 92
+      statec_elec:lu:sl04: 28
+      statec_elec:lu:sl05: 25
+      statec_elec:lu:sl06: 92
+      statec_elec:lu:sl07: 31
+      statec_elec:lu:ssl01: 70
+      statec_elec:lu:ssl02: 28
+      statec_elec:lu:ssl03: 25
+      statec_elec:lu:ssl04: 65
+      statec_elec:lu:ssl05: 31
+      statec_elec:lu:sssl01: 62
+      statec_elec:lu:sssl02: 34
+      statec_elec:lu:sssl03: 28
+      statec_elec:lu:sssl04: 12
+      statec_elec:lu:sssl05: 10
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 97
+    earliest: '1928-01-01T00:00:00Z'
+    latest: '2024-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 771
+    lowest: 40.278
+    highest: 4591514.722
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 942
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 942
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      LU: 942
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 942
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      L01 Total gross generation: 72
+      L02 Net generation: 97
+      SL01 Gross primary generation: 70
+      SL02 Gross secondary generation: 70
+      SL03 Hydro: 92
+      SL04 Wind: 28
+      SL05 Solar: 25
+      SL06 Thermal: 92
+      SL07 Combined Heat and Power: 31
+      SSL01 Hydro: 70
+      SSL02 Wind: 28
+      SSL03 Solar: 25
+      SSL04 Thermal: 65
+      SSL05 Combined Heat and Power: 31
+      SSSL01 of which pumping: 62
+      SSSL02 Siderurgy: 34
+      SSSL03 Biogas: 28
+      SSSL04 Wood wastes: 12
+      SSSL05 Pellets: 10
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      statec:lustat_df_a4203: 942
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://lustat.statec.lu/rest/data/LU1,DF_A4203,1.0/all?format=csvfilewithlabels: 942
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-26T00:09:49Z': 942
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 942
+variables:
+- name: electricity_generation
+  label: null
+  unit: MWh
+  rows: 942
+  first: '1928-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

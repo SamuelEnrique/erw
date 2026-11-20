@@ -1,0 +1,343 @@
+# The codebook's metadata of table ree_spain_balance_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ree_spain_balance_monthly
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: ree:redata_balance_electrico Red Electrica (REE), REData API, balance-electrico
+  url: https://www.ree.es/en/datos/balance
+cite: Red Electrica (REE). REData API, electrical energy balance (balance-electrico), a month. Via the Energy Research Warehouse
+  (ERW), table `ree_spain_balance_monthly`.
+method: docs/methods/ree_spain_balance_monthly.md
+header_title: 'Red Electrica (REE), REData, Spain''s electrical energy balance a month: generation by technology, storage,
+  exchanges and demand at busbars, 2020-01 to 2026-09 (session 2239)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity ree:ES; variable REE''s series in snake case, its subtotals
+  (renewable_generation, non_renewable_generation, storage_balance) among them; unit MWh; ts_utc the month''s first day; freq
+  P1M; geo ES. Pumping and battery consumption and a net export are negative, as REE gives them.'
+read:
+  date: '2026-11-20'
+  rows: 1890
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      ree:ES: 1890
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 81
+    earliest: '2020-01-01T00:00:00Z'
+    latest: '2026-09-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1873
+    lowest: -2876662.709
+    highest: 25259616.550000016
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 1890
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 1890
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      ES: 1890
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1890
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Spain: 1890
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ree:redata_balance_electrico: 1890
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://apidatos.ree.es/en/datos/balance/balance-electrico?start_date=2020-01-01T00:00&end_date=2020-12-31T23:59&time_trunc=month
+      : 269
+      ? https://apidatos.ree.es/en/datos/balance/balance-electrico?start_date=2021-01-01T00:00&end_date=2021-12-31T23:59&time_trunc=month
+      : 267
+      ? https://apidatos.ree.es/en/datos/balance/balance-electrico?start_date=2022-01-01T00:00&end_date=2022-12-31T23:59&time_trunc=month
+      : 266
+      ? https://apidatos.ree.es/en/datos/balance/balance-electrico?start_date=2023-01-01T00:00&end_date=2023-12-31T23:59&time_trunc=month
+      : 289
+      ? https://apidatos.ree.es/en/datos/balance/balance-electrico?start_date=2024-01-01T00:00&end_date=2024-12-31T23:59&time_trunc=month
+      : 292
+      ? https://apidatos.ree.es/en/datos/balance/balance-electrico?start_date=2025-01-01T00:00&end_date=2025-12-31T23:59&time_trunc=month
+      : 289
+      ? https://apidatos.ree.es/en/datos/balance/balance-electrico?start_date=2026-01-01T00:00&end_date=2026-12-31T23:59&time_trunc=month
+      : 218
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T03:18:21Z': 289
+      '2026-10-24T03:18:54Z': 269
+      '2026-10-24T03:19:23Z': 267
+      '2026-10-24T03:19:46Z': 266
+      '2026-10-24T03:20:09Z': 289
+      '2026-10-24T03:20:34Z': 292
+      '2026-10-24T03:21:03Z': 218
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1890
+- name: x_group
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Almacenamiento: 333
+      Demand: 162
+      Non-renewable: 747
+      Renewable: 648
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_series_id
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '10288': 81
+      '10289': 81
+      '10290': 18
+      '10291': 81
+      '10292': 81
+      '10293': 81
+      '10294': 81
+      '10295': 81
+      '10297': 81
+      '10298': 81
+      '10299': 81
+      '10344': 81
+      '10483': 81
+      '1445': 81
+      '1446': 81
+      '1450': 81
+      '1451': 81
+      '1454': 81
+      '1455': 81
+      '1458': 81
+      '1459': 81
+      '1472': 81
+      '1474': 81
+      '2180': 45
+      '2181': 45
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: battery_charging
+  label: null
+  unit: MWh
+  rows: 45
+  first: '2023-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: battery_delivery
+  label: null
+  unit: MWh
+  rows: 45
+  first: '2023-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: coal
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: cogeneration
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: combined_cycle
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: cross_border_exchange_balance
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: demand_at_busbars
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: diesel_engines
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: fuel_gas
+  label: null
+  unit: MWh
+  rows: 18
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: gas_turbine
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: hydro
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: hydroeolian
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: non_renewable_generation
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: non_renewable_waste
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: nuclear
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: other_renewables
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: pumping_consumption
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: pumping_turbine
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: renewable_generation
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: renewable_waste
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: solar_photovoltaic
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: steam_turbine
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: storage_balance
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: thermal_solar
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: wind
+  label: null
+  unit: MWh
+  rows: 81
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+second_look: null

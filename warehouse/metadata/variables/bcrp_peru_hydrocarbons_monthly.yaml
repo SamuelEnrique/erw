@@ -1,0 +1,151 @@
+# The codebook's metadata of table bcrp_peru_hydrocarbons_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: bcrp_peru_hydrocarbons_monthly
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: 'bcrp_pe:bcrpdata_produccion_hidrocarburos Banco Central de Reserva del Peru (BCRP), BCRPData, monthly series: Produccion
+    minera e hidrocarburos (miles de unidades recuperables), Hidrocarburos (PN01882AM, PN01883AM, PN01884AM), sources: INEI
+    and Ministerio de Energia y Minas (MINEM)'
+  url: ''
+cite: 'Banco Central de Reserva del Peru (BCRP). BCRPData monthly series: Produccion minera e hidrocarburos, Hidrocarburos
+  (PN01882AM, PN01883AM, PN01884AM; sources INEI and MINEM). Via the Energy Research Warehouse (ERW), table `bcrp_peru_hydrocarbons_monthly`.'
+method: docs/methods/bcrp_peru_hydrocarbons_monthly.md
+header_title: 'Banco Central de Reserva del Peru (BCRP), BCRPData, Produccion minera e hidrocarburos: Peru''s crude oil, natural
+  gas liquids and natural gas production a month, from INEI and MINEM (session 2567)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity bcrp_pe:crude_oil, bcrp_pe:natural_gas_liquids (kbbl) or bcrp_pe:natural_gas
+  (MMcf); variable production; ts_utc the month''s first day; freq P1M; geo PE; node BCRP''s name; x_series_code BCRP''s code.'
+read:
+  date: '2026-11-20'
+  rows: 960
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      bcrp_pe:crude_oil: 320
+      bcrp_pe:natural_gas: 320
+      bcrp_pe:natural_gas_liquids: 320
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 320
+    earliest: '2000-01-01T00:00:00Z'
+    latest: '2026-08-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 960
+    lowest: 80.233
+    highest: 50811.3255
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MMcf: 320
+      kbbl: 640
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 960
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      PE: 960
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 960
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Hidrocarburos - Gas Natural (millones de pies cúbicos): 320
+      Hidrocarburos - Líquidos de gas natural (miles de barriles): 320
+      Hidrocarburos - Petróleo (miles de barriles): 320
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      bcrp_pe:bcrpdata_produccion_hidrocarburos: 960
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://estadisticas.bcrp.gob.pe/estadisticas/series/mensuales/produccion-minera-e-hidrocarburos-miles-de-unidades-recuperables
+      : 960
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T00:59:38Z': 960
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 960
+- name: x_series_code
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      PN01882AM: 320
+      PN01883AM: 320
+      PN01884AM: 320
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: production
+  label: null
+  unit: MMcf; kbbl
+  rows: 960
+  first: '2000-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

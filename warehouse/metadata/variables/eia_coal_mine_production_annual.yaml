@@ -1,0 +1,335 @@
+# The codebook's metadata of table eia_coal_mine_production_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_coal_mine_production_annual
+family: eia
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:coal/mine-production U.S. Energy Information Administration, Annual Coal Report, mine-level production (Form EIA-7A
+    and MSHA Form 7000-2; API v2, route coal/mine-production)
+  url: https://www.eia.gov/coal/data.php
+cite: U.S. Energy Information Administration (EIA). Annual Coal Report, mine-level production (API v2). Via the Energy Research
+  Warehouse (ERW), table `eia_coal_mine_production_annual`.
+method: docs/methods/eia_coal_mine_production_annual.md
+header_title: EIA, coal production and employees by mine, a year (session 694)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_coal_mine:<mineMSHAId>:<coalRankId>:<mineTypeId>; variables
+  production (short_ton), employees (count, EIA''s average employees); ts_utc the year''s 1 January; freq P1Y; geo US-<state>
+  (EIA''s regions KYE, KYW, PAA, PAB, WVN, WVS in their state); node the mine''s name; x_* EIA''s own fields (MSHA id, state,
+  county, supply region, rank, mine type, status, operating company, latitude, longitude, refuse flag).'
+read:
+  date: '2026-11-20'
+  rows: 72852
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - eia_coal_mine:100163:BIT:SUR
+    - eia_coal_mine:100163:BIT:UND
+    - eia_coal_mine:100329:PRP:SUR
+    - eia_coal_mine:100329:PRP:UND
+    - eia_coal_mine:100340:PRP:SUR
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2001-01-01T00:00:00Z': 4154
+      '2002-01-01T00:00:00Z': 3992
+      '2003-01-01T00:00:00Z': 3770
+      '2004-01-01T00:00:00Z': 3929
+      '2005-01-01T00:00:00Z': 4006
+      '2006-01-01T00:00:00Z': 4108
+      '2007-01-01T00:00:00Z': 3968
+      '2008-01-01T00:00:00Z': 4104
+      '2009-01-01T00:00:00Z': 3994
+      '2010-01-01T00:00:00Z': 3734
+      '2011-01-01T00:00:00Z': 3816
+      '2012-01-01T00:00:00Z': 3584
+      '2013-01-01T00:00:00Z': 3134
+      '2014-01-01T00:00:00Z': 2941
+      '2015-01-01T00:00:00Z': 2562
+      '2016-01-01T00:00:00Z': 2194
+      '2017-01-01T00:00:00Z': 2080
+      '2018-01-01T00:00:00Z': 2068
+      '2019-01-01T00:00:00Z': 2061
+      '2020-01-01T00:00:00Z': 1738
+      '2021-01-01T00:00:00Z': 1646
+      '2022-01-01T00:00:00Z': 1764
+      '2023-01-01T00:00:00Z': 1803
+      '2024-01-01T00:00:00Z': 1702
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 117965515.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      count: 35367
+      short_ton: 37485
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 72852
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 26
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CO
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 72852
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - '# 1'
+    - '# 1 Loading Dock'
+    - '# 1 Plant'
+    - '# 1 Prep Plant'
+    - '# 1 Refuse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:coal/mine-production: 72852
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/coal/mine-production/data/?api_key=REDACTED&frequency=annual&data%5B%5D=production&data%5B%5D=average-employees&data%5B%5D=latitude&data%5B%5D=longitude&data%5B%5D=operating-company&data%5B%5D=refuse-flag&start=2001
+      : 72852
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T00:35:18Z': 72852
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 72852
+- name: x_msha_id
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 4665
+    lowest: 100163
+    highest: 5001977
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 29
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CO
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_county
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 229
+    examples:
+    - Adair
+    - Adams
+    - Allegany
+    - Allegheny
+    - Anderson
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_supply_region
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Appalachia Central: 40201
+      Appalachia Northern: 20607
+      Appalachia Southern: 2569
+      Illinois Basin: 4993
+      Other Interior: 1147
+      Other Western: 1106
+      Powder River Basin: 823
+      Uinta Basin: 1406
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_rank
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Anthracite: 3035
+      Bituminous: 45125
+      Lignite: 884
+      Preparation Plant: 22538
+      Subbituminous: 1270
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_mine_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Refuse: 1074
+      Surface: 42974
+      Underground: 28804
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Active: 57402
+      Active, men not working, not producing: 37
+      Active, men working, not producing: 6837
+      Mine closed by MSHA: 1728
+      New, under construction: 19
+      Permanently abandoned: 3606
+      Temporarily closed: 3223
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_operator
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 4926
+    examples:
+    - 101 Coal Inc.
+    - 101 Coal, Inc.
+    - 17 West Mining Inc
+    - 3-D Management Services, Inc.
+    - 4th Gen Fuels
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_latitude
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 3402
+    lowest: 28.683056
+    highest: 63.856944
+  missing_cells: 12817
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_longitude
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 3540
+    lowest: -148.966111
+    highest: -5.4625
+  missing_cells: 12817
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_refuse
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      'Yes': 1074
+  missing_cells: 71778
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: employees
+  label: null
+  unit: count
+  rows: 35367
+  first: '2001-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: production
+  label: null
+  unit: short_ton
+  rows: 37485
+  first: '2001-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

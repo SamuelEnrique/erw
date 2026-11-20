@@ -1,0 +1,246 @@
+# The codebook's metadata of table noaa_uscrn_solar_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: noaa_uscrn_solar_monthly
+family: noaa
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: noaa:uscrn_monthly01 National Oceanic and Atmospheric Administration, National Centers for Environmental Information,
+    U.S. Climate Reference Network, monthly01 product
+  url: https://www.ncei.noaa.gov/pub/data/uscrn/products/monthly01/
+cite: 'NOAA NCEI. U.S. Climate Reference Network (USCRN), monthly01 product: SOLRAD_MONTHLY_AVG. Via the Energy Research Warehouse
+  (ERW), table `noaa_uscrn_solar_monthly`.'
+method: docs/methods/noaa_uscrn_solar_monthly.md
+header_title: NOAA, U.S. Climate Reference Network (USCRN) monthly01, the month's average daily total global solar radiation
+  at 8 stations near CAISO's and ERCOT's solar fleets, 2003-04 to 2026-09 (session 2107)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity uscrn:<WBAN>; variable solar_radiation (MJ/m2-day: MJ per square
+  meter a day, NOAA''s SOLRAD_MONTHLY_AVG); freq P1M; ts_utc the month''s first day (NOAA''s months are local standard time);
+  geo US-<state>; ba ciso or erco; node the station; x_station, x_lat, x_lon (WGS-84), x_logger (the datalogger program''s
+  version).'
+read:
+  date: '2026-11-20'
+  rows: 2025
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      uscrn:03047: 278
+      uscrn:03072: 236
+      uscrn:04222: 278
+      uscrn:12987: 265
+      uscrn:23907: 224
+      uscrn:53139: 266
+      uscrn:53151: 221
+      uscrn:93243: 257
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 282
+    earliest: '2003-04-01T00:00:00Z'
+    latest: '2026-09-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 263
+    lowest: 3.5
+    highest: 30.9
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MJ/m2-day: 2025
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 2025
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 1022
+      US-TX: 1003
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2025
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      CA Fallbrook 5 NE: 221
+      CA Merced 23 WSW: 257
+      CA Redding 12 WNW: 278
+      CA Stovepipe Wells 1 SW: 266
+      TX Austin 33 NW: 224
+      TX Bronte 11 NNE: 236
+      TX Edinburg 17 NNE: 265
+      TX Monahans 6 ENE: 278
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      noaa:uscrn_monthly01: 2025
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.ncei.noaa.gov/pub/data/uscrn/products/monthly01/CRNM0102-CA_Fallbrook_5_NE.txt: 221
+      https://www.ncei.noaa.gov/pub/data/uscrn/products/monthly01/CRNM0102-CA_Merced_23_WSW.txt: 257
+      https://www.ncei.noaa.gov/pub/data/uscrn/products/monthly01/CRNM0102-CA_Redding_12_WNW.txt: 278
+      https://www.ncei.noaa.gov/pub/data/uscrn/products/monthly01/CRNM0102-CA_Stovepipe_Wells_1_SW.txt: 266
+      https://www.ncei.noaa.gov/pub/data/uscrn/products/monthly01/CRNM0102-TX_Austin_33_NW.txt: 224
+      https://www.ncei.noaa.gov/pub/data/uscrn/products/monthly01/CRNM0102-TX_Bronte_11_NNE.txt: 236
+      https://www.ncei.noaa.gov/pub/data/uscrn/products/monthly01/CRNM0102-TX_Edinburg_17_NNE.txt: 265
+      https://www.ncei.noaa.gov/pub/data/uscrn/products/monthly01/CRNM0102-TX_Monahans_6_ENE.txt: 278
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T21:31:00Z': 221
+      '2026-10-23T21:31:01Z': 801
+      '2026-10-23T21:31:02Z': 738
+      '2026-10-23T21:31:03Z': 265
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-02T10:36:54Z': 1022
+      '2026-10-02T10:36:57Z': 1003
+  missing_cells: 0
+- name: ba
+  shared: true
+  type: text
+  values:
+    list:
+      ciso: 1022
+      erco: 1003
+  missing_cells: 0
+- name: x_station
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CA_Fallbrook_5_NE: 221
+      CA_Merced_23_WSW: 257
+      CA_Redding_12_WNW: 278
+      CA_Stovepipe_Wells_1_SW: 266
+      TX_Austin_33_NW: 224
+      TX_Bronte_11_NNE: 236
+      TX_Edinburg_17_NNE: 265
+      TX_Monahans_6_ENE: 278
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_lat
+  label: null
+  unit: null
+  type: number
+  values:
+    list:
+      '26.5258': 265
+      '30.6222': 224
+      '31.6219': 278
+      '32.0408': 236
+      '33.4392': 221
+      '36.6020': 266
+      '37.2381': 257
+      '40.6507': 278
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_lon
+  label: null
+  unit: null
+  type: number
+  values:
+    list:
+      '-100.2495': 236
+      '-102.8071': 278
+      '-117.1449': 266
+      '-117.1904': 221
+      '-120.8825': 257
+      '-122.6068': 278
+      '-98.0633': 265
+      '-98.0846': 224
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_logger
+  label: null
+  unit: null
+  type: number
+  values:
+    list:
+      '1.001': 13
+      '1.100': 3
+      '1.201': 109
+      '1.301': 75
+      '1.302': 265
+      '2.302': 18
+      '2.402': 97
+      '2.403': 71
+      '2.412': 75
+      '2.413': 37
+      '2.422': 281
+      '2.423': 182
+      '2.622': 489
+      '2.623': 310
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: solar_radiation
+  label: null
+  unit: MJ/m2-day
+  rows: 2025
+  first: '2003-04-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+second_look: null

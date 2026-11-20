@@ -1,0 +1,155 @@
+# The codebook's metadata of table asub_aland_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: asub_aland_electricity_annual
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: asub_ax:MI009 Statistics and Research Aland (ASUB), Anskaffning och produktion av el
+  url: ''
+cite: 'Statistics and Research Aland (ASUB). Table MI009: Anskaffning och produktion av el (electricity supply and production
+  by origin). Via the Energy Research Warehouse (ERW), table `asub_aland_electricity_annual`.'
+method: docs/methods/asub_aland_electricity_annual.md
+header_title: 'Statistics and Research Aland (ASUB), table MI009: Aland''s electricity supply by origin (imports from Sweden
+  and Finland; oil, wind, bioenergy and solar production), 1994 to 2025 (session 2651)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity asub:ax:<origin>; variable imports, generation or supply (the
+  total); unit MWh (the table''s GWh times 1,000); ts_utc the year''s first day; freq P1Y; geo AX; node the origin as ASUB
+  names it.'
+read:
+  date: '2026-11-20'
+  rows: 190
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      asub:ax:bioenergy: 18
+      asub:ax:import_finland: 32
+      asub:ax:import_sweden: 32
+      asub:ax:oil: 32
+      asub:ax:solar: 12
+      asub:ax:total: 32
+      asub:ax:wind: 32
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 32
+    earliest: '1994-01-01T00:00:00Z'
+    latest: '2025-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 158
+    lowest: 0.0
+    highest: 351500.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 190
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 190
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      AX: 190
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 190
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Bioenergi: 18
+      Import Finland: 32
+      Import Sverige: 32
+      Olja: 32
+      Solkraft: 12
+      Totalt: 32
+      Vindkraft: 32
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      asub_ax:MI009: 190
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://pxweb.asub.ax/PXWeb/api/v1/sv/Statistik/MI/MI009.px: 190
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T08:54:42Z': 190
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 190
+variables:
+- name: generation
+  label: null
+  unit: MWh
+  rows: 94
+  first: '1994-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: imports
+  label: null
+  unit: MWh
+  rows: 64
+  first: '1994-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: supply
+  label: null
+  unit: MWh
+  rows: 32
+  first: '1994-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

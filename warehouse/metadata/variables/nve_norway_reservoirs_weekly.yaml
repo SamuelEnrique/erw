@@ -1,0 +1,174 @@
+# The codebook's metadata of table nve_norway_reservoirs_weekly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: nve_norway_reservoirs_weekly
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1W
+source:
+- name: nve:magasinstatistikk NVE, reservoir statistics (magasinstatistikk)
+  url: https://api.nve.no/doc/magasinstatistikk/
+cite: 'Norwegian Water Resources and Energy Directorate (NVE). Reservoir statistics (magasinstatistikk): filling share, stored
+  energy and capacity a week. Via the Energy Research Warehouse (ERW), table `nve_norway_reservoirs_weekly`.'
+method: docs/methods/nve_norway_reservoirs_weekly.md
+header_title: Norwegian Water Resources and Energy Directorate (NVE), reservoir statistics (magasinstatistikk), Norway's hydropower
+  reservoirs a week, 1995-01-08 to 2026-10-18 (session 2516)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity nve:no:<area> (no, the country; no1 to no5, the price areas;
+  region_<n>, the water regions); variable filling_share (pct), stored_energy and capacity (MWh, from TWh); ts_utc the date
+  NVE gives the week (its last day): a stock at that date; freq P1W; geo NO; node NVE''s area type and number with the ISO
+  week; x_iso_week the ISO week.'
+read:
+  date: '2026-11-20'
+  rows: 44793
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      nve:no:no: 4977
+      nve:no:no1: 4977
+      nve:no:no2: 4977
+      nve:no:no3: 4977
+      nve:no:no4: 4977
+      nve:no:no5: 4977
+      nve:no:region_1: 4977
+      nve:no:region_2: 4977
+      nve:no:region_3: 4977
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 1659
+    earliest: '1995-01-08T00:00:00Z'
+    latest: '2026-10-18T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 5.165346
+    highest: 87437580.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 29862
+      pct: 14931
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1W: 44793
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      'NO': 44793
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 44793
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - EL 1, 1995-W01
+    - EL 1, 1995-W02
+    - EL 1, 1995-W03
+    - EL 1, 1995-W04
+    - EL 1, 1995-W05
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      nve:magasinstatistikk: 44793
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://biapi.nve.no/magasinstatistikk/api/Magasinstatistikk/HentOffentligData: 44793
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T17:57:48Z': 44793
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 44793
+- name: x_iso_week
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1659
+    examples:
+    - 1995-W01
+    - 1995-W02
+    - 1995-W03
+    - 1995-W04
+    - 1995-W05
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: capacity
+  label: null
+  unit: MWh
+  rows: 14931
+  first: '1995-01-08T00:00:00Z'
+  last: '2026-10-18T00:00:00Z'
+- name: filling_share
+  label: null
+  unit: pct
+  rows: 14931
+  first: '1995-01-08T00:00:00Z'
+  last: '2026-10-18T00:00:00Z'
+- name: stored_energy
+  label: null
+  unit: MWh
+  rows: 14931
+  first: '1995-01-08T00:00:00Z'
+  last: '2026-10-18T00:00:00Z'
+second_look: null

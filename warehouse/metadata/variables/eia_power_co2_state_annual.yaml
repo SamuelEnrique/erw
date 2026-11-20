@@ -1,0 +1,154 @@
+# The codebook's metadata of table eia_power_co2_state_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_power_co2_state_annual
+family: eia
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:electricity/state-electricity-profiles/emissions-by-state-by-fuel U.S. Energy Information Administration, State
+    Electricity Profiles, emissions by state and fuel (API v2, route electricity/state-electricity-profiles/emissions-by-state-by-fuel)
+  url: https://www.eia.gov/electricity/state/
+cite: U.S. Energy Information Administration (EIA). State Electricity Profiles, power plant emissions by state and fuel (API
+  v2). Via the Energy Research Warehouse (ERW), table `eia_power_co2_state_annual`.
+method: docs/methods/eia_power_co2_state_annual.md
+header_title: EIA, state electricity profiles, power plants' CO2 by state and fuel, a year (session 571)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_power_co2:<state>:<fuel>; variable co2 (tCO2, EIA''s thousand
+  metric tons times 1,000) or co2_rate (kgCO2/MWh, EIA''s pounds per MWh times 0.453592); ts_utc the year''s 1 January; freq
+  P1Y. Fuels COL, NG, PET, OTH and ALL: a sum leaves ALL out. SO2 and NOx are not taken.'
+read:
+  date: '2026-11-20'
+  rows: 10640
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 256
+    examples:
+    - eia_power_co2:AK:ALL
+    - eia_power_co2:AK:COL
+    - eia_power_co2:AK:NG
+    - eia_power_co2:AK:OTH
+    - eia_power_co2:AK:PET
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 35
+    earliest: '1990-01-01T00:00:00Z'
+    latest: '2024-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 2547032000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      kgCO2/MWh: 1820
+      tCO2: 8820
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 10640
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 10640
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 256
+    examples:
+    - Alabama, Coal
+    - Alabama, Natural Gas
+    - Alabama, Other
+    - Alabama, Petroleum
+    - Alabama, Total
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:electricity/state-electricity-profiles/emissions-by-state-by-fuel: 10640
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/electricity/state-electricity-profiles/emissions-by-state-by-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=co2-thousand-metric-tons&data%5B%5D=co2-rate-lbs-mwh&start=1990
+      : 10640
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T23:48:30Z': 10640
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 10640
+variables:
+- name: co2
+  label: null
+  unit: tCO2
+  rows: 8820
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: co2_rate
+  label: null
+  unit: kgCO2/MWh
+  rows: 1820
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

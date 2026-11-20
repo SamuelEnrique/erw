@@ -1,0 +1,391 @@
+# The codebook's metadata of table aneel_siga_plants (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: aneel_siga_plants
+family: other_sources
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: aneel:siga Agencia Nacional de Energia Eletrica (ANEEL), SIGA - Sistema de Informacoes de Geracao da ANEEL (open data
+    portal)
+  url: https://dadosabertos.aneel.gov.br/dataset/siga-sistema-de-informacoes-de-geracao-da-aneel
+cite: Agencia Nacional de Energia Eletrica (ANEEL). SIGA - Sistema de Informacoes de Geracao da ANEEL (generation plants,
+  open data portal, monthly CSV). Via the Energy Research Warehouse (ERW), table `aneel_siga_plants`.
+method: docs/methods/aneel_siga_plants.md
+header_title: ANEEL (Agencia Nacional de Energia Eletrica), SIGA, Brazil's generation plants as of 2026-10-01 (session 2324)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id aneel_siga:<CodCEG>; entity_type plant; name ANEEL''s;
+  geo BR-<main state>; lat, lon ANEEL''s approximate centroid; capacity_mw the granted or registered capacity (kW / 1,000);
+  status operating, under_construction or planned from ANEEL''s phase; status_date the first unit''s entry into operation;
+  x_capacity_operating_mw the capacity in operation; x_* ANEEL''s other fields (Portuguese, as published).'
+read:
+  date: '2026-11-20'
+  rows: 25042
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - aneel_siga:CGH.PH.AL.000476-6.1
+    - aneel_siga:CGH.PH.AL.028544-7.1
+    - aneel_siga:CGH.PH.AL.028545-5.1
+    - aneel_siga:CGH.PH.AL.028557-9.2
+    - aneel_siga:CGH.PH.AL.028860-8.1
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      plant: 25042
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - '10028'
+    - '10032'
+    - '10033'
+    - '10034'
+    - '10035'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - BR-AC
+    - BR-AL
+    - BR-AM
+    - BR-AP
+    - BR-BA
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -33.72280556
+    highest: 4.715
+  missing_cells: 465
+- name: lon
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -72.81111111
+    highest: -32.41720121
+  missing_cells: 465
+- name: capacity_mw
+  shared: true
+  type: number
+  values:
+    distinct: 2175
+    lowest: 1.0e-05
+    highest: 11233.1
+  missing_cells: 0
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      operating: 22798
+      planned: 2099
+      under_construction: 145
+  missing_cells: 0
+- name: status_date
+  shared: true
+  type: date
+  values:
+    distinct: 3891
+    earliest: '1900-12-25'
+    latest: '2026-09-02'
+  missing_cells: 2398
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25042
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      aneel:siga: 25042
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://dadosabertos.aneel.gov.br/dataset/6d90b77c-c5f5-4d81-bdec-7bc619494bb9/resource/11ec447d-698d-4ab8-977f-b424d5deee6a/download/siga-empreendimentos-geracao.csv
+      : 25042
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T06:57:16Z': 25042
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-01T05:01:27Z': 25042
+  missing_cells: 0
+- name: x_ceg
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - CGH.PH.AL.000476-6.1
+    - CGH.PH.AL.028544-7.1
+    - CGH.PH.AL.028545-5.1
+    - CGH.PH.AL.028557-9.2
+    - CGH.PH.AL.028860-8.1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_generation_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CGH: 718
+      EOL: 1549
+      PCH: 535
+      UFV: 18962
+      UHE: 220
+      UTE: 3055
+      UTN: 3
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_phase
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Construção: 145
+      Construção não iniciada: 2099
+      Operação: 22798
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_fuel_origin
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Biomassa: 695
+      Eólica: 1549
+      Fóssil: 2360
+      Hídrica: 1473
+      Nuclear: 3
+      Solar: 18962
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_fuel_source
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Agroindustriais: 474
+      Biocombustíveis líquidos: 6
+      Carvão mineral: 21
+      Cinética do vento: 1549
+      Floresta: 152
+      Gás natural: 191
+      Outros Fósseis: 4
+      Petróleo: 2144
+      Potencial hidráulico: 1473
+      Radiação solar: 18962
+      Resíduos animais: 21
+      Resíduos sólidos urbanos: 42
+      Urânio: 3
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_fuel_name
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 31
+    examples:
+    - Bagaço de Cana de Açúcar
+    - Biogás - Floresta
+    - Biogás - RA
+    - Biogás - RU
+    - Biogás-AGR
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_grant_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Autorização: 5101
+      Autorização;Concessão: 3
+      Concessão: 256
+      Registro: 19682
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_capacity_operating_mw
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 1840
+    lowest: 0.0
+    highest: 11233.1
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_physical_guarantee_mw
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 1052
+    lowest: 0.0
+    highest: 7750.8
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_qualified_generation
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Não: 9015
+      Sim: 70
+  missing_cells: 15957
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_grant_start
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 1481
+    earliest: '1970-07-17'
+    latest: '2032-09-25'
+  missing_cells: 19683
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_grant_end
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 1677
+    earliest: '1998-09-15'
+    latest: '2063-01-14'
+  missing_cells: 19693
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_ownership
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 0.0100% para COTRIJUC - COOPERATIVA AGROPECUARIA JULIO DE CASTILHOS - 91.023.168/0001-78 (REG)
+    - 10% para ENERGETICA UVAIA LTDA - 10.980.551/0001-12 (REG), 10% para TEXTILFIO MALHAS LTDA - 00.214.242/0001-88 (REG),
+      10% para CRISTALCOPO S/A - 05.316.470/0001-82 (REG), 10% para CATARINENSE DISTRIBUIDORA DE PROD CONGELADOS LTDA - 79.508.156/0001-38
+      (REG), 10% para BRISA COMERCIO DE ALIMENTOS LTDA - 16.939.428/0001-34 (REG), 10% para ESDEL COMERCIO DE PRODUTOS ALIMENTARES
+      LTDA - 79.456.703/0001-89 (REG), 10% para FIBRAOESTE INDUSTRIA E COMERCIO LTDA - 85.140.663/0001-64 (REG), 10% para
+      SOCIEDADE HOSPITALAR SAO MIGUEL DO OESTE LTDA - 86.247.574/0001-84 (REG), 10% para MAXI COLOR EMPREENDIMENTOS E PARTICIPACOES
+      LTDA - 47.615.091/0001-33 (REG), 10% para HIGH TECH EQUIPAMENTOS INDUSTRIAIS LTDA - 80.706.229/0001-85 (REG)
+    - 100% para '' BG NORTE PETROLEO LTDA '' - 04.890.965/0001-58 (REG)
+    - 100% para 3 IRMÃOS MATERIAIS DE CONSTRUÇÃO UNIPESSOAL LTDA - 00.616.839/0001-59 (REG)
+    - 100% para 3M DO BRASIL LTDA - 45.985.371/0001-08 (APE)
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_sub_basin
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 60
+    examples:
+    - 15 - Madeira
+    - 16 - Amazonas, entre os rios Madeira e Trombetas
+    - 17 - Tapajos
+    - 18 - Xingu e Paru
+    - 19 - Amazonas, entre o rio Xingu e a foz
+  missing_cells: 23589
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_municipalities
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 2182
+    examples:
+    - Abadia dos Dourados - MG
+    - Abaiara - CE
+    - Abdon Batista - SC
+    - Abdon Batista - SC, Anita Garibaldi - SC, Campos Novos - SC, Celso Ramos - SC
+    - Abelardo Luz - SC
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_dataset_date
+  label: null
+  unit: null
+  type: date
+  values:
+    list:
+      '2026-10-01': 25042
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

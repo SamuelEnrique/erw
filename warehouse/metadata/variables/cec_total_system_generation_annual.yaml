@@ -1,0 +1,208 @@
+# The codebook's metadata of table cec_total_system_generation_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: cec_total_system_generation_annual
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: cec:total_system_electric_generation California Energy Commission, Energy Almanac, Total System Electric Generation
+  url: https://www.energy.ca.gov/media/7311
+cite: California Energy Commission (CEC). Total System Electric Generation (Energy Almanac), the workbook of all years with
+  totals. Via the Energy Research Warehouse (ERW), table `cec_total_system_generation_annual`.
+method: docs/methods/cec_total_system_generation_annual.md
+header_title: California Energy Commission, Total System Electric Generation, California's in-state generation and its imports
+  from the Northwest and the Southwest by fuel, and the total system power, 2009 to 2025 (session 2109)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity cec_tsp:<california|northwest|southwest|total>:<fuel>; variable
+  in_state_generation, imports or total_system_power; unit MWh (the Commission''s GWh times 1,000); freq P1Y; ts_utc 1 January;
+  geo US-CA; node the region and fuel as named; x_region, x_fuel. In the total block the Commission combines oil with other
+  (oil_other) and names unspecified as unspecified_imports.'
+read:
+  date: '2026-11-20'
+  rows: 795
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 47
+    examples:
+    - cec_tsp:california:biomass
+    - cec_tsp:california:coal
+    - cec_tsp:california:geothermal
+    - cec_tsp:california:large_hydro
+    - cec_tsp:california:natural_gas
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2009-01-01T00:00:00Z': 47
+      '2010-01-01T00:00:00Z': 47
+      '2011-01-01T00:00:00Z': 47
+      '2012-01-01T00:00:00Z': 47
+      '2013-01-01T00:00:00Z': 47
+      '2014-01-01T00:00:00Z': 47
+      '2015-01-01T00:00:00Z': 47
+      '2016-01-01T00:00:00Z': 47
+      '2017-01-01T00:00:00Z': 47
+      '2018-01-01T00:00:00Z': 47
+      '2019-01-01T00:00:00Z': 47
+      '2020-01-01T00:00:00Z': 47
+      '2021-01-01T00:00:00Z': 47
+      '2022-01-01T00:00:00Z': 47
+      '2023-01-01T00:00:00Z': 47
+      '2024-01-01T00:00:00Z': 47
+      '2025-01-01T00:00:00Z': 43
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 655
+    lowest: 0.0
+    highest: 132157000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 795
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 795
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 795
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 795
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 47
+    examples:
+    - 'California: Biomass'
+    - 'California: Coal'
+    - 'California: Geothermal'
+    - 'California: Large Hydro'
+    - 'California: Natural Gas'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      cec:total_system_electric_generation: 795
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.energy.ca.gov/sites/default/files/2026-10/Total_System_Electric_Generation_2009-2025_with_totals_ada.xlsx: 795
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T21:44:27Z': 795
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-07T22:24:36Z': 795
+  missing_cells: 0
+- name: x_region
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      california: 204
+      northwest: 202
+      southwest: 202
+      total: 187
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_fuel
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      biomass: 68
+      coal: 68
+      geothermal: 68
+      large_hydro: 68
+      natural_gas: 68
+      nuclear: 68
+      oil: 49
+      oil_other: 17
+      other: 49
+      small_hydro: 68
+      solar: 68
+      unspecified: 51
+      unspecified_imports: 17
+      wind: 68
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: imports
+  label: null
+  unit: MWh
+  rows: 404
+  first: '2009-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: in_state_generation
+  label: null
+  unit: MWh
+  rows: 204
+  first: '2009-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_system_power
+  label: null
+  unit: MWh
+  rows: 187
+  first: '2009-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

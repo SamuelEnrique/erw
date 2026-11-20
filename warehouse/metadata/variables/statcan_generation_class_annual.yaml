@@ -1,0 +1,317 @@
+# The codebook's metadata of table statcan_generation_class_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: statcan_generation_class_annual
+family: statcan
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: statcan:25-10-0020-01 Statistics Canada, Table 25-10-0020-01, Electric power, annual generation by class of producer
+  url: https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2510002001
+cite: Statistics Canada. Table 25-10-0020-01, Electric power, annual generation by class of producer. Via the Energy Research
+  Warehouse (ERW), table `statcan_generation_class_annual`.
+method: docs/methods/statcan_generation_class_annual.md
+header_title: Statistics Canada, table 25-10-0020-01, Electric power, annual generation by class of producer, by province
+  and type, 2005 to 2025 (session 2440)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity statcan_gc:<area>:<class> (class all, utilities or industries);
+  variable the type of generation as a slug; unit MWh; ts_utc the year''s 1 January; freq P1Y; geo CA or CA-<province>; x_class,
+  x_type StatCan''s names; x_vector; x_revised r where StatCan marks a revision. Classes and types overlap (all classes holds
+  utilities and industries; the totals of type hold their parts): a sum takes one level.'
+read:
+  date: '2026-11-20'
+  rows: 5937
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 42
+    examples:
+    - statcan_gc:ab:all
+    - statcan_gc:ab:industries
+    - statcan_gc:ab:utilities
+    - statcan_gc:bc:all
+    - statcan_gc:bc:industries
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2005-01-01T00:00:00Z': 268
+      '2006-01-01T00:00:00Z': 273
+      '2007-01-01T00:00:00Z': 275
+      '2008-01-01T00:00:00Z': 268
+      '2009-01-01T00:00:00Z': 280
+      '2010-01-01T00:00:00Z': 280
+      '2011-01-01T00:00:00Z': 281
+      '2012-01-01T00:00:00Z': 290
+      '2013-01-01T00:00:00Z': 287
+      '2014-01-01T00:00:00Z': 247
+      '2015-01-01T00:00:00Z': 261
+      '2016-01-01T00:00:00Z': 278
+      '2017-01-01T00:00:00Z': 278
+      '2018-01-01T00:00:00Z': 278
+      '2019-01-01T00:00:00Z': 278
+      '2020-01-01T00:00:00Z': 295
+      '2021-01-01T00:00:00Z': 295
+      '2022-01-01T00:00:00Z': 298
+      '2023-01-01T00:00:00Z': 301
+      '2024-01-01T00:00:00Z': 313
+      '2025-01-01T00:00:00Z': 313
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 3966
+    lowest: -12018.0
+    highest: 649482181.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 5937
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 5937
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      CA: 618
+      CA-AB: 506
+      CA-BC: 485
+      CA-MB: 383
+      CA-NB: 456
+      CA-NL: 406
+      CA-NS: 446
+      CA-NT: 400
+      CA-NU: 155
+      CA-ON: 557
+      CA-PE: 300
+      CA-QC: 512
+      CA-SK: 435
+      CA-YT: 278
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5937
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 407
+    examples:
+    - 'Alberta: Electricity producer, electric utilities: Combustion turbine'
+    - 'Alberta: Electricity producer, electric utilities: Conventional steam turbine'
+    - 'Alberta: Electricity producer, electric utilities: Geothermal'
+    - 'Alberta: Electricity producer, electric utilities: Hydraulic turbine'
+    - 'Alberta: Electricity producer, electric utilities: Internal combustion turbine'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      statcan:25-10-0020-01: 5937
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www150.statcan.gc.ca/n1/tbl/csv/25100020-eng.zip: 5937
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T11:38:34Z': 5937
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-16T12:30:33Z': 5937
+  missing_cells: 0
+- name: x_class
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Electricity producer, electric utilities: 2213
+      Electricity producer, industries: 1470
+      Total all classes of electricity producer: 2254
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_type
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Combustion turbine: 255
+      Conventional steam turbine: 279
+      Geothermal: 24
+      Hydraulic turbine: 652
+      Internal combustion turbine: 296
+      Nuclear steam turbine: 162
+      Other types of electricity generation: 272
+      Solar: 376
+      Tidal power turbine: 84
+      Total all types of electricity generation: 836
+      Total electricity production from combustible fuels: 480
+      Total hydro, tidal, wind, solar and other generation: 761
+      Total thermal generation: 831
+      Wind power turbine: 629
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_vector
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 407
+    examples:
+    - v1014073249
+    - v1014073250
+    - v1014073251
+    - v1014073252
+    - v1014073253
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_revised
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      r: 97
+  missing_cells: 5840
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: combustion_turbine
+  label: null
+  unit: MWh
+  rows: 255
+  first: '2005-01-01T00:00:00Z'
+  last: '2013-01-01T00:00:00Z'
+- name: conventional_steam_turbine
+  label: null
+  unit: MWh
+  rows: 279
+  first: '2005-01-01T00:00:00Z'
+  last: '2013-01-01T00:00:00Z'
+- name: geothermal
+  label: null
+  unit: MWh
+  rows: 24
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: hydraulic_turbine
+  label: null
+  unit: MWh
+  rows: 652
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: internal_combustion_turbine
+  label: null
+  unit: MWh
+  rows: 296
+  first: '2005-01-01T00:00:00Z'
+  last: '2013-01-01T00:00:00Z'
+- name: nuclear_steam_turbine
+  label: null
+  unit: MWh
+  rows: 162
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_types_of_electricity_generation
+  label: null
+  unit: MWh
+  rows: 272
+  first: '2009-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: solar
+  label: null
+  unit: MWh
+  rows: 376
+  first: '2009-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: tidal_power_turbine
+  label: null
+  unit: MWh
+  rows: 84
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_all_types_of_electricity_generation
+  label: null
+  unit: MWh
+  rows: 836
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_electricity_production_from_combustible_fuels
+  label: null
+  unit: MWh
+  rows: 480
+  first: '2014-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_hydro_tidal_wind_solar_and_other_generation
+  label: null
+  unit: MWh
+  rows: 761
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_thermal_generation
+  label: null
+  unit: MWh
+  rows: 831
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_power_turbine
+  label: null
+  unit: MWh
+  rows: 629
+  first: '2005-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

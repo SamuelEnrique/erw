@@ -1,0 +1,206 @@
+# The codebook's metadata of table doe_useer_employment (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: doe_useer_employment
+family: doe
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: doe:useer_2026_public_data U.S. Department of Energy, U.S. Energy and Employment Report
+  url: https://www.energy.gov/policy/us-energy-employment-jobs-report-useer
+cite: U.S. Department of Energy (DOE). U.S. Energy and Employment Report 2026 (Office of Energy Jobs), public data. Via the
+  Energy Research Warehouse (ERW), table `doe_useer_employment`.
+method: docs/methods/doe_useer_employment.md
+header_title: 'U.S. Department of Energy, 2026 U.S. Energy and Employment Report (USEER), public data: energy employment in
+  2025 by sector, technology (subsector) and industry, nationally (with 2024''s totals), and by sector and technology in each
+  state (session 2000)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity useer2026:<geo>:<sector>:<subsector>:<industry>; variable employment;
+  unit count (USEER''s survey estimate of workers, as published, not rounded); freq P1Y; ts_utc the year''s 1 January; geo
+  US, US-<state>, or empty for USEER''s one row of Puerto Rico and the U.S. Virgin Islands; x_sector fuels, epg, td, storage,
+  tds (the state sheet''s T&D and storage), ee, mvcp or all; x_subsector USEER''s technology or total; x_industry USEER''s
+  industry or total.'
+read:
+  date: '2026-11-20'
+  rows: 3311
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 3229
+    examples:
+    - useer2026:PR_VI:ee:advanced_materials:total
+    - useer2026:PR_VI:ee:certified_and_efficient_lighting:total
+    - useer2026:PR_VI:ee:high_efficiency_hvac_and_renewable_heating_and_cooling:total
+    - useer2026:PR_VI:ee:other:total
+    - useer2026:PR_VI:ee:total:total
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2024-01-01T00:00:00Z': 82
+      '2025-01-01T00:00:00Z': 3229
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 3272
+    lowest: 0.0
+    highest: 2633128.0600793697
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      count: 3311
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 3311
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 36
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3311
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 3269
+    examples:
+    - Advanced Natural Gas, 2024 Employment Total
+    - Advanced Natural Gas, 2025 Employment Total
+    - Advanced Natural Gas, Construction (NAICS 23)
+    - Advanced Natural Gas, Manufacturing (NAICS 32-33)
+    - Advanced Natural Gas, Other (NAICS 81)
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      doe:useer_2026_public_data: 3311
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.energy.gov/documents/2026-useer-public-data: 3311
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T15:04:44Z': 3311
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-09-02T15:54:14Z': 3311
+  missing_cells: 0
+- name: x_sector
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      all: 459
+      ee: 478
+      epg: 741
+      fuels: 629
+      mvcp: 479
+      storage: 106
+      td: 55
+      tds: 364
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_subsector
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 102
+    examples:
+    - advanced_building_materials_insulation
+    - advanced_materials
+    - advanced_natural_gas
+    - air_sealing
+    - all
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_industry
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      agriculture: 55
+      commodity_flows: 4
+      construction: 115
+      manufacturing: 128
+      mining: 58
+      other_services: 126
+      pipeline: 5
+      pipeline_and_commodity_flows: 51
+      professional_services: 131
+      total: 2444
+      trade: 128
+      utilities: 66
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: employment
+  label: null
+  unit: count
+  rows: 3311
+  first: '2024-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

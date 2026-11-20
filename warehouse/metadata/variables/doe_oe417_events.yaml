@@ -1,0 +1,373 @@
+# The codebook's metadata of table doe_oe417_events (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: doe_oe417_events
+family: doe
+shape: events
+row: null
+time: null
+vintage_rule: null
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: doe:oe417 U.S. Department of Energy, DOE-417 Annual Summaries
+  url: https://doe417.pnnl.gov/
+cite: 'U.S. Department of Energy (DOE). Office of Cybersecurity, Energy Security, and Emergency Response (CESER), Electric
+  Emergency Incident and Disturbance Reports (Form DOE-417): Annual Summaries. Via the Energy Research Warehouse (ERW), table
+  `doe_oe417_events`.'
+method: docs/methods/doe_oe417_events.md
+header_title: 'U.S. Department of Energy, Office of Cybersecurity, Energy Security, and Emergency Response, Electric Emergency
+  Incident and Disturbance Reports (Form DOE-417, formerly OE-417), the yearly summaries 2016 to 2025: each reported event''s
+  start, restoration, area, NERC region, alert criteria, event type, demand lost and customers affected (session 2028)'
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id doe417:<year>-<row in the year''s summary>; event_date the
+  day the event began; event_type the first event type the summary lists, lower case with underscores (x_event_types all it
+  lists, in its order, without the form''s label for its comment box; x_event_type_as_published its words); mw the demand
+  lost in MW where the summary prints a number; status restored where a restoration day is printed; x_ the summary''s fields
+  as printed (days and times local, the summaries name no zone).'
+read:
+  date: '2026-11-20'
+  rows: 3313
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: 3313
+    examples:
+    - doe417:2016-0001
+    - doe417:2016-0002
+    - doe417:2016-0003
+    - doe417:2016-0004
+    - doe417:2016-0005
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    distinct: 1756
+    earliest: '2016-01-04'
+    latest: '2025-12-30'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  type: text
+  values:
+    distinct: 63
+    examples:
+    - actual_physical_attack
+    - actual_physical_attack_vandalism
+    - actual_physical_event
+    - cyber_attack
+    - cyber_event
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3313
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3313
+- name: mw
+  shared: true
+  type: number
+  values:
+    distinct: 357
+    lowest: 0.0
+    highest: 160000.0
+  missing_cells: 1441
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3313
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3313
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      restored: 2619
+  missing_cells: 694
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      doe:oe417: 3313
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://doe417.pnnl.gov/summaries/2016_Annual_Summary.xls: 141
+      https://doe417.pnnl.gov/summaries/2017_Annual_Summary.xls: 150
+      https://doe417.pnnl.gov/summaries/2018_Annual_Summary.xls: 220
+      https://doe417.pnnl.gov/summaries/2019_Annual_Summary.xls: 278
+      https://doe417.pnnl.gov/summaries/2020_Annual_Summary.xls: 383
+      https://doe417.pnnl.gov/summaries/2021_Annual_Summary.xls: 387
+      https://doe417.pnnl.gov/summaries/2022_Annual_Summary.xls: 390
+      https://doe417.pnnl.gov/summaries/2023_Annual_Summary.xls: 316
+      https://doe417.pnnl.gov/summaries/2024_Annual_Summary.xlsx: 622
+      https://doe417.pnnl.gov/summaries/2025_Annual_Summary.xlsx: 426
+  missing_cells: 0
+- name: x_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '2016': 141
+      '2017': 150
+      '2018': 220
+      '2019': 278
+      '2020': 383
+      '2021': 387
+      '2022': 390
+      '2023': 316
+      '2024': 622
+      '2025': 426
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_row
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 622
+    lowest: 1
+    highest: 622
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_begin_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 1756
+    earliest: '2016-01-04'
+    latest: '2025-12-30'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_begin_time
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1441
+    examples:
+    - 00:00
+    - 00:01
+    - 00:02
+    - 00:03
+    - 00:04
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_restoration_date
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1648
+    examples:
+    - '- Unknown'
+    - '2016-01-05'
+    - '2016-01-11'
+    - '2016-01-14'
+    - '2016-01-17'
+  missing_cells: 363
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_restoration_time
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1273
+    examples:
+    - '- Unknown'
+    - 00:00
+    - 00:01
+    - 00:02
+    - 00:05
+  missing_cells: 363
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_area_affected
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 1366
+    examples:
+    - Ada County, Idaho
+    - AitkinCounty, Minnesota
+    - Alabama
+    - Alabama, Georgia
+    - 'Alabama:'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_nerc_region
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 32
+    examples:
+    - FRCC
+    - MPCC
+    - MRO
+    - MRO / RF
+    - MRO/RF
+  missing_cells: 1058
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_alert_criteria
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 117
+    examples:
+    - '- 10. Suspected Physical Attack'
+    - Actual Physical Attack
+    - Bulk Electric System Emergency resulting in voltage deviation on a Facility; A voltage deviation equal to or greater
+      than 10 percent of nominal voltage sustained for greater than or equal to 15 continuous minutes.
+    - Complete loss of Interpersonal Communication and Alternative Interpersonal Communication capability affecting its staffed
+      Bulk Electric System control center for 30 continuous minutes or more.
+    - Complete loss of Interpersonal Communication and Alternative Interpersonal Communication capability affecting its staffed
+      Bulk Electric System control center for 30 continuous minutes or more. Complete loss of monitoring or control capability
+      at its staffed Bulk Electric System control center for 30 continuous minutes or more.
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_event_types
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 158
+    examples:
+    - actual_physical_attack
+    - actual_physical_attack_vandalism
+    - actual_physical_event
+    - cyber_attack
+    - cyber_event
+  missing_cells: 36
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_event_type_as_published
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 211
+    examples:
+    - '- Cyber event (information technology)'
+    - '- Failure at high voltage substation or switchyard'
+    - '- Failure at high voltage substation or switchyard - Other'
+    - '- Failure at high voltage substation or switchyard - Weather or natural disaster'
+    - '- Fuel supply emergency'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_demand_loss_mw_as_published
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 361
+    examples:
+    - '0'
+    - '0.757'
+    - '1'
+    - 1,000
+    - 1,100
+  missing_cells: 135
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_customers_affected_as_published
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 830
+    examples:
+    - '0'
+    - '1'
+    - 1,031
+    - 1,300
+    - 1,451
+  missing_cells: 9
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_customers_affected
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 786
+    lowest: 0
+    highest: 50000000
+  missing_cells: 853
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T18:15:05Z': 141
+      '2026-10-23T18:15:06Z': 150
+      '2026-10-23T18:15:07Z': 220
+      '2026-10-23T18:15:09Z': 278
+      '2026-10-23T18:15:10Z': 383
+      '2026-10-23T18:15:11Z': 387
+      '2026-10-23T18:15:12Z': 390
+      '2026-10-23T18:15:14Z': 316
+      '2026-10-23T18:15:15Z': 622
+      '2026-10-23T18:15:16Z': 426
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-08T14:56:58Z': 3313
+  missing_cells: 0
+second_look: null

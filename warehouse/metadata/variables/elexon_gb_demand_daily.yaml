@@ -1,0 +1,164 @@
+# The codebook's metadata of table elexon_gb_demand_daily (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: elexon_gb_demand_daily
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1D
+source:
+- name: elexon:indod Elexon Limited, Balancing Mechanism Reporting Service (BMRS), Insights API, demand/outturn/daily (INDOD)
+  url: https://bmrs.elexon.co.uk/
+cite: Elexon Limited (BMRS). Balancing Mechanism Reporting Service, Initial National Demand Outturn per day (INDOD). Via the
+  Energy Research Warehouse (ERW), table `elexon_gb_demand_daily`.
+method: docs/methods/elexon_gb_demand_daily.md
+header_title: Elexon BMRS, Great Britain's Initial National Demand Outturn per day (INDOD), 2021-04-27 to 2026-10-23 (session
+  2162)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity elexon:GB; variable indo_daily (MWh, the half-hourly INDO summed,
+  excluding station transformer, pumping and interconnector export demand); ts_utc the settlement day at 00:00:00Z (Decision
+  11), the day being Great Britain''s own (Europe/London); freq P1D; geo GB.'
+read:
+  date: '2026-11-20'
+  rows: 1932
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      elexon:GB: 1932
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 1932
+    earliest: '2021-04-27T00:00:00Z'
+    latest: '2026-10-23T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1928
+    lowest: 395760.0
+    highest: 909318.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 1932
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 1932
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      GB: 1932
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1932
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      Great Britain: 1932
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      elexon:indod: 1932
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://data.elexon.co.uk/bmrs/api/v1/demand/outturn/daily?settlementDateFrom=2020-01-01&settlementDateTo=2021-12-31&format=csv
+      : 178
+      ? https://data.elexon.co.uk/bmrs/api/v1/demand/outturn/daily?settlementDateFrom=2022-01-01&settlementDateTo=2023-12-31&format=csv
+      : 727
+      ? https://data.elexon.co.uk/bmrs/api/v1/demand/outturn/daily?settlementDateFrom=2024-01-01&settlementDateTo=2025-12-31&format=csv
+      : 731
+      ? https://data.elexon.co.uk/bmrs/api/v1/demand/outturn/daily?settlementDateFrom=2026-01-01&settlementDateTo=2026-10-23&format=csv
+      : 296
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T00:17:29Z': 178
+      '2026-10-24T00:17:30Z': 727
+      '2026-10-24T00:17:31Z': 1027
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1932
+- name: x_settlement_date
+  label: null
+  unit: null
+  type: date
+  values:
+    distinct: 1932
+    earliest: '2021-04-27'
+    latest: '2026-10-23'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_publish_time
+  label: null
+  unit: null
+  type: utc time
+  values:
+    distinct: 1932
+    earliest: '2021-04-27T23:15:00Z'
+    latest: '2026-10-23T23:15:00Z'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: indo_daily
+  label: null
+  unit: MWh
+  rows: 1932
+  first: '2021-04-27T00:00:00Z'
+  last: '2026-10-23T00:00:00Z'
+second_look: null

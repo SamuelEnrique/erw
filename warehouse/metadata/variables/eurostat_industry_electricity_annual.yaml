@@ -1,0 +1,207 @@
+# The codebook's metadata of table eurostat_industry_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_industry_electricity_annual
+family: eurostat
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eurostat:nrg_d_indq_n Eurostat, Energy consumption in industry by NACE Rev. 2 activity, quantities (nrg_d_indq_n)
+  url: https://ec.europa.eu/eurostat/databrowser/view/nrg_d_indq_n/default/table
+cite: Eurostat (Statistical Office of the European Union). Energy consumption in industry by NACE Rev. 2 activity, quantities
+  (nrg_d_indq_n). Via the Energy Research Warehouse (ERW), table `eurostat_industry_electricity_annual`.
+method: docs/methods/eurostat_industry_electricity_annual.md
+header_title: 'Eurostat, energy consumption in industry by NACE Rev. 2 activity, electricity, annual (nrg_d_indq_n, E7000):
+  industry''s electricity use by activity, 2017 to 2024 (session 2818)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_industry_electricity:<geo>:<NACE code>; variable electricity_consumption;
+  unit MWh (Eurostat''s GWh times 1,000); ts_utc the year''s 1 January; freq P1Y; geo ISO alpha-2 (EL is GR), blank for EU27_2020;
+  x_nace_r2 Eurostat''s code. The activities overlap (divisions, their groups, and aggregates of divisions): do not sum them.'
+read:
+  date: '2026-11-20'
+  rows: 8307
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 1507
+    examples:
+    - eurostat_industry_electricity:AL:B07-B09_X_EPRD
+    - eurostat_industry_electricity:AL:B07_X_B0721
+    - eurostat_industry_electricity:AL:B08_X_B0892
+    - eurostat_industry_electricity:AL:B09
+    - eurostat_industry_electricity:AL:C10
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2017-01-01T00:00:00Z': 535
+      '2018-01-01T00:00:00Z': 535
+      '2019-01-01T00:00:00Z': 677
+      '2020-01-01T00:00:00Z': 1292
+      '2021-01-01T00:00:00Z': 1286
+      '2022-01-01T00:00:00Z': 1345
+      '2023-01-01T00:00:00Z': 1288
+      '2024-01-01T00:00:00Z': 1349
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 219328000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 8307
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 8307
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 33
+    examples:
+    - AL
+    - AT
+    - BE
+    - BG
+    - CY
+  missing_cells: 39
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8307
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 1507
+    examples:
+    - AL industry electricity, Aluminium production
+    - AL industry electricity, Construction
+    - AL industry electricity, Manufacture of basic metals
+    - AL industry electricity, Manufacture of basic pharmaceutical products and pharmaceutical preparations
+    - AL industry electricity, Manufacture of basic precious and other non-ferrous metals except aluminium production
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:nrg_d_indq_n: 8307
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nrg_d_indq_n/A.GWH.E7000..?format=SDMX-CSV&compressed=false: 8307
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-26T05:28:27Z': 8307
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8307
+- name: x_geo_code
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 34
+    examples:
+    - AL
+    - AT
+    - BE
+    - BG
+    - CY
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_nace_r2
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 55
+    examples:
+    - B07-B09_X_EPRD
+    - B07_X_B0721
+    - B08_X_B0892
+    - B09
+    - C10
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_flag
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      b: 39
+      d: 3
+      e: 324
+  missing_cells: 7941
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_conf_status
+  label: null
+  unit: null
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8307
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: electricity_consumption
+  label: null
+  unit: MWh
+  rows: 8307
+  first: '2017-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,420 @@
+# The codebook's metadata of table ercot_sced_esr_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_sced_esr_hourly
+family: ercot
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: ercot:NP3-965-ER ERCOT, 60-Day SCED Disclosure Reports (report type 13052),  document list
+  url: https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=13052
+cite: 'Electric Reliability Council of Texas (ERCOT). 60-Day SCED Disclosure Reports (the file 60d_ESR_Data_in_SCED: Energy
+  Storage Resources in real time). Via the Energy Research Warehouse (ERW), table `ercot_sced_esr_hourly`.'
+method: docs/methods/ercot_sced_esr_hourly.md
+header_title: ERCOT Energy Storage Resources in real time, by resource and hour, from ERCOT's 60-Day SCED Disclosure Reports,
+  the file 60d_ESR_Data_in_SCED, each day reduced to resource-hour totals as it was read (session 120)
+header_shape: 'Shape: series (docs/datastandard.md v0, Decision 40), one row per resource and hour: entity ercot:<Resource
+  Name>, variable net_output_mwh, value the resource''s Telemetered Net Output integrated over the hour (MWh; positive is
+  discharge; each SCED run''s MW held until the next SCED run of the day, and never across a run the resource is not in),
+  ts_utc the hour''s start, node its settlement point as the day-ahead disclosure names it (blank when that file never names
+  the resource). The x_ columns: x_net_q1_mwh to x_net_q4_mwh, the same for each 15-minute Settlement Interval of the hour
+  (they add up to the value); x_discharge_mwh and x_charge_mwh, the positive and the negative part (charge as a positive number);
+  x_base_point_mwh, the Base Point integrated the same way; x_hsl_mw and x_lsl_mw, the hour''s highest High Sustained Limit
+  and lowest Low Sustained Limit; x_soc_start_mwh, x_soc_min_mwh, x_soc_max_mwh, the State of Charge; x_as_<service>_mwh,
+  each Ancillary Service''s real-time award integrated over the hour (a MW for an hour): regup, regdn, rrspfr, rrsffr, rrsufr,
+  ecrs, nspin; x_sced_runs, the SCED runs in the hour; x_qse, the scheduling entity.'
+read:
+  date: '2026-11-20'
+  rows: 1637727
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: 342
+    examples:
+    - ercot:ABINDUST_ESR1
+    - ercot:ADL_ESR1
+    - ercot:AE_ESR1
+    - ercot:ALAMO_ST_ESR1
+    - ercot:ALP_BESS_ESR1
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 4991
+    earliest: '2026-02-01T06:00:00Z'
+    latest: '2026-08-28T04:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -240.00002
+    highest: 240.00002
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 1637727
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 1637727
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 1637727
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      ercot_rtm: 1637727
+  missing_cells: 0
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 293
+    examples:
+    - ABINDUST_RN
+    - ADL_RN
+    - AE_RN
+    - ALAMO_ST_RN
+    - ALP_BESS_RN
+  missing_cells: 6935
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:NP3-965-ER: 1637727
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 208
+    examples:
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1210699966
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1211087392
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1211618930
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1211819651
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1212199508
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 208
+    earliest: '2026-10-05T09:15:29Z'
+    latest: '2026-10-26T17:49:02Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    distinct: 208
+    earliest: '2026-04-02T00:00:00Z'
+    latest: '2026-10-26T00:00:00Z'
+  missing_cells: 0
+- name: x_qse
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 120
+    examples:
+    - QAETE1
+    - QAETEL
+    - QAMA1
+    - QBEEP1
+    - QBEEP2
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_sced_runs
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '11': 2646
+      '12': 1498482
+      '13': 93498
+      '14': 28446
+      '15': 9446
+      '16': 2601
+      '17': 1945
+      '18': 325
+      '19': 335
+      '7': 3
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_net_q1_mwh
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -60.000005
+    highest: 60.000005
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_net_q2_mwh
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -60.000005
+    highest: 60.000005
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_net_q3_mwh
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -60.000005
+    highest: 60.000005
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_net_q4_mwh
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -60.000005
+    highest: 60.000005
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_discharge_mwh
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 240.00002
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_charge_mwh
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 240.00002
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_base_point_mwh
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -240.000015
+    highest: 240.000015
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_hsl_mw
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 2335
+    lowest: -8.8
+    highest: 240.0
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_lsl_mw
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 2248
+    lowest: -240.0
+    highest: 195.0
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_soc_start_mwh
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -703.6
+    highest: 974.9
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_soc_min_mwh
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -703.6
+    highest: 974.9
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_soc_max_mwh
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -0.3718
+    highest: 974.9
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_as_regup_mwh
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 269.745653
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_as_regdn_mwh
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 200.0
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_as_rrspfr_mwh
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 157.0
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_as_rrsffr_mwh
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 175.672674
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_as_rrsufr_mwh
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '0': 1637727
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_as_ecrs_mwh
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 237.127168
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_as_nspin_mwh
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 118.98
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: net_output_mwh
+  label: null
+  unit: MWh
+  rows: 1637727
+  first: '2026-02-01T06:00:00Z'
+  last: '2026-08-28T04:00:00Z'
+second_look: null

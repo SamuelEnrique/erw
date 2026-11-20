@@ -1,0 +1,502 @@
+# The codebook's metadata of table eia860_wind_generators (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia860_wind_generators
+family: eia860
+shape: entities
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: eia:eia860:wind U.S. Energy Information Administration, Form EIA-860 Annual Electric Generator Report, 3_2_Wind_Y2025.xlsx
+  url: https://www.eia.gov/electricity/data/eia860/
+cite: U.S. Energy Information Administration (EIA). Form EIA-860 Annual Electric Generator Report, wind generators' details.
+  Via the Energy Research Warehouse (ERW), table `eia860_wind_generators`.
+method: docs/methods/eia860_schedules.md
+header_title: EIA-860, wind generators' details, data year 2025 (session 885)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id eia860_wind:<plant code>:<generator id> (EIA-860M''s tables
+  name the same generator eia860:<plant code>:<generator id>); entity_type generator; name the plant''s name; capacity_mw
+  nameplate; status from EIA''s code (x_eia_status); status_date the month of operation (operable) or of retirement (retired),
+  empty for proposed and canceled. x_* every other column of EIA''s sheet, its heading as a name; x_sheet the sheet.'
+read:
+  date: '2026-11-20'
+  rows: 1745
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    distinct: 1745
+    examples:
+    - eia860_wind:10005:WTGS
+    - eia860_wind:10191:EXIS
+    - eia860_wind:10191:PLAN
+    - eia860_wind:10586:EXIS
+    - eia860_wind:10597:WGN1
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      generator: 1745
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 1471
+    examples:
+    - 1370 Shannon
+    - 25 Mile Creek
+    - 631-56 Airport Owner, LLC
+    - 7-Mile Ridge Wind Project
+    - 85 A
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 44
+    examples:
+    - US-AK
+    - US-AR
+    - US-AZ
+    - US-CA
+    - US-CO
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1745
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1745
+- name: capacity_mw
+  shared: true
+  type: number
+  values:
+    distinct: 700
+    lowest: 0.1
+    highest: 1215.0
+  missing_cells: 0
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      operating: 1573
+      retired: 102
+      suspended: 16
+      withdrawn: 54
+  missing_cells: 0
+- name: status_date
+  shared: true
+  type: date
+  values:
+    distinct: 302
+    earliest: '1981-12-01'
+    latest: '2025-12-01'
+  missing_cells: 70
+- name: operator
+  shared: true
+  type: text
+  values:
+    distinct: 770
+    examples:
+    - 1370 Shannon LLC
+    - 631-56 Airport Owner, LLC
+    - AEM Wind LLC
+    - AES Clean Energy
+    - AES Distributed Energy
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia860:wind: 1745
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia860/xls/eia8602025.zip: 1745
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T03:33:49Z': 1745
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: integer
+  values:
+    list:
+      '2025': 1745
+  missing_cells: 0
+- name: x_plant_code
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 1471
+    lowest: 1
+    highest: 69327
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_generator_id
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 833
+    examples:
+    - '0001'
+    - '0002'
+    - '001'
+    - '01'
+    - '0540'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_state
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 44
+    examples:
+    - AK
+    - AR
+    - AZ
+    - CA
+    - CO
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_eia_status
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      CN: 54
+      IP: 16
+      OA: 2
+      OP: 1557
+      OS: 14
+      RE: 102
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_sheet
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Operable: 1573
+      Retired and Canceled: 172
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_utility_id
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 770
+    lowest: 219
+    highest: 67873
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_county
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 464
+    examples:
+    - Adair
+    - Adams
+    - Alameda
+    - Albany
+    - Aleutians East
+  missing_cells: 4
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_technology
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Offshore Wind Turbine: 13
+      Onshore Wind Turbine: 1732
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_prime_mover
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      WS: 13
+      WT: 1732
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_sector_name
+  label: null
+  unit: null
+  type: text
+  values:
+    list:
+      Commercial CHP: 2
+      Commercial Non-CHP: 30
+      Electric Utility: 327
+      IPP Non-CHP: 1352
+      Industrial CHP: 4
+      Industrial Non-CHP: 30
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_sector
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 327
+      '2': 1352
+      '4': 30
+      '5': 2
+      '6': 30
+      '7': 4
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_summer_capacity_mw
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 702
+    lowest: 0.1
+    highest: 1215.0
+  missing_cells: 2
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_winter_capacity_mw
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 705
+    lowest: 0.1
+    highest: 1215.0
+  missing_cells: 2
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_operating_month
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 149
+      '10': 132
+      '11': 124
+      '12': 539
+      '2': 96
+      '3': 96
+      '4': 78
+      '5': 106
+      '6': 94
+      '7': 86
+      '8': 85
+      '9': 90
+  missing_cells: 70
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_operating_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 43
+    lowest: 1981
+    highest: 2025
+  missing_cells: 70
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_number_of_turbines
+  label: null
+  unit: null
+  type: integer
+  values:
+    distinct: 192
+    lowest: 0
+    highest: 460
+  missing_cells: 49
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_predominant_turbine_manufacturer
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 41
+    examples:
+    - AOC
+    - Acciona
+    - Alstom
+    - Bonus
+    - CCWE
+  missing_cells: 77
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_predominant_turbine_model_number
+  label: null
+  unit: null
+  type: text
+  values:
+    distinct: 207
+    examples:
+    - 1.5 S
+    - 1.5 SE
+    - 1.5 SLE
+    - 1.5 XLE
+    - 1.5-77
+  missing_cells: 81
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_design_wind_speed_mph
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 113
+    lowest: 0.0
+    highest: 35.0
+  missing_cells: 81
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_wind_quality_class
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 212
+      '2': 976
+      '3': 444
+      '4': 43
+  missing_cells: 70
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_turbine_hub_height_feet
+  label: null
+  unit: null
+  type: number
+  values:
+    distinct: 211
+    lowest: 60.0
+    highest: 489.0
+  missing_cells: 79
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_retirement_month
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '1': 10
+      '10': 12
+      '11': 14
+      '12': 26
+      '2': 5
+      '3': 6
+      '4': 3
+      '5': 12
+      '6': 4
+      '7': 2
+      '8': 5
+      '9': 3
+  missing_cells: 1643
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_retirement_year
+  label: null
+  unit: null
+  type: integer
+  values:
+    list:
+      '2003': 1
+      '2005': 3
+      '2006': 1
+      '2007': 3
+      '2008': 2
+      '2010': 2
+      '2011': 2
+      '2012': 1
+      '2013': 1
+      '2014': 3
+      '2015': 7
+      '2016': 3
+      '2017': 1
+      '2018': 1
+      '2019': 6
+      '2020': 21
+      '2021': 8
+      '2022': 8
+      '2023': 9
+      '2024': 8
+      '2025': 11
+  missing_cells: 1643
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null
