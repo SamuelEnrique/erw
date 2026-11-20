@@ -58,7 +58,7 @@ Rows here are counted once; a page's section points at them.
 
 ## The fixes, and what has been seen of them
 
-Seven branches, each cut from origin/main with its test, pushed. **None has been seen in a build:** this laptop had 1.0 to 1.8 GB of memory free from 11:37 UTC on (Samuel's own Chrome and the Claude programs hold the rest), under the 2 GB the chain asks for a build, and the whole suite was not run for the same cause. So no landing is requested yet (`docs/state/landing_request_portable.md`, rows 44 to 50, state "ready, not requested"). What was seen without a build is said on each line.
+Eight branches, each cut from origin/main with its test, pushed. **None has been seen in a build:** this laptop had 1.0 to 1.8 GB of memory free from 11:37 UTC on (Samuel's own Chrome and the Claude programs hold the rest), under the 2 GB the chain asks for a build, and the whole suite was not run for the same cause. So no landing is requested yet (`docs/state/landing_request_portable.md`, rows 44 to 51, state "ready, not requested"). What was seen without a build is said on each line.
 
 | Branch | Head | What it mends | Its test | Seen so far |
 |---|---|---|---|---|
@@ -69,6 +69,7 @@ Seven branches, each cut from origin/main with its test, pushed. **None has been
 | `wip/9601-tour-headings` | `bff5d765a` | The tour's stops 1, 4, 11 and 12 | `tests/test_session9601_tour_headings.py` (7), with the tour's four older tests: 27 pass; the tour's render test passes | Not seen in a browser; `check-tour.mjs` on a build is the proof |
 | `wip/9601-policy-held-page` | `e029f90aa` | `/policy` when its list is held | `tests/test_session9601_policy_held_page.py` (6), with the seven older tests that name the page: 90 pass | Not seen in a browser |
 | `wip/9601-price-map-window` | `58d119d6d` | The Grid map's price over a window names its days | `tests/test_session9601_price_map_window.py` (6), with the map's: 13 pass | Not seen in a browser |
+| `wip/9601-line-ends-unnamed` | `5416bba3e` | A transmission line's end that HIFLD marks "UNKNOWN<number>" | `tests/test_session9601_line_ends_unnamed.py` (4), with the layers': 11 pass | Not seen in a browser |
 
 ## 1. `/internal/findings`: the findings review page
 
@@ -242,6 +243,29 @@ The data machine's page (chain 505). Read with `runs/c620/b_ai_energy.mjs`.
 **Quiet faults.** None. 0.2 s to load.
 
 Pictures: `docs/reviews/browser-read-2026-11-20/ai-energy/as-it-opens-1280.png`; `one-measure-1280.png` (one measure chosen).
+
+## 10 and 25. `/map`, Projects: the lines on the map, and a project's proposed date
+
+The data machine's layers (chain 581) and dates (chain 505). Read with `runs/c620/b_map_lines.mjs` and `runs/c620/b_map_finger.mjs`.
+
+**Five cases.**
+1. *A transmission planner.* Which lines of 230 kV and above cross a region, and whose are they? Switches the lines on: 10,692 lines are drawn over the projects; the mouse on one gives its two ends, its owner, its voltage and its length as HIFLD draws it ("CAPTAIN JACK to SYCAN, BONNEVILLE POWER ADMINISTRATION, 500 kV, 96.5 km"). Answered, where HIFLD names the ends (row 1).
+2. *A gas liquids analyst.* Where do the HGL pipelines run and how long is one? The second switch: 133 lines; "Elk Creek Pipeline, ONEOK, 1362.41 km (EIA gives no capacity)". Answered; the page says EIA gives no capacity.
+3. *A developer.* When is a planned plant meant to start? The mouse on a planned unit: "Portage Solar, LLC: Solar, 250.0 MW, under construction, half or less complete, WI, MISO, 2027-07 (planned operation)". Answered.
+4. *A siting analyst on a phone.* A finger on a unit at 390 px brings up its tip and opens its card under the map; a finger on a line brings up the line's tip. Answered.
+5. *A student.* What is not drawn? The "i" beside "Lines on the map" says which of EIA's layers are not served and why. Answered.
+
+**Figures.** Each line's tip beside its layer file (`site/data/map_layers/`): the three transmission tips read and the three pipeline tips read are rows of the files (voltage, length, owner; Elk Creek 1362.41 km and Lakehead 1510.45 km). The files hold 10,692 lines (299,994 km) and 133 lines (57,715 km).
+
+**What answers to the hand.** Both switches are off as the page opens; each is read and changes the drawing when pressed, and the map shows no line once it is off again; by mouse and by a finger. A line layer is kept in the page, not in the address. With a line's tip showing at 390 px the page measures 489 px wide, and does not move sideways (the tip's own box before the chart places it): nothing a reader sees.
+
+**Quiet faults.** None at open; 2.1 s to load at 1280 px, 1.2 s at 390 px.
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| 1 | The transmission lines on, a finger on a line | "UNKNOWN201257 to UNKNOWN203126, HIGH PLAINS POWER INC, 230 kV". "UNKNOWN<number>" is HIFLD's own mark for an end it does not name: 881 of the 10,692 lines have both ends so marked and 2,861 one | An end HIFLD does not name said to be unnamed, its mark kept | fixed on `wip/9601-line-ends-unnamed` |
+
+Pictures: `docs/reviews/browser-read-2026-11-20/map-lines/as-it-opens-1280.png`; `transmission-on-1280.png` (the lines of 230 kV and above); `hgl-on-1280.png` (the HGL pipelines).
 
 ## 12, 13 and 21. The Grid tool's map: the Price color and each authority's own facts
 
