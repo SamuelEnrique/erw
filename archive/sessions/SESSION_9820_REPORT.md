@@ -33,7 +33,7 @@ Energy Research Warehouse (ERW). 20 November 2026, lab-desktop, the fourth Claud
 
 | Push | Before | After | Differences |
 |---|---|---|---|
-| 1 to 10 of the review (pushes b01 to b10) | `s9820-bNN-before` | `s9820-bNN-after` | 0 in all, each push (expected) |
+| Every push of images, b01 to b19 so far (rows 1 to 190 of the review) | `s9820-bNN-before` | `s9820-bNN-after` | 0 in all, each push (expected) |
 
 ## Needs the key
 
