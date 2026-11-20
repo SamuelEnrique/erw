@@ -39,7 +39,7 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 | 7 | Output per MW is over the nameplate of the month's start, so new plants add output and not megawatts | -0.34 (-0.6 percent) at mid-month nameplate | NPV -2.6 per kW | `wip/audit-generator-7` (test with 6) |
 | 8 | The note's table of defaults says hurdle 9.6 and solar degradation 0; the page uses 12 and 0.7 | none | none (words) | `wip/audit-generator-8` (fix in words) |
 
-- Ranked by how far NPV moves, per kW, on the asset each finding is about (the smaller end of a range): solar for 1, 2, 3, 6 and 7, the peaker for 9, the battery for 5. Finding 4 moves a printed price (and every contracted scenario's NPV); finding 8 moves words.
+- Ranked by how far NPV moves, per kW, on the default grid (ERCOT) and the asset each finding is about (the smaller end of a range): solar for 1, 2, 3, 6 and 7, the peaker for 9, the battery for 5. Finding 4 moves a printed price (and every contracted scenario's NPV); finding 8 moves words. In CAISO finding 6 would rank near the top.
 
 ## 1. The NPV holds no tax and no depreciation
 
@@ -177,5 +177,6 @@ Every page is in review; this file changes no page. Snapshots as in the battery 
 - The battery file's push of its finding 11, merge `7bb43879`; success, confirmed 22:04 UTC. `s9840-f11-before` against `s9840-f11-after`: 0 differences. Expected.
 - Push 3 (finding 9; the battery file's finding 1 to 3 additions, the decisions lists, the other cases), merge `6f4afa71`; success confirmed about 22:15 UTC. `s9840-backlog-before` against `s9840-backlog-after`: 0 differences. Expected.
 - Push 4 (the battery file's finding 1 with the call's timing, the re-ranked tables, the summaries), merge `31411023`; success confirmed about 22:20 UTC. `s9840-p4-before` against `s9840-p4-after`: 0 differences. Expected.
+- Push 5 (finding 6 in CAISO), merge `33124347` (a first attempt at 22:21 was refused by the remote with no reason given; the retry a minute later went through); success confirmed about 22:26 UTC. `s9840-p5-before` against `s9840-p5-after`: 0 differences. Expected.
 - GitHub's unsigned allowance (60 requests an hour, shared with this machine's other windows) ran out at 21:45 UTC; from then on a deploy was watched by the live page's Vercel deployment id and confirmed with one status request once the allowance returned (22:04 UTC).
 - Each push's comparison is written with the next push; the last push's is in the session's closing message.
