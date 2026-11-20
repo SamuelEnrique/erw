@@ -32,8 +32,8 @@ Sources
     ("Day-Ahead Binding Constraints", one csv an operating day, DA-BC-<YYYYMMDD>0100.csv) and
     da-lmp-by-settlement-location ("Day-Ahead LMP by Settlement Location", DA-LMP-SL-<YYYYMMDD>0100.csv). A year SPP
     has archived is one zip (/<year>/<year>.zip); the connector asks the year's folder which it is. The price zips
-    of archived years hold every settlement location and are not read by this connector (the year is reported as
-    not pulled).
+    of archived years hold every settlement location (294 MB for 2024) and are read whole, the two hubs kept; pull
+    them one year a run.
     CAISO: OASIS (https://oasis.caiso.com/oasisapi/SingleZip), PRC_NOMOGRAM version 1 with market_run_id=DAM
     ("Nomogram/Branch Shadow Prices"), and PRC_LMP version 12 with market_run_id=DAM ("Locational Marginal Prices"),
     one request a calendar month or less (OASIS answers at most 31 days), five seconds apart. OASIS keeps PRC_LMP
@@ -99,7 +99,7 @@ CAISO_NODES = ["TH_NP15_GEN-APND", "TH_SP15_GEN-APND", "TH_ZP26_GEN-APND", "DLAP
                "DLAP_SDGE-APND", "DLAP_VEA-APND"]
 CAISO_PARTS = {"LMP": "lmp_dam", "MCE": "energy_dam", "MCC": "congestion_dam", "MCL": "loss_dam", "MGHG": "ghg_dam"}
 CAISO_FIRST = {"constraints": "2015-01-01", "prices": "2023-08-01"}
-SPP_FIRST = {"constraints": "2014-03-01", "prices": "2025-01-01"}
+SPP_FIRST = {"constraints": "2014-03-01", "prices": "2014-03-01"}
 
 
 # ---------------------------------------------------------------------------
@@ -458,7 +458,9 @@ def pull(table, operator, start, until, log, offline, gaps):
     frames, t0 = [], time.time()
     if operator == "spp":
         feed = SPP_BC if table == "constraints" else SPP_LMP
-        docs, skipped = spp_docs(feed, days, log, offline, allow_zip=(table == "constraints"))
+        # session 9000: the price zips of archived years (294 MB for 2024, every settlement location) are read too, one
+        # year a run, the hubs kept; the read timeout is per read, so a slow download is not cut
+        docs, skipped = spp_docs(feed, days, log, offline, allow_zip=True)
         gaps += skipped
         for i, doc in enumerate(docs):
             try:
