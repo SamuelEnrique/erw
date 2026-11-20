@@ -53,5 +53,32 @@ class ThePage(unittest.TestCase):
             self.assertNotIn(chr(0x2014), src(*p))
 
 
+class TheQueuePlaces(unittest.TestCase):
+    """Part F2: the queues outside the seven grids (/queues/places, site/data/queue_places.json)."""
+
+    def test_owners_and_states(self):
+        p = os.path.join(ROOT, "site", "data", "queue_places.json")
+        if not os.path.exists(p):
+            self.skipTest("no file")
+        f = json.load(open(p, encoding="utf-8"))
+        self.assertTrue(f["owners"])
+        self.assertEqual({o["region"] for o in f["owners"]}, {"West", "Southeast"})
+        self.assertNotIn("CT", {s["state"] for s in f["states"]})
+        for s in f["states"]:
+            self.assertGreater(s["share_outside_pct"], 0)
+            self.assertEqual(s["no_public_queue"], s["entries"] == 0)
+
+    def test_the_fold_and_the_note_are_one_list(self):
+        keys = re.findall(r'\{ key: "([a-z0-9-]+)", session: "', src("site", "app", "queues", "places", "Decisions.tsx"))
+        note = src("docs", "methods", "queue_places.md").split("### Decisions (session 8014)")[1]
+        self.assertEqual(re.findall(r"^\| `([a-z0-9-]+)` \|", note, re.M), keys)
+
+    def test_in_no_menu_and_queues_unchanged(self):
+        self.assertNotIn("/queues/places", src("site", "lib", "pages.ts"))
+        self.assertNotIn("queue_places", src("site", "app", "queues", "page.tsx"))
+        for p in (("site", "app", "queues", "places", "page.tsx"), ("warehouse", "derived", "queue_places.py"), ("docs", "methods", "queue_places.md")):
+            self.assertNotIn(chr(0x2014), src(*p))
+
+
 if __name__ == "__main__":
     unittest.main()

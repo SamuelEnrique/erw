@@ -105,6 +105,7 @@ PAGE_PATHS+=(site/data/regions site/data/industry.json)   # session 8008 (chain 
 PAGE_PATHS+=(site/data/states)   # session 8014 (chain 581, part B): every state on one page (docs/state/page_files_states.md)
 PAGE_PATHS+=(site/data/curtailment/where_when.json)   # session 8014 (chain 581, part C): where and when power is spare
 PAGE_PATHS+=(site/data/storage/places.json)   # session 8014 (chain 581, part F1): batteries by authority and state
+PAGE_PATHS+=(site/data/queue_places.json)   # session 8014 (chain 581, part F2): the queues outside the seven grids
 PAGE_PATHS+=(replication/datacenter/page_figures.json replication/datacenter/page_figures.csv   # session 3779: dm_datacenter_figures
             docs/methods/automated_analysis_findings.md   # session 3779: dm_cross_check_rows
             replication/analysis/page_figures.json replication/analysis/page_figures.csv)   # session 3803: dm_analysis_figures
@@ -323,6 +324,8 @@ soft_step dm_states_page "$PYTHON" warehouse/derived/states_page.py
 soft_step dm_where_when "$PYTHON" warehouse/derived/where_when.py
 # Session 8014 (chain 581, part F1): batteries by balancing authority and by state (site/data/storage/places.json), from EIA-860M
 soft_step dm_storage_places "$PYTHON" warehouse/derived/storage_places.py
+# Session 8014 (chain 581, part F2): the queues outside the seven grids by owner and state (site/data/queue_places.json), after the states' files
+soft_step dm_queue_places "$PYTHON" warehouse/derived/queue_places.py
 for t in eia930_forecast_error_hourly eia930_forecast_error_daily; do soft_step "dm_stores_$t" "$PYTHON" warehouse/table_stores.py "$t" --no-redivis; done
 
 # ---- 2. ERCOT's load zones --------------------------------------------------------------------------------------------
@@ -553,7 +556,7 @@ group dm_test_regions "dm_region_files dm_interchange_pairs dm_industry_page dm_
 # build is put back whole.
 group dm_test_states "dm_states_page" "tests.test_session8014_states" -- site/data/states
 group dm_test_where_when "dm_where_when" "tests.test_session8014_where_when" -- site/data/curtailment/where_when.json
-group dm_test_storage_places "dm_storage_places" "tests.test_session8014_storage_places" -- site/data/storage/places.json
+group dm_test_storage_places "dm_storage_places dm_queue_places" "tests.test_session8014_storage_places" -- site/data/storage/places.json site/data/queue_places.json
 
 # ---- 4. the commit ----------------------------------------------------------------------------------------------------
 echo "== status"

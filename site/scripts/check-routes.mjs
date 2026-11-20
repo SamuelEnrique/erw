@@ -121,7 +121,7 @@ const PAGES = [
   "/grid?grid=ercot&view=gravity&shape=gravity", "/grid?grid=us48&view=gravity&shape=gravity", "/grid?grid=ercot&view=now", "/grid?grid=caiso&ask=1",
   "/grid?grid=caiso&view=mix&mix=day&period=2026-04", "/grid?grid=pjm&view=mix&mix=stress&year=2025", "/grid?grid=ercot&view=network&net=day&t=2021-02-15&node=ERCO&prices=1&trace=1&shape=map",
   "/grid?view=network&grid=BPAT", "/grid?view=mix&ba=ciso&state=CA", "/grid?grid=nowhere&view=nothing",
-  "/storage/places", "/storage/places?a=st:TX&b=us", "/map?tab=projects",  // session 8014 (chain 581, parts D and F1)
+  "/storage/places", "/storage/places?a=st:TX&b=us", "/queues/places", "/map?tab=projects",  // session 8014 (chain 581, parts D and F1)
   "/curtailment/where-when", "/curtailment/where-when?a=spp&b=caiso&year=all&fuel=wind", "/curtailment/where-when?a=ercot%3AHB_WEST&b=caiso%3ATH_SP15_GEN-APND&year=2025",  // session 8014 (chain 581, part C): where and when power is spare (in review)
   "/states", "/states?a=CA&b=WV", "/states?a=DC&b=US&from=2020", "/states?a=zz",  // session 8014 (chain 581, part B): every state on one page (in review)
   "/industry", "/ai-energy",  // session 8013 (chain 505, part B): energy use by industry, and energy per AI query as published (in review)
