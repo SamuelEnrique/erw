@@ -5,9 +5,10 @@
 table: ieso_ontario_demand_hourly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Ontario's demand or market demand in one hour, from the IESO's Hourly Demand Report.
+time: ts_utc is the hour's start in UTC (the IESO's hour ending in Eastern Standard Time all year); freq PT1H.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s hours replace the same hours and older ones are kept; vintage
+  is the file''s creation time.'
 keys:
 - entity
 - variable
@@ -37,6 +38,7 @@ columns:
     list:
       ieso:ontario: 31680
   missing_cells: 0
+  particular: ieso:ontario on every row
 - name: variable
   shared: true
   type: text
@@ -80,12 +82,14 @@ columns:
     list:
       CA-ON: 31680
   missing_cells: 0
+  particular: CA-ON on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 31680
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -93,6 +97,7 @@ columns:
     list:
       Ontario: 31680
   missing_cells: 0
+  particular: Ontario on every row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -123,15 +128,16 @@ columns:
       '2026-01-31T12:30:13Z': 17518
       '2026-10-23T12:30:09Z': 14162
   missing_cells: 0
+  particular: The year's file's creation time (UTC)
 variables:
 - name: market_demand
-  label: null
+  label: 'Market demand: Ontario demand plus exports'
   unit: MW
   rows: 15840
   first: '2025-01-01T05:00:00Z'
   last: '2026-10-23T05:00:00Z'
 - name: ontario_demand
-  label: null
+  label: 'Ontario demand: the demand of Ontario''s consumers'
   unit: MW
   rows: 15840
   first: '2025-01-01T05:00:00Z'

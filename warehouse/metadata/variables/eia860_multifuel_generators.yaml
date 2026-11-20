@@ -5,9 +5,12 @@
 table: eia860_multifuel_generators
 family: eia860
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One generator that can burn more than one fuel, cofire fuels or switch between oil and gas, from Form EIA-860's multifuel
+  schedule (3_5) for data year 2025, sheets Operable, Proposed, Retired and Canceled.
+time: No time column; vintage is the data year (2025). status_date is the first day of the month of operation (operable) or
+  of retirement (retired), empty for the proposed, the canceled and the indefinitely postponed.
+vintage_rule: A snapshot; each run replaces the table whole with the newest final year EIA's page links, so an earlier year
+  is not kept.
 keys:
 - entity_id
 license: public
@@ -41,6 +44,8 @@ columns:
     - eia860_multifuel:10017:GEN8
     - eia860_multifuel:10017:GEN9
   missing_cells: 0
+  particular: eia860_multifuel:<plant code>:<generator id>; EIA-860M's tables name the same generator eia860:<plant code>:<generator
+    id>
 - name: entity_type
   shared: true
   type: text
@@ -48,6 +53,7 @@ columns:
     list:
       generator: 3785
   missing_cells: 0
+  particular: Always generator
 - name: name
   shared: true
   type: text
@@ -60,6 +66,7 @@ columns:
     - A B Brown
     - A L Pierce
   missing_cells: 0
+  particular: The plant's name
 - name: geo
   shared: true
   type: text
@@ -72,18 +79,21 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
+  particular: US-<plant state>
 - name: lat
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3785
+  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
 - name: lon
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3785
+  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
 - name: capacity_mw
   shared: true
   type: number
@@ -92,6 +102,7 @@ columns:
     lowest: 0.2
     highest: 1245.6
   missing_cells: 0
+  particular: EIA's nameplate capacity
 - name: status
   shared: true
   type: text
@@ -104,6 +115,8 @@ columns:
       under_construction: 12
       withdrawn: 29
   missing_cells: 0
+  particular: 'EIA''s code (x_eia_status) as the standard''s word: OP, SB, OA, OS operating; P, L, T, OT planned; U, V, TS
+    under_construction; RE retired; CN withdrawn; IP suspended'
 - name: status_date
   shared: true
   type: date
@@ -112,6 +125,8 @@ columns:
     earliest: '1915-01-01'
     latest: '2025-12-01'
   missing_cells: 103
+  particular: The first day of the month of operation (operable) or of retirement (retired); empty for the proposed, canceled
+    and postponed
 - name: operator
   shared: true
   type: text
@@ -124,6 +139,7 @@ columns:
     - ALLETE, Inc.
     - ARCO Products Co-Watson
   missing_cells: 0
+  particular: The reporting utility's name (EIA's Utility Name)
 - name: source
   shared: true
   type: text
@@ -152,21 +168,22 @@ columns:
     list:
       '2025': 3785
   missing_cells: 0
+  particular: The data year, 2025
 - name: x_plant_code
-  label: null
-  unit: null
+  label: EIA's plant code
+  unit: none
   type: integer
   values:
     distinct: 1064
     lowest: 10
     highest: 69890
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Plant Code
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_generator_id
-  label: null
-  unit: null
+  label: EIA's generator identifier within the plant
+  unit: none
   type: text
   values:
     distinct: 770
@@ -177,12 +194,12 @@ columns:
     - '0004'
     - '0005'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Generator ID
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_state
-  label: null
-  unit: null
+  label: The plant's state, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 51
@@ -193,12 +210,13 @@ columns:
     - AZ
     - CA
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: State
+  documented_by: method eia860_schedules.md
 - name: x_eia_status
-  label: null
-  unit: null
+  label: EIA's status code of the generator, kept as given (OP, SB, OA, OS operating or standby; P, L, T planned; U, V, TS
+    under construction; RE retired; CN canceled; IP indefinitely postponed)
+  unit: none
   type: text
   values:
     list:
@@ -215,12 +233,12 @@ columns:
       U: 7
       V: 5
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Status
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_sheet
-  label: null
-  unit: null
+  label: The sheet of EIA's workbook the row came from (Operable, Proposed, or Retired and Canceled)
+  unit: none
   type: text
   values:
     list:
@@ -228,24 +246,24 @@ columns:
       Proposed: 70
       Retired and Canceled: 868
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia860_schedules.md
 - name: x_utility_id
-  label: null
-  unit: null
+  label: EIA's identifier of the reporting utility, the one responsible for the generator's day-to-day operation
+  unit: none
   type: integer
   values:
     distinct: 733
     lowest: 25
     highest: 67826
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Utility ID
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_county
-  label: null
-  unit: null
+  label: The plant's county as EIA gives it
+  unit: none
   type: text
   values:
     distinct: 564
@@ -256,12 +274,12 @@ columns:
     - Alachua
     - Alameda
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: County
+  documented_by: method eia860_schedules.md
 - name: x_technology
-  label: null
-  unit: null
+  label: EIA's high-level description of the technology the generator uses
+  unit: none
   type: text
   values:
     list:
@@ -280,12 +298,13 @@ columns:
       Petroleum Liquids: 409
       Wood/Wood Waste Biomass: 228
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Technology
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_prime_mover
-  label: null
-  unit: null
+  label: 'EIA''s prime mover code: the engine or turbine that drives the generator (GT combustion turbine, IC internal combustion
+    engine, ST steam turbine, CT and CA combined cycle parts and the others)'
+  unit: none
   type: text
   values:
     list:
@@ -298,12 +317,13 @@ columns:
       OT: 4
       ST: 919
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Prime Mover
+  documented_by: source EIA-860 LayoutY2025.xlsx; connector eia860.py
 - name: x_sector_name
-  label: null
-  unit: null
+  label: 'EIA''s sector of the plant: Electric Utility, IPP (independent power producer), Commercial or Industrial, each CHP
+    (combined heat and power) or Non-CHP'
+  unit: none
   type: text
   values:
     list:
@@ -315,12 +335,13 @@ columns:
       Industrial CHP: 440
       Industrial Non-CHP: 27
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia860_schedules.md; data
 - name: x_sector
-  label: null
-  unit: null
+  label: EIA's sector number of the plant (1 electric utility, 2 and 3 IPP non-CHP and CHP, 4 and 5 commercial, 6 and 7 industrial;
+    x_sector_name gives its words)
+  unit: none
   type: integer
   values:
     list:
@@ -332,36 +353,36 @@ columns:
       '6': 27
       '7': 440
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
 - name: x_summer_capacity_mw
-  label: null
-  unit: null
+  label: EIA's net summer capacity of the generator
+  unit: MW
   type: number
   values:
     distinct: 866
     lowest: 0.1
     highest: 1110.0
   missing_cells: 31
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Summer Capacity (MW)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_winter_capacity_mw
-  label: null
-  unit: null
+  label: EIA's net winter capacity of the generator
+  unit: MW
   type: number
   values:
     distinct: 839
     lowest: 0.1
     highest: 1110.0
   missing_cells: 35
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Winter Capacity (MW)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_operating_month
-  label: null
-  unit: null
+  label: The month the generator began commercial operation (0 in 6 rows, as EIA gives it)
+  unit: none
   type: integer
   values:
     list:
@@ -380,24 +401,25 @@ columns:
       '88': 3
       '9': 216
   missing_cells: 103
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not yet operating (proposed or canceled), or EIA gives none
+  source_name: Operating Month
+  documented_by: source EIA-860 LayoutY2025.xlsx; data
 - name: x_operating_year
-  label: null
-  unit: null
+  label: The year the generator began commercial operation
+  unit: none
   type: integer
   values:
     distinct: 100
     lowest: 1915
     highest: 2025
   missing_cells: 103
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not yet operating (proposed or canceled), or EIA gives none
+  source_name: Operating Year
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_energy_source_1
-  label: null
-  unit: null
+  label: The generator's most predominant energy source, EIA's code (NG natural gas, DFO distillate fuel oil, LFG landfill
+    gas, BIT bituminous coal and the others)
+  unit: none
   type: text
   values:
     list:
@@ -427,12 +449,12 @@ columns:
       WDS: 77
       WH: 2
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Energy Source 1
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; connector eia860.py
 - name: x_energy_source_2
-  label: null
-  unit: null
+  label: The generator's second most predominant energy source, EIA's code
+  unit: none
   type: text
   values:
     distinct: 29
@@ -443,36 +465,36 @@ columns:
     - BLQ
     - DFO
   missing_cells: 40
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No second energy source given
+  source_name: Energy Source 2
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_multiple_fuels
-  label: null
-  unit: null
+  label: Whether the generator can burn multiple fuels, Y or N
+  unit: none
   type: text
   values:
     list:
       N: 64
       Y: 3450
   missing_cells: 271
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Multiple Fuels?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_cofire_fuels
-  label: null
-  unit: null
+  label: Whether the generator can co-fire fuels (burn two at once), Y or N
+  unit: none
   type: text
   values:
     list:
       N: 1598
       Y: 2156
   missing_cells: 31
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Cofire Fuels?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_cofire_energy_source_1
-  label: null
-  unit: null
+  label: A fuel the generator co-fires, EIA's energy source code (the first of up to six)
+  unit: none
   type: text
   values:
     list:
@@ -500,12 +522,12 @@ columns:
       WDL: 4
       WDS: 88
   missing_cells: 1623
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No co-fired fuel given
+  source_name: Cofire Energy Source 1
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_cofire_energy_source_2
-  label: null
-  unit: null
+  label: A second co-fired fuel, EIA's energy source code
+  unit: none
   type: text
   values:
     list:
@@ -530,12 +552,12 @@ columns:
       WDS: 67
       WO: 7
   missing_cells: 1640
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No second co-fired fuel
+  source_name: Cofire Energy Source 2
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_cofire_energy_source_3
-  label: null
-  unit: null
+  label: A third co-fired fuel, EIA's energy source code
+  unit: none
   type: text
   values:
     list:
@@ -559,12 +581,12 @@ columns:
       WDS: 55
       WO: 7
   missing_cells: 3457
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No third co-fired fuel
+  source_name: Cofire Energy Source 3
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_cofire_energy_source_4
-  label: null
-  unit: null
+  label: A fourth co-fired fuel, EIA's energy source code
+  unit: none
   type: text
   values:
     list:
@@ -587,12 +609,12 @@ columns:
       WDS: 38
       WO: 10
   missing_cells: 3611
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No fourth co-fired fuel
+  source_name: Cofire Energy Source 4
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_cofire_energy_source_5
-  label: null
-  unit: null
+  label: A fifth co-fired fuel, EIA's energy source code
+  unit: none
   type: text
   values:
     list:
@@ -612,12 +634,12 @@ columns:
       WDS: 13
       WO: 5
   missing_cells: 3703
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No fifth co-fired fuel
+  source_name: Cofire Energy Source 5
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_cofire_energy_source_6
-  label: null
-  unit: null
+  label: A sixth co-fired fuel, EIA's energy source code
+  unit: none
   type: text
   values:
     list:
@@ -635,12 +657,12 @@ columns:
       WDS: 1
       WO: 1
   missing_cells: 3747
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No sixth co-fired fuel
+  source_name: Cofire Energy Source 6
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_switch_between_oil_and_natural_gas
-  label: null
-  unit: null
+  label: Whether the generator can switch between oil and natural gas, Y or N (one U, as EIA gives it)
+  unit: none
   type: text
   values:
     list:
@@ -648,72 +670,73 @@ columns:
       U: 1
       Y: 2453
   missing_cells: 145
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Switch Between Oil and Natural Gas?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
 - name: x_switch_when_operating
-  label: null
-  unit: null
+  label: Whether the fuel-switching generator can switch while operating, Y or N
+  unit: none
   type: text
   values:
     list:
       N: 304
       Y: 2083
   missing_cells: 1398
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none (mostly generators that do not switch)
+  source_name: Switch When Operating?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_net_summer_capacity_with_natural_gas_mw
-  label: null
-  unit: null
+  label: The maximum net summer output when running on natural gas
+  unit: MW
   type: number
   values:
     distinct: 656
     lowest: 0.0
     highest: 987.3
   missing_cells: 1434
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Net Summer Capacity with Natural Gas (MW)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_net_winter_capacity_with_natural_gas_mw
-  label: null
-  unit: null
+  label: The maximum net winter output when running on natural gas
+  unit: MW
   type: number
   values:
     distinct: 598
     lowest: 0.0
     highest: 968.3
   missing_cells: 1613
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Net Winter Capacity with Natural Gas (MW)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_net_summer_capacity_with_oil_mw
-  label: null
-  unit: null
+  label: The maximum net summer output when running on oil
+  unit: MW
   type: number
   values:
     distinct: 616
     lowest: 0.0
     highest: 987.3
   missing_cells: 1438
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Net Summer Capacity with Oil (MW)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_net_winter_capacity_with_oil_mw
-  label: null
-  unit: null
+  label: The maximum net winter output when running on oil
+  unit: MW
   type: number
   values:
     distinct: 580
     lowest: 0.0
     highest: 968.3
   missing_cells: 1616
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Net Winter Capacity with Oil (MW)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_time_to_switch_from_gas_to_oil
-  label: null
-  unit: null
+  label: 'The time to switch from 100 percent natural gas to 100 percent oil: 1H up to 1 hour, 6H 1 to 6 hours, 24H 6 to 24
+    hours, 72H 24 to 72 hours, OVER over 72 hours, UNK unknown'
+  unit: none
   type: text
   values:
     list:
@@ -724,12 +747,12 @@ columns:
       OVER: 11
       UNK: 149
   missing_cells: 1544
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Time to Switch From Gas to Oil
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_time_to_switch_from_oil_to_gas
-  label: null
-  unit: null
+  label: The time to switch from 100 percent oil to 100 percent natural gas, in the same codes as x_time_to_switch_from_gas_to_oil
+  unit: none
   type: text
   values:
     list:
@@ -739,57 +762,57 @@ columns:
       72H: 4
       UNK: 143
   missing_cells: 1582
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Time to Switch From Oil to Gas
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_factors_that_limit_switching
-  label: null
-  unit: null
+  label: Whether factors limit the generator's ability to switch between oil and natural gas, Y or N
+  unit: none
   type: text
   values:
     list:
       N: 629
       Y: 1718
   missing_cells: 1438
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Fuel Switching Limiting Factors?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_storage_limits
-  label: null
-  unit: null
+  label: Y when limited on-site fuel storage limits switching between oil and natural gas
+  unit: none
   type: text
   values:
     list:
       Y: 998
   missing_cells: 2787
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA's cell is empty (no N is given)
+  source_name: Storage Limits?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
 - name: x_air_permit_limits
-  label: null
-  unit: null
+  label: Y when air permit limits restrict switching between oil and natural gas
+  unit: none
   type: text
   values:
     list:
       Y: 1297
   missing_cells: 2488
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA's cell is empty (no N is given)
+  source_name: Air Permit Limits?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
 - name: x_other_limits
-  label: null
-  unit: null
+  label: Y when other factors limit switching between oil and natural gas
+  unit: none
   type: text
   values:
     list:
       Y: 193
   missing_cells: 3592
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA's cell is empty (no N is given)
+  source_name: Other Limits?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
 - name: x_current_month
-  label: null
-  unit: null
+  label: A proposed generator's most recently updated planned month of starting operation
+  unit: none
   type: integer
   values:
     list:
@@ -805,12 +828,12 @@ columns:
       '8': 3
       '9': 1
   missing_cells: 3715
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not a proposed generator, or EIA gives none
+  source_name: Current Month
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_current_year
-  label: null
-  unit: null
+  label: A proposed generator's most recently updated planned year of starting operation
+  unit: none
   type: integer
   values:
     list:
@@ -820,12 +843,12 @@ columns:
       '2029': 28
       '2030': 1
   missing_cells: 3715
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not a proposed generator, or EIA gives none
+  source_name: Current Year
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_retirement_month
-  label: null
-  unit: null
+  label: The month the generator retired
+  unit: none
   type: integer
   values:
     list:
@@ -842,19 +865,21 @@ columns:
       '8': 27
       '9': 43
   missing_cells: 2950
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not retired
+  source_name: Retirement Month
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_retirement_year
-  label: null
-  unit: null
+  label: The year the generator retired
+  unit: none
   type: integer
   values:
     distinct: 31
     lowest: 1990
     highest: 2025
   missing_cells: 2950
-  missing_meaning: null
-  source_name: null
-  documented_by: null
-second_look: null
+  missing_meaning: Not retired
+  source_name: Retirement Year
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+second_look:
+- 'x_switch_between_oil_and_natural_gas: one row holds U, a code EIA''s layout does not list (it gives Yes or No).'
+- 'x_operating_month: 6 rows hold 0, not a month; no document explains it.'

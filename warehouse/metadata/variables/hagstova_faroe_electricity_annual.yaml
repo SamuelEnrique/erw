@@ -5,9 +5,10 @@
 table: hagstova_faroe_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: SEV's electricity production from one source, or its sales to one consumer group, in one year, from Statistics Faroe
+  Islands tables UO03020 and UO03030.
+time: ts_utc is the year's 1 January at 00:00:00Z; freq P1Y; 1990 to 2025.
+vintage_rule: Rewritten whole as one snapshot by each run from one JSON-stat query a table; vintage is not filled.
 keys:
 - entity
 - variable
@@ -53,6 +54,7 @@ columns:
       hagstova:fo:transport_communication: 29
       hagstova:fo:wind: 33
   missing_cells: 0
+  particular: hagstova:fo:<source or consumer group>
 - name: variable
   shared: true
   type: text
@@ -96,12 +98,14 @@ columns:
     list:
       FO: 421
   missing_cells: 0
+  particular: FO on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 421
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -124,6 +128,7 @@ columns:
       Transport, mail, and communication: 29
       Wind: 33
   missing_cells: 0
+  particular: The category as Statistics Faroe Islands names it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -153,27 +158,28 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 421
+  particular: 'Not filled: no cell holds a value'
 - name: x_table
-  label: null
-  unit: null
+  label: 'The table''s code: UO03020 (production by source) or UO03030 (sales by consumer group)'
+  unit: none
   type: text
   values:
     list:
       UO03020: 160
       UO03030: 261
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector hagstova_faroe_electricity.py; method hagstova_faroe_electricity_annual.md
 variables:
 - name: generation
-  label: null
+  label: SEV's electricity production from the source in the year (table UO03020)
   unit: MWh
   rows: 160
   first: '1990-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: sales
-  label: null
+  label: SEV's electricity sales to the consumer group in the year (table UO03030)
   unit: MWh
   rows: 261
   first: '1997-01-01T00:00:00Z'

@@ -5,9 +5,12 @@
 table: miso_as_prices
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One hour's MISO-wide day-ahead clearing price of one ancillary service (regulating, spinning or supplemental reserve,
+  generation side).
+time: ts_utc is the start of the hour in UTC; the file's hours are hour-ending in Eastern Standard Time all year; freq PT1H.
+vintage_rule: 'Merged by (entity, variable, ts_utc) (ip.write_csv): a run replaces the rows it reads again and keeps rows
+  from earlier runs; a (product, day) is written only when all 24 hours hold a number; vintage is not filled. MISO pulls are
+  paused since 4 October 2026.'
 keys:
 - entity
 - variable
@@ -36,6 +39,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: One entity, MISO's system-wide row of the file
 - name: variable
   shared: true
   type: text
@@ -72,18 +76,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The states of MISO's footprint, a comma-separated list
 - name: market
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: MISO's day-ahead market on every row
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: MISO's system-wide region as the file names it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -108,21 +115,22 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 54936
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: as_price_dam_reg
-  label: null
+  label: Day-ahead market clearing price of regulating reserve, generation (MISO's GENREGMCP)
   unit: USD/MW-hour
   rows: 18312
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-04T04:00:00Z'
 - name: as_price_dam_spin
-  label: null
+  label: Day-ahead market clearing price of spinning reserve, generation (MISO's GENSPINMCP)
   unit: USD/MW-hour
   rows: 18312
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-04T04:00:00Z'
 - name: as_price_dam_supp
-  label: null
+  label: Day-ahead market clearing price of supplemental reserve, generation (MISO's GENSUPPMCP)
   unit: USD/MW-hour
   rows: 18312
   first: '2024-09-01T05:00:00Z'

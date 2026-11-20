@@ -5,9 +5,13 @@
 table: large_load_rules_internal
 family: large
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One proceeding (a docket) or one order in it on large-load interconnection, large-load tariffs, transmission cost allocation
+  or interconnection reform, at FERC or a state commission whose terms restrict copying or were not read, with the exact sentence
+  that states what it does.
+time: event_date is the date on the document (a date, no time zone).
+vintage_rule: Written from the rows of three research passes (each an AI research agent, 8 October 2026), each proved again
+  by the connector's code and written as a snapshot; the daily refresh (policy_monitor_refresh.py) merges new rows by event_id.
+  Rebuilt from the ERW archive in session 305.
 keys:
 - event_id
 license: internal
@@ -62,12 +66,14 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The date on the document
 - name: event_type
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: regulatory_proceeding (the docket itself) or regulatory_order (an order, rule or decision in it)
 - name: parties
   shared: true
   type: text
@@ -104,6 +110,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The status class (open, decided, closed, not stated)
 - name: source
   shared: true
   type: text
@@ -116,236 +123,243 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The regulator's own document
 - name: regulator
-  label: null
-  unit: null
+  label: The regulator whose docket it is
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: jurisdiction
-  label: null
-  unit: null
+  label: 'The regulator''s jurisdiction: federal for FERC, state for a state commission'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector policy_monitor_refresh.py; connector large_load_rules.py
 - name: state
-  label: null
-  unit: null
+  label: The regulator's state
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 16
-  missing_meaning: null
+  missing_meaning: A federal regulator (FERC)
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: grids
-  label: null
-  unit: null
+  label: The grid operators the row names, joined by ';'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 41
-  missing_meaning: null
+  missing_meaning: The row names no grid
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: docket_number
-  label: null
-  unit: null
+  label: The docket number
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: proceeding_title
-  label: null
-  unit: null
+  label: The proceeding's title
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: row_kind
-  label: null
-  unit: null
+  label: proceeding (the docket itself) or order (an order in it)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: topic
-  label: null
-  unit: null
+  label: The topic of the four (large-load interconnection, large-load tariff, transmission cost allocation, interconnection
+    reform); the collecting pass's reading, or for a new docket the refresh's rule on its title
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_rules.py; connector policy_monitor_refresh.py
 - name: document_title
-  label: null
-  unit: null
+  label: The document's title
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: status_as_worded
-  label: null
-  unit: null
+  label: The regulator's own wording of the status where its page or the document states one
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 35
-  missing_meaning: null
+  missing_meaning: Neither the page nor the document states one
   source_name: null
-  documented_by: null
+  documented_by: header; method datacenter_cost.md
 - name: status_class
-  label: null
-  unit: null
+  label: 'The status class: open, decided, closed or not stated; the collecting pass''s reading of the regulator''s words,
+    or the refresh''s rule'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method datacenter_cost.md
 - name: docket_url
-  label: null
-  unit: null
+  label: The docket's own page, where one answers a plain request
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 41
-  missing_meaning: null
+  missing_meaning: No docket page answers a plain request
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: page
-  label: null
-  unit: null
+  label: The PDF page that holds the sentence, found by the connector
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 16
-  missing_meaning: null
+  missing_meaning: The document is not a paged PDF, or the row comes from a docket list
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_rules.py
 - name: sentence
-  label: null
-  unit: null
+  label: The exact sentence that states what the document does, a literal substring of the saved document's text (for a refresh
+    row, the list's own title line)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_rules.py
 - name: sentence_from
-  label: null
-  unit: null
+  label: What the sentence is cut from (order text, docket card, meeting minutes, agenda, news release, a docket list and
+    others)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method datacenter_cost.md
 - name: sentence_kind
-  label: null
-  unit: null
+  label: document (the document's own text), record (the regulator's own summary or record of it) or docket list (the list's
+    own title line)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: row_flag
-  label: null
-  unit: null
+  label: 'Flags: a docket number not in the row''s own document, a single-customer contract, a draft, a row cut from the docket
+    list'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 67
-  missing_meaning: null
+  missing_meaning: No flag
   source_name: null
-  documented_by: null
+  documented_by: header; method datacenter_cost.md
 - name: text_file
-  label: null
-  unit: null
+  label: The saved text of the document the sentence was proved in, a path under warehouse/raw/ (not in git)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: text_sha256
-  label: null
-  unit: null
+  label: The SHA-256 of that saved text
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: proved_how
-  label: null
-  unit: null
+  label: How the sentence was proved in the saved text
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py; connector policy_monitor_refresh.py
 - name: collected_in
-  label: null
-  unit: null
+  label: Which research pass, or the daily refresh, collected the row
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py; connector policy_monitor_refresh.py
 - name: notes
-  label: null
-  unit: null
+  label: The collecting pass's (or the refresh's) notes on the row
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: terms_url
-  label: null
-  unit: null
+  label: The address of the regulator's terms, where a pass read them
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 44
-  missing_meaning: null
+  missing_meaning: The regulator's terms were not read (terms class not quoted)
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: retrieved_at
   shared: true
   type: utc time

@@ -5,9 +5,10 @@
 table: eru_czech_electricity
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's value of one item of Czechia's electricity balance in the report's year (production by technology, own use,
+  trade, losses, consumption), or one year's gross production by technology, from ERU's annual report on the electricity system.
+time: ts_utc is the month's first day (freq P1M) or the year's first day (freq P1Y, annual_gross_generation only) at 00:00:00Z.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is the report's Last-Modified time.
 keys:
 - entity
 - variable
@@ -40,6 +41,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: eru:cz:<item>, a technology, a voltage level, a consumer category or a total
 - name: variable
   shared: true
   type: text
@@ -70,24 +72,28 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: P1M for the monthly variables, P1Y for annual_gross_generation
 - name: geo
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 702
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: ERU's label of the row, not a pricing node (the same as x_label)
 - name: source
   shared: true
   type: text
@@ -112,79 +118,80 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The report's Last-Modified time as the server sent it
 - name: x_label
-  label: null
-  unit: null
+  label: ERU's label of the row, as printed in the report
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eru_czech_electricity.py; method eru_czech_electricity.md
 variables:
 - name: annual_gross_generation
-  label: null
+  label: Gross electricity production in the year, by technology or in total (table 3.3)
   unit: MWh
   rows: 90
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: balance_difference
-  label: null
+  label: ERU's balance difference
   unit: MWh
   rows: 12
   first: '2025-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: consumption
-  label: null
+  label: Consumption by category, or the gross or net domestic total (the categories overlap)
   unit: MWh
   rows: 120
   first: '2025-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: exports
-  label: null
+  label: Electricity exported, at the transmission or the distribution level (written positive)
   unit: MWh
   rows: 24
   first: '2025-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: gross_generation
-  label: null
+  label: Gross electricity production in the month, by technology or in total (table 3.1)
   unit: MWh
   rows: 108
   first: '2025-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Electricity imported, at the transmission or the distribution level
   unit: MWh
   rows: 24
   first: '2025-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: losses
-  label: null
+  label: Losses, in transmission, in distribution, or in total
   unit: MWh
   rows: 36
   first: '2025-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: net_generation
-  label: null
+  label: Net electricity production
   unit: MWh
   rows: 108
   first: '2025-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: net_imports
-  label: null
+  label: 'ERU''s cross-border balance: import less export (negative a net export)'
   unit: MWh
   rows: 12
   first: '2025-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: own_use_heat
-  label: null
+  label: The plants' own use of electricity for producing heat
   unit: MWh
   rows: 60
   first: '2025-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: own_use_power
-  label: null
+  label: The plants' own use for producing electricity
   unit: MWh
   rows: 108
   first: '2025-01-01T00:00:00Z'

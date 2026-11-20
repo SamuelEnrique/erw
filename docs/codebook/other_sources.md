@@ -2,7 +2,7 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 94 public tables (9 entities, 6 events, 79 series; tiers: 94 source); 46 documented in full.
+**What the family holds.** 94 public tables (9 entities, 6 events, 79 series; tiers: 94 source); 61 documented in full.
 
 - [`abs_suriname_electricity_annual`](#abs_suriname_electricity_annual): One year's value of one Suriname electricity measure (EBS's demand by category, net generation, net consumption or capacity, or a Staatsolie plant's generation), from the statistics office's Environment Statistics Publication.
 - [`aedg_alaska_generation_monthly`](#aedg_alaska_generation_monthly): One Alaska service area's electricity generation from one fuel in one month, from the Alaska Energy Data Gateway.
@@ -44,25 +44,25 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 - [`epe_brazil_consumption_monthly`](#epe_brazil_consumption_monthly): One Brazilian state's electricity consumption or consumers in one market class (captive or free) and sector in one month, from EPE's Statistical Yearbook raw data.
 - [`epra_kenya_electricity_annual`](#epra_kenya_electricity_annual): One fiscal year's value of one Kenyan generation capacity (by grid kind and technology) or electricity consumption (by customer category) measure, from EPRA's Energy and Petroleum Statistics Reports.
 - [`fbos_fiji_electricity_annual`](#fbos_fiji_electricity_annual): Energy Fiji Limited's units produced or sold (in total or to one consumer class) in one year, from the Fiji Bureau of Statistics.
-- [`fema_disaster_declarations`](#fema_disaster_declarations): FEMA, OpenFEMA Disaster Declarations Summaries (v2): each declaration and designated area, declared on or after 2015-01-01 (session 2056)
-- [`fhwa_motor_fuel_monthly`](#fhwa_motor_fuel_monthly): Federal Highway Administration (FHWA), Office of Highway Policy Information, Monthly Motor Fuel: the gallons of gasoline and of special fuels each state reports taxed a month, from DOT's DataHub (session 2035)
+- [`fema_disaster_declarations`](#fema_disaster_declarations): One FEMA disaster declaration for one designated area (a county, a tribal area or a statewide area), declared on or after 2015-01-01, from OpenFEMA.
+- [`fhwa_motor_fuel_monthly`](#fhwa_motor_fuel_monthly): The gallons of gasoline or of special fuels one state reports taxed in one month, from FHWA's Monthly Motor Fuel source data.
 - [`frb_treasury_yields`](#frb_treasury_yields): One US Treasury maturity's market yield at constant maturity for one business day.
-- [`frb_utility_output_monthly`](#frb_utility_output_monthly): the Federal Reserve's G.17, industrial production and capacity utilization of electric and gas utilities, a month (session 889)
-- [`gfz_kp_index_3h`](#gfz_kp_index_3h): GFZ Helmholtz Centre for Geosciences, the planetary geomagnetic index Kp, every three hours from 1932 (session 2135)
-- [`hagstofa_iceland_power_annual`](#hagstofa_iceland_power_annual): Statistics Iceland, table IDN02101, installed capacity and generation in public power plants, 1976 to 2019 (session 2397)
-- [`hagstova_faroe_electricity_annual`](#hagstova_faroe_electricity_annual): Statistics Faroe Islands (Hagstova Foroya), tables UO03020 and UO03030, SEV's electricity production by source and sales by consumer group, 1990 to 2025 (session 2502)
+- [`frb_utility_output_monthly`](#frb_utility_output_monthly): One month's seasonally adjusted industrial production index or capacity utilization of one G.17 series (electric and gas utilities and their parts, with total industry and energy for comparison), from the Federal Reserve's G.17 release.
+- [`gfz_kp_index_3h`](#gfz_kp_index_3h): The planetary geomagnetic index Kp for one three-hour interval, from GFZ's file since 1932.
+- [`hagstofa_iceland_power_annual`](#hagstofa_iceland_power_annual): Iceland's installed capacity or generation in public power plants in one year, from Statistics Iceland's table IDN02101.
+- [`hagstova_faroe_electricity_annual`](#hagstova_faroe_electricity_annual): SEV's electricity production from one source, or its sales to one consumer group, in one year, from Statistics Faroe Islands tables UO03020 and UO03030.
 - [`hifld_transmission_lines`](#hifld_transmission_lines): One electric transmission line of 230 kV and above in HIFLD's Electric Power Transmission Lines layer.
-- [`ieso_generation_fuel_hourly`](#ieso_generation_fuel_hourly): Independent Electricity System Operator (IESO), Ontario, Generator Output by Fuel Type Hourly Report: Ontario's generation by fuel, an hour, 2020 to 2026 (session 2224)
-- [`ieso_ontario_demand_hourly`](#ieso_ontario_demand_hourly): Independent Electricity System Operator (IESO), Hourly Demand Report, Ontario, 2025 to 2026-10-23 (session 2070)
-- [`ilr_luxembourg_electricity`](#ilr_luxembourg_electricity): ILR (Institut Luxembourgeois de Regulation), Luxembourg's electricity sector statistics, 2017 to 2026-06 (session 2392)
+- [`ieso_generation_fuel_hourly`](#ieso_generation_fuel_hourly): Ontario's generation from one fuel (or the IESO's control actions line) in one hour, from the IESO's Generator Output by Fuel Type Hourly Report.
+- [`ieso_ontario_demand_hourly`](#ieso_ontario_demand_hourly): Ontario's demand or market demand in one hour, from the IESO's Hourly Demand Report.
+- [`ilr_luxembourg_electricity`](#ilr_luxembourg_electricity): One month's or year's value of one Luxembourg electricity measure (withdrawals by customer class, generation, capacity, injection, trade, customers, self-consumption), from the regulator ILR's statistics workbook.
 - [`imf_commodity_prices`](#imf_commodity_prices): One commodity's average price for one month, from the IMF's Primary Commodity Price System.
 - [`impact_tax_rules`](#impact_tax_rules): One tax rule the economic impact tool holds (a state's severance tax, fee or option on oil and gas, or a property tax rule for a generating project), or a record that no rule is held, each with its citation.
-- [`ine_es_dwellings_electricity_2021`](#ine_es_dwellings_electricity_2021): INE, Censo de Poblacion y Viviendas 2021, dwellings by intensity of use from their electricity consumption (JAXI tpx 59531), for Spain, its autonomous communities, provinces and municipalities (session 2765)
-- [`irs_soi_energy_credits_annual`](#irs_soi_energy_credits_annual): Internal Revenue Service, Statistics of Income, Historic Table 2 (individual income and tax data by state): the residential energy credits claimed, tax years 2015 to 2023, all incomes (session 2087)
-- [`miso_interconnection_queue`](#miso_interconnection_queue): Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261004T023527Z-local (2026-10-04T02:35:27Z); that run's own header of the table follows
-- [`msha_coal_mines`](#msha_coal_mines): Mine Safety and Health Administration (MSHA), Open Government Data, Mines: every coal mine, its current status, operator, place and type (session 2034)
-- [`msha_coal_production_quarterly`](#msha_coal_production_quarterly): Mine Safety and Health Administration (MSHA), Open Government Data, Quarterly Mine Employment and Production: each coal mine's quarter from 2010, its subunits summed (session 2034)
-- [`ncsi_oman_electricity_annual`](#ncsi_oman_electricity_annual): National Centre for Statistics and Information (NCSI), Oman, Energy Statistics 2026, tables 11 and 12, Oman's electricity by governorate and by source, 2023 to 2025 (session 2504)
+- [`ine_es_dwellings_electricity_2021`](#ine_es_dwellings_electricity_2021): One Spanish area's (nation, autonomous community, province or municipality) count of dwellings in one electricity use band, or its median annual consumption, from INE's 2021 census.
+- [`irs_soi_energy_credits_annual`](#irs_soi_energy_credits_annual): One state's (or the US's, or SOI's other areas') returns claiming, or amount of, one residential energy credit in one tax year, from IRS Statistics of Income Historic Table 2.
+- [`miso_interconnection_queue`](#miso_interconnection_queue): One position in MISO's generator interconnection queue, as held on 30 September 2026 (MISO pulls paused since 4 October 2026).
+- [`msha_coal_mines`](#msha_coal_mines): One US coal mine in MSHA's Mines data set, with its current status, operator, place and type.
+- [`msha_coal_production_quarterly`](#msha_coal_production_quarterly): One coal mine's production, employee hours or average employees in one calendar quarter, its subunits summed, from MSHA's Quarterly Mine Employment and Production.
+- [`ncsi_oman_electricity_annual`](#ncsi_oman_electricity_annual): One year's value of Oman's electricity production, distribution or connections by governorate, or production by source, from NCSI's Energy Statistics 2026 tables 11 and 12.
 - [`nhc_hurdat2_track_points`](#nhc_hurdat2_track_points): NOAA National Hurricane Center, HURDAT2 best tracks: the fixes (six-hourly, landfalls and peaks between) of every cyclone in the Atlantic and the Northeast and North Central Pacific from 2000, with the landfalls the files mark (session 2059)
 - [`nlr_atb_electricity_costs`](#nlr_atb_electricity_costs): NLR (formerly NREL) 2025 Electricity Annual Technology Baseline, projected costs by technology and year (session 487)
 - [`ntd_transit_energy_annual`](#ntd_transit_energy_annual): Federal Transit Administration, National Transit Database, fuel and energy used by each agency, mode and type of service, report years 2022 to 2025, 553 agencies (session 2182)
@@ -1819,74 +1819,78 @@ Variables (2):
 
 ### `fema_disaster_declarations`
 
-What a row is: not yet written.
+One FEMA disaster declaration for one designated area (a county, a tribal area or a statewide area), declared on or after 2015-01-01, from OpenFEMA.
 
 Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 2026-11-20: 26199.
 
+- **Time:** event_date is the declaration date; x_incident_begin and x_incident_end are the incident's UTC days.
+- **Revisions:** Rewritten whole as one snapshot by each run from OpenFEMA's CSV; vintage is the file's Last-Modified (empty here: none was given).
 - **Source:** fema:openfema_disaster_declarations_v2 Federal Emergency Management Agency (FEMA), OpenFEMA Dataset: Disaster Declarations Summaries - v2 (https://www.fema.gov/openfema-data-page/disaster-declarations-summaries-v2)
 - **Method note:** [`docs/methods/fema_disaster_declarations.md`](../methods/fema_disaster_declarations.md)
 - **Cite as:** Federal Emergency Management Agency (FEMA). OpenFEMA Dataset: Disaster Declarations Summaries - v2. Via the Energy Research Warehouse (ERW), table `fema_disaster_declarations`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents | none | text | for example fema:DR-4205-MS:28091:99091, fema:DR-4206-CA:06000:72468, fema:DR-4207-VT:50001:99001; more than 5000 distinct | 0 |
+| `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents. Here: fema:<declaration>:<state and county FIPS>:<place code> | none | text | for example fema:DR-4205-MS:28091:99091, fema:DR-4206-CA:06000:72468, fema:DR-4207-VT:50001:99001; more than 5000 distinct | 0 |
 | `event_date` | The date the event happened or was announced (each table's file says which) | none | date | 2015-01-07 to 2026-10-17; 1004 distinct | 0 |
-| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others) | none | text | emergency, fire_management, major_disaster | 0 |
-| `parties` | The parties to the event, as the publisher names them, separated by semicolons | none | text | FEMA | 0 |
-| `entity_ids` | The entity_id values of the things involved, separated by semicolons | none | text | for example US-AK, US-AK;fips:02013, US-AK;fips:02016; 3277 distinct | 0 |
+| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others). Here: major_disaster, emergency or fire_management | none | text | emergency, fire_management, major_disaster | 0 |
+| `parties` | The parties to the event, as the publisher names them, separated by semicolons. Here: FEMA on every row | none | text | FEMA | 0 |
+| `entity_ids` | The entity_id values of the things involved, separated by semicolons. Here: US-<state>, and fips:<state><county> where FEMA names a county | none | text | for example US-AK, US-AK;fips:02013, US-AK;fips:02016; 3277 distinct | 0 |
 | `mw` | The capacity involved, in megawatts | MW | empty | no cell holds a value | 26199 |
 | `price` | The price, in the row's currency per MWh unless the table's file says otherwise | the row's currency per MWh, unless the table's file says otherwise | empty | no cell holds a value | 26199 |
 | `currency` | The currency of the price, as an ISO 4217 code (USD) | none | empty | no cell holds a value | 26199 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | text | closed, open | 0 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: open, or closed where FEMA gives a closeout date | none | text | closed, open | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | fema:openfema_disaster_declarations_v2 | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv | 0 |
-| `x_incident_type` | not yet written |  | text | Biological, Chemical, Coastal Storm, Dam/Levee Break, Earthquake, Fire, Flood, Hurricane, Mud/Landslide, Other, Severe Ice Storm, Severe Storm, Snowstorm, Straight-Line Winds, Tornado, Toxic Substances, Tropical Depression, Tropical Storm, Typhoon, Volcanic Eruption, Winter Storm | 0 |
-| `x_title` | not yet written |  | text | for example 0419 FIRE, 1170 ROAD FIRE, 141ST FIRE; 797 distinct | 0 |
-| `x_state` | not yet written |  | text | for example AK, AL, AR; 56 distinct | 0 |
-| `x_designated_area` | not yet written |  | text | for example Abbeville (County), Absentee Shawnee-Citizens Band of Potawatomi (TJSA), Acadia (Parish); 2902 distinct | 0 |
-| `x_incident_begin` | not yet written |  | date | 2014-04-25 to 2026-10-16; 914 distinct | 0 |
-| `x_incident_end` | not yet written |  | date | 2014-12-06 to 2026-10-15; 898 distinct | 280 |
-| `x_programs` | not yet written |  | text | HM, IH, IH;HM, IH;PA, IH;PA;HM, PA, PA;HM | 0 |
-| `x_disaster_number` | not yet written |  | integer | 3372 to 5679; 1634 distinct | 0 |
-| `x_region` | not yet written |  | integer | 1, 10, 2, 3, 4, 5, 6, 7, 8, 9 | 0 |
-| `x_tribal` | not yet written |  | integer | 0, 1 | 0 |
+| `x_incident_type` | FEMA's incident type (Hurricane, Severe Storm, Flood, Fire, Biological and others) (the source's name: incidentType) | none | text | Biological, Chemical, Coastal Storm, Dam/Levee Break, Earthquake, Fire, Flood, Hurricane, Mud/Landslide, Other, Severe Ice Storm, Severe Storm, Snowstorm, Straight-Line Winds, Tornado, Toxic Substances, Tropical Depression, Tropical Storm, Typhoon, Volcanic Eruption, Winter Storm | 0 |
+| `x_title` | The declaration's title as FEMA writes it (the source's name: declarationTitle) | none | text | for example 0419 FIRE, 1170 ROAD FIRE, 141ST FIRE; 797 distinct | 0 |
+| `x_state` | The state or territory, two-letter code (the source's name: state) | none | text | for example AK, AL, AR; 56 distinct | 0 |
+| `x_designated_area` | The designated area as FEMA writes it (a county, parish, tribal area or statewide) (the source's name: designatedArea) | none | text | for example Abbeville (County), Absentee Shawnee-Citizens Band of Potawatomi (TJSA), Acadia (Parish); 2902 distinct | 0 |
+| `x_incident_begin` | The incident's first day, UTC (the source's name: incidentBeginDate) | none | date | 2014-04-25 to 2026-10-16; 914 distinct | 0 |
+| `x_incident_end` | The incident's last day, UTC (the source's name: incidentEndDate) | none | date | 2014-12-06 to 2026-10-15; 898 distinct | 280: FEMA gives no end date |
+| `x_programs` | The assistance programs declared, joined by ; (IH individuals and households, IA individual assistance, PA public assistance, HM hazard mitigation) | none | text | HM, IH, IH;HM, IH;PA, IH;PA;HM, PA, PA;HM | 0 |
+| `x_disaster_number` | FEMA's disaster number (the source's name: disasterNumber) | none | integer | 3372 to 5679; 1634 distinct | 0 |
+| `x_region` | The FEMA region, 1 to 10 (the source's name: region) | none | integer | 1, 10, 2, 3, 4, 5, 6, 7, 8, 9 | 0 |
+| `x_tribal` | 1 for a tribal request, else 0 (the source's name: tribalRequest) | none | integer | 0, 1 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T19:55:36Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 26199 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 26199 |
 
 ### `fhwa_motor_fuel_monthly`
 
-What a row is: not yet written.
+The gallons of gasoline or of special fuels one state reports taxed in one month, from FHWA's Monthly Motor Fuel source data.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 7998.
 
+- **Time:** ts_utc is the month's first day at 00:00:00Z; freq P1M; from 2020-01.
+- **Revisions:** Rewritten whole as one snapshot by each run from the two files fetched fresh, so FHWA's revisions are taken; vintage is each file's Last-Modified.
 - **Source:** fhwa:monthly_motor_fuel FHWA, Monthly Motor Fuel Report source data, DOT DataHub (https://data.transportation.gov/stories/s/nrec-wf7k)
 - **Method note:** [`docs/methods/fhwa_motor_fuel_monthly.md`](../methods/fhwa_motor_fuel_monthly.md)
 - **Cite as:** U.S. Department of Transportation, Federal Highway Administration (FHWA). Monthly Motor Fuel: Gasoline Volumes Distributed; Special Fuel Volumes Distributed (DOT DataHub). Via the Energy Research Warehouse (ERW), table `fhwa_motor_fuel_monthly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example fhwa_mf:AK, fhwa_mf:AL, fhwa_mf:AR; 52 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: fhwa_mf:<state postal code> | none | text | for example fhwa_mf:AK, fhwa_mf:AL, fhwa_mf:AR; 52 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2020-01-01T00:00:00Z to 2026-05-01T00:00:00Z; 77 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | integer | 663897 to 1325852618; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | gal | 0 |
 | `freq` | How long the interval of the row is | none | text | P1M | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US-AK, US-AL, US-AR; 52 distinct | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 7998 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Alabama, Alaska, Arizona; 52 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state> (50 states, DC, Puerto Rico) | none | text | for example US-AK, US-AL, US-AR; 52 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 7998 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The place as FHWA names it, not a pricing node | none | text | for example Alabama, Alaska, Arizona; 52 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | fhwa:monthly_motor_fuel | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://data.transportation.gov/api/views/5n49-mh85/rows.csv?accessType=DOWNLOAD, https://data.transportation.gov/api/views/5qxh-t94v/rows.csv?accessType=DOWNLOAD | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T19:42:07Z, 2026-10-23T19:42:12Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-09-29T21:01:49Z, 2026-09-29T21:04:18Z | 0 |
-| `x_data_type` | not yet written |  | text | Actual, Estimate, Gas Holiday | 0 |
-| `x_date_modified` | not yet written |  | text | 04/15/2026 12:00:00 AM, 08/14/2026 12:00:00 AM, 09/18/2024 12:00:00 AM, 09/28/2026 12:00:00 AM, 12/14/2023 12:00:00 AM | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The file's Last-Modified (UTC): the gasoline file or the special fuels file | none | utc time | 2026-09-29T21:01:49Z, 2026-09-29T21:04:18Z | 0 |
+| `x_data_type` | The dataset's DATA TYPE: Actual, Estimate or Gas Holiday (Georgia's months its gasoline tax was suspended: the volumes still taxed) (the source's name: DATA TYPE) | none | text | Actual, Estimate, Gas Holiday | 0 |
+| `x_date_modified` | The dataset's DATE MODIFIED as published (the source's name: DATE MODIFIED) | none | text | 04/15/2026 12:00:00 AM, 08/14/2026 12:00:00 AM, 09/18/2024 12:00:00 AM, 09/28/2026 12:00:00 AM, 12/14/2023 12:00:00 AM | 0 |
 
 Variables (2):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `gasoline_volume` |  | gal | 3999 | 2020-01-01T00:00:00Z | 2026-05-01T00:00:00Z |
-| `special_fuel_volume` |  | gal | 3999 | 2020-01-01T00:00:00Z | 2026-05-01T00:00:00Z |
+| `gasoline_volume` | Gallons of gasoline the state reports taxed in the month | gal | 3999 | 2020-01-01T00:00:00Z | 2026-05-01T00:00:00Z |
+| `special_fuel_volume` | Gallons of special fuels the state reports taxed in the month | gal | 3999 | 2020-01-01T00:00:00Z | 2026-05-01T00:00:00Z |
 
 ### `frb_treasury_yields`
 
@@ -1924,138 +1928,146 @@ Variables (1):
 
 ### `frb_utility_output_monthly`
 
-What a row is: not yet written.
+One month's seasonally adjusted industrial production index or capacity utilization of one G.17 series (electric and gas utilities and their parts, with total industry and energy for comparison), from the Federal Reserve's G.17 release.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 15365.
 
+- **Time:** ts_utc is the month's first day at 00:00:00Z; freq P1M.
+- **Revisions:** Rewritten whole as one snapshot by each run: each release revises earlier months, and the table is the release read; vintage is not filled.
 - **Source:** frb:g17 Board of Governors of the Federal Reserve System, G.17 Industrial Production and Capacity Utilization (https://www.federalreserve.gov/releases/g17/)
 - **Method note:** [`docs/methods/frb_utility_output_monthly.md`](../methods/frb_utility_output_monthly.md)
 - **Cite as:** Board of Governors of the Federal Reserve System. G.17 Industrial Production and Capacity Utilization. Via the Energy Research Warehouse (ERW), table `frb_utility_output_monthly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | frb_g17:B50001, frb_g17:B50089, frb_g17:G2211, frb_g17:G22111, frb_g17:G221111A4T8, frb_g17:G22112, frb_g17:G2211A2, frb_g17:G2212, frb_g17:N221111, frb_g17:N221112, frb_g17:N221113, frb_g17:N221114T8, frb_g17:N22112C, frb_g17:N22112M, frb_g17:N22112R, frb_g17:N2212C, frb_g17:N2212M, frb_g17:N2212R, frb_g17:N2212T | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: frb_g17:<G.17 series code> | none | text | frb_g17:B50001, frb_g17:B50089, frb_g17:G2211, frb_g17:G22111, frb_g17:G221111A4T8, frb_g17:G22112, frb_g17:G2211A2, frb_g17:G2212, frb_g17:N221111, frb_g17:N221112, frb_g17:N221113, frb_g17:N221114T8, frb_g17:N22112C, frb_g17:N22112M, frb_g17:N22112R, frb_g17:N2212C, frb_g17:N2212M, frb_g17:N2212R, frb_g17:N2212T | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 1919-01-01T00:00:00Z to 2026-09-01T00:00:00Z; 1293 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 3.3284 to 271.2812; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | index, pct | 0 |
 | `freq` | How long the interval of the row is | none | text | P1M | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 15365 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Commercial and other electricity sales NAICS=22112pt., Commercial and other gas sales NAICS=2212pt., Electric and gas utilities NAICS=2211,2, Electric power generation NAICS=22111, Electric power generation, transmission, and distribution NAICS=2211, Electric power transmission, control, and distribution NAICS=22112, Energy, total, Fossil Fuel electric power generation NAICS=221112, Gas transmission NAICS=2212pt., Hydroelectric power generation NAICS=221111, Hydroelectric, renewables, and other NAICS=221111,4-8, Industrial electricity sales NAICS=22112pt., Industrial gas sales NAICS=2212pt., Natural gas distribution NAICS=2212, Nuclear electric power generation NAICS=221113, Renewables and other electric power generation NAICS=221114-8, Residential electricity sales NAICS=22112pt., Residential gas sales NAICS=2212pt., Total index | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US on every row | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 15365 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The series' title with its NAICS code, not a pricing node | none | text | Commercial and other electricity sales NAICS=22112pt., Commercial and other gas sales NAICS=2212pt., Electric and gas utilities NAICS=2211,2, Electric power generation NAICS=22111, Electric power generation, transmission, and distribution NAICS=2211, Electric power transmission, control, and distribution NAICS=22112, Energy, total, Fossil Fuel electric power generation NAICS=221112, Gas transmission NAICS=2212pt., Hydroelectric power generation NAICS=221111, Hydroelectric, renewables, and other NAICS=221111,4-8, Industrial electricity sales NAICS=22112pt., Industrial gas sales NAICS=2212pt., Natural gas distribution NAICS=2212, Nuclear electric power generation NAICS=221113, Renewables and other electric power generation NAICS=221114-8, Residential electricity sales NAICS=22112pt., Residential gas sales NAICS=2212pt., Total index | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | frb:g17 | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.federalreserve.gov/releases/g17/ipdisk/ip_sa.txt, https://www.federalreserve.gov/releases/g17/ipdisk/utl_sa.txt | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T05:15:17Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 15365 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 15365 |
 
 Variables (2):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `production` |  | index | 12497 | 1919-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `utilization` |  | pct | 2868 | 1967-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `production` | Industrial production index, seasonally adjusted, 2017 = 100 (never summed) | index | 12497 | 1919-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `utilization` | Capacity utilization, seasonally adjusted, percent of capacity | pct | 2868 | 1967-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
 
 ### `gfz_kp_index_3h`
 
-What a row is: not yet written.
+The planetary geomagnetic index Kp for one three-hour interval, from GFZ's file since 1932.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 277032.
 
+- **Time:** ts_utc is the three-hour interval's start (00, 03, ..., 21 UTC); freq PT3H.
+- **Revisions:** Rewritten whole as one snapshot by each run from GFZ's file; vintage is the file's Last-Modified; x_status marks preliminary intervals.
 - **Source:** gfz:kp_ap_since_1932 GFZ Potsdam, Kp_ap_since_1932.txt,  (listed on (https://kp.gfz-potsdam.de/en/data)
 - **Method note:** [`docs/methods/gfz_kp_index_3h.md`](../methods/gfz_kp_index_3h.md)
 - **Cite as:** GFZ Helmholtz Centre for Geosciences (Potsdam). Geomagnetic Kp index (Kp and ap since 1932). Via the Energy Research Warehouse (ERW), table `gfz_kp_index_3h`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | gfz:kp | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: gfz:kp on every row | none | text | gfz:kp | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 1932-01-01T00:00:00Z to 2026-10-22T21:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 9.0; 28 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | index | 0 |
 | `freq` | How long the interval of the row is | none | text | PT3H | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | empty | no cell holds a value | 277032 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 277032 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | planetary | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: Not filled: a planetary index | none | empty | no cell holds a value | 277032 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 277032 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: planetary on every row, not a pricing node | none | text | planetary | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | gfz:kp_ap_since_1932 | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://kp.gfz-potsdam.de/fileadmin/files_for_gfz_cms/Kp_ap_since_1932.txt | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T23:17:02Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-10-22T23:52:43Z | 0 |
-| `x_ap` | not yet written |  | integer | 0 to 400; 28 distinct | 0 |
-| `x_status` | not yet written |  | text | definitive, preliminary | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The file's Last-Modified (UTC) | none | utc time | 2026-10-22T23:52:43Z | 0 |
+| `x_ap` | The interval's ap, GFZ's equivalent amplitude (unitless; times 2 nT, the disturbance at 50 degrees geomagnetic latitude) | index | integer | 0 to 400; 28 distinct | 0 |
+| `x_status` | definitive or preliminary, GFZ's status of the interval | none | text | definitive, preliminary | 0 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `kp` |  | index | 277032 | 1932-01-01T00:00:00Z | 2026-10-22T21:00:00Z |
+| `kp` | The planetary geomagnetic index Kp in thirds (5- is 4.667, 5o 5.000, 5+ 5.333) | index | 277032 | 1932-01-01T00:00:00Z | 2026-10-22T21:00:00Z |
 
 ### `hagstofa_iceland_power_annual`
 
-What a row is: not yet written.
+Iceland's installed capacity or generation in public power plants in one year, from Statistics Iceland's table IDN02101.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 88.
 
+- **Time:** ts_utc is the year's first day at 00:00:00Z; freq P1Y; 1976 to 2019; capacity at the year's end.
+- **Revisions:** Rewritten whole as one snapshot by each run from one JSON-stat query; vintage is the answer's updated time.
 - **Source:** hagstofa:IDN02101 Statistics Iceland (Hagstofa Islands), from the National Energy Authority (https://px.hagstofa.is/pxen/pxweb/en/Umhverfi/Umhverfi__4_orkumal__2_framleidslaognotkun/)
 - **Method note:** [`docs/methods/hagstofa_iceland_power_annual.md`](../methods/hagstofa_iceland_power_annual.md)
 - **Cite as:** Statistics Iceland (Hagstofa Islands). Table IDN02101: installed capacity and generation in public power plants. Via the Energy Research Warehouse (ERW), table `hagstofa_iceland_power_annual`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | hagstofa:is | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: hagstofa:is on every row | none | text | hagstofa:is | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 1976-01-01T00:00:00Z to 2019-01-01T00:00:00Z; 44 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 502.7 to 19828868.0; 87 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW, MWh | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | IS | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 88 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Annual generation of energy, GWh, Installed capacity at end of period, MW | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: IS on every row | none | text | IS | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 88 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The measure as Statistics Iceland names it, not a pricing node | none | text | Annual generation of energy, GWh, Installed capacity at end of period, MW | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | hagstofa:IDN02101 | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://px.hagstofa.is/pxen/api/v1/en/Umhverfi/4_orkumal/2_framleidslaognotkun/IDN02101.px | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T10:14:30Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2015-12-10T10:41:00Z | 0 |
-| `x_table` | not yet written |  | text | IDN02101 | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The JSON-stat answer's updated time (UTC) | none | utc time | 2015-12-10T10:41:00Z | 0 |
+| `x_table` | Statistics Iceland's table code (IDN02101) | none | text | IDN02101 | 0 |
 
 Variables (2):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `capacity` |  | MW | 44 | 1976-01-01T00:00:00Z | 2019-01-01T00:00:00Z |
-| `generation` |  | MWh | 44 | 1976-01-01T00:00:00Z | 2019-01-01T00:00:00Z |
+| `capacity` | Installed capacity of public power plants at the year's end | MW | 44 | 1976-01-01T00:00:00Z | 2019-01-01T00:00:00Z |
+| `generation` | Annual generation of public power plants (the table's GWh times 1,000) | MWh | 44 | 1976-01-01T00:00:00Z | 2019-01-01T00:00:00Z |
 
 ### `hagstova_faroe_electricity_annual`
 
-What a row is: not yet written.
+SEV's electricity production from one source, or its sales to one consumer group, in one year, from Statistics Faroe Islands tables UO03020 and UO03030.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 421.
 
+- **Time:** ts_utc is the year's 1 January at 00:00:00Z; freq P1Y; 1990 to 2025.
+- **Revisions:** Rewritten whole as one snapshot by each run from one JSON-stat query a table; vintage is not filled.
 - **Source:** hagstova:UO03 Statistics Faroe Islands (Hagstova Foroya) (https://statbank.hagstova.fo/pxweb/en/H2/H2__UO__UO03/)
 - **Method note:** [`docs/methods/hagstova_faroe_electricity_annual.md`](../methods/hagstova_faroe_electricity_annual.md)
 - **Cite as:** Statistics Faroe Islands (Hagstova Foroya). Tables UO03020 (SEV's electricity production by source) and UO03030 (SEV's electricity sales by consumer group). Via the Energy Research Warehouse (ERW), table `hagstova_faroe_electricity_annual`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | hagstova:fo:biogas, hagstova:fo:finance_business_services, hagstova:fo:fisheries_aquaculture, hagstova:fo:households, hagstova:fo:hydro, hagstova:fo:production_construction, hagstova:fo:public_private_services, hagstova:fo:shops_hotels, hagstova:fo:solar, hagstova:fo:street_lights, hagstova:fo:thermal, hagstova:fo:tidal, hagstova:fo:total, hagstova:fo:total_sales, hagstova:fo:transport_communication, hagstova:fo:wind | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: hagstova:fo:<source or consumer group> | none | text | hagstova:fo:biogas, hagstova:fo:finance_business_services, hagstova:fo:fisheries_aquaculture, hagstova:fo:households, hagstova:fo:hydro, hagstova:fo:production_construction, hagstova:fo:public_private_services, hagstova:fo:shops_hotels, hagstova:fo:solar, hagstova:fo:street_lights, hagstova:fo:thermal, hagstova:fo:tidal, hagstova:fo:total, hagstova:fo:total_sales, hagstova:fo:transport_communication, hagstova:fo:wind | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 1990-01-01T00:00:00Z to 2025-01-01T00:00:00Z; 36 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 506249.0; 419 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MWh | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | FO | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 421 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Agric., fish. ind., aquac., ressource comp., Biogas, Finance, insurance a.o. industrial serv., Houses, apts, summer and boat houses, Hydro, Production and construction, Publ. and priv. serv., church., meet. h., etc., Shops, restaurants and hotels, etc., Solar PV, Street lights, Thermal, Tidal energy, Total, Total sale of electricity, Transport, mail, and communication, Wind | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: FO on every row | none | text | FO | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 421 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The category as Statistics Faroe Islands names it, not a pricing node | none | text | Agric., fish. ind., aquac., ressource comp., Biogas, Finance, insurance a.o. industrial serv., Houses, apts, summer and boat houses, Hydro, Production and construction, Publ. and priv. serv., church., meet. h., etc., Shops, restaurants and hotels, etc., Solar PV, Street lights, Thermal, Tidal energy, Total, Total sale of electricity, Transport, mail, and communication, Wind | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | hagstova:UO03 | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://statbank.hagstova.fo/api/v1/en/H2/UO/UO03/ork_elgerd.px, https://statbank.hagstova.fo/api/v1/en/H2/UO/UO03/ork_elsola.px | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T15:23:19Z, 2026-10-24T15:23:23Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 421 |
-| `x_table` | not yet written |  | text | UO03020, UO03030 | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 421 |
+| `x_table` | The table's code: UO03020 (production by source) or UO03030 (sales by consumer group) | none | text | UO03020, UO03030 | 0 |
 
 Variables (2):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `generation` |  | MWh | 160 | 1990-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `sales` |  | MWh | 261 | 1997-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `generation` | SEV's electricity production from the source in the year (table UO03020) | MWh | 160 | 1990-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `sales` | SEV's electricity sales to the consumer group in the year (table UO03030) | MWh | 261 | 1997-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 
 ### `hifld_transmission_lines`
 
@@ -2103,121 +2115,129 @@ Waiting for a second look: x_inferred (HIFLD's INFERRED, Y or N): what it marks 
 
 ### `ieso_generation_fuel_hourly`
 
-What a row is: not yet written.
+Ontario's generation from one fuel (or the IESO's control actions line) in one hour, from the IESO's Generator Output by Fuel Type Hourly Report.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 371781.
 
+- **Time:** ts_utc is the hour's start in UTC (the IESO's hour ending in Eastern Standard Time, all year); freq PT1H.
+- **Revisions:** Rewritten whole as one snapshot by each run from the IESO's yearly files; vintage is each file's CreatedAt in UTC.
 - **Source:** ieso:gen_output_by_fuel_hourly IESO, Generator Output by Fuel Type Hourly Report (https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/)
 - **Method note:** [`docs/methods/ieso_generation_fuel_hourly.md`](../methods/ieso_generation_fuel_hourly.md)
 - **Cite as:** Independent Electricity System Operator (IESO), Ontario. Generator Output by Fuel Type Hourly Report. Via the Energy Research Warehouse (ERW), table `ieso_generation_fuel_hourly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | ieso:ontario | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ieso:ontario on every row | none | text | ieso:ontario | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2020-01-01T05:00:00Z to 2026-10-23T04:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 12208.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MWh | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | CA-ON | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 371781 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | BIOFUEL, CONTROL ACTIONS, GAS, HYDRO, NUCLEAR, OTHER, SOLAR, WIND | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: CA-ON on every row | none | text | CA-ON | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 371781 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The fuel as the IESO names it, not a pricing node | none | text | BIOFUEL, CONTROL ACTIONS, GAS, HYDRO, NUCLEAR, OTHER, SOLAR, WIND | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | ieso:gen_output_by_fuel_hourly | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_2020.xml, https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_2021.xml, https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_2022.xml, https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_2023.xml, https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_2024.xml, https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_2025.xml, https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_2026.xml | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T01:57:52Z, 2026-10-24T01:58:04Z, 2026-10-24T01:58:15Z, 2026-10-24T01:58:25Z, 2026-10-24T01:58:36Z, 2026-10-24T01:58:47Z, 2026-10-24T01:58:57Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2021-01-01T11:50:49Z, 2022-01-01T11:50:44Z, 2023-01-01T11:50:41Z, 2024-01-01T11:50:48Z, 2025-01-01T11:50:47Z, 2026-01-01T11:50:43Z, 2026-10-23T11:50:49Z | 0 |
-| `x_quality` | not yet written |  | integer | -1, -12, -2, -3, -30, -4, -5, -6, -7, -8, 0 | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The year's file's CreatedAt (UTC) | none | utc time | 2021-01-01T11:50:49Z, 2022-01-01T11:50:44Z, 2023-01-01T11:50:41Z, 2024-01-01T11:50:48Z, 2025-01-01T11:50:47Z, 2026-01-01T11:50:43Z, 2026-10-23T11:50:49Z | 0 |
+| `x_quality` | The report's OutputQuality for the value, as published (codes not defined in the repository) (the source's name: OutputQuality) | none | integer | -1, -12, -2, -3, -30, -4, -5, -6, -7, -8, 0 | 0 |
 
 Variables (8):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `control_actions` |  | MWh | 15 | 2026-07-15T14:00:00Z | 2026-07-16T04:00:00Z |
-| `generation_biofuel` |  | MWh | 59688 | 2020-01-01T05:00:00Z | 2026-10-23T04:00:00Z |
-| `generation_gas` |  | MWh | 59688 | 2020-01-01T05:00:00Z | 2026-10-23T04:00:00Z |
-| `generation_hydro` |  | MWh | 59688 | 2020-01-01T05:00:00Z | 2026-10-23T04:00:00Z |
-| `generation_nuclear` |  | MWh | 59688 | 2020-01-01T05:00:00Z | 2026-10-23T04:00:00Z |
-| `generation_other` |  | MWh | 13638 | 2025-04-02T18:00:00Z | 2026-10-23T04:00:00Z |
-| `generation_solar` |  | MWh | 59688 | 2020-01-01T05:00:00Z | 2026-10-23T04:00:00Z |
-| `generation_wind` |  | MWh | 59688 | 2020-01-01T05:00:00Z | 2026-10-23T04:00:00Z |
+| `control_actions` | The IESO's CONTROL ACTIONS line in the hour | MWh | 15 | 2026-07-15T14:00:00Z | 2026-07-16T04:00:00Z |
+| `generation_biofuel` | Biofuel generation in the hour | MWh | 59688 | 2020-01-01T05:00:00Z | 2026-10-23T04:00:00Z |
+| `generation_gas` | Gas generation in the hour | MWh | 59688 | 2020-01-01T05:00:00Z | 2026-10-23T04:00:00Z |
+| `generation_hydro` | Hydro generation in the hour | MWh | 59688 | 2020-01-01T05:00:00Z | 2026-10-23T04:00:00Z |
+| `generation_nuclear` | Nuclear generation in the hour (the report's Output) | MWh | 59688 | 2020-01-01T05:00:00Z | 2026-10-23T04:00:00Z |
+| `generation_other` | Other generation in the hour | MWh | 13638 | 2025-04-02T18:00:00Z | 2026-10-23T04:00:00Z |
+| `generation_solar` | Solar generation in the hour | MWh | 59688 | 2020-01-01T05:00:00Z | 2026-10-23T04:00:00Z |
+| `generation_wind` | Wind generation in the hour | MWh | 59688 | 2020-01-01T05:00:00Z | 2026-10-23T04:00:00Z |
+
+Waiting for a second look: x_quality (the report's OutputQuality): the codes 0 and -1 to -30 are not defined in the repository (the IESO's schema was not read)..
 
 ### `ieso_ontario_demand_hourly`
 
-What a row is: not yet written.
+Ontario's demand or market demand in one hour, from the IESO's Hourly Demand Report.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 31680.
 
+- **Time:** ts_utc is the hour's start in UTC (the IESO's hour ending in Eastern Standard Time all year); freq PT1H.
+- **Revisions:** Merged by (entity, variable, ts_utc): each run's hours replace the same hours and older ones are kept; vintage is the file's creation time.
 - **Source:** ieso:demand Independent Electricity System Operator, Hourly Demand Report (https://reports-public.ieso.ca/public/Demand/)
 - **Method note:** [`docs/methods/ieso_ontario_demand_hourly.md`](../methods/ieso_ontario_demand_hourly.md)
 - **Cite as:** Independent Electricity System Operator (IESO), Ontario. Hourly Demand Report (PUB_Demand). Via the Energy Research Warehouse (ERW), table `ieso_ontario_demand_hourly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | ieso:ontario | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ieso:ontario on every row | none | text | ieso:ontario | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2025-01-01T05:00:00Z to 2026-10-23T05:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 11536.0 to 27678.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | CA-ON | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 31680 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Ontario | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: CA-ON on every row | none | text | CA-ON | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 31680 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Ontario on every row, not a pricing node | none | text | Ontario | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | ieso:demand | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://reports-public.ieso.ca/public/Demand/PUB_Demand_2025.csv, https://reports-public.ieso.ca/public/Demand/PUB_Demand_2026.csv | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T20:04:42Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-01-31T12:30:13Z, 2026-10-23T12:30:09Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The year's file's creation time (UTC) | none | utc time | 2026-01-31T12:30:13Z, 2026-10-23T12:30:09Z | 0 |
 
 Variables (2):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `market_demand` |  | MW | 15840 | 2025-01-01T05:00:00Z | 2026-10-23T05:00:00Z |
-| `ontario_demand` |  | MW | 15840 | 2025-01-01T05:00:00Z | 2026-10-23T05:00:00Z |
+| `market_demand` | Market demand: Ontario demand plus exports | MW | 15840 | 2025-01-01T05:00:00Z | 2026-10-23T05:00:00Z |
+| `ontario_demand` | Ontario demand: the demand of Ontario's consumers | MW | 15840 | 2025-01-01T05:00:00Z | 2026-10-23T05:00:00Z |
 
 ### `ilr_luxembourg_electricity`
 
-What a row is: not yet written.
+One month's or year's value of one Luxembourg electricity measure (withdrawals by customer class, generation, capacity, injection, trade, customers, self-consumption), from the regulator ILR's statistics workbook.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 668.
 
+- **Time:** ts_utc is the month's or the year's first day at 00:00:00Z (customers at 31 December of the year); freq P1M or P1Y.
+- **Revisions:** Rewritten whole as one snapshot by each run from ILR's workbook; vintage is the workbook's last-modified time; the current year's months carry x_status provisional.
 - **Source:** ilr:donnees-statistiques-electricite ILR, Donnees statistiques du secteur d'electricite (Tableau de bord), data.public.lu (https://data.public.lu/fr/datasets/donnees-statistiques-du-secteur-delectricite-ilr/)
 - **Method note:** [`docs/methods/ilr_luxembourg_electricity.md`](../methods/ilr_luxembourg_electricity.md)
 - **Cite as:** Institut Luxembourgeois de Regulation (ILR). Donnees statistiques du secteur d'electricite (data.public.lu). Via the Energy Research Warehouse (ERW), table `ilr_luxembourg_electricity`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | ilr:lu:allemagne, ilr:lu:belgique, ilr:lu:biogaz, ilr:lu:biomasse, ilr:lu:clients_industriels_2gwh_an, ilr:lu:clients_professionnels_2gwh_an, ilr:lu:clients_residentiels, ilr:lu:cogeneration_a_gaz_naturel, ilr:lu:eolienne, ilr:lu:eolienne_nombre_de_pylones, ilr:lu:france, ilr:lu:hydroelectrique, ilr:lu:photovoltaique, ilr:lu:total, ilr:lu:usine_d_incineration | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ilr:lu:<customer class, energy source or neighbour country> | none | text | ilr:lu:allemagne, ilr:lu:belgique, ilr:lu:biogaz, ilr:lu:biomasse, ilr:lu:clients_industriels_2gwh_an, ilr:lu:clients_professionnels_2gwh_an, ilr:lu:clients_residentiels, ilr:lu:cogeneration_a_gaz_naturel, ilr:lu:eolienne, ilr:lu:eolienne_nombre_de_pylones, ilr:lu:france, ilr:lu:hydroelectrique, ilr:lu:photovoltaique, ilr:lu:total, ilr:lu:usine_d_incineration | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2017-01-01T00:00:00Z to 2026-06-01T00:00:00Z; 114 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 4302310.735; 615 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW, MWh, count | 0 |
-| `freq` | How long the interval of the row is | none | text | P1M, P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | LU | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 668 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Allemagne, Belgique, Biogaz, Biomasse, Clients industriels (>2GWh/an), Clients professionnels (≤2GWh/an), Clients résidentiels, Cogénération à gaz naturel, Eolienne, Eolienne (nombre de pylônes), France, Hydroélectrique, Photovoltaïque, Total, Usine d'incinération | 0 |
+| `freq` | How long the interval of the row is. Here: P1M for monthly withdrawals, P1Y for the annual blocks | none | text | P1M, P1Y | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: LU on every row | none | text | LU | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 668 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: ILR's label of the class, source or neighbour, in French, not a pricing node | none | text | Allemagne, Belgique, Biogaz, Biomasse, Clients industriels (>2GWh/an), Clients professionnels (≤2GWh/an), Clients résidentiels, Cogénération à gaz naturel, Eolienne, Eolienne (nombre de pylônes), France, Hydroélectrique, Photovoltaïque, Total, Usine d'incinération | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | ilr:donnees-statistiques-electricite | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://download.data.public.lu/resources/donnees-statistiques-du-secteur-delectricite-ilr/20260901-135330/donnees-statistiques-du-secteur-delectricite.xlsx | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T09:35:06Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-09-01T13:53:32Z | 0 |
-| `x_block` | not yet written |  | text | 1. Electricité prélevée en kWh, 1. Nombre de clients au 31/12, 2. Nombre de raccordement d'installations de production par type, 2. Production nationale en kWh, 2. Puissance installée par source d'énergie en kW, 2. Volume injecté en kWh, 3. Nombre d'autoconsommateurs ou partageurs d'énergie, 3. Puissance installée des autoconsommateurs et groupes de partages en kW, 3. Volume autoconsommée ou partagé en KWh, 3. Volume injecté des autoconsommateurs et partageurs en KWh, 7. Données annuelles: Import - Export en kWh | 0 |
-| `x_status` | not yet written |  | text | provisional | 650 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The workbook's last-modified time (UTC) | none | utc time | 2026-09-01T13:53:32Z | 0 |
+| `x_block` | The sheet's number and the block's title, in French | none | text | 1. Electricité prélevée en kWh, 1. Nombre de clients au 31/12, 2. Nombre de raccordement d'installations de production par type, 2. Production nationale en kWh, 2. Puissance installée par source d'énergie en kW, 2. Volume injecté en kWh, 3. Nombre d'autoconsommateurs ou partageurs d'énergie, 3. Puissance installée des autoconsommateurs et groupes de partages en kW, 3. Volume autoconsommée ou partagé en KWh, 3. Volume injecté des autoconsommateurs et partageurs en KWh, 7. Données annuelles: Import - Export en kWh | 0 |
+| `x_status` | provisional for the current year's months | none | text | provisional | 650: Not provisional |
 
 Variables (12):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `capacity` |  | MW | 32 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `connections` |  | count | 28 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `customers` |  | count | 36 | 2017-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `export` |  | MWh | 27 | 2017-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `generation` |  | MWh | 32 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `import` |  | MWh | 27 | 2017-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `injection` |  | MWh | 32 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `self_consumer_injection` |  | MWh | 26 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `self_consumers` |  | count | 30 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `self_consumption` |  | MWh | 26 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `self_consumption_capacity` |  | MW | 30 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `withdrawal` |  | MWh | 342 | 2017-01-01T00:00:00Z | 2026-06-01T00:00:00Z |
+| `capacity` | Installed capacity of the energy source (kW / 1,000) | MW | 32 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `connections` | Production installations connected, by type | count | 28 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `customers` | Customers of the class at 31 December | count | 36 | 2017-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `export` | Electricity exported to the neighbour country in the year | MWh | 27 | 2017-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `generation` | National production from the energy source | MWh | 32 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `import` | Electricity imported from the neighbour country in the year | MWh | 27 | 2017-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `injection` | Volume injected into the grid from the energy source | MWh | 32 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `self_consumer_injection` | Electricity self-consumers injected into the grid | MWh | 26 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `self_consumers` | Self-consumers | count | 30 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `self_consumption` | Electricity self-consumed | MWh | 26 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `self_consumption_capacity` | Capacity of self-consumers' installations | MW | 30 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `withdrawal` | Electricity withdrawn from the grid by the customer class (kWh / 1,000) | MWh | 342 | 2017-01-01T00:00:00Z | 2026-06-01T00:00:00Z |
 
 ### `imf_commodity_prices`
 
@@ -2305,239 +2325,251 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 
 ### `ine_es_dwellings_electricity_2021`
 
-What a row is: not yet written.
+One Spanish area's (nation, autonomous community, province or municipality) count of dwellings in one electricity use band, or its median annual consumption, from INE's 2021 census.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 58626.
 
+- **Time:** ts_utc is 2021-01-01T00:00:00Z, the 2021 census; freq P1Y.
+- **Revisions:** Rewritten whole as one snapshot by each run from INE's CSV; vintage is the file's Last-Modified.
 - **Source:** ine_es:jaxi_tpx_59531 Instituto Nacional de Estadistica (INE), Censo de Poblacion y Viviendas 2021, Viviendas segun su intensidad de uso (viviendas por intensidad de uso a partir del consumo electrico), data updated 22 November 2024
 - **Method note:** [`docs/methods/ine_es_dwellings_electricity_2021.md`](../methods/ine_es_dwellings_electricity_2021.md)
 - **Cite as:** Instituto Nacional de Estadistica (INE), Spain. Censo de Poblacion y Viviendas 2021: Viviendas segun su intensidad de uso. Via the Energy Research Warehouse (ERW), table `ine_es_dwellings_electricity_2021`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example ine_viv:ccaa_01, ine_viv:ccaa_02, ine_viv:ccaa_03; 3257 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ine_viv:es, ine_viv:ccaa_<code>, ine_viv:prov_<code> or ine_viv:mun_<code>, INE's codes | none | text | for example ine_viv:ccaa_01, ine_viv:ccaa_02, ine_viv:ccaa_03; 3257 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2021-01-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 26623708.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MWh, count | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | ES | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 58626 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example 01 Andalucía: Mediana consumo anual, 01 Andalucía: Viviendas con bajo consumo, 01 Andalucía: Viviendas con consumo entre 1.001 y 2.000 kwh; more than 5000 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: ES on every row, whatever the area | none | text | ES | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 58626 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: INE's area code and name with the measure in Spanish, not a pricing node | none | text | for example 01 Andalucía: Mediana consumo anual, 01 Andalucía: Viviendas con bajo consumo, 01 Andalucía: Viviendas con consumo entre 1.001 y 2.000 kwh; more than 5000 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | ine_es:jaxi_tpx_59531 | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.ine.es/jaxi/files/tpx/es/csv_bdsc/59531.csv | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-25T23:46:30Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-03-02T13:17:24Z | 0 |
-| `x_level` | not yet written |  | text | ccaa, municipality, nation, province | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The CSV's Last-Modified (UTC) | none | utc time | 2026-03-02T13:17:24Z | 0 |
+| `x_level` | The area's level: nation, ccaa (autonomous community or city), province or municipality | none | text | ccaa, municipality, nation, province | 0 |
 
 Variables (18):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `dwellings_1001_2000_kwh` |  | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
-| `dwellings_2001_3000_kwh` |  | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
-| `dwellings_3001_4000_kwh` |  | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
-| `dwellings_4001_5000_kwh` |  | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
-| `dwellings_5001_6000_kwh` |  | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
-| `dwellings_6001_7000_kwh` |  | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
-| `dwellings_7001_8000_kwh` |  | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
-| `dwellings_751_1000_kwh` |  | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
-| `dwellings_8001_9000_kwh` |  | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
-| `dwellings_9001_10000_kwh` |  | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
-| `dwellings_empty` |  | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
-| `dwellings_low_consumption` |  | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
-| `dwellings_occasional_251_500_kwh` |  | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
-| `dwellings_occasional_501_750_kwh` |  | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
-| `dwellings_occasional_use` |  | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
-| `dwellings_over_10000_kwh` |  | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
-| `dwellings_total` |  | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
-| `median_annual_consumption` |  | MWh | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+| `dwellings_1001_2000_kwh` | Dwellings consuming 1,001 to 2,000 kWh a year | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+| `dwellings_2001_3000_kwh` | Dwellings consuming 2,001 to 3,000 kWh a year | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+| `dwellings_3001_4000_kwh` | Dwellings consuming 3,001 to 4,000 kWh a year | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+| `dwellings_4001_5000_kwh` | Dwellings consuming 4,001 to 5,000 kWh a year | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+| `dwellings_5001_6000_kwh` | Dwellings consuming 5,001 to 6,000 kWh a year | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+| `dwellings_6001_7000_kwh` | Dwellings consuming 6,001 to 7,000 kWh a year | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+| `dwellings_7001_8000_kwh` | Dwellings consuming 7,001 to 8,000 kWh a year | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+| `dwellings_751_1000_kwh` | Dwellings consuming 751 to 1,000 kWh a year | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+| `dwellings_8001_9000_kwh` | Dwellings consuming 8,001 to 9,000 kWh a year | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+| `dwellings_9001_10000_kwh` | Dwellings consuming 9,001 to 10,000 kWh a year | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+| `dwellings_empty` | Dwellings classed empty by their electricity consumption | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+| `dwellings_low_consumption` | Dwellings of low electricity consumption | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+| `dwellings_occasional_251_500_kwh` | Dwellings of occasional use, 251 to 500 kWh a year | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+| `dwellings_occasional_501_750_kwh` | Dwellings of occasional use, 501 to 750 kWh a year | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+| `dwellings_occasional_use` | Dwellings of occasional use, both bands | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+| `dwellings_over_10000_kwh` | Dwellings consuming over 10,000 kWh a year | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+| `dwellings_total` | Dwellings, total | count | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+| `median_annual_consumption` | Median annual electricity consumption per dwelling (INE's kWh / 1,000) | MWh | 3257 | 2021-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
 
 ### `irs_soi_energy_credits_annual`
 
-What a row is: not yet written.
+One state's (or the US's, or SOI's other areas') returns claiming, or amount of, one residential energy credit in one tax year, from IRS Statistics of Income Historic Table 2.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1074.
 
+- **Time:** ts_utc is the tax year's first day at 00:00:00Z; freq P1Y; tax years 2015 to 2023.
+- **Revisions:** Rewritten whole as one snapshot by each run from SOI's yearly files; vintage is each file's Last-Modified.
 - **Source:** irs:soi_historic_table_2 Internal Revenue Service, SOI Tax Stats, Historic Table 2 (https://www.irs.gov/statistics/soi-tax-stats-historic-table-2)
 - **Method note:** [`docs/methods/irs_soi_energy_credits_annual.md`](../methods/irs_soi_energy_credits_annual.md)
 - **Cite as:** Internal Revenue Service (IRS), Statistics of Income. SOI Tax Stats: Historic Table 2, individual income and tax data by state. Via the Energy Research Warehouse (ERW), table `irs_soi_energy_credits_annual`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example irs_soi:AK, irs_soi:AL, irs_soi:AR; 54 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: irs_soi:<SOI's state code>; US is SOI's national row, OA its other areas | none | text | for example irs_soi:AK, irs_soi:AL, irs_soi:AR; 54 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2015-01-01T00:00:00Z, 2016-01-01T00:00:00Z, 2017-01-01T00:00:00Z, 2018-01-01T00:00:00Z, 2019-01-01T00:00:00Z, 2020-01-01T00:00:00Z, 2021-01-01T00:00:00Z, 2022-01-01T00:00:00Z, 2023-01-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | integer | 110 to 7983695000; 1047 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | USD, count | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US, US-AK, US-AL; 53 distinct | 20 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 1074 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example AK, AL, AR; 54 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state>, US for the national row, empty for OA (other areas) | none | text | for example US, US-AK, US-AL; 53 distinct | 20 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1074 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: SOI's state code, not a pricing node | none | text | for example AK, AL, AR; 54 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | irs:soi_historic_table_2 | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.irs.gov/pub/irs-soi/15in54cmcsv.csv, https://www.irs.gov/pub/irs-soi/16in54cmcsv.csv, https://www.irs.gov/pub/irs-soi/17in54cmcsv.csv, https://www.irs.gov/pub/irs-soi/18in55cmagi.csv, https://www.irs.gov/pub/irs-soi/19in55cmcsv.csv, https://www.irs.gov/pub/irs-soi/20in55cmcsv.csv, https://www.irs.gov/pub/irs-soi/21in55cmcsv.csv, https://www.irs.gov/pub/irs-soi/22in55cmcsv.csv, https://www.irs.gov/pub/irs-soi/23in55cmcsv.csv | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T21:13:17Z, 2026-10-23T21:13:19Z, 2026-10-23T21:13:21Z, 2026-10-23T21:13:23Z, 2026-10-23T21:14:17Z, 2026-10-23T21:14:19Z, 2026-10-23T21:14:21Z, 2026-10-23T21:14:22Z, 2026-10-23T21:14:24Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 1970-01-01T00:00:00Z, 2019-10-31T02:11:53Z, 2020-09-01T02:12:26Z, 2021-12-08T13:39:13Z, 2022-12-16T23:25:24Z, 2024-02-27T03:11:29Z, 2025-01-16T03:11:43Z, 2025-11-07T08:57:12Z, 2026-08-21T14:12:00Z | 0 |
-| `x_soi_column` | not yet written |  | text | A07260, A07262, A07265, N07260, N07262, N07265 | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The year's file's Last-Modified (UTC; one file gives 1970-01-01, an epoch time) | none | utc time | 1970-01-01T00:00:00Z, 2019-10-31T02:11:53Z, 2020-09-01T02:12:26Z, 2021-12-08T13:39:13Z, 2022-12-16T23:25:24Z, 2024-02-27T03:11:29Z, 2025-01-16T03:11:43Z, 2025-11-07T08:57:12Z, 2026-08-21T14:12:00Z | 0 |
+| `x_soi_column` | SOI's column the value is read from (N07260, A07260, N07262, A07262, N07265, A07265: N a count of returns, A an amount) | none | text | A07260, A07262, A07265, N07260, N07262, N07265 | 0 |
 
 Variables (6):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `energy_efficient_home_improvement_credit_amount` |  | USD | 54 | 2023-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
-| `energy_efficient_home_improvement_credit_returns` |  | count | 54 | 2023-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
-| `residential_clean_energy_credit_amount` |  | USD | 54 | 2023-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
-| `residential_clean_energy_credit_returns` |  | count | 54 | 2023-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
-| `residential_energy_credit_amount` |  | USD | 429 | 2015-01-01T00:00:00Z | 2022-01-01T00:00:00Z |
-| `residential_energy_credit_returns` |  | count | 429 | 2015-01-01T00:00:00Z | 2022-01-01T00:00:00Z |
+| `energy_efficient_home_improvement_credit_amount` | Amount of the energy efficient home improvement credit (A07265, 2023) | USD | 54 | 2023-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
+| `energy_efficient_home_improvement_credit_returns` | Returns claiming the energy efficient home improvement credit (N07265, 2023) | count | 54 | 2023-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
+| `residential_clean_energy_credit_amount` | Amount of the residential clean energy credit (A07262, 2023) | USD | 54 | 2023-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
+| `residential_clean_energy_credit_returns` | Returns claiming the residential clean energy credit (N07262, 2023) | count | 54 | 2023-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
+| `residential_energy_credit_amount` | Amount of the residential energy credit (A07260, 2015 to 2022; SOI's thousands of dollars times 1,000) | USD | 429 | 2015-01-01T00:00:00Z | 2022-01-01T00:00:00Z |
+| `residential_energy_credit_returns` | Returns claiming the residential energy credit (N07260, 2015 to 2022) | count | 429 | 2015-01-01T00:00:00Z | 2022-01-01T00:00:00Z |
 
 ### `miso_interconnection_queue`
 
-What a row is: not yet written.
+One position in MISO's generator interconnection queue, as held on 30 September 2026 (MISO pulls paused since 4 October 2026).
 
 Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 2026-11-20: 3881.
 
+- **Time:** No time column; queue_date, proposed_in_service_date and withdrawn_date are the ISO's dates (YYYY-MM-DD); vintage is the snapshot's time.
+- **Revisions:** A snapshot: a run replaces the whole table; MISO pulls are paused, so the table holds the queue as of 30 September 2026, rebuilt from the archive.
 - **Source:** miso:interconnection_queue MISO Generator Interconnection Queue (giqueue API) (https://www.misoenergy.org/api/giqueue/getprojects)
 - **Method note:** [`docs/methods/miso_interconnection_queue.md`](../methods/miso_interconnection_queue.md)
 - **Cite as:** Midcontinent Independent System Operator (MISO). Generator Interconnection Queue (giqueue API) [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)]. Via the Energy Research Warehouse (ERW), table `miso_interconnection_queue`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity_id` | The identifier of the thing, as namespace:native_id | none | text | for example miso_queue:J1000, miso_queue:J1001, miso_queue:J1002; 3881 distinct | 0 |
-| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists) | none | text | project | 0 |
-| `name` | The thing's name, as the publisher writes it | none | empty | no cell holds a value | 3881 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-AK, US-AR, US-IA, US-IL, US-IN, US-KY, US-LA, US-MI, US-MN, US-MO, US-MS, US-MT, US-ND, US-SD, US-TX, US-WI | 211 |
+| `entity_id` | The identifier of the thing, as namespace:native_id. Here: miso_queue:<project number> | none | text | for example miso_queue:J1000, miso_queue:J1001, miso_queue:J1002; 3881 distinct | 0 |
+| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists). Here: project on every row | none | text | project | 0 |
+| `name` | The thing's name, as the publisher writes it. Here: Empty on every row | none | empty | no cell holds a value | 3881 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state> where MISO gives a state, else empty | none | text | US-AK, US-AR, US-IA, US-IL, US-IN, US-KY, US-LA, US-MI, US-MN, US-MO, US-MS, US-MT, US-ND, US-SD, US-TX, US-WI | 211 |
 | `lat` | Latitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 3881 |
 | `lon` | Longitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 3881 |
-| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it | MW | number | 0.0 to 2220.0; 535 distinct | 0 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | text | active, completed, withdrawn | 0 |
-| `status_date` | The date the status took effect, or was reported where the effective date is unknown | none | date | 2017-02-17 to 2026-09-18; 429 distinct | 1755 |
-| `operator` | The operator or owner, as the publisher writes it | none | empty | no cell holds a value | 3881 |
+| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it. Here: The larger of MISO's summer and winter net MW, as gridstatus reads it | MW | number | 0.0 to 2220.0; 535 distinct | 0 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: active (Active, Pending Revision Approval, Pending Transfer), completed (Done, LEGACY: Done) or withdrawn, from iso_status | none | text | active, completed, withdrawn | 0 |
+| `status_date` | The date the status took effect, or was reported where the effective date is unknown. Here: The withdrawn date of a withdrawn row; no completed row has one | none | date | 2017-02-17 to 2026-09-18; 429 distinct | 1755 |
+| `operator` | The operator or owner, as the publisher writes it. Here: Empty on every row | none | empty | no cell holds a value | 3881 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | miso:interconnection_queue | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.misoenergy.org/api/giqueue/getprojects | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-09-30T23:33:22Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-09-30T00:00:00Z | 0 |
-| `queue_id` | not yet written |  | text | for example J1000, J1001, J1002; 3880 distinct | 0 |
-| `county` | not yet written |  | text | for example Acadia, Acadia Parish, Adair; 776 distinct | 175 |
-| `state` | not yet written |  | text | AK, AR, IA, IL, IN, KY, LA, MI, MN, MO, MS, MT, ND, SD, TX, WI | 211 |
-| `poi` | not yet written |  | text | for example "18CAMPBELLW”, “18CAMPBELLB, 08GIBSON (PSI) - 7ALBION   345.0kV, 10CULY13 253500 (F.B. Culley ) - 10AEP_T  353586 (tap between Culley (10CULY13 253500) - Grandview (; 2916 distinct | 157 |
-| `zone` | not yet written |  | empty | no cell holds a value | 3881 |
-| `transmission_owner` | not yet written |  | text | for example AMEREN ILLINOIS, AMEREN MISSOURI, AMEREN TRANSMISSION COMPANY OF ILLINOIS; 94 distinct | 130 |
-| `fuel_technology` | not yet written |  | text | Battery Storage, Biomass, Coal, Combined Cycle, Compressed Air Storage, Diesel, Gas, High Voltage DC, Hybrid, Hydro, Nuclear, Solar, Waste Heat Recovery, Wind | 325 |
-| `iso_status` | not yet written |  | text | Active, Done, LEGACY: Done, Pending Revision Approval, Pending Transfer, Withdrawn | 0 |
-| `queue_date` | not yet written |  | date | 2015-04-15 to 2026-09-09; 619 distinct | 6 |
-| `proposed_in_service_date` | not yet written |  | date | 1990-12-03 to 2030-06-01; 337 distinct | 3259 |
-| `actual_in_service_date` | not yet written |  | empty | no cell holds a value | 3881 |
-| `withdrawn_date` | not yet written |  | date | 2017-02-17 to 2026-09-22; 431 distinct | 1750 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: 2026-09-30T00:00:00Z, a timestamp, where other queues carry a day | none | utc time | 2026-09-30T00:00:00Z | 0 |
+| `queue_id` | MISO's project number of the request (the source's name: Queue ID) | none | text | for example J1000, J1001, J1002; 3880 distinct | 0 |
+| `county` | The county of the project as MISO writes it (the source's name: County) | none | text | for example Acadia, Acadia Parish, Adair; 776 distinct | 175: MISO gives no county |
+| `state` | The state of the project, two-letter code (the source's name: State) | none | text | AK, AR, IA, IL, IN, KY, LA, MI, MN, MO, MS, MT, ND, SD, TX, WI | 211: MISO gives no state |
+| `poi` | The point of interconnection: the substation or line where the project would connect (the source's name: Interconnection Location) | none | text | for example "18CAMPBELLW”, “18CAMPBELLB, 08GIBSON (PSI) - 7ALBION   345.0kV, 10CULY13 253500 (F.B. Culley ) - 10AEP_T  353586 (tap between Culley (10CULY13 253500) - Grandview (; 2916 distinct | 157: MISO gives none |
+| `zone` | The zone of the project (the source's name: Zone) | none | empty | no cell holds a value | 3881: Empty in every row: MISO's queue does not give it |
+| `transmission_owner` | The transmission owner the project connects to, as MISO names it (the source's name: Transmission Owner) | none | text | for example AMEREN ILLINOIS, AMEREN MISSOURI, AMEREN TRANSMISSION COMPANY OF ILLINOIS; 94 distinct | 130: MISO gives none |
+| `fuel_technology` | The project's generation type in MISO's words (Solar, Battery Storage, Wind, Hybrid, Gas and others) (the source's name: Generation Type) | none | text | Battery Storage, Biomass, Coal, Combined Cycle, Compressed Air Storage, Diesel, Gas, High Voltage DC, Hybrid, Hydro, Nuclear, Solar, Waste Heat Recovery, Wind | 325: MISO gives none |
+| `iso_status` | MISO's own status of the request (Active, Pending Revision Approval, Pending Transfer, Done, LEGACY: Done, Withdrawn) (the source's name: Status) | none | text | Active, Done, LEGACY: Done, Pending Revision Approval, Pending Transfer, Withdrawn | 0 |
+| `queue_date` | The date the request entered the queue (the source's name: Queue Date) | none | date | 2015-04-15 to 2026-09-09; 619 distinct | 6: MISO gives no queue date (6 rows) |
+| `proposed_in_service_date` | The date the project proposes to begin operating (the source's name: Proposed Completion Date) | none | date | 1990-12-03 to 2030-06-01; 337 distinct | 3259: MISO gives no proposed date |
+| `actual_in_service_date` | The date the project began operating (the source's name: Actual Completion Date (gridstatus)) | none | empty | no cell holds a value | 3881: Empty in every row: MISO gives no such date |
+| `withdrawn_date` | The date the request was withdrawn (the source's name: Withdrawn Date) | none | date | 2017-02-17 to 2026-09-22; 431 distinct | 1750: Not withdrawn, or withdrawn with no date given |
 
 ### `msha_coal_mines`
 
-What a row is: not yet written.
+One US coal mine in MSHA's Mines data set, with its current status, operator, place and type.
 
 Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 2026-11-20: 35736.
 
+- **Time:** No time column; status_date is the current status date; the table is a snapshot as read on its retrieved_at.
+- **Revisions:** Rewritten whole as one snapshot by each run from MSHA's Mines.zip; vintage is the file's Last-Modified.
 - **Source:** msha:open_government_data Mine Safety and Health Administration (MSHA), U.S. Department of Labor, Open Government Data (https://arlweb.msha.gov/OpenGovernmentData/OGIMSHA.asp)
 - **Method note:** [`docs/methods/msha_coal_mines.md`](../methods/msha_coal_mines.md)
 - **Cite as:** U.S. Department of Labor, Mine Safety and Health Administration (MSHA). Open Government Data: Mines; Quarterly Mine Employment and Production. Via the Energy Research Warehouse (ERW), table `msha_coal_mines`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity_id` | The identifier of the thing, as namespace:native_id | none | text | for example msha_mine:0100114, msha_mine:0100153, msha_mine:0100163; more than 5000 distinct | 0 |
-| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists) | none | text | plant | 0 |
-| `name` | The thing's name, as the publisher writes it | none | text | for example # 1, # 1 Refuse, # 2; more than 5000 distinct | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US-AK, US-AL, US-AR; 33 distinct | 0 |
-| `lat` | Latitude, in decimal degrees (WGS84) | degree | number | 0.000278 to 89.6297; more than 5000 distinct | 11789 |
-| `lon` | Longitude, in decimal degrees (WGS84) | degree | number | -148.966111 to -0.000278; more than 5000 distinct | 11789 |
-| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it | MW | empty | no cell holds a value | 35736 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | text | active, retired, suspended | 0 |
-| `status_date` | The date the status took effect, or was reported where the effective date is unknown | none | date | 1925-01-01 to 2026-10-22; more than 5000 distinct | 0 |
-| `operator` | The operator or owner, as the publisher writes it | none | text | for example 10-Creek Mining Company, 10-Tucky Farms & Stables Inc, 101 Coal Inc.; more than 5000 distinct | 0 |
+| `entity_id` | The identifier of the thing, as namespace:native_id. Here: msha_mine:<MINE_ID>, seven digits (EIA's coal tables drop the leading zero) | none | text | for example msha_mine:0100114, msha_mine:0100153, msha_mine:0100163; more than 5000 distinct | 0 |
+| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists). Here: plant on every row (a mine) | none | text | plant | 0 |
+| `name` | The thing's name, as the publisher writes it. Here: The current mine name | none | text | for example # 1, # 1 Refuse, # 2; more than 5000 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state> | none | text | for example US-AK, US-AL, US-AR; 33 distinct | 0 |
+| `lat` | Latitude, in decimal degrees (WGS84). Here: As MSHA gives it; empty where zero or out of range | degree | number | 0.000278 to 89.6297; more than 5000 distinct | 11789 |
+| `lon` | Longitude, in decimal degrees (WGS84). Here: As MSHA gives it; empty where zero or out of range | degree | number | -148.966111 to -0.000278; more than 5000 distinct | 11789 |
+| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it. Here: Not filled: a mine has no MW | MW | empty | no cell holds a value | 35736 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: active (Active, New Mine), suspended (Temporarily Idled, NonProducing) or retired (Abandoned, Abandoned and Sealed), from MSHA's current status | none | text | active, retired, suspended | 0 |
+| `status_date` | The date the status took effect, or was reported where the effective date is unknown. Here: The current status date | none | date | 1925-01-01 to 2026-10-22; more than 5000 distinct | 0 |
+| `operator` | The operator or owner, as the publisher writes it. Here: The current operator | none | text | for example 10-Creek Mining Company, 10-Tucky Farms & Stables Inc, 101 Coal Inc.; more than 5000 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | msha:open_government_data | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://arlweb.msha.gov/OpenGovernmentData/DataSets/Mines.zip | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T19:29:29Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-10-23T11:58:31Z | 0 |
-| `x_mine_status` | not yet written |  | text | Abandoned, Abandoned and Sealed, Active, New Mine, NonProducing, Temporarily Idled | 0 |
-| `x_mine_type` | not yet written |  | text | Facility, Surface, Underground | 108 |
-| `x_controller` | not yet written |  | text | for example (Donald) Todd  Kiscaden; Scott  Kiscaden, (Harold) Lynn  Keene; Larry  Stinson, (Landon) Keller  Smith; Karl  Singer; more than 5000 distinct | 339 |
-| `x_county_fips` | not yet written |  | integer | 1 to 999; 131 distinct | 0 |
-| `x_county` | not yet written |  | text | for example Accomack, Adams, Albany; 373 distinct | 0 |
-| `x_district` | not yet written |  | text | C03, C04, C05, C07, C08, C09, C10, M2, M3, M5, M6, M7 | 0 |
-| `x_primary_sic` | not yet written |  | text | Coal (Anthracite), Coal (Bituminous), Coal (Lignite) | 114 |
-| `x_employees` | not yet written |  | integer | 0 to 1207; 162 distinct | 12189 |
-| `x_nearest_town` | not yet written |  | text | for example (Near Bishop Tazewell), --Sutton, .Bickmore; 4245 distinct | 11367 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The file's Last-Modified (UTC) | none | utc time | 2026-10-23T11:58:31Z | 0 |
+| `x_mine_status` | MSHA's current mine status in its words (Active, New Mine, Temporarily Idled, NonProducing, Abandoned, Abandoned and Sealed) (the source's name: CURRENT_MINE_STATUS) | none | text | Abandoned, Abandoned and Sealed, Active, New Mine, NonProducing, Temporarily Idled | 0 |
+| `x_mine_type` | MSHA's current mine type: Surface, Underground or Facility (the source's name: CURRENT_MINE_TYPE) | none | text | Facility, Surface, Underground | 108: MSHA leaves it empty |
+| `x_controller` | The current controller's name, as published (the source's name: CURRENT_CONTROLLER_NAME) | none | text | for example (Donald) Todd  Kiscaden; Scott  Kiscaden, (Harold) Lynn  Keene; Larry  Stinson, (Landon) Keller  Smith; Karl  Singer; more than 5000 distinct | 339: MSHA leaves it empty |
+| `x_county_fips` | The county's FIPS code, as published (the source's name: FIPS_CNTY_CD) | none | integer | 1 to 999; 131 distinct | 0 |
+| `x_county` | The county's name, as published (the source's name: FIPS_CNTY_NM) | none | text | for example Accomack, Adams, Albany; 373 distinct | 0 |
+| `x_district` | MSHA's district code, as published (the source's name: DISTRICT) | none | text | C03, C04, C05, C07, C08, C09, C10, M2, M3, M5, M6, M7 | 0 |
+| `x_primary_sic` | The primary SIC (industry) of the mine: Coal (Anthracite), Coal (Bituminous) or Coal (Lignite) (the source's name: PRIMARY_SIC) | none | text | Coal (Anthracite), Coal (Bituminous), Coal (Lignite) | 114: MSHA leaves it empty |
+| `x_employees` | The number of employees, as published (the source's name: NO_EMPLOYEES) | count | integer | 0 to 1207; 162 distinct | 12189: MSHA leaves it empty |
+| `x_nearest_town` | The nearest town, as published (the source's name: NEAREST_TOWN) | none | text | for example (Near Bishop Tazewell), --Sutton, .Bickmore; 4245 distinct | 11367: MSHA leaves it empty |
 
 ### `msha_coal_production_quarterly`
 
-What a row is: not yet written.
+One coal mine's production, employee hours or average employees in one calendar quarter, its subunits summed, from MSHA's Quarterly Mine Employment and Production.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 294323.
 
+- **Time:** ts_utc is the calendar quarter's first day at 00:00:00Z; freq P3M; from 2010.
+- **Revisions:** Rewritten whole as one snapshot by each run from MSHA's file (the newest quarters grow as operators report); vintage is the file's Last-Modified.
 - **Source:** msha:open_government_data Mine Safety and Health Administration (MSHA), U.S. Department of Labor, Open Government Data (https://arlweb.msha.gov/OpenGovernmentData/OGIMSHA.asp)
 - **Method note:** [`docs/methods/msha_coal_mines.md`](../methods/msha_coal_mines.md)
 - **Cite as:** U.S. Department of Labor, Mine Safety and Health Administration (MSHA). Open Government Data: Mines; Quarterly Mine Employment and Production. Via the Energy Research Warehouse (ERW), table `msha_coal_production_quarterly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example msha_mine:0100328, msha_mine:0100329, msha_mine:0100347; 3378 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: msha_mine:<MINE_ID> | none | text | for example msha_mine:0100328, msha_mine:0100329, msha_mine:0100347; 3378 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2010-01-01T00:00:00Z to 2026-04-01T00:00:00Z; 66 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | integer | 0 to 31354008; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | count, short_ton | 0 |
 | `freq` | How long the interval of the row is | none | text | P3M | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US-AK, US-AL, US-AR; 27 distinct | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 294323 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example # 1 Refuse, # 2, # 4; 3130 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state> | none | text | for example US-AK, US-AL, US-AR; 27 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 294323 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The mine's name (the last a quarter's rows give), not a pricing node | none | text | for example # 1 Refuse, # 2, # 4; 3130 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | msha:open_government_data | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://arlweb.msha.gov/OpenGovernmentData/DataSets/MinesProdQuarterly.zip | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T19:29:38Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-10-23T11:58:32Z | 0 |
-| `x_subunits` | not yet written |  | integer | 1, 2, 3, 4 | 0 |
-| `x_production_blank` | not yet written |  | integer | 0, 1, 2, 3 | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The file's Last-Modified (UTC) | none | utc time | 2026-10-23T11:58:32Z | 0 |
+| `x_subunits` | The mine's subunits reported in the quarter and summed | count | integer | 1, 2, 3, 4 | 0 |
+| `x_production_blank` | The subunits whose production MSHA leaves empty in the quarter (the others are summed) | count | integer | 0, 1, 2, 3 | 0 |
 
 Variables (3):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `average_employees` |  | count | 98108 | 2010-01-01T00:00:00Z | 2026-04-01T00:00:00Z |
-| `coal_production` |  | short_ton | 98107 | 2010-01-01T00:00:00Z | 2026-04-01T00:00:00Z |
-| `employee_hours` |  | count | 98108 | 2010-01-01T00:00:00Z | 2026-04-01T00:00:00Z |
+| `average_employees` | The subunits' average employees in the quarter, summed | count | 98108 | 2010-01-01T00:00:00Z | 2026-04-01T00:00:00Z |
+| `coal_production` | Coal produced in the quarter (MSHA's tons, short tons) | short_ton | 98107 | 2010-01-01T00:00:00Z | 2026-04-01T00:00:00Z |
+| `employee_hours` | The hours the operator reports its employees worked in the quarter | count | 98108 | 2010-01-01T00:00:00Z | 2026-04-01T00:00:00Z |
 
 ### `ncsi_oman_electricity_annual`
 
-What a row is: not yet written.
+One year's value of Oman's electricity production, distribution or connections by governorate, or production by source, from NCSI's Energy Statistics 2026 tables 11 and 12.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 126.
 
+- **Time:** ts_utc is the year's 1 January at 00:00:00Z; freq P1Y; 2023 to 2025.
+- **Revisions:** Rewritten whole as one snapshot by each run from the saved bulletin; vintage is the PDF's Last-Modified.
 - **Source:** ncsi:energy_statistics National Centre for Statistics and Information (NCSI), Sultanate of Oman, Energy Statistics 2026 (Fifth Edition, data 2025), tables 11 and 12 (source: Public Services Regulatory Authority)
 - **Method note:** [`docs/methods/ncsi_oman_electricity_annual.md`](../methods/ncsi_oman_electricity_annual.md)
 - **Cite as:** National Centre for Statistics and Information, Oman (NCSI). Energy Statistics 2026 (Fifth Edition, data 2025), tables 11 and 12 (electricity). Via the Energy Research Warehouse (ERW), table `ncsi_oman_electricity_annual`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | ncsi:om:ad_dakhiliyah, ncsi:om:al_batinah_north, ncsi:om:al_batinah_south, ncsi:om:al_buraimi, ncsi:om:al_dhahirah, ncsi:om:al_wusta, ncsi:om:ash_sharqiyah_north, ncsi:om:ash_sharqiyah_south, ncsi:om:dhofar, ncsi:om:diesel, ncsi:om:gas, ncsi:om:musandam, ncsi:om:muscat, ncsi:om:other, ncsi:om:others, ncsi:om:solar, ncsi:om:total, ncsi:om:wind | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ncsi:om:<governorate, others or total; or source> | none | text | ncsi:om:ad_dakhiliyah, ncsi:om:al_batinah_north, ncsi:om:al_batinah_south, ncsi:om:al_buraimi, ncsi:om:al_dhahirah, ncsi:om:al_wusta, ncsi:om:ash_sharqiyah_north, ncsi:om:ash_sharqiyah_south, ncsi:om:dhofar, ncsi:om:diesel, ncsi:om:gas, ncsi:om:musandam, ncsi:om:muscat, ncsi:om:other, ncsi:om:others, ncsi:om:solar, ncsi:om:total, ncsi:om:wind | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2023-01-01T00:00:00Z, 2024-01-01T00:00:00Z, 2025-01-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 50973500.0; 122 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MWh, count | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | OM | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 126 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Ad Dakhliyah, Connections (000), Ad Dakhliyah, Distribution (GWh), Ad Dakhliyah, Production (GWh); 42 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: OM on every row, whatever the governorate | none | text | OM | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 126 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: NCSI's row and column, not a pricing node | none | text | for example Ad Dakhliyah, Connections (000), Ad Dakhliyah, Distribution (GWh), Ad Dakhliyah, Production (GWh); 42 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | ncsi:energy_statistics | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.ncsi.gov.om/uploads/pdfs/energy_statistics_bulletin_2026_1783504139.pdf | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T17:36:17Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-07-08T09:48:59Z | 0 |
-| `x_label` | not yet written |  | text | for example Ad Dakhliyah, Connections (000), Ad Dakhliyah, Distribution (GWh), Ad Dakhliyah, Production (GWh); 42 distinct | 0 |
-| `x_table` | not yet written |  | integer | 11, 12 | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The PDF's Last-Modified (UTC) | none | utc time | 2026-07-08T09:48:59Z | 0 |
+| `x_label` | NCSI's row and column as printed, with the bulletin's unit (the same as node) | none | text | for example Ad Dakhliyah, Connections (000), Ad Dakhliyah, Distribution (GWh), Ad Dakhliyah, Production (GWh); 42 distinct | 0 |
+| `x_table` | The bulletin's table: 11 (by governorate) or 12 (by source) | none | integer | 11, 12 | 0 |
 
 Variables (4):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `connections` | the source's label: Ad Dakhliyah, Connections (000); Al Batinah North, Connections (000); Al Batinah South, Connections (000) | count | 36 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `distribution` | the source's label: Ad Dakhliyah, Distribution (GWh); Al Batinah North, Distribution (GWh); Al Batinah South, Distribution (GWh) | MWh | 36 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `production` | the source's label: Ad Dakhliyah, Production (GWh); Al Batinah North, Production (GWh); Al Batinah South, Production (GWh) | MWh | 36 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `production_by_source` | the source's label: Diesel (TWh); Gas (TWh); Other (TWh) | MWh | 18 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `connections` | Electricity connections in the governorate (table 11, from thousands) | count | 36 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `distribution` | Electricity distributed in the governorate in the year (table 11, from GWh) | MWh | 36 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `production` | Electricity production in the governorate in the year (table 11, from GWh) | MWh | 36 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `production_by_source` | Electricity production from the source in the year (table 12, from TWh to one decimal) | MWh | 18 | 2023-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 
 ### `nhc_hurdat2_track_points`
 

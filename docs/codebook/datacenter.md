@@ -2,12 +2,12 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 4 public tables (4 entities; tiers: 1 derived, 2 model_extracted, 1 source); 3 documented in full.
+**What the family holds.** 4 public tables (4 entities; tiers: 1 derived, 2 model_extracted, 1 source); 4 documented in full.
 
 - [`datacenter_facilities`](#datacenter_facilities): One datacenter facility the ERW knows of, joined from three kinds of source (news stories, the operators' own lists, the ISO interconnection queues) with duplicates removed by operator plus location (the datacenter power tracker, platform tool 4).
 - [`datacenter_operator_sites`](#datacenter_operator_sites): One datacenter site (a region, campus, facility or announced site) on one of nine operators' own public lists (AWS, Microsoft, Google, Meta, Oracle, Digital Realty, Equinix, Vantage, Switch).
 - [`datacenter_projects`](#datacenter_projects): One datacenter facility that scored news stories name (a named site, or a named operator or developer at a stated place), extracted by a model and checked against the stories' words.
-- [`datacenter_queue_positions`](#datacenter_queue_positions): ISO queue positions that name a datacenter or a large load (session 22)
+- [`datacenter_queue_positions`](#datacenter_queue_positions): One ISO interconnection queue position whose name or fuel field names a datacenter or a large load, copied with the queue table's own columns (ERCOT and NYISO rows in this edition).
 
 ### `datacenter_facilities`
 
@@ -172,40 +172,42 @@ Shape: entities. Keys: `entity_id`. License: public; tier: model_extracted. Rows
 
 ### `datacenter_queue_positions`
 
-What a row is: not yet written.
+One ISO interconnection queue position whose name or fuel field names a datacenter or a large load, copied with the queue table's own columns (ERCOT and NYISO rows in this edition).
 
 Shape: entities. Keys: `entity_id`. License: public; tier: derived. Rows read on 2026-11-20: 3.
 
+- **Time:** No time column; the queue tables' dates (queue_date, proposed_in_service_date, withdrawn_date) as the ISOs print them. vintage is the queue table's own (a retrieval date or day).
+- **Revisions:** Rebuilt by each run from the six ISO queue tables; when a queue table is absent, its matched rows are kept from the last datacenter_queue_positions.
 - **Method note:** [`docs/methods/datacenter_facilities.md`](../methods/datacenter_facilities.md)
 - **Cite as:** Electric Reliability Council of Texas (ERCOT); New York Independent System Operator (NYISO). Generation Interconnection Status (GIS) report; NYISO Interconnection Queue. Via the Energy Research Warehouse (ERW), table `datacenter_queue_positions`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity_id` | The identifier of the thing, as namespace:native_id | none | text | ercot_queue:25INR0688, ercot_queue:28INR0499, nyiso_queue:1630 | 0 |
+| `entity_id` | The identifier of the thing, as namespace:native_id. Here: The queue table's own (<iso>_queue:<queue_id>) | none | text | ercot_queue:25INR0688, ercot_queue:28INR0499, nyiso_queue:1630 | 0 |
 | `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists) | none | text | project | 0 |
 | `name` | The thing's name, as the publisher writes it | none | text | Alpha Digital Campus Combined-cycle and Co-located Load, Giga Texas Data Center, Suffern Quarry Data Center | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-NY, US-TX | 0 |
 | `lat` | Latitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 3 |
 | `lon` | Longitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 3 |
-| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it | MW | number | 0.0, 133.0, 58.26 | 0 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | text | active, completed, withdrawn | 0 |
+| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it. Here: The generation or storage the position asks to connect, not the load | MW | number | 0.0, 133.0, 58.26 | 0 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: The queue table's: active, completed or withdrawn, mapped from iso_status | none | text | active, completed, withdrawn | 0 |
 | `status_date` | The date the status took effect, or was reported where the effective date is unknown | none | date | 2023-12-31 | 2 |
 | `operator` | The operator or owner, as the publisher writes it | none | text | Giga Texas Energy, LLC, Orange & Rockland, PowerBridge LLC | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | ercot:interconnection_queue, nyiso:interconnection_queue | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1293955078, https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-09-26T00:06:50Z, 2026-11-05T23:21:53Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | text | 2026-09-26T00:00:00Z, 2026-11-05 | 0 |
-| `queue_id` | not yet written |  | text | 1630, 25INR0688, 28INR0499 | 0 |
-| `county` | not yet written |  | text | Reeves, Rockland, Travis | 0 |
-| `state` | not yet written |  | text | NY, TX | 0 |
-| `poi` | not yet written |  | text | 38044 TNCOWPEN__3 345kV, HORNSBY Substation POIB# 7047   Site will be connected behind the meter at Medium Voltage  24.9 kV with non export controls  GSU TRANSFORMER 80/106/133MVA 345kV DELTA PRIMARY 24.9kV WYE-G SECONDARY Z=XX%, 65DEG C RISE, We anticipate a new substation being built on our site off of a transmission line tower that abuts our property. Additionally, we may need to tie in for redundancy to the Hillburn Area Substation | 0 |
-| `zone` | not yet written |  | text | G | 2 |
-| `transmission_owner` | not yet written |  | text | O&R | 2 |
-| `fuel_technology` | not yet written |  | text | Gas - Combined-Cycle, Other - Battery Energy Storage | 1 |
-| `iso_status` | not yet written |  | text | Active, Completed, Withdrawn | 0 |
-| `queue_date` | not yet written |  | date | 2023-11-03, 2024-08-27, 2026-04-28 | 0 |
-| `proposed_in_service_date` | not yet written |  | date | 2027-08-13, 2027-12-31 | 1 |
-| `actual_in_service_date` | not yet written |  | empty | no cell holds a value | 3 |
-| `withdrawn_date` | not yet written |  | date | 2023-12-31 | 2 |
-| `matched` | not yet written |  | text | Data Center, Digital Campus | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The queue table's own, as text: ERCOT's the retrieval date (YYYY-MM-DD), NYISO's the retrieval day at 00:00:00Z; not a publication date | none | text | 2026-09-26T00:00:00Z, 2026-11-05 | 0 |
+| `queue_id` | The ISO's identifier of the interconnection request (ERCOT's INR number, NYISO's queue number) (the source's name: Queue ID) | none | text | 1630, 25INR0688, 28INR0499 | 0 |
+| `county` | The county of the project as the ISO writes it (the source's name: County) | none | text | Reeves, Rockland, Travis | 0 |
+| `state` | The state of the project as the ISO writes it (the source's name: State) | none | text | NY, TX | 0 |
+| `poi` | The point of interconnection: the substation or line where the project would connect, as the ISO writes it (may run over several lines) (the source's name: Interconnection Location) | none | text | 38044 TNCOWPEN__3 345kV, HORNSBY Substation POIB# 7047   Site will be connected behind the meter at Medium Voltage  24.9 kV with non export controls  GSU TRANSFORMER 80/106/133MVA 345kV DELTA PRIMARY 24.9kV WYE-G SECONDARY Z=XX%, 65DEG C RISE, We anticipate a new substation being built on our site off of a transmission line tower that abuts our property. Additionally, we may need to tie in for redundancy to the Hillburn Area Substation | 0 |
+| `zone` | NYISO's load zone letter of the project (the source's name: Zone) | none | text | G | 2: ERCOT's report gives no zone |
+| `transmission_owner` | The transmission owner the project connects to, as the ISO writes it (the source's name: Transmission Owner) | none | text | O&R | 2: ERCOT's report gives no transmission owner |
+| `fuel_technology` | The project's fuel and technology in the ISO's words (Gas - Combined-Cycle, Other - Battery Energy Storage) (the source's name: Generation Type) | none | text | Gas - Combined-Cycle, Other - Battery Energy Storage | 1: The ISO gives no type |
+| `iso_status` | The ISO's own status of the request (Active, Completed, Withdrawn); for ERCOT, Completed means a signed interconnection agreement, not a plant in operation (the source's name: Status) | none | text | Active, Completed, Withdrawn | 0 |
+| `queue_date` | The date the request entered the queue (the source's name: Queue Date) | none | date | 2023-11-03, 2024-08-27, 2026-04-28 | 0 |
+| `proposed_in_service_date` | The date the project proposes to begin operating (the source's name: Proposed Completion Date) | none | date | 2027-08-13, 2027-12-31 | 1: The ISO gives no proposed date |
+| `actual_in_service_date` | The date the project began operating (the source's name: Actual Completion Date) | none | empty | no cell holds a value | 3: Every row: not in service, or no date given |
+| `withdrawn_date` | The date the request was withdrawn (the source's name: Withdrawn Date) | none | date | 2023-12-31 | 2: Not withdrawn |
+| `matched` | The words of the name or fuel field that matched the datacenter or large-load pattern | none | text | Data Center, Digital Campus | 0 |
 

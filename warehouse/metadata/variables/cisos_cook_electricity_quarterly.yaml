@@ -117,7 +117,7 @@ columns:
   missing_cells: 1049
   particular: 'Not filled: no cell holds a value'
 - name: x_status
-  label: p (provisional) or r (revised), as the quarter's label marks it
+  label: The quarter's provisional or revised mark, as its label gives it
   unit: none
   type: text
   values:

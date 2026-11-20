@@ -5,9 +5,11 @@
 table: erc_mongolia_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's value of one measure of Mongolia's electricity (generation by type, imports, installed capacity by type, or
+  sales by class), for the country or one grid, from ERC's Statistics on Energy Performance.
+time: ts_utc is the year's 1 January at 00:00:00Z; freq P1Y.
+vintage_rule: 'Merged by (entity, variable, ts_utc) (ip.write_csv): a run replaces the rows it reads again and keeps rows
+  from earlier runs; vintage is the document''s Last-Modified time.'
 keys:
 - entity
 - variable
@@ -39,6 +41,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: erc_mn:<country code> for the country, or erc_mn:<grid>
 - name: variable
   shared: true
   type: text
@@ -75,18 +78,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's two-letter ISO 3166-1 code on every row, whatever the grid
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 210
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: ERC's label of the country or grid, not a pricing node
 - name: source
   shared: true
   type: text
@@ -111,93 +117,94 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The document's Last-Modified time as the server sent it
 variables:
 - name: capacity_chp
-  label: null
+  label: Installed capacity of combined heat and power plants
   unit: MW
   rows: 6
   first: '2015-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: capacity_diesel
-  label: null
+  label: Installed capacity of diesel plants
   unit: MW
   rows: 6
   first: '2015-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: capacity_renewable
-  label: null
+  label: Installed capacity of renewable plants
   unit: MW
   rows: 6
   first: '2015-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: capacity_total
-  label: null
+  label: Total installed capacity
   unit: MW
   rows: 6
   first: '2015-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: generation_chp
-  label: null
+  label: Generation of combined heat and power plants
   unit: MWh
   rows: 6
   first: '2015-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: generation_diesel
-  label: null
+  label: Generation of diesel plants
   unit: MWh
   rows: 6
   first: '2015-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: generation_hydro
-  label: null
+  label: Generation from hydro
   unit: MWh
   rows: 6
   first: '2015-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: generation_solar
-  label: null
+  label: Generation from solar
   unit: MWh
   rows: 6
   first: '2015-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: generation_total
-  label: null
+  label: Total generation
   unit: MWh
   rows: 6
   first: '2015-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: generation_wind
-  label: null
+  label: Generation from wind
   unit: MWh
   rows: 6
   first: '2015-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Electricity imported
   unit: MWh
   rows: 6
   first: '2015-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: sales_apartment
-  label: null
+  label: Sales to apartments (ERC's Ap)
   unit: MWh
   rows: 36
   first: '2015-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: sales_entity_industry
-  label: null
+  label: Sales to entities and industry (ERC's E&I)
   unit: MWh
   rows: 36
   first: '2015-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: sales_ger_district
-  label: null
+  label: Sales to ger districts (ERC's GD)
   unit: MWh
   rows: 36
   first: '2015-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: sales_total
-  label: null
+  label: Total sales
   unit: MWh
   rows: 36
   first: '2015-01-01T00:00:00Z'

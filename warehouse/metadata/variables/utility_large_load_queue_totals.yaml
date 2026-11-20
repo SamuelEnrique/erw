@@ -5,9 +5,12 @@
 table: utility_large_load_queue_totals
 family: utility
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One US utility's large-load queue figure as the utility or its regulator prints it (a dated total of requested or committed
+  load, or a count of requests or customers), one row a publisher, from the ERW's research file of 13 November 2026.
+time: No time column; event_date is the first full date the figure's words print, else the day the document was read (x_date_kind
+  says which).
+vintage_rule: Merged by event_id (iso_prices.write_csv), a row of a later run replacing the one with the same event_id and
+  earlier rows kept; no vintage column.
 keys:
 - event_id
 license: public
@@ -44,6 +47,7 @@ columns:
     - llqueue:coops_public_power-01
     - llqueue:coops_public_power-02
   missing_cells: 0
+  particular: llqueue:<row_id>, the research file's row
 - name: event_date
   shared: true
   type: date
@@ -72,6 +76,7 @@ columns:
     list:
       large_load_queue_total: 34
   missing_cells: 0
+  particular: Always large_load_queue_total
 - name: parties
   shared: true
   type: text
@@ -84,6 +89,7 @@ columns:
     - Central Hudson Gas & Electric Corporation
     - City of Ames Electric Services (City of Ames, Iowa)
   missing_cells: 0
+  particular: The utility
 - name: entity_ids
   shared: true
   type: empty
@@ -96,6 +102,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 34
+  particular: 'Not filled: the files print sizes as phrases (x_figure)'
 - name: price
   shared: true
   type: empty
@@ -115,6 +122,7 @@ columns:
     list:
       as printed: 34
   missing_cells: 0
+  particular: Always 'as printed'
 - name: source
   shared: true
   type: text
@@ -134,9 +142,10 @@ columns:
     - https://interchange.puc.texas.gov/Documents/60332_3_1687524.PDF
     - https://psc.ky.gov/order_vault/Orders_2025/202500045_10282025.pdf
   missing_cells: 0
+  particular: The document the figure stands in (the cite's address where it gives one), else the row's source document
 - name: x_row_id
-  label: null
-  unit: null
+  label: The row's identifier in the research file (utilities_2026-11-13.csv), as <group>-<number>
+  unit: none
   type: text
   values:
     distinct: 34
@@ -147,12 +156,12 @@ columns:
     - coops_public_power-01
     - coops_public_power-02
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: row_id
+  documented_by: connector large_load_research.py
 - name: x_group
-  label: null
-  unit: null
+  label: The utility group the research file read the row in (aep, dominion, northeast and the others)
+  unit: none
   type: text
   values:
     list:
@@ -173,12 +182,12 @@ columns:
       tva_southeast: 2
       xcel_plains: 2
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: group
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
 - name: x_utility
-  label: null
-  unit: null
+  label: The utility's name
+  unit: none
   type: text
   values:
     distinct: 34
@@ -189,12 +198,12 @@ columns:
     - Central Hudson Gas & Electric Corporation
     - City of Ames Electric Services (City of Ames, Iowa)
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: utility
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
 - name: x_state
-  label: null
-  unit: null
+  label: The state or states the utility serves, as the research file writes them (a postal code, or a list in words)
+  unit: none
   type: text
   values:
     list:
@@ -219,12 +228,12 @@ columns:
       VA: 2
       WA: 2
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: state
+  documented_by: connector large_load_research.py; data
 - name: x_iso_region
-  label: null
-  unit: null
+  label: 'The ISO or region the utility is in: the ERW''s classification, not a cited value'
+  unit: none
   type: text
   values:
     list:
@@ -246,12 +255,12 @@ columns:
       TEPC balancing authority (WECC, no RTO): 1
       outside an ISO (Seattle City Light balancing authority, Western Interconnection): 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: iso_region
+  documented_by: method large_load_research.md; connector large_load_research.py
 - name: x_figure
-  label: null
-  unit: null
+  label: 'The queue figure in the publisher''s words (a phrase: MW, GW, a count of requests or customers; never summed here)'
+  unit: none
   type: text
   values:
     distinct: 34
@@ -269,12 +278,12 @@ columns:
       design pending the Interconnection Agreement, 1 cancelled); as reported in Appendix B of the DPS report, which prints
       no as-of date
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: queue_size
+  documented_by: header; connector large_load_research.py
 - name: x_figure_cite
-  label: null
-  unit: null
+  label: 'Where the figure is printed: the page and the publisher''s words'
+  unit: none
   type: text
   values:
     distinct: 34
@@ -296,24 +305,24 @@ columns:
       p. 1, Overview: "As of September 2026, there are nearly 14 gigawatts of large load requests in the New York Independent
       System Operator''s (NYISO) interconnection queue, with over 8 gigawatts entering in 2025 alone."'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: queue_size_cite
+  documented_by: header; connector large_load_research.py
 - name: x_date_kind
-  label: null
-  unit: null
+  label: 'Which date event_date is: the figure''s own date, or the date read'
+  unit: none
   type: text
   values:
     list:
       date read: 12
       the figure's own date: 22
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_research.py
 - name: x_source_title
-  label: null
-  unit: null
+  label: The source document's own title
+  unit: none
   type: text
   values:
     distinct: 33
@@ -328,23 +337,23 @@ columns:
       No. 60332, with Attachment A (revised LGS-T tariff)
     - Basin Electric Power Cooperative, prospectus filed under Rule 424(b)(3) (SEC EDGAR, filed 6 May 2026)
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: source_title
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
 - name: x_date_read
-  label: null
-  unit: null
+  label: The day the document was read
+  unit: none
   type: date
   values:
     list:
       '2026-11-13': 34
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: date_read
+  documented_by: connector large_load_research.py; method large_load_research.md
 - name: x_license_basis
-  label: null
-  unit: null
+  label: 'Why the row may be public: the copy or terms the license rests on'
+  unit: none
   type: text
   values:
     distinct: 31
@@ -363,7 +372,7 @@ columns:
       copy holds only the revised sheets), whose terms allow 'personal, noncommercial, and, as applicable, educational purposes
       only'; the ERW's registry licensed that filed tariff book public
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: license_basis
+  documented_by: connector large_load_research.py; source docs/research/large_load/README.md
 second_look: null

@@ -5,9 +5,12 @@
 table: large_load_statements
 family: large
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One figure (a quantity of large load in megawatts, or a duration of waiting) as a utility's, grid operator's or other
+  body's own document states it, with the exact sentence it was read from.
+time: event_date is the document's date (a month or year only, its first day; an undated document, the day it was read, and
+  event_date_basis says so).
+vintage_rule: 'Merged by event_id (a hash of entity, address, sentence, figure and stage words): a statement already held
+  keeps its id; rows come from research passes, each proved again by the connector. No vintage column.'
 keys:
 - event_id
 license: internal
@@ -53,12 +56,14 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: large_load_statement on every row
 - name: parties
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The entity the statement is filed under
 - name: entity_ids
   shared: true
   type: empty
@@ -71,6 +76,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 226
+  particular: The quantity as written, in MW (gigawatts times 1,000); empty for a range or a wait row
 - name: price
   shared: true
   type: empty
@@ -89,6 +95,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 5
+  particular: The stage in the document's own words (the same as stage_as_worded)
 - name: source
   shared: true
   type: text
@@ -101,178 +108,181 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The utility's or operator's own document, or the copy a commission, the SEC or an operator posts
 - name: entity_group
-  label: null
-  unit: null
+  label: The group the entity is counted under (one of the eighty chosen entities, or a body outside them)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_statements.py
 - name: entity
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The utility, operator or other body the statement is about, as its collector named it
 - name: entity_type
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The collecting pass's word for the kind of body (not the standard's entity types)
 - name: parent_company
-  label: null
-  unit: null
+  label: The entity's parent company, as its collector recorded it
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 204
-  missing_meaning: null
+  missing_meaning: The collector recorded none
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_statements.py
 - name: document_title
-  label: null
-  unit: null
+  label: The document's title
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_statements.py
 - name: document_type
-  label: null
-  unit: null
+  label: The document's type (commission filing, earnings presentation, load forecast report, operator report and others)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method large_load_statements.md
 - name: document_date_as_stated
-  label: null
-  unit: null
+  label: The document's date as the document states it (a day, a month or a year)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 20
-  missing_meaning: null
+  missing_meaning: The document prints no date (event_date is the day it was read)
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_statements.py
 - name: page_or_slide
-  label: null
-  unit: null
+  label: The page or slide the collector gives for the figure
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 334
-  missing_meaning: null
+  missing_meaning: The collector gave none
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_statements.py
 - name: quantity_as_written
-  label: null
-  unit: null
+  label: The figure as the document writes it (a megawatt or gigawatt quantity, or a duration)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_statements.py
 - name: mw_low
-  label: null
-  unit: null
+  label: The low end of a megawatt range the document states
+  unit: MW
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 772
-  missing_meaning: null
+  missing_meaning: Not a range
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_statements.py
 - name: mw_high
-  label: null
-  unit: null
+  label: The high end of a megawatt range the document states
+  unit: MW
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 772
-  missing_meaning: null
+  missing_meaning: Not a range
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_statements.py
 - name: stage_as_worded
-  label: null
-  unit: null
+  label: The stage of the load in the document's own words
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 5
-  missing_meaning: null
+  missing_meaning: The document names no stage
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_statements.py
 - name: load_type_as_worded
-  label: null
-  unit: null
+  label: The kind of load in the document's own words
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 1
-  missing_meaning: null
+  missing_meaning: The collector recorded none
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_statements.py
 - name: place_as_worded
-  label: null
-  unit: null
+  label: The place the figure covers, in the document's own words
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 57
-  missing_meaning: null
+  missing_meaning: The collector recorded none
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_statements.py
 - name: time_horizon_as_worded
-  label: null
-  unit: null
+  label: The time horizon of the figure, in the document's own words
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 492
-  missing_meaning: null
+  missing_meaning: The collector recorded none
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_statements.py
 - name: wait_or_lead_time_as_worded
-  label: null
-  unit: null
+  label: A wait or lead time the document states, in its own words
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 572
-  missing_meaning: null
+  missing_meaning: The collector recorded none
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_statements.py
 - name: sentence
-  label: null
-  unit: null
+  label: The exact sentence the figure was read from, a literal substring of the document's extracted text
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method large_load_statements.md
 - name: collected_in
-  label: null
-  unit: null
+  label: The research pass that collected the row (pass and its letter)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_statements.py
 - name: retrieved_at
   shared: true
   type: utc time
@@ -280,143 +290,146 @@ columns:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
 - name: notes
-  label: null
-  unit: null
+  label: The collector's notes on the row
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 2
-  missing_meaning: null
+  missing_meaning: The collector wrote none
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_statements.py
 - name: page
-  label: null
-  unit: null
+  label: The PDF page the sentence is on, found by code in the pass
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 184
-  missing_meaning: null
+  missing_meaning: A web page, or a pilot row with no page found
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_statements.py
 - name: row_kind
-  label: null
-  unit: null
+  label: mw (a quantity of load) or wait (a stated duration of waiting, studying or connecting)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_statements.py; method large_load_statements.md
 - name: stage_class
-  label: null
-  unit: null
+  label: The stage as one of five classes, none (a total, a forecast, not a stage) or not classed; the collecting pass's proposal,
+    beside the document's words
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_statements.py
 - name: stage_class_basis
-  label: null
-  unit: null
+  label: 'What the stage class rests on: the document''s definition of the stage or the stage''s own words'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 102
-  missing_meaning: null
+  missing_meaning: No class was proposed from the words
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_statements.py
 - name: event_date_basis
-  label: null
-  unit: null
+  label: 'What event_date is: the document''s own date, or the day an undated page or document was read'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_statements.py
 - name: terms_url
-  label: null
-  unit: null
+  label: The address of the publisher's terms, as the pass recorded it
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 787
-  missing_meaning: null
+  missing_meaning: The pass recorded none
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_statements.py
 - name: entity_list
-  label: null
-  unit: null
+  label: Whether the entity is one of the eighty chosen in advance or a body outside them
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_statements.py
 - name: source_flag
-  label: null
-  unit: null
+  label: 'Flags: a third party''s copy, a statement about another entity, or an address that holds a filer''s e-mail address'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 725
-  missing_meaning: null
+  missing_meaning: No flag
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_statements.py
 - name: wait_basis
-  label: null
-  unit: null
+  label: 'For a wait row, the reading of the duration: measured, what happened with no duration written, general statement,
+    or expected'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 598
-  missing_meaning: null
+  missing_meaning: A megawatt row
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_statements.py
 - name: load_scope
-  label: null
-  unit: null
+  label: 'For a wait row, what it covers: large loads, or every distribution project and not large loads'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 598
-  missing_meaning: null
+  missing_meaning: A megawatt row
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_statements.py
 - name: wait_counted
-  label: null
-  unit: null
+  label: 'For a wait row, yes, or no and why (a generation or equipment lead time, an approval time, a rate): never counted
+    as a load''s wait'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 598
-  missing_meaning: null
+  missing_meaning: A megawatt row
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_statements.py
 - name: wait_figure
-  label: null
-  unit: null
+  label: 'For a wait row, the distinct wait figure it states: entity, duration as written, stage class and kind of load'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 598
-  missing_meaning: null
+  missing_meaning: A megawatt row
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_statements.py
 - name: wait_figure_holder
-  label: null
-  unit: null
+  label: yes on the row that holds a distinct wait figure first (where the figure is counted)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 627
-  missing_meaning: null
+  missing_meaning: Not the row the figure is counted under, or a megawatt row
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_statements.py
 second_look: null

@@ -5,9 +5,9 @@
 table: hagstofa_iceland_power_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Iceland's installed capacity or generation in public power plants in one year, from Statistics Iceland's table IDN02101.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y; 1976 to 2019; capacity at the year's end.
+vintage_rule: Rewritten whole as one snapshot by each run from one JSON-stat query; vintage is the answer's updated time.
 keys:
 - entity
 - variable
@@ -38,6 +38,7 @@ columns:
     list:
       hagstofa:is: 88
   missing_cells: 0
+  particular: hagstofa:is on every row
 - name: variable
   shared: true
   type: text
@@ -82,12 +83,14 @@ columns:
     list:
       IS: 88
   missing_cells: 0
+  particular: IS on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 88
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -96,6 +99,7 @@ columns:
       Annual generation of energy, GWh: 44
       Installed capacity at end of period, MW: 44
   missing_cells: 0
+  particular: The measure as Statistics Iceland names it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -124,26 +128,27 @@ columns:
     list:
       '2015-12-10T10:41:00Z': 88
   missing_cells: 0
+  particular: The JSON-stat answer's updated time (UTC)
 - name: x_table
-  label: null
-  unit: null
+  label: Statistics Iceland's table code (IDN02101)
+  unit: none
   type: text
   values:
     list:
       IDN02101: 88
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector hagstofa_iceland_electricity.py; method hagstofa_iceland_power_annual.md
 variables:
 - name: capacity
-  label: null
+  label: Installed capacity of public power plants at the year's end
   unit: MW
   rows: 44
   first: '1976-01-01T00:00:00Z'
   last: '2019-01-01T00:00:00Z'
 - name: generation
-  label: null
+  label: Annual generation of public power plants (the table's GWh times 1,000)
   unit: MWh
   rows: 44
   first: '1976-01-01T00:00:00Z'

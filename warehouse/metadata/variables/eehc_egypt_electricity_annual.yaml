@@ -8,8 +8,8 @@ shape: series
 row: One fiscal year's capacity or generation of one kind of Egyptian plant (or the total), or the peak load, from the 'Electricity
   in <year>' table of EEHC's annual reports.
 time: ts_utc is the fiscal year's first day, 1 July, at 00:00:00Z; freq P1Y; x_fiscal_year keeps EEHC's label.
-vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); where two reports give the same key the later
-  report's row is kept; vintage is the report's Last-Modified time.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); a fiscal year two reports give with the same
+  figure is kept once (with different figures the run stops); vintage is the report's Last-Modified time.
 keys:
 - entity
 - variable

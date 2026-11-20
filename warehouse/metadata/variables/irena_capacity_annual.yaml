@@ -5,9 +5,10 @@
 table: irena_capacity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: 'One country''s installed electricity capacity of one technology at one year''s end, from IRENASTAT''s electricity statistics
+  (grid connection: all).'
+time: ts_utc is the year's first day at 00:00:00Z and stands for the capacity at the year's end; freq P1Y.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is not filled.
 keys:
 - entity
 - variable
@@ -38,6 +39,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: irena:<country code as IRENA writes it, ISO alpha-3>
 - name: variable
   shared: true
   type: text
@@ -74,18 +76,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 20662
+  particular: 'Not filled: IRENA''s ISO alpha-3 codes are not the standard''s geo'
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 20662
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -110,151 +115,152 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 20662
+  particular: 'Not filled: no cell holds a value'
 - name: x_technology_code
-  label: null
-  unit: null
+  label: IRENA's code of the technology
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector irena_capacity.py; method irena_capacity_annual.md
 variables:
 - name: capacity_coal
-  label: null
+  label: Installed capacity, coal (IRENA's technology)
   unit: MW
   rows: 609
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_gas_biofuels
-  label: null
+  label: Installed capacity, gas biofuels
   unit: MW
   rows: 1153
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_geothermal_energy
-  label: null
+  label: Installed capacity, geothermal energy
   unit: MW
   rows: 325
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_liquid_biofuels
-  label: null
+  label: Installed capacity, liquid biofuels
   unit: MW
   rows: 244
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_marine_energy
-  label: null
+  label: Installed capacity, marine energy
   unit: MW
   rows: 178
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_mechanical_storage_pumped_hydro
-  label: null
+  label: 'Installed capacity, mechanical storage: pumped hydro'
   unit: MW
   rows: 413
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_mixed_hydropower
-  label: null
+  label: Installed capacity, mixed hydropower
   unit: MW
   rows: 226
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_natural_gas
-  label: null
+  label: Installed capacity, natural gas
   unit: MW
   rows: 898
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_non_renewable_waste
-  label: null
+  label: Installed capacity, non-renewable waste
   unit: MW
   rows: 251
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_nuclear_energy
-  label: null
+  label: Installed capacity, nuclear energy
   unit: MW
   rows: 353
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_offshore_wind_energy
-  label: null
+  label: Installed capacity, offshore wind energy
   unit: MW
   rows: 195
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_oil
-  label: null
+  label: Installed capacity, oil
   unit: MW
   rows: 1893
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_onshore_wind_energy
-  label: null
+  label: Installed capacity, onshore wind energy
   unit: MW
   rows: 1656
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_other_fossil_fuels
-  label: null
+  label: Installed capacity, other fossil fuels
   unit: MW
   rows: 710
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_other_non_renewable_energy
-  label: null
+  label: Installed capacity, other non-renewable energy
   unit: MW
   rows: 480
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_pure_hydropower
-  label: null
+  label: Installed capacity, pure hydropower
   unit: MW
   rows: 11
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_renewable_hydropower
-  label: null
+  label: Installed capacity, renewable hydropower
   unit: MW
   rows: 1785
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_renewable_waste
-  label: null
+  label: Installed capacity, renewable waste
   unit: MW
   rows: 518
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_solar_photovoltaic
-  label: null
+  label: Installed capacity, solar photovoltaic
   unit: MW
   rows: 2385
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_solar_thermal_energy
-  label: null
+  label: Installed capacity, solar thermal energy
   unit: MW
   rows: 205
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_solid_biofuels
-  label: null
+  label: Installed capacity, solid biofuels
   unit: MW
   rows: 1271
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_total_non_renewable
-  label: null
+  label: Installed capacity, IRENA's own total of non-renewable technologies
   unit: MW
   rows: 2463
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_total_renewable
-  label: null
+  label: Installed capacity, IRENA's own total of renewable technologies
   unit: MW
   rows: 2440
   first: '2015-01-01T00:00:00Z'

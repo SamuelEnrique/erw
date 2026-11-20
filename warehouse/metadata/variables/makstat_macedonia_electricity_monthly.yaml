@@ -5,9 +5,10 @@
 table: makstat_macedonia_electricity_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's value of one indicator of North Macedonia's electricity (production by plant, trade, consumption, losses),
+  from MakStat table 125_Ene_Mk_EEmes_ml.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is not filled.
 keys:
 - entity
 - variable
@@ -39,6 +40,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: One entity, the country
 - name: variable
   shared: true
   type: text
@@ -75,18 +77,22 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 3669
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The indicator as MakStat writes it without its leading dots (a gross plant and its net plant share one); not
+    a pricing node
 - name: source
   shared: true
   type: text
@@ -111,139 +117,140 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 3669
+  particular: 'Not filled: no cell holds a value'
 - name: x_code
-  label: null
-  unit: null
+  label: MakStat's code of the indicator (it tells a gross plant and its net plant apart)
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector makstat_macedonia.py; method makstat_macedonia_electricity_monthly.md
 variables:
 - name: available_for_final_consumption
-  label: null
+  label: Electricity available for final consumption
   unit: MWh
   rows: 175
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: distribution_losses
-  label: null
+  label: Distribution losses
   unit: MWh
   rows: 175
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: energy_branch_consumption
-  label: null
+  label: Consumption of the energy branch
   unit: MWh
   rows: 175
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: exports
-  label: null
+  label: Electricity exported
   unit: MWh
   rows: 175
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: final_consumption_households
-  label: null
+  label: Final consumption of households
   unit: MWh
   rows: 175
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: gross_inland_consumption
-  label: null
+  label: MakStat's Gross inland consumption line, which equals imports less exports (net imports under MakStat's name)
   unit: MWh
   rows: 175
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: gross_production_biogas
-  label: null
+  label: Gross production of biogas plants
   unit: MWh
   rows: 172
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: gross_production_chp_and_autoproducer_thermal
-  label: null
+  label: Gross production of combined heat and power and autoproducers' thermal plants
   unit: MWh
   rows: 174
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: gross_production_hydro
-  label: null
+  label: Gross production of hydro plants
   unit: MWh
   rows: 175
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: gross_production_solar
-  label: null
+  label: Gross production of solar plants
   unit: MWh
   rows: 175
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: gross_production_thermal_power_plants
-  label: null
+  label: Gross production of thermal power plants
   unit: MWh
   rows: 175
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: gross_production_total
-  label: null
+  label: Gross production, total
   unit: MWh
   rows: 175
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: gross_production_wind
-  label: null
+  label: Gross production of wind plants
   unit: MWh
   rows: 175
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Electricity imported
   unit: MWh
   rows: 175
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_production_biogas
-  label: null
+  label: Net production of biogas plants
   unit: MWh
   rows: 173
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_production_chp_and_autoproducer_thermal
-  label: null
+  label: Net production of combined heat and power and autoproducers' thermal plants (can be negative)
   unit: MWh
   rows: 175
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_production_hydro
-  label: null
+  label: Net production of hydro plants
   unit: MWh
   rows: 175
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_production_solar
-  label: null
+  label: Net production of solar plants
   unit: MWh
   rows: 175
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_production_thermal_power_plants
-  label: null
+  label: Net production of thermal power plants
   unit: MWh
   rows: 175
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_production_total
-  label: null
+  label: Net production, total
   unit: MWh
   rows: 175
   first: '2012-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_production_wind
-  label: null
+  label: Net production of wind plants
   unit: MWh
   rows: 175
   first: '2012-01-01T00:00:00Z'

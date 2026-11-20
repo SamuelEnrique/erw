@@ -5,9 +5,11 @@
 table: large_load_wait_summary
 family: large
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One figure (a count of requests or a median wait) for one publisher's queue and one interval, summarised from large_load_waits
+  with no request named and no megawatts given.
+time: ts_utc is the publisher's latest dated copy (a date at 00:00:00Z); freq is not filled.
+vintage_rule: Written whole from large_load_waits by each run (the old file is removed first, then a snapshot is written);
+  vintage is not a column.
 keys:
 - entity
 - variable
@@ -40,6 +42,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: llwaitsum:<publisher>:<interval>
 - name: variable
   shared: true
   type: text
@@ -70,6 +73,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 138
+  particular: 'Not filled: no cell holds a value'
 - name: geo
   shared: true
   type: text
@@ -95,98 +99,100 @@ columns:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
 - name: x_publisher
-  label: null
-  unit: null
+  label: The publisher whose queue the figure summarises
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_wait_summary.py
 - name: x_interval
-  label: null
-  unit: null
+  label: The interval summarised (request to energized, request to a stage, and the publisher's other intervals)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_wait_summary.py
 - name: x_days
-  label: null
-  unit: null
+  label: On a median row, the median in whole days
+  unit: day
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 104
-  missing_meaning: null
+  missing_meaning: A count row
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_wait_summary.py
 - name: x_license
-  label: null
-  unit: null
+  label: The publisher's license verdict for derived statistics (public only where its terms allow them)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method large_load_waits.md
 - name: x_terms
-  label: null
-  unit: null
+  label: The words of the publisher's terms the verdict rests on
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method large_load_waits.md
 - name: x_note
-  label: null
-  unit: null
+  label: On a median row, how the median was taken and over how many measured requests
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 104
-  missing_meaning: null
+  missing_meaning: A count row
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_wait_summary.py
 variables:
 - name: lower_bounds
-  label: null
+  label: The requests still waiting, or seen in two copies only (lower bounds, never in a median)
   unit: count
   rows: 26
   first: '2026-07-30T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: measured
-  label: null
+  label: Of those, the ones labelled measured (both ends between dated copies)
   unit: count
   rows: 26
   first: '2026-07-30T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: median_at_least
-  label: null
+  label: Over the measured requests, the median of the shorter end of each range, in months of 30.4375 days (written only
+    where five or more are measured)
   unit: month
   rows: 17
   first: '2026-11-03T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: median_at_most
-  label: null
+  label: Over the measured requests, the median of the longer end of each range, in months of 30.4375 days (written only where
+    five or more are measured)
   unit: month
   rows: 17
   first: '2026-11-03T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: requests
-  label: null
+  label: The requests with a row for the interval
   unit: count
   rows: 26
   first: '2026-07-30T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: upper_bounds
-  label: null
+  label: The requests whose end had come by the first copy that holds them
   unit: count
   rows: 26
   first: '2026-07-30T00:00:00Z'

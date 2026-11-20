@@ -5,9 +5,11 @@
 table: fema_disaster_declarations
 family: other_sources
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One FEMA disaster declaration for one designated area (a county, a tribal area or a statewide area), declared on or after
+  2015-01-01, from OpenFEMA.
+time: event_date is the declaration date; x_incident_begin and x_incident_end are the incident's UTC days.
+vintage_rule: 'Rewritten whole as one snapshot by each run from OpenFEMA''s CSV; vintage is the file''s Last-Modified (empty
+  here: none was given).'
 keys:
 - event_id
 license: public
@@ -43,6 +45,7 @@ columns:
     - fema:DR-4207-VT:50007:99007
     - fema:DR-4207-VT:50009:99009
   missing_cells: 0
+  particular: fema:<declaration>:<state and county FIPS>:<place code>
 - name: event_date
   shared: true
   type: date
@@ -60,6 +63,7 @@ columns:
       fire_management: 779
       major_disaster: 14950
   missing_cells: 0
+  particular: major_disaster, emergency or fire_management
 - name: parties
   shared: true
   type: text
@@ -67,6 +71,7 @@ columns:
     list:
       FEMA: 26199
   missing_cells: 0
+  particular: FEMA on every row
 - name: entity_ids
   shared: true
   type: text
@@ -79,6 +84,7 @@ columns:
     - US-AK;fips:02020
     - US-AK;fips:02050
   missing_cells: 0
+  particular: US-<state>, and fips:<state><county> where FEMA names a county
 - name: mw
   shared: true
   type: empty
@@ -105,6 +111,7 @@ columns:
       closed: 9733
       open: 16466
   missing_cells: 0
+  particular: open, or closed where FEMA gives a closeout date
 - name: source
   shared: true
   type: text
@@ -120,8 +127,8 @@ columns:
       https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv: 26199
   missing_cells: 0
 - name: x_incident_type
-  label: null
-  unit: null
+  label: FEMA's incident type (Hurricane, Severe Storm, Flood, Fire, Biological and others)
+  unit: none
   type: text
   values:
     list:
@@ -147,12 +154,12 @@ columns:
       Volcanic Eruption: 1
       Winter Storm: 1378
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: incidentType
+  documented_by: connector fema_disasters.py; method fema_disaster_declarations.md
 - name: x_title
-  label: null
-  unit: null
+  label: The declaration's title as FEMA writes it
+  unit: none
   type: text
   values:
     distinct: 797
@@ -163,12 +170,12 @@ columns:
     - 1707 ADKINS AVE FIRE
     - 2-7 FIRE
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: declarationTitle
+  documented_by: connector fema_disasters.py; method fema_disaster_declarations.md
 - name: x_state
-  label: null
-  unit: null
+  label: The state or territory, two-letter code
+  unit: none
   type: text
   values:
     distinct: 56
@@ -179,12 +186,12 @@ columns:
     - AS
     - AZ
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: state
+  documented_by: connector fema_disasters.py; method fema_disaster_declarations.md
 - name: x_designated_area
-  label: null
-  unit: null
+  label: The designated area as FEMA writes it (a county, parish, tribal area or statewide)
+  unit: none
   type: text
   values:
     distinct: 2902
@@ -195,36 +202,37 @@ columns:
     - Accomack (County)
     - Ada (County)
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: designatedArea
+  documented_by: connector fema_disasters.py; method fema_disaster_declarations.md
 - name: x_incident_begin
-  label: null
-  unit: null
+  label: The incident's first day, UTC
+  unit: none
   type: date
   values:
     distinct: 914
     earliest: '2014-04-25'
     latest: '2026-10-16'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: incidentBeginDate
+  documented_by: connector fema_disasters.py; method fema_disaster_declarations.md
 - name: x_incident_end
-  label: null
-  unit: null
+  label: The incident's last day, UTC
+  unit: none
   type: date
   values:
     distinct: 898
     earliest: '2014-12-06'
     latest: '2026-10-15'
   missing_cells: 280
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: FEMA gives no end date
+  source_name: incidentEndDate
+  documented_by: connector fema_disasters.py; method fema_disaster_declarations.md
 - name: x_programs
-  label: null
-  unit: null
+  label: The assistance programs declared, joined by ; (IH individuals and households, IA individual assistance, PA public
+    assistance, HM hazard mitigation)
+  unit: none
   type: text
   values:
     list:
@@ -236,24 +244,24 @@ columns:
       PA: 11556
       PA;HM: 7636
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector fema_disasters.py; method fema_disaster_declarations.md
 - name: x_disaster_number
-  label: null
-  unit: null
+  label: FEMA's disaster number
+  unit: none
   type: integer
   values:
     distinct: 1634
     lowest: 3372
     highest: 5679
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: disasterNumber
+  documented_by: connector fema_disasters.py; method fema_disaster_declarations.md
 - name: x_region
-  label: null
-  unit: null
+  label: The FEMA region, 1 to 10
+  unit: none
   type: integer
   values:
     list:
@@ -268,21 +276,21 @@ columns:
       '8': 1538
       '9': 1104
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: region
+  documented_by: connector fema_disasters.py; method fema_disaster_declarations.md
 - name: x_tribal
-  label: null
-  unit: null
+  label: 1 for a tribal request, else 0
+  unit: none
   type: integer
   values:
     list:
       '0': 26027
       '1': 172
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: tribalRequest
+  documented_by: connector fema_disasters.py; method fema_disaster_declarations.md
 - name: retrieved_at
   shared: true
   type: utc time
@@ -296,4 +304,5 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 26199
+  particular: 'Not filled: no cell holds a value'
 second_look: null

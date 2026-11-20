@@ -5,9 +5,10 @@
 table: nbs_maldives_electricity
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One island's public-sector electricity production in one month (table 12.2), or one sector's electricity use in Male'
+  in one year (table 12.1), from the Maldives Bureau of Statistics' Statistical Yearbook.
+time: ts_utc is the month's first day (freq P1M, production) or the year's first day (freq P1Y, utilization) at 00:00:00Z.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is each workbook's Last-Modified time.
 keys:
 - entity
 - variable
@@ -39,6 +40,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: nbs_mv:<island> (12.2) or nbs_mv:male:<sector> (12.1)
 - name: variable
   shared: true
   type: text
@@ -69,24 +71,28 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: P1M for production, P1Y for utilization
 - name: geo
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's two-letter ISO 3166-1 code on every row, whatever the island
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 505
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: NBS's label of the row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -111,25 +117,26 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The workbook's Last-Modified time as the server sent it
 - name: x_table
-  label: null
-  unit: null
+  label: The yearbook table the row is read from
+  unit: none
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector nbs_maldives_electricity.py; method nbs_maldives_electricity.md
 variables:
 - name: production
-  label: null
+  label: Electricity produced on the island by the public sector in the month (table 12.2)
   unit: MWh
   rows: 420
   first: '2025-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: utilization
-  label: null
+  label: Electricity used in Male' by the sector in the year (table 12.1)
   unit: MWh
   rows: 85
   first: '2009-01-01T00:00:00Z'

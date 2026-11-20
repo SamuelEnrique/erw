@@ -5,9 +5,11 @@
 table: ieso_generation_fuel_hourly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Ontario's generation from one fuel (or the IESO's control actions line) in one hour, from the IESO's Generator Output
+  by Fuel Type Hourly Report.
+time: ts_utc is the hour's start in UTC (the IESO's hour ending in Eastern Standard Time, all year); freq PT1H.
+vintage_rule: Rewritten whole as one snapshot by each run from the IESO's yearly files; vintage is each file's CreatedAt in
+  UTC.
 keys:
 - entity
 - variable
@@ -40,6 +42,7 @@ columns:
     list:
       ieso:ontario: 371781
   missing_cells: 0
+  particular: ieso:ontario on every row
 - name: variable
   shared: true
   type: text
@@ -83,12 +86,14 @@ columns:
     list:
       CA-ON: 371781
   missing_cells: 0
+  particular: CA-ON on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 371781
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -103,6 +108,7 @@ columns:
       SOLAR: 59688
       WIND: 59688
   missing_cells: 0
+  particular: The fuel as the IESO names it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -149,9 +155,10 @@ columns:
       '2026-01-01T11:50:43Z': 59118
       '2026-10-23T11:50:49Z': 49575
   missing_cells: 0
+  particular: The year's file's CreatedAt (UTC)
 - name: x_quality
-  label: null
-  unit: null
+  label: The report's OutputQuality for the value, as published (codes not defined in the repository)
+  unit: none
   type: integer
   values:
     list:
@@ -167,56 +174,58 @@ columns:
       '-8': 3
       '0': 302581
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: OutputQuality
+  documented_by: header; connector ieso_genfuel.py; method ieso_generation_fuel_hourly.md
 variables:
 - name: control_actions
-  label: null
+  label: The IESO's CONTROL ACTIONS line in the hour
   unit: MWh
   rows: 15
   first: '2026-07-15T14:00:00Z'
   last: '2026-07-16T04:00:00Z'
 - name: generation_biofuel
-  label: null
+  label: Biofuel generation in the hour
   unit: MWh
   rows: 59688
   first: '2020-01-01T05:00:00Z'
   last: '2026-10-23T04:00:00Z'
 - name: generation_gas
-  label: null
+  label: Gas generation in the hour
   unit: MWh
   rows: 59688
   first: '2020-01-01T05:00:00Z'
   last: '2026-10-23T04:00:00Z'
 - name: generation_hydro
-  label: null
+  label: Hydro generation in the hour
   unit: MWh
   rows: 59688
   first: '2020-01-01T05:00:00Z'
   last: '2026-10-23T04:00:00Z'
 - name: generation_nuclear
-  label: null
+  label: Nuclear generation in the hour (the report's Output)
   unit: MWh
   rows: 59688
   first: '2020-01-01T05:00:00Z'
   last: '2026-10-23T04:00:00Z'
 - name: generation_other
-  label: null
+  label: Other generation in the hour
   unit: MWh
   rows: 13638
   first: '2025-04-02T18:00:00Z'
   last: '2026-10-23T04:00:00Z'
 - name: generation_solar
-  label: null
+  label: Solar generation in the hour
   unit: MWh
   rows: 59688
   first: '2020-01-01T05:00:00Z'
   last: '2026-10-23T04:00:00Z'
 - name: generation_wind
-  label: null
+  label: Wind generation in the hour
   unit: MWh
   rows: 59688
   first: '2020-01-01T05:00:00Z'
   last: '2026-10-23T04:00:00Z'
-second_look: null
+second_look:
+- 'x_quality (the report''s OutputQuality): the codes 0 and -1 to -30 are not defined in the repository (the IESO''s schema
+  was not read).'

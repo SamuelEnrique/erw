@@ -5,9 +5,10 @@
 table: kpx_korea_demand_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's mean of South Korea's daily peak (or base) electricity demand, from KPX's EPSIS page Average Peak/Base Demand
+  by Month.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; months ended before the retrieval (Korea's time) only.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is not filled.
 keys:
 - entity
 - variable
@@ -36,6 +37,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: One entity, the country
 - name: variable
   shared: true
   type: text
@@ -72,18 +74,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 270
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 270
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -108,25 +113,26 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 270
+  particular: 'Not filled: no cell holds a value'
 - name: x_kpx_view
-  label: null
-  unit: null
+  label: Which of KPX's two views (the daily peak or the daily base demand) the row is read from
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector kpx_korea.py; method kpx_korea.md
 variables:
 - name: base_demand_daily_mean
-  label: null
+  label: The month's mean of the daily base demand
   unit: MW
   rows: 9
   first: '2026-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: peak_demand_daily_mean
-  label: null
+  label: The month's mean of the daily peak demand
   unit: MW
   rows: 261
   first: '2005-01-01T00:00:00Z'

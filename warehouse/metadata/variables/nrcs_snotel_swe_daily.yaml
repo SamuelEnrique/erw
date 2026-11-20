@@ -5,9 +5,10 @@
 table: nrcs_snotel_swe_daily
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One day's snow water equivalent at one high SNOTEL station above the Colorado's, the Columbia's or California's reservoirs.
+time: ts_utc is the station's day written as 00:00 UTC; freq P1D.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); NRCS's values are provisional for the current
+  water year and revised by its quality control; vintage is not filled.
 keys:
 - entity
 - variable
@@ -38,6 +39,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: snotel:<station id>:<state, lower case>
 - name: variable
   shared: true
   type: text
@@ -74,18 +76,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The station's state, ISO 3166-2 (US-<state>)
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 86241
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The station's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -110,59 +115,60 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 86241
+  particular: 'Not filled: no cell holds a value'
 - name: x_basin
-  label: null
-  unit: null
+  label: The river basin group the station was chosen for
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector nrcs_snotel.py; method nrcs_snotel_swe_daily.md
 - name: x_huc
-  label: null
-  unit: null
+  label: The station's 12-digit hydrologic unit code
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: huc
+  documented_by: connector nrcs_snotel.py
 - name: x_elevation_ft
-  label: null
-  unit: null
+  label: The station's elevation
+  unit: ft
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: elevation
+  documented_by: header; connector nrcs_snotel.py
 - name: x_lat
-  label: null
-  unit: null
+  label: The station's latitude
+  unit: degree
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: latitude
+  documented_by: header; connector nrcs_snotel.py
 - name: x_lon
-  label: null
-  unit: null
+  label: The station's longitude
+  unit: degree
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: longitude
+  documented_by: header; connector nrcs_snotel.py
 variables:
 - name: snow_water_equivalent
-  label: null
+  label: The day's snow water equivalent at the station, inches of water (NRCS's WTEQ)
   unit: in
   rows: 86241
   first: '2015-01-01T00:00:00Z'

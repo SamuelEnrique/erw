@@ -5,9 +5,10 @@
 table: ewa_bahrain_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's value of one measure of Bahrain's electricity (a station's or link's energy, capacity, the system's peak and
+  minimum load, or consumption by sector), from EWA's Statistical Book.
+time: ts_utc is the year's 1 January at 00:00:00Z; freq P1Y.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is the book's Last-Modified time.
 keys:
 - entity
 - variable
@@ -39,6 +40,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: 'ewa:bh:<item>: a station, a link, a group of stations, the system, a sector or a total'
 - name: variable
   shared: true
   type: text
@@ -75,18 +77,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 135
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The column as EWA heads it, not a pricing node (the same as x_label)
 - name: source
   shared: true
   type: text
@@ -111,83 +116,84 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The book's Last-Modified time as the server sent it
 - name: x_label
-  label: null
-  unit: null
+  label: The column as EWA heads it
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector ewa_bahrain_electricity.py; method ewa_bahrain_electricity_annual.md
 - name: x_page
-  label: null
-  unit: null
+  label: The book's page the row is read from
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector ewa_bahrain_electricity.py; method ewa_bahrain_electricity_annual.md
 variables:
 - name: capacity_with_links
-  label: null
+  label: Capacity, the links included
   unit: MW
   rows: 5
   first: '2020-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: consumption
-  label: null
+  label: Electricity consumed by the sector, or in total
   unit: MWh
   rows: 24
   first: '2020-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: installed_capacity
-  label: null
+  label: The system's installed capacity (the load table's)
   unit: MW
   rows: 5
   first: '2020-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: max_generation_capacity
-  label: null
+  label: Maximum generation capacity at 40 degrees C
   unit: MW
   rows: 30
   first: '2020-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: minimum_load
-  label: null
+  label: The system's minimum load
   unit: MW
   rows: 5
   first: '2020-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: net_imports
-  label: null
+  label: 'Net flow over the link (negative: power sent from Bahrain''s grid to the link)'
   unit: MWh
   rows: 10
   first: '2020-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: net_transfer_capacity
-  label: null
+  label: Net transfer capacity of the link
   unit: MW
   rows: 10
   first: '2020-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: peak_load
-  label: null
+  label: The system's peak load
   unit: MW
   rows: 5
   first: '2020-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: sent_out
-  label: null
+  label: Units sent out by the station or group of stations (can be negative where a station drew more than it sent)
   unit: MWh
   rows: 36
   first: '2020-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: supply
-  label: null
+  label: 'Supply: the stations'' units sent out plus the links'' net flows'
   unit: MWh
   rows: 5
   first: '2020-01-01T00:00:00Z'

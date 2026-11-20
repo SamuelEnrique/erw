@@ -5,9 +5,9 @@
 table: msha_coal_mines
 family: other_sources
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One US coal mine in MSHA's Mines data set, with its current status, operator, place and type.
+time: No time column; status_date is the current status date; the table is a snapshot as read on its retrieved_at.
+vintage_rule: Rewritten whole as one snapshot by each run from MSHA's Mines.zip; vintage is the file's Last-Modified.
 keys:
 - entity_id
 license: public
@@ -44,6 +44,7 @@ columns:
     - msha_mine:0100166
     - msha_mine:0100167
   missing_cells: 0
+  particular: msha_mine:<MINE_ID>, seven digits (EIA's coal tables drop the leading zero)
 - name: entity_type
   shared: true
   type: text
@@ -51,6 +52,7 @@ columns:
     list:
       plant: 35736
   missing_cells: 0
+  particular: plant on every row (a mine)
 - name: name
   shared: true
   type: text
@@ -63,6 +65,7 @@ columns:
     - '# 2 Seam Elkhorn'
     - '# 2 Surface'
   missing_cells: 0
+  particular: The current mine name
 - name: geo
   shared: true
   type: text
@@ -75,6 +78,7 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
+  particular: US-<state>
 - name: lat
   shared: true
   type: number
@@ -83,6 +87,7 @@ columns:
     lowest: 0.000278
     highest: 89.6297
   missing_cells: 11789
+  particular: As MSHA gives it; empty where zero or out of range
 - name: lon
   shared: true
   type: number
@@ -91,12 +96,14 @@ columns:
     lowest: -148.966111
     highest: -0.000278
   missing_cells: 11789
+  particular: As MSHA gives it; empty where zero or out of range
 - name: capacity_mw
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 35736
+  particular: 'Not filled: a mine has no MW'
 - name: status
   shared: true
   type: text
@@ -106,6 +113,8 @@ columns:
       retired: 34439
       suspended: 592
   missing_cells: 0
+  particular: active (Active, New Mine), suspended (Temporarily Idled, NonProducing) or retired (Abandoned, Abandoned and
+    Sealed), from MSHA's current status
 - name: status_date
   shared: true
   type: date
@@ -114,6 +123,7 @@ columns:
     earliest: '1925-01-01'
     latest: '2026-10-22'
   missing_cells: 0
+  particular: The current status date
 - name: operator
   shared: true
   type: text
@@ -126,6 +136,7 @@ columns:
     - 101 Coal, Inc.
     - 12 Vein Coal
   missing_cells: 0
+  particular: The current operator
 - name: source
   shared: true
   type: text
@@ -154,9 +165,11 @@ columns:
     list:
       '2026-10-23T11:58:31Z': 35736
   missing_cells: 0
+  particular: The file's Last-Modified (UTC)
 - name: x_mine_status
-  label: null
-  unit: null
+  label: MSHA's current mine status in its words (Active, New Mine, Temporarily Idled, NonProducing, Abandoned, Abandoned
+    and Sealed)
+  unit: none
   type: text
   values:
     list:
@@ -167,12 +180,12 @@ columns:
       NonProducing: 307
       Temporarily Idled: 285
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: CURRENT_MINE_STATUS
+  documented_by: header; connector msha_mines.py; method msha_coal_mines.md
 - name: x_mine_type
-  label: null
-  unit: null
+  label: 'MSHA''s current mine type: Surface, Underground or Facility'
+  unit: none
   type: text
   values:
     list:
@@ -180,12 +193,12 @@ columns:
       Surface: 17627
       Underground: 14588
   missing_cells: 108
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: MSHA leaves it empty
+  source_name: CURRENT_MINE_TYPE
+  documented_by: connector msha_mines.py; method msha_coal_mines.md
 - name: x_controller
-  label: null
-  unit: null
+  label: The current controller's name, as published
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -196,24 +209,24 @@ columns:
     - (William) Scott  Moore
     - 2010 Irrevocable Kroh Family Trust
   missing_cells: 339
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: MSHA leaves it empty
+  source_name: CURRENT_CONTROLLER_NAME
+  documented_by: connector msha_mines.py; method msha_coal_mines.md
 - name: x_county_fips
-  label: null
-  unit: null
+  label: The county's FIPS code, as published
+  unit: none
   type: integer
   values:
     distinct: 131
     lowest: 1
     highest: 999
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: FIPS_CNTY_CD
+  documented_by: connector msha_mines.py; method msha_coal_mines.md
 - name: x_county
-  label: null
-  unit: null
+  label: The county's name, as published
+  unit: none
   type: text
   values:
     distinct: 373
@@ -224,12 +237,12 @@ columns:
     - Alexandria (City)
     - Allegany
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: FIPS_CNTY_NM
+  documented_by: connector msha_mines.py; method msha_coal_mines.md
 - name: x_district
-  label: null
-  unit: null
+  label: MSHA's district code, as published
+  unit: none
   type: text
   values:
     list:
@@ -246,12 +259,12 @@ columns:
       M6: 59
       M7: 13
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: DISTRICT
+  documented_by: connector msha_mines.py; method msha_coal_mines.md
 - name: x_primary_sic
-  label: null
-  unit: null
+  label: 'The primary SIC (industry) of the mine: Coal (Anthracite), Coal (Bituminous) or Coal (Lignite)'
+  unit: none
   type: text
   values:
     list:
@@ -259,24 +272,24 @@ columns:
       Coal (Bituminous): 33913
       Coal (Lignite): 136
   missing_cells: 114
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: MSHA leaves it empty
+  source_name: PRIMARY_SIC
+  documented_by: connector msha_mines.py; data
 - name: x_employees
-  label: null
-  unit: null
+  label: The number of employees, as published
+  unit: count
   type: integer
   values:
     distinct: 162
     lowest: 0
     highest: 1207
   missing_cells: 12189
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: MSHA leaves it empty
+  source_name: NO_EMPLOYEES
+  documented_by: connector msha_mines.py; method msha_coal_mines.md
 - name: x_nearest_town
-  label: null
-  unit: null
+  label: The nearest town, as published
+  unit: none
   type: text
   values:
     distinct: 4245
@@ -287,7 +300,7 @@ columns:
     - /Desoto
     - 01Granttown
   missing_cells: 11367
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: MSHA leaves it empty
+  source_name: NEAREST_TOWN
+  documented_by: connector msha_mines.py; method msha_coal_mines.md
 second_look: null

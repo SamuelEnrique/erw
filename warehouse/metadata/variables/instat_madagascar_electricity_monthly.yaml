@@ -5,9 +5,11 @@
 table: instat_madagascar_electricity_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's value of JIRAMA's electricity production (total, hydro, thermal) or consumption (total or by category), from
+  INSTAT's Tableau de Bord de l'Economie table 21.
+time: ts_utc is the month's first day at 00:00:00Z (the sheet dates each month on the 15th); freq P1M; x_period keeps the
+  month.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is the workbook's Last-Modified time.
 keys:
 - entity
 - variable
@@ -39,6 +41,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: jirama:mg:<item>
 - name: variable
   shared: true
   type: text
@@ -75,18 +78,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 168
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The variable and INSTAT's column label, joined by a colon; not a pricing node
 - name: source
   shared: true
   type: text
@@ -111,25 +117,26 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The workbook's Last-Modified time as the server sent it
 - name: x_period
-  label: null
-  unit: null
+  label: The month, YYYY-MM
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector instat_madagascar_electricity.py; method instat_madagascar_electricity_monthly.md
 variables:
 - name: consumption
-  label: null
+  label: Electricity consumption, in total or by category
   unit: MWh
   rows: 96
   first: '2024-07-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: production
-  label: null
+  label: JIRAMA's electricity production, in total or by kind
   unit: MWh
   rows: 72
   first: '2024-07-01T00:00:00Z'
