@@ -58,7 +58,7 @@ Rows here are counted once; a page's section points at them.
 
 ## The fixes, and what has been seen of them
 
-Eight branches, each cut from origin/main with its test, pushed. **None has been seen in a build:** this laptop had 1.0 to 1.8 GB of memory free from 11:37 UTC on (Samuel's own Chrome and the Claude programs hold the rest), under the 2 GB the chain asks for a build, and the whole suite was not run for the same cause. So no landing is requested yet (`docs/state/landing_request_portable.md`, rows 44 to 51, state "ready, not requested"). What was seen without a build is said on each line.
+Nine branches, each cut from origin/main with its test, pushed. **None has been seen in a build:** this laptop had 1.0 to 1.8 GB of memory free from 11:37 UTC on (Samuel's own Chrome and the Claude programs hold the rest), under the 2 GB the chain asks for a build, and the whole suite was not run for the same cause. So no landing is requested yet (`docs/state/landing_request_portable.md`, rows 44 to 52, state "ready, not requested"). What was seen without a build is said on each line.
 
 | Branch | Head | What it mends | Its test | Seen so far |
 |---|---|---|---|---|
@@ -70,6 +70,7 @@ Eight branches, each cut from origin/main with its test, pushed. **None has been
 | `wip/9601-policy-held-page` | `e029f90aa` | `/policy` when its list is held | `tests/test_session9601_policy_held_page.py` (6), with the seven older tests that name the page: 90 pass | Not seen in a browser |
 | `wip/9601-price-map-window` | `58d119d6d` | The Grid map's price over a window names its days | `tests/test_session9601_price_map_window.py` (6), with the map's: 13 pass | Not seen in a browser |
 | `wip/9601-line-ends-unnamed` | `5416bba3e` | A transmission line's end that HIFLD marks "UNKNOWN<number>" | `tests/test_session9601_line_ends_unnamed.py` (4), with the layers': 11 pass | Not seen in a browser |
+| `wip/9601-method-pages-phone` | `c6263da57` | Six method pages that scroll sideways at 390 px | `tests/test_session9601_method_pages_phone.py` (5), with the four older tests that name the stylesheet: 48 pass | The branch's one rule put on production's six pages in the browser: each 390 px wide (they were 392 to 544), tables unchanged, two pages that fitted unchanged |
 
 ## 1. `/internal/findings`: the findings review page
 
@@ -93,6 +94,29 @@ Read for rows 431 to 437 (`runs/c620/a2_sets.mjs`): every answer opened at both 
 |---:|---|---|---|---|
 | 1 | "What is under the ground and in the wind", the worked example: "switch on Global Horizontal Irradiance; the legend runs from its lowest to its highest value", then the legend on `/map?tab=resources` | The set: lowest 2.81, highest 6.50 kWh/m2/day, 2.32 times. The map's legend: 1.6 to 6.9. The map widens a layer's legend to hold Alaska's and Hawaii's parts; the set reads the contiguous states' range from the list of layers. Question 2 uses the same 6.50 | The set and the map give a student the same two numbers | fixed on `wip/9601-resource-set-legend`: the set reads each end of the legend over every part of the layer, as the map does (1.58 to 6.91, 4.36 times; question 2: 9 over 6.91, 1.30 times), each figure naming the part it is read from; the replication reads it the same way, 0 of 142 differ. The dated edition of 20 November keeps the old figures: data request 567 |
 | 2 | The same set, question 3: the wind legend's top | The set: 13.58 m/s. The map's legend: 13.6 (one decimal) | The same figure; the legend rounds | noted |
+
+## 3. The dated edition of 20 November 2026
+
+The data machine's file (chain 581), drawn by the old laptop's pages. Read with `runs/c620/b_edition.mjs`: the students' copy and the teacher's copy of each of the ten sets, at both widths.
+
+- **Seen:** twenty pages, each with its heading, no "undefined", no sideways scroll, the slowest 0.6 s. Each students' copy holds its questions and no answer; each teacher's copy holds an answer for every question (59 questions over the ten sets).
+- **Figures:** every figure the edition's file holds for a set (198 distinct figures over the ten) is on the teacher's copy at the screen's decimals; none missing.
+- **A figure the map contradicts:** the edition's resource set gives the sun's legend as 2.81 to 6.50; the map shows 1.6 to 6.9 (item 2, row 1). An edition keeps its day's numbers: data request 567 asks for a new edition once the mend lands.
+
+Pictures: `docs/reviews/browser-read-2026-11-20/edition/students-copy-1280.png`; `teachers-copy-1280.png` (the same set with its answers).
+
+## 4. The tour's new stops, and 18 to 26. The pages already read once, opened again
+
+Read with `runs/c620/b_sweep.mjs`: 101 addresses at 1280 and at 390 px, for what breaks a page quietly. The thirteen regions in the Grid tool (each region's Network, Mix and Clean tab), the Grid tool's four other openings, the nine events with two regions chosen, `/demand?view=country` and `/supply` for thirteen pairs of regions each, the resource map, the project map, two method pages, the tour and its fifteen stops.
+
+- **At 1280 px:** 101 opened, each its own page, no sideways scroll, no "undefined", "NaN" or "null", no empty chart, no error. One took 5.0 s the first time it was asked for (`/events/covid-2020` with two regions; 1.0 to 2.7 s on five more loads): a page not yet in the server's cache.
+- **At 390 px:** 101 opened; one scrolls sideways (row 1). The slowest 2.8 s.
+- **Not done again tonight for these pages:** the five cases and the figure by figure read. Chain 504 took them for the map, the regions and the resource map (`docs/reviews/grid-map-read-2026-11-19.md`), and the old laptop for the events, demand and supply pages; the old laptop's last fixes to those three are not on production (the note above the first pass).
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| 1 | `/data/methods/resources` at 390 px, then all 609 method pages at 390 px (`runs/c620/b_methods_wide.mjs`) | Six scroll sideways, each over one long unbroken word of the note's text: `resources` 544 px (a 61-character file name), `interconnection_queue_summary` 421, `amm_guatemala_generation_monthly` 417, `ercot_dam_esr_awards` 411, `makstat_macedonia_electricity_monthly` 401, `statcan_oil_gas_supply_monthly` 392 | 390 px | fixed on `wip/9601-method-pages-phone` (one rule of the prose style) |
+| 2 | `/internal/findings`, its size | 17.1 MB of HTML for 614 drafts, of which forty are shown at a time; 3.7 to 4.1 s to load over five loads | Inside five seconds on this laptop; heavy for a phone. An internal page | noted |
 
 ## 6. `/queues/places`: queues outside the seven grids
 
