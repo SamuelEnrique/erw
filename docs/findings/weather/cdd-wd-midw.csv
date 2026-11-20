@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate cdd, region wd_midw (the Midwest (EIA's region))
+# Computed 2026-11-19T12:45:28Z by warehouse/analysis/findings/deep/weather.py (cdd); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean cooling degree days a day (base 65 F) (degree days a day), the observations it rests on, and whether the year is full
+# Tables: region_weather_hourly
+region,year,value,n_observations,full_year
+wd_midw,2018,4.672397512666974,4342.0,0
+wd_midw,2019,2.9364790053952614,8526.0,1
+wd_midw,2020,3.0611763246060306,8059.0,1
+wd_midw,2021,3.5967665301345817,8545.0,1
+wd_midw,2022,3.433596076168494,8665.0,1
+wd_midw,2023,3.2082152908067547,8528.0,1
+wd_midw,2024,3.5454415678683766,8266.0,1
+wd_midw,2025,3.3546019536019536,8190.0,1
+wd_midw,2026,1.6651577102803738,3424.0,0

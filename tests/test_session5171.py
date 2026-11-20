@@ -80,16 +80,25 @@ class ARedirectGoesWhereTheCodeSays(unittest.TestCase):
 # The files of the site's server that read the disk, each with the line that decides the name it reads.
 READS_THE_DISK = {
     "app/attention/page.tsx": 'path.join(process.cwd(), "data", "attention.json")',
+    "app/grid/prices-map/route.ts": 'path.join(process.cwd(), "data", "regions", "prices_map.json")',   # session 8013: one fixed file of the data machine's
     "app/cost-of-power/seller/model.ts": "HUBS.grids[iso]",                                   # a file the site's own index names (window P1's file)
     "app/play/ev/page.tsx": 'path.join(process.cwd(), "data", "ev_prices.json")',
     "app/severance/finder/download/route.ts": "const f = `${outDir()}/${FLAGS}`;",
     "app/severance/lease/real/page.tsx": r"if (!fs.existsSync(idx) || !/^[OG]-[0-9A-Z]{2}-\d{1,6}$/.test(lease)) return null;",
     "lib/chat/pagefiles.ts": 'path.join(process.cwd(), "data", "resources", "manifest.json")',   # the Ask engine's (window P3's file): its names come from the manifest and the tools' indexes
     "lib/companydata.ts": "if (!/^[a-z0-9-]{1,80}$/.test(id)) return null;",
+    # session 8004 (chain 501's desk): the whole country's page files under data/regions/. Every caller names a fixed
+    # file or one built from a code the site holds (countrydemand.placeOf: /^(ba-)?([a-z0-9]{2,8})$/ and the index;
+    # the region codes; the event pages' own names), so no visitor's words reach a path
+    "lib/countryfiles.ts": 'return process.env.ERW_REGIONS_DIR ?? path.join(process.cwd(), "data", "regions");',
+    "lib/regionsdata.ts": 'return regionsFile("ba_boundaries.json");',
     "lib/datacenterdata.ts": "const g = INDEX.grids[grid];",
     "lib/finder.ts": "const f = `${outDir()}/${SUMMARY}`;",
     "lib/findings.ts": "if (!/^[a-z0-9_.-]+$/i.test(cardId) || !fs.existsSync(f) || cardId in WITHDRAWN) return null;",
     "lib/howsoondata.ts": None,
+    # session 8901 (chain 507, part C): the problem sets' page files (the pf| key). Every caller names a fixed file under
+    # data/ (lib/problemsets/*.ts); the name is refused unless it is a .json path under data/ with no "..", "." or empty step
+    "lib/pagefile.ts": "if (!parsePf(`pf|${file}|`)) throw new Error(`not a page file under site/data: ${file}`);",
     "lib/policyweekdata.ts": None,
     "lib/problemEditions.ts": r"if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !editions().includes(date)) return null;",
     "lib/problems.ts": 'path.join(process.cwd(), "data", "merchant_snapshot.json")',

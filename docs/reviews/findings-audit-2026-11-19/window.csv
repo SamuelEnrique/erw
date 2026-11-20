@@ -1,0 +1,58 @@
+slug,family,first_year_opened,first_years,note
+built-per-asked-us-battery-built-asked,cross_family,2008,2008 0.0 1; 2009 0.0 1; 2010 0.0 1; 2011 1.331048 1,
+built-per-asked-us-solar-built-asked,cross_family,2000,2000 0.0 1; 2003 0.057692 1; 2005 0.16 1; 2006 0.028901 1,
+energy-vs-3y-xe3-ciso,cross_family,,,table not on this machine
+energy-vs-3y-xe3-pjm,cross_family,,,table not on this machine
+energy-vs-5y-xe5-pjm,cross_family,,,table not on this machine
+peak-vs-3y-xp3-isne,cross_family,,,table not on this machine
+peak-vs-3y-xp3-miso,cross_family,,,table not on this machine
+peak-vs-3y-xp3-pjm,cross_family,,,table not on this machine
+peak-vs-5y-xp5-isne,cross_family,,,table not on this machine
+peak-vs-5y-xp5-nyis,cross_family,,,table not on this machine
+peak-vs-5y-xp5-pjm,cross_family,,,table not on this machine
+util-vs-3y-xu3-12293,cross_family,,,
+util-vs-3y-xu3-195,cross_family,,,
+util-vs-3y-xu3-7140,cross_family,,,
+util-vs-3y-xu3-9617,cross_family,,,
+util-vs-5y-xu5-15500,cross_family,,,
+util-vs-5y-xu5-6452,cross_family,,,
+util-vs-5y-xu5-7140,cross_family,,,
+util-vs-5y-xu5-803,cross_family,,,
+sub-mean-ercot-sub-fwes,demand,2019,2019 3606.211337 5257; 2020 3682.183174 8784; 2021 3911.861758 8760; 2022 4735.141781 8760,
+sub-mean-pjm-sub-dom,demand,2018,2018 10390.4 5; 2019 11686.987407 8735; 2020 11509.635188 8736; 2021 12418.987668 8758,
+sub-night-share-pjm-sub-bc,demand,2018,2018 nan 5; 2019 84.168516 8735; 2020 84.448926 8736; 2021 84.508749 8760,
+sub-night-share-pjm-sub-ce,demand,2018,2018 nan 5; 2019 85.397055 8734; 2020 85.614725 8735; 2021 85.668798 8760,
+sub-p99-ercot-sub-fwes,demand,2019,2019 4188.0 5257; 2020 4337.0 8784; 2021 4522.0 8760; 2022 5520.0 8760,
+sub-p99-pjm-sub-dom,demand,2018,2018 11459.0 5; 2019 18003.0 8735; 2020 18234.0 8736; 2021 19037.0 8758,
+coal-co2-share-us-coal-co2-share,emissions_climate,1970,1970 27.153916 1; 1971 25.433474 1; 1972 25.253001 1; 1973 25.900795 1,
+conus-temperature-conus-temp,emissions_climate,2000,2000 1.240833 12; 2001 1.67 12; 2002 1.185 12; 2003 1.233333 12,
+power-co2-per-mwh-co2mwh-ia,emissions_climate,2001,2001 895.259915 1; 2002 849.867169 1; 2003 863.645089 1; 2004 851.36721 1,
+power-co2-per-mwh-co2mwh-us,emissions_climate,2001,2001 604.462421 1; 2002 589.009349 1; 2003 593.295854 1; 2004 588.033373 1,
+power-co2-share-us-power-co2-share,emissions_climate,1970,1970 24.941234 1; 1971 25.547904 1; 1972 26.359305 1; 1973 27.203497 1,
+power-co2-us-power-co2,emissions_climate,1970,1970 1061.44008 1; 1971 1098.828423 1; 1972 1191.537818 1; 1973 1283.223787 1,
+transport-co2-share-us-transport-co2-share,emissions_climate,1970,1970 26.591417 1; 1971 27.349855 1; 1972 27.575062 1; 1973 27.816294 1,
+added-mw-add-battery-us,generation_pipeline,1900,1900 0.0 1; 1901 0.0 1; 1902 0.0 1; 1903 0.0 1,
+added-mw-add-solar-us,generation_pipeline,1900,1900 0.0 1; 1901 0.0 1; 1902 0.0 1; 1903 0.0 1,
+turbine-kw-us-turbine-kw,generation_pipeline,1982,1982 80.75 1; 1984 64.967742 1; 1985 186.0 1; 1986 150.877193 1,
+turbine-rotor-us-turbine-rotor,generation_pipeline,1984,1984 16.344156 1; 1985 16.777778 1; 1986 20.368421 1; 1991 27.0 1,
+quakes-m3-eq-new-mexico,other_us,1900,1900 0 1; 1901 0 1; 1902 0 1; 1903 0 1,
+quakes-m3-eq-texas,other_us,1900,1900 0 1; 1901 0 1; 1902 0 1; 1903 0 1,
+europe-gas-premium-us-europe-gas,prices,1960,1960 0.26 12; 1961 0.25 12; 1962 0.24 12; 1963 0.23 12,
+japan-lng-premium-us-japan-lng,prices,1977,1977 1.98 12; 1978 2.134167 12; 1979 2.51 12; 1980 4.110833 12,
+hybrid-share-southeast-lbnl-hybrid,queues_deals_datacenters,2009,2009 0.0 1; 2010 0.0 1; 2011 0.0 1; 2012 0.0 1,
+hybrid-share-us-lbnl-hybrid,queues_deals_datacenters,2000,2000 0.0 1; 2003 0.0 1; 2005 0.0 1; 2006 15.435831 1,
+months-by-region-pjm-lbnl-months,queues_deals_datacenters,2000,2000 3.088296 1; 2001 17.790554 1; 2002 31.737166 1; 2003 31.901437 1,
+months-by-region-us-lbnl-months,queues_deals_datacenters,2000,2000 8.246407 1; 2001 15.014374 1; 2002 27.104723 1; 2003 23.983573 1,
+months-by-type-us-type-battery-months,queues_deals_datacenters,2015,2015 22.258727 1; 2021 30.340862 1; 2022 43.268994 1; 2023 64.131417 1,
+months-by-type-us-type-solar-months,queues_deals_datacenters,2011,2011 22.193018 1; 2012 26.036961 1; 2013 43.23614 1; 2014 52.698152 1,
+months-by-type-us-type-wind-months,queues_deals_datacenters,2003,2003 24.804928 1; 2004 27.646817 1; 2005 21.092402 1; 2006 38.01232 1,
+request-size-us-type-battery-size,queues_deals_datacenters,2008,2008 20.0 1; 2012 12.0 1; 2013 6.0 1; 2014 20.0 1,
+request-size-us-type-solar-size,queues_deals_datacenters,2006,2006 250.0 1; 2007 250.0 1; 2008 100.0 1; 2009 20.0 1,
+request-size-us-type-wind-size,queues_deals_datacenters,2000,2000 76.0 1; 2001 105.0 1; 2002 76.6 1; 2003 80.0 1,
+requested-by-type-us-req-battery,queues_deals_datacenters,1900,1900 0.0 1; 1901 0.0 1; 1902 0.0 1; 1903 0.0 1,
+requested-by-type-us-req-gas,queues_deals_datacenters,1900,1900 0.0 1; 1901 0.0 1; 1902 0.0 1; 1903 0.0 1,
+requested-by-type-us-req-solar,queues_deals_datacenters,1900,1900 0.0 1; 1901 0.0 1; 1902 0.0 1; 1903 0.0 1,
+storage-share-us-req-battery-share,queues_deals_datacenters,1995,1995 0.0 1; 1997 0.0 1; 1998 0.0 1; 1999 0.0 1,
+withdrawn-by-type-us-type-solar-wd,queues_deals_datacenters,2008,2008 99.983274 1; 2009 99.951815 1; 2010 99.475471 1; 2011 99.13602 1,
+withdrawn-share-pjm-lbnl-wd,queues_deals_datacenters,2000,2000 93.424708 1; 2001 84.899797 1; 2002 84.152729 1; 2003 70.882353 1,
+withdrawn-share-us-lbnl-wd,queues_deals_datacenters,1999,1999 91.752154 1; 2000 79.217974 1; 2001 90.261658 1; 2002 84.348965 1,
