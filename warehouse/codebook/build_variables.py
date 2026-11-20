@@ -52,6 +52,7 @@ RE_INT = re.compile(r"[+-]?\d+")
 WRITTEN_TABLE = ["row", "time", "vintage_rule", "keys_note", "second_look"]
 WRITTEN_COLUMN = ["label", "unit", "missing_meaning", "source_name", "documented_by", "particular"]
 SHAPE_KEYS = {"series": ["entity", "variable", "ts_utc"], "entities": ["entity_id"], "events": ["event_id"]}
+HELD_NOTE = "not written: the table is internal (licensed for internal use only), so its values stay in the warehouse"
 
 
 def clean(v):
@@ -352,6 +353,9 @@ def build(table, fam, cov, shared, do_read=True):
             s = stats[name]
             e["type"] = s.kind()
             e["values"] = {"see": "variables"} if (shape == "series" and name == "variable") else s.values()
+            if doc["license"] != "public" and "see" not in e["values"]:
+                # an internal table's values are licensed for internal use only: none is written into the repository
+                e["values"] = {"note": HELD_NOTE}
             e["missing_cells"] = s.empty
         else:
             for k in ("type", "values", "missing_cells"):
@@ -371,7 +375,7 @@ def build(table, fam, cov, shared, do_read=True):
                 d = var[v]
                 ent = {"name": v, "label": oldvars.get(v, {}).get("label"),
                        "unit": "; ".join(sorted(d["units"])), "rows": d["rows"], "first": d["first"], "last": d["last"]}
-                if d["labels"]:
+                if d["labels"] and doc["license"] == "public":
                     ent["source_label"] = "; ".join(sorted(d["labels"]))
                 vs.append(ent)
             doc["variables"] = vs
