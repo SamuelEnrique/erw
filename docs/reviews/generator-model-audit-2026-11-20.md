@@ -20,6 +20,7 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 |---|---|---|---|---|
 | 1 | The NPV holds no tax and no depreciation, yet is discounted at a cost of equity | none | NPV +240.52 per kW after federal tax | `wip/audit-generator-1` |
 | 2 | Flat real flows, a fixed money debt payment and a money discount rate in one sum | none | NPV +59.72 to +77.42 per kW (inflation 2 to 2.5 percent) | `wip/audit-generator-2` |
+| 3 | The same tax credit arrives in year 1 here and at year 0 on the battery page | none | a 30 percent credit on USD 1,110: 297.32 here, 333.00 there | `wip/audit-generator-3` |
 
 ## 1. The NPV holds no tax and no depreciation
 
@@ -37,3 +38,11 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 - **How much.** Money flows (revenue and O&M rising with inflation, the debt fixed) at 12 percent: NPV USD -706.90 per kW at 2 percent inflation (+59.72) and -689.20 at 2.5 percent (+77.42). The inflation rate is this audit's assumption, not a source's.
 - **The test.** `tests/test_audit_generator_2.py` on `wip/audit-generator-2`: the payment is one number in all 35 years and income falls by the degradation alone; the two money-flow NPVs.
 - **Not fixed.** A new assumption: the owner's ruling.
+
+## 3. The same tax credit, two different years
+
+- **Where.** This page: `site/lib/seller/finance.ts` lines 236 and 237 (`creditInYear`: the investment credit in year 1) and its decision "the ITC arrives in year 1" (`site/lib/decisions.ts` line 98). The battery page: `site/lib/battery/finance.ts` line 245 (the credit in the year-0 flow, "taken at year 0 against the equity paid in", `battery_earns_algorithm.md` section 11.1 line 450).
+- **Why it is wrong.** Section 11.1 of the battery note says the three pages share one scenario block. The same credit on the same battery is worth 12 percent less on this page.
+- **How much.** A 30 percent credit on a 4-hour battery at USD 1,110 per kW: 333.00 per kW of NPV on the battery page, 297.32 here (-35.68). On this page's default solar plant at 1,375: 412.50 against 368.30 (-44.20).
+- **The test.** `tests/test_audit_generator_3.py` on `wip/audit-generator-3`: both libraries (run by Node) with the same battery and a 30 percent credit; the battery page adds 333 to year 0, this page to year 1.
+- **Not fixed.** Which year is right (when the credit is sold or used) is the owner's ruling; the two pages should agree.
