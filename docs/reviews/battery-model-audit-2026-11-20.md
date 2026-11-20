@@ -10,7 +10,8 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 ## In short
 
 - **The arithmetic is right.** Every figure the page prints follows from the model's monthly table as the note says, and the model, re-solved from the page's own prices, gives 81.4022 per kW for the page's window. Nothing double counts a megawatt.
-- **The model's rules are not what the page says they are.** "Each figure is an upper bound" is false: two of the model's own rules (an empty battery each midnight, the hourly mean of a 15-minute price) hold it 8.3 percent under a foreseeing battery's 88.81 per kW (findings 2, 3, 6). "Reserves are never called" is false for regulation: ERCOT's storage shows 17 percent of an award moving each hour, worth -7.9 percent (finding 1). At the default the biases roughly cancel (83.02 with all three).
+- **"Each figure is an upper bound" is false.** Two of the model's own rules (an empty battery each midnight, the hourly mean of a 15-minute price) hold it 8.3 percent under a foreseeing battery's 88.81 per kW (findings 2, 3, 6).
+- **"Reserves are never called" is false for regulation.** ERCOT's storage shows 17 percent of an award moving each hour, worth -7.9 percent (finding 1). At the default the biases roughly cancel: 83.02 with all three.
 - **The page's words and its figures disagree twice more.** The "Breakeven toll" covers debt 1.25 times and leaves equity worse off than merchant (finding 5). "4 hours at rated power" is 3.71 hours in the model (finding 10).
 - **The finance leaves out what a developer's NPV holds.** No tax and no depreciation against an after-tax rate (+118.95 per kW; +426.14 with the 30 percent credit, finding 8), two kinds of dollars in one sum (+40 to +61, finding 9), degradation cut one for one with capacity where the model's own runs lose less than half of that (+44.76, finding 4).
 - **Size.** Past about 500 MW the battery is paid for reserves ERCOT does not buy (finding 7).
