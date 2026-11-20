@@ -231,3 +231,43 @@ The data machine's page (chain 505). Read with `runs/c620/b_ai_energy.mjs`.
 
 Pictures: `docs/reviews/browser-read-2026-11-20/ai-energy/as-it-opens-1280.png`; `one-measure-1280.png` (one measure chosen).
 
+## 12, 13 and 21. The Grid tool's map: the Price color and each authority's own facts
+
+The map is the portable laptop's (chain 504); the Price color and the panel's "Its own facts" are the data machine's (chain 505). Read with `runs/c620/b_grid_map.mjs` and `runs/c620/b_grid_demand.mjs` at `/grid?grid=us48&view=network&shape=map`.
+
+**Five cases.**
+1. *A power trader.* Where was day-ahead power dearest yesterday? Presses Price: three areas are colored, green 31.93 (SPP North) to red 54.09 USD/MWh (ERCOT's hub average), each the day 16 November; PJM, New York, New England read "license needed" and MISO "not shown (MISO's terms are under review)". Answered for the three grids whose prices are public; the page says why the rest are blank.
+2. *A battery developer.* Where are hours below zero most common over twelve months? The measure "Hours below zero, twelve months"; the legend gives both ends. Answered.
+3. *A student of one grid.* What does TVA own, and whom does it lean on? Presses TVA: 44,697 MW in 468 generators (gas 18,592, nuclear 8,835, coal 7,644, hydro 4,888), record demand 35,086 MW, MISO its first partner. Answered. Its carbon intensity reads "not held", with why (EIA's estimates cover the seven ISOs and the Lower 48 only).
+4. *An AI lab's siting analyst.* How fast has demand grown in Arizona Public Service's area, and what large loads are spoken of there? The panel: demand in 2025 up 31 percent on 2019, 2 public rows of large loads. Answered.
+5. *A transmission planner.* How much does ERCOT take in right now, and against what demand? The hover gives net imports (203 MW over 2 ties); demand reads "not held for this hour" (row 1).
+
+**Figures.** The Price color: for each of the eight measures the legend's two ends and the hover of eight authorities (three shown, four held or paused, one with no public price) agree with `site/data/regions/prices_map.json`. "Its own facts" for TVA, ERCOT, Arizona Public Service, CAISO and Seminole Electric: what each owns, its generators, its carbon intensity, its record demand, its first partner and its large-load rows agree with `site/data/regions/authority/<code>.json`; shares and growth are printed to two figures (40.6 reads "41%").
+
+**What answers to the hand.** The color that opens is carbon intensity (the standing ruling); Price is a switch beside it, by mouse and by a finger; a finger on ERCOT at 390 px shows its card and opens its panel; the page is 390 px wide. The regions are drawn 2.5 s after the address is opened at 1280 px and 2.0 s at 390 px. The seven decisions behind the price colors each give Default and Source on hover. The price color is kept in the page, not in the address: a link opens the carbon color, as the ruling has it.
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| 1 | The mouse on any authority at the hour the map opens on, then the slider stepped back | "Demand: not held for this hour" from 2026-11-18 04:00 back to 2026-11-16 00:00 UTC, for every authority; ERCOT's last figure is 52,838 MW at 2026-11-15 22:00. The line under the map says "Demand of the seven ISOs: newest hour 2026-11-20 08:00 UTC". The live set's demand ends on 15 November 23:00 UTC (read at 11:18 UTC on 20 November) | Demand for the hour shown | filed (data request 565) |
+| 2 | A press on Seminole Electric (SEC) | "Net imports met -592 percent of its demand." 26 of the 58 authorities' files hold a share below zero | A sentence about what it sent out | fixed on `wip/9601-authority-facts-words` |
+| 3 | TVA under the mouse, any hour | "Demand: not held for this hour": the map never holds demand for an authority outside the seven ISOs, at any hour | "for this hour" suggests another hour would hold it. The map's own words (chain 504) | ruling |
+
+Pictures: `docs/reviews/browser-read-2026-11-20/grid-map/as-it-opens-1280.png` (the map as it opens, carbon color); `price-color-twelve-months-1280.png` (the Price color, the average over twelve months); `tva-its-own-facts-1280.png` (TVA's panel).
+
+## 17. `/demand?view=country#forecast`: the forecast beside what happened
+
+The data machine's section (chain 505). Read with `runs/c620/b_forecast.mjs`.
+
+**Five cases.**
+1. *A utility forecaster.* How far off is the day-ahead forecast for Tennessee? As the page opens (Tennessee and the Carolinas): hours with both, the mean miss and the bias, overall, by season and by hour of the day. Answered.
+2. *A trader.* On which days did Texas's forecast miss the peak most? "The hottest and coldest days": each day's temperature, peak forecast, peak demand and miss. Answered.
+3. *An event analyst.* How did the forecast do in each of the nine events? The table of events: hours, miss, bias, peak miss; an event with no hour held is blank. Answered.
+4. *A renewables analyst.* ERCOT's and CAISO's wind and solar forecasts against output. Answered for those two; not set beside the file tonight (20 figures a view, from `renewables_forecast.json`).
+5. *A student.* An authority beside its region (New England beside PJM, the Northwest beside BPA). Answered; a place that files no forecast reads "not held" with why.
+
+**Figures.** Every marked figure of the section for seven pairs of places (thirteen places), as numbers at the screen's decimals, beside `site/data/regions/forecast/<place>.json`: 1,456 of 1,456 at 1280 px, 209 of 209 at 390 px.
+
+**What answers to the hand.** Four Chart and Table switches give a table; the line charts answer the mouse with a card; the bar charts of the view give their figures as the browser's tooltip (row S2). 390 px wide at 390. 1.7 s to load.
+
+Pictures: `docs/reviews/browser-read-2026-11-20/demand-forecast/as-it-opens-1280.png` (Tennessee and the Carolinas); `texas-beside-california-1280.png`.
+
