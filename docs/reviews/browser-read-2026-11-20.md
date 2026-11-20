@@ -53,8 +53,22 @@ Rows here are counted once; a page's section points at them.
 
 | # | What was done | What was seen | What should be seen | State |
 |---:|---|---|---|---|
-| S1 | On a page with lists that submit themselves (`/queues/places`, `/curtailment/where-when`, and every page that draws the shared list of `site/components/AutoSubmit.tsx`): two choices made one after the other, then the browser's back button | The address and the page go back one choice; the list keeps the later choice. On `/queues/places` after TVA then Duke: the address reads `b=West:PacifiCorp`, the table shows PacifiCorp, the list "Queue B" reads Duke. On `/curtailment/where-when`: the grid shows 2025, the Year list reads 2019 | The list reads what the page shows | to fix (the shared list; the browser restores a form's last state on the way back, and the list takes its value only once) |
+| S1 | On a page with lists that submit themselves (`/queues/places`, `/curtailment/where-when`, and every page that draws the shared list of `site/components/AutoSubmit.tsx`): two choices made one after the other, then the browser's back button | The address and the page go back one choice; the list keeps the later choice. On `/queues/places` after TVA then Duke: the address reads `b=West:PacifiCorp`, the table shows PacifiCorp, the list "Queue B" reads Duke. On `/curtailment/where-when`: the grid shows 2025, the Year list reads 2019 | The list reads what the page shows | fixed on `wip/9601-back-button-lists` (the browser puts a form's last state back between a page's load and its showing; the list is now set to the page's value when the page is shown). `site/scripts/check-back-button.mjs` fails on production on all four pages it reads (4 of 16) |
 | S2 | A figure that is given only on hover, pressed with a finger at 390 px and reached with the Tab key | Nothing: the figure is the browser's own tooltip (a `title`). On `/curtailment/where-when` this is every figure of the hour by month grid (288 cells, none reachable by the keyboard, none shown to a finger); on the problem sets it is each figure's page file | A choice, not a fault of one page: it is ruling 13 of chain 504's note (should a reason also open on a tap? default: left as the site has it) | ruling (see "For Samuel's ruling") |
+
+## The fixes, and what has been seen of them
+
+Seven branches, each cut from origin/main with its test, pushed. **None has been seen in a build:** this laptop had 1.0 to 1.8 GB of memory free from 11:37 UTC on (Samuel's own Chrome and the Claude programs hold the rest), under the 2 GB the chain asks for a build, and the whole suite was not run for the same cause. So no landing is requested yet (`docs/state/landing_request_portable.md`, rows 44 to 50, state "ready, not requested"). What was seen without a build is said on each line.
+
+| Branch | Head | What it mends | Its test | Seen so far |
+|---|---|---|---|---|
+| `wip/9601-back-button-lists` | `dc046acff` | Row S1: the shared list after the back button | `tests/test_session9601_back_button.py` (7), with the two older tests that name the list: 32 pass; `site/scripts/check-back-button.mjs` | The check fails on production (4 of 16). In a real browser on a plain page of two lists (`runs/c620/backtest.mjs`): without the mend the list reads the later choice on the page shown again; with the same logic it reads the page's value. The browser puts the state back after the page's load and before its showing |
+| `wip/9601-findings-phone` | `4971346fa` | `/internal/findings` at 390 px | `tests/test_session9601_findings_phone.py` (3), with session 233's: 36 pass | The branch's one style applied to production's page in the browser: 390 px wide (was 470) |
+| `wip/9601-resource-set-legend` | `9632634e5` | The resource set's legend | `tests/test_session9601_resource_set_legend.py` (9); the replication 0 of 142 differ | Not seen in a browser. One older test fails on this branch and on main alike (`test_session8901_problem_sets_country.py`, "FAIL 16": it expects no dated edition, and the edition of 20 November exists) |
+| `wip/9601-authority-facts-words` | `225e96ed8` | "Net imports met -592 percent of its demand" | `tests/test_session9601_authority_facts_words.py` (5), with the panel's: 10 pass | Not seen in a browser |
+| `wip/9601-tour-headings` | `bff5d765a` | The tour's stops 1, 4, 11 and 12 | `tests/test_session9601_tour_headings.py` (7), with the tour's four older tests: 27 pass; the tour's render test passes | Not seen in a browser; `check-tour.mjs` on a build is the proof |
+| `wip/9601-policy-held-page` | `e029f90aa` | `/policy` when its list is held | `tests/test_session9601_policy_held_page.py` (6), with the seven older tests that name the page: 90 pass | Not seen in a browser |
+| `wip/9601-price-map-window` | `58d119d6d` | The Grid map's price over a window names its days | `tests/test_session9601_price_map_window.py` (6), with the map's: 13 pass | Not seen in a browser |
 
 ## 1. `/internal/findings`: the findings review page
 
@@ -65,9 +79,7 @@ Read for rows 423 to 428 of `docs/state/browser_reads_wanted.md` (`runs/c620/a2_
 
 | # | What was done | What was seen | What should be seen | State |
 |---:|---|---|---|---|
-| 1 | The page at 390 px | The page is 470 px wide: it scrolls sideways. A hunt's caption draft (a box of session 233) holds a long word that does not break | 390 px | to fix |
-
-Picture: `docs/reviews/browser-read-2026-11-20/findings/` (added with the fix).
+| 1 | The page at 390 px | The page is 470 px wide: it scrolls sideways. A hunt's caption draft (a box of session 233) holds a long word that does not break | 390 px | fixed on `wip/9601-findings-phone`. With the branch's one style put on production's page in the browser, the page is 390 px wide |
 
 ## 2. The four whole-country problem sets, and 11. the fifth (`your-own-balancing-authority`)
 
@@ -78,7 +90,7 @@ Read for rows 431 to 437 (`runs/c620/a2_sets.mjs`): every answer opened at both 
 
 | # | What was done | What was seen | What should be seen | State |
 |---:|---|---|---|---|
-| 1 | "What is under the ground and in the wind", the worked example: "switch on Global Horizontal Irradiance; the legend runs from its lowest to its highest value", then the legend on `/map?tab=resources` | The set: lowest 2.81, highest 6.50 kWh/m2/day, 2.32 times. The map's legend: 1.6 to 6.9. The map widens a layer's legend to hold Alaska's and Hawaii's parts; the set reads the contiguous states' range from the list of layers. Question 2 uses the same 6.50 | The set and the map give a student the same two numbers | to fix |
+| 1 | "What is under the ground and in the wind", the worked example: "switch on Global Horizontal Irradiance; the legend runs from its lowest to its highest value", then the legend on `/map?tab=resources` | The set: lowest 2.81, highest 6.50 kWh/m2/day, 2.32 times. The map's legend: 1.6 to 6.9. The map widens a layer's legend to hold Alaska's and Hawaii's parts; the set reads the contiguous states' range from the list of layers. Question 2 uses the same 6.50 | The set and the map give a student the same two numbers | fixed on `wip/9601-resource-set-legend`: the set reads each end of the legend over every part of the layer, as the map does (1.58 to 6.91, 4.36 times; question 2: 9 over 6.91, 1.30 times), each figure naming the part it is read from; the replication reads it the same way, 0 of 142 differ. The dated edition of 20 November keeps the old figures: data request 567 |
 | 2 | The same set, question 3: the wind legend's top | The set: 13.58 m/s. The map's legend: 13.6 (one decimal) | The same figure; the legend rounds | noted |
 
 ## 6. `/queues/places`: queues outside the seven grids
@@ -270,4 +282,42 @@ The data machine's section (chain 505). Read with `runs/c620/b_forecast.mjs`.
 **What answers to the hand.** Four Chart and Table switches give a table; the line charts answer the mouse with a card; the bar charts of the view give their figures as the browser's tooltip (row S2). 390 px wide at 390. 1.7 s to load.
 
 Pictures: `docs/reviews/browser-read-2026-11-20/demand-forecast/as-it-opens-1280.png` (Tennessee and the Carolinas); `texas-beside-california-1280.png`.
+
+## Part C: the same number in two places
+
+Each pair read on production on 20 November between 11:40 and 11:50 UTC (`runs/c620/survey.mjs` into `runs/c620/c1/`, and the page files).
+
+| # | The pair | One place | The other | Verdict | State |
+|---:|---|---|---|---|---|
+| C1 | The batteries of `/storage/places` against `/storage` | `/storage/places`, the seven grids: ERCOT 19,195 MW operating and 24,159 planned; CAISO 17,266 and 10,878; PJM 666 and 825; MISO 1,176 and 3,938; NYISO 269 and 829; ISO-NE 1,022 and 1,051; SPP 491 and 1,685 | `/storage`, "By ISO": ERCOT 19,194.60 operating, 7,899.50 under construction and 16,259.30 planned (24,158.8 together); CAISO 17,265.50, 4,733.70 and 6,144.10 (10,877.8); PJM 665.90 and 825.1; MISO 1,175.90 and 3,938.2; NYISO 268.70 and 828.5; ISO-NE 1,021.70 and 1,050.5; SPP 490.50 and 1,684.5 | The same, to the megawatt. `/storage` splits planned from under construction and prints two decimals; `/storage/places` adds them and prints none | agrees |
+| C2 | An authority's own facts in the map's panel against `/demand?view=country` | The panel, TVA: record demand 35,086 MW, 2025-01-22 07:00 local; demand in 2025 up 7.2 percent on 2019 | `/demand?view=country&a=ba-tva`: highest hour 35,086 MW, 22 January 2025, 07:00; average demand +7.15 percent from 2019 to 2025 | The same; the panel prints two figures | agrees |
+| C3 | The same panel against `/supply` | The panel, TVA, 2025: MISO 17,649,857 MWh in, net | `/supply?region=ten`, "Who trades with whom, 2025": Midwest to Tennessee, 15,679.2 GWh by the sender, 16,681.5 GWh by the receiver | Not the same thing, and each says what it is: the panel is one authority with one authority; the page is EIA's Midwest region (MISO and its neighbours) with the Tennessee region. A reader who takes "Midwest" for "MISO" finds 17,650 against 16,682 GWh | noted |
+| C4 | A storm's megawatts on an event page against the region's demand that day | `/events/elliott-2022`, Tennessee: highest hour 33,225 MW at 2022-12-24 01:00 UTC | `/demand?view=country&a=ba-tva&days=2022`: the year's highest hour 33,225 MW, 23 December 2022, 19:00 (local) | The same hour and figure, one in UTC and one in local time, each labelled | agrees |
+| C5 | The map's Price color against `/prices/compare`, the average over twelve months | The map: ERCOT's hub average 34.86, CAISO SP15 30.29, SPP North 34.50 USD/MWh | `/prices/compare`, "the twelve months to October 2026": 34.59, 30.27 and 34.27 | Both right, on different windows: the map's is the 365 days to its file's day (16 November), the comparison's the twelve calendar months to October. The map did not say which days | fixed on `wip/9601-price-map-window` (the hover names the window's days) |
+| C6 | The board's price against `/prices` | `/board`: ERCOT hub average, day-ahead, 54.09 USD/MWh, "16 Nov 2026 (stale)"; real time 22.68, 18 November | `/prices`: HB_HUBAVG 21.29 at 2026-11-20 11:00 (a 15-minute price); day-ahead "no data: no iso_dam_hub_prices row since 2026-11-19 11:00 UTC" | Not the same measure (a day's mean against the newest interval), and both behind: the board's newest whole day-ahead day is four days old, the price page's day-ahead hours stop a day ago. Part of the lag of data request 565; the map's 30-day figure for ERCOT is blank for the same cause ("673 of the window's 721 hours held") | filed (565) |
+| C7 | A state's mix on `/states` against its region's on the Grid tool | `/states?a=TX`, the last twelve months (EIA's state generation): gas 47.3%, wind 22.3%, solar 12.6%, coal 10.7%, nuclear 6.5% | The Grid tool: ERCOT's own facts over 2025-11 to 2026-10 (EIA-930): gas 40%, wind 24%, solar 16%, coal 12%; the Texas region, October 2026: gas 45.0%, wind 20.9%, solar 15.1% | Not the same thing: the state holds plants outside ERCOT and plants that report to EIA and not to the grid operator; the periods differ. Each page names its source. A reader comparing "Texas" with "Texas" sees gas at 47 against 40 percent | noted |
+
+## Part D: the first minute
+
+Read with `runs/c620/d_first_minute.mjs`, `d_menu_phone.mjs`, `d_ways_in.mjs`, `d_headings.mjs` and the tour's own check, at 1280 and 390 px.
+
+**As a stranger (no cookie).** Every address answers the in-review page ("This tool is in review and will open when it is approved. Open now. Home"), 390 px wide at 390, in 0.2 to 0.5 s; `/internal/findings` answers "No page at this address". Nothing of a page in review reaches a stranger.
+
+**As a reviewer (the internal view).** The home page opens in 0.3 s. The menu has six groups and 33 entries; with the home page's links, the foot's and the tour's, 53 addresses were asked for: 52 answer with their own heading, one does not (row D1). `/ask` goes to the Grid tool with its Ask panel open, as session 299 made it. Each group opens on a press and on a finger's tap; its list stands inside the screen at both widths; each entry opens its page; a second press closes the group. The keyboard reaches "Skip to content", the wordmark, the six groups and the four links in that order, each with a focus mark.
+
+**The tour.** Fifteen stops; each has its bar, Back and Next and opens its page. Seven of the headings the stops quote were not among their pages' headings on production (rows D2 to D6).
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| D1 | The menu, Analysis, "Policy" | A page that is the two words "license needed" and nothing else: no heading, no views, no link (the hover: one publisher's permission is not recorded). `/policy?view=week` and the monitor draw, and cannot be reached from it | The page's heading and its views, with the reason where the list would be | fixed on `wip/9601-policy-held-page` (nothing held is drawn) |
+| D2 | Stop 1, `/cost-of-power/battery`: "Change the battery's hours under "Your battery"" | No "Your battery" on the page: the box is "Assumptions" since the ruling of 15 October (session 296) | The stop names the box as the page does | fixed on `wip/9601-tour-headings` |
+| D3 | Stop 4, `/grid`: "One grid at a time, ERCOT first ... read "Right now: demand"" | `/grid` opens on the Lower 48 (since session 299); "Right now: demand" and "Who runs this grid" are on ERCOT's page | The stop opens the page its words describe | fixed on `wip/9601-tour-headings` (the stop opens `/grid?grid=ercot`; see "Decisions made without you") |
+| D4 | Stop 7, `/digest`: "Read "Top of the industry", then "ERW's Numbers Today"" | "No Digest yet for Friday 20 November 2026 ... The newest is the Digest of Thursday 12 November 2026", and the archive. No Digest has been written since 12 November | A Digest, or a stop that opens the newest one | ruling (the Digest is paused and out of bounds here) |
+| D5 | Stop 11, `/supply`: "Who trades with whom" | The heading reads "Who trades with whom, 2025" | The words are on the page; the tour's check wanted the heading whole | fixed on `wip/9601-tour-headings` (the check reads a heading without its year) |
+| D6 | Stop 12, `/map?tab=resources`: "then "How the map is drawn"" | The heading is inside the fold "Method note", closed until a reader opens it | The stop says to open the fold | fixed on `wip/9601-tour-headings` |
+| D7 | The ways in to the week's pages: the links of 18 pages read (the home page, the menu, `/queues`, `/storage`, `/curtailment`, `/demand`, `/supply`, `/grid`, `/map` and others) | `/states`, `/industry` and `/ai-energy` are reached only from the tour (stops 13 to 15). `/queues/places`, `/storage/places` and `/curtailment/where-when` are linked from no page: a reader needs the address | A way in from the menu or from the page each belongs under. Where each goes is the menu's question | ruling |
+| D8 | A stranger at the home address | The in-review page's heading is "/" (and "/states", "/industry" for the pages with no name in the release list) | A name. The list of names is `site/lib/release.ts`, not touched here | ruling |
+| D9 | The menu at 390 px, one group open | The open list covers the names of the groups on the rows under it (Economics open: Infrastructure, Analysis, Games and About are under it) | A reader closes the first group (a second press) to reach the next. The menu's own behaviour, older than this week | noted |
+
+Pictures: `docs/reviews/browser-read-2026-11-20/first-minute/a-stranger-at-the-home-page-1280.png`; `the-home-page-internal-view-1280.png`; `the-menu-open-390.png` (the last group open under a finger).
 
