@@ -38,7 +38,7 @@ type Plants = {
 type Queue = { rows: number; drawn: number; counties: number; not_placed: number; no_shape: number; withheld?: number; grids?: R.QueueGridCount[]; vintage_first: string; vintage_last: string; shapes: { features: { properties: Record<string, unknown>; geometry: R.Geometry }[] }; points: { lon: number; lat: number; id: string; mw: number | null; status: string; tech: string; state: string }[] };
 type Centers = { rows: number; drawn: number; not_placed: number; vintage: string; points: { lon: number; lat: number; id: string; operator: string; site: string; mw: number | null; status: string; state: string; city: string; county: string; prec: string; src: string }[] };
 type HoverRow = { id: string; title: string; text: string; sub: string; value: number | null; feature?: string; empty?: boolean };
-type Hover = { x: number; y: number; w: number; h: number; lon: number; lat: number; rows: HoverRow[] };
+type Hover = { x: number; y: number; w: number; h: number; lon: number; lat: number; /** session 8608: the state under the pointer, or null */ state: string | null; rows: HoverRow[]; /** session 8615: read for the keyboard, at the map's centre */ keys?: boolean };
 /** The longest of each kind of work so far, in ms: what the frame-time script reads to say where a slow frame came from. */
 type Slow = { moving: number; rest: number; decode: number; kept?: number };
 /** The picture last drawn in full, with the view it was drawn at: what a heavy map shows of itself while it moves. */
@@ -47,6 +47,7 @@ type Chosen = { on: string[]; fuel: string[] | null };
 
 const NO_VALUE = "no value in the source here";
 const ASPECT = (R.HOME.spanLon * R.KX) / R.HOME.spanLat;
+const NARROW_MAP = 480;       // session 8614: a map narrower than this many px is a phone's; its hover card takes the map's width
 const BINS = 12;              // steps of color for points drawn by value
 const HEAVY_VERTICES = 30000; // a set of shapes with more corners than this is drawn from a still picture while the map moves
 const HEAVY_POINTS = 6000;    // and so is a set of points with more rows than this
@@ -208,9 +209,11 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
     drawnGrid: {} as Record<string, GridImg | undefined>, drawn: {} as Record<string, number>, frames: 0, slow: { moving: 0, rest: 0, decode: 0, kept: 0 } as Slow,
     kept: null as Kept | null, heavy: false,
   });
-  const live = useRef({ on, fuel, touched: false, ready: false, dragging: false, moving: false });
+  // `keys` (session 8615): the keyboard was the last to act on the map, so the value read is the one at its centre
+  const live = useRef({ on, fuel, touched: false, ready: false, dragging: false, moving: false, keys: false });
   const pal = useRef<{ ink: R.Rgb; none: R.Rgb; land: string; sea: string; panel: string; ramp: Record<string, R.Rgb[]>; fuel: Record<string, string> } | null>(null);
   const base = useRef<{ nation: Path2D; states: Path2D } | null>(null);
+  const stateShapes = useRef<R.StateShape[]>([]);   // session 8608: each state's outline with its box, for the hover's "in Arizona"
   const settleRef = useRef<() => void>(() => {}), readRef = useRef<((x: number, y: number) => Hover) | null>(null);
   // the reader of grid files, off this thread (grid.worker.ts); null where the browser gives none, and the page reads them itself
   const reader = useRef<{ worker: Worker; next: number; waiting: Map<number, { file: string; ok: (g: R.Grid) => void; no: (e: Error) => void }> } | null>(null);
@@ -552,7 +555,13 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
     if (settleTimer.current) clearTimeout(settleTimer.current);
     settleTimer.current = setTimeout(() => {
       const L = live.current, v = view.current, S = store.current, el = box.current;
-      if (L.moving) { L.moving = false; draw(); }
+      // session 8614: a frame asked for and not yet drawn is drawn now, before the record below is written. The rest
+      // is a timer and a frame is the browser's own; where the frame came later than the timer (a busy machine, a tab
+      // in the background) the record named what the frame before had drawn (no cells of a layer just read, or the
+      // coarser level) and stayed so until the map next moved. Nothing more is drawn: the same frame, at rest.
+      const pending = raf.current !== 0;
+      if (pending) { cancelAnimationFrame(raf.current); raf.current = 0; }
+      if (L.moving) { L.moving = false; draw(); } else if (pending) draw();
       // session 159: a still picture's bitmap that arrived since the last rest is taken up now and readied, so that no
       // frame of a drag is the first to draw it
       {
@@ -573,7 +582,9 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
         el.dataset.drawn = JSON.stringify(S.drawn); el.dataset.frames = String(S.frames); el.dataset.slow = JSON.stringify(S.slow); el.dataset.settled = String(Date.now());
       }
       const lp = lastPointer.current;
-      if (lp && !L.dragging && readRef.current) setHover(readRef.current(lp.x, lp.y));
+      // session 8615: after a key, the place read is the map's centre (the keyboard has no pointer to read under)
+      if (L.keys && readRef.current) { const r = readRef.current(size.current.w / 2, size.current.h / 2); setHover(r ? { ...r, keys: true } : null); }
+      else if (lp && !L.dragging && readRef.current) setHover(readRef.current(lp.x, lp.y));
       if (L.ready && L.touched) window.history.replaceState(null, "", `${window.location.pathname}${R.shownQuery({ on: L.on, view: v, fuel: L.fuel }).replace("?", TAB)}`);
     }, 160);
   }, [draw, load, pyramids, redraw]);
@@ -600,6 +611,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
     for (const f of feature(topo, topo.objects.nation).features) trace(nation, f.geometry as R.Geometry);
     trace(states, mesh(topo, topo.objects.states, (a, b) => a !== b) as R.Geometry);
     base.current = { nation, states };
+    stateShapes.current = R.stateShapes(feature(topo, topo.objects.states).features.map((f) => ({ name: (f.properties as { name?: string } | null)?.name, geometry: f.geometry as R.Geometry })));
 
     try {
       const worker = new Worker(new URL("./grid.worker.ts", import.meta.url));
@@ -727,7 +739,10 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
       const d = S.centers.points.find((x) => near(x.lon, x.lat, 7));
       if (d) rows.push({ id: "datacenters", title: "Datacenter", value: d.mw, feature: d.operator || d.site, text: `${d.operator || "Operator not stated"}${d.site ? `, ${d.site}` : ""}: ${d.mw === null ? "MW not stated" : `${whole(d.mw)} MW`}`, sub: `${[d.city, d.county, d.state].filter(Boolean).join(", ")}. ${d.prec === "operator" || d.prec === "point" ? "At the operator's coordinates" : "At a county or city point, not the site"}. Table of ${S.centers.vintage}.` });
     }
-    return { x, y, w, h, lon, lat, rows };
+    // session 8608 (the reader's read, row 34): the state under the pointer, from the outlines the map already draws,
+    // so that a pair of coordinates says where it is. Null at sea and outside the United States.
+    const state = R.stateAt(stateShapes.current, lon, lat);
+    return { x, y, w, h, lon, lat, state, rows };
   }, [byId, pyramids]);
   useEffect(() => { settleRef.current = settle; readRef.current = readAt; });
 
@@ -735,6 +750,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
   const onDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
     pointer.current = { id: e.pointerId, x: e.clientX - r.left, y: e.clientY - r.top, lon: view.current.lon, lat: view.current.lat };
+    live.current.keys = false;
     try { e.currentTarget.setPointerCapture(e.pointerId); } catch { /* a synthetic pointer has nothing to capture */ }
   };
   const onMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -747,7 +763,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
       moved({ z: view.current.z, lon: d.lon - (x - d.x) / (R.KX * k), lat: d.lat + (y - d.y) / k });
       return;
     }
-    lastPointer.current = { x, y };
+    lastPointer.current = { x, y }; live.current.keys = false;
     if (!hoverRaf.current) hoverRaf.current = requestAnimationFrame(() => { hoverRaf.current = 0; const p = lastPointer.current; if (p && !live.current.dragging) setHover(readAt(p.x, p.y)); });
   };
   const onUp = (e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -759,8 +775,15 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
   const zoom = (f: number) => moved(R.zoomAbout(view.current, size.current.w, size.current.h, size.current.w / 2, size.current.h / 2, f));
   const onKey = (e: React.KeyboardEvent) => {
     const keys: Record<string, () => void> = { ArrowLeft: () => step(-1, 0), ArrowRight: () => step(1, 0), ArrowUp: () => step(0, -1), ArrowDown: () => step(0, 1), "+": () => zoom(1.5), "=": () => zoom(1.5), "-": () => zoom(1 / 1.5) };
-    if (keys[e.key]) { e.preventDefault(); keys[e.key](); }
+    // session 8615: a key that acts on the map makes the keyboard the reader; the rest after the move reads the centre
+    if (keys[e.key]) { e.preventDefault(); live.current.keys = true; keys[e.key](); }
   };
+  // Session 8615 (docs/brand.md: whatever a hover card says is also reachable by keyboard). The keyboard moved the map
+  // and could read no value from it. When the map takes the keyboard's focus the card reads the place at the map's
+  // centre, marked by a small ring, and reads it again after each move or zoom; a pointer takes the reading back.
+  const readCentre = () => { const r = readRef.current?.(size.current.w / 2, size.current.h / 2); if (r) setHover({ ...r, keys: true }); };
+  const onFocus = (e: React.FocusEvent<HTMLCanvasElement>) => { if (e.currentTarget.matches(":focus-visible")) { live.current.keys = true; readCentre(); } };
+  const onBlur = () => { if (live.current.keys) { live.current.keys = false; setHover(null); } };
 
   const toggle = (id: string) => { live.current.touched = true; setChosen({ on: on.includes(id) ? on.filter((x) => x !== id) : [...on, id], fuel }); };
   const toggleFuel = (slug: string, all: string[]) => {
@@ -782,7 +805,8 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
   const fuelsHeld = plants ? plants.techs.filter((t, i) => plants.t.includes(i)).map((t) => t.slug) : [];
   const plantCount = (operating: boolean) => (plants ? plants.st.reduce((a, s, i) => a + ((s === 0) === operating && (!fuel || fuel.includes(plants.techs[plants.t[i]].slug)) ? 1 : 0), 0) : 0);
   const check = "mr-2 align-middle accent-[var(--color-accent)]";
-  const btn = "border border-rule bg-white px-2 py-0.5 text-sm leading-tight hover:text-accent";
+  // session 8611 (docs/brand.md, section 3): a target a finger presses is 44 px tall on a phone; these were 24 at every width
+  const btn = "inline-flex min-h-11 min-w-11 items-center justify-center border border-rule bg-white px-2 py-0.5 text-sm leading-tight hover:text-accent sm:min-h-6 sm:min-w-0";
   const hint = "cursor-help border-b border-dotted border-muted";
 
   return (
@@ -798,6 +822,8 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
                 <label key={it.layer.id} className="block py-0.5 text-sm" data-layer={it.layer.id} data-kind={it.layer.kind} data-state={stateOf(it.layer.id)} data-level={levels[it.layer.id] ?? ""}>
                   <input type="checkbox" className={check} checked={on.includes(it.layer.id)} onChange={() => toggle(it.layer.id)} data-toggle={it.layer.id} />
                   {it.layer.title}{on.includes(it.layer.id) ? note(it.layer.id) : null}
+                  {/* session 8603: one short line under the switch that says what the layer measures, in plain words (lib/resources.ts MEASURE) */}
+                  {R.measureLine(it.layer) ? <span className="block pb-1 pl-6 text-xs leading-snug text-ink" data-measure={it.layer.id}>{R.measureLine(it.layer)}</span> : null}
                 </label>
               ) : (
                 <label key={it.key} className="block cursor-help py-0.5 text-sm text-muted" title={it.reason} data-missing={it.key}>
@@ -856,7 +882,9 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
         </section>
       </aside>
 
-      <div className="min-w-0">
+      {/* session 8603: beside the switches the map stays in view while the list is read (the list, with a line under each
+          switch, is longer than the map); on a narrow screen, where the two are one column, it scrolls with the page as before */}
+      <div className="min-w-0 lg:sticky lg:top-2 lg:self-start" data-map-column="1">
         <div className="mb-2 flex flex-wrap items-center gap-1.5" data-map-buttons="1">
           <button type="button" className={btn} onClick={() => zoom(1.6)} aria-label="Zoom in" data-map-button="in">+</button>
           <button type="button" className={btn} onClick={() => zoom(1 / 1.6)} aria-label="Zoom out" data-map-button="out">-</button>
@@ -866,13 +894,25 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
           <button type="button" className={btn} onClick={() => step(1, 0)} aria-label="Move east" data-map-button="east">&rarr;</button>
           {R.PLACES.map((pl) => <button key={pl.id} type="button" className={btn} onClick={() => moved({ z: pl.z, lon: pl.lon, lat: pl.lat })} data-map-button={pl.id}>{pl.label}</button>)}
         </div>
-        <div ref={box} className="relative w-full border border-rule" data-map="1" onPointerLeave={() => { lastPointer.current = null; setHover(null); }}>
-          <canvas ref={canvas} className="block w-full cursor-crosshair touch-none" role="img" tabIndex={0} aria-label="Map of the United States with the resource layers that are switched on; the legend below names each"
-            onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp} onKeyDown={onKey} onDoubleClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); moved(R.zoomAbout(view.current, size.current.w, size.current.h, e.clientX - r.left, e.clientY - r.top, 2)); }} />
+        {/* session 8614: a finger that lifts also "leaves" the map (a touch pointer cannot hover, so the browser sends
+            the leave with the lift), and the card a tap had just put up was taken off some 10 ms later: on a phone no
+            value could be read. A touch's leave is now let pass. The card of a tap stays until the next tap, a drag or
+            a press of one of the map's buttons, so a long card can be read to its end by scrolling the page. */}
+        <div ref={box} className="relative w-full border border-rule" data-map="1" onPointerLeave={(e) => { if (e.pointerType === "touch") return; lastPointer.current = null; setHover(null); }}>
+          <canvas ref={canvas} className="block w-full cursor-crosshair touch-none" role="img" tabIndex={0} aria-label="Map of the United States with the resource layers that are switched on; the legend below names each. With the keyboard: the arrow keys move the map, plus and minus zoom, and the value at the map's centre is read out"
+            onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp} onKeyDown={onKey} onFocus={onFocus} onBlur={onBlur}onDoubleClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); moved(R.zoomAbout(view.current, size.current.w, size.current.h, e.clientX - r.left, e.clientY - r.top, 2)); }} />
           {hover ? (
-            <div className="pointer-events-none absolute z-10 max-w-xs border border-rule bg-white px-3 py-2 text-sm shadow-sm" data-hover="1" data-hover-lon={hover.lon} data-hover-lat={hover.lat}
-              style={{ left: hover.x > hover.w * 0.6 ? undefined : hover.x + 14, right: hover.x > hover.w * 0.6 ? hover.w - hover.x + 14 : undefined, top: hover.y > hover.h * 0.6 ? undefined : hover.y + 14, bottom: hover.y > hover.h * 0.6 ? hover.h - hover.y + 14 : undefined }}>
-              <div className="text-xs tabular-nums text-muted">{Math.abs(hover.lat).toFixed(2)} {hover.lat >= 0 ? "N" : "S"}, {Math.abs(hover.lon).toFixed(2)} {hover.lon >= 0 ? "E" : "W"}</div>
+            // session 8611 (docs/brand.md, sections 3 and 6): the hover card is fog with a rule-colored edge and no shadow (it was white with a shadow)
+            <div className="pointer-events-none absolute z-10 max-w-xs border border-rule bg-paper px-3 py-2 text-sm" data-hover="1" data-hover-lon={hover.lon} data-hover-lat={hover.lat}
+              // session 8615: read for the keyboard, the card is announced as it changes; under a pointer it is not
+              role="status" aria-live={hover.keys ? "polite" : "off"} data-hover-keys={hover.keys ? "1" : "0"}
+              data-hover-wide={hover.w < NARROW_MAP ? "1" : "0"}
+              // session 8614: on a map narrower than NARROW_MAP px (a phone) the card takes the map's width, under or
+              // over the finger; beside the finger it was a column some 160 px wide and longer than the screen
+              style={hover.w < NARROW_MAP
+                ? { left: 6, right: 6, maxWidth: "none", top: hover.y > hover.h * 0.6 ? undefined : hover.y + 14, bottom: hover.y > hover.h * 0.6 ? hover.h - hover.y + 14 : undefined }
+                : { left: hover.x > hover.w * 0.6 ? undefined : hover.x + 14, right: hover.x > hover.w * 0.6 ? hover.w - hover.x + 14 : undefined, top: hover.y > hover.h * 0.6 ? undefined : hover.y + 14, bottom: hover.y > hover.h * 0.6 ? hover.h - hover.y + 14 : undefined }}>
+              <div className="text-xs tabular-nums text-muted">{Math.abs(hover.lat).toFixed(2)} {hover.lat >= 0 ? "N" : "S"}, {Math.abs(hover.lon).toFixed(2)} {hover.lon >= 0 ? "E" : "W"}{hover.state ? <>, in <span data-hover-state={hover.state}>{hover.state}</span></> : null}</div>
               {hover.rows.length === 0 ? <div className="text-muted">No layer has anything here.</div> : hover.rows.map((r, i) => (
                 <div key={`${r.id}-${i}`} className="mt-1" data-hover-layer={r.id} data-hover-value={r.value ?? ""} data-hover-feature={r.feature ?? ""} data-hover-empty={r.empty ? "1" : "0"}>
                   <div><span className="text-xs uppercase tracking-wide text-muted">{r.title}</span><br /><span className={r.empty ? "text-muted" : "font-semibold"} data-hover-text="1">{r.text}</span></div>
@@ -881,6 +921,8 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
               ))}
             </div>
           ) : null}
+          {/* session 8615: the place the keyboard's card reads, a small ring at the map's centre */}
+          {hover?.keys ? <div aria-hidden="true" data-centre-mark="1" className="pointer-events-none absolute z-10 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-ink" style={{ left: hover.x, top: hover.y }} /> : null}
         </div>
 
         <div className="mt-3 grid gap-x-8 gap-y-3 sm:grid-cols-2" data-legends="1">

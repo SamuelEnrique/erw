@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ba_mean_mw, region ba_azps (Arizona Public Service (AZPS, EIA-930 balancing authority))
+# Computed 2026-11-19T11:43:44Z by warehouse/analysis/findings/deep/authorities.py (ba_mean_mw); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's mean hour of demand (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+ba_azps,2018,3731.4336584259468,4409.0,0
+ba_azps,2019,3384.626199177707,8756.0,1
+ba_azps,2020,3511.660746812386,8784.0,1
+ba_azps,2021,3521.2004566210044,8760.0,1
+ba_azps,2022,3655.211187214612,8760.0,1
+ba_azps,2023,3836.2884703196346,8760.0,1
+ba_azps,2024,4097.419512750455,8784.0,1
+ba_azps,2025,4432.722488584475,8760.0,1
+ba_azps,2026,4860.809028229478,7687.0,0

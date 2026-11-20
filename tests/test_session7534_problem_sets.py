@@ -60,11 +60,16 @@ class TheReplication(unittest.TestCase):
         with open(os.path.join(REP, "page_figures.json"), encoding="utf-8") as f:
             kept = json.load(f)
         strip = lambda d: {s: [(q["q"], q["answer"], q["steps"], q["figures"]) for q in v["questions"]] for s, v in d["sets"].items()}
-        self.assertEqual(strip(got), strip(kept))
+        # session 8901 (chain 507, part C): the replay now also builds the four sets of the whole country, which read
+        # committed page files and no live read; the kept figures are the five sets', so the five are compared with them
+        # and the four are held to be drawn whole (scripts/test-problem-sets-country.mjs pins their figures to their files)
+        self.assertEqual({s: v for s, v in strip(got).items() if s in kept["sets"]}, strip(kept))
+        self.assertEqual(sorted(set(got["sets"]) - set(kept["sets"])), ["storm-across-the-country", "under-the-ground-and-in-the-wind", "where-energy-goes", "who-trades-with-whom"])
         for slug, v in got["sets"].items():
             self.assertEqual(v["drawn"]["missing"], [], slug)
             self.assertTrue(v["decisions"], slug)
-        self.assertEqual(len(got["index_decisions"]), 15)
+        # session 8901: 15 choices and the five of the whole country (page-file, trade-month, storm-hour, layer-by-id, industry-pick)
+        self.assertEqual(len(got["index_decisions"]), 20)
         d = {q["id"]: q for q in got["sets"]["storage-and-taxes"]["questions"]}
         self.assertIn("Over the seven latest days held (2026-11-03 to 2026-11-14)", d["d1"]["q"])
         self.assertIn("(77.4 Mcf a day over its 31 days)", d["d5"]["q"])

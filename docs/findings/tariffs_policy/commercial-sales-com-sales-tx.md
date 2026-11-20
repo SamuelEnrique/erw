@@ -2,7 +2,7 @@
 
 Draft `scan-deep-cea999e8b1d3` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** Retail electricity sales to the commercial sector in Texas was 174.7 TWh in 2025, against 87.9 TWh in 2001, the first full year the ERW holds.
+**The finding.** Retail electricity sales to the commercial sector in Texas were 174.7 TWh in 2025, against 87.9 TWh in 2001, the first full year the ERW holds.
 
 ![What businesses buy, Texas](commercial-sales-com-sales-tx.png)
 
