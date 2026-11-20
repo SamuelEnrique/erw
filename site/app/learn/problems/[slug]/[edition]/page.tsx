@@ -3,14 +3,16 @@ import { notFound } from "next/navigation";
 import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Section } from "@/components/Section";
-import { edition, editions, longDate, teacherPath } from "@/lib/problemEditions";
+import { edition, editionHolds, editions, longDate, teacherPath } from "@/lib/problemEditions";
 import { SETS } from "@/lib/problems";
 
 // Session 293 (Samuel's ruling 8a of 14 October 2026): a dated edition of a problem set, the students' copy. The
 // questions as they were built on the edition's date, each with its tables and a download of the rows it needs; no
 // answers (they are in the teacher's copy). The numbers do not move.
 export function generateStaticParams() {
-  return SETS.flatMap((s) => editions().map((e) => ({ slug: s.slug, edition: e })));
+  // session 8901: only the editions that hold the set (a set added after an edition has no copy in it, and its address
+  // answers not found as before)
+  return SETS.flatMap((s) => editions().filter((e) => editionHolds(s.slug, e)).map((e) => ({ slug: s.slug, edition: e })));
 }
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; edition: string }> }): Promise<Metadata> {
   const { slug, edition: d } = await params;
