@@ -1,0 +1,550 @@
+slug,family,morning,candidate,do_faults,sentence_flags,superlatives,md_words
+ba-co2-intensity-ba-erco,authorities,yes,ba_co2_intensity,,"the CSV holds years before 2019 (from 2018), not full",first,329
+ba-co2-intensity-ba-isne,authorities,yes,ba_co2_intensity,,"the CSV holds years before 2019 (from 2018), not full",first,337
+ba-co2-intensity-ba-miso,authorities,yes,ba_co2_intensity,,"the CSV holds years before 2019 (from 2018), not full",first,329
+ba-coal-co2-share-ba-erco,authorities,yes,ba_coal_co2_share,,"the CSV holds years before 2019 (from 2018), not full",first,317
+ba-gen-ratio-ba-bpat,authorities,yes,ba_gen_ratio,,"the CSV holds years before 2019 (from 2018), not full",first,330
+ba-gen-ratio-ba-gcpd,authorities,yes,ba_gen_ratio,,"the CSV holds years before 2019 (from 2018), not full",first,326
+ba-gen-ratio-ba-pacw,authorities,yes,ba_gen_ratio,,"the CSV holds years before 2019 (from 2018), not full",first,322
+ba-gen-ratio-ba-srp,authorities,yes,ba_gen_ratio,,"the CSV holds years before 2019 (from 2018), not full",first,330
+ba-gen-ratio-ba-tepc,authorities,yes,ba_gen_ratio,,"the CSV holds years before 2019 (from 2018), not full",first,326
+ba-load-factor-ba-aeci,authorities,yes,ba_load_factor,,"the CSV holds years before 2019 (from 2018), not full",first;highest,324
+ba-load-factor-ba-ava,authorities,yes,ba_load_factor,,"the CSV holds years before 2019 (from 2018), not full",first;highest,316
+ba-load-factor-ba-erco,authorities,yes,ba_load_factor,,"the CSV holds years before 2019 (from 2018), not full",first;highest,316
+ba-load-factor-ba-nwmt,authorities,yes,ba_load_factor,,"the CSV holds years before 2019 (from 2018), not full",first;highest,324
+ba-load-factor-ba-tepc,authorities,yes,ba_load_factor,,"the CSV holds years before 2019 (from 2018), not full",first;highest,324
+ba-mean-mw-ba-azps,authorities,yes,ba_mean_mw,,"the CSV holds years before 2019 (from 2018), not full",first,309
+ba-mean-mw-ba-fpl,authorities,yes,ba_mean_mw,,"the CSV holds years before 2019 (from 2018), not full",first,313
+ba-mean-mw-ba-gcpd,authorities,yes,ba_mean_mw,,"the CSV holds years before 2019 (from 2018), not full",first,309
+ba-mean-mw-ba-sc,authorities,yes,ba_mean_mw,,"the CSV holds years before 2019 (from 2018), not full",first,305
+ba-mean-mw-ba-srp,authorities,yes,ba_mean_mw,,"the CSV holds years before 2019 (from 2018), not full",first,313
+ba-peak-mw-ba-azps,authorities,yes,ba_peak_mw,,"the CSV holds years before 2019 (from 2018), not full",first;highest,309
+ba-peak-mw-ba-epe,authorities,yes,ba_peak_mw,,"the CSV holds years before 2019 (from 2018), not full",first;highest,309
+ba-peak-mw-ba-gcpd,authorities,yes,ba_peak_mw,,"the CSV holds years before 2019 (from 2018), not full",first;highest,309
+ba-peak-mw-ba-sc,authorities,yes,ba_peak_mw,,"the CSV holds years before 2019 (from 2018), not full",first;highest,305
+ba-peak-mw-ba-srp,authorities,yes,ba_peak_mw,,"the CSV holds years before 2019 (from 2018), not full",first;highest,313
+ba-top-winter-ba-nwmt,authorities,yes,ba_top_winter,,"the CSV holds years before 2019 (from 2018), not full",first;highest,354
+ba-top-winter-ba-psei,authorities,yes,ba_top_winter,,"the CSV holds years before 2019 (from 2018), not full",first;highest,352
+appalachia-share-app-coal,coal_uranium_metals,no,appalachia_share,,,first,320
+coal-basin-share-cb-appalachia-central,coal_uranium_metals,yes,coal_basin_share,,,first,348
+coal-basin-share-cb-illinois-basin,coal_uranium_metals,yes,coal_basin_share,,,first,352
+coal-mode-share-cm-tramway-conveyor,coal_uranium_metals,yes,coal_mode_share,,,first,342
+coal-mode-share-cm-truck,coal_uranium_metals,yes,coal_mode_share,,,first,334
+coal-sulfur-cs-us,coal_uranium_metals,yes,coal_sulfur,,,first,344
+power-coal-price-us-power-coal,coal_uranium_metals,no,power_coal_price,,,first,348
+tons-per-employee-us-tons-employee,coal_uranium_metals,no,tons_per_employee,,,first,336
+underground-share-us-underground,coal_uranium_metals,no,underground_share,,,first,329
+uranium-price-us-uranium-price,coal_uranium_metals,no,uranium_price,,,first,350
+us-enrichment-share-us-enrich-origin,coal_uranium_metals,no,us_enrichment_share,,,first,349
+us-origin-uranium-us-uranium-origin,coal_uranium_metals,no,us_origin_uranium,,,first,338
+wc-consumption-wc-chn,coal_uranium_metals,yes,wc_consumption,,,first,372
+wc-consumption-wc-ind,coal_uranium_metals,yes,wc_consumption,,,first,372
+wc-consumption-wc-usa,coal_uranium_metals,yes,wc_consumption,,,first,380
+wc-consumption-wc-worl,coal_uranium_metals,yes,wc_consumption,,,first,376
+wc-exports-wc-aus,coal_uranium_metals,yes,wc_exports,,,first,372
+wc-exports-wc-idn,coal_uranium_metals,yes,wc_exports,,,first,372
+wc-exports-wc-rus,coal_uranium_metals,yes,wc_exports,,,first,348
+wc-exports-wc-worl,coal_uranium_metals,yes,wc_exports,,,first,376
+wc-production-wc-chn,coal_uranium_metals,yes,wc_production,,,first,372
+wc-production-wc-ind,coal_uranium_metals,yes,wc_production,,,first,372
+wc-production-wc-usa,coal_uranium_metals,yes,wc_production,,,first,380
+wc-production-wc-worl,coal_uranium_metals,yes,wc_production,,,first,376
+wyoming-share-wy-coal,coal_uranium_metals,no,wyoming_share,,,first,320
+battery-per-peak-caiso-bat-peak,cross_family,no,battery_per_peak,,,first;highest,326
+battery-per-peak-ercot-bat-peak,cross_family,no,battery_per_peak,,,first;highest,326
+battery-per-peak-us-bat-peak,cross_family,no,battery_per_peak,,,first;highest,334
+built-per-asked-us-battery-built-asked,cross_family,no,built_per_asked,,,first,339
+built-per-asked-us-solar-built-asked,cross_family,no,built_per_asked,,,first,339
+energy-vs-3y-xe3-ciso,cross_family,yes,energy_vs_3y,,,first,355
+energy-vs-3y-xe3-pjm,cross_family,yes,energy_vs_3y,,,first,359
+energy-vs-5y-xe5-pjm,cross_family,yes,energy_vs_5y,,,first,359
+peak-vs-3y-xp3-isne,cross_family,yes,peak_vs_3y,,,first,369
+peak-vs-3y-xp3-miso,cross_family,yes,peak_vs_3y,,,first,361
+peak-vs-3y-xp3-pjm,cross_family,yes,peak_vs_3y,,,first,361
+peak-vs-5y-xp5-isne,cross_family,yes,peak_vs_5y,,,first,369
+peak-vs-5y-xp5-nyis,cross_family,yes,peak_vs_5y,,,first,373
+peak-vs-5y-xp5-pjm,cross_family,yes,peak_vs_5y,,,first,361
+storage-per-solar-caiso-bat-solar,cross_family,no,storage_per_solar,,,first,317
+storage-per-solar-ercot-bat-solar,cross_family,no,storage_per_solar,,,first,317
+storage-per-solar-us-bat-solar,cross_family,no,storage_per_solar,,,first,325
+util-vs-3y-xu3-12293,cross_family,yes,util_vs_3y,,,first,401
+util-vs-3y-xu3-195,cross_family,yes,util_vs_3y,,,first,391
+util-vs-3y-xu3-7140,cross_family,yes,util_vs_3y,,,first,391
+util-vs-3y-xu3-9617,cross_family,yes,util_vs_3y,,,first,385
+util-vs-5y-xu5-15500,cross_family,yes,util_vs_5y,,,first,393
+util-vs-5y-xu5-6452,cross_family,yes,util_vs_5y,,,first,399
+util-vs-5y-xu5-7140,cross_family,yes,util_vs_5y,,,first,391
+util-vs-5y-xu5-803,cross_family,yes,util_vs_5y,,,first,397
+mean-day-ercot-ba,demand,no,mean_day,,,first,292
+mean-day-us48,demand,no,mean_day,,,first,316
+seds-elec-comm-sd-ca,demand,yes,seds_elec_comm,,,first,346
+seds-elec-comm-sd-fl,demand,yes,seds_elec_comm,,,first,346
+seds-elec-comm-sd-ga,demand,yes,seds_elec_comm,,,first,346
+seds-elec-comm-sd-va,demand,yes,seds_elec_comm,,,first,346
+seds-elec-ind-sd-oh,demand,yes,seds_elec_ind,,,first,346
+seds-elec-ind-sd-tx,demand,yes,seds_elec_ind,,,first,346
+seds-elec-ind-sd-us,demand,yes,seds_elec_ind,,,first,354
+seds-elec-ind-sd-wa,demand,yes,seds_elec_ind,,,first,346
+seds-gas-power-sd-fl,demand,yes,seds_gas_power,,,first,345
+seds-gas-power-sd-pa,demand,yes,seds_gas_power,,,first,345
+seds-gas-power-sd-tx,demand,yes,seds_gas_power,,,first,345
+seds-gas-power-sd-us,demand,yes,seds_gas_power,,,first,353
+seds-renew-share-sd-sd,demand,yes,seds_renew_share,,,first,361
+seds-renew-share-sd-us,demand,yes,seds_renew_share,,,first,365
+seds-total-sd-fl,demand,yes,seds_total,,,first,340
+seds-total-sd-ga,demand,yes,seds_total,,,first,340
+seds-total-sd-tx,demand,yes,seds_total,,,first,340
+seds-total-sd-us,demand,yes,seds_total,,,first,348
+sub-mean-ercot-sub-fwes,demand,no,sub_mean,,"the CSV holds years before 2020 (from 2019), not full",first,308
+sub-mean-pjm-sub-dom,demand,no,sub_mean,,,first,318
+sub-night-share-pjm-sub-bc,demand,no,sub_night_share,,,all;first,349
+sub-night-share-pjm-sub-ce,demand,no,sub_night_share,,,all;first,341
+sub-p99-ercot-sub-fwes,demand,no,sub_p99,,"the CSV holds years before 2020 (from 2019), not full",first,320
+sub-p99-pjm-sub-dom,demand,no,sub_p99,,,first,330
+top-days-ercot-ba,demand,no,top_days,,,first;highest,308
+top-days-us48,demand,no,top_days,,,first;highest,332
+winter-vs-summer-ba-soco,demand,no,winter_vs_summer,,,first;highest,338
+winter-vs-summer-ba-tva,demand,no,winter_vs_summer,,,first;highest,338
+co2-coal-co2-chn,emissions_climate,yes,co2_coal,,,first,387
+co2-coal-co2-ind,emissions_climate,yes,co2_coal,,,first,387
+co2-coal-co2-usa,emissions_climate,yes,co2_coal,,,first,395
+co2-coal-co2-worl,emissions_climate,yes,co2_coal,,,first,391
+co2-gas-co2-chn,emissions_climate,yes,co2_gas,,,first,384
+co2-gas-co2-irn,emissions_climate,yes,co2_gas,,,first,384
+co2-gas-co2-usa,emissions_climate,yes,co2_gas,,,first,392
+co2-gas-co2-worl,emissions_climate,yes,co2_gas,,,first,388
+co2-total-co2-chn,emissions_climate,yes,co2_total,,,all;first,384
+co2-total-co2-idn,emissions_climate,yes,co2_total,,,all;first,384
+co2-total-co2-ind,emissions_climate,yes,co2_total,,,all;first,384
+co2-total-co2-worl,emissions_climate,yes,co2_total,,,all;first,388
+coal-co2-share-us-coal-co2-share,emissions_climate,no,coal_co2_share,,,first,340
+conus-temperature-conus-temp,emissions_climate,no,conus_temperature,,,first,362
+ghg-onshore-basin-ghgon-345,emissions_climate,yes,ghg_onshore_basin,,,first,347
+ghg-onshore-basin-ghgon-360,emissions_climate,yes,ghg_onshore_basin,,,first,347
+ghg-onshore-basin-ghgon-430,emissions_climate,yes,ghg_onshore_basin,,,first,347
+ghg-onshore-basin-ghgon-535,emissions_climate,yes,ghg_onshore_basin,,,first,351
+ghg-power-state-ghgpp-al,emissions_climate,yes,ghg_power_state,,,first,337
+ghg-power-state-ghgpp-il,emissions_climate,yes,ghg_power_state,,,first,337
+ghg-power-state-ghgpp-in,emissions_climate,yes,ghg_power_state,,,first,337
+ghg-power-state-ghgpp-ky,emissions_climate,yes,ghg_power_state,,,first,337
+ghg-power-state-ghgpp-tx,emissions_climate,yes,ghg_power_state,,,first,337
+power-co2-per-mwh-co2mwh-ia,emissions_climate,no,power_co2_per_mwh,,,first,363
+power-co2-per-mwh-co2mwh-us,emissions_climate,no,power_co2_per_mwh,,,first,371
+power-co2-share-us-power-co2-share,emissions_climate,no,power_co2_share,,,first,343
+power-co2-us-power-co2,emissions_climate,no,power_co2,,,first,325
+transport-co2-share-us-transport-co2-share,emissions_climate,no,transport_co2_share,,,first,340
+caiso-heat-2022-cal,events,yes,,,a CSV of another shape: years not checked by script,highest,332
+caiso-heat-2022-fla,events,yes,,,a CSV of another shape: years not checked by script,highest,330
+caiso-heat-2022-nw,events,yes,,,a CSV of another shape: years not checked by script,highest,336
+cold-2025-car,events,yes,,,a CSV of another shape: years not checked by script,highest,326
+cold-2025-fla,events,yes,,,a CSV of another shape: years not checked by script,highest,322
+cold-2025-mida,events,yes,,,a CSV of another shape: years not checked by script,highest,328
+cold-2025-ten,events,yes,,,a CSV of another shape: years not checked by script,highest,324
+cold-2025-tex,events,yes,,,a CSV of another shape: years not checked by script,highest,324
+cold-2026-cent,events,yes,,,a CSV of another shape: years not checked by script,highest,335
+cold-2026-fla,events,yes,,,a CSV of another shape: years not checked by script,highest,323
+cold-2026-se,events,yes,,,a CSV of another shape: years not checked by script,highest,331
+cold-2026-ten,events,yes,,,a CSV of another shape: years not checked by script,highest,327
+cold-2026-tex,events,yes,,,a CSV of another shape: years not checked by script,highest,327
+covid-2020-car,events,yes,,,a CSV of another shape: years not checked by script,,327
+covid-2020-fla,events,yes,,,a CSV of another shape: years not checked by script,,321
+covid-2020-mida,events,yes,,,a CSV of another shape: years not checked by script,,327
+covid-2020-se,events,yes,,,a CSV of another shape: years not checked by script,,327
+covid-2020-ten,events,yes,,,a CSV of another shape: years not checked by script,,323
+east-heat-2025-car,events,yes,,,a CSV of another shape: years not checked by script,highest,334
+east-heat-2025-mida,events,yes,,,a CSV of another shape: years not checked by script,highest,334
+east-heat-2025-midw,events,yes,,,a CSV of another shape: years not checked by script,highest,334
+east-heat-2025-ne,events,yes,,,a CSV of another shape: years not checked by script,highest,334
+east-heat-2025-ten,events,yes,,,a CSV of another shape: years not checked by script,highest,330
+elliott-2022-car,events,yes,,,a CSV of another shape: years not checked by script,highest,325
+elliott-2022-fla,events,yes,,,a CSV of another shape: years not checked by script,highest,319
+elliott-2022-nw,events,yes,,,a CSV of another shape: years not checked by script,highest,325
+elliott-2022-se,events,yes,,,a CSV of another shape: years not checked by script,highest,325
+elliott-2022-ten,events,yes,,,a CSV of another shape: years not checked by script,highest,321
+ercot-heat-2023-midw,events,yes,,,a CSV of another shape: years not checked by script,highest,333
+uri-2021-se,events,yes,,,a CSV of another shape: years not checked by script,highest,325
+energy-growth-pa-119,forecasts,yes,energy_growth,,,first,395
+energy-growth-pa-16,forecasts,yes,energy_growth,,,first,399
+energy-growth-pa-183,forecasts,yes,energy_growth,,,first,393
+energy-growth-pa-203,forecasts,yes,energy_growth,,,first,379
+energy-growth-pa-58,forecasts,yes,energy_growth,,,first,387
+energy-growth-pa-72,forecasts,yes,energy_growth,,,first,395
+energy-revision-pa-137,forecasts,yes,energy_revision,,,first,386
+energy-revision-pa-138,forecasts,yes,energy_revision,,,first,384
+energy-revision-pa-16,forecasts,yes,energy_revision,,,first,388
+energy-revision-pa-51,forecasts,yes,energy_revision,,,first,388
+energy-revision-pa-90,forecasts,yes,energy_revision,,,first,392
+energy-revision-pa-99,forecasts,yes,energy_revision,,,first,384
+summer-growth-pa-107,forecasts,yes,summer_growth,,,first,395
+summer-growth-pa-119,forecasts,yes,summer_growth,,,first,395
+summer-growth-pa-138,forecasts,yes,summer_growth,,,first,393
+summer-growth-pa-183,forecasts,yes,summer_growth,,,first,393
+summer-growth-pa-216,forecasts,yes,summer_growth,,,first,369
+summer-growth-pa-58,forecasts,yes,summer_growth,,,first,387
+summer-revision-pa-138,forecasts,yes,summer_revision,,,first,384
+summer-revision-pa-146,forecasts,yes,summer_revision,,,first,384
+summer-revision-pa-2,forecasts,yes,summer_revision,,,first,382
+summer-revision-pa-51,forecasts,yes,summer_revision,,,first,388
+summer-revision-pa-90,forecasts,yes,summer_revision,,,first,392
+summer-revision-pa-99,forecasts,yes,summer_revision,,,first,384
+winter-growth-pa-119,forecasts,yes,winter_growth,,,first,395
+winter-growth-pa-138,forecasts,yes,winter_growth,,,first,393
+winter-growth-pa-16,forecasts,yes,winter_growth,,,first,399
+winter-growth-pa-183,forecasts,yes,winter_growth,,,first,393
+winter-growth-pa-58,forecasts,yes,winter_growth,,,first,387
+winter-growth-pa-72,forecasts,yes,winter_growth,,,first,395
+flared-share-flare-la,gas,no,flared_share,,,first,364
+flared-share-flare-wy,gas,no,flared_share,,,first,364
+gas-net-receipts-gn-fl,gas,yes,gas_net_receipts,,,first,337
+gas-net-receipts-gn-la,gas,yes,gas_net_receipts,,,first,337
+gas-net-receipts-gn-nd,gas,yes,gas_net_receipts,,,first,341
+gas-net-receipts-gn-oh,gas,yes,gas_net_receipts,,,first,337
+gas-net-receipts-gn-pa,gas,yes,gas_net_receipts,,,first,337
+gas-net-receipts-gn-wv,gas,yes,gas_net_receipts,,,first,341
+lng-share-us-lng,gas,no,lng_share,,,first,339
+mexico-exports-us-mexico,gas,no,mexico_exports,,,first,397
+power-share-us-power-burn,gas,no,power_share,,,first,334
+s2s-in-s2in-alabama,gas,yes,s2s_in,,,first,359
+s2s-in-s2in-louisiana,gas,yes,s2s_in,,,first,359
+s2s-in-s2in-mississippi,gas,yes,s2s_in,,,first,359
+s2s-in-s2in-tennessee,gas,yes,s2s_in,,,first,359
+s2s-in-s2in-texas,gas,yes,s2s_in,,,first,359
+s2s-out-s2out-alabama,gas,yes,s2s_out,,,first,362
+s2s-out-s2out-mississippi,gas,yes,s2s_out,,,first,362
+s2s-out-s2out-pennsylvania,gas,yes,s2s_out,,,first,362
+s2s-out-s2out-texas,gas,yes,s2s_out,,,first,362
+s2s-out-s2out-west-virginia,gas,yes,s2s_out,,,first,366
+shale-share-us-shale,gas,no,shale_share,,,first,331
+state-power-share-burn-nh,gas,no,state_power_share,,,first,354
+state-power-share-burn-pa,gas,no,state_power_share,,,first,350
+state-production-share-prod-pa,gas,no,state_production_share,,,first,347
+state-production-share-prod-wv,gas,no,state_production_share,,,first,351
+storage-outside-stor-salt,gas,no,storage_outside,,,first,328
+wog-gas-exports-wog-aus,gas,yes,wog_gas_exports,,,first,359
+wog-gas-exports-wog-qat,gas,yes,wog_gas_exports,,,first,359
+wog-gas-exports-wog-usa,gas,yes,wog_gas_exports,,,first,387
+wog-gas-exports-wog-worl,gas,yes,wog_gas_exports,,,first,363
+wog-gas-wog-chn,gas,yes,wog_gas,,,first,379
+wog-gas-wog-irn,gas,yes,wog_gas,,,first,379
+wog-gas-wog-usa,gas,yes,wog_gas,,,first,387
+wog-gas-wog-worl,gas,yes,wog_gas,,,first,383
+added-mw-add-battery-us,generation_pipeline,no,added_mw,,,first,321
+added-mw-add-solar-us,generation_pipeline,no,added_mw,,,first,325
+battery-fleet-mw-caiso-fleet-battery-operating-mw,generation_pipeline,no,battery_fleet_mw,,,first,293
+battery-fleet-mw-us-fleet-battery-operating-mw,generation_pipeline,no,battery_fleet_mw,,,first,301
+battery-hours-us-battery-hours,generation_pipeline,no,battery_hours,,,first,344
+coal-heat-rate-hr-coal-pa,generation_pipeline,no,coal_heat_rate,,,first,331
+coal-heat-rate-hr-coal-us,generation_pipeline,no,coal_heat_rate,,,first,339
+coal-share-state-cow-nm,generation_pipeline,no,coal_share,,,first,343
+coal-share-state-cow-us,generation_pipeline,no,coal_share,,,first,347
+fleet-hours-ercot-fleet-battery-operating-mwh-per-mw,generation_pipeline,no,fleet_hours,,,first,302
+fleet-hours-us-fleet-battery-operating-mwh-per-mw,generation_pipeline,no,fleet_hours,,,first,310
+gas-evening-share-caiso-mix,generation_pipeline,no,gas_evening_share,,,first,313
+gas-heat-rate-hr-gas-fl,generation_pipeline,no,gas_heat_rate,,,first,336
+gas-heat-rate-hr-gas-us,generation_pipeline,no,gas_heat_rate,,,first,344
+gas-share-state-ng-de,generation_pipeline,no,gas_share,,,first,340
+gas-share-state-ng-us,generation_pipeline,no,gas_share,,,first,348
+hydro-share-state-hyc-id,generation_pipeline,no,hydro_share,,,first,353
+hydro-share-state-hyc-vt,generation_pipeline,no,hydro_share,,,first,353
+nuclear-share-state-nuc-us,generation_pipeline,no,nuclear_share,,,first,347
+nuclear-share-state-nuc-vt,generation_pipeline,no,nuclear_share,,,first,339
+reactor-outage-days-nuc-6038-1,generation_pipeline,no,reactor_outage_days,,,first;least,336
+reactor-outage-days-nuc-6152-2,generation_pipeline,no,reactor_outage_days,,,first;least,336
+res-pv-price-tts-res-ca,generation_pipeline,no,res_pv_price,,,first,353
+res-pv-price-tts-res-ma,generation_pipeline,no,res_pv_price,,,first,337
+small-solar-ratio-state-dpv-ma,generation_pipeline,no,small_solar_ratio,,,first,311
+small-solar-ratio-state-dpv-us,generation_pipeline,no,small_solar_ratio,,,first,319
+solar-midday-share-caiso-mix,generation_pipeline,no,solar_midday_share,,,first,299
+solar-midday-share-ercot-mix,generation_pipeline,no,solar_midday_share,,,first,299
+solar-share-state-sun-nv,generation_pipeline,no,solar_share,,,first,340
+solar-share-state-sun-us,generation_pipeline,no,solar_share,,,first,348
+turbine-kw-us-turbine-kw,generation_pipeline,no,turbine_kw,,,first,332
+turbine-rotor-us-turbine-rotor,generation_pipeline,no,turbine_rotor,,,first,325
+us-nuclear-capacity-us-nuclear-cap,generation_pipeline,no,us_nuclear_capacity,,,first,320
+wind-share-state-wnd-sd,generation_pipeline,no,wind_share,,,first,343
+wind-share-state-wnd-us,generation_pipeline,no,wind_share,,,first,347
+tariff-min-bill-pct,large_load,yes,,the Expected lines of the do-file and the Python differ,a CSV of another shape: years not checked by script,,206
+tariff-min-contract-years,large_load,yes,,the Expected lines of the do-file and the Python differ,a CSV of another shape: years not checked by script,,194
+tariff-min-demand-mw,large_load,yes,,the Expected lines of the do-file and the Python differ,a CSV of another shape: years not checked by script,,202
+wait-alberta-electric-system-operat-in-stage-then-withdrawn,large_load,yes,,the Expected lines of the do-file and the Python differ,a CSV of another shape: years not checked by script,least;most,193
+wait-alberta-electric-system-operat-in-stage,large_load,yes,,the Expected lines of the do-file and the Python differ,a CSV of another shape: years not checked by script,least;most,195
+wait-alberta-electric-system-operat-request-to-energized,large_load,yes,,the Expected lines of the do-file and the Python differ,a CSV of another shape: years not checked by script,least;most,192
+wait-alberta-electric-system-operat-request-to-withdrawal,large_load,yes,,the Expected lines of the do-file and the Python differ,a CSV of another shape: years not checked by script,least;most,192
+wait-bonneville-power-administratio-in-stage-then-withdrawn,large_load,yes,,the Expected lines of the do-file and the Python differ,a CSV of another shape: years not checked by script,least;most,190
+wait-bonneville-power-administratio-in-stage,large_load,yes,,the Expected lines of the do-file and the Python differ,a CSV of another shape: years not checked by script,least;most,192
+wait-bonneville-power-administratio-request-to-agreement,large_load,yes,,the Expected lines of the do-file and the Python differ,a CSV of another shape: years not checked by script,least;most,191
+wait-bonneville-power-administratio-request-to-energized,large_load,yes,,the Expected lines of the do-file and the Python differ,a CSV of another shape: years not checked by script,least;most,189
+wait-bonneville-power-administratio-request-to-study,large_load,yes,,the Expected lines of the do-file and the Python differ,a CSV of another shape: years not checked by script,least;most,189
+wait-bonneville-power-administratio-request-to-withdrawal,large_load,yes,,the Expected lines of the do-file and the Python differ,a CSV of another shape: years not checked by script,least;most,189
+wait-new-york-iso-in-stage,large_load,yes,,the Expected lines of the do-file and the Python differ,a CSV of another shape: years not checked by script,least;most,192
+wait-new-york-iso-request-to-study,large_load,yes,,the Expected lines of the do-file and the Python differ,a CSV of another shape: years not checked by script,least;most,189
+waitsize-bonneville-power-administratio-request-to-withdrawal,large_load,yes,,the Expected lines of the do-file and the Python differ,a CSV of another shape: years not checked by script,least;most,248
+calm-hours-caiso-calm-hours,markets_operations,no,calm_hours,,,first,314
+calm-hours-ercot-calm-hours,markets_operations,no,calm_hours,,,first,314
+calm-hours-pjm-calm-hours,markets_operations,no,calm_hours,,,first,314
+coal-stocks-dec-cst-il,markets_operations,yes,coal_stocks_dec,,,first,335
+coal-stocks-dec-cst-mi,markets_operations,yes,coal_stocks_dec,,,first,335
+coal-stocks-dec-cst-oh,markets_operations,yes,coal_stocks_dec,,,first,335
+coal-stocks-dec-cst-tx,markets_operations,yes,coal_stocks_dec,,,first,335
+coal-stocks-dec-cst-us,markets_operations,yes,coal_stocks_dec,,,first,327
+nuc-out-peak-nuc-us,markets_operations,yes,nuc_out_peak,,,first;highest,340
+nuc-out-share-nucf-2589,markets_operations,yes,nuc_out_share,,,first,355
+nuc-out-share-nucf-3265,markets_operations,yes,nuc_out_share,,,first,339
+nuc-out-share-nucf-6008,markets_operations,yes,nuc_out_share,,,first,343
+nuc-out-share-nucf-6023,markets_operations,yes,nuc_out_share,,,first,347
+reactor-power-rp-surry-1,markets_operations,yes,reactor_power,,,first,309
+reactor-power-rp-us,markets_operations,yes,reactor_power,,,first,309
+reactor-power-rp-watts-bar-1,markets_operations,yes,reactor_power,,,first,313
+tight-solar-ercot-tight-solar,markets_operations,no,tight_solar,,,first,327
+tight-solar-pjm-tight-solar,markets_operations,no,tight_solar,,,first,327
+tight-wind-ercot-tight-wind,markets_operations,no,tight_wind,,,first,327
+wind-solar-cf-ercot-wind-solar-cf,markets_operations,no,wind_solar_cf,,,first,322
+api-gravity-us-api-gravity,oil_products_world,no,api_gravity,,,first,366
+diesel-premium-us-diesel-premium,oil_products_world,no,diesel_premium,,"the CSV holds years before 1995 (from 1994), not full",first,351
+exp-crude-dest-xc-nbr,oil_products_world,yes,exp_crude_dest,,,all;first,320
+exp-crude-dest-xc-nfr,oil_products_world,yes,exp_crude_dest,,,all;first,320
+exp-crude-dest-xc-nks,oil_products_world,yes,exp_crude_dest,,,all;first,328
+exp-crude-dest-xc-nnl,oil_products_world,yes,exp_crude_dest,,,all;first,328
+exp-crude-dest-xc-nsp,oil_products_world,yes,exp_crude_dest,,,all;first,320
+exp-crude-dest-xc-ntw,oil_products_world,yes,exp_crude_dest,,,all;first,322
+exp-product-xp-epc0,oil_products_world,yes,exp_product,,,first,310
+exp-product-xp-epjk,oil_products_world,yes,exp_product,,,first,314
+exp-product-xp-epllea,oil_products_world,yes,exp_product,,,first,306
+exp-product-xp-epllpa,oil_products_world,yes,exp_product,,,first,306
+exp-product-xp-epp0,oil_products_world,yes,exp_product,,,all;first,314
+exp-product-xp-eppr,oil_products_world,yes,exp_product,,,first,314
+gas-premium-gasprem-r30,oil_products_world,no,gas_premium,,,first,314
+gas-premium-gasprem-sca,oil_products_world,no,gas_premium,,,first,298
+gasoline-crack-crack-gasoline,oil_products_world,no,gasoline_crack,,"the CSV holds years before 1987 (from 1986), not full",first,373
+gulf-gas-gulf,oil_products_world,yes,gulf_gas,,,first,379
+gulf-leases-gulf,oil_products_world,yes,gulf_leases,,,first,362
+gulf-oil-gulf,oil_products_world,yes,gulf_oil,,,first,374
+import-share-imp-ca,oil_products_world,no,import_share,,,first,401
+import-share-imp-ni,oil_products_world,no,import_share,,,first,401
+jet-crack-crack-jet,oil_products_world,no,jet_crack,,"the CSV holds years before 1991 (from 1990), not full",first,368
+net-imports-us-net-imports,oil_products_world,no,net_imports,,,first,314
+propane-to-crude-us-propane-crude,oil_products_world,no,propane_to_crude,,"the CSV holds years before 1993 (from 1992), not full",first,353
+pump-over-spot-us-pump-spot,oil_products_world,no,pump_over_spot,,"the CSV holds years before 1991 (from 1990), not full",first,367
+refining-capacity-us-refining-capacity,oil_products_world,no,refining_capacity,,,first,367
+state-crude-share-crude-ak,oil_products_world,no,state_crude_share,,,first,342
+state-crude-share-crude-tx,oil_products_world,no,state_crude_share,,,first,342
+sulfur-content-us-sulfur,oil_products_world,no,sulfur_content,,,first,368
+supplied-gasoline-us-supplied-gasoline,oil_products_world,no,supplied_gasoline,,,first,315
+us-liquids-share-us-world-liquids,oil_products_world,no,us_liquids_share,,,first,359
+us-ngpl-share-us-world-ngpl,oil_products_world,no,us_ngpl_share,,,first,350
+wog-crude-wog-bra,oil_products_world,yes,wog_crude,,,first,375
+wog-crude-wog-can,oil_products_world,yes,wog_crude,,,first,383
+wog-crude-wog-usa,oil_products_world,yes,wog_crude,,,first,391
+wog-crude-wog-worl,oil_products_world,yes,wog_crude,,,first,387
+wog-oil-use-wog-chn,oil_products_world,yes,wog_oil_use,,,first,387
+wog-oil-use-wog-ind,oil_products_world,yes,wog_oil_use,,,first,387
+wog-oil-use-wog-usa,oil_products_world,yes,wog_oil_use,,,first,397
+wog-oil-use-wog-worl,oil_products_world,yes,wog_oil_use,,,first,391
+dcfast-ports-dcfast-ca,other_us,no,dcfast_ports,,,first,284
+dcfast-ports-dcfast-us,other_us,no,dcfast_ports,,,first,292
+ev-share-ev-ca,other_us,no,ev_share,,,first,309
+ev-share-ev-us,other_us,no,ev_share,,,first,317
+home-electric-spend-home-elec-dc,other_us,no,home_electric_spend,,,first,377
+home-electric-spend-home-elec-us,other_us,no,home_electric_spend,,,first,373
+quakes-m3-eq-new-mexico,other_us,yes,quakes_m3,,,first,329
+quakes-m3-eq-texas,other_us,yes,quakes_m3,,,first,325
+renewable-share-us-renewable-share,other_us,no,renewable_share,,,first,400
+util-commercial-price-u861-13756-in,other_us,yes,util_commercial_price,,,first,357
+util-commercial-price-u861-15500-wa,other_us,yes,util_commercial_price,,,first,353
+util-commercial-price-u861-19547-hi,other_us,yes,util_commercial_price,,,first,353
+util-commercial-u861-14063-ok,other_us,yes,util_commercial,,,first,346
+util-commercial-u861-14127-ne,other_us,yes,util_commercial,,,first,342
+util-commercial-u861-16572-az,other_us,yes,util_commercial,,,first,338
+util-commercial-u861-19876-va,other_us,yes,util_commercial,,,first,346
+util-commercial-u861-6452-fl,other_us,yes,util_commercial,,,first,346
+util-commercial-u861-803-az,other_us,yes,util_commercial,,,first,342
+util-industrial-u861-11241-la,other_us,yes,util_industrial,,,first,336
+util-industrial-u861-12341-ia,other_us,yes,util_industrial,,,first,336
+util-industrial-u861-15248-or,other_us,yes,util_industrial,,,first,340
+util-industrial-u861-814-ar,other_us,yes,util_industrial,,,first,336
+util-total-u861-12341-ia,other_us,yes,util_total,,,first,329
+util-total-u861-14063-ok,other_us,yes,util_total,,,first,337
+util-total-u861-19876-va,other_us,yes,util_total,,,first,337
+util-total-u861-6452-fl,other_us,yes,util_total,,,first,337
+brent-wti-spread-us-brent-wti,prices,no,brent_wti_spread,,"the CSV holds years before 1988 (from 1987), not full",first,373
+carb-allowance-price-us-ca-allowance,prices,no,carb_allowance_price,,"the CSV holds years before 2013 (from 2012), not full",first,320
+cheapest-hour-ercot-hb-north,prices,no,cheapest_hour,,,first,333
+cheapest-hour-ercot-hb-south,prices,no,cheapest_hour,,,first,333
+da-above-rt-share-ercot-lz-south,prices,no,da_above_rt_share,,,first,325
+da-above-rt-share-ercot-lz-west,prices,no,da_above_rt_share,,,first,325
+daily-spread-ercot-hb-south,prices,no,daily_spread,,,first;highest;lowest,324
+daily-spread-ercot-hb-west,prices,no,daily_spread,,,first;highest;lowest,324
+europe-gas-premium-us-europe-gas,prices,no,europe_gas_premium,,,first,361
+evening-premium-ercot-hb-south,prices,no,evening_premium,,,all;first,323
+evening-premium-ercot-lz-houston,prices,no,evening_premium,,,all;first,327
+henry-hub-volatility-us-henry-hub,prices,no,henry_hub_volatility,,,first,346
+hour-to-hour-move-ercot-hb-houston,prices,no,hour_to_hour_move,,,first,314
+hour-to-hour-move-ercot-hb-south,prices,no,hour_to_hour_move,,,first,314
+industrial-vs-citygate-state-ind-ca,prices,no,industrial_vs_citygate,,,first,338
+industrial-vs-citygate-state-ind-mi,prices,no,industrial_vs_citygate,,,first,340
+japan-lng-premium-us-japan-lng,prices,no,japan_lng_premium,,,first,367
+lcfs-credit-price-us-ca-lcfs,prices,no,lcfs_credit_price,,,first,309
+midday-discount-ercot-lz-south,prices,no,midday_discount,,,all;first,329
+midday-discount-ercot-lz-west,prices,no,midday_discount,,,all;first,329
+midday-minus-night-ercot-lz-west,prices,no,midday_minus_night,,,first,314
+power-vs-citygate-state-pow-ne,prices,no,power_vs_citygate,,,first,332
+power-vs-citygate-state-pow-wv,prices,no,power_vs_citygate,,,first,310
+residential-markup-state-res-ca,prices,no,residential_markup,,,first,337
+residential-markup-state-res-vt,prices,no,residential_markup,,,first,339
+spread-4h-ercot-hb-hubavg,prices,no,spread_4h,,,first,319
+spread-4h-ercot-hb-west,prices,no,spread_4h,,,first,319
+top-days-share-ercot-hb-houston,prices,no,top_days_share,,,first,322
+top-days-share-ercot-hb-south,prices,no,top_days_share,,,first,322
+wide-spread-days-ercot-lz-north,prices,no,wide_spread_days,,,first;highest;least;lowest,330
+wide-spread-days-ercot-lz-west,prices,no,wide_spread_days,,,first;highest;least;lowest,330
+winter-top-share-ercot-lz-north,prices,no,winter_top_share,,,first,346
+winter-top-share-ercot-lz-west,prices,no,winter_top_share,,,first,346
+dc-construction-us-dc-build,queues_deals_datacenters,no,dc_construction,,,first,312
+dc-share-us-dc-share,queues_deals_datacenters,no,dc_share,,,first,321
+hosting-jobs-jobs518-ca,queues_deals_datacenters,no,hosting_jobs,,,first,318
+hosting-jobs-jobs518-us,queues_deals_datacenters,no,hosting_jobs,,,first,326
+hosting-pay-pay518-ny,queues_deals_datacenters,no,hosting_pay,,,first,341
+hosting-pay-pay518-us,queues_deals_datacenters,no,hosting_pay,,,first,345
+hosting-revenue-us-rev518,queues_deals_datacenters,no,hosting_revenue,,"the CSV holds years before 2004 (from 2003), not full",first,338
+hosting-sites-est518-ca,queues_deals_datacenters,no,hosting_sites,,,first,315
+hosting-sites-est518-us,queues_deals_datacenters,no,hosting_sites,,,first,323
+hybrid-share-southeast-lbnl-hybrid,queues_deals_datacenters,no,hybrid_share,,,first,367
+hybrid-share-us-lbnl-hybrid,queues_deals_datacenters,no,hybrid_share,,,first,379
+months-by-region-pjm-lbnl-months,queues_deals_datacenters,no,months_by_region,,,first,344
+months-by-region-us-lbnl-months,queues_deals_datacenters,no,months_by_region,,,first,352
+months-by-type-us-type-battery-months,queues_deals_datacenters,no,months_by_type,,,first,339
+months-by-type-us-type-solar-months,queues_deals_datacenters,no,months_by_type,,,first,357
+months-by-type-us-type-wind-months,queues_deals_datacenters,no,months_by_type,,,first,369
+power-construction-us-power-build,queues_deals_datacenters,no,power_construction,,,first,362
+request-size-us-type-battery-size,queues_deals_datacenters,no,request_size,,,first,345
+request-size-us-type-solar-size,queues_deals_datacenters,no,request_size,,,first,355
+request-size-us-type-wind-size,queues_deals_datacenters,no,request_size,,,first,357
+requested-by-type-us-req-battery,queues_deals_datacenters,no,requested_by_type,,,first,352
+requested-by-type-us-req-gas,queues_deals_datacenters,no,requested_by_type,,,first,352
+requested-by-type-us-req-solar,queues_deals_datacenters,no,requested_by_type,,,first,352
+storage-share-us-req-battery-share,queues_deals_datacenters,no,storage_share,,,first,367
+withdrawn-by-type-us-type-solar-wd,queues_deals_datacenters,no,withdrawn_by_type,,,first,393
+withdrawn-share-pjm-lbnl-wd,queues_deals_datacenters,no,withdrawn_share,,,first,372
+withdrawn-share-us-lbnl-wd,queues_deals_datacenters,no,withdrawn_share,,,first,380
+coal-share-st-car-cow,regions,yes,coal_share,,,first,348
+coal-share-st-se-cow,regions,yes,coal_share,,,first,356
+coal-share-st-sw-cow,regions,yes,coal_share,,,first,360
+coal-share-st-ten-cow,regions,yes,coal_share,,,first,360
+gas-share-st-car-ng,regions,yes,gas_share,,,first,351
+gas-share-st-fla-ng,regions,yes,gas_share,,,first,335
+gas-share-st-se-ng,regions,yes,gas_share,,,first,359
+gas-share-st-sw-ng,regions,yes,gas_share,,,first,363
+gen-ratio-rg-se,regions,yes,gen_ratio,,"the CSV holds years before 2019 (from 2018), not full",first,313
+mean-mw-rd-fla,regions,yes,mean_mw,,"the CSV holds years before 2021 (from 2018), not full",first,297
+mean-mw-rd-nw,regions,yes,mean_mw,,"the CSV holds years before 2019 (from 2018), not full",first,303
+mean-mw-rd-sw,regions,yes,mean_mw,,"the CSV holds years before 2019 (from 2018), not full",first,305
+mean-mw-rd-ten,regions,yes,mean_mw,,"the CSV holds years before 2019 (from 2018), not full",first,301
+nuclear-share-st-fla-nuc,regions,yes,nuclear_share,,,first,332
+nuclear-share-st-se-nuc,regions,yes,nuclear_share,,,first,356
+nuclear-share-st-sw-nuc,regions,yes,nuclear_share,,,first,360
+nuclear-share-st-ten-nuc,regions,yes,nuclear_share,,,first,360
+peak-mw-rd-car,regions,yes,peak_mw,,"the CSV holds years before 2019 (from 2018), not full",first;highest,305
+peak-mw-rd-fla,regions,yes,peak_mw,,"the CSV holds years before 2021 (from 2018), not full",first;highest,297
+peak-mw-rd-nw,regions,yes,peak_mw,,"the CSV holds years before 2019 (from 2018), not full",first;highest,303
+peak-mw-rd-sw,regions,yes,peak_mw,,"the CSV holds years before 2019 (from 2018), not full",first;highest,305
+solar-share-st-fla-sun,regions,yes,solar_share,,,first,341
+solar-share-st-nw-sun,regions,yes,solar_share,,,first,389
+solar-share-st-sw-sun,regions,yes,solar_share,,,first,369
+top-winter-rd-car,regions,yes,top_winter,,"the CSV holds years before 2019 (from 2018), not full",first;highest,343
+winter-summer-rd-se,regions,yes,winter_summer,,"the CSV holds years before 2019 (from 2018), not full",first,322
+winter-summer-rd-ten,regions,yes,winter_summer,,"the CSV holds years before 2019 (from 2018), not full",first,318
+ami-share-ami-il,tariffs_policy,no,ami_share,,,first,305
+ami-share-ami-us,tariffs_policy,no,ami_share,,,first,313
+commercial-sales-com-sales-tx,tariffs_policy,no,commercial_sales,,,first,336
+commercial-sales-com-sales-us,tariffs_policy,no,commercial_sales,,,first,344
+net-metered-nem-ca,tariffs_policy,no,net_metered,,,first,292
+net-metered-nem-us,tariffs_policy,no,net_metered,,,first,300
+res-over-ind-res-ind-gap-mi,tariffs_policy,no,res_over_ind,,,first,322
+res-over-ind-res-ind-gap-us,tariffs_policy,no,res_over_ind,,,first,330
+res-price-res-price-hi,tariffs_policy,no,res_price,,,first,330
+res-price-res-price-us,tariffs_policy,no,res_price,,,first,338
+saidi-saidi-mo,tariffs_policy,no,saidi,,,first,306
+saidi-saidi-ne,tariffs_policy,no,saidi,,,first,306
+seds-elec-spend-sd-ca,tariffs_policy,yes,seds_elec_spend,,,first,352
+seds-elec-spend-sd-fl,tariffs_policy,yes,seds_elec_spend,,,first,352
+seds-elec-spend-sd-tx,tariffs_policy,yes,seds_elec_spend,,,first,352
+seds-elec-spend-sd-us,tariffs_policy,yes,seds_elec_spend,,,first,360
+seds-price-comm-sd-ak,tariffs_policy,yes,seds_price_comm,,,first,377
+seds-price-comm-sd-ca,tariffs_policy,yes,seds_price_comm,,,first,377
+seds-price-comm-sd-hi,tariffs_policy,yes,seds_price_comm,,,first,377
+seds-price-comm-sd-us,tariffs_policy,yes,seds_price_comm,,,first,385
+seds-price-ind-sd-ak,tariffs_policy,yes,seds_price_ind,,,first,375
+seds-price-ind-sd-ca,tariffs_policy,yes,seds_price_ind,,,first,375
+seds-price-ind-sd-hi,tariffs_policy,yes,seds_price_ind,,,first,375
+seds-price-ind-sd-us,tariffs_policy,yes,seds_price_ind,,,first,383
+pair-against-rp-can-ne,trade,yes,pair_against,,"the CSV holds years before 2019 (from 2018), not full",first,335
+pair-against-rp-cent-nw,trade,yes,pair_against,,"the CSV holds years before 2019 (from 2018), not full",first,343
+pair-against-summer-rp-can-ny,trade,yes,pair_against_summer,,"the CSV holds years before 2019 (from 2018), not full",first,333
+pair-against-summer-rp-se-car,trade,yes,pair_against_summer,,"the CSV holds years before 2019 (from 2018), not full",first,337
+pair-flow-rp-can-midw,trade,yes,pair_flow,,"the CSV holds years before 2019 (from 2018), not full",first,327
+pair-flow-rp-can-ne,trade,yes,pair_flow,,"the CSV holds years before 2019 (from 2018), not full",first,327
+pair-flow-rp-can-ny,trade,yes,pair_flow,,"the CSV holds years before 2019 (from 2018), not full",first,327
+pair-flow-rp-car-mida,trade,yes,pair_flow,,"the CSV holds years before 2019 (from 2018), not full",first,331
+pair-flow-rp-cent-midw,trade,yes,pair_flow,,"the CSV holds years before 2019 (from 2018), not full",first,335
+pair-flow-rp-cent-nw,trade,yes,pair_flow,,"the CSV holds years before 2019 (from 2018), not full",first,335
+pair-flow-rp-midw-ten,trade,yes,pair_flow,,"the CSV holds years before 2019 (from 2018), not full",first,327
+pair-flow-rp-se-car,trade,yes,pair_flow,,"the CSV holds years before 2019 (from 2018), not full",first,331
+pair-side-gap-rg-cal-sw,trade,yes,pair_side_gap,,"the CSV holds years before 2019 (from 2018), not full",first,314
+pair-side-gap-rg-cent-midw,trade,yes,pair_side_gap,,"the CSV holds years before 2021 (from 2018), not full",first,316
+pair-side-gap-rg-midw-se,trade,yes,pair_side_gap,,"the CSV holds years before 2019 (from 2018), not full",first,318
+region-against-rn-cal,trade,yes,region_against,,"the CSV holds years before 2019 (from 2018), not full",first,339
+region-against-rn-ne,trade,yes,region_against,,"the CSV holds years before 2019 (from 2018), not full",first,345
+region-net-rn-cal,trade,yes,region_net,,"the CSV holds years before 2019 (from 2018), not full",first,363
+region-net-rn-cent,trade,yes,region_net,,"the CSV holds years before 2019 (from 2018), not full",first,373
+region-net-rn-ne,trade,yes,region_net,,"the CSV holds years before 2019 (from 2018), not full",first,369
+region-net-rn-ny,trade,yes,region_net,,"the CSV holds years before 2019 (from 2018), not full",first,369
+region-net-rn-ten,trade,yes,region_net,,"the CSV holds years before 2019 (from 2018), not full",first,365
+tie-flow-bt-bpat-ciso,trade,yes,tie_flow,,"the CSV holds years before 2019 (from 2018), not full",first,353
+tie-flow-bt-hqt-nyis,trade,yes,tie_flow,,"the CSV holds years before 2019 (from 2018), not full",first,345
+tie-flow-bt-ieso-miso,trade,yes,tie_flow,,"the CSV holds years before 2019 (from 2018), not full",first,337
+tie-flow-bt-ldwp-ciso,trade,yes,tie_flow,,"the CSV holds years before 2019 (from 2018), not full",first,369
+tie-flow-bt-mheb-miso,trade,yes,tie_flow,,"the CSV holds years before 2019 (from 2018), not full",first,337
+tie-flow-bt-miso-tva,trade,yes,tie_flow,,"the CSV holds years before 2019 (from 2018), not full",first,345
+tie-flow-bt-nevp-ciso,trade,yes,tie_flow,,"the CSV holds years before 2019 (from 2018), not full",first,353
+tie-flow-bt-soco-sceg,trade,yes,tie_flow,,"the CSV holds years before 2019 (from 2018), not full",first,349
+tie-side-gap-bg-azps-srp,trade,yes,tie_side_gap,,"the CSV holds years before 2019 (from 2018), not full",first,347
+tie-side-gap-bg-bpat-pge,trade,yes,tie_side_gap,,"the CSV holds years before 2019 (from 2018), not full",first,347
+tie-side-gap-bg-bpat-scl,trade,yes,tie_side_gap,,"the CSV holds years before 2019 (from 2018), not full",first,347
+tie-side-gap-bg-ciso-srp,trade,yes,tie_side_gap,,"the CSV holds years before 2019 (from 2018), not full",first,347
+cdd-wd-midw,weather,yes,cdd,,"the CSV holds years before 2019 (from 2018), not full",first,319
+cdd-wd-tex,weather,yes,cdd,,"the CSV holds years before 2019 (from 2018), not full",first,313
+cold-hours-wh-nw,weather,yes,cold_hours,,"the CSV holds years before 2019 (from 2018), not full",first,290
+cold-mw-wx-cal,weather,yes,cold_mw,,"the CSV holds years before 2019 (from 2018), not full",first,313
+cold-mw-wx-sw,weather,yes,cold_mw,,"the CSV holds years before 2019 (from 2018), not full",first,317
+cold-mw-wx-tex,weather,yes,cold_mw,,"the CSV holds years before 2019 (from 2018), not full",first,311
+cold-ratio-wx-cal,weather,yes,cold_ratio,,"the CSV holds years before 2019 (from 2018), not full",first,324
+hdd-wd-sw,weather,yes,hdd,,"the CSV holds years before 2019 (from 2018), not full",first,319
+hot-hours-wh-nw,weather,yes,hot_hours,,"the CSV holds years before 2019 (from 2018), not full",first,290
+hot-mw-wx-midw,weather,yes,hot_mw,,"the CSV holds years before 2019 (from 2018), not full",first,317
+hot-mw-wx-nw,weather,yes,hot_mw,,"the CSV holds years before 2021 (from 2018), not full",first,311
+hot-mw-wx-tex,weather,yes,hot_mw,,"the CSV holds years before 2019 (from 2018), not full",first,311
+hot-ratio-wx-nw,weather,yes,hot_ratio,,"the CSV holds years before 2021 (from 2018), not full",first,322
+max-temp-wt-midw,weather,yes,max_temp,,"the CSV holds years before 2019 (from 2018), not full",first,289
+min-temp-wt-cal,weather,yes,min_temp,,"the CSV holds years before 2019 (from 2018), not full",first,285
+summer-temp-wt-fla,weather,yes,summer_temp,,"the CSV holds years before 2019 (from 2018), not full",first,278
+winter-temp-wt-sw,weather,yes,winter_temp,,"the CSV holds years before 2019 (from 2018), not full",first,295
+winter-temp-wt-ten,weather,yes,winter_temp,,"the CSV holds years before 2019 (from 2018), not full",first,291
+eu-net-imports-eu-el,world_power,yes,eu_net_imports,,,first,307
+eu-net-imports-eu-eu27-2020,world_power,yes,eu_net_imports,,,first,319
+eu-net-imports-eu-pt,world_power,yes,eu_net_imports,,,first,307
+eu-share-coal-eu-el,world_power,yes,eu_share_coal,,,first,298
+eu-share-coal-eu-eu27-2020,world_power,yes,eu_share_coal,,,first,308
+eu-share-coal-eu-pl,world_power,yes,eu_share_coal,,,first,298
+eu-share-gas-eu-eu27-2020,world_power,yes,eu_share_gas,,,first,304
+eu-share-gas-eu-pt,world_power,yes,eu_share_gas,,,first,292
+eu-share-nuclear-eu-be,world_power,yes,eu_share_nuclear,,,first,291
+eu-share-nuclear-eu-de,world_power,yes,eu_share_nuclear,,,first,291
+eu-share-nuclear-eu-eu27-2020,world_power,yes,eu_share_nuclear,,,first,303
+eu-share-solar-eu-eu27-2020,world_power,yes,eu_share_solar,,,first,301
+eu-share-solar-eu-nl,world_power,yes,eu_share_solar,,,first,293
+eu-share-wind-eu-eu27-2020,world_power,yes,eu_share_wind,,,first,303
+eu-share-wind-eu-fi,world_power,yes,eu_share_wind,,,first,291
+eu-share-wind-eu-nl,world_power,yes,eu_share_wind,,,first,295
+fr-mean-gas-fr,world_power,yes,fr_mean_gas,,"the CSV holds years before 2020 (from 2019), not full",first,284
+fr-mean-solar-fr,world_power,yes,fr_mean_solar,,"the CSV holds years before 2020 (from 2019), not full",first,284
+fr-mean-wind-fr,world_power,yes,fr_mean_wind,,"the CSV holds years before 2020 (from 2019), not full",first,284

@@ -156,6 +156,19 @@ The page read as a developer choosing where to file (`docs/reviews/queues-read-2
 - **No load.** Every request in the file is a power plant or a battery; the page says so and links ERCOT's large-load report (`/datacenters`) and the All grids tab of `/cost-of-power`.
 - **The operators' own lists** (`iso_queue_statistics`, on `/explore/interconnection` and `/map?tab=queues`) are another source read on another day; the lead names them. Their count for a grid and an entry year is not this table's.
 
+## ERCOT's solar with storage is not comparable (session 7052, chain 370, done-line request 189)
+
+In the 2026 edition none of ERCOT's 1,158 withdrawn and 190 suspended requests has a second part (`type_2` empty), while
+558 of its active and operating requests have one; in the other regions 2,797 withdrawn requests have one. Berkeley Lab's
+workbook (read 17 November 2026 from eta-publications.lbl.gov, its robots file read first) says of `type_2` only "If
+populated, indicates hybrid / co-located project"; its methods sheet says nothing of how a withdrawn request is typed. So
+a withdrawn solar-with-storage request in ERCOT is counted as Solar or Battery alone, and `queue:ercot:solar_battery`'s
+shares (66 past requests, none withdrawn) are the file's labels, not a count. The figures stand as the file gives them
+(nothing is estimated); the site's copy marks the pair as not comparable with another grid's (`not_comparable`, written
+by `queue_summary.not_comparable()` for any grid that types no closed request as a hybrid while it types live ones), and
+marks the United States' pair, whose withdrawn share counts ERCOT's 66 and so reads lower than a count would. ERCOT's
+Solar and Battery views take those requests in, so their withdrawn shares read higher than a typed count would.
+
 ## What waits for the owner (session 7018)
 
 - The storage difference against Berkeley Lab's summary (552.7 GW in the file's parts, approximately 749 GW in the summary): a question for Berkeley Lab, or a reading of its slide deck.

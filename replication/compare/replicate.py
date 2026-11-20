@@ -7,7 +7,7 @@ the two windows of site/data/price_compare.json (twelve months and the last whol
 every hub and zone row of the file, it recomputes from the warehouse's tables, read in the method's order (a row held
 in two tables is read once, from the first): iso_hub_prices_history, ercot_all_hub_prices_history, iso_dam_hub_prices,
 iso_rtm_hub_prices, isone_dam_zone_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, nyiso_dam_zone_prices,
-nyiso_rtm_zone_prices:
+nyiso_rtm_zone_prices, ercot_zone_prices_history (session 7052, ERCOT's load zones):
 
   <m>_avg_price, <m>_negative_hours_share_pct, <m>_above_200_hours_share_pct, <m>_day_spread_top4_bottom4,
   <m>_hours_held, <m>_hours_in_window   for m = dam and rtm; an hour of real time is the mean of its four 15-minute
@@ -36,7 +36,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 TABLES = ["iso_hub_prices_history", "ercot_all_hub_prices_history", "iso_dam_hub_prices", "iso_rtm_hub_prices",
           "isone_dam_zone_prices", "isone_rtm_zone_prices", "isone_rtm_zone_prices_hourly", "nyiso_dam_zone_prices",
-          "nyiso_rtm_zone_prices"]
+          "nyiso_rtm_zone_prices", "ercot_zone_prices_history"]  # session 7052: ERCOT's load zones, read last
 BA = {"ercot": "ERCO", "spp": "SWPP", "miso": "MISO", "caiso": "CISO", "nyiso": "NYIS", "isone": "ISNE"}
 TZ = {"ercot": "America/Chicago", "spp": "America/Chicago", "miso": "America/Chicago", "caiso": "America/Los_Angeles",
       "nyiso": "America/New_York", "isone": "America/New_York"}
