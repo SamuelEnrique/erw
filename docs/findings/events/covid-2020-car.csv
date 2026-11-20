@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), event covid_2020, region CAR (the Carolinas (EIA's region))
+# Computed 2026-11-19T11:32:35Z by warehouse/analysis/findings/deep/events.py; plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the window's mean hour of demand (MW) from 03-01 to 05-31, the hours it rests on, and whether it is the event year
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,event_year
+CAR,2019,23021.091980063433,2207,0
+CAR,2020,20643.759510869564,2208,1
+CAR,2021,22219.722826086956,2208,0
+CAR,2022,22819.73731884058,2208,0
+CAR,2023,22292.577898550724,2208,0
+CAR,2024,22889.139492753624,2208,0
+CAR,2025,22901.115489130436,2208,0
+CAR,2026,23270.11960784314,2040,0
