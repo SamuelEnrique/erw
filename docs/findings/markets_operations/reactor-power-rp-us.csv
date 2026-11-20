@@ -1,0 +1,12 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate reactor_power, region rp_us (the US reactor fleet)
+# Computed 2026-11-19T13:04:12Z by warehouse/analysis/findings/deep/markets_operations.py (reactor_power); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's mean daily power level (percent of full power), the observations it rests on, and whether the year is full
+# Tables: nrc_reactor_status
+region,year,value,n_observations,full_year
+rp_us,2020,89.4421159371303,366.0,1
+rp_us,2021,90.1725590926145,357.2061855670103,1
+rp_us,2022,91.287217689488,359.8723404255319,1
+rp_us,2023,90.79769939550444,362.531914893617,1
+rp_us,2024,90.8216195791187,366.0,1
+rp_us,2025,91.08125145247502,362.3578947368421,1
+rp_us,2026,90.39012749264465,322.0,0

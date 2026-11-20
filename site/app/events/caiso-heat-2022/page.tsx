@@ -3,6 +3,7 @@ import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { EventStudy } from "@/components/EventStudy";
 import { EventDecisions } from "../Decisions";
+import { WholeCountrySection, type PageProps } from "../WholeCountry";
 import { gridNotices } from "@/lib/reliability";
 import { attempt } from "@/lib/supabase";
 import { EventWindow, N, day, find, pickOf } from "../EventWindow";
@@ -24,7 +25,7 @@ const NAMES: Record<string, string> = {
   eea3: "Energy Emergency Alert 3", transmission_emergency: "Transmission Emergency",
 };
 
-export default async function CaisoHeat2022() {
+export default async function CaisoHeat2022({ searchParams }: PageProps = {}) {
   const got = await attempt(() => gridNotices(START, END));
   const notices = got.ok ? got.data : [];
   const byDay = new Map<string, string[]>();
@@ -83,6 +84,9 @@ export default async function CaisoHeat2022() {
       </section>
       <EventStudy event={EV} grids={[E]} primary={E} />
       {/* session 7531: the page's decisions (Decisions.tsx), each with its default and source on hover */}
+      {/* session 8410 (chain 503): EIA's thirteen regions across the event, from the data machine's file (WholeCountry.tsx) */}
+      <WholeCountrySection event="caiso_heat_2022" path="/events/caiso-heat-2022" first="CAL" searchParams={searchParams}
+        firstWhy="California is drawn first: the page above is about CAISO, which is among California's balancing authorities." />
       <EventDecisions event="caiso_heat_2022" />
     </div>
     </Brand>
