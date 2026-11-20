@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { Brand } from "@/components/Brand";
 import { AutoSubmitSelect } from "@/components/AutoSubmit";
 import { Hint } from "@/components/demand/Hint";
+import { Num } from "@/components/Num";
+import { pfKey, type Segment } from "@/lib/pagefile";
 import { LineChart, type Line } from "@/components/LineChart";
 import { ChartFrame, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { TableDownloads } from "@/components/tool/TableDownloads";
@@ -29,13 +31,17 @@ const pct = (v: number) => `${v.toFixed(1)}%`;
 const SHOWN = F.operators.filter((o) => o.status === "shown" && F.constraints[o.id]);
 const PLACES: Place[] = Object.values(F.places).flat();
 const placeOf = (id: string) => PLACES.find((p) => p.id === id) ?? null;
+const PF = "conditions/congestion.json";
 const opOf = (id: string) => F.operators.find((o) => o.id === id.split(":")[0]);
 // Session 9001, row H2: SPP's places are named "SPP North hub" in the file, so the operator is not written twice.
 const placeLabel = (op: string | undefined, name: string) => (op && !name.startsWith(`${op} `) ? `${op} ${name}` : name);
 const labelOf = (p: Place) => placeLabel(opOf(p.id)?.name, p.name);
 
-function Fig({ v, src, k, fmt, reason }: { v: number | null | undefined; src: string; k: string; fmt: (v: number) => string; reason?: string }) {
+// Session 9001 (part H): a figure given its page-file key (lib/pagefile.ts) renders through Num, so check-values reads
+// it again from site/data/conditions/congestion.json on its own.
+function Fig({ v, src, k, fmt, reason, check }: { v: number | null | undefined; src: string; k: string; fmt: (v: number) => string; reason?: string; check?: string }) {
   if (v === null || v === undefined) return <span className="cursor-help text-muted" title={reason ?? `Not held in the file. ${src}`} data-not-held={k}>not held</span>;
+  if (check) return <span className="cursor-help" data-fig={k}><Num check={check} raw={v} source={src}>{fmt(v)}</Num></span>;
   return <span className="cursor-help" title={src} data-fig={k}>{fmt(v)}</span>;
 }
 
@@ -96,12 +102,13 @@ export default async function CongestionPage({ searchParams }: { searchParams: P
     const c = O.constraints[k];
     const y = yearOf(c, year);
     const s = `${src.constraints}. ${F.sign_rule}`;
+    const at = (f: string) => pfKey(PF, ["constraints", op, "constraints", k, ...(year === ALL ? [] : ["by_year", year]), f] as Segment[]);
     return { key: k, highlight: k === ck, cells: [
       <a key="n" className="break-all underline" href={`/congestion?op=${op}&year=${year}&c=${encodeURIComponent(k)}#when`} data-rank={i + 1}>{i + 1}. {constraintLabel(c)}</a>,
-      <Fig key="h" v={y?.hours} src={`Hours it bound in the day-ahead market, ${yearWords}. ${s}`} k={`h-${i}`} fmt={whole} />,
-      <Fig key="m" v={y?.abs_mean} src={`Mean size of its shadow price over the hours it bound. ${s}`} k={`m-${i}`} fmt={usd} />,
-      <Fig key="x" v={y?.abs_max} src={`Highest size of its shadow price. ${s}`} k={`x-${i}`} fmt={usd} />,
-      <Fig key="c" v={y?.cost} src={`${F.cost_rule} ${s}`} k={`c-${i}`} fmt={whole} />,
+      <Fig key="h" v={y?.hours} src={`Hours it bound in the day-ahead market, ${yearWords}. ${s}`} k={`h-${i}`} check={at("hours")} fmt={whole} />,
+      <Fig key="m" v={y?.abs_mean} src={`Mean size of its shadow price over the hours it bound. ${s}`} k={`m-${i}`} check={at("abs_mean")} fmt={usd} />,
+      <Fig key="x" v={y?.abs_max} src={`Highest size of its shadow price. ${s}`} k={`x-${i}`} check={at("abs_max")} fmt={usd} />,
+      <Fig key="c" v={y?.cost} src={`${F.cost_rule} ${s}`} k={`c-${i}`} check={at("cost")} fmt={whole} />,
     ] };
   };
   const head = ["Constraint, as the operator names it", "Hours bound", "Mean shadow price", "Highest", "Summed (USD/MWh x hours)"];
@@ -167,13 +174,14 @@ export default async function CongestionPage({ searchParams }: { searchParams: P
         <ToolTable minWidth={680} caption={`Hubs and zones by their mean congestion part, ${py}, the largest addition first`} head={["Place", "Mean LMP", "Mean congestion part", "Share of the price", "Hours it added", "Hours it took off"]}
           rows={ranked.map(({ p, y }) => {
             const s = `${F.sources[p.id.split(":")[0]].prices}. ${p.time}.`;
+            const at = (f: string) => pfKey(PF, ["places", p.id.split(":")[0], { id: p.id }, "by_year", py, f]);
             return { key: p.id, highlight: p.id === a || p.id === b, cells: [
               <a key="n" className="underline" href={`/congestion?op=${op}&year=${year}&c=${encodeURIComponent(ck)}&a=${encodeURIComponent(p.id)}&py=${py}#side`}>{labelOf(p)}</a>,
-              <Fig key="l" v={y.lmp_mean} src={`Mean day-ahead LMP over ${y.hours} hours held. ${s}`} k={`pl-${p.id}`} fmt={usd} />,
-              <Fig key="c" v={y.congestion_mean} src={`Mean congestion part over ${y.hours} hours held; highest ${y.congestion_max}, lowest ${y.congestion_min}. ${s}`} k={`pc-${p.id}`} fmt={usd} />,
-              <Fig key="s" v={y.congestion_share_pct} src={`${F.share_rule} ${s}`} k={`ps-${p.id}`} fmt={pct} reason={`The mean LMP was not above zero. ${s}`} />,
-              <Fig key="u" v={y.hours_congestion_up} src={`Hours whose congestion part was above zero. ${s}`} k={`pu-${p.id}`} fmt={whole} />,
-              <Fig key="d" v={y.hours_congestion_down} src={`Hours whose congestion part was below zero. ${s}`} k={`pd-${p.id}`} fmt={whole} />,
+              <Fig key="l" v={y.lmp_mean} src={`Mean day-ahead LMP over ${y.hours} hours held. ${s}`} k={`pl-${p.id}`} check={at("lmp_mean")} fmt={usd} />,
+              <Fig key="c" v={y.congestion_mean} src={`Mean congestion part over ${y.hours} hours held; highest ${y.congestion_max}, lowest ${y.congestion_min}. ${s}`} k={`pc-${p.id}`} check={at("congestion_mean")} fmt={usd} />,
+              <Fig key="s" v={y.congestion_share_pct} src={`${F.share_rule} ${s}`} k={`ps-${p.id}`} check={at("congestion_share_pct")} fmt={pct} reason={`The mean LMP was not above zero. ${s}`} />,
+              <Fig key="u" v={y.hours_congestion_up} src={`Hours whose congestion part was above zero. ${s}`} k={`pu-${p.id}`} check={at("hours_congestion_up")} fmt={whole} />,
+              <Fig key="d" v={y.hours_congestion_down} src={`Hours whose congestion part was below zero. ${s}`} k={`pd-${p.id}`} check={at("hours_congestion_down")} fmt={whole} />,
             ] };
           })} />
       </ToolSection>
