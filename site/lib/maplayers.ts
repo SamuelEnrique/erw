@@ -10,11 +10,20 @@ export type LineFile = { built: string; tables: string[]; method: string; licens
 export type LineLayer = { key: string; label: string; color: string; width: number; table: string;
   hover: (get: (k: string) => string | number | null) => { name: string; operator: string; size: string } };
 
+/** Session 9601 (chain 620, the browser read of 20 November 2026): HIFLD writes "UNKNOWN201257" where it does not name
+ *  a line's end (a third of the lines of 230 kV and above have one, 881 have two). The hover printed the mark as a
+ *  place ("UNKNOWN201257 to UNKNOWN203126"). An end so marked is said to be unnamed, with HIFLD's mark kept beside it. */
+const HIFLD_UNNAMED = /^UNKNOWN\d+$/;
+export const lineEnd = (v: string | number | null): string => {
+  const s = v === null ? "" : String(v);
+  return HIFLD_UNNAMED.test(s) ? `an end HIFLD does not name (its mark ${s})` : s;
+};
+
 /** The two line layers, in the order of their switches. Each is off when the page opens. */
 export const LINE_LAYERS: LineLayer[] = [
   { key: "transmission", label: "Transmission lines, 230 kV and above", color: "--color-ink", width: 0.8, table: "hifld_transmission_lines",
     hover: (g) => ({
-      name: g("from") && g("to") ? `${g("from")} to ${g("to")}` : "No end named in the source",
+      name: g("from") && g("to") ? `${lineEnd(g("from"))} to ${lineEnd(g("to"))}` : "No end named in the source",
       operator: (g("owner") as string | null) ?? "Owner not stated",
       size: `${g("kv") === null ? "Voltage not stated" : `${g("kv")} kV`}, ${g("km") === null ? "" : `${g("km")} km as drawn by HIFLD`}`,
     }) },
