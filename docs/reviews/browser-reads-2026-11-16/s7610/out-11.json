@@ -1,0 +1,160 @@
+[
+ {
+  "row": 11,
+  "path": "/shoulder?grid=caiso-own",
+  "width": 1280,
+  "found": [
+   "By month since June 2025"
+  ],
+  "hiddenOnly": [],
+  "missing": [],
+  "notes": [
+   "picture row-11-chart-1280.png",
+   "picture row-11-fixed-shoulder-caiso-own-b-1280.png"
+  ],
+  "collected": [
+   {
+    "eval": "(document.body.innerText.match(/[^.\\n]*(rated power|not held)[^.\\n]*/g) || []).s",
+    "value": [
+     "81 hours on the average day; on the ten worst days of 2026 the fleet is not held for every day, so no figure is given",
+     "not held",
+     " Ranked among 298 days (complete, of 24 hours, with a shoulder); the batteries' output in those shoulders is not held for CAISO, its own data in 2026",
+     "17\t7\t17:00\tnot held\t6\tnot held\t45,573",
+     "08\tnot held",
+     "42\t7\t17:00\tnot held\t6\tnot held\t45,091",
+     "75\tnot held",
+     "42\t7\t17:00\tnot held\t6\tnot held\t44,135",
+     "50\tnot held",
+     "75\t7\t17:00\tnot held\t6\tnot held\t44,951",
+     "67\tnot held",
+     "17\t7\t17:00\tnot held\t5\tnot held\t44,212"
+    ]
+   }
+  ],
+  "tips": [],
+  "foldsAtOpen": [
+   {
+    "open": false,
+    "summary": "Economics ▾"
+   },
+   {
+    "open": false,
+    "summary": "Grid ▾"
+   },
+   {
+    "open": false,
+    "summary": "Infrastructure ▾"
+   },
+   {
+    "open": false,
+    "summary": "Analysis ▾"
+   },
+   {
+    "open": false,
+    "summary": "Games ▾"
+   },
+   {
+    "open": false,
+    "summary": "About ▾"
+   },
+   {
+    "open": false,
+    "summary": "The definitions, exactly as computed"
+   },
+   {
+    "open": false,
+    "summary": "What this cannot see"
+   },
+   {
+    "open": false,
+    "summary": "Decisions on this page (each with its default and its source on hover)"
+   }
+  ],
+  "sideways": {
+   "sw": 1265,
+   "cw": 1265,
+   "body": 1265
+  },
+  "inReview": false,
+  "finalUrl": "/shoulder?grid=caiso-own"
+ },
+ {
+  "row": 11,
+  "path": "/shoulder?grid=caiso-own",
+  "width": 390,
+  "found": [
+   "By month since June 2025"
+  ],
+  "hiddenOnly": [],
+  "missing": [],
+  "notes": [
+   "picture row-11-chart-390.png",
+   "picture row-11-fixed-shoulder-caiso-own-b-390.png"
+  ],
+  "collected": [
+   {
+    "eval": "(document.body.innerText.match(/[^.\\n]*(rated power|not held)[^.\\n]*/g) || []).s",
+    "value": [
+     "81 hours on the average day; on the ten worst days of 2026 the fleet is not held for every day, so no figure is given",
+     "not held",
+     " Ranked among 298 days (complete, of 24 hours, with a shoulder); the batteries' output in those shoulders is not held for CAISO, its own data in 2026",
+     "17\t7\t17:00\tnot held\t6\tnot held\t45,573",
+     "08\tnot held",
+     "42\t7\t17:00\tnot held\t6\tnot held\t45,091",
+     "75\tnot held",
+     "42\t7\t17:00\tnot held\t6\tnot held\t44,135",
+     "50\tnot held",
+     "75\t7\t17:00\tnot held\t6\tnot held\t44,951",
+     "67\tnot held",
+     "17\t7\t17:00\tnot held\t5\tnot held\t44,212"
+    ]
+   }
+  ],
+  "tips": [],
+  "foldsAtOpen": [
+   {
+    "open": false,
+    "summary": "Economics ▾"
+   },
+   {
+    "open": false,
+    "summary": "Grid ▾"
+   },
+   {
+    "open": false,
+    "summary": "Infrastructure ▾"
+   },
+   {
+    "open": false,
+    "summary": "Analysis ▾"
+   },
+   {
+    "open": false,
+    "summary": "Games ▾"
+   },
+   {
+    "open": false,
+    "summary": "About ▾"
+   },
+   {
+    "open": false,
+    "summary": "The definitions, exactly as computed"
+   },
+   {
+    "open": false,
+    "summary": "What this cannot see"
+   },
+   {
+    "open": false,
+    "summary": "Decisions on this page (each with its default and its source on hover)"
+   }
+  ],
+  "sideways": {
+   "sw": 390,
+   "cw": 390,
+   "body": 390
+  },
+  "inReview": false,
+  "finalUrl": "/shoulder?grid=caiso-own"
+ }
+]

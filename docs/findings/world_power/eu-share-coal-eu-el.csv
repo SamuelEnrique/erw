@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate eu_share_coal, region eu_el (Greece)
+# Computed 2026-11-19T13:14:45Z by warehouse/analysis/findings/deep/world_power.py (eu_share_coal); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: coal and manufactured gases's share of the country's net production (percent), the observations it rests on, and whether the year is full
+# Tables: eurostat_electricity_monthly
+region,year,value,n_observations,full_year
+eu_el,2017,31.83145529862472,12.0,1
+eu_el,2018,30.4110621578846,12.0,1
+eu_el,2019,21.79810707928778,12.0,1
+eu_el,2020,12.482646780124847,12.0,1
+eu_el,2021,10.117542396298235,12.0,1
+eu_el,2022,11.303309037274907,12.0,1
+eu_el,2023,9.697042163098715,12.0,1
+eu_el,2024,6.249654212697856,12.0,1
+eu_el,2025,5.2920606447708805,12.0,1

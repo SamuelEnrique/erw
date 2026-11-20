@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate wog_gas_exports, region wog_qat (Qatar)
+# Computed 2026-11-19T13:25:09Z by warehouse/analysis/findings/deep/gas.py (wog_gas_exports); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the country's dry natural gas exports (billion cubic feet), the observations it rests on, and whether the year is full
+# Tables: eia_world_oil_gas_annual
+region,year,value,n_observations,full_year
+wog_qat,1990,0.0,1.0,1
+wog_qat,1991,0.0,1.0,1
+wog_qat,1992,0.0,1.0,1
+wog_qat,1993,0.0,1.0,1
+wog_qat,1994,0.0,1.0,1
+wog_qat,1995,0.0,1.0,1
+wog_qat,1996,0.0,1.0,1
+wog_qat,1997,101.0009,1.0,1
+wog_qat,1998,169.15885,1.0,1
+wog_qat,1999,286.0515,1.0,1
+wog_qat,2000,495.8226,1.0,1
+wog_qat,2001,584.1101,1.0,1
+wog_qat,2002,649.44285,1.0,1
+wog_qat,2003,677.69485,1.0,1
+wog_qat,2004,852.5041,1.0,1
+wog_qat,2005,957.0365,1.0,1
+wog_qat,2006,1097.94335,1.0,1
+wog_qat,2007,1536.2025,1.0,1
+wog_qat,2008,2005.1857,1.0,1
+wog_qat,2009,2408.12985,1.0,1
+wog_qat,2010,3351.3935,1.0,1
+wog_qat,2011,4230.38385,1.0,1
+wog_qat,2012,4238.85945,1.0,1
+wog_qat,2013,4330.67845,1.0,1
+wog_qat,2014,4199.58917,1.0,1
+wog_qat,2015,4375.17535,1.0,1
+wog_qat,2016,4509.2652659,1.0,1
+wog_qat,2017,4379.572836,1.0,1
+wog_qat,2018,4346.886126,1.0,1
+wog_qat,2019,4388.275655,1.0,1
+wog_qat,2020,4457.231492,1.0,1
+wog_qat,2021,4365.587541,1.0,1
+wog_qat,2022,4471.714179,1.0,1
+wog_qat,2023,4435.409549,1.0,1
+wog_qat,2024,4438.798832,1.0,1
