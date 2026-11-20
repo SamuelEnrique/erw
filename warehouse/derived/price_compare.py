@@ -60,7 +60,8 @@ META = os.path.join(ROOT, "warehouse", "metadata")
 
 # the price tables read, in order of preference for a row held twice (the history first)
 TABLES = ["iso_hub_prices_history", "ercot_all_hub_prices_history", "iso_dam_hub_prices", "iso_rtm_hub_prices",
-          "isone_dam_zone_prices", "isone_rtm_zone_prices", "isone_rtm_zone_prices_hourly", "nyiso_dam_zone_prices", "nyiso_rtm_zone_prices"]
+          "isone_dam_zone_prices", "isone_rtm_zone_prices", "isone_rtm_zone_prices_hourly", "nyiso_dam_zone_prices", "nyiso_rtm_zone_prices",
+          "ercot_zone_prices_history"]  # session 7052 (done-line request 142): ERCOT's eight load zones, both windows
 GRIDS = {"caiso": dict(name="CAISO", tz="America/Los_Angeles", ba="CISO"), "ercot": dict(name="ERCOT", tz="America/Chicago", ba="ERCO"),
          "isone": dict(name="ISO-NE", tz="America/New_York", ba="ISNE"), "miso": dict(name="MISO", tz="America/Chicago", ba="MISO"),
          "nyiso": dict(name="NYISO", tz="America/New_York", ba="NYIS"), "spp": dict(name="SPP", tz="America/Chicago", ba="SWPP")}

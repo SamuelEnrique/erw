@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate peak_mw, region rd_fla (Florida (EIA's region))
+# Computed 2026-11-19T11:17:50Z by warehouse/analysis/findings/deep/regions.py (peak_mw); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's highest hour of demand (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+rd_fla,2018,46421.0,2901.0,0
+rd_fla,2019,46846.0,2778.0,0
+rd_fla,2020,48834.0,7798.0,0
+rd_fla,2021,49784.0,8595.0,1
+rd_fla,2022,51082.0,8727.0,1
+rd_fla,2023,54139.0,8699.0,1
+rd_fla,2024,52426.0,8771.0,1
+rd_fla,2025,54587.0,8739.0,1
+rd_fla,2026,54679.0,7379.0,0
