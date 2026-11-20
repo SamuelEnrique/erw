@@ -17,7 +17,7 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | /queues | portable-laptop | 7630 | done | docs/reviews/ruling-alternatives-queues-2026-11-17.md |
 | /curtailment | portable-laptop | 7631 | done | docs/reviews/ruling-alternatives-curtailment-2026-11-17.md |
 | /contracts | samueloldlaptop | 7700 | done | docs/reviews/ruling-alternatives-contracts-2026-11-17.md |
-| /severance | samueloldlaptop | 7702 | claimed | docs/reviews/ruling-alternatives-severance-2026-11-17.md |
+| /severance | samueloldlaptop | 7702, finished by 7900 | done | docs/reviews/ruling-alternatives-severance-2026-11-17.md |
 | /shoulder | samueloldlaptop | 7703 | done | docs/reviews/ruling-alternatives-shoulder-2026-11-17.md |
 | /battery/customer | samueloldlaptop | 7704 | done | docs/reviews/ruling-alternatives-battery-customer-2026-11-17.md |
 | /cost-of-power/battery/awards | samueloldlaptop | 7705 | done | docs/reviews/ruling-alternatives-battery-awards-2026-11-17.md |
@@ -30,7 +30,7 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | /events | samueloldlaptop | 7712 | done | docs/reviews/ruling-alternatives-events-2026-11-17.md |
 | Site-wide: the data machine and its tables | samueloldlaptop | 7713 | done | docs/reviews/ruling-alternatives-site-data-machine-2026-11-17.md |
 | /grid/caiso/alerts | samueloldlaptop | 7714 | done | docs/reviews/ruling-alternatives-caiso-alerts-2026-11-17.md |
-| /learn/bill | samueloldlaptop | 7715 | claimed | docs/reviews/ruling-alternatives-bill-2026-11-17.md |
+| /learn/bill | samueloldlaptop | 7715, finished by 7900 | done | docs/reviews/ruling-alternatives-bill-2026-11-17.md |
 | Site-wide: the warehouse's sources and publishers' terms | samueloldlaptop | 7716 | done | docs/reviews/ruling-alternatives-site-sources-2026-11-17.md |
 | /learn/problems | samueloldlaptop | 7717 | done | docs/reviews/ruling-alternatives-problem-sets-2026-11-17.md |
 | /play/battery | samueloldlaptop | 7718 | done | docs/reviews/ruling-alternatives-play-battery-2026-11-17.md |

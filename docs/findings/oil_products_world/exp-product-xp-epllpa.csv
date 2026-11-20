@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate exp_product, region xp_epllpa (propane)
+# Computed 2026-11-19T12:51:14Z by warehouse/analysis/findings/deep/oil_products_world.py (exp_product); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: US exports of the product to the world (thousand barrels a day), the observations it rests on, and whether the year is full
+# Tables: eia_petroleum_exports_by_destination
+region,year,value,n_observations,full_year
+xp_epllpa,2015,614.8657534246576,12.0,1
+xp_epllpa,2016,799.1775956284152,12.0,1
+xp_epllpa,2017,913.8219178082192,12.0,1
+xp_epllpa,2018,949.3041095890411,12.0,1
+xp_epllpa,2019,1097.7260273972602,12.0,1
+xp_epllpa,2020,1261.6639344262296,12.0,1
+xp_epllpa,2021,1326.7205479452055,12.0,1
+xp_epllpa,2022,1399.131506849315,12.0,1
+xp_epllpa,2023,1617.849315068493,12.0,1
+xp_epllpa,2024,1766.72131147541,12.0,1
+xp_epllpa,2025,1775.2,12.0,1
+xp_epllpa,2026,1125.4520547945206,7.0,0
