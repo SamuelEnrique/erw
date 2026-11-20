@@ -58,7 +58,7 @@ Rows here are counted once; a page's section points at them.
 
 ## The fixes, and what has been seen of them
 
-Nine branches, each cut from origin/main with its test, pushed. **None has been seen in a build:** this laptop had 1.0 to 1.8 GB of memory free from 11:37 UTC on (Samuel's own Chrome and the Claude programs hold the rest), under the 2 GB the chain asks for a build, and the whole suite was not run for the same cause. So no landing is requested yet (`docs/state/landing_request_portable.md`, rows 44 to 52, state "ready, not requested"). What was seen without a build is said on each line.
+Ten branches, each cut from origin/main with its test, pushed. **None has been seen in a build:** this laptop had 1.0 to 1.8 GB of memory free from 11:37 UTC on (Samuel's own Chrome and the Claude programs hold the rest), under the 2 GB the chain asks for a build, and the whole suite was not run for the same cause. So no landing is requested yet (`docs/state/landing_request_portable.md`, rows 44 to 53, state "ready, not requested"). What was seen without a build is said on each line.
 
 | Branch | Head | What it mends | Its test | Seen so far |
 |---|---|---|---|---|
@@ -391,4 +391,65 @@ A first pass, the five tools Samuel calls sellable first (`runs/c620/e_phone.mjs
 - **Found in part D and belonging here:** the menu's Policy page (row D1) and six method pages at 390 px (item 4, row 1), both mended on branches.
 
 Pictures at 390 px: `docs/reviews/browser-read-2026-11-20/phone/cost-of-power_battery-390.png`, `cost-of-power_seller-390.png`, `cost-of-power-390.png`, `research-390.png`, `grid-390.png`.
+
+### Every page with a fixed address, at both widths
+
+`runs/c620/e_all_routes.mjs`: the 80 pages of `site/app/` whose address has no variable part, each opened at 390 and at 1280 px (13:40 UTC).
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| E1 | `/data/faults` at 390 px | 417 px wide: one long unbroken word in a list of terms | 390 px | fixed on `wip/9602-faults-page-phone` (`b7a9c6676`); with the style put on production's page, 390 px wide |
+| E2 | `/internal/waits` | 7.2 s to load at 390 px, 5.9 s at 1280 px | Under five seconds. An internal page | noted |
+| E3 | `/data/licenses`, the record of reads | "answered at https://lustat.statec.lu/undefined" in four rows | The publisher's own answer: its server sends a robots request to an address ending "undefined", and the record says so. Not a fault | noted |
+
+The other 77 show nothing wrong at either width; `/policy` and `/internal/findings` are the two already mended on branches.
+
+## Landed during the night: `/congestion` and `/conditions` (the data machine's chain 601, on main at 13:43 UTC)
+
+Read on production at about 13:50 UTC, once the deploy answered. Both are in review and in no menu; the tour gained a sixteenth stop for `/conditions`, and the tour's own check passes 95 of 102 (the same seven as before; the new stop passes). Neither page's code is edited here.
+
+### `/congestion`
+
+Read with `runs/c620/n_congestion.mjs`.
+
+**Five cases.**
+1. *A power trader.* Which SPP constraint cost most this year? Two tables as the page opens, by hours bound and by cost, 25 rows each, each constraint with its hours, mean and highest shadow price and cost. Answered. The names are SPP's own ("TMP128_29363 (contingency 333)").
+2. *A transmission planner.* When does a constraint bind? A press on its name draws its hours by month and hour of the day, and by month. Answered at 1280 px by resting the mouse on a cell; at 390 px the grid's figures are tooltips (row S2).
+3. *A battery developer in California.* Where does congestion add to the price? Chooses CAISO: the hubs and zones by mean congestion part, share of the price, hours it added and took off. Answered.
+4. *A datacenter's siting analyst.* Two places side by side over a year. Answered.
+5. *A student.* What about the other grids? "Not drawn: ERCOT (source needed), PJM, NYISO and ISO-NE (license needed), MISO (paused)". Answered.
+
+**Figures.** Every marked figure and every cell of the chosen constraint's grid, beside `site/data/conditions/congestion.json`, as the page opens and after six choices (CAISO; 2024; every year held; a second place; another place and year): 3,752 of 3,752 at 1280 px, 538 of 538 at 390 px. Each of the two ranked tables is in the file's own order.
+
+**What answers to the hand.** Six lists; a constraint's name (opens its grid); three charts under mouse and finger; three Chart and Table switches; an address naming nothing held opens on the defaults; the keyboard walks 75 stops with a focus mark each. The back button: row S1. 0.4 s to load; 390 px wide at 390.
+
+No fault of its own.
+
+Pictures: `docs/reviews/browser-read-2026-11-20/congestion/as-it-opens-1280.png` (SPP, 2026); `after-choices-1280.png` (CAISO, a constraint's grid over every year held).
+
+### `/conditions`
+
+Read with `runs/c620/n_conditions.mjs` and `runs/c620/n_conditions_file.py`.
+
+**Five cases.**
+1. *A trader on a tight day.* Is ERCOT running above its forecast? As the page opens: demand against the day-ahead forecast, hour by hour over the newest 35 days, then day by day. Answered; the chart runs to today.
+2. *A reliability analyst.* How much was out of service in CAISO, and how many constraints bound? Chooses CAISO: six charts, each with a line. Answered.
+3. *An event analyst.* ERCOT in Winter Storm Uri: the adder is drawn for February 2021. Answered.
+4. *A planner comparing two operators.* ERCOT beside CAISO on one time axis. Answered, with two empty charts on ERCOT's side (row 1).
+5. *A student.* What is not held? Each blank strip says why in a word (source needed, license needed, paused, not published, not read), and a table at the foot gives every operator's six strips. Answered.
+
+**Figures.** The demand chart's own table (500 rows, two figures a row) is the file's demand and forecast, every figure. The other strips were read as charts: which hold a line, which are said blank.
+
+**What answers to the hand.** Three lists and a day; the charts under mouse and finger (a card at four of four places on each of CAISO's six); the keyboard, 17 stops; 390 px wide at 390 for three views; 0.8 s to load. The back button: row S1.
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| 1 | The page as it opens (ERCOT, the newest 35 days) | Two charts with axes and nothing on them, their seven ticks all reading "01-01 00:00": "Online reserve price adder" and "Hours the adder was above zero". The file's note says ERCOT's adder ended on 4 December 2025; the window holds no value. The same for "megawatts out of service" with CAISO in the September 2022 heat and with SPP and CAISO in Elliott | A strip with no value in the window drawn blank with its reason | filed (data request 568) |
+| 2 | "Table" on the demand chart | 500 rows of the window's 841 hours, the oldest first: the newest fourteen days are not in the table | The newest hours | filed (data request 568) |
+
+Pictures: `docs/reviews/browser-read-2026-11-20/conditions/as-it-opens-1280.png` (ERCOT, demand against the forecast); `ercot-beside-caiso-1280.png`.
+
+### `/states`, the answer to data request 563
+
+On production after the landing, Texas's last section reads "Not held for this place: S.B. 6 was found but is withheld: its text was not read on a host that allows this reader ...". The page no longer reads as "Texas has no law".
 
