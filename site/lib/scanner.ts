@@ -38,6 +38,30 @@ export async function listDrafts(state?: DraftState): Promise<Draft[]> {
   return (await rpc<Draft[] | null>("scanner_drafts_list", args)) ?? [];
 }
 
+/** Chain 507 (session 8900): every draft, read page by page through scanner_drafts_list_from (migration 039). On 19
+ * November 2026 the table held 616 drafts and listDrafts returned the newest 500: 50 audited drafts, 5 of the sheet of
+ * forty, were never shown. While migration 039 is not applied the old function answers and `capped` says the list
+ * stops at LIST_LIMIT. Throws when neither can be read. */
+export async function listAllDrafts(): Promise<{ drafts: Draft[]; capped: boolean }> {
+  const all: Draft[] = [];
+  try {
+    for (let offset = 0; offset < 20 * LIST_LIMIT; offset += LIST_LIMIT) {
+      const page = (await rpc<Draft[] | null>("scanner_drafts_list_from", { p_token: token(), p_offset: String(offset), p_limit: String(LIST_LIMIT) })) ?? [];
+      all.push(...page);
+      if (page.length < LIST_LIMIT) return { drafts: all, capped: false };
+    }
+    return { drafts: all, capped: true };
+  } catch {
+    const drafts = await listDrafts();
+    return { drafts, capped: drafts.length >= LIST_LIMIT };
+  }
+}
+
+/** One draft by its id, from every page of the list (chain 507): null when it is not there. */
+export async function findDraft(id: string): Promise<Draft | null> {
+  return (await listAllDrafts()).drafts.find((d) => d.id === id) ?? null;
+}
+
 /** One file of one draft (scanner_draft_file, migration 031); null when the draft or the name is not there. */
 export async function draftFile(id: string, name: string): Promise<DraftFile | null> {
   return rpc<DraftFile | null>("scanner_draft_file", { p_token: token(), p_id: id, p_name: name });
