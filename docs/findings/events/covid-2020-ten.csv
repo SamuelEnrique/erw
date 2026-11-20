@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), event covid_2020, region TEN (Tennessee (EIA's region))
+# Computed 2026-11-19T11:32:37Z by warehouse/analysis/findings/deep/events.py; plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the window's mean hour of demand (MW) from 03-01 to 05-31, the hours it rests on, and whether it is the event year
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,event_year
+TEN,2019,16628.135869565216,2208,0
+TEN,2020,14970.077898550724,2208,1
+TEN,2021,16020.98097826087,2208,0
+TEN,2022,16869.009963768116,2208,0
+TEN,2023,16286.923913043478,2208,0
+TEN,2024,16694.821557971016,2208,0
+TEN,2025,16932.621829710144,2208,0
+TEN,2026,17260.478713768116,2208,0
