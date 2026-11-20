@@ -2,7 +2,7 @@
 
 Draft `scan-deep-8686ad3a7888` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The mean gas price power plants in Nebraska paid against the state's citygate price was 2.34 USD per Mcf in 2025, against -0.23 USD per Mcf in 2002, the first full year the ERW holds.
+**The finding.** The mean of the monthly gaps between the gas price power plants in Nebraska paid and the state's citygate price, over the months both prices are published, was 2.34 USD per Mcf in 2025, against -0.23 USD per Mcf in 2002, the first full year the ERW holds.
 
 ![What power plants pay against citygate, Nebraska](power-vs-citygate-state-pow-ne.png)
 
