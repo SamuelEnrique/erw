@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate tie_flow, region bt_mheb_miso (Manitoba Hydro (MHEB) to MISO (MISO))
+# Computed 2026-11-19T11:05:20Z by warehouse/analysis/findings/deep/trade.py (tie_flow); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean hourly flow on a tie between two balancing authorities, in its standing direction over 2019 to 2025 (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_interchange_hourly_2018, eia930_ba_interchange_hourly_2019, eia930_ba_interchange_hourly_2020, eia930_ba_interchange_hourly_2021, eia930_ba_interchange_hourly_2022, eia930_ba_interchange_hourly_2023, eia930_ba_interchange_hourly_2024, eia930_ba_interchange_hourly_2025, eia930_ba_interchange_hourly_2026
+region,year,value,n_observations,full_year
+bt_mheb_miso,2018,655.4668784029038,4408.0,0
+bt_mheb_miso,2019,896.8664231076607,8759.0,1
+bt_mheb_miso,2020,1234.0257315268132,8783.0,1
+bt_mheb_miso,2021,330.49628018770744,8737.0,1
+bt_mheb_miso,2022,1015.4583856604635,8759.0,1
+bt_mheb_miso,2023,616.0143835616439,8760.0,1
+bt_mheb_miso,2024,342.1334932054356,8757.0,1
+bt_mheb_miso,2025,-112.93093607305936,8760.0,1
+bt_mheb_miso,2026,768.886176739329,7661.0,0

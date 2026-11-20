@@ -1,0 +1,1264 @@
+{
+ "what": "the figures the Grid tool's map draws, read from the page",
+ "base": "a local build",
+ "taken": "2026-11-19T14:47:49Z",
+ "snapshot_from": "the hourly copy in public Storage (erw-public/network/grid_network.json)",
+ "snapshot_built": "2026-11-19T13:05:42Z",
+ "page": {
+  "address": "?grid=us48&view=network&shape=map",
+  "complete_hour": "2026-11-17T04:00:00Z",
+  "opens_line": "The week opens on 2026-11-17 04:00 UTC, the newest hour that every one of the 159 reporting pairs holds. Later hours, to 2026-11-18 04:00 UTC, are on the slider; the newest holds 148 of the 159.",
+  "refreshed": "2026-11-19 13:05",
+  "slider": "Play 2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern Batteries: off Prices: off",
+  "regions": 60,
+  "matched": 67,
+  "flows": 127,
+  "flows_all": 148,
+  "no_shape": [
+   "AESO",
+   "BHBA",
+   "BCHA",
+   "CEN",
+   "HQT",
+   "MHEB",
+   "IESO",
+   "SPC",
+   "SIKE",
+   "SWPW"
+  ],
+  "boundary_sha256": "",
+  "listed": [
+   "AESO",
+   "BHBA",
+   "BCHA",
+   "CEN",
+   "HQT",
+   "MHEB",
+   "IESO",
+   "SPC",
+   "SIKE",
+   "SWPW"
+  ],
+  "listed_count": 10,
+  "width_key": 4761,
+  "width_key_text": "Line width, megawatts: 4,761 (the largest of the period shown) 1,190 298 The dash runs from the exporter to the importer.",
+  "ties": [
+   {
+    "flow": "AECI>MISO",
+    "mw": 622
+   },
+   {
+    "flow": "AECI>SPA",
+    "mw": 325
+   },
+   {
+    "flow": "SWPP>AECI",
+    "mw": 342
+   },
+   {
+    "flow": "AECI>TVA",
+    "mw": 371
+   },
+   {
+    "flow": "BPAT>AVA",
+    "mw": 512
+   },
+   {
+    "flow": "CHPD>AVA",
+    "mw": 22
+   },
+   {
+    "flow": "GCPD>AVA",
+    "mw": 89
+   },
+   {
+    "flow": "NWMT>AVA",
+    "mw": 78
+   },
+   {
+    "flow": "AVA>PACW",
+    "mw": 94
+   },
+   {
+    "flow": "AVRN>BPAT",
+    "mw": 210
+   },
+   {
+    "flow": "AVRN>PACW",
+    "mw": 263
+   },
+   {
+    "flow": "AZPS>CISO",
+    "mw": 1337
+   },
+   {
+    "flow": "AZPS>IID",
+    "mw": 35
+   },
+   {
+    "flow": "AZPS>LDWP",
+    "mw": 457
+   },
+   {
+    "flow": "AZPS>PACE",
+    "mw": 20
+   },
+   {
+    "flow": "PNM>AZPS",
+    "mw": 75
+   },
+   {
+    "flow": "SRP>AZPS",
+    "mw": 3532
+   },
+   {
+    "flow": "TEPC>AZPS",
+    "mw": 67
+   },
+   {
+    "flow": "AZPS>WALC",
+    "mw": 1106
+   },
+   {
+    "flow": "BPAT>BANC",
+    "mw": 228
+   },
+   {
+    "flow": "BANC>CISO",
+    "mw": 289
+   },
+   {
+    "flow": "TIDC>BANC",
+    "mw": 166
+   },
+   {
+    "flow": "CHPD>BPAT",
+    "mw": 695
+   },
+   {
+    "flow": "BPAT>CISO",
+    "mw": 415
+   },
+   {
+    "flow": "DOPD>BPAT",
+    "mw": 496
+   },
+   {
+    "flow": "GCPD>BPAT",
+    "mw": 662
+   },
+   {
+    "flow": "GRID>BPAT",
+    "mw": 293
+   },
+   {
+    "flow": "IPCO>BPAT",
+    "mw": 75
+   },
+   {
+    "flow": "LDWP>BPAT",
+    "mw": 312
+   },
+   {
+    "flow": "NWMT>BPAT",
+    "mw": 590
+   },
+   {
+    "flow": "BPAT>PACW",
+    "mw": 914
+   },
+   {
+    "flow": "BPAT>PGE",
+    "mw": 1293
+   },
+   {
+    "flow": "BPAT>PSEI",
+    "mw": 1547
+   },
+   {
+    "flow": "BPAT>SCL",
+    "mw": 771
+   },
+   {
+    "flow": "BPAT>TPWR",
+    "mw": 435
+   },
+   {
+    "flow": "CHPD>DOPD",
+    "mw": 183
+   },
+   {
+    "flow": "CHPD>PSEI",
+    "mw": 224
+   },
+   {
+    "flow": "IID>CISO",
+    "mw": 308
+   },
+   {
+    "flow": "CISO>LDWP",
+    "mw": 255
+   },
+   {
+    "flow": "NEVP>CISO",
+    "mw": 879
+   },
+   {
+    "flow": "PACW>CISO",
+    "mw": 9
+   },
+   {
+    "flow": "SRP>CISO",
+    "mw": 1337
+   },
+   {
+    "flow": "CISO>TIDC",
+    "mw": 344
+   },
+   {
+    "flow": "WALC>CISO",
+    "mw": 133
+   },
+   {
+    "flow": "DUK>CPLE",
+    "mw": 912
+   },
+   {
+    "flow": "CPLE>PJM",
+    "mw": 1459
+   },
+   {
+    "flow": "CPLE>SC",
+    "mw": 70
+   },
+   {
+    "flow": "SCEG>CPLE",
+    "mw": 129
+   },
+   {
+    "flow": "DUK>CPLW",
+    "mw": 20
+   },
+   {
+    "flow": "PJM>CPLW",
+    "mw": 50
+   },
+   {
+    "flow": "TVA>CPLW",
+    "mw": 2
+   },
+   {
+    "flow": "DEAA>SRP",
+    "mw": 585
+   },
+   {
+    "flow": "DUK>PJM",
+    "mw": 47
+   },
+   {
+    "flow": "SC>DUK",
+    "mw": 670
+   },
+   {
+    "flow": "SCEG>DUK",
+    "mw": 229
+   },
+   {
+    "flow": "DUK>SEPA",
+    "mw": 90
+   },
+   {
+    "flow": "DUK>SOCO",
+    "mw": 147
+   },
+   {
+    "flow": "TVA>DUK",
+    "mw": 103
+   },
+   {
+    "flow": "PNM>EPE",
+    "mw": 111
+   },
+   {
+    "flow": "TEPC>EPE",
+    "mw": 139
+   },
+   {
+    "flow": "SWPP>ERCO",
+    "mw": 463
+   },
+   {
+    "flow": "FMPP>FPC",
+    "mw": 67
+   },
+   {
+    "flow": "FPL>FMPP",
+    "mw": 309
+   },
+   {
+    "flow": "JEA>FMPP",
+    "mw": 11
+   },
+   {
+    "flow": "TEC>FMPP",
+    "mw": 105
+   },
+   {
+    "flow": "FPL>FPC",
+    "mw": 346
+   },
+   {
+    "flow": "FPC>GVL",
+    "mw": 54
+   },
+   {
+    "flow": "SEC>FPC",
+    "mw": 30
+   },
+   {
+    "flow": "FPC>SOCO",
+    "mw": 86
+   },
+   {
+    "flow": "TAL>FPC",
+    "mw": 45
+   },
+   {
+    "flow": "FPC>TEC",
+    "mw": 302
+   },
+   {
+    "flow": "GVL>FPL",
+    "mw": 39
+   },
+   {
+    "flow": "FPL>HST",
+    "mw": 65
+   },
+   {
+    "flow": "FPL>JEA",
+    "mw": 483
+   },
+   {
+    "flow": "SEC>FPL",
+    "mw": 539
+   },
+   {
+    "flow": "SOCO>FPL",
+    "mw": 330
+   },
+   {
+    "flow": "TEC>FPL",
+    "mw": 241
+   },
+   {
+    "flow": "GCPD>PACW",
+    "mw": 100
+   },
+   {
+    "flow": "PSEI>GCPD",
+    "mw": 10
+   },
+   {
+    "flow": "GRID>PNM",
+    "mw": 492
+   },
+   {
+    "flow": "GRID>SRP",
+    "mw": 594
+   },
+   {
+    "flow": "GRID>WALC",
+    "mw": 259
+   },
+   {
+    "flow": "GWA>NWMT",
+    "mw": 20
+   },
+   {
+    "flow": "IID>WALC",
+    "mw": 11
+   },
+   {
+    "flow": "IPCO>NEVP",
+    "mw": 66
+   },
+   {
+    "flow": "NWMT>IPCO",
+    "mw": 11
+   },
+   {
+    "flow": "PACE>IPCO",
+    "mw": 839
+   },
+   {
+    "flow": "IPCO>PACW",
+    "mw": 391
+   },
+   {
+    "flow": "NBSO>ISNE",
+    "mw": 197
+   },
+   {
+    "flow": "NYIS>ISNE",
+    "mw": 1638
+   },
+   {
+    "flow": "SEC>JEA",
+    "mw": 49
+   },
+   {
+    "flow": "LDWP>NEVP",
+    "mw": 872
+   },
+   {
+    "flow": "LDWP>PACE",
+    "mw": 463
+   },
+   {
+    "flow": "WALC>LDWP",
+    "mw": 1266
+   },
+   {
+    "flow": "MISO>LGEE",
+    "mw": 841
+   },
+   {
+    "flow": "LGEE>PJM",
+    "mw": 457
+   },
+   {
+    "flow": "TVA>LGEE",
+    "mw": 126
+   },
+   {
+    "flow": "PJM>MISO",
+    "mw": 1150
+   },
+   {
+    "flow": "SOCO>MISO",
+    "mw": 413
+   },
+   {
+    "flow": "SPA>MISO",
+    "mw": 253
+   },
+   {
+    "flow": "MISO>SWPP",
+    "mw": 441
+   },
+   {
+    "flow": "MISO>TVA",
+    "mw": 2099
+   },
+   {
+    "flow": "NEVP>PACE",
+    "mw": 57
+   },
+   {
+    "flow": "WALC>NEVP",
+    "mw": 476
+   },
+   {
+    "flow": "PACE>NWMT",
+    "mw": 151
+   },
+   {
+    "flow": "PJM>NYIS",
+    "mw": 2022
+   },
+   {
+    "flow": "SRP>PACE",
+    "mw": 24
+   },
+   {
+    "flow": "PACW>PGE",
+    "mw": 8
+   },
+   {
+    "flow": "TVA>PJM",
+    "mw": 448
+   },
+   {
+    "flow": "PSCO>PNM",
+    "mw": 97
+   },
+   {
+    "flow": "TEPC>PNM",
+    "mw": 239
+   },
+   {
+    "flow": "PSEI>SCL",
+    "mw": 34
+   },
+   {
+    "flow": "TPWR>PSEI",
+    "mw": 46
+   },
+   {
+    "flow": "SCEG>SC",
+    "mw": 1109
+   },
+   {
+    "flow": "SC>SEPA",
+    "mw": 207
+   },
+   {
+    "flow": "SOCO>SC",
+    "mw": 782
+   },
+   {
+    "flow": "SCEG>SEPA",
+    "mw": 11
+   },
+   {
+    "flow": "SOCO>SCEG",
+    "mw": 1357
+   },
+   {
+    "flow": "TEC>SEC",
+    "mw": 103
+   },
+   {
+    "flow": "SEPA>SOCO",
+    "mw": 307
+   },
+   {
+    "flow": "SOCO>TAL",
+    "mw": 45
+   },
+   {
+    "flow": "TVA>SOCO",
+    "mw": 209
+   },
+   {
+    "flow": "SPA>SWPP",
+    "mw": 140
+   },
+   {
+    "flow": "TEPC>SRP",
+    "mw": 233
+   },
+   {
+    "flow": "SRP>WALC",
+    "mw": 283
+   },
+   {
+    "flow": "WAUW>SWPP",
+    "mw": 100
+   },
+   {
+    "flow": "WALC>TEPC",
+    "mw": 369
+   }
+  ],
+  "region_codes": [
+   "MISO",
+   "SWPP",
+   "BPAT",
+   "WALC",
+   "PACE",
+   "PJM",
+   "ERCO",
+   "NEVP",
+   "CISO",
+   "NWMT",
+   "SOCO",
+   "PNM",
+   "PACW",
+   "IPCO",
+   "AECI",
+   "TVA",
+   "EPE",
+   "ISNE",
+   "WAUW",
+   "AZPS",
+   "NYIS",
+   "AVA",
+   "PSCO",
+   "CPLE",
+   "DUK",
+   "FPC",
+   "FPL",
+   "SC",
+   "SEC",
+   "AVRN",
+   "SCEG",
+   "NBSO",
+   "PSEI",
+   "SRP",
+   "TEPC",
+   "TPWR",
+   "IID",
+   "LGEE",
+   "FMPP",
+   "CPLW",
+   "DOPD",
+   "BANC",
+   "PGE",
+   "JEA",
+   "GWA",
+   "CHPD",
+   "GCPD",
+   "LDWP",
+   "HST",
+   "TEC",
+   "SEPA",
+   "WWA",
+   "GVL",
+   "TIDC",
+   "SPA",
+   "GRID",
+   "YAD",
+   "TAL",
+   "SCL",
+   "DEAA"
+  ]
+ },
+ "hovers": {
+  "MISO": [
+   "Midcontinent Independent System Operator, Inc.",
+   "Carbon intensity of generation: 437.98 kg CO2/MWh",
+   "Demand: not held for this hour",
+   "Net exports: 213 MW over 10 ties",
+   "EIA region: Midwest",
+   "State under the pointer: North Dakota",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "SWPP": [
+   "Southwest Power Pool",
+   "Carbon intensity of generation: 539.74 kg CO2/MWh",
+   "Demand: not held for this hour",
+   "Net exports: 168 MW over 11 ties",
+   "EIA region: Central",
+   "State under the pointer: New Mexico",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "BPAT": [
+   "Bonneville Power Administration",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 2,967 MW over 18 ties",
+   "EIA region: Northwest",
+   "State under the pointer: Oregon",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "WALC": [
+   "Western Area Power Administration - Desert Southwest Region",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 490 MW over 9 ties",
+   "EIA region: Southwest",
+   "State under the pointer: Arizona",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "PACE": [
+   "PacifiCorp East",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 470 MW over 8 ties",
+   "EIA region: Northwest",
+   "State under the pointer: Utah",
+   "Also covers this point: Western Area Power Administration - Desert Southwest Region",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "PJM": [
+   "PJM Interconnection, LLC",
+   "Carbon intensity of generation: 324.20 kg CO2/MWh",
+   "Demand: not held for this hour",
+   "Net exports: 811 MW over 7 ties",
+   "EIA region: Mid-Atlantic",
+   "State under the pointer: Illinois",
+   "Also covers this point: Midcontinent Independent System Operator, Inc.",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "ERCO": [
+   "Electric Reliability Council of Texas, Inc.",
+   "Carbon intensity of generation: 405.71 kg CO2/MWh",
+   "Demand: not held for this hour",
+   "Net imports: 464 MW over 2 ties",
+   "EIA region: Texas",
+   "State under the pointer: Texas",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "NEVP": [
+   "Nevada Power Company",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 478 MW over 6 ties",
+   "EIA region: Northwest",
+   "State under the pointer: Nevada",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "CISO": [
+   "California Independent System Operator",
+   "Carbon intensity of generation: 150.75 kg CO2/MWh",
+   "Demand: not held for this hour",
+   "Net imports: 4,119 MW over 11 ties",
+   "EIA region: California",
+   "State under the pointer: California",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "NWMT": [
+   "NorthWestern Corporation",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 370 MW over 9 ties",
+   "EIA region: Northwest",
+   "State under the pointer: Montana",
+   "Also covers this point: Bonneville Power Administration",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "SOCO": [
+   "Southern Company Services, Inc. - Trans",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 2,178 MW over 9 ties",
+   "EIA region: Southeast",
+   "State under the pointer: Mississippi",
+   "Also covers this point: Midcontinent Independent System Operator, Inc.",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "PNM": [
+   "Public Service Company of New Mexico",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 365 MW over 7 ties",
+   "EIA region: Southwest",
+   "State under the pointer: Arizona",
+   "Also covers this point: PacifiCorp East; Western Area Power Administration - Desert Southwest Region",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "PACW": [
+   "PacifiCorp West",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 1,745 MW over 7 ties",
+   "EIA region: Northwest",
+   "State under the pointer: California",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "IPCO": [
+   "Idaho Power Company",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 318 MW over 6 ties",
+   "EIA region: Northwest",
+   "State under the pointer: Oregon",
+   "Also covers this point: Bonneville Power Administration",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "AECI": [
+   "Associated Electric Cooperative, Inc.",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 927 MW over 5 ties",
+   "EIA region: Midwest",
+   "State under the pointer: Oklahoma",
+   "Also covers this point: Southwest Power Pool",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "TVA": [
+   "Tennessee Valley Authority",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 1,582 MW over 7 ties",
+   "EIA region: Tennessee",
+   "State under the pointer: Tennessee",
+   "Also covers this point: Associated Electric Cooperative, Inc.; Midcontinent Independent System Operator, Inc.",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "EPE": [
+   "El Paso Electric Company",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 250 MW over 3 ties",
+   "EIA region: Southwest",
+   "State under the pointer: New Mexico",
+   "Also covers this point: Public Service Company of New Mexico",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "ISNE": [
+   "ISO New England",
+   "Carbon intensity of generation: 241.19 kg CO2/MWh",
+   "Demand: not held for this hour",
+   "Net imports: 911 MW over 3 ties",
+   "EIA region: New England",
+   "State under the pointer: Vermont",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "WAUW": [
+   "Western Area Power Administration - Upper Great Plains West",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 100 MW over 2 ties",
+   "EIA region: Northwest",
+   "State under the pointer: Montana",
+   "Also covers this point: NorthWestern Corporation",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "AZPS": [
+   "Arizona Public Service Company",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 765 MW over 9 ties",
+   "EIA region: Southwest",
+   "State under the pointer: Arizona",
+   "Also covers this point: Western Area Power Administration - Desert Southwest Region",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "NYIS": [
+   "New York Independent System Operator",
+   "Carbon intensity of generation: 235.75 kg CO2/MWh",
+   "Demand: not held for this hour",
+   "Net imports: 1,081 MW over 4 ties",
+   "EIA region: New York",
+   "State under the pointer: New York",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "AVA": [
+   "Avista Corporation",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 607 MW over 6 ties",
+   "EIA region: Northwest",
+   "State under the pointer: Washington",
+   "Also covers this point: Bonneville Power Administration",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "PSCO": [
+   "Public Service Company of Colorado",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 284 MW over 3 ties",
+   "EIA region: Northwest",
+   "State under the pointer: Utah",
+   "Also covers this point: PacifiCorp East",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "CPLE": [
+   "Duke Energy Progress East",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 488 MW over 5 ties",
+   "EIA region: Carolinas",
+   "State under the pointer: North Carolina",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "DUK": [
+   "Duke Energy Carolinas",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 214 MW over 9 ties",
+   "EIA region: Carolinas",
+   "State under the pointer: North Carolina",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "FPC": [
+   "Duke Energy Florida, Inc.",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 46 MW over 7 ties",
+   "EIA region: Florida",
+   "State under the pointer: Florida",
+   "Also covers this point: Southern Company Services, Inc. - Trans",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "FPL": [
+   "Florida Power & Light Co.",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 54 MW over 8 ties",
+   "EIA region: Florida",
+   "State under the pointer: Georgia",
+   "Also covers this point: Duke Energy Florida, Inc.; Southern Company Services, Inc. - Trans",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "SC": [
+   "South Carolina Public Service Authority",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 1,084 MW over 5 ties",
+   "EIA region: Carolinas",
+   "State under the pointer: South Carolina",
+   "Also covers this point: Duke Energy Progress East",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "SEC": [
+   "Seminole Electric Cooperative",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 515 MW over 4 ties",
+   "EIA region: Florida",
+   "State under the pointer: Georgia",
+   "Also covers this point: Duke Energy Florida, Inc.; Southern Company Services, Inc. - Trans",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "AVRN": [
+   "Avangrid Renewables, LLC",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 473 MW over 2 ties",
+   "EIA region: Northwest",
+   "State under the pointer: Oregon",
+   "Also covers this point: PacifiCorp West; Western Area Power Administration - Desert Southwest Region; Bonneville Power Administration",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "SCEG": [
+   "Dominion Energy South Carolina, Inc.",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 121 MW over 5 ties",
+   "EIA region: Carolinas",
+   "State under the pointer: South Carolina",
+   "Also covers this point: South Carolina Public Service Authority; Duke Energy Carolinas",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "NBSO": [
+   "New Brunswick System Operator",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 197 MW over 1 tie",
+   "Also covers this point: ISO New England",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "PSEI": [
+   "Puget Sound Energy, Inc.",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 1,773 MW over 5 ties",
+   "EIA region: Northwest",
+   "State under the pointer: Washington",
+   "Also covers this point: Bonneville Power Administration",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "SRP": [
+   "Salt River Project Agricultural Improvement and Power District",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 3,764 MW over 7 ties",
+   "EIA region: Southwest",
+   "State under the pointer: Arizona",
+   "Also covers this point: Arizona Public Service Company; Western Area Power Administration - Desert Southwest Region",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "TEPC": [
+   "Tucson Electric Power",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 309 MW over 5 ties",
+   "EIA region: Southwest",
+   "State under the pointer: Arizona",
+   "Also covers this point: PacifiCorp East; Western Area Power Administration - Desert Southwest Region",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "TPWR": [
+   "City of Tacoma, Department of Public Utilities, Light Division",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 389 MW over 2 ties",
+   "EIA region: Northwest",
+   "State under the pointer: Washington",
+   "Also covers this point: Bonneville Power Administration",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "IID": [
+   "Imperial Irrigation District",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 284 MW over 3 ties",
+   "EIA region: California",
+   "State under the pointer: California",
+   "Also covers this point: California Independent System Operator",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "LGEE": [
+   "LG&E and KU Services Company as agent for Louisville Gas and Electric Company and Kentucky Utilities Company",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 510 MW over 3 ties",
+   "EIA region: Midwest",
+   "State under the pointer: Kentucky",
+   "Also covers this point: Midcontinent Independent System Operator, Inc.",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "FMPP": [
+   "Florida Municipal Power Pool",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 358 MW over 4 ties",
+   "EIA region: Florida",
+   "State under the pointer: Florida",
+   "Also covers this point: Seminole Electric Cooperative; Duke Energy Florida, Inc.",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "CPLW": [
+   "Duke Energy Progress West",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 72 MW over 3 ties",
+   "EIA region: Carolinas",
+   "State under the pointer: Tennessee",
+   "Also covers this point: Tennessee Valley Authority",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "DOPD": [
+   "PUD No. 1 of Douglas County",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 313 MW over 2 ties",
+   "EIA region: Northwest",
+   "State under the pointer: Washington",
+   "Also covers this point: Bonneville Power Administration",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "BANC": [
+   "Balancing Authority of Northern California",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 105 MW over 3 ties",
+   "EIA region: California",
+   "State under the pointer: California",
+   "Also covers this point: California Independent System Operator; Western Area Power Administration - Desert Southwest Region",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "PGE": [
+   "Portland General Electric Company",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 1,301 MW over 2 ties",
+   "EIA region: Northwest",
+   "State under the pointer: Oregon",
+   "Also covers this point: Bonneville Power Administration",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "JEA": [
+   "JEA",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 521 MW over 3 ties",
+   "EIA region: Florida",
+   "State under the pointer: Alabama",
+   "Also covers this point: Southern Company Services, Inc. - Trans",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "GWA": [
+   "NaturEner Power Watch, LLC",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 20 MW over 1 tie",
+   "EIA region: Northwest",
+   "State under the pointer: Montana",
+   "Also covers this point: NorthWestern Corporation",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "CHPD": [
+   "Public Utility District No. 1 of Chelan County",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 1,124 MW over 4 ties",
+   "EIA region: Northwest",
+   "State under the pointer: Washington",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "GCPD": [
+   "Public Utility District No. 2 of Grant County, Washington",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 841 MW over 4 ties",
+   "EIA region: Northwest",
+   "State under the pointer: Washington",
+   "Also covers this point: Avista Corporation; Bonneville Power Administration",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "LDWP": [
+   "Los Angeles Department of Water and Power",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 331 MW over 6 ties",
+   "EIA region: California",
+   "State under the pointer: California",
+   "Also covers this point: California Independent System Operator",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "HST": [
+   "City of Homestead",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 65 MW over 1 tie",
+   "EIA region: Florida",
+   "State under the pointer: Florida",
+   "Also covers this point: Florida Power & Light Co.",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "TEC": [
+   "Tampa Electric Company",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 147 MW over 4 ties",
+   "EIA region: Florida",
+   "State under the pointer: Florida",
+   "Also covers this point: Duke Energy Florida, Inc.",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "SEPA": [
+   "Southeastern Power Administration",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 1 MW over 4 ties",
+   "EIA region: Southeast",
+   "State under the pointer: Georgia",
+   "Also covers this point: Southern Company Services, Inc. - Trans",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "WWA": [
+   "NaturEner Wind Watch, LLC",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 0 MW over 1 tie",
+   "EIA region: Northwest",
+   "State under the pointer: Montana",
+   "Also covers this point: NaturEner Power Watch, LLC; NorthWestern Corporation",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "GVL": [
+   "Gainesville Regional Utilities",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 15 MW over 2 ties",
+   "EIA region: Florida",
+   "State under the pointer: Florida",
+   "Also covers this point: Seminole Electric Cooperative; Florida Power & Light Co.; Duke Energy Florida, Inc.",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "TIDC": [
+   "Turlock Irrigation District",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 178 MW over 2 ties",
+   "EIA region: California",
+   "State under the pointer: California",
+   "Also covers this point: California Independent System Operator; Western Area Power Administration - Desert Southwest Region",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "SPA": [
+   "Southwestern Power Administration",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 18 MW over 4 ties",
+   "EIA region: Central",
+   "State under the pointer: Arkansas",
+   "Also covers this point: Midcontinent Independent System Operator, Inc.",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "GRID": [
+   "Gridforce Energy Management, LLC",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 1,638 MW over 4 ties",
+   "EIA region: Northwest",
+   "State under the pointer: Oregon",
+   "Also covers this point: PacifiCorp West; Bonneville Power Administration",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "YAD": [
+   "Alcoa Power Generating, Inc. - Yadkin Division",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 0 MW over 2 ties",
+   "EIA region: Carolinas",
+   "State under the pointer: North Carolina",
+   "Also covers this point: Duke Energy Carolinas",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "TAL": [
+   "City of Tallahassee",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 0 MW over 2 ties",
+   "EIA region: Florida",
+   "State under the pointer: Florida",
+   "Also covers this point: Seminole Electric Cooperative; Duke Energy Florida, Inc.",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "SCL": [
+   "Seattle City Light",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net imports: 805 MW over 2 ties",
+   "EIA region: Northwest",
+   "Also covers this point: City of Tacoma, Department of Public Utilities, Light Division; Bonneville Power Administration",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ],
+  "DEAA": [
+   "Arlington Valley, LLC",
+   "Carbon intensity of generation: not held",
+   "Demand: not held for this hour",
+   "Net exports: 585 MW over 1 tie",
+   "EIA region: Southwest",
+   "State under the pointer: Arizona",
+   "Also covers this point: Salt River Project Agricultural Improvement and Power District; Arizona Public Service Company; Western Area Power Administration - Desert Southwest Region",
+   "2026-11-17 04:00 UTC, Nov 16, 23:00 Eastern",
+   "Tables: eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly"
+  ]
+ }
+}

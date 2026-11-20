@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate pair_flow, region rp_se_car (the Southeast to the Carolinas)
+# Computed 2026-11-19T11:05:21Z by warehouse/analysis/findings/deep/trade.py (pair_flow); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean hourly flow between two of EIA's regions, in its standing direction over 2019 to 2025 (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_region_pair_hourly
+region,year,value,n_observations,full_year
+rp_se_car,2018,565.1442899475724,4387.0,0
+rp_se_car,2019,414.02582051870553,8714.0,1
+rp_se_car,2020,216.51540744122346,8762.0,1
+rp_se_car,2021,464.2422374429224,8760.0,1
+rp_se_car,2022,635.2678387943829,8759.0,1
+rp_se_car,2023,783.1768264840183,8760.0,1
+rp_se_car,2024,956.9902083570533,8783.0,1
+rp_se_car,2025,1059.3430756935722,8759.0,1
+rp_se_car,2026,1577.9788539355175,7661.0,0

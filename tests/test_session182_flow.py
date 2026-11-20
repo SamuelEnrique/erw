@@ -250,7 +250,8 @@ class WhatARequestCarries(unittest.TestCase):
         card = text_flow("site", "components", "analysis", "FindingCard.tsx")
         self.assertIn("addressKey={formKey ?? `form.${card.card_id}`}", card)
         # the renderer's frame keeps the card's own drawing and markup (render.css reads the chart's siblings): the photographs do not change
-        self.assertIn("? <CardChart spec={card.chart} label={card.title} height={420} />", card)
+        # session 7605 (chain 305): the chart passes through heldMultiples (a held grid's panels out on the server)
+        self.assertIn("? <CardChart spec={heldMultiples(card.chart)} label={card.title} height={420} />", card)
 
     def test_the_impact_studys_form_is_hosted_by_the_flow(self):
         form = text_flow("site", "components", "analysis", "ImpactForm.tsx")
