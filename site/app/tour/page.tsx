@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";  // session 261: the page takes the brand (docs/brand.md), as /learn/bill does
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
-import { MINUTES, STOPS, stopPath } from "@/lib/tour";
+import { MINUTES, RULED_STOPS, STOPS, stopPath } from "@/lib/tour";
 import { TourBar } from "./TourBar";
 
 // Session 53: the guided tour for a first-time visitor, each stop a sentence and a link. No numbers here: each stop's
@@ -18,12 +18,12 @@ export default function Tour() {
       <h1 className="mb-1 text-3xl">The tour</h1>
       <p className="mb-5 max-w-3xl text-base">
         {STOPS.length} stops through the Energy Research Warehouse for a first visit, about {MINUTES} minutes in all: the three tools, the grid, research,
-        the price board and the daily digest. Each stop says what to look at and opens the page.
+        the price board and the daily digest{STOPS.length > RULED_STOPS.length ? ", then the whole country: its regions, a storm across it, demand, trade and the resource map" : ""}. Each stop says what to look at and opens the page.
       </p>
       <TourBar at={0} />
       <ol className="mb-6 max-w-3xl">
         {STOPS.map((s, i) => (
-          <li key={s.href} className="border-b border-rule py-3">
+          <li key={`${i}-${s.href}`} className="border-b border-rule py-3">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <Link href={stopPath(i + 1)} className="font-serif text-lg">{i + 1}. {s.title}</Link>
               <span className="text-xs text-muted">about {s.seconds} seconds</span>

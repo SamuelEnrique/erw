@@ -1,0 +1,24 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate summer_revision, region pa_146 (Southwest Power Pool (FERC 714 planning area 146))
+# Computed 2026-11-19T12:53:46Z by warehouse/analysis/findings/deep/forecasts.py (summer_revision); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: how much a filing changed its forecast of the year 5 ahead against the filing a year before (percent), the observations it rests on, and whether the year is full
+# Tables: ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+pa_146,2007,-0.5142421805561459,1.0,1
+pa_146,2008,-0.9640574242900546,1.0,1
+pa_146,2009,-2.597185336985841,1.0,1
+pa_146,2010,19.730178228917474,1.0,1
+pa_146,2011,0.302523401074839,1.0,1
+pa_146,2012,-0.508281482779771,1.0,1
+pa_146,2013,-9.059748755959218,1.0,1
+pa_146,2014,0.0,1.0,1
+pa_146,2015,5.043588880158634,1.0,1
+pa_146,2016,-5.758783688443625,1.0,1
+pa_146,2017,0.0,1.0,1
+pa_146,2018,1.6973021049510928,1.0,1
+pa_146,2019,2.466607463254622,1.0,1
+pa_146,2020,-1.022038809377468,1.0,1
+pa_146,2021,-1.5892312842468725,1.0,1
+pa_146,2022,5.16190000713217,1.0,1
+pa_146,2023,4.379069532067059,1.0,1
+pa_146,2024,3.488781487053094,1.0,1
+pa_146,2025,10.914823643001537,1.0,1

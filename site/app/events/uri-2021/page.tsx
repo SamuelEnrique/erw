@@ -3,6 +3,7 @@ import { Brand } from "@/components/Brand";
 import { AskErcotLink } from "@/components/AskErcotLink";
 import { EventStudy } from "@/components/EventStudy";
 import { EventDecisions } from "../Decisions";
+import { WholeCountrySection, type PageProps } from "../WholeCountry";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
 import { LineChart, type Line } from "@/components/LineChart";
@@ -59,7 +60,7 @@ function pick(rows: SeriesRow[], variable: string, years: string[], how: "max" |
   return xs.reduce((a, b) => (how === "max" ? (b.value > a.value ? b : a) : b.value < a.value ? b : a));
 }
 
-export default async function Uri() {
+export default async function Uri({ searchParams }: PageProps = {}) {
   const got = await attempt(() => series(T, { event: "uri_2021" })); // session 36C: the table holds other events too
   const rows = got.ok ? got.data : [];
   const ev = ["2021"], base = ["2019", "2020"];
@@ -131,6 +132,9 @@ export default async function Uri() {
       {/* session 47: the event study */}
       <EventStudy event="uri_2021" grids={["eia930:ERCO"]} primary="eia930:ERCO" price />
       {/* session 7531: the page's decisions (Decisions.tsx), each with its default and source on hover */}
+      {/* session 8410 (chain 503): EIA's thirteen regions across the event, from the data machine's file (WholeCountry.tsx) */}
+      <WholeCountrySection event="uri_2021" path="/events/uri-2021" first="TEX" searchParams={searchParams}
+        firstWhy="Texas is drawn first: the page above is about ERCOT, which is among Texas's balancing authorities." />
       <EventDecisions event="uri_2021" />
     </div>
     </Brand>
