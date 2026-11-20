@@ -2,7 +2,7 @@
 
 Draft `scan-deep-462f0003f4c4` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The median months from interconnection request to commercial operation of wind projects in the United States was 81.1 months in 2024, against 21.1 months in 2005, the first year this measure counts.
+**The finding.** The median months from interconnection request to commercial operation of wind projects in the United States was 81.1 months in 2024, against 21.1 months in 2005, the first year of the window the hunt read; the table holds the measure from 2003.
 
 ![The wait, by type, wind projects in the United States](months-by-type-us-type-wind-months.png)
 

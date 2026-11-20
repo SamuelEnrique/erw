@@ -66,6 +66,9 @@ async function rowsOf(k, v, u) {
     return v === undefined ? t : [...t, { source: FILES.bill, entity: "", variable: k, ts_utc: "", value: v, unit: u ?? "", event: "", note: "computed" }];
   }
   if (v === undefined) return [];  // a key inside a calc whose own figure is not shown: its rows come with the shown figure
+  // session 8901: a figure read from a committed page file (pf|<file under site/data>|<path>) is a row of its own, its
+  // source the file and its variable the key, as the page file holds it
+  if (p[0] === "pf") return [{ source: `site/data/${p[1]}`, entity: "", variable: k, ts_utc: "", value: v, unit: u ?? "", event: "", note: "page file" }];
   return [{ source: FILES[p[0]] ?? p[0], entity: "", variable: k, ts_utc: "", value: v, unit: u ?? "", event: "", note: "computed" }];
 }
 const isV = (x) => typeof x === "object" && x !== null && "k" in x;
