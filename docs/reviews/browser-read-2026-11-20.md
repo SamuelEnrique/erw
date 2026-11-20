@@ -139,6 +139,18 @@ Read with `runs/c620/b_sweep.mjs`: 101 addresses at 1280 and at 390 px, for what
 | 1 | `/data/methods/resources` at 390 px, then all 609 method pages at 390 px (`runs/c620/b_methods_wide.mjs`) | Six scroll sideways, each over one long unbroken word of the note's text: `resources` 544 px (a 61-character file name), `interconnection_queue_summary` 421, `amm_guatemala_generation_monthly` 417, `ercot_dam_esr_awards` 411, `makstat_macedonia_electricity_monthly` 401, `statcan_oil_gas_supply_monthly` 392 | 390 px | fixed on `wip/9601-method-pages-phone` (one rule of the prose style) |
 | 2 | `/internal/findings`, its size | 17.1 MB of HTML for 614 drafts, of which forty are shown at a time; 3.7 to 4.1 s to load over five loads | Inside five seconds on this laptop; heavy for a phone. An internal page | noted |
 
+### The tour's stops 8 to 16 walked as a reader (the desktop's second window, session 9203)
+
+`runs/c620w2/b_tour.mjs`, on production at 1280 and 390 px, about 19:45 UTC: each stop's page (its bar, Back, Next and its Open link), then the page it opens, timed, with its quiet faults, every heading the stop quotes looked for, and the stop's own action done as its words say. **75 of 77 checks pass.** Each stop opens in 0.1 to 0.5 s and each page it opens in under 4 s (`/grid` 3.9 s the first time at 1280 px, 1.3 s at 390 px); none scrolls sideways or shows "undefined", "NaN" or "null"; stop 16's "choose Winter Storm Uri under Event" works at both widths (`/conditions?a=ercot&b=none&event=uri_2021`).
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| 3 | Stop 8, as its words say: "Pick Tennessee ... in the region list at the top; open its network view for the map" | Tennessee is a link of the "EIA region" row (`/grid?region=ten`); its Network tab opens on the 3D network, with no area of the map drawn. The map is one more press, on "Map" (`&shape=map`, 60 areas). The network opening first is Samuel's standing ruling; the stop's words never name the press | The stop names the press on Map | fixed on `wip/w2-c620-fixes` (`1d7b451a6`, with `tests/test_session9203_tour_stop8.py`); landing row 4 of `docs/state/landing_request_window2.md` |
+| 4 | Stop 8: "then read "Ask" at the foot of the page" | At 1280 px "Ask" is a panel beside the tool, at the top right; it is under the tool only at a phone's width | The words say where it stands at both widths | fixed in the same commit ("beside the tool on a wide screen and under it on a phone") |
+| 5 | Stop 12, "How the map is drawn" | Inside the closed fold "Method note" on production | | already fixed on `wip/9601-tour-headings` (row D6), now in `wip/w2-c620-fixes` |
+
+Pictures: `docs/reviews/browser-read-2026-11-20/tour/stop-08-1280.png` to `stop-16-1280.png` (each stop's own page); `stop-08-tennessee-network-1280.png` (where stop 8's words leave a reader: Tennessee's Network tab on the 3D network, the Map button beside it); `stop-09-page-1280.png` to `stop-15-page-1280.png` (the page each stop opens, as it opens); `stop-16-uri-1280.png` (`/conditions` after choosing Winter Storm Uri).
+
 ## 6. `/queues/places`: queues outside the seven grids
 
 The data machine's page (chain 581). Read with `runs/c620/b_queues_places.mjs`.
@@ -352,6 +364,88 @@ The data machine's section (chain 505). Read with `runs/c620/b_forecast.mjs`.
 
 Pictures: `docs/reviews/browser-read-2026-11-20/demand-forecast/as-it-opens-1280.png` (Tennessee and the Carolinas); `texas-beside-california-1280.png`.
 
+## 18. `/demand?view=country`: the whole country, any two places (read in full by the desktop's second window)
+
+The old laptop's page (chain 503), read in full on production on 20 November between 19:55 and 20:25 UTC by the desktop's second window (session 9203), which took the chain over. Scripts: `runs/c620w2/dump.mjs` (every table, every Chart and Table switch pressed), `runs/c620w2/cmp_demand.py` (recomputes from `site/data/regions/demand/<place>.json` without the page's code), `runs/c620w2/hand.mjs`. The old laptop's last fixes to this page (session 8480: the 95 percent rule on a blank weather cell's hover, a day whole only on all the hours of its local day, the authorities across the border) are still not on main; what is read here is production as it is.
+
+**Five cases.**
+1. *A TVA planner.* How has Tennessee's demand moved since 2019, and when was the record? As the page opens (Tennessee beside the Carolinas), "Year by year": 18,190 MW on average in 2019, 19,490 in 2025 (+7.15 percent), 20,098 in 2026 to October (+9.48 percent on 2019's same ten months); the record hour 35,086 MW on 22 January 2025 at 07:00. Answered.
+2. *A Texas analyst.* Is ERCOT the whole of the Texas region? Chooses ERCOT beside Texas: two places side by side, each with its own year rows and its own highest hour. Answered, the page names what each sums ("balancing authorities summed").
+3. *A Northwest utility.* BPA's growth against its region's: BPA +9.41 percent from 2019 to 2025 and +15.11 percent for 2026 to October; the Northwest +6.91 percent, with no row for 2020 (its file holds no 2020) and "not held" for 2021's change on the year before. Answered, the gap said.
+4. *A datacenter siting analyst.* When in the year and day has demand grown most? "Where the growth is": Tennessee's largest cell January at 02:00, +24.81 percent (4,477 MW); the Carolinas' January at 03:00, +28.64 percent (6,942 MW). Answered: winter nights, not summer afternoons.
+5. *A student.* Yesterday's demand: "The newest days", seven days of each place (Tennessee 458.3 GWh on 16 November, highest hour 22,058 MW). Answered.
+
+**Figures.** As it opens and after two choices (ERCOT beside Texas; the Northwest beside BPA), every cell of "Year by year", the summary of "Demand by day", "The newest days", the first 500 rows of each place's daily table and the two sentences under each month-by-hour grid, recomputed from the files: **6,431 figures, none differs.** The 2026 row is set against 2019's same months, as its label says. Two figures that look odd are the file's own: Tennessee's forecast on 7 July 2018 equals its demand (22,987 MW both, a miss of 0); and every "With the weather taken out" row for Tennessee reads "not held" because the file holds no figure for the year's energy in any year from 2022.
+
+**What answers to the hand.** The keyboard alone at 1280 px: 62 stops from the top to the foot, each in sight with a focus mark. A finger at 390 px on the eight charts, four places each: a card on every chart; the page stays 390 px wide. A link that carries two places opened fresh reads them in its lists; after two choices the back button gives the first choice's address and lists that read what the page shows. No error in the page.
+
+**Quiet faults.** None: 390 px wide at 390 (the first pass); 0.8 to 1.8 s to load at 1280 px.
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| 1 | "Where the growth is", the Carolinas | August is white across the month-by-hour grid and has no bar in "by month"; the hover says "August, 12:00: not held" and "Aug: not held", not why. The file holds no hour of 1 or 2 August 2025 for the Carolinas, so 2025's August has no average | A blank with its hover, as the page has it; the hover could say which days are missing | noted |
+
+Pictures: `docs/reviews/browser-read-2026-11-20/demand-country/as-it-opens-1280.png` (Tennessee beside the Carolinas, the page as it opens); `year-by-year-1280.png` (the year rows and the record hours); `where-the-growth-is-1280.png` (the month-by-hour grids, the Carolinas' blank August); `ercot-beside-texas-1280.png` (after the choice ERCOT beside the Texas region).
+
+## 19. `/supply#whole-country`: net imports, who trades with whom, the mix by region (read in full by the desktop's second window)
+
+The old laptop's section (chain 503), read on production on 20 November between 20:35 and 21:05 UTC by the desktop's second window (session 9203). Scripts: `runs/c620w2/dump.mjs`, `runs/c620w2/cmp_supply.py` (from `site/data/regions/trade/<region>.json`, `trade_matrix.json` and `mix/<region>.json`, without the page's code), `runs/c620w2/hand.mjs`. The old laptop's last fixes to this page (session 8490: a pair's mean and percent hovers, the months a year holds, a figure that rounds to zero read 0.0, a mix year with no month held) are still not on main.
+
+**Five cases.**
+1. *A TVA trader.* Whom does Tennessee lean on, month by month? Tennessee beside the Midwest: in January 2025 Tennessee took in 999.2 GWh net, 2,163.2 GWh of it from the Midwest, while sending power to the Southeast and the Carolinas. Answered.
+2. *A regulator.* Do the two ends of a line agree? The year's table by neighbour: Tennessee's own report against each neighbour's, the gap over the hours both reported, its percent. Answered; the hover says why the gap need not be the two columns' difference (each column runs over its own side's hours).
+3. *A California analyst.* Who sends California its power? "Who trades with whom, 2025": the Northwest sent 14,800.6 GWh by its own report (14,598.6 by California's), the Southwest 24,249.7 (25,970.3), a gap of 8.3 percent, marked large. Answered.
+4. *A balancing authority's planner.* Its partners in order: 62 authorities, by gross and by net exchange (AECI: MISO, SWPP, SPA, TVA, SIKE by gross). Answered.
+5. *A student.* What does Tennessee run on? The mix by month: January 2025, gas 39.6, nuclear 30.9, coal 18.8, hydro 9.6 percent of 16,294.6 GWh, 31 days of 31 held; storage "not held yet". Answered.
+
+**Figures.** As it opens and with two pairs chosen (Tennessee beside the Midwest; the Northwest beside California): every month of each region's net imports, in all and by neighbour; the year's table by neighbour (own report, the neighbour's, the gap and its percent, months held); the months of 2025; all 25 pairs of regions and 157 pairs of authorities (each side's report, the mean, the gap); the partners of 62 authorities; each month's share by source and the months of 2025 with net generation and days held. **11,119 figures, none differs from its file.** One row the comparer could not place, "PNM and SWPP, no net flow", is the file's own pair with a direction of "none" and both reports 0 for 2025.
+
+**What answers to the hand.** The keyboard alone at 1280 px: 236 stops from the top to the foot, each in sight with a focus mark. A finger at 390 px on the 14 charts, four places each: a card on every one; the page stays 390 px wide. A link carrying two regions opened fresh reads them in its lists; the back button after two choices gives the first choice with lists true. No error.
+
+**Quiet faults.** None. 1.0 to 2.7 s to load at 1280 px (2.7 s the first time, a page not yet in the server's cache).
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| 1 | "Who trades with whom, 2025", the pair PNM and SWPP | Both reports 0.0; the gap's percent reads "not held yet" | A percent of two reports that are both zero can never be held; "not held" with its hover (which says a percent needs two reports not both zero) would not promise a later figure. A choice of words | ruling |
+
+Pictures: `docs/reviews/browser-read-2026-11-20/supply-country/as-it-opens-1280.png` (the page as it opens); `the-whole-country-1280.png` (the section, Tennessee and its neighbours); `who-trades-with-whom-1280.png` (the pairs of regions for 2025); `tennessee-beside-midwest-1280.png` (after choosing Tennessee beside the Midwest).
+
+## 20. `/events` and `/events/<event>#whole-country`: the thirteen regions across each event (read in full by the desktop's second window)
+
+The old laptop's section (chain 503), read on production on 20 November between 21:05 and 21:40 UTC by the desktop's second window (session 9203). Scripts: `runs/c620w2/dump.mjs`, `runs/c620w2/cmp_events.py` (from `site/data/regions/events/<event>.json`, without the page's code; `RULE=page` follows the page's own counting, `RULE=both` the section's stated rule), `runs/c620w2/hand.mjs`. Four events were read in full: Elliott as it opens, Uri with Texas beside Central, the June 2025 heat with the Mid-Atlantic beside New York, COVID-19 with California beside the Northwest. The old laptop's last fixes to this section (session 8470, eleven commits: among them the hours a region's percent rests on, said on hover) are still not on main.
+
+**Five cases.**
+1. *A grid operator in the Carolinas.* How far above normal did Elliott push demand? "Each region across the event": the Carolinas 8,542.5 GWh over the window, +29.3 percent on the baseline, the highest hour 44,630 MW at 2022-12-24 11:00 UTC against 26,915 MW in the baseline that hour. Answered.
+2. *A Tennessee planner.* Who sent Tennessee power during Elliott? "Power between regions, pair by pair": the Midwest to Tennessee, 3,407 MW on average and 909.7 GWh over the window, against 1,220 MW in the baseline. Answered.
+3. *A Texas analyst.* Did Texas import during Uri? Texas beside Central: each region's demand, net imports and generation by source over the window, the event against its baseline. Answered.
+4. *A California utility.* What did COVID-19 do to California and the Northwest? California beside the Northwest over 2,210 hours: demand against the baseline, the two regions' charts one beside the other. Answered.
+5. *A student.* Which regions did a storm reach? The sentence over the table counts the regions whose demand stood 5 percent or more from the baseline, with the list on hover. Answered.
+
+**Figures.** Every figure of "Each region across the event" (13 regions) and of "Power between regions, pair by pair" (25 pairs) for the four events: **912 figures, all agree with the file as the page counts them.** Set beside the rule the section itself states, 12 differ (row 1).
+
+**What answers to the hand.** The keyboard alone at 1280 px: 101 stops from the top to the foot, each in sight with a focus mark. A finger at 390 px on 15 charts, four places each: a card on every one; 390 px wide throughout. A link carrying two regions opened fresh reads them; the back button after two choices gives the first choice with lists true. No error.
+
+**Quiet faults.** None. 1.8 to 2.9 s to load at 1280 px.
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| 1 | "Power between regions, pair by pair", set beside "How a figure here is formed" ("Each figure is a sum or a mean over the hours of the window that the file holds for both the event and the baseline") | A pair's mean and sum run over the hours its flow is held, and its baseline mean over the baseline's own hours (`pairs()` in `site/lib/countryfiles.ts`). Elliott, Central and Canada: 17 MW over 267 hours against a baseline over 219; over the hours both hold the mean is 10 MW and the sum 2.2 GWh, not 4.5. COVID-19, the Midwest to Central: 3,892 MW over 2,209 hours, 3,897 over the 2,207 both hold. 10 of the 224 pairs drawn over the nine events rest on different hours | The table and its note agree, and a pair's event and baseline means rest on the same hours, as the regions' figures do. Which way (the note's words, or the pair's hours) is a choice of method on the old laptop's page, whose pending branch `wip/8440-events-regions-done` changes the same lines and keeps this rule | ruling |
+| 2 | "Each region across the event", COVID-19, Florida | "Hours held 2,187 of 2,210" beside a demand summed over the 1,790 hours the event and the baseline both hold. The column says what it counts ("the hours ... for which the file holds the region's demand"), and the demand's hover says it is over the hours both hold | A reader takes the figure to rest on 2,187 hours. The old laptop's session 8470 (not on main) names the hours a region's percent rests on in the hover | noted |
+
+Pictures: `docs/reviews/browser-read-2026-11-20/events-country/events-index-1280.png` (the list of events); `elliott-as-it-opens-1280.png` (Elliott's page as it opens); `elliott-the-whole-country-1280.png` (the section, Tennessee and the Carolinas); `elliott-each-region-1280.png` (the thirteen regions across the storm); `elliott-pairs-1280.png` (the pairs of regions); `uri-texas-beside-central-1280.png` (Uri, after choosing Texas beside Central).
+
+## 1, 2, 5 and 22 to 26: the pictures still wanting, and what was seen taking them (the desktop's second window)
+
+Taken on production on 20 November about 21:40 UTC (`runs/c620w2/pics.mjs`). Items 22 to 24 were read in full by chain 504 (`docs/reviews/grid-map-read-2026-11-19.md`) and opened again for quiet faults by the portable laptop (item 4 above); their figures were not read again here.
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| 1 | `/grid?region=ten`, the Mix tab, "The latest hour held" | "2026-11-17 05:00 UTC (Mon, Nov 16, 23:00 in Tennessee)", while the Lower 48 on the same tool reads 2026-11-19 23:00 UTC. The region page files were built on 19 November and not since; each page says the hour it holds | The same day of data across the tool, or the file's day said beside it | filed (data request 570) |
+| 2 | The same table | "Solar -5 MW, -0.0%": EIA's figure (solar plants draw power at night), its share printed as "-0.0%" | A share that rounds to zero; the sign says it was below zero. The old laptop's session 8490 reads such a figure "0.0" on `/supply`; the two pages would then differ in how they print it | noted |
+| 3 | The 3D network as it opens, its legend | "Carbon intensity ... latest hour 2026-11-17 23:00 UTC"; the network's week opens on 2026-11-19 04:00 UTC. The color is two days behind the links | Part of the live set's lag (data requests 565 and 569) | noted |
+
+Pictures, under `docs/reviews/browser-read-2026-11-20/more/`: `findings-as-it-opens-1280.png` (item 1, the sheet of forty first); `problem-sets-index-1280.png`, `set-storm-across-the-country-1280.png`, `set-your-own-balancing-authority-1280.png` (items 2 and 11); `resource-map-as-it-opens-1280.png` (items 5 and 23, the map itself); `region-tennessee-mix-1280.png` (item 22, the latest hour held, the solar share of -0.0%); `region-tennessee-network-map-1280.png` (item 21 and 22, the map of the authorities with Tennessee chosen); `region-southwest-clean-1280.png` (item 22, the Clean tab); `network-3d-as-it-opens-1280.png` (item 24, the 3D network and its legend); `method-ba-boundaries-1280.png` (item 26).
+
 ## Part C: the same number in two places
 
 Each pair read on production on 20 November between 11:40 and 11:50 UTC (`runs/c620/survey.mjs` into `runs/c620/c1/`, and the page files).
@@ -365,6 +459,8 @@ Each pair read on production on 20 November between 11:40 and 11:50 UTC (`runs/c
 | C5 | The map's Price color against `/prices/compare`, the average over twelve months | The map: ERCOT's hub average 34.86, CAISO SP15 30.29, SPP North 34.50 USD/MWh | `/prices/compare`, "the twelve months to October 2026": 34.59, 30.27 and 34.27 | Both right, on different windows: the map's is the 365 days to its file's day (16 November), the comparison's the twelve calendar months to October. The map did not say which days | fixed on `wip/9601-price-map-window` (the hover names the window's days) |
 | C6 | The board's price against `/prices` | `/board`: ERCOT hub average, day-ahead, 54.09 USD/MWh, "16 Nov 2026 (stale)"; real time 22.68, 18 November | `/prices`: HB_HUBAVG 21.29 at 2026-11-20 11:00 (a 15-minute price); day-ahead "no data: no iso_dam_hub_prices row since 2026-11-19 11:00 UTC" | Not the same measure (a day's mean against the newest interval), and both behind: the board's newest whole day-ahead day is four days old, the price page's day-ahead hours stop a day ago. Part of the lag of data request 565; the map's 30-day figure for ERCOT is blank for the same cause ("673 of the window's 721 hours held") | filed (565) |
 | C7 | A state's mix on `/states` against its region's on the Grid tool | `/states?a=TX`, the last twelve months (EIA's state generation): gas 47.3%, wind 22.3%, solar 12.6%, coal 10.7%, nuclear 6.5% | The Grid tool: ERCOT's own facts over 2025-11 to 2026-10 (EIA-930): gas 40%, wind 24%, solar 16%, coal 12%; the Texas region, October 2026: gas 45.0%, wind 20.9%, solar 15.1% | Not the same thing: the state holds plants outside ERCOT and plants that report to EIA and not to the grid operator; the periods differ. Each page names its source. A reader comparing "Texas" with "Texas" sees gas at 47 against 40 percent | noted |
+| C8 | "The last twelve months" on the two sibling tools of ERCOT (read by the desktop's second window, 22:50 UTC) | `/cost-of-power/seller`, solar at the hub average: "Over the last twelve months, Oct 2025 to Sep 2026 ... the flat average of USD 32.17" | `/cost-of-power`, a flat load at LZ_NORTH: "USD 34.07 per MWh over the last twelve months ... Nov 2025 to Oct 2026" | Two windows of the same name a month apart (the generator tool's window ends where its generation profile ends), and two places. Each names its months. A reader who sets the two side by side compares September with October | noted |
+| C9 | The latest hour of the Grid tool's thirteen regions against its Lower 48 (the desktop's second window, 21:45 UTC) | `/grid?region=ten`, Mix: "The latest hour held 2026-11-17 05:00 UTC" | `/grid`, the Lower 48: the hour starting 2026-11-19 23:00 UTC | The region page files are of 19 November; each page says the hour it holds | filed (data request 570) |
 
 ## Part D: the first minute
 
@@ -412,6 +508,17 @@ A first pass, the five tools Samuel calls sellable first (`runs/c620/e_phone.mjs
 - **Found in part D and belonging here:** the menu's Policy page (row D1) and six method pages at 390 px (item 4, row 1), both mended on branches.
 
 Pictures at 390 px: `docs/reviews/browser-read-2026-11-20/phone/cost-of-power_battery-390.png`, `cost-of-power_seller-390.png`, `cost-of-power-390.png`, `research-390.png`, `grid-390.png`.
+
+### The five sellable tools in part B's form (the desktop's second window, 22:40 to 23:00 UTC)
+
+What the first pass above left: the figures set beside their tables, and the readers' cases. **Figures:** `site/scripts/check-values.mjs` on production, restricted to the five tools and every page under their addresses (the battery, seller and datacenter tools by grid, `/research` and its cards, `/grid` and its seven grids with their views): **4,119 of 4,122 figures match a direct query of Supabase.** The three that did not were one page, `/cost-of-power?grid=caiso`, whose carbon window read 9,399 hours where Supabase holds 9,567. The page had been cached before the live set's load of about 16:00 UTC, and the visit itself rebuilt it: read again a minute later, 78 of 78 match. At 390 px all five open 390 px wide, with no "undefined" and no empty chart (`/cost-of-power` 3.6 s, the others under 1.5 s).
+
+**Five cases, one a tool, each answered on the page at 390 px:**
+1. *A battery developer:* what did a 4-hour battery at ERCOT's hub earn? 80.34 USD per kW over the last twelve months, 255.08 averaged over the last three full years, and 3,430.56 in 2021, the year of Uri.
+2. *A solar developer:* what did a merchant plant earn? USD 59.85 per kW over October 2025 to September 2026 at the hub average, with a capture rate of 72 percent (23.27 against a flat 32.17 USD/MWh).
+3. *A datacenter buyer:* what does a flat 100 MW load at LZ_NORTH pay? USD 34.07 per MWh over November 2025 to October 2026, USD 29.85 million in all, USD 0.0691 per GPU-hour. How soon can it connect? ERCOT's report of 19 June 2026 gives 8,927 MW approved to energize and 3,900 MW observed running, and the page says ERCOT estimates no wait.
+4. *A researcher:* can the warehouse run an analysis? "Ask for an analysis" takes a question and up to ten public tables; each card downloads its data, its Stata do-file and its Python file.
+5. *A grid watcher:* what is the Lower 48 doing? 489,761 MW in the hour starting 2026-11-19 23:00 UTC, less than the 491,760 MW of a week before; natural gas the largest source.
 
 ### Every page with a fixed address, at both widths
 
