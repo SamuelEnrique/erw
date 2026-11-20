@@ -3968,18 +3968,16 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `rotor_diameter_m` | The rotor diameter (the source's name: t_rd) | m | number | 13.4 to 222.0; 108 distinct | 5140: USGS leaves it blank |
 | `rotor_swept_area_m2` | The rotor's swept area (the source's name: t_rsa) | m2 | number | 141.03 to 38707.56; 108 distinct | 5140: USGS leaves it blank |
 | `total_height_m` | The turbine's total height (the source's name: t_ttlh) | m | number | 30.5 to 247.5; 226 distinct | 5500: USGS leaves it blank |
-| `confidence_attributes` | USGS's confidence flag for the turbine's attributes (1 to 3), as published (the source's name: t_conf_atr) | none | integer | 1, 2, 3 | 0 |
-| `confidence_location` | USGS's confidence flag for the turbine's location (1 to 3), as published (the source's name: t_conf_loc) | none | integer | 1, 2, 3 | 0 |
+| `confidence_attributes` | USGS's confidence in the turbine's attributes: 1 none (no attribute data beyond total height and year), 2 partial (incomplete information or substantial conflict between sources), 3 full (complete information, consistent across several sources) (the source's name: t_conf_atr) | none | integer | 1, 2, 3 | 0 |
+| `confidence_location` | USGS's confidence in the turbine's location: 1 no turbine shown in the image (or clouds, or imagery older than the turbine), 2 partial (a developed pad with a concrete base or turbine parts on the ground), 3 full (an installed turbine shown) (the source's name: t_conf_loc) | none | integer | 1, 2, 3 | 0 |
 | `image_date` | The date of the image the turbine was located on (rewritten from M/D/YYYY to YYYY-MM-DD) (the source's name: t_img_date) | none | date | 2010-01-01 to 2026-08-21; 1597 distinct | 6467: USGS leaves it blank |
 | `image_source` | The image's source (Vantor, Planet, NAIP, Bing Maps Aerial, Google Earth) (the source's name: t_img_src) | none | text | Bing Maps Aerial, Google Earth, NAIP, Planet, Vantor | 0 |
 | `retrofit` | 1 where the turbine was retrofitted, else 0 (the source's name: t_retrofit) | none | integer | 0, 1 | 0 |
 | `retrofit_year` | The year of the retrofit (the source's name: t_retro_yr) | none | integer | 2015, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 | 69130: Not retrofitted |
 | `offshore` | 1 for an offshore turbine, else 0 (the source's name: t_offshore) | none | integer | 0, 1 | 0 |
-| `faa_ors` | not documented by the source (the source's name: faa_ors) | none | text | for example 02-000669, 02-020007, 02-020012; more than 5000 distinct | 3349: USGS leaves it blank |
-| `faa_asn` | not documented by the source (the source's name: faa_asn) | none | text | for example 1987-AGL-900-OE, 1997-ACE-1545-OE, 1997-ACE-1546-OE; more than 5000 distinct | 3556: USGS leaves it blank |
+| `faa_ors` | The turbine's identifier in the Federal Aviation Administration's digital obstacle files (for cross-reference) (the source's name: faa_ors) | none | text | for example 02-000669, 02-020007, 02-020012; more than 5000 distinct | 3349: USGS leaves it blank |
+| `faa_asn` | The turbine's identifier in the FAA's obstruction evaluation and airport airspace analysis dataset (for cross-reference) (the source's name: faa_asn) | none | text | for example 1987-AGL-900-OE, 1997-ACE-1545-OE, 1997-ACE-1546-OE; more than 5000 distinct | 3556: USGS leaves it blank |
 | `usgs_project_id` | USGS's project id, as published (the source's name: usgs_pr_id) | none | integer | 1 to 49135; more than 5000 distinct | 41912: USGS leaves it blank |
-
-Waiting for a second look: confidence_attributes and confidence_location (1 to 3): the meaning of each level is not written in the connector, the method note or the header.; faa_ors and faa_asn: what the two FAA identifiers are is not written in the connector, the method note or the header..
 
 ### `wapa_energy_sales_annual`
 
