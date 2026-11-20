@@ -54,6 +54,8 @@ Chain: `queue/done/601-night-20-november-desktop-grid-conditions.md`. Progress: 
 
 - The live `sources` table holds one row that `warehouse/metadata/sources.csv` lacks, "IEA – International Energy Agency", so every daily load reads failed on `sources`. `python warehouse/supabase/load.py --prune` would delete it. Default taken: not deleted (a live row goes only with your word).
 
+- Drive C filled (0 GB free at 22:43 UTC). This chain's nine gate worktrees were removed (19.6 GB free after). 35 older `erw-land-*` worktrees of earlier sessions remain beside the checkout, about 2 to 4 GB each; removing them would free most of the rest. Default taken: left as they are (they are other sessions' folders, and one may hold logs in its ignored `runs/`).
+
 ## Needs the key
 
 - Nothing.
