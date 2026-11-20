@@ -1,0 +1,23 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate coal_stocks_dec, region cst_us (US power plants)
+# Computed 2026-11-19T12:24:25Z by warehouse/analysis/findings/deep/markets_operations.py (coal_stocks_dec); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the coal stocks of the electric power sector at the end of December (million short tons), the observations it rests on, and whether the year is full
+# Tables: eia_power_fuel_stocks_monthly
+region,year,value,n_observations,full_year
+cst_us,2008,161.588607,1.0,1
+cst_us,2009,189.466761,1.0,1
+cst_us,2010,174.91726,1.0,1
+cst_us,2011,172.38668,1.0,1
+cst_us,2012,185.115833,1.0,1
+cst_us,2013,147.884247,1.0,1
+cst_us,2014,151.548454,1.0,1
+cst_us,2015,195.548037,1.0,1
+cst_us,2016,162.009014,1.0,1
+cst_us,2017,137.687148,1.0,1
+cst_us,2018,102.792854,1.0,1
+cst_us,2019,128.1021,1.0,1
+cst_us,2020,131.430673,1.0,1
+cst_us,2021,91.884252,1.0,1
+cst_us,2022,88.860583,1.0,1
+cst_us,2023,133.028387,1.0,1
+cst_us,2024,127.825935,1.0,1
+cst_us,2025,109.733181,1.0,1

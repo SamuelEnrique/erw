@@ -2,7 +2,7 @@
 
 Draft `scan-deep-7f8c9d720532` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The public DC fast charging ports in the United States was 68,599 ports in 2025, against 1,494 ports in 2014, the first year the ERW's table holds.
+**The finding.** The count of public DC fast charging ports in the United States was 68,599 ports in 2025, against 1,494 ports in 2014, the first year the ERW's table holds.
 
 ![Fast chargers, the United States](dcfast-ports-dcfast-us.png)
 

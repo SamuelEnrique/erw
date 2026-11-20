@@ -41,6 +41,32 @@ afdc_vehicle_registrations_annual,registrations_methanol,series variable,count
 afdc_vehicle_registrations_annual,registrations_phev,series variable,count
 afdc_vehicle_registrations_annual,registrations_propane,series variable,count
 afdc_vehicle_registrations_annual,registrations_unknown_fuel,series variable,count
+ai_energy_published,event_id,column,
+ai_energy_published,event_date,column,
+ai_energy_published,event_type,column,
+ai_energy_published,parties,column,
+ai_energy_published,entity_ids,column,
+ai_energy_published,mw,column,
+ai_energy_published,price,column,
+ai_energy_published,currency,column,
+ai_energy_published,status,column,
+ai_energy_published,source,column,
+ai_energy_published,source_url,column,
+ai_energy_published,x_publisher_kind,column,
+ai_energy_published,x_peer_reviewed,column,
+ai_energy_published,x_title,column,
+ai_energy_published,x_authors,column,
+ai_energy_published,x_page,column,
+ai_energy_published,x_printed,column,
+ai_energy_published,x_value,column,
+ai_energy_published,x_unit,column,
+ai_energy_published,x_measures,column,
+ai_energy_published,x_subject,column,
+ai_energy_published,x_period,column,
+ai_energy_published,x_basis,column,
+ai_energy_published,x_saved_as,column,
+ai_energy_published,x_sha256,column,
+ai_energy_published,x_retrieved_at,column,
 aneel_siga_plants,entity_id,column,
 aneel_siga_plants,entity_type,column,
 aneel_siga_plants,name,column,
@@ -117,6 +143,33 @@ attention_story_links,prompt_version,column,
 attention_story_links,classified_at,column,
 attention_story_links,fixed,column,
 attention_story_links,retrieved_at,column,
+ba_boundaries,entity_id,column,
+ba_boundaries,entity_type,column,
+ba_boundaries,name,column,
+ba_boundaries,geo,column,
+ba_boundaries,lat,column,
+ba_boundaries,lon,column,
+ba_boundaries,capacity_mw,column,
+ba_boundaries,status,column,
+ba_boundaries,status_date,column,
+ba_boundaries,operator,column,
+ba_boundaries,source,column,
+ba_boundaries,source_url,column,
+ba_boundaries,retrieved_at,column,
+ba_boundaries,vintage,column,
+ba_boundaries,x_hifld_id,column,
+ba_boundaries,x_eia930_code,column,
+ba_boundaries,x_eia930_name,column,
+ba_boundaries,x_region,column,
+ba_boundaries,x_area_km2,column,
+ba_boundaries,x_parts,column,
+ba_boundaries,x_vertices,column,
+ba_boundaries,x_source_date,column,
+ba_boundaries,x_val_date,column,
+ba_boundaries,x_year,column,
+ba_boundaries,x_peak_load_mw,column,
+ba_boundaries,x_total_cap_mw,column,
+ba_boundaries,x_raw_sha256,column,
 ba_supply_monthly,balance_all_days_mwh,series variable,MWh
 ba_supply_monthly,balance_days,series variable,count
 ba_supply_monthly,days_held,series variable,count
@@ -138,6 +191,9 @@ ba_supply_monthly,share_days,series variable,count
 ba_supply_monthly,thin_month,series variable,count
 ba_supply_monthly,total_interchange_all_days_mwh,series variable,MWh
 ba_supply_monthly,total_interchange_days,series variable,count
+ba_trade_partners,exchange_gross_mwh,series variable,MWh
+ba_trade_partners,net_import_mwh,series variable,MWh
+ba_trade_partners,net_import_share_of_demand_pct,series variable,pct
 battery_sourced_ranges,capex,series variable,USD/kW
 battery_sourced_ranges,energy_capital_cost,series variable,USD/kWh
 battery_sourced_ranges,fixed_om,series variable,USD/kW-year
@@ -656,6 +712,10 @@ caiso_interconnection_queue,queue_date,column,
 caiso_interconnection_queue,proposed_in_service_date,column,
 caiso_interconnection_queue,actual_in_service_date,column,
 caiso_interconnection_queue,withdrawn_date,column,
+caiso_outlook_demand,demand_forecast_day_ahead_mw,series variable,MW
+caiso_outlook_demand,demand_forecast_hour_ahead_mw,series variable,MW
+caiso_outlook_demand,demand_mw,series variable,MW
+caiso_outlook_demand,demand_response_marked,series variable,count
 caiso_reliability_daily,afternoon_mean_mw,series variable,MW
 caiso_reliability_daily,battery_mw_evening_peak,series variable,MW
 caiso_reliability_daily,battery_share_pct,series variable,pct
@@ -693,7 +753,11 @@ carbon_intensity_daily,intensity_generation,series variable,kgCO2/MWh
 carbon_intensity_hourly,intensity_demand,series variable,kgCO2/MWh
 carbon_intensity_hourly,intensity_generation,series variable,kgCO2/MWh
 carbon_intensity_monthly,intensity_demand,series variable,kgCO2/MWh
+carbon_intensity_monthly,intensity_demand_hours_held,series variable,count
+carbon_intensity_monthly,intensity_demand_over_held_hours,series variable,kgCO2/MWh
 carbon_intensity_monthly,intensity_generation,series variable,kgCO2/MWh
+carbon_intensity_monthly,intensity_generation_hours_held,series variable,count
+carbon_intensity_monthly,intensity_generation_over_held_hours,series variable,kgCO2/MWh
 cbs_curacao_electricity_annual,production,series variable,MWh
 cbs_netherlands_electricity_monthly,distribution_losses,series variable,MWh
 cbs_netherlands_electricity_monthly,export,series variable,MWh
@@ -755,6 +819,8 @@ census_c30_construction_monthly,value_put_in_place_saar,series variable,USD
 census_cbp_hosting_annual,annual_payroll,series variable,USD
 census_cbp_hosting_annual,employment,series variable,count
 census_cbp_hosting_annual,establishments,series variable,count
+census_county_population,population_census_2020,series variable,count
+census_county_population,population_estimate,series variable,count
 census_metro_population,population_2025,series variable,count
 census_metro_population,population_base_2020,series variable,count
 census_qss_utilities_hosting_quarterly,revenue_from_businesses,series variable,USD
@@ -2340,6 +2406,19 @@ eia930_all_history,demand_mw,series variable,MW
 eia930_all_history,net_generation_mw,series variable,MW
 eia930_all_interchange,interchange_mw,series variable,MW
 eia930_all_storage,net_generation_battery_mw,series variable,MW
+eia930_ba_demand_hourly,demand_forecast_mw,series variable,MW
+eia930_ba_demand_hourly,demand_mw,series variable,MW
+eia930_ba_interchange_hourly_2018,interchange_mw,series variable,MW
+eia930_ba_interchange_hourly_2019,interchange_mw,series variable,MW
+eia930_ba_interchange_hourly_2020,interchange_mw,series variable,MW
+eia930_ba_interchange_hourly_2021,interchange_mw,series variable,MW
+eia930_ba_interchange_hourly_2022,interchange_mw,series variable,MW
+eia930_ba_interchange_hourly_2023,interchange_mw,series variable,MW
+eia930_ba_interchange_hourly_2024,interchange_mw,series variable,MW
+eia930_ba_interchange_hourly_2025,interchange_mw,series variable,MW
+eia930_ba_interchange_hourly_2026,interchange_mw,series variable,MW
+eia930_ba_supply_hourly,net_generation_mw,series variable,MW
+eia930_ba_supply_hourly,total_interchange_mw,series variable,MW
 eia930_daily_demand,demand_mwh,series variable,MWh
 eia930_daily_interchange,interchange_mwh,series variable,MWh
 eia930_daily_total_interchange,total_interchange_mwh,series variable,MWh
@@ -3366,6 +3445,8 @@ eia930_demand_weather,winter_peak_unexplained_pct,series variable,pct
 eia930_demand_weather,winter_peak_weather_pct,series variable,pct
 eia930_event_hourly_interchange,demand_mw,series variable,MW
 eia930_event_hourly_interchange,interchange_mw,series variable,MW
+eia930_forecast_error_daily,demand_forecast_ape_pct,series variable,pct
+eia930_forecast_error_hourly,demand_forecast_miss_mw,series variable,MW
 eia930_generation_latest,net_generation_battery_mw,series variable,MW
 eia930_generation_latest,net_generation_coal_mw,series variable,MW
 eia930_generation_latest,net_generation_geothermal_mw,series variable,MW
@@ -3383,6 +3464,19 @@ eia930_generation_latest,net_generation_unknown_mw,series variable,MW
 eia930_generation_latest,net_generation_unknown_storage_mw,series variable,MW
 eia930_generation_latest,net_generation_wind_mw,series variable,MW
 eia930_generation_latest,net_generation_wind_with_battery_mw,series variable,MW
+eia930_region_fuel_hourly,net_generation_coal_mw,series variable,MW
+eia930_region_fuel_hourly,net_generation_hydro_mw,series variable,MW
+eia930_region_fuel_hourly,net_generation_natural_gas_mw,series variable,MW
+eia930_region_fuel_hourly,net_generation_nuclear_mw,series variable,MW
+eia930_region_fuel_hourly,net_generation_other_mw,series variable,MW
+eia930_region_fuel_hourly,net_generation_solar_mw,series variable,MW
+eia930_region_fuel_hourly,net_generation_storage_mw,series variable,MW
+eia930_region_fuel_hourly,net_generation_wind_mw,series variable,MW
+eia930_region_hourly,demand_forecast_mw,series variable,MW
+eia930_region_hourly,demand_mw,series variable,MW
+eia930_region_hourly,net_generation_mw,series variable,MW
+eia930_region_hourly,total_interchange_mw,series variable,MW
+eia930_region_pair_hourly,interchange_mw,series variable,MW
 eia930_subba_demand_hourly,demand_mw,series variable,MW
 eia930_subba_demand_hourly_2019,demand_mw,series variable,MW
 eia930_subba_demand_hourly_2020,demand_mw,series variable,MW
@@ -3399,6 +3493,7 @@ eia_aeo_emm_regions,value,series variable,MWh
 eia_aeo_emm_regions,value,series variable,TBtu
 eia_aeo_emm_regions,value,series variable,USD/MMBtu
 eia_aeo_emm_regions,value,series variable,USD/kWh
+eia_aeo_industrial,consumption,series variable,TBtu
 eia_annual_crosscheck_ba,eia923_net_generation_mwh,series variable,MWh
 eia_annual_crosscheck_ba,eia930_hours,series variable,count
 eia_annual_crosscheck_ba,eia930_net_generation_mwh,series variable,MWh
@@ -3475,6 +3570,30 @@ eia_coal_receipts_annual,price,series variable,USD/short_ton
 eia_coal_receipts_annual,quantity,series variable,short_ton
 eia_coal_receipts_annual,sulfur_content,series variable,pct
 eia_coal_trade_price_annual,price,series variable,USD/short_ton
+eia_county_region,entity_id,column,
+eia_county_region,entity_type,column,
+eia_county_region,name,column,
+eia_county_region,geo,column,
+eia_county_region,lat,column,
+eia_county_region,lon,column,
+eia_county_region,capacity_mw,column,
+eia_county_region,status,column,
+eia_county_region,status_date,column,
+eia_county_region,operator,column,
+eia_county_region,source,column,
+eia_county_region,source_url,column,
+eia_county_region,retrieved_at,column,
+eia_county_region,vintage,column,
+eia_county_region,x_state,column,
+eia_county_region,x_fips,column,
+eia_county_region,x_ba_primary,column,
+eia_county_region,x_region,column,
+eia_county_region,x_shared,column,
+eia_county_region,x_bas,column,
+eia_county_region,x_regions,column,
+eia_county_region,x_ba_by_count,column,
+eia_county_region,x_utilities,column,
+eia_county_region,x_basis,column,
 eia_crude_first_purchase_prices,first_purchase_price,series variable,USD/bbl
 eia_crude_imports_by_country,imports,series variable,kbbl/d
 eia_crude_imports_detail_monthly,imports,series variable,kbbl
@@ -3855,6 +3974,9 @@ eia_retail_fuel_prices,retail_price,series variable,USD/gal
 eia_retail_sales_monthly,customers,series variable,count
 eia_retail_sales_monthly,retail_sales,series variable,MWh
 eia_sector_energy_consumption_monthly,energy_consumption,series variable,TBtu
+eia_seds_industrial_annual,consumption,series variable,TBtu
+eia_seds_industrial_annual,expenditures,series variable,USD
+eia_seds_industrial_annual,price,series variable,USD/MMBtu
 eia_seds_residential_annual,consumption,series variable,TBtu
 eia_seds_residential_annual,expenditures,series variable,USD
 eia_seds_residential_annual,population,series variable,count
@@ -5333,6 +5455,18 @@ flex_alert_effects,train_days_as_hot,series variable,count
 flex_alert_effects,value_usd,series variable,USD
 flex_alert_effects,value_usd_hi,series variable,USD
 flex_alert_effects,value_usd_lo,series variable,USD
+flex_alert_effects,variant_base_cdh_dew_reduction_mw,series variable,MW
+flex_alert_effects,variant_base_cdh_dew_reduction_mw_hi,series variable,MW
+flex_alert_effects,variant_base_cdh_dew_reduction_mw_lo,series variable,MW
+flex_alert_effects,variant_base_prev24sq_reduction_mw,series variable,MW
+flex_alert_effects,variant_base_prev24sq_reduction_mw_hi,series variable,MW
+flex_alert_effects,variant_base_prev24sq_reduction_mw_lo,series variable,MW
+flex_alert_effects,variant_base_reduction_mw,series variable,MW
+flex_alert_effects,variant_base_reduction_mw_hi,series variable,MW
+flex_alert_effects,variant_base_reduction_mw_lo,series variable,MW
+flex_alert_effects,variant_minimal_reduction_mw,series variable,MW
+flex_alert_effects,variant_minimal_reduction_mw_hi,series variable,MW
+flex_alert_effects,variant_minimal_reduction_mw_lo,series variable,MW
 flex_alert_effects,year_days,series variable,count
 flex_alert_effects,year_hours,series variable,count
 flex_alert_effects,year_reduction_mw,series variable,MW
@@ -6360,6 +6494,9 @@ ine_es_dwellings_electricity_2021,dwellings_occasional_use,series variable,count
 ine_es_dwellings_electricity_2021,dwellings_over_10000_kwh,series variable,count
 ine_es_dwellings_electricity_2021,dwellings_total,series variable,count
 ine_es_dwellings_electricity_2021,median_annual_consumption,series variable,MWh
+interchange_event_pairs,interchange_mwh,series variable,MWh
+interchange_pair_daily,interchange_mwh,series variable,MWh
+interchange_pair_monthly,interchange_mwh,series variable,MWh
 interconnection_agreements_by_grid,active_mw,series variable,MW
 interconnection_agreements_by_grid,active_projects,series variable,count
 interconnection_agreements_by_grid,mw_signed,series variable,MW
@@ -6426,6 +6563,11 @@ interconnection_durations_summary,p25_months,series variable,month
 interconnection_durations_summary,p75_months,series variable,month
 interconnection_durations_summary,projects,series variable,count
 interconnection_durations_summary,projects_5y,series variable,count
+interconnection_queue_summary,active_mw_parts_battery,series variable,count
+interconnection_queue_summary,active_mw_parts_gas,series variable,count
+interconnection_queue_summary,active_mw_parts_other_storage,series variable,count
+interconnection_queue_summary,active_mw_parts_solar,series variable,count
+interconnection_queue_summary,active_mw_parts_wind,series variable,count
 interconnection_queue_summary,median_years_to_operation,series variable,year
 interconnection_queue_summary,mw_active,series variable,MW
 interconnection_queue_summary,mw_entered,series variable,MW
@@ -6481,6 +6623,8 @@ iso_curtailment_monthly,share_hours_in_month,series variable,count
 iso_curtailment_monthly,share_output_mwh,series variable,MWh
 iso_curtailment_monthly,solar_generation_mwh,series variable,MWh
 iso_curtailment_monthly,wind_generation_mwh,series variable,MWh
+iso_hub_prices_history_2018,lmp_dam,series variable,USD/MWh
+iso_hub_prices_history_2018,lmp_rtm_15m_mean,series variable,USD/MWh
 iso_queue_snapshot_summary,active_count,series variable,count
 iso_queue_snapshot_summary,active_mw,series variable,MW
 iso_queue_snapshot_summary,completed_count,series variable,count
@@ -6906,6 +7050,16 @@ noaa_ncei_storm_events,x_end_lat,column,
 noaa_ncei_storm_events,x_end_lon,column,
 noaa_ncei_storm_events,x_data_source,column,
 noaa_ncei_storm_events,x_file_created,column,
+noaa_region_station_hourly_2018,temperature_f,series variable,degF
+noaa_region_station_hourly_2019,temperature_f,series variable,degF
+noaa_region_station_hourly_2020,temperature_f,series variable,degF
+noaa_region_station_hourly_2021,temperature_f,series variable,degF
+noaa_region_station_hourly_2022,temperature_f,series variable,degF
+noaa_region_station_hourly_2023,temperature_f,series variable,degF
+noaa_region_station_hourly_2024,temperature_f,series variable,degF
+noaa_region_station_hourly_2025,temperature_f,series variable,degF
+noaa_region_station_hourly_2026,temperature_f,series variable,degF
+noaa_region_stations,station_weight,series variable,ratio
 noaa_station_weather_hourly,dew_point_f,series variable,degF
 noaa_station_weather_hourly,temperature_f,series variable,degF
 noaa_uscrn_solar_monthly,solar_radiation,series variable,MJ/m2-day
@@ -7953,6 +8107,31 @@ ree_spain_balance_monthly,steam_turbine,series variable,MWh
 ree_spain_balance_monthly,storage_balance,series variable,MWh
 ree_spain_balance_monthly,thermal_solar,series variable,MWh
 ree_spain_balance_monthly,wind,series variable,MWh
+region_weather_hourly,temperature_f,series variable,degF
+resource_layer_features,entity_id,column,
+resource_layer_features,entity_type,column,
+resource_layer_features,name,column,
+resource_layer_features,geo,column,
+resource_layer_features,lat,column,
+resource_layer_features,lon,column,
+resource_layer_features,capacity_mw,column,
+resource_layer_features,status,column,
+resource_layer_features,status_date,column,
+resource_layer_features,operator,column,
+resource_layer_features,source,column,
+resource_layer_features,source_url,column,
+resource_layer_features,retrieved_at,column,
+resource_layer_features,vintage,column,
+resource_layer_features,x_layer,column,
+resource_layer_features,x_kind,column,
+resource_layer_features,x_value,column,
+resource_layer_features,x_unit,column,
+resource_layer_features,x_value_label,column,
+resource_layer_features,x_publisher,column,
+resource_layer_features,x_cell_deg,column,
+resource_layer_features,x_area_km2,column,
+resource_layer_features,x_extra,column,
+resource_layer_features,x_source_sha256,column,
 rrc_lease_production_monthly,casinghead_gas_mcf,series variable,Mcf
 rrc_lease_production_monthly,condensate_bbl,series variable,bbl
 rrc_lease_production_monthly,gas_mcf,series variable,Mcf
