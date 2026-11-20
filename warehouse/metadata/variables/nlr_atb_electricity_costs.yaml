@@ -376,4 +376,5 @@ variables:
   last: '2060-01-01T00:00:00Z'
 second_look:
 - 'x_default (the ATB''s default field, 1 or 0) and x_maturity (the ATB''s maturity field, Y or N): what each marks is not
-  written in the connector, the method note or the header.'
+  written in the connector, the method note or the header. Read again on 20 November 2026 in the saved ATB 2025 workbook under
+  warehouse/raw/nlr_atb (sheets Preface and Contents and Financial Definitions): not found.'

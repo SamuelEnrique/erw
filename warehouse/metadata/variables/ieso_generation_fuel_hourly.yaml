@@ -228,4 +228,5 @@ variables:
   last: '2026-10-23T04:00:00Z'
 second_look:
 - 'x_quality (the report''s OutputQuality): the codes 0 and -1 to -30 are not defined in the repository (the IESO''s schema
-  was not read).'
+  was not read). Read again on 20 November 2026 in the connector, the method note and the saved XML reports under warehouse/raw/ieso_genfuel
+  (they point to the IESO''s schema and stylesheet by address only, neither saved): not found.'

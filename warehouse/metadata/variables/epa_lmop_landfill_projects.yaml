@@ -1099,6 +1099,4 @@ columns:
   missing_meaning: never empty
   source_name: Current Year Emission Reductions (MMTCO2e/yr) - Avoided
   documented_by: source LMOP Field Descriptions sheet
-second_look:
-- The labels come from the workbook's own 'Field Descriptions' sheet, read from the saved copy under the data machine's warehouse/raw/epa_lmop/
-  (not in git); no method note restates them.
+second_look: null

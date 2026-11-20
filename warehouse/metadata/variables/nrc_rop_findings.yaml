@@ -440,4 +440,6 @@ columns:
   documented_by: method nrc_rop_findings.md
 second_look:
 - 'x_cross_cutting_area: the letters (H, P, N, U, S, X) are not explained in any note or connector; the NRC''s data dictionary
-  is read but not held in the repository.'
+  is read but not held in the repository. Read again on 20 November 2026 in the saved findings workbook under warehouse/raw/nrc_rop_findings
+  (one sheet; the letter is the first letter of CrossCuttingAspect, for example H with ''H.14 - Conservative Bias'', but no
+  row or sheet says what a letter stands for): not found.'

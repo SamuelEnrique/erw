@@ -306,5 +306,5 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 | `x_quarter` | The NRC's quarter of the finding (1 to 4) (the source's name: Quarter) | none | integer | 1, 2, 3, 4 | 0 |
 | `x_link` | The NRC's link to the report (https://www.nrc.gov/docs/ and the accession), as printed; some hold a space or tab (the source's name: Link) | none | text | for example https://www.nrc.gov/docs/, https://www.nrc.gov/docs/	 ML24093A260, https://www.nrc.gov/docs/ ML22286A160; more than 5000 distinct | 0 |
 
-Waiting for a second look: x_cross_cutting_area: the letters (H, P, N, U, S, X) are not explained in any note or connector; the NRC's data dictionary is read but not held in the repository..
+Waiting for a second look: x_cross_cutting_area: the letters (H, P, N, U, S, X) are not explained in any note or connector; the NRC's data dictionary is read but not held in the repository. Read again on 20 November 2026 in the saved findings workbook under warehouse/raw/nrc_rop_findings (one sheet; the letter is the first letter of CrossCuttingAspect, for example H with 'H.14 - Conservative Bias', but no row or sheet says what a letter stands for): not found..
 

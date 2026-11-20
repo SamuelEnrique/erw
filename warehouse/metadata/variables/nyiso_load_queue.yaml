@@ -380,7 +380,7 @@ columns:
   source_name: Record Type Name
   documented_by: connector nyiso_load_queue.py; method nyiso_load_queue.md
 - name: type_fuel
-  label: The sheet's Type/Fuel code (L on every row)
+  label: 'The sheet''s Type/Fuel code: L, load, on every row'
   unit: none
   type: text
   values:
@@ -389,7 +389,8 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: Type/Fuel
-  documented_by: connector nyiso_load_queue.py; data
+  documented_by: 'source NYISO, NYISO-Interconnection-Queue.xlsx as saved under warehouse/raw/nyiso_load_queue, sheet Interconnection
+    Queue (NOTES: Type / Fuel Key, L=Load), read 2026-11-20; connector nyiso_load_queue.py; data'
 - name: iso_status
   label: NYISO's status code of the request as printed (0 to 14)
   unit: none
@@ -575,7 +576,7 @@ columns:
   source_name: IA Tender Date
   documented_by: connector nyiso_load_queue.py
 - name: fs_completion_printed
-  label: The sheet's FS Completion Date as shown
+  label: 'The sheet''s FS Completion Date as shown (FS: Facilities Study)'
   unit: none
   type: empty
   values:
@@ -583,9 +584,10 @@ columns:
   missing_cells: 74
   missing_meaning: 'Empty in every row: the sheet''s cells are blank'
   source_name: FS Completion Date
-  documented_by: connector nyiso_load_queue.py
+  documented_by: 'source NYISO, NYISO-Interconnection-Queue.xlsx as saved under warehouse/raw/nyiso_load_queue, sheet Load
+    Projects (NOTES: Availability of Studies Key, FS=Facilities Study), read 2026-11-20; connector nyiso_load_queue.py'
 - name: fs_completion_date
-  label: The sheet's FS Completion Date, YYYY-MM-DD
+  label: The sheet's FS Completion Date, the completion date of the Facilities Study (FS), YYYY-MM-DD
   unit: none
   type: empty
   values:
@@ -593,7 +595,8 @@ columns:
   missing_cells: 74
   missing_meaning: 'Empty in every row: the sheet''s cells are blank'
   source_name: FS Completion Date
-  documented_by: connector nyiso_load_queue.py
+  documented_by: 'source NYISO, NYISO-Interconnection-Queue.xlsx as saved under warehouse/raw/nyiso_load_queue, sheet Load
+    Projects (NOTES: Availability of Studies Key, FS=Facilities Study), read 2026-11-20; connector nyiso_load_queue.py'
 - name: proposed_initial_backfeed_printed
   label: The proposed initial backfeed date as the sheet prints it, month and year (11-2026)
   unit: none
@@ -637,6 +640,7 @@ columns:
   source_name: Proposed Initial Backfeed Date
   documented_by: connector nyiso_load_queue.py
 second_look:
-- type_fuel holds L on every row; what NYISO's code L stands for is not documented by the source as the repository holds it.
-- The sheet's abbreviations IA (in IA Tender Date) and FS (in FS Completion Date) are not spelled out in the repository's
-  documents.
+- 'The sheet''s abbreviation IA (in IA Tender Date) is not spelled out in the repository''s documents. Read again on 20 November
+  2026 in the saved NYISO-Interconnection-Queue.xlsx under warehouse/raw/nyiso_load_queue (the notes of sheets Interconnection
+  Queue, Cluster Projects and Load Projects use IA, as in ''10=Accepted Cost Allocation/IA in Progress'', without spelling
+  it out): not found.'

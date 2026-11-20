@@ -35,7 +35,9 @@ read:
 columns:
 - name: entity
   shared: true
-  particular: spp:SPP (every file) or spp:SWPW (files from 2026-04-01), the file's BAA column
+  particular: spp:SPP (every file) or spp:SWPW (files from 2026-04-01), the file's BAA column; SPP's file does not spell out
+    SWPW, which EIA's 930 reference tables name the Southwest Power Pool West Balancing Authority Area, active from 1 April
+    2026 (EIA930_Reference_Tables.xlsx sheet BAs, saved under warehouse/raw/eia930_reference, read 2026-11-20)
   type: text
   values:
     list:
@@ -139,48 +141,45 @@ columns:
   missing_cells: 159768
 variables:
 - name: quantity_mw_dam_rampdn
-  label: MW of the product RampDN (SPP's column RampDN) cleared in the day-ahead market for the hour
+  label: MW of the ramp capability product RampDN (SPP's column RampDN) cleared in the day-ahead market for the hour
   unit: MW
   rows: 22824
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-05T04:00:00Z'
 - name: quantity_mw_dam_rampup
-  label: MW of the product RampUP (SPP's column RampUP) cleared in the day-ahead market for the hour
+  label: MW of the ramp capability product RampUP (SPP's column RampUP) cleared in the day-ahead market for the hour
   unit: MW
   rows: 22824
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-05T04:00:00Z'
 - name: quantity_mw_dam_regdn
-  label: MW of the product RegDN (SPP's column RegDN) cleared in the day-ahead market for the hour
+  label: MW of Regulation Down (SPP's column RegDN) cleared in the day-ahead market for the hour
   unit: MW
   rows: 22824
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-05T04:00:00Z'
 - name: quantity_mw_dam_regup
-  label: MW of the product RegUP (SPP's column RegUP) cleared in the day-ahead market for the hour
+  label: MW of Regulation Up (SPP's column RegUP) cleared in the day-ahead market for the hour
   unit: MW
   rows: 22824
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-05T04:00:00Z'
 - name: quantity_mw_dam_spin
-  label: MW of the product Spin (SPP's column Spin) cleared in the day-ahead market for the hour
+  label: MW of Spinning Reserve (SPP's column Spin) cleared in the day-ahead market for the hour
   unit: MW
   rows: 22824
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-05T04:00:00Z'
 - name: quantity_mw_dam_supp
-  label: MW of the product Supp (SPP's column Supp) cleared in the day-ahead market for the hour
+  label: MW of Supplemental Reserve (SPP's column Supp) cleared in the day-ahead market for the hour
   unit: MW
   rows: 22824
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-05T04:00:00Z'
 - name: quantity_mw_dam_uncup
-  label: MW of the product UncUP (SPP's column UncUP) cleared in the day-ahead market for the hour
+  label: MW of the uncertainty product UncUP (SPP's column UncUP) cleared in the day-ahead market for the hour
   unit: MW
   rows: 22824
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-05T04:00:00Z'
-second_look:
-- What SPP's region SWPW stands for is not stated in SPP's file and not documented.
-- The products' names (RegUP, RegDN, Spin, Supp, RampUP, RampDN, UncUP) are kept as SPP's column names; the method note does
-  not spell them out.
+second_look: null

@@ -383,5 +383,6 @@ columns:
   source_name: Excess Wind and Solar Generation
   documented_by: connector lbnl_hybrid_plants.py
 second_look:
-- 'x_region, x_coupling and the x_use_* columns: LBNL''s codes or marks in these columns are not explained in the repository
-  (the connector copies them as written)'
+- 'x_region, x_coupling and the x_use_* columns: read again on 20 November 2026 in the saved workbook (lbnl_hybrid_data_file_thru2025.xlsx):
+  sheet 01. Operating Plants names them Region, Coupling and one column a use case (Arbitrage, Frequency Regulation and the
+  others), and sheet 05. Operational Data + Methods gives the sources; no sheet defines the codes they hold'

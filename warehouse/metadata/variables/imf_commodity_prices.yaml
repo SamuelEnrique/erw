@@ -152,5 +152,7 @@ variables:
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 second_look:
-- The header's title names uranium, lithium, cobalt, nickel and copper, but the table also holds coal (Australia), natural
-  gas (EU) and LNG (Asia), as its access line asks for.
+- 'The header''s title names uranium, lithium, cobalt, nickel and copper, but the table also holds coal (Australia), natural
+  gas (EU) and LNG (Asia), as its access line asks for. Read again on 20 November 2026 in the saved request names under warehouse/raw/imf_pcps
+  (from 14 November 2026 they ask PCOALAU, PNGASEU and PNGASJP beside the five metals): the title is still not updated, not
+  found.'

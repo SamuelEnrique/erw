@@ -182,4 +182,5 @@ variables:
   last: '2024-01-01T00:00:00Z'
 second_look:
 - 'supply_diversity_index: the file gives the index without its method; Eurostat''s metadata for nrg_ind_di defines it, and
-  the repository does not'
+  the repository does not. Read again on 20 November 2026 in the saved SDMX-CSV under warehouse/raw/eurostat_supply_diversity
+  (data rows only): not found.'

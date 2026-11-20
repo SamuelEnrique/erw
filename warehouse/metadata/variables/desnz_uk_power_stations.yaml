@@ -380,7 +380,9 @@ columns:
   source_name: DESNZ site code
   documented_by: connector desnz_dukes_power_stations.py
 second_look:
-- 'grid_connection_type: the meaning of HV and LV is not written in the connector, the method note or the header.'
+- 'grid_connection_type: the meaning of HV and LV is not written in the connector, the method note or the header. Read again
+  on 20 November 2026 in DUKES 5.11 as saved (sheets Cover Sheet, Notes and 5.11 Full list): not found.'
 - 'os_reference: what the sheet''s OS Reference holds is not documented; its values mix grid references and postcode-like
-  strings.'
-- 'type: the codes AGR and PWR are printed by the sheet without a definition in the repository.'
+  strings. Read again on 20 November 2026 in DUKES 5.11 as saved (sheets Cover Sheet, Notes and 5.11 Full list): not found.'
+- 'type: the codes AGR and PWR are printed by the sheet without a definition in the repository. Read again on 20 November
+  2026 in DUKES 5.11 as saved (sheets Cover Sheet, Notes and 5.11 Full list): not found.'

@@ -369,25 +369,25 @@ variables:
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_home_area_network_commercial
-  label: EIA's Number Home Area Network, commercial sector, count
+  label: AMI meters with a home area network (HAN) gateway enabled, commercial sector, count (EIA's Number Home Area Network)
   unit: count
   rows: 4714
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_home_area_network_industrial
-  label: EIA's Number Home Area Network, industrial sector, count
+  label: AMI meters with a home area network (HAN) gateway enabled, industrial sector, count (EIA's Number Home Area Network)
   unit: count
   rows: 4556
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_home_area_network_residential
-  label: EIA's Number Home Area Network, residential sector, count
+  label: AMI meters with a home area network (HAN) gateway enabled, residential sector, count (EIA's Number Home Area Network)
   unit: count
   rows: 4850
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_home_area_network_total
-  label: EIA's Number Home Area Network, all sectors, count
+  label: AMI meters with a home area network (HAN) gateway enabled, all sectors, count (EIA's Number Home Area Network)
   unit: count
   rows: 5767
   first: '2015-01-01T00:00:00Z'
@@ -488,6 +488,4 @@ variables:
   rows: 26364
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
-second_look:
-- 'number_home_area_network_*: the method note gives EIA''s heading only; whether it counts meters or customers with a home
-  area network is not written.'
+second_look: null

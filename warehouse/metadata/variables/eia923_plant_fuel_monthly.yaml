@@ -247,7 +247,10 @@ columns:
   source_name: null
   documented_by: method eia923_monthly.md
 - name: x_mer_fuel_type
-  label: EIA's MER fuel type code of the row (COL, NG, NUC, HYC and the others), as EIA gives it
+  label: 'EIA''s MER fuel type (MER: EIA''s Monthly Energy Review), a grouping of the reported fuels: COL coal, DFO distillate
+    petroleum, GEO geothermal, HPS pumped storage hydro, HYC conventional hydro, MLG biogenic municipal solid waste and landfill
+    gas, NG natural gas, NUC nuclear, OOG other gases, ORW other renewables, OTH other (including nonbiogenic MSW), PC petroleum
+    coke, RFO residual petroleum, SUN solar, WND wind, WOC waste coal, WOO waste oil, WWW wood and wood waste'
   unit: none
   type: text
   values:
@@ -272,10 +275,12 @@ columns:
       WWW: 9657
   missing_cells: 0
   missing_meaning: never empty
-  source_name: null
-  documented_by: method eia923_monthly.md; data
+  source_name: MER Fuel Type Code
+  documented_by: source EIA, f923_2025.zip, EIA923_Schedules_2_3_4_5_M_12_2025_Final.xlsx sheet Page 7 File Layout (MER Fuel
+    Type Code), read 2026-11-20; data
 - name: x_respondent_frequency
-  label: EIA's respondent frequency code of the plant (M, A or AM), as EIA gives it
+  label: 'The plant''s respondent frequency: M monthly respondent, A annual respondent, AM as EIA gives it (not in EIA''s
+    layout)'
   unit: none
   type: text
   values:
@@ -285,8 +290,9 @@ columns:
       M: 210003
   missing_cells: 0
   missing_meaning: never empty
-  source_name: null
-  documented_by: method eia923_monthly.md
+  source_name: Respondent Frequency
+  documented_by: source EIA, f923_2025.zip, EIA923_Schedules_2_3_4_5_M_12_2025_Final.xlsx sheet Page 7 File Layout (Respondent
+    Frequency), read 2026-11-20; method eia923_monthly.md
 variables:
 - name: fuel_consumed
   label: Fuel consumed in all in the month, TBtu (EIA's Tot_MMBtu times 0.000001)
@@ -307,5 +313,6 @@ variables:
   first: '2025-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 second_look:
-- 'x_mer_fuel_type and x_respondent_frequency: their codes (and what MER stands for) are not expanded by the method note or
-  the connector.'
+- 'x_respondent_frequency: AM is not in EIA''s layout, which lists M (monthly respondent) and A (annual respondent). Read
+  again on 20 November 2026 in sheet Page 7 File Layout of EIA923_Schedules_2_3_4_5_M_12_2025_Final.xlsx (f923_2025.zip under
+  warehouse/raw/eia923_annual): not found.'

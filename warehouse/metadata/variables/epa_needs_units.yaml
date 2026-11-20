@@ -437,7 +437,9 @@ columns:
   source_name: Wet/DryScrubber
   documented_by: connector epa_needs.py; data
 - name: x_nox_comb_control
-  label: The unit's NOx combustion controls, as EPA's codes joined with '+'
+  label: The unit's NOx combustion controls, EPA's codes joined with '+' (for example LNB low NOx burner technology, OFA overfire
+    air, AA advanced overfire air, LA low excess air, NH3 ammonia injection, H2O water injection), each defined in the workbook's
+    key
   unit: none
   type: text
   values:
@@ -451,9 +453,11 @@ columns:
   missing_cells: 34426
   missing_meaning: EPA's cell is blank
   source_name: NOx Comb Control
-  documented_by: connector epa_needs.py; data
+  documented_by: source EPA, NEEDS for the 2025 reference case as saved under warehouse/raw/epa_needs, sheet Key to Emission
+    Control, read 2026-11-20; connector epa_needs.py; data
 - name: x_nox_post_comb_control
-  label: The unit's NOx post-combustion control, as EPA's code (SCR, SNCR, ReACT)
+  label: 'The unit''s NOx post-combustion control: SCR selective catalytic reduction, SNCR selective non-catalytic reduction,
+    ReACT regenerative activated coke technology'
   unit: none
   type: text
   values:
@@ -464,9 +468,11 @@ columns:
   missing_cells: 35670
   missing_meaning: EPA's cell is blank
   source_name: NOx Post-Comb Control
-  documented_by: connector epa_needs.py; data
+  documented_by: source EPA, NEEDS for the 2025 reference case as saved under warehouse/raw/epa_needs, sheet Key to Emission
+    Control, read 2026-11-20; connector epa_needs.py; data
 - name: x_pm_control
-  label: The unit's particulate matter controls, as EPA's codes joined with '+'
+  label: 'The unit''s particulate matter controls, EPA''s codes joined with ''+'': B baghouse, C cyclone, ESPC electrostatic
+    precipitator cold side, ESPH electrostatic precipitator hot side, WESP electrostatic precipitator wet side, WS wet scrubber'
   unit: none
   type: text
   values:
@@ -492,9 +498,10 @@ columns:
   missing_cells: 37323
   missing_meaning: EPA's cell is blank
   source_name: PM Control
-  documented_by: connector epa_needs.py; data
+  documented_by: source EPA, NEEDS for the 2025 reference case as saved under warehouse/raw/epa_needs, sheet Key to Emission
+    Control, read 2026-11-20; connector epa_needs.py; data
 - name: x_mercury_controls
-  label: The unit's mercury controls, as EPA's code (ACI)
+  label: 'The unit''s mercury control: ACI activated carbon injection'
   unit: none
   type: text
   values:
@@ -503,7 +510,8 @@ columns:
   missing_cells: 37680
   missing_meaning: EPA's cell is blank
   source_name: Mercury_Controls
-  documented_by: connector epa_needs.py; data
+  documented_by: source EPA, NEEDS for the 2025 reference case as saved under warehouse/raw/epa_needs, sheet Key to Emission
+    Control, read 2026-11-20; connector epa_needs.py; data
 - name: x_so2_permit_rate
   label: The unit's SO2 permit rate
   unit: lb/MMBtu
@@ -649,7 +657,11 @@ columns:
   source_name: Reasons for Dropping the Unit from NEEDS
   documented_by: connector epa_needs.py; method epa_needs_units.md
 second_look:
-- 'x_firing, x_bottom, x_scrubber, x_nox_comb_control, x_nox_post_comb_control, x_pm_control, x_mercury_controls: EPA''s codes
-  (LNB, SCR, ESPC, ACI and the others) are kept, and no note or connector in the repository expands them.'
-- 'x_bart: the connector names it BART only; the term is not expanded in the repository.'
-- 'x_ct_ic: only ''IC Engine'' appears; what an empty cell means beside it is not said.'
+- 'x_firing, x_bottom, x_scrubber: EPA''s words (wall, tangential, cyclone, FBC, stoker/SPR, cell, dry, wet, Reagent Injection
+  and the others) are kept; the workbook''s Key to Emission Control sheet does not cover these columns. Read again on 20 November
+  2026 in the saved NEEDS workbook under warehouse/raw/epa_needs (sheet Key to Emission Control and the NEEDS_Active headings):
+  not found.'
+- 'x_bart: the connector names it BART only; the term is not expanded in the repository. Read again on 20 November 2026 in
+  the saved NEEDS workbook (sheet Key to Emission Control and the NEEDS_Active headings, BART Affected Unit): not found.'
+- 'x_ct_ic: only ''IC Engine'' appears; what an empty cell means beside it is not said. Read again on 20 November 2026 in
+  the saved NEEDS workbook (sheet Key to Emission Control and the NEEDS_Active headings): not found.'

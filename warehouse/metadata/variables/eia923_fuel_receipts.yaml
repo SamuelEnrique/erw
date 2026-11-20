@@ -223,7 +223,7 @@ columns:
   source_name: null
   documented_by: method eia923_receipts.md
 - name: x_purchase_type
-  label: 'EIA''s purchase type: C contract, S spot; T and NC as EIA gives them'
+  label: 'EIA''s purchase type of the receipt: C contract, NC new contract, S spot purchase (T is not in EIA''s layout)'
   unit: none
   type: text
   values:
@@ -234,8 +234,9 @@ columns:
       T: 1328
   missing_cells: 1
   missing_meaning: EIA gives none (1 row)
-  source_name: null
-  documented_by: method eia923_receipts.md
+  source_name: Purchase Type
+  documented_by: source EIA, f923_2025.zip, EIA923_Schedules_2_3_4_5_M_12_2025_Final.xlsx sheet Page 7 File Layout (Contract_Type),
+    read 2026-11-20; method eia923_receipts.md; data
 - name: x_contract_expiration_date
   label: The contract's expiry as EIA gives it, month and two-digit year (1225 is December 2025); a dot where EIA gives none
   unit: none
@@ -286,7 +287,7 @@ columns:
   source_name: null
   documented_by: method eia923_receipts.md; data
 - name: x_coalmine_type
-  label: EIA's coal mine type code (F, P, S, U), as EIA gives it
+  label: 'EIA''s coal mine type: P preparation plant, S surface, U underground (F is not in EIA''s layout)'
   unit: none
   type: text
   values:
@@ -297,10 +298,12 @@ columns:
       U: 2102
   missing_cells: 30136
   missing_meaning: Not a coal delivery, or EIA gives none
-  source_name: null
-  documented_by: method eia923_receipts.md; data
+  source_name: Coalmine Type
+  documented_by: source EIA, f923_2025.zip, EIA923_Schedules_2_3_4_5_M_12_2025_Final.xlsx sheet Page 7 File Layout (CoalMine_Type),
+    read 2026-11-20; data
 - name: x_coalmine_state
-  label: The coal mine's state code, as EIA gives it
+  label: The coal mine's state code, or EIA's country code for a foreign mine (CL, which EIA's layout lists as Columbia; IM
+    is not in the layout)
   unit: none
   type: text
   values:
@@ -327,10 +330,11 @@ columns:
       WY: 2800
   missing_cells: 30095
   missing_meaning: Not a coal delivery, or EIA gives none
-  source_name: null
-  documented_by: method eia923_receipts.md; data
+  source_name: Coalmine State
+  documented_by: source EIA, f923_2025.zip, EIA923_Schedules_2_3_4_5_M_12_2025_Final.xlsx sheet Page 7 File Layout (CoalMine_State),
+    read 2026-11-20; data
 - name: x_coalmine_county
-  label: The coal mine's county code, as EIA gives it
+  label: The county where the coal is removed from the mine, as EIA's county FIPS code
   unit: none
   type: text
   values:
@@ -343,8 +347,9 @@ columns:
     - '107'
   missing_cells: 30122
   missing_meaning: Not a coal delivery, or EIA gives none
-  source_name: null
-  documented_by: method eia923_receipts.md; data
+  source_name: Coalmine County
+  documented_by: source EIA, f923_2025.zip, EIA923_Schedules_2_3_4_5_M_12_2025_Final.xlsx sheet Page 7 File Layout (CoalMine_County),
+    read 2026-11-20; data
 - name: x_coalmine_msha_id
   label: The coal mine's identifier at the Mine Safety and Health Administration (MSHA), as EIA gives it
   unit: none
@@ -470,7 +475,8 @@ columns:
   source_name: FUEL_COST
   documented_by: header; method eia923_receipts.md
 - name: x_regulated
-  label: EIA's regulated field, REG or UNR, as EIA gives it
+  label: Whether the plant is a regulated electric utility (REG) or a non-regulated independent power plant or nonutility
+    plant (UNR)
   unit: none
   type: text
   values:
@@ -479,8 +485,9 @@ columns:
       UNR: 9022
   missing_cells: 0
   missing_meaning: never empty
-  source_name: null
-  documented_by: method eia923_receipts.md
+  source_name: Regulated
+  documented_by: source EIA, f923_2025.zip, EIA923_Schedules_2_3_4_5_M_12_2025_Final.xlsx sheet Page 7 File Layout (Regulated),
+    read 2026-11-20
 - name: x_operator_name
   label: The plant's operator as EIA names it
   unit: none
@@ -510,7 +517,7 @@ columns:
   source_name: null
   documented_by: method eia923_receipts.md
 - name: x_reporting_frequency
-  label: EIA's reporting frequency code of the plant, M or A, as EIA gives it
+  label: 'The plant''s reporting frequency: M monthly respondent, A annual respondent'
   unit: none
   type: text
   values:
@@ -519,10 +526,12 @@ columns:
       M: 22595
   missing_cells: 0
   missing_meaning: never empty
-  source_name: null
-  documented_by: method eia923_receipts.md
+  source_name: Reporting Frequency
+  documented_by: source EIA, f923_2025.zip, EIA923_Schedules_2_3_4_5_M_12_2025_Final.xlsx sheet Page 7 File Layout (Respondent
+    Frequency), read 2026-11-20
 - name: x_primary_transportation_mode
-  label: EIA's code of the main way the fuel was carried (GL, PL, RR, RV, TC, TP, TR, WT), as EIA gives it
+  label: 'How the fuel was carried over the longest distance: RR rail, RV river barge, GL Great Lakes, TP tidewater piers
+    and coastal ports, WT other waterways, TR truck, TC tramway or conveyor, SP slurry pipeline, PL pipeline'
   unit: none
   type: text
   values:
@@ -537,10 +546,12 @@ columns:
       WT: 51
   missing_cells: 88
   missing_meaning: EIA gives none
-  source_name: null
-  documented_by: method eia923_receipts.md; data
+  source_name: Primary Transportation Mode
+  documented_by: source EIA, f923_2025.zip, EIA923_Schedules_2_3_4_5_M_12_2025_Final.xlsx sheet Page 7 File Layout (Primary/Secondary
+    Mode of Transportation), read 2026-11-20; data
 - name: x_secondary_transportation_mode
-  label: EIA's code of a second way the fuel was carried, as EIA gives it
+  label: How the fuel was carried over the second longest distance, the same codes as the primary mode (RR rail, RV river
+    barge, GL Great Lakes, TR truck, TC tramway or conveyor, PL pipeline, WT other waterways)
   unit: none
   type: text
   values:
@@ -554,10 +565,12 @@ columns:
       WT: 4
   missing_cells: 36230
   missing_meaning: No second mode given
-  source_name: null
-  documented_by: method eia923_receipts.md; data
+  source_name: Secondary Transportation Mode
+  documented_by: source EIA, f923_2025.zip, EIA923_Schedules_2_3_4_5_M_12_2025_Final.xlsx sheet Page 7 File Layout (Primary/Secondary
+    Mode of Transportation), read 2026-11-20; data
 - name: x_natural_gas_supply_contract_type
-  label: EIA's natural gas supply contract type code (F or I), as EIA gives it
+  label: 'EIA''s natural gas supply contract type: F firm or I interruptible (the layout defines the two codes under Natural
+    Gas Transportation Service)'
   unit: none
   type: text
   values:
@@ -566,10 +579,12 @@ columns:
       I: 6932
   missing_cells: 9196
   missing_meaning: Not a gas delivery, or EIA gives none
-  source_name: null
-  documented_by: method eia923_receipts.md; data
+  source_name: Natural Gas Supply Contract Type
+  documented_by: source EIA, f923_2025.zip, EIA923_Schedules_2_3_4_5_M_12_2025_Final.xlsx sheet Page 7 File Layout, read 2026-11-20;
+    data
 - name: x_natural_gas_delivery_contract_type
-  label: EIA's natural gas delivery (transport) contract type code (F or I), as EIA gives it
+  label: 'EIA''s natural gas delivery (transport) contract type: F firm or I interruptible (the layout defines the two codes
+    under Natural Gas Transportation Service, the contract for gas capacity service)'
   unit: none
   type: text
   values:
@@ -578,8 +593,9 @@ columns:
       I: 6577
   missing_cells: 9197
   missing_meaning: Not a gas delivery, or EIA gives none
-  source_name: null
-  documented_by: method eia923_receipts.md; data
+  source_name: Natural Gas Delivery Contract Type
+  documented_by: source EIA, f923_2025.zip, EIA923_Schedules_2_3_4_5_M_12_2025_Final.xlsx sheet Page 7 File Layout, read 2026-11-20;
+    data
 - name: x_moisture_content
   label: The fuel's moisture content; a dot where EIA gives none
   unit: pct by weight
@@ -629,7 +645,6 @@ columns:
   source_name: null
   documented_by: method eia923_receipts.md
 second_look:
-- 'Codes not expanded by the method note or the connector: x_coalmine_type (F, P, S, U), x_coalmine_state''s non-state codes
-  (CL, IM), x_regulated (REG, UNR), x_reporting_frequency (M, A), the transportation mode codes, the gas contract types (F,
-  I) and x_purchase_type''s T and NC.'
-- x_coalmine_county holds numbers such as 0 and 103; the method note says only that it is the coal mine's county.
+- 'Codes not in EIA''s file layout: x_coalmine_type''s F, x_coalmine_state''s IM, x_purchase_type''s T, and the value 0 of
+  x_coalmine_county (the layout gives the county as a FIPS code). Read again on 20 November 2026 in sheet Page 7 File Layout
+  of EIA923_Schedules_2_3_4_5_M_12_2025_Final.xlsx (f923_2025.zip under warehouse/raw/eia923_annual): not found.'

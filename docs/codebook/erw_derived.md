@@ -101,7 +101,7 @@ Variables (31):
 | `scarcity_hours_200` | Hours of the year whose real-time hub price (the mean of the hour's 15-minute prices; MISO's hourly price) was at least USD 200 per MWh | count | 6 | 2025-09-01T00:00:00Z | 2025-09-01T00:00:00Z |
 | `screened_pair_days` | Pair-days left out as implausible: further than 10 median absolute deviations (at least 500 MWh) from the pair's own median | count | 7 | 2025-09-01T00:00:00Z | 2025-09-01T00:00:00Z |
 
-Waiting for a second look: x_note on the queue_active_mw rows carries the region's largest-event name as well as the queue's retrieval date: the builder writes one notes string to both measures.; The report's methods appendix defines net_import_share_pct from the pair sums, while the header and the builder define it as EIA's balance (demand less net generation); the label follows the header and the code..
+Waiting for a second look: x_note on the queue_active_mw rows carries the region's largest-event name as well as the queue's retrieval date: the builder writes one notes string to both measures. Read again on 20 November 2026 in docs/methods/ai_power_regions.md and the builder: not found.; The report's methods appendix defines net_import_share_pct from the pair sums, while the header and the builder define it as EIA's balance (demand less net generation); the label follows the header and the code. Read again on 20 November 2026 in docs/methods/ai_power_regions.md and the builder: not found..
 
 ### `attention_index_weekly`
 

@@ -471,7 +471,7 @@ Variables (6):
 | `recharging_pools_power` | Power output of the recharging pools, MW (Eurostat's kW divided by 1,000) | MW | 80 | 2019-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `recharging_stations` | Recharging stations | count | 91 | 2019-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 
-Waiting for a second look: x_flag: the meaning of Eurostat's flag i is not written in the repository (the method note says to see Eurostat's metadata).
+Waiting for a second look: x_flag: the meaning of Eurostat's flag i is not written in the repository (the method note says to see Eurostat's metadata). Read again on 20 November 2026 in the saved SDMX-CSV and codes TSV under warehouse/raw/eurostat_ev_recharging and the flag labels of five saved Eurostat JSON-stat files (they label b, C, e, m and p only): not found..
 
 ### `eurostat_ev_recharging_power_annual`
 
@@ -511,7 +511,7 @@ Variables (1):
 |---|---|---|---|---|---|
 | `recharging_points` | Recharging points for electric vehicles in the power category | count | 1171 | 2019-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 
-Waiting for a second look: x_flag: the meaning of Eurostat's flag i is not written in the repository (the method note says to see Eurostat's metadata).
+Waiting for a second look: x_flag: the meaning of Eurostat's flag i is not written in the repository (the method note says to see Eurostat's metadata). Read again on 20 November 2026 in the saved SDMX-CSV under warehouse/raw/eurostat_ev_recharging_power and the flag labels of five saved Eurostat JSON-stat files (they label b, C, e, m and p only): not found..
 
 ### `eurostat_fossil_share_annual`
 
@@ -641,7 +641,7 @@ Variables (1):
 |---|---|---|---|---|---|
 | `import_dependency_by_origin` | Natural gas (G3000) import dependency on the country of origin, percent, as Eurostat gives it | pct | 1253 | 2015-01-01T00:00:00Z | 2020-01-01T00:00:00Z |
 
-Waiting for a second look: x_flag: the meaning of Eurostat's flag i is not written in the repository (the header says to see Eurostat's metadata).
+Waiting for a second look: x_flag: the meaning of Eurostat's flag i is not written in the repository (the header says to see Eurostat's metadata). Read again on 20 November 2026 in the saved SDMX-CSV under warehouse/raw/eurostat_gas_import_origin and the flag labels of five saved Eurostat JSON-stat files (they label b, C, e, m and p only): not found..
 
 ### `eurostat_gas_imports_monthly`
 
@@ -1201,5 +1201,5 @@ Variables (1):
 |---|---|---|---|---|---|
 | `supply_diversity_index` | Eurostat's diversity index of energy supply (INX), as given; the ERW reads no direction into it | index | 891 | 1992-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
 
-Waiting for a second look: supply_diversity_index: the file gives the index without its method; Eurostat's metadata for nrg_ind_di defines it, and the repository does not.
+Waiting for a second look: supply_diversity_index: the file gives the index without its method; Eurostat's metadata for nrg_ind_di defines it, and the repository does not. Read again on 20 November 2026 in the saved SDMX-CSV under warehouse/raw/eurostat_supply_diversity (data rows only): not found..
 
