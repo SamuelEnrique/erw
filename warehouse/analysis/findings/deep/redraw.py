@@ -148,9 +148,17 @@ def check(key, card, sentence):
         ev = [r for r in rows if str(r["event_year"]).strip() in ("1", "1.0")]
         num = card.get("numbers") or {}
         m = ch.get("mark") or {}
+        day = [v for v in ch["series"][0]["values"] if v is not None]
+        if len(ev) == 1 and near(num.get("event"), ev[0]["value"]) and day and (near(min(day), m.get("value")) or near(max(day), m.get("value"))) \
+                and not near(m.get("value"), ev[0]["value"]):
+            # a mean-hour event (the COVID-19 spring): the CSV holds the window's mean; the chart marks the lowest (or
+            # highest) day of the event year, a figure the sentence does not state; the sentence's figures are checked
+            for v in (num.get("event"), num.get("mean_other")):
+                if v is not None and fmt(v, nd) not in sentence:
+                    faults.append(f"the sentence does not carry {fmt(v, nd)}")
+            return faults
         if len(ev) != 1 or not near(m.get("value"), ev[0]["value"]):
             faults.append(f"the marked point {m.get('value')} is not the CSV's event year {[r['value'] for r in ev]}")
-        day = [v for v in ch["series"][0]["values"] if v is not None]
         if not day or not near(max(day), m.get("value")):
             faults.append("the marked point is not the highest of the event year's days")
         others = [float(r["value"]) for r in rows if r not in ev]
