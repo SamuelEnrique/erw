@@ -565,7 +565,34 @@ def describe_table(table):
                     "last": _ts(df[tcol].max()) if tcol in df else None,
                     "time_column": tcol if tcol in df else None})
     out["notes"] = [str(n) for n in (meta.get("notes") or [])][:5]
+    cb = codebook_of(table, out.get("variables") or [])
+    if cb:
+        out["codebook"] = cb
     out.update(provenance(table))
+    return out
+
+
+def codebook_of(table, variables_held):
+    """Chain 630: the codebook's words for the table (warehouse/metadata/variables/<table>.yaml, through the package):
+    what a row is, each own column's label and unit, and the labels of the variables listed above. The shared column
+    names (ts_utc, value, entity and the others) are the data standard's and are left out. {} where none is written."""
+    try:
+        d = erw.describe(table)
+    except Exception:  # noqa: BLE001 - no codebook entry, or the package without one: the description goes without
+        return {}
+    cols = {c["name"]: (c.get("label") or "") + (f" ({c['unit']})" if c.get("unit") and c["unit"] != "none" else "")
+            for c in d.get("columns") or [] if not c.get("shared") and c.get("label")}
+    held = set(variables_held)
+    labels = {v["name"]: v["label"] for v in d.get("variables") or [] if v.get("label") and v["name"] in held}
+    out = {}
+    if d.get("row"):
+        out["row"] = d["row"]
+    if d.get("time"):
+        out["time"] = d["time"]
+    if cols:
+        out["columns"] = cols
+    if labels:
+        out["variables"] = labels
     return out
 
 

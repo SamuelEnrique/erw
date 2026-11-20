@@ -17,7 +17,8 @@ Where each cell comes from (all committed files; no table is read, no request is
   verdict, live-set window           the package's license record, erw.licenses.build (coverage.csv, docs/licenses.md,
                                      license_status.csv, live_set.yaml): the same list erw/data/tables.csv ships
   publishers                         warehouse/metadata/sources.csv (the rows whose `tables` name the table)
-  description                        the title line of the table's provenance header as the Redivis release records
+  description                        chain 630: the codebook's row (warehouse/metadata/variables/<table>.yaml) where it is
+                                     written; else the title line of the table's provenance header as the Redivis release records
                                      hold it (docs/redivis/release-v1-stanford/tables.csv, else release-v1/tables.csv);
                                      else the source report sources.csv names
   unit                               the units of the table's variables and columns in the same release records
@@ -158,6 +159,36 @@ def pages():
     return out
 
 
+def codebook():
+    """Chain 630: {table: description} and {table: [units]} from the codebook (warehouse/metadata/variables/), where
+    its row is written: the one sentence that says what a row is, so that a description is written once. Units: the
+    units of a series table's variables, else the units of its own columns that are numbers."""
+    import yaml
+    desc, units = {}, {}
+    folder = META / "variables"
+    if not folder.is_dir():
+        return desc, units
+    for p in sorted(folder.glob("*.yaml")):
+        if p.stem.startswith("_"):
+            continue
+        d = yaml.safe_load(p.read_text(encoding="utf-8")) or {}
+        if d.get("row"):
+            desc[p.stem] = str(d["row"])
+        us = []
+        for v in d.get("variables") or []:
+            for u in str(v.get("unit") or "").split("; "):
+                if u and u not in us:
+                    us.append(u)
+        if not us:
+            for c in d.get("columns") or []:
+                u = str(c.get("unit") or "")
+                if not c.get("shared") and c.get("type") in ("number", "integer") and u and u != "none" and u not in us:
+                    us.append(u)
+        if us:
+            units[p.stem] = us
+    return desc, units
+
+
 def catalogue(today):
     cov = rows(META / "coverage.csv")
     if not cov:
@@ -166,6 +197,10 @@ def catalogue(today):
     notes = method_notes()
     pubs = publishers()
     desc, units, stanford = release_records()
+    # chain 630: the codebook's row and units win where written; the release records stand in where not yet
+    cb_desc, cb_units = codebook()
+    desc.update(cb_desc)
+    units.update(cb_units)
     newest = max(r["last_run"] for r in cov if r.get("last_run"))
     public = [r for r in cov if ver.get(r["table"], {}).get("verdict") == "public"]
     held = [r for r in cov if r not in public]
