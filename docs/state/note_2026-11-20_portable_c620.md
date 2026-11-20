@@ -17,17 +17,21 @@ Energy Research Warehouse (ERW). Sessions 9600 and 9601, from 10:26 UTC. Written
 - **Opened again for quiet faults:** 101 addresses of the pages chain 504 and the old laptop had read (the thirteen regions in the Grid tool, the nine events, `/demand` and `/supply` by region), and all 609 method pages at 390 px.
 - **Part C, the same number in two places:** seven pairs. Three agree to the megawatt; three are different things and say so; one read as a contradiction and is mended.
 - **Part D, the first minute:** as a stranger every address is the in-review page; as a reviewer 52 of 53 addresses of the menu, the home page and the tour answer with their heading.
+- **Part E:** the five sellable tools and 22 more pages of the menu at 390 px with a finger, and the five tools with the keyboard alone: no fault. Every page with a fixed address (80) at both widths: one more phone fault (`/data/faults`).
+- **Landed during the night and read on production (13:50 UTC):** the data machine's `/congestion` (4,290 figures agree with its file; no fault) and `/conditions` (two faults, filed).
 
 ## Faults: found, fixed, filed
 
-- **Found:** 9 site faults, 4 data faults, 1 landing that did not happen.
-- **Fixed, each on its own branch with a test (9):** the back button and the lists; the findings page at 390 px (470 px wide); the resource problem set's legend (it gave 2.81 to 6.50, the map shows 1.6 to 6.9); "Net imports met -592 percent of its demand" in the Grid tool's panel (26 of 58 authorities); the tour's stale headings (stops 1, 4, 11 and 12); the Policy page; the Grid map's "twelve months" (34.86 on the map, 34.59 on `/prices/compare`: different windows, now said); a transmission line's end printed as "UNKNOWN201257" (a third of the lines); six method pages that scroll sideways on a phone.
-- **Filed for the data machine (4):** 562 (an entry of Arizona Public Service in North Carolina on `/queues/places`), 563 (Texas's law), 565 (the live set), 567 (the dated edition of the resource set).
+- **Found:** 10 site faults of pages this laptop may mend, 2 on the data machine's new page, 4 data faults, 1 landing that did not happen.
+- **On `/conditions` (filed, request 568):** as the page opens, two charts are drawn with axes and nothing on them (ERCOT's reserve adder ended in December 2025; the strip should be blank with its reason); the demand chart's table holds 500 of the window's 841 hours, the newest fourteen days missing.
+- **`/data/faults` at 390 px** (417 px wide) is the tenth fix, on `wip/9602-faults-page-phone`.
+- **Fixed, each on its own branch with a test (the first 9):** the back button and the lists; the findings page at 390 px (470 px wide); the resource problem set's legend (it gave 2.81 to 6.50, the map shows 1.6 to 6.9); "Net imports met -592 percent of its demand" in the Grid tool's panel (26 of 58 authorities); the tour's stale headings (stops 1, 4, 11 and 12); the Policy page; the Grid map's "twelve months" (34.86 on the map, 34.59 on `/prices/compare`: different windows, now said); a transmission line's end printed as "UNKNOWN201257" (a third of the lines); six method pages that scroll sideways on a phone.
+- **Filed for the data machine (5):** 562 (an entry of Arizona Public Service in North Carolina on `/queues/places`), 563 (Texas's law; answered at 13:43 UTC: the page now says S.B. 6 was found and is withheld), 565 (the live set), 567 (the dated edition of the resource set), 568 (`/conditions`).
 
 ## Not landed, and why
 
 - **No fix has been seen in a build, so no landing is requested.** The chain asks for 2 GB of memory free before a build; this laptop had 1.0 to 1.9 GB free from 11:37 UTC (Samuel's own Chrome, the Claude programs and the mail and chat programs hold the rest). The whole suite is the desk's gate's, not this laptop's (rule 6 of 16 November); here each change's own tests pass, and the 79 test files that walk the whole site (1,134 tests) show the same four failures on the nine branches together as on main (`test_session161`, `test_session78`, `test_session8410_events_regions`, `test_session8430_supply_regions`), none of them new. The changed files and what they import type-check (0 errors).
-- The nine branches are pushed, and rows 44 to 52 of `docs/state/landing_request_portable.md` read "ready, not requested", each with what is left to do.
+- The ten branches are pushed, and rows 44 to 53 of `docs/state/landing_request_portable.md` read "ready, not requested", each with what is left to do.
 - What was seen without a build: the back button's mend on a plain page in a real browser, and its logic put into six of production's own pages (6 of 6 keep their lists true; 0 of 6 as production is); the mended tour and its check against production's pages (94 of 97, where it was 89 of 96); the findings page and the six method pages 390 px wide with the branch's style put on production's page; the tour's and the back button's checks failing on production as they should before the mend.
 
 ## Where the pictures are
@@ -56,4 +60,4 @@ Energy Research Warehouse (ERW). Sessions 9600 and 9601, from 10:26 UTC. Written
 
 - Nothing.
 
-Last written: 13:14 UTC, session 9602.
+Last written: 13:59 UTC, session 9602.
