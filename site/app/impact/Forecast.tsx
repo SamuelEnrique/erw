@@ -203,6 +203,9 @@ type Line = { key: string; label: string; tip: string; tipFor?: (x: Record<View,
 const LINES: Line[] = [
   { key: "cjobs", label: "Construction jobs", tip: "Job-years over the build (one is a full-time job for a year): on site, in the state's supply chain and induced by the wages' spending. JEDI's per-MW construction figures, scaled by the spending.", figure: "c:jobs:total", fmt: jobs },
   { key: "ojobs", label: "Operating jobs, each year", tip: "Full-time jobs in each year the plant runs, all three effects. JEDI's per-MW operating figures; for solar, JEDI's 2010 operating costs give an upper reading.", figure: "o:jobs:total", fmt: jobs },
+  // ruling alternative 24 (wip/alt-impact-24, not a default on main): the on-site jobs beside the three effects (main: in hovers and the CSV only)
+  { key: "cjobsite", label: "Construction jobs on site", tip: "Of the construction job-years, those on site: JEDI's on-site effect alone, without the supply chain and the induced jobs. Default on the site: in the hovers and the CSV only. Source: NLR's JEDI models.", figure: "c:jobs:onsite", fmt: jobs },
+  { key: "ojobsite", label: "Operating jobs on site, each year", tip: "Of the operating jobs, those on site: JEDI's on-site effect alone. Default on the site: in the hovers and the CSV only. Source: NLR's JEDI models.", figure: "o:jobs:onsite", fmt: jobs },
   { key: "cearn", label: "Construction earnings", tip: "Wages, salaries and benefits of those jobs over the build, in 2025 dollars.", figure: "c:earnings:total", fmt: usd },
   { key: "oearn", label: "Operating earnings, each year", tip: "Wages, salaries and benefits of the operating jobs each year, in 2025 dollars.", figure: "o:earnings:total", fmt: usd },
   { key: "cout", label: "Construction output", tip: "The value of all the goods and services produced in the state because of the build: JEDI's widest measure, in 2025 dollars.", figure: "c:output:total", fmt: usd },
