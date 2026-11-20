@@ -36,12 +36,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: bpa:bpat on every row
   type: text
   values:
     list:
       bpa:bpat: 400261
   missing_cells: 0
-  particular: bpa:bpat on every row
 - name: variable
   shared: true
   type: text
@@ -80,26 +80,26 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: the area spans states'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 400261
-  particular: 'Not filled: the area spans states'
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 400261
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: BPA balancing authority on every row, not a pricing node
   type: text
   values:
     list:
       BPA balancing authority: 400261
   missing_cells: 0
-  particular: BPA balancing authority on every row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -135,6 +135,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The year's workbook's Last-Modified (UTC)
   type: utc time
   values:
     list:
@@ -146,15 +147,14 @@ columns:
       '2026-01-01T09:40:20Z': 61320
       '2026-10-23T08:40:16Z': 49549
   missing_cells: 0
-  particular: The year's workbook's Last-Modified (UTC)
 - name: ba
   shared: true
+  particular: bpat on every row
   type: text
   values:
     list:
       bpat: 400261
   missing_cells: 0
-  particular: bpat on every row
 - name: x_intervals
   label: How many five-minute values the hour holds (12 in a full hour)
   unit: count

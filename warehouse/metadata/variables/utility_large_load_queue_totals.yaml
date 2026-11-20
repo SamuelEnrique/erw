@@ -18,7 +18,8 @@ tier: model_extracted
 interval: event
 source:
 - name: research:large_load_2026-11-13, docs/research/large_load/utilities_2026-11-13.csv (window P4 of the portable laptop,
-    sessions 5300 to 5304; method  each row's source_url is the document it was read in. No request is made by this connector.
+    sessions 5300 to 5304; method https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md); each
+    row's source_url is the document it was read in. No request is made by this connector.
   url: https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md
 cite: US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and
   the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_queue_totals`.
@@ -37,6 +38,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: llqueue:<row_id>, the research file's row
   type: text
   values:
     distinct: 34
@@ -47,7 +49,6 @@ columns:
     - llqueue:coops_public_power-01
     - llqueue:coops_public_power-02
   missing_cells: 0
-  particular: llqueue:<row_id>, the research file's row
 - name: event_date
   shared: true
   type: date
@@ -71,14 +72,15 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: Always large_load_queue_total
   type: text
   values:
     list:
       large_load_queue_total: 34
   missing_cells: 0
-  particular: Always large_load_queue_total
 - name: parties
   shared: true
+  particular: The utility
   type: text
   values:
     distinct: 34
@@ -89,7 +91,6 @@ columns:
     - Central Hudson Gas & Electric Corporation
     - City of Ames Electric Services (City of Ames, Iowa)
   missing_cells: 0
-  particular: The utility
 - name: entity_ids
   shared: true
   type: empty
@@ -98,11 +99,11 @@ columns:
   missing_cells: 34
 - name: mw
   shared: true
+  particular: 'Not filled: the files print sizes as phrases (x_figure)'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 34
-  particular: 'Not filled: the files print sizes as phrases (x_figure)'
 - name: price
   shared: true
   type: empty
@@ -117,12 +118,12 @@ columns:
   missing_cells: 34
 - name: status
   shared: true
+  particular: Always 'as printed'
   type: text
   values:
     list:
       as printed: 34
   missing_cells: 0
-  particular: Always 'as printed'
 - name: source
   shared: true
   type: text
@@ -132,6 +133,7 @@ columns:
   missing_cells: 0
 - name: source_url
   shared: true
+  particular: The document the figure stands in (the cite's address where it gives one), else the row's source document
   type: text
   values:
     distinct: 27
@@ -142,7 +144,6 @@ columns:
     - https://interchange.puc.texas.gov/Documents/60332_3_1687524.PDF
     - https://psc.ky.gov/order_vault/Orders_2025/202500045_10282025.pdf
   missing_cells: 0
-  particular: The document the figure stands in (the cite's address where it gives one), else the row's source document
 - name: x_row_id
   label: The row's identifier in the research file (utilities_2026-11-13.csv), as <group>-<number>
   unit: none

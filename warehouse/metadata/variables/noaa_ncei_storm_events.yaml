@@ -36,6 +36,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: noaa_storm:<EVENT_ID>, NCEI's own identifier
   type: text
   values:
     distinct: more than 5000
@@ -46,18 +47,18 @@ columns:
     - noaa_storm:1000004
     - noaa_storm:1000006
   missing_cells: 0
-  particular: noaa_storm:<EVENT_ID>, NCEI's own identifier
 - name: event_date
   shared: true
+  particular: The event's begin time in UTC, YYYY-MM-DDTHH:MM:SSZ
   type: utc time
   values:
     distinct: more than 5000
     earliest: '2015-01-01T06:00:00Z'
     latest: '2026-07-01T05:49:00Z'
   missing_cells: 0
-  particular: The event's begin time in UTC, YYYY-MM-DDTHH:MM:SSZ
 - name: event_type
   shared: true
+  particular: NCEI's EVENT_TYPE in snake case (thunderstorm_wind, high_wind, winter_storm, tornado and others)
   type: text
   values:
     list:
@@ -81,49 +82,48 @@ columns:
       wildfire: 4039
       winter_storm: 33217
   missing_cells: 0
-  particular: NCEI's EVENT_TYPE in snake case (thunderstorm_wind, high_wind, winter_storm, tornado and others)
 - name: parties
   shared: true
+  particular: Empty in every row
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 411139
-  particular: Empty in every row
 - name: entity_ids
   shared: true
+  particular: Empty in every row
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 411139
-  particular: Empty in every row
 - name: mw
   shared: true
+  particular: Empty in every row
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 411139
-  particular: Empty in every row
 - name: price
   shared: true
+  particular: Empty in every row
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 411139
-  particular: Empty in every row
 - name: currency
   shared: true
+  particular: Empty in every row
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 411139
-  particular: Empty in every row
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 411139
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text

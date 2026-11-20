@@ -36,12 +36,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: cpc:oni_nino34 in every row
   type: text
   values:
     list:
       cpc:oni_nino34: 1840
   missing_cells: 0
-  particular: cpc:oni_nino34 in every row
 - name: variable
   shared: true
   type: text
@@ -86,19 +86,19 @@ columns:
   missing_cells: 1840
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1840
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Nino 3.4 in every row: the ocean region of the index, not a pricing node'
   type: text
   values:
     list:
       Nino 3.4: 1840
   missing_cells: 0
-  particular: 'Nino 3.4 in every row: the ocean region of the index, not a pricing node'
 - name: source
   shared: true
   type: text
@@ -122,12 +122,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified of CPC's file oni.ascii.txt
   type: utc time
   values:
     list:
       '2026-10-03T18:32:01Z': 1840
   missing_cells: 0
-  particular: The Last-Modified of CPC's file oni.ascii.txt
 - name: x_season
   label: CPC's three letters of the three-month season (DJF, JFM, ... NDJ)
   unit: none

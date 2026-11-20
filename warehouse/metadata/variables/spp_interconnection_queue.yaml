@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: spp_queue:<GEN number>
   type: text
   values:
     distinct: 3079
@@ -42,24 +43,24 @@ columns:
     - spp_queue:2019-G2
     - spp_queue:2019-G3
   missing_cells: 0
-  particular: spp_queue:<GEN number>
 - name: entity_type
   shared: true
+  particular: project in every row
   type: text
   values:
     list:
       project: 3079
   missing_cells: 0
-  particular: project in every row
 - name: name
   shared: true
+  particular: Empty in every row
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3079
-  particular: Empty in every row
 - name: geo
   shared: true
+  particular: US-<state> from SPP's state; empty where no single two-letter state is given (one row has TX/OK)
   type: text
   values:
     list:
@@ -80,7 +81,6 @@ columns:
       US-TX: 443
       US-WY: 16
   missing_cells: 27
-  particular: US-<state> from SPP's state; empty where no single two-letter state is given (one row has TX/OK)
 - name: lat
   shared: true
   type: empty
@@ -95,15 +95,17 @@ columns:
   missing_cells: 3079
 - name: capacity_mw
   shared: true
+  particular: SPP's requested capacity as gridstatus reads it
   type: number
   values:
     distinct: 642
     lowest: 0.0
     highest: 4000.0
   missing_cells: 0
-  particular: SPP's requested capacity as gridstatus reads it
 - name: status
   shared: true
+  particular: active, withdrawn, completed or suspended, mapped from SPP's status (IA FULLY EXECUTED/ON SUSPENSION is suspended);
+    empty on 34 rows with no status in SPP's file
   type: text
   values:
     list:
@@ -112,24 +114,22 @@ columns:
       suspended: 22
       withdrawn: 2058
   missing_cells: 34
-  particular: active, withdrawn, completed or suspended, mapped from SPP's status (IA FULLY EXECUTED/ON SUSPENSION is suspended);
-    empty on 34 rows with no status in SPP's file
 - name: status_date
   shared: true
+  particular: The withdrawn date of a withdrawn row, the commercial operation date of a completed row where given
   type: date
   values:
     distinct: 749
     earliest: '2002-01-01'
     latest: '2026-10-19'
   missing_cells: 1264
-  particular: The withdrawn date of a withdrawn row, the commercial operation date of a completed row where given
 - name: operator
   shared: true
+  particular: Empty in every row
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3079
-  particular: Empty in every row
 - name: source
   shared: true
   type: text
@@ -153,12 +153,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The retrieval day (YYYY-MM-DD), not a date SPP prints
   type: date
   values:
     list:
       '2026-11-05': 3079
   missing_cells: 0
-  particular: The retrieval day (YYYY-MM-DD), not a date SPP prints
 - name: queue_id
   label: SPP's GEN number of the request (2019-G1, GEN-2023-172 and others)
   unit: none

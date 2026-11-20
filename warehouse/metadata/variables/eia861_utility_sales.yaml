@@ -35,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia861:<utility number>:<state>:<part>:<balancing authority code>; ends in a colon where EIA gives no balancing
+    authority
   type: text
   values:
     distinct: more than 5000
@@ -45,8 +47,6 @@ columns:
     - eia861:10009:TX:A:ERCO
     - eia861:1000:AR:A:MISO
   missing_cells: 0
-  particular: eia861:<utility number>:<state>:<part>:<balancing authority code>; ends in a colon where EIA gives no balancing
-    authority
 - name: variable
   shared: true
   type: text
@@ -96,6 +96,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>
   type: text
   values:
     distinct: 56
@@ -106,16 +107,16 @@ columns:
     - US-AS
     - US-AZ
   missing_cells: 0
-  particular: US-<state>
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 433115
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The utility's name, not a pricing node
   type: text
   values:
     distinct: 3529
@@ -126,7 +127,6 @@ columns:
     - 4-County Electric Power Assn
     - 4Change Energy Company
   missing_cells: 0
-  particular: The utility's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -170,11 +170,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 433115
-  particular: 'Not filled: no cell holds a value'
 - name: x_utility_number
   label: EIA's utility identifier
   unit: none

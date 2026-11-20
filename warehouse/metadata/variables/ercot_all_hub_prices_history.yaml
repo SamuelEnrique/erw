@@ -38,6 +38,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<hub>
   type: text
   values:
     list:
@@ -48,7 +49,6 @@ columns:
       ercot:HB_SOUTH: 520704
       ercot:HB_WEST: 520704
   missing_cells: 0
-  particular: ercot:<hub>
 - name: variable
   shared: true
   type: text
@@ -95,15 +95,17 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: ercot_dam (day-ahead, hourly) or ercot_rtm (real-time, 15-minute)
   type: text
   values:
     list:
       ercot_dam: 624384
       ercot_rtm: 2499840
   missing_cells: 0
-  particular: ercot_dam (day-ahead, hourly) or ercot_rtm (real-time, 15-minute)
 - name: node
   shared: true
+  particular: 'ERCOT''s trading hub: HB_HOUSTON, HB_NORTH, HB_SOUTH, HB_WEST (the four regional hubs), HB_HUBAVG (ERCOT''s
+    average of the four) and HB_BUSAVG (ERCOT''s average over the hubs'' buses)'
   type: text
   values:
     list:
@@ -114,8 +116,6 @@ columns:
       HB_SOUTH: 520704
       HB_WEST: 520704
   missing_cells: 0
-  particular: 'ERCOT''s trading hub: HB_HOUSTON, HB_NORTH, HB_SOUTH, HB_WEST (the four regional hubs), HB_HUBAVG (ERCOT''s
-    average of the four) and HB_BUSAVG (ERCOT''s average over the hubs'' buses)'
 - name: source
   shared: true
   type: text
@@ -148,15 +148,16 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: ERCOT's document publish time; empty on a few rows
   type: utc time
   values:
     distinct: 3763
     earliest: '2016-01-01T14:03:08Z'
     latest: '2026-11-16T06:02:02Z'
   missing_cells: 4608
-  particular: ERCOT's document publish time; empty on a few rows
 - name: year
   shared: true
+  particular: ERCOT's operating year in Central time, the member the row came from
   type: integer
   values:
     list:
@@ -173,7 +174,6 @@ columns:
       '2025': 262800
       '2026': 231264
   missing_cells: 0
-  particular: ERCOT's operating year in Central time, the member the row came from
 variables:
 - name: spp_dam
   label: ERCOT's day-ahead settlement point price at the hub, hourly (spp here is ERCOT's 'settlement point price', not the

@@ -40,6 +40,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: frb_g17:<G.17 series code>
   type: text
   values:
     list:
@@ -63,7 +64,6 @@ columns:
       frb_g17:N2212R: 655
       frb_g17:N2212T: 655
   missing_cells: 0
-  particular: frb_g17:<G.17 series code>
 - name: variable
   shared: true
   type: text
@@ -103,21 +103,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 15365
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 15365
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The series' title with its NAICS code, not a pricing node
   type: text
   values:
     list:
@@ -141,7 +142,6 @@ columns:
       Residential gas sales NAICS=2212pt.: 655
       Total index: 2010
   missing_cells: 0
-  particular: The series' title with its NAICS code, not a pricing node
 - name: source
   shared: true
   type: text
@@ -166,11 +166,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 15365
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: production
   label: Industrial production index, seasonally adjusted, 2017 = 100 (never summed)

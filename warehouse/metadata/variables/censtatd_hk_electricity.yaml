@@ -40,14 +40,14 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: censtatd:915-91201 (monthly consumption table) or censtatd:915-91203 (quarterly supply table), the C&SD table,
+    not a place
   type: text
   values:
     list:
       censtatd:915-91201: 3429
       censtatd:915-91203: 270
   missing_cells: 0
-  particular: censtatd:915-91201 (monthly consumption table) or censtatd:915-91203 (quarterly supply table), the C&SD table,
-    not a place
 - name: variable
   shared: true
   type: text
@@ -79,36 +79,36 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: P1M for table 915-91201, P3M for table 915-91203
   type: text
   values:
     list:
       P1M: 3429
       P3M: 270
   missing_cells: 0
-  particular: P1M for table 915-91201, P3M for table 915-91203
 - name: geo
   shared: true
+  particular: HK on every row
   type: text
   values:
     list:
       HK: 3699
   missing_cells: 0
-  particular: HK on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3699
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: Hong Kong on every row, not a pricing node
   type: text
   values:
     list:
       Hong Kong: 3699
   missing_cells: 0
-  particular: Hong Kong on every row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -134,11 +134,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3699
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: consumption_commercial
   label: Electricity consumption by commercial users

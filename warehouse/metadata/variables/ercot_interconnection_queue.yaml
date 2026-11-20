@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: ercot_queue:<queue id>
   type: text
   values:
     distinct: 1736
@@ -42,7 +43,6 @@ columns:
     - ercot_queue:16INR0085
     - ercot_queue:16INR0104
   missing_cells: 0
-  particular: ercot_queue:<queue id>
 - name: entity_type
   shared: true
   type: text
@@ -64,12 +64,12 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-TX in every row
   type: text
   values:
     list:
       US-TX: 1736
   missing_cells: 0
-  particular: US-TX in every row
 - name: lat
   shared: true
   type: empty
@@ -84,33 +84,34 @@ columns:
   missing_cells: 1736
 - name: capacity_mw
   shared: true
+  particular: ERCOT's requested capacity as gridstatus reads it (Capacity (MW))
   type: number
   values:
     distinct: 1206
     lowest: -53.3
     highest: 2992.0
   missing_cells: 0
-  particular: ERCOT's requested capacity as gridstatus reads it (Capacity (MW))
 - name: status
   shared: true
+  particular: active or completed; ERCOT's report lists no withdrawn positions
   type: text
   values:
     list:
       active: 1159
       completed: 577
   missing_cells: 0
-  particular: active or completed; ERCOT's report lists no withdrawn positions
 - name: status_date
   shared: true
+  particular: The in-service date of a completed row where one is given
   type: date
   values:
     distinct: 96
     earliest: '2017-12-20'
     latest: '2026-10-23'
   missing_cells: 1633
-  particular: The in-service date of a completed row where one is given
 - name: operator
   shared: true
+  particular: The interconnecting entity, filled on every row
   type: text
   values:
     distinct: 1295
@@ -121,7 +122,6 @@ columns:
     - 7100 Tin Top LLC
     - 7L Solar, LLC
   missing_cells: 0
-  particular: The interconnecting entity, filled on every row
 - name: source
   shared: true
   type: text
@@ -145,12 +145,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The retrieval date (YYYY-MM-DD), not a publication date
   type: date
   values:
     list:
       '2026-11-05': 1736
   missing_cells: 0
-  particular: The retrieval date (YYYY-MM-DD), not a publication date
 - name: queue_id
   label: ERCOT's identifier of the interconnection request (INR number)
   unit: none

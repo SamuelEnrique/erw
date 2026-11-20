@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: nyiso:<zone>, the zone's NYISO name
   type: text
   values:
     list:
@@ -48,7 +49,6 @@ columns:
       nyiso:NORTH: 1945
       nyiso:WEST: 1945
   missing_cells: 0
-  particular: nyiso:<zone>, the zone's NYISO name
 - name: variable
   shared: true
   type: text
@@ -94,14 +94,16 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'nyiso_dam in every row: NYISO''s day-ahead market'
   type: text
   values:
     list:
       nyiso_dam: 21395
   missing_cells: 0
-  particular: 'nyiso_dam in every row: NYISO''s day-ahead market'
 - name: node
   shared: true
+  particular: 'NYISO''s name of the load zone, one of eleven: CAPITL, CENTRL, DUNWOD, GENESE, HUD VL, LONGIL, MHK VL, MILLWD,
+    N.Y.C., NORTH, WEST'
   type: text
   values:
     list:
@@ -117,8 +119,6 @@ columns:
       NORTH: 1945
       WEST: 1945
   missing_cells: 0
-  particular: 'NYISO''s name of the load zone, one of eleven: CAPITL, CENTRL, DUNWOD, GENESE, HUD VL, LONGIL, MHK VL, MILLWD,
-    N.Y.C., NORTH, WEST'
 - name: source
   shared: true
   type: text
@@ -148,13 +148,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The HTTP Last-Modified of the day's file (report P-2A)
   type: utc time
   values:
     distinct: 59
     earliest: '2026-08-30T13:33:05Z'
     latest: '2026-11-15T14:32:05Z'
   missing_cells: 0
-  particular: The HTTP Last-Modified of the day's file (report P-2A)
 variables:
 - name: lmp_dam
   label: Day-ahead zonal LBMP (the price of energy in the zone in the day-ahead market), as NYISO prints it

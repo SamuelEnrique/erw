@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_industry_electricity:<geo>:<NACE code>; the activities overlap, do not sum them
   type: text
   values:
     distinct: 1507
@@ -43,7 +44,6 @@ columns:
     - eurostat_industry_electricity:AL:B09
     - eurostat_industry_electricity:AL:C10
   missing_cells: 0
-  particular: eurostat_industry_electricity:<geo>:<NACE code>; the activities overlap, do not sum them
 - name: variable
   shared: true
   type: text
@@ -88,6 +88,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
   type: text
   values:
     distinct: 33
@@ -98,7 +99,6 @@ columns:
     - BG
     - CY
   missing_cells: 39
-  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
 - name: market
   shared: true
   type: empty
@@ -107,6 +107,7 @@ columns:
   missing_cells: 8307
 - name: node
   shared: true
+  particular: <geo> industry electricity, <the activity's name>, not a pricing node
   type: text
   values:
     distinct: 1507
@@ -117,7 +118,6 @@ columns:
     - AL industry electricity, Manufacture of basic pharmaceutical products and pharmaceutical preparations
     - AL industry electricity, Manufacture of basic precious and other non-ferrous metals except aluminium production
   missing_cells: 0
-  particular: <geo> industry electricity, <the activity's name>, not a pricing node
 - name: source
   shared: true
   type: text

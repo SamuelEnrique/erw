@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<settlement point>
   type: text
   values:
     distinct: 888
@@ -46,7 +47,6 @@ columns:
     - ercot:ABINDUST_RN
     - ercot:ADL_RN
   missing_cells: 0
-  particular: ercot:<settlement point>
 - name: variable
   shared: true
   type: text
@@ -92,13 +92,13 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: ercot_dam or ercot_rtm
   type: text
   values:
     list:
       ercot_dam: 899493
       ercot_rtm: 135552
   missing_cells: 0
-  particular: ercot_dam or ercot_rtm
 - name: node
   shared: true
   type: text
@@ -134,11 +134,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1035045
-  particular: 'Not filled: no cell holds a value'
 - name: x_hub
   label: 'The hub the basis is taken against: HB_HUBAVG, the hub average, for every point (the ERW holds no list of each node''s
     zone and zonal hub)'

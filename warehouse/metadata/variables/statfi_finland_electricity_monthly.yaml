@@ -35,12 +35,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: statfi:fi on every row
   type: text
   values:
     list:
       statfi:fi: 6350
   missing_cells: 0
-  particular: statfi:fi on every row
 - name: variable
   shared: true
   type: text
@@ -79,21 +79,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: FI on every row
   type: text
   values:
     list:
       FI: 6350
   missing_cells: 0
-  particular: FI on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 6350
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The line as Statistics Finland writes it, code included, not a pricing node
   type: text
   values:
     list:
@@ -114,7 +115,6 @@ columns:
       2.4 Estonia: 236
       SSS TOTAL ELECTRICITY CONSUMPTION: 414
   missing_cells: 0
-  particular: The line as Statistics Finland writes it, code included, not a pricing node
 - name: source
   shared: true
   type: text
@@ -138,12 +138,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The JSON-stat answer's updated time (UTC)
   type: utc time
   values:
     list:
       '2026-09-23T05:00:00Z': 6350
   missing_cells: 0
-  particular: The JSON-stat answer's updated time (UTC)
 - name: x_code
   label: 'Statistics Finland''s code of the line (1, 1.1, ..., 2.4: its place in the table)'
   unit: none

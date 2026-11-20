@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<respondent>
   type: text
   values:
     distinct: 71
@@ -46,7 +47,6 @@ columns:
     - eia930:AZPS
     - eia930:BANC
   missing_cells: 0
-  particular: eia930:<respondent>
 - name: variable
   shared: true
   type: text

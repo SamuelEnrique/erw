@@ -38,6 +38,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_petroleum_snd:<EIA series id>; EP00 the total holds the other products
   type: text
   values:
     distinct: 4459
@@ -48,7 +49,6 @@ columns:
     - eia_petroleum_snd:MAPEXP22
     - eia_petroleum_snd:MAPEXP31
   missing_cells: 0
-  particular: eia_petroleum_snd:<EIA series id>; EP00 the total holds the other products
 - name: variable
   shared: true
   type: text
@@ -88,21 +88,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row, the PADDs included
   type: text
   values:
     list:
       US: 523835
   missing_cells: 0
-  particular: US on every row, the PADDs included
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 523835
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name
   type: text
   values:
     distinct: 4455
@@ -113,7 +114,6 @@ columns:
     - East Coast (PADD 1) Aviation Gasoline Stock Change (Thousand Barrels)
     - East Coast (PADD 1) Biodiesel Stock Change (Thousand Barrels per Day)
   missing_cells: 0
-  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -146,11 +146,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 523835
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: ending_stocks
   label: Ending stocks (SAE) at the month's end, thousand barrels

@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: ornl_eha_unit:<EHA_PtGnID>
   type: text
   values:
     distinct: more than 5000
@@ -43,17 +44,17 @@ columns:
     - ornl_eha_unit:hc0002_p01_2
     - ornl_eha_unit:hc0003_p01_1
   missing_cells: 0
-  particular: ornl_eha_unit:<EHA_PtGnID>
 - name: entity_type
   shared: true
+  particular: Always generator
   type: text
   values:
     list:
       generator: 5362
   missing_cells: 0
-  particular: Always generator
 - name: name
   shared: true
+  particular: '''<plant name>, unit <EHA unit id>'''
   type: text
   values:
     distinct: more than 5000
@@ -64,48 +65,47 @@ columns:
     - 45 Mile Hydroelectric Project, unit 3
     - 92nd Avenue Pressure Relief Valve Facility Project, unit 1
   missing_cells: 0
-  particular: '''<plant name>, unit <EHA unit id>'''
 - name: geo
   shared: true
+  particular: 'Not filled: the sheet gives no state; the plant''s state is in ornl_eha_hydropower_plants, joined by eha_plant_id'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5362
-  particular: 'Not filled: the sheet gives no state; the plant''s state is in ornl_eha_hydropower_plants, joined by eha_plant_id'
 - name: lat
   shared: true
+  particular: The plant's
   type: number
   values:
     distinct: 2184
     lowest: 18.017
     highest: 61.6
   missing_cells: 0
-  particular: The plant's
 - name: lon
   shared: true
+  particular: The plant's
   type: number
   values:
     distinct: 2193
     lowest: -174.197
     highest: -65.794
   missing_cells: 0
-  particular: The plant's
 - name: capacity_mw
   shared: true
+  particular: The unit's capacity
   type: number
   values:
     distinct: 680
     lowest: 0.0
     highest: 805.0
   missing_cells: 0
-  particular: The unit's capacity
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5362
-  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -114,11 +114,11 @@ columns:
   missing_cells: 5362
 - name: operator
   shared: true
+  particular: 'Not filled: the plant''s owner is in plant_owner'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5362
-  particular: 'Not filled: the plant''s owner is in plant_owner'
 - name: source
   shared: true
   type: text
@@ -142,12 +142,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time, UTC
   type: utc time
   values:
     list:
       '2026-06-24T16:53:31Z': 5362
   missing_cells: 0
-  particular: The workbook's last-modified time, UTC
 - name: eha_plant_id
   label: ORNL's EHA identifier of the unit's plant, the key to ornl_eha_hydropower_plants
   unit: none

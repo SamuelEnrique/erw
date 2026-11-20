@@ -36,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <iso>:<hub>, each ISO's main hub (ercot:HB_HUBAVG, caiso:TH_SP15_GEN-APND, isone:.H.INTERNAL_HUB, miso:INDIANA.HUB,
+    nyiso:N.Y.C., spp:SPPNORTH_HUB)
   type: text
   values:
     list:
@@ -46,8 +48,6 @@ columns:
       nyiso:N.Y.C.: 780
       spp:SPPNORTH_HUB: 962
   missing_cells: 0
-  particular: <iso>:<hub>, each ISO's main hub (ercot:HB_HUBAVG, caiso:TH_SP15_GEN-APND, isone:.H.INTERNAL_HUB, miso:INDIANA.HUB,
-    nyiso:N.Y.C., spp:SPPNORTH_HUB)
 - name: variable
   shared: true
   type: text
@@ -102,6 +102,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: '<iso>_rtm on every row: real-time prices only'
   type: text
   values:
     list:
@@ -112,7 +113,6 @@ columns:
       nyiso_rtm: 780
       spp_rtm: 962
   missing_cells: 0
-  particular: '<iso>_rtm on every row: real-time prices only'
 - name: node
   shared: true
   type: text
@@ -148,11 +148,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8853
-  particular: 'Not filled: no cell holds a value'
 - name: ba
   shared: true
   type: text

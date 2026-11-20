@@ -34,13 +34,13 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: caiso:ISO (CAISO's whole system) or spp:SPP (SPP's balancing authority area)
   type: text
   values:
     list:
       caiso:ISO: 1558
       spp:SPP: 1698
   missing_cells: 0
-  particular: caiso:ISO (CAISO's whole system) or spp:SPP (SPP's balancing authority area)
 - name: variable
   shared: true
   type: text
@@ -81,26 +81,26 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-CA on CAISO's rows; empty on SPP's rows
   type: text
   values:
     list:
       US-CA: 1558
   missing_cells: 1698
-  particular: US-CA on CAISO's rows; empty on SPP's rows
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3256
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3256
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -124,11 +124,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3256
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: curtailed_solar_economic_mwh
   label: 'SPP: solar ''curtailed for energy'' (economic dispatch), MWh'

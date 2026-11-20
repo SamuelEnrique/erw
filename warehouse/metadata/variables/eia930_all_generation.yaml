@@ -39,6 +39,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<respondent>, the seven ISO authorities and US48
   type: text
   values:
     list:
@@ -51,7 +52,6 @@ columns:
       eia930:SWPP: 19680
       eia930:US48: 32688
   missing_cells: 0
-  particular: eia930:<respondent>, the seven ISO authorities and US48
 - name: variable
   shared: true
   type: text
@@ -90,6 +90,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The respondent's states, comma-separated; US for US48
   type: text
   values:
     list:
@@ -102,7 +103,6 @@ columns:
       US-NY: 17712
       US-TX: 17712
   missing_cells: 0
-  particular: The respondent's states, comma-separated; US for US48
 - name: market
   shared: true
   type: empty

@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_gas_other_uses:<process>:<area>
   type: text
   values:
     distinct: 157
@@ -46,7 +47,6 @@ columns:
     - eia_gas_other_uses:VDV:SAR
     - eia_gas_other_uses:VDV:SAZ
   missing_cells: 0
-  particular: eia_gas_other_uses:<process>:<area>
 - name: variable
   shared: true
   type: text
@@ -120,13 +120,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3838
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name
   type: text
   values:
     distinct: 157
@@ -137,7 +138,6 @@ columns:
     - Alaska Natural Gas Vehicle Fuel Consumption (MMcf)
     - Arizona Natural Gas Pipeline and Distribution Use (MMcf)
   missing_cells: 0
-  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -162,11 +162,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3838
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: consumption_lease_and_plant_fuel
   label: Natural gas used as lease and plant fuel (VGL), million cubic feet; the nation's only

@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: czso_regions:<ISO 3166-2 region code, or CZ>:<item>
   type: text
   values:
     distinct: 225
@@ -47,7 +48,6 @@ columns:
     - czso_regions:CZ-10:energy
     - czso_regions:CZ-10:gas_combustion
   missing_cells: 0
-  particular: czso_regions:<ISO 3166-2 region code, or CZ>:<item>
 - name: variable
   shared: true
   type: text
@@ -86,21 +86,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: CZ on every row, whatever the region (the region is in entity and x_region)
   type: text
   values:
     list:
       CZ: 360
   missing_cells: 0
-  particular: CZ on every row, whatever the region (the region is in entity and x_region)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 360
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: CZSO <area code>, <the table's English label>, in ASCII, not a pricing node
   type: text
   values:
     distinct: 255
@@ -111,7 +112,6 @@ columns:
     - CZSO CZ, Energy
     - CZSO CZ, Gas and combustion plants
   missing_cells: 0
-  particular: CZSO <area code>, <the table's English label>, in ASCII, not a pricing node
 - name: source
   shared: true
   type: text
@@ -135,12 +135,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The zip's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-02-12T12:46:51Z': 360
   missing_cells: 0
-  particular: The zip's Last-Modified (UTC)
 - name: x_region
   label: The region's name in Czech, as the tables give it
   unit: none

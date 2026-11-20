@@ -39,6 +39,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: statcan_oil:<area> or statcan_gas:<area>, the area ca, atl (the Atlantic provinces) or a province's or territory's
+    postal code in lower case
   type: text
   values:
     list:
@@ -66,8 +68,6 @@ columns:
       statcan_oil:qc: 1645
       statcan_oil:sk: 3025
   missing_cells: 0
-  particular: statcan_oil:<area> or statcan_gas:<area>, the area ca, atl (the Atlantic provinces) or a province's or territory's
-    postal code in lower case
 - name: variable
   shared: true
   type: text
@@ -107,6 +107,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: CA for Canada and also for the Atlantic provinces' rows (filter on entity, not geo); CA-<province> otherwise
   type: text
   values:
     list:
@@ -123,16 +124,16 @@ columns:
       CA-SK: 6737
       CA-YT: 108
   missing_cells: 0
-  particular: CA for Canada and also for the Atlantic provinces' rows (filter on entity, not geo); CA-<province> otherwise
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 56007
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: '<area>: <item> as StatCan names them, not a pricing node'
   type: text
   values:
     distinct: 383
@@ -143,7 +144,6 @@ columns:
     - 'Alberta: Condensate'
     - 'Alberta: Crude bitumen sent for further processing'
   missing_cells: 0
-  particular: '<area>: <item> as StatCan names them, not a pricing node'
 - name: source
   shared: true
   type: text
@@ -170,13 +170,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified time of the StatCan zip the row came from
   type: utc time
   values:
     list:
       '2026-09-29T12:30:43Z': 25533
       '2026-10-23T12:30:28Z': 30474
   missing_cells: 0
-  particular: The Last-Modified time of the StatCan zip the row came from
 - name: x_product
   label: 'The product: crude_oil or natural_gas'
   unit: none

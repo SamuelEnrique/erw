@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: census:cbsa:<code> for a whole area; census:cbsa:<code>:<state FIPS> for its part in one state
   type: text
   values:
     distinct: 825
@@ -46,7 +47,6 @@ columns:
     - census:cbsa:10420:39
     - census:cbsa:10500
   missing_cells: 0
-  particular: census:cbsa:<code> for a whole area; census:cbsa:<code>:<state FIPS> for its part in one state
 - name: variable
   shared: true
   type: text
@@ -78,11 +78,11 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: Empty on every row (two single dates)
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1650
-  particular: Empty on every row (two single dates)
 - name: geo
   shared: true
   type: text
@@ -98,6 +98,7 @@ columns:
   missing_cells: 1650
 - name: node
   shared: true
+  particular: The Bureau's name for the area, not a pricing node
   type: text
   values:
     distinct: 387
@@ -108,7 +109,6 @@ columns:
     - Albany, OR
     - Albany-Schenectady-Troy, NY
   missing_cells: 0
-  particular: The Bureau's name for the area, not a pricing node
 - name: source
   shared: true
   type: text
@@ -132,12 +132,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Population Estimates vintage, 2025 (a year, not a UTC time)
   type: integer
   values:
     list:
       '2025': 1650
   missing_cells: 0
-  particular: The Population Estimates vintage, 2025 (a year, not a UTC time)
 - name: x_state
   label: The state's FIPS code of a part by state
   unit: none

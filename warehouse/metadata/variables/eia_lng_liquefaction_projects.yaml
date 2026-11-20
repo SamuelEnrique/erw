@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: eia_lng:<project>:<train>, or eia_lng:<project> for an approved project
   type: text
   values:
     distinct: 48
@@ -45,17 +46,17 @@ columns:
     - eia_lng:cameron:train_1b
     - eia_lng:cameron:train_2b
   missing_cells: 0
-  particular: eia_lng:<project>:<train>, or eia_lng:<project> for an approved project
 - name: entity_type
   shared: true
+  particular: project on every row
   type: text
   values:
     list:
       project: 48
   missing_cells: 0
-  particular: project on every row
 - name: name
   shared: true
+  particular: The project's name as EIA prints it, footnote letters included
   type: text
   values:
     distinct: 48
@@ -66,9 +67,9 @@ columns:
     - Cameron LNG Train 4A
     - Cameron, Train 1B
   missing_cells: 0
-  particular: The project's name as EIA prints it, footnote letters included
 - name: geo
   shared: true
+  particular: US-<state> of the project's location, US for an offshore project
   type: text
   values:
     list:
@@ -80,30 +81,30 @@ columns:
       US-MS: 1
       US-TX: 20
   missing_cells: 0
-  particular: US-<state> of the project's location, US for an offshore project
 - name: lat
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 48
-  particular: Not filled
 - name: lon
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 48
-  particular: Not filled
 - name: capacity_mw
   shared: true
+  particular: 'Not filled: the capacities are in bcf/d and Mtpa, in x_ columns'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 48
-  particular: 'Not filled: the capacities are in bcf/d and Mtpa, in x_ columns'
 - name: status
   shared: true
+  particular: operating, under_construction or planned (approved); empty for EIA's Commissioning
   type: text
   values:
     list:
@@ -111,9 +112,9 @@ columns:
       planned: 9
       under_construction: 15
   missing_cells: 4
-  particular: operating, under_construction or planned (approved); empty for EIA's Commissioning
 - name: status_date
   shared: true
+  particular: The in-service day where EIA gives one
   type: date
   values:
     list:
@@ -140,9 +141,9 @@ columns:
       '2025-09-01': 1
       '2026-04-01': 1
   missing_cells: 24
-  particular: The in-service day where EIA gives one
 - name: operator
   shared: true
+  particular: The operator as EIA writes it
   type: text
   values:
     list:
@@ -168,7 +169,6 @@ columns:
       Venture Global LNG, Inc.: 2
       Woodside Energy: 2
   missing_cells: 0
-  particular: The operator as EIA writes it
 - name: source
   shared: true
   type: text
@@ -619,10 +619,10 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time from EIA's server
   type: utc time
   values:
     list:
       '2026-10-01T20:44:22Z': 48
   missing_cells: 0
-  particular: The workbook's last-modified time from EIA's server
 second_look: null

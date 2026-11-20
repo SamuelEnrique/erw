@@ -37,6 +37,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: desnz_subgas:<area>:<item>; from 2015 Great Britain, England and Wales and Scotland include the unallocated
+    consumption
   type: text
   values:
     distinct: 130
@@ -47,8 +49,6 @@ columns:
     - desnz_subgas:east_midlands:meters_domestic
     - desnz_subgas:east_midlands:meters_non_consuming
   missing_cells: 0
-  particular: desnz_subgas:<area>:<item>; from 2015 Great Britain, England and Wales and Scotland include the unallocated
-    consumption
 - name: variable
   shared: true
   type: text
@@ -106,6 +106,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: GB, GB-ENG (England and its regions), GB-WLS, GB-SCT, or GB-ENG,GB-WLS for England and Wales
   type: text
   values:
     list:
@@ -115,16 +116,16 @@ columns:
       GB-SCT: 130
       GB-WLS: 130
   missing_cells: 0
-  particular: GB, GB-ENG (England and its regions), GB-WLS, GB-SCT, or GB-ENG,GB-WLS for England and Wales
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1966
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The area and the workbook's column heading, not a pricing node
   type: text
   values:
     distinct: 130
@@ -135,7 +136,6 @@ columns:
     - 'East Midlands: Number of non-consuming meters (thousands)'
     - 'East Midlands: Total consumption (GWh): All meters'
   missing_cells: 0
-  particular: The area and the workbook's column heading, not a pricing node
 - name: source
   shared: true
   type: text
@@ -160,12 +160,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time
   type: utc time
   values:
     list:
       '2026-05-05T09:57:52Z': 1966
   missing_cells: 0
-  particular: The workbook's last-modified time
 variables:
 - name: consumption
   label: Gas consumption in the gas year, weather corrected, MWh (the workbook's GWh times 1,000)

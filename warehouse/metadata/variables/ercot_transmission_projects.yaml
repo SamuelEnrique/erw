@@ -33,6 +33,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: ercot_tpit:<ERCOT project number>:<phase number>
   type: text
   values:
     distinct: 2203
@@ -43,26 +44,26 @@ columns:
     - ercot_tpit:100025:100026
     - ercot_tpit:100030:100031
   missing_cells: 0
-  particular: ercot_tpit:<ERCOT project number>:<phase number>
 - name: event_date
   shared: true
+  particular: The actual in-service date, else the projected one; ERCOT's 9999-01-01 is no date
   type: date
   values:
     distinct: 511
     earliest: '2023-05-25'
     latest: '2033-12-15'
   missing_cells: 0
-  particular: The actual in-service date, else the projected one; ERCOT's 9999-01-01 is no date
 - name: event_type
   shared: true
+  particular: transmission_project in every row
   type: text
   values:
     list:
       transmission_project: 2203
   missing_cells: 0
-  particular: transmission_project in every row
 - name: parties
   shared: true
+  particular: The transmission owner as ERCOT names it
   type: text
   values:
     distinct: 55
@@ -73,7 +74,6 @@ columns:
     - AEP TCC/AEP TCC/SLU
     - AEP TCC/AEP TNC
   missing_cells: 0
-  particular: The transmission owner as ERCOT names it
 - name: entity_ids
   shared: true
   type: empty
@@ -100,6 +100,7 @@ columns:
   missing_cells: 2203
 - name: status
   shared: true
+  particular: 'The sheet the project is on: future, planned, completed, cancelled'
   type: text
   values:
     list:
@@ -108,7 +109,6 @@ columns:
       future: 1508
       planned: 277
   missing_cells: 0
-  particular: 'The sheet the project is on: future, planned, completed, cancelled'
 - name: source
   shared: true
   type: text

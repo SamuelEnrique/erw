@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_heating_price:<EIA series id> (one product, process and area)
   type: text
   values:
     distinct: 140
@@ -44,7 +45,6 @@ columns:
     - eia_heating_price:W_EPD2F_PRS_R1Y_DPG
     - eia_heating_price:W_EPD2F_PRS_R1Z_DPG
   missing_cells: 0
-  particular: eia_heating_price:<EIA series id> (one product, process and area)
 - name: variable
   shared: true
   type: text
@@ -83,6 +83,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> for a state, US for the U.S. and for a PADD
   type: text
   values:
     distinct: 40
@@ -93,16 +94,16 @@ columns:
     - US-CO
     - US-CT
   missing_cells: 0
-  particular: US-<state> for a state, US for the U.S. and for a PADD
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 48534
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name (heating oil or propane)
   type: text
   values:
     distinct: 140
@@ -113,7 +114,6 @@ columns:
     - Arkansas Propane Wholesale/Resale Price (Dollars per Gallon)
     - Central Atlantic (PADD 1B) No. 2 Heating Oil Residential Price (Dollars per Gallon)
   missing_cells: 0
-  particular: EIA's series name (heating oil or propane)
 - name: source
   shared: true
   type: text
@@ -138,11 +138,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 48534
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: residential_price
   label: Residential price (EIA process PRS) of heating oil or propane, USD a gallon

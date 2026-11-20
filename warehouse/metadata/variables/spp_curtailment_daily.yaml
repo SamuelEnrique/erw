@@ -17,7 +17,7 @@ license: public
 tier: source
 interval: P1D
 source:
-- name: spp:ver_curtailments VER Curtailments (5-minute, by BAA),  (files
+- name: spp:ver_curtailments VER Curtailments (5-minute, by BAA), https://portal.spp.org/pages/ver-curtailments (files
   url: https://portal.spp.org/file-browser-api/download/ver-curtailments
 cite: Southwest Power Pool (SPP). VER Curtailments (5-minute, by BAA). Via the Energy Research Warehouse (ERW), table `spp_curtailment_daily`.
 method: docs/methods/spp_curtailment_daily.md
@@ -32,14 +32,14 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'The balancing authority area: spp:SPP, or spp:SWPW (SPP''s western area, in the files since SPP''s western
+    expansion); older files with no area column are SPP''s'
   type: text
   values:
     list:
       spp:SPP: 37136
       spp:SWPW: 1664
   missing_cells: 0
-  particular: 'The balancing authority area: spp:SPP, or spp:SWPW (SPP''s western area, in the files since SPP''s western
-    expansion); older files with no area column are SPP''s'
 - name: variable
   shared: true
   type: text
@@ -78,25 +78,25 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 38800
-  particular: 'Not filled: no cell holds a value'
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 38800
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 38800
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -126,11 +126,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 38800
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: curtailed_solar_economic_mwh
   label: Solar energy SPP reports 'curtailed for energy' (economic dispatch) in the day, MWh

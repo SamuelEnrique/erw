@@ -17,7 +17,8 @@ license: public
 tier: source
 interval: PT1H
 source:
-- name: nws:forecast_hourly National Weather Service API,  then its forecastHourly (units=si)
+- name: nws:forecast_hourly National Weather Service API, https://api.weather.gov/points/<lat,lon> then its forecastHourly
+    (units=si)
   url: https://api.weather.gov/points/<lat,lon>
 cite: National Weather Service (NWS, NOAA). Hourly gridpoint forecast (api.weather.gov). Via the Energy Research Warehouse
   (ERW), table `weather_forecast_hourly`.
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: nws:<station>, one airport per ISO load center
   type: text
   values:
     list:
@@ -44,7 +46,6 @@ columns:
       nws:KOKC: 2652
       nws:KPHL: 2652
   missing_cells: 0
-  particular: nws:<station>, one airport per ISO load center
 - name: variable
   shared: true
   type: text
@@ -84,6 +85,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<the airport's state>
   type: text
   values:
     list:
@@ -95,16 +97,16 @@ columns:
       US-PA: 2652
       US-TX: 2652
   missing_cells: 0
-  particular: US-<the airport's state>
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 18538
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The ISO whose load center the airport stands for, not a pricing node
   type: text
   values:
     list:
@@ -116,7 +118,6 @@ columns:
       PJM: 2652
       SPP: 2652
   missing_cells: 0
-  particular: The ISO whose load center the airport stands for, not a pricing node
 - name: source
   shared: true
   type: text
@@ -147,13 +148,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The forecast's updateTime (UTC)
   type: utc time
   values:
     distinct: 249
     earliest: '2026-09-28T06:26:20Z'
     latest: '2026-11-16T14:15:32Z'
   missing_cells: 0
-  particular: The forecast's updateTime (UTC)
 variables:
 - name: temperature_f
   label: Forecast temperature for the hour

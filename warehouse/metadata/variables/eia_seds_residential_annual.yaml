@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_seds_res:<seriesId>:<state>
   type: text
   values:
     distinct: 572
@@ -45,7 +46,6 @@ columns:
     - eia_seds_res:DFRCV:AZ
     - eia_seds_res:DFRCV:CA
   missing_cells: 0
-  particular: eia_seds_res:<seriesId>:<state>
 - name: variable
   shared: true
   type: text
@@ -87,6 +87,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation
   type: text
   values:
     distinct: 52
@@ -97,16 +98,16 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: US-<state>, or US for the nation
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 20020
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's name of the series
   type: text
   values:
     list:
@@ -122,7 +123,6 @@ columns:
       Total energy expenditures in the residential sector: 1820
       Wood expenditures in the residential sector: 1820
   missing_cells: 0
-  particular: EIA's name of the series
 - name: source
   shared: true
   type: text
@@ -151,11 +151,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 20020
-  particular: 'Not filled: no cell holds a value'
 - name: x_series
   label: EIA's SEDS series identifier (for example ESRCV electricity expenditures in the residential sector)
   unit: none

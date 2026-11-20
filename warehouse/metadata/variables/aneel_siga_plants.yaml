@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: aneel_siga:<CodCEG>, ANEEL's unique plant code (type, source, state, number, check digit, version)
   type: text
   values:
     distinct: more than 5000
@@ -42,17 +43,17 @@ columns:
     - aneel_siga:CGH.PH.AL.028557-9.2
     - aneel_siga:CGH.PH.AL.028860-8.1
   missing_cells: 0
-  particular: aneel_siga:<CodCEG>, ANEEL's unique plant code (type, source, state, number, check digit, version)
 - name: entity_type
   shared: true
+  particular: plant on every row
   type: text
   values:
     list:
       plant: 25042
   missing_cells: 0
-  particular: plant on every row
 - name: name
   shared: true
+  particular: ANEEL's plant name (NomEmpreendimento)
   type: text
   values:
     distinct: more than 5000
@@ -63,9 +64,9 @@ columns:
     - '10034'
     - '10035'
   missing_cells: 0
-  particular: ANEEL's plant name (NomEmpreendimento)
 - name: geo
   shared: true
+  particular: BR-<the plant's main state>
   type: text
   values:
     distinct: 27
@@ -76,36 +77,36 @@ columns:
     - BR-AP
     - BR-BA
   missing_cells: 0
-  particular: BR-<the plant's main state>
 - name: lat
   shared: true
+  particular: ANEEL's approximate centroid; empty where ANEEL gives 0 and 0
   type: number
   values:
     distinct: more than 5000
     lowest: -33.72280556
     highest: 4.715
   missing_cells: 465
-  particular: ANEEL's approximate centroid; empty where ANEEL gives 0 and 0
 - name: lon
   shared: true
+  particular: ANEEL's approximate centroid; empty where ANEEL gives 0 and 0
   type: number
   values:
     distinct: more than 5000
     lowest: -72.81111111
     highest: -32.41720121
   missing_cells: 465
-  particular: ANEEL's approximate centroid; empty where ANEEL gives 0 and 0
 - name: capacity_mw
   shared: true
+  particular: The granted or registered capacity (MdaPotenciaOutorgadaKw / 1,000)
   type: number
   values:
     distinct: 2175
     lowest: 1.0e-05
     highest: 11233.1
   missing_cells: 0
-  particular: The granted or registered capacity (MdaPotenciaOutorgadaKw / 1,000)
 - name: status
   shared: true
+  particular: operating, under_construction or planned (not yet begun), from ANEEL's phase
   type: text
   values:
     list:
@@ -113,24 +114,23 @@ columns:
       planned: 2099
       under_construction: 145
   missing_cells: 0
-  particular: operating, under_construction or planned (not yet begun), from ANEEL's phase
 - name: status_date
   shared: true
+  particular: The first generating unit's entry into operation (DatEntradaOperacao); empty where ANEEL gives its placeholder
+    1900-01-03
   type: date
   values:
     distinct: 3891
     earliest: '1900-12-25'
     latest: '2026-09-02'
   missing_cells: 2398
-  particular: The first generating unit's entry into operation (DatEntradaOperacao); empty where ANEEL gives its placeholder
-    1900-01-03
 - name: operator
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 25042
-  particular: Not filled
 - name: source
   shared: true
   type: text
@@ -155,12 +155,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The CSV's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-10-01T05:01:27Z': 25042
   missing_cells: 0
-  particular: The CSV's Last-Modified (UTC)
 - name: x_ceg
   label: 'ANEEL''s unique code of the plant (GGG.FF.UF.999999-D.VV: type, source, main state, number, check digit, version)'
   unit: none

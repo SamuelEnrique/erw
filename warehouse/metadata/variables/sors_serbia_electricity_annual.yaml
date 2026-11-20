@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'sors:rs:<item>: total, a plant type, an energy-sector branch, a final sector or a renewable source'
   type: text
   values:
     list:
@@ -60,7 +61,6 @@ columns:
       sors:rs:transport: 1
       sors:rs:wind: 3
   missing_cells: 0
-  particular: 'sors:rs:<item>: total, a plant type, an energy-sector branch, a final sector or a renewable source'
 - name: variable
   shared: true
   type: text
@@ -98,21 +98,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: RS on every row
   type: text
   values:
     list:
       RS: 36
   missing_cells: 0
-  particular: RS on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 36
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: SORS's label in Serbian, not a pricing node
   type: text
   values:
     distinct: 31
@@ -123,7 +124,6 @@ columns:
     - Домаћинства
     - Екстракција нафте и гаса
   missing_cells: 0
-  particular: SORS's label in Serbian, not a pricing node
 - name: source
   shared: true
   type: text
@@ -147,12 +147,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The PDF's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-02-26T07:42:33Z': 36
   missing_cells: 0
-  particular: The PDF's Last-Modified (UTC)
 - name: x_label
   label: The row's label in Serbian, as SORS prints it (the same as node)
   unit: none

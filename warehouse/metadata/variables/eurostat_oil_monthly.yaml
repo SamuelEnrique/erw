@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_oil:<Eurostat geo code>:<SIEC code>
   type: text
   values:
     distinct: 252
@@ -46,7 +47,6 @@ columns:
     - eurostat_oil:AL:O4652XR5210B
     - eurostat_oil:AL:O4661XR5230B
   missing_cells: 0
-  particular: eurostat_oil:<Eurostat geo code>:<SIEC code>
 - name: variable
   shared: true
   type: text
@@ -85,6 +85,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
   type: text
   values:
     distinct: 35
@@ -95,7 +96,6 @@ columns:
     - BG
     - CY
   missing_cells: 14959
-  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
 - name: market
   shared: true
   type: empty
@@ -104,6 +104,7 @@ columns:
   missing_cells: 457009
 - name: node
   shared: true
+  particular: '<product>: <flow>, not a pricing node'
   type: text
   values:
     distinct: 143
@@ -114,7 +115,6 @@ columns:
     - 'Crude oil: Exports'
     - 'Crude oil: Final consumption - transport sector - rail and domestic navigation - energy use'
   missing_cells: 0
-  particular: '<product>: <flow>, not a pricing node'
 - name: source
   shared: true
   type: text

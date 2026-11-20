@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_coal_trade:<exportImportType>:<coalRankId>:<countryId>:<customsDistrictId>
   type: text
   values:
     distinct: 3460
@@ -44,7 +45,6 @@ columns:
     - eia_coal_trade:Exports:COK:AE:MI_FL
     - eia_coal_trade:Exports:COK:AE:NY_NY
   missing_cells: 0
-  particular: eia_coal_trade:<exportImportType>:<coalRankId>:<countryId>:<customsDistrictId>
 - name: variable
   shared: true
   type: text
@@ -83,21 +83,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 24623
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 24623
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's names (exports or imports, country, rank, customs district)
   type: text
   values:
     distinct: 3460
@@ -108,7 +109,6 @@ columns:
     - Exports, Afghanistan, Steam Coal, Total
     - Exports, Algeria, All, Baltimore, MD
   missing_cells: 0
-  particular: EIA's names (exports or imports, country, rank, customs district)
 - name: source
   shared: true
   type: text
@@ -133,11 +133,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 24623
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: price
   label: Average price of the coal exported or imported, USD per short ton

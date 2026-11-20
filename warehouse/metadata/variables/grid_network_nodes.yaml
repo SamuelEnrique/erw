@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<code>, one per balancing authority in the window; EIA's regions and country totals are left out
   type: text
   values:
     distinct: 70
@@ -45,7 +46,6 @@ columns:
     - eia930:AVRN
     - eia930:AZPS
   missing_cells: 0
-  particular: eia930:<code>, one per balancing authority in the window; EIA's regions and country totals are left out
 - name: variable
   shared: true
   type: text

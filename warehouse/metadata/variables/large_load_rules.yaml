@@ -63,22 +63,22 @@ columns:
   missing_cells: 0
 - name: event_date
   shared: true
+  particular: The date on the document
   type: date
   values:
     distinct: 35
     earliest: '2024-01-25'
     latest: '2026-10-28'
   missing_cells: 0
-  particular: The date on the document
 - name: event_type
   shared: true
+  particular: regulatory_proceeding (the docket itself) or regulatory_order (an order, rule or decision in it)
   type: text
   values:
     list:
       regulatory_order: 29
       regulatory_proceeding: 15
   missing_cells: 0
-  particular: regulatory_proceeding (the docket itself) or regulatory_order (an order, rule or decision in it)
 - name: parties
   shared: true
   type: text
@@ -116,6 +116,7 @@ columns:
   missing_cells: 44
 - name: status
   shared: true
+  particular: The status class (open, decided, closed, not stated), the same as status_class
   type: text
   values:
     list:
@@ -123,7 +124,6 @@ columns:
       not stated: 4
       open: 17
   missing_cells: 0
-  particular: The status class (open, decided, closed, not stated), the same as status_class
 - name: source
   shared: true
   type: text
@@ -137,6 +137,7 @@ columns:
   missing_cells: 0
 - name: source_url
   shared: true
+  particular: The regulator's own document
   type: text
   values:
     distinct: 42
@@ -147,7 +148,6 @@ columns:
     - https://apps.puc.state.or.us/orders/2025ords/25-091.pdf
     - https://apps.puc.state.or.us/orders/2025ords/25-516.pdf
   missing_cells: 0
-  particular: The regulator's own document
 - name: regulator
   label: The regulator whose docket it is
   unit: none

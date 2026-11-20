@@ -16,7 +16,8 @@ tier: model_extracted
 interval: event
 source:
 - name: research:large_load_2026-11-13, docs/research/large_load/legislation_2026-11-13.csv (window P4 of the portable laptop,
-    sessions 5300 to 5304; method  each row's source_url is the document it was read in. No request is made by this connector.
+    sessions 5300 to 5304; method https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md); each
+    row's source_url is the document it was read in. No request is made by this connector.
   url: https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md
 cite: US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and
   the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `state_large_load_laws`.
@@ -33,6 +34,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: lllaw:<law_id>
   type: text
   values:
     distinct: 27
@@ -43,7 +45,6 @@ columns:
     - lllaw:laws_midwest_northeast-05
     - lllaw:laws_midwest_northeast-06
   missing_cells: 0
-  particular: lllaw:<law_id>
 - name: event_date
   shared: true
   type: date
@@ -76,14 +77,15 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: large_load_law on every row
   type: text
   values:
     list:
       large_load_law: 27
   missing_cells: 0
-  particular: large_load_law on every row
 - name: parties
   shared: true
+  particular: The state's legislature
   type: text
   values:
     list:
@@ -113,37 +115,37 @@ columns:
       WI legislature: 1
       WV legislature: 1
   missing_cells: 0
-  particular: The state's legislature
 - name: entity_ids
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27
-  particular: 'Not filled: no cell holds a value'
 - name: mw
   shared: true
+  particular: 'Not filled: the files print sizes as phrases, kept in x_threshold_mw'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27
-  particular: 'Not filled: the files print sizes as phrases, kept in x_threshold_mw'
 - name: price
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27
-  particular: 'Not filled: no cell holds a value'
 - name: currency
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27
-  particular: 'Not filled: no cell holds a value'
 - name: status
   shared: true
+  particular: 'The bill''s status as printed: introduced, passed one chamber, passed, enacted, in effect, vetoed or died'
   type: text
   values:
     list:
@@ -155,7 +157,6 @@ columns:
       passed one chamber: 3
       vetoed: 1
   missing_cells: 0
-  particular: 'The bill''s status as printed: introduced, passed one chamber, passed, enacted, in effect, vetoed or died'
 - name: source
   shared: true
   type: text

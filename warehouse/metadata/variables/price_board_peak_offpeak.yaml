@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <iso>:<main hub>, one per ISO
   type: text
   values:
     list:
@@ -44,7 +45,6 @@ columns:
       nyiso:N.Y.C.: 804
       spp:SPPNORTH_HUB: 633
   missing_cells: 0
-  particular: <iso>:<main hub>, one per ISO
 - name: variable
   shared: true
   type: text
@@ -97,6 +97,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: <iso>_dam for day-ahead rows, <iso>_rtm for real-time rows
   type: text
   values:
     list:
@@ -113,7 +114,6 @@ columns:
       spp_dam: 417
       spp_rtm: 216
   missing_cells: 0
-  particular: <iso>_dam for day-ahead rows, <iso>_rtm for real-time rows
 - name: node
   shared: true
   type: text

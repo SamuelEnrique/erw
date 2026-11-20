@@ -29,6 +29,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: counterparty:<the name's words>
   type: text
   values:
     distinct: 532
@@ -39,17 +40,17 @@ columns:
     - counterparty:acme_solar
     - counterparty:ad_ports
   missing_cells: 0
-  particular: counterparty:<the name's words>
 - name: entity_type
   shared: true
+  particular: company on every row
   type: text
   values:
     list:
       company: 532
   missing_cells: 0
-  particular: company on every row
 - name: name
   shared: true
+  particular: 'The canonical name: the spelling the deals use most'
   type: text
   values:
     distinct: 532
@@ -60,14 +61,13 @@ columns:
     - AD Ports
     - ADNOC's XRG
   missing_cells: 0
-  particular: 'The canonical name: the spelling the deals use most'
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 532
-  particular: 'Not filled: no cell holds a value'
 - name: lat
   shared: true
   type: empty
@@ -88,11 +88,11 @@ columns:
   missing_cells: 532
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 532
-  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -133,12 +133,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The build's run id (a UTC timestamp), not a data date
   type: text
   values:
     list:
       20261113T151045Z: 532
   missing_cells: 0
-  particular: The build's run id (a UTC timestamp), not a data date
 - name: kind
   label: 'The kind of counterparty: utility (an exact EIA-861 utility name), ai_buyer (a name on the AI-power rule''s party
     list), government, or company'

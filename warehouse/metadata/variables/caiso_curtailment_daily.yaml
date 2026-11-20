@@ -17,9 +17,11 @@ license: public
 tier: source
 interval: P1D
 source:
-- name: caiso:production_curtailments Production and curtailments data (5-minute),  (days before 2026-01-01)
+- name: caiso:production_curtailments Production and curtailments data (5-minute), https://www.caiso.com/library/production-curtailments-data
+    (days before 2026-01-01)
   url: https://www.caiso.com/library/production-curtailments-data
-- name: caiso:daily_renewable_report Daily Renewable Report (curtailment and output),  (days from 2026-01-01)
+- name: caiso:daily_renewable_report Daily Renewable Report (curtailment and output), https://www.caiso.com/library/daily-renewable-reports
+    (days from 2026-01-01)
   url: https://www.caiso.com/library/daily-renewable-reports
 cite: California ISO (CAISO). Daily Renewable Report (curtailment and output); Production and curtailments data (5-minute).
   Via the Energy Research Warehouse (ERW), table `caiso_curtailment_daily`.
@@ -35,12 +37,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'caiso:ISO in every row: CAISO''s whole system'
   type: text
   values:
     list:
       caiso:ISO: 25308
   missing_cells: 0
-  particular: 'caiso:ISO in every row: CAISO''s whole system'
 - name: variable
   shared: true
   type: text
@@ -86,27 +88,27 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 25308
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 25308
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
+  particular: caiso:production_curtailments for days before 2026-01-01, caiso:daily_renewable_report from 2026-01-01
   type: text
   values:
     list:
       caiso:daily_renewable_report: 2416
       caiso:production_curtailments: 22892
   missing_cells: 0
-  particular: caiso:production_curtailments for days before 2026-01-01, caiso:daily_renewable_report from 2026-01-01
 - name: source_url
   shared: true
   type: text
@@ -129,11 +131,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 25308
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: curtailed_solar_local_mwh
   label: Solar energy curtailed to relieve local congestion (CAISO's reason Local, published from 2022), MWh

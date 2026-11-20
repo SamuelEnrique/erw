@@ -31,6 +31,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: eia860:<plant id>:<generator id>
   type: text
   values:
     distinct: 1648
@@ -41,7 +42,6 @@ columns:
     - eia860:10493:BES1
     - eia860:1355:BESS
   missing_cells: 0
-  particular: eia860:<plant id>:<generator id>
 - name: entity_type
   shared: true
   type: text
@@ -91,13 +91,13 @@ columns:
   missing_cells: 0
 - name: capacity_mw
   shared: true
+  particular: EIA's nameplate MW
   type: number
   values:
     distinct: 344
     lowest: 0.1
     highest: 1200.0
   missing_cells: 0
-  particular: EIA's nameplate MW
 - name: status
   shared: true
   type: text
@@ -110,13 +110,13 @@ columns:
   missing_cells: 0
 - name: status_date
   shared: true
+  particular: As carried from the EIA-860M tables; empty on every planned unit (484 rows)
   type: date
   values:
     distinct: 139
     earliest: '2003-12-01'
     latest: '2026-09-01'
   missing_cells: 484
-  particular: As carried from the EIA-860M tables; empty on every planned unit (484 rows)
 - name: operator
   shared: true
   type: text
@@ -152,12 +152,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The EIA-860M inventory month (YYYY-MM), not a UTC time
   type: text
   values:
     list:
       2026-09: 1648
   missing_cells: 0
-  particular: The EIA-860M inventory month (YYYY-MM), not a UTC time
 - name: plant_id
   label: EIA's plant code
   unit: none

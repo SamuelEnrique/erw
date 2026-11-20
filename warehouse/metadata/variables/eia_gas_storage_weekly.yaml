@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:<EIA series id>
   type: text
   values:
     list:
@@ -46,7 +47,6 @@ columns:
       eia:NW2_EPG0_SWO_R35_BCF: 880
       eia:NW2_EPG0_SWO_R48_BCF: 880
   missing_cells: 0
-  particular: eia:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -85,21 +85,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row, the regions included
   type: text
   values:
     list:
       US: 7040
   missing_cells: 0
-  particular: US on every row, the regions included
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 7040
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's name of the series (the region)
   type: text
   values:
     list:
@@ -112,7 +113,6 @@ columns:
       Weekly Salt Region Natural Gas Working Underground Storage: 880
       Weekly South Central Region Natural Gas Working Underground Storage: 880
   missing_cells: 0
-  particular: EIA's name of the series (the region)
 - name: source
   shared: true
   type: text
@@ -140,11 +140,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 7040
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: working_gas
   label: Working gas in underground storage (gas available to withdraw), billion cubic feet, as EIA publishes it

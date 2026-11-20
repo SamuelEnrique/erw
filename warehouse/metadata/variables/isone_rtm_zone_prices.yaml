@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: isone:<node>, the node's ISO-NE name
   type: text
   values:
     list:
@@ -45,7 +46,6 @@ columns:
       isone:.Z.VERMONT: 6436
       isone:.Z.WCMASS: 6436
   missing_cells: 0
-  particular: isone:<node>, the node's ISO-NE name
 - name: variable
   shared: true
   type: text
@@ -84,22 +84,24 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO-NE's six states in every row, also for a zone in one state
   type: text
   values:
     list:
       US-CT,US-MA,US-ME,US-NH,US-RI,US-VT: 57924
   missing_cells: 0
-  particular: ISO-NE's six states in every row, also for a zone in one state
 - name: market
   shared: true
+  particular: 'isone_rtm in every row: ISO-NE''s real-time energy market'
   type: text
   values:
     list:
       isone_rtm: 57924
   missing_cells: 0
-  particular: 'isone_rtm in every row: ISO-NE''s real-time energy market'
 - name: node
   shared: true
+  particular: 'ISO-NE''s name of the location: .H.INTERNAL_HUB (the Internal Hub) or .Z.<zone> for the eight load zones (CONNECTICUT,
+    MAINE, NEMASSBOST, NEWHAMPSHIRE, RHODEISLAND, SEMASS, VERMONT, WCMASS)'
   type: text
   values:
     list:
@@ -113,8 +115,6 @@ columns:
       .Z.VERMONT: 6436
       .Z.WCMASS: 6436
   missing_cells: 0
-  particular: 'ISO-NE''s name of the location: .H.INTERNAL_HUB (the Internal Hub) or .Z.<zone> for the eight load zones (CONNECTICUT,
-    MAINE, NEMASSBOST, NEWHAMPSHIRE, RHODEISLAND, SEMASS, VERMONT, WCMASS)'
 - name: source
   shared: true
   type: text
@@ -139,11 +139,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 57924
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: lmp_rtm_15m_mean
   label: Real-time locational marginal price (the price of energy at the location in the real-time market), the arithmetic

@@ -19,11 +19,11 @@ tier: derived
 interval: P1Y
 source:
 - name: erw:demand_growth from EIA Form EIA-930 (Hourly Electric Grid Monitor), hourly demand by balancing authority and for
-    the Lower 48, the per-area workbooks ( read by this run from warehouse/raw/eia930_emissions/20261105T230347Z/20261105T230419.379945Z_00004_ERCO.xlsx;
-    warehouse/raw/eia930_emissions/20261105T230347Z/20261105T230350.619517Z_00002_CISO.xlsx; warehouse/raw/eia930_emissions/20261105T230347Z/20261105T230617.752587Z_00012_PJM.xlsx;
-    warehouse/raw/eia930_emissions/20261105T230347Z/20261105T230519.730384Z_00008_MISO.xlsx; warehouse/raw/eia930_emissions/20261105T230347Z/20261105T230700.932168Z_00014_SWPP.xlsx;
-    warehouse/raw/eia930_emissions/20261105T230347Z/20261105T230548.492560Z_00010_NYIS.xlsx; warehouse/raw/eia930_emissions/20261105T230347Z/20261105T230450.383311Z_00006_ISNE.xlsx;
-    warehouse/raw/eia930_emissions/20261105T230347Z/20261105T230733.094130Z_00016_Region_US48.xlsx
+    the Lower 48, the per-area workbooks (https://www.eia.gov/electricity/gridmonitor/knownissues/xls/<BA>.xlsx); read by
+    this run from warehouse/raw/eia930_emissions/20261105T230347Z/20261105T230419.379945Z_00004_ERCO.xlsx; warehouse/raw/eia930_emissions/20261105T230347Z/20261105T230350.619517Z_00002_CISO.xlsx;
+    warehouse/raw/eia930_emissions/20261105T230347Z/20261105T230617.752587Z_00012_PJM.xlsx; warehouse/raw/eia930_emissions/20261105T230347Z/20261105T230519.730384Z_00008_MISO.xlsx;
+    warehouse/raw/eia930_emissions/20261105T230347Z/20261105T230700.932168Z_00014_SWPP.xlsx; warehouse/raw/eia930_emissions/20261105T230347Z/20261105T230548.492560Z_00010_NYIS.xlsx;
+    warehouse/raw/eia930_emissions/20261105T230347Z/20261105T230450.383311Z_00006_ISNE.xlsx; warehouse/raw/eia930_emissions/20261105T230347Z/20261105T230733.094130Z_00016_Region_US48.xlsx
   url: https://www.eia.gov/electricity/gridmonitor/knownissues/xls/<BA>.xlsx
 cite: 'Energy Research Warehouse (ERW), derived. Demand growth since 2019: annual and peak demand from EIA-930 hourly demand
   (docs/methods/demand_growth.md). Via the Energy Research Warehouse (ERW), table `eia930_demand_growth`.'
@@ -41,6 +41,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<area> (CISO, ERCO, ISNE, MISO, NYIS, PJM, SWPP, US48)
   type: text
   values:
     list:
@@ -53,7 +54,6 @@ columns:
       eia930:SWPP: 3018
       eia930:US48: 2990
   missing_cells: 0
-  particular: eia930:<area> (CISO, ERCO, ISNE, MISO, NYIS, PJM, SWPP, US48)
 - name: variable
   shared: true
   type: text
@@ -100,6 +100,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-TX (ERCO), US-CA (CISO), US-NY (NYIS), US for the other five
   type: text
   values:
     list:
@@ -108,7 +109,6 @@ columns:
       US-NY: 3018
       US-TX: 3018
   missing_cells: 0
-  particular: US-TX (ERCO), US-CA (CISO), US-NY (NYIS), US for the other five
 - name: market
   shared: true
   type: empty

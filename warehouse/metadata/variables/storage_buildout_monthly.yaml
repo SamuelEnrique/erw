@@ -35,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: iso:<caiso|ercot|isone|miso|nyiso|pjm|spp> by the generator's balancing authority in EIA-860M; us:outside_isos
+    for every other code and no code; us:total for every unit
   type: text
   values:
     list:
@@ -48,8 +50,6 @@ columns:
       us:outside_isos: 2382
       us:total: 2382
   missing_cells: 0
-  particular: iso:<caiso|ercot|isone|miso|nyiso|pjm|spp> by the generator's balancing authority in EIA-860M; us:outside_isos
-    for every other code and no code; us:total for every unit
 - name: variable
   shared: true
   type: text
@@ -91,12 +91,12 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 21382
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
   type: empty

@@ -5,9 +5,11 @@
 table: news_scores_shadow
 family: news
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One news story scored again by a second (shadow) model with the same rubric, prompt, schema and batching, to measure
+  whether it can replace the first; never shown on the site.
+time: event_date is the story's publish time in UTC.
+vintage_rule: 'Merged by event_id (shadow:<story_id>:<model_id>): a story already scored by that shadow model is not scored
+  again. No vintage column.'
 keys:
 - event_id
 license: internal
@@ -31,12 +33,14 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: shadow:<story_id>:<model_id>
 - name: event_date
   shared: true
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The story's publish time, UTC
 - name: event_type
   shared: true
   type: text
@@ -49,152 +53,156 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 2347
+  particular: The companies, people or places the shadow model names, separated by '; '
 - name: mw
   shared: true
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 4679
+  particular: MW the shadow model read in the story
 - name: source
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The outlet
 - name: source_url
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The story's link
 - name: story_id
-  label: null
-  unit: null
+  label: The story's event_id in news_stories, whose own scores are the published ones
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method news_scores_shadow.md
 - name: model_id
-  label: null
-  unit: null
+  label: The shadow model
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method news_scores_shadow.md
 - name: significance
-  label: null
-  unit: null
+  label: The shadow model's rubric score, an integer from 0 to 10
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method news_scores_shadow.md
 - name: ai_power_relevance
-  label: null
-  unit: null
+  label: The shadow model's AI and power score, an integer from 0 to 10
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method news_scores_shadow.md
 - name: sector
-  label: null
-  unit: null
+  label: The shadow model's sector, one of the scorer's sectors
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method news_scores_shadow.md
 - name: region
-  label: null
-  unit: null
+  label: The shadow model's words for the place
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method news_scores_shadow.md
 - name: price_mentioned
-  label: null
-  unit: null
+  label: A price as the story states it, text
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 4381
-  missing_meaning: null
+  missing_meaning: The story states no price
   source_name: null
-  documented_by: null
+  documented_by: method news_scores_shadow.md
 - name: headline
-  label: null
-  unit: null
+  label: The shadow model's headline
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method news_scores_shadow.md
 - name: why
-  label: null
-  unit: null
+  label: The shadow model's one-line reason
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method news_scores_shadow.md
 - name: is_duplicate_of
-  label: null
-  unit: null
+  label: An earlier story the shadow model marks as the same event, kept only when it is a known story and not itself
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 4478
-  missing_meaning: null
+  missing_meaning: No earlier story marked
   source_name: null
-  documented_by: null
+  documented_by: method news_scores_shadow.md
 - name: cluster_id
-  label: null
-  unit: null
+  label: The story's cluster, from the duplicate links
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method news_scores_shadow.md
 - name: scored_at
-  label: null
-  unit: null
+  label: When the shadow scored the story, UTC
+  unit: none
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method news_scores_shadow.md
 - name: run_id
-  label: null
-  unit: null
+  label: The shadow scoring run
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method news_scores_shadow.md
 second_look: null

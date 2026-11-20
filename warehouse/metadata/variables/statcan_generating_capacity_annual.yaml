@@ -40,6 +40,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: statcan_cap:<area>:<class>, the class all, public utilities, private utilities or industry
   type: text
   values:
     distinct: 55
@@ -50,7 +51,6 @@ columns:
     - statcan_cap:ab:public
     - statcan_cap:bc:all
   missing_cells: 0
-  particular: statcan_cap:<area>:<class>, the class all, public utilities, private utilities or industry
 - name: variable
   shared: true
   type: text
@@ -106,6 +106,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: CA for Canada, CA-<province> for a province or territory
   type: text
   values:
     list:
@@ -124,16 +125,16 @@ columns:
       CA-SK: 448
       CA-YT: 277
   missing_cells: 0
-  particular: CA for Canada, CA-<province> for a province or territory
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5952
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: '<area>: <class>: <type> as StatCan names them, not a pricing node'
   type: text
   values:
     distinct: 392
@@ -144,7 +145,6 @@ columns:
     - 'Alberta: Electricity producer, industries: Solar power'
     - 'Alberta: Electricity producer, industries: Total installed capacity'
   missing_cells: 0
-  particular: '<area>: <class>: <type> as StatCan names them, not a pricing node'
 - name: source
   shared: true
   type: text
@@ -168,12 +168,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified time of StatCan's zip
   type: utc time
   values:
     list:
       '2026-10-19T12:30:44Z': 5952
   missing_cells: 0
-  particular: The Last-Modified time of StatCan's zip
 - name: x_class
   label: The class of electricity producer, StatCan's name (public or private electric utilities, industries, or the total
     of all classes)

@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:<EIA series id>
   type: text
   values:
     list:
@@ -46,7 +47,6 @@ columns:
       eia:WPRSTUS1: 1499
       eia:WTTSTUS1: 1923
   missing_cells: 0
-  particular: eia:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -85,26 +85,26 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 16855
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 16855
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: EIA''s series names are in the header''s Series line'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 16855
-  particular: 'Not filled: EIA''s series names are in the header''s Series line'
 - name: source
   shared: true
   type: text
@@ -145,11 +145,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 16855
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: stocks
   label: U.S. ending stocks of the product the series names, thousand barrels

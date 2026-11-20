@@ -44,6 +44,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <iso>:<hub>, the operator's hub name
   type: text
   values:
     list:
@@ -67,7 +68,6 @@ columns:
       spp:SPPNORTH_HUB: 1969
       spp:SPPSOUTH_HUB: 1969
   missing_cells: 0
-  particular: <iso>:<hub>, the operator's hub name
 - name: variable
   shared: true
   type: text
@@ -106,6 +106,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-CA for CAISO, US-TX for ERCOT, a list of 15 states for MISO and of 14 for SPP
   type: text
   values:
     list:
@@ -114,9 +115,9 @@ columns:
       US-CA: 5979
       US-TX: 11670
   missing_cells: 0
-  particular: US-CA for CAISO, US-TX for ERCOT, a list of 15 states for MISO and of 14 for SPP
 - name: market
   shared: true
+  particular: 'caiso_dam, ercot_dam, miso_dam or spp_dam: the day-ahead market of the grid the row belongs to'
   type: text
   values:
     list:
@@ -125,9 +126,11 @@ columns:
       miso_dam: 7488
       spp_dam: 3938
   missing_cells: 0
-  particular: 'caiso_dam, ercot_dam, miso_dam or spp_dam: the day-ahead market of the grid the row belongs to'
 - name: node
   shared: true
+  particular: 'The operator''s trading hub: CAISO TH_NP15_GEN-APND, TH_SP15_GEN-APND, TH_ZP26_GEN-APND; ERCOT HB_HOUSTON,
+    HB_NORTH, HB_SOUTH, HB_WEST and the averages HB_BUSAVG and HB_HUBAVG; MISO''s eight hubs (ARKANSAS.HUB to TEXAS.HUB);
+    SPP SPPNORTH_HUB and SPPSOUTH_HUB'
   type: text
   values:
     list:
@@ -151,9 +154,6 @@ columns:
       TH_SP15_GEN-APND: 1993
       TH_ZP26_GEN-APND: 1993
   missing_cells: 0
-  particular: 'The operator''s trading hub: CAISO TH_NP15_GEN-APND, TH_SP15_GEN-APND, TH_ZP26_GEN-APND; ERCOT HB_HOUSTON,
-    HB_NORTH, HB_SOUTH, HB_WEST and the averages HB_BUSAVG and HB_HUBAVG; MISO''s eight hubs (ARKANSAS.HUB to TEXAS.HUB);
-    SPP SPPNORTH_HUB and SPPSOUTH_HUB'
 - name: source
   shared: true
   type: text
@@ -186,14 +186,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: ERCOT's document publish time or MISO's file Last-Modified; empty on CAISO's and SPP's rows (publish time not
+    given by the source)
   type: utc time
   values:
     distinct: 120
     earliest: '2026-08-25T17:42:39Z'
     latest: '2026-11-15T18:33:00Z'
   missing_cells: 9917
-  particular: ERCOT's document publish time or MISO's file Last-Modified; empty on CAISO's and SPP's rows (publish time not
-    given by the source)
 variables:
 - name: lmp_dam
   label: 'Day-ahead locational marginal price (the price of energy at the hub in the day-ahead market): CAISO, MISO (ex-post)

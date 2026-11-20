@@ -41,6 +41,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<A>-<B>, A before B by code
   type: text
   values:
     distinct: 204
@@ -51,7 +52,6 @@ columns:
     - eia930:AECI-SIKE
     - eia930:AECI-SPA
   missing_cells: 0
-  particular: eia930:<A>-<B>, A before B by code
 - name: variable
   shared: true
   type: text

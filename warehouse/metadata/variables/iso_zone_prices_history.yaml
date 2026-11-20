@@ -49,6 +49,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: '<iso>:<node>: nyiso:<zone> for NYISO''s eleven load zones, caiso:TH_ZP26_GEN-APND, spp:SPPSOUTH_HUB'
   type: text
   values:
     list:
@@ -66,7 +67,6 @@ columns:
       nyiso:WEST: 136547
       spp:SPPSOUTH_HUB: 68375
   missing_cells: 0
-  particular: '<iso>:<node>: nyiso:<zone> for NYISO''s eleven load zones, caiso:TH_ZP26_GEN-APND, spp:SPPSOUTH_HUB'
 - name: variable
   shared: true
   type: text
@@ -98,13 +98,13 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: PT1H, or PT15M for CAISO's real-time rows
   type: text
   values:
     list:
       PT15M: 77380
       PT1H: 1600153
   missing_cells: 0
-  particular: PT1H, or PT15M for CAISO's real-time rows
 - name: geo
   shared: true
   type: text
@@ -116,6 +116,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'caiso_dam, caiso_rtm, nyiso_dam, nyiso_rtm or spp_dam: the grid''s day-ahead or real-time market'
   type: text
   values:
     list:
@@ -125,9 +126,10 @@ columns:
       nyiso_rtm: 748297
       spp_dam: 68375
   missing_cells: 0
-  particular: 'caiso_dam, caiso_rtm, nyiso_dam, nyiso_rtm or spp_dam: the grid''s day-ahead or real-time market'
 - name: node
   shared: true
+  particular: NYISO's eleven load zones (CAPITL, CENTRL, DUNWOD, GENESE, HUD VL, LONGIL, MHK VL, MILLWD, N.Y.C., NORTH, WEST),
+    CAISO's ZP26 hub TH_ZP26_GEN-APND, SPP's South hub SPPSOUTH_HUB; no ISO-NE row
   type: text
   values:
     list:
@@ -145,8 +147,6 @@ columns:
       TH_ZP26_GEN-APND: 107141
       WEST: 136547
   missing_cells: 0
-  particular: NYISO's eleven load zones (CAPITL, CENTRL, DUNWOD, GENESE, HUD VL, LONGIL, MHK VL, MILLWD, N.Y.C., NORTH, WEST),
-    CAISO's ZP26 hub TH_ZP26_GEN-APND, SPP's South hub SPPSOUTH_HUB; no ISO-NE row
 - name: source
   shared: true
   type: text
@@ -180,13 +180,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: NYISO's file Last-Modified; empty on CAISO's and SPP's rows
   type: utc time
   values:
     distinct: 190
     earliest: '2019-01-30T14:34:03Z'
     latest: '2026-11-16T11:07:14Z'
   missing_cells: 175516
-  particular: NYISO's file Last-Modified; empty on CAISO's and SPP's rows
 variables:
 - name: lmp_dam
   label: Day-ahead locational marginal price (NYISO's zonal LBMP), hourly

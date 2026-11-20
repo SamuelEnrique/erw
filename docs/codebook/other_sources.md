@@ -215,7 +215,7 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 
 - **Time:** event_date is the publication's date; x_retrieved_at is when its copy was saved.
 - **Revisions:** Rewritten whole as one snapshot by each build from the session-read rows file; nothing converted, summed or averaged.
-- **Source:** erw:ai_energy_published the publications named per row (source_url), saved at warehouse/raw/ai_energy_published/ with their sha256: (https://sustainability.atmeta.com/asset/2025-environmental-data-index)
+- **Source:** erw:ai_energy_published the publications named per row (source_url), saved at warehouse/raw/ai_energy_published/ with their sha256: https://arxiv.org/abs/1906.02243; https://arxiv.org/abs/2104.10350; https://arxiv.org/abs/2204.05149; https://arxiv.org/abs/2211.02001; https://arxiv.org/abs/2311.16863; https://arxiv.org/abs/2508.15734; https://blog.samaltman.com/the-gentle-singularity; https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/msc/documents/presentations/CSR/2026-Microsoft-Environmental-Data-Fact-Sheet-PDF.pdf (https://sustainability.atmeta.com/asset/2025-environmental-data-index)
 - **Method note:** [`docs/methods/ai_energy_published.md`](../methods/ai_energy_published.md)
 - **Cite as:** Energy Research Warehouse (ERW), from published figures. Energy per AI query, as published (docs/methods/ai_energy_published.md). Via the Energy Research Warehouse (ERW), table `ai_energy_published`.
 
@@ -762,7 +762,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 - **Time:** ts_utc is the first day of the auction month at 00:00:00Z (the summary gives no day); freq P3M.
 - **Revisions:** Merged by (entity, variable, ts_utc); each run reads the whole summary and replaces every row; vintage is not filled.
-- **Source:** carb:auction-results-summary California Air Resources Board, Summary of Joint Auction Settlement Prices and Results (PDF, Last updated August 2026; linked from (https://ww2.arb.ca.gov/sites/default/files/2020-08/results_summary.pdf)
+- **Source:** carb:auction-results-summary California Air Resources Board, Summary of Joint Auction Settlement Prices and Results (PDF, Last updated August 2026; linked from https://ww2.arb.ca.gov/our-work/programs/cap-and-trade-program/auction-information) (https://ww2.arb.ca.gov/sites/default/files/2020-08/results_summary.pdf)
 - **Method note:** [`docs/methods/carb_auction_allowance_prices.md`](../methods/carb_auction_allowance_prices.md)
 - **Cite as:** California Air Resources Board (CARB). Summary of California and Joint Auction Settlement Prices and Results. Via the Energy Research Warehouse (ERW), table `carb_auction_allowance_prices`.
 
@@ -1969,7 +1969,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 - **Time:** ts_utc is the three-hour interval's start (00, 03, ..., 21 UTC); freq PT3H.
 - **Revisions:** Rewritten whole as one snapshot by each run from GFZ's file; vintage is the file's Last-Modified; x_status marks preliminary intervals.
-- **Source:** gfz:kp_ap_since_1932 GFZ Potsdam, Kp_ap_since_1932.txt,  (listed on (https://kp.gfz-potsdam.de/en/data)
+- **Source:** gfz:kp_ap_since_1932 GFZ Potsdam, Kp_ap_since_1932.txt, https://kp.gfz-potsdam.de/fileadmin/files_for_gfz_cms/Kp_ap_since_1932.txt (listed on (https://kp.gfz-potsdam.de/en/data)
 - **Method note:** [`docs/methods/gfz_kp_index_3h.md`](../methods/gfz_kp_index_3h.md)
 - **Cite as:** GFZ Helmholtz Centre for Geosciences (Potsdam). Geomagnetic Kp index (Kp and ap since 1932). Via the Energy Research Warehouse (ERW), table `gfz_kp_index_3h`.
 
@@ -2077,7 +2077,7 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 
 - **Time:** No time column; vintage is HIFLD's SOURCEDATE of the line (a date); the table is a snapshot as read on its retrieved_at.
 - **Revisions:** One row a line, rewritten whole as one snapshot by each build; vintage holds HIFLD's source date.
-- **Source:** hifld:transmission_lines Homeland Infrastructure Foundation-Level Data (HIFLD), Electric Power Transmission Lines (ORNL, NGA HSIP), as served by Penn State's PASDA:  where VOLTAGE>=230, in batches (sha256 ba039a3a2b7259dc6b474d2ffcf408f3bd3f628dfd7cab5ef5e7cf513094de10, saved at warehouse/raw/hifld_lines/20261120T024611Z/transmission.geojson) (https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/178/query)
+- **Source:** hifld:transmission_lines Homeland Infrastructure Foundation-Level Data (HIFLD), Electric Power Transmission Lines (ORNL, NGA HSIP), as served by Penn State's PASDA: https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/178/query where VOLTAGE>=230, in batches (sha256 ba039a3a2b7259dc6b474d2ffcf408f3bd3f628dfd7cab5ef5e7cf513094de10, saved at warehouse/raw/hifld_lines/20261120T024611Z/transmission.geojson) (https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/178/query)
 - **Method note:** [`docs/methods/map_layers.md`](../methods/map_layers.md)
 - **Cite as:** Homeland Infrastructure Foundation-Level Data (HIFLD), served by Penn State PASDA. Electric Power Transmission Lines, HIFLD open data layer, PASDA map service HIFLD_FEMA layer 178. Via the Energy Research Warehouse (ERW), table `hifld_transmission_lines`.
 
@@ -3043,7 +3043,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 - **Time:** ts_utc is the month's first day at 00:00:00Z; freq P1M; from 1958-03.
 - **Revisions:** Rewritten whole as one snapshot by each run from the Scripps file; vintage is the file's Last-Modified.
-- **Source:** scripps:co2_mlo_monthly Scripps CO2 Program, monthly_in_situ_co2_mlo.csv,  (linked from (https://scrippsco2.ucsd.edu/data/primary-mauna-loa-co2-record/)
+- **Source:** scripps:co2_mlo_monthly Scripps CO2 Program, monthly_in_situ_co2_mlo.csv, https://keelinglabsites.ucsd.edu/websitedataco2/monthly_in_situ_co2_mlo.csv (linked from (https://scrippsco2.ucsd.edu/data/primary-mauna-loa-co2-record/)
 - **Method note:** [`docs/methods/scripps_co2_mlo_monthly.md`](../methods/scripps_co2_mlo_monthly.md)
 - **Cite as:** Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego). Primary Mauna Loa CO2 Record: monthly in situ CO2. Via the Energy Research Warehouse (ERW), table `scripps_co2_mlo_monthly`.
 
@@ -4024,7 +4024,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 - **Time:** ts_utc is the forecast hour's start (UTC); freq PT1H; about 7 days ahead.
 - **Revisions:** Merged by (entity, variable, ts_utc): a newer run replaces the value for the same hour (the latest forecast); vintage is the forecast's updateTime.
-- **Source:** nws:forecast_hourly National Weather Service API,  then its forecastHourly (units=si) (https://api.weather.gov/points/<lat,lon>)
+- **Source:** nws:forecast_hourly National Weather Service API, https://api.weather.gov/points/<lat,lon> then its forecastHourly (units=si) (https://api.weather.gov/points/<lat,lon>)
 - **Method note:** [`docs/methods/weather_forecast_hourly.md`](../methods/weather_forecast_hourly.md)
 - **Cite as:** National Weather Service (NWS, NOAA). Hourly gridpoint forecast (api.weather.gov). Via the Energy Research Warehouse (ERW), table `weather_forecast_hourly`.
 

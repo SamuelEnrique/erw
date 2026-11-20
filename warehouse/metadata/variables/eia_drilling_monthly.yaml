@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_drilling:<EIA series id>
   type: text
   values:
     list:
@@ -45,7 +46,6 @@ columns:
       eia_drilling:E_ERTRRO_XR0_NUS_C: 463
       eia_drilling:E_ERTS0_XRS_NUS_C: 591
   missing_cells: 0
-  particular: eia_drilling:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -84,21 +84,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 3431
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3431
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name
   type: text
   values:
     list:
@@ -109,7 +110,6 @@ columns:
       U.S. Offshore Crude Oil and Natural Gas Rotary Rigs in Operation (Count): 638
       U.S. Onshore Crude Oil and Natural Gas Rotary Rigs in Operation (Count): 638
   missing_cells: 0
-  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -134,11 +134,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3431
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: rotary_rigs
   label: Rotary rigs in operation (the rigs that drill wells), count

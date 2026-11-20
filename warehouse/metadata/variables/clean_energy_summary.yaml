@@ -16,9 +16,9 @@ license: public
 tier: derived
 interval: P1M;P1Y
 source:
-- name: erw:clean_energy EIA Form EIA-930 hourly net generation by energy source, the per-BA workbooks ( California from 2025-12-16T08:00:00Z
-    is CAISO's own supply by fuel (caiso_fuel_supply), the warehouse's one join (docs/methods/eia930_caiso_break.md); read
-    by this run from warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175834.883363Z_00002_CISO.xlsx; warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175850.712544Z_00004_ERCO.xlsx;
+- name: erw:clean_energy EIA Form EIA-930 hourly net generation by energy source, the per-BA workbooks (https://www.eia.gov/electricity/gridmonitor/knownissues/xls/<BA>.xlsx);
+    California from 2025-12-16T08:00:00Z is CAISO's own supply by fuel (caiso_fuel_supply), the warehouse's one join (docs/methods/eia930_caiso_break.md);
+    read by this run from warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175834.883363Z_00002_CISO.xlsx; warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175850.712544Z_00004_ERCO.xlsx;
     warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175904.395449Z_00006_ISNE.xlsx; warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175918.956497Z_00008_MISO.xlsx;
     warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175934.677962Z_00010_NYIS.xlsx; warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175949.986042Z_00012_PJM.xlsx;
     warehouse/raw/eia930_emissions/20261116T175833Z/20261116T180008.741327Z_00014_SWPP.xlsx
@@ -42,6 +42,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: iso:<grid>, the seven ISO grids
   type: text
   values:
     list:
@@ -53,7 +54,6 @@ columns:
       iso:pjm: 3852
       iso:spp: 3813
   missing_cells: 0
-  particular: iso:<grid>, the seven ISO grids
 - name: variable
   shared: true
   type: text
@@ -107,18 +107,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27834
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27834
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -142,11 +142,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27834
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: carbon_free_share_flat_pct
   label: 'Mean of the hours'' shares: the carbon-free share met by a load that draws the same power every hour'

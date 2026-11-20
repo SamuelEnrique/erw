@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_product_supplied:<EIA series id>
   type: text
   values:
     distinct: 702
@@ -44,7 +45,6 @@ columns:
     - eia_product_supplied:MAPUPP22
     - eia_product_supplied:MAPUPP31
   missing_cells: 0
-  particular: eia_product_supplied:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -84,21 +84,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row, the PADDs included
   type: text
   values:
     list:
       US: 71938
   missing_cells: 0
-  particular: US on every row, the PADDs included
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 71938
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name
   type: text
   values:
     distinct: 702
@@ -109,7 +110,6 @@ columns:
     - East Coast (PADD 1) Product Supplied of Asphalt and Road Oil (Thousand Barrels)
     - East Coast (PADD 1) Product Supplied of Aviation Gasoline (Thousand Barrels per Day)
   missing_cells: 0
-  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -134,11 +134,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 71938
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: product_supplied
   label: Product supplied of the product in the month, thousand barrels

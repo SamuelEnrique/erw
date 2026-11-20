@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: gas_storage:<EIA region> for the weekly rows, gas_balance:US for the monthly rows
   type: text
   values:
     list:
@@ -47,7 +48,6 @@ columns:
       gas_storage:salt: 4823
       gas_storage:south_central: 4823
   missing_cells: 0
-  particular: gas_storage:<EIA region> for the weekly rows, gas_balance:US for the monthly rows
 - name: variable
   shared: true
   type: text
@@ -81,35 +81,35 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: P1W for storage rows, P1M for balance rows
   type: text
   values:
     list:
       P1M: 1923
       P1W: 38584
   missing_cells: 0
-  particular: P1W for storage rows, P1M for balance rows
 - name: geo
   shared: true
+  particular: US on every row, whatever the region
   type: text
   values:
     list:
       US: 40507
   missing_cells: 0
-  particular: US on every row, whatever the region
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 40507
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 40507
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -133,11 +133,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 40507
-  particular: 'Not filled: no cell holds a value'
 - name: x_region
   label: EIA's storage region (east, midwest, south_central, mountain, pacific, salt, nonsalt, lower48), or US on the monthly
     balance rows

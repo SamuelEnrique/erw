@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<hub>
   type: text
   values:
     list:
@@ -44,7 +45,6 @@ columns:
       ercot:HB_SOUTH: 58070
       ercot:HB_WEST: 58070
   missing_cells: 0
-  particular: ercot:<hub>
 - name: variable
   shared: true
   type: text
@@ -91,15 +91,17 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: ercot_dam for the da_ statistics, ercot_rtm for the rt_ statistics
   type: text
   values:
     list:
       ercot_dam: 174294
       ercot_rtm: 174126
   missing_cells: 0
-  particular: ercot_dam for the da_ statistics, ercot_rtm for the rt_ statistics
 - name: node
   shared: true
+  particular: 'ERCOT''s trading hub: HB_HOUSTON, HB_NORTH, HB_SOUTH, HB_WEST, HB_HUBAVG (average of the four) and HB_BUSAVG
+    (average over the hubs'' buses)'
   type: text
   values:
     list:
@@ -110,8 +112,6 @@ columns:
       HB_SOUTH: 58070
       HB_WEST: 58070
   missing_cells: 0
-  particular: 'ERCOT''s trading hub: HB_HOUSTON, HB_NORTH, HB_SOUTH, HB_WEST, HB_HUBAVG (average of the four) and HB_BUSAVG
-    (average over the hubs'' buses)'
 - name: source
   shared: true
   type: text
@@ -136,11 +136,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 348420
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: da_hours_above_200
   label: Hours of the day whose day-ahead price was above 200 USD/MWh

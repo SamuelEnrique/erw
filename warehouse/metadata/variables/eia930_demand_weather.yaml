@@ -40,6 +40,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<BA>, the seven ISO balancing authorities
   type: text
   values:
     list:
@@ -51,7 +52,6 @@ columns:
       eia930:PJM: 155
       eia930:SWPP: 155
   missing_cells: 0
-  particular: eia930:<BA>, the seven ISO balancing authorities
 - name: variable
   shared: true
   type: text

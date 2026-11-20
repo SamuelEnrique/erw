@@ -41,6 +41,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: iso:<grid>
   type: text
   values:
     list:
@@ -52,7 +53,6 @@ columns:
       iso:pjm: 17142
       iso:spp: 17124
   missing_cells: 0
-  particular: iso:<grid>
 - name: variable
   shared: true
   type: text
@@ -92,6 +92,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The states the grid serves, comma-separated
   type: text
   values:
     list:
@@ -103,16 +104,16 @@ columns:
       US-NY: 17142
       US-TX: 17067
   missing_cells: 0
-  particular: The states the grid serves, comma-separated
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 119494
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The grid's name (CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP), not a pricing node
   type: text
   values:
     list:
@@ -124,7 +125,6 @@ columns:
       PJM: 17142
       SPP: 17124
   missing_cells: 0
-  particular: The grid's name (CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP), not a pricing node
 - name: source
   shared: true
   type: text
@@ -156,13 +156,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 119494
-  particular: 'Not filled: no cell holds a value'
 - name: ba
   shared: true
+  particular: The grid's EIA-930 code (ciso, erco, isne, miso, nyis, pjm, swpp), to join eia930 tables
   type: text
   values:
     list:
@@ -174,7 +175,6 @@ columns:
       pjm: 17142
       swpp: 17124
   missing_cells: 0
-  particular: The grid's EIA-930 code (ciso, erco, isne, miso, nyis, pjm, swpp), to join eia930 tables
 - name: x_hours
   label: 'The hours of the grid''s local day: 24, or 23 and 25 on the clock-change days'
   unit: count

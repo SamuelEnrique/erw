@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:plant_fuel_cost:<location>:<COW|NG>, COW all coal products, NG natural gas
   type: text
   values:
     distinct: 98
@@ -47,7 +48,6 @@ columns:
     - eia:plant_fuel_cost:AL:NG
     - eia:plant_fuel_cost:AR:COW
   missing_cells: 0
-  particular: eia:plant_fuel_cost:<location>:<COW|NG>, COW all coal products, NG natural gas
 - name: variable
   shared: true
   type: text
@@ -88,6 +88,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US, or US-<state>; empty for an EIA census division
   type: text
   values:
     distinct: 48
@@ -98,16 +99,16 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 2714
-  particular: US, or US-<state>; empty for an EIA census division
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 13160
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's name of the location
   type: text
   values:
     distinct: 58
@@ -118,7 +119,6 @@ columns:
     - Arkansas
     - California
   missing_cells: 0
-  particular: EIA's name of the location
 - name: source
   shared: true
   type: text
@@ -152,11 +152,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 13160
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: cost_per_mcf
   label: Average cost of natural gas delivered to power plants, USD per thousand cubic feet

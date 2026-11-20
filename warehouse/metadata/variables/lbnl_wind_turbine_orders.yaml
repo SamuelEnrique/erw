@@ -32,6 +32,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: lbnl_turbine_order:<12 hex of the date and price>
   type: text
   values:
     distinct: 122
@@ -42,7 +43,6 @@ columns:
     - lbnl_turbine_order:0b4aa2e60ebe
     - lbnl_turbine_order:0edb465742d6
   missing_cells: 0
-  particular: lbnl_turbine_order:<12 hex of the date and price>
 - name: event_date
   shared: true
   type: date
@@ -53,12 +53,12 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: Always turbine_order
   type: text
   values:
     list:
       turbine_order: 122
   missing_cells: 0
-  particular: Always turbine_order
 - name: parties
   shared: true
   type: empty
@@ -79,13 +79,13 @@ columns:
   missing_cells: 122
 - name: price
   shared: true
+  particular: USD per kW (real 2025 dollars), not per MWh
   type: number
   values:
     distinct: 121
     lowest: 843.3067
     highest: 2947.8718
   missing_cells: 0
-  particular: USD per kW (real 2025 dollars), not per MWh
 - name: currency
   shared: true
   type: text
@@ -95,11 +95,11 @@ columns:
   missing_cells: 0
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 122
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text

@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: nws:<station>, one airport per ISO load center
   type: text
   values:
     list:
@@ -45,7 +46,6 @@ columns:
       nws:KOKC: 2655
       nws:KPHL: 2659
   missing_cells: 0
-  particular: nws:<station>, one airport per ISO load center
 - name: variable
   shared: true
   type: text
@@ -98,13 +98,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 18587
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The ISO whose load center the airport stands for, not a pricing node
   type: text
   values:
     list:
@@ -116,7 +117,6 @@ columns:
       PJM: 2659
       SPP: 2655
   missing_cells: 0
-  particular: The ISO whose load center the airport stands for, not a pricing node
 - name: source
   shared: true
   type: text
@@ -146,11 +146,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 18587
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: temperature_f
   label: Mean of the station's temperature observations in the hour

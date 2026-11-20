@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: boem_platform:<complex id>-<structure number>
   type: text
   values:
     distinct: more than 5000
@@ -44,17 +45,17 @@ columns:
     - boem_platform:10003-1
     - boem_platform:10004-1
   missing_cells: 0
-  particular: boem_platform:<complex id>-<structure number>
 - name: entity_type
   shared: true
+  particular: Always platform
   type: text
   values:
     list:
       platform: 7092
   missing_cells: 0
-  particular: Always platform
 - name: name
   shared: true
+  particular: The structure's name (one has none)
   type: text
   values:
     distinct: 979
@@ -65,65 +66,64 @@ columns:
     - '#14'
     - '#2'
   missing_cells: 1
-  particular: The structure's name (one has none)
 - name: geo
   shared: true
+  particular: Always US (federal waters)
   type: text
   values:
     list:
       US: 7092
   missing_cells: 0
-  particular: Always US (federal waters)
 - name: lat
   shared: true
+  particular: From the locations file; empty for 8 structures with no location row
   type: number
   values:
     distinct: more than 5000
     lowest: 26.035697
     highest: 30.194974
   missing_cells: 8
-  particular: From the locations file; empty for 8 structures with no location row
 - name: lon
   shared: true
+  particular: From the locations file; empty for 8 structures with no location row
   type: number
   values:
     distinct: more than 5000
     lowest: -97.113264
     highest: -87.757633
   missing_cells: 8
-  particular: From the locations file; empty for 8 structures with no location row
 - name: capacity_mw
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 7092
-  particular: Not filled
 - name: status
   shared: true
+  particular: retired where BOEM gives a removal date, else active
   type: text
   values:
     list:
       active: 1312
       retired: 5780
   missing_cells: 0
-  particular: retired where BOEM gives a removal date, else active
 - name: status_date
   shared: true
+  particular: The removal date, else the install date
   type: date
   values:
     distinct: 4065
     earliest: '1949-01-01'
     latest: '2026-09-21'
   missing_cells: 0
-  particular: The removal date, else the install date
 - name: operator
   shared: true
+  particular: 'Not filled: BOEM gives a company number (x_company_num), not a name'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 7092
-  particular: 'Not filled: BOEM gives a company number (x_company_num), not a name'
 - name: source
   shared: true
   type: text
@@ -147,12 +147,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The structures file's last-modified time
   type: utc time
   values:
     list:
       '2026-10-01T15:03:11Z': 7092
   missing_cells: 0
-  particular: The structures file's last-modified time
 - name: x_complex_id
   label: BOEM's complex identifier (leading zeros dropped)
   unit: none

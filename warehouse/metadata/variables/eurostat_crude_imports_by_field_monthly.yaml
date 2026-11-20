@@ -38,6 +38,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_crude_field:EU:<Eurostat crude oil code>; TOTAL is every stream together
   type: text
   values:
     distinct: 819
@@ -48,7 +49,6 @@ columns:
     - eurostat_crude_field:EU:AFR_S_SLDB
     - eurostat_crude_field:EU:AG_CDS
   missing_cells: 0
-  particular: eurostat_crude_field:EU:<Eurostat crude oil code>; TOTAL is every stream together
 - name: variable
   shared: true
   type: text
@@ -91,11 +91,11 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Empty on every row: the EU (Eurostat''s EU_V, the member states of the month)'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 51718
-  particular: 'Empty on every row: the EU (Eurostat''s EU_V, the member states of the month)'
 - name: market
   shared: true
   type: empty
@@ -104,6 +104,7 @@ columns:
   missing_cells: 51718
 - name: node
   shared: true
+  particular: The stream's name as Eurostat gives it, not a pricing node
   type: text
   values:
     distinct: 819
@@ -114,7 +115,6 @@ columns:
     - Abu Dhabi - Miscellaneous
     - Abu Dhabi - Mubarraz
   missing_cells: 0
-  particular: The stream's name as Eurostat gives it, not a pricing node
 - name: source
   shared: true
   type: text

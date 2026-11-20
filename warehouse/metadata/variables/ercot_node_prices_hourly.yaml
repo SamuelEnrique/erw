@@ -5,9 +5,11 @@
 table: ercot_node_prices_hourly
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One hour's day-ahead or real-time settlement point price at one of ERCOT's storage settlement points (the price nodes
+  of battery resources), derived from ERCOT's saved files.
+time: ts_utc is the hour's start in UTC; freq PT1H. A real-time hour is the mean of ERCOT's four 15-minute prices.
+vintage_rule: Rebuilt whole from the saved files by each run (the old file is removed first), holding the newest days that
+  fit under the owner's ceiling of 500,000 rows. vintage is not filled.
 keys:
 - entity
 - variable
@@ -36,6 +38,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: ercot:<settlement point>
 - name: variable
   shared: true
   type: text
@@ -78,12 +81,14 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: 'Partition column: ERCOT''s day-ahead or real-time market'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The settlement point as ERCOT names it
 - name: source
   shared: true
   type: text
@@ -108,25 +113,26 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 497832
+  particular: 'Not filled: no cell holds a value'
 - name: x_class
-  label: null
-  unit: null
+  label: The settlement point's class by its resource types (storage in this table)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method node_basis.md; connector node_basis.py
 variables:
 - name: spp_dam
-  label: null
+  label: Day-ahead settlement point price for the hour (ERCOT's DAM Settlement Point Prices and 60-Day DAM Disclosure)
   unit: USD/MWh
   rows: 208968
   first: '2026-08-15T05:00:00Z'
   last: '2026-10-21T04:00:00Z'
 - name: spp_rtm
-  label: null
+  label: 'Real-time settlement point price for the hour: the mean of ERCOT''s four 15-minute prices'
   unit: USD/MWh
   rows: 288864
   first: '2026-09-28T05:00:00Z'

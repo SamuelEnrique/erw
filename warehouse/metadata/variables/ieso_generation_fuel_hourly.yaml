@@ -37,12 +37,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ieso:ontario on every row
   type: text
   values:
     list:
       ieso:ontario: 371781
   missing_cells: 0
-  particular: ieso:ontario on every row
 - name: variable
   shared: true
   type: text
@@ -81,21 +81,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: CA-ON on every row
   type: text
   values:
     list:
       CA-ON: 371781
   missing_cells: 0
-  particular: CA-ON on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 371781
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The fuel as the IESO names it, not a pricing node
   type: text
   values:
     list:
@@ -108,7 +109,6 @@ columns:
       SOLAR: 59688
       WIND: 59688
   missing_cells: 0
-  particular: The fuel as the IESO names it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -144,6 +144,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The year's file's CreatedAt (UTC)
   type: utc time
   values:
     list:
@@ -155,7 +156,6 @@ columns:
       '2026-01-01T11:50:43Z': 59118
       '2026-10-23T11:50:49Z': 49575
   missing_cells: 0
-  particular: The year's file's CreatedAt (UTC)
 - name: x_quality
   label: The report's OutputQuality for the value, as published (codes not defined in the repository)
   unit: none

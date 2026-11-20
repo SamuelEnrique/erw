@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<first region>-<second region>, first before second by EIA's code
   type: text
   values:
     list:
@@ -66,7 +67,6 @@ columns:
       eia930:NW-SW: 69818
       eia930:SE-TEN: 73489
   missing_cells: 0
-  particular: eia930:<first region>-<second region>, first before second by EIA's code
 - name: variable
   shared: true
   type: text

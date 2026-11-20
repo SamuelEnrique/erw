@@ -38,12 +38,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: Always desnz_et41:uk
   type: text
   values:
     list:
       desnz_et41:uk: 2394
   missing_cells: 0
-  particular: Always desnz_et41:uk
 - name: variable
   shared: true
   type: text
@@ -82,21 +82,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always GB, standing for the UK
   type: text
   values:
     list:
       GB: 2394
   missing_cells: 0
-  particular: Always GB, standing for the UK
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2394
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The balance line as DESNZ writes it, notes included, not a pricing node
   type: text
   values:
     list:
@@ -122,7 +123,6 @@ columns:
       Transformation: 114
       Transport: 114
   missing_cells: 0
-  particular: The balance line as DESNZ writes it, notes included, not a pricing node
 - name: source
   shared: true
   type: text
@@ -146,12 +146,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time
   type: utc time
   values:
     list:
       '2026-09-28T13:26:45Z': 2394
   missing_cells: 0
-  particular: The workbook's last-modified time
 - name: x_provisional
   label: yes for a quarter DESNZ marks provisional (revised in a later issue), else no
   unit: none

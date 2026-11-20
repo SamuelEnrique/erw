@@ -36,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'cftc:<CFTC contract market code>: 067651 WTI crude oil, 06765T Brent Last Day, 023651 Henry Hub natural gas,
+    111659 RBOB gasoline'
   type: text
   values:
     list:
@@ -44,8 +46,6 @@ columns:
       cftc:06765T: 2472
       cftc:111659: 2472
   missing_cells: 0
-  particular: 'cftc:<CFTC contract market code>: 067651 WTI crude oil, 06765T Brent Last Day, 023651 Henry Hub natural gas,
-    111659 RBOB gasoline'
 - name: variable
   shared: true
   type: text
@@ -91,14 +91,15 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: nymex on every row
   type: text
   values:
     list:
       nymex: 9888
   missing_cells: 0
-  particular: nymex on every row
 - name: node
   shared: true
+  particular: The CFTC's market name as printed (its wording changes over the years)
   type: text
   values:
     list:
@@ -112,7 +113,6 @@ columns:
       NATURAL GAS - NEW YORK MERCANTILE EXCHANGE: 1480
       WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE: 992
   missing_cells: 0
-  particular: The CFTC's market name as printed (its wording changes over the years)
 - name: source
   shared: true
   type: text
@@ -146,11 +146,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 9888
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: managed_money_long
   label: Managed money long positions, futures only (the CFTC's m_money_positions_long_all), contracts

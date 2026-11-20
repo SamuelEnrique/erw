@@ -35,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia860m_pipeline:<BA>:<state>:<energy source>:<status>:<planned year> for a cell; eia860m_pipeline:<BA> or eia860m_pipeline:US
+    for a move
   type: text
   values:
     distinct: 924
@@ -45,8 +47,6 @@ columns:
     - eia860m_pipeline:AVA:WA:WND:P:2029
     - eia860m_pipeline:AVRN:OR:MWH:U:2028
   missing_cells: 0
-  particular: eia860m_pipeline:<BA>:<state>:<energy source>:<status>:<planned year> for a cell; eia860m_pipeline:<BA> or eia860m_pipeline:US
-    for a move
 - name: variable
   shared: true
   type: text
@@ -86,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> on a cell, US on a move row or where the state is not a two-letter code
   type: text
   values:
     distinct: 53
@@ -96,21 +97,20 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: US-<state> on a cell, US on a move row or where the state is not a two-letter code
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5147
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5147
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -134,13 +134,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The EIA-860M snapshot month (YYYY-MM)
   type: text
   values:
     list:
       2026-08: 2493
       2026-09: 2654
   missing_cells: 0
-  particular: The EIA-860M snapshot month (YYYY-MM)
 - name: x_ba
   label: The balancing authority of the generators' plants, EIA code (none where EIA gives none); US on the national move
     rows

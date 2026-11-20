@@ -43,6 +43,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:<EIA series id>
   type: text
   values:
     distinct: 41
@@ -53,7 +54,6 @@ columns:
     - eia:F003075783
     - eia:F003075793
   missing_cells: 0
-  particular: eia:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -92,6 +92,8 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The state for a domestic stream, US for the three U.S. refiner series; empty for an import stream and for a
+    PADD
   type: text
   values:
     list:
@@ -102,17 +104,16 @@ columns:
       US-TX: 184
       US-WY: 92
   missing_cells: 1999
-  particular: The state for a domestic stream, US for the three U.S. refiner series; empty for an import stream and for a
-    PADD
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3013
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The stream or area, from EIA's description
   type: text
   values:
     distinct: 38
@@ -123,7 +124,6 @@ columns:
     - California Midway-Sunset
     - Canadian Bow River Heavy
   missing_cells: 0
-  particular: The stream or area, from EIA's description
 - name: source
   shared: true
   type: text
@@ -160,11 +160,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3013
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: first_purchase_price
   label: Domestic crude stream's first purchase price, the month's average, USD a barrel

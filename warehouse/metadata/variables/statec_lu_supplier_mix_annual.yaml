@@ -35,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'statec_mix:lu:<STATEC''s code, lower-cased>: l01 fossil, l02 nuclear, l03 renewable, l04 other and unidentified,
+    sl.. their parts'
   type: text
   values:
     list:
@@ -52,8 +54,6 @@ columns:
       statec_mix:lu:sl08: 16
       statec_mix:lu:sl09: 4
   missing_cells: 0
-  particular: 'statec_mix:lu:<STATEC''s code, lower-cased>: l01 fossil, l02 nuclear, l03 renewable, l04 other and unidentified,
-    sl.. their parts'
 - name: variable
   shared: true
   type: text
@@ -106,21 +106,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always LU (Luxembourg)
   type: text
   values:
     list:
       LU: 196
   missing_cells: 0
-  particular: Always LU (Luxembourg)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 196
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: STATEC's code and label (L03 Renewable energy), not a pricing node
   type: text
   values:
     list:
@@ -138,7 +139,6 @@ columns:
       SL08 Solar energy: 16
       SL09 Other sources of renewable energy: 4
   missing_cells: 0
-  particular: STATEC's code and label (L03 Renewable energy), not a pricing node
 - name: source
   shared: true
   type: text
@@ -162,11 +162,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 196
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: supply_mix_share
   label: The source's share of the electricity supplied to end users in the year, percent (l01 to l04 make 100)

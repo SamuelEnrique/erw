@@ -312,7 +312,7 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 
 - **Time:** event_date is the disaster's begin date; x_end_date its end.
 - **Revisions:** A snapshot written whole each run; the file is reused from the raw files once saved, as the retired record no longer changes. No vintage column.
-- **Source:** noaa:billion_dollar_disasters NOAA National Centers for Environmental Information (NCEI) U.S. Billion-Dollar Weather and Climate Disasters (2025),  DOI: 10.25921/stkw-7w73 (https://www.ncei.noaa.gov/access/billions/)
+- **Source:** noaa:billion_dollar_disasters NOAA National Centers for Environmental Information (NCEI) U.S. Billion-Dollar Weather and Climate Disasters (2025), https://www.ncei.noaa.gov/access/billions/, DOI: 10.25921/stkw-7w73 (https://www.ncei.noaa.gov/access/billions/)
 - **Method note:** [`docs/methods/noaa_ncei_billion_disasters.md`](../methods/noaa_ncei_billion_disasters.md)
 - **Cite as:** NOAA National Centers for Environmental Information (NCEI). U.S. Billion-Dollar Weather and Climate Disasters, events 1980 to 2024 (retired 2025). Via the Energy Research Warehouse (ERW), table `noaa_ncei_billion_disasters`.
 

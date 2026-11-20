@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: The queue table's own entity_id (lbnl:<Berkeley Lab's entity>:<q_id>)
   type: text
   values:
     distinct: 2522
@@ -42,15 +43,14 @@ columns:
     - lbnl:AEC:GI-104
     - lbnl:AEC:GI-116
   missing_cells: 0
-  particular: The queue table's own entity_id (lbnl:<Berkeley Lab's entity>:<q_id>)
 - name: entity_type
   shared: true
+  particular: Always project
   type: text
   values:
     list:
       project: 2522
   missing_cells: 0
-  particular: Always project
 - name: name
   shared: true
   type: text
@@ -65,6 +65,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>; empty where the file gives no state
   type: text
   values:
     distinct: 49
@@ -75,7 +76,6 @@ columns:
     - US-CA
     - US-CO
   missing_cells: 5
-  particular: US-<state>; empty where the file gives no state
 - name: lat
   shared: true
   type: empty
@@ -90,31 +90,31 @@ columns:
   missing_cells: 2522
 - name: capacity_mw
   shared: true
+  particular: The request's MW, as the queue table gives it
   type: number
   values:
     distinct: 1008
     lowest: -27.0
     highest: 4357.4
   missing_cells: 0
-  particular: The request's MW, as the queue table gives it
 - name: status
   shared: true
+  particular: 'Berkeley Lab''s status: active or suspended'
   type: text
   values:
     list:
       active: 2348
       suspended: 174
   missing_cells: 0
-  particular: 'Berkeley Lab''s status: active or suspended'
 - name: status_date
   shared: true
+  particular: The agreement date (ia_date) where given, else empty
   type: date
   values:
     distinct: 785
     earliest: '2002-06-10'
     latest: '2025-12-31'
   missing_cells: 1146
-  particular: The agreement date (ia_date) where given, else empty
 - name: operator
   shared: true
   type: text
@@ -150,12 +150,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The edition as text ('2026 edition (through 2025)'), not a UTC time
   type: text
   values:
     list:
       2026 edition (through 2025): 2522
   missing_cells: 0
-  particular: The edition as text ('2026 edition (through 2025)'), not a UTC time
 - name: queue_id
   label: The request's queue identifier as Berkeley Lab's file gives it (q_id)
   unit: none

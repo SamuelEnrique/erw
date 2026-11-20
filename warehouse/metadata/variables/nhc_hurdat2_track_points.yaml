@@ -34,6 +34,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: nhc:<storm id>:<YYYYMMDDHHMM>
   type: text
   values:
     distinct: more than 5000
@@ -44,7 +45,6 @@ columns:
     - nhc:AL012000:200006081200
     - nhc:AL012001:200106051200
   missing_cells: 0
-  particular: nhc:<storm id>:<YYYYMMDDHHMM>
 - name: event_date
   shared: true
   type: date
@@ -55,6 +55,7 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: The system's status at the fix (tropical storm, hurricane and others)
   type: text
   values:
     list:
@@ -68,15 +69,14 @@ columns:
       tropical_storm: 9720
       wave: 116
   missing_cells: 0
-  particular: The system's status at the fix (tropical storm, hurricane and others)
 - name: parties
   shared: true
+  particular: NHC on every row
   type: text
   values:
     list:
       NHC: 27812
   missing_cells: 0
-  particular: NHC on every row
 - name: entity_ids
   shared: true
   type: empty
@@ -103,11 +103,11 @@ columns:
   missing_cells: 27812
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27812
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -269,12 +269,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The basin file's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-09-30T18:37:36Z': 13836
       '2026-09-30T18:37:37Z': 13976
   missing_cells: 0
-  particular: The basin file's Last-Modified (UTC)
 second_look:
 - 'x_record: the record identifiers C, G, R, S, T and W are not defined in the connector or the method note (L, I and P are).'

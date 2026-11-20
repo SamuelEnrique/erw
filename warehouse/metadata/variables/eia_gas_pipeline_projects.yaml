@@ -33,6 +33,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: eia_gas_pipeline:<project name slug>:<year in service slug>
   type: text
   values:
     distinct: 1334
@@ -43,26 +44,26 @@ columns:
     - eia_gas_pipeline:2015_elko_area_expansion_project:2015
     - eia_gas_pipeline:2018_paiute_expansion_project:2018
   missing_cells: 0
-  particular: eia_gas_pipeline:<project name slug>:<year in service slug>
 - name: event_date
   shared: true
+  particular: Completed date, else the year in service's 1 January, else EIA's last update (x_date_basis)
   type: date
   values:
     distinct: 781
     earliest: '1903-11-05'
     latest: '2031-01-01'
   missing_cells: 0
-  particular: Completed date, else the year in service's 1 January, else EIA's last update (x_date_basis)
 - name: event_type
   shared: true
+  particular: pipeline_project on every row
   type: text
   values:
     list:
       pipeline_project: 1334
   missing_cells: 0
-  particular: pipeline_project on every row
 - name: parties
   shared: true
+  particular: The pipeline operator
   type: text
   values:
     distinct: 403
@@ -73,37 +74,37 @@ columns:
     - ANR Pipeline Company (subsidiary of TC Energy)
     - Adelphia
   missing_cells: 0
-  particular: The pipeline operator
 - name: entity_ids
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1334
-  particular: Not filled
 - name: mw
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1334
-  particular: Not filled
 - name: price
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1334
-  particular: Not filled
 - name: currency
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1334
-  particular: Not filled
 - name: status
   shared: true
+  particular: EIA's status in lower case (completed, construction, approved, cancelled and the others)
   type: text
   values:
     list:
@@ -120,7 +121,6 @@ columns:
       pre-applied: 10
       proposed: 2
   missing_cells: 0
-  particular: EIA's status in lower case (completed, construction, approved, cancelled and the others)
 - name: source
   shared: true
   type: text

@@ -34,13 +34,13 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: spp:SPP (every file) or spp:SWPW (files from 2026-04-01), the reserve region the file names
   type: text
   values:
     list:
       spp:SPP: 128184
       spp:SWPW: 31248
   missing_cells: 0
-  particular: spp:SPP (every file) or spp:SWPW (files from 2026-04-01), the reserve region the file names
 - name: variable
   shared: true
   type: text
@@ -79,29 +79,29 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The same list of fourteen states in every row (SPP's footprint), whatever the region
   type: text
   values:
     list:
       US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 159432
   missing_cells: 0
-  particular: The same list of fourteen states in every row (SPP's footprint), whatever the region
 - name: market
   shared: true
+  particular: 'spp_dam in every row: SPP''s day-ahead market'
   type: text
   values:
     list:
       spp_dam: 159432
   missing_cells: 0
-  particular: 'spp_dam in every row: SPP''s day-ahead market'
 - name: node
   shared: true
+  particular: The reserve region as SPP's file names it, SPP or SWPW; SPP's numbered reserve zones are not held
   type: text
   values:
     list:
       SPP: 128184
       SWPW: 31248
   missing_cells: 0
-  particular: The reserve region as SPP's file names it, SPP or SWPW; SPP's numbered reserve zones are not held
 - name: source
   shared: true
   type: text
@@ -131,11 +131,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 159432
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: as_price_dam_rampdn
   label: Day-ahead clearing price of ramp capability down (SPP's RampDN), USD per MW held for one hour; 0.0 in every hour

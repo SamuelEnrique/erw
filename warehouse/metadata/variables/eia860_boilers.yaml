@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: eia860_boiler:<plant code>:<boiler id>
   type: text
   values:
     distinct: 4384
@@ -47,17 +48,17 @@ columns:
     - eia860_boiler:10003:BLR4
     - eia860_boiler:10003:BLR5
   missing_cells: 0
-  particular: eia860_boiler:<plant code>:<boiler id>
 - name: entity_type
   shared: true
+  particular: 'Always equipment (Decision 54: a part of a plant that is neither a generator nor the plant)'
   type: text
   values:
     list:
       equipment: 4384
   missing_cells: 0
-  particular: 'Always equipment (Decision 54: a part of a plant that is neither a generator nor the plant)'
 - name: name
   shared: true
+  particular: The plant's name, the word boiler and the boiler id
   type: text
   values:
     distinct: 4384
@@ -68,9 +69,9 @@ columns:
     - A B Brown boiler 1
     - A B Brown boiler 2
   missing_cells: 0
-  particular: The plant's name, the word boiler and the boiler id
 - name: geo
   shared: true
+  particular: US-<plant state>
   type: text
   values:
     distinct: 51
@@ -81,30 +82,31 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<plant state>
 - name: lat
   shared: true
+  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4384
-  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
 - name: lon
   shared: true
+  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4384
-  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
 - name: capacity_mw
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4384
-  particular: Not filled
 - name: status
   shared: true
+  particular: 'EIA''s boiler status code (x_eia_status) as the standard''s word, read in capitals: OP, SB, OA, OS, SC, OZ
+    operating; PL planned; CO, TS under_construction; RE retired; CN withdrawn'
   type: text
   values:
     list:
@@ -114,20 +116,19 @@ columns:
       under_construction: 11
       withdrawn: 18
   missing_cells: 0
-  particular: 'EIA''s boiler status code (x_eia_status) as the standard''s word, read in capitals: OP, SB, OA, OS, SC, OZ
-    operating; PL planned; CO, TS under_construction; RE retired; CN withdrawn'
 - name: status_date
   shared: true
+  particular: The first day of the month in service (operating) or of retirement (retired); empty for 233 operating boilers
+    with no in-service month or year, 54 retired with no retirement date, and the others
   type: date
   values:
     distinct: 785
     earliest: '1926-06-01'
     latest: '2050-12-01'
   missing_cells: 324
-  particular: The first day of the month in service (operating) or of retirement (retired); empty for 233 operating boilers
-    with no in-service month or year, 54 retired with no retirement date, and the others
 - name: operator
   shared: true
+  particular: EIA's Utility Name
   type: text
   values:
     distinct: 894
@@ -138,7 +139,6 @@ columns:
     - AES Huntington Beach LLC
     - AES Indiana
   missing_cells: 0
-  particular: EIA's Utility Name
 - name: source
   shared: true
   type: text
@@ -162,12 +162,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The data year, 2025
   type: integer
   values:
     list:
       '2025': 4384
   missing_cells: 0
-  particular: The data year, 2025
 - name: x_plant_code
   label: EIA's plant code
   unit: none

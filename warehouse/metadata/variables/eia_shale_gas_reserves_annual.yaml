@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_shale_gas_reserves:<EIA series id>
   type: text
   values:
     distinct: 469
@@ -46,7 +47,6 @@ columns:
     - eia_shale_gas_reserves:RES_EPG0_R5301_RCAJ_BCF
     - eia_shale_gas_reserves:RES_EPG0_R5301_RCASF_BCF
   missing_cells: 0
-  particular: eia_shale_gas_reserves:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -98,6 +98,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation
   type: text
   values:
     list:
@@ -123,16 +124,16 @@ columns:
       US-WV: 122
       US-WY: 122
   missing_cells: 0
-  particular: US-<state>, or US for the nation
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4455
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's description
   type: text
   values:
     distinct: 469
@@ -143,7 +144,6 @@ columns:
     - Alabama (with State Offshore) Shale Proved Reserves Adjustments (Billion Cubic Feet)
     - Alabama (with State Offshore) Shale Proved Reserves Divestitures (Billion Cubic Feet)
   missing_cells: 0
-  particular: EIA's description
 - name: source
   shared: true
   type: text
@@ -169,11 +169,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4455
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: acquisitions
   label: Shale gas proved reserves acquired, billion cubic feet

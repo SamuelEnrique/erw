@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ilr:lu:<customer class, energy source or neighbour country>
   type: text
   values:
     list:
@@ -55,7 +56,6 @@ columns:
       ilr:lu:total: 37
       ilr:lu:usine_d_incineration: 28
   missing_cells: 0
-  particular: ilr:lu:<customer class, energy source or neighbour country>
 - name: variable
   shared: true
   type: text
@@ -89,30 +89,31 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: P1M for monthly withdrawals, P1Y for the annual blocks
   type: text
   values:
     list:
       P1M: 342
       P1Y: 326
   missing_cells: 0
-  particular: P1M for monthly withdrawals, P1Y for the annual blocks
 - name: geo
   shared: true
+  particular: LU on every row
   type: text
   values:
     list:
       LU: 668
   missing_cells: 0
-  particular: LU on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 668
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: ILR's label of the class, source or neighbour, in French, not a pricing node
   type: text
   values:
     list:
@@ -132,7 +133,6 @@ columns:
       Total: 37
       Usine d'incinération: 28
   missing_cells: 0
-  particular: ILR's label of the class, source or neighbour, in French, not a pricing node
 - name: source
   shared: true
   type: text
@@ -157,12 +157,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time (UTC)
   type: utc time
   values:
     list:
       '2026-09-01T13:53:32Z': 668
   missing_cells: 0
-  particular: The workbook's last-modified time (UTC)
 - name: x_block
   label: The sheet's number and the block's title, in French
   unit: none

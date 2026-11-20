@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930_subba:<parent>:<subba>, the source table's
   type: text
   values:
     distinct: 90
@@ -44,7 +45,6 @@ columns:
     - eia930_subba:CISO:PGAE
     - eia930_subba:CISO:SCE
   missing_cells: 0
-  particular: eia930_subba:<parent>:<subba>, the source table's
 - name: variable
   shared: true
   type: text
@@ -92,21 +92,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 3918
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3918
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The sub-region's code and name with its parent, from the source table, not a pricing node
   type: text
   values:
     distinct: 90
@@ -117,7 +118,6 @@ columns:
     - American Transmission Systems, Inc. zone (PJM Interconnection, LLC)
     - Atlantic Electric zone (PJM Interconnection, LLC)
   missing_cells: 0
-  particular: The sub-region's code and name with its parent, from the source table, not a pricing node
 - name: source
   shared: true
   type: text
@@ -141,11 +141,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3918
-  particular: 'Not filled: no cell holds a value'
 - name: x_at
   label: The peak hour's start, UTC
   unit: none

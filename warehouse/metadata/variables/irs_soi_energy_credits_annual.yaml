@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: irs_soi:<SOI's state code>; US is SOI's national row, OA its other areas
   type: text
   values:
     distinct: 54
@@ -46,7 +47,6 @@ columns:
     - irs_soi:AZ
     - irs_soi:CA
   missing_cells: 0
-  particular: irs_soi:<SOI's state code>; US is SOI's national row, OA its other areas
 - name: variable
   shared: true
   type: text
@@ -93,6 +93,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, US for the national row, empty for OA (other areas)
   type: text
   values:
     distinct: 53
@@ -103,16 +104,16 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 20
-  particular: US-<state>, US for the national row, empty for OA (other areas)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1074
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: SOI's state code, not a pricing node
   type: text
   values:
     distinct: 54
@@ -123,7 +124,6 @@ columns:
     - AZ
     - CA
   missing_cells: 0
-  particular: SOI's state code, not a pricing node
 - name: source
   shared: true
   type: text
@@ -163,6 +163,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The year's file's Last-Modified (UTC; one file gives 1970-01-01, an epoch time)
   type: utc time
   values:
     list:
@@ -176,7 +177,6 @@ columns:
       '2025-11-07T08:57:12Z': 106
       '2026-08-21T14:12:00Z': 216
   missing_cells: 0
-  particular: The year's file's Last-Modified (UTC; one file gives 1970-01-01, an epoch time)
 - name: x_soi_column
   label: 'SOI''s column the value is read from (N07260, A07260, N07262, A07262, N07265, A07265: N a count of returns, A an
     amount)'

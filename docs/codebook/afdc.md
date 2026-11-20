@@ -55,7 +55,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 - **Time:** ts_utc is 1 January of the year at 00:00:00Z; the count is as of late December of that year; freq P1Y.
 - **Revisions:** Rewritten whole by each run (a snapshot); vintage is the workbook's Last-Modified time.
-- **Source:** doe:afdc_station_counts DOE, Alternative Fuels Data Center, Historical Station Counts,  (linked from (https://afdc.energy.gov/stations/states)
+- **Source:** doe:afdc_station_counts DOE, Alternative Fuels Data Center, Historical Station Counts, https://afdc.energy.gov/files/docs/historical-station-counts.xlsx (linked from (https://afdc.energy.gov/stations/states)
 - **Method note:** [`docs/methods/afdc_station_counts_annual.md`](../methods/afdc_station_counts_annual.md)
 - **Cite as:** U.S. Department of Energy (DOE). Alternative Fuels Data Center: Historical Alternative Fueling Station Counts. Via the Energy Research Warehouse (ERW), table `afdc_station_counts_annual`.
 

@@ -18,7 +18,8 @@ tier: model_extracted
 interval: event
 source:
 - name: research:large_load_2026-11-13, docs/research/large_load/utilities_2026-11-13.csv (window P4 of the portable laptop,
-    sessions 5300 to 5304; method  each row's source_url is the document it was read in. No request is made by this connector.
+    sessions 5300 to 5304; method https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md); each
+    row's source_url is the document it was read in. No request is made by this connector.
   url: https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md
 cite: US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and
   the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rules`.
@@ -36,6 +37,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: llrule:<row_id>
   type: text
   values:
     distinct: 100
@@ -46,26 +48,26 @@ columns:
     - llrule:aep-08
     - llrule:ameren_evergy_spp-01
   missing_cells: 0
-  particular: llrule:<row_id>
 - name: event_date
   shared: true
+  particular: The rule's status date the documents print, else the day read (x_date_kind)
   type: date
   values:
     distinct: 56
     earliest: '2010-01-01'
     latest: '2026-11-13'
   missing_cells: 0
-  particular: The rule's status date the documents print, else the day read (x_date_kind)
 - name: event_type
   shared: true
+  particular: Always large_load_rule
   type: text
   values:
     list:
       large_load_rule: 100
   missing_cells: 0
-  particular: Always large_load_rule
 - name: parties
   shared: true
+  particular: The utility or commission whose rule it is
   type: text
   values:
     distinct: 80
@@ -76,7 +78,6 @@ columns:
     - Ameren Illinois Company d/b/a Ameren Illinois
     - Arizona Public Service Company
   missing_cells: 0
-  particular: The utility or commission whose rule it is
 - name: entity_ids
   shared: true
   type: empty
@@ -85,11 +86,11 @@ columns:
   missing_cells: 100
 - name: mw
   shared: true
+  particular: 'Not filled: the files print sizes as phrases (x_threshold_mw)'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 100
-  particular: 'Not filled: the files print sizes as phrases (x_threshold_mw)'
 - name: price
   shared: true
   type: empty
@@ -104,6 +105,7 @@ columns:
   missing_cells: 100
 - name: status
   shared: true
+  particular: 'The rule''s state: ordered, proposed, approved, in effect, denied or withdrawn'
   type: text
   values:
     list:
@@ -113,7 +115,6 @@ columns:
       ordered: 1
       proposed: 25
   missing_cells: 0
-  particular: 'The rule''s state: ordered, proposed, approved, in effect, denied or withdrawn'
 - name: source
   shared: true
   type: text
@@ -123,6 +124,7 @@ columns:
   missing_cells: 0
 - name: source_url
   shared: true
+  particular: The document the rule was read in
   type: text
   values:
     distinct: 91
@@ -133,7 +135,6 @@ columns:
     - https://apps.puc.state.or.us/orders/2026ords/26-154.pdf
     - https://apps.puc.state.or.us/orders/2026ords/26-443.pdf
   missing_cells: 0
-  particular: The document the rule was read in
 - name: x_row_id
   label: The research file's identifier of the rule (<group>-<number>)
   unit: none

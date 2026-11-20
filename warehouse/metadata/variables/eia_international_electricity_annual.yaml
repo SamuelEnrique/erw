@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_intl:<EIA country code CAN, MEX, USA>:<EIA product id>
   type: text
   values:
     distinct: 51
@@ -46,7 +47,6 @@ columns:
     - eia_intl:CAN:27
     - eia_intl:CAN:28
   missing_cells: 0
-  particular: eia_intl:<EIA country code CAN, MEX, USA>:<EIA product id>
 - name: variable
   shared: true
   type: text
@@ -86,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The country's two-letter ISO code (CA, MX, US)
   type: text
   values:
     list:
@@ -93,16 +94,16 @@ columns:
       MX: 1355
       US: 1431
   missing_cells: 0
-  particular: The country's two-letter ISO code (CA, MX, US)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4131
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: <country>, <product> in EIA's names
   type: text
   values:
     distinct: 51
@@ -113,7 +114,6 @@ columns:
     - Canada, Fossil fuels
     - Canada, Geothermal
   missing_cells: 0
-  particular: <country>, <product> in EIA's names
 - name: source
   shared: true
   type: text
@@ -138,11 +138,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4131
-  particular: 'Not filled: no cell holds a value'
 - name: x_data_flag
   label: EIA's flag on the value where it gives one (for example a value that rounds to zero)
   unit: none

@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: usace_nid:<Federal ID> (unique; the NID ID repeats for associated structures and is in nid_id)
   type: text
   values:
     distinct: more than 5000
@@ -42,17 +43,17 @@ columns:
     - usace_nid:AK00004
     - usace_nid:AK00005
   missing_cells: 0
-  particular: usace_nid:<Federal ID> (unique; the NID ID repeats for associated structures and is in nid_id)
 - name: entity_type
   shared: true
+  particular: dam on every row
   type: text
   values:
     list:
       dam: 92788
   missing_cells: 0
-  particular: dam on every row
 - name: name
   shared: true
+  particular: The dam's name
   type: text
   values:
     distinct: more than 5000
@@ -63,9 +64,9 @@ columns:
     - '#2'
     - '#3 Slurry Pond'
   missing_cells: 4335
-  particular: The dam's name
 - name: geo
   shared: true
+  particular: US-<state or territory>
   type: text
   values:
     distinct: 52
@@ -76,39 +77,38 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<state or territory>
 - name: lat
   shared: true
+  particular: As the inventory gives it; empty where only one coordinate of the two is given (that one is in coordinate_given)
   type: number
   values:
     distinct: more than 5000
     lowest: 0.0
     highest: 71.266667
   missing_cells: 162
-  particular: As the inventory gives it; empty where only one coordinate of the two is given (that one is in coordinate_given)
 - name: lon
   shared: true
+  particular: As the inventory gives it; empty where only one coordinate of the two is given (that one is in coordinate_given)
   type: number
   values:
     distinct: more than 5000
     lowest: -176.6873
     highest: 144.7061
   missing_cells: 162
-  particular: As the inventory gives it; empty where only one coordinate of the two is given (that one is in coordinate_given)
 - name: capacity_mw
   shared: true
+  particular: 'Not filled: the inventory gives no MW'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 92788
-  particular: 'Not filled: the inventory gives no MW'
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 92788
-  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -117,6 +117,7 @@ columns:
   missing_cells: 92788
 - name: operator
   shared: true
+  particular: The owners' names
   type: text
   values:
     distinct: more than 5000
@@ -127,7 +128,6 @@ columns:
     - (7) RANCH LLC
     - ','
   missing_cells: 6829
-  particular: The owners' names
 - name: source
   shared: true
   type: text
@@ -151,12 +151,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The inventory's data-last-updated date (YYYY-MM-DD)
   type: date
   values:
     list:
       '2026-10-22': 92788
   missing_cells: 0
-  particular: The inventory's data-last-updated date (YYYY-MM-DD)
 - name: nid_id
   label: The NID ID (shared by a dam's associated structures)
   unit: none

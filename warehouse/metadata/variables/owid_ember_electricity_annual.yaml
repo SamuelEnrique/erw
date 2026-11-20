@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: owid_energy:<ISO alpha-3>, or owid_energy:<region or income group in snake case>
   type: text
   values:
     distinct: 239
@@ -47,7 +48,6 @@ columns:
     - owid_energy:ALB
     - owid_energy:ARE
   missing_cells: 0
-  particular: owid_energy:<ISO alpha-3>, or owid_energy:<region or income group in snake case>
 - name: variable
   shared: true
   type: text
@@ -87,20 +87,21 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 12406
-  particular: 'Not filled: no cell holds a value'
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 12406
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The country's or region's name, not a pricing node
   type: text
   values:
     distinct: 239
@@ -111,7 +112,6 @@ columns:
     - Africa (Ember)
     - Albania
   missing_cells: 0
-  particular: The country's or region's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -135,12 +135,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-09-30T14:42:02Z': 12406
   missing_cells: 0
-  particular: The file's Last-Modified (UTC)
 - name: x_iso_code
   label: The country's ISO alpha-3 code
   unit: none

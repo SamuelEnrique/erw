@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_elec_trade:<Eurostat geo code>:<partner code>
   type: text
   values:
     distinct: more than 5000
@@ -47,7 +48,6 @@ columns:
     - eurostat_elec_trade:AL:AL
     - eurostat_elec_trade:AL:AM
   missing_cells: 0
-  particular: eurostat_elec_trade:<Eurostat geo code>:<partner code>
 - name: variable
   shared: true
   type: text
@@ -99,6 +99,8 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The reporting country's ISO alpha-2 code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020 and
+    EA21
   type: text
   values:
     distinct: 39
@@ -109,8 +111,6 @@ columns:
     - BE
     - BG
   missing_cells: 10020
-  particular: The reporting country's ISO alpha-2 code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020 and
-    EA21
 - name: market
   shared: true
   type: empty
@@ -119,6 +119,7 @@ columns:
   missing_cells: 198783
 - name: node
   shared: true
+  particular: Electricity trade with <partner>, not a pricing node
   type: text
   values:
     distinct: 167
@@ -129,7 +130,6 @@ columns:
     - Electricity trade with Angola
     - Electricity trade with Argentina
   missing_cells: 0
-  particular: Electricity trade with <partner>, not a pricing node
 - name: source
   shared: true
   type: text

@@ -102,7 +102,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 - **Time:** ts_utc is the Central (America/Chicago) date of the 5-minute intervals' starts, at 00:00:00Z.
 - **Revisions:** Merged by (entity, variable, ts_utc) into the table held; the daily run re-reads the 10 days before today, so SPP's changes to those days replace the old rows. vintage is not filled.
-- **Source:** spp:ver_curtailments VER Curtailments (5-minute, by BAA),  (files (https://portal.spp.org/file-browser-api/download/ver-curtailments)
+- **Source:** spp:ver_curtailments VER Curtailments (5-minute, by BAA), https://portal.spp.org/pages/ver-curtailments (files (https://portal.spp.org/file-browser-api/download/ver-curtailments)
 - **Method note:** [`docs/methods/spp_curtailment_daily.md`](../methods/spp_curtailment_daily.md)
 - **Cite as:** Southwest Power Pool (SPP). VER Curtailments (5-minute, by BAA). Via the Energy Research Warehouse (ERW), table `spp_curtailment_daily`.
 

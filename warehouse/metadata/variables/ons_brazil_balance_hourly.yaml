@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'ons:<subsystem>: N, NE, S, SE, or SIN (the national interconnected system)'
   type: text
   values:
     list:
@@ -45,7 +46,6 @@ columns:
       ons:SE: 358128
       ons:SIN: 358128
   missing_cells: 0
-  particular: 'ons:<subsystem>: N, NE, S, SE, or SIN (the national interconnected system)'
 - name: variable
   shared: true
   type: text
@@ -84,21 +84,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: BR on every row
   type: text
   values:
     list:
       BR: 1790640
   missing_cells: 0
-  particular: BR on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1790640
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: ONS's subsystem name in Portuguese, not a pricing node
   type: text
   values:
     list:
@@ -108,7 +109,6 @@ columns:
       SUDESTE/CENTRO-OESTE: 358128
       SUL: 358128
   missing_cells: 0
-  particular: ONS's subsystem name in Portuguese, not a pricing node
 - name: source
   shared: true
   type: text
@@ -141,6 +141,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The yearly file's Last-Modified (UTC)
   type: utc time
   values:
     list:
@@ -152,7 +153,6 @@ columns:
       '2026-01-31T22:01:09Z': 262800
       '2026-10-23T22:00:22Z': 212400
   missing_cells: 0
-  particular: The yearly file's Last-Modified (UTC)
 - name: x_brasilia_hour
   label: ONS's stamp of the hour as printed, Brasilia time
   unit: none

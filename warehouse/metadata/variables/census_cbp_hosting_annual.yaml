@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: census_cbp_518210:<state postal code, lowercase>
   type: text
   values:
     distinct: 51
@@ -46,7 +47,6 @@ columns:
     - census_cbp_518210:az
     - census_cbp_518210:ca
   missing_cells: 0
-  particular: census_cbp_518210:<state postal code, lowercase>
 - name: variable
   shared: true
   type: text
@@ -114,6 +114,7 @@ columns:
   missing_cells: 1836
 - name: node
   shared: true
+  particular: The state's postal code, not a pricing node
   type: text
   values:
     distinct: 51
@@ -124,7 +125,6 @@ columns:
     - AZ
     - CA
   missing_cells: 0
-  particular: The state's postal code, not a pricing node
 - name: source
   shared: true
   type: text

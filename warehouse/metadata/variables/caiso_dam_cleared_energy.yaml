@@ -35,12 +35,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'caiso:system in every row: the ISO''s total'
   type: text
   values:
     list:
       caiso:system: 10640
   missing_cells: 0
-  particular: 'caiso:system in every row: the ISO''s total'
 - name: variable
   shared: true
   type: text
@@ -86,20 +86,20 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'caiso_dam in every row: CAISO''s day-ahead market'
   type: text
   values:
     list:
       caiso_dam: 10640
   missing_cells: 0
-  particular: 'caiso_dam in every row: CAISO''s day-ahead market'
 - name: node
   shared: true
+  particular: 'ISO_TOT_LOAD_MW in every row: the data item read, not a place'
   type: text
   values:
     list:
       ISO_TOT_LOAD_MW: 10640
   missing_cells: 0
-  particular: 'ISO_TOT_LOAD_MW in every row: the data item read, not a place'
 - name: source
   shared: true
   type: text
@@ -129,11 +129,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 10640
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: dam_cleared_energy
   label: CAISO's ISO_TOT_LOAD_MW, the ISO's total MW cleared as demand in the day-ahead market for the hour, MW over the hour

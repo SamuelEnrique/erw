@@ -18,7 +18,8 @@ license: public
 tier: source
 interval: PT1H
 source:
-- name: ercot:NP3-966-ER ERCOT, 60-Day DAM Disclosure Reports,  document list
+- name: ercot:NP3-966-ER ERCOT, 60-Day DAM Disclosure Reports, https://www.ercot.com/mp/data-products/data-product-details?id=NP3-966-ER;
+    document list
   url: https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=13051
 cite: 'Electric Reliability Council of Texas (ERCOT). 60-Day DAM Disclosure Reports (the file 60d_DAM_ESR_Data: Energy Storage
   Resources). Via the Energy Research Warehouse (ERW), table `ercot_dam_esr_awards`.'
@@ -40,6 +41,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<Resource Name>, the storage resource
   type: text
   values:
     distinct: 339
@@ -50,7 +52,6 @@ columns:
     - ercot:ALAMO_ST_ESR1
     - ercot:ALP_BESS_ESR1
   missing_cells: 0
-  particular: ercot:<Resource Name>, the storage resource
 - name: variable
   shared: true
   type: text
@@ -96,14 +97,15 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
   type: text
   values:
     list:
       ercot_dam: 2042277
   missing_cells: 0
-  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
 - name: node
   shared: true
+  particular: The resource's settlement point
   type: text
   values:
     distinct: 295
@@ -114,7 +116,6 @@ columns:
     - ALAMO_ST_RN
     - ALP_BESS_RN
   missing_cells: 0
-  particular: The resource's settlement point
 - name: source
   shared: true
   type: text
@@ -144,13 +145,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: ERCOT's publication time of the day's zip; its Central date is the operating day plus 60 days
   type: utc time
   values:
     distinct: 269
     earliest: '2026-02-04T22:53:33Z'
     latest: '2026-10-30T12:41:46Z'
   missing_cells: 0
-  particular: ERCOT's publication time of the day's zip; its Central date is the operating day plus 60 days
 - name: x_qse
   label: The scheduling entity (QSE) of the resource, ERCOT's code
   unit: none

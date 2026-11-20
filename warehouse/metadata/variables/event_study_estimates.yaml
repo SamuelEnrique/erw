@@ -37,6 +37,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<BA> for demand; ercot:HB_HUBAVG and three other main hubs (isone:.H.INTERNAL_HUB, miso:INDIANA.HUB,
+    nyiso:N.Y.C.) for the price
   type: text
   values:
     list:
@@ -54,8 +56,6 @@ columns:
       nyiso:N.Y.C.: 13
       spp:SPPNORTH_HUB: 13
   missing_cells: 0
-  particular: eia930:<BA> for demand; ercot:HB_HUBAVG and three other main hubs (isone:.H.INTERNAL_HUB, miso:INDIANA.HUB,
-    nyiso:N.Y.C.) for the price
 - name: variable
   shared: true
   type: text
@@ -111,18 +111,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3040
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3040
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -146,11 +146,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3040
-  particular: 'Not filled: no cell holds a value'
 - name: ba
   shared: true
   type: text

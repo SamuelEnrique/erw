@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: wapa_proj:<project> or wapa_proj:wapa_total
   type: text
   values:
     list:
@@ -50,7 +51,6 @@ columns:
       wapa_proj:wapa_total: 18
       wapa_proj:washoe_project: 18
   missing_cells: 0
-  particular: wapa_proj:<project> or wapa_proj:wapa_total
 - name: variable
   shared: true
   type: text
@@ -106,21 +106,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 307
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 307
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The row's label (the project), not a pricing node
   type: text
   values:
     list:
@@ -137,7 +138,6 @@ columns:
       WAPA Total: 18
       Washoe Project: 18
   missing_cells: 0
-  particular: The row's label (the project), not a pricing node
 - name: source
   shared: true
   type: text
@@ -161,12 +161,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-03-20T21:16:04Z': 307
   missing_cells: 0
-  particular: The workbook's Last-Modified (UTC)
 variables:
 - name: energy_sold
   label: Energy sold in the fiscal year

@@ -36,6 +36,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: nrc_app:<the page's name>
   type: text
   values:
     list:
@@ -46,7 +47,6 @@ columns:
       nrc_app:tva-clinch-river-cpa: 1
       nrc_app:university-of-illinois-urbana-champaign-kronos-micro-modular-reactor-kronos-mmr: 1
   missing_cells: 0
-  particular: nrc_app:<the page's name>
 - name: event_date
   shared: true
   type: date
@@ -61,6 +61,7 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: construction_permit_application, early_site_permit_application or limited_work_authorization_application
   type: text
   values:
     list:
@@ -68,9 +69,9 @@ columns:
       early_site_permit_application: 1
       limited_work_authorization_application: 1
   missing_cells: 0
-  particular: construction_permit_application, early_site_permit_application or limited_work_authorization_application
 - name: parties
   shared: true
+  particular: The applicant
   type: text
   values:
     list:
@@ -81,7 +82,6 @@ columns:
       Tennessee Valley Authority (TVA): 1
       University of Illinois Urbana-Champaign: 1
   missing_cells: 0
-  particular: The applicant
 - name: entity_ids
   shared: true
   type: empty
@@ -90,12 +90,12 @@ columns:
   missing_cells: 6
 - name: mw
   shared: true
+  particular: The electric power the page states (MWe), else empty
   type: integer
   values:
     list:
       '320': 1
   missing_cells: 5
-  particular: The electric power the page states (MWe), else empty
 - name: price
   shared: true
   type: empty
@@ -110,6 +110,7 @@ columns:
   missing_cells: 6
 - name: status
   shared: true
+  particular: The latest milestone the page marks done (A), in the NRC's words; empty where none is done
   type: text
   values:
     list:
@@ -118,7 +119,6 @@ columns:
       Issue Environmental Assessment and Finding of No Significant Impact: 1
       Review Schedule Established/Schedule Letter Issued to Applicant: 2
   missing_cells: 1
-  particular: The latest milestone the page marks done (A), in the NRC's words; empty where none is done
 - name: source
   shared: true
   type: text
@@ -158,6 +158,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The project page's last-modified time, UTC
   type: utc time
   values:
     list:
@@ -168,7 +169,6 @@ columns:
       '2026-10-23T13:31:04Z': 1
       '2026-10-23T13:45:04Z': 1
   missing_cells: 0
-  particular: The project page's last-modified time, UTC
 - name: x_project
   label: The project page's title
   unit: none

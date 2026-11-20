@@ -35,6 +35,8 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: caiso_awe:<day>:<type>:<key>, the key the first 10 hex characters of a SHA-1 of the day, type, region (lower
+    case) and time frame
   type: text
   values:
     distinct: 1906
@@ -45,8 +47,6 @@ columns:
     - caiso_awe:1998-07-27:rmo:ec6686dcce
     - caiso_awe:1998-07-27:stage1:a0672fa625
   missing_cells: 0
-  particular: caiso_awe:<day>:<type>:<key>, the key the first 10 hex characters of a SHA-1 of the day, type, region (lower
-    case) and time frame
 - name: event_date
   shared: true
   type: date
@@ -57,6 +57,9 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: 'CAISO''s notice type, lower case: flex_alert (also Power Watch), rmo (Restricted Maintenance Operations, also
+    No Touch), transmission_emergency, eea_watch, eea1 to eea3 (Energy Emergency Alerts, May 2022 on), alert, warning, stage1
+    to stage3, vlrp (Voluntary Load Reduction Program), load_interruption (1-Hour Probable Load Interruptions)'
   type: text
   values:
     list:
@@ -75,17 +78,14 @@ columns:
       vlrp: 8
       warning: 320
   missing_cells: 0
-  particular: 'CAISO''s notice type, lower case: flex_alert (also Power Watch), rmo (Restricted Maintenance Operations, also
-    No Touch), transmission_emergency, eea_watch, eea1 to eea3 (Energy Emergency Alerts, May 2022 on), alert, warning, stage1
-    to stage3, vlrp (Voluntary Load Reduction Program), load_interruption (1-Hour Probable Load Interruptions)'
 - name: parties
   shared: true
+  particular: California ISO on every row
   type: text
   values:
     list:
       California ISO: 1906
   missing_cells: 0
-  particular: California ISO on every row
 - name: entity_ids
   shared: true
   type: empty
@@ -112,12 +112,12 @@ columns:
   missing_cells: 1906
 - name: status
   shared: true
+  particular: declared on every row
   type: text
   values:
     list:
       declared: 1906
   missing_cells: 0
-  particular: declared on every row
 - name: source
   shared: true
   type: text

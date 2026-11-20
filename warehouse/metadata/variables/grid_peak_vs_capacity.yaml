@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: grid_peak_vs_capacity:<grid> (caiso, ercot, isone, miso, nyiso, pjm, spp)
   type: text
   values:
     list:
@@ -48,7 +49,6 @@ columns:
       grid_peak_vs_capacity:pjm: 8
       grid_peak_vs_capacity:spp: 8
   missing_cells: 0
-  particular: grid_peak_vs_capacity:<grid> (caiso, ercot, isone, miso, nyiso, pjm, spp)
 - name: variable
   shared: true
   type: text
@@ -88,12 +88,12 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 56
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
   type: empty
@@ -102,6 +102,7 @@ columns:
   missing_cells: 56
 - name: node
   shared: true
+  particular: The grid's name in capitals (CAISO, ERCOT, ISONE, MISO, NYISO, PJM, SPP), not a pricing node
   type: text
   values:
     list:
@@ -113,7 +114,6 @@ columns:
       PJM: 8
       SPP: 8
   missing_cells: 0
-  particular: The grid's name in capitals (CAISO, ERCOT, ISONE, MISO, NYISO, PJM, SPP), not a pricing node
 - name: source
   shared: true
   type: text

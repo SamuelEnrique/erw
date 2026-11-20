@@ -37,12 +37,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'ercot:system in every row: ERCOT''s whole system'
   type: text
   values:
     list:
       ercot:system: 52608
   missing_cells: 0
-  particular: 'ercot:system in every row: ERCOT''s whole system'
 - name: variable
   shared: true
   type: text
@@ -88,18 +88,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 52608
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 52608
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -127,11 +127,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 52608
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: solar_generation_mw
   label: Hourly aggregated solar output, the workbook's ERCOT.PVGR.GEN (sheet Solar Data), MW

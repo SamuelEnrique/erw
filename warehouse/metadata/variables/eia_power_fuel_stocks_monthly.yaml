@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_power_stocks:<location>:<sector 98 electric power or 99 all sectors>:<fuel COL, PEL or PC>
   type: text
   values:
     distinct: 320
@@ -46,7 +47,6 @@ columns:
     - eia_power_stocks:AK:99:PEL
     - eia_power_stocks:AL:98:COL
   missing_cells: 0
-  particular: eia_power_stocks:<location>:<sector 98 electric power or 99 all sectors>:<fuel COL, PEL or PC>
 - name: variable
   shared: true
   type: text
@@ -86,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation; empty for a census region
   type: text
   values:
     distinct: 53
@@ -96,16 +97,16 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 9221
-  particular: US-<state>, or US for the nation; empty for a census region
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 48702
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's names (location, sector, fuel)
   type: text
   values:
     distinct: 320
@@ -116,7 +117,6 @@ columns:
     - Alabama, Electric Power, coal, excluding waste coal
     - Alabama, Electric Power, petroleum coke
   missing_cells: 0
-  particular: EIA's names (location, sector, fuel)
 - name: source
   shared: true
   type: text
@@ -141,11 +141,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 48702
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: stocks
   label: 'Fuel stocks at power plants at the month''s end: short tons for coal (excluding waste coal) and petroleum coke (EIA''s

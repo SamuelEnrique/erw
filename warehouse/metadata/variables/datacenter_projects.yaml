@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: datacenter:<16 hex>
   type: text
   values:
     distinct: 193
@@ -45,17 +46,17 @@ columns:
     - datacenter:079c16b85e73e417
     - datacenter:0819e443d8f14717
   missing_cells: 0
-  particular: datacenter:<16 hex>
 - name: entity_type
   shared: true
+  particular: Always datacenter
   type: text
   values:
     list:
       datacenter: 193
   missing_cells: 0
-  particular: Always datacenter
 - name: name
   shared: true
+  particular: A model's extraction, checked against the story
   type: text
   values:
     distinct: 34
@@ -66,7 +67,6 @@ columns:
     - Colossus 2
     - Delta Forge 2
   missing_cells: 159
-  particular: A model's extraction, checked against the story
 - name: geo
   shared: true
   type: text
@@ -97,15 +97,17 @@ columns:
   missing_cells: 160
 - name: capacity_mw
   shared: true
+  particular: mw, as a story states it
   type: number
   values:
     distinct: 44
     lowest: 1.0
     highest: 10400.0
   missing_cells: 138
-  particular: mw, as a story states it
 - name: status
   shared: true
+  particular: 'The extractor''s word mapped to the entities vocabulary: announced, applied and permitted to planned, cancelled
+    to withdrawn'
   type: text
   values:
     list:
@@ -114,8 +116,6 @@ columns:
       under_construction: 14
       withdrawn: 8
   missing_cells: 87
-  particular: 'The extractor''s word mapped to the entities vocabulary: announced, applied and permitted to planned, cancelled
-    to withdrawn'
 - name: status_date
   shared: true
   type: empty
@@ -124,6 +124,8 @@ columns:
   missing_cells: 193
 - name: operator
   shared: true
+  particular: The company that will run or use the datacenter, as a story names it; a model's extraction, checked against
+    the story
   type: text
   values:
     distinct: 74
@@ -134,10 +136,9 @@ columns:
     - Amazon
     - Amazon Web Services
   missing_cells: 59
-  particular: The company that will run or use the datacenter, as a story names it; a model's extraction, checked against
-    the story
 - name: source
   shared: true
+  particular: The outlet of the first story
   type: text
   values:
     list:
@@ -158,7 +159,6 @@ columns:
       Utility Dive: 2
       WSJ: 8
   missing_cells: 0
-  particular: The outlet of the first story
 - name: source_url
   shared: true
   type: text
@@ -204,11 +204,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 193
-  particular: 'Not filled: no cell holds a value'
 - name: kind
   label: Always datacenter
   unit: none

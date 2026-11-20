@@ -38,6 +38,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<BA> for demand, generation and intensity; ercot:HB_HUBAVG and <iso>:<hub> for prices; noaa:<station>
+    for weather
   type: text
   values:
     list:
@@ -65,8 +67,6 @@ columns:
       nyiso:N.Y.C.: 162
       spp:SPPNORTH_HUB: 128
   missing_cells: 0
-  particular: eia930:<BA> for demand, generation and intensity; ercot:HB_HUBAVG and <iso>:<hub> for prices; noaa:<station>
-    for weather
 - name: variable
   shared: true
   type: text
@@ -112,6 +112,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Empty on the weather station rows (noaa:<station>)
   type: text
   values:
     list:
@@ -124,9 +125,9 @@ columns:
       US-NY: 2034
       US-TX: 4370
   missing_cells: 13375
-  particular: Empty on the weather station rows (noaa:<station>)
 - name: market
   shared: true
+  particular: 'Filled on the hub price rows only: <iso>_dam or <iso>_rtm'
   type: text
   values:
     list:
@@ -141,9 +142,9 @@ columns:
       spp_dam: 64
       spp_rtm: 64
   missing_cells: 27697
-  particular: 'Filled on the hub price rows only: <iso>_dam or <iso>_rtm'
 - name: node
   shared: true
+  particular: The NOAA ISD station id on the weather rows; empty on the others
   type: integer
   values:
     list:
@@ -158,7 +159,6 @@ columns:
       '72658014922': 1545
       '74486094789': 1545
   missing_cells: 16578
-  particular: The NOAA ISD station id on the weather rows; empty on the others
 - name: source
   shared: true
   type: text
@@ -182,11 +182,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 29953
-  particular: 'Not filled: no cell holds a value'
 - name: ba
   shared: true
   type: text

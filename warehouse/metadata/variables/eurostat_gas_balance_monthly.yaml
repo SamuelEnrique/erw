@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_gas_balance:<geo>
   type: text
   values:
     distinct: 38
@@ -47,7 +48,6 @@ columns:
     - eurostat_gas_balance:BG
     - eurostat_gas_balance:CY
   missing_cells: 0
-  particular: eurostat_gas_balance:<geo>
 - name: variable
   shared: true
   type: text
@@ -86,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020 and EA21
   type: text
   values:
     distinct: 36
@@ -96,7 +97,6 @@ columns:
     - BG
     - CY
   missing_cells: 1724
-  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020 and EA21
 - name: market
   shared: true
   type: empty
@@ -105,6 +105,7 @@ columns:
   missing_cells: 53214
 - name: node
   shared: true
+  particular: <geo> natural gas <NRG_BAL code>, not a pricing node
   type: text
   values:
     distinct: 580
@@ -115,7 +116,6 @@ columns:
     - AL natural gas FC_OTH
     - AL natural gas FLARE
   missing_cells: 0
-  particular: <geo> natural gas <NRG_BAL code>, not a pricing node
 - name: source
   shared: true
   type: text

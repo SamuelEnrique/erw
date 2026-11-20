@@ -57,12 +57,12 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: Always policy_read
   type: text
   values:
     list:
       policy_read: 412
   missing_cells: 0
-  particular: Always policy_read
 - name: parties
   shared: true
   type: text
@@ -115,11 +115,11 @@ columns:
   missing_cells: 412
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 412
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text

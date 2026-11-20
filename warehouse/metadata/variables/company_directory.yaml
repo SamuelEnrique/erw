@@ -37,6 +37,8 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: company:eia-<EIA utility id> where the company has one (company:eia-<id>-860 for EIA-860 rows of an id EIA-861
+    lists as another firm's power marketer), else company:<normalized name>
   type: text
   values:
     distinct: more than 5000
@@ -47,18 +49,18 @@ columns:
     - company:1st-rochdale-cooperative-group
     - company:212-solar-development
   missing_cells: 0
-  particular: company:eia-<EIA utility id> where the company has one (company:eia-<id>-860 for EIA-860 rows of an id EIA-861
-    lists as another firm's power marketer), else company:<normalized name>
 - name: entity_type
   shared: true
+  particular: Always company
   type: text
   values:
     list:
       company: 14033
   missing_cells: 0
-  particular: Always company
 - name: name
   shared: true
+  particular: The reviewed aliases' canonical name, else EIA-861's newest name, else the NRC's parent field's, else the spelling
+    its rows use most
   type: text
   values:
     distinct: more than 5000
@@ -69,16 +71,14 @@ columns:
     - 1008 Matthews Solar, LLC
     - 1009 Yadkin Solar, LLC
   missing_cells: 0
-  particular: The reviewed aliases' canonical name, else EIA-861's newest name, else the NRC's parent field's, else the spelling
-    its rows use most
 - name: geo
   shared: true
+  particular: Always US
   type: text
   values:
     list:
       US: 14033
   missing_cells: 0
-  particular: Always US
 - name: lat
   shared: true
   type: empty
@@ -93,29 +93,29 @@ columns:
   missing_cells: 14033
 - name: capacity_mw
   shared: true
+  particular: 'plants_mw: nameplate of the operating generators it operates (EIA-860M); empty where it operates none'
   type: number
   values:
     distinct: 1665
     lowest: 0.1
     highest: 40818.1
   missing_cells: 7973
-  particular: 'plants_mw: nameplate of the operating generators it operates (EIA-860M); empty where it operates none'
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 14033
-  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
+  particular: The latest date its rows state (as last_seen)
   type: date
   values:
     distinct: 1691
     earliest: '1906-11-01'
     latest: '2039-12-01'
   missing_cells: 1787
-  particular: The latest date its rows state (as last_seen)
 - name: operator
   shared: true
   type: empty

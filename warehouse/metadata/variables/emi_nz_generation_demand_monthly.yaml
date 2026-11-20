@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: emi:nz (New Zealand), emi:ni (North Island) or emi:si (South Island)
   type: text
   values:
     list:
@@ -42,7 +43,6 @@ columns:
       emi:nz: 282
       emi:si: 282
   missing_cells: 0
-  particular: emi:nz (New Zealand), emi:ni (North Island) or emi:si (South Island)
 - name: variable
   shared: true
   type: text
@@ -81,21 +81,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: NZ on every row, island rows included
   type: text
   values:
     list:
       NZ: 846
   missing_cells: 0
-  particular: NZ on every row, island rows included
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 846
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EMI's region name, not a pricing node
   type: text
   values:
     list:
@@ -103,7 +104,6 @@ columns:
       North Island: 282
       South Island: 282
   missing_cells: 0
-  particular: EMI's region name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -137,11 +137,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 846
-  particular: 'Not filled: no cell holds a value'
 - name: x_region_id
   label: 'EMI''s region id: NZ, NI or SI'
   unit: none

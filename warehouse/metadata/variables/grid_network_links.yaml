@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<A>-<B>, A the code that sorts first
   type: text
   values:
     distinct: 158
@@ -43,7 +44,6 @@ columns:
     - eia930:AECI-SWPP
     - eia930:AECI-TVA
   missing_cells: 0
-  particular: eia930:<A>-<B>, A the code that sorts first
 - name: variable
   shared: true
   type: text
@@ -133,6 +133,7 @@ columns:
   missing_cells: 26400
 - name: ba
   shared: true
+  particular: A, the authority of the pair whose code sorts first
   type: text
   values:
     distinct: 55
@@ -143,7 +144,6 @@ columns:
     - avrn
     - azps
   missing_cells: 0
-  particular: A, the authority of the pair whose code sorts first
 - name: x_to_ba
   label: B, the other authority of the pair (the code that sorts second), EIA-930 code in lowercase
   unit: none

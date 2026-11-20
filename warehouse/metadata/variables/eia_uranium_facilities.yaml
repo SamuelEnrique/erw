@@ -16,7 +16,7 @@ tier: source
 interval: snapshot
 source:
 - name: 'eia:uranium_production_quarterly U.S. Energy Information Administration, Domestic Uranium Production Report (Quarterly),
-    Forms EIA-851Q and EIA-851A,  (Release Date: August 2026)'
+    Forms EIA-851Q and EIA-851A, https://www.eia.gov/uranium/production/quarterly/ (Release Date: August 2026)'
   url: https://www.eia.gov/uranium/production/quarterly/
 cite: U.S. Energy Information Administration (EIA). Domestic Uranium Production Report (Quarterly). Via the Energy Research
   Warehouse (ERW), table `eia_uranium_facilities`.
@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: eia_uranium_facility:<name>
   type: text
   values:
     list:
@@ -61,17 +62,17 @@ columns:
       eia_uranium_facility:white_mesa_mill: 1
       eia_uranium_facility:willow_creek_project_ludeman_christensen_ranch_and_irigaray: 1
   missing_cells: 0
-  particular: eia_uranium_facility:<name>
 - name: entity_type
   shared: true
+  particular: plant on every row
   type: text
   values:
     list:
       plant: 24
   missing_cells: 0
-  particular: plant on every row
 - name: name
   shared: true
+  particular: The facility's name as EIA writes it
   type: text
   values:
     list:
@@ -100,9 +101,9 @@ columns:
       White Mesa Mill: 1
       Willow Creek Project (Ludeman, Christensen Ranch And Irigaray): 1
   missing_cells: 0
-  particular: The facility's name as EIA writes it
 - name: geo
   shared: true
+  particular: US-<state> of the facility
   type: text
   values:
     list:
@@ -112,7 +113,6 @@ columns:
       US-UT: 2
       US-WY: 12
   missing_cells: 0
-  particular: US-<state> of the facility
 - name: lat
   shared: true
   type: empty
@@ -127,18 +127,18 @@ columns:
   missing_cells: 24
 - name: capacity_mw
   shared: true
+  particular: 'Not filled: the capacity is in ore or pounds, in x_capacity'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 24
-  particular: 'Not filled: the capacity is in ore or pounds, in x_capacity'
 - name: status
   shared: true
+  particular: 'Not filled: EIA''s status of each period is in the x_status_ columns'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 24
-  particular: 'Not filled: EIA''s status of each period is in the x_status_ columns'
 - name: status_date
   shared: true
   type: empty
@@ -147,6 +147,7 @@ columns:
   missing_cells: 24
 - name: operator
   shared: true
+  particular: The owner, as EIA writes it
   type: text
   values:
     list:
@@ -163,7 +164,6 @@ columns:
       Uranium Energy Corp.: 1
       Uranium Energy Corporation: 9
   missing_cells: 0
-  particular: The owner, as EIA writes it
 - name: source
   shared: true
   type: text
@@ -188,13 +188,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time from EIA's server
   type: utc time
   values:
     list:
       '2026-08-19T13:52:39Z': 4
       '2026-08-19T13:54:03Z': 20
   missing_cells: 0
-  particular: The workbook's last-modified time from EIA's server
 - name: x_kind
   label: mill (a mill or heap leach facility) or isr (an in-situ recovery plant)
   unit: none

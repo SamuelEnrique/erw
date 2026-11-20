@@ -5,9 +5,11 @@
 table: news_stories
 family: news
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One energy news story from the ERW's feeds (title, summary trimmed to 500 characters and link, never the article body),
+  with the scoring model's fields once scored.
+time: event_date is the story's publish time in UTC, as the feed gives it.
+vintage_rule: 'Merged by event_id (news:<16 hex of the canonical URL''s sha1>): a story already stored is never rewritten
+  by the ingest, so its scores stay; the scorer fills the score fields of unscored stories. No vintage column.'
 keys:
 - event_id
 license: internal
@@ -63,12 +65,14 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The story's publish time, UTC
 - name: event_type
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: news on every row
 - name: parties
   shared: true
   type: text
@@ -105,68 +109,71 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 27419
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: 'The outlet: the feed''s name, or for a Google News item the outlet in its source element'
 - name: source_url
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The story's link; the outlet's address where a Google News link was resolved
 - name: title
-  label: null
-  unit: null
+  label: The story's title as the feed gives it (the outlet's text)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector ingest.py; method news_index.md
 - name: summary
-  label: null
-  unit: null
+  label: The feed's summary of the story, trimmed to 500 characters (the outlet's text)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 2
-  missing_meaning: null
+  missing_meaning: The feed gave no summary
   source_name: null
-  documented_by: null
+  documented_by: connector ingest.py
 - name: feed
-  label: null
-  unit: null
+  label: The feed the story came from (with the backfill query that found it, for a backfilled story)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector ingest.py
 - name: feed_sector
-  label: null
-  unit: null
+  label: The feed's own beat, from feeds.yaml
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector ingest.py
 - name: feed_region
-  label: null
-  unit: null
+  label: The feed's region, from feeds.yaml
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector ingest.py
 - name: retrieved_at
   shared: true
   type: utc time
@@ -174,123 +181,125 @@ columns:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
 - name: significance
-  label: null
-  unit: null
+  label: The model's score, 0 to 10, of how much the story changes what an informed energy professional believes about where
+    the industry is going (the news rubric)
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 6567
-  missing_meaning: null
+  missing_meaning: The story is not scored yet
   source_name: null
-  documented_by: null
+  documented_by: source warehouse/news/rubric.md; connector score.py
 - name: ai_power_relevance
-  label: null
-  unit: null
+  label: The model's score, 0 to 10, of how directly the story concerns power demand from AI and datacenters and what serves
+    it
+  unit: none
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 6567
-  missing_meaning: null
+  missing_meaning: The story is not scored yet
   source_name: null
-  documented_by: null
+  documented_by: source warehouse/news/rubric.md; connector score.py
 - name: sector
-  label: null
-  unit: null
+  label: The model's sector of the story (one of the scorer's sectors)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 6567
-  missing_meaning: null
+  missing_meaning: The story is not scored yet
   source_name: null
-  documented_by: null
+  documented_by: connector score.py; method news_index.md
 - name: region
-  label: null
-  unit: null
+  label: The model's region of the story (a US state, a country, or global)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 6567
-  missing_meaning: null
+  missing_meaning: The story is not scored yet
   source_name: null
-  documented_by: null
+  documented_by: connector score.py
 - name: price_mentioned
-  label: null
-  unit: null
+  label: The first price or dollar amount the title or summary states, verbatim (the model's copy)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 25303
-  missing_meaning: null
+  missing_meaning: Not scored, or the title and summary state no price
   source_name: null
-  documented_by: null
+  documented_by: connector score.py
 - name: why
-  label: null
-  unit: null
+  label: The model's one-line reason for its scores
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 6567
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The story is not scored yet
+  source_name: one_line_why
+  documented_by: connector score.py
 - name: cluster_id
-  label: null
-  unit: null
+  label: 'Joins stories the model marks as one event (an is_duplicate_of chain), written as a news: id'
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 6567
-  missing_meaning: null
+  missing_meaning: The story is not scored yet
   source_name: null
-  documented_by: null
+  documented_by: method news_index.md; connector score.py
 - name: model_id
-  label: null
-  unit: null
+  label: The model that scored the story
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 6567
-  missing_meaning: null
+  missing_meaning: The story is not scored yet
   source_name: null
-  documented_by: null
+  documented_by: connector score.py
 - name: scored_at
-  label: null
-  unit: null
+  label: When the story was scored, UTC
+  unit: none
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 6567
-  missing_meaning: null
+  missing_meaning: The story is not scored yet
   source_name: null
-  documented_by: null
+  documented_by: connector score.py
 - name: headline
-  label: null
-  unit: null
+  label: The model's plain headline of the story, at most 14 words
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 7199
-  missing_meaning: null
+  missing_meaning: Not scored, or scored before session 7, when the model wrote no headline
   source_name: null
-  documented_by: null
+  documented_by: connector score.py; connector index.py
 - name: google_news_url
-  label: null
-  unit: null
+  label: The Google News link the story came through, moved here when the link was followed to the outlet
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 3585
-  missing_meaning: null
+  missing_meaning: The story did not come through Google News, or its link has not been followed
   source_name: null
-  documented_by: null
+  documented_by: connector ingest.py
 - name: url_resolved
-  label: null
-  unit: null
+  label: Whether the Google News link was followed to the outlet, or no and why
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 3585
-  missing_meaning: null
+  missing_meaning: Not a Google News story, or not tried yet
   source_name: null
-  documented_by: null
+  documented_by: connector ingest.py
 second_look: null

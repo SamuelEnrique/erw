@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<BA>, the seven ISO balancing authorities and US48
   type: text
   values:
     list:
@@ -46,7 +47,6 @@ columns:
       eia930:SWPP: 412
       eia930:US48: 600
   missing_cells: 0
-  particular: eia930:<BA>, the seven ISO balancing authorities and US48
 - name: variable
   shared: true
   type: text

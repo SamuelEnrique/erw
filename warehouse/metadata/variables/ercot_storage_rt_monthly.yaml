@@ -41,6 +41,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:esr_fleet, or a duration class ercot:esr_class_under_2h, _2_to_4h, _4h_and_over, _not_seen_rt
   type: text
   values:
     list:
@@ -50,7 +51,6 @@ columns:
       ercot:esr_class_under_2h: 329
       ercot:esr_fleet: 329
   missing_cells: 0
-  particular: ercot:esr_fleet, or a duration class ercot:esr_class_under_2h, _2_to_4h, _4h_and_over, _not_seen_rt
 - name: variable
   shared: true
   type: text
@@ -106,18 +106,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1620
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1620
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -141,11 +141,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1620
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: as_da_ecrs_mwh
   label: ERCOT Contingency Reserve Service awarded day-ahead, a MW for an hour

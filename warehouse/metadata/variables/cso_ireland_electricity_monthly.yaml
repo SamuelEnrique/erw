@@ -33,12 +33,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: cso:ie on every row
   type: text
   values:
     list:
       cso:ie: 644
   missing_cells: 0
-  particular: cso:ie on every row
 - name: variable
   shared: true
   type: text
@@ -77,28 +77,28 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: IE on every row
   type: text
   values:
     list:
       IE: 644
   missing_cells: 0
-  particular: IE on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 644
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The statistic as CSO names it, not a pricing node
   type: text
   values:
     list:
       Gross Electricity Output: 408
       Net Electricity Output: 236
   missing_cells: 0
-  particular: The statistic as CSO names it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -122,12 +122,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The JSON-stat answer's updated time (UTC)
   type: utc time
   values:
     list:
       '2026-10-09T11:00:00Z': 644
   missing_cells: 0
-  particular: The JSON-stat answer's updated time (UTC)
 - name: x_code
   label: 'CSO''s code of the statistic: MSM01C1 gross output, MSM01C2 net output'
   unit: none

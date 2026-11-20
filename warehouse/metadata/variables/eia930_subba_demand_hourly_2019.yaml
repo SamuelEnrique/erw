@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930_subba:<parent BA>:<sub-region>
   type: text
   values:
     distinct: 82
@@ -44,7 +45,6 @@ columns:
     - eia930_subba:CISO:VEA
     - eia930_subba:ERCO:COAS
   missing_cells: 0
-  particular: eia930_subba:<parent BA>:<sub-region>
 - name: variable
   shared: true
   type: text
@@ -83,12 +83,12 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 687952
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
   type: empty
@@ -97,6 +97,7 @@ columns:
   missing_cells: 687952
 - name: node
   shared: true
+  particular: The sub-region's name and its parent's name, not a pricing node
   type: text
   values:
     distinct: 82
@@ -107,7 +108,6 @@ columns:
     - American Transmission Systems, Inc. zone (PJM Interconnection, LLC)
     - Atlantic Electric zone (PJM Interconnection, LLC)
   missing_cells: 0
-  particular: The sub-region's name and its parent's name, not a pricing node
 - name: source
   shared: true
   type: text

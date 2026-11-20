@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: blm_row:<BLM serial number, spaces removed>
   type: text
   values:
     distinct: 57
@@ -43,17 +44,17 @@ columns:
     - blm_row:CACA013198
     - blm_row:CACA013528
   missing_cells: 0
-  particular: blm_row:<BLM serial number, spaces removed>
 - name: entity_type
   shared: true
+  particular: project on every row
   type: text
   values:
     list:
       project: 57
   missing_cells: 0
-  particular: project on every row
 - name: name
   shared: true
+  particular: BLM's project name (the holder or applicant as BLM writes it)
   type: text
   values:
     distinct: 55
@@ -64,15 +65,14 @@ columns:
     - Alta Windpower Dev. LLC - Southwest
     - BP-Edom Hills Project
   missing_cells: 0
-  particular: BLM's project name (the holder or applicant as BLM writes it)
 - name: geo
   shared: true
+  particular: US-CA on every row
   type: text
   values:
     list:
       US-CA: 57
   missing_cells: 0
-  particular: US-CA on every row
 - name: lat
   shared: true
   type: empty
@@ -87,27 +87,27 @@ columns:
   missing_cells: 57
 - name: capacity_mw
   shared: true
+  particular: 'Not filled: BLM gives no capacity'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 57
-  particular: 'Not filled: BLM gives no capacity'
 - name: status
   shared: true
+  particular: 'Not filled: BLM''s disposition is in x_disposition'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 57
-  particular: 'Not filled: BLM''s disposition is in x_disposition'
 - name: status_date
   shared: true
+  particular: The right-of-way's effective date
   type: date
   values:
     distinct: 32
     earliest: '1982-12-08'
     latest: '2014-03-21'
   missing_cells: 25
-  particular: The right-of-way's effective date
 - name: operator
   shared: true
   type: empty
@@ -140,11 +140,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 57
-  particular: 'Not filled: no cell holds a value'
 - name: x_layer
   label: 'BLM''s layer: verified (layer 0) or preliminary (layer 1) renewable energy rights-of-way'
   unit: none

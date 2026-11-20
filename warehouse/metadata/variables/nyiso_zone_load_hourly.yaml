@@ -38,6 +38,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: nyiso:<zone>, the zone's NYISO name
   type: text
   values:
     list:
@@ -53,7 +54,6 @@ columns:
       nyiso:NORTH: 68848
       nyiso:WEST: 68848
   missing_cells: 0
-  particular: nyiso:<zone>, the zone's NYISO name
 - name: variable
   shared: true
   type: text
@@ -99,14 +99,16 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: nyiso_load in every row
   type: text
   values:
     list:
       nyiso_load: 757328
   missing_cells: 0
-  particular: nyiso_load in every row
 - name: node
   shared: true
+  particular: 'NYISO''s name of the load zone, one of eleven: CAPITL, CENTRL, DUNWOD, GENESE, HUD VL, LONGIL, MHK VL, MILLWD,
+    N.Y.C., NORTH, WEST'
   type: text
   values:
     list:
@@ -122,8 +124,6 @@ columns:
       NORTH: 68848
       WEST: 68848
   missing_cells: 0
-  particular: 'NYISO''s name of the load zone, one of eleven: CAPITL, CENTRL, DUNWOD, GENESE, HUD VL, LONGIL, MHK VL, MILLWD,
-    N.Y.C., NORTH, WEST'
 - name: source
   shared: true
   type: text
@@ -153,13 +153,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified of the monthly file (report P-58C)
   type: utc time
   values:
     distinct: 95
     earliest: '2019-02-01T05:04:05Z'
     latest: '2026-11-16T11:30:08Z'
   missing_cells: 0
-  particular: The Last-Modified of the monthly file (report P-58C)
 variables:
 - name: load
   label: NYISO's Integrated Load for the zone and hour, MW over the hour (P-58C, palIntegrated); no state total is written

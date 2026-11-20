@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ntd_mode:<NTD ID>:<mode>:<type of service>
   type: text
   values:
     distinct: 1425
@@ -46,7 +47,6 @@ columns:
     - ntd_mode:00001:MB:DO
     - ntd_mode:00001:MB:PT
   missing_cells: 0
-  particular: ntd_mode:<NTD ID>:<mode>:<type of service>
 - name: variable
   shared: true
   type: text
@@ -89,6 +89,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state of the agency's headquarters>
   type: text
   values:
     distinct: 51
@@ -99,16 +100,16 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<state of the agency's headquarters>
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 10161
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The agency, mode and type of service as the FTA names them, not a pricing node
   type: text
   values:
     distinct: 1751
@@ -119,7 +120,6 @@ columns:
     - 'Access Services: Demand Response (TX)'
     - 'Ada County Highway District, dba: ACHD Commuteride: Vanpool (DO)'
   missing_cells: 0
-  particular: The agency, mode and type of service as the FTA names them, not a pricing node
 - name: source
   shared: true
   type: text
@@ -143,12 +143,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-10-14T15:08:39Z': 10161
   missing_cells: 0
-  particular: The file's Last-Modified (UTC)
 - name: x_ntd_id
   label: The agency's NTD ID
   unit: none

@@ -60,7 +60,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 - **Time:** ts_utc is the year's 1 January at 00:00:00Z (freq P1Y); the import shares cover 2021 to 2024 (ts_utc 2021-01-01, freq P4Y). 2025 is USGS's estimate.
 - **Revisions:** A snapshot of one edition; each run replaces the table whole. A new edition is a new ScienceBase item. vintage is the file's time (one value).
-- **Source:** usgs:mcs_2026_data U.S. Geological Survey, 2026, Mineral Commodity Summaries 2026 Data Release, Commodity Salient U.S. and World Statistics; Mineral commodity summaries 2026 (https://www.sciencebase.gov/catalog/item/69837e43b66b01367d7ec7c7)
+- **Source:** usgs:mcs_2026_data U.S. Geological Survey, 2026, Mineral Commodity Summaries 2026 Data Release, Commodity Salient U.S. and World Statistics; Mineral commodity summaries 2026, https://doi.org/10.3133/mcs2026 (https://www.sciencebase.gov/catalog/item/69837e43b66b01367d7ec7c7)
 - **Method note:** [`docs/methods/usgs_mcs_critical_minerals.md`](../methods/usgs_mcs_critical_minerals.md)
 - **Cite as:** U.S. Geological Survey (USGS). Mineral Commodity Summaries 2026 Data Release, Commodity Salient U.S. and World Statistics. Via the Energy Research Warehouse (ERW), table `usgs_mcs_critical_minerals`.
 

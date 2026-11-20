@@ -35,13 +35,13 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <market>:<hub> (nyiso:N.Y.C., spp:SPPNORTH_HUB)
   type: text
   values:
     list:
       nyiso:N.Y.C.: 1716
       spp:SPPNORTH_HUB: 2028
   missing_cells: 0
-  particular: <market>:<hub> (nyiso:N.Y.C., spp:SPPNORTH_HUB)
 - name: variable
   shared: true
   type: text
@@ -90,13 +90,13 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: The grid (nyiso, spp), the partition column
   type: text
   values:
     list:
       nyiso: 1716
       spp: 2028
   missing_cells: 0
-  particular: The grid (nyiso, spp), the partition column
 - name: node
   shared: true
   type: text

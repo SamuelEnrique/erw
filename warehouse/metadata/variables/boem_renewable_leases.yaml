@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: boem:<lease or grant number>
   type: text
   values:
     distinct: 52
@@ -42,15 +43,14 @@ columns:
     - boem:ocs-a_0475
     - boem:ocs-a_0478
   missing_cells: 0
-  particular: boem:<lease or grant number>
 - name: entity_type
   shared: true
+  particular: Always project
   type: text
   values:
     list:
       project: 52
   missing_cells: 0
-  particular: Always project
 - name: name
   shared: true
   type: text
@@ -65,12 +65,12 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Always US: the page names no state'
   type: text
   values:
     list:
       US: 52
   missing_cells: 0
-  particular: 'Always US: the page names no state'
 - name: lat
   shared: true
   type: empty
@@ -91,12 +91,12 @@ columns:
   missing_cells: 52
 - name: status
   shared: true
+  particular: active for BOEM's Active, empty for its other words (kept in boem_status)
   type: text
   values:
     list:
       active: 34
   missing_cells: 18
-  particular: active for BOEM's Active, empty for its other words (kept in boem_status)
 - name: status_date
   shared: true
   type: empty
@@ -105,6 +105,7 @@ columns:
   missing_cells: 52
 - name: operator
   shared: true
+  particular: The lessee or grantee
   type: text
   values:
     distinct: 48
@@ -115,7 +116,6 @@ columns:
     - Atlas Offshore Wind LLC
     - Attentive Energy LLC
   missing_cells: 0
-  particular: The lessee or grantee
 - name: source
   shared: true
   type: text
@@ -139,11 +139,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 52
-  particular: 'Not filled: no cell holds a value'
 - name: lease_number
   label: BOEM's lease or grant number (OCS-A 0472)
   unit: none

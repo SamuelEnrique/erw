@@ -35,12 +35,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: dst_ene:dk on every row
   type: text
   values:
     list:
       dst_ene:dk: 360
   missing_cells: 0
-  particular: dst_ene:dk on every row
 - name: variable
   shared: true
   type: text
@@ -79,21 +79,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: DK on every row
   type: text
   values:
     list:
       DK: 360
   missing_cells: 0
-  particular: DK on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 360
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The StatBank codes and texts of the supply item and energy kind, not a pricing node
   type: text
   values:
     list:
@@ -104,7 +105,6 @@ columns:
       ETILVE Supply of renewable energy; EMVAND Hydro power (GWh): 60
       ETILVE Supply of renewable energy; EMVIND Wind power (GWh): 60
   missing_cells: 0
-  particular: The StatBank codes and texts of the supply item and energy kind, not a pricing node
 - name: source
   shared: true
   type: text
@@ -129,11 +129,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 360
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: electricity_imports
   label: Imports of electricity (EIMPORT, EMEL)

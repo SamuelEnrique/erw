@@ -21,7 +21,7 @@ tier: source
 interval: P1Y;P4Y
 source:
 - name: usgs:mcs_2026_data U.S. Geological Survey, 2026, Mineral Commodity Summaries 2026 Data Release, Commodity Salient
-    U.S. and World Statistics; Mineral commodity summaries 2026
+    U.S. and World Statistics; Mineral commodity summaries 2026, https://doi.org/10.3133/mcs2026
   url: https://www.sciencebase.gov/catalog/item/69837e43b66b01367d7ec7c7
 cite: U.S. Geological Survey (USGS). Mineral Commodity Summaries 2026 Data Release, Commodity Salient U.S. and World Statistics.
   Via the Energy Research Warehouse (ERW), table `usgs_mcs_critical_minerals`.
@@ -43,6 +43,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: usgs_mcs:<chapter>:<country>:<the statistic's detail>, slugs of USGS's words
   type: text
   values:
     distinct: 653
@@ -53,7 +54,6 @@ columns:
     - usgs_mcs:aluminum:bahrain:smelter_production
     - usgs_mcs:aluminum:bahrain:yearend_capacity
   missing_cells: 0
-  particular: usgs_mcs:<chapter>:<country>:<the statistic's detail>, slugs of USGS's words
 - name: variable
   shared: true
   type: text
@@ -93,30 +93,31 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: P1Y, or P4Y for the import shares of 2021 to 2024
   type: text
   values:
     list:
       P1Y: 1454
       P4Y: 146
   missing_cells: 0
-  particular: P1Y, or P4Y for the import shares of 2021 to 2024
 - name: geo
   shared: true
+  particular: US for the United States, empty for every other country and the world
   type: text
   values:
     list:
       US: 937
   missing_cells: 663
-  particular: US for the United States, empty for every other country and the world
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1600
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Commodity, country: detail, in USGS''s words (what is weighed is here), not a pricing node'
   type: text
   values:
     distinct: 653
@@ -127,7 +128,6 @@ columns:
     - 'Aluminum, Bahrain: Smelter production'
     - 'Aluminum, Bahrain: Yearend capacity'
   missing_cells: 0
-  particular: 'Commodity, country: detail, in USGS''s words (what is weighed is here), not a pricing node'
 - name: source
   shared: true
   type: text
@@ -152,12 +152,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: One value, the data file's time
   type: utc time
   values:
     list:
       '2026-10-23T12:33:39Z': 1600
   missing_cells: 0
-  particular: One value, the data file's time
 - name: x_chapter
   label: The chapter of the Mineral Commodity Summaries (ALUMINUM, COBALT and the others)
   unit: none

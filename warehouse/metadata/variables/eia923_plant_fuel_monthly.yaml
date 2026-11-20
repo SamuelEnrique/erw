@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia923m:<plant id>:<prime mover>:<fuel type code>:<nuclear unit id, empty for none>
   type: text
   values:
     distinct: more than 5000
@@ -43,7 +44,6 @@ columns:
     - 'eia923m:10003:ST:WO:'
     - 'eia923m:10004:ST:WH:'
   missing_cells: 0
-  particular: eia923m:<plant id>:<prime mover>:<fuel type code>:<nuclear unit id, empty for none>
 - name: variable
   shared: true
   type: text
@@ -93,6 +93,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<plant state> (US-PR for Puerto Rico); US for one entity with no state
   type: text
   values:
     distinct: 53
@@ -103,16 +104,16 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: US-<plant state> (US-PR for Puerto Rico); US for one entity with no state
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 660531
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The plant's name, not a pricing node; empty for one entity EIA gives no name (36 rows)
   type: text
   values:
     distinct: more than 5000
@@ -123,7 +124,6 @@ columns:
     - 145 Talmadge Solar
     - 158th Fighter Wing Solar Farm
   missing_cells: 36
-  particular: The plant's name, not a pricing node; empty for one entity EIA gives no name (36 rows)
 - name: source
   shared: true
   type: text
@@ -147,11 +147,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 660531
-  particular: 'Not filled: no cell holds a value'
 - name: x_operator_id
   label: EIA's identifier of the plant's operator; a dot where EIA gives none
   unit: none

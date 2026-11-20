@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'eia930:<respondent>: balancing authorities and EIA''s regional sums'
   type: text
   values:
     distinct: 83
@@ -47,7 +48,6 @@ columns:
     - eia930:AVRN
     - eia930:AZPS
   missing_cells: 0
-  particular: 'eia930:<respondent>: balancing authorities and EIA''s regional sums'
 - name: variable
   shared: true
   type: text

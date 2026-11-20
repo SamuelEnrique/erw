@@ -36,14 +36,14 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:CISO for the demand measures (EIA-930 demand of CAISO's balancing authority), caiso:ISO for the battery
+    and notice measures
   type: text
   values:
     list:
       caiso:ISO: 2682
       eia930:CISO: 18150
   missing_cells: 0
-  particular: eia930:CISO for the demand measures (EIA-930 demand of CAISO's balancing authority), caiso:ISO for the battery
-    and notice measures
 - name: variable
   shared: true
   type: text
@@ -92,18 +92,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 20832
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 20832
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -127,11 +127,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 20832
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: afternoon_mean_mw
   label: The mean demand of the hours starting 12:00, 13:00 and 14:00, MW

@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'lbnl_durations:<grid>: the seven ISOs'' codes as held, west, southeast, or us for every counted project'
   type: text
   values:
     list:
@@ -47,7 +48,6 @@ columns:
       lbnl_durations:us: 189
       lbnl_durations:west: 154
   missing_cells: 0
-  particular: 'lbnl_durations:<grid>: the seven ISOs'' codes as held, west, southeast, or us for every counted project'
 - name: variable
   shared: true
   type: text
@@ -88,21 +88,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always US, also for a single grid's rows
   type: text
   values:
     list:
       US: 1365
   missing_cells: 0
-  particular: Always US, also for a single grid's rows
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1365
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: Berkeley Lab's region name (CAISO, West, Southeast and the others) or US, not a pricing node
   type: text
   values:
     list:
@@ -116,7 +117,6 @@ columns:
       US: 189
       West: 154
   missing_cells: 0
-  particular: Berkeley Lab's region name (CAISO, West, Southeast and the others) or US, not a pricing node
 - name: source
   shared: true
   type: text
@@ -140,11 +140,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1365
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: median_months
   label: The median time from request to operation of the year's projects, months of 30.4375 days

@@ -37,12 +37,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'ercot:SYSTEM in every row: ERCOT''s whole system'
   type: text
   values:
     list:
       ercot:SYSTEM: 5322
   missing_cells: 0
-  particular: 'ercot:SYSTEM in every row: ERCOT''s whole system'
 - name: variable
   shared: true
   type: text
@@ -88,19 +88,19 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5322
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: SYSTEM in every row, not a price node
   type: text
   values:
     list:
       SYSTEM: 5322
   missing_cells: 0
-  particular: SYSTEM in every row, not a price node
 - name: source
   shared: true
   type: text
@@ -127,11 +127,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5322
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: solar_actual_mw
   label: Actual solar output, ERCOT's SYSTEM_WIDE_GEN from the newest posting that holds the hour (NP4-745-CD), MW

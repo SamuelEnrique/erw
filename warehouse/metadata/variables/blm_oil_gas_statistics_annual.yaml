@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: blm_oil_gas:<state postal code, lower case>
   type: text
   values:
     distinct: 50
@@ -46,7 +47,6 @@ columns:
     - blm_oil_gas:az
     - blm_oil_gas:ca
   missing_cells: 0
-  particular: blm_oil_gas:<state postal code, lower case>
 - name: variable
   shared: true
   type: text
@@ -109,6 +109,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>
   type: text
   values:
     distinct: 50
@@ -119,16 +120,16 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<state>
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 12500
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The state as BLM names it, not a pricing node
   type: text
   values:
     distinct: 50
@@ -139,7 +140,6 @@ columns:
     - Arkansas
     - California
   missing_cells: 0
-  particular: The state as BLM names it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -164,12 +164,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-04-08T14:16:52Z': 12500
   missing_cells: 0
-  particular: The workbook's Last-Modified (UTC)
 - name: x_fiscal_year
   label: The federal fiscal year (October to September)
   unit: none

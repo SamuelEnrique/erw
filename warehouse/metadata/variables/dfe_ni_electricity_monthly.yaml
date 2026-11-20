@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'dfe_ni:gb-nir:<item>: a type or fuel, or total'
   type: text
   values:
     list:
@@ -49,7 +50,6 @@ columns:
       dfe_ni:gb-nir:total: 510
       dfe_ni:gb-nir:wind: 102
   missing_cells: 0
-  particular: 'dfe_ni:gb-nir:<item>: a type or fuel, or total'
 - name: variable
   shared: true
   type: text
@@ -88,21 +88,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: GB-NIR on every row
   type: text
   values:
     list:
       GB-NIR: 1326
   missing_cells: 0
-  particular: GB-NIR on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1326
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: DfE's column header, not a pricing node
   type: text
   values:
     list:
@@ -120,7 +121,6 @@ columns:
       Solar PV(GWh): 102
       Wind (GWh): 102
   missing_cells: 0
-  particular: DfE's column header, not a pricing node
 - name: source
   shared: true
   type: text
@@ -144,12 +144,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The CSV files' Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-09-03T08:30:10Z': 1326
   missing_cells: 0
-  particular: The CSV files' Last-Modified (UTC)
 - name: x_figure
   label: The report figure's link text the row is read from (Figure 6 to Figure 9)
   unit: none

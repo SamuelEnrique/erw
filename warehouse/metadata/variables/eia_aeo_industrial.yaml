@@ -35,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_aeo_2026:<seriesId>.<h>:<case>, h six hex digits of the sha1 of the series' name, since EIA gives one seriesId
+    to two series
   type: text
   values:
     distinct: 2904
@@ -45,8 +47,6 @@ columns:
     - eia_aeo_2026:cnsm_NA_idal_aap_dfo_NA_NA_trlbtu.a0df3d:electrnp
     - eia_aeo_2026:cnsm_NA_idal_aap_dfo_NA_NA_trlbtu.a0df3d:highZTC
   missing_cells: 0
-  particular: eia_aeo_2026:<seriesId>.<h>:<case>, h six hex digits of the sha1 of the series' name, since EIA gives one seriesId
-    to two series
 - name: variable
   shared: true
   type: text
@@ -85,21 +85,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 75504
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 75504
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's name of the series (industry, measure and fuel)
   type: text
   values:
     distinct: 264
@@ -110,7 +111,6 @@ columns:
     - 'Aluminum Industry : Energy Use : Petroleum Coke'
     - 'Aluminum Industry : Energy Use : Petroleum Subtotal'
   missing_cells: 0
-  particular: EIA's name of the series (industry, measure and fuel)
 - name: source
   shared: true
   type: text
@@ -155,11 +155,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 75504
-  particular: 'Not filled: no cell holds a value'
 - name: x_series_id
   label: EIA's series identifier in the AEO (one id can name two series)
   unit: none

@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_lng_storage:<EIA series id>
   type: text
   values:
     distinct: 81
@@ -45,7 +46,6 @@ columns:
     - eia_lng_storage:NA1330_SAR_2
     - eia_lng_storage:NA1330_SCA_2
   missing_cells: 0
-  particular: eia_lng_storage:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -84,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation
   type: text
   values:
     distinct: 42
@@ -94,16 +95,16 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: US-<state>, or US for the nation
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3074
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's description
   type: text
   values:
     distinct: 81
@@ -114,7 +115,6 @@ columns:
     - Alaska Natural Gas LNG Storage Additions (MMcf)
     - Arizona Natural Gas LNG Storage Additions (Million Cubic Feet)
   missing_cells: 0
-  particular: EIA's description
 - name: source
   shared: true
   type: text
@@ -139,11 +139,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3074
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: additions
   label: LNG added to storage (SLI), million cubic feet

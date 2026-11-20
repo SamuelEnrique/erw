@@ -34,6 +34,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: usgs_comcat:<catalog id>
   type: text
   values:
     distinct: more than 5000
@@ -44,24 +45,23 @@ columns:
     - usgs_comcat:ismpkansas70021143
     - usgs_comcat:ismpkansas70021283
   missing_cells: 0
-  particular: usgs_comcat:<catalog id>
 - name: event_date
   shared: true
+  particular: The origin time in UTC to the second
   type: utc time
   values:
     distinct: more than 5000
     earliest: '2010-01-01T18:45:51Z'
     latest: '2026-10-22T05:48:51Z'
   missing_cells: 0
-  particular: The origin time in UTC to the second
 - name: event_type
   shared: true
+  particular: Always earthquake
   type: text
   values:
     list:
       earthquake: 16000
   missing_cells: 0
-  particular: Always earthquake
 - name: parties
   shared: true
   type: empty
@@ -94,13 +94,13 @@ columns:
   missing_cells: 16000
 - name: status
   shared: true
+  particular: The catalog's review status (reviewed or automatic), not a deal's state
   type: text
   values:
     list:
       automatic: 3
       reviewed: 15997
   missing_cells: 0
-  particular: The catalog's review status (reviewed or automatic), not a deal's state
 - name: source
   shared: true
   type: text

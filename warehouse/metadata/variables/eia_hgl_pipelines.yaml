@@ -15,7 +15,8 @@ tier: source
 interval: snapshot
 source:
 - name: 'eia:hgl_pipelines U.S. Energy Information Administration, HGL Pipelines (updated January 2020), as served by Penn
-    State''s PASDA:  in batches (sha256 9e3a5b3a06958a436d3ef6c34e192f11ba8824502006e9ba0b41728ca2a7256b, saved at warehouse/raw/hifld_lines/20261120T024611Z/hgl.geojson)'
+    State''s PASDA: https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/47/query, in batches
+    (sha256 9e3a5b3a06958a436d3ef6c34e192f11ba8824502006e9ba0b41728ca2a7256b, saved at warehouse/raw/hifld_lines/20261120T024611Z/hgl.geojson)'
   url: https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/47/query
 cite: U.S. Energy Information Administration, served by Penn State PASDA. HGL Pipelines (updated January 2020), PASDA map
   service HIFLD_FEMA layer 47. Via the Energy Research Warehouse (ERW), table `eia_hgl_pipelines`.
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: eia:hgl_pipeline:<OBJECTID>
   type: text
   values:
     distinct: 133
@@ -43,17 +45,17 @@ columns:
     - eia:hgl_pipeline:101
     - eia:hgl_pipeline:102
   missing_cells: 0
-  particular: eia:hgl_pipeline:<OBJECTID>
 - name: entity_type
   shared: true
+  particular: pipeline on every row
   type: text
   values:
     list:
       pipeline: 133
   missing_cells: 0
-  particular: pipeline on every row
 - name: name
   shared: true
+  particular: EIA's Pipename
   type: text
   values:
     distinct: 70
@@ -64,46 +66,45 @@ columns:
     - ATEX
     - Aegis
   missing_cells: 0
-  particular: EIA's Pipename
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 133
-  particular: 'Not filled: no cell holds a value'
 - name: lat
   shared: true
+  particular: The line's midpoint
   type: number
   values:
     distinct: 132
     lowest: 26.63288
     highest: 53.11971
   missing_cells: 0
-  particular: The line's midpoint
 - name: lon
   shared: true
+  particular: The line's midpoint
   type: number
   values:
     distinct: 132
     lowest: -114.48627
     highest: -77.4049
   missing_cells: 0
-  particular: The line's midpoint
 - name: capacity_mw
   shared: true
+  particular: 'Not filled: EIA gives no capacity'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 133
-  particular: 'Not filled: EIA gives no capacity'
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 133
-  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -112,6 +113,7 @@ columns:
   missing_cells: 133
 - name: operator
   shared: true
+  particular: EIA's Opername
   type: text
   values:
     list:
@@ -138,7 +140,6 @@ columns:
       VERESEN: 3
       WILLIAMS: 11
   missing_cells: 0
-  particular: EIA's Opername
 - name: source
   shared: true
   type: text
@@ -162,12 +163,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: EIA's update month of the layer (2020-01), not a UTC time
   type: text
   values:
     list:
       2020-01: 133
   missing_cells: 0
-  particular: EIA's update month of the layer (2020-01), not a UTC time
 - name: x_objectid
   label: The layer's object identifier of the segment
   unit: none

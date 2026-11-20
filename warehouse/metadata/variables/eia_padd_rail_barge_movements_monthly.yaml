@@ -38,6 +38,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_padd_movements:<EIA series id>; EIA's area pair is <receiving>-<origin>
   type: text
   values:
     distinct: 689
@@ -48,7 +49,6 @@ columns:
     - eia_padd_movements:ESM_EPC0_RAIL_R20-R10_MBBL
     - eia_padd_movements:ESM_EPC0_RAIL_R20-R30_MBBL
   missing_cells: 0
-  particular: eia_padd_movements:<EIA series id>; EIA's area pair is <receiving>-<origin>
 - name: variable
   shared: true
   type: text
@@ -87,21 +87,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 120742
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 120742
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name (receiving area, area of origin, product)
   type: text
   values:
     distinct: 689
@@ -114,7 +115,6 @@ columns:
     - Central Atlantic (PADD 1B) Receipts by Tanker and Barge from Gulf Coast (PADD 3) of Aviation Gasoline (Thousand Barrels)
     - Central Atlantic (PADD 1B) Receipts by Tanker and Barge from Gulf Coast (PADD 3) of Biodiesel (Thousand Barrels)
   missing_cells: 0
-  particular: EIA's series name (receiving area, area of origin, product)
 - name: source
   shared: true
   type: text
@@ -142,11 +142,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 120742
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: rail_receipts
   label: Receipts by rail in the receiving area from the area of origin, thousand barrels in the month

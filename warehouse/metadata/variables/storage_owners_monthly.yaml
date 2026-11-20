@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia860:utility:<EIA Entity ID> for a company; iso:<grid>, us:outside_isos or us:total for a grid's own totals
   type: text
   values:
     distinct: 967
@@ -46,7 +47,6 @@ columns:
     - eia860:utility:10171
     - eia860:utility:10433
   missing_cells: 0
-  particular: eia860:utility:<EIA Entity ID> for a company; iso:<grid>, us:outside_isos or us:total for a grid's own totals
 - name: variable
   shared: true
   type: text
@@ -89,12 +89,12 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 19180
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
   type: empty

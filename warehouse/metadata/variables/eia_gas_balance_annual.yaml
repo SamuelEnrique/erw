@@ -34,6 +34,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_gas_balance:<process>:<area>, EIA's process code and area (S<state>, NUS, R3FM, with EIA's -Z00 and -Z0S
+    forms)
   type: text
   values:
     distinct: 460
@@ -44,8 +46,6 @@ columns:
     - eia_gas_balance:EEI:SAL-Z00
     - eia_gas_balance:EEI:SAR-Z00
   missing_cells: 0
-  particular: eia_gas_balance:<process>:<area>, EIA's process code and area (S<state>, NUS, R3FM, with EIA's -Z00 and -Z0S
-    forms)
 - name: variable
   shared: true
   type: text
@@ -84,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> for a state area, US otherwise
   type: text
   values:
     distinct: 52
@@ -94,16 +95,16 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: US-<state> for a state area, US otherwise
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 11274
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name
   type: text
   values:
     distinct: 460
@@ -114,7 +115,6 @@ columns:
     - Alabama Natural Gas Balancing Item (MMcf)
     - Alabama Natural Gas Injections into Underground Storage (MMcf)
   missing_cells: 0
-  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -139,11 +139,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 11274
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: balancing_item
   label: EIA's balancing item, the difference supply and disposition leave (VG4), million cubic feet

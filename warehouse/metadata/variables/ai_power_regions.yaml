@@ -41,6 +41,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: iso:<region>, one of caiso, ercot, isone, miso, nyiso, pjm, spp
   type: text
   values:
     list:
@@ -52,7 +53,6 @@ columns:
       iso:pjm: 19
       iso:spp: 28
   missing_cells: 0
-  particular: iso:<region>, one of caiso, ercot, isone, miso, nyiso, pjm, spp
 - name: variable
   shared: true
   type: text
@@ -94,32 +94,32 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 187
-  particular: 'Not filled: no cell holds a value'
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 187
-  particular: 'Not filled: no cell holds a value'
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 187
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 187
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -143,11 +143,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 187
-  particular: 'Not filled: no cell holds a value'
 - name: x_window
   label: The period the measure covers, in words (the twelve months, the Berkeley Lab edition, the ISO queue's retrieval,
     the emergency report's span, or the studied event windows)

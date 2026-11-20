@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_sff:<Eurostat geo code>:<SIEC code>
   type: text
   values:
     distinct: 190
@@ -45,7 +46,6 @@ columns:
     - eurostat_sff:AL:P1100
     - eurostat_sff:AL:S2000
   missing_cells: 0
-  particular: eurostat_sff:<Eurostat geo code>:<SIEC code>
 - name: variable
   shared: true
   type: text
@@ -84,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
   type: text
   values:
     distinct: 37
@@ -94,7 +95,6 @@ columns:
     - BE
     - BG
   missing_cells: 5681
-  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
 - name: market
   shared: true
   type: empty
@@ -103,6 +103,7 @@ columns:
   missing_cells: 209040
 - name: node
   shared: true
+  particular: '<fuel>: <flow>, not a pricing node'
   type: text
   values:
     distinct: 49
@@ -113,7 +114,6 @@ columns:
     - 'Brown coal: Gross inland deliveries - calculated'
     - 'Brown coal: Imports'
   missing_cells: 0
-  particular: '<fuel>: <flow>, not a pricing node'
 - name: source
   shared: true
   type: text

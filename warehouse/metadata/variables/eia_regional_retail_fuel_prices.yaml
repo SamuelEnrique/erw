@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:<EIA series id>
   type: text
   values:
     distinct: 40
@@ -45,7 +46,6 @@ columns:
     - eia:EMD_EPD2D_PTE_R1Y_DPG
     - eia:EMD_EPD2D_PTE_R1Z_DPG
   missing_cells: 0
-  particular: eia:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -84,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US for the nation, US-<state> for a state; empty for a PADD, a sub-PADD, PADD 5 except California, and a city
   type: text
   values:
     list:
@@ -98,16 +99,16 @@ columns:
       US-TX: 410
       US-WA: 410
   missing_cells: 11479
-  particular: US for the nation, US-<state> for a state; empty for a PADD, a sub-PADD, PADD 5 except California, and a city
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 16399
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's area name (region, state or city)
   type: text
   values:
     distinct: 29
@@ -118,7 +119,6 @@ columns:
     - CLEVELAND
     - COLORADO
   missing_cells: 0
-  particular: EIA's area name (region, state or city)
 - name: source
   shared: true
   type: text
@@ -157,11 +157,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 16399
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: retail_price
   label: Weekly retail price of regular gasoline or No. 2 diesel in the area, USD a gallon

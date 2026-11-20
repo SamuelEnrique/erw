@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: nuclear_fleet:<facility>:<generator> for a reactor, nuclear_fleet:grid:<BA> for a grid's fleet, nuclear_fleet:US
   type: text
   values:
     distinct: 124
@@ -47,7 +48,6 @@ columns:
     - nuclear_fleet:1729:2
     - nuclear_fleet:1922:1
   missing_cells: 0
-  particular: nuclear_fleet:<facility>:<generator> for a reactor, nuclear_fleet:grid:<BA> for a grid's fleet, nuclear_fleet:US
 - name: variable
   shared: true
   type: text
@@ -107,21 +107,23 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 15048
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 15048
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The reactor's name (plant, reactor number) from EIA's outage table, not a pricing node; empty on the grid and
+    US rows
   type: text
   values:
     distinct: 107
@@ -132,8 +134,6 @@ columns:
     - Beaver Valley, reactor 2
     - Braidwood Generation Station, reactor 1
   missing_cells: 1340
-  particular: The reactor's name (plant, reactor number) from EIA's outage table, not a pricing node; empty on the grid and
-    US rows
 - name: source
   shared: true
   type: text
@@ -157,11 +157,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 15048
-  particular: 'Not filled: no cell holds a value'
 - name: x_facility
   label: EIA's plant id of the reactor
   unit: none

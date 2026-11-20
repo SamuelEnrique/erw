@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: uspvdb:<case_id>
   type: text
   values:
     distinct: more than 5000
@@ -42,17 +43,17 @@ columns:
     - uspvdb:400009
     - uspvdb:400010
   missing_cells: 0
-  particular: uspvdb:<case_id>
 - name: entity_type
   shared: true
+  particular: plant on every row
   type: text
   values:
     list:
       plant: 6611
   missing_cells: 0
-  particular: plant on every row
 - name: name
   shared: true
+  particular: The facility's name (p_name)
   type: text
   values:
     distinct: more than 5000
@@ -63,9 +64,9 @@ columns:
     - 10 Briggs Solar NG, LLC (East)
     - 10 Finderne Avenue Solar, LLC
   missing_cells: 0
-  particular: The facility's name (p_name)
 - name: geo
   shared: true
+  particular: US-<state>
   type: text
   values:
     distinct: 50
@@ -76,41 +77,40 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<state>
 - name: lat
   shared: true
+  particular: The outline's centroid (ylat)
   type: number
   values:
     distinct: more than 5000
     lowest: 19.6558
     highest: 66.8385
   missing_cells: 0
-  particular: The outline's centroid (ylat)
 - name: lon
   shared: true
+  particular: The outline's centroid (xlong)
   type: number
   values:
     distinct: more than 5000
     lowest: -162.5531
     highest: -67.4623
   missing_cells: 0
-  particular: The outline's centroid (xlong)
 - name: capacity_mw
   shared: true
+  particular: The facility's AC capacity (p_cap_ac)
   type: number
   values:
     distinct: 475
     lowest: 0.2
     highest: 690.0
   missing_cells: 0
-  particular: The facility's AC capacity (p_cap_ac)
 - name: status
   shared: true
+  particular: 'Not filled: the database lists facilities in operation'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 6611
-  particular: 'Not filled: the database lists facilities in operation'
 - name: status_date
   shared: true
   type: empty
@@ -146,11 +146,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 6611
-  particular: 'Not filled: no cell holds a value'
 - name: case_id
   label: The database's id of the facility
   unit: none

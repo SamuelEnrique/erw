@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_crude_imp:<Eurostat geo code>:<partner code>
   type: text
   values:
     distinct: more than 5000
@@ -44,7 +45,6 @@ columns:
     - eurostat_crude_imp:AL:AL
     - eurostat_crude_imp:AL:AM
   missing_cells: 0
-  particular: eurostat_crude_imp:<Eurostat geo code>:<partner code>
 - name: variable
   shared: true
   type: text
@@ -83,6 +83,8 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The importing country's ISO alpha-2 code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020 and
+    EA21
   type: text
   values:
     distinct: 35
@@ -93,8 +95,6 @@ columns:
     - BG
     - CY
   missing_cells: 23183
-  particular: The importing country's ISO alpha-2 code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020 and
-    EA21
 - name: market
   shared: true
   type: empty
@@ -103,6 +103,7 @@ columns:
   missing_cells: 565941
 - name: node
   shared: true
+  particular: Crude oil imports from <partner>, not a pricing node
   type: text
   values:
     distinct: 173
@@ -113,7 +114,6 @@ columns:
     - Crude oil imports from Angola
     - Crude oil imports from Argentina
   missing_cells: 0
-  particular: Crude oil imports from <partner>, not a pricing node
 - name: source
   shared: true
   type: text

@@ -36,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_epa:heat_rate:<source>, eia_epa:tested_heat_rate:<prime mover>:<source>, eia_epa:iou_finance:<line path>,
+    or eia_epa:iou_plant_expense:<plant type>
   type: text
   values:
     distinct: 39
@@ -46,8 +48,6 @@ columns:
     - eia_epa:heat_rate:petroleum
     - eia_epa:iou_finance:net_utility_operating_income
   missing_cells: 0
-  particular: eia_epa:heat_rate:<source>, eia_epa:tested_heat_rate:<prime mover>:<source>, eia_epa:iou_finance:<line path>,
-    or eia_epa:iou_plant_expense:<plant type>
 - name: variable
   shared: true
   type: text
@@ -97,21 +97,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 550
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 550
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's row name
   type: text
   values:
     distinct: 48
@@ -122,7 +123,6 @@ columns:
     - Combined Cycle, Petroleum, average tested heat rate
     - Cost of Fuel
   missing_cells: 0
-  particular: EIA's row name
 - name: source
   shared: true
   type: text
@@ -150,11 +150,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 550
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: amount
   label: A line of investor-owned utilities' revenue and expenses, USD (table 8.3, EIA's million dollars times 1,000,000);

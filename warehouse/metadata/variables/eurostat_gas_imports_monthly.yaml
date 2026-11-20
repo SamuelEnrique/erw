@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_gas_imports:<geo>:<SIEC>:<partner>
   type: text
   values:
     distinct: 865
@@ -43,7 +44,6 @@ columns:
     - eurostat_gas_imports:AT:G3000:CH
     - eurostat_gas_imports:AT:G3000:CZ
   missing_cells: 0
-  particular: eurostat_gas_imports:<geo>:<SIEC>:<partner>
 - name: variable
   shared: true
   type: text
@@ -82,6 +82,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020 and EA21
   type: text
   values:
     distinct: 34
@@ -92,7 +93,6 @@ columns:
     - BG
     - CZ
   missing_cells: 7531
-  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020 and EA21
 - name: market
   shared: true
   type: empty
@@ -101,6 +101,7 @@ columns:
   missing_cells: 34905
 - name: node
   shared: true
+  particular: <geo> <SIEC> from <partner>, not a pricing node
   type: text
   values:
     distinct: 865
@@ -111,7 +112,6 @@ columns:
     - AT G3000 from CH
     - AT G3000 from CZ
   missing_cells: 0
-  particular: <geo> <SIEC> from <partner>, not a pricing node
 - name: source
   shared: true
   type: text

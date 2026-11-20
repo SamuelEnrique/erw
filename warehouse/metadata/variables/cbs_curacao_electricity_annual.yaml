@@ -33,12 +33,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: cbs_cw:aqualectra on every row
   type: text
   values:
     list:
       cbs_cw:aqualectra: 3
   missing_cells: 0
-  particular: cbs_cw:aqualectra on every row
 - name: variable
   shared: true
   type: text
@@ -79,27 +79,27 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: CW on every row
   type: text
   values:
     list:
       CW: 3
   missing_cells: 0
-  particular: CW on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: CBS's label, not a pricing node
   type: text
   values:
     list:
       Electricity Production (mln kWh): 3
   missing_cells: 0
-  particular: CBS's label, not a pricing node
 - name: source
   shared: true
   type: text
@@ -123,11 +123,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: production
   label: Electricity produced by Aqualectra in the year (CBS's million kWh times 1,000)

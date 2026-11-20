@@ -40,6 +40,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: noaa:<GHCN identifier> (USW000 and the WBAN)
   type: text
   values:
     distinct: 35
@@ -50,7 +51,6 @@ columns:
     - noaa:USW00003947
     - noaa:USW00012921
   missing_cells: 0
-  particular: noaa:<GHCN identifier> (USW000 and the WBAN)
 - name: variable
   shared: true
   type: text
@@ -89,6 +89,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> of the station
   type: text
   values:
     list:
@@ -111,16 +112,16 @@ columns:
       US-VA: 137282
       US-WI: 137292
   missing_cells: 0
-  particular: US-<state> of the station
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4781257
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The station's airport code (DFW, LAX and the others), not a pricing node
   type: text
   values:
     distinct: 35
@@ -131,7 +132,6 @@ columns:
     - BDR
     - BOS
   missing_cells: 0
-  particular: The station's airport code (DFW, LAX and the others), not a pricing node
 - name: source
   shared: true
   type: text
@@ -163,13 +163,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4781257
-  particular: 'Not filled: no cell holds a value'
 - name: ba
   shared: true
+  particular: The EIA-930 code of the grid the station stands for
   type: text
   values:
     list:
@@ -181,7 +182,6 @@ columns:
       pjm: 686514
       swpp: 686058
   missing_cells: 0
-  particular: The EIA-930 code of the grid the station stands for
 variables:
 - name: dew_point_f
   label: The measured dew point, degrees F (NOAA's tenths of a degree C times 9/5 plus 32, to two decimals); measured values

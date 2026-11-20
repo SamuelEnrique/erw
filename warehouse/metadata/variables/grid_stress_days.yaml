@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <iso>:<main hub>
   type: text
   values:
     list:
@@ -44,7 +45,6 @@ columns:
       nyiso:N.Y.C.: 10
       spp:SPPNORTH_HUB: 17
   missing_cells: 0
-  particular: <iso>:<main hub>
 - name: variable
   shared: true
   type: text
@@ -93,6 +93,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: '<iso>_rtm: the real-time price'
   type: text
   values:
     list:
@@ -103,7 +104,6 @@ columns:
       nyiso_rtm: 10
       spp_rtm: 17
   missing_cells: 0
-  particular: '<iso>_rtm: the real-time price'
 - name: node
   shared: true
   type: text

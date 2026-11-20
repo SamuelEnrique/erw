@@ -16,7 +16,8 @@ tier: source
 interval: event
 source:
 - name: lbnl:ppa_prices Lawrence Berkeley National Laboratory, Land-Based Wind Energy Technology Data Update (2026 Edition)
-    and Utility-Scale Solar (2025 Data Update),  and
+    and Utility-Scale Solar (2025 Data Update), https://eta-publications.lbl.gov/publications/land-based-wind-energy-technology-0
+    and
   url: https://eta-publications.lbl.gov/publications/us-utility-scale-solar-2025-data
 cite: Lawrence Berkeley National Laboratory (Berkeley Lab). Land-Based Wind Energy Technology Data Update; Utility-Scale Solar
   Data Update (PPA prices). Via the Energy Research Warehouse (ERW), table `lbnl_ppa_prices`.
@@ -34,6 +35,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: lbnl_ppa:<wind|solar>:<12 hex of the row's date, MW, term, region and price>, -2 for a second identical row
   type: text
   values:
     distinct: 1133
@@ -44,7 +46,6 @@ columns:
     - lbnl_ppa:solar:00cb287e7560
     - lbnl_ppa:solar:0147230cd98d
   missing_cells: 0
-  particular: lbnl_ppa:<wind|solar>:<12 hex of the row's date, MW, term, region and price>, -2 for a second identical row
 - name: event_date
   shared: true
   type: date
@@ -55,12 +56,12 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: Always ppa
   type: text
   values:
     list:
       ppa: 1133
   missing_cells: 0
-  particular: Always ppa
 - name: parties
   shared: true
   type: empty
@@ -75,23 +76,23 @@ columns:
   missing_cells: 1133
 - name: mw
   shared: true
+  particular: The contract capacity
   type: number
   values:
     distinct: 440
     lowest: 1.98
     highest: 700.0
   missing_cells: 0
-  particular: The contract capacity
 - name: price
   shared: true
+  particular: Levelized over the term after escalation and time-of-delivery factors, 4 percent real discount rate, in real
+    USD of x_dollar_year per MWh
   type: number
   values:
     distinct: 1076
     lowest: 9.6475
     highest: 363.3955
   missing_cells: 0
-  particular: Levelized over the term after escalation and time-of-delivery factors, 4 percent real discount rate, in real
-    USD of x_dollar_year per MWh
 - name: currency
   shared: true
   type: text
@@ -101,11 +102,11 @@ columns:
   missing_cells: 0
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1133
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text

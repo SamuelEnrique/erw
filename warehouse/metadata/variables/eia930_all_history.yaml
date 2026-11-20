@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<BA>, the seven ISO balancing authorities
   type: text
   values:
     list:
@@ -46,7 +47,6 @@ columns:
       eia930:PJM: 8686
       eia930:SWPP: 7966
   missing_cells: 0
-  particular: eia930:<BA>, the seven ISO balancing authorities
 - name: variable
   shared: true
   type: text
@@ -131,12 +131,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The six-month file's Last-Modified time
   type: utc time
   values:
     list:
       '2026-09-30T14:39:43Z': 60084
   missing_cells: 0
-  particular: The six-month file's Last-Modified time
 - name: ba
   shared: true
   type: text

@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: aedg:ak:<service area id>:<fuel>, the Gateway's service_area_geom_id and its fuel type as a slug
   type: text
   values:
     distinct: 271
@@ -45,7 +46,6 @@ columns:
     - aedg:ak:103_1:hydro
     - aedg:ak:106_1:distillate_oil
   missing_cells: 0
-  particular: aedg:ak:<service area id>:<fuel>, the Gateway's service_area_geom_id and its fuel type as a slug
 - name: variable
   shared: true
   type: text
@@ -84,21 +84,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-AK on every row
   type: text
   values:
     list:
       US-AK: 51061
   missing_cells: 0
-  particular: US-AK on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 51061
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The service area's first community in alphabetical order and how many others share its grid, not a pricing node
   type: text
   values:
     distinct: 175
@@ -109,7 +110,6 @@ columns:
     - Akiak
     - Akutan
   missing_cells: 0
-  particular: The service area's first community in alphabetical order and how many others share its grid, not a pricing node
 - name: source
   shared: true
   type: text
@@ -133,11 +133,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 51061
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: generation
   label: 'The service area''s electricity generation from the fuel in the month, as published (negatives kept: net generation,

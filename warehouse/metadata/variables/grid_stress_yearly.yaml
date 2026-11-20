@@ -18,8 +18,8 @@ license: public
 tier: derived
 interval: P1Y
 source:
-- name: erw:grid_stress EIA Form EIA-930 hourly demand and net generation by energy source, the per-BA workbooks ( read by
-    this run from warehouse/raw/eia930_emissions/20261004T021545Z/20261004T021550.248664Z_00002_CISO.xlsx; warehouse/raw/eia930_emissions/20261004T021545Z/20261004T021615.318504Z_00004_ERCO.xlsx;
+- name: erw:grid_stress EIA Form EIA-930 hourly demand and net generation by energy source, the per-BA workbooks (https://www.eia.gov/electricity/gridmonitor/knownissues/xls/<BA>.xlsx),
+    read by this run from warehouse/raw/eia930_emissions/20261004T021545Z/20261004T021550.248664Z_00002_CISO.xlsx; warehouse/raw/eia930_emissions/20261004T021545Z/20261004T021615.318504Z_00004_ERCO.xlsx;
     warehouse/raw/eia930_emissions/20261004T021545Z/20261004T021636.602873Z_00006_ISNE.xlsx; warehouse/raw/eia930_emissions/20261004T021545Z/20261004T021704.171793Z_00008_MISO.xlsx;
     warehouse/raw/eia930_emissions/20261004T021545Z/20261004T021728.227265Z_00010_NYIS.xlsx; warehouse/raw/eia930_emissions/20261004T021545Z/20261004T021753.302176Z_00012_PJM.xlsx;
     warehouse/raw/eia930_emissions/20261004T021545Z/20261004T021821.443138Z_00014_SWPP.xlsx; EIA-860M for installed capacity
@@ -42,6 +42,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: iso:<grid> (caiso, ercot, isone, miso, nyiso, pjm, spp)
   type: text
   values:
     list:
@@ -53,7 +54,6 @@ columns:
       iso:pjm: 360
       iso:spp: 270
   missing_cells: 0
-  particular: iso:<grid> (caiso, ercot, isone, miso, nyiso, pjm, spp)
 - name: variable
   shared: true
   type: text

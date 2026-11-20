@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_gas_storage_capacity:<EIA series id>
   type: text
   values:
     distinct: 123
@@ -45,7 +46,6 @@ columns:
     - eia_gas_storage_capacity:N5290862
     - eia_gas_storage_capacity:N5290872
   missing_cells: 0
-  particular: eia_gas_storage_capacity:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -97,13 +97,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 23980
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name
   type: text
   values:
     distinct: 123
@@ -114,7 +115,6 @@ columns:
     - AGA Producing Region Natural Gas Count of Underground Storage Capacity (Count)
     - AGA Producing Region Natural Gas Total Underground Storage Capacity (MMcf)
   missing_cells: 0
-  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -139,11 +139,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 23980
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: storage_fields
   label: Number of underground storage fields (SAD)

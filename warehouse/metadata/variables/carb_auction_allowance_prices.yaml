@@ -19,7 +19,7 @@ tier: source
 interval: P3M
 source:
 - name: carb:auction-results-summary California Air Resources Board, Summary of Joint Auction Settlement Prices and Results
-    (PDF, Last updated August 2026; linked from
+    (PDF, Last updated August 2026; linked from https://ww2.arb.ca.gov/our-work/programs/cap-and-trade-program/auction-information)
   url: https://ww2.arb.ca.gov/sites/default/files/2020-08/results_summary.pdf
 cite: California Air Resources Board (CARB). Summary of California and Joint Auction Settlement Prices and Results. Via the
   Energy Research Warehouse (ERW), table `carb_auction_allowance_prices`.
@@ -34,14 +34,14 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: carb:current_auction (the current-vintage allowances sold at the auction) or carb:advance_auction (the advance-vintage
+    allowances)
   type: text
   values:
     list:
       carb:advance_auction: 168
       carb:current_auction: 168
   missing_cells: 0
-  particular: carb:current_auction (the current-vintage allowances sold at the auction) or carb:advance_auction (the advance-vintage
-    allowances)
 - name: variable
   shared: true
   type: text
@@ -88,13 +88,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 336
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'The auction as CARB numbers it (Auction #1 to #8, Joint Auction #1 to #48), not a pricing node'
   type: text
   values:
     distinct: 56
@@ -105,7 +106,6 @@ columns:
     - 'Auction #4'
     - 'Auction #5'
   missing_cells: 0
-  particular: 'The auction as CARB numbers it (Auction #1 to #8, Joint Auction #1 to #48), not a pricing node'
 - name: source
   shared: true
   type: text
@@ -129,11 +129,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 336
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: allowances_offered
   label: Allowances offered at the auction (one allowance is one metric ton of CO2 equivalent)

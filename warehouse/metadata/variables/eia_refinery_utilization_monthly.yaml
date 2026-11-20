@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_refinery_utilization:<EIA series id>
   type: text
   values:
     distinct: 80
@@ -45,7 +46,6 @@ columns:
     - eia_refinery_utilization:MGIRI3A2
     - eia_refinery_utilization:MGIRI3B2
   missing_cells: 0
-  particular: eia_refinery_utilization:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -85,21 +85,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row, the PADDs and districts included
   type: text
   values:
     list:
       US: 36672
   missing_cells: 0
-  particular: US on every row, the PADDs and districts included
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 36672
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series description
   type: text
   values:
     distinct: 80
@@ -110,7 +111,6 @@ columns:
     - Appalachian No. 1 Refining District Operating Crude Oil Distillation Capacity  (Thousand Barrels per Day)
     - Appalachian No. 1 Refining District Percent Utilization of Refinery Operable Capacity
   missing_cells: 0
-  particular: EIA's series description
 - name: source
   shared: true
   type: text
@@ -142,11 +142,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 36672
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: gross_input
   label: Gross input to refineries, thousand barrels a day

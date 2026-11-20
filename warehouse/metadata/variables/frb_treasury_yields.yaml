@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: frb:tcm_<maturity>, 2, 10 or 30 years
   type: text
   values:
     list:
@@ -43,7 +44,6 @@ columns:
       frb:tcm_2y: 1967
       frb:tcm_30y: 1967
   missing_cells: 0
-  particular: frb:tcm_<maturity>, 2, 10 or 30 years
 - name: variable
   shared: true
   type: text
@@ -89,13 +89,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5901
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The Federal Reserve Board's series identifier (H15/H15/RIFLGFCY<years>_N.B), not a pricing node
   type: text
   values:
     list:
@@ -103,7 +104,6 @@ columns:
       H15/H15/RIFLGFCY10_N.B: 1967
       H15/H15/RIFLGFCY30_N.B: 1967
   missing_cells: 0
-  particular: The Federal Reserve Board's series identifier (H15/H15/RIFLGFCY<years>_N.B), not a pricing node
 - name: source
   shared: true
   type: text
@@ -143,11 +143,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5901
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: yield
   label: Market yield on US Treasury securities at constant maturity, quoted on an investment basis, percent a year

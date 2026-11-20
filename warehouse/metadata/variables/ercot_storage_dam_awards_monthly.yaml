@@ -39,6 +39,9 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:esr_fleet (every storage resource), or a duration class ercot:esr_class_under_2h, _2_to_4h, _4h_and_over,
+    _not_seen_rt (a resource's class is its highest state of charge seen in real time over its highest HSL there, a floor
+    on its hours)
   type: text
   values:
     list:
@@ -48,9 +51,6 @@ columns:
       ercot:esr_class_under_2h: 252
       ercot:esr_fleet: 252
   missing_cells: 0
-  particular: ercot:esr_fleet (every storage resource), or a duration class ercot:esr_class_under_2h, _2_to_4h, _4h_and_over,
-    _not_seen_rt (a resource's class is its highest state of charge seen in real time over its highest HSL there, a floor
-    on its hours)
 - name: variable
   shared: true
   type: text
@@ -107,19 +107,19 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
   type: text
   values:
     list:
       ercot_dam: 1244
   missing_cells: 0
-  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1244
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -146,11 +146,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1244
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: days_held
   label: Operating days of the month held

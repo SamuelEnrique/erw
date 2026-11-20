@@ -17,7 +17,7 @@ tier: source
 interval: event
 source:
 - name: 'noaa:billion_dollar_disasters NOAA National Centers for Environmental Information (NCEI) U.S. Billion-Dollar Weather
-    and Climate Disasters (2025),  DOI: 10.25921/stkw-7w73'
+    and Climate Disasters (2025), https://www.ncei.noaa.gov/access/billions/, DOI: 10.25921/stkw-7w73'
   url: https://www.ncei.noaa.gov/access/billions/
 cite: NOAA National Centers for Environmental Information (NCEI). U.S. Billion-Dollar Weather and Climate Disasters, events
   1980 to 2024 (retired 2025). Via the Energy Research Warehouse (ERW), table `noaa_ncei_billion_disasters`.
@@ -34,6 +34,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: noaa_billion:<begin date>:<12 hex of the SHA-1 of the name>, the ERW's own (NCEI gives none)
   type: text
   values:
     distinct: 403
@@ -44,18 +45,19 @@ columns:
     - noaa_billion:1981-01-12:5a8cb3e434b2
     - noaa_billion:1981-05-05:0d51df985f44
   missing_cells: 0
-  particular: noaa_billion:<begin date>:<12 hex of the SHA-1 of the name>, the ERW's own (NCEI gives none)
 - name: event_date
   shared: true
+  particular: The disaster's begin date
   type: date
   values:
     distinct: 400
     earliest: '1980-04-10'
     latest: '2024-10-09'
   missing_cells: 0
-  particular: The disaster's begin date
 - name: event_type
   shared: true
+  particular: 'NCEI''s disaster type in snake case: severe_storm, tropical_cyclone, flooding, drought, winter_storm, wildfire,
+    freeze'
   type: text
   values:
     list:
@@ -67,50 +69,48 @@ columns:
       wildfire: 23
       winter_storm: 24
   missing_cells: 0
-  particular: 'NCEI''s disaster type in snake case: severe_storm, tropical_cyclone, flooding, drought, winter_storm, wildfire,
-    freeze'
 - name: parties
   shared: true
+  particular: Empty in every row
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 403
-  particular: Empty in every row
 - name: entity_ids
   shared: true
+  particular: Empty in every row
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 403
-  particular: Empty in every row
 - name: mw
   shared: true
+  particular: Empty in every row
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 403
-  particular: Empty in every row
 - name: price
   shared: true
+  particular: Empty in every row
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 403
-  particular: Empty in every row
 - name: currency
   shared: true
+  particular: Empty in every row
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 403
-  particular: Empty in every row
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 403
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text

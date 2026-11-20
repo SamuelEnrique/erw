@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: desnz_st:<type> (pumped_storage, battery_grid_scale, other_storage, total)
   type: text
   values:
     list:
@@ -44,7 +45,6 @@ columns:
       desnz_st:pumped_storage: 90
       desnz_st:total: 90
   missing_cells: 0
-  particular: desnz_st:<type> (pumped_storage, battery_grid_scale, other_storage, total)
 - name: variable
   shared: true
   type: text
@@ -84,21 +84,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always GB, standing for the UK
   type: text
   values:
     list:
       GB: 360
   missing_cells: 0
-  particular: Always GB, standing for the UK
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 360
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The table and the storage type, not a pricing node
   type: text
   values:
     list:
@@ -107,7 +108,6 @@ columns:
       'Table 5.16.: Pumped storage': 90
       'Table 5.16.: Total': 90
   missing_cells: 0
-  particular: The table and the storage type, not a pricing node
 - name: source
   shared: true
   type: text
@@ -131,12 +131,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time
   type: utc time
   values:
     list:
       '2026-07-29T17:21:36Z': 360
   missing_cells: 0
-  particular: The workbook's last-modified time
 variables:
 - name: input
   label: Electricity into storage in the year (table 5.16.B), MWh

@@ -31,6 +31,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: attn:<the story's news id>
   type: text
   values:
     distinct: more than 5000
@@ -41,68 +42,68 @@ columns:
     - attn:002113443048f072
     - attn:002bc7ebc5774cab
   missing_cells: 0
-  particular: attn:<the story's news id>
 - name: event_date
   shared: true
+  particular: The story's publish time, UTC (YYYY-MM-DDTHH:MM:SSZ)
   type: utc time
   values:
     distinct: more than 5000
     earliest: '2026-10-05T17:03:00Z'
     latest: '2026-11-17T12:00:00Z'
   missing_cells: 0
-  particular: The story's publish time, UTC (YYYY-MM-DDTHH:MM:SSZ)
 - name: event_type
   shared: true
+  particular: attention_link on every row
   type: text
   values:
     list:
       attention_link: 8120
   missing_cells: 0
-  particular: attention_link on every row
 - name: parties
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8120
-  particular: 'Not filled: no cell holds a value'
 - name: entity_ids
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8120
-  particular: 'Not filled: no cell holds a value'
 - name: mw
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8120
-  particular: 'Not filled: no cell holds a value'
 - name: price
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8120
-  particular: 'Not filled: no cell holds a value'
 - name: currency
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8120
-  particular: 'Not filled: no cell holds a value'
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8120
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
+  particular: The story's outlet, as the news corpus holds it
   type: text
   values:
     distinct: 48
@@ -113,7 +114,6 @@ columns:
     - CTVC
     - California ISO
   missing_cells: 0
-  particular: The story's outlet, as the news corpus holds it
 - name: source_url
   shared: true
   type: text
@@ -209,6 +209,7 @@ columns:
   documented_by: method attention.md
 - name: geo
   shared: true
+  particular: US-<state> where the story names one state, US where it is about the United States, else empty
   type: text
   values:
     distinct: 50
@@ -219,7 +220,6 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 4472
-  particular: US-<state> where the story names one state, US where it is about the United States, else empty
 - name: place
   label: The county, city or metro the text names as the project's or dispute's place, as written
   unit: none

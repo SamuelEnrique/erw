@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: census_qss:<NAICS code>
   type: text
   values:
     list:
@@ -44,7 +45,6 @@ columns:
       census_qss:2213: 120
       census_qss:518: 304
   missing_cells: 0
-  particular: census_qss:<NAICS code>
 - name: variable
   shared: true
   type: text
@@ -96,6 +96,7 @@ columns:
   missing_cells: 784
 - name: node
   shared: true
+  particular: The category as the Census Bureau names it (code and title), not a pricing node
   type: text
   values:
     list:
@@ -105,7 +106,6 @@ columns:
       '22: Utilities': 120
       '518: Data Processing, Hosting, and Related Services': 304
   missing_cells: 0
-  particular: The category as the Census Bureau names it (code and title), not a pricing node
 - name: source
   shared: true
   type: text

@@ -33,12 +33,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ieso:ontario on every row
   type: text
   values:
     list:
       ieso:ontario: 31680
   missing_cells: 0
-  particular: ieso:ontario on every row
 - name: variable
   shared: true
   type: text
@@ -77,27 +77,27 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: CA-ON on every row
   type: text
   values:
     list:
       CA-ON: 31680
   missing_cells: 0
-  particular: CA-ON on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 31680
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: Ontario on every row, not a pricing node
   type: text
   values:
     list:
       Ontario: 31680
   missing_cells: 0
-  particular: Ontario on every row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -122,13 +122,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The year's file's creation time (UTC)
   type: utc time
   values:
     list:
       '2026-01-31T12:30:13Z': 17518
       '2026-10-23T12:30:09Z': 14162
   missing_cells: 0
-  particular: The year's file's creation time (UTC)
 variables:
 - name: market_demand
   label: 'Market demand: Ontario demand plus exports'

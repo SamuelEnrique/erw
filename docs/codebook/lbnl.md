@@ -129,7 +129,7 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 
 - **Time:** No time column; event_date is the PPA's execution date.
 - **Revisions:** Rewritten whole by each run from the two data files; one edition each, no vintage column.
-- **Source:** lbnl:ppa_prices Lawrence Berkeley National Laboratory, Land-Based Wind Energy Technology Data Update (2026 Edition) and Utility-Scale Solar (2025 Data Update),  and (https://eta-publications.lbl.gov/publications/us-utility-scale-solar-2025-data)
+- **Source:** lbnl:ppa_prices Lawrence Berkeley National Laboratory, Land-Based Wind Energy Technology Data Update (2026 Edition) and Utility-Scale Solar (2025 Data Update), https://eta-publications.lbl.gov/publications/land-based-wind-energy-technology-0 and (https://eta-publications.lbl.gov/publications/us-utility-scale-solar-2025-data)
 - **Method note:** [`docs/methods/lbnl_ppa_prices.md`](../methods/lbnl_ppa_prices.md)
 - **Cite as:** Lawrence Berkeley National Laboratory (Berkeley Lab). Land-Based Wind Energy Technology Data Update; Utility-Scale Solar Data Update (PPA prices). Via the Energy Research Warehouse (ERW), table `lbnl_ppa_prices`.
 

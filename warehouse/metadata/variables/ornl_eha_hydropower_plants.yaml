@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: ornl_eha:<EHA_PtID>
   type: text
   values:
     distinct: 2257
@@ -47,17 +48,17 @@ columns:
     - ornl_eha:hc0004_p01
     - ornl_eha:hc0005_p01
   missing_cells: 0
-  particular: ornl_eha:<EHA_PtID>
 - name: entity_type
   shared: true
+  particular: Always plant
   type: text
   values:
     list:
       plant: 2257
   missing_cells: 0
-  particular: Always plant
 - name: name
   shared: true
+  particular: ORNL's plant name (PtName)
   type: text
   values:
     distinct: 2192
@@ -68,9 +69,9 @@ columns:
     - 99 Islands
     - A G Wishon
   missing_cells: 0
-  particular: ORNL's plant name (PtName)
 - name: geo
   shared: true
+  particular: US-<state>
   type: text
   values:
     distinct: 49
@@ -81,41 +82,40 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<state>
 - name: lat
   shared: true
+  particular: NAD83 as ORNL gives it
   type: number
   values:
     distinct: 2183
     lowest: 18.017
     highest: 61.6
   missing_cells: 0
-  particular: NAD83 as ORNL gives it
 - name: lon
   shared: true
+  particular: NAD83 as ORNL gives it
   type: number
   values:
     distinct: 2192
     lowest: -174.197
     highest: -65.794
   missing_cells: 0
-  particular: NAD83 as ORNL gives it
 - name: capacity_mw
   shared: true
+  particular: 'hy_mw plus psh_mw: the plant''s conventional hydro and pumped storage capacity'
   type: number
   values:
     distinct: 783
     lowest: 5.0e-05
     highest: 6809.0
   missing_cells: 0
-  particular: 'hy_mw plus psh_mw: the plant''s conventional hydro and pumped storage capacity'
 - name: status
   shared: true
+  particular: 'Not filled: the database lists plants in operation'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2257
-  particular: 'Not filled: the database lists plants in operation'
 - name: status_date
   shared: true
   type: empty
@@ -124,11 +124,11 @@ columns:
   missing_cells: 2257
 - name: operator
   shared: true
+  particular: 'Not filled: the database names owners (plant_owner, dam_owner), not operators'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2257
-  particular: 'Not filled: the database names owners (plant_owner, dam_owner), not operators'
 - name: source
   shared: true
   type: text
@@ -152,12 +152,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time, UTC
   type: utc time
   values:
     list:
       '2026-07-17T16:30:08Z': 2257
   missing_cells: 0
-  particular: The workbook's last-modified time, UTC
 - name: eha_plant_id
   label: ORNL's EHA identifier of the plant, which links it to EHA's other datasets
   unit: none

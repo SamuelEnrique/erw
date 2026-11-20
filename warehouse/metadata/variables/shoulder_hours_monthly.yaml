@@ -17,8 +17,8 @@ license: public
 tier: derived
 interval: P1D;P1M;P1Y
 source:
-- name: erw:shoulder_hours EIA Form EIA-930 hourly demand and net generation by energy source, the per-BA workbooks ( and
-    CAISO's supply by fuel (caiso_fuel_supply); read by this run from warehouse/raw/eia930_emissions/20261102T174348Z/20261102T174425.135109Z_00004_ERCO.xlsx;
+- name: erw:shoulder_hours EIA Form EIA-930 hourly demand and net generation by energy source, the per-BA workbooks (https://www.eia.gov/electricity/gridmonitor/knownissues/xls/<BA>.xlsx),
+    and CAISO's supply by fuel (caiso_fuel_supply); read by this run from warehouse/raw/eia930_emissions/20261102T174348Z/20261102T174425.135109Z_00004_ERCO.xlsx;
     warehouse/raw/eia930_emissions/20261102T174348Z/20261102T174403.134912Z_00002_CISO.xlsx; warehouse/output/caiso_fuel_supply.csv
   url: https://www.eia.gov/electricity/gridmonitor/knownissues/xls/<BA>.xlsx
 cite: Energy Research Warehouse (ERW), derived. The shoulder hours by grid and month (docs/methods/shoulder_hours.md). Via
@@ -38,6 +38,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: iso:ercot, iso:caiso (EIA-930, to 2025-11) or iso:caiso_own (CAISO's own supply by fuel, from 2025-06), never
+    mixed
   type: text
   values:
     list:
@@ -45,8 +47,6 @@ columns:
       iso:caiso_own: 2863
       iso:ercot: 13431
   missing_cells: 0
-  particular: iso:ercot, iso:caiso (EIA-930, to 2025-11) or iso:caiso_own (CAISO's own supply by fuel, from 2025-06), never
-    mixed
 - name: variable
   shared: true
   type: text
@@ -99,18 +99,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27489
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27489
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -136,11 +136,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27489
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: avg_battery_mw_h00
   label: 'The month''s average day: mean battery output (positive discharging) in local hour 00 over the complete days'

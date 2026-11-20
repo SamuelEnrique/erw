@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: interconnection_agreements:<grid> (the seven ISOs, west, southeast, us) or interconnection_agreements:<grid>:<fuel>
   type: text
   values:
     distinct: 118
@@ -47,7 +48,6 @@ columns:
     - interconnection_agreements:caiso:hydro
     - interconnection_agreements:caiso:offshore_wind
   missing_cells: 0
-  particular: interconnection_agreements:<grid> (the seven ISOs, west, southeast, us) or interconnection_agreements:<grid>:<fuel>
 - name: variable
   shared: true
   type: text
@@ -103,21 +103,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always US
   type: text
   values:
     list:
       US: 438
   missing_cells: 0
-  particular: Always US
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 438
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The grid, or the grid and fuel, in words (CAISO, Battery), not a pricing node
   type: text
   values:
     distinct: 118
@@ -128,7 +129,6 @@ columns:
     - CAISO, Hydro
     - CAISO, Offshore Wind
   missing_cells: 0
-  particular: The grid, or the grid and fuel, in words (CAISO, Battery), not a pricing node
 - name: source
   shared: true
   type: text
@@ -152,11 +152,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 438
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: active_mw
   label: The MW of every request still in the queue

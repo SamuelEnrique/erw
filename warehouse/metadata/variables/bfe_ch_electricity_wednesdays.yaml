@@ -39,12 +39,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: bfe_weekly:ch on every row
   type: text
   values:
     list:
       bfe_weekly:ch: 11154
   missing_cells: 0
-  particular: bfe_weekly:ch on every row
 - name: variable
   shared: true
   type: text
@@ -83,21 +83,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: CH on every row
   type: text
   values:
     list:
       CH: 11154
   missing_cells: 0
-  particular: CH on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 11154
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: SFOE weekly balance (Wednesdays) and the file's column, not a pricing node
   type: text
   values:
     list:
@@ -114,7 +115,6 @@ columns:
       SFOE weekly balance (Wednesdays), Landesverbrauch_GWh: 1222
       SFOE weekly balance (Wednesdays), Verbrauch_speicherpumpen_GWh: 1222
   missing_cells: 0
-  particular: SFOE weekly balance (Wednesdays) and the file's column, not a pricing node
 - name: source
   shared: true
   type: text
@@ -138,12 +138,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-09-18T09:25:46Z': 11154
   missing_cells: 0
-  particular: The file's Last-Modified (UTC)
 - name: x_column
   label: The file's column the value is read from (German, in GWh)
   unit: none

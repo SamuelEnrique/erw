@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_coal_flow:<origin>:<destination>:<consumer type>:<mode>
   type: text
   values:
     distinct: 351
@@ -46,7 +47,6 @@ columns:
     - eia_coal_flow:alabama:alabama:industrial_plants_excluding_coke:truck
     - eia_coal_flow:alabama:south_carolina:industrial_plants_excluding_coke:railroad
   missing_cells: 0
-  particular: eia_coal_flow:<origin>:<destination>:<consumer type>:<mode>
 - name: variable
   shared: true
   type: text
@@ -87,6 +87,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<destination state>, US for EIA's U.S. rows
   type: text
   values:
     distinct: 42
@@ -97,16 +98,16 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: US-<destination state>, US for EIA's U.S. rows
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1207
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: <origin> to <destination>, consumer type, mode, in EIA's words
   type: text
   values:
     distinct: 351
@@ -117,7 +118,6 @@ columns:
     - Alabama to Alabama, Industrial Plants Excluding Coke, Truck
     - Alabama to South Carolina, Industrial Plants Excluding Coke, Railroad
   missing_cells: 0
-  particular: <origin> to <destination>, consumer type, mode, in EIA's words
 - name: source
   shared: true
   type: text
@@ -141,12 +141,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time from EIA's server
   type: utc time
   values:
     list:
       '2025-10-30T13:23:20Z': 1207
   missing_cells: 0
-  particular: The workbook's last-modified time from EIA's server
 - name: x_origin
   label: The coal-origin state or region as EIA writes it (U.S. (All States) is EIA's total level)
   unit: none

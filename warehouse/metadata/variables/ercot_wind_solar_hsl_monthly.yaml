@@ -34,6 +34,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'ercot:system, ercot:wind:<REGION> (COASTAL, NORTH, PANHANDLE, SOUTH, WEST) or ercot:solar:<Region> (CenterEast,
+    CenterWest, FarEast, FarWest, NorthWest, SouthEast): ERCOT''s wind and solar regions, not its weather zones'
   type: text
   values:
     list:
@@ -50,8 +52,6 @@ columns:
       ercot:wind:SOUTH: 3
       ercot:wind:WEST: 3
   missing_cells: 0
-  particular: 'ercot:system, ercot:wind:<REGION> (COASTAL, NORTH, PANHANDLE, SOUTH, WEST) or ercot:solar:<Region> (CenterEast,
-    CenterWest, FarEast, FarWest, NorthWest, SouthEast): ERCOT''s wind and solar regions, not its weather zones'
 - name: variable
   shared: true
   type: text
@@ -116,13 +116,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 45
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The region as ERCOT prints it; empty on the system-wide rows
   type: text
   values:
     list:
@@ -138,7 +139,6 @@ columns:
       SouthEast: 3
       WEST: 3
   missing_cells: 12
-  particular: The region as ERCOT prints it; empty on the system-wide rows
 - name: source
   shared: true
   type: text
@@ -162,11 +162,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 45
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: solar_below_hsl_mwh
   label: 'Solar output below the HSL: the sum over hours of HSL less GEN where positive, MWh; the ERW''s estimate of curtailment,

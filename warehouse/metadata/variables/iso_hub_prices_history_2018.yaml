@@ -39,12 +39,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'spp:SPPNORTH_HUB in every row: only SPP''s hub is held'
   type: text
   values:
     list:
       spp:SPPNORTH_HUB: 219720
   missing_cells: 0
-  particular: 'spp:SPPNORTH_HUB in every row: only SPP''s hub is held'
 - name: variable
   shared: true
   type: text
@@ -76,38 +76,38 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: PT1H for the day-ahead rows, PT15M for the real-time rows
   type: text
   values:
     list:
       PT15M: 175776
       PT1H: 43944
   missing_cells: 0
-  particular: PT1H for the day-ahead rows, PT15M for the real-time rows
 - name: geo
   shared: true
+  particular: The same list of fourteen states in every row (SPP's footprint)
   type: text
   values:
     list:
       US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 219720
   missing_cells: 0
-  particular: The same list of fourteen states in every row (SPP's footprint)
 - name: market
   shared: true
+  particular: spp_dam (day-ahead, hourly) or spp_rtm (real-time, 15-minute)
   type: text
   values:
     list:
       spp_dam: 43944
       spp_rtm: 175776
   missing_cells: 0
-  particular: spp_dam (day-ahead, hourly) or spp_rtm (real-time, 15-minute)
 - name: node
   shared: true
+  particular: SPPNORTH_HUB in every row
   type: text
   values:
     list:
       SPPNORTH_HUB: 219720
   missing_cells: 0
-  particular: SPPNORTH_HUB in every row
 - name: source
   shared: true
   type: text
@@ -136,11 +136,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 219720
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: lmp_dam
   label: Day-ahead locational marginal price at the hub, hourly (SPP's Day-Ahead LMP by Settlement Location), USD/MWh

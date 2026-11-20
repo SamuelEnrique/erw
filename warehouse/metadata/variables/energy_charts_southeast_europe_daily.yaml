@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: energy_charts:<country>:<type>, Energy-Charts' name as a slug
   type: text
   values:
     distinct: 58
@@ -46,7 +47,6 @@ columns:
     - energy_charts:bg:cross_border_electricity_trading
     - energy_charts:bg:fossil_brown_coal_lignite
   missing_cells: 0
-  particular: energy_charts:<country>:<type>, Energy-Charts' name as a slug
 - name: variable
   shared: true
   type: text
@@ -85,6 +85,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: HU, RO, GR or BG (ISO 3166-1 country codes)
   type: text
   values:
     list:
@@ -93,16 +94,16 @@ columns:
       HU: 41511
       RO: 29842
   missing_cells: 0
-  particular: HU, RO, GR or BG (ISO 3166-1 country codes)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 128530
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: '''<geo>: <Energy-Charts'' name>'', not a pricing node'
   type: text
   values:
     distinct: 58
@@ -113,7 +114,6 @@ columns:
     - 'BG: Cross border electricity trading'
     - 'BG: Fossil brown coal / lignite'
   missing_cells: 0
-  particular: '''<geo>: <Energy-Charts'' name>'', not a pricing node'
 - name: source
   shared: true
   type: text
@@ -143,11 +143,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: the API sends no Last-Modified'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 128530
-  particular: 'Not filled: the API sends no Last-Modified'
 - name: x_type
   label: Energy-Charts' name of the production type or measure (Nuclear, Fossil gas, Solar, Load, Residual load, Cross border
     electricity trading and the others)

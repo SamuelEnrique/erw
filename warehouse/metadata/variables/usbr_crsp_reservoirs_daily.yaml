@@ -38,6 +38,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: usbr_hydrodata:<Reclamation's site number> (917 Flaming Gorge, 913 Blue Mesa, 914 Morrow Point, 915 Crystal)
   type: text
   values:
     list:
@@ -46,7 +47,6 @@ columns:
       usbr_hydrodata:915: 72482
       usbr_hydrodata:917: 90881
   missing_cells: 0
-  particular: usbr_hydrodata:<Reclamation's site number> (917 Flaming Gorge, 913 Blue Mesa, 914 Morrow Point, 915 Crystal)
 - name: variable
   shared: true
   type: text
@@ -87,22 +87,23 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-UT (Flaming Gorge) or US-CO
   type: text
   values:
     list:
       US-CO: 239412
       US-UT: 90881
   missing_cells: 0
-  particular: US-UT (Flaming Gorge) or US-CO
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 330293
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The reservoir's name, not a pricing node
   type: text
   values:
     list:
@@ -111,7 +112,6 @@ columns:
       Flaming Gorge Reservoir: 90881
       Morrow Point Reservoir: 81540
   missing_cells: 0
-  particular: The reservoir's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -151,6 +151,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: Each data file's Last-Modified time
   type: utc time
   values:
     list:
@@ -171,7 +172,6 @@ columns:
       '2026-10-23T22:11:26Z': 18121
       '2026-10-23T22:11:29Z': 21145
   missing_cells: 0
-  particular: Each data file's Last-Modified time
 variables:
 - name: pool_elevation
   label: The reservoir's water surface elevation, ft (feet above mean sea level)

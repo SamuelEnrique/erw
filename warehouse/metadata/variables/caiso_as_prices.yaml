@@ -34,13 +34,13 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: caiso:AS_CAISO or caiso:AS_CAISO_EXP, the ancillary service region
   type: text
   values:
     list:
       caiso:AS_CAISO: 117028
       caiso:AS_CAISO_EXP: 117028
   missing_cells: 0
-  particular: caiso:AS_CAISO or caiso:AS_CAISO_EXP, the ancillary service region
 - name: variable
   shared: true
   type: text
@@ -86,22 +86,22 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'caiso_dam in every row: CAISO''s day-ahead market'
   type: text
   values:
     list:
       caiso_dam: 234056
   missing_cells: 0
-  particular: 'caiso_dam in every row: CAISO''s day-ahead market'
 - name: node
   shared: true
+  particular: 'The ancillary service region: AS_CAISO the CAISO system, AS_CAISO_EXP the system with the interties; the sub-regions
+    are not pulled'
   type: text
   values:
     list:
       AS_CAISO: 117028
       AS_CAISO_EXP: 117028
   missing_cells: 0
-  particular: 'The ancillary service region: AS_CAISO the CAISO system, AS_CAISO_EXP the system with the interties; the sub-regions
-    are not pulled'
 - name: source
   shared: true
   type: text
@@ -131,11 +131,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 234056
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: as_price_dam_nr
   label: Day-ahead clearing price of non-spinning reserve (CAISO's Non-Spinning Reserve), USD per MW held for one hour

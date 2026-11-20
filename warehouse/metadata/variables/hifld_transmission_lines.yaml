@@ -15,8 +15,8 @@ tier: source
 interval: snapshot
 source:
 - name: 'hifld:transmission_lines Homeland Infrastructure Foundation-Level Data (HIFLD), Electric Power Transmission Lines
-    (ORNL, NGA HSIP), as served by Penn State''s PASDA:  where VOLTAGE>=230, in batches (sha256 ba039a3a2b7259dc6b474d2ffcf408f3bd3f628dfd7cab5ef5e7cf513094de10,
-    saved at warehouse/raw/hifld_lines/20261120T024611Z/transmission.geojson)'
+    (ORNL, NGA HSIP), as served by Penn State''s PASDA: https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/178/query
+    where VOLTAGE>=230, in batches (sha256 ba039a3a2b7259dc6b474d2ffcf408f3bd3f628dfd7cab5ef5e7cf513094de10, saved at warehouse/raw/hifld_lines/20261120T024611Z/transmission.geojson)'
   url: https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/178/query
 cite: Homeland Infrastructure Foundation-Level Data (HIFLD), served by Penn State PASDA. Electric Power Transmission Lines,
   HIFLD open data layer, PASDA map service HIFLD_FEMA layer 178. Via the Energy Research Warehouse (ERW), table `hifld_transmission_lines`.
@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: hifld:transmission_line:<HIFLD ID>
   type: text
   values:
     distinct: more than 5000
@@ -44,17 +45,17 @@ columns:
     - hifld:transmission_line:100039
     - hifld:transmission_line:100042
   missing_cells: 0
-  particular: hifld:transmission_line:<HIFLD ID>
 - name: entity_type
   shared: true
+  particular: transmission_line on every row
   type: text
   values:
     list:
       transmission_line: 10692
   missing_cells: 0
-  particular: transmission_line on every row
 - name: name
   shared: true
+  particular: <SUB_1> to <SUB_2> where HIFLD names both ends, else empty
   type: text
   values:
     distinct: more than 5000
@@ -65,57 +66,57 @@ columns:
     - 230-KV WEST to GREENVILLE
     - 230-KV WEST to UNKNOWN111468
   missing_cells: 2355
-  particular: <SUB_1> to <SUB_2> where HIFLD names both ends, else empty
 - name: geo
   shared: true
+  particular: 'Not filled: a line crosses states'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 10692
-  particular: 'Not filled: a line crosses states'
 - name: lat
   shared: true
+  particular: The line's midpoint
   type: number
   values:
     distinct: more than 5000
     lowest: 17.94672
     highest: 61.43109
   missing_cells: 0
-  particular: The line's midpoint
 - name: lon
   shared: true
+  particular: The line's midpoint
   type: number
   values:
     distinct: more than 5000
     lowest: -150.54138
     highest: -65.85667
   missing_cells: 0
-  particular: The line's midpoint
 - name: capacity_mw
   shared: true
+  particular: 'Not filled: HIFLD gives no capacity'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 10692
-  particular: 'Not filled: HIFLD gives no capacity'
 - name: status
   shared: true
+  particular: operating for HIFLD's IN SERVICE, under_construction for UNDER CONSTRUCTION, else empty (HIFLD's word in x_status)
   type: text
   values:
     list:
       operating: 8308
       under_construction: 2
   missing_cells: 2382
-  particular: operating for HIFLD's IN SERVICE, under_construction for UNDER CONSTRUCTION, else empty (HIFLD's word in x_status)
 - name: status_date
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 10692
-  particular: 'Not filled: no cell holds a value'
 - name: operator
   shared: true
+  particular: HIFLD's OWNER as printed; empty where HIFLD prints NOT AVAILABLE
   type: text
   values:
     distinct: 294
@@ -126,7 +127,6 @@ columns:
     - AEP TEXAS CENTRAL COMPANY
     - AEP TEXAS NORTH CO.
   missing_cells: 1846
-  particular: HIFLD's OWNER as printed; empty where HIFLD prints NOT AVAILABLE
 - name: source
   shared: true
   type: text
@@ -150,13 +150,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: HIFLD's SOURCEDATE, a date (YYYY-MM-DD)
   type: date
   values:
     distinct: 752
     earliest: '1996-01-01'
     latest: '2024-09-26'
   missing_cells: 0
-  particular: HIFLD's SOURCEDATE, a date (YYYY-MM-DD)
 - name: x_hifld_id
   label: HIFLD's ID of the line
   unit: none

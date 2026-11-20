@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:retail_price:<stateid>:<sectorid>
   type: text
   values:
     distinct: 372
@@ -43,7 +44,6 @@ columns:
     - eia:retail_price:AK:OTH
     - eia:retail_price:AK:RES
   missing_cells: 0
-  particular: eia:retail_price:<stateid>:<sectorid>
 - name: variable
   shared: true
   type: text
@@ -82,6 +82,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation; empty for an EIA census division
   type: text
   values:
     distinct: 52
@@ -92,21 +93,20 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 18480
-  particular: US-<state>, or US for the nation; empty for an EIA census division
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 114574
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: EIA''s names (state, sector) are in the header''s Series line'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 114574
-  particular: 'Not filled: EIA''s names (state, sector) are in the header''s Series line'
 - name: source
   shared: true
   type: text
@@ -176,11 +176,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 114574
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: retail_price
   label: Average retail price of electricity in the sector, USD per MWh (EIA's cents per kWh times 10)

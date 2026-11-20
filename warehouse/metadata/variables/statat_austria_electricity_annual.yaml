@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: statat_ele:at (a total), statat_ele:<plant>[:<owner>[:<fuel>[:<sub-fuel>]]], statat_ele:sector:<sector> or statat_ele:branch:<branch>
   type: text
   values:
     distinct: 117
@@ -46,7 +47,6 @@ columns:
     - statat_ele:branch:electricity_chp_and_heat_plants
     - statat_ele:branch:oil_and_gas_extraction
   missing_cells: 0
-  particular: statat_ele:at (a total), statat_ele:<plant>[:<owner>[:<fuel>[:<sub-fuel>]]], statat_ele:sector:<sector> or statat_ele:branch:<branch>
 - name: variable
   shared: true
   type: text
@@ -85,21 +85,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: AT on every row
   type: text
   values:
     list:
       AT: 6675
   missing_cells: 0
-  particular: AT on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 6675
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The sheet's labels joined, not a pricing node
   type: text
   values:
     distinct: 124
@@ -110,7 +111,6 @@ columns:
     - Energy sector use / Electricity, CHP and heat plants
     - Energy sector use / Oil and gas extraction
   missing_cells: 0
-  particular: The sheet's labels joined, not a pricing node
 - name: source
   shared: true
   type: text
@@ -134,12 +134,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The spreadsheet's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2025-11-07T08:00:30Z': 6675
   missing_cells: 0
-  particular: The spreadsheet's Last-Modified (UTC)
 variables:
 - name: energy_sector_use
   label: The energy sector's use, by branch

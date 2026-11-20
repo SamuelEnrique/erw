@@ -35,13 +35,13 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: iso:ercot or iso:caiso
   type: text
   values:
     list:
       iso:caiso: 104608
       iso:ercot: 97265
   missing_cells: 0
-  particular: iso:ercot or iso:caiso
 - name: variable
   shared: true
   type: text
@@ -91,6 +91,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: <iso>_rtm or <iso>_dam on the price rows; empty on the own_signal rows
   type: text
   values:
     list:
@@ -99,16 +100,15 @@ columns:
       ercot_dam: 26304
       ercot_rtm: 52608
   missing_cells: 44097
-  particular: <iso>_rtm or <iso>_dam on the price rows; empty on the own_signal rows
 - name: node
   shared: true
+  particular: The hub priced (HB_HUBAVG, TH_SP15_GEN-APND) on the price rows; empty on the own_signal rows
   type: text
   values:
     list:
       HB_HUBAVG: 78912
       TH_SP15_GEN-APND: 78864
   missing_cells: 44097
-  particular: The hub priced (HB_HUBAVG, TH_SP15_GEN-APND) on the price rows; empty on the own_signal rows
 - name: source
   shared: true
   type: text
@@ -134,11 +134,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 201873
-  particular: 'Not filled: no cell holds a value'
 - name: x_detail
   label: 'Detail of the row: held=<intervals held> on rt_intervals_ge_1000; on own_signal, ERCOT''s hourly mean adder (rtorpa_mean=<USD/MWh>)
     or CAISO''s notices in force as type@region'

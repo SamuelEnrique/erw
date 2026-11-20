@@ -41,6 +41,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: statcan_eb:<area>:<fuel>, the area ca, a province's or territory's postal code, atl (the Atlantic provinces)
+    or ter (the three territories together)
   type: text
   values:
     distinct: 354
@@ -51,8 +53,6 @@ columns:
     - statcan_eb:ab:coke_oven_gas
     - statcan_eb:ab:crude_oil
   missing_cells: 0
-  particular: statcan_eb:<area>:<fuel>, the area ca, a province's or territory's postal code, atl (the Atlantic provinces)
-    or ter (the three territories together)
 - name: variable
   shared: true
   type: text
@@ -91,6 +91,8 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: CA or CA-<province>; empty for the Atlantic provinces (atl) and the three territories together (ter), which
+    no single code names
   type: text
   values:
     list:
@@ -109,17 +111,16 @@ columns:
       CA-SK: 7916
       CA-YT: 3993
   missing_cells: 15966
-  particular: CA or CA-<province>; empty for the Atlantic provinces (atl) and the three territories together (ter), which
-    no single code names
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 128420
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: '<area>: <fuel>: <line> as StatCan names them, not a pricing node'
   type: text
   values:
     distinct: more than 5000
@@ -130,7 +131,6 @@ columns:
     - 'Alberta: Aviation gasoline: Commercial and other institutional'
     - 'Alberta: Aviation gasoline: Energy use, final demand'
   missing_cells: 0
-  particular: '<area>: <fuel>: <line> as StatCan names them, not a pricing node'
 - name: source
   shared: true
   type: text
@@ -154,12 +154,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified time of StatCan's zip
   type: utc time
   values:
     list:
       '2025-11-13T13:30:17Z': 128420
   missing_cells: 0
-  particular: The Last-Modified time of StatCan's zip
 - name: x_fuel
   label: The fuel, StatCan's name (28 fuels, totals among them)
   unit: none

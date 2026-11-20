@@ -35,6 +35,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: nrc_en:<event number>:<unit>, or nrc_en:<event number> where the report names no unit
   type: text
   values:
     list:
@@ -64,9 +65,9 @@ columns:
       nrc_en:58498:2: 1
       nrc_en:58501:3: 1
   missing_cells: 0
-  particular: nrc_en:<event number>:<unit>, or nrc_en:<event number> where the report names no unit
 - name: event_date
   shared: true
+  particular: The event's time in UTC (YYYY-MM-DDTHH:MM:SSZ)
   type: utc time
   values:
     list:
@@ -91,18 +92,18 @@ columns:
       '2026-10-15T17:05:00Z': 1
       '2026-10-17T03:45:00Z': 1
   missing_cells: 0
-  particular: The event's time in UTC (YYYY-MM-DDTHH:MM:SSZ)
 - name: event_type
   shared: true
+  particular: reactor_scram where the unit's scram code is not N or the report cites 50.72(b)(2)(iv)(B), else reactor_event
   type: text
   values:
     list:
       reactor_event: 18
       reactor_scram: 7
   missing_cells: 0
-  particular: reactor_scram where the unit's scram code is not N or the report cites 50.72(b)(2)(iv)(B), else reactor_event
 - name: parties
   shared: true
+  particular: The licensee; empty in the rows read from the daily pages, which name none
   type: text
   values:
     list:
@@ -118,7 +119,6 @@ columns:
       Southern Nuclear Operating Company: 2
       Tennessee Valley Authority: 6
   missing_cells: 4
-  particular: The licensee; empty in the rows read from the daily pages, which name none
 - name: entity_ids
   shared: true
   type: empty
@@ -145,11 +145,11 @@ columns:
   missing_cells: 25
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 25
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text

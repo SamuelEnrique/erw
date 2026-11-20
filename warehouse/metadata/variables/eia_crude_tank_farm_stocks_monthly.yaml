@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_crude_tank_farm_stocks:<EIA series id>
   type: text
   values:
     list:
@@ -44,7 +45,6 @@ columns:
       eia_crude_tank_farm_stocks:MCRSFUS1: 547
       eia_crude_tank_farm_stocks:MCRST_YCUOK_1: 271
   missing_cells: 0
-  particular: eia_crude_tank_farm_stocks:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -83,22 +83,23 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-OK for Cushing, US otherwise (the PADDs included)
   type: text
   values:
     list:
       US: 3282
       US-OK: 271
   missing_cells: 0
-  particular: US-OK for Cushing, US otherwise (the PADDs included)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3553
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series description
   type: text
   values:
     list:
@@ -110,7 +111,6 @@ columns:
       U.S. Crude Oil Stocks at Tank Farms and Pipelines (Thousand Barrels): 547
       West Coast (PADD 5) Crude Oil Stocks at Tank Farms and Pipelines (Thousand Barrels): 547
   missing_cells: 0
-  particular: EIA's series description
 - name: source
   shared: true
   type: text
@@ -135,11 +135,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3553
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: ending_stocks
   label: Cushing, Oklahoma ending stocks of crude oil at the month's end, thousand barrels

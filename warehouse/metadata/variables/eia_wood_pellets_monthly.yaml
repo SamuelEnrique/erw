@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_wood_pellets:<sales|export|capacity|feedstocks>:<region or fuel type>
   type: text
   values:
     list:
@@ -51,7 +52,6 @@ columns:
       eia_wood_pellets:sales:US-TOTAL: 125
       eia_wood_pellets:sales:WEST: 125
   missing_cells: 0
-  particular: eia_wood_pellets:<sales|export|capacity|feedstocks>:<region or fuel type>
 - name: variable
   shared: true
   type: text
@@ -91,21 +91,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row, the regions included
   type: text
   values:
     list:
       US: 2090
   missing_cells: 0
-  particular: US on every row, the regions included
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2090
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's region or fuel type name
   type: text
   values:
     list:
@@ -119,7 +120,6 @@ columns:
       WEST: 375
       Wood Product Manufacturing Residuals: 124
   missing_cells: 0
-  particular: EIA's region or fuel type name
 - name: source
   shared: true
   type: text
@@ -150,11 +150,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2090
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: domestic_price
   label: Average price of domestic sales of densified biomass in the region, USD per short ton

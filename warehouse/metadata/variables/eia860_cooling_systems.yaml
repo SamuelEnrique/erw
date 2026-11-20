@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: eia860_cooling:<plant code>:<cooling id>
   type: text
   values:
     distinct: 1797
@@ -45,17 +46,17 @@ columns:
     - eia860_cooling:1001:SUPP
     - eia860_cooling:1004:6
   missing_cells: 0
-  particular: eia860_cooling:<plant code>:<cooling id>
 - name: entity_type
   shared: true
+  particular: Always equipment (Decision 54)
   type: text
   values:
     list:
       equipment: 1797
   missing_cells: 0
-  particular: Always equipment (Decision 54)
 - name: name
   shared: true
+  particular: The plant's name, the word cooling and the cooling id
   type: text
   values:
     distinct: 1797
@@ -66,9 +67,9 @@ columns:
     - AES Alamitos LLC cooling 1
     - AES Alamitos LLC cooling 2
   missing_cells: 0
-  particular: The plant's name, the word cooling and the cooling id
 - name: geo
   shared: true
+  particular: US-<plant state>
   type: text
   values:
     distinct: 48
@@ -79,30 +80,31 @@ columns:
     - US-CA
     - US-CO
   missing_cells: 0
-  particular: US-<plant state>
 - name: lat
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1797
-  particular: Not filled
 - name: lon
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1797
-  particular: Not filled
 - name: capacity_mw
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1797
-  particular: Not filled
 - name: status
   shared: true
+  particular: 'EIA''s cooling status code (x_eia_status) as the standard''s word: OP, SB, OS, SC operating; PL planned; CO
+    under_construction; RE retired; CN withdrawn'
   type: text
   values:
     list:
@@ -112,20 +114,19 @@ columns:
       under_construction: 4
       withdrawn: 6
   missing_cells: 0
-  particular: 'EIA''s cooling status code (x_eia_status) as the standard''s word: OP, SB, OS, SC operating; PL planned; CO
-    under_construction; RE retired; CN withdrawn'
 - name: status_date
   shared: true
+  particular: The first day of the month in service (operating); empty for a retired system, as the sheet gives no retirement
+    month
   type: date
   values:
     distinct: 563
     earliest: '1932-06-01'
     latest: '2024-04-01'
   missing_cells: 539
-  particular: The first day of the month in service (operating); empty for a retired system, as the sheet gives no retirement
-    month
 - name: operator
   shared: true
+  particular: EIA's Utility Name
   type: text
   values:
     distinct: 452
@@ -136,7 +137,6 @@ columns:
     - AES Huntington Beach LLC
     - AES Indiana
   missing_cells: 0
-  particular: EIA's Utility Name
 - name: source
   shared: true
   type: text
@@ -160,12 +160,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The data year, 2025
   type: integer
   values:
     list:
       '2025': 1797
   missing_cells: 0
-  particular: The data year, 2025
 - name: x_plant_code
   label: EIA's plant code
   unit: none

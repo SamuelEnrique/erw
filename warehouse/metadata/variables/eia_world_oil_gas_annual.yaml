@@ -40,6 +40,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_intl:<EIA country or region code>:<EIA product id>; a product's parts overlap
   type: text
   values:
     distinct: more than 5000
@@ -50,7 +51,6 @@ columns:
     - eia_intl:ABW:43
     - eia_intl:ABW:48
   missing_cells: 0
-  particular: eia_intl:<EIA country or region code>:<EIA product id>; a product's parts overlap
 - name: variable
   shared: true
   type: text
@@ -91,20 +91,21 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: no ISO code is guessed from EIA''s area codes'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 448267
-  particular: 'Not filled: no ISO code is guessed from EIA''s area codes'
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 448267
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: <area>, <product> in EIA's names
   type: text
   values:
     distinct: more than 5000
@@ -115,7 +116,6 @@ columns:
     - Afghanistan, Crude oil, NGPL, and other liquids
     - Afghanistan, Distillate fuel oil
   missing_cells: 0
-  particular: <area>, <product> in EIA's names
 - name: source
   shared: true
   type: text
@@ -139,12 +139,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The bulk file's last-modified time from EIA's server
   type: utc time
   values:
     list:
       '2026-10-19T19:55:35Z': 448267
   missing_cells: 0
-  particular: The bulk file's last-modified time from EIA's server
 - name: x_area
   label: 'The kind of area: country, former (a country that no longer exists), part (EIA''s offshore and trade-zone parts)
     or region (the world, continents, groups); a sum over countries takes country and former only'

@@ -31,6 +31,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: company_alias:<16 hex characters of a SHA-1 of company, name, table and role>
   type: text
   values:
     distinct: more than 5000
@@ -41,17 +42,17 @@ columns:
     - company_alias:0002b3a05b8cdcb1
     - company_alias:0004d5952693ec45
   missing_cells: 0
-  particular: company_alias:<16 hex characters of a SHA-1 of company, name, table and role>
 - name: entity_type
   shared: true
+  particular: Always company_alias
   type: text
   values:
     list:
       company_alias: 25986
   missing_cells: 0
-  particular: Always company_alias
 - name: name
   shared: true
+  particular: The name as written in the input table (the same as alias)
   type: text
   values:
     distinct: more than 5000
@@ -62,14 +63,13 @@ columns:
     - 1008 Matthews Solar, LLC
     - 1009 Yadkin Solar, LLC
   missing_cells: 0
-  particular: The name as written in the input table (the same as alias)
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 25986
-  particular: 'Not filled: no cell holds a value'
 - name: lat
   shared: true
   type: empty
@@ -90,11 +90,11 @@ columns:
   missing_cells: 25986
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 25986
-  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty

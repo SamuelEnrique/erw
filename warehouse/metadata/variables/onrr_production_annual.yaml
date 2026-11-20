@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: onrr_production:<class>:<category>:<FIPS code>_<county name> or :<offshore region>, then :<product>
   type: text
   values:
     distinct: 830
@@ -47,7 +48,6 @@ columns:
     - onrr_production:federal:offshore:gulf_of_america:oil_bbl
     - onrr_production:federal:offshore:pacific:gas_mcf
   missing_cells: 0
-  particular: onrr_production:<class>:<category>:<FIPS code>_<county name> or :<offshore region>, then :<product>
 - name: variable
   shared: true
   type: text
@@ -110,6 +110,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>; empty for offshore rows and rows ONRR gives no state
   type: text
   values:
     distinct: 29
@@ -120,16 +121,16 @@ columns:
     - US-CA
     - US-CO
   missing_cells: 244
-  particular: US-<state>; empty for offshore rows and rows ONRR gives no state
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 15068
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'County, State: Product (or the offshore region), in ONRR''s words, not a pricing node'
   type: text
   values:
     distinct: 735
@@ -140,7 +141,6 @@ columns:
     - 'Alaska: Gas (mcf)'
     - 'Alaska: Oil (bbl)'
   missing_cells: 0
-  particular: 'County, State: Product (or the offshore region), in ONRR''s words, not a pricing node'
 - name: source
   shared: true
   type: text
@@ -164,12 +164,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's last-modified time, one value
   type: utc time
   values:
     list:
       '2026-10-21T17:11:22Z': 15068
   missing_cells: 0
-  particular: The file's last-modified time, one value
 - name: x_land_class
   label: 'ONRR''s land class: Federal, Native American or Mixed Exploratory'
   unit: none

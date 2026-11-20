@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_crude_imports:<originId>:<destinationId>:<gradeId>; destinations nest, so a sum takes one destination type
   type: text
   values:
     distinct: more than 5000
@@ -45,7 +46,6 @@ columns:
     - eia_crude_imports:CTY_AE:PP_5:HSO
     - eia_crude_imports:CTY_AE:PP_5:LSO
   missing_cells: 0
-  particular: eia_crude_imports:<originId>:<destinationId>:<gradeId>; destinations nest, so a sum takes one destination type
 - name: variable
   shared: true
   type: text
@@ -84,21 +84,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 183393
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 183393
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The origin, destination (with its type) and grade in EIA's names
   type: text
   values:
     distinct: more than 5000
@@ -109,7 +110,6 @@ columns:
     - Albania to PADD1 (East Coast) (Port PADD), Heavy Sour
     - Albania to PADD1 (East Coast) (Refinery PADD), Heavy Sour
   missing_cells: 0
-  particular: The origin, destination (with its type) and grade in EIA's names
 - name: source
   shared: true
   type: text
@@ -136,11 +136,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 183393
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: imports
   label: Crude oil imported in the month along the origin, destination and grade, thousand barrels

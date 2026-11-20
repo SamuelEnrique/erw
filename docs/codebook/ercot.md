@@ -440,7 +440,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 - **Time:** ts_utc is the start of the hour in UTC (ERCOT gives the Delivery Date and the Hour Ending in Central prevailing time).
 - **Revisions:** One operating day appended at a time after the last held; a day is never rewritten once held. vintage is ERCOT's publication time of the day's zip (the operating day plus 60 days).
-- **Source:** ercot:NP3-966-ER ERCOT, 60-Day DAM Disclosure Reports,  document list (https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=13051)
+- **Source:** ercot:NP3-966-ER ERCOT, 60-Day DAM Disclosure Reports, https://www.ercot.com/mp/data-products/data-product-details?id=NP3-966-ER; document list (https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=13051)
 - **Method note:** [`docs/methods/ercot_dam_esr_awards.md`](../methods/ercot_dam_esr_awards.md)
 - **Cite as:** Electric Reliability Council of Texas (ERCOT). 60-Day DAM Disclosure Reports (the file 60d_DAM_ESR_Data: Energy Storage Resources). Via the Energy Research Warehouse (ERW), table `ercot_dam_esr_awards`.
 
@@ -494,7 +494,7 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 
 - **Time:** event_date is the Central day the notice covers (the days it names, else the day it was issued); x_issued_at is when it was issued.
 - **Revisions:** Merged by event_id; each run keeps the rows it read before, so the table only grows. No vintage column.
-- **Source:** ercot:news_releases ERCOT, News Releases,  ercot:operations_messages ERCOT, Operations Messages (https://www.ercot.com/services/comm/mkt_notices/opsmessages)
+- **Source:** ercot:news_releases ERCOT, News Releases, https://www.ercot.com/news/releases; ercot:operations_messages ERCOT, Operations Messages (https://www.ercot.com/services/comm/mkt_notices/opsmessages)
 - **Method note:** [`docs/methods/ercot_grid_notices.md`](../methods/ercot_grid_notices.md)
 - **Cite as:** Electric Reliability Council of Texas (ERCOT). News Releases (grid conditions: EEAs, conservation appeals, watches); Operations Messages (the control room's notices). Via the Energy Research Warehouse (ERW), table `ercot_grid_notices`.
 
@@ -614,7 +614,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 - **Time:** ts_utc is the day on the report's first page at 00:00:00Z; the month the sentence names is in x_month_as_written.
 - **Revisions:** Merged by (entity, variable, ts_utc); vintage is the report's date at 00:00:00Z.
-- **Source:** ercot:large_load_status_update ERCOT, Large Load Interconnection Status Update (the Large Load Integration team's monthly report to TAC and the LLWG); found on the meeting pages of  and (https://www.ercot.com/committees/tac)
+- **Source:** ercot:large_load_status_update ERCOT, Large Load Interconnection Status Update (the Large Load Integration team's monthly report to TAC and the LLWG); found on the meeting pages of https://www.ercot.com/committees/tac/llwg and (https://www.ercot.com/committees/tac)
 - **Method note:** [`docs/methods/ercot_large_load_status.md`](../methods/ercot_large_load_status.md)
 - **Cite as:** Electric Reliability Council of Texas (ERCOT). Large Load Interconnection Status Update (the Large Load Integration team's monthly report to TAC and the LLWG). Via the Energy Research Warehouse (ERW), table `ercot_large_load_status`.
 
@@ -1107,7 +1107,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 - **Time:** ts_utc is the start of the hour in UTC; operating days are Central (America/Chicago) days.
 - **Revisions:** Each operating day is reduced to resource-hours once and added; a day already reduced is not read again unless asked. vintage is the operating day plus 60 days at 00:00:00Z.
-- **Source:** ercot:NP3-965-ER ERCOT, 60-Day SCED Disclosure Reports (report type 13052),  document list (https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=13052)
+- **Source:** ercot:NP3-965-ER ERCOT, 60-Day SCED Disclosure Reports (report type 13052), https://www.ercot.com/mp/data-products/data-product-details?id=NP3-965-ER; document list (https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=13052)
 - **Method note:** [`docs/methods/ercot_sced_esr_hourly.md`](../methods/ercot_sced_esr_hourly.md)
 - **Cite as:** Electric Reliability Council of Texas (ERCOT). 60-Day SCED Disclosure Reports (the file 60d_ESR_Data_in_SCED: Energy Storage Resources in real time). Via the Energy Research Warehouse (ERW), table `ercot_sced_esr_hourly`.
 
@@ -1223,7 +1223,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: deri
 
 - **Time:** ts_utc is the operating day (local, Central) at 00:00:00Z. A MWh here is a MW for an hour, of limit, offered or awarded capacity, or energy.
 - **Revisions:** A day added is appended, and a day already held is replaced whole by its new rows; a rebuild from the zips rewrites the table. vintage is ERCOT's publication of the day's disclosure (the operating day plus 60 days).
-- **Source:** erw:ercot_storage_dam_offers ERW derived table, ERCOT storage resources' day-ahead offers (docs/methods/ercot_storage_dam_offers.md),  computed from ERCOT's 60-Day DAM Disclosure Reports (NP3-966-ER), the files 60d_DAM_ESR_Data and 60d_DAM_ESR_ASOffers (https://www.ercot.com/mp/data-products/data-product-details?id=NP3-966-ER)
+- **Source:** erw:ercot_storage_dam_offers ERW derived table, ERCOT storage resources' day-ahead offers (docs/methods/ercot_storage_dam_offers.md), https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_storage_dam_offers.md; computed from ERCOT's 60-Day DAM Disclosure Reports (NP3-966-ER), the files 60d_DAM_ESR_Data and 60d_DAM_ESR_ASOffers (https://www.ercot.com/mp/data-products/data-product-details?id=NP3-966-ER)
 - **Method note:** [`docs/methods/ercot_storage_dam_offers.md`](../methods/ercot_storage_dam_offers.md)
 - **Cite as:** Energy Research Warehouse (ERW), derived. ERCOT storage resources' day-ahead offers by day and by month (docs/methods/ercot_storage_dam_offers.md). Via the Energy Research Warehouse (ERW), table `ercot_storage_dam_offers_daily`.
 
@@ -1733,7 +1733,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 - **Time:** ts_utc is the ERCOT operating day (Central) at 00:00:00Z; a day is written only with every hour's output and HSL.
 - **Revisions:** Merged by (entity, variable, ts_utc); a daily run reads the last postings of the last three publish days, and a day read again replaces the one held. vintage is not filled.
-- **Source:** ercot:np4_732_745 Wind and Solar Power Production, Hourly Averaged Actual and Forecasted Values (NP4-732-CD, NP4-745-CD) (https://www.ercot.com/mp/data-products/data-product-details?id=NP4-745-CD)
+- **Source:** ercot:np4_732_745 Wind and Solar Power Production, Hourly Averaged Actual and Forecasted Values (NP4-732-CD, NP4-745-CD), https://www.ercot.com/mp/data-products/data-product-details?id=NP4-732-CD (https://www.ercot.com/mp/data-products/data-product-details?id=NP4-745-CD)
 - **Method note:** [`docs/methods/ercot_wind_solar_hsl_daily.md`](../methods/ercot_wind_solar_hsl_daily.md)
 - **Cite as:** Electric Reliability Council of Texas (ERCOT). Wind and Solar Power Production, Hourly Averaged Actual and Forecasted Values (NP4-732-CD, NP4-745-CD). Via the Energy Research Warehouse (ERW), table `ercot_wind_solar_hsl_daily`.
 

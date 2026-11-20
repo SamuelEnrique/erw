@@ -35,6 +35,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: ornl_relicense:<FERC docket>:<relicense|surrender>, with -2 for a docket a sheet gives twice
   type: text
   values:
     distinct: 559
@@ -45,7 +46,6 @@ columns:
     - ornl_relicense:P-10253:relicense
     - ornl_relicense:P-10254:relicense
   missing_cells: 0
-  particular: ornl_relicense:<FERC docket>:<relicense|surrender>, with -2 for a docket a sheet gives twice
 - name: event_date
   shared: true
   type: date
@@ -56,15 +56,16 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: hydro_relicense or hydro_license_surrender
   type: text
   values:
     list:
       hydro_license_surrender: 152
       hydro_relicense: 407
   missing_cells: 0
-  particular: hydro_relicense or hydro_license_surrender
 - name: parties
   shared: true
+  particular: The project's current licensee
   type: text
   values:
     distinct: 430
@@ -75,9 +76,9 @@ columns:
     - ALBANY ENGINEERING CORP
     - ALICE FALLS HYDRO, LLC
   missing_cells: 0
-  particular: The project's current licensee
 - name: entity_ids
   shared: true
+  particular: ornl_eha:<EHA_PtID>, the plant in ornl_eha_hydropower_plants, where ORNL gives one
   type: text
   values:
     distinct: 546
@@ -88,16 +89,15 @@ columns:
     - ornl_eha:hc0149_p02
     - ornl_eha:hc0151_p01
   missing_cells: 11
-  particular: ornl_eha:<EHA_PtID>, the plant in ornl_eha_hydropower_plants, where ORNL gives one
 - name: mw
   shared: true
+  particular: The new license's capacity (relicense) or the surrendered project's capacity (surrender)
   type: number
   values:
     distinct: 403
     lowest: 0.0
     highest: 2755.5
   missing_cells: 0
-  particular: The new license's capacity (relicense) or the surrendered project's capacity (surrender)
 - name: price
   shared: true
   type: empty
@@ -112,6 +112,7 @@ columns:
   missing_cells: 559
 - name: status
   shared: true
+  particular: ORNL's own status on 31 December 2025 (Issued Relicense, Pending Relicense, Issued Surrender and the others)
   type: text
   values:
     list:
@@ -125,7 +126,6 @@ columns:
       Submitted NOI to Relicense: 40
       Submitted NOI to Surrender: 9
   missing_cells: 0
-  particular: ORNL's own status on 31 December 2025 (Issued Relicense, Pending Relicense, Issued Surrender and the others)
 - name: source
   shared: true
   type: text

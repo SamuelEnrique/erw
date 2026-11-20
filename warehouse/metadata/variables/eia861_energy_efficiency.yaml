@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia861_ee:<utility number>:<state>:<balancing authority>; ends in a colon where EIA gives no balancing authority
   type: text
   values:
     distinct: 794
@@ -47,7 +48,6 @@ columns:
     - eia861_ee:1002:IA:MISO
     - eia861_ee:10040:MN:MISO
   missing_cells: 0
-  particular: eia861_ee:<utility number>:<state>:<balancing authority>; ends in a colon where EIA gives no balancing authority
 - name: variable
   shared: true
   type: text
@@ -98,6 +98,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>
   type: text
   values:
     distinct: 52
@@ -108,16 +109,16 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<state>
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 187850
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The utility's name, not a pricing node
   type: text
   values:
     distinct: 801
@@ -128,7 +129,6 @@ columns:
     - ALLETE, Inc.
     - Adrian Public Utilities Comm
   missing_cells: 0
-  particular: The utility's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -172,11 +172,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 187850
-  particular: 'Not filled: no cell holds a value'
 - name: x_utility_number
   label: EIA's utility identifier
   unit: none

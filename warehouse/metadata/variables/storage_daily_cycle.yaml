@@ -39,6 +39,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<BA> from EIA-930; caiso:ISO for CAISO's own data
   type: text
   values:
     list:
@@ -49,7 +50,6 @@ columns:
       eia930:SWPP: 807
       eia930:US48: 3656
   missing_cells: 0
-  particular: eia930:<BA> from EIA-930; caiso:ISO for CAISO's own data
 - name: variable
   shared: true
   type: text
@@ -143,6 +143,7 @@ columns:
   missing_cells: 15085
 - name: ba
   shared: true
+  particular: ciso on the caiso:ISO rows
   type: text
   values:
     list:
@@ -153,7 +154,6 @@ columns:
       swpp: 807
       us48: 3656
   missing_cells: 0
-  particular: ciso on the caiso:ISO rows
 variables:
 - name: mwh_charged
   label: Sum of the negative hourly battery net generation over the day, as a positive number (charging)

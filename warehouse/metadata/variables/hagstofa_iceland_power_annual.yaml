@@ -33,12 +33,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: hagstofa:is on every row
   type: text
   values:
     list:
       hagstofa:is: 88
   missing_cells: 0
-  particular: hagstofa:is on every row
 - name: variable
   shared: true
   type: text
@@ -78,28 +78,28 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: IS on every row
   type: text
   values:
     list:
       IS: 88
   missing_cells: 0
-  particular: IS on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 88
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The measure as Statistics Iceland names it, not a pricing node
   type: text
   values:
     list:
       Annual generation of energy, GWh: 44
       Installed capacity at end of period, MW: 44
   missing_cells: 0
-  particular: The measure as Statistics Iceland names it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -123,12 +123,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The JSON-stat answer's updated time (UTC)
   type: utc time
   values:
     list:
       '2015-12-10T10:41:00Z': 88
   missing_cells: 0
-  particular: The JSON-stat answer's updated time (UTC)
 - name: x_table
   label: Statistics Iceland's table code (IDN02101)
   unit: none

@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: The queue table's (lbnl_interconnection_queue's) own entity_id
   type: text
   values:
     distinct: 3098
@@ -43,15 +44,14 @@ columns:
     - lbnl:CAISO:1005
     - lbnl:CAISO:1010
   missing_cells: 0
-  particular: The queue table's (lbnl_interconnection_queue's) own entity_id
 - name: entity_type
   shared: true
+  particular: Always project
   type: text
   values:
     list:
       project: 3098
   missing_cells: 0
-  particular: Always project
 - name: name
   shared: true
   type: text
@@ -98,21 +98,21 @@ columns:
   missing_cells: 0
 - name: status
   shared: true
+  particular: Always operating
   type: text
   values:
     list:
       operating: 3098
   missing_cells: 0
-  particular: Always operating
 - name: status_date
   shared: true
+  particular: The operation date
   type: date
   values:
     distinct: 1734
     earliest: '1999-06-30'
     latest: '2025-12-31'
   missing_cells: 0
-  particular: The operation date
 - name: operator
   shared: true
   type: text
@@ -148,12 +148,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Queued Up edition, as text
   type: text
   values:
     list:
       2026 edition (through 2025): 3098
   missing_cells: 0
-  particular: The Queued Up edition, as text
 - name: queue_id
   label: The request's queue identifier as Berkeley Lab's file gives it
   unit: none

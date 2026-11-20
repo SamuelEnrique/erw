@@ -30,6 +30,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: The queue table's own (<iso>_queue:<queue_id>)
   type: text
   values:
     list:
@@ -37,7 +38,6 @@ columns:
       ercot_queue:28INR0499: 1
       nyiso_queue:1630: 1
   missing_cells: 0
-  particular: The queue table's own (<iso>_queue:<queue_id>)
 - name: entity_type
   shared: true
   type: text
@@ -76,6 +76,7 @@ columns:
   missing_cells: 3
 - name: capacity_mw
   shared: true
+  particular: The generation or storage the position asks to connect, not the load
   type: number
   values:
     list:
@@ -83,9 +84,9 @@ columns:
       '133.0': 1
       '58.26': 1
   missing_cells: 0
-  particular: The generation or storage the position asks to connect, not the load
 - name: status
   shared: true
+  particular: 'The queue table''s: active, completed or withdrawn, mapped from iso_status'
   type: text
   values:
     list:
@@ -93,7 +94,6 @@ columns:
       completed: 1
       withdrawn: 1
   missing_cells: 0
-  particular: 'The queue table''s: active, completed or withdrawn, mapped from iso_status'
 - name: status_date
   shared: true
   type: date
@@ -136,14 +136,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'The queue table''s own, as text: ERCOT''s the retrieval date (YYYY-MM-DD), NYISO''s the retrieval day at 00:00:00Z;
+    not a publication date'
   type: text
   values:
     list:
       '2026-09-26T00:00:00Z': 1
       '2026-11-05': 2
   missing_cells: 0
-  particular: 'The queue table''s own, as text: ERCOT''s the retrieval date (YYYY-MM-DD), NYISO''s the retrieval day at 00:00:00Z;
-    not a publication date'
 - name: queue_id
   label: The ISO's identifier of the interconnection request (ERCOT's INR number, NYISO's queue number)
   unit: none

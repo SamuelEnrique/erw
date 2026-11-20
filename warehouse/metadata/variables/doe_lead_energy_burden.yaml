@@ -38,6 +38,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: doe_lead:<county FIPS> or doe_lead:<state postal code>
   type: text
   values:
     distinct: 3274
@@ -48,7 +49,6 @@ columns:
     - doe_lead:1001
     - doe_lead:1003
   missing_cells: 0
-  particular: doe_lead:<county FIPS> or doe_lead:<state postal code>
 - name: variable
   shared: true
   type: text
@@ -88,6 +88,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> (a county's row names its state)
   type: text
   values:
     distinct: 52
@@ -98,16 +99,16 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<state> (a county's row names its state)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 160419
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The county's name as LEAD writes it, or the state's postal code; not a pricing node
   type: text
   values:
     distinct: 2012
@@ -118,7 +119,6 @@ columns:
     - AZ
     - Abbeville County
   missing_cells: 0
-  particular: The county's name as LEAD writes it, or the state's postal code; not a pricing node
 - name: source
   shared: true
   type: text
@@ -148,13 +148,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The state zip's retrieval time (UTC), the same as retrieved_at, not the publisher's Last-Modified
   type: utc time
   values:
     distinct: 52
     earliest: '2026-10-23T23:59:10Z'
     latest: '2026-10-24T00:10:31Z'
   missing_cells: 0
-  particular: The state zip's retrieval time (UTC), the same as retrieved_at, not the publisher's Last-Modified
 - name: x_level
   label: Whether the row is a county or a state
   unit: none

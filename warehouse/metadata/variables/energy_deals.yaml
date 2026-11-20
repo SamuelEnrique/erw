@@ -51,6 +51,7 @@ columns:
   missing_cells: 0
 - name: event_date
   shared: true
+  particular: The announced date where the story states it, else the first story's publish time
   type: text
   values:
     distinct: 408
@@ -61,17 +62,17 @@ columns:
     - '2025-01-14T08:00:00Z'
     - '2025-01-15T08:00:00Z'
   missing_cells: 0
-  particular: The announced date where the story states it, else the first story's publish time
 - name: event_type
   shared: true
+  particular: Always deal
   type: text
   values:
     list:
       deal: 583
   missing_cells: 0
-  particular: Always deal
 - name: parties
   shared: true
+  particular: buyer;seller;other_parties
   type: text
   values:
     distinct: 538
@@ -82,7 +83,6 @@ columns:
     - ADQ;ECP
     - AEP
   missing_cells: 2
-  particular: buyer;seller;other_parties
 - name: entity_ids
   shared: true
   type: empty
@@ -91,29 +91,31 @@ columns:
   missing_cells: 583
 - name: mw
   shared: true
+  particular: As stated; written by the model, its span checked in the story
   type: number
   values:
     distinct: 34
     lowest: 20.0
     highest: 6000.0
   missing_cells: 547
-  particular: As stated; written by the model, its span checked in the story
 - name: price
   shared: true
+  particular: Only a price stated in USD/MWh
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 583
-  particular: Only a price stated in USD/MWh
 - name: currency
   shared: true
+  particular: USD where price is filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 583
-  particular: USD where price is filled
 - name: status
   shared: true
+  particular: rumored, announced, signed, closed or cancelled; written by the model where its words are in the story, moved
+    forward by a later story
   type: text
   values:
     list:
@@ -123,10 +125,9 @@ columns:
       rumored: 60
       signed: 190
   missing_cells: 98
-  particular: rumored, announced, signed, closed or cancelled; written by the model where its words are in the story, moved
-    forward by a later story
 - name: source
   shared: true
+  particular: The outlet of the first story
   type: text
   values:
     list:
@@ -156,7 +157,6 @@ columns:
       jpt.spe.org: 5
       pv magazine USA: 4
   missing_cells: 0
-  particular: The outlet of the first story
 - name: source_url
   shared: true
   type: text

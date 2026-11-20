@@ -31,6 +31,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<region>, EIA-930's region code
   type: text
   values:
     list:
@@ -48,7 +49,6 @@ columns:
       eia930:TEN: 68582
       eia930:TEX: 64525
   missing_cells: 0
-  particular: eia930:<region>, EIA-930's region code
 - name: variable
   shared: true
   type: text

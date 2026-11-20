@@ -31,6 +31,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: caiso_queue:<queue id>
   type: text
   values:
     distinct: 2278
@@ -41,15 +42,14 @@ columns:
     - caiso_queue:1001
     - caiso_queue:1002
   missing_cells: 0
-  particular: caiso_queue:<queue id>
 - name: entity_type
   shared: true
+  particular: project in every row
   type: text
   values:
     list:
       project: 2278
   missing_cells: 0
-  particular: project in every row
 - name: name
   shared: true
   type: text
@@ -64,6 +64,8 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> for any two-letter state CAISO gives, so CAISO's MX (Mexico) gives US-MX on 18 rows; empty where
+    no state is given
   type: text
   values:
     list:
@@ -74,33 +76,32 @@ columns:
       US-NV: 104
       US-WY: 1
   missing_cells: 22
-  particular: US-<state> for any two-letter state CAISO gives, so CAISO's MX (Mexico) gives US-MX on 18 rows; empty where
-    no state is given
 - name: lat
   shared: true
+  particular: Empty in every row
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2278
-  particular: Empty in every row
 - name: lon
   shared: true
+  particular: Empty in every row
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2278
-  particular: Empty in every row
 - name: capacity_mw
   shared: true
+  particular: CAISO's requested capacity as gridstatus reads it
   type: number
   values:
     distinct: 535
     lowest: 0.0
     highest: 3200.0
   missing_cells: 0
-  particular: CAISO's requested capacity as gridstatus reads it
 - name: status
   shared: true
+  particular: active, withdrawn or completed, mapped one to one from iso_status; no suspended status
   type: text
   values:
     list:
@@ -108,24 +109,23 @@ columns:
       completed: 252
       withdrawn: 1765
   missing_cells: 0
-  particular: active, withdrawn or completed, mapped one to one from iso_status; no suspended status
 - name: status_date
   shared: true
+  particular: The withdrawn date of a withdrawn row, the in-service date of a completed row where given; empty on every active
+    row
   type: date
   values:
     distinct: 1057
     earliest: '2005-09-30'
     latest: '2026-10-06'
   missing_cells: 313
-  particular: The withdrawn date of a withdrawn row, the in-service date of a completed row where given; empty on every active
-    row
 - name: operator
   shared: true
+  particular: Empty in every row
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2278
-  particular: Empty in every row
 - name: source
   shared: true
   type: text
@@ -149,12 +149,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The retrieval day (YYYY-MM-DD), not a date CAISO prints
   type: date
   values:
     list:
       '2026-11-05': 2278
   missing_cells: 0
-  particular: The retrieval day (YYYY-MM-DD), not a date CAISO prints
 - name: queue_id
   label: CAISO's queue position number of the request
   unit: none

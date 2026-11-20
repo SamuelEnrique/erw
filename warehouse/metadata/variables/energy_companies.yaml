@@ -49,14 +49,15 @@ columns:
   missing_cells: 0
 - name: entity_type
   shared: true
+  particular: Always company
   type: text
   values:
     list:
       company: 562
   missing_cells: 0
-  particular: Always company
 - name: name
   shared: true
+  particular: A researched row's name is written by the Thesis Builder's model; a deal row's is the deal party's name
   type: text
   values:
     distinct: 562
@@ -67,14 +68,13 @@ columns:
     - AD Ports
     - ADIA
   missing_cells: 0
-  particular: A researched row's name is written by the Thesis Builder's model; a deal row's is the deal party's name
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 562
-  particular: 'Not filled: no cell holds a value'
 - name: lat
   shared: true
   type: empty
@@ -95,11 +95,11 @@ columns:
   missing_cells: 562
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 562
-  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -146,6 +146,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The run id that wrote the row, YYYYMMDDTHHMMSSZ
   type: text
   values:
     list:
@@ -156,7 +157,6 @@ columns:
       20260930T050541Z: 8
       20261115T152221Z: 541
   missing_cells: 0
-  particular: The run id that wrote the row, YYYYMMDDTHHMMSSZ
 - name: description
   label: A one-line description of the company, written by the Thesis Builder's model from the sources it cites
   unit: none

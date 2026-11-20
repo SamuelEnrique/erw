@@ -36,12 +36,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: cbs:nl on every row
   type: text
   values:
     list:
       cbs:nl: 8880
   missing_cells: 0
-  particular: cbs:nl on every row
 - name: variable
   shared: true
   type: text
@@ -80,21 +80,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: NL on every row
   type: text
   values:
     list:
       NL: 8880
   missing_cells: 0
-  particular: NL on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8880
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: CBS's Dutch title of the measure, not a pricing node
   type: text
   values:
     list:
@@ -124,7 +125,6 @@ columns:
       Windenergie, totaal: 295
       Zonnestroom: 139
   missing_cells: 0
-  particular: CBS's Dutch title of the measure, not a pricing node
 - name: source
   shared: true
   type: text
@@ -148,12 +148,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-09-29T18:03:10Z': 8880
   missing_cells: 0
-  particular: The file's Last-Modified (UTC)
 - name: x_measure
   label: CBS's code of the measure
   unit: none

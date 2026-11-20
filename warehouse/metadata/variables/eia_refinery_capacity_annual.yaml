@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_refinery_capacity:<EIA series id>
   type: text
   values:
     distinct: 2009
@@ -45,7 +46,6 @@ columns:
     - eia_refinery_capacity:8_NA_8CCF_NPZ_5
     - eia_refinery_capacity:8_NA_8CCF_NUS_4
   missing_cells: 0
-  particular: eia_refinery_capacity:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -97,13 +97,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 62804
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name (the process, area and unit)
   type: text
   values:
     distinct: 2009
@@ -114,7 +115,6 @@ columns:
     - Alabama Refinery Annual Idle Atmospheric Crude Oil Distillation Capacity as of January 1 (Barrels per Calendar Day)
     - Alabama Refinery Annual Idle Atmospheric Crude Oil Distillation Capacity as of January 1 (Barrels per Stream Day)
   missing_cells: 0
-  particular: EIA's series name (the process, area and unit)
 - name: source
   shared: true
   type: text
@@ -139,11 +139,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 62804
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: capacity_per_calendar_day
   label: Capacity in barrels per calendar day (allowing for downtime), thousand barrels a day

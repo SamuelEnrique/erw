@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<FROM>-<TO>, FROM the reporting party
   type: text
   values:
     distinct: 348
@@ -46,7 +47,6 @@ columns:
     - eia930:AECI-SWPP
     - eia930:AECI-TVA
   missing_cells: 0
-  particular: eia930:<FROM>-<TO>, FROM the reporting party
 - name: variable
   shared: true
   type: text
@@ -136,6 +136,7 @@ columns:
   missing_cells: 442992
 - name: ba
   shared: true
+  particular: The reporting party (FROM), lowercase
   type: text
   values:
     distinct: 74
@@ -146,7 +147,6 @@ columns:
     - azps
     - banc
   missing_cells: 0
-  particular: The reporting party (FROM), lowercase
 - name: x_to_ba
   label: The neighbour (TO) the reporting party reports its interchange with, EIA-930 code in lowercase
   unit: none

@@ -17,7 +17,7 @@ tier: source
 interval: P1M
 source:
 - name: ercot:large_load_status_update ERCOT, Large Load Interconnection Status Update (the Large Load Integration team's
-    monthly report to TAC and the LLWG); found on the meeting pages of  and
+    monthly report to TAC and the LLWG); found on the meeting pages of https://www.ercot.com/committees/tac/llwg and
   url: https://www.ercot.com/committees/tac
 cite: Electric Reliability Council of Texas (ERCOT). Large Load Interconnection Status Update (the Large Load Integration
   team's monthly report to TAC and the LLWG). Via the Energy Research Warehouse (ERW), table `ercot_large_load_status`.
@@ -35,12 +35,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'ercot:large_load in every row: ERCOT''s large loads together'
   type: text
   values:
     list:
       ercot:large_load: 38
   missing_cells: 0
-  particular: 'ercot:large_load in every row: ERCOT''s large loads together'
 - name: variable
   shared: true
   type: text
@@ -97,18 +97,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 38
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 38
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -143,6 +143,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The day on the report's first page at 00:00:00Z
   type: utc time
   values:
     list:
@@ -159,7 +160,6 @@ columns:
       '2026-05-21T00:00:00Z': 3
       '2026-06-19T00:00:00Z': 3
   missing_cells: 0
-  particular: The day on the report's first page at 00:00:00Z
 - name: x_month_as_written
   label: The month the report's sentence names, as ERCOT wrote it
   unit: none

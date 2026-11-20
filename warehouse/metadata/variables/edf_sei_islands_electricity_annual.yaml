@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: edf_sei:<territory>:<source>
   type: text
   values:
     distinct: 51
@@ -45,7 +46,6 @@ columns:
     - edf_sei:corsica:links
     - edf_sei:corsica:oil_turbines
   missing_cells: 0
-  particular: edf_sei:<territory>:<source>
 - name: variable
   shared: true
   type: text
@@ -89,6 +89,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The territory's code (FR-20R Corsica, GF, GP, MQ, RE, BL, MF, PM; FR for the Iles du Ponant)
   type: text
   values:
     list:
@@ -102,16 +103,16 @@ columns:
       PM: 14
       RE: 56
   missing_cells: 0
-  particular: The territory's code (FR-20R Corsica, GF, GP, MQ, RE, BL, MF, PM; FR for the Iles du Ponant)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 326
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The territory as EDF names it, not a pricing node
   type: text
   values:
     list:
@@ -125,7 +126,6 @@ columns:
       St Martin: 21
       St Pierre et Miquelon: 14
   missing_cells: 0
-  particular: The territory as EDF names it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -149,11 +149,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 326
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: generation
   label: Net energy injected into the territory's grid from the source in the year

@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<load zone>
   type: text
   values:
     list:
@@ -49,7 +50,6 @@ columns:
       ercot:LZ_SOUTH: 520320
       ercot:LZ_WEST: 520320
   missing_cells: 0
-  particular: ercot:<load zone>
 - name: variable
   shared: true
   type: text
@@ -96,15 +96,17 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: ercot_dam (hourly) or ercot_rtm (15-minute)
   type: text
   values:
     list:
       ercot_dam: 832512
       ercot_rtm: 1665024
   missing_cells: 0
-  particular: ercot_dam (hourly) or ercot_rtm (15-minute)
 - name: node
   shared: true
+  particular: 'ERCOT''s load zone: LZ_HOUSTON, LZ_NORTH, LZ_SOUTH, LZ_WEST (both markets) and LZ_AEN, LZ_CPS, LZ_LCRA, LZ_RAYBN
+    (day-ahead only)'
   type: text
   values:
     list:
@@ -117,8 +119,6 @@ columns:
       LZ_SOUTH: 520320
       LZ_WEST: 520320
   missing_cells: 0
-  particular: 'ERCOT''s load zone: LZ_HOUSTON, LZ_NORTH, LZ_SOUTH, LZ_WEST (both markets) and LZ_AEN, LZ_CPS, LZ_LCRA, LZ_RAYBN
-    (day-ahead only)'
 - name: source
   shared: true
   type: text
@@ -189,6 +189,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: ERCOT's publish time of the yearly workbook
   type: utc time
   values:
     list:
@@ -217,9 +218,9 @@ columns:
       '2026-11-15T14:01:47Z': 61056
       '2026-11-15T14:38:34Z': 122112
   missing_cells: 0
-  particular: ERCOT's publish time of the yearly workbook
 - name: year
   shared: true
+  particular: ERCOT's operating year in Central time
   type: integer
   values:
     list:
@@ -236,7 +237,6 @@ columns:
       '2025': 210240
       '2026': 183168
   missing_cells: 0
-  particular: ERCOT's operating year in Central time
 variables:
 - name: spp_dam
   label: ERCOT's day-ahead settlement point price at the load zone, hourly (spp here is ERCOT's 'settlement point price',

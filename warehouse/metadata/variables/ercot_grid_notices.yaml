@@ -16,7 +16,8 @@ license: public
 tier: source
 interval: event
 source:
-- name: ercot:news_releases ERCOT, News Releases,  ercot:operations_messages ERCOT, Operations Messages
+- name: ercot:news_releases ERCOT, News Releases, https://www.ercot.com/news/releases; ercot:operations_messages ERCOT, Operations
+    Messages
   url: https://www.ercot.com/services/comm/mkt_notices/opsmessages
 cite: 'Electric Reliability Council of Texas (ERCOT). News Releases (grid conditions: EEAs, conservation appeals, watches);
   Operations Messages (the control room''s notices). Via the Energy Research Warehouse (ERW), table `ercot_grid_notices`.'
@@ -35,6 +36,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: ercot_notice:<day>:<event_type>:<a 10-character hash of the source, address, issue time and text>
   type: text
   values:
     distinct: 178
@@ -45,18 +47,19 @@ columns:
     - ercot_notice:2011-02-09:power_watch:ccfe51d279
     - ercot_notice:2011-02-10:power_watch:1a96203f84
   missing_cells: 0
-  particular: ercot_notice:<day>:<event_type>:<a 10-character hash of the source, address, issue time and text>
 - name: event_date
   shared: true
+  particular: The Central day the notice covers, YYYY-MM-DD
   type: date
   values:
     distinct: 142
     earliest: '2011-02-02'
     latest: '2026-10-15'
   missing_cells: 0
-  particular: The Central day the notice covers, YYYY-MM-DD
 - name: event_type
   shared: true
+  particular: 'Read from the notice''s words: eea1 to eea3, rotating_outages, conservation_appeal, voluntary_conservation,
+    weather_watch, power_watch, ocn_weather, ocn, advisory, watch, emergency_notice, emergency_test, update, statement'
   type: text
   values:
     list:
@@ -74,46 +77,46 @@ columns:
       watch: 1
       weather_watch: 44
   missing_cells: 0
-  particular: 'Read from the notice''s words: eea1 to eea3, rotating_outages, conservation_appeal, voluntary_conservation,
-    weather_watch, power_watch, ocn_weather, ocn, advisory, watch, emergency_notice, emergency_test, update, statement'
 - name: parties
   shared: true
+  particular: ERCOT in every row
   type: text
   values:
     list:
       ERCOT: 178
   missing_cells: 0
-  particular: ERCOT in every row
 - name: entity_ids
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 178
-  particular: 'Not filled: no cell holds a value'
 - name: mw
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 178
-  particular: 'Not filled: no cell holds a value'
 - name: price
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 178
-  particular: 'Not filled: no cell holds a value'
 - name: currency
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 178
-  particular: 'Not filled: no cell holds a value'
 - name: status
   shared: true
+  particular: ended for a news release that ends or cancels a notice, issued for other releases; for a control-room message
+    the status ERCOT's page prints (active, cancelled), else issued
   type: text
   values:
     list:
@@ -122,8 +125,6 @@ columns:
       ended: 15
       issued: 132
   missing_cells: 0
-  particular: ended for a news release that ends or cancels a notice, issued for other releases; for a control-room message
-    the status ERCOT's page prints (active, cancelled), else issued
 - name: source
   shared: true
   type: text

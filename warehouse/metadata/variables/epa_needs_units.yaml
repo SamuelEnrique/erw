@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: epa_needs:<EPA's UniqueID_Final> (ORIS plant code, unit kind and unit id)
   type: text
   values:
     distinct: more than 5000
@@ -47,18 +48,18 @@ columns:
     - epa_needs:10003_B_BLR2
     - epa_needs:10003_B_BLR4
   missing_cells: 0
-  particular: epa_needs:<EPA's UniqueID_Final> (ORIS plant code, unit kind and unit id)
 - name: entity_type
   shared: true
+  particular: generator (EPA's G, and its one I, an import) or equipment (B, a boiler)
   type: text
   values:
     list:
       equipment: 1111
       generator: 36919
   missing_cells: 0
-  particular: generator (EPA's G, and its one I, an import) or equipment (B, a boiler)
 - name: name
   shared: true
+  particular: The plant name and the unit id
   type: text
   values:
     distinct: more than 5000
@@ -69,9 +70,9 @@ columns:
     - 1 Commercial CM1BS
     - 1 Commercial CM1PV
   missing_cells: 0
-  particular: The plant name and the unit id
 - name: geo
   shared: true
+  particular: US-<state> from EPA's state name
   type: text
   values:
     distinct: 52
@@ -82,52 +83,51 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  particular: US-<state> from EPA's state name
 - name: lat
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 38030
-  particular: Not filled
 - name: lon
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 38030
-  particular: Not filled
 - name: capacity_mw
   shared: true
+  particular: EPA's Capacity (MW); for units with boilers the capacity sits on the boiler row; blank on 7 dropped units
   type: number
   values:
     distinct: 2293
     lowest: 0.0
     highest: 2561.2
   missing_cells: 7
-  particular: EPA's Capacity (MW); for units with boilers the capacity sits on the boiler row; blank on 7 dropped units
 - name: status
   shared: true
+  particular: active for a unit of the NEEDS_Active sheet, else blank (x_needs_sheet says which)
   type: text
   values:
     list:
       active: 22688
   missing_cells: 15342
-  particular: active for a unit of the NEEDS_Active sheet, else blank (x_needs_sheet says which)
 - name: status_date
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 38030
-  particular: Not filled
 - name: operator
   shared: true
+  particular: Not filled; the owner is x_owner
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 38030
-  particular: Not filled; the owner is x_owner
 - name: source
   shared: true
   type: text
@@ -151,12 +151,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's Last-Modified time
   type: utc time
   values:
     list:
       '2025-12-15T18:55:14Z': 38030
   missing_cells: 0
-  particular: The workbook's Last-Modified time
 - name: x_needs_sheet
   label: 'EPA''s sheet the unit is on: active, retired_by_2028, hardwired_capacity (hard-wired into the model) or dropped_capacity
     (dropped from the model)'

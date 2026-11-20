@@ -34,6 +34,8 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: eia923r:<plant id>:<year>-<month>:<first 12 characters of the SHA-1 of the row's fields> (EIA gives a delivery
+    no id)
   type: text
   values:
     distinct: more than 5000
@@ -44,10 +46,9 @@ columns:
     - eia923r:10017:2025-01:dc9b1159bb73
     - eia923r:10017:2025-02:48d9669739d6
   missing_cells: 0
-  particular: eia923r:<plant id>:<year>-<month>:<first 12 characters of the SHA-1 of the row's fields> (EIA gives a delivery
-    no id)
 - name: event_date
   shared: true
+  particular: The receipt month's first day
   type: date
   values:
     list:
@@ -64,17 +65,17 @@ columns:
       '2025-11-01': 2978
       '2025-12-01': 2998
   missing_cells: 0
-  particular: The receipt month's first day
 - name: event_type
   shared: true
+  particular: Always fuel_receipt
   type: text
   values:
     list:
       fuel_receipt: 36733
   missing_cells: 0
-  particular: Always fuel_receipt
 - name: parties
   shared: true
+  particular: The supplier as EIA names it (the same as x_supplier)
   type: text
   values:
     distinct: 679
@@ -85,42 +86,41 @@ columns:
     - ACNR COAL SALES, INC.
     - ACNR COAL SALES, Inc.
   missing_cells: 0
-  particular: The supplier as EIA names it (the same as x_supplier)
 - name: entity_ids
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 36733
-  particular: Not filled
 - name: mw
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 36733
-  particular: Not filled
 - name: price
   shared: true
+  particular: 'Not filled: the cost is in cents per MMBtu, kept in x_fuel_cost'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 36733
-  particular: 'Not filled: the cost is in cents per MMBtu, kept in x_fuel_cost'
 - name: currency
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 36733
-  particular: Not filled
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 36733
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text

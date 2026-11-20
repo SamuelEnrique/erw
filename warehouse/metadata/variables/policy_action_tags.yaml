@@ -44,6 +44,7 @@ columns:
   missing_cells: 0
 - name: event_date
   shared: true
+  particular: The action's date
   type: date
   values:
     list:
@@ -64,15 +65,14 @@ columns:
       '2026-08-07': 21
       '2026-09-04': 1
   missing_cells: 0
-  particular: The action's date
 - name: event_type
   shared: true
+  particular: Always policy_tag
   type: text
   values:
     list:
       policy_tag: 38
   missing_cells: 0
-  particular: Always policy_tag
 - name: parties
   shared: true
   type: text
@@ -110,11 +110,11 @@ columns:
   missing_cells: 38
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 38
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text

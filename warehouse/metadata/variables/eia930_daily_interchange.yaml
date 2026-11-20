@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<FROM>-<TO>, FROM the reporting balancing authority
   type: text
   values:
     distinct: 390
@@ -46,7 +47,6 @@ columns:
     - eia930:AECI-SIKE
     - eia930:AECI-SPA
   missing_cells: 0
-  particular: eia930:<FROM>-<TO>, FROM the reporting balancing authority
 - name: variable
   shared: true
   type: text
@@ -136,6 +136,7 @@ columns:
   missing_cells: 958798
 - name: ba
   shared: true
+  particular: The reporting balancing authority (EIA's fromba), lowercase
   type: text
   values:
     distinct: 83
@@ -146,7 +147,6 @@ columns:
     - avrn
     - azps
   missing_cells: 0
-  particular: The reporting balancing authority (EIA's fromba), lowercase
 - name: x_to_ba
   label: The neighbour (EIA's toba), EIA-930 code in lowercase
   unit: none

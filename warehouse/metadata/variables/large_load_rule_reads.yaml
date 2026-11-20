@@ -37,6 +37,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: ruleread:<rule_event_id>
   type: text
   values:
     distinct: 87
@@ -47,7 +48,6 @@ columns:
     - ruleread:azcc:E-01933A-25-0187:order:4758eae80e
     - ruleread:cpuc:A.24-11-007:order:bff75ba3f6
   missing_cells: 0
-  particular: ruleread:<rule_event_id>
 - name: event_date
   shared: true
   type: date
@@ -58,14 +58,15 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: Always rule_read
   type: text
   values:
     list:
       rule_read: 87
   missing_cells: 0
-  particular: Always rule_read
 - name: parties
   shared: true
+  particular: The regulator
   type: text
   values:
     list:
@@ -82,7 +83,6 @@ columns:
       Public Utility Commission of Texas: 11
       Virginia State Corporation Commission: 13
   missing_cells: 0
-  particular: The regulator
 - name: entity_ids
   shared: true
   type: empty
@@ -109,11 +109,11 @@ columns:
   missing_cells: 87
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 87
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text

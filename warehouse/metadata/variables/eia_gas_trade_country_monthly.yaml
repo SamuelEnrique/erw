@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_gas_trade:<EIA series id>; countries are parts of the U.S. total of the same mode
   type: text
   values:
     distinct: 207
@@ -47,7 +48,6 @@ columns:
     - eia_gas_trade:N9102CN3
     - eia_gas_trade:N9102MX2
   missing_cells: 0
-  particular: eia_gas_trade:<EIA series id>; countries are parts of the U.S. total of the same mode
 - name: variable
   shared: true
   type: text
@@ -87,21 +87,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 30337
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 30337
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's series name (the mode and the country)
   type: text
   values:
     distinct: 207
@@ -112,7 +113,6 @@ columns:
     - Liquefied U.S. Natural Gas Exports (MMcf)
     - Liquefied U.S. Natural Gas Exports by Truck (MMcf)
   missing_cells: 0
-  particular: EIA's series name (the mode and the country)
 - name: source
   shared: true
   type: text
@@ -138,11 +138,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 30337
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: price
   label: Price of the gas exported or imported, USD per thousand cubic feet

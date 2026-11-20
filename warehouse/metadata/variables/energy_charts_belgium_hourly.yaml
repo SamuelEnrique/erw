@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: energy_charts:be:<type>, Energy-Charts' name as a slug
   type: text
   values:
     list:
@@ -56,7 +57,6 @@ columns:
       energy_charts:be:wind_offshore: 59711
       energy_charts:be:wind_onshore: 59711
   missing_cells: 0
-  particular: energy_charts:be:<type>, Energy-Charts' name as a slug
 - name: variable
   shared: true
   type: text
@@ -95,21 +95,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always BE (an ISO 3166-1 country code)
   type: text
   values:
     list:
       BE: 908600
   missing_cells: 0
-  particular: Always BE (an ISO 3166-1 country code)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 908600
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: '''Belgium: <Energy-Charts'' name>'', not a pricing node'
   type: text
   values:
     list:
@@ -130,7 +131,6 @@ columns:
       'Belgium: Wind offshore': 59711
       'Belgium: Wind onshore': 59711
   missing_cells: 0
-  particular: '''Belgium: <Energy-Charts'' name>'', not a pricing node'
 - name: source
   shared: true
   type: text
@@ -166,11 +166,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: the API sends no Last-Modified'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 908600
-  particular: 'Not filled: the API sends no Last-Modified'
 - name: x_type
   label: Energy-Charts' name of the production type or measure (Biomass, Fossil gas, Nuclear, Load, Residual load, Cross border
     electricity trading and the others)

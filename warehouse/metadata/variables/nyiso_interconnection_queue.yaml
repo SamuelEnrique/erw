@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: nyiso_queue:<queue id>, with :<n> added where NYISO lists one queue id on several rows, n in NYISO's row order
   type: text
   values:
     distinct: 1814
@@ -42,7 +43,6 @@ columns:
     - nyiso_queue:0004
     - nyiso_queue:0005
   missing_cells: 0
-  particular: nyiso_queue:<queue id>, with :<n> added where NYISO lists one queue id on several rows, n in NYISO's row order
 - name: entity_type
   shared: true
   type: text
@@ -64,6 +64,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> from NYISO's State; empty where the state is not one two-letter code (NY-NJ, NY-PA, Quebec)
   type: text
   values:
     list:
@@ -73,7 +74,6 @@ columns:
       US-NY: 1767
       US-PA: 29
   missing_cells: 6
-  particular: US-<state> from NYISO's State; empty where the state is not one two-letter code (NY-NJ, NY-PA, Quebec)
 - name: lat
   shared: true
   type: empty
@@ -88,15 +88,16 @@ columns:
   missing_cells: 1814
 - name: capacity_mw
   shared: true
+  particular: NYISO's requested capacity as gridstatus reads it (Capacity (MW))
   type: number
   values:
     distinct: 391
     lowest: 0.0
     highest: 2620.0
   missing_cells: 0
-  particular: NYISO's requested capacity as gridstatus reads it (Capacity (MW))
 - name: status
   shared: true
+  particular: active, withdrawn or completed, mapped from iso_status
   type: text
   values:
     list:
@@ -104,18 +105,18 @@ columns:
       completed: 151
       withdrawn: 1453
   missing_cells: 0
-  particular: active, withdrawn or completed, mapped from iso_status
 - name: status_date
   shared: true
+  particular: The withdrawn date of a withdrawn row, the actual in-service date of a completed row where NYISO gives one
   type: date
   values:
     distinct: 238
     earliest: '2002-03-31'
     latest: '2026-08-31'
   missing_cells: 311
-  particular: The withdrawn date of a withdrawn row, the actual in-service date of a completed row where NYISO gives one
 - name: operator
   shared: true
+  particular: The interconnecting entity as NYISO writes it
   type: text
   values:
     distinct: 850
@@ -126,7 +127,6 @@ columns:
     - 212 Solar Development, LLC
     - ABUNDANT SOLAR POWER (US-NY-MARKHAM HOLLOW RD-001) LLC
   missing_cells: 210
-  particular: The interconnecting entity as NYISO writes it
 - name: source
   shared: true
   type: text
@@ -150,12 +150,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The retrieval day at 00:00:00Z, not a date NYISO prints
   type: utc time
   values:
     list:
       '2026-09-26T00:00:00Z': 1814
   missing_cells: 0
-  particular: The retrieval day at 00:00:00Z, not a date NYISO prints
 - name: queue_id
   label: NYISO's queue number of the request, as printed (with leading zeros)
   unit: none
