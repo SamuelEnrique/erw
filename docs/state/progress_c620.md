@@ -16,3 +16,7 @@ Energy Research Warehouse (ERW). `queue/done/620-night-20-november-portable-brow
 | Part B, read in full at 1280 and 390 px: `/queues/places` (575 figures agree), `/curtailment/where-when` (1,827), `/storage/places` (676), `/states` (all 52 places, 4,010), `/industry` (4,987), `/ai-energy` (47), the board's metals group (154) | done | 9600 |
 | Faults to fix from those reads: S1, the back button leaves a list on the later choice (the shared list of `site/components/AutoSubmit.tsx`); the findings page at 390 px; the resource set's legend figures | to fix | 9600 |
 | Data requests 562 (an APS entry in North Carolina) and 563 (no large-load law held for Texas) | requested | 9600 |
+| Part B, read in full: the Grid map's Price color and five authorities' own facts (114 checks agree); the forecast section of `/demand` over seven pairs of places (1,665 figures agree) | done | 9600 |
+| Data request 565: the live set's hourly tables still end on 15 November (the Grid tool shows no demand for its 53 newest hours) | requested | 9600 |
+| Session 9600's report | done | 9600 |
+| Five fixes, each on its own branch cut from origin/main with a test, pushed: `wip/9601-back-button-lists` (`dc046acff`), `wip/9601-findings-phone` (`4971346fa`), `wip/9601-resource-set-legend` (`9632634e5`), `wip/9601-authority-facts-words` (`225e96ed8`), `wip/9601-tour-headings` (`bff5d765a`). Not yet seen in a build: 1.6 GB of memory free at 11:37 UTC, under the 2 GB a build needs | waiting for memory | 9601 |
