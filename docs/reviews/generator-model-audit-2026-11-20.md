@@ -9,7 +9,7 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 
 ## In short
 
-- **The revenue is sound.** The model reproduces from the page's own hourly file, the fleet's solar hours line up with the sun, and the two small faults found in it (selling below zero, the month-start nameplate) move the headline by less than 1 percent each, in opposite directions.
+- **The revenue's arithmetic is sound; one rule is not.** The model reproduces from the page's own hourly file and the fleet's solar hours line up with the sun. But the merchant plant sells every hour, also below zero: in ERCOT that costs 0.7 percent, in CAISO 20.5 percent, where a third of the solar energy is sold at negative prices and April and May 2026 earn less than nothing (finding 6). The month-start nameplate moves ERCOT's figure by 0.6 percent (finding 7).
 - **The finance carries the battery page's faults, larger.** No tax and no depreciation against an after-tax rate (+240.52 per kW of NPV, finding 1); two kinds of dollars over 35 years (+59.72 to +77.42, finding 2).
 - **Two code faults in the contract and the credit.** An as-generated PPA is paid on energy the plant no longer makes, so the breakeven PPA price reads 58.36 where it is 61.50 per MWh (finding 4). The same tax credit lands a year later here than on the battery page (finding 3).
 - **The battery on this page is called an upper bound and sits 2.1 percent under the battery page's own program on the same prices (finding 5).**
@@ -35,7 +35,7 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 | 3 | The same tax credit arrives in year 1 here and at year 0 on the battery page | none | a 30 percent credit on USD 1,110: 297.32 here, 333.00 there | `wip/audit-generator-3` |
 | 4 | An as-generated PPA is paid on energy the plant no longer makes | none | breakeven PPA 58.36 against 61.50 per MWh | `wip/audit-generator-4` |
 | 5 | The page's battery is "an upper bound", yet earns less than the battery page's program on the same prices | battery: -1.23 (-2.1 percent) at 4 hours | battery: NPV -7.9 per kW | `wip/audit-generator-5` |
-| 6 | The merchant plant sells below zero, where a merchant plant would stop | +0.41 (+0.7 percent) if it stopped | NPV +3.2 per kW | `wip/audit-generator-6` |
+| 6 | The merchant plant sells below zero, where a merchant plant would stop: small in ERCOT, a fifth of the revenue in CAISO | ERCOT +0.41 (+0.7 percent); CAISO solar +5.49 (+20.5 percent) if it stopped | ERCOT NPV +3.2 per kW; CAISO about +43 | `wip/audit-generator-6` |
 | 7 | Output per MW is over the nameplate of the month's start, so new plants add output and not megawatts | -0.34 (-0.6 percent) at mid-month nameplate | NPV -2.6 per kW | `wip/audit-generator-7` (test with 6) |
 | 8 | The note's table of defaults says hurdle 9.6 and solar degradation 0; the page uses 12 and 0.7 | none | none (words) | `wip/audit-generator-8` (fix in words) |
 
@@ -89,7 +89,8 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 - **Where.** `warehouse/derived/merchant_revenue.py` lines 268 to 274 (revenue is output times price over every hour with a value). The note, section 6 item 20 ("Solar and wind sell every hour, also at a negative price") and "What the model cannot see" ("no negative-price clause applies").
 - **Why it is wrong.** A merchant plant with no production credit loses money on every MWh sold below zero and stops. The fleet's shape still sells there. Stated in the note; wrong for the plant the page says it models ("a merchant solar plant").
 - **How much.** The page's twelve months: 189 negative hours, all with output; 117.7 MWh per MW sold below zero (4.6 percent of the year's energy) for USD -0.41 per kW. A plant that stops below zero: 60.26 per kW against 59.85 (+0.68 percent). It grows: -0.09 per kW in 2024, -0.31 in 2025, -0.32 in the nine months of 2026 held.
-- **The test.** `tests/test_audit_generator_6.py` on `wip/audit-generator-6`: from the public hourly file, 59.8523, 189 hours, -0.4076, 60.2599.
+- **In CAISO it is a fifth of the revenue.** The fleet's solar output per MW by hour (`site/data/seller/hybrid.json`, from November 2025) against SP15's real-time hourly price in the page's own snapshot (`site/data/merchant_snapshot.json`), checked month by month against the snapshot's rows (within about 1 percent): over the eleven months November 2025 to September 2026 the plant earns USD 26.82 per kW (the rows: 26.66) and sells 611 MWh per MW below zero, 32.3 percent of its energy, for -5.49 per kW. A plant that stopped below zero earns 32.32 (+20.5 percent). The page's own months for April and May 2026 are below zero (USD -1,330 and -1,176 per MW): the modelled merchant plant pays to generate. On the day-ahead price the share is 27.7 percent and the gain 12.4 percent.
+- **The test.** `tests/test_audit_generator_6.py` on `wip/audit-generator-6`: from the public hourly file, 59.8523, 189 hours, -0.4076, 60.2599; and CAISO from the two site files, more than a quarter of the energy below zero and more than 15 percent to gain.
 - **Not fixed.** A curtailment rule moves the revenue: the owner's ruling. A plant that does take a production credit would sell down to minus the credit, which the page's credit field could set.
 
 ## 7. Output per MW over the nameplate of the month's start
