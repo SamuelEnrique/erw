@@ -515,4 +515,5 @@ columns:
   source_name: Operating Month
   documented_by: method eia860m_retired_generators_all.md; connector eia860.py; data
 second_look:
-- 'operating_month: 44 rows hold 0, which no document read here explains (not a month 1 to 12).'
+- 'operating_month: 44 rows hold 0, which no document read here explains (not a month 1 to 12). Read again on 20 November
+  2026 in the saved august_generator2026.xlsx (every sheet''s title and NOTES rows): not found.'

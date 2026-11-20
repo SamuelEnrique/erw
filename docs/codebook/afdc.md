@@ -89,16 +89,14 @@ Variables (17):
 | `stations_cng` | Compressed natural gas (CNG) stations, count | count | 988 | 2007-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `stations_e85` | E85 (ethanol blend) stations, count | count | 988 | 2007-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `stations_hydrogen` | Hydrogen stations, total, count | count | 988 | 2007-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `stations_hydrogen_non_retail` | Hydrogen stations under AFDC's non-retail designation, count (from 2014) | count | 624 | 2014-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `stations_hydrogen_retail` | Hydrogen stations under AFDC's retail designation, count (from 2014) | count | 624 | 2014-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `stations_hydrogen_non_retail` | Hydrogen stations under AFDC's non-retail designation (open only to a subset of customers, for example with an access card, PIN or training), count (from 2014) | count | 624 | 2014-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `stations_hydrogen_retail` | Hydrogen stations under AFDC's retail designation (they accept payment at the point of sale), count (from 2014) | count | 624 | 2014-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `stations_lng` | Liquefied natural gas (LNG) stations, count | count | 988 | 2007-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `stations_propane` | Propane stations, total, count | count | 988 | 2007-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `stations_propane_primary` | Propane stations under AFDC's primary designation, count (from 2014) | count | 624 | 2014-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `stations_propane_secondary` | Propane stations under AFDC's secondary designation, count (from 2014) | count | 624 | 2014-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `stations_propane_primary` | Propane stations under AFDC's primary designation (stations offering vehicle-specific fueling), count (from 2014) | count | 624 | 2014-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `stations_propane_secondary` | Propane stations under AFDC's secondary designation (fuel available for vehicles but limited vehicle fueling services), count (from 2014) | count | 624 | 2014-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `stations_renewable_diesel` | Renewable diesel stations, count (from 2014) | count | 624 | 2014-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `stations_total` | All stations as AFDC totals them: a station counted once a fuel, electric by ports, count | count | 988 | 2007-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-
-Waiting for a second look: stations_propane_primary, stations_propane_secondary, stations_hydrogen_retail, stations_hydrogen_non_retail: AFDC's designations are named but not defined in the header, method note or connector..
 
 ### `afdc_vehicle_registrations_annual`
 

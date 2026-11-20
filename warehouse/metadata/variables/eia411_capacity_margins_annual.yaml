@@ -227,5 +227,6 @@ variables:
   first: '1990-10-01T00:00:00Z'
   last: '2027-10-01T00:00:00Z'
 second_look:
-- 110 capacity margins (frcc, miso, pjm, spp and tre, 2017 to 2027, both seasons) are resources less demand over demand, a
-  reserve margin, kept as EIA gives them; the variable's label states the general rule only.
+- '110 capacity margins (frcc, miso, pjm, spp and tre, 2017 to 2027, both seasons) are resources less demand over demand,
+  a reserve margin, kept as EIA gives them; the variable''s label states the general rule only. Read again on 20 November
+  2026 in docs/methods/eia411.md and the saved EIA-411 workbooks'' list under warehouse/raw/eia411: not found.'

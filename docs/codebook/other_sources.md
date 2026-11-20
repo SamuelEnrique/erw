@@ -293,7 +293,7 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `x_municipalities` | The municipalities the plant lies in, with their states (the source's name: DscMuninicpios) | none | text | for example Abadia dos Dourados - MG, Abaiara - CE, Abdon Batista - SC; 2182 distinct | 0 |
 | `x_dataset_date` | ANEEL's generation date of the dataset (the source's name: DatGeracaoConjuntoDados) | none | date | 2026-10-01 | 0 |
 
-Waiting for a second look: x_qualified_generation (ANEEL's IdcGeracaoQualificada, Sim or Nao): what makes generation qualified is not written in the connector, the method note or the header..
+Waiting for a second look: x_qualified_generation (ANEEL's IdcGeracaoQualificada, Sim or Nao): what makes generation qualified is not written in the connector, the method note or the header. Read again on 20 November 2026 in the connector, the method note and the saved SIGA CSV under warehouse/raw/aneel_siga (data rows only, no dictionary): not found..
 
 ### `asli_liechtenstein_electricity_annual`
 
@@ -617,7 +617,7 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `x_remarks` | BLM's remarks (the source's name: Remarks) | none | text | for example 5/28/10Deleted Sec26&27l;4/28/11enXcoverbal2 incl. samelands; Amended 8/11, 6.5 sections of LWCF land within project; within 29Palms Base expansionzone, Amended 1/15/2008; Amended via POD 2/2011; 42 distinct | 13: BLM leaves the field blank |
 | `x_in_time` | not documented by the source (the source's name: InTime) | none | text | 1st | 0 |
 
-Waiting for a second look: x_in_time (BLM's InTime, 1st on every row): what it marks is not written in the connector, the method note or the header. Read again on 20 November 2026 in the connector (it copies the field as served) and the method note: still not documented by the source..
+Waiting for a second look: x_in_time (BLM's InTime, 1st on every row): what it marks is not written in the connector, the method note or the header. Read again on 20 November 2026 in the connector (it copies the field as served) and the method note: still not documented by the source. Read again on 20 November 2026 in the saved layer JSON under warehouse/raw/blm_renewable (its fields list gives InTime only its own name as alias, a string of length 5): not found..
 
 ### `blm_oil_gas_statistics_annual`
 
@@ -1487,7 +1487,7 @@ Variables (8):
 | `winter_net_internal_demand` | Winter net internal demand | MW | 283 | 2001-10-01T00:00:00Z | 2027-10-01T00:00:00Z |
 | `winter_peak_load` | Winter peak load | MW | 415 | 1990-10-01T00:00:00Z | 2027-10-01T00:00:00Z |
 
-Waiting for a second look: 110 capacity margins (frcc, miso, pjm, spp and tre, 2017 to 2027, both seasons) are resources less demand over demand, a reserve margin, kept as EIA gives them; the variable's label states the general rule only..
+Waiting for a second look: 110 capacity margins (frcc, miso, pjm, spp and tre, 2017 to 2027, both seasons) are resources less demand over demand, a reserve margin, kept as EIA gives them; the variable's label states the general rule only. Read again on 20 November 2026 in docs/methods/eia411.md and the saved EIA-411 workbooks' list under warehouse/raw/eia411: not found..
 
 ### `eia861m_utility_sales_monthly`
 
@@ -2111,7 +2111,7 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `x_val_date` | HIFLD's validation date of the line (the source's name: VAL_DATE) | none | date | 2014-06-06 to 2024-08-02; 635 distinct | 0 |
 | `x_raw_sha256` | The SHA-256 of the raw GeoJSON file the row was read from | none | text | ba039a3a2b7259dc6b474d2ffcf408f3bd3f628dfd7cab5ef5e7cf513094de10 | 0 |
 
-Waiting for a second look: x_inferred (HIFLD's INFERRED, Y or N): what it marks is not written in the connector, the method note or the header. Read again on 20 November 2026: PASDA's layer 178 (HIFLD_FEMA MapServer, f=json) gives the field only its name as alias and a layer description that is empty; still not documented by the source..
+Waiting for a second look: x_inferred (HIFLD's INFERRED, Y or N): what it marks is not written in the connector, the method note or the header. Read again on 20 November 2026: PASDA's layer 178 (HIFLD_FEMA MapServer, f=json) gives the field only its name as alias and a layer description that is empty; still not documented by the source. Read again on 20 November 2026 in the saved GeoJSON, object id and request files under warehouse/raw/hifld_lines (features only): not found..
 
 ### `ieso_generation_fuel_hourly`
 
@@ -2155,7 +2155,7 @@ Variables (8):
 | `generation_solar` | Solar generation in the hour | MWh | 59688 | 2020-01-01T05:00:00Z | 2026-10-23T04:00:00Z |
 | `generation_wind` | Wind generation in the hour | MWh | 59688 | 2020-01-01T05:00:00Z | 2026-10-23T04:00:00Z |
 
-Waiting for a second look: x_quality (the report's OutputQuality): the codes 0 and -1 to -30 are not defined in the repository (the IESO's schema was not read)..
+Waiting for a second look: x_quality (the report's OutputQuality): the codes 0 and -1 to -30 are not defined in the repository (the IESO's schema was not read). Read again on 20 November 2026 in the connector, the method note and the saved XML reports under warehouse/raw/ieso_genfuel (they point to the IESO's schema and stylesheet by address only, neither saved): not found..
 
 ### `ieso_ontario_demand_hourly`
 
@@ -2273,7 +2273,7 @@ Variables (1):
 |---|---|---|---|---|---|
 | `price` | The IMF's average price of the commodity in the month, in US dollars per the row's unit (a metric ton; uranium a pound; gas and LNG an MMBtu) | USD/MMBtu; USD/lb; USD/t | 752 | 2019-01-01T00:00:00Z | 2026-10-01T00:00:00Z |
 
-Waiting for a second look: The header's title names uranium, lithium, cobalt, nickel and copper, but the table also holds coal (Australia), natural gas (EU) and LNG (Asia), as its access line asks for..
+Waiting for a second look: The header's title names uranium, lithium, cobalt, nickel and copper, but the table also holds coal (Australia), natural gas (EU) and LNG (Asia), as its access line asks for. Read again on 20 November 2026 in the saved request names under warehouse/raw/imf_pcps (from 14 November 2026 they ask PCOALAU, PNGASEU and PNGASJP beside the five metals): the title is still not updated, not found..
 
 ### `impact_tax_rules`
 
@@ -2609,7 +2609,7 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T20:09:44Z, 2026-10-23T20:09:46Z | 0 |
 | `vintage` | When the publisher published the document the value came from, in UTC. Here: The basin file's Last-Modified (UTC) | none | utc time | 2026-09-30T18:37:36Z, 2026-09-30T18:37:37Z | 0 |
 
-Waiting for a second look: x_record: the record identifiers C, G, R, S, T and W are not defined in the connector or the method note (L, I and P are)..
+Waiting for a second look: x_record: the record identifiers C, G, R, S, T and W are not defined in the connector or the method note (L, I and P are). Read again on 20 November 2026 in the connector and the two saved HURDAT2 text files under warehouse/raw/nhc_hurdat2 (data lines only, no format description): not found..
 
 ### `nlr_atb_electricity_costs`
 
@@ -2664,7 +2664,7 @@ Variables (7):
 | `occ` | Overnight capital cost, USD per kW | USD/kW | 19844 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
 | `variable_om` | Variable operation and maintenance cost, USD per MWh | USD/MWh | 5399 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
 
-Waiting for a second look: x_default (the ATB's default field, 1 or 0) and x_maturity (the ATB's maturity field, Y or N): what each marks is not written in the connector, the method note or the header..
+Waiting for a second look: x_default (the ATB's default field, 1 or 0) and x_maturity (the ATB's maturity field, Y or N): what each marks is not written in the connector, the method note or the header. Read again on 20 November 2026 in the saved ATB 2025 workbook under warehouse/raw/nlr_atb (sheets Preface and Contents and Financial Definitions): not found..
 
 ### `ntd_transit_energy_annual`
 
@@ -2717,7 +2717,7 @@ Variables (9):
 | `lpg_gal_equivalent` | Liquefied petroleum gas used, gallon equivalents as the FTA reports them | gal | 222 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `other_fuel` | Other fuel used in the year | gal | 36 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 
-Waiting for a second look: x_tos: the type-of-service codes TN and TX are not defined in the connector or the method note (DO and PT are)..
+Waiting for a second look: x_tos: the type-of-service codes TN and TX are not defined in the connector or the method note (DO and PT are). Read again on 20 November 2026 in the headings of the saved NTD CSV under warehouse/raw/ntd_transit_energy (TOS as a heading only): not found..
 
 ### `nve_norway_reservoirs_weekly`
 
@@ -3922,7 +3922,7 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `comments` | USGS's comments (community solar) (the source's name: p_comm) | none | text | community solar | 5510: USGS gives no comment |
 | `image_date_usgs` | The image date as USGS gives it (YYYYMMDD) (the source's name: p_img_date) | none | integer | 20090417 to 20260208; 1574 distinct | 0 |
 
-Waiting for a second look: zscore (USGS's p_zscore): what the z-score measures is not written in the connector, the method note or the header.; site_type: the codes AML, PCSC and RCRA are not defined in the repository..
+Waiting for a second look: zscore (USGS's p_zscore): what the z-score measures is not written in the connector, the method note or the header. Read again on 20 November 2026 in the saved USPVDB API response under warehouse/raw/uspvdb (records only, no field descriptions): not found.; site_type: the codes AML, PCSC and RCRA are not defined in the repository. Read again on 20 November 2026 in the saved USPVDB API response under warehouse/raw/uspvdb (records only, no field descriptions): not found..
 
 ### `uswtdb_wind_turbines`
 

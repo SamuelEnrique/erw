@@ -491,4 +491,6 @@ variables:
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 second_look:
-- 'x_tou_commercial: 20 rows hold X, a value neither the header nor the method note explains (they name Y, N or empty).'
+- 'x_tou_commercial: 20 rows hold X, a value neither the header nor the method note explains (they name Y, N or empty). Read
+  again on 20 November 2026 in the 2025 zip''s 2024 EIA-861 Instructions.pdf, 2024 EIA-861 Form.xlsx (Schedule 6C line 2,
+  a check box a sector) and Dynamic_Pricing_2025.xlsx headings: not found.'

@@ -180,4 +180,6 @@ variables:
   first: '2013-10-01T00:00:00Z'
   last: '2025-10-01T00:00:00Z'
 second_look:
-- 'x_region: the codes MB, CGB, CPN, LCB and UCB are not expanded in the header, the method note or the connector.'
+- 'x_region: the codes MB, CGB, CPN, LCB and UCB are not expanded in the header, the method note or the connector. Read again
+  on 20 November 2026 in the saved Plant_Data_11_2025.xlsx (sheets Monthly Generation and Annual Plant Generation) and data
+  page under warehouse/raw/usbr_power: not found.'

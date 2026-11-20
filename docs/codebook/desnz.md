@@ -591,7 +591,7 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `year_commissioned` | The year the station was commissioned, as the sheet gives it (the source's name: Year Commissioned) | none | integer | 1906 to 2026; 73 distinct | 0 |
 | `desnz_site_code` | DESNZ's site code of the station, unique on the sheet (SOL-000443, WON-001539 and the like) (the source's name: DESNZ site code) | none | text | for example BIO-000108, BIO-000134, BIO-000137; 1364 distinct | 0 |
 
-Waiting for a second look: grid_connection_type: the meaning of HV and LV is not written in the connector, the method note or the header.; os_reference: what the sheet's OS Reference holds is not documented; its values mix grid references and postcode-like strings.; type: the codes AGR and PWR are printed by the sheet without a definition in the repository..
+Waiting for a second look: grid_connection_type: the meaning of HV and LV is not written in the connector, the method note or the header. Read again on 20 November 2026 in DUKES 5.11 as saved (sheets Cover Sheet, Notes and 5.11 Full list): not found.; os_reference: what the sheet's OS Reference holds is not documented; its values mix grid references and postcode-like strings. Read again on 20 November 2026 in DUKES 5.11 as saved (sheets Cover Sheet, Notes and 5.11 Full list): not found.; type: the codes AGR and PWR are printed by the sheet without a definition in the repository. Read again on 20 November 2026 in DUKES 5.11 as saved (sheets Cover Sheet, Notes and 5.11 Full list): not found..
 
 ### `desnz_uk_renewables_quarterly`
 

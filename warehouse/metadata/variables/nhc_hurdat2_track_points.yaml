@@ -277,4 +277,6 @@ columns:
       '2026-09-30T18:37:37Z': 13976
   missing_cells: 0
 second_look:
-- 'x_record: the record identifiers C, G, R, S, T and W are not defined in the connector or the method note (L, I and P are).'
+- 'x_record: the record identifiers C, G, R, S, T and W are not defined in the connector or the method note (L, I and P are).
+  Read again on 20 November 2026 in the connector and the two saved HURDAT2 text files under warehouse/raw/nhc_hurdat2 (data
+  lines only, no format description): not found.'

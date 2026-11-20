@@ -246,13 +246,14 @@ variables:
   first: '2007-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: stations_hydrogen_non_retail
-  label: Hydrogen stations under AFDC's non-retail designation, count (from 2014)
+  label: Hydrogen stations under AFDC's non-retail designation (open only to a subset of customers, for example with an access
+    card, PIN or training), count (from 2014)
   unit: count
   rows: 624
   first: '2014-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: stations_hydrogen_retail
-  label: Hydrogen stations under AFDC's retail designation, count (from 2014)
+  label: Hydrogen stations under AFDC's retail designation (they accept payment at the point of sale), count (from 2014)
   unit: count
   rows: 624
   first: '2014-01-01T00:00:00Z'
@@ -270,13 +271,14 @@ variables:
   first: '2007-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: stations_propane_primary
-  label: Propane stations under AFDC's primary designation, count (from 2014)
+  label: Propane stations under AFDC's primary designation (stations offering vehicle-specific fueling), count (from 2014)
   unit: count
   rows: 624
   first: '2014-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: stations_propane_secondary
-  label: Propane stations under AFDC's secondary designation, count (from 2014)
+  label: Propane stations under AFDC's secondary designation (fuel available for vehicles but limited vehicle fueling services),
+    count (from 2014)
   unit: count
   rows: 624
   first: '2014-01-01T00:00:00Z'
@@ -293,6 +295,4 @@ variables:
   rows: 988
   first: '2007-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
-second_look:
-- 'stations_propane_primary, stations_propane_secondary, stations_hydrogen_retail, stations_hydrogen_non_retail: AFDC''s designations
-  are named but not defined in the header, method note or connector.'
+second_look: null

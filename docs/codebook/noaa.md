@@ -394,7 +394,7 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 | `x_data_source` | NCEI's data source code, as published (CSV in every row) (the source's name: DATA_SOURCE) | none | text | CSV | 0 |
 | `x_file_created` | The creation date of NCEI's yearly file the row came from (its c<YYYYMMDD>) | none | date | 2026-03-23, 2026-05-19, 2026-06-25, 2026-07-28, 2026-08-19, 2026-09-18 | 0 |
 
-Waiting for a second look: x_magnitude_type: NCEI's codes EG, ES, MG and MS are kept as published and not spelled out in the repository's documents.; x_cz_type: two rows hold 5, as published; NCEI's meaning of it is not documented.; x_data_source: CSV in every row; NCEI's meaning of the code is not documented..
+Waiting for a second look: x_magnitude_type: NCEI's codes EG, ES, MG and MS are kept as published and not spelled out in the repository's documents. Read again on 20 November 2026 in the list of saved files under warehouse/raw/noaa_storm_events (the yearly details CSV files only, no format document): not found.; x_cz_type: two rows hold 5, as published; NCEI's meaning of it is not documented. Read again on 20 November 2026 in the list of saved files under warehouse/raw/noaa_storm_events (details CSV files only): not found.; x_data_source: CSV in every row; NCEI's meaning of the code is not documented. Read again on 20 November 2026 in the list of saved files under warehouse/raw/noaa_storm_events (details CSV files only): not found..
 
 ### `noaa_region_station_hourly_2018`
 

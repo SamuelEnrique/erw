@@ -341,4 +341,6 @@ variables:
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 second_look:
-- 'x_tos: the type-of-service codes TN and TX are not defined in the connector or the method note (DO and PT are).'
+- 'x_tos: the type-of-service codes TN and TX are not defined in the connector or the method note (DO and PT are). Read again
+  on 20 November 2026 in the headings of the saved NTD CSV under warehouse/raw/ntd_transit_energy (TOS as a heading only):
+  not found.'

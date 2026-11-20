@@ -59,7 +59,7 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `x_manned_24h` | Whether the complex is manned 24 hours, Y or N (the source's name: Manned 24 Hr Fl) | none | text | N, Y | 3: BOEM gives none |
 | `x_to_be_removed` | BOEM's abandon flag (to be removed), Y or N (the source's name: Abandon Flag) | none | text | N, Y | 5: BOEM gives none |
 
-Waiting for a second look: x_structure_type: SEMI, SPAR, TLP, MTLP, MOPU, CT, FPSO and SSTMP are kept as BOEM codes them; the method note does not expand them.; x_authority_status: its codes (ACT, EXP, EXPIR, NO-ISS, PRIMRY, PROD, RELINQ, RELQ, SOP, TERMIN, UNIT, Approved) are not expanded in the method note or the connector..
+Waiting for a second look: x_structure_type: SEMI, SPAR, TLP, MTLP, MOPU, CT, FPSO and SSTMP are kept as BOEM codes them; the method note does not expand them. Read again on 20 November 2026 in BOEM's saved Field Definitions pages for platform structures, locations and masters (the code lists are behind links not saved), the three fixed-width zips (data only) and BSEE's incident workbooks' Metadata sheet: not found.; x_authority_status: its codes (ACT, EXP, EXPIR, NO-ISS, PRIMRY, PROD, RELINQ, RELQ, SOP, TERMIN, UNIT, Approved) are not expanded in the method note or the connector. Read again on 20 November 2026 in BOEM's saved Field Definitions page for platform structures (Authority Status: the status applied against a structure, values behind a link not saved): not found..
 
 ### `boem_ogor_lease_production_monthly`
 
@@ -126,10 +126,8 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 52 |
 | `lease_number` | BOEM's lease or grant number (OCS-A 0472) | none | text | for example OCS-A 0472, OCS-A 0473, OCS-A 0474; 52 distinct | 0 |
 | `lessee` | The lessee or grantee, as BOEM names it (the source's name: Lessee or Grantee) | none | text | for example Atlantic Shores Offshore Wind Bight, LLC, Atlantic Shores Offshore Wind Project 1, LLC; Atlantic Shores Offshore Wind Project 2, LLC, Atlantic Shores Offshore Wind, LLC; 48 distinct | 0 |
-| `authorization` | BOEM's authorization resource type (Commercial Lease, Interim Policy Lease, Research Lease, Right of Way Grant), with its '*' note mark kept (the source's name: Authorization Resource Type) | none | text | Commercial Lease, Commercial Lease*, Interim Policy Lease*, Research Lease, Research Lease*, Right of Way Grant | 0 |
+| `authorization` | BOEM's authorization resource type (Commercial Lease, Interim Policy Lease, Research Lease, Right of Way Grant); a trailing '*' is BOEM's mark for a non-competitive lease (the source's name: Authorization Resource Type) | none | text | Commercial Lease, Commercial Lease*, Interim Policy Lease*, Research Lease, Research Lease*, Right of Way Grant | 0 |
 | `resource_type` | BOEM's resource type (Wind, Marine Hydrokinetic, Marine Hydrokinetic Wind) (the source's name: Resource Type) | none | text | Marine Hydrokinetic, Marine Hydrokinetic Wind, Wind | 0 |
 | `effective_year` | The lease's effective year, as BOEM gives it | none | integer | 2009, 2010, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 | 0 |
 | `boem_status` | BOEM's own status word (Active, Cancelled, Relinquished, Expired, Consolidated) (the source's name: Status) | none | text | Active, Cancelled, Consolidated, Expired, Relinquished | 0 |
-
-Waiting for a second look: authorization: what BOEM's '*' note mark means is not documented; it is kept as BOEM writes it..
 

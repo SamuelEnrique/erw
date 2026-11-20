@@ -407,4 +407,6 @@ columns:
   source_name: FIPS_Census
   documented_by: connector ornl_eha_units.py; source EHA Unit Field Descriptions sheet
 second_look:
-- 'start_time: ORNL defines M (minutes) and H (hours); the values ''1'' (2 units) and ''OVER'' (4 units) are not explained.'
+- 'start_time: ORNL defines M (minutes) and H (hours); the values ''1'' (2 units) and ''OVER'' (4 units) are not explained.
+  Read again on 20 November 2026 in the saved unit workbook under warehouse/raw/ornl_eha_units (sheets Field Descriptions,
+  StTime: M or H only, and Acronyms and Nomenclature): not found.'

@@ -135,7 +135,7 @@ Variables (85):
 | `power:total` | The electric power industry's emissions, all gases (Table 2-11; equals its direct:total) | tCO2e | 33 | 1990-01-01T00:00:00Z | 2022-01-01T00:00:00Z |
 | `total_gross_emissions_sources` | The nation's gross emissions from all sources (Table 2-10) | tCO2e | 33 | 1990-01-01T00:00:00Z | 2022-01-01T00:00:00Z |
 
-Waiting for a second look: The global warming potentials behind tCO2e: the header says the Inventory's tables do not name them, and nothing says they match the GHGRP tables' AR4 weights..
+Waiting for a second look: The global warming potentials behind tCO2e: the header says the Inventory's tables do not name them, and nothing says they match the GHGRP tables' AR4 weights. Read again on 20 November 2026 in the notes and source lines of the 15 CSV tables of the saved Trends zip under warehouse/raw/epa_ghg_inventory (Table 2-14 says only gross total GWP-weighted values): not found..
 
 ### `epa_ghgrp_facility_emissions`
 
@@ -318,8 +318,6 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `current_year_emission_reductions_mmtco2e_yr_direct` | The project's direct methane reductions in the current year, in million metric tons CO2 equivalent (global warming potential 28) (the source's name: Current Year Emission Reductions (MMTCO2e/yr) - Direct) | MMTCO2e/year | number | 0.0 to 1.3001; 461 distinct | 0 |
 | `current_year_emission_reductions_mmtco2e_yr_avoided` | The project's avoided carbon dioxide reductions in the current year, in million metric tons CO2 equivalent (the source's name: Current Year Emission Reductions (MMTCO2e/yr) - Avoided) | MMTCO2e/year | number | 0.0 to 0.11294; 454 distinct | 0 |
 
-Waiting for a second look: The labels come from the workbook's own 'Field Descriptions' sheet, read from the saved copy under the data machine's warehouse/raw/epa_lmop/ (not in git); no method note restates them..
-
 ### `epa_needs_units`
 
 One generating unit (a generator, or a boiler carrying the unit's capacity) of EPA's NEEDS inventory for the 2025 reference case of its power sector model (IPM), from one of four sheets.
@@ -367,10 +365,10 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `x_cogen` | Whether the unit is a cogeneration unit: Y or N (the source's name: Cogen?) | none | text | N, Y | 10499: EPA's cell is blank |
 | `x_fuels` | The fuels EPA's model gives the unit (the source's name: Modeled Fuels) | none | text | for example Biomass, Bituminous, Bituminous, Natural Gas; 32 distinct | 11300: EPA's cell is blank |
 | `x_scrubber` | The unit's SO2 scrubber: Wet Scrubber, Dry Scrubber or Reagent Injection (the source's name: Wet/DryScrubber) | none | text | Dry Scrubber, Reagent Injection, Wet Scrubber | 37556: EPA's cell is blank (no scrubber given) |
-| `x_nox_comb_control` | The unit's NOx combustion controls, as EPA's codes joined with '+' (the source's name: NOx Comb Control) | none | text | for example AA, AA + FR, AA + LNB; 105 distinct | 34426: EPA's cell is blank |
-| `x_nox_post_comb_control` | The unit's NOx post-combustion control, as EPA's code (SCR, SNCR, ReACT) (the source's name: NOx Post-Comb Control) | none | text | ReACT, SCR, SNCR | 35670: EPA's cell is blank |
-| `x_pm_control` | The unit's particulate matter controls, as EPA's codes joined with '+' (the source's name: PM Control) | none | text | B, B + C, B + WS, C, ESPC, ESPC + B, ESPC + B + WS, ESPC + C, ESPC + WESP, ESPC + WS, ESPH, ESPH + B, ESPH + B + C, ESPH + B + WS, ESPH + C, ESPH + WESP, WESP + B, WS | 37323: EPA's cell is blank |
-| `x_mercury_controls` | The unit's mercury controls, as EPA's code (ACI) (the source's name: Mercury_Controls) | none | text | ACI | 37680: EPA's cell is blank |
+| `x_nox_comb_control` | The unit's NOx combustion controls, EPA's codes joined with '+' (for example LNB low NOx burner technology, OFA overfire air, AA advanced overfire air, LA low excess air, NH3 ammonia injection, H2O water injection), each defined in the workbook's key (the source's name: NOx Comb Control) | none | text | for example AA, AA + FR, AA + LNB; 105 distinct | 34426: EPA's cell is blank |
+| `x_nox_post_comb_control` | The unit's NOx post-combustion control: SCR selective catalytic reduction, SNCR selective non-catalytic reduction, ReACT regenerative activated coke technology (the source's name: NOx Post-Comb Control) | none | text | ReACT, SCR, SNCR | 35670: EPA's cell is blank |
+| `x_pm_control` | The unit's particulate matter controls, EPA's codes joined with '+': B baghouse, C cyclone, ESPC electrostatic precipitator cold side, ESPH electrostatic precipitator hot side, WESP electrostatic precipitator wet side, WS wet scrubber (the source's name: PM Control) | none | text | B, B + C, B + WS, C, ESPC, ESPC + B, ESPC + B + WS, ESPC + C, ESPC + WESP, ESPC + WS, ESPH, ESPH + B, ESPH + B + C, ESPH + B + WS, ESPH + C, ESPH + WESP, WESP + B, WS | 37323: EPA's cell is blank |
+| `x_mercury_controls` | The unit's mercury control: ACI activated carbon injection (the source's name: Mercury_Controls) | none | text | ACI | 37680: EPA's cell is blank |
 | `x_so2_permit_rate` | The unit's SO2 permit rate (the source's name: SO2 Permit Rate (lbs/mmBtu)) | lb/MMBtu | number | 0.00064 to 10.0; 265 distinct | 33595: EPA's cell is blank |
 | `x_nox_rate_mode1` | The unit's mode 1 NOx rate (the source's name: Mode 1 NOx Rate (lbs/mmBtu)) | lb/MMBtu | number | 0.0 to 4.79601; 3530 distinct | 11300: EPA's cell is blank |
 | `x_ccs` | Y when EPA marks the unit with carbon capture and storage (CCS) (the source's name: CCS) | none | text | Y | 38028: EPA's cell is blank |
@@ -383,7 +381,7 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `x_regulatory_status` | Whether the unit is Regulated or Non-regulated (the source's name: Regulatory Status) | none | text | Non-regulated, Regulated | 228: EPA's cell is blank |
 | `x_drop_reason` | EPA's reason for dropping the unit from NEEDS (the source's name: Reasons for Dropping the Unit from NEEDS) | none | text | Dropped - Lack of model plants, Dropped - Planned unit whose status does not meet NEEDS criteria, Dropped - Plant is identified as onsite because it is a net buyer of electricity in 2021, Dropped - Project has been canceled or postponed, Dropped - Retired/Planned Retirement by 06/2028, Dropped - Units whose status are "OS" or "RE" for the past 3 consecutive years, Dropped - in Alaska or in Hawaii or Puerto Rico | 26537: Not on the dropped_capacity sheet |
 
-Waiting for a second look: x_firing, x_bottom, x_scrubber, x_nox_comb_control, x_nox_post_comb_control, x_pm_control, x_mercury_controls: EPA's codes (LNB, SCR, ESPC, ACI and the others) are kept, and no note or connector in the repository expands them.; x_bart: the connector names it BART only; the term is not expanded in the repository.; x_ct_ic: only 'IC Engine' appears; what an empty cell means beside it is not said..
+Waiting for a second look: x_firing, x_bottom, x_scrubber: EPA's words (wall, tangential, cyclone, FBC, stoker/SPR, cell, dry, wet, Reagent Injection and the others) are kept; the workbook's Key to Emission Control sheet does not cover these columns. Read again on 20 November 2026 in the saved NEEDS workbook under warehouse/raw/epa_needs (sheet Key to Emission Control and the NEEDS_Active headings): not found.; x_bart: the connector names it BART only; the term is not expanded in the repository. Read again on 20 November 2026 in the saved NEEDS workbook (sheet Key to Emission Control and the NEEDS_Active headings, BART Affected Unit): not found.; x_ct_ic: only 'IC Engine' appears; what an empty cell means beside it is not said. Read again on 20 November 2026 in the saved NEEDS workbook (sheet Key to Emission Control and the NEEDS_Active headings): not found..
 
 ### `epa_rfs_fuel_annual`
 
@@ -509,5 +507,5 @@ Variables (3):
 | `on_site_release_total` | The form's on-site releases: to air, water, underground injection and land (EPA's ON-SITE RELEASE TOTAL) | g; lb | 128161 | 2015-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
 | `total_releases` | The form's total releases: on-site and off-site disposal or other releases (EPA's TOTAL RELEASES), in lb, or g for dioxins | g; lb | 128161 | 2015-01-01T00:00:00Z | 2023-01-01T00:00:00Z |
 
-Waiting for a second look: x_pbt: the connector says only whether the chemical is 'a PBT'; the term is not expanded in the repository..
+Waiting for a second look: x_pbt: the connector says only whether the chemical is 'a PBT'; the term is not expanded in the repository. Read again on 20 November 2026 in the headings and values of the saved TRI basic data CSV under warehouse/raw/epa_tri_energy (column 47. PBT, YES or NO; column 43. CLASSIFICATION, TRI, PBT or Dioxin): not found..
 

@@ -62,7 +62,7 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 | `x_retrofit_cod` | The retrofit battery's commercial operation date (the source's name: Retrofit_COD) | none | date | 2021-03-31, 2021-05-31, 2021-07-31, 2021-09-01, 2021-10-01, 2022-03-31, 2022-08-28, 2022-10-01, 2026-02-01 | 102: Not a retrofit |
 | `x_dollar_year` | The year of the real dollars the prices are in | none | integer | 2024 | 0 |
 
-Waiting for a second look: x_year_added: LBNL's 'Year added' holds 2025 on 9 rows and 0 on 104; no note or connector says what 0 means (presumably earlier editions, not confirmed)..
+Waiting for a second look: x_year_added: LBNL's 'Year added' holds 2025 on 9 rows and 0 on 104; no note or connector says what 0 means (presumably earlier editions, not confirmed). Read again on 20 November 2026 in the saved 2025_utility-scale_solar_data_update.xlsx under warehouse/raw/lbnl_ppa_prices (sheets Introduction and PV+Battery Hybrid PPA Price, and every sheet for 'Year added'): not found..
 
 ### `lbnl_interconnection_queue`
 

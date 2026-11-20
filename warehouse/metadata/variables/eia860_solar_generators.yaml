@@ -723,4 +723,5 @@ columns:
   documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 second_look:
 - 'x_net_metering_agreement and x_virtual_net_metering_agreement: the X flag (39 and 10 rows) is kept as EIA gives it; EIA''s
-  layout lists only Yes and No.'
+  layout lists only Yes and No. Read again on 20 November 2026 in the 2025 zip''s LayoutY2025.xlsx, EIA-860 Form.xlsx and
+  EIA-860 instructions.pdf (lines 32a and 33a): not found.'

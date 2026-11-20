@@ -83,7 +83,7 @@ Variables (4):
 | `installed_capacity` | The plant's installed capacity in the month, MW (Reclamation's kW over 1,000) | MW | 7933 | 2013-10-01T00:00:00Z | 2025-10-01T00:00:00Z |
 | `net_generation` | Gross generation less auxiliary use in the month, MWh; below zero when the plant used more than it made | MWh | 7918 | 2013-10-01T00:00:00Z | 2025-10-01T00:00:00Z |
 
-Waiting for a second look: x_region: the codes MB, CGB, CPN, LCB and UCB are not expanded in the header, the method note or the connector..
+Waiting for a second look: x_region: the codes MB, CGB, CPN, LCB and UCB are not expanded in the header, the method note or the connector. Read again on 20 November 2026 in the saved Plant_Data_11_2025.xlsx (sheets Monthly Generation and Annual Plant Generation) and data page under warehouse/raw/usbr_power: not found..
 
 ### `usbr_mead_powell_daily`
 

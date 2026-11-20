@@ -479,6 +479,9 @@ columns:
   documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 second_look:
 - 'x_structure_type: SEMI, SPAR, TLP, MTLP, MOPU, CT, FPSO and SSTMP are kept as BOEM codes them; the method note does not
-  expand them.'
+  expand them. Read again on 20 November 2026 in BOEM''s saved Field Definitions pages for platform structures, locations
+  and masters (the code lists are behind links not saved), the three fixed-width zips (data only) and BSEE''s incident workbooks''
+  Metadata sheet: not found.'
 - 'x_authority_status: its codes (ACT, EXP, EXPIR, NO-ISS, PRIMRY, PROD, RELINQ, RELQ, SOP, TERMIN, UNIT, Approved) are not
-  expanded in the method note or the connector.'
+  expanded in the method note or the connector. Read again on 20 November 2026 in BOEM''s saved Field Definitions page for
+  platform structures (Authority Status: the status applied against a structure, values behind a link not saved): not found.'

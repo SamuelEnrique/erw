@@ -471,8 +471,7 @@ columns:
   source_name: Firing Rate Using Petroleum (0.1 Barrels per Hour)
   documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_firing_rate_using_gas_0_1_mcf_per_hour
-  label: Design firing rate for gas at maximum continuous steam flow, in the heading's thousand cubic feet an hour (EIA's
-    description says cubic feet)
+  label: Design firing rate for natural gas at maximum continuous steam flow, to the nearest 0.1 thousand cubic feet an hour
   unit: Mcf/h
   type: number
   values:
@@ -482,10 +481,12 @@ columns:
   missing_cells: 1991
   missing_meaning: EIA gives none (no gas design rate)
   source_name: Firing Rate Using Gas (0.1 MCF per Hour)
-  documented_by: source EIA-860 LayoutY2025.xlsx
+  documented_by: 'source EIA, eia8602025.zip, EIA-860 instructions.pdf (Schedule 6C line 8: nearest 0.1 thousand cubic feet
+    per hour), read 2026-11-20'
 - name: x_firing_rate_using_other_fuels
-  label: Design firing rate at maximum continuous steam flow for energy sources other than coal, petroleum or natural gas
-  unit: not documented by the source
+  label: Design firing rate at maximum continuous steam flow for energy sources other than coal, petroleum or natural gas;
+    the respondent names the fuel and its unit in Schedule 7, which the table does not hold
+  unit: varies
   type: integer
   values:
     distinct: 108
@@ -494,7 +495,8 @@ columns:
   missing_cells: 2536
   missing_meaning: EIA gives none
   source_name: Firing Rate Using Other Fuels
-  documented_by: source EIA-860 LayoutY2025.xlsx
+  documented_by: source EIA, eia8602025.zip, EIA-860 instructions.pdf (Schedule 6C line 9) and LayoutY2025.xlsx sheet Field
+    Directory, read 2026-11-20
 - name: x_waste_heat_input_million_btu_per_hour
   label: Design waste-heat input rate at maximum continuous steam flow (for a boiler fed by the exhaust of a separate process)
   unit: MMBtu/h
@@ -1611,11 +1613,11 @@ columns:
   source_name: null
   documented_by: method eia860_environment.md
 second_look:
-- 'x_firing_rate_using_other_fuels: EIA''s layout gives no unit for the design rate with other fuels.'
 - 'x_regulation_sulfur, x_regulation_nitrogen, x_regulation_particulate, x_regulation_mercury: the code XX is in the data
-  but not in EIA''s layout, which lists NA for unavailable or unknown.'
+  but not in EIA''s layout, which lists NA for unavailable or unknown. Read again on 20 November 2026 in the 2025 zip''s LayoutY2025.xlsx
+  (Field Directory: FD, ST, LO, NA), EIA-860 Form.xlsx and EIA-860 instructions.pdf: not found.'
 - 'x_inservice_month: 5 rows hold 24, not a month; x_compliance_year_nitrogen and x_compliance_year_mercury hold 0 in some
-  rows. Kept as EIA gives them; no document explains them.'
-- 'x_nitrogen_oxide_control_*: the data writes H20 where EIA''s Table 14 writes H2O (water injection).'
-- 'x_firing_rate_using_gas_0_1_mcf_per_hour: the heading says MCF (thousand cubic feet) an hour, EIA''s description says cubic
-  feet an hour; the heading''s unit is used.'
+  rows. Kept as EIA gives them; no document explains them. Read again on 20 November 2026 in the 2025 zip''s LayoutY2025.xlsx,
+  EIA-860 Form.xlsx and EIA-860 instructions.pdf: not found.'
+- 'x_nitrogen_oxide_control_*: the data writes H20 where EIA''s Table 14 writes H2O (water injection). Read again on 20 November
+  2026 in EIA-860 instructions.pdf (its table lists H2O Water injection only): not found.'

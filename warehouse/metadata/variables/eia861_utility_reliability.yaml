@@ -408,4 +408,7 @@ variables:
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 second_look:
-- 'x_other_momentary: the values 5, F, L and O are EIA''s codes; no document in the repository says what each means.'
+- 'x_other_momentary: the values 5, F, L and O are EIA''s codes; no document in the repository says what each means. Read
+  again on 20 November 2026 in the 2025 zip''s 2024 EIA-861 Form.xlsx (Schedule 3 line 14 offers less than 1 minute, less
+  than or equal to 5 minutes, or other), 2024 EIA-861 Instructions.pdf and Reliability_2025.xlsx headings: no document maps
+  the codes, not found.'

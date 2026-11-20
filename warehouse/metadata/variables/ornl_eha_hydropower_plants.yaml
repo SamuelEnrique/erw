@@ -551,7 +551,8 @@ columns:
   source_name: Water
   documented_by: connector ornl_eha.py; source EHA Field Descriptions sheet
 - name: huc
-  label: The hydrologic unit code (the watershed) of the plant, as given
+  label: The 12-digit hydrologic unit code (HUC12, the watershed) of the plant, held as a number as ORNL gives it (the plant
+    file's field description says 10-digit, the unit file's says 12-digit)
   unit: none
   type: number
   values:
@@ -561,7 +562,9 @@ columns:
   missing_cells: 3
   missing_meaning: ORNL gives none (3 plants)
   source_name: HUC12_All
-  documented_by: header; source EHA Field Descriptions sheet
+  documented_by: 'source ORNL, ORNL_EHAHydroUnit_PublicFY2026.xlsx sheet Field Descriptions (HUC12_All: 12-digit hydrologic
+    unit code) and ORNL_EHAHydroPlant_PublicFY2026.xlsx sheet Field Descriptions, both as saved under warehouse/raw, read
+    2026-11-20; header'
 - name: nerc_region
   label: The plant's North American Electric Reliability Corporation region (WECC, NPCC, SERC and the others)
   unit: none
@@ -632,6 +635,5 @@ columns:
   documented_by: connector ornl_eha.py; source EHA Field Descriptions sheet
 second_look:
 - 'hy_capacity_factor_pct: ORNL''s field description says factors outside 0 to 120 percent are shown as null, yet 5 plants
-  hold values above 120 (the highest 6,019.9).'
-- 'huc: ORNL''s field description calls HUC12_All a 10-digit hydrologic unit code; the values are 11 or 12 digits, read as
-  numbers.'
+  hold values above 120 (the highest 6,019.9). Read again on 20 November 2026 in the saved plant workbook''s Field Descriptions
+  sheet (HY_Pf: the 0 to 120 percent rule, nothing on larger values): not found.'

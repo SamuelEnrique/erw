@@ -563,7 +563,8 @@ columns:
   source_name: null
   documented_by: method eia861_utility_data.md
 - name: x_alt_fuel_vehicle
-  label: 'EIA''s first activity flag on alternative-fuel vehicles: Y, N or empty'
+  label: 'EIA''s Alt Fuel Vehicle flag, Y or N: the first question of the form''s line 7, whether the company operated alternative-fueled
+    vehicles during the year'
   unit: none
   type: text
   values:
@@ -572,10 +573,12 @@ columns:
       Y: 4869
   missing_cells: 12666
   missing_meaning: EIA's cell is empty (kept apart from N)
-  source_name: null
-  documented_by: method eia861_utility_data.md
+  source_name: Alt Fuel Vehicle
+  documented_by: source EIA, f8612025.zip, 2024 EIA-861 Form.xlsx sheet GENERAL INFORMATION 2A line 7, 2024 EIA-861 Instructions.pdf
+    and Utility_Data_2025.xlsx headings, read 2026-11-20
 - name: x_alt_fuel_vehicle_2
-  label: 'EIA''s second activity flag on alternative-fuel vehicles: Y, N or empty'
+  label: 'EIA''s Alt Fuel Vehicle 2 flag, Y or N: the second question of the form''s line 7, whether the company plans to
+    operate alternative-fueled vehicles during the coming year'
   unit: none
   type: text
   values:
@@ -584,8 +587,9 @@ columns:
       Y: 4988
   missing_cells: 16915
   missing_meaning: EIA's cell is empty (kept apart from N)
-  source_name: null
-  documented_by: method eia861_utility_data.md
+  source_name: Alt Fuel Vehicle 2
+  documented_by: source EIA, f8612025.zip, 2024 EIA-861 Form.xlsx sheet GENERAL INFORMATION 2A line 7, 2024 EIA-861 Instructions.pdf
+    and Utility_Data_2025.xlsx headings, read 2026-11-20
 - name: x_rtos
   label: The RTOs marked Y, joined by ';' (an ERW field for reading)
   unit: none
@@ -603,5 +607,6 @@ columns:
   source_name: null
   documented_by: header; method eia861_utility_data.md
 second_look:
-- 'x_alt_fuel_vehicle and x_alt_fuel_vehicle_2: the method note names the two flags but not what EIA''s two headings ask,
-  so they are labelled only as EIA''s first and second alternative-fuel vehicle flags.'
+- 'x_alt_fuel_vehicle and x_alt_fuel_vehicle_2: matched to the two questions of the form''s line 7 by their order (first column,
+  first question); EIA''s layout names the columns Alt Fuel Vehicle and Alt Fuel Vehicle 2 without saying which question each
+  answers. Read 2026-11-20; worth confirming.'

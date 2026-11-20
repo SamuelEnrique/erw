@@ -62,13 +62,13 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `psh_capacity_factor_pct` | The pumped storage capacity factor: gross pumped storage generation over its capacity times the hours of a year, percent (the source's name: PSH_Pf) | pct | number | 3.08618663039871 to 34.2278807413376; 39 distinct | 2218: Not a pumped storage plant, or ORNL gives none |
 | `psh_first_year` | The year the plant's first pumped storage generator came online (the source's name: PSH_OpYear) | none | integer | 1927, 1928, 1954, 1956, 1961, 1963, 1965, 1967, 1968, 1970, 1971, 1972, 1973, 1974, 1977, 1978, 1979, 1981, 1984, 1985, 1987, 1991, 1993, 1995, 2002 | 2218: Not a pumped storage plant, or ORNL gives no year |
 | `waterway` | The waterway where the plant is located, as ORNL writes it (the source's name: Water) | none | text | for example -99 (canal), ALDER BROOK, ANCHORAGE WATER & WASTEWATER PL; 1149 distinct | 35: ORNL gives none |
-| `huc` | The hydrologic unit code (the watershed) of the plant, as given (the source's name: HUC12_All) | none | number | 10100040901.0 to 210100050202.0; 1621 distinct | 3: ORNL gives none (3 plants) |
+| `huc` | The 12-digit hydrologic unit code (HUC12, the watershed) of the plant, held as a number as ORNL gives it (the plant file's field description says 10-digit, the unit file's says 12-digit) (the source's name: HUC12_All) | none | number | 10100040901.0 to 210100050202.0; 1621 distinct | 3: ORNL gives none (3 plants) |
 | `nerc_region` | The plant's North American Electric Reliability Corporation region (WECC, NPCC, SERC and the others) (the source's name: NERC) | none | text | MRO, NPCC, RFC, SERC, SPP, TRE, WECC | 85: ORNL gives none |
 | `balancing_authority` | The code of the plant's balancing authority (the grid operator of its area) (the source's name: BACode) | none | text | for example AECI, AVA, BANC; 44 distinct | 811: ORNL gives none |
 | `eia_sector` | EIA's sector name of the plant (Electric Utility, IPP Non-CHP and the others) (the source's name: Sector) | none | text | Commercial CHP, Commercial Non-CHP, Electric Utility, IPP, IPP CHP, IPP Non-CHP, Industrial, Industrial CHP, Industrial Non-CHP | 758: ORNL gives none |
 | `transmission_owner` | The owner of the transmission or distribution system the plant connects to (the source's name: Trans) | none | text | for example AEP Texas Central Company, ALLETE, Inc., Alabama Power Co; 232 distinct | 769: ORNL gives none |
 
-Waiting for a second look: hy_capacity_factor_pct: ORNL's field description says factors outside 0 to 120 percent are shown as null, yet 5 plants hold values above 120 (the highest 6,019.9).; huc: ORNL's field description calls HUC12_All a 10-digit hydrologic unit code; the values are 11 or 12 digits, read as numbers..
+Waiting for a second look: hy_capacity_factor_pct: ORNL's field description says factors outside 0 to 120 percent are shown as null, yet 5 plants hold values above 120 (the highest 6,019.9). Read again on 20 November 2026 in the saved plant workbook's Field Descriptions sheet (HY_Pf: the 0 to 120 percent rule, nothing on larger values): not found..
 
 ### `ornl_eha_hydropower_units`
 
@@ -117,7 +117,7 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `huc` | The 12-digit hydrologic unit code (the watershed), as given (the source's name: HUC12_All) | none | number | 10100040901.0 to 210100050202.0; 1621 distinct | 3: ORNL gives none (3 units) |
 | `county_fips` | The county's FIPS (Federal Information Processing Standards) code (the source's name: FIPS_Census) | none | integer | 1001 to 56039; 639 distinct | 369: ORNL gives no code |
 
-Waiting for a second look: start_time: ORNL defines M (minutes) and H (hours); the values '1' (2 units) and 'OVER' (4 units) are not explained..
+Waiting for a second look: start_time: ORNL defines M (minutes) and H (hours); the values '1' (2 units) and 'OVER' (4 units) are not explained. Read again on 20 November 2026 in the saved unit workbook under warehouse/raw/ornl_eha_units (sheets Field Descriptions, StTime: M or H only, and Acronyms and Nomenclature): not found..
 
 ### `ornl_hydropower_pipeline`
 
