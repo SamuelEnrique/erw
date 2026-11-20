@@ -29,6 +29,7 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 | 5 | The "Breakeven toll" (USD 4.19 per kW-month) only covers debt 1.25 times; equity breaks even at 13.62 | the toll figure: 4.19 against 13.62 | at the 4.19 toll: -845.78 | `wip/audit-battery-5` (fix in words) |
 | 6 | "Each figure is an upper bound" is false: findings 2 and 3 together give 88.81; with finding 1 as well, 83.02 | the bound: +7.41 (+9.1 percent) | +47.6 | `wip/audit-battery-6` (fix in words) |
 | 7 | The size runs to 5,000 MW and scales linearly; past about 500 MW the battery is paid for reserves ERCOT never buys | none at 100 MW; -27.0 percent of revenue at 5,000 MW (September 2026) | none at 100 MW | `wip/audit-battery-7` |
+| 8 | The NPV holds no tax, no depreciation, and by default no credit, yet is discounted at a cost of equity | none | +118.95 after federal tax; +426.14 with the 30 percent credit as well | `wip/audit-battery-8` |
 
 ## 1. Regulation is never called
 
@@ -96,6 +97,18 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 - **The test.** `tests/test_audit_battery_7.py` on `wip/audit-battery-7`: the page's library (run by Node) reads 5,000 MW and scales the twelve months by exactly 50; the public file's September 2026 awards at 5,000 MW sit above ERCOT's plan in most hours and more than a fifth of the revenue is for megawatts never bought. It reads `ercot_as_quantities` where it is on the machine, else the figures read here.
 - **Not fixed.** Lowering the size's bound, or a line when the awards outgrow the market, is the owner's ruling. ERCOT's plan is held for 40 days only (from 3 September 2026), so a check across the twelve months needs its history.
 
+## 8. The NPV holds no tax at all
+
+- **Where.** `site/lib/battery/finance.ts` lines 243 to 248 (`flows`: no tax term; the credit is added at year 0 with no basis cut) and line 104 (`defaultsOf`: `itc: 0`). The note, section 11.1 line 418 ("No tax, no tax credit, ..."), line 450 (the credit) and line 467 ("What this block is not"). Decision 16 (`site/lib/decisions.ts` line 142).
+- **Why it is wrong.** The rate that discounts the flows is a cost of equity, 12 percent, which is a return after tax. The flows it discounts are before tax: no income tax, no depreciation. And the page's own hover names the federal credit for storage (30 percent before bonuses) while the default takes none, so every NPV on the page assumes the owner forgoes it. Stated in the note, but wrong in kind for a developer's NPV.
+- **How much.** The default case after federal tax (21 percent; 5-year MACRS, half-year convention; the basis cut by half the credit; interest deductible; losses used as they arise), every other figure the page's:
+  - no credit: USD -578.85 per kW against -697.80, +118.95 (USD 11.9 million for 100 MW);
+  - with the 30 percent credit: -271.66, +426.14;
+  - the page's own credit field (no tax): -364.80, +333.00.
+  - The headline revenue and coverage do not move.
+- **The test.** `tests/test_audit_battery_8.py` on `wip/audit-battery-8`: through `finance.ts` (run by Node) the default credit is 0 and a 30 percent credit moves NPV by exactly 30 percent of the capital cost (no tax term); the same case after tax gives -578.85 and -271.66.
+- **Not fixed.** Tax, depreciation and the credit's default are the owner's ruling. Eligibility for the credit (wages, sourcing rules) is the project's; the figures above only show what the choice is worth.
+
 ## The deploys of this file (rule 8)
 
 Every page is in review, so a visitor sees the in-review page at all 25 addresses; this file changes no page. Each push: `node site/scripts/snapshot-live.mjs take` before, the after once the Vercel deployment of a commit holding the push showed success, then `compare`.
@@ -103,3 +116,4 @@ Every page is in review, so a visitor sees the in-review page at all 25 addresse
 - Push 1 (finding 1), merge `291223a4`; deployed in `194cf4c3`, success 21:08:35 UTC. `s9840-f1-before` against `s9840-f1-after`: 0 differences on 25 pages. Expected.
 - Push 2 (findings 2 to 4), merge `fd3d8fd8`; success 21:14:18 UTC. `s9840-f2to4-before` against `s9840-f2to4-after`: 0 differences. Expected.
 - Push 3 (finding 5), merge `0b89df07`; success about 21:19:26 UTC. `s9840-f5-before` against `s9840-f5-after`: 0 differences. Expected.
+- Push 4 (findings 6 and 7), merge `63b4d0ec`; success about 21:24:48 UTC. `s9840-f6f7-before` against `s9840-f6f7-after`: 0 differences. Expected.
