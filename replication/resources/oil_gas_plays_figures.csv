@@ -1,0 +1,557 @@
+figure,the_map,the_publisher,same
+"plays, count",50,50,yes
+CON001: name (the source's Shale_play),Conasauga,Conasauga,yes
+"CON001: area, square miles (the hover's figure; the source's Area_sq_mi)",2223.55155189,2223.55155189,yes
+CON001: Basin,Valley and Ridge,Valley and Ridge,yes
+CON001: Lithology,Shale,Shale,yes
+CON001: Shale_play,Conasauga,Conasauga,yes
+CON001: References,Shale gas development area- Pashin 2008 fig 1,Shale gas development area- Pashin 2008 fig 1,yes
+CON001: Source,EIA,EIA,yes
+CON001: Area_sq_mi,2223.55155189,2223.55155189,yes
+CON001: Area_sq_km,5758.97208137,5758.97208137,yes
+CON001: ID,CON001,CON001,yes
+CON001: Age_shale,Cambrian,Cambrian,yes
+CHA002: name (the source's Shale_play),Chattanooga,Chattanooga,yes
+"CHA002: area, square miles (the hover's figure; the source's Area_sq_mi)",695.668275233,695.668275233,yes
+CHA002: Basin,Black Warrior,Black Warrior,yes
+CHA002: Lithology,Shale,Shale,yes
+CHA002: Shale_play,Chattanooga,Chattanooga,yes
+CHA002: References,Shale gas development area- Pashin 2008 fig 1,Shale gas development area- Pashin 2008 fig 1,yes
+CHA002: Source,EIA,EIA,yes
+CHA002: Area_sq_mi,695.668275233,695.668275233,yes
+CHA002: Area_sq_km,1801.77256136,1801.77256136,yes
+CHA002: ID,CHA002,CHA002,yes
+CHA002: Age_shale,Devonian,Devonian,yes
+FLO001: name (the source's Shale_play),Floyd-Chattanooga,Floyd-Chattanooga,yes
+"FLO001: area, square miles (the hover's figure; the source's Area_sq_mi)",1466.5823986,1466.5823986,yes
+FLO001: Basin,Black Warrior,Black Warrior,yes
+FLO001: Lithology,Shale,Shale,yes
+FLO001: Shale_play,Floyd-Chattanooga,Floyd-Chattanooga,yes
+FLO001: References,Floyd activity outline-Bowker 2008 slide 10,Floyd activity outline-Bowker 2008 slide 10,yes
+FLO001: Source,EIA,EIA,yes
+FLO001: Area_sq_mi,1466.5823986,1466.5823986,yes
+FLO001: Area_sq_km,3798.4309747,3798.4309747,yes
+FLO001: ID,FLO001,FLO001,yes
+FLO001: Age_shale,Miss-Devonian,Miss-Devonian,yes
+FLO002: name (the source's Shale_play),Floyd-Neal,Floyd-Neal,yes
+"FLO002: area, square miles (the hover's figure; the source's Area_sq_mi)",5191.29639402,5191.29639402,yes
+FLO002: Basin,Black Warrior,Black Warrior,yes
+FLO002: Lithology,Shale,Shale,yes
+FLO002: Shale_play,Floyd-Neal,Floyd-Neal,yes
+FLO002: References,Floyd activity outline-Bowker 2008 slide 10,Floyd activity outline-Bowker 2008 slide 10,yes
+FLO002: Source,EIA,EIA,yes
+FLO002: Area_sq_mi,5191.29639402,5191.29639402,yes
+FLO002: Area_sq_km,13445.395936,13445.395936,yes
+FLO002: ID,FLO002,FLO002,yes
+FLO002: Age_shale,Mississippian,Mississippian,yes
+WOO002: name (the source's Shale_play),Woodford,Woodford,yes
+"WOO002: area, square miles (the hover's figure; the source's Area_sq_mi)",1200.3158504,1200.3158504,yes
+WOO002: Basin,Ardmore,Ardmore,yes
+WOO002: Lithology,Shale,Shale,yes
+WOO002: Shale_play,Woodford,Woodford,yes
+WOO002: References,Cardott 2008 slide 30 and wells from OK Geol Surv,Cardott 2008 slide 30 and wells from OK Geol Surv,yes
+WOO002: Source,EIA,EIA,yes
+WOO002: Area_sq_mi,1200.3158504,1200.3158504,yes
+WOO002: Area_sq_km,3108.80378078,3108.80378078,yes
+WOO002: ID,WOO002,WOO002,yes
+WOO002: Age_shale,Devonian,Devonian,yes
+FAY001: name (the source's Shale_play),Fayetteville,Fayetteville,yes
+"FAY001: area, square miles (the hover's figure; the source's Area_sq_mi)",5852.69474734,5852.69474734,yes
+FAY001: Basin,Arkoma,Arkoma,yes
+FAY001: Lithology,Shale,Shale,yes
+FAY001: Shale_play,Fayetteville,Fayetteville,yes
+FAY001: References,"Hand-drawn boundary around wells, 2008 EIA Fayetteville map","Hand-drawn boundary around wells, 2008 EIA Fayetteville map",yes
+FAY001: Source,EIA,EIA,yes
+FAY001: Area_sq_mi,5852.69474734,5852.69474734,yes
+FAY001: Area_sq_km,15158.4098071,15158.4098071,yes
+FAY001: ID,FAY001,FAY001,yes
+FAY001: Age_shale,Mississippian,Mississippian,yes
+EXC001: name (the source's Shale_play),Excello-Mulky,Excello-Mulky,yes
+"EXC001: area, square miles (the hover's figure; the source's Area_sq_mi)",8119.63751637,8119.63751637,yes
+EXC001: Basin,Cherokee,Cherokee,yes
+EXC001: Lithology,Shale,Shale,yes
+EXC001: Shale_play,Excello-Mulky,Excello-Mulky,yes
+EXC001: References,Hand-drawn boundary around fields in EIA 2007 CBM study,Hand-drawn boundary around fields in EIA 2007 CBM study,yes
+EXC001: Source,EIA,EIA,yes
+EXC001: Area_sq_mi,8119.63751637,8119.63751637,yes
+EXC001: Area_sq_km,21029.7646249,21029.7646249,yes
+EXC001: ID,EXC001,EXC001,yes
+EXC001: Age_shale,Pennsylvanian,Pennsylvanian,yes
+EXC002: name (the source's Shale_play),Excello-Mulky,Excello-Mulky,yes
+"EXC002: area, square miles (the hover's figure; the source's Area_sq_mi)",184.825557581,184.825557581,yes
+EXC002: Basin,Forest City,Forest City,yes
+EXC002: Lithology,Shale,Shale,yes
+EXC002: Shale_play,Excello-Mulky,Excello-Mulky,yes
+EXC002: References,Hand-drawn boundary around fields in EIA 2007 CBM study,Hand-drawn boundary around fields in EIA 2007 CBM study,yes
+EXC002: Source,EIA,EIA,yes
+EXC002: Area_sq_mi,184.825557581,184.825557581,yes
+EXC002: Area_sq_km,478.69599656,478.69599656,yes
+EXC002: ID,EXC002,EXC002,yes
+EXC002: Age_shale,Pennsylvanian,Pennsylvanian,yes
+BAR001: name (the source's Shale_play),Barnett,Barnett,yes
+"BAR001: area, square miles (the hover's figure; the source's Area_sq_mi)",26311.4028499,26311.4028499,yes
+BAR001: Basin,Ft. Worth,Ft. Worth,yes
+BAR001: Lithology,Shale,Shale,yes
+BAR001: Shale_play,Barnett,Barnett,yes
+BAR001: References,Barnett Shale extent from Pollastro 2007 fig 3,Barnett Shale extent from Pollastro 2007 fig 3,yes
+BAR001: Source,EIA,EIA,yes
+BAR001: Area_sq_mi,26311.4028499,26311.4028499,yes
+BAR001: Area_sq_km,68146.2205388,68146.2205388,yes
+BAR001: ID,BAR001,BAR001,yes
+BAR001: Age_shale,Mississippian,Mississippian,yes
+HIL001: name (the source's Shale_play),HilliardBaxterMancos-Niobrara,HilliardBaxterMancos-Niobrara,yes
+"HIL001: area, square miles (the hover's figure; the source's Area_sq_mi)",17932.3278316,17932.3278316,yes
+HIL001: Basin,Greater Green River,Greater Green River,yes
+HIL001: Lithology,MIxed Shale & Chalk,MIxed Shale & Chalk,yes
+HIL001: Shale_play,HilliardBaxterMancos-Niobrara,HilliardBaxterMancos-Niobrara,yes
+HIL001: References,"USGS 2003 continuous gas AU 370461, extended to W to include NIobrara wells","USGS 2003 continuous gas AU 370461, extended to W to include NIobrara wells",yes
+HIL001: Source,EIA,EIA,yes
+HIL001: Area_sq_mi,17932.3278316,17932.3278316,yes
+HIL001: Area_sq_km,46444.5158684,46444.5158684,yes
+HIL001: ID,HIL001,HIL001,yes
+HIL001: Age_shale,Cretaceous,Cretaceous,yes
+HER001: name (the source's Shale_play),Hermosa,Hermosa,yes
+"HER001: area, square miles (the hover's figure; the source's Area_sq_mi)",2977.94680398,2977.94680398,yes
+HER001: Basin,Pardox,Pardox,yes
+HER001: Lithology,Shale,Shale,yes
+HER001: Shale_play,Hermosa,Hermosa,yes
+HER001: References,"Schanel 2008 slide 4, draw outline around wells","Schanel 2008 slide 4, draw outline around wells",yes
+HER001: Source,EIA,EIA,yes
+HER001: Area_sq_mi,2977.94680398,2977.94680398,yes
+HER001: Area_sq_km,7712.84681452,7712.84681452,yes
+HER001: ID,HER001,HER001,yes
+HER001: Age_shale,Pennsylvanian,Pennsylvanian,yes
+MAN001: name (the source's Shale_play),Mancos,Mancos,yes
+"MAN001: area, square miles (the hover's figure; the source's Area_sq_mi)",3883.76317934,3883.76317934,yes
+MAN001: Basin,Uinta,Uinta,yes
+MAN001: Lithology,Shale,Shale,yes
+MAN001: Shale_play,Mancos,Mancos,yes
+MAN001: References,"Schanel 2008 slide 4, draw outline around wells","Schanel 2008 slide 4, draw outline around wells",yes
+MAN001: Source,EIA,EIA,yes
+MAN001: Area_sq_mi,3883.76317934,3883.76317934,yes
+MAN001: Area_sq_km,10058.9004565,10058.9004565,yes
+MAN001: ID,MAN001,MAN001,yes
+MAN001: Age_shale,Cretaceous,Cretaceous,yes
+WOO003: name (the source's Shale_play),Woodford-Caney,Woodford-Caney,yes
+"WOO003: area, square miles (the hover's figure; the source's Area_sq_mi)",2892.51071814,2892.51071814,yes
+WOO003: Basin,Arkoma,Arkoma,yes
+WOO003: Lithology,Shale,Shale,yes
+WOO003: Shale_play,Woodford-Caney,Woodford-Caney,yes
+WOO003: References,Hand-drawn boundary around wells from OK Geol Surv,Hand-drawn boundary around wells from OK Geol Surv,yes
+WOO003: Source,EIA,EIA,yes
+WOO003: Area_sq_mi,2892.51071814,2892.51071814,yes
+WOO003: Area_sq_km,7491.56836804,7491.56836804,yes
+WOO003: ID,WOO003,WOO003,yes
+WOO003: Age_shale,Devonian,Devonian,yes
+COD001: name (the source's Shale_play),Cody,Cody,yes
+"COD001: area, square miles (the hover's figure; the source's Area_sq_mi)",2264.80443548,2264.80443548,yes
+COD001: Basin,Montana Thrust Belt,Montana Thrust Belt,yes
+COD001: Lithology,Shale,Shale,yes
+COD001: Shale_play,Cody,Cody,yes
+COD001: References,"Bill Barrett Corp., Circus-Toston-6 Mile Prospects","Bill Barrett Corp., Circus-Toston-6 Mile Prospects",yes
+COD001: Source,EIA,EIA,yes
+COD001: Area_sq_mi,2264.80443548,2264.80443548,yes
+COD001: Area_sq_km,5865.81655936,5865.81655936,yes
+COD001: ID,COD001,COD001,yes
+COD001: Age_shale,Cretaceous,Cretaceous,yes
+BEN001: name (the source's Shale_play),Bend,Bend,yes
+"BEN001: area, square miles (the hover's figure; the source's Area_sq_mi)",1262.86524765,1262.86524765,yes
+BEN001: Basin,Palo Duro,Palo Duro,yes
+BEN001: Lithology,Shale,Shale,yes
+BEN001: Shale_play,Bend,Bend,yes
+BEN001: References,"Bend Shale play boundary, Oil & Gas Journal 10-2006","Bend Shale play boundary, Oil & Gas Journal 10-2006",yes
+BEN001: Source,EIA,EIA,yes
+BEN001: Area_sq_mi,1262.86524765,1262.86524765,yes
+BEN001: Area_sq_km,3270.80597595,3270.80597595,yes
+BEN001: ID,BEN001,BEN001,yes
+BEN001: Age_shale,Pennsylvanian,Pennsylvanian,yes
+LEW001: name (the source's Shale_play),Lewis,Lewis,yes
+"LEW001: area, square miles (the hover's figure; the source's Area_sq_mi)",1557.43380346,1557.43380346,yes
+LEW001: Basin,San Juan,San Juan,yes
+LEW001: Lithology,Shale,Shale,yes
+LEW001: Shale_play,Lewis,Lewis,yes
+LEW001: References,Lewis Shale Gas Productive area- Fishman et al 2008 fig 1,Lewis Shale Gas Productive area- Fishman et al 2008 fig 1,yes
+LEW001: Source,EIA,EIA,yes
+LEW001: Area_sq_mi,1557.43380346,1557.43380346,yes
+LEW001: Area_sq_km,4033.73503308,4033.73503308,yes
+LEW001: ID,LEW001,LEW001,yes
+LEW001: Age_shale,Cretaceous,Cretaceous,yes
+NEW001: name (the source's Shale_play),New Albany,New Albany,yes
+"NEW001: area, square miles (the hover's figure; the source's Area_sq_mi)",12564.6558374,12564.6558374,yes
+NEW001: Basin,Illinois,Illinois,yes
+NEW001: Lithology,Shale,Shale,yes
+NEW001: Shale_play,New Albany,New Albany,yes
+NEW001: References,New Albany Gas Shale Play- Martini et al 2008 Fig 1,New Albany Gas Shale Play- Martini et al 2008 Fig 1,yes
+NEW001: Source,EIA,EIA,yes
+NEW001: Area_sq_mi,12564.6558374,12564.6558374,yes
+NEW001: Area_sq_km,32542.3092251,32542.3092251,yes
+NEW001: ID,NEW001,NEW001,yes
+NEW001: Age_shale,Devonian,Devonian,yes
+WOO001: name (the source's Shale_play),Woodford,Woodford,yes
+"WOO001: area, square miles (the hover's figure; the source's Area_sq_mi)",3351.7712898,3351.7712898,yes
+WOO001: Basin,Anadarko,Anadarko,yes
+WOO001: Lithology,Shale,Shale,yes
+WOO001: Shale_play,Woodford,Woodford,yes
+WOO001: References,Hand-drawn boundary around wells from OK Geol Surv,Hand-drawn boundary around wells from OK Geol Surv,yes
+WOO001: Source,EIA,EIA,yes
+WOO001: Area_sq_mi,3351.7712898,3351.7712898,yes
+WOO001: Area_sq_km,8681.04778802,8681.04778802,yes
+WOO001: ID,WOO001,WOO001,yes
+WOO001: Age_shale,Devonian,Devonian,yes
+ANT001: name (the source's Shale_play),Antrim,Antrim,yes
+"ANT001: area, square miles (the hover's figure; the source's Area_sq_mi)",43795.9901321,43795.9901321,yes
+ANT001: Basin,Michigan,Michigan,yes
+ANT001: Lithology,Shale,Shale,yes
+ANT001: Shale_play,Antrim,Antrim,yes
+ANT001: References,"Antrim Saleh Developed +Undeveloped areas-USGS 1995, fill in hole","Antrim Saleh Developed +Undeveloped areas-USGS 1995, fill in hole",yes
+ANT001: Source,EIA,EIA,yes
+ANT001: Area_sq_mi,43795.9901321,43795.9901321,yes
+ANT001: Area_sq_km,113431.093708,113431.093708,yes
+ANT001: ID,ANT001,ANT001,yes
+ANT001: Age_shale,Devonian,Devonian,yes
+HAY001: name (the source's Shale_play),Haynesville-Bossier,Haynesville-Bossier,yes
+"HAY001: area, square miles (the hover's figure; the source's Area_sq_mi)",11166.6979824,11166.6979824,yes
+HAY001: Basin,TX-LA-MS Salt Basin,TX-LA-MS Salt Basin,yes
+HAY001: Lithology,Shale,Shale,yes
+HAY001: Shale_play,Haynesville-Bossier,Haynesville-Bossier,yes
+HAY001: References,"EOG, Encana, Chesapeake, Petrohawk website maps","EOG, Encana, Chesapeake, Petrohawk website maps",yes
+HAY001: Source,EIA,EIA,yes
+HAY001: Area_sq_mi,11166.6979824,11166.6979824,yes
+HAY001: Area_sq_km,28921.6150023,28921.6150023,yes
+HAY001: ID,HAY001,HAY001,yes
+HAY001: Age_shale,Jurassic,Jurassic,yes
+MON001: name (the source's Shale_play),Monterey,Monterey,yes
+"MON001: area, square miles (the hover's figure; the source's Area_sq_mi)",835.140809078,835.140809078,yes
+MON001: Basin,Los Angeles Basin,Los Angeles Basin,yes
+MON001: Lithology,Shale,Shale,yes
+MON001: Shale_play,Monterey,Monterey,yes
+MON001: References,Stevens (Oxy) 2010 slide 10,Stevens (Oxy) 2010 slide 10,yes
+MON001: Source,EIA,EIA,yes
+MON001: Area_sq_mi,835.140809078,835.140809078,yes
+MON001: Area_sq_km,2163.00476569,2163.00476569,yes
+MON001: ID,MON001,MON001,yes
+MON001: Age_shale,Miocene,Miocene,yes
+MON002: name (the source's Shale_play),Monterey,Monterey,yes
+"MON002: area, square miles (the hover's figure; the source's Area_sq_mi)",358.747152338,358.747152338,yes
+MON002: Basin,Ventura Basin,Ventura Basin,yes
+MON002: Lithology,Shale,Shale,yes
+MON002: Shale_play,Monterey,Monterey,yes
+MON002: References,Stevens (Oxy) 2010 slide 10,Stevens (Oxy) 2010 slide 10,yes
+MON002: Source,EIA,EIA,yes
+MON002: Area_sq_mi,358.747152338,358.747152338,yes
+MON002: Area_sq_km,929.150859052,929.150859052,yes
+MON002: ID,MON002,MON002,yes
+MON002: Age_shale,Miocene,Miocene,yes
+MON005: name (the source's Shale_play),Monterey-Temblor,Monterey-Temblor,yes
+"MON005: area, square miles (the hover's figure; the source's Area_sq_mi)",2541.73984346,2541.73984346,yes
+MON005: Basin,San Joaquin Basin,San Joaquin Basin,yes
+MON005: Lithology,Shale,Shale,yes
+MON005: Shale_play,Monterey-Temblor,Monterey-Temblor,yes
+MON005: References,Stevens (Oxy) 2010 slide 10,Stevens (Oxy) 2010 slide 10,yes
+MON005: Source,EIA,EIA,yes
+MON005: Area_sq_mi,2541.73984346,2541.73984346,yes
+MON005: Area_sq_km,6583.07597326,6583.07597326,yes
+MON005: ID,MON005,MON005,yes
+MON005: Age_shale,Miocene-Oligocene,Miocene-Oligocene,yes
+MON003: name (the source's Shale_play),Monterey,Monterey,yes
+"MON003: area, square miles (the hover's figure; the source's Area_sq_mi)",776.041065543,776.041065543,yes
+MON003: Basin,Santa Maria Basin,Santa Maria Basin,yes
+MON003: Lithology,Shale,Shale,yes
+MON003: Shale_play,Monterey,Monterey,yes
+MON003: References,Marquez (Venoco) 2010 slide 7,Marquez (Venoco) 2010 slide 7,yes
+MON003: Source,EIA,EIA,yes
+MON003: Area_sq_mi,776.041065543,776.041065543,yes
+MON003: Area_sq_km,2009.93713263,2009.93713263,yes
+MON003: ID,MON003,MON003,yes
+MON003: Age_shale,Miocene,Miocene,yes
+MON004: name (the source's Shale_play),Monterey,Monterey,yes
+"MON004: area, square miles (the hover's figure; the source's Area_sq_mi)",2935.1101954,2935.1101954,yes
+MON004: Basin,Snt Maria-Ventura OS,Snt Maria-Ventura OS,yes
+MON004: Lithology,Shale,Shale,yes
+MON004: Shale_play,Monterey,Monterey,yes
+MON004: References,Marquez (Venoco) 2010 slide 7,Marquez (Venoco) 2010 slide 7,yes
+MON004: Source,EIA,EIA,yes
+MON004: Area_sq_mi,2935.1101954,2935.1101954,yes
+MON004: Area_sq_km,7601.90050763,7601.90050763,yes
+MON004: ID,MON004,MON004,yes
+MON004: Age_shale,Miocene,Miocene,yes
+NIO006: name (the source's Shale_play),Niobrara- Mowry,Niobrara- Mowry,yes
+"NIO006: area, square miles (the hover's figure; the source's Area_sq_mi)",8761.19794013,8761.19794013,yes
+NIO006: Basin,Powder River,Powder River,yes
+NIO006: Lithology,MIxed Shale & Chalk,MIxed Shale & Chalk,yes
+NIO006: Shale_play,Niobrara- Mowry,Niobrara- Mowry,yes
+NIO006: References,HPDI well outline,HPDI well outline,yes
+NIO006: Source,EIA,EIA,yes
+NIO006: Area_sq_mi,8761.19794013,8761.19794013,yes
+NIO006: Area_sq_km,22691.3984943,22691.3984943,yes
+NIO006: ID,NIO006,NIO006,yes
+NIO006: Age_shale,Cretaceous,Cretaceous,yes
+HEA001: name (the source's Shale_play),Heath,Heath,yes
+"HEA001: area, square miles (the hover's figure; the source's Area_sq_mi)",3267.38449604,3267.38449604,yes
+HEA001: Basin,Williston,Williston,yes
+HEA001: Lithology,Shale,Shale,yes
+HEA001: Shale_play,Heath,Heath,yes
+HEA001: References,"Great Northern Gas 2009 Figs 6, 7","Great Northern Gas 2009 Figs 6, 7",yes
+HEA001: Source,EIA,EIA,yes
+HEA001: Area_sq_mi,3267.38449604,3267.38449604,yes
+HEA001: Area_sq_km,8462.48699554,8462.48699554,yes
+HEA001: ID,HEA001,HEA001,yes
+HEA001: Age_shale,Mississippian,Mississippian,yes
+PIE001: name (the source's Shale_play),Pierre -Niobrara,Pierre -Niobrara,yes
+"PIE001: area, square miles (the hover's figure; the source's Area_sq_mi)",2120.03445438,2120.03445438,yes
+PIE001: Basin,Raton,Raton,yes
+PIE001: Lithology,Shale,Shale,yes
+PIE001: Shale_play,Pierre -Niobrara,Pierre -Niobrara,yes
+PIE001: References,"Fract'd Res-AU41020-Jur_Cret TPS-HIgley 2007, NM portion excised for non-develop","Fract'd Res-AU41020-Jur_Cret TPS-HIgley 2007, NM portion excised for non-develop",yes
+PIE001: Source,EIA,EIA,yes
+PIE001: Area_sq_mi,2120.03445438,2120.03445438,yes
+PIE001: Area_sq_km,5490.86402964,5490.86402964,yes
+PIE001: ID,PIE001,PIE001,yes
+PIE001: Age_shale,Cretaceous,Cretaceous,yes
+TUS001: name (the source's Shale_play),Tuscaloosa,Tuscaloosa,yes
+"TUS001: area, square miles (the hover's figure; the source's Area_sq_mi)",12567.562787,12567.562787,yes
+TUS001: Basin,TX-LA-MS Salt,TX-LA-MS Salt,yes
+TUS001: Lithology,Shale,Shale,yes
+TUS001: Shale_play,Tuscaloosa,Tuscaloosa,yes
+TUS001: References,"Chako John 1997, O& G Journal Fig 1","Chako John 1997, O& G Journal Fig 1",yes
+TUS001: Source,EIA,EIA,yes
+TUS001: Area_sq_mi,12567.562787,12567.562787,yes
+TUS001: Area_sq_km,32549.8381901,32549.8381901,yes
+TUS001: ID,TUS001,TUS001,yes
+TUS001: Age_shale,Cretaceous,Cretaceous,yes
+MOW001: name (the source's Shale_play),Mowry,Mowry,yes
+"MOW001: area, square miles (the hover's figure; the source's Area_sq_mi)",1010.02645093,1010.02645093,yes
+MOW001: Basin,Big Horn,Big Horn,yes
+MOW001: Lithology,Shale,Shale,yes
+MOW001: Shale_play,Mowry,Mowry,yes
+MOW001: References,"Finn et al 2010, USGS DDS-69-V, AU 50340262","Finn et al 2010, USGS DDS-69-V, AU 50340262",yes
+MOW001: Source,EIA,EIA,yes
+MOW001: Area_sq_mi,1010.02645093,1010.02645093,yes
+MOW001: Area_sq_km,2615.9564987,2615.9564987,yes
+MOW001: ID,MOW001,MOW001,yes
+MOW001: Age_shale,Cretaceous,Cretaceous,yes
+MANC01: name (the source's Shale_play),Manning Canyon,Manning Canyon,yes
+"MANC01: area, square miles (the hover's figure; the source's Area_sq_mi)",1369.87915973,1369.87915973,yes
+MANC01: Basin,Uinta,Uinta,yes
+MANC01: Lithology,Shale,Shale,yes
+MANC01: Shale_play,Manning Canyon,Manning Canyon,yes
+MANC01: References,Chidsey et al 2010 slide 25- polygon around wells,Chidsey et al 2010 slide 25- polygon around wells,yes
+MANC01: Source,EIA,EIA,yes
+MANC01: Area_sq_mi,1369.87915973,1369.87915973,yes
+MANC01: Area_sq_km,3547.97073583,3547.97073583,yes
+MANC01: ID,MANC01,MANC01,yes
+MANC01: Age_shale,Mississippian-Penn.,Mississippian-Penn.,yes
+CHA001: name (the source's Shale_play),Chattanooga,Chattanooga,yes
+"CHA001: area, square miles (the hover's figure; the source's Area_sq_mi)",1448.13143073,1448.13143073,yes
+CHA001: Basin,Appalachian,Appalachian,yes
+CHA001: Lithology,Shale,Shale,yes
+CHA001: Shale_play,Chattanooga,Chattanooga,yes
+CHA001: References,5 TN counties with wells operated by CNX and Magellan,5 TN counties with wells operated by CNX and Magellan,yes
+CHA001: Source,EIA,EIA,yes
+CHA001: Area_sq_mi,1448.13143073,1448.13143073,yes
+CHA001: Area_sq_km,3750.6431873,3750.6431873,yes
+CHA001: ID,CHA001,CHA001,yes
+CHA001: Age_shale,Devonian,Devonian,yes
+ABO001: name (the source's Shale_play),Abo-Yeso,Abo-Yeso,yes
+"ABO001: area, square miles (the hover's figure; the source's Area_sq_mi)",4471.76812732,4471.76812732,yes
+ABO001: Basin,Permian,Permian,yes
+ABO001: Lithology,Mixed Shale & Limestone-Siltstone-Sandstone,Mixed Shale & Limestone-Siltstone-Sandstone,yes
+ABO001: Shale_play,Abo-Yeso,Abo-Yeso,yes
+ABO001: References,EIA,EIA,yes
+ABO001: Source,EIA,EIA,yes
+ABO001: Area_sq_mi,4471.76812732,4471.76812732,yes
+ABO001: Area_sq_km,11581.8262804,11581.8262804,yes
+ABO001: ID,ABO001,ABO001,yes
+ABO001: Age_shale,Permian,Permian,yes
+BON001: name (the source's Shale_play),Bone Spring,Bone Spring,yes
+"BON001: area, square miles (the hover's figure; the source's Area_sq_mi)",6069.63623945,6069.63623945,yes
+BON001: Basin,Permian,Permian,yes
+BON001: Lithology,Mixed Shale & Limestone-Siltstone-Sandstone,Mixed Shale & Limestone-Siltstone-Sandstone,yes
+BON001: Shale_play,Bone Spring,Bone Spring,yes
+BON001: References,EIA,EIA,yes
+BON001: Source,EIA,EIA,yes
+BON001: Area_sq_mi,6069.63623945,6069.63623945,yes
+BON001: Area_sq_km,15720.2856922,15720.2856922,yes
+BON001: ID,BON001,BON001,yes
+BON001: Age_shale,Permian,Permian,yes
+GLO001: name (the source's Shale_play),Glorieta-Yeso,Glorieta-Yeso,yes
+"GLO001: area, square miles (the hover's figure; the source's Area_sq_mi)",794.960248073,794.960248073,yes
+GLO001: Basin,Permian,Permian,yes
+GLO001: Lithology,Mixed Shale & Limestone-Siltstone-Sandstone,Mixed Shale & Limestone-Siltstone-Sandstone,yes
+GLO001: Shale_play,Glorieta-Yeso,Glorieta-Yeso,yes
+GLO001: References,EIA,EIA,yes
+GLO001: Source,EIA,EIA,yes
+GLO001: Area_sq_mi,794.960248073,794.960248073,yes
+GLO001: Area_sq_km,2058.93759043,2058.93759043,yes
+GLO001: ID,GLO001,GLO001,yes
+GLO001: Age_shale,Permian,Permian,yes
+DEL001: name (the source's Shale_play),Delaware,Delaware,yes
+"DEL001: area, square miles (the hover's figure; the source's Area_sq_mi)",8034.13158422,8034.13158422,yes
+DEL001: Basin,Permian,Permian,yes
+DEL001: Lithology,Mixed Shale & Limestone,Mixed Shale & Limestone,yes
+DEL001: Shale_play,Delaware,Delaware,yes
+DEL001: References,EIA,EIA,yes
+DEL001: Source,EIA,EIA,yes
+DEL001: Area_sq_mi,8034.13158422,8034.13158422,yes
+DEL001: Area_sq_km,20808.3052773,20808.3052773,yes
+DEL001: ID,DEL001,DEL001,yes
+DEL001: Age_shale,Permian,Permian,yes
+EAG001: name (the source's Shale_play),Eagle Ford,Eagle Ford,yes
+"EAG001: area, square miles (the hover's figure; the source's Area_sq_mi)",14644.285021,14644.285021,yes
+EAG001: Basin,Western Gulf,Western Gulf,yes
+EAG001: Lithology,Shale,Shale,yes
+EAG001: Shale_play,Eagle Ford,Eagle Ford,yes
+EAG001: References,EIA,EIA,yes
+EAG001: Source,EIA,EIA,yes
+EAG001: Area_sq_mi,14644.285021,14644.285021,yes
+EAG001: Area_sq_km,37928.5240839,37928.5240839,yes
+EAG001: ID,EAG001,EAG001,yes
+EAG001: Age_shale,Cretaceous,Cretaceous,yes
+NIO004: name (the source's Shale_play),Niobrara,Niobrara,yes
+"NIO004: area, square miles (the hover's figure; the source's Area_sq_mi)",8622.80213196,8622.80213196,yes
+NIO004: Basin,Piceance Basin,Piceance Basin,yes
+NIO004: Lithology,MIxed Shale & Chalk,MIxed Shale & Chalk,yes
+NIO004: Shale_play,Niobrara,Niobrara,yes
+NIO004: References,EIA,EIA,yes
+NIO004: Source,EIA,EIA,yes
+NIO004: Area_sq_mi,8622.80213196,8622.80213196,yes
+NIO004: Area_sq_km,22332.9549967,22332.9549967,yes
+NIO004: ID,NIO004,NIO004,yes
+NIO004: Age_shale,Cretaceous,Cretaceous,yes
+NIO002: name (the source's Shale_play),Niobrara,Niobrara,yes
+"NIO002: area, square miles (the hover's figure; the source's Area_sq_mi)",1834.84266888,1834.84266888,yes
+NIO002: Basin,North-Central MT,North-Central MT,yes
+NIO002: Lithology,Mixed Shale & Chalk,Mixed Shale & Chalk,yes
+NIO002: Shale_play,Niobrara,Niobrara,yes
+NIO002: References,EIA,EIA,yes
+NIO002: Source,EIA,EIA,yes
+NIO002: Area_sq_mi,1834.84266888,1834.84266888,yes
+NIO002: Area_sq_km,4752.22069611,4752.22069611,yes
+NIO002: ID,NIO002,NIO002,yes
+NIO002: Age_shale,Cretaceous,Cretaceous,yes
+NIO005: name (the source's Shale_play),Niobrara,Niobrara,yes
+"NIO005: area, square miles (the hover's figure; the source's Area_sq_mi)",9795.51325516,9795.51325516,yes
+NIO005: Basin,Powder River,Powder River,yes
+NIO005: Lithology,MIxed Shale & Chalk,MIxed Shale & Chalk,yes
+NIO005: Shale_play,Niobrara,Niobrara,yes
+NIO005: References,EIA,EIA,yes
+NIO005: Source,EIA,EIA,yes
+NIO005: Area_sq_mi,9795.51325516,9795.51325516,yes
+NIO005: Area_sq_km,25370.2628622,25370.2628622,yes
+NIO005: ID,NIO005,NIO005,yes
+NIO005: Age_shale,Cretaceous,Cretaceous,yes
+NIO003: name (the source's Shale_play),Niobrara,Niobrara,yes
+"NIO003: area, square miles (the hover's figure; the source's Area_sq_mi)",512.77989686,512.77989686,yes
+NIO003: Basin,Park Basin,Park Basin,yes
+NIO003: Lithology,MIxed Shale & Chalk,MIxed Shale & Chalk,yes
+NIO003: Shale_play,Niobrara,Niobrara,yes
+NIO003: References,EIA,EIA,yes
+NIO003: Source,EIA,EIA,yes
+NIO003: Area_sq_mi,512.77989686,512.77989686,yes
+NIO003: Area_sq_km,1328.09383591,1328.09383591,yes
+NIO003: ID,NIO003,NIO003,yes
+NIO003: Age_shale,Cretaceous,Cretaceous,yes
+NIO001: name (the source's Shale_play),Niobrara,Niobrara,yes
+"NIO001: area, square miles (the hover's figure; the source's Area_sq_mi)",13024.1873321,13024.1873321,yes
+NIO001: Basin,Denver Basin,Denver Basin,yes
+NIO001: Lithology,Mixed Shale & Chalk,Mixed Shale & Chalk,yes
+NIO001: Shale_play,Niobrara,Niobrara,yes
+NIO001: References,EIA,EIA,yes
+NIO001: Source,EIA,EIA,yes
+NIO001: Area_sq_mi,13024.1873321,13024.1873321,yes
+NIO001: Area_sq_km,33732.4903326,33732.4903326,yes
+NIO001: ID,NIO001,NIO001,yes
+NIO001: Age_shale,Cretaceous,Cretaceous,yes
+MARP01: name (the source's Shale_play),Marcellus,Marcellus,yes
+"MARP01: area, square miles (the hover's figure; the source's Area_sq_mi)",58326.3781947,58326.3781947,yes
+MARP01: Basin,Appalachian,Appalachian,yes
+MARP01: Lithology,Shale,Shale,yes
+MARP01: Shale_play,Marcellus,Marcellus,yes
+MARP01: References,EIA,EIA,yes
+MARP01: Source,EIA,EIA,yes
+MARP01: Area_sq_mi,58326.3781947,58326.3781947,yes
+MARP01: Area_sq_km,151064.626024,151064.626024,yes
+MARP01: ID,MARP01,MARP01,yes
+MARP01: Age_shale,Middle Devonian,Middle Devonian,yes
+DEV001: name (the source's Shale_play),Devonian (Ohio),Devonian (Ohio),yes
+"DEV001: area, square miles (the hover's figure; the source's Area_sq_mi)",54664.8490533,54664.8490533,yes
+DEV001: Basin,Appalachian,Appalachian,yes
+DEV001: Lithology,Shale,Shale,yes
+DEV001: Shale_play,Devonian (Ohio),Devonian (Ohio),yes
+DEV001: References,"Milici 2005 slide 15, Devonian Shale thickkness > 100' in 3 USGS AU's","Milici 2005 slide 15, Devonian Shale thickkness > 100' in 3 USGS AU's",yes
+DEV001: Source,EIA,EIA,yes
+DEV001: Area_sq_mi,54664.8490533,54664.8490533,yes
+DEV001: Area_sq_km,141581.309083,141581.309083,yes
+DEV001: ID,DEV001,DEV001,yes
+DEV001: Age_shale,Devonian,Devonian,yes
+THR001: name (the source's Shale_play),Three Forks,Three Forks,yes
+"THR001: area, square miles (the hover's figure; the source's Area_sq_mi)",31054.7216242,31054.7216242,yes
+THR001: Basin,Williston,Williston,yes
+THR001: Lithology,Mixed Shale & Dolostone-Siltstone-Sandstone,Mixed Shale & Dolostone-Siltstone-Sandstone,yes
+THR001: Shale_play,Three Forks,Three Forks,yes
+THR001: References,EIA,EIA,yes
+THR001: Source,EIA,EIA,yes
+THR001: Area_sq_mi,31054.7216242,31054.7216242,yes
+THR001: Area_sq_km,80431.3597661,80431.3597661,yes
+THR001: ID,THR001,THR001,yes
+THR001: Age_shale,Devonian-Mississipp.,Devonian-Mississipp.,yes
+BAK001: name (the source's Shale_play),Bakken,Bakken,yes
+"BAK001: area, square miles (the hover's figure; the source's Area_sq_mi)",25929.2058029,25929.2058029,yes
+BAK001: Basin,Williston,Williston,yes
+BAK001: Lithology,Mixed Shale & Dolostone-Siltstone-Sandstone,Mixed Shale & Dolostone-Siltstone-Sandstone,yes
+BAK001: Shale_play,Bakken,Bakken,yes
+BAK001: References,EIA,EIA,yes
+BAK001: Source,EIA,EIA,yes
+BAK001: Area_sq_mi,25929.2058029,25929.2058029,yes
+BAK001: Area_sq_km,67156.3347312,67156.3347312,yes
+BAK001: ID,BAK001,BAK001,yes
+BAK001: Age_shale,Devonian-Mississipp.,Devonian-Mississipp.,yes
+UTI001: name (the source's Shale_play),Utica,Utica,yes
+"UTI001: area, square miles (the hover's figure; the source's Area_sq_mi)",59054.2252868,59054.2252868,yes
+UTI001: Basin,Appalachian,Appalachian,yes
+UTI001: Lithology,Mixed Shale & Limestone,Mixed Shale & Limestone,yes
+UTI001: Shale_play,Utica,Utica,yes
+UTI001: References,"Appalachian Oil and Natural Gas Research Consortium, and USGS","Appalachian Oil and Natural Gas Research Consortium, and USGS",yes
+UTI001: Source,EIA,EIA,yes
+UTI001: Area_sq_mi,59054.2252868,59054.2252868,yes
+UTI001: Area_sq_km,152949.741338,152949.741338,yes
+UTI001: ID,UTI001,UTI001,yes
+UTI001: Age_shale,Ordovician,Ordovician,yes
+WOL001: name (the source's Shale_play),Wolfcamp,Wolfcamp,yes
+"WOL001: area, square miles (the hover's figure; the source's Area_sq_mi)",7038.84077949,7038.84077949,yes
+WOL001: Basin,Permian,Permian,yes
+WOL001: Lithology,Mixed Shale & Limestone,Mixed Shale & Limestone,yes
+WOL001: Shale_play,Wolfcamp,Wolfcamp,yes
+WOL001: References,EIA,EIA,yes
+WOL001: Source,EIA,EIA,yes
+WOL001: Area_sq_mi,7038.84077949,7038.84077949,yes
+WOL001: Area_sq_km,18230.5139271,18230.5139271,yes
+WOL001: ID,WOL001,WOL001,yes
+WOL001: Age_shale,Permian,Permian,yes
+SPR001: name (the source's Shale_play),Spraberry,Spraberry,yes
+"SPR001: area, square miles (the hover's figure; the source's Area_sq_mi)",6282.07861876,6282.07861876,yes
+SPR001: Basin,Permian,Permian,yes
+SPR001: Lithology,"Mixed shale, fine-grained sandstone, and limestone","Mixed shale, fine-grained sandstone, and limestone",yes
+SPR001: Shale_play,Spraberry,Spraberry,yes
+SPR001: References,EIA,EIA,yes
+SPR001: Source,EIA,EIA,yes
+SPR001: Area_sq_mi,6282.07861876,6282.07861876,yes
+SPR001: Area_sq_km,16270.5089287,16270.5089287,yes
+SPR001: ID,SPR001,SPR001,yes
+SPR001: Age_shale,Permian/Leonardian,Permian/Leonardian,yes
+WOL002: name (the source's Shale_play),Wolfcamp - Midland,Wolfcamp - Midland,yes
+"WOL002: area, square miles (the hover's figure; the source's Area_sq_mi)",10973.8039491,10973.8039491,yes
+WOL002: Basin,Permian,Permian,yes
+WOL002: Lithology,Mixed Shale & Limestone,Mixed Shale & Limestone,yes
+WOL002: Shale_play,Wolfcamp - Midland,Wolfcamp - Midland,yes
+WOL002: References,EIA,EIA,yes
+WOL002: Source,EIA,EIA,yes
+WOL002: Area_sq_mi,10973.8039491,10973.8039491,yes
+WOL002: Area_sq_km,28422.0217498,28422.0217498,yes
+WOL002: ID,WOL002,WOL002,yes
+WOL002: Age_shale,Permian,Permian,yes
+"smallest area, square miles",184.825557581,184.825557581,yes
+"mean area, square miles",10280.334960034319,10280.334960034319,yes
+"largest area, square miles",59054.2252868,59054.2252868,yes
+"plays, the list of layers' count",50,50,yes
+"features, the list of layers' count",50,50,yes

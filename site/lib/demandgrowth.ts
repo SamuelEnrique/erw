@@ -12,6 +12,11 @@ export type DemandFile = {
   order: string[]; areas: Record<string, Area>; caiso_break: { join: string; rows: BreakRow[] };
 };
 
+/** Session 8420 (chain 503, part C): the three lines of the file the functions below read, so the `growth` object of a
+ *  region's or a balancing authority's page file (site/data/regions/demand/, the same lines and the same year rows) is
+ *  read by them as the page's own file is. The page's file is one of these; nothing it reads moved. */
+export type Period = Pick<DemandFile, "base" | "last_year" | "ytd_through">;
+
 export const SLUGS: Record<string, string> = { ercot: "ERCO", caiso: "CISO", pjm: "PJM", miso: "MISO", spp: "SWPP", nyiso: "NYIS", isone: "ISNE", us48: "US48" };
 export const slugOf = (ba: string) => Object.keys(SLUGS).find((s) => SLUGS[s] === ba)!;
 export const RANKS = [
@@ -41,7 +46,7 @@ export function wholeYears(a: Area): { year: string; row: Year }[] {
   return Object.keys(a.years).sort().filter((y) => a.years[y].avg_demand_mw !== undefined).map((y) => ({ year: y, row: a.years[y] }));
 }
 /** The year so far: the newest year's row (it holds only year-to-date figures) and the same window of the base year. */
-export function yearToDate(f: DemandFile, a: Area): { year: string; row: Year; base: Year } | null {
+export function yearToDate(f: Period, a: Area): { year: string; row: Year; base: Year } | null {
   const y = Object.keys(a.years).sort().at(-1)!;
   const row = a.years[y];
   return row.ytd_avg_demand_mw === undefined || Number(y) <= f.last_year ? null : { year: y, row, base: a.years[String(f.base)] };
@@ -56,7 +61,7 @@ export function localHour(ts: string, tz: string): string {
 export type Cell = { month: number; hour: number; mw: number; pct: number };
 /** Where growth concentrates: the change from the base year to the last whole year in each month-and-hour cell the
  *  table holds (a cell missing in either year is absent, not zero). */
-export function cells(f: DemandFile, a: Area): Cell[] {
+export function cells(f: Period, a: Area): Cell[] {
   const r = a.years[String(f.last_year)] ?? {};
   const out: Cell[] = [];
   for (let m = 1; m <= 12; m++) for (let h = 0; h < 24; h++) {
@@ -65,8 +70,8 @@ export function cells(f: DemandFile, a: Area): Cell[] {
   }
   return out;
 }
-export const byMonth = (f: DemandFile, a: Area) => Array.from({ length: 12 }, (_, i) => ({ month: i + 1, mw: a.years[String(f.last_year)]?.[`growth_mw_m${pad(i + 1)}`], pct: a.years[String(f.last_year)]?.[`growth_pct_m${pad(i + 1)}`] }));
-export const byHour = (f: DemandFile, a: Area) => Array.from({ length: 24 }, (_, h) => ({ hour: h, mw: a.years[String(f.last_year)]?.[`growth_mw_h${pad(h)}`], pct: a.years[String(f.last_year)]?.[`growth_pct_h${pad(h)}`] }));
+export const byMonth = (f: Period, a: Area) => Array.from({ length: 12 }, (_, i) => ({ month: i + 1, mw: a.years[String(f.last_year)]?.[`growth_mw_m${pad(i + 1)}`], pct: a.years[String(f.last_year)]?.[`growth_pct_m${pad(i + 1)}`] }));
+export const byHour = (f: Period, a: Area) => Array.from({ length: 24 }, (_, h) => ({ hour: h, mw: a.years[String(f.last_year)]?.[`growth_mw_h${pad(h)}`], pct: a.years[String(f.last_year)]?.[`growth_pct_h${pad(h)}`] }));
 /** The cell that grew most and the one that grew least (or fell most), by percent. */
 export function extremes(cs: Cell[]): { most: Cell; least: Cell } | null {
   if (!cs.length) return null;

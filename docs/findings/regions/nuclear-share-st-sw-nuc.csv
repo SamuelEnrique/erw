@@ -1,0 +1,30 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate nuclear_share, region st_sw_nuc (Arizona and New Mexico (the core of EIA's Southwest region))
+# Computed 2026-11-19T11:17:52Z by warehouse/analysis/findings/deep/regions.py (nuclear_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: nuclear's share of the states' net generation (percent), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+st_sw_nuc,2001,23.254046425313067,12.0,1
+st_sw_nuc,2002,24.73040935372135,12.0,1
+st_sw_nuc,2003,22.481422636196573,12.0,1
+st_sw_nuc,2004,20.444864173791714,12.0,1
+st_sw_nuc,2005,18.890735954809898,12.0,1
+st_sw_nuc,2006,16.950828821777257,12.0,1
+st_sw_nuc,2007,17.93548118717204,12.0,1
+st_sw_nuc,2008,18.694114652639886,12.0,1
+st_sw_nuc,2009,20.219415028373593,12.0,1
+st_sw_nuc,2010,21.080681120852994,12.0,1
+st_sw_nuc,2011,21.3783145711915,12.0,1
+st_sw_nuc,2012,21.644110441253268,12.0,1
+st_sw_nuc,2013,21.066837977602372,12.0,1
+st_sw_nuc,2014,22.357607523558777,12.0,1
+st_sw_nuc,2015,22.30171865400806,12.0,1
+st_sw_nuc,2016,22.853265620824146,12.0,1
+st_sw_nuc,2017,23.19134363910927,12.0,1
+st_sw_nuc,2018,21.50588622790877,12.0,1
+st_sw_nuc,2019,21.462462062632667,12.0,1
+st_sw_nuc,2020,22.006062115999452,12.0,1
+st_sw_nuc,2021,21.996192729914924,12.0,1
+st_sw_nuc,2022,21.940568603444603,12.0,1
+st_sw_nuc,2023,20.86099328693386,12.0,1
+st_sw_nuc,2024,20.798437357266927,12.0,1
+st_sw_nuc,2025,20.089622150963375,12.0,1
