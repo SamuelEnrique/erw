@@ -1,6 +1,6 @@
 # Session 9814: `/privacy` and `/terms` against the code (chain 610, part C)
 
-Energy Research Warehouse (ERW). 20 November 2026, 20:16 to 20:24 UTC. The desktop's third window.
+Energy Research Warehouse (ERW). 20 November 2026, 20:16 to 20:18 UTC. The desktop's third window.
 
 ## What was done
 

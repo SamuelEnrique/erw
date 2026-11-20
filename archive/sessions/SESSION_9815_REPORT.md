@@ -1,6 +1,6 @@
 # Session 9815: `docs/security.md` brought up to date (chain 610, part B step 6)
 
-Energy Research Warehouse (ERW). 20 November 2026, 20:24 to 20:27 UTC. The desktop's third window.
+Energy Research Warehouse (ERW). 20 November 2026, 20:18 to 20:19 UTC. The desktop's third window.
 
 ## What was done
 
