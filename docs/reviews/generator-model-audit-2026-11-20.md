@@ -22,6 +22,7 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 | 2 | Flat real flows, a fixed money debt payment and a money discount rate in one sum | none | NPV +59.72 to +77.42 per kW (inflation 2 to 2.5 percent) | `wip/audit-generator-2` |
 | 3 | The same tax credit arrives in year 1 here and at year 0 on the battery page | none | a 30 percent credit on USD 1,110: 297.32 here, 333.00 there | `wip/audit-generator-3` |
 | 4 | An as-generated PPA is paid on energy the plant no longer makes | none | breakeven PPA 58.36 against 61.50 per MWh | `wip/audit-generator-4` |
+| 5 | The page's battery is "an upper bound", yet earns less than the battery page's program on the same prices | battery: -1.23 (-2.1 percent) at 4 hours | | `wip/audit-generator-5` |
 
 ## 1. The NPV holds no tax and no depreciation
 
@@ -55,3 +56,12 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 - **How much.** Default case, the whole energy for the PPA's 35 years: the breakeven PPA price the page prints, USD 58.36 per MWh, becomes 61.50 when the contract is paid on what the plant makes (+3.14, +5.4 percent). Every scenario with a contract overstates its contract income in the later years the same way.
 - **The test.** `tests/test_audit_generator_4.py` on `wip/audit-generator-4`: through `finance.ts` the breakeven price is 58.36 and the contract income is the same in year 35 as in year 1; paid on the degrading volume, the zero-NPV price is 61.50.
 - **The fix, not made.** `contractYear` takes the year and, for the "generated" shape, multiplies the energy by `(1 - deg)^(t - 1)`; `breakevenPpa`'s one-dollar value takes the same factor. It moves the breakeven price and every contract's NPV: the owner's ruling.
+
+## 5. The page's battery is not an upper bound
+
+- **Where.** `warehouse/derived/merchant_revenue.py` lines 136 to 171 (`battery_day`: in each hour full charge, full discharge or rest, with a last partial step) and lines 17 to 20 ("An upper bound: no one knows the day's prices in advance"). The note, section 3.3 line 81 ("an upper bound"). Decision 3 (`site/lib/decisions.ts` line 64: "so its figure is an upper bound").
+- **Why it is wrong.** Full power or nothing is a restriction: a battery that foresaw the prices could also run at part power. The battery page's own program, with no reserve paid, has every other rule the same (86 percent, each day from empty, one cycle) and earns more. The battery audit's findings 2 and 3 (the midnight reset, the hourly mean) hold here too.
+- **How much.** Every day of the last twelve months, the same ERCOT hub-average real-time prices: 4 hours, this page's program USD 58.72 per kW against the battery page's 59.95 (-1.23, -2.1 percent); 2 hours, 36.91 against 37.44 (-1.4 percent). The full-power program is below on 317 and 307 of 365 days.
+- **The two pages disagree.** The same battery, the same prices, two answers: 58.72 here, 59.95 on the battery page's program without reserves.
+- **The test.** `tests/test_audit_generator_5.py` on `wip/audit-generator-5`: a day where half power pays, and the twelve months at 4 hours (58.72 against 59.95, below on more than 300 days).
+- **Not fixed.** Using the battery page's `solve_day` here moves the page's battery figures: the owner's ruling. The words "upper bound" can go now (the battery audit's finding 6 has the form).
