@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ba_gen_ratio, region ba_gcpd (Grant County PUD (GCPD, EIA-930 balancing authority))
+# Computed 2026-11-19T11:43:43Z by warehouse/analysis/findings/deep/authorities.py (ba_gen_ratio); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the authority's net generation as a percent of its demand (percent), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_supply_hourly, eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+ba_gcpd,2018,156.14278225146143,4409.0,0
+ba_gcpd,2019,155.65812239905733,8760.0,1
+ba_gcpd,2020,188.10305379799354,8784.0,1
+ba_gcpd,2021,167.71236977862782,8760.0,1
+ba_gcpd,2022,167.66168389140805,8760.0,1
+ba_gcpd,2023,127.92983306513213,8760.0,1
+ba_gcpd,2024,118.97059787013234,8784.0,1
+ba_gcpd,2025,128.58300577876878,8760.0,1
+ba_gcpd,2026,153.90202481317954,7688.0,0

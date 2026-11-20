@@ -8,6 +8,23 @@ import { RoundupButton } from "./RoundupButton";
 import type { Card, Callout } from "@/lib/findings";
 import { Num } from "@/components/Num";
 import type { ReactNode } from "react";
+import { licenseGridTitle, licenseHeldGrid } from "@/lib/license";
+import type { ChartSpec } from "@/lib/findingchart";
+import type { MultiSpec } from "./MultiChart";
+
+/** Chain 305 (session 7605, Automated Analysis read as its reader; site/scripts/check-holds.mjs found it): a card's small
+ * multiples drew the panels of the grids whose prices are held by grid (ISO-NE, MISO, NYISO since 21 October 2026), in
+ * the all-grids view and as a one-grid choice, from tables held by grid. Here, on the server, a held grid's panel is
+ * taken out before the spec reaches the client chart, so its figures are not in the page; `held` names the grid and
+ * the publisher's words for the line drawn in its place. Every other chart is returned as it is. */
+export function heldMultiples(spec: ChartSpec): ChartSpec {
+  if ((spec as { kind: string }).kind !== "multiples") return spec;
+  const m = spec as unknown as MultiSpec;
+  const held = m.panels.filter((p) => licenseHeldGrid(p.grid));
+  if (!held.length) return spec;
+  const why = (g: string) => licenseGridTitle(g).split(": ").slice(1).join(": ");
+  return { ...m, panels: m.panels.filter((p) => !licenseHeldGrid(p.grid)), held: held.map((p) => ({ grid: p.grid, words: p.words, why: why(p.grid) })) } as unknown as ChartSpec;
+}
 
 // Session 315 (the owner's ruling of 13 October 2026: every card is a Num with its table): each callout figure and each
 // cell of the table of estimates is a Num whose check key names the card and the figure's place in the card's own JSON
@@ -91,8 +108,8 @@ export function FindingCard({ card, render = false, roundup = true, found, files
       </header>
       {card.refusal ? <p className="mt-3 max-w-3xl border border-rule bg-panel p-3 text-sm" data-refusal="1">{card.refusal}</p> : null}
       {card.chart.kind === "none" ? null : render
-        ? <CardChart spec={card.chart} label={card.title} height={420} />   /* the renderer's frame: the card's own drawing, the markup the photographs were taken from */
-        : <FormChart spec={card.chart} label={card.title} height={340} addressKey={formKey ?? `form.${card.card_id}`} />}
+        ? <CardChart spec={heldMultiples(card.chart)} label={card.title} height={420} />   /* the renderer's frame: the card's own drawing, the markup the photographs were taken from */
+        : <FormChart spec={heldMultiples(card.chart)} label={card.title} height={340} addressKey={formKey ?? `form.${card.card_id}`} />}
       {card.placeholders?.length ? (
         <p className="mt-1 text-xs text-muted">
           {card.placeholders.map((p) => (
@@ -148,7 +165,7 @@ export function FindingCard({ card, render = false, roundup = true, found, files
       {(render ? [] : card.more_charts ?? []).map((m) => (
         <figure key={m.title} className="mt-4" data-more-chart="1">
           <figcaption className="text-xs font-semibold text-muted">{m.title}</figcaption>
-          <CardChart spec={m.spec} label={m.title} height={render ? 260 : 240} />
+          <CardChart spec={heldMultiples(m.spec)} label={m.title} height={render ? 260 : 240} />
         </figure>
       ))}
       <p className="finding-footnote mt-3 max-w-3xl break-words text-[11px] leading-snug text-muted" data-finding-footnote="1">{card.footnote}</p>

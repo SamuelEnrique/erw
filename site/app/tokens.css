@@ -290,12 +290,14 @@ body:has(.brand-a) > footer :focus-visible {
 .brand-a button {
   cursor: pointer;
 }
-/* a button that is not the form's one action and not the segment in view: ink on white, a captions edge */
-.brand-a button[type="button"]:not([aria-pressed="true"]):not([data-bar]) {
+/* a button that is not the form's one action and not the segment in view: ink on white, a captions edge.
+   Session 8601: a switch that is on (role="switch", aria-checked="true": the network's Batteries and Prices) is a
+   segment in view too. Without this its label was ink on its own ink ground and could not be read. */
+.brand-a button[type="button"]:not([aria-pressed="true"]):not([aria-checked="true"]):not([data-bar]) {
   color: var(--color-ink);
   border-color: var(--color-muted);
 }
-.brand-a button[type="button"]:not([aria-pressed="true"]):not([data-bar]):hover:not(:disabled) {
+.brand-a button[type="button"]:not([aria-pressed="true"]):not([aria-checked="true"]):not([data-bar]):hover:not(:disabled) {
   background: var(--color-paper);
 }
 .brand-a button:disabled {
@@ -660,6 +662,12 @@ body:has(.brand-a) > footer :focus-visible {
     max-height: calc(100vh - 32px);
     overflow-y: auto;
   }
+}
+/* chain 305 (session 7605, the findings library read as its reader): on a narrow screen the grid's one column took
+   the widest card's least width, so a card's table of estimates, though in a frame that scrolls, held the page at 712
+   px on a 390 px phone once its method fold was opened. The cards' column may shrink to the screen */
+.brand-a .with-index > .index-main {
+  min-width: 0;
 }
 .brand-a .index-list {
   margin-top: 4px;

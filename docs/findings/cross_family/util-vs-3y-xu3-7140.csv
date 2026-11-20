@@ -1,0 +1,11 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate util_vs_3y, region xu3_7140 (Georgia Power Company (EIA utility 7140, FERC 714 planning area 183; GA))
+# Computed 2026-11-19T13:07:51Z by warehouse/analysis/findings/deep/cross_family.py (util_vs_3y); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's retail sales against the net energy the utility's filing of 3 years before forecast, percent (percent), the observations it rests on, and whether the year is full
+# Tables: eia861m_utility_sales_monthly, ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+xu3_7140,2020,-9.978434826299587,1.0,1
+xu3_7140,2021,-6.970282875827394,1.0,1
+xu3_7140,2022,-4.008778582942584,1.0,1
+xu3_7140,2023,-4.140725384931276,1.0,1
+xu3_7140,2024,-1.4138190408453544,1.0,1
+xu3_7140,2025,-2.44400285182258,1.0,1
