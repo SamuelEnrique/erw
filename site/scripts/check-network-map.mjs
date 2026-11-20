@@ -103,6 +103,7 @@ const fixture = read("../../tests/fixtures/session180/ba_boundaries_fixture.json
 const snap = read("../data/grid_network.json");
 const y21 = read("../public/network/daily_2021.json");
 const heldFile = fs.existsSync(new URL("../public/network/ba_boundaries.json", import.meta.url)) ? read("../public/network/ba_boundaries.json") : null;
+const wholeCountry = fs.existsSync(new URL("../data/regions/ba_boundaries.json", import.meta.url)) ? read("../data/regions/ba_boundaries.json") : null;   // session 8601
 const MAP = `(() => { const m = document.querySelector('[data-map-state]'); const t = document.querySelector('[data-shape-toggle]'); const d = document.querySelector('[data-network-view]');
   return { shape: t?.getAttribute('data-shape-toggle') ?? null, pressed: [...(t?.querySelectorAll('button[aria-pressed="true"]') ?? [])].map((b) => b.innerText.trim()).join(','),
     buttons: [...(t?.querySelectorAll('button') ?? [])].map((b) => b.innerText.trim()).join(','), state: m?.getAttribute('data-map-state') ?? null, regions: document.querySelectorAll('[data-region]').length,
@@ -133,7 +134,15 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   s = await wait(`(() => { const s = ${MAP}; return s.state && s.state !== 'loading' ? s : null; })()`, 20000, "the map's frame");
   check(s.shape === "map" && s.pressed === "Map" && !s.canvas && s.search === "?shape=map", `"Map" shows the map in place of the canvas and the address holds it (${s.search}; canvas ${s.canvas})`);
   // held: the page draws what the site's boundary file holds, and says so when there is none
-  if (!heldFile) {
+  // session 8601: when the site holds the whole country's boundary file (data/regions/ba_boundaries.json, the contract
+  // docs/state/page_files_regions.md), that is the file the map draws: a publisher's layer, named under the map, with
+  // no derived label; until then, the file of session 193 as below
+  if (wholeCountry) {
+    const want = [...new Set(wholeCountry.features.map((f) => f.properties.code))].filter((code) => snap.nodes.some((x) => x.id === code)).length;
+    const lab = await evaluate(`(() => { const m = document.querySelector('[data-map-state]'); return { derived: m?.getAttribute('data-map-derived'), label: !!document.querySelector('[data-map-derived-label]'), source: document.querySelector('[data-map-source-label]')?.innerText ?? '' }; })()`);
+    check(s.state === "held" && s.regions === want && s.said === want && s.matched === wholeCountry.features.length, `the regions drawn (${s.regions}) are the grids of the network in the whole country's boundary file (${wholeCountry.features.length} boundaries), one each`);
+    check(lab.derived === "0" && !lab.label && lab.source.includes(wholeCountry.source) && lab.source.includes(wholeCountry.retrieved_at.slice(0, 10)), `the file is a publisher's layer: no derived label, and its source and day stand under the map ("${lab.source.slice(0, 90)}...")`);
+  } else if (!heldFile) {
     check(s.state === "absent" && s.regions === 0 && s.said === 0 && s.matched === 0 && s.text.includes("The boundary file is not yet held") && s.text.includes("no region is drawn"),
       `the site holds no boundary file, and the map says so and draws no region (state ${s.state}, ${s.regions} regions): "${s.text.slice(0, 60)}..."`);
   } else {
@@ -171,7 +180,9 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
 
   // drawing: the test's own made-up squares in place of the boundary file
   const inject = await send("Page.addScriptToEvaluateOnNewDocument", { source: `(() => { const real = window.fetch; const f = ${JSON.stringify(fixture)};
-    window.fetch = (u, o) => (String(u).includes('/network/ba_boundaries.json') ? Promise.resolve(new Response(JSON.stringify(f), { status: 200, headers: { 'content-type': 'application/json' } })) : real(u, o)); })()` });
+    // session 8601: the map asks for the whole country's file first (/grid/boundaries); here it is answered "not held", so the squares are what the map draws whatever the site holds
+    const json = (v) => Promise.resolve(new Response(JSON.stringify(v), { status: 200, headers: { 'content-type': 'application/json' } }));
+    window.fetch = (u, o) => (String(u).includes('/network/ba_boundaries.json') ? json(f) : String(u).includes('/grid/boundaries') ? json({ held: false }) : real(u, o)); })()` });
   await go(`${base}/network?view=day&t=2021-02-15&shape=map`);
   await wait(READY, 30000, "the page to be ready");
   s = await wait(`(() => { const s = ${MAP}; return s.state === 'held' && s.view === 'day' && s.t === '2021-02-15' ? s : null; })()`, 30000, "the fixture's map");
@@ -192,7 +203,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   // hover names the region, as hovering a sphere names it
   c = await evaluate(centre("SWPP"));
   await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: c.x, y: c.y });
-  const hov = await wait(`(() => { const h = document.querySelector('[data-map-hover]'); return h ? { id: h.getAttribute('data-map-hover'), text: h.innerText } : null; })()`, 5000, "the hover");
+  const hov = await wait(`(() => { const h = document.querySelector('[data-map-hover]'); return h ? { id: h.getAttribute('data-map-hover'), text: h.querySelector('[data-map-hover-name]')?.innerText ?? h.innerText } : null; })()`, 5000, "the hover");  // session 8601: the hover holds the name and, under it, the grid's figures (check-grid-map.mjs)
   check(hov.id === "SWPP" && hov.text === snap.nodes.find((x) => x.id === "SWPP").name, `hovering a region names the grid (${hov.text})`);
   // a click opens the same panel
   c = await evaluate(centre("ERCO"));
@@ -240,9 +251,10 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   await go(`${base}/network?grid=CISO&shape=map`);
   await wait(READY, 30000, "the page at a phone's width");
   await wait(`document.querySelector('[data-map-state]')?.getAttribute('data-map-state') === 'held' && !!document.querySelector('[data-panel]')`, 30000, "the map and the panel at a phone's width");
-  const ph = await evaluate(`(() => { const r = (e) => e.getBoundingClientRect(); const t = [...document.querySelectorAll('[data-shape-toggle] button')].map(r); const m = r(document.querySelector('[data-map-state]')); const p = r(document.querySelector('[data-panel]'));
+  const ph = await evaluate(`(() => { const r = (e) => e.getBoundingClientRect(); const t = [...document.querySelectorAll('[data-shape-toggle] button')].map(r); const fr = r(document.querySelector('[data-map-state]')); const m = r(document.querySelector('[data-map-state] svg')); const p = r(document.querySelector('[data-panel]'));
+    // session 8601: the frame now also holds the names of the grids with no boundary and the width key, under the map; the map itself is the drawing
     return { scroll: document.documentElement.scrollWidth, client: document.documentElement.clientWidth, toggle: t.map((b) => [Math.round(b.left), Math.round(b.right), Math.round(b.height)]), mapW: Math.round(m.width), mapH: Math.round(m.height),
-      mapBottom: Math.round(m.bottom), panelTop: Math.round(p.top), panelW: Math.round(p.width) }; })()`);
+      mapBottom: Math.round(fr.bottom), panelTop: Math.round(p.top), panelW: Math.round(p.width) }; })()`);
   check(ph.scroll <= ph.client + 1 && ph.toggle.every((b) => b[0] >= 0 && b[1] <= 390 && b[2] >= 30), `at 390 px nothing is wider than the screen (${ph.scroll} of ${ph.client}) and both toggle buttons are on it, ${ph.toggle.map((b) => b[2]).join(" and ")} px tall`);
   check(ph.mapW <= 390 && ph.mapW >= 320 && ph.mapH >= 190 && Math.abs(ph.mapW / ph.mapH - 975 / 610) < 0.06 && ph.panelTop >= ph.mapBottom && ph.panelW <= 390, `the map is ${ph.mapW} by ${ph.mapH} px, the whole country with no empty band, and the panel is under it, ${ph.panelW} px wide`);
   if (shotFile) {
