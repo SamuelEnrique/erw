@@ -32,7 +32,7 @@ EM = chr(0x2014)
 
 def cell(v):
     s = "" if v is None else str(v)
-    return s.replace("|", "\\|").replace("\n", " ").replace(EM, " - ")
+    return s.replace("|", "\\|").replace("\r", " ").replace("\n", " ").replace(EM, " - ")
 
 
 def values_text(v):
