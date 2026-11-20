@@ -171,11 +171,13 @@ class ThePageDrawnAndReplicated(unittest.TestCase):
             low = T.t[(entity, "midday_low_hour", v["asked"] + "-01")]
             with open(os.path.join(self.tmp, f"shoulder_{v['grid']}_{v['asked']}.html"), encoding="utf-8") as f:
                 h = f.read()
-            self.assertEqual(f'data-night-low="{v["asked"]}"' in h, low < 8, f"{v['grid']} {v['asked']} low {low}")
+            # ruling alternative 1 (wip/alt-shoulder-1): every month says on hover that the low is looked for while the sun is up;
+            # a table built by main's rule may still hold a night low, and the hover then says so
+            self.assertIn(f'data-sun-up="{v["asked"]}"', h)
+            self.assertEqual(h.count('id="tip-shoulder-sun-up"'), 1)
+            self.assertEqual("lowest hour of the whole day falls before 08:00" in text_of(h), low < 8, f"{v['grid']} {v['asked']} low {low}")
             if low < 8:
                 said += 1
-                self.assertIn(f"net load is lowest at {int(low):02d}:00, before the sun is up", text_of(h))
-                self.assertEqual(h.count('id="tip-shoulder-night-low"'), 1)
             self.assertNotEqual(v["grid"] != "ercot" and low < 8, True)          # California's low is in the day, every month
         self.assertEqual(said, 1)                                              # the fixture's one such month: ERCOT, May 2024
 
