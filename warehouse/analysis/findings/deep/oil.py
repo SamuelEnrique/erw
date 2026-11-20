@@ -119,9 +119,17 @@ def import_share(in_dir=None):
     return {"rows": rows, "tables": tables}
 
 
+# Chain 507 (session 8900): an area the table holds inside a state, beside the state's own total. Alaska's North Slope
+# (MANFPAK) is within Alaska (MCRFPAK), and both carry the code SAK, so a sum by code counted Alaska twice: the draft
+# state-crude-share-crude-ak said 6.1 percent of US crude in 2025 where Alaska counted once is 3.1 (withdrawn by the
+# audit of 19 November 2026). A state's share now reads its total only.
+WITHIN_STATE = ("MANFPAK",)
+
+
 def state_crude_share(in_dir=None):
     """A state's share of US crude field production over the year (percent of the year's sum of monthly thousand b/d)."""
     d = hm.series(CRUDE, in_dir, variables=["field_production_per_day"]).drop_duplicates(["entity", "ts_utc"])
+    d = d[~d["entity"].str.split(":").str[2].isin(WITHIN_STATE)]
     d = d.assign(code=d["entity"].str.split(":").str[1], year=d["ts_utc"].str[:4].astype(int))
     tot = d[d["code"] == "NUS"].groupby("year")["value"].sum()
     rows, tables = [], {}
@@ -199,6 +207,7 @@ def reproduce_py(name, region):
     st = region.split("_")[1]
     return (PY_READ.format(name=name, region=region, args=f"<{CRUDE}.csv>", label=label + f", {STATES[st]}")
             + "d = read(sys.argv[1])\nd = d[d['variable'] == 'field_production_per_day'].drop_duplicates(['entity', 'ts_utc'])\n"
+            + f"d = d[~d['entity'].str.split(':').str[2].isin({list(WITHIN_STATE)!r})]  # an area within a state (the North Slope within Alaska)\n"
             + "d['code'], d['year'] = d['entity'].str.split(':').str[1], d['ts_utc'].str[:4].astype(int)\ntot = d[d['code'] == 'NUS'].groupby('year')['value'].sum()\n"
             + f"for y, s in d[d['code'] == 'S{st}'].groupby('year'):\n    if tot.get(y, 0) > 0:\n        print(y, round(float(100 * s['value'].sum() / tot[y]), 6), len(s))\n")
 
@@ -245,6 +254,7 @@ def reproduce_do(name, region):
         st = region.split("_")[1]
         lines = head + [f'import delimited "{CRUDE}.csv", varnames(1) stringcols(_all) clear', 'keep if variable == "field_production_per_day"',
                         "destring value, replace force", "drop if missing(value)", "duplicates drop entity ts_utc, force",
+                        *[f'drop if word(subinstr(entity, ":", " ", .), 3) == "{w}"' for w in WITHIN_STATE],
                         'generate str4 code = word(subinstr(entity, ":", " ", .), 2)', f'keep if code == "NUS" | code == "S{st}"',
                         "generate int year = real(substr(ts_utc, 1, 4))", 'generate double tot = value if code == "NUS"', f'generate double one = value if code == "S{st}"',
                         "egen byte has = tag(ts_utc) if !missing(one)", "collapse (sum) tot (sum) one (sum) n = has, by(year)", "keep if tot > 0 & n > 0",

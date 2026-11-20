@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate exp_crude_dest, region xc_ntw (Taiwan)
+# Computed 2026-11-19T12:51:15Z by warehouse/analysis/findings/deep/oil_products_world.py (exp_crude_dest); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: US crude oil exports to the destination (thousand barrels a day), the observations it rests on, and whether the year is full
+# Tables: eia_petroleum_exports_by_destination
+region,year,value,n_observations,full_year
+xc_ntw,2017,13.057534246575342,3.0,0
+xc_ntw,2018,131.45205479452054,12.0,1
+xc_ntw,2019,168.62465753424658,12.0,1
+xc_ntw,2020,157.9071038251366,12.0,1
+xc_ntw,2021,145.05479452054794,12.0,1
+xc_ntw,2022,195.85205479452054,12.0,1
+xc_ntw,2023,225.47397260273974,12.0,1
+xc_ntw,2024,221.86612021857923,12.0,1
+xc_ntw,2025,217.15342465753426,12.0,1
+xc_ntw,2026,117.5041095890411,7.0,0
