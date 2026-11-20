@@ -1,0 +1,200 @@
+figure,the_map,the_publisher,same
+"basins, count",32,32,yes
+"ANADARKO: name as shown (the source's NAME, by the layer's rule)",Anadarko,Anadarko,yes
+"ANADARKO: area, square miles (the hover's figure; the source's Area_sq_mi)",16400.7220361,16400.7220361,yes
+ANADARKO: the unit the hover gives,square miles,square miles,yes
+ANADARKO: NAME,ANADARKO,ANADARKO,yes
+ANADARKO: Area_sq_km,42477.6750688,42477.6750688,yes
+ANADARKO: Area_sq_mi,16400.7220361,16400.7220361,yes
+"APPALACHIAN: name as shown (the source's NAME, by the layer's rule)",Appalachian,Appalachian,yes
+"APPALACHIAN: area, square miles (the hover's figure; the source's Area_sq_mi)",160408.411275,160408.411275,yes
+APPALACHIAN: the unit the hover gives,square miles,square miles,yes
+APPALACHIAN: NAME,APPALACHIAN,APPALACHIAN,yes
+APPALACHIAN: Area_sq_km,415455.877946,415455.877946,yes
+APPALACHIAN: Area_sq_mi,160408.411275,160408.411275,yes
+"ARDMORE: name as shown (the source's NAME, by the layer's rule)",Ardmore,Ardmore,yes
+"ARDMORE: area, square miles (the hover's figure; the source's Area_sq_mi)",1590.79403007,1590.79403007,yes
+ARDMORE: the unit the hover gives,square miles,square miles,yes
+ARDMORE: NAME,ARDMORE,ARDMORE,yes
+ARDMORE: Area_sq_km,4120.13762335,4120.13762335,yes
+ARDMORE: Area_sq_mi,1590.79403007,1590.79403007,yes
+"ARKOMA: name as shown (the source's NAME, by the layer's rule)",Arkoma,Arkoma,yes
+"ARKOMA: area, square miles (the hover's figure; the source's Area_sq_mi)",13345.0648387,13345.0648387,yes
+ARKOMA: the unit the hover gives,square miles,square miles,yes
+ARKOMA: NAME,ARKOMA,ARKOMA,yes
+ARKOMA: Area_sq_km,34563.5592594,34563.5592594,yes
+ARKOMA: Area_sq_mi,13345.0648387,13345.0648387,yes
+"BLACK WARRIOR: name as shown (the source's NAME, by the layer's rule)",Black Warrior,Black Warrior,yes
+"BLACK WARRIOR: area, square miles (the hover's figure; the source's Area_sq_mi)",18031.7665614,18031.7665614,yes
+BLACK WARRIOR: the unit the hover gives,square miles,square miles,yes
+BLACK WARRIOR: NAME,BLACK WARRIOR,BLACK WARRIOR,yes
+BLACK WARRIOR: Area_sq_km,46702.0609962,46702.0609962,yes
+BLACK WARRIOR: Area_sq_mi,18031.7665614,18031.7665614,yes
+"CHEROKEE PLATFORM: name as shown (the source's NAME, by the layer's rule)",Cherokee Platform,Cherokee Platform,yes
+"CHEROKEE PLATFORM: area, square miles (the hover's figure; the source's Area_sq_mi)",26625.4952493,26625.4952493,yes
+CHEROKEE PLATFORM: the unit the hover gives,square miles,square miles,yes
+CHEROKEE PLATFORM: NAME,CHEROKEE PLATFORM,CHEROKEE PLATFORM,yes
+CHEROKEE PLATFORM: Area_sq_km,68959.7161186,68959.7161186,yes
+CHEROKEE PLATFORM: Area_sq_mi,26625.4952493,26625.4952493,yes
+"TX-LA-MS SALT: name as shown (the source's NAME, by the layer's rule)",Tx-La-Ms Salt,Tx-La-Ms Salt,yes
+"TX-LA-MS SALT: area, square miles (the hover's figure; the source's Area_sq_mi)",68870.4766698,68870.4766698,yes
+TX-LA-MS SALT: the unit the hover gives,square miles,square miles,yes
+TX-LA-MS SALT: NAME,TX-LA-MS SALT,TX-LA-MS SALT,yes
+TX-LA-MS SALT: Area_sq_km,178373.715705,178373.715705,yes
+TX-LA-MS SALT: Area_sq_mi,68870.4766698,68870.4766698,yes
+"FOREST CITY: name as shown (the source's NAME, by the layer's rule)",Forest City,Forest City,yes
+"FOREST CITY: area, square miles (the hover's figure; the source's Area_sq_mi)",60147.9448032,60147.9448032,yes
+FOREST CITY: the unit the hover gives,square miles,square miles,yes
+FOREST CITY: NAME,FOREST CITY,FOREST CITY,yes
+FOREST CITY: Area_sq_km,155782.461881,155782.461881,yes
+FOREST CITY: Area_sq_mi,60147.9448032,60147.9448032,yes
+"FORT WORTH: name as shown (the source's NAME, by the layer's rule)",Fort Worth,Fort Worth,yes
+"FORT WORTH: area, square miles (the hover's figure; the source's Area_sq_mi)",34953.1173974,34953.1173974,yes
+FORT WORTH: the unit the hover gives,square miles,square miles,yes
+FORT WORTH: NAME,FORT WORTH,FORT WORTH,yes
+FORT WORTH: Area_sq_km,90528.1584667,90528.1584667,yes
+FORT WORTH: Area_sq_mi,34953.1173974,34953.1173974,yes
+"ILLINOIS: name as shown (the source's NAME, by the layer's rule)",Illinois,Illinois,yes
+"ILLINOIS: area, square miles (the hover's figure; the source's Area_sq_mi)",84817.7217568,84817.7217568,yes
+ILLINOIS: the unit the hover gives,square miles,square miles,yes
+ILLINOIS: NAME,ILLINOIS,ILLINOIS,yes
+ILLINOIS: Area_sq_km,219676.890868,219676.890868,yes
+ILLINOIS: Area_sq_mi,84817.7217568,84817.7217568,yes
+"MARFA: name as shown (the source's NAME, by the layer's rule)",Marfa,Marfa,yes
+"MARFA: area, square miles (the hover's figure; the source's Area_sq_mi)",4783.60011475,4783.60011475,yes
+MARFA: the unit the hover gives,square miles,square miles,yes
+MARFA: NAME,MARFA,MARFA,yes
+MARFA: Area_sq_km,12389.4674202,12389.4674202,yes
+MARFA: Area_sq_mi,4783.60011475,4783.60011475,yes
+"PERMIAN: name as shown (the source's NAME, by the layer's rule)",Permian,Permian,yes
+"PERMIAN: area, square miles (the hover's figure; the source's Area_sq_mi)",61763.2101694,61763.2101694,yes
+PERMIAN: the unit the hover gives,square miles,square miles,yes
+PERMIAN: NAME,PERMIAN,PERMIAN,yes
+PERMIAN: Area_sq_km,159965.979974,159965.979974,yes
+PERMIAN: Area_sq_mi,61763.2101694,61763.2101694,yes
+"SAN JUAN: name as shown (the source's NAME, by the layer's rule)",San Juan,San Juan,yes
+"SAN JUAN: area, square miles (the hover's figure; the source's Area_sq_mi)",11054.649079,11054.649079,yes
+SAN JUAN: the unit the hover gives,square miles,square miles,yes
+SAN JUAN: NAME,SAN JUAN,SAN JUAN,yes
+SAN JUAN: Area_sq_km,28631.4096748,28631.4096748,yes
+SAN JUAN: Area_sq_mi,11054.649079,11054.649079,yes
+"VALLEY AND RIDGE: name as shown (the source's NAME, by the layer's rule)",Valley And Ridge,Valley And Ridge,yes
+"VALLEY AND RIDGE: area, square miles (the hover's figure; the source's Area_sq_mi)",18886.3642717,18886.3642717,yes
+VALLEY AND RIDGE: the unit the hover gives,square miles,square miles,yes
+VALLEY AND RIDGE: NAME,VALLEY AND RIDGE,VALLEY AND RIDGE,yes
+VALLEY AND RIDGE: Area_sq_km,48915.4589048,48915.4589048,yes
+VALLEY AND RIDGE: Area_sq_mi,18886.3642717,18886.3642717,yes
+"WILLISTON: name as shown (the source's NAME, by the layer's rule)",Williston,Williston,yes
+"WILLISTON: area, square miles (the hover's figure; the source's Area_sq_mi)",69819.4887576,69819.4887576,yes
+WILLISTON: the unit the hover gives,square miles,square miles,yes
+WILLISTON: NAME,WILLISTON,WILLISTON,yes
+WILLISTON: Area_sq_km,180831.645728,180831.645728,yes
+WILLISTON: Area_sq_mi,69819.4887576,69819.4887576,yes
+"GREATER GREEN RIVER: name as shown (the source's NAME, by the layer's rule)",Greater Green River,Greater Green River,yes
+"GREATER GREEN RIVER: area, square miles (the hover's figure; the source's Area_sq_mi)",25860.6637539,25860.6637539,yes
+GREATER GREEN RIVER: the unit the hover gives,square miles,square miles,yes
+GREATER GREEN RIVER: NAME,GREATER GREEN RIVER,GREATER GREEN RIVER,yes
+GREATER GREEN RIVER: Area_sq_km,66978.8116394,66978.8116394,yes
+GREATER GREEN RIVER: Area_sq_mi,25860.6637539,25860.6637539,yes
+"MONTANA THRUST BELT: name as shown (the source's NAME, by the layer's rule)",Montana Thrust Belt,Montana Thrust Belt,yes
+"MONTANA THRUST BELT: area, square miles (the hover's figure; the source's Area_sq_mi)",18104.5068778,18104.5068778,yes
+MONTANA THRUST BELT: the unit the hover gives,square miles,square miles,yes
+MONTANA THRUST BELT: NAME,MONTANA THRUST BELT,MONTANA THRUST BELT,yes
+MONTANA THRUST BELT: Area_sq_km,46890.4575509,46890.4575509,yes
+MONTANA THRUST BELT: Area_sq_mi,18104.5068778,18104.5068778,yes
+"PALO DURO: name as shown (the source's NAME, by the layer's rule)",Palo Duro,Palo Duro,yes
+"PALO DURO: area, square miles (the hover's figure; the source's Area_sq_mi)",13022.0062683,13022.0062683,yes
+PALO DURO: the unit the hover gives,square miles,square miles,yes
+PALO DURO: NAME,PALO DURO,PALO DURO,yes
+PALO DURO: Area_sq_km,33726.8414032,33726.8414032,yes
+PALO DURO: Area_sq_mi,13022.0062683,13022.0062683,yes
+"PARADOX: name as shown (the source's NAME, by the layer's rule)",Paradox,Paradox,yes
+"PARADOX: area, square miles (the hover's figure; the source's Area_sq_mi)",18414.4390797,18414.4390797,yes
+PARADOX: the unit the hover gives,square miles,square miles,yes
+PARADOX: NAME,PARADOX,PARADOX,yes
+PARADOX: Area_sq_km,47693.1782687,47693.1782687,yes
+PARADOX: Area_sq_mi,18414.4390797,18414.4390797,yes
+"UINTA-PICEANCE: name as shown (the source's NAME, by the layer's rule)",Uinta-Piceance,Uinta-Piceance,yes
+"UINTA-PICEANCE: area, square miles (the hover's figure; the source's Area_sq_mi)",27927.9256974,27927.9256974,yes
+UINTA-PICEANCE: the unit the hover gives,square miles,square miles,yes
+UINTA-PICEANCE: NAME,UINTA-PICEANCE,UINTA-PICEANCE,yes
+UINTA-PICEANCE: Area_sq_km,72332.9954933,72332.9954933,yes
+UINTA-PICEANCE: Area_sq_mi,27927.9256974,27927.9256974,yes
+"MARIETTA: name as shown (the source's NAME, by the layer's rule)",Marietta,Marietta,yes
+"MARIETTA: area, square miles (the hover's figure; the source's Area_sq_mi)",1440.67620835,1440.67620835,yes
+MARIETTA: the unit the hover gives,square miles,square miles,yes
+MARIETTA: NAME,MARIETTA,MARIETTA,yes
+MARIETTA: Area_sq_km,3731.33424999,3731.33424999,yes
+MARIETTA: Area_sq_mi,1440.67620835,1440.67620835,yes
+"DENVER: name as shown (the source's NAME, by the layer's rule)",Denver,Denver,yes
+"DENVER: area, square miles (the hover's figure; the source's Area_sq_mi)",59155.6144475,59155.6144475,yes
+DENVER: the unit the hover gives,square miles,square miles,yes
+DENVER: NAME,DENVER,DENVER,yes
+DENVER: Area_sq_km,153212.338059,153212.338059,yes
+DENVER: Area_sq_mi,59155.6144475,59155.6144475,yes
+"POWDER RIVER: name as shown (the source's NAME, by the layer's rule)",Powder River,Powder River,yes
+"POWDER RIVER: area, square miles (the hover's figure; the source's Area_sq_mi)",43454.1057002,43454.1057002,yes
+POWDER RIVER: the unit the hover gives,square miles,square miles,yes
+POWDER RIVER: NAME,POWDER RIVER,POWDER RIVER,yes
+POWDER RIVER: Area_sq_km,112545.617094,112545.617094,yes
+POWDER RIVER: Area_sq_mi,43454.1057002,43454.1057002,yes
+"NORTH PARK: name as shown (the source's NAME, by the layer's rule)",North Park,North Park,yes
+"NORTH PARK: area, square miles (the hover's figure; the source's Area_sq_mi)",1288.99676586,1288.99676586,yes
+NORTH PARK: the unit the hover gives,square miles,square miles,yes
+NORTH PARK: NAME,NORTH PARK,NORTH PARK,yes
+NORTH PARK: Area_sq_km,3338.48629742,3338.48629742,yes
+NORTH PARK: Area_sq_mi,1288.99676586,1288.99676586,yes
+"WESTERN GULF: name as shown (the source's NAME, by the layer's rule)",Western Gulf,Western Gulf,yes
+"WESTERN GULF: area, square miles (the hover's figure; the source's Area_sq_mi)",121091.038848,121091.038848,yes
+WESTERN GULF: the unit the hover gives,square miles,square miles,yes
+WESTERN GULF: NAME,WESTERN GULF,WESTERN GULF,yes
+WESTERN GULF: Area_sq_km,313624.350843,313624.350843,yes
+WESTERN GULF: Area_sq_mi,121091.038848,121091.038848,yes
+"SAN JOAQUIN BASIN: name as shown (the source's NAME, by the layer's rule)",San Joaquin Basin,San Joaquin Basin,yes
+"SAN JOAQUIN BASIN: area, square miles (the hover's figure; the source's Area_sq_mi)",14539.4636683,14539.4636683,yes
+SAN JOAQUIN BASIN: the unit the hover gives,square miles,square miles,yes
+SAN JOAQUIN BASIN: NAME,SAN JOAQUIN BASIN,SAN JOAQUIN BASIN,yes
+SAN JOAQUIN BASIN: Area_sq_km,37657.0380268,37657.0380268,yes
+SAN JOAQUIN BASIN: Area_sq_mi,14539.4636683,14539.4636683,yes
+"VENTURA BASIN: name as shown (the source's NAME, by the layer's rule)",Ventura Basin,Ventura Basin,yes
+"VENTURA BASIN: area, square miles (the hover's figure; the source's Area_sq_mi)",6783.89984428,6783.89984428,yes
+VENTURA BASIN: the unit the hover gives,square miles,square miles,yes
+VENTURA BASIN: NAME,VENTURA BASIN,VENTURA BASIN,yes
+VENTURA BASIN: Area_sq_km,17570.2199361,17570.2199361,yes
+VENTURA BASIN: Area_sq_mi,6783.89984428,6783.89984428,yes
+"SANTA MARIA BASIN: name as shown (the source's NAME, by the layer's rule)",Santa Maria Basin,Santa Maria Basin,yes
+"SANTA MARIA BASIN: area, square miles (the hover's figure; the source's Area_sq_mi)",6275.0104942,6275.0104942,yes
+SANTA MARIA BASIN: the unit the hover gives,square miles,square miles,yes
+SANTA MARIA BASIN: NAME,SANTA MARIA BASIN,SANTA MARIA BASIN,yes
+SANTA MARIA BASIN: Area_sq_km,16252.2025701,16252.2025701,yes
+SANTA MARIA BASIN: Area_sq_mi,6275.0104942,6275.0104942,yes
+"LOS ANGELES BASIN: name as shown (the source's NAME, by the layer's rule)",Los Angeles Basin,Los Angeles Basin,yes
+"LOS ANGELES BASIN: area, square miles (the hover's figure; the source's Area_sq_mi)",6206.07802989,6206.07802989,yes
+LOS ANGELES BASIN: the unit the hover gives,square miles,square miles,yes
+LOS ANGELES BASIN: NAME,LOS ANGELES BASIN,LOS ANGELES BASIN,yes
+LOS ANGELES BASIN: Area_sq_km,16073.6683071,16073.6683071,yes
+LOS ANGELES BASIN: Area_sq_mi,6206.07802989,6206.07802989,yes
+"RATON BASIN: name as shown (the source's NAME, by the layer's rule)",Raton Basin,Raton Basin,yes
+"RATON BASIN: area, square miles (the hover's figure; the source's Area_sq_mi)",4493.45969634,4493.45969634,yes
+RATON BASIN: the unit the hover gives,square miles,square miles,yes
+RATON BASIN: NAME,RATON BASIN,RATON BASIN,yes
+RATON BASIN: Area_sq_km,11638.0071863,11638.0071863,yes
+RATON BASIN: Area_sq_mi,4493.45969634,4493.45969634,yes
+"BIGHORN: name as shown (the source's NAME, by the layer's rule)",Bighorn,Bighorn,yes
+"BIGHORN: area, square miles (the hover's figure; the source's Area_sq_mi)",5873.72732807,5873.72732807,yes
+BIGHORN: the unit the hover gives,square miles,square miles,yes
+BIGHORN: NAME,BIGHORN,BIGHORN,yes
+BIGHORN: Area_sq_km,15212.8839411,15212.8839411,yes
+BIGHORN: Area_sq_mi,5873.72732807,5873.72732807,yes
+"MICHIGAN: name as shown (the source's NAME, by the layer's rule)",Michigan,Michigan,yes
+"MICHIGAN: area, square miles (the hover's figure; the source's Area_sq_mi)",106174.888606,106174.888606,yes
+MICHIGAN: the unit the hover gives,square miles,square miles,yes
+MICHIGAN: NAME,MICHIGAN,MICHIGAN,yes
+MICHIGAN: Area_sq_km,274991.699069,274991.699069,yes
+MICHIGAN: Area_sq_mi,106174.888606,106174.888606,yes
+"smallest area, square miles",1288.99676586,1288.99676586,yes
+"mean area, square miles",35362.66651013469,35362.66651013469,yes
+"largest area, square miles",160408.411275,160408.411275,yes
+"basins, the list of layers' count",32,32,yes
+"features, the list of layers' count",32,32,yes
+the unit of the list of layers,square miles,square miles,yes

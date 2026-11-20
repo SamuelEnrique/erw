@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate winter_summer, region rd_ten (Tennessee (EIA's region))
+# Computed 2026-11-19T11:17:49Z by warehouse/analysis/findings/deep/regions.py (winter_summer); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the winter peak (January, February, December) as a percent of the summer peak (June to August) (percent), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+rd_ten,2018,92.56362119315811,4051.0,0
+rd_ten,2019,94.0239448051948,8760.0,1
+rd_ten,2020,94.72101223812487,8784.0,1
+rd_ten,2021,93.97165458141068,8760.0,1
+rd_ten,2022,105.08587152481259,8760.0,1
+rd_ten,2023,81.8375934183257,8760.0,1
+rd_ten,2024,111.07482377287718,8784.0,1
+rd_ten,2025,109.2137209736662,8760.0,1
+rd_ten,2026,99.78324581756014,7686.0,0

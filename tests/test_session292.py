@@ -35,9 +35,11 @@ class TheStops(unittest.TestCase):
         cls.t = json.loads(r.stdout.strip().splitlines()[-1])
 
     def test_todays_addresses_in_the_ruled_order(self):
-        self.assertEqual([s["href"] for s in self.t["STOPS"]],
+        # chain 507 (session 8902): the ruled seven first, in the ruled order; the stops of what the site gained from 17
+        # November 2026 follow them (tests/test_session8902_tour.py), so the path is longer than five minutes
+        self.assertEqual([s["href"] for s in self.t["STOPS"]][:7],
                          ["/cost-of-power/battery", "/cost-of-power/seller", "/cost-of-power", "/grid", "/research", "/board", "/digest"])
-        self.assertEqual(self.t["MINUTES"], 5)
+        self.assertEqual(self.t["MINUTES"], round(sum(s["seconds"] for s in self.t["STOPS"]) / 60))
 
     def test_each_quoted_heading_is_one_the_check_reads(self):
         for s in self.t["STOPS"]:
@@ -75,7 +77,8 @@ class ThePath(unittest.TestCase):
         self.assertIn('"/tour", "/tour/1", "/tour/7"', src("site", "scripts", "check-routes.mjs"))
 
     def test_the_menu_line(self):
-        self.assertIn("Seven stops for a first visit, about five minutes", src("site", "lib", "pages.ts"))
+        # chain 507 (session 8902): twelve stops since the whole country's five joined the ruled seven
+        self.assertIn("Twelve stops for a first visit, about eight minutes", src("site", "lib", "pages.ts"))
 
 
 if __name__ == "__main__":
