@@ -144,6 +144,24 @@ export function surprises(file: SupplyFile): Row[] {
   const far = (r: Row) => { const c = r.change!; const span = (c.hi ?? 0) - (c.lo ?? 0); return span > 0 ? Math.abs(c.surprise ?? 0) / span : 0; };
   return file.rows.filter((r) => r.status === "ok" && r.change?.outside && r.change.surprise !== null).sort((a, b) => far(b) - far(a));
 }
+/** Ruling alternative 2 of /supply (session 7726, branch wip/alt-supply-2; not a default on main): two grids' burn rows
+ *  side by side over the weeks both hold (the rows' own weekly series, `spark`), for each fuel both hold: the newest common
+ *  week, each grid's value then and A less B, and the means over the common weeks. On main the table sets each grid's own
+ *  newest week in one column. */
+export type BurnPair = { fuel: string; unit: string; weeks: number; week: string; a: number; b: number; meanA: number; meanB: number };
+export function burnPair(file: SupplyFile, a: string, b: string): BurnPair[] {
+  const out: BurnPair[] = [];
+  for (const fuel of ["natural-gas", "coal", "oil"]) {
+    const ra = file.rows.find((r) => r.id === `burn-${a}-${fuel}`), rb = file.rows.find((r) => r.id === `burn-${b}-${fuel}`);
+    if (!ra?.spark || !rb?.spark || ra.status !== "ok" || rb.status !== "ok") continue;
+    const sa = new Map(ra.spark.t.map((t, i) => [t, ra.spark!.v[i]])), sb = new Map(rb.spark.t.map((t, i) => [t, rb.spark!.v[i]]));
+    const weeks = [...sa.keys()].filter((t) => sb.has(t) && sa.get(t) !== null && sb.get(t) !== null).sort();
+    if (!weeks.length) continue;
+    const w = weeks[weeks.length - 1], mean = (m: Map<string, number>) => weeks.reduce((x, t) => x + (m.get(t) as number), 0) / weeks.length;
+    out.push({ fuel, unit: ra.unit, weeks: weeks.length, week: w, a: sa.get(w) as number, b: sb.get(w) as number, meanA: mean(sa), meanB: mean(sb) });
+  }
+  return out;
+}
 /** The headline answers: for the stock series a desk reads first, tighter or looser against each of the three. */
 export const HEADLINE = ["eia-nw2-epg0-swo-r48-bcf", "eia-wcestus1", "eia-w-epc0-sax-ycuok-mbbl", "eia-wgtstus1", "eia-wdistus1"];
 
