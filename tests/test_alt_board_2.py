@@ -31,7 +31,10 @@ class StaleWindows(unittest.TestCase):
     def test_on_the_committed_file(self):
         f = self.f
         self.assertEqual((f["rows"], f["ok"]), (1315, 1204))
-        self.assertEqual((f["stale_with_avg7"], f["cells_blanked"], f["fresh_drawn"]), (116, 464, 157))
+        # session 8905 (chain 590): site/data/board.json was rebuilt on 19 November; on it 179 stale rows draw a 7-day average,
+        # 716 window figures go blank and 94 fresh rows keep theirs (on the file of 17 November: 116, 464 and 157). The data
+        # moved, not the rule: the rule is the same four cells blanked on each stale row (716 = 4 x 179)
+        self.assertEqual((f["stale_with_avg7"], f["cells_blanked"], f["fresh_drawn"]), (179, 716, 94))
 
     def test_the_view_blanks_them(self):
         with open(os.path.join(SITE, "components", "board", "BoardView.tsx"), encoding="utf-8") as fh:
