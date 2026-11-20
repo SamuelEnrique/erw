@@ -14,7 +14,13 @@ import type { Snapshot as NetSnapshot } from "@/app/network/Network";
 import { fetchHourly, netExports, pickSnapshot, tiesAt, topExporter } from "@/lib/network";
 import { EVENTS, ISO_NAMES, inputsKey, inputsOf, months, stat, stress, summary, type Inputs, type Snapshot as MerchantSnapshot } from "@/lib/merchant";
 import { dayKey, KNOW_YOUR_GRID, newestCommonFullDay } from "@/lib/gridday";
-import { GUIDE, inOrder } from "@/lib/problemkit";
+import { GUIDE, addGuide, inOrder } from "@/lib/problemkit";
+// session 8901 (chain 507, part C): the four sets of the whole country, each in its own module, every figure a pf| key into
+// a committed page file (lib/pagefile.ts); registered after the five below (SETS, problemSet, and the guide)
+import * as TRADE from "@/lib/problemsets/who-trades-with-whom";
+import * as STORM from "@/lib/problemsets/storm-across-the-country";
+import * as GROUND from "@/lib/problemsets/under-the-ground-and-in-the-wind";
+import * as WHERE from "@/lib/problemsets/where-energy-goes";
 
 export type V = { v: number; k: string; u?: string };
 export type Part = string | V;
@@ -628,12 +634,18 @@ export const SETS: Omit<ProblemSet, "questions" | "example">[] = [
   { slug: "networks-and-money", title: "Networks and money", line: "ERCOT's ties and the biggest exporter in the network's newest hour, a solar plant's capture rate, a battery's debt cover, and what a plant earned in Winter Storm Uri.",
     teacher: "About 45 minutes. Prerequisites: MW against MWh, a weighted price, a ratio. Students should open /network (pick ERCOT, slide to the last hour), /cost-of-power/seller (solar, then battery, at ERCOT) and the Uri event page. The network's hour moves as the hourly refresh runs; the money questions move when the seller's snapshot is rebuilt.",
     pages: [{ href: "/grid?view=network", label: "The network" }, { href: "/cost-of-power/seller", label: "What a generator earns" }, { href: "/events/uri-2021", label: "Uri" }] },
+  // session 8901 (chain 507, part C): the four sets of the whole country, after the five
+  ...[TRADE, STORM, GROUND, WHERE].map((m) => m.META),
 ];
+/** Session 8901: the sets kept in modules of their own (lib/problemsets/), by slug. */
+const COUNTRY: Record<string, { build: () => Promise<Built> }> = Object.fromEntries([TRADE, STORM, GROUND, WHERE].map((m) => [m.META.slug, m]));
+for (const m of [TRADE, STORM, GROUND, WHERE]) addGuide(m.META.slug, m.GUIDE_ENTRY);
 
 export async function problemSet(slug: string): Promise<ProblemSet | null> {
   const meta = SETS.find((s) => s.slug === slug);
   if (!meta) return null;
-  const built = slug === "know-your-grid" ? await setA() : slug === "prices-and-your-bill" ? await setB() : slug === "storage-and-taxes" ? await setD()
+  const built = COUNTRY[slug] ? await COUNTRY[slug].build()
+    : slug === "know-your-grid" ? await setA() : slug === "prices-and-your-bill" ? await setB() : slug === "storage-and-taxes" ? await setD()
     : slug === "networks-and-money" ? await setE() : await setC();
   // session 3650: the five asked from the easiest to the hardest (lib/problemkit.ts, GUIDE), after a worked example
   return { ...meta, example: built.example, questions: inOrder(built.questions, GUIDE[slug]?.order ?? []) };

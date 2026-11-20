@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate cold_hours, region wh_nw (the Northwest (EIA's region))
+# Computed 2026-11-19T11:23:49Z by warehouse/analysis/findings/deep/weather.py (cold_hours); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the hours of the year at or below 20 F (hours), the observations it rests on, and whether the year is full
+# Tables: region_weather_hourly
+region,year,value,n_observations,full_year
+wh_nw,2018,0.0,4222.0,0
+wh_nw,2019,10.0,8042.0,1
+wh_nw,2020,0.0,8727.0,1
+wh_nw,2021,0.0,8364.0,1
+wh_nw,2022,53.0,8388.0,1
+wh_nw,2023,29.0,8448.0,1
+wh_nw,2024,52.0,8290.0,1
+wh_nw,2025,22.0,7360.0,0
+wh_nw,2026,0.0,6174.0,0
