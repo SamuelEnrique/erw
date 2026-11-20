@@ -1,0 +1,50 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate wog_gas, region wog_irn (Iran)
+# Computed 2026-11-19T13:25:09Z by warehouse/analysis/findings/deep/gas.py (wog_gas); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the country's dry natural gas production (billion cubic feet), the observations it rests on, and whether the year is full
+# Tables: eia_world_oil_gas_annual
+region,year,value,n_observations,full_year
+wog_irn,1980,250.0,1.0,1
+wog_irn,1981,210.0,1.0,1
+wog_irn,1982,250.0,1.0,1
+wog_irn,1983,310.0,1.0,1
+wog_irn,1984,476.0,1.0,1
+wog_irn,1985,600.0,1.0,1
+wog_irn,1986,536.0,1.0,1
+wog_irn,1987,565.0,1.0,1
+wog_irn,1988,706.0,1.0,1
+wog_irn,1989,784.0,1.0,1
+wog_irn,1990,817.542,1.0,1
+wog_irn,1991,909.0,1.0,1
+wog_irn,1992,882.875,1.0,1
+wog_irn,1993,955.9775,1.0,1
+wog_irn,1994,1123.02,1.0,1
+wog_irn,1995,1246.61,1.0,1
+wog_irn,1996,1420.01615,1.0,1
+wog_irn,1997,1659.805,1.0,1
+wog_irn,1998,1765.75,1.0,1
+wog_irn,1999,2041.207,1.0,1
+wog_irn,2000,2127.3756,1.0,1
+wog_irn,2001,2330.79,1.0,1
+wog_irn,2002,2648.625,1.0,1
+wog_irn,2003,2860.515,1.0,1
+wog_irn,2004,2962.9285,1.0,1
+wog_irn,2005,3655.1025,1.0,1
+wog_irn,2006,3835.56215,1.0,1
+wog_irn,2007,3951.7485,1.0,1
+wog_irn,2008,4107.1345,1.0,1
+wog_irn,2009,4986.372055,1.0,1
+wog_irn,2010,5161.28725,1.0,1
+wog_irn,2011,5360.852315,1.0,1
+wog_irn,2012,5639.840815,1.0,1
+wog_irn,2013,5696.3095,1.0,1
+wog_irn,2014,6162.32624,1.0,1
+wog_irn,2015,6526.212,1.0,1
+wog_irn,2016,7082.8069867,1.0,1
+wog_irn,2017,7597.867282,1.0,1
+wog_irn,2018,7987.900287,1.0,1
+wog_irn,2019,8294.078736,1.0,1
+wog_irn,2020,8788.273603,1.0,1
+wog_irn,2021,9044.305178,1.0,1
+wog_irn,2022,9225.822736,1.0,1
+wog_irn,2023,9677.378456,1.0,1
+wog_irn,2024,9852.843534,1.0,1

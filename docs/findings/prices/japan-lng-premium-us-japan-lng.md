@@ -2,7 +2,7 @@
 
 Draft `scan-deep-d6e2173a680c` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The mean premium of the World Bank's Japan LNG import price over its US gas price was 8.51 USD per MMBtu in 2025, against 0.40 USD per MMBtu in 2000, the first year this comparison counts.
+**The finding.** The mean premium of the World Bank's Japan LNG import price over its US gas price was 8.51 USD per MMBtu in 2025, against 0.40 USD per MMBtu in 2000, the first year of the window the hunt read; the table holds the measure from 1977.
 
 ![Japan's lng against us gas, Japan's LNG against US gas (World Bank Pink Sheet)](japan-lng-premium-us-japan-lng.png)
 

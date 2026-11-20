@@ -155,6 +155,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/learn/problems/know-your-grid", "/learn/problems/prices-and-your-bill", "/learn/problems/when-the-grid-broke", "/learn/problems/storage-and-taxes",
   // session 55: set E, networks and money
   "/learn/problems/networks-and-money",
+  // session 8901 (chain 507, part C): the four sets of the whole country, every figure a pf| key into a committed page file
+  "/learn/problems/who-trades-with-whom", "/learn/problems/storm-across-the-country", "/learn/problems/under-the-ground-and-in-the-wind",
+  "/learn/problems/where-energy-goes",
   // session 49: the network's default node card (ERCOT)
   "/network",
   // session 72 (session 69's finish): the storage build-out
@@ -343,6 +346,15 @@ async function truth(check) {
     const x = Number(await truth(a.replaceAll("~", "|"))), y = Number(await truth(b.replaceAll("~", "|")));
     if (!Number.isFinite(x) || !Number.isFinite(y)) return undefined;
     return op === "ratio" ? x / y : op === "diff" ? x - y : op === "pct" ? (x / y) * 100 : undefined;
+  }
+  // session 8901 (chain 507, part C): a figure read from a committed page file, pf|<path under site/data>|<path into the
+  // JSON> (the problem sets of the whole country): the file read again here with fs and the path resolved by
+  // lib/pagefile.ts's pure resolver; a calc of two such keys recomputes through the case above
+  if (p[0] === "pf") {
+    const PF = await import("../lib/pagefile.ts");
+    const k = PF.parsePf(check);
+    if (!k) return undefined;
+    return PF.resolveNumber(JSON.parse(fs.readFileSync(path.join(here, "..", "data", ...k.file.split("/")), "utf-8")), k.path);
   }
   // session 43: the bill explainer's default bills, recomputed here from data/bill_rules.json (California by the tariff's
   // total rates, not its unbundled lines; Texas by its charges), and the wholesale share from cost_of_power_monthly
