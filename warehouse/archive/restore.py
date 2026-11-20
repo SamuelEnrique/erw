@@ -226,9 +226,39 @@ def replay(name, as_of=None, from_bucket=False, bucket=None):
     lines = lines.sort_values(["_archived_at", "_run_id", "_order"], kind="stable")
     if as_of:
         lines = lines[lines["_archived_at"] <= as_of]
+    rl = run_log(name, from_bucket, bucket)
+    if as_of:
+        rl = rl[rl["archived_at"] <= as_of]
+    if len(rl) and A.keeps_revisions(rl.iloc[-1]["header"]) and "vintage" in lines.columns:
+        return rekey_revisions(lines), lines
     last = lines.drop_duplicates("_key_sha", keep="last")
     rows = last[last["_op"] == "upsert"]
     return rows, lines
+
+
+def rekey_revisions(lines):
+    """The rows of a table that keeps its revisions (docs/datastandard.md rule 77), keyed by vintage too.
+
+    Session 8013 (data request 30): lines archived before the vintage joined archive.key_hashes carry a key without
+    it, so dropping duplicates of _key_sha kept one filing a key. Here each upsert's key is computed again from its
+    own columns, with the vintage; a delete line removes the earlier upserts whose key it names, in the new form or
+    the old (a delete written under the old key removed every vintage of that observation). Then the last upsert of
+    each key stands."""
+    lines = lines.reset_index(drop=True)
+    pos = np.arange(len(lines))
+    is_up = (lines["_op"] == "upsert").to_numpy()
+    ups = lines[is_up]
+    shape = "series"
+    new_k = np.array(A.hexes(A.key_hashes(ups, shape, True)), dtype=object)
+    old_k = np.array(A.hexes(A.key_hashes(ups, shape)), dtype=object)
+    last_del = {}
+    for k, p in zip(lines.loc[~is_up, "_key_sha"], pos[~is_up]):
+        last_del[k] = p
+    up_pos = pos[is_up]
+    dead = np.array([max(last_del.get(a, -1), last_del.get(b, -1)) > p for a, b, p in zip(new_k, old_k, up_pos)],
+                    dtype=bool)
+    ups = ups.assign(_key_sha=new_k)[~dead]
+    return ups.drop_duplicates("_key_sha", keep="last")
 
 
 def rebuild(name, as_of=None, from_bucket=False, bucket=None):

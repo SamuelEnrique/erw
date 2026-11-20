@@ -1,0 +1,30 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate coal_share, region st_se_cow (Georgia and Alabama (the core of EIA's Southeast region))
+# Computed 2026-11-19T11:17:46Z by warehouse/analysis/findings/deep/regions.py (coal_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: coal's share of the states' net generation (percent), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+st_se_cow,2001,60.23071042197935,12.0,1
+st_se_cow,2002,58.153686681746485,12.0,1
+st_se_cow,2003,59.386937778537416,12.0,1
+st_se_cow,2004,58.589567436152336,12.0,1
+st_se_cow,2005,60.196940991962876,12.0,1
+st_se_cow,2006,59.02091081122647,12.0,1
+st_se_cow,2007,58.2360223042929,12.0,1
+st_se_cow,2008,56.76288389350722,12.0,1
+st_se_cow,2009,45.99562836002809,12.0,1
+st_se_cow,2010,47.060936263674996,12.0,1
+st_se_cow,2011,41.61204463019328,12.0,1
+st_se_cow,2012,31.36869848149393,12.0,1
+st_se_cow,2013,32.145407304852114,12.0,1
+st_se_cow,2014,33.64980138518188,12.0,1
+st_se_cow,2015,27.921210406561897,12.0,1
+st_se_cow,2016,26.163126261518983,12.0,1
+st_se_cow,2017,23.905303719424577,12.0,1
+st_se_cow,2018,23.31705771934332,12.0,1
+st_se_cow,2019,19.125247407979106,12.0,1
+st_se_cow,2020,13.832648520353837,12.0,1
+st_se_cow,2021,17.22415207059098,12.0,1
+st_se_cow,2022,15.748817776459722,12.0,1
+st_se_cow,2023,13.38177623528092,12.0,1
+st_se_cow,2024,13.713969738830704,12.0,1
+st_se_cow,2025,14.427175575198573,12.0,1

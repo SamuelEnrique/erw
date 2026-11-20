@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), event caiso_heat_2022, region CAL (California (EIA's region))
+# Computed 2026-11-19T11:32:42Z by warehouse/analysis/findings/deep/events.py; plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the window's highest hour of demand (MW) from 08-31 to 09-09, the hours it rests on, and whether it is the event year
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,event_year
+CAL,2018,48414.0,240,0
+CAL,2019,54679.0,216,0
+CAL,2020,58097.0,237,0
+CAL,2021,54543.0,240,0
+CAL,2022,63622.0,240,1
+CAL,2023,51435.0,240,0
+CAL,2024,58612.0,230,0
+CAL,2025,52635.0,240,0
+CAL,2026,61214.0,240,0
