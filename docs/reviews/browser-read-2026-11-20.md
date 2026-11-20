@@ -101,7 +101,7 @@ The data machine's page (chain 581). Read with `runs/c620/b_queues_places.mjs`.
 | # | What was done | What was seen | What should be seen | State |
 |---:|---|---|---|---|
 | 1 | Read the owners' names | LBNL's abbreviations with nothing behind them: "S-C", "N-C", "IP", "CLPT", "TSGT", "AEC", "SEC", "BHCT". No hover, no list of names | A reader who does not know LBNL's file cannot tell Santee Cooper from Seminole. A choice (the page says "each under the name LBNL gives its owner") | ruling |
-| 2 | The states' table, North Carolina | "APS, Duke, TVA": APS is Arizona Public Service in the rest of the page | Either an entry of LBNL's file that names NC under APS, or a misread state. Not checked against LBNL's file here (this laptop does not hold the table) | filed |
+| 2 | The states' table, North Carolina | "APS, Duke, TVA": APS is Arizona Public Service in the rest of the page | Either an entry of LBNL's file that names NC under APS, or a misread state. Not checked against LBNL's file here (this laptop does not hold the table) | filed (data request 562) |
 | 3 | Two choices, then back | Row S1 | | to fix (S1) |
 
 Pictures: `docs/reviews/browser-read-2026-11-20/queues-places/as-it-opens-1280.png` (BPA beside PacifiCorp, the page as it opens); `tva-beside-duke-1280.png` (after the choice TVA and Duke, the side by side table).
@@ -129,4 +129,105 @@ The data machine's page (chain 581). Read with `runs/c620/b_where_when.mjs`, whi
 | 2 | Wind, then the year 2019, then back | The grid shows 2025; the Year list reads 2019 | Row S1 | to fix (S1) |
 
 Pictures: `docs/reviews/browser-read-2026-11-20/where-when/as-it-opens-1280.png` (CAISO's solar curtailment by hour and month, 2025); `caiso-beside-ercot-west-every-year-1280.png` (CAISO's curtailment over every year held above West Texas's hours below zero).
+
+## 8. `/board`: the four new metals rows
+
+The data machine's rows (chain 581), in the group "Uranium and battery metals, monthly". Read with `runs/c620/b_board_metals.mjs` and `runs/c620/b_board_bench.mjs`.
+
+**Five cases.**
+1. *A battery maker's buyer.* What did tin cost last month and how has it moved? Opens the group: Tin 53,712 USD/t, September 2026, down 1,673 (3.0%) on the month, up 19,228 (55.8%) on the year. Answered.
+2. *A transmission planner pricing conductor.* Aluminum: 3,283.00 USD/t, up 23.8% on the year. Answered.
+3. *An investor.* Where does zinc stand in its year's range? At the top: 4,021 of a range 3,152 to 4,021. Answered.
+4. *A student.* Presses Tin: the workbench opens beside the table with the series drawn, its mean, low and high in the window, a CSV and a link to copy; the address becomes `/board?s=wb-pink-tin`. Answered.
+5. *A trader looking for a daily price.* Uranium and lithium daily read "licensed source needed", with no figure. Answered: the page says what it does not hold.
+
+**Figures.** Each of the eleven rows of the group against `site/data/board.json`: the latest value, its month, the moves over a month and a year, a small chart in the row. 94 of 94 at 1280 px, 60 of 60 at 390 px. Inside the file, each move is the latest less the earlier value and its percent of the earlier; each row's place in its range is its own.
+
+**What answers to the hand.** The group's heading opens it, by mouse and by a finger; a press on a row opens the workbench with its chart (the tin series' own file holds 801 months), at both widths; the page stays 390 px wide with the group and a row open. The keyboard reaches each row's button.
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| 1 | Tin's row, then the same row in the workbench with the window "Year" | The row's range over a year: 36,012 to 55,385 (twelve months). The workbench's Year window: low 34,484, high 55,385, 13 values (it holds both ends of the year) | Two lows for "a year" of one series on one screen. A choice of the board's, older than this week | ruling |
+
+Pictures: `docs/reviews/browser-read-2026-11-20/board/as-it-opens-1280.png` (the board as it opens); `metals-group-open-1280.png` (the group open, the eleven rows); `tin-in-the-workbench-1280.png` (after a press on Tin).
+
+## 9. `/storage/places`: batteries in every authority and state
+
+The data machine's page (chain 581). Read with `runs/c620/b_storage_places.mjs`.
+
+**Five cases.**
+1. *A battery developer.* How much is operating and planned in ERCOT against CAISO? As the page opens: ERCOT 19,195 MW operating and 24,159 planned; CAISO 17,266 and 10,878. Answered.
+2. *A utility planner in Arizona.* How does Arizona Public Service compare with the whole of Texas? Chooses the state Texas and the authority AZPS: side by side, with the planned MW by year. Answered.
+3. *A state energy office.* Where does my state rank? "Every state", by operating MW, each name a link that puts the state in list A. Answered.
+4. *An investor.* How much of the fleet gives an energy capacity? The row "MW of the units that give MWh" beside "Operating, MW", and the hover on a blank ("No unit here gives an energy capacity"). Answered.
+5. *A student.* The country beside California, opened by a link (`/storage/places?a=us&b=st:CA`). Answered.
+
+**Figures.** As it opens, every marked figure: 366 of 366 agree with `site/data/storage/places.json` (the pair, the 43 authorities, the 51 states), and so do Texas beside AZPS and the country beside California. At 390 px: 310 of 310. Inside the file: the authorities and the states each add up to the country's 56,121 MW operating, and planned MW likewise; a place's planned years add up to its planned MW and its years of start to its operating MW.
+
+**What answers to the hand.** Both lists, the Show button, the chart under mouse and finger, the Chart and Table switch, an authority's and a state's name as a link, a fresh link, an address naming no place (opens on ERCOT). The keyboard walks 105 stops with a focus mark each. The back button: row S1 (the table goes back to CAISO, the list keeps AZPS).
+
+**Quiet faults.** None. 0.3 s to load.
+
+Pictures: `docs/reviews/browser-read-2026-11-20/storage-places/as-it-opens-1280.png` (ERCOT beside CAISO); `texas-beside-arizona-public-service-1280.png` (after the choice of a state and an authority).
+
+## 14. `/states`: a page for every state
+
+The data machine's page (chain 581). Read with `runs/c620/b_states.mjs`: all 52 places opened one after another.
+
+**Five cases.**
+1. *A state energy office in Georgia.* What does Georgia run on, beside West Virginia? Chooses both: the last twelve months by source, the mix by year, two charts each. Answered.
+2. *A retail supplier.* What do Texas's homes pay against its industry? "What its homes, businesses and industry buy and pay": sold, paid, average price and customers by sector. Answered.
+3. *An AI lab's siting analyst.* Who operates the grid in a state, and does it have a large-load law? "Who operates its grid" by share of the people; then the last section. For Texas the page says no law is held (row 1).
+4. *A developer.* What is built and what is coming? Capacity by source, the largest plants with county, operator and authority, what is planned by year. Answered.
+5. *A student.* Alaska beside Hawaii, the District of Columbia alone: each opens whole at 390 px, no blank chart. Answered.
+
+**Figures.** Over the 52 places, 3,601 figures at 1280 px agree with `site/data/states/<st>.json`: the last twelve months' generation by source and each share, what each sector bought, paid, its price and customers, capacity by source (nameplate and net summer), the ten largest plants, each authority's share of the people. Inside each file: the sources add up to the total, each share is its source over the total, each price is revenue over sales. At 390 px: 409 of 409 over four choices. Not set beside the file tonight: the mix by year, the planned capacity by year, gas, total energy and what moves across the border (their figures are sums over months or picks of a year).
+
+**What answers to the hand.** The five lists; nine Chart and Table switches; every chart under mouse and finger; an address naming no state opens on Texas. The keyboard walks 41 stops. No state takes more than 0.6 s to load. The back button: row S1.
+
+**Quiet faults.** None over the 52 places: no "undefined", no empty chart, no sideways scroll, no error.
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| 1 | The page as it opens (Texas), its last section | "Not held for this place: the ERW's large-load research holds no state law for Texas." The policy monitor's own files speak of Texas's SB 6 | A reader takes it as "Texas has no law". 25 of the 52 files hold a law; the other 27 read the same way | filed (data request 563) |
+
+Pictures: `docs/reviews/browser-read-2026-11-20/states/as-it-opens-1280.png` (Texas); `georgia-beside-west-virginia-1280.png` (two states side by side).
+
+## 15. `/industry`: energy by industry
+
+The data machine's page (chain 505). Read with `runs/c620/b_industry.mjs`.
+
+**Five cases.**
+1. *A gas supplier.* How much did industry use last month and against a year before? The monthly table: July 2026, 2,714 TBtu in all, each source with its change on the year. Answered.
+2. *A chemicals analyst.* Which fuels does the chemical industry burn, in the South? Chooses the region; the table of industries by fuel redraws; a withheld cell says EIA withholds it. Answered.
+3. *A state planner in Arkansas.* Arkansas's industrial petroleum use in 2019 beside Louisiana's, with price and spending. Chooses the state, the source and the year. Answered.
+4. *An AI lab's analyst.* What does EIA project for an industry under high electricity demand? The outlook: an industry, a series, two cases side by side to 2050. Answered.
+5. *A student.* How has industry's energy moved since 1973? Chooses "from 1973"; the chart under the mouse gives each month's figures. Answered.
+
+**Figures.** Four families set beside `site/data/industry.json` as numbers at the screen's own decimals: the month and the month a year before with the change, each industry's fuels in the region chosen, each state's use, price and spending in the year chosen, the outlook by case and year. 453 figures a view; over the page as it opens and eight choices, 4,530 agree and none differs. At 390 px: 457 of 457.
+
+**What answers to the hand.** The twelve lists, four charts under mouse and finger, four Chart and Table switches, the same address opened fresh. The keyboard walks 36 stops. The back button: row S1.
+
+**Quiet faults.** None. 0.7 s to load.
+
+Pictures: `docs/reviews/browser-read-2026-11-20/industry/as-it-opens-1280.png`; `after-choices-1280.png` (the Northeast, petroleum, 2019, bulk chemicals, from 1973).
+
+## 16. `/ai-energy`: energy per AI query, as published
+
+The data machine's page (chain 505). Read with `runs/c620/b_ai_energy.mjs`.
+
+**Five cases.**
+1. *An AI lab's energy lead.* What has Google printed for one prompt? "0.24 Wh", the median Gemini Apps text prompt, with the sentence it comes from and its page. Answered.
+2. *A journalist.* Which figures are peer-reviewed? Each row names its publisher's kind; the headline says 2 of the 9 publications are peer-reviewed papers. Answered.
+3. *A utility forecaster.* A fleet's electricity in a year: chooses the measure; only those rows stay. Answered.
+4. *A student.* The oldest figure first: the order "Date, oldest first". Answered.
+5. *A sceptic.* Is the number really in the publication? Each row quotes the words, with the page, and links the publication; the hover gives the day it was saved and its checksum. Answered.
+
+**Figures.** 23 of 23 figures as the file gives them, at both widths; the counts (23 figures, 9 publications) and the newest (9 July 2026, Microsoft). Each figure's digits are in its own quoted words but one, which the paper prints as "1.0x10-4 kWh" and the page as 0.0001 kWh: the same number. Each row's link is the file's address.
+
+**What answers to the hand.** The four orders are those orders, each with every row; each of the thirteen measures shows only its own rows. The keyboard walks 29 stops. At 390 px the table (1,100 px) scrolls inside its own frame. The back button: row S1.
+
+**Quiet faults.** None. 0.2 s to load.
+
+Pictures: `docs/reviews/browser-read-2026-11-20/ai-energy/as-it-opens-1280.png`; `one-measure-1280.png` (one measure chosen).
 
