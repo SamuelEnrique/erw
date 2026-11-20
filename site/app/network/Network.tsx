@@ -30,8 +30,12 @@ import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore
 import { Num } from "@/components/Num";
 import { shown } from "@/lib/format";
 import { HEADLINE, MEASURES, SPREAD, type Measure, type Supply } from "@/lib/basupply";
-import { clampDay, dayFrame, easternHours, parseShared, priceWeight, sharedQuery, trace as tracePower, type Daily, type DailyIndex, type ViewKey, PAUSED_PRICE, PAUSED_WORDS, monthSpan, type Complete } from "@/lib/networkV3";
-import { parseShape, withShape, type Shape } from "@/lib/networkMap";
+import { clampDay, dayFrame, easternHours, eveningDay, newestBatteryFrame, parseShared, priceWeight, sharedQuery, trace as tracePower, type Daily, type DailyIndex, type ViewKey, PAUSED_PRICE, PAUSED_WORDS, monthSpan, type Complete } from "@/lib/networkV3";
+import { netOf, parseShape, reportedBy, withShape, type Shape } from "@/lib/networkMap";
+import type { MapFigures, MapFrame } from "./NetworkMap";
+import { useBaRegions } from "@/components/grid/BaRegions";
+import { AuthorityFacts } from "@/components/grid/AuthorityFacts";
+import { PriceControls, priceLine, priceRange as mapPriceRange, priceValue, usePricesMap, type PriceMeasure } from "@/components/grid/MapPrice";
 import { netFromPage, netToPage } from "@/lib/gridtool";
 import { GRAVITY_CENTER, GRAVITY_GRIDS, netImportAt } from "@/lib/networkGravity";
 
@@ -44,7 +48,9 @@ export type NetNode = { id: string; name: string; iso: string | null; demand_mw:
   intensity: number | null; intensity_ts: string | null; volume_mwh: number; x: number; y: number; z: number;
   // session 54: set by the hourly refresh (warehouse/derived/network_hourly.py) on the seven ISO BAs
   demand_src?: "hourly"; demand_recent?: Record<string, number> };
-export type NetLink = { a: string; b: string; mw: (number | null)[] };
+export type NetLink = { a: string; b: string; mw: (number | null)[];
+  /** session 8601: the frames read from the second side's report, when the file marks them (lib/networkMap.ts reportedBy); no file does yet */
+  other?: number[] };
 export type Snapshot = { built: string; window: [string, string]; hours: string[]; rule: string; nodes: NetNode[]; links: NetLink[];
   // session 54: the hourly snapshot's newest complete hour and the daily build it was merged onto
   newest_hour?: string; refresh?: "hourly"; base_built?: string };
@@ -127,6 +133,8 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
    *  head of the address; the component's "view" and "grid" are written as "net" and "node" after it (lib/gridtool.ts).
    *  `node`: the balancing authority whose panel opens when the address names none (the grid chosen on the page). */
   page?: { keep: string; node: string | null; /** session 299: the shape the page's tab is (the Gravity tab), when the address says nothing */ shape?: Shape } }) {
+  // session 8602: each balancing authority's EIA region, when the whole country's index is on the server (components/grid/BaRegions.tsx); without it the panel and the map's hover are as they were
+  const baRegions = useBaRegions();
   const ownSearch = useCallback((search: string) => (page ? netFromPage(search, page.node) : search), [page]);
   const box = useRef<HTMLDivElement>(null);
   const graph = useRef<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -154,6 +162,12 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
   const [playing, setPlaying] = useState(false);
   const [pick, setPick] = useState<NetNode | null>(null);
   const [batteriesOn, setBatteriesOn] = useState(false);
+  // session 8013 (chain 505, part E3): the map's areas colored by price instead of carbon, a choice the reader makes (carbon opens)
+  const [mapPrice, setMapPrice] = useState(false);
+  const [priceMeasure, setPriceMeasure] = useState<PriceMeasure>("day_avg");
+  const pricesFile = usePricesMap(mapPrice && !!baRegions);
+  const pricedMap = mapPrice && baRegions && pricesFile && pricesFile !== "none" ? pricesFile : null;
+  const pricedRange = pricedMap ? mapPriceRange(pricedMap, priceMeasure) : null;
   const [noGl, setNoGl] = useState(false);
   const [loading, setLoading] = useState<string | null>(null);
   const [failed, setFailed] = useState<string | null>(null);
@@ -277,7 +291,12 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
       // session 68: the network fills its frame when the page opens
       setTimeout(() => { if (alive) g.zoomToFit(0, 10); }, 300);
       setTimeout(() => { if (alive) g.zoomToFit(400, 10); }, 1200);
-      if (toggled.current) setGraphAt((k) => k + 1);   // session 180: back from the map, the scene takes the hour, view and selection shown
+      // session 180: back from the map, the scene takes the hour, view and selection shown.
+      // session 8604 (the reader's read, row 17): and so it does when the page opens. The scene is built on the week's
+      // newest hour (above), but since session 124 the page opens on the newest hour every reporting pair holds, which is
+      // usually earlier: until the slider was moved the scene drew the newest hour's ties under a line and a slider that
+      // named another hour (139 ties drawn for an hour whose own count is 148, on production on 19 November 2026).
+      setGraphAt((k) => k + 1);
     }).catch(() => setNoGl(true));
     let seen: IntersectionObserver | null = null;
     if (typeof IntersectionObserver === "undefined") load();
@@ -337,17 +356,16 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
   };
   const watchEvening = (play = true) => {
     // the newest Pacific day whose every hour is in the live week
-    const day = (ts: string) => new Intl.DateTimeFormat("en-CA", { timeZone: "America/Los_Angeles" }).format(new Date(ts));
-    const days = [...new Set(snap.hours.map(day))];
-    for (const d of days.reverse()) {
-      const idx = snap.hours.map((t, i) => (day(t) === d ? i : -1)).filter((i) => i >= 0);
-      const want = Math.round((new Date(`${d}T00:00:00Z`).getTime() + 86_400_000 - new Date(`${d}T00:00:00Z`).getTime()) / 3_600_000);
-      const contiguous = idx.length >= 23 && idx.at(-1)! - idx[0] + 1 === idx.length;
-      if (contiguous && idx.length >= want - 1 && idx[0] > 0 && idx.at(-1)! < snap.hours.length - 1) {
-        setFailed(null); setView({ ...liveView, key: "evening", title: `California's evening, ${d} (Pacific)` }); setRange([idx[0], idx.at(-1)! + 1]); setHour(idx[0]);
-        setBatteriesOn(true); setPick(snap.nodes.find((n) => n.id === "CISO") ?? null); focusOn("CISO"); setPlaying(play);
-        return idx;
-      }
+    // session 8604: and for which California's batteries are reported (lib/networkV3.ts eveningDay): the batteries'
+    // table can end a day or two before the week's interchange, and the story then drew no battery at all. A newer
+    // whole day with no report is passed over and named in the line under the controls.
+    const e = eveningDay(snap.hours, live.batteries.CISO);
+    if (e) {
+      const { day: d, idx } = e;
+      const passed = e.passed.length ? `The batteries are not reported yet for ${e.passed.slice().reverse().join(" and ")} (Pacific), the newest whole day${e.passed.length > 1 ? "s" : ""} of the week: this is the newest day that holds them.` : undefined;
+      setFailed(null); setView({ ...liveView, key: "evening", title: `California's evening, ${d} (Pacific)`, note: passed }); setRange([idx[0], idx.at(-1)! + 1]); setHour(idx[0]);
+      setBatteriesOn(true); setPick(snap.nodes.find((n) => n.id === "CISO") ?? null); focusOn("CISO"); setPlaying(play);
+      return idx;
     }
     setFailed("The live week holds no complete Pacific day.");
     return null;
@@ -476,6 +494,28 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
   // session 180: what the map draws, from the same view, hour and selection as the network
   const mapFlows = useMemo(() => (shape === "map" ? linksAt(hour) : []), [shape, linksAt, hour]);
   const mapNeighbours = useMemo(() => new Set(pick && shape !== "network" ? view.links.filter((l) => l.a === pick.id || l.b === pick.id).map((l) => (l.a === pick.id ? l.b : l.a)) : []), [pick, view, shape]);
+  // session 8601 (chain 504): what the map's hovers say and its batteries' ring draws, from the same view, frame and
+  // switches as the panel. Read only while the map is the shape shown; the network's own drawing asks for none of it.
+  const mapFrame: MapFrame | undefined = shape !== "map" ? undefined : { when: isDayView ? `${ts.slice(0, 10)}, EIA's Eastern day` : `${ts.slice(0, 13).replace("T", " ")}:00 UTC, ${ET.format(new Date(ts))} Eastern`,
+    unit: isDayView ? "day" : "hour",
+    tables: isDayView ? "eia930_daily_interchange, eia930_daily_demand, carbon_intensity_daily" : view.kind === "live" ? "eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly" : "eia930_event_hourly_interchange, carbon_intensity_daily",
+    // session 8604 (the reader's read, row 1): a tie's megawatts come from the interchange table alone
+    flowTable: isDayView ? "eia930_daily_interchange" : view.kind === "live" ? "eia930_all_interchange" : "eia930_event_hourly_interchange" };
+  const mapFigures = (id: string): MapFigures => {
+    const c = view.intensity(id, hour);
+    return { intensity: c, intensityShown: c === null ? undefined : view.kind === "live" ? shown(c) : String(fmt(c)), demand: view.demand(id, hour), ...netOf(view.links, id, hour), region: baRegions?.[id]?.name };
+  };
+  const mapBattery = (id: string) => (view.batteryReported(id) ? { mw: view.battery(id, hour), max: batteryMax[id] ?? 0 } : null);
+  // session 8612 (the second read of the map, row 37): where the newest battery report of the view is, for the map to
+  // say when the frame shown holds none. Read only while the map is shown with its batteries on.
+  const mapBatteryNewest = useMemo(() => {
+    if (shape !== "map" || !batteriesOn) return undefined;
+    const at = newestBatteryFrame(view.hours.length, snap.nodes.map((n) => n.id).filter((id) => view.batteryReported(id)), view.battery);
+    if (!at) return null;
+    const t = view.hours[at.frame];
+    return { when: view.frame === "day" ? t.slice(0, 10) : `${t.slice(0, 13).replace("T", " ")}:00 UTC`, grids: at.grids };
+  }, [shape, batteriesOn, view, snap.nodes]);
+  const mapSide = (a: string, b: string) => reportedBy(view.links.find((l) => l.a === a && l.b === b)?.other, hour);
   // session 266: what the gravity shape draws, from the same view, hour and ties as the panel
   const gravity = useMemo(() => {
     if (shape !== "gravity") return null;
@@ -550,10 +590,13 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
           </span>
         ) : null}
       </div>
+      {/* session 8013 (chain 505, part E3): the map's areas by carbon (as it opens) or by price, in the Grid tool only */}
+      {shape === "map" && baRegions ? <PriceControls on={mapPrice} setOn={setMapPrice} measure={priceMeasure} setMeasure={setPriceMeasure} m={pricesFile} /> : null}
       <div className={`grid grid-cols-[minmax(0,1fr)] gap-3 ${pick ? "lg:grid-cols-[minmax(0,1fr)_340px]" : ""}`}>
         {shape === "map" ? (
-          <NetworkMap nodes={snap.nodes} flows={mapFlows} maxMw={maxMw} colorOf={(id) => colorOf(view.intensity(id, hour), lo, hi)} pick={pick?.id ?? null} neighbours={mapNeighbours}
-            onPick={(id) => setPick(snap.nodes.find((n) => n.id === id) ?? null)} />
+          <NetworkMap nodes={snap.nodes} flows={mapFlows} maxMw={maxMw} colorOf={pricedMap ? (id) => colorOf(priceValue(pricedMap, id, priceMeasure), pricedRange?.[0] ?? 0, pricedRange?.[1] ?? 1) : (id) => colorOf(view.intensity(id, hour), lo, hi)} priceOf={pricedMap ? (id) => priceLine(pricedMap, id, priceMeasure) : undefined} pick={pick?.id ?? null} neighbours={mapNeighbours}
+            onPick={(id) => setPick(snap.nodes.find((n) => n.id === id) ?? null)}
+            frame={mapFrame} figures={mapFigures} battery={batteriesOn ? mapBattery : undefined} batteryNewest={mapBatteryNewest} sideOf={mapSide} />
         ) : shape === "gravity" && gravity ? (
           <NetworkGravity gen={gravity.gen} net={gravity.net} held={gravity.held} names={new Map(snap.nodes.map((n) => [n.id, n.name]))} colorOf={(id) => colorOf(view.intensity(id, hour), lo, hi)}
             pick={pick?.id ?? null} neighbours={mapNeighbours} onPick={(id) => setPick(snap.nodes.find((n) => n.id === id) ?? null)} />
@@ -572,10 +615,12 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
               <div>
                 <div className="font-serif text-lg text-accent">{pick.name}</div>
                 <div className="font-mono text-xs text-muted">{pick.id}{pick.iso ? <> &middot; <Link href={`/grid?grid=${GRID_SLUG[pick.iso]}`}>{pick.iso}&apos;s grid page</Link></> : null}</div>
+                {/* session 8602: the EIA region the authority is in, a link that opens the region in the tool */}
+                {baRegions?.[pick.id] ? <div className="text-xs" data-panel-region={baRegions[pick.id].code}>EIA region: <Link href={`/grid?region=${baRegions[pick.id].code.toLowerCase()}`}>{baRegions[pick.id].name}</Link></div> : null}
               </div>
               <button type="button" onClick={() => setPick(null)} className="border border-rule px-2 py-0.5 text-xs" aria-label="Close the panel">Close</button>
             </div>
-            <p className="mb-2 text-xs">{isDayView ? <>{ts.slice(0, 10)}, EIA&apos;s Eastern day</> : LOCAL_TZ[pick.id] ? <>{localTime(ts, LOCAL_TZ[pick.id])} local time</> : <>{ts.slice(0, 13).replace("T", " ")}:00 UTC (its local time is not held)</>}</p>
+            <p className="mb-2 text-xs">{isDayView ? <>{ts.slice(0, 10)}, EIA&apos;s Eastern day</> : (LOCAL_TZ[pick.id] ?? baRegions?.[pick.id]?.tz) ? <>{localTime(ts, (LOCAL_TZ[pick.id] ?? baRegions?.[pick.id]?.tz) as string)} local time</> : <>{ts.slice(0, 13).replace("T", " ")}:00 UTC (its local time is not held)</>}</p>
             <dl className="space-y-1.5">
               <div>
                 <dt className="text-xs text-muted">Net {netImport >= 0 ? "imports" : "exports"} this {unit}</dt>
@@ -662,16 +707,18 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
                 ) : null}
               </div>
             ) : null}
+            {/* session 8013 (chain 505, part C): the authority's own facts and its region's sum, under what the panel shows; only where the whole country's index is held (the Grid tool), so /network's panel is as it was */}
+            {baRegions?.[pick.id] ? <AuthorityFacts code={pick.id} region={baRegions[pick.id].code} /> : null}
           </aside>
         ) : null}
       </div>
       <div className="mt-2 flex flex-wrap items-center gap-4 text-xs text-muted">
-        <span>{shape === "map" ? "Hover a region for its name, click it for its panel. A tie's dash runs from the exporter to the importer; it is wider as the flow is larger." : shape === "gravity" ? "Hover a circle for its name, click it for its panel." : "Drag to rotate, scroll to zoom, click a grid; it turns slowly until touched."}</span>
+        <span>{shape === "map" ? "Hover a region for its name and figures, click it for its panel; hover a tie for its megawatts. A tie's dash runs from the exporter to the importer; it is wider as the flow is larger. Zoom with the wheel, two fingers or the buttons; drag to move a zoomed map." : shape === "gravity" ? "Hover a circle for its name, click it for its panel." : "Drag to rotate, scroll to zoom, click a grid; it turns slowly until touched."}</span>
         <span className="flex items-center gap-1">Carbon intensity of generation:
           <span className="inline-block h-2 w-24" style={{ background: "linear-gradient(90deg, var(--color-intensity-low), var(--color-intensity-mid), var(--color-intensity-high))" }} /> {fmt(lo)} to {fmt(hi)} kg CO2/MWh; grey: not held.
           {view.kind === "live" ? <> The color updates daily (latest hour {ciTs.slice(0, 13).replace("T", " ")}:00 UTC); the links and demand, hourly.</> : <> In a story, each day&apos;s own.</>}</span>
         {shape === "gravity" ? <span data-gravity-key="1">Circle: the grid&apos;s net generation in the hour shown (EIA-930), its area to scale with the Lower 48&apos;s at the center. Nearer the center: a net importer; farther out: a net exporter, by its net imports as a share of its generation (a quarter or more is the full pull); on the dashed ring: neither. The other {snap.nodes.length - GRAVITY_GRIDS.length} balancing authorities are drawn in the Network and Map shapes: their generation is not in the live set. A dashed outline: generation not held for the hour.</span>
-          : shape === "map" ? <span data-map-key="1">Region: the balancing authority&apos;s area as the boundary file gives it; the line on the map says what that file is. The batteries&apos; and prices&apos; rings are drawn in the Network view; the panel holds their numbers here.</span>
+          : shape === "map" ? <span data-map-key="1">Region: the balancing authority&apos;s area as the boundary file gives it; the line on the map says what that file is. {batteriesOn ? <>Ring: batteries reported for the {unit}, fuller as they discharge, emptier as they charge, as in the Network view. </> : null}The prices&apos; ring is drawn in the Network view; the panel holds its numbers here.</span>
           : <span>Sphere: demand (the seven ISOs) or interchange volume (the others)</span>}
         {batteriesOn && shape === "network" ? <span>Ring: batteries reported for the hour, fuller as they discharge, emptier as they charge.</span> : null}
         {pricesOn && shape === "network" ? <span data-price-legend="1">Outer ring: the hub price, heavier as it is higher, on the grids with a public price held for the {unit} shown ({priceRings}); the heaviest is {priceMax.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/MWh, the highest of the period shown.</span> : null}
@@ -696,6 +743,9 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
             </table>
             <p className="mt-1 text-xs text-muted">Positive: the neighbour supplied {pick.name}; negative: {pick.name} supplied it. Over the held days of {supply[pick.id].months[0]} to {supply[pick.id].months.at(-1)}, as {pick.name} reported each tie.</p>
           </div>
+        ) : pick ? (
+          // session 8604 (the reader's read, row 3): a grid is chosen, and the table holds none of its twelve months: say that, not "Click a grid"
+          <p className="mt-2" data-neighbours-not-held={pick.id}>Not held for {pick.name}: the neighbours&apos; twelve months need a grid&apos;s demand, which the table behind them (ba_supply_monthly) holds for the seven ISO grids only.</p>
         ) : <p className="mt-2 text-muted">Click a grid, or choose one above.</p>}
       </details>
     </div>

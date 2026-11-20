@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate tie_flow, region bt_nevp_ciso (NV Energy (Nevada Power) (NEVP) to the California ISO (CISO))
+# Computed 2026-11-19T11:05:20Z by warehouse/analysis/findings/deep/trade.py (tie_flow); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean hourly flow on a tie between two balancing authorities, in its standing direction over 2019 to 2025 (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_interchange_hourly_2018, eia930_ba_interchange_hourly_2019, eia930_ba_interchange_hourly_2020, eia930_ba_interchange_hourly_2021, eia930_ba_interchange_hourly_2022, eia930_ba_interchange_hourly_2023, eia930_ba_interchange_hourly_2024, eia930_ba_interchange_hourly_2025, eia930_ba_interchange_hourly_2026
+region,year,value,n_observations,full_year
+bt_nevp_ciso,2018,-123.15808573372647,4409.0,0
+bt_nevp_ciso,2019,-34.95771911781511,8751.0,1
+bt_nevp_ciso,2020,352.9759544159544,8775.0,1
+bt_nevp_ciso,2021,981.9083333333333,8760.0,1
+bt_nevp_ciso,2022,977.3405251141553,8760.0,1
+bt_nevp_ciso,2023,862.9391552511415,8760.0,1
+bt_nevp_ciso,2024,1045.2904143897997,8784.0,1
+bt_nevp_ciso,2025,1079.172602739726,8760.0,1
+bt_nevp_ciso,2026,1072.8062573635293,7639.0,0
