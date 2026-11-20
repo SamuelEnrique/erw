@@ -58,6 +58,11 @@ set -uo pipefail
 
 PYTHON="${PYTHON:-python}"
 DAYS="${DAYS:-3}"
+# Session 9002 (data request 569): the EIA-930 tables merged into their histories (demand and generation, storage,
+# interchange) pull the last 7 complete UTC days, or $DAYS when that is more. With 3, the runs of 17, 18 and 19 November
+# 2026 stopped before their archive step and 16 November fell between the windows of 16 and 20 November, so the
+# warehouse and the live set held no hour of it. Seven days heal up to four missed runs; EIA serves the same hours again.
+EIA930_DAYS="${EIA930_DAYS:-$(( DAYS > 7 ? DAYS : 7 ))}"
 # Session 89 (Samuel's ruling of 4 October 2026): MISO is out of the daily run. Its terms forbid automated access, and
 # every MISO pull is paused pending a review (warehouse/metadata/paused_sources.csv, docs/methods/miso_pause.md). The
 # connectors refuse a paused publisher themselves, so ISOS=miso would request nothing either. MISO's tables stay as
@@ -205,10 +210,10 @@ pull() {
 run_other ercot_peak_premium "$PYTHON" warehouse/derived/ercot_peak_premium.py
 
 # EIA-930 hourly demand and generation (EIA_API_KEY from the environment or .env)
-pull eia930 "$PYTHON" warehouse/connectors/eia930.py --days "$DAYS"
+pull eia930 "$PYTHON" warehouse/connectors/eia930.py --days "$EIA930_DAYS"
 # Session 31: EIA-930 battery storage (fuel type BAT), merged into its history like EIA-930 demand; its daily cycle
 # runs after CAISO's own battery series below (session 34) (docs/methods/storage.md)
-pull eia930_storage "$PYTHON" warehouse/connectors/eia930_storage.py --days "$DAYS"
+pull eia930_storage "$PYTHON" warehouse/connectors/eia930_storage.py --days "$EIA930_DAYS"
 # Session 32: EIA-930 CO2 estimates from EIA's per-BA workbooks (the newest workbook per BA; the last $DAYS days merged
 # on (entity, variable, ts_utc); the raw copy kept), then carbon intensity (docs/methods/emissions.md)
 # Session 321: the last 10 days, not $DAYS: EIA's workbooks carry the CO2 hours some days behind, and a 3-day window
@@ -223,9 +228,9 @@ pull caiso_fuel_supply "$PYTHON" warehouse/connectors/caiso_fuel_supply.py --day
 run_other carbon_intensity "$PYTHON" warehouse/derived/carbon_intensity.py
 run_other caiso_join "$PYTHON" warehouse/derived/caiso_join.py --apply
 # Session 49 (session 42's A2): EIA-930 interchange, every BA pair EIA reports, merged into its history like the other
-# EIA-930 tables (the last $DAYS days pulled again), then the grid network's tables and the /network snapshot
+# EIA-930 tables (the last $EIA930_DAYS days pulled again, session 9002), then the grid network's tables and the /network snapshot
 # site/data/grid_network.json (docs/methods/grid_network.md)
-pull eia930_interchange "$PYTHON" warehouse/connectors/eia930_interchange.py --days "$DAYS"
+pull eia930_interchange "$PYTHON" warehouse/connectors/eia930_interchange.py --days "$EIA930_DAYS"
 run_other grid_network "$PYTHON" warehouse/derived/grid_network.py
 
 # Session 24: NWS weather at one airport per ISO load center: hourly observations (the API serves about 7 days;
