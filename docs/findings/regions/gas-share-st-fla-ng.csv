@@ -1,0 +1,30 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate gas_share, region st_fla_ng (Florida (the state))
+# Computed 2026-11-19T11:17:46Z by warehouse/analysis/findings/deep/regions.py (gas_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: natural gas's share of the states' net generation (percent), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+st_fla_ng,2001,22.817946390030574,12.0,1
+st_fla_ng,2002,31.061309622236877,12.0,1
+st_fla_ng,2003,32.1214495198775,12.0,1
+st_fla_ng,2004,35.10805879866147,12.0,1
+st_fla_ng,2005,37.95358049422498,12.0,1
+st_fla_ng,2006,42.987907449754225,12.0,1
+st_fla_ng,2007,44.49868525876236,12.0,1
+st_fla_ng,2008,47.06092717141087,12.0,1
+st_fla_ng,2009,54.28816460499171,12.0,1
+st_fla_ng,2010,56.148639871020535,12.0,1
+st_fla_ng,2011,61.45435248213463,12.0,1
+st_fla_ng,2012,67.7079410214304,12.0,1
+st_fla_ng,2013,62.48518025934716,12.0,1
+st_fla_ng,2014,60.88015954793232,12.0,1
+st_fla_ng,2015,65.63431341853727,12.0,1
+st_fla_ng,2016,66.52145332067492,12.0,1
+st_fla_ng,2017,67.57361944871964,12.0,1
+st_fla_ng,2018,70.36674816255943,12.0,1
+st_fla_ng,2019,74.10596895915192,12.0,1
+st_fla_ng,2020,75.51812954498432,12.0,1
+st_fla_ng,2021,73.6646641903506,12.0,1
+st_fla_ng,2022,74.66291526236584,12.0,1
+st_fla_ng,2023,75.90142870755395,12.0,1
+st_fla_ng,2024,76.84798221540603,12.0,1
+st_fla_ng,2025,72.95265503622163,12.0,1

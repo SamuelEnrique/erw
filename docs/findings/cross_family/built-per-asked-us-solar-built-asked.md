@@ -2,7 +2,7 @@
 
 Draft `scan-deep-a1b3df8569b3` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The MW of US solar entering service in the year against the MW of US solar requested in the year was 26.8 percent of MW requested in 2024, against 1.0 percent of MW requested in 2010, the first year this measure counts.
+**The finding.** The MW of US solar entering service in the year against the MW of US solar requested in the year was 26.8 percent of MW requested in 2024, against 1.0 percent of MW requested in 2010, the first year of the window the hunt read; the table holds the measure from 2000.
 
 ![Built against asked for, US solar](built-per-asked-us-solar-built-asked.png)
 
