@@ -546,6 +546,8 @@ What the first pass above left: the figures set beside their tables, and the rea
 
 The other 77 show nothing wrong at either width; `/policy` and `/internal/findings` are the two already mended on branches.
 
+**The Grid tool at 390 px in the same state:** the seven grids and the Lower 48, and the thirteen regions, each on its Mix, Clean and Network tabs (63 pages): every one 390 px wide, no empty chart, no "undefined", "NaN" or "null", no error.
+
 **The same 81 pages at 390 px with every chart switched to its table and every fold open** (the desktop's second window, 01:30 UTC on 21 November, `runs/c620w2/dump.mjs`): a state the first sweep did not try. Three are wider than 390 px, each already mended on `wip/w2-c620-fixes`: `/data/faults` (417, row E1), `/internal/findings` (470, item 1) and `/events/covid-2020` (392, item 20 row 3, found in this state). No empty chart, no error. Words "null" and "undefined" on three pages are text, not a fault: the data standard's rule ("No sentinel codes (-999, NA, null)"), `/data/licenses` (row E3), and `/internal/waits`, which quotes session 499's report ("an entity of `undefined`").
 
 ## Landed during the night: `/congestion` and `/conditions` (the data machine's chain 601, on main at 13:43 UTC)
