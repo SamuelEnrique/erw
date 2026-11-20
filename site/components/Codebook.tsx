@@ -37,7 +37,7 @@ export function Codebook({ slug }: { slug: string }) {
             <tbody>
               {e.columns.map(([name, label, unit, type, values]) => (
                 <tr key={name} className="align-top">
-                  <td className="border border-rule px-2 py-1"><code className="font-mono">{name}</code></td>
+                  <td className="whitespace-nowrap border border-rule px-2 py-1"><code className="font-mono [overflow-wrap:normal]">{name}</code></td>
                   <td className="border border-rule px-2 py-1">{label}</td>
                   <td className="border border-rule px-2 py-1">{unit}</td>
                   <td className="border border-rule px-2 py-1">{type}</td>
