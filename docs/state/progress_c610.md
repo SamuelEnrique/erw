@@ -8,3 +8,6 @@ Chain file: queue/done/610-night-20-november-oldlaptop-weekend-pack-security.md.
 - Session 9811, part B: one finding held back until its fix lands; `wip/9811-hardening` (`f675174b3`), landing requested as row 7 of `docs/state/landing_request_desktop_w3.md`. requested, 9811
 - Session 9812, part B finding T1 (low): every try of the internal token counted, 30 an hour, at eight doors; `wip/9812-token-tries` (`1ab4a793c`), row 8. requested, 9812
 - Session 9813, part B step 1: the ground, `docs/reviews/security-ground-2026-11-20.md` (45 route handlers, 61 pages that read the request). done, 9813
+- Session 9813, part B steps 4 and 5: dependencies (site ships 0 advisories; linter's 7 moderate, a minor version closes them, listed; four Python packages need major versions) and history (one test fixture, nothing to rotate; exact values since 12 November: none). done, 9813
+- Session 9814, part C: `docs/reviews/privacy-against-code-2026-11-20.md`, seven rows, nothing changed. done, 9814
+- Session 9815, part B step 6: `docs/security.md`, the review of 20 November (high 1 held back, low 3: T1 requested, T2 needs the key, T3 noted). done, 9815
