@@ -1,0 +1,24 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate summer_growth, region pa_183 (Georgia Power Company (FERC 714 planning area 183))
+# Computed 2026-11-19T12:04:20Z by warehouse/analysis/findings/deep/forecasts.py (summer_growth); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the yearly growth a filing forecasts for the area's summer peak, from its first forecast year to its tenth (percent a year), the observations it rests on, and whether the year is full
+# Tables: ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+pa_183,2007,2.070947207398155,1.0,1
+pa_183,2008,2.181191508926683,1.0,1
+pa_183,2009,2.036564483477332,1.0,1
+pa_183,2010,1.5519171562904832,1.0,1
+pa_183,2011,1.2919276924151957,1.0,1
+pa_183,2012,1.6940061089835368,1.0,1
+pa_183,2013,1.7349855762074373,1.0,1
+pa_183,2014,1.6060271351880706,1.0,1
+pa_183,2015,1.0838598496204277,1.0,1
+pa_183,2016,0.8085422167378287,1.0,1
+pa_183,2017,0.40412215165721577,1.0,1
+pa_183,2018,0.4117006301152415,1.0,1
+pa_183,2019,0.5667789351170516,1.0,1
+pa_183,2020,0.3691079999081248,1.0,1
+pa_183,2021,0.2047665790036346,1.0,1
+pa_183,2022,0.8283349694207187,1.0,1
+pa_183,2023,4.309537872460667,1.0,1
+pa_183,2024,4.971718213971288,1.0,1
+pa_183,2025,5.140171264239735,1.0,1
