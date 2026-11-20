@@ -183,6 +183,9 @@ def spp_frame(text):
         x[c] = x[c].str.strip()
     if "GMTIntervalEnd" not in x.columns:
         raise RuntimeError(f"no GMTIntervalEnd column; columns {list(x.columns)}: layout changed")
+    # some 2015 files end with rows whose every cell is empty (7,211 in the 2015 zip): no row; a row with any cell
+    # filled and no time still fails the file
+    x = x[(x != "").any(axis=1)]
     x["ts"] = spp_time(x["GMTIntervalEnd"]) - pd.Timedelta(hours=1)
     return x
 
