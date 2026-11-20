@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate seds_total, region sd_ga (Georgia)
+# Computed 2026-11-19T12:27:15Z by warehouse/analysis/findings/deep/demand.py (seds_total); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the state's total energy consumption (TBtu), the observations it rests on, and whether the year is full
+# Tables: eia_seds_state_energy
+region,year,value,n_observations,full_year
+sd_ga,1990,2188.433,1.0,1
+sd_ga,1991,2176.9410000000003,1.0,1
+sd_ga,1992,2217.975,1.0,1
+sd_ga,1993,2373.461,1.0,1
+sd_ga,1994,2395.16,1.0,1
+sd_ga,1995,2578.34,1.0,1
+sd_ga,1996,2726.85,1.0,1
+sd_ga,1997,2709.444,1.0,1
+sd_ga,1998,2744.268,1.0,1
+sd_ga,1999,2779.826,1.0,1
+sd_ga,2000,2901.427,1.0,1
+sd_ga,2001,2797.716,1.0,1
+sd_ga,2002,2912.009,1.0,1
+sd_ga,2003,2923.139,1.0,1
+sd_ga,2004,3065.31,1.0,1
+sd_ga,2005,3080.403,1.0,1
+sd_ga,2006,3067.394,1.0,1
+sd_ga,2007,3061.401,1.0,1
+sd_ga,2008,2926.774,1.0,1
+sd_ga,2009,2884.852,1.0,1
+sd_ga,2010,3118.878,1.0,1
+sd_ga,2011,3000.462,1.0,1
+sd_ga,2012,2818.231,1.0,1
+sd_ga,2013,2869.293,1.0,1
+sd_ga,2014,2941.556,1.0,1
+sd_ga,2015,2946.449,1.0,1
+sd_ga,2016,2911.451,1.0,1
+sd_ga,2017,2882.4210000000003,1.0,1
+sd_ga,2018,2948.666,1.0,1
+sd_ga,2019,2905.172,1.0,1
+sd_ga,2020,2658.733,1.0,1
+sd_ga,2021,2764.908,1.0,1
+sd_ga,2022,2852.217,1.0,1
+sd_ga,2023,2873.369,1.0,1
+sd_ga,2024,2960.655,1.0,1
