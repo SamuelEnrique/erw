@@ -82,7 +82,10 @@ SPP_FILE = "https://portal.spp.org/file-browser-api/download/{fs}?path=/{path}"
 SPP_BC = dict(fs="da-binding-constraints", prefix="DA-BC", source="spp:DA-BC",
               report="Day-Ahead Binding Constraints", page="https://portal.spp.org/pages/da-binding-constraints")
 SPP_LMP = dict(fs="da-lmp-by-settlement-location", prefix="DA-LMP-SL", source="spp:DA-LMP-SL",
-               report="Day-Ahead LMP by Settlement Location", page="https://portal.spp.org/pages/da-lmp-by-settlement-location")
+               report="Day-Ahead LMP by Settlement Location", page="https://portal.spp.org/pages/da-lmp-by-location")
+# spp:DA-LMP-SL and caiso:PRC_LMP are registered already by iso_prices.py; this connector only adds its table to them
+# and leaves their addresses as they stand (session 9000)
+SHARED_SOURCES = {"spp:DA-LMP-SL", "caiso:PRC_LMP"}
 SPP_HUBS = ["SPPNORTH_HUB", "SPPSOUTH_HUB"]
 SPP_PARTS = {"LMP": "lmp_dam", "MEC": "energy_dam", "MCC": "congestion_dam", "MLC": "loss_dam"}
 
@@ -520,7 +523,8 @@ def main(argv=None):
                 if src:
                     sources.append(f"{src[0]} {src[1]}, {src[2]}")
                     regs.append(dict(source=src[0], publisher=ip.ISO_PUBLISHERS[op], report=src[1], report_url=src[2],
-                                     document_list=src[2], license="public", tables=[name]))
+                                     document_list="" if src[0] in SHARED_SOURCES else src[2], license="public",
+                                     tables=[name]))
                 if rows is not None and len(rows):
                     frames.append(rows)
                     log(f"{name} {op}: {len(rows)} rows, {rows['ts_utc'].min()} to {rows['ts_utc'].max()}")
