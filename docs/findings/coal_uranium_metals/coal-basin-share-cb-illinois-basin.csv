@@ -1,0 +1,23 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate coal_basin_share, region cb_illinois_basin (coal from the Illinois Basin (EIA's mine basin))
+# Computed 2026-11-19T12:11:36Z by warehouse/analysis/findings/deep/coal_uranium_metals.py (coal_basin_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: a basin's share of the coal power plants received (percent), the observations it rests on, and whether the year is full
+# Tables: eia_coal_receipts_annual
+region,year,value,n_observations,full_year
+cb_illinois_basin,2008,9.399840511396661,1.0,1
+cb_illinois_basin,2009,9.810172207532537,1.0,1
+cb_illinois_basin,2010,10.28810916923608,1.0,1
+cb_illinois_basin,2011,10.952479974390265,1.0,1
+cb_illinois_basin,2012,12.725640782682374,1.0,1
+cb_illinois_basin,2013,14.019556201704592,1.0,1
+cb_illinois_basin,2014,14.044613495638902,1.0,1
+cb_illinois_basin,2015,14.372897224951057,1.0,1
+cb_illinois_basin,2016,14.694511071577782,1.0,1
+cb_illinois_basin,2017,13.938069065243464,1.0,1
+cb_illinois_basin,2018,14.366568340915162,1.0,1
+cb_illinois_basin,2019,14.363574597778506,1.0,1
+cb_illinois_basin,2020,13.739798122544556,1.0,1
+cb_illinois_basin,2021,13.19721051890133,1.0,1
+cb_illinois_basin,2022,13.62015350499603,1.0,1
+cb_illinois_basin,2023,14.42901484053761,1.0,1
+cb_illinois_basin,2024,14.979640914661903,1.0,1
+cb_illinois_basin,2025,14.118997643235998,1.0,1

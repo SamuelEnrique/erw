@@ -1,0 +1,23 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate coal_stocks_dec, region cst_il (the power plants of Illinois)
+# Computed 2026-11-19T12:24:26Z by warehouse/analysis/findings/deep/markets_operations.py (coal_stocks_dec); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the coal stocks of the electric power sector at the end of December (million short tons), the observations it rests on, and whether the year is full
+# Tables: eia_power_fuel_stocks_monthly
+region,year,value,n_observations,full_year
+cst_il,2008,9.871625,1.0,1
+cst_il,2009,8.754094,1.0,1
+cst_il,2010,7.865021,1.0,1
+cst_il,2011,8.904869,1.0,1
+cst_il,2012,8.930868,1.0,1
+cst_il,2013,6.2733,1.0,1
+cst_il,2014,7.460529,1.0,1
+cst_il,2015,11.110967,1.0,1
+cst_il,2016,7.056328,1.0,1
+cst_il,2017,5.715562,1.0,1
+cst_il,2018,5.209037,1.0,1
+cst_il,2019,4.384633,1.0,1
+cst_il,2020,6.220353,1.0,1
+cst_il,2021,4.207908,1.0,1
+cst_il,2022,2.989838,1.0,1
+cst_il,2023,5.591365,1.0,1
+cst_il,2024,6.776296,1.0,1
+cst_il,2025,5.292798,1.0,1
