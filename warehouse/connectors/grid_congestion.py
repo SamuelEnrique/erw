@@ -177,18 +177,30 @@ def spp_frame(text):
     x = pd.read_csv(io.StringIO(text), dtype=str, keep_default_na=False)
     # SPP's older files name the columns in capitals with underscores (GMTINTERVALEND, SETTLEMENT_LOCATION; seen in
     # DA-LMP-SL files of 2025); they are read as the newer names, nothing else changes
-    upper = {"INTERVAL": "Interval", "GMTINTERVALEND": "GMTIntervalEnd", "SETTLEMENT_LOCATION": "Settlement Location",
-             "PNODE": "Pnode", "CONSTRAINT_NAME": "Constraint Name", "CONSTRAINT_TYPE": "Constraint Type",
-             "SHADOW_PRICE": "Shadow Price", "MONITORED_FACILITY": "Monitored Facility",
-             "CONTINGENT_FACILITY": "Contingent Facility", "CONTINGENCY_NAME": "Contingency Name", "STATE": "State"}
-    x.columns = [upper.get(c.strip(), c.strip()) for c in x.columns]
+    # and 2014's files write CONSTRAINTTYPE: a column is matched to the known names ignoring case, spaces and underscores
+    known = ["Interval", "GMTIntervalEnd", "Settlement Location", "Pnode", "Constraint Name", "Constraint Type", "NERCID",
+             "State", "Shadow Price", "Monitored Facility", "Contingent Facility", "Contingency Name", "LMP", "MLC", "MCC",
+             "MEC", "BAA"]
+    norm = {k.upper().replace(" ", "").replace("_", ""): k for k in known}
+    x.columns = [norm.get(c.strip().upper().replace(" ", "").replace("_", ""), c.strip()) for c in x.columns]
     for c in x.columns:
         x[c] = x[c].str.strip()
-    if "GMTIntervalEnd" not in x.columns:
-        raise RuntimeError(f"no GMTIntervalEnd column; columns {list(x.columns)}: layout changed")
     # some 2015 files end with rows whose every cell is empty (7,211 in the 2015 zip): no row; a row with any cell
     # filled and no time still fails the file
     x = x[(x != "").any(axis=1)]
+    if "GMTIntervalEnd" not in x.columns:
+        if "Interval" not in x.columns:
+            raise RuntimeError(f"no GMTIntervalEnd column; columns {list(x.columns)}: layout changed")
+        # session 9000: the 2014 files carry only "Interval", the interval's end in Central clock time (the later files
+        # print it beside GMTIntervalEnd: 11/08/2023 01:00:00 beside 07:00:00). An hour the clock repeats or skips cannot
+        # be placed from it, so such a file is a gap, named, never a guess
+        local = spp_time(x["Interval"]).dt.tz_localize(None)
+        end = local.dt.tz_localize(SPP_TZ, ambiguous="NaT", nonexistent="NaT")
+        if end.isna().any():
+            raise ip.SourceGap(f"SPP file with local times only holds an hour the clock repeats or skips "
+                               f"({local[end.isna()].iloc[0]}): left out")
+        x["ts"] = end.dt.tz_convert("UTC") - pd.Timedelta(hours=1)
+        return x
     x["ts"] = spp_time(x["GMTIntervalEnd"]) - pd.Timedelta(hours=1)
     return x
 
@@ -456,7 +468,10 @@ def pull(table, operator, start, until, log, offline, gaps):
                 log(f"  gap: {exc}")
                 continue
             for day, text in spp_texts(raw, doc, feed, log, gaps):
-                frames.append(spp_constraints(day, text, rec) if table == "constraints" else spp_prices(day, text, rec))
+                try:
+                    frames.append(spp_constraints(day, text, rec) if table == "constraints" else spp_prices(day, text, rec))
+                except ip.SourceGap as exc:  # a day the file cannot place (a repeated or skipped local hour)
+                    gaps.append(f"SPP {feed['report']} {day.date()}: {exc}")
             if not rec.get("cached"):
                 time.sleep(1)
             if i % 25 == 0:
