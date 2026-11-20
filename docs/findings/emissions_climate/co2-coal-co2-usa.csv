@@ -1,0 +1,50 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate co2_coal, region co2_usa (the United States)
+# Computed 2026-11-19T12:42:10Z by warehouse/analysis/findings/deep/emissions_climate.py (co2_coal); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the country's CO2 from coal and coke (million t CO2), the observations it rests on, and whether the year is full
+# Tables: eia_world_energy_co2_annual
+region,year,value,n_observations,full_year
+co2_usa,1980,1453.794003,1.0,1
+co2_usa,1981,1502.932302,1.0,1
+co2_usa,1982,1449.084615,1.0,1
+co2_usa,1983,1504.795517,1.0,1
+co2_usa,1984,1616.102516,1.0,1
+co2_usa,1985,1655.024937,1.0,1
+co2_usa,1986,1635.733252,1.0,1
+co2_usa,1987,1709.483872,1.0,1
+co2_usa,1988,1792.727375,1.0,1
+co2_usa,1989,1813.144079,1.0,1
+co2_usa,1990,1820.022501,1.0,1
+co2_usa,1991,1805.942037,1.0,1
+co2_usa,1992,1821.880293,1.0,1
+co2_usa,1993,1881.678193,1.0,1
+co2_usa,1994,1892.224707,1.0,1
+co2_usa,1995,1912.142841,1.0,1
+co2_usa,1996,1994.532207,1.0,1
+co2_usa,1997,2038.849018,1.0,1
+co2_usa,1998,2063.632658,1.0,1
+co2_usa,1999,2061.622698,1.0,1
+co2_usa,2000,2154.743112,1.0,1
+co2_usa,2001,2087.256256,1.0,1
+co2_usa,2002,2092.877119,1.0,1
+co2_usa,2003,2133.921259,1.0,1
+co2_usa,2004,2158.366082,1.0,1
+co2_usa,2005,2180.146225,1.0,1
+co2_usa,2006,2146.008621,1.0,1
+co2_usa,2007,2171.295306,1.0,1
+co2_usa,2008,2138.693435,1.0,1
+co2_usa,2009,1875.159584,1.0,1
+co2_usa,2010,1985.938572,1.0,1
+co2_usa,2011,1875.601053,1.0,1
+co2_usa,2012,1657.873276,1.0,1
+co2_usa,2013,1717.844544,1.0,1
+co2_usa,2014,1713.367094,1.0,1
+co2_usa,2015,1481.89792,1.0,1
+co2_usa,2016,1355.200263,1.0,1
+co2_usa,2017,1317.951988,1.0,1
+co2_usa,2018,1262.555409,1.0,1
+co2_usa,2019,1077.519881,1.0,1
+co2_usa,2020,876.195454,1.0,1
+co2_usa,2021,1002.937643,1.0,1
+co2_usa,2022,938.209028,1.0,1
+co2_usa,2023,776.469872,1.0,1
+co2_usa,2024,751.229371,1.0,1

@@ -2,7 +2,7 @@
 
 Draft `scan-deep-fed28b9d315c` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** Coal's share of US energy-related CO2 was 19.2 percent of US energy CO2 in 2022, against 36.2 percent of US energy CO2 in 2001, the first year this measure counts.
+**The finding.** Coal's share of US energy-related CO2 was 19.2 percent of US energy CO2 in 2022, against 36.2 percent of US energy CO2 in 2001, the first year of the window the hunt read; the table holds the measure from 1970.
 
 ![Coal's share of us co2, the United States](coal-co2-share-us-coal-co2-share.png)
 
