@@ -39,15 +39,15 @@ export async function drawPage(rowsOf) {
     const q = new URL(String(url)).searchParams;
     const name = (q.get("table_name") ?? "").replace(/^eq\./, "");
     const entity = (q.get("entity") ?? "").replace(/^eq\./, "");
-    const vars = new Set((q.get("variable") ?? "").replace(/^in\.\(/, "").replace(/\)$/, "").split(","));
+    const vars = new Set((q.get("variable") ?? "").replace(/^in\.\(/, "").replace(/^eq\./, "").replace(/\)$/, "").split(","));   // eq.: wip/alt-battery-awards-4
     const from = (q.get("ts_utc") ?? "").replace(/^gte\./, "");
     const limit = Number(q.get("limit") ?? 1000), offset = Number(q.get("offset") ?? 0);
     const all = rowsOf(name);
     if (all === null) { asked.push(`${name} ${entity}: not answered`); return new Response("stand-in: the table is not held", { status: 404 }); }
-    const rows = all.filter((r) => r.entity === entity && vars.has(r.variable) && (!from || r.ts_utc >= from));
+    const rows = all.filter((r) => (!entity || r.entity === entity) && vars.has(r.variable) && (!from || r.ts_utc >= from));   // no entity: every entity (wip/alt-battery-awards-4)
     rows.sort((a, b) => (a.variable < b.variable ? -1 : a.variable > b.variable ? 1 : a.ts_utc < b.ts_utc ? -1 : a.ts_utc > b.ts_utc ? 1 : 0));
     asked.push(`${name} ${entity}: ${rows.length} rows`);
-    return new Response(JSON.stringify(rows.slice(offset, offset + limit).map((r) => ({ variable: r.variable, ts_utc: r.ts_utc, value: Number(r.value) }))),
+    return new Response(JSON.stringify(rows.slice(offset, offset + limit).map((r) => ({ entity: r.entity, variable: r.variable, ts_utc: r.ts_utc, value: Number(r.value) }))),
       { status: 200, headers: { "content-type": "application/json" } });
   };
   const log = console.error;

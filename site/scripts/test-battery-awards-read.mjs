@@ -30,7 +30,9 @@ const { html, asked } = await drawPage(rowsOf);
 const text = pageText(html);
 const lines = text.split("\n");
 
-ok(asked.length === 7 && asked.every((a) => !a.endsWith(": 0 rows") && !a.endsWith("not answered")), `the page makes its seven reads and each is answered from the committed rows (${asked.length})`);
+// ruling alternative 4 (wip/alt-battery-awards-4): an eighth read, every point's spread, which the committed rows do not hold (0 rows: the box says no point is chosen)
+const pointsRead = asked.filter((a) => a.startsWith("ercot_storage_node_basis :"));
+ok(asked.length === 8 && pointsRead.length === 1 && asked.filter((a) => !pointsRead.includes(a)).every((a) => !a.endsWith(": 0 rows") && !a.endsWith("not answered")), `the page makes its eight reads and each of the seven is answered from the committed rows (${asked.length})`);
 ok(text.includes("In July 2026, ERCOT's disclosure lists 332 storage resources with 21,365 MW between them; their day-ahead awards came to USD 0.68 per kW for the month, 0.53 from energy net of charging and 0.15 from ancillary services."),
   "case 1: the page's sentence for July 2026, as it was");
 
