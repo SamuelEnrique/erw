@@ -1,0 +1,159 @@
+# The codebook's metadata of table svk_sweden_production_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: svk_sweden_production_hourly
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: PT1H
+source:
+- name: svk:mimer_production_statistics Svenska kraftnat, Mimer, Produktionsstatistik (area SN0, Hela Sverige)
+  url: https://mimer.svk.se/ProductionConsumption/ProductionIndex
+cite: Svenska kraftnat. Mimer, Produktionsstatistik (production statistics), all of Sweden. Via the Energy Research Warehouse
+  (ERW), table `svk_sweden_production_hourly`.
+method: docs/methods/svk_sweden_production_hourly.md
+header_title: Svenska kraftnat (Mimer), Produktionsstatistik, all of Sweden an hour by production type, 2019-12-31T23:00:00Z
+  to 2025-03-18T22:00:00Z (session 2351)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity svk:sweden; variable generation_nuclear, generation_other_thermal,
+  generation_unspecified_measured, generation_solar, generation_hydro or generation_wind; unit MWh (Mimer''s settled kWh divided
+  by 1,000); freq PT1H; ts_utc the hour''s start in UTC; geo SE; x_published Mimer''s publication time as printed.'
+read:
+  date: '2026-11-20'
+  rows: 274176
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 274176
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 274176
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 274176
+- name: x_published
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: generation_hydro
+  label: null
+  unit: MWh
+  rows: 45696
+  first: '2019-12-31T23:00:00Z'
+  last: '2025-03-18T22:00:00Z'
+- name: generation_nuclear
+  label: null
+  unit: MWh
+  rows: 45696
+  first: '2019-12-31T23:00:00Z'
+  last: '2025-03-18T22:00:00Z'
+- name: generation_other_thermal
+  label: null
+  unit: MWh
+  rows: 45696
+  first: '2019-12-31T23:00:00Z'
+  last: '2025-03-18T22:00:00Z'
+- name: generation_solar
+  label: null
+  unit: MWh
+  rows: 45696
+  first: '2019-12-31T23:00:00Z'
+  last: '2025-03-18T22:00:00Z'
+- name: generation_unspecified_measured
+  label: null
+  unit: MWh
+  rows: 45696
+  first: '2019-12-31T23:00:00Z'
+  last: '2025-03-18T22:00:00Z'
+- name: generation_wind
+  label: null
+  unit: MWh
+  rows: 45696
+  first: '2019-12-31T23:00:00Z'
+  last: '2025-03-18T22:00:00Z'
+second_look: null

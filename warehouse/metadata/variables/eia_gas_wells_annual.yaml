@@ -5,9 +5,10 @@
 table: eia_gas_wells_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or the nation's or the federal Gulf's) yearly number of producing natural gas and gas condensate wells,
+  from EIA's Natural Gas Annual.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -42,6 +43,7 @@ columns:
     - eia_gas_wells:XDG:SAL
     - eia_gas_wells:XDG:SAR
   missing_cells: 0
+  particular: eia_gas_wells:XDG:<area>, EIA's process and area (S<state>, NUS, R3FM the federal Gulf)
 - name: variable
   shared: true
   type: text
@@ -90,12 +92,14 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
+  particular: US-<state> for a state, US otherwise
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1062
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -108,6 +112,7 @@ columns:
     - Arkansas Natural Gas Number of Gas and Gas Condensate Wells (Count)
     - California Natural Gas Number of Gas and Gas Condensate Wells (Count)
   missing_cells: 0
+  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -136,9 +141,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 1062
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: gas_wells
-  label: null
+  label: Number of producing gas and gas condensate wells (XDG)
   unit: count
   rows: 1062
   first: '1989-01-01T00:00:00Z'

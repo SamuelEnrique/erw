@@ -1,0 +1,141 @@
+# The codebook's metadata of table arse_burkina_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: arse_burkina_electricity_annual
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1Y
+source:
+- name: 'arse_bf:rapport_activite_2024_tableau_15 Autorite de Regulation du Secteur de l''Energie (ARSE), Burkina Faso, Rapport
+    d''activites 2024, tableau 15: Donnees energetiques du secteur en 2023 et 2024'
+  url: ''
+cite: 'Autorite de Regulation du Secteur de l''Energie (ARSE), Burkina Faso. Rapport d''activites 2024, tableau 15: donnees
+  energetiques du secteur en 2023 et 2024. Via the Energy Research Warehouse (ERW), table `arse_burkina_electricity_annual`.'
+method: docs/methods/arse_burkina_electricity_annual.md
+header_title: 'Autorite de Regulation du Secteur de l''Energie (ARSE), Burkina Faso, Rapport d''activites 2024, table 15:
+  production by producer and type, imports by interconnection, 2023 and 2024 (session 2561)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity arse:bf:<item>; variable production, imports, supply; unit
+  MWh (ARSE''s kWh divided by 1,000); ts_utc the year''s first day; freq P1Y; geo BF; node ARSE''s label.'
+read:
+  date: '2026-11-20'
+  rows: 41
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 41
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: x_label
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: imports
+  label: null
+  unit: MWh
+  rows: 10
+  first: '2023-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: production
+  label: null
+  unit: MWh
+  rows: 29
+  first: '2023-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: supply
+  label: null
+  unit: MWh
+  rows: 2
+  first: '2023-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

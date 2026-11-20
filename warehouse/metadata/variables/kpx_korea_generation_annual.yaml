@@ -1,0 +1,281 @@
+# The codebook's metadata of table kpx_korea_generation_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: kpx_korea_generation_annual
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1Y
+source:
+- name: kpx:epsis_generation_by_source Korea Power Exchange, Electric Power Statistics Information System (EPSIS), Generation
+    Output by Source
+  url: https://epsis.kpx.or.kr/epsisnew/selectEkgeGepTotChart.do?menuId=060101&locale=eng
+cite: Korea Power Exchange. Generation Output by Source. Via the Energy Research Warehouse (ERW), table `kpx_korea_generation_annual`.
+method: docs/methods/kpx_korea.md
+header_title: Korea Power Exchange (EPSIS), Generation Output by Source, South Korea, the years 1961 to 2025 (session 2297)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity kpx:korea; variable generation_<KPX''s column> (x_group and
+  x_label name it as KPX heads it); unit MWh as published; freq P1Y; ts_utc the year''s first day; geo KR.'
+read:
+  date: '2026-11-20'
+  rows: 1526
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1526
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1526
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1526
+- name: x_group
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 389
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_label
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: generation_combined_cycle_general
+  label: null
+  unit: MWh
+  rows: 57
+  first: '1961-01-01T00:00:00Z'
+  last: '2017-01-01T00:00:00Z'
+- name: generation_combined_cycle_heat_and_electric
+  label: null
+  unit: MWh
+  rows: 57
+  first: '1961-01-01T00:00:00Z'
+  last: '2017-01-01T00:00:00Z'
+- name: generation_combined_cycle_lng
+  label: null
+  unit: MWh
+  rows: 24
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_combined_cycle_oil
+  label: null
+  unit: MWh
+  rows: 24
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_combined_cycle_total
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_group_energy
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_hydro_general
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_hydro_pumped_storage
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_hydro_small
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_hydro_total
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_internal_combustion
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_new_and_renewable
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_non_utility_purchased_power
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_non_utility_self_consumption
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_non_utility_total
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_nuclear
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_others
+  label: null
+  unit: MWh
+  rows: 64
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_steam_anthracite_coal
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_steam_bituminous_coal
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_steam_heavy_oil
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_steam_lng
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_steam_total
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_total_utilities_and_non_utility
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_total_utilities_and_purchased
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_utilities_total
+  label: null
+  unit: MWh
+  rows: 65
+  first: '1961-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

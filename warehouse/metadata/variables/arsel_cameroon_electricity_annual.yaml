@@ -1,0 +1,151 @@
+# The codebook's metadata of table arsel_cameroon_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: arsel_cameroon_electricity_annual
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1Y
+source:
+- name: 'arsel:rapport_activites_2025 Agence de Regulation du Secteur de l''Electricite (ARSEL), Cameroun, Rapport d''activites
+    2025: energies produites par source, tableau 19 (volumes d''achats d''energie 2025) and tableau 21 (energies injectees
+    et soutirees sur le reseau de transport)'
+  url: ''
+cite: 'Agence de Regulation du Secteur de l''Electricite (ARSEL), Cameroun. Rapport d''activites 2025: energies produites,
+  tableau 19 and tableau 21. Via the Energy Research Warehouse (ERW), table `arsel_cameroon_electricity_annual`.'
+method: docs/methods/arsel_cameroon_electricity_annual.md
+header_title: 'Agence de Regulation du Secteur de l''Electricite (ARSEL), Cameroun, Rapport d''activites 2025: Cameroon''s
+  electricity produced by source, bought from independent producers, and injected into and withdrawn from the transmission
+  network (session 2533)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity arsel:cm:<item>; variable production (by source, 2025), ipp_purchases
+  (by plant, 2025, table 19''s realised column), transmission_injection and transmission_withdrawal (by grid and party, 2024
+  and 2025, table 21); unit MWh (table 19''s GWh times 1,000); ts_utc the year''s first day; freq P1Y; geo CM; node ARSEL''s
+  label.'
+read:
+  date: '2026-11-20'
+  rows: 41
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 41
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: x_label
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: ipp_purchases
+  label: null
+  unit: MWh
+  rows: 9
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: production
+  label: null
+  unit: MWh
+  rows: 6
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: transmission_injection
+  label: null
+  unit: MWh
+  rows: 12
+  first: '2024-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: transmission_withdrawal
+  label: null
+  unit: MWh
+  rows: 14
+  first: '2024-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

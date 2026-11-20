@@ -5,9 +5,11 @@
 table: noaa_isd_hourly
 family: noaa
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One temperature or dew point observation at one airport station from NOAA's Integrated Surface Database, for the event
+  windows of event_window_daily and their baseline days and for the California alert seasons.
+time: ts_utc is the observation's time in UTC (irregular times; freq left blank).
+vintage_rule: Merged by key across runs (entity, variable, ts_utc), a later run's rows replacing the held ones; restored from
+  the Redivis draft by scripts/sync.py. vintage is not filled.
 keys:
 - entity
 - variable
@@ -49,6 +51,7 @@ columns:
       noaa:PHL: 22313
       noaa:SAC: 79466
   missing_cells: 0
+  particular: noaa:<airport code>
 - name: variable
   shared: true
   type: text
@@ -84,18 +87,21 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 412435
+  particular: 'Not filled: observation times are irregular'
 - name: geo
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 412435
+  particular: 'Not filled: no cell holds a value'
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 412435
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -106,6 +112,8 @@ columns:
       FM-16: 43270
       SY-MT: 182
   missing_cells: 0
+  particular: ISD's report type (FM-15 the routine hourly report, FM-12 synoptic, FM-16 special, SY-MT); where two reports
+    share an instant, FM-15 is kept
 - name: source
   shared: true
   type: text
@@ -139,6 +147,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 412435
+  particular: 'Not filled: no cell holds a value'
 - name: ba
   shared: true
   type: text
@@ -152,9 +161,10 @@ columns:
       pjm: 24693
       swpp: 23427
   missing_cells: 0
+  particular: The grid the station stands for
 - name: x_station_id
-  label: null
-  unit: null
+  label: NCEI's station identifier
+  unit: none
   type: integer
   values:
     list:
@@ -170,18 +180,19 @@ columns:
       '72658014922': 21814
       '74486094789': 22361
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method noaa_isd_hourly.md
 variables:
 - name: dew_point_f
-  label: null
+  label: The observed dew point, degrees F (ISD's tenths of a degree C times 9/5 plus 32, to 2 decimals)
   unit: degF
   rows: 206155
   first: '2018-03-04T05:51:00Z'
   last: '2025-08-27T06:53:00Z'
 - name: temperature_f
-  label: null
+  label: The observed temperature, degrees F (ISD's tenths of a degree C times 9/5 plus 32, to 2 decimals); missing and quality
+    codes 2, 3, 6, 7 not written
   unit: degF
   rows: 206280
   first: '2018-03-04T05:51:00Z'

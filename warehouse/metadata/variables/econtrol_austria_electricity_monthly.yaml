@@ -1,0 +1,262 @@
+# The codebook's metadata of table econtrol_austria_electricity_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: econtrol_austria_electricity_monthly
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1M
+source:
+- name: econtrol:el_dataset_mn E-Control, Elektrizitaetsstatistik, Downloadbereich, Zeitreihen mit monatlichen Daten
+  url: https://www.e-control.at/statistik/e-statistik/data
+cite: E-Control (Energie-Control Austria). Electricity statistics, monthly time series (el_dataset_mn.csv). Via the Energy
+  Research Warehouse (ERW), table `econtrol_austria_electricity_monthly`.
+method: docs/methods/econtrol_austria_electricity_monthly.md
+header_title: E-Control (Energie-Control Austria), monthly electricity statistics (el_dataset_mn), 2010-01 to 2026-08 (session
+  2391)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity econtrol:at:<TS_ID>; variable the component (KOMP) in snake
+  case; unit MWh or MW as the series gives it; ts_utc the month''s first day; freq P1M; geo AT; node the component, its breakdowns
+  and its scope; x_ts_id, x_breakdown, x_scope, x_category E-Control''s codes. Totals and parts are E-Control''s: a sum takes
+  one level.'
+read:
+  date: '2026-11-20'
+  rows: 12472
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 12472
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: x_ts_id
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_breakdown
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 4200
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_scope
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_category
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: abgabe_an_endverbraucher
+  label: null
+  unit: MWh
+  rows: 200
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: arbeitsvermogen
+  label: null
+  unit: MWh
+  rows: 144
+  first: '2010-01-01T00:00:00Z'
+  last: '2021-12-01T00:00:00Z'
+- name: brutto_stromerzeugung
+  label: null
+  unit: MWh
+  rows: 5128
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: brutto_stromerzeugung_stat_differenz
+  label: null
+  unit: MWh
+  rows: 200
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: brutto_stromverbrauch
+  label: null
+  unit: MWh
+  rows: 400
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: eigenbedarf
+  label: null
+  unit: MWh
+  rows: 200
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: eigenbedarf_von_kraftwerken_aus_eigener_erzeugung
+  label: null
+  unit: MWh
+  rows: 200
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: eigenbedarf_von_kraftwerken_bezug_aus_dem_offentlichen_netz
+  label: null
+  unit: MWh
+  rows: 200
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: endverbrauch
+  label: null
+  unit: MWh
+  rows: 200
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: energieinhalt_speicher
+  label: null
+  unit: MWh
+  rows: 200
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: exporte
+  label: null
+  unit: MWh
+  rows: 1800
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: importe
+  label: null
+  unit: MWh
+  rows: 1800
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: inlandstromverbrauch
+  label: null
+  unit: MWh
+  rows: 400
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: nennenergieinhalt
+  label: null
+  unit: MWh
+  rows: 200
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: netzabgabe
+  label: null
+  unit: MWh
+  rows: 200
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: netzverluste
+  label: null
+  unit: MWh
+  rows: 400
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: stromverbrauch
+  label: null
+  unit: MWh
+  rows: 200
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: verbrauch_fur_pumpspeicherung_psp
+  label: null
+  unit: MWh
+  rows: 400
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,179 @@
+# The codebook's metadata of table dbedt_hawaii_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: dbedt_hawaii_electricity_annual
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1Y
+source:
+- name: dbedt_hi:data_book_2025_section_17 Hawaii State Department of Business, Economic Development and Tourism (DBEDT),
+    The State of Hawaii Data Book 2025, section 17, tables 17.07, 17.10 and 17.13
+  url: ''
+cite: Hawaii State Department of Business, Economic Development and Tourism (DBEDT). The State of Hawaii Data Book 2025, section
+  17, tables 17.07, 17.10 and 17.13. Via the Energy Research Warehouse (ERW), table `dbedt_hawaii_electricity_annual`.
+method: docs/methods/dbedt_hawaii_electricity_annual.md
+header_title: Hawaii State Department of Business, Economic Development and Tourism (DBEDT), State of Hawaii Data Book 2025,
+  tables 17.07 (generation by source and island), 17.10 (utilities by island) and 17.13 (Hawaiian Electric on Oahu) (session
+  2580)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity dbedt:hi:<island>:<source>, dbedt:hi:<island> or dbedt:hi:heco_oahu;
+  variable generation, residential_customers, residential_sales, other_customers, other_sales, customers, net_input, sales,
+  generating_capability; unit MWh, MW or count; ts_utc the year''s first day; freq P1Y; geo US-HI; x_table the table.'
+read:
+  date: '2026-11-20'
+  rows: 268
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 268
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: x_table
+  label: null
+  unit: null
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: customers
+  label: null
+  unit: count
+  rows: 32
+  first: '1994-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generating_capability
+  label: null
+  unit: MW
+  rows: 32
+  first: '1994-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation
+  label: null
+  unit: MWh
+  rows: 80
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: net_input
+  label: null
+  unit: MWh
+  rows: 32
+  first: '1994-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_customers
+  label: null
+  unit: count
+  rows: 7
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_sales
+  label: null
+  unit: MWh
+  rows: 7
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: residential_customers
+  label: null
+  unit: count
+  rows: 39
+  first: '1994-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: residential_sales
+  label: null
+  unit: MWh
+  rows: 7
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: sales
+  label: null
+  unit: MWh
+  rows: 32
+  first: '1994-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

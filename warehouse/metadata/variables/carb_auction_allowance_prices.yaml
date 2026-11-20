@@ -5,9 +5,11 @@
 table: carb_auction_allowance_prices
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One cap-and-trade auction's (California, joint with Quebec) value of one result for its current-vintage or advance-vintage
+  allowances.
+time: ts_utc is the first day of the auction month at 00:00:00Z (the summary gives no day); freq P3M.
+vintage_rule: Merged by (entity, variable, ts_utc); each run reads the whole summary and replaces every row; vintage is not
+  filled.
 keys:
 - entity
 - variable
@@ -38,6 +40,8 @@ columns:
       carb:advance_auction: 168
       carb:current_auction: 168
   missing_cells: 0
+  particular: carb:current_auction (the current-vintage allowances sold at the auction) or carb:advance_auction (the advance-vintage
+    allowances)
 - name: variable
   shared: true
   type: text
@@ -88,6 +92,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 336
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -100,6 +105,7 @@ columns:
     - 'Auction #4'
     - 'Auction #5'
   missing_cells: 0
+  particular: 'The auction as CARB numbers it (Auction #1 to #8, Joint Auction #1 to #48), not a pricing node'
 - name: source
   shared: true
   type: text
@@ -127,21 +133,22 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 336
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: allowances_offered
-  label: null
+  label: Allowances offered at the auction (one allowance is one metric ton of CO2 equivalent)
   unit: count
   rows: 112
   first: '2012-11-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: allowances_sold
-  label: null
+  label: Allowances sold at the auction
   unit: count
   rows: 112
   first: '2012-11-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: settlement_price
-  label: null
+  label: The auction's settlement price, USD per metric ton of CO2 equivalent
   unit: USD/tCO2
   rows: 112
   first: '2012-11-01T00:00:00Z'

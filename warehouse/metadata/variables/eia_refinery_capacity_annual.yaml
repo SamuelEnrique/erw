@@ -5,9 +5,10 @@
 table: eia_refinery_capacity_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One refinery capacity figure as of 1 January of a year (operable distillation or downstream charge capacity of one process,
+  or the number of refineries), for a state, PADD or the U.S.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y); capacity as of that day.
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +45,7 @@ columns:
     - eia_refinery_capacity:8_NA_8CCF_NPZ_5
     - eia_refinery_capacity:8_NA_8CCF_NUS_4
   missing_cells: 0
+  particular: eia_refinery_capacity:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -99,6 +101,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 62804
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -111,6 +114,7 @@ columns:
     - Alabama Refinery Annual Idle Atmospheric Crude Oil Distillation Capacity as of January 1 (Barrels per Calendar Day)
     - Alabama Refinery Annual Idle Atmospheric Crude Oil Distillation Capacity as of January 1 (Barrels per Stream Day)
   missing_cells: 0
+  particular: EIA's series name (the process, area and unit)
 - name: source
   shared: true
   type: text
@@ -139,21 +143,22 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 62804
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: capacity_per_calendar_day
-  label: null
+  label: Capacity in barrels per calendar day (allowing for downtime), thousand barrels a day
   unit: kbbl/d
   rows: 11006
   first: '1982-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: capacity_per_stream_day
-  label: null
+  label: Capacity in barrels per stream day (a day running without downtime), thousand barrels a day
   unit: kbbl/d
   rows: 45699
   first: '1982-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: refineries
-  label: null
+  label: Number of refineries (operable, operating or idle, as the series names)
   unit: count
   rows: 6099
   first: '1982-01-01T00:00:00Z'

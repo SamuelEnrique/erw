@@ -1,0 +1,219 @@
+# The codebook's metadata of table amm_guatemala_generation_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: amm_guatemala_generation_monthly
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1M
+source:
+- name: amm:generacion_mensual_por_planta Administrador del Mercado Mayorista, Guatemala, Generacion Mensual por Planta (XLS),
+    one workbook a year, sheet Energia, its system rows and its block GENERACION POR TIPO DE RECURSO, listed at https://www.amm.org.gt/portal/?page_id=145
+    (Anuales)
+  url: https://www.amm.org.gt/portal/?page_id=145
+cite: 'Administrador del Mercado Mayorista (AMM), Guatemala. Generacion Mensual por Planta (XLS), a workbook a year: generation
+  by fuel, imports, exports, regional transactions and the SNI''s demand. Via the Energy Research Warehouse (ERW), table `amm_guatemala_generation_monthly`.'
+method: docs/methods/amm_guatemala_generation_monthly.md
+header_title: 'Administrador del Mercado Mayorista (AMM), Guatemala, the national interconnected system''s executed dispatch:
+  generation by resource, imports, exports and demand, a month, 2017-01 to 2025-12 (session 2408)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity amm:GT; variable generation_<fuel> (geothermal, wind, solar,
+  hydro, biogas, biomass, syngas, natural_gas, coal, petcoke, bunker, diesel), generation_total, imports, exports, net_exports
+  (AMM''s TRANSACCIONES INTERNACIONALES (NETO): exports less imports), demand_sni (DEMANDA S.N.I.: generation plus imports
+  less exports, so the system''s losses are inside it) (MWh, the workbooks'' GWh times 1,000); ts_utc the month''s first day;
+  freq P1M; geo GT. Generation is the system''s (S.N.I.) and includes distributed renewable generation (GDR).'
+read:
+  date: '2026-11-20'
+  rows: 1739
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1739
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+variables:
+- name: demand_sni
+  label: null
+  unit: MWh
+  rows: 108
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: exports
+  label: null
+  unit: MWh
+  rows: 108
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: generation_biogas
+  label: null
+  unit: MWh
+  rows: 108
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: generation_biomass
+  label: null
+  unit: MWh
+  rows: 108
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: generation_bunker
+  label: null
+  unit: MWh
+  rows: 108
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: generation_coal
+  label: null
+  unit: MWh
+  rows: 108
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: generation_diesel
+  label: null
+  unit: MWh
+  rows: 108
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: generation_geothermal
+  label: null
+  unit: MWh
+  rows: 108
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: generation_hydro
+  label: null
+  unit: MWh
+  rows: 108
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: generation_natural_gas
+  label: null
+  unit: MWh
+  rows: 78
+  first: '2019-07-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: generation_petcoke
+  label: null
+  unit: MWh
+  rows: 89
+  first: '2018-08-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: generation_solar
+  label: null
+  unit: MWh
+  rows: 108
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: generation_syngas
+  label: null
+  unit: MWh
+  rows: 60
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: generation_total
+  label: null
+  unit: MWh
+  rows: 108
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: generation_wind
+  label: null
+  unit: MWh
+  rows: 108
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: imports
+  label: null
+  unit: MWh
+  rows: 108
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: net_exports
+  label: null
+  unit: MWh
+  rows: 108
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+second_look: null

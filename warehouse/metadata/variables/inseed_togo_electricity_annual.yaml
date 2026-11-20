@@ -1,0 +1,156 @@
+# The codebook's metadata of table inseed_togo_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: inseed_togo_electricity_annual
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1Y
+source:
+- name: inseed_tg:annuaire_2024_ch25 Institut National de la Statistique et des Etudes Economiques et Demographiques (INSEED),
+    Togo, Annuaire Statistique National 2024, chapter 25, tables 25.2 (Achat et production d'energie) and 25.7 (Ventes d'electricite),
+    from CEET's annual activity reports
+  url: ''
+cite: Institut National de la Statistique et des Etudes Economiques et Demographiques (INSEED), Togo. Annuaire Statistique
+  National 2024, chapter 25, tables 25.2 and 25.7. Via the Energy Research Warehouse (ERW), table `inseed_togo_electricity_annual`.
+method: docs/methods/inseed_togo_electricity_annual.md
+header_title: 'Institut National de la Statistique et des Etudes Economiques et Demographiques (INSEED), Togo, Annuaire Statistique
+  National 2024, tables 25.2 and 25.7: CEET''s purchases by supplier, production by producer and sales by voltage, 2020 to
+  2024 (session 2535)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity inseed:tg:<item>; variable purchases (by supplier), gross_production
+  (CEET, ContourGlobal Togo), net_production (KEP), production (AMEA), sales (by voltage); unit MWh (INSEED''s GWh times 1,000);
+  ts_utc the year''s first day; freq P1Y; geo TG; node INSEED''s label.'
+read:
+  date: '2026-11-20'
+  rows: 55
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 55
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 55
+- name: x_label
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: gross_production
+  label: null
+  unit: MWh
+  rows: 10
+  first: '2020-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: net_production
+  label: null
+  unit: MWh
+  rows: 4
+  first: '2021-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: production
+  label: null
+  unit: MWh
+  rows: 4
+  first: '2021-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: purchases
+  label: null
+  unit: MWh
+  rows: 25
+  first: '2020-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: sales
+  label: null
+  unit: MWh
+  rows: 12
+  first: '2020-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+second_look: null

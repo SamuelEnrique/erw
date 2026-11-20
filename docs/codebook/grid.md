@@ -2,12 +2,12 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 5 public tables (5 series; tiers: 5 derived); 4 documented in full.
+**What the family holds.** 5 public tables (5 series; tiers: 5 derived); 5 documented in full.
 
 - [`grid_network_links`](#grid_network_links): One pair of balancing authorities in one hour of the last week held, the flow between them.
 - [`grid_network_nodes`](#grid_network_nodes): One balancing authority's value of one measure of the grid network, over the last week held or, for the seven ISO authorities, in the latest hour held.
 - [`grid_peak_vs_capacity`](#grid_peak_vs_capacity): One ISO grid's value of one measure setting its peak demand of the last whole year against the net summer capacity of its balancing authority's generators.
-- [`grid_stress_days`](#grid_stress_days): stress days of the grids by one rule (session 306); docs/methods/stress_days.md; the rule docs/methods/battery_stress_days.md
+- [`grid_stress_days`](#grid_stress_days): One grid's stress day by one rule (the day's real-time price above the trailing 98th percentile, or an operator's emergency notice), with the day's mean real-time price at its main hub.
 - [`grid_stress_yearly`](#grid_stress_yearly): One ISO grid's value of one measure of how hard the grid works in one local year (evening ramp, lowest net load, the tightest hours, dark and calm stretches).
 
 ### `grid_network_links`
@@ -132,40 +132,42 @@ Variables (8):
 
 ### `grid_stress_days`
 
-What a row is: not yet written.
+One grid's stress day by one rule (the day's real-time price above the trailing 98th percentile, or an operator's emergency notice), with the day's mean real-time price at its main hub.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: derived. Rows read on 2026-11-20: 282.
 
+- **Time:** ts_utc is the grid's local day at 00:00:00Z (freq P1D).
+- **Revisions:** A snapshot, replaced whole by each run of the builder; vintage is not filled.
 - **Source:** erw:grid_stress_days ERW derived stress days of six grids by one rule (docs/methods/stress_days.md) (https://github.com/SamuelEnrique/erw/blob/main/docs/methods/stress_days.md)
 - **Method note:** [`docs/methods/stress_days.md`](../methods/stress_days.md)
 - **Cite as:** Energy Research Warehouse (ERW), derived. ERW derived stress days of six grids by one rule (session 306). Via the Energy Research Warehouse (ERW), table `grid_stress_days`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | caiso:TH_SP15_GEN-APND, ercot:HB_HUBAVG, isone:.H.INTERNAL_HUB, miso:INDIANA.HUB, nyiso:N.Y.C., spp:SPPNORTH_HUB | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: <iso>:<main hub> | none | text | caiso:TH_SP15_GEN-APND, ercot:HB_HUBAVG, isone:.H.INTERNAL_HUB, miso:INDIANA.HUB, nyiso:N.Y.C., spp:SPPNORTH_HUB | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2015-07-30T00:00:00Z to 2026-10-08T00:00:00Z; 241 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 7.3653 to 9002.0444; 282 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | USD/MWh | 0 |
 | `freq` | How long the interval of the row is | none | text | P1D | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US, US-CA, US-NY, US-TX | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | caiso_rtm, ercot_rtm, isone_rtm, miso_rtm, nyiso_rtm, spp_rtm | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: <iso>_rtm: the real-time price | none | text | caiso_rtm, ercot_rtm, isone_rtm, miso_rtm, nyiso_rtm, spp_rtm | 0 |
 | `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | .H.INTERNAL_HUB, HB_HUBAVG, INDIANA.HUB, N.Y.C., SPPNORTH_HUB, TH_SP15_GEN-APND | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | caiso:PRC_INTVL_LMP, erw:ercot_hub_prices_daily, isone:rt_lmp_5min, miso:rt_lmp_final, nyiso:realtime, spp:RTBM-LMP-SL | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | http://mis.nyiso.com/public/csv/realtime/20240901realtime_zone_csv.zip, https://docs.misoenergy.org/marketreports/20240901_rt_lmp_final.csv, https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_hub_prices_daily.md, https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND&startdatetime=20230706T07:00-0000&enddatetime=20230707T07:00-0000, https://portal.spp.org/pages/rtbm-lmp-by-location, https://www.iso-ne.com/isoexpress/web/reports/pricing/-/tree/lmps-rt-five-min-final | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-19T22:57:38Z | 0 |
 | `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 282 |
-| `x_reason` | not yet written |  | text | notice, price, price and notice | 0 |
-| `x_event` | not yet written |  | text | for example caiso_stress_20230720, caiso_stress_20230725, caiso_stress_20230815; 120 distinct | 0 |
-| `x_trailing_p98` | not yet written |  | number | 41.0236 to 442.1772; 178 distinct | 11 |
-| `x_trailing_days` | not yet written |  | integer | 14, 19, 20, 210, 224, 329, 330, 331, 332, 333, 334, 345, 350, 351, 352, 363, 364, 365, 40, 41, 42, 53, 54, 55 | 0 |
-| `x_notices` | not yet written |  | text | conservation_appeal, conservation_appeal;eea2;update;weather_watch, conservation_appeal;rotating_outages, conservation_appeal;weather_watch, eea1, eea_watch, ocn_weather, rmo, update, voluntary_conservation, weather_watch | 167 |
+| `x_reason` | Why the day is a stress day: price, notice, or price and notice | none | text | notice, price, price and notice | 0 |
+| `x_event` | The event: stress days at most three days apart, named <grid>_stress_<first day>, or a named event's id when it holds a day of that event's window | none | text | for example caiso_stress_20230720, caiso_stress_20230725, caiso_stress_20230815; 120 distinct | 0 |
+| `x_trailing_p98` | The threshold: the 98th percentile of the daily mean prices of the 365 days before the day | USD/MWh | number | 41.0236 to 442.1772; 178 distinct | 11: Fewer of the 365 days before were held than the rule needs (329), so no threshold was taken (a notice day) |
+| `x_trailing_days` | The days held among the 365 before, over which the threshold is taken | count | integer | 14, 19, 20, 210, 224, 329, 330, 331, 332, 333, 334, 345, 350, 351, 352, 363, 364, 365, 40, 41, 42, 53, 54, 55 | 0 |
+| `x_notices` | The kinds of CAISO's or ERCOT's notices issued that day, joined by semicolons | none | text | conservation_appeal, conservation_appeal;eea2;update;weather_watch, conservation_appeal;rotating_outages, conservation_appeal;weather_watch, eea1, eea_watch, ocn_weather, rmo, update, voluntary_conservation, weather_watch | 167: No notice that day (a stress day by price only) |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `stress_day` |  | USD/MWh | 282 | 2015-07-30T00:00:00Z | 2026-10-08T00:00:00Z |
+| `stress_day` | The stress day's mean real-time price at the grid's main hub | USD/MWh | 282 | 2015-07-30T00:00:00Z | 2026-10-08T00:00:00Z |
 
 ### `grid_stress_yearly`
 

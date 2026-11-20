@@ -1,0 +1,195 @@
+# The codebook's metadata of table ewa_bahrain_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ewa_bahrain_electricity_annual
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1Y
+source:
+- name: ewa:statistical_book EWA, Statistical Book 2024, tables on pages 9, 10, 12, 15 and 44 (listed at
+  url: https://www.ewa.bh/en/publications
+cite: Electricity and Water Authority, Kingdom of Bahrain (EWA). Statistical Book 2024 (electricity production, capacity,
+  load and consumption). Via the Energy Research Warehouse (ERW), table `ewa_bahrain_electricity_annual`.
+method: docs/methods/ewa_bahrain_electricity_annual.md
+header_title: Electricity and Water Authority (EWA), Kingdom of Bahrain, Statistical Book 2024, Bahrain's electricity, 2020
+  to 2024 (session 2490)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity ewa:bh:<item> (a station, a link, ewa_stations, ipp_stations,
+  system, a sector, total); variable sent_out, net_imports, supply (MWh, from EWA''s GWh), max_generation_capacity (at 40
+  C), net_transfer_capacity, capacity_with_links, peak_load, minimum_load, installed_capacity (MW), consumption (MWh, from
+  EWA''s million kWh); ts_utc the year''s 1 January; freq P1Y; geo BH. A link''s negative flow is power sent from Bahrain''s
+  grid to the link. supply is the stations'' sent out plus the links'' net flows.'
+read:
+  date: '2026-11-20'
+  rows: 135
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 135
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: x_label
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_page
+  label: null
+  unit: null
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: capacity_with_links
+  label: null
+  unit: MW
+  rows: 5
+  first: '2020-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: consumption
+  label: null
+  unit: MWh
+  rows: 24
+  first: '2020-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: installed_capacity
+  label: null
+  unit: MW
+  rows: 5
+  first: '2020-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: max_generation_capacity
+  label: null
+  unit: MW
+  rows: 30
+  first: '2020-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: minimum_load
+  label: null
+  unit: MW
+  rows: 5
+  first: '2020-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: net_imports
+  label: null
+  unit: MWh
+  rows: 10
+  first: '2020-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: net_transfer_capacity
+  label: null
+  unit: MW
+  rows: 10
+  first: '2020-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: peak_load
+  label: null
+  unit: MW
+  rows: 5
+  first: '2020-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: sent_out
+  label: null
+  unit: MWh
+  rows: 36
+  first: '2020-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: supply
+  label: null
+  unit: MWh
+  rows: 5
+  first: '2020-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

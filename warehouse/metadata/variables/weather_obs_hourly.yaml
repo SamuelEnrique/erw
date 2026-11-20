@@ -5,9 +5,10 @@
 table: weather_obs_hourly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One airport's mean observed temperature or wind speed in one hour, from the National Weather Service API.
+time: ts_utc is the UTC hour's start; freq PT1H; an hour with no observation is absent.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run asks the last 30 days, replaces the hours it reads again and
+  keeps the older ones; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -44,6 +45,7 @@ columns:
       nws:KOKC: 2655
       nws:KPHL: 2659
   missing_cells: 0
+  particular: nws:<station>, one airport per ISO load center
 - name: variable
   shared: true
   type: text
@@ -100,6 +102,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 18587
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -113,6 +116,7 @@ columns:
       PJM: 2659
       SPP: 2655
   missing_cells: 0
+  particular: The ISO whose load center the airport stands for, not a pricing node
 - name: source
   shared: true
   type: text
@@ -146,15 +150,16 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 18587
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: temperature_f
-  label: null
+  label: Mean of the station's temperature observations in the hour
   unit: degF
   rows: 9322
   first: '2026-09-21T09:00:00Z'
   last: '2026-11-16T13:00:00Z'
 - name: wind_speed_mph
-  label: null
+  label: Mean of the station's wind speed observations in the hour
   unit: mph
   rows: 9265
   first: '2026-09-21T09:00:00Z'

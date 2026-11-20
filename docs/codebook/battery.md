@@ -2,59 +2,61 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 4 public tables (4 series; tiers: 3 derived, 1 source); 3 documented in full.
+**What the family holds.** 4 public tables (4 series; tiers: 3 derived, 1 source); 4 documented in full.
 
-- [`battery_sourced_ranges`](#battery_sourced_ranges): published low and high cases of the battery's assumptions, one row per source, case and assumption (session 306)
+- [`battery_sourced_ranges`](#battery_sourced_ranges): One published low, mid or high case of one utility-scale battery cost or finance assumption, for one source, technology and year (NLR's 2025 ATB).
 - [`battery_stack_monthly`](#battery_stack_monthly): One modelled battery's value of one revenue or day-count measure for one hub, strategy, duration (2, 4 or 8 hours) and local month, per MW of rated power (ERCOT and CAISO).
 - [`battery_stack_review_monthly`](#battery_stack_review_monthly): One modelled battery's value of one revenue or day-count measure for one hub, strategy, duration (2, 4 or 8 hours) and local month, per MW of rated power, on the grids in review (NYISO, SPP).
 - [`battery_stack_stress_daily`](#battery_stack_stress_daily): One modelled battery's revenue by stream on one local day inside a stress event's window, for one hub, strategy and duration, per MW of rated power.
 
 ### `battery_sourced_ranges`
 
-What a row is: not yet written.
+One published low, mid or high case of one utility-scale battery cost or finance assumption, for one source, technology and year (NLR's 2025 ATB).
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 90.
 
+- **Time:** ts_utc is 1 January of the year the value is for (freq P1Y); vintage is the workbook's date.
+- **Revisions:** A snapshot, replaced whole by each run; vintage is the workbook's date (27 August 2026).
 - **Source:** nlr:atb-2025-v1 National Laboratory of the Rockies (NLR), 2025 Electricity Annual Technology Baseline (ATB), workbook 2025_v1_Workbook_08-27-2026.xlsx, sheet Utility-Scale Battery - R&D (battery costs from Cole, Ramasamy and Olmez Turan, Cost Projections for Utility-Scale Battery Storage: 2025 Update, NREL/TP-6A40-93281) (https://data.openei.org/files/8759/2025_v1_Workbook_08-27-2026.xlsx)
 - **Method note:** [`docs/methods/battery_sourced_ranges.md`](../methods/battery_sourced_ranges.md)
 - **Cite as:** National Laboratory of the Rockies (NLR, formerly NREL). 2025 Electricity Annual Technology Baseline (ATB), workbook 2025_v1_Workbook_08-27-2026.xlsx. Via the Energy Research Warehouse (ERW), table `battery_sourced_ranges`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | nlr_atb_2025:utility_battery:advanced, nlr_atb_2025:utility_battery:conservative, nlr_atb_2025:utility_battery:moderate, nlr_atb_2025:utility_battery_10h:advanced, nlr_atb_2025:utility_battery_10h:conservative, nlr_atb_2025:utility_battery_10h:moderate, nlr_atb_2025:utility_battery_2h:advanced, nlr_atb_2025:utility_battery_2h:conservative, nlr_atb_2025:utility_battery_2h:moderate, nlr_atb_2025:utility_battery_4h:advanced, nlr_atb_2025:utility_battery_4h:conservative, nlr_atb_2025:utility_battery_4h:moderate, nlr_atb_2025:utility_battery_6h:advanced, nlr_atb_2025:utility_battery_6h:conservative, nlr_atb_2025:utility_battery_6h:moderate, nlr_atb_2025:utility_battery_8h:advanced, nlr_atb_2025:utility_battery_8h:conservative, nlr_atb_2025:utility_battery_8h:moderate | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: <source>:<technology>:<case>, for example nlr_atb_2025:utility_battery_10h:advanced | none | text | nlr_atb_2025:utility_battery:advanced, nlr_atb_2025:utility_battery:conservative, nlr_atb_2025:utility_battery:moderate, nlr_atb_2025:utility_battery_10h:advanced, nlr_atb_2025:utility_battery_10h:conservative, nlr_atb_2025:utility_battery_10h:moderate, nlr_atb_2025:utility_battery_2h:advanced, nlr_atb_2025:utility_battery_2h:conservative, nlr_atb_2025:utility_battery_2h:moderate, nlr_atb_2025:utility_battery_4h:advanced, nlr_atb_2025:utility_battery_4h:conservative, nlr_atb_2025:utility_battery_4h:moderate, nlr_atb_2025:utility_battery_6h:advanced, nlr_atb_2025:utility_battery_6h:conservative, nlr_atb_2025:utility_battery_6h:moderate, nlr_atb_2025:utility_battery_8h:advanced, nlr_atb_2025:utility_battery_8h:conservative, nlr_atb_2025:utility_battery_8h:moderate | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2025-01-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.065 to 2891.047166; 56 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | USD/kW, USD/kW-year, USD/kWh, ratio, year | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US on every row | none | text | US | 0 |
 | `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 90 |
 | `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | empty | no cell holds a value | 90 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | nlr:atb-2025-v1 | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://data.openei.org/files/8759/2025_v1_Workbook_08-27-2026.xlsx | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-19T06:12:19Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-08-27T00:00:00Z | 0 |
-| `x_case` | not yet written |  | text | high, low, mid | 0 |
-| `x_published_case` | not yet written |  | text | Advanced, Conservative, Moderate | 0 |
-| `x_duration_h` | not yet written |  | integer | 10, 2, 4, 6, 8 | 15 |
-| `x_document` | not yet written |  | text | National Laboratory of the Rockies (NLR), 2025 Electricity Annual Technology Baseline (ATB), workbook 2025_v1_Workbook_08-27-2026.xlsx, sheet Utility-Scale Battery - R&D (battery costs from Cole, Ramasamy and Olmez Turan, Cost Projections for Utility-Scale Battery Storage: 2025 Update, NREL/TP-6A40-93281) | 0 |
-| `x_page` | not yet written |  | text | for example sheet Utility-Scale Battery - R&D, row 104, column 2025, sheet Utility-Scale Battery - R&D, row 105, column 2025, sheet Utility-Scale Battery - R&D, row 106, column 2025; 88 distinct | 0 |
-| `x_dollar_year` | not yet written |  | integer | 2023 | 24 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The workbook's date | none | utc time | 2026-08-27T00:00:00Z | 0 |
+| `x_case` | The case on the cost scale: low, mid or high | none | text | high, low, mid | 0 |
+| `x_published_case` | The ATB's own case: Advanced (low), Moderate (mid), Conservative (high) | none | text | Advanced, Conservative, Moderate | 0 |
+| `x_duration_h` | The battery's duration in hours | hour | integer | 10, 2, 4, 6, 8 | 15: The assumption has no duration |
+| `x_document` | The document the value stands in | none | text | National Laboratory of the Rockies (NLR), 2025 Electricity Annual Technology Baseline (ATB), workbook 2025_v1_Workbook_08-27-2026.xlsx, sheet Utility-Scale Battery - R&D (battery costs from Cole, Ramasamy and Olmez Turan, Cost Projections for Utility-Scale Battery Storage: 2025 Update, NREL/TP-6A40-93281) | 0 |
+| `x_page` | Where the value stands in the document: the sheet, row and column | none | text | for example sheet Utility-Scale Battery - R&D, row 104, column 2025, sheet Utility-Scale Battery - R&D, row 105, column 2025, sheet Utility-Scale Battery - R&D, row 106, column 2025; 88 distinct | 0 |
+| `x_dollar_year` | The dollar year of a value in dollars (2023) | none | integer | 2023 | 24: The value is not in dollars |
 
 Variables (10):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `capex` |  | USD/kW | 15 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `energy_capital_cost` |  | USD/kWh | 3 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `fixed_om` |  | USD/kW-year | 15 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `grid_connection_cost` |  | USD/kW | 15 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `interest_rate_nominal` |  | ratio | 3 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `overnight_capital_cost` |  | USD/kW | 15 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `power_capital_cost` |  | USD/kW | 3 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `return_on_equity_nominal` |  | ratio | 3 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `round_trip_efficiency` |  | ratio | 15 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `technical_life` |  | year | 3 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `capex` | Capital expenditure per kW (the ATB's CAPEX ($/kW)) | USD/kW | 15 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `energy_capital_cost` | Battery energy capital cost per kWh (the ATB's Battery Energy Capital Cost ($/kWh)) | USD/kWh | 3 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `fixed_om` | Fixed operation and maintenance expenses per kW a year (the ATB's Fixed O&M ($/kW-yr)) | USD/kW-year | 15 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `grid_connection_cost` | Grid connection costs per kW (the ATB's GCC ($/kW)) | USD/kW | 15 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `interest_rate_nominal` | Nominal interest rate, a ratio (the ATB's Interest Rate Nominal) | ratio | 3 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `overnight_capital_cost` | Overnight capital cost per kW (the ATB's Overnight Capital Cost ($/kW)) | USD/kW | 15 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `power_capital_cost` | Battery power capital cost per kW (the ATB's Battery Power Capital Cost ($/kW)) | USD/kW | 3 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `return_on_equity_nominal` | Nominal rate of return on equity, a ratio (the ATB's Rate of Return on Equity Nominal) | ratio | 3 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `round_trip_efficiency` | Round-trip efficiency, a ratio (energy out over energy in) | ratio | 15 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `technical_life` | Technical life, years | year | 3 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 
 ### `battery_stack_monthly`
 

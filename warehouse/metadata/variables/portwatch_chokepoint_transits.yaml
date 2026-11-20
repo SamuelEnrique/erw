@@ -1,0 +1,196 @@
+# The codebook's metadata of table portwatch_chokepoint_transits (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: portwatch_chokepoint_transits
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1D
+source:
+- name: imf:portwatch-daily-chokepoints IMF PortWatch Daily Chokepoints Data (ArcGIS FeatureServer)
+  url: https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query
+cite: International Monetary Fund (IMF PortWatch). Daily Chokepoints Data (vessel transits). Via the Energy Research Warehouse
+  (ERW), table `portwatch_chokepoint_transits`.
+method: docs/methods/portwatch_chokepoint_transits.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261113T155514Z-github
+  (2026-11-13T15:55:14Z); that run's own header of the table follows
+header_shape: 'Shape: series (docs/datastandard.md v0). freq P1D: ts_utc is PortWatch''s date at 00:00:00Z. n_* are vessel
+  transits per day (count); capacity* the deadweight tonnage of those transits (dwt).'
+read:
+  date: '2026-11-20'
+  rows: 120498
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 120498
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 120498
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 120498
+variables:
+- name: capacity
+  label: null
+  unit: dwt
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: capacity_cargo
+  label: null
+  unit: dwt
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: capacity_container
+  label: null
+  unit: dwt
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: capacity_dry_bulk
+  label: null
+  unit: dwt
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: capacity_general_cargo
+  label: null
+  unit: dwt
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: capacity_roro
+  label: null
+  unit: dwt
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: capacity_tanker
+  label: null
+  unit: dwt
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: n_cargo
+  label: null
+  unit: count
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: n_container
+  label: null
+  unit: count
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: n_dry_bulk
+  label: null
+  unit: count
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: n_general_cargo
+  label: null
+  unit: count
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: n_roro
+  label: null
+  unit: count
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: n_tanker
+  label: null
+  unit: count
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: n_total
+  label: null
+  unit: count
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+second_look: null

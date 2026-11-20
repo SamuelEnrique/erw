@@ -5,9 +5,11 @@
 table: ferc714_planning_area_forecasts
 family: ferc714
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One planning area's forecast of one figure (summer peak, winter peak or net energy) for one forecast year in one FERC
+  Form 714 filing (Part 3, Schedule 2), via PUDL.
+time: ts_utc is the forecast year's first instant (freq P1Y); vintage is the filing's due date.
+vintage_rule: 'Every filing kept, one row per vintage: the key is (entity, variable, ts_utc, vintage). A snapshot, replaced
+  whole by each run.'
 keys:
 - entity
 - variable
@@ -45,6 +47,7 @@ columns:
     - ferc714:101
     - ferc714:102
   missing_cells: 0
+  particular: ferc714:<PUDL's respondent id>, a planning area
 - name: variable
   shared: true
   type: text
@@ -89,6 +92,7 @@ columns:
     list:
       US: 67215
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
@@ -148,9 +152,11 @@ columns:
       '2025-06-01T00:00:00Z': 2712
       '2026-06-01T00:00:00Z': 2694
   missing_cells: 0
+  particular: FERC-714's due date for the filing, 1 June of the year after its report year (PUDL gives no submission time);
+    part of the key
 - name: x_report_year
-  label: null
-  unit: null
+  label: The filing's report year
+  unit: none
   type: integer
   values:
     list:
@@ -175,24 +181,24 @@ columns:
       '2024': 2712
       '2025': 2694
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ferc714_forecast_growth.md
 variables:
 - name: net_energy_forecast_mwh
-  label: null
+  label: The filing's forecast of the planning area's net energy for the year
   unit: MWh
   rows: 22405
   first: '2007-01-01T00:00:00Z'
   last: '2050-01-01T00:00:00Z'
 - name: summer_peak_forecast_mw
-  label: null
+  label: The filing's forecast of the planning area's summer peak demand for the year
   unit: MW
   rows: 22405
   first: '2007-01-01T00:00:00Z'
   last: '2050-01-01T00:00:00Z'
 - name: winter_peak_forecast_mw
-  label: null
+  label: The filing's forecast of the planning area's winter peak demand for the year
   unit: MW
   rows: 22405
   first: '2007-01-01T00:00:00Z'

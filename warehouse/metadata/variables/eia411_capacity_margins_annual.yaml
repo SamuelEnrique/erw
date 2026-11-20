@@ -5,9 +5,12 @@
 table: eia411_capacity_margins_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One NERC assessment area's value of one supply and demand measure (peak load, net internal demand, capacity resources,
+  capacity margin) for one summer or winter season, actual or projected.
+time: 'ts_utc is the peak period''s first day: summer 1 June; winter 1 October of the season''s first year (EIA''s winter
+  runs October to May); freq P1Y.'
+vintage_rule: 'Rewritten whole as one snapshot of the program''s last release (November 2016: actual to 2016, projected to
+  2027); vintage is not filled.'
 keys:
 - entity
 - variable
@@ -55,6 +58,7 @@ columns:
       eia411:tre: 271
       eia411:wecc: 271
   missing_cells: 0
+  particular: eia411:<assessment area as EIA names it>
 - name: variable
   shared: true
   type: text
@@ -99,12 +103,14 @@ columns:
     list:
       US: 2924
   missing_cells: 0
+  particular: US on every row, whatever the area
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2924
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -128,6 +134,7 @@ columns:
       TRE (ERCOT): 271
       WECC (Western Interconnection): 271
   missing_cells: 0
+  particular: The assessment area as EIA names it, with its interconnection, not a pricing node
 - name: source
   shared: true
   type: text
@@ -157,65 +164,68 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 2924
+  particular: 'Not filled: no cell holds a value'
 - name: x_projected
-  label: null
-  unit: null
+  label: actual, or projected (EIA's E years)
+  unit: none
   type: text
   values:
     list:
       actual: 2044
       projected: 880
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia411.md
 variables:
 - name: summer_capacity_margin
-  label: null
+  label: Summer capacity margin, percent of capacity resources (EIA's rough calculation before 2015, NERC's from 2015)
   unit: pct
   rows: 415
   first: '1990-06-01T00:00:00Z'
   last: '2027-06-01T00:00:00Z'
 - name: summer_capacity_resources
-  label: null
+  label: Summer capacity resources
   unit: MW
   rows: 415
   first: '1990-06-01T00:00:00Z'
   last: '2027-06-01T00:00:00Z'
 - name: summer_net_internal_demand
-  label: null
+  label: Summer net internal demand
   unit: MW
   rows: 415
   first: '1990-06-01T00:00:00Z'
   last: '2027-06-01T00:00:00Z'
 - name: summer_peak_load
-  label: null
+  label: Summer peak load
   unit: MW
   rows: 415
   first: '1990-06-01T00:00:00Z'
   last: '2027-06-01T00:00:00Z'
 - name: winter_capacity_margin
-  label: null
+  label: Winter capacity margin, percent of capacity resources (EIA's rough calculation before 2015, NERC's from 2015)
   unit: pct
   rows: 283
   first: '2001-10-01T00:00:00Z'
   last: '2027-10-01T00:00:00Z'
 - name: winter_capacity_resources
-  label: null
+  label: Winter capacity resources
   unit: MW
   rows: 283
   first: '2001-10-01T00:00:00Z'
   last: '2027-10-01T00:00:00Z'
 - name: winter_net_internal_demand
-  label: null
+  label: Winter net internal demand
   unit: MW
   rows: 283
   first: '2001-10-01T00:00:00Z'
   last: '2027-10-01T00:00:00Z'
 - name: winter_peak_load
-  label: null
+  label: Winter peak load
   unit: MW
   rows: 415
   first: '1990-10-01T00:00:00Z'
   last: '2027-10-01T00:00:00Z'
-second_look: null
+second_look:
+- 110 capacity margins (frcc, miso, pjm, spp and tre, 2017 to 2027, both seasons) are resources less demand over demand, a
+  reserve margin, kept as EIA gives them; the variable's label states the general rule only.

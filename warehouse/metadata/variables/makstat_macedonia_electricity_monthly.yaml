@@ -1,0 +1,251 @@
+# The codebook's metadata of table makstat_macedonia_electricity_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: makstat_macedonia_electricity_monthly
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1M
+source:
+- name: makstat:125_Ene_Mk_EEmes_ml State Statistical Office of North Macedonia, MakStat, Energy, Monthly energy statistics
+  url: https://makstat.stat.gov.mk/PXWeb/pxweb/en/MakStat/MakStat__Energija__MesecEnergetStatistiki/125_Ene_Mk_EEmes_ml.px/
+cite: 'State Statistical Office of North Macedonia (MakStat). MakStat table 125_Ene_Mk_EEmes_ml: Electricity in MWh, by months.
+  Via the Energy Research Warehouse (ERW), table `makstat_macedonia_electricity_monthly`.'
+method: docs/methods/makstat_macedonia_electricity_monthly.md
+header_title: State Statistical Office of North Macedonia, MakStat table 125_Ene_Mk_EEmes_ml, Electricity in MWh, by months,
+  2012-01 to 2026-07 (session 2357)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity makstat:mk; variable imports, exports, gross_inland_consumption,
+  gross_production_total and gross_production_<plant>, net_production_total and net_production_<plant> (thermal_power_plants,
+  chp_and_autoproducer_thermal, hydro, solar, wind, biogas), energy_branch_consumption, distribution_losses, available_for_final_consumption,
+  final_consumption_households; unit MWh as published; ts_utc the month''s first day; freq P1M; geo MK; node the indicator
+  as MakStat writes it without its leading dots (a gross plant and its net plant share one); x_code its code.'
+read:
+  date: '2026-11-20'
+  rows: 3669
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 3669
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 3669
+- name: x_code
+  label: null
+  unit: null
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: available_for_final_consumption
+  label: null
+  unit: MWh
+  rows: 175
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: distribution_losses
+  label: null
+  unit: MWh
+  rows: 175
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: energy_branch_consumption
+  label: null
+  unit: MWh
+  rows: 175
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: exports
+  label: null
+  unit: MWh
+  rows: 175
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: final_consumption_households
+  label: null
+  unit: MWh
+  rows: 175
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: gross_inland_consumption
+  label: null
+  unit: MWh
+  rows: 175
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: gross_production_biogas
+  label: null
+  unit: MWh
+  rows: 172
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: gross_production_chp_and_autoproducer_thermal
+  label: null
+  unit: MWh
+  rows: 174
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: gross_production_hydro
+  label: null
+  unit: MWh
+  rows: 175
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: gross_production_solar
+  label: null
+  unit: MWh
+  rows: 175
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: gross_production_thermal_power_plants
+  label: null
+  unit: MWh
+  rows: 175
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: gross_production_total
+  label: null
+  unit: MWh
+  rows: 175
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: gross_production_wind
+  label: null
+  unit: MWh
+  rows: 175
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: imports
+  label: null
+  unit: MWh
+  rows: 175
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: net_production_biogas
+  label: null
+  unit: MWh
+  rows: 173
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: net_production_chp_and_autoproducer_thermal
+  label: null
+  unit: MWh
+  rows: 175
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: net_production_hydro
+  label: null
+  unit: MWh
+  rows: 175
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: net_production_solar
+  label: null
+  unit: MWh
+  rows: 175
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: net_production_thermal_power_plants
+  label: null
+  unit: MWh
+  rows: 175
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: net_production_total
+  label: null
+  unit: MWh
+  rows: 175
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: net_production_wind
+  label: null
+  unit: MWh
+  rows: 175
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null
