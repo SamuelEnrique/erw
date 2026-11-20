@@ -2,7 +2,7 @@
 
 Draft `scan-deep-dbdda8d8c6f2` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The nameplate capacity of batteries, the United States that entered service in the year and operates today was 16,372 MW in 2025, against 0 MW in 2010, the first year this measure counts.
+**The finding.** The nameplate capacity of the batteries in the United States that entered service in the year and still operate was 16,372 MW in 2025, against 0 MW in 2010, the first year of the window the hunt read; the table holds the measure from 2003.
 
 ![What entered service, batteries, the United States](added-mw-add-battery-us.png)
 
