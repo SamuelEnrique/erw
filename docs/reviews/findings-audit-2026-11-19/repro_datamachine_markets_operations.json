@@ -1,0 +1,282 @@
+[
+ {
+  "draft": "markets_operations/calm-hours-caiso-calm-hours.reproduce.py",
+  "ok": true,
+  "printed_first": 2180.0,
+  "printed_last": 2776.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 2180.0,
+   "last_year": 2025,
+   "last": 2776.0,
+   "change": 596.0
+  },
+  "tolerance": 2.98
+ },
+ {
+  "draft": "markets_operations/calm-hours-ercot-calm-hours.reproduce.py",
+  "ok": true,
+  "printed_first": 396.0,
+  "printed_last": 592.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 396.0,
+   "last_year": 2025,
+   "last": 592.0,
+   "change": 196.0
+  },
+  "tolerance": 0.98
+ },
+ {
+  "draft": "markets_operations/calm-hours-pjm-calm-hours.reproduce.py",
+  "ok": true,
+  "printed_first": 1492.0,
+  "printed_last": 1976.0,
+  "expected": {
+   "first_year": 2019,
+   "first": 1492.0,
+   "last_year": 2025,
+   "last": 1976.0,
+   "change": 484.0
+  },
+  "tolerance": 2.42
+ },
+ {
+  "draft": "markets_operations/coal-stocks-dec-cst-il.reproduce.py",
+  "ok": true,
+  "printed_first": 9.871625,
+  "printed_last": 5.292798,
+  "expected": {
+   "first_year": 2008,
+   "first": 9.871625,
+   "last_year": 2025,
+   "last": 5.292798,
+   "change": -4.578827
+  },
+  "tolerance": 0.022894135000000003
+ },
+ {
+  "draft": "markets_operations/coal-stocks-dec-cst-mi.reproduce.py",
+  "ok": true,
+  "printed_first": 7.673689,
+  "printed_last": 2.554363,
+  "expected": {
+   "first_year": 2008,
+   "first": 7.673689,
+   "last_year": 2025,
+   "last": 2.554363,
+   "change": -5.119326
+  },
+  "tolerance": 0.025596630000000002
+ },
+ {
+  "draft": "markets_operations/coal-stocks-dec-cst-oh.reproduce.py",
+  "ok": true,
+  "printed_first": 7.397077,
+  "printed_last": 4.029264,
+  "expected": {
+   "first_year": 2008,
+   "first": 7.397077,
+   "last_year": 2025,
+   "last": 4.029264,
+   "change": -3.367813
+  },
+  "tolerance": 0.016839065
+ },
+ {
+  "draft": "markets_operations/coal-stocks-dec-cst-tx.reproduce.py",
+  "ok": true,
+  "printed_first": 16.546076,
+  "printed_last": 10.483567,
+  "expected": {
+   "first_year": 2008,
+   "first": 16.546076,
+   "last_year": 2025,
+   "last": 10.483567,
+   "change": -6.062509
+  },
+  "tolerance": 0.030312545000000003
+ },
+ {
+  "draft": "markets_operations/coal-stocks-dec-cst-us.reproduce.py",
+  "ok": true,
+  "printed_first": 161.588607,
+  "printed_last": 109.733181,
+  "expected": {
+   "first_year": 2008,
+   "first": 161.588607,
+   "last_year": 2025,
+   "last": 109.733181,
+   "change": -51.855426
+  },
+  "tolerance": 0.25927713
+ },
+ {
+  "draft": "markets_operations/nuc-out-peak-nuc-us.reproduce.py",
+  "ok": true,
+  "printed_first": 26209.114,
+  "printed_last": 22764.39,
+  "expected": {
+   "first_year": 2007,
+   "first": 26209.114,
+   "last_year": 2025,
+   "last": 22764.39,
+   "change": -3444.724
+  },
+  "tolerance": 17.22362
+ },
+ {
+  "draft": "markets_operations/nuc-out-share-nucf-2589.reproduce.py",
+  "ok": true,
+  "printed_first": 8.691008,
+  "printed_last": 3.56712,
+  "expected": {
+   "first_year": 2007,
+   "first": 8.691008,
+   "last_year": 2025,
+   "last": 3.56712,
+   "change": -5.123888
+  },
+  "tolerance": 0.02561944
+ },
+ {
+  "draft": "markets_operations/nuc-out-share-nucf-3265.reproduce.py",
+  "ok": true,
+  "printed_first": 9.573516,
+  "printed_last": 3.017206,
+  "expected": {
+   "first_year": 2007,
+   "first": 9.573516,
+   "last_year": 2025,
+   "last": 3.017206,
+   "change": -6.55631
+  },
+  "tolerance": 0.03278155
+ },
+ {
+  "draft": "markets_operations/nuc-out-share-nucf-6008.reproduce.py",
+  "ok": true,
+  "printed_first": 20.717163,
+  "printed_last": 9.944205,
+  "expected": {
+   "first_year": 2007,
+   "first": 20.717163,
+   "last_year": 2025,
+   "last": 9.944205,
+   "change": -10.772958
+  },
+  "tolerance": 0.053864789999999996
+ },
+ {
+  "draft": "markets_operations/nuc-out-share-nucf-6023.reproduce.py",
+  "ok": true,
+  "printed_first": 8.177757,
+  "printed_last": 3.064147,
+  "expected": {
+   "first_year": 2007,
+   "first": 8.177757,
+   "last_year": 2025,
+   "last": 3.064147,
+   "change": -5.113609
+  },
+  "tolerance": 0.025568045
+ },
+ {
+  "draft": "markets_operations/reactor-power-rp-surry-1.reproduce.py",
+  "ok": true,
+  "printed_first": 100.0,
+  "printed_last": 76.690411,
+  "expected": {
+   "first_year": 2020,
+   "first": 100.0,
+   "last_year": 2025,
+   "last": 76.690411,
+   "change": -23.309589
+  },
+  "tolerance": 0.116547945
+ },
+ {
+  "draft": "markets_operations/reactor-power-rp-us.reproduce.py",
+  "ok": true,
+  "printed_first": 89.442116,
+  "printed_last": 91.081251,
+  "expected": {
+   "first_year": 2020,
+   "first": 89.442116,
+   "last_year": 2025,
+   "last": 91.081251,
+   "change": 1.639136
+  },
+  "tolerance": 0.00819568
+ },
+ {
+  "draft": "markets_operations/reactor-power-rp-watts-bar-1.reproduce.py",
+  "ok": true,
+  "printed_first": 90.054645,
+  "printed_last": 68.517808,
+  "expected": {
+   "first_year": 2020,
+   "first": 90.054645,
+   "last_year": 2025,
+   "last": 68.517808,
+   "change": -21.536837
+  },
+  "tolerance": 0.10768418499999999
+ },
+ {
+  "draft": "markets_operations/tight-solar-ercot-tight-solar.reproduce.py",
+  "ok": true,
+  "printed_first": 71.103,
+  "printed_last": 5.022,
+  "expected": {
+   "first_year": 2019,
+   "first": 71.103,
+   "last_year": 2025,
+   "last": 5.022,
+   "change": -66.081
+  },
+  "tolerance": 0.330405
+ },
+ {
+  "draft": "markets_operations/tight-solar-pjm-tight-solar.reproduce.py",
+  "ok": true,
+  "printed_first": 19.33,
+  "printed_last": 34.355,
+  "expected": {
+   "first_year": 2019,
+   "first": 19.33,
+   "last_year": 2025,
+   "last": 34.355,
+   "change": 15.025
+  },
+  "tolerance": 0.075125
+ },
+ {
+  "draft": "markets_operations/tight-wind-ercot-tight-wind.reproduce.py",
+  "ok": true,
+  "printed_first": 17.693,
+  "printed_last": 20.562,
+  "expected": {
+   "first_year": 2019,
+   "first": 17.693,
+   "last_year": 2025,
+   "last": 20.562,
+   "change": 2.869
+  },
+  "tolerance": 0.014345000000000002
+ },
+ {
+  "draft": "markets_operations/wind-solar-cf-ercot-wind-solar-cf.reproduce.py",
+  "ok": true,
+  "printed_first": 32.588279,
+  "printed_last": 29.711655,
+  "expected": {
+   "first_year": 2019,
+   "first": 32.588279,
+   "last_year": 2025,
+   "last": 29.711655,
+   "change": -2.876625
+  },
+  "tolerance": 0.014383125000000002
+ }
+]
