@@ -5,9 +5,11 @@
 table: noaa_uscrn_solar_monthly
 family: noaa
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The month's average daily total global solar radiation at one of eight U.S. Climate Reference Network (USCRN) stations
+  near CAISO's and ERCOT's solar fleets.
+time: ts_utc is the month's first day at 00:00:00Z; NOAA's months are local standard time.
+vintage_rule: A snapshot written whole by each run. A month NOAA writes -9999.0 has no row. vintage is the station file's
+  Last-Modified.
 keys:
 - entity
 - variable
@@ -47,6 +49,7 @@ columns:
       uscrn:53151: 221
       uscrn:93243: 257
   missing_cells: 0
+  particular: uscrn:<WBAN number>
 - name: variable
   shared: true
   type: text
@@ -91,12 +94,14 @@ columns:
       US-CA: 1022
       US-TX: 1003
   missing_cells: 0
+  particular: US-<state> of the station
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2025
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -111,6 +116,7 @@ columns:
       TX Edinburg 17 NNE: 265
       TX Monahans 6 ENE: 278
   missing_cells: 0
+  particular: The station's name (CA Merced 23 WSW and the others), not a pricing node
 - name: source
   shared: true
   type: text
@@ -150,6 +156,7 @@ columns:
       '2026-10-02T10:36:54Z': 1022
       '2026-10-02T10:36:57Z': 1003
   missing_cells: 0
+  particular: The Last-Modified of NOAA's station file
 - name: ba
   shared: true
   type: text
@@ -158,9 +165,10 @@ columns:
       ciso: 1022
       erco: 1003
   missing_cells: 0
+  particular: ciso or erco, the grid the station sits in
 - name: x_station
-  label: null
-  unit: null
+  label: The station's name as NOAA's file writes it (CA_Merced_23_WSW and the others)
+  unit: none
   type: text
   values:
     list:
@@ -173,12 +181,12 @@ columns:
       TX_Edinburg_17_NNE: 265
       TX_Monahans_6_ENE: 278
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector noaa_uscrn.py
 - name: x_lat
-  label: null
-  unit: null
+  label: The station's latitude (WGS-84), as NOAA's file gives it
+  unit: degree
   type: number
   values:
     list:
@@ -191,12 +199,12 @@ columns:
       '37.2381': 257
       '40.6507': 278
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector noaa_uscrn.py
 - name: x_lon
-  label: null
-  unit: null
+  label: The station's longitude (WGS-84), as NOAA's file gives it
+  unit: degree
   type: number
   values:
     list:
@@ -209,12 +217,12 @@ columns:
       '-98.0633': 265
       '-98.0846': 224
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector noaa_uscrn.py
 - name: x_logger
-  label: null
-  unit: null
+  label: The version of the station's datalogger program at the month's end
+  unit: none
   type: number
   values:
     list:
@@ -233,12 +241,12 @@ columns:
       '2.622': 489
       '2.623': 310
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector noaa_uscrn.py
 variables:
 - name: solar_radiation
-  label: null
+  label: The month's average daily total global solar radiation, NOAA's SOLRAD_MONTHLY_AVG, MJ per square meter a day
   unit: MJ/m2-day
   rows: 2025
   first: '2003-04-01T00:00:00Z'

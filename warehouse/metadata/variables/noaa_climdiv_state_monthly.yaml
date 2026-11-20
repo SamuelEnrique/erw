@@ -5,9 +5,11 @@
 table: noaa_climdiv_state_monthly
 family: noaa
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The statewide (or contiguous U.S.) average temperature or precipitation of one month, from NOAA NCEI's nClimDiv, with
+  NCEI's 1901-2000 mean of that calendar month.
+time: ts_utc is the month's first day at 00:00:00Z.
+vintage_rule: Merged by (entity, variable, ts_utc); a later run replaces a month NCEI restates and keeps the months it no
+  longer reads. vintage is the processing date of NCEI's files.
 keys:
 - entity
 - variable
@@ -43,6 +45,7 @@ columns:
     - noaa_climdiv:004
     - noaa_climdiv:005
   missing_cells: 0
+  particular: 'noaa_climdiv:<NCEI state code>: 001 Alabama to 048 Wyoming, 110 the contiguous U.S.'
 - name: variable
   shared: true
   type: text
@@ -98,6 +101,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 31458
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -110,6 +114,7 @@ columns:
     - California
     - Colorado
   missing_cells: 0
+  particular: The state's name (or the contiguous U.S.), not a pricing node
 - name: source
   shared: true
   type: text
@@ -140,27 +145,29 @@ columns:
     list:
       '2026-10-06T00:00:00Z': 31458
   missing_cells: 0
+  particular: The date NCEI processed the four files read, at 00:00:00Z (from the files' names)
 - name: x_mean_1901_2000
-  label: null
-  unit: null
+  label: NCEI's own 1901 to 2000 mean of the state, element and calendar month, from the normals file's period 0031 (not computed
+    here)
+  unit: the row's unit (degF or in)
   type: number
   values:
     distinct: 743
     lowest: 0.18
     highest: 82.3
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector noaa_climdiv_states.py; method noaa_climdiv_state_monthly.md
 variables:
 - name: precip
-  label: null
+  label: The month's statewide precipitation, inches, as NCEI publishes it
   unit: in
   rows: 15729
   first: '2000-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: temp_avg
-  label: null
+  label: The month's statewide average temperature, degrees F, as NCEI publishes it
   unit: degF
   rows: 15729
   first: '2000-01-01T00:00:00Z'
