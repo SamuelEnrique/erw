@@ -1,0 +1,30 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate nuclear_share, region st_ten_nuc (Tennessee (the state, the core of the Tennessee Valley Authority))
+# Computed 2026-11-19T11:17:51Z by warehouse/analysis/findings/deep/regions.py (nuclear_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: nuclear's share of the states' net generation (percent), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+st_ten_nuc,2001,29.698445394636252,12.0,1
+st_ten_nuc,2002,28.68869182622051,12.0,1
+st_ten_nuc,2003,26.18966703867202,12.0,1
+st_ten_nuc,2004,29.317490967047107,12.0,1
+st_ten_nuc,2005,28.62841799375046,12.0,1
+st_ten_nuc,2006,26.278870742825877,12.0,1
+st_ten_nuc,2007,30.174894767400495,12.0,1
+st_ten_nuc,2008,29.813180503373555,12.0,1
+st_ten_nuc,2009,33.82219433025447,12.0,1
+st_ten_nuc,2010,33.68510531158981,12.0,1
+st_ten_nuc,2011,33.19099271373763,12.0,1
+st_ten_nuc,2012,32.29635094109394,12.0,1
+st_ten_nuc,2013,35.7730504373317,12.0,1
+st_ten_nuc,2014,34.802024363563284,12.0,1
+st_ten_nuc,2015,33.18565810811278,12.0,1
+st_ten_nuc,2016,37.27987131222461,12.0,1
+st_ten_nuc,2017,40.251767978512014,12.0,1
+st_ten_nuc,2018,44.35830914284202,12.0,1
+st_ten_nuc,2019,43.38838752508074,12.0,1
+st_ten_nuc,2020,45.53805624152709,12.0,1
+st_ten_nuc,2021,44.68967126363312,12.0,1
+st_ten_nuc,2022,45.665307773217286,12.0,1
+st_ten_nuc,2023,48.768286162039416,12.0,1
+st_ten_nuc,2024,42.257222622827825,12.0,1
+st_ten_nuc,2025,38.87957970540544,12.0,1

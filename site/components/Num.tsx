@@ -58,6 +58,13 @@ export function heldBy(check: string): { table: string; title: string } | null {
   // session 4005: the count of a table's rows (event_count|<table>|all or |since|<day>, the policy page and its week view)
   // names its table second as event| does; without this a held table's count printed the empty held rows' "0"
   else if (head === "event_count") table = p[1] ?? "";
+  // chain 305 (session 7603, the datacenter tracker read as its reader): a grid's peak hour and capacity on the tracker's
+  // "facilities against each grid" (dcgrid|peak_mw|<grid>, dcgrid|capacity_mw|<grid>) are grid_peak_vs_capacity's, and
+  // ERCOT's reserve margin (dcgrid|reserve_margin|ERCOT) is ercot_cdr_reserve_margins': both public. Asked as
+  // datacenter_facilities' (held whole) they printed "license needed" beside the facilities, against the component's
+  // own rule that the grid's public figures stay
+  else if (head === "dcgrid" && (p[1] === "peak_mw" || p[1] === "capacity_mw")) table = "grid_peak_vs_capacity";
+  else if (head === "dcgrid" && p[1] === "reserve_margin") table = "ercot_cdr_reserve_margins";
   else if (head in KEY_TABLE) table = KEY_TABLE[head];
   if (!table) return null;
   return licenseHeldRow(table, entity ?? (head.startsWith("series") || head === "es" ? undefined : null)) ? { table, title: licenseTitle(table) } : null;

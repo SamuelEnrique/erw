@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate hot_mw, region wx_nw (the Northwest (EIA's region))
+# Computed 2026-11-19T11:23:48Z by warehouse/analysis/findings/deep/weather.py (hot_mw); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean demand in the year's 50 hottest hours (MW), the observations it rests on, and whether the year is full
+# Tables: region_weather_hourly, eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+wx_nw,2018,50177.9,3370.0,0
+wx_nw,2019,53877.52,7585.0,0
+wx_nw,2020,51315.92,5943.0,0
+wx_nw,2021,56266.02,8356.0,1
+wx_nw,2022,57982.3,8388.0,1
+wx_nw,2023,58433.96,8448.0,1
+wx_nw,2024,61559.96,8290.0,1
+wx_nw,2025,59863.82,7347.0,0
+wx_nw,2026,62657.38,5381.0,0
