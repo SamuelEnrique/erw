@@ -169,8 +169,16 @@ def spp_texts(raw, doc, feed, log, gaps):
         base = n.rsplit("/", 1)[-1]
         m = day_file.fullmatch(base)
         if m:
-            if m.group(1) in names:
-                raise RuntimeError(f"SPP {feed['report']}: two files for {m.group(1)} in the {doc['year']} zip: {names[m.group(1)]}, {n}")
+            had = names.get(m.group(1))
+            if had is not None:
+                # 2016's zip holds a few days twice, in the month's folder and in By_Day, byte for byte the same: the
+                # By_Day copy is read and the other named in the gaps; two different files for one day stop the pull
+                if z.read(had) != z.read(n):
+                    raise RuntimeError(f"SPP {feed['report']}: two different files for {m.group(1)} in the {doc['year']} zip: {had}, {n}")
+                keep, other = (n, had) if "/By_Day/" in n else (had, n)
+                names[m.group(1)] = keep
+                gaps.append(f"SPP {feed['report']}: {other} is the same file as {keep}; read once")
+                continue
             names[m.group(1)] = n
         elif base.startswith(feed["prefix"] + "-") and base.endswith(".csv") and "/RePrice/" in n:
             gaps.append(f"SPP {feed['report']}: {n} (a repriced file) not read; the day as first published is")
