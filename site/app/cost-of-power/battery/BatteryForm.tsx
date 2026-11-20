@@ -13,7 +13,7 @@ import { carry } from "@/lib/battery/finance";
 const field = "w-full border border-rule bg-white px-2 py-1 text-sm";
 /** Session 296 (item 10): one line on each strategy, as the hover says it. */
 export const STRATEGY_WORDS: Record<Strategy, string> = {
-  foresight: "Perfect foresight: energy at the hourly real-time price and ancillary services at day-ahead prices, all known in advance; an upper bound, not a forecast.",
+  foresight: "Perfect foresight: energy at the hourly real-time price and ancillary services at day-ahead prices, all known in advance; optimistic, not a forecast, and not an upper bound (hourly prices, an empty start each day).",
   dayahead: "Day-ahead schedule: the battery is scheduled against day-ahead energy and ancillary prices and paid those prices, with no real-time trading; its offers are assumed to clear.",
 };
 

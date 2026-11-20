@@ -114,7 +114,7 @@ export const BATTERY_DECISIONS: Decision[] = [
   { key: "day-from-empty", session: "session 67",
     text: "Each local day starts empty, with at most one full cycle a day and an 86 percent round trip (the low end of Lazard's range), split evenly between charging and discharging." },
   { key: "foresight", session: "session 67",
-    text: "The day's prices are known in advance: \"Perfect foresight\" is paid the hourly mean of the real-time price, \"Day-ahead schedule\" the day-ahead price, and both are paid day-ahead reserve prices, so each figure is an upper bound." },
+    text: "The day's prices are known in advance: \"Perfect foresight\" is paid the hourly mean of the real-time price, \"Day-ahead schedule\" the day-ahead price, and both are paid day-ahead reserve prices. The figures are optimistic but not an upper bound: hourly prices and an empty battery at each midnight leave out some of what a battery that foresaw the prices could earn." },
   { key: "price-taker", session: "session 67",
     text: "The battery is a price taker, awarded up to its full power at the posted price; reserves are paid for being held and are never called." },
   { key: "hub", session: "sessions 67 and 355",

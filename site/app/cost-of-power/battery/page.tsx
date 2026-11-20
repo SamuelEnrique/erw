@@ -174,11 +174,11 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const before2024 = ys.some((r) => r.y < "2024");
   // the year chart's first line (session 296: in its hover tip, handed to the chart from here)
   const upper = before2024
-    ? "This is an upper bound: before 2024 it is mostly payment for holding reserves, to a battery longer than any Texas then had, and 2021 is one week of February. Recent years are the ones to read."
-    : `This is an upper bound: the battery is assumed to sell as much of its power as reserves as it likes at the posted price, and is never called. ${g.name} is held from ${g.from}, so every year here is a recent one.`;
+    ? "This is optimistic, not an upper bound: before 2024 it is mostly payment for holding reserves, to a battery longer than any Texas then had, and 2021 is one week of February. Recent years are the ones to read."
+    : `This is optimistic, not an upper bound: the battery is assumed to sell as much of its power as reserves as it likes at the posted price, and is never called. ${g.name} is held from ${g.from}, so every year here is a recent one.`;
   const topName = top ? `${monthName(top.m)}${top.m === "2021-02" ? " (Winter Storm Uri)" : ""}` : "";
   const strategyLine = x.strat === "foresight"
-    ? "Perfect foresight: energy at the hourly real-time price and ancillary services at day-ahead prices, all known in advance. An upper bound, not a forecast."
+    ? "Perfect foresight: energy at the hourly real-time price and ancillary services at day-ahead prices, all known in advance. Optimistic, not a forecast, and not an upper bound: hourly prices and an empty start each day leave some of what foresight could earn out."
     : "Day-ahead schedule: the battery is scheduled against day-ahead energy and ancillary prices and paid those prices, with no real-time trading. It assumes its offers clear at the day-ahead price.";
   // the CSV of every month takes the page's own four parameters and scenario A's, as this request has them
   const monthsQuery = new URLSearchParams();

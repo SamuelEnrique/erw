@@ -110,7 +110,7 @@ class Coverage(unittest.TestCase):
 class BatteryPage(unittest.TestCase):
     def test_the_sentence_under_the_ercot_chart(self):
         page = src("site", "app", "cost-of-power", "battery", "page.tsx")
-        self.assertIn("This is an upper bound: before 2024 it is mostly payment for holding reserves, to a battery longer "
+        self.assertIn("This is optimistic, not an upper bound: before 2024 it is mostly payment for holding reserves, to a battery longer "
                       "than any Texas then had, and 2021 is one week of February. Recent years are the ones to read.", page)
         self.assertNotIn("show more than real batteries earned", page)
         self.assertNotIn("show more than real batteries earned", src("site", "scripts", "test-battery-stack.mjs"))
