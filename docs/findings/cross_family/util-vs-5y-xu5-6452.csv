@@ -1,0 +1,11 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate util_vs_5y, region xu5_6452 (Florida Power & Light Company (EIA utility 6452, FERC 714 planning area 63; FL))
+# Computed 2026-11-19T13:07:50Z by warehouse/analysis/findings/deep/cross_family.py (util_vs_5y); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's retail sales against the net energy the utility's filing of 5 years before forecast, percent (percent), the observations it rests on, and whether the year is full
+# Tables: eia861m_utility_sales_monthly, ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+xu5_6452,2019,-11.894194077129438,1.0,1
+xu5_6452,2020,-6.742158211742099,1.0,1
+xu5_6452,2021,-7.912212898313609,1.0,1
+xu5_6452,2022,5.105147637266061,1.0,1
+xu5_6452,2023,3.947047457742636,1.0,1
+xu5_6452,2025,2.3806066458479824,1.0,1

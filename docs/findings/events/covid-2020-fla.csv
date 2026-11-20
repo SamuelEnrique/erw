@@ -1,0 +1,12 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), event covid_2020, region FLA (Florida (EIA's region))
+# Computed 2026-11-19T11:32:38Z by warehouse/analysis/findings/deep/events.py; plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the window's mean hour of demand (MW) from 03-01 to 05-31, the hours it rests on, and whether it is the event year
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,event_year
+FLA,2020,26518.106899902818,2058,1
+FLA,2021,26751.620132953467,2106,0
+FLA,2022,27504.85335769758,2189,0
+FLA,2023,28875.261566651396,2183,0
+FLA,2024,28975.122282608696,2208,0
+FLA,2025,29290.2416137806,2206,0
+FLA,2026,29484.46193129062,2154,0
