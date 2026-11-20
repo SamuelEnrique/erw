@@ -109,8 +109,10 @@ ok(hw.includes("ERCOT, Hub Average , entity ercot:HB_HUBAVG") && hw.includes("Da
 
 // row 7: SPP's real time is not said to be absent from the warehouse
 const spp = words((await draw(rowsOf, NOW, "spp:SPPNORTH_HUB")).html);
-ok(!spp.includes("the ERW has no SPP real-time series table") && !spp.includes("no real-time series table for this ISO") && spp.includes("site/data/markets.json names no real-time table for SPP"),
-  "row 7: the SPP hub's page says that markets.json names no real-time table for SPP, not that the warehouse has none");
+// ruling alternative 4 (wip/alt-prices-4): markets.json names SPP's real-time table, so the page says no absence at all
+// (main: "site/data/markets.json names no real-time table for SPP")
+ok(!spp.includes("the ERW has no SPP real-time series table") && !spp.includes("no real-time series table for this ISO") && !spp.includes("names no real-time table for SPP"),
+  "row 7 under alternative 4: the SPP hub's page names a real-time table and says no absence");
 
 console.log(`\n${n - failed} of ${n} passed`);
 if (failed) process.exitCode = 1;
