@@ -38,11 +38,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ornl_tedb:<table>:<row>, a sector or a mode's path built from the label's level
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: ornl_tedb:<table>:<row>, a sector or a mode's path built from the label's level
 - name: variable
   shared: true
   type: text
@@ -81,18 +81,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 674
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The row's or column's label as printed
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The row's or column's label as printed
 - name: source
   shared: true
   type: text
@@ -113,11 +113,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The data book zip's last-modified time
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The data book zip's last-modified time
 - name: x_table
   label: The data book's table the row is read from
   unit: none

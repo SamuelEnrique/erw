@@ -38,11 +38,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: isone:system, the sheet "<YYYY> System" of ISO-NE's yearly workbook (its own aggregate of the DDG plants)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: isone:system, the sheet "<YYYY> System" of ISO-NE's yearly workbook (its own aggregate of the DDG plants)
 - name: variable
   shared: true
   type: text
@@ -81,18 +81,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 840
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 840
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -113,11 +113,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 840
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: solar_delivered_mwh
   label: 'Delivered energy of ISO-NE''s dispatchable solar plants: the energy generated (ISO-NE''s DE)'

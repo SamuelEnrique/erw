@@ -62,18 +62,18 @@ columns:
   missing_cells: 0
 - name: event_date
   shared: true
+  particular: The date on the document
   type: date
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The date on the document
 - name: event_type
   shared: true
+  particular: regulatory_proceeding (the docket itself) or regulatory_order (an order, rule or decision in it)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: regulatory_proceeding (the docket itself) or regulatory_order (an order, rule or decision in it)
 - name: parties
   shared: true
   type: text
@@ -106,11 +106,11 @@ columns:
   missing_cells: 76
 - name: status
   shared: true
+  particular: The status class (open, decided, closed, not stated)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The status class (open, decided, closed, not stated)
 - name: source
   shared: true
   type: text
@@ -119,11 +119,11 @@ columns:
   missing_cells: 0
 - name: source_url
   shared: true
+  particular: The regulator's own document
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The regulator's own document
 - name: regulator
   label: The regulator whose docket it is
   unit: none

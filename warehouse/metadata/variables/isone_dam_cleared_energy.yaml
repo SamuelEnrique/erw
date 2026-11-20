@@ -34,11 +34,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: isone:system, ISO-NE's system-wide figure
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: isone:system, ISO-NE's system-wide figure
 - name: variable
   shared: true
   type: text
@@ -107,11 +107,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 1656
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: dam_cleared_energy
   label: 'ISO-NE''s Day-Ahead Cleared Demand for the hour: the demand the day-ahead market cleared, MWh for the hour'

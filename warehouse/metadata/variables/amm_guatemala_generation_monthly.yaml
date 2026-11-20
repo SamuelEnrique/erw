@@ -39,11 +39,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: One entity, the country's whole system
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: One entity, the country's whole system
 - name: variable
   shared: true
   type: text
@@ -76,25 +76,25 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 1739
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: AMM's label of the row, not a pricing node
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: AMM's label of the row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -115,11 +115,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's Last-Modified time as the server sent it
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The workbook's Last-Modified time as the server sent it
 variables:
 - name: demand_sni
   label: 'Demand of the national interconnected system (AMM''s DEMANDA S.N.I.): generation plus imports less exports, so the

@@ -36,11 +36,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ferc_eqr:<product>, the product group (energy, capacity, tolling, or all products)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: ferc_eqr:<product>, the product group (energy, capacity, tolling, or all products)
 - name: variable
   shared: true
   type: text
@@ -79,18 +79,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 68
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 68
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -111,11 +111,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 68
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: contracts_gone
   label: Contracts in force in the quarter before and not in this one (a renumbered contract counts as one gone and one new)

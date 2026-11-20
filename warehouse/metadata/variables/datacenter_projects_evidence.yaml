@@ -35,25 +35,25 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: <facility_id>|<story_id>
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: <facility_id>|<story_id>
 - name: event_date
   shared: true
+  particular: The story's publish time, UTC
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The story's publish time, UTC
 - name: event_type
   shared: true
+  particular: datacenter_evidence on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: datacenter_evidence on every row
 - name: parties
   shared: true
   type: empty
@@ -62,11 +62,11 @@ columns:
   missing_cells: 217
 - name: entity_ids
   shared: true
+  particular: The facility, the same as facility_id on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The facility, the same as facility_id on every row
 - name: mw
   shared: true
   type: empty
@@ -87,25 +87,25 @@ columns:
   missing_cells: 217
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 217
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
+  particular: The outlet of the story
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The outlet of the story
 - name: source_url
   shared: true
+  particular: The story's link
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The story's link
 - name: facility_id
   label: The facility of datacenter_projects the sentence names (the model's same_as, where the rule accepts it)
   unit: none

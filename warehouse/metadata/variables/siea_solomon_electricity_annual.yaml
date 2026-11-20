@@ -33,11 +33,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: siea:sb:<station>, or the total
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: siea:sb:<station>, or the total
 - name: variable
   shared: true
   type: text
@@ -70,25 +70,25 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 49
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The report's label of the station, not a pricing node
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The report's label of the station, not a pricing node
 - name: source
   shared: true
   type: text
@@ -109,11 +109,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The report's Last-Modified time as the server sent it
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The report's Last-Modified time as the server sent it
 variables:
 - name: production
   label: Electricity produced by the station for the public supply, or in total

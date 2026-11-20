@@ -30,18 +30,18 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: anthropic:<request id>, or anthropic:<run id>:<step>:<time> where no request id is given
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: anthropic:<request id>, or anthropic:<run id>:<step>:<time> where no request id is given
 - name: event_date
   shared: true
+  particular: The time of the call, UTC
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The time of the call, UTC
 - name: event_type
   shared: true
   type: text
@@ -50,11 +50,11 @@ columns:
   missing_cells: 0
 - name: currency
   shared: true
+  particular: The currency of usd
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The currency of usd
 - name: source
   shared: true
   type: text
@@ -170,11 +170,11 @@ columns:
   documented_by: header; method api_cost_ledger.md
 - name: ts_utc
   shared: true
+  particular: The time of the call, UTC
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The time of the call, UTC
 - name: prices_as_of
   label: The date of the price table (warehouse/config/model_prices.yaml) used for usd
   unit: none

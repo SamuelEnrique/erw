@@ -44,18 +44,18 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: license_verdict on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: license_verdict on every row
 - name: parties
   shared: true
+  particular: The regulator, the publisher whose terms session 205 read, or the document's host
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The regulator, the publisher whose terms session 205 read, or the document's host
 - name: entity_ids
   shared: true
   type: empty
@@ -82,11 +82,11 @@ columns:
   missing_cells: 427
 - name: status
   shared: true
+  particular: 'The verdict: public, needs written permission, needs a paid license, not settled or not public'
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: 'The verdict: public, needs written permission, needs a paid license, not settled or not public'
 - name: source
   shared: true
   type: text
@@ -95,11 +95,11 @@ columns:
   missing_cells: 0
 - name: source_url
   shared: true
+  particular: The document's address
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The document's address
 - name: of_table
   label: 'The table whose rows rest on the document: large_load_statements or large_load_waits'
   unit: none

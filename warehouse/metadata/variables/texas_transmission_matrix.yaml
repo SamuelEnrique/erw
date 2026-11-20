@@ -66,25 +66,25 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: wholesale_transmission_charge on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: wholesale_transmission_charge on every row
 - name: parties
   shared: true
+  particular: The Public Utility Commission of Texas, the publisher
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The Public Utility Commission of Texas, the publisher
 - name: entity_ids
   shared: true
+  particular: The ERW entity of the transmission service provider whose code the row carries, where the connector maps one
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 807
-  particular: The ERW entity of the transmission service provider whose code the row carries, where the connector maps one
 - name: mw
   shared: true
   type: empty
@@ -99,18 +99,18 @@ columns:
   missing_cells: 855
 - name: currency
   shared: true
+  particular: USD on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: USD on every row
 - name: status
   shared: true
+  particular: approved or filed, by the Commission's order on the matrix (docket_status gives the words)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: approved or filed, by the Commission's order on the matrix (docket_status gives the words)
 - name: source
   shared: true
   type: text
@@ -125,11 +125,11 @@ columns:
   missing_cells: 0
 - name: year
   shared: true
+  particular: The calendar year the matrix sets charges for, not an operating year of a history table
   type: integer
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The calendar year the matrix sets charges for, not an operating year of a history table
 - name: matrix
   label: Which of the year's matrices the figure is from (2026 has two)
   unit: none

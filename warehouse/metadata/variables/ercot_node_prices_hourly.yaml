@@ -34,11 +34,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<settlement point>
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: ercot:<settlement point>
 - name: variable
   shared: true
   type: text
@@ -77,18 +77,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Partition column: ERCOT''s day-ahead or real-time market'
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: 'Partition column: ERCOT''s day-ahead or real-time market'
 - name: node
   shared: true
+  particular: The settlement point as ERCOT names it
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The settlement point as ERCOT names it
 - name: source
   shared: true
   type: text
@@ -109,11 +109,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 497832
-  particular: 'Not filled: no cell holds a value'
 - name: x_class
   label: The settlement point's class by its resource types (storage in this table)
   unit: none

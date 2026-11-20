@@ -37,12 +37,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: erb_zm:station:<slug>, erb_zm:group:<group>, erb_zm:sector:<slug>, erb_zm:exporter:<slug>, erb_zm:importer:<slug>
+    or erb_zm:technology:<slug>
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: erb_zm:station:<slug>, erb_zm:group:<group>, erb_zm:sector:<slug>, erb_zm:exporter:<slug>, erb_zm:importer:<slug>
-    or erb_zm:technology:<slug>
 - name: variable
   shared: true
   type: text
@@ -75,26 +75,26 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 515
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The station's, sector's, exporter's or technology's name as ERB prints it, or a group's total, not a pricing
+    node
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The station's, sector's, exporter's or technology's name as ERB prints it, or a group's total, not a pricing
-    node
 - name: source
   shared: true
   type: text
@@ -115,11 +115,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The bulletin's Last-Modified time as the server sent it
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The bulletin's Last-Modified time as the server sent it
 - name: x_group
   label: 'The group of the row: for a station or a group''s total, the group of plants of its table; otherwise the kind of
     table (consumption, trade or capacity)'

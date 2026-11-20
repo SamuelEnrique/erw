@@ -72,25 +72,25 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: tariff_charge for a tariff's figure, wholesale_transmission_charge for a Commission order's
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: tariff_charge for a tariff's figure, wholesale_transmission_charge for a Commission order's
 - name: parties
   shared: true
+  particular: The publisher of the document (the utility, or the Commission)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The publisher of the document (the utility, or the Commission)
 - name: entity_ids
   shared: true
+  particular: The entity the document belongs to, as the connector names it
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The entity the document belongs to, as the connector names it
 - name: mw
   shared: true
   type: empty
@@ -105,18 +105,18 @@ columns:
   missing_cells: 73
 - name: currency
   shared: true
+  particular: USD on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: USD on every row
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 73
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text

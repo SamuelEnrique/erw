@@ -34,11 +34,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: wb:<ISO3 code of the economy>
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: wb:<ISO3 code of the economy>
 - name: variable
   shared: true
   type: text
@@ -71,25 +71,25 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The World Bank's ISO2 code of the economy (not always a US subdivision)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The World Bank's ISO2 code of the economy (not always a US subdivision)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 8220
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The economy's name
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The economy's name
 - name: source
   shared: true
   type: text
@@ -110,11 +110,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified time of the API's answer
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The Last-Modified time of the API's answer
 - name: x_indicator
   label: The World Bank's indicator id
   unit: none

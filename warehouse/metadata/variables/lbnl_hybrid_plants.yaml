@@ -33,32 +33,32 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: lbnl_hybrid:<EIA plant id>, or lbnl_hybrid:none-<name as a slug> where LBNL writes missing
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: lbnl_hybrid:<EIA plant id>, or lbnl_hybrid:none-<name as a slug> where LBNL writes missing
 - name: entity_type
   shared: true
+  particular: plant on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: plant on every row
 - name: name
   shared: true
+  particular: EIA's plant name as LBNL gives it
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: EIA's plant name as LBNL gives it
 - name: geo
   shared: true
+  particular: US-<state>
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: US-<state>
 - name: lat
   shared: true
   type: number
@@ -73,19 +73,19 @@ columns:
   missing_cells: 0
 - name: capacity_mw
   shared: true
+  particular: The generators' and storage's total capacity (LBNL's Total Capacity, Generators and Storage); empty for storage-only
+    plants
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 436
-  particular: The generators' and storage's total capacity (LBNL's Total Capacity, Generators and Storage); empty for storage-only
-    plants
 - name: status
   shared: true
+  particular: 'Not filled: LBNL lists operating plants'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 1068
-  particular: 'Not filled: LBNL lists operating plants'
 - name: status_date
   shared: true
   type: empty

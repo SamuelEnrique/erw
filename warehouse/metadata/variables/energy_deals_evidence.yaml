@@ -38,25 +38,25 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: <deal_id>|<story_id>
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: <deal_id>|<story_id>
 - name: event_date
   shared: true
+  particular: The story's publish time, UTC
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The story's publish time, UTC
 - name: event_type
   shared: true
+  particular: deal_evidence on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: deal_evidence on every row
 - name: parties
   shared: true
   type: empty
@@ -89,25 +89,25 @@ columns:
   missing_cells: 652
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 652
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
+  particular: The outlet of the story
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The outlet of the story
 - name: source_url
   shared: true
+  particular: The story's link
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The story's link
 - name: deal_id
   label: The deal of energy_deals the sentence shows (its event_id)
   unit: none

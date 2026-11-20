@@ -37,11 +37,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'inseed:tg:<item>: a supplier, a producer, a voltage or a total'
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: 'inseed:tg:<item>: a supplier, a producer, a voltage or a total'
 - name: variable
   shared: true
   type: text
@@ -74,25 +74,25 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 55
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: INSEED's label of the row, not a pricing node (the same as x_label)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: INSEED's label of the row, not a pricing node (the same as x_label)
 - name: source
   shared: true
   type: text
@@ -113,11 +113,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 55
-  particular: 'Not filled: no cell holds a value'
 - name: x_label
   label: INSEED's label of the row
   unit: none
