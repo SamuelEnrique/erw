@@ -34,6 +34,15 @@ Energy Research Warehouse (ERW). The third session of chain 620: part E. From 12
 
 - Nothing new in this session. The seven that wait are in `docs/state/note_2026-11-20_portable_c620.md`, each with its default taken.
 
+## Added after 13:16 UTC (the session went on to 18:50 UTC)
+
+- **The build was started once and stopped.** At 18:28 UTC the watcher reported 2.3 GB available; a first try found 1.8 GB free and was refused by the build script's own check. A wait that builds at 2.1 GB free started the build at 18:29:24 UTC (2,208 MB free). Claude Code stopped the command before the build finished, because the system ran critically low on memory (425 MB free at 18:47 UTC). No process and no changed file were left. It was not started again, as Claude Code instructs. The fixes are not seen in a build and no landing is requested.
+- **Three landings were read on production as they arrived** (13:43, 16:38 and 17:47 UTC): `/congestion` (no fault; 4,290 figures agree, three times), `/conditions` (one fault filed as request 568, fixed by the data machine and seen fixed; the window at a glance recomputed for seven views), the variables table on 473 method pages (10,443 variables agree with the codebook file), and `/states`' answer to request 563.
+- **A point of mine that was wrong:** in request 568 I said the demand chart's table lacked its newest fourteen days. The table pages 500 rows at a time with Earlier and Later under it; I had not looked for the paging. Withdrawn in the review document.
+- **A tenth fix:** `/data/faults` at 390 px (417 px wide), on `wip/9602-faults-page-phone` (`b7a9c6676`), found by opening every page with a fixed address (80) at both widths; landing row 53.
+- **The live set** was loaded at about 16:00 UTC (request 565 answered for the most part); the load left 16 November out for ERCOT, PJM and CAISO (request 569).
+- **Stood down at 18:50 UTC:** no build, no browser and no watcher run on this laptop from then on.
+
 ## To finish
 
 - As session 9601's report says: when 2 GB of memory is free, build `local/c620-build`, serve it, run `check-back-button.mjs` and `check-tour.mjs` against it, look at each of rows 44 to 52 of `docs/state/landing_request_portable.md`, stop the server, and mark the rows requested.

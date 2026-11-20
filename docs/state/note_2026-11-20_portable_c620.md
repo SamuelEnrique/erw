@@ -2,6 +2,13 @@
 
 Energy Research Warehouse (ERW). Sessions 9600 and 9601, from 10:26 UTC. Written at 12:30 UTC and kept current; the last line says when. Model spend USD 0. Nothing published; `site/lib/release.ts` not touched; every page in review. Every read is of production (`https://erw-flame.vercel.app`) in the internal view, at 1280 px with a mouse and at 390 px with a finger's screen.
 
+## Read this before anything else: a build was started and stopped, and the chain has stood down
+
+- At 18:29 UTC the laptop had 2.2 GB of memory free and the one build of the ten fixes was started (`local/c620-build` in `C:\Users\lossa\Documents\erw-c504`). Claude Code stopped it before it finished, because the system ran critically low on memory; at 18:47 UTC 425 MB were free with nothing of the chain's running. It left no process and no changed file.
+- It is not started again: Claude Code's own instruction is to start it again only when asked. So the ten fixes are still on their branches, not seen in a build, and no landing is requested (rows 44 to 53 of `docs/state/landing_request_portable.md`).
+- Since 18:47 UTC the chain runs nothing heavy on this laptop: no build, no browser, no watcher. The resume file `queue/next/621-resume-chain-620.md` is kept.
+- To land the fixes: close what holds the memory (Chrome held 2.1 to 3.8 GB through the night), then the steps under "To finish" of `archive/sessions/SESSION_9601_REPORT.md`; or let the data machine's desk build `local/c620-build`'s ten branches, whose rows say what to look at.
+
 ## Read these first: the five worst things found
 
 1. **The live set was not loaded from 16 November until about 16:00 UTC on 20 November** (it now holds demand to 19 November 23:00 UTC and the Grid tool shows it again; the load left 16 November out, data request 569). As read through the night: Demand and generation end on 15 November 23:00 UTC, carbon intensity on 12 November. On the Grid tool every authority reads "Demand: not held for this hour" for the 53 newest hours, ERCOT's page heads its demand "Nov 15, 5:00 PM CST", the map's carbon color is 12 November's, and the board's day-ahead prices are four days old. Data request 565 (it is request 543 again, a day after 543 was marked fixed).
@@ -60,4 +67,4 @@ Energy Research Warehouse (ERW). Sessions 9600 and 9601, from 10:26 UTC. Written
 
 - Nothing.
 
-Last written: 18:02 UTC, session 9602.
+Last written: 18:48 UTC, session 9602.
