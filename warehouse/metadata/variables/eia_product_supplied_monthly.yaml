@@ -5,9 +5,10 @@
 table: eia_product_supplied_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's product supplied (EIA's measure of consumption) of one petroleum product in the U.S. or a PADD, in the month
+  or per day.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_product_supplied:<EIA series id>
   type: text
   values:
     distinct: 702
@@ -82,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row, the PADDs included
   type: text
   values:
     list:
@@ -89,12 +92,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 71938
 - name: node
   shared: true
+  particular: EIA's series name
   type: text
   values:
     distinct: 702
@@ -129,19 +134,20 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 71938
 variables:
 - name: product_supplied
-  label: null
+  label: Product supplied of the product in the month, thousand barrels
   unit: kbbl
   rows: 35969
   first: '2017-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: product_supplied_per_day
-  label: null
+  label: Product supplied of the product, thousand barrels a day
   unit: kbbl/d
   rows: 35969
   first: '2017-01-01T00:00:00Z'

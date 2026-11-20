@@ -5,9 +5,11 @@
 table: cost_of_power_hourly_profile
 family: cost
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One ISO hub's average real-time price at one local hour of the day in one local month, or the number of hours averaged.
+time: ts_utc is the first day of the ISO's local month at 00:00:00Z (freq P1M); the last 12 local months each hub holds with
+  demand.
+vintage_rule: Rebuilt by each run of the builder; months the rolling input tables no longer reach are carried over from the
+  previous file (header). vintage is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <iso>:<hub or zone> (the price board's main hubs, with CAISO NP15 and ERCOT's LZ_HOUSTON and LZ_NORTH)
   type: text
   values:
     list:
@@ -109,6 +112,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: '<iso>_rtm: every figure is of the real-time price'
   type: text
   values:
     list:
@@ -177,289 +181,289 @@ columns:
   missing_cells: 0
 variables:
 - name: rt_days_h00
-  label: null
+  label: The hours averaged in rt_mean_h00 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h01
-  label: null
+  label: The hours averaged in rt_mean_h01 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h02
-  label: null
+  label: The hours averaged in rt_mean_h02 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h03
-  label: null
+  label: The hours averaged in rt_mean_h03 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h04
-  label: null
+  label: The hours averaged in rt_mean_h04 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h05
-  label: null
+  label: The hours averaged in rt_mean_h05 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h06
-  label: null
+  label: The hours averaged in rt_mean_h06 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h07
-  label: null
+  label: The hours averaged in rt_mean_h07 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h08
-  label: null
+  label: The hours averaged in rt_mean_h08 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h09
-  label: null
+  label: The hours averaged in rt_mean_h09 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h10
-  label: null
+  label: The hours averaged in rt_mean_h10 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h11
-  label: null
+  label: The hours averaged in rt_mean_h11 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h12
-  label: null
+  label: The hours averaged in rt_mean_h12 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h13
-  label: null
+  label: The hours averaged in rt_mean_h13 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h14
-  label: null
+  label: The hours averaged in rt_mean_h14 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h15
-  label: null
+  label: The hours averaged in rt_mean_h15 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h16
-  label: null
+  label: The hours averaged in rt_mean_h16 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h17
-  label: null
+  label: The hours averaged in rt_mean_h17 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h18
-  label: null
+  label: The hours averaged in rt_mean_h18 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h19
-  label: null
+  label: The hours averaged in rt_mean_h19 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h20
-  label: null
+  label: The hours averaged in rt_mean_h20 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h21
-  label: null
+  label: The hours averaged in rt_mean_h21 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h22
-  label: null
+  label: The hours averaged in rt_mean_h22 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_days_h23
-  label: null
+  label: The hours averaged in rt_mean_h23 (one a day)
   unit: count
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h00
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 00
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h01
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 01
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h02
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 02
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h03
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 03
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h04
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 04
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h05
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 05
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h06
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 06
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h07
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 07
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h08
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 08
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h09
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 09
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h10
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 10
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h11
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 11
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h12
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 12
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h13
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 13
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h14
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 14
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h15
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 15
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h16
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 16
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h17
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 17
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h18
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 18
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h19
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 19
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h20
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 20
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h21
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 21
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h22
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 22
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_mean_h23
-  label: null
+  label: Average real-time price of the month's complete price hours starting at local hour 23
   unit: USD/MWh
   rows: 121
   first: '2025-10-01T00:00:00Z'

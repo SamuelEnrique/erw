@@ -5,9 +5,11 @@
 table: bfe_switzerland_electricity_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's value of one item of Switzerland's electricity balance, from the Swiss Federal Office of Energy's monthly
+  values.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; from 2000-01.
+vintage_rule: Rewritten whole as one snapshot by each run from the saved file; vintage is the file's Last-Modified; provisional
+  months carry x_final 0.
 keys:
 - entity
 - variable
@@ -34,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: bfe:ch on every row
   type: text
   values:
     list:
@@ -77,6 +80,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: CH on every row
   type: text
   values:
     list:
@@ -84,12 +88,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4000
 - name: node
   shared: true
+  particular: SFOE's column name in German, not a pricing node
   type: text
   values:
     list:
@@ -132,110 +138,111 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-10-07T07:18:58Z': 4000
   missing_cells: 0
 - name: x_final
-  label: null
-  unit: null
+  label: 'SFOE''s Definitiv: 1 for a final month, 0 for a provisional one'
+  unit: none
   type: integer
   values:
     list:
       '0': 112
       '1': 3888
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Definitiv
+  documented_by: header; connector bfe_switzerland_electricity.py; method bfe_switzerland_electricity_monthly.md
 variables:
 - name: exports
-  label: null
+  label: Exports (Ausfuhr)
   unit: MWh
   rows: 320
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: final_consumption
-  label: null
+  label: Final consumption (Endverbrauch)
   unit: MWh
   rows: 320
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Imports (Einfuhr)
   unit: MWh
   rows: 320
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: losses
-  label: null
+  label: Losses (Verluste)
   unit: MWh
   rows: 320
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: national_consumption
-  label: null
+  label: National consumption (Landesverbrauch)
   unit: MWh
   rows: 320
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: national_generation
-  label: null
+  label: National generation (Landeserzeugung)
   unit: MWh
   rows: 320
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_generation
-  label: null
+  label: Net generation (Erzeugung_netto)
   unit: MWh
   rows: 320
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: nuclear_generation
-  label: null
+  label: Nuclear generation (Erzeugung_Kernkraftwerk)
   unit: MWh
   rows: 320
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: other_generation
-  label: null
+  label: Other generation (Erzeugung_andere)
   unit: MWh
   rows: 240
   first: '2000-01-01T00:00:00Z'
   last: '2019-12-01T00:00:00Z'
 - name: pumped_storage_consumption
-  label: null
+  label: Electricity used by the storage pumps (Verbrauch_Speicherpumpen)
   unit: MWh
   rows: 320
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: run_of_river_generation
-  label: null
+  label: Run-of-river hydro generation (Erzeugung_Laufwerk)
   unit: MWh
   rows: 320
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: solar_generation
-  label: null
+  label: Photovoltaic generation (Erzeugung_Photovoltaik)
   unit: MWh
   rows: 80
   first: '2020-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: storage_hydro_generation
-  label: null
+  label: Storage hydro generation (Erzeugung_Speicherwerk)
   unit: MWh
   rows: 320
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: thermal_generation
-  label: null
+  label: Thermal generation (Erzeugung_Thermische)
   unit: MWh
   rows: 80
   first: '2020-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: wind_generation
-  label: null
+  label: Wind generation (Erzeugung_Windkraft)
   unit: MWh
   rows: 80
   first: '2020-01-01T00:00:00Z'

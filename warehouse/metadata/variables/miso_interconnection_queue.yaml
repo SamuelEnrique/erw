@@ -5,9 +5,12 @@
 table: miso_interconnection_queue
 family: other_sources
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One position in MISO's generator interconnection queue, as held on 30 September 2026 (MISO pulls paused since 4 October
+  2026).
+time: No time column; queue_date, proposed_in_service_date and withdrawn_date are the ISO's dates (YYYY-MM-DD); vintage is
+  the snapshot's time.
+vintage_rule: 'A snapshot: a run replaces the whole table; MISO pulls are paused, so the table holds the queue as of 30 September
+  2026, rebuilt from the archive.'
 keys:
 - entity_id
 license: public
@@ -31,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: miso_queue:<project number>
   type: text
   values:
     distinct: 3881
@@ -43,6 +47,7 @@ columns:
   missing_cells: 0
 - name: entity_type
   shared: true
+  particular: project on every row
   type: text
   values:
     list:
@@ -50,12 +55,14 @@ columns:
   missing_cells: 0
 - name: name
   shared: true
+  particular: Empty on every row
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3881
 - name: geo
   shared: true
+  particular: US-<state> where MISO gives a state, else empty
   type: text
   values:
     list:
@@ -90,6 +97,7 @@ columns:
   missing_cells: 3881
 - name: capacity_mw
   shared: true
+  particular: The larger of MISO's summer and winter net MW, as gridstatus reads it
   type: number
   values:
     distinct: 535
@@ -98,6 +106,8 @@ columns:
   missing_cells: 0
 - name: status
   shared: true
+  particular: 'active (Active, Pending Revision Approval, Pending Transfer), completed (Done, LEGACY: Done) or withdrawn,
+    from iso_status'
   type: text
   values:
     list:
@@ -107,6 +117,7 @@ columns:
   missing_cells: 0
 - name: status_date
   shared: true
+  particular: The withdrawn date of a withdrawn row; no completed row has one
   type: date
   values:
     distinct: 429
@@ -115,6 +126,7 @@ columns:
   missing_cells: 1755
 - name: operator
   shared: true
+  particular: Empty on every row
   type: empty
   values:
     note: no cell holds a value
@@ -142,14 +154,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 2026-09-30T00:00:00Z, a timestamp, where other queues carry a day
   type: utc time
   values:
     list:
       '2026-09-30T00:00:00Z': 3881
   missing_cells: 0
 - name: queue_id
-  label: null
-  unit: null
+  label: MISO's project number of the request
+  unit: none
   type: text
   values:
     distinct: 3880
@@ -160,12 +173,12 @@ columns:
     - J1003
     - J1004
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Queue ID
+  documented_by: connector iso_queues.py; method miso_interconnection_queue.md
 - name: county
-  label: null
-  unit: null
+  label: The county of the project as MISO writes it
+  unit: none
   type: text
   values:
     distinct: 776
@@ -176,12 +189,12 @@ columns:
     - Adair County
     - Adams
   missing_cells: 175
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: MISO gives no county
+  source_name: County
+  documented_by: connector iso_queues.py
 - name: state
-  label: null
-  unit: null
+  label: The state of the project, two-letter code
+  unit: none
   type: text
   values:
     list:
@@ -202,12 +215,12 @@ columns:
       TX: 91
       WI: 249
   missing_cells: 211
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: MISO gives no state
+  source_name: State
+  documented_by: connector iso_queues.py
 - name: poi
-  label: null
-  unit: null
+  label: 'The point of interconnection: the substation or line where the project would connect'
+  unit: none
   type: text
   values:
     distinct: 2916
@@ -218,22 +231,22 @@ columns:
     - 115 kV DARNELL
     - 115 kV transmission line from Warsaw to Donaldson owned by Otter Tail Power Company
   missing_cells: 157
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: MISO gives none
+  source_name: Interconnection Location
+  documented_by: connector iso_queues.py
 - name: zone
-  label: null
-  unit: null
+  label: The zone of the project
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3881
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'Empty in every row: MISO''s queue does not give it'
+  source_name: Zone
+  documented_by: connector iso_queues.py; data
 - name: transmission_owner
-  label: null
-  unit: null
+  label: The transmission owner the project connects to, as MISO names it
+  unit: none
   type: text
   values:
     distinct: 94
@@ -244,12 +257,12 @@ columns:
     - AMERICAN TRANSMISSION COMPANY
     - ARKANSAS ELECTRIC COOPERATIVE CORPORATION
   missing_cells: 130
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: MISO gives none
+  source_name: Transmission Owner
+  documented_by: connector iso_queues.py
 - name: fuel_technology
-  label: null
-  unit: null
+  label: The project's generation type in MISO's words (Solar, Battery Storage, Wind, Hybrid, Gas and others)
+  unit: none
   type: text
   values:
     list:
@@ -268,12 +281,12 @@ columns:
       Waste Heat Recovery: 6
       Wind: 523
   missing_cells: 325
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: MISO gives none
+  source_name: Generation Type
+  documented_by: connector iso_queues.py; method miso_interconnection_queue.md
 - name: iso_status
-  label: null
-  unit: null
+  label: 'MISO''s own status of the request (Active, Pending Revision Approval, Pending Transfer, Done, LEGACY: Done, Withdrawn)'
+  unit: none
   type: text
   values:
     list:
@@ -284,53 +297,53 @@ columns:
       Pending Transfer: 7
       Withdrawn: 2148
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Status
+  documented_by: connector iso_queues.py; method miso_interconnection_queue.md
 - name: queue_date
-  label: null
-  unit: null
+  label: The date the request entered the queue
+  unit: none
   type: date
   values:
     distinct: 619
     earliest: '2015-04-15'
     latest: '2026-09-09'
   missing_cells: 6
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: MISO gives no queue date (6 rows)
+  source_name: Queue Date
+  documented_by: connector iso_queues.py; method miso_interconnection_queue.md
 - name: proposed_in_service_date
-  label: null
-  unit: null
+  label: The date the project proposes to begin operating
+  unit: none
   type: date
   values:
     distinct: 337
     earliest: '1990-12-03'
     latest: '2030-06-01'
   missing_cells: 3259
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: MISO gives no proposed date
+  source_name: Proposed Completion Date
+  documented_by: connector iso_queues.py
 - name: actual_in_service_date
-  label: null
-  unit: null
+  label: The date the project began operating
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3881
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'Empty in every row: MISO gives no such date'
+  source_name: Actual Completion Date (gridstatus)
+  documented_by: connector iso_queues.py; method miso_interconnection_queue.md
 - name: withdrawn_date
-  label: null
-  unit: null
+  label: The date the request was withdrawn
+  unit: none
   type: date
   values:
     distinct: 431
     earliest: '2017-02-17'
     latest: '2026-09-22'
   missing_cells: 1750
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not withdrawn, or withdrawn with no date given
+  source_name: Withdrawn Date
+  documented_by: connector iso_queues.py; method miso_interconnection_queue.md
 second_look: null

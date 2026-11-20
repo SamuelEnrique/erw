@@ -5,9 +5,10 @@
 table: eia930_subba_demand_hourly
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One sub-region's (sub-balancing-authority's) demand in one hour of the last 90 whole days, from EIA's API.
+time: ts_utc is the hour's start (EIA's hour-ending period less one hour), UTC.
+vintage_rule: A snapshot, the whole table replaced by each run (the last 90 whole UTC days before the run's day); vintage
+  is empty.
 keys:
 - entity
 - variable
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930_subba:<parent BA>:<sub-region>
   type: text
   values:
     distinct: 89
@@ -81,6 +83,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
@@ -94,6 +97,7 @@ columns:
   missing_cells: 186177
 - name: node
   shared: true
+  particular: The sub-region's name and its parent's name, not a pricing node
   type: text
   values:
     distinct: 89
@@ -134,7 +138,7 @@ columns:
   missing_cells: 186177
 variables:
 - name: demand_mw
-  label: null
+  label: Hourly demand of the sub-region, the hour's mean MW
   unit: MW
   rows: 186177
   first: '2026-07-24T00:00:00Z'

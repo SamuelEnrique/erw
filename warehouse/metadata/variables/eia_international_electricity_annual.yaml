@@ -5,9 +5,10 @@
 table: eia_international_electricity_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's electricity figure (generation by product, consumption, trade, losses or capacity) for the U.S., Canada or
+  Mexico, from EIA's International Energy Statistics.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -35,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_intl:<EIA country code CAN, MEX, USA>:<EIA product id>
   type: text
   values:
     distinct: 51
@@ -84,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The country's two-letter ISO code (CA, MX, US)
   type: text
   values:
     list:
@@ -93,12 +96,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4131
 - name: node
   shared: true
+  particular: <country>, <product> in EIA's names
   type: text
   values:
     distinct: 51
@@ -133,13 +138,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4131
 - name: x_data_flag
-  label: null
-  unit: null
+  label: EIA's flag on the value where it gives one (for example a value that rounds to zero)
+  unit: none
   type: text
   values:
     list:
@@ -147,48 +153,48 @@ columns:
       Values derived using SMR estimation methodology. Appears as a superscript.: 1
       Values flagged perliminary by source. Appears as a superscript.: 1
   missing_cells: 3816
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives no flag
+  source_name: dataFlagDescription
+  documented_by: connector eia_international_electricity.py; method eia_international_electricity_annual.md
 variables:
 - name: capacity
-  label: null
+  label: Generating capacity, MW (EIA's million kW times 1,000)
   unit: MW
   rows: 1355
   first: '1980-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: consumption
-  label: null
+  label: Electricity consumption, MWh
   unit: MWh
   rows: 135
   first: '1980-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: distribution_losses
-  label: null
+  label: Electricity transmission and distribution losses, MWh
   unit: MWh
   rows: 135
   first: '1980-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: exports
-  label: null
+  label: Electricity exports, MWh
   unit: MWh
   rows: 135
   first: '1980-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: generation
-  label: null
+  label: Net electricity generation from the product, MWh (EIA's billion kWh times 1,000,000)
   unit: MWh
   rows: 2101
   first: '1980-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Electricity imports, MWh
   unit: MWh
   rows: 135
   first: '1980-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: net_imports
-  label: null
+  label: Electricity net imports, MWh
   unit: MWh
   rows: 135
   first: '1980-01-01T00:00:00Z'

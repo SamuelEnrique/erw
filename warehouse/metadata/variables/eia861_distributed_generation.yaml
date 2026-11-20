@@ -5,9 +5,11 @@
 table: eia861_distributed_generation
 family: eia861
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One utility's figure for the distributed generators on its system that are not net metered (their number, or capacity
+  by technology and customer sector) in one state and balancing authority, for one year, from Form EIA-861.
+time: ts_utc is the data year's 1 January at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: A run reads the years given with --years (2016 on) and writes the table whole; vintage is not filled. EIA's
+  aggregates 88888 and 99999 (its State Adjustment rows) left out; a '.' cell has no row.
 keys:
 - entity
 - variable
@@ -37,6 +39,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia861_dg:<utility number>:<state>:<balancing authority>; ends in a colon where EIA gives no balancing authority
   type: text
   values:
     distinct: 750
@@ -95,6 +98,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, territories included
   type: text
   values:
     distinct: 53
@@ -107,12 +111,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 179161
 - name: node
   shared: true
+  particular: The utility's name, not a pricing node
   type: text
   values:
     distinct: 741
@@ -164,25 +170,26 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 179161
 - name: x_utility_number
-  label: null
-  unit: null
+  label: EIA's utility identifier
+  unit: none
   type: integer
   values:
     distinct: 705
     lowest: 34
     highest: 66866
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_distribution.md
 - name: x_state
-  label: null
-  unit: null
+  label: The state or territory, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 53
@@ -193,12 +200,12 @@ columns:
     - AS
     - AZ
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_distribution.md
 - name: x_ba_code
-  label: null
-  unit: null
+  label: The balancing authority (the grid operator of the area) code EIA gives for the row
+  unit: none
   type: text
   values:
     distinct: 49
@@ -209,440 +216,441 @@ columns:
     - AVA
     - BANC
   missing_cells: 3529
-  missing_meaning: null
+  missing_meaning: EIA gives no balancing authority
   source_name: null
-  documented_by: null
+  documented_by: method eia861_distribution.md
 - name: x_capacity_type
-  label: null
-  unit: null
+  label: Whether the utility gives the capacity in alternating (AC) or direct (DC) current
+  unit: none
   type: text
   values:
     list:
       AC: 130236
       DC: 19872
   missing_cells: 29053
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA's Type cell is empty
+  source_name: Type
+  documented_by: method eia861_distribution.md; connector eia861_distributed_generation.py
 variables:
 - name: battery_capacity_commercial
-  label: null
+  label: Battery capacity (EIA's Storage to 2022, Battery from 2023), commercial sector, MW
   unit: MW
   rows: 1766
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: battery_capacity_direct_connected
-  label: null
+  label: Battery capacity (EIA's Storage to 2022, Battery from 2023), EIA's Direct Connected sector, MW
   unit: MW
   rows: 1595
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: battery_capacity_industrial
-  label: null
+  label: Battery capacity (EIA's Storage to 2022, Battery from 2023), industrial sector, MW
   unit: MW
   rows: 1584
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: battery_capacity_residential
-  label: null
+  label: Battery capacity (EIA's Storage to 2022, Battery from 2023), residential sector, MW
   unit: MW
   rows: 1757
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: battery_capacity_total
-  label: null
+  label: Battery capacity (EIA's Storage to 2022, Battery from 2023), all sectors, MW
   unit: MW
   rows: 4480
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: battery_capacity_transportation
-  label: null
+  label: Battery capacity (EIA's Storage to 2022, Battery from 2023), transportation sector, MW
   unit: MW
   rows: 1545
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: battery_energy_commercial
-  label: null
+  label: Battery energy capacity, commercial sector, MWh (2023 on)
   unit: MWh
   rows: 104
   first: '2023-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: battery_energy_direct_connected
-  label: null
+  label: Battery energy capacity, EIA's Direct Connected sector, MWh (2023 on)
   unit: MWh
   rows: 65
   first: '2023-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: battery_energy_industrial
-  label: null
+  label: Battery energy capacity, industrial sector, MWh (2023 on)
   unit: MWh
   rows: 58
   first: '2023-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: battery_energy_residential
-  label: null
+  label: Battery energy capacity, residential sector, MWh (2023 on)
   unit: MWh
   rows: 118
   first: '2023-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: battery_energy_total
-  label: null
+  label: Battery energy capacity, all sectors, MWh (2023 on)
   unit: MWh
   rows: 1145
   first: '2023-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: battery_energy_transportation
-  label: null
+  label: Battery energy capacity, transportation sector, MWh (2023 on)
   unit: MWh
   rows: 52
   first: '2023-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_backup_only
-  label: null
+  label: Capacity used for back-up only, MW
   unit: MW
   rows: 3141
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: capacity_utility_owned
-  label: null
+  label: Capacity the utility owns, MW
   unit: MW
   rows: 3436
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: combustion_turbine_capacity_commercial
-  label: null
+  label: Combustion turbine capacity, commercial sector, MW
   unit: MW
   rows: 2021
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: combustion_turbine_capacity_direct_connected
-  label: null
+  label: Combustion turbine capacity, EIA's Direct Connected sector, MW
   unit: MW
   rows: 1860
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: combustion_turbine_capacity_industrial
-  label: null
+  label: Combustion turbine capacity, industrial sector, MW
   unit: MW
   rows: 1895
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: combustion_turbine_capacity_residential
-  label: null
+  label: Combustion turbine capacity, residential sector, MW
   unit: MW
   rows: 1885
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: combustion_turbine_capacity_total
-  label: null
+  label: Combustion turbine capacity, all sectors, MW
   unit: MW
   rows: 4752
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: combustion_turbine_capacity_transportation
-  label: null
+  label: Combustion turbine capacity, transportation sector, MW
   unit: MW
   rows: 1838
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: fuel_cell_capacity_commercial
-  label: null
+  label: Fuel cell capacity, commercial sector, MW
   unit: MW
   rows: 1940
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: fuel_cell_capacity_direct_connected
-  label: null
+  label: Fuel cell capacity, EIA's Direct Connected sector, MW
   unit: MW
   rows: 1845
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: fuel_cell_capacity_industrial
-  label: null
+  label: Fuel cell capacity, industrial sector, MW
   unit: MW
   rows: 1849
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: fuel_cell_capacity_residential
-  label: null
+  label: Fuel cell capacity, residential sector, MW
   unit: MW
   rows: 1861
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: fuel_cell_capacity_total
-  label: null
+  label: Fuel cell capacity, all sectors, MW
   unit: MW
   rows: 4752
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: fuel_cell_capacity_transportation
-  label: null
+  label: Fuel cell capacity, transportation sector, MW
   unit: MW
   rows: 1838
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: hydro_capacity_commercial
-  label: null
+  label: Hydroelectric capacity, commercial sector, MW
   unit: MW
   rows: 2128
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: hydro_capacity_direct_connected
-  label: null
+  label: Hydroelectric capacity, EIA's Direct Connected sector, MW
   unit: MW
   rows: 2085
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: hydro_capacity_industrial
-  label: null
+  label: Hydroelectric capacity, industrial sector, MW
   unit: MW
   rows: 1881
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: hydro_capacity_residential
-  label: null
+  label: Hydroelectric capacity, residential sector, MW
   unit: MW
   rows: 1897
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: hydro_capacity_total
-  label: null
+  label: Hydroelectric capacity, all sectors, MW
   unit: MW
   rows: 4754
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: hydro_capacity_transportation
-  label: null
+  label: Hydroelectric capacity, transportation sector, MW
   unit: MW
   rows: 1840
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: internal_combustion_capacity_commercial
-  label: null
+  label: Internal combustion engine capacity, commercial sector, MW
   unit: MW
   rows: 2740
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: internal_combustion_capacity_direct_connected
-  label: null
+  label: Internal combustion engine capacity, EIA's Direct Connected sector, MW
   unit: MW
   rows: 2040
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: internal_combustion_capacity_industrial
-  label: null
+  label: Internal combustion engine capacity, industrial sector, MW
   unit: MW
   rows: 2138
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: internal_combustion_capacity_residential
-  label: null
+  label: Internal combustion engine capacity, residential sector, MW
   unit: MW
   rows: 2034
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: internal_combustion_capacity_total
-  label: null
+  label: Internal combustion engine capacity, all sectors, MW
   unit: MW
   rows: 4753
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: internal_combustion_capacity_transportation
-  label: null
+  label: Internal combustion engine capacity, transportation sector, MW
   unit: MW
   rows: 1856
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_of_generators
-  label: null
+  label: Distributed generators not net metered, count
   unit: count
   rows: 4873
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_capacity_commercial
-  label: null
+  label: Other technologies' capacity, commercial sector, MW
   unit: MW
   rows: 2059
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_capacity_direct_connected
-  label: null
+  label: Other technologies' capacity, EIA's Direct Connected sector, MW
   unit: MW
   rows: 1871
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_capacity_industrial
-  label: null
+  label: Other technologies' capacity, industrial sector, MW
   unit: MW
   rows: 1938
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_capacity_residential
-  label: null
+  label: Other technologies' capacity, residential sector, MW
   unit: MW
   rows: 1918
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_capacity_total
-  label: null
+  label: Other technologies' capacity, all sectors, MW
   unit: MW
   rows: 4761
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_capacity_transportation
-  label: null
+  label: Other technologies' capacity, transportation sector, MW
   unit: MW
   rows: 1849
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: pv_capacity_commercial
-  label: null
+  label: Solar photovoltaic capacity, commercial sector, MW
   unit: MW
   rows: 3346
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: pv_capacity_direct_connected
-  label: null
+  label: Solar photovoltaic capacity, EIA's Direct Connected sector, MW
   unit: MW
   rows: 2333
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: pv_capacity_industrial
-  label: null
+  label: Solar photovoltaic capacity, industrial sector, MW
   unit: MW
   rows: 2208
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: pv_capacity_residential
-  label: null
+  label: Solar photovoltaic capacity, residential sector, MW
   unit: MW
   rows: 3095
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: pv_capacity_total
-  label: null
+  label: Solar photovoltaic capacity, all sectors, MW
   unit: MW
   rows: 4883
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: pv_capacity_transportation
-  label: null
+  label: Solar photovoltaic capacity, transportation sector, MW
   unit: MW
   rows: 1880
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: steam_capacity_commercial
-  label: null
+  label: Steam capacity, commercial sector, MW
   unit: MW
   rows: 1921
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: steam_capacity_direct_connected
-  label: null
+  label: Steam capacity, EIA's Direct Connected sector, MW
   unit: MW
   rows: 1880
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: steam_capacity_industrial
-  label: null
+  label: Steam capacity, industrial sector, MW
   unit: MW
   rows: 1864
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: steam_capacity_residential
-  label: null
+  label: Steam capacity, residential sector, MW
   unit: MW
   rows: 1861
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: steam_capacity_total
-  label: null
+  label: Steam capacity, all sectors, MW
   unit: MW
   rows: 4752
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: steam_capacity_transportation
-  label: null
+  label: Steam capacity, transportation sector, MW
   unit: MW
   rows: 1838
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_capacity
-  label: null
+  label: Total capacity of the distributed generators not net metered, MW
   unit: MW
   rows: 4872
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_capacity_commercial
-  label: null
+  label: All technologies' capacity, commercial sector, MW
   unit: MW
   rows: 4861
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_capacity_direct_connected
-  label: null
+  label: All technologies' capacity, EIA's Direct Connected sector, MW
   unit: MW
   rows: 4769
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_capacity_industrial
-  label: null
+  label: All technologies' capacity, industrial sector, MW
   unit: MW
   rows: 4772
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_capacity_residential
-  label: null
+  label: All technologies' capacity, residential sector, MW
   unit: MW
   rows: 4864
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_capacity_total
-  label: null
+  label: All technologies' capacity, all sectors, MW
   unit: MW
   rows: 4884
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_capacity_transportation
-  label: null
+  label: All technologies' capacity, transportation sector, MW
   unit: MW
   rows: 4769
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: wind_capacity_commercial
-  label: null
+  label: Wind capacity, commercial sector, MW
   unit: MW
   rows: 2262
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: wind_capacity_direct_connected
-  label: null
+  label: Wind capacity, EIA's Direct Connected sector, MW
   unit: MW
   rows: 1928
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: wind_capacity_industrial
-  label: null
+  label: Wind capacity, industrial sector, MW
   unit: MW
   rows: 1937
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: wind_capacity_residential
-  label: null
+  label: Wind capacity, residential sector, MW
   unit: MW
   rows: 2172
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: wind_capacity_total
-  label: null
+  label: Wind capacity, all sectors, MW
   unit: MW
   rows: 4759
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: wind_capacity_transportation
-  label: null
+  label: Wind capacity, transportation sector, MW
   unit: MW
   rows: 1854
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
-second_look: null
+second_look:
+- The sector direct_connected is EIA's heading Direct Connected; the method note and connector do not say what it covers.

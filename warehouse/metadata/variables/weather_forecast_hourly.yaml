@@ -5,9 +5,10 @@
 table: weather_forecast_hourly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One airport's forecast temperature or wind speed for one hour, from the National Weather Service's hourly forecast.
+time: ts_utc is the forecast hour's start (UTC); freq PT1H; about 7 days ahead.
+vintage_rule: 'Merged by (entity, variable, ts_utc): a newer run replaces the value for the same hour (the latest forecast);
+  vintage is the forecast''s updateTime.'
 keys:
 - entity
 - variable
@@ -16,7 +17,8 @@ license: public
 tier: source
 interval: PT1H
 source:
-- name: nws:forecast_hourly National Weather Service API,  then its forecastHourly (units=si)
+- name: nws:forecast_hourly National Weather Service API, https://api.weather.gov/points/<lat,lon> then its forecastHourly
+    (units=si)
   url: https://api.weather.gov/points/<lat,lon>
 cite: National Weather Service (NWS, NOAA). Hourly gridpoint forecast (api.weather.gov). Via the Energy Research Warehouse
   (ERW), table `weather_forecast_hourly`.
@@ -32,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: nws:<station>, one airport per ISO load center
   type: text
   values:
     list:
@@ -82,6 +85,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<the airport's state>
   type: text
   values:
     list:
@@ -95,12 +99,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 18538
 - name: node
   shared: true
+  particular: The ISO whose load center the airport stands for, not a pricing node
   type: text
   values:
     list:
@@ -142,6 +148,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The forecast's updateTime (UTC)
   type: utc time
   values:
     distinct: 249
@@ -150,13 +157,13 @@ columns:
   missing_cells: 0
 variables:
 - name: temperature_f
-  label: null
+  label: Forecast temperature for the hour
   unit: degF
   rows: 9269
   first: '2026-09-28T09:00:00Z'
   last: '2026-11-23T01:00:00Z'
 - name: wind_speed_mph
-  label: null
+  label: Forecast wind speed for the hour
   unit: mph
   rows: 9269
   first: '2026-09-28T09:00:00Z'

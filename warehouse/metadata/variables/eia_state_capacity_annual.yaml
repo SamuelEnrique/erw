@@ -35,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_state_capacity:<state>:<producertypeid>:<energysourceid>; producer types EU, IPP, TOT (both); sources ALL,
+    a fuel or a part of one
   type: text
   values:
     distinct: 2671
@@ -45,8 +47,6 @@ columns:
     - eia_state_capacity:AK:EU:HYC
     - eia_state_capacity:AK:EU:NG
   missing_cells: 0
-  particular: eia_state_capacity:<state>:<producertypeid>:<energysourceid>; producer types EU, IPP, TOT (both); sources ALL,
-    a fuel or a part of one
 - name: variable
   shared: true
   type: text
@@ -85,6 +85,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation
   type: text
   values:
     distinct: 52
@@ -95,16 +96,16 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
-  particular: US-<state>, or US for the nation
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 56719
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's descriptions (state, sector, source)
   type: text
   values:
     distinct: 2671
@@ -115,7 +116,6 @@ columns:
     - Alabama, All sectors, Hydroelectric
     - Alabama, All sectors, Natural Gas
   missing_cells: 0
-  particular: EIA's descriptions (state, sector, source)
 - name: source
   shared: true
   type: text
@@ -140,11 +140,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 56719
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: net_summer_capacity
   label: Net summer capacity (the most a plant can deliver in summer, less its own use), MW; a sum takes one level and leaves

@@ -5,9 +5,9 @@
 table: noaa_region_stations
 family: noaa
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One county chosen for one EIA region's weather, with its weight in the region and the NOAA station that stands for it.
+time: ts_utc is 2025-07-01, the date of the population estimates the weights are built from; freq is not filled.
+vintage_rule: A snapshot written whole by each run of the connector; not in the daily run. vintage is not filled.
 keys:
 - entity
 - variable
@@ -30,6 +30,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: census:county:<FIPS>, the county, not a station
   type: text
   values:
     distinct: 271
@@ -70,24 +71,28 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 271
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 271
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 271
 - name: node
   shared: true
+  particular: The county's station as NOAA's USAF-WBAN identifier, not a pricing node
   type: text
   values:
     distinct: 216
@@ -121,13 +126,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 271
 - name: x_region
-  label: null
-  unit: null
+  label: The EIA region the county is chosen for (CAL, CAR, CENT, FLA, MIDA, MIDW, NE, NW, NY, SE, SW, TEN), its primary region
+    in eia_county_region
+  unit: none
   type: text
   values:
     list:
@@ -145,12 +152,12 @@ columns:
       TEN: 25
       TEX: 22
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector noaa_region_weather.py; method region_weather.md
 - name: x_county
-  label: null
-  unit: null
+  label: The county's name
+  unit: none
   type: text
   values:
     distinct: 233
@@ -161,24 +168,24 @@ columns:
     - Alameda County
     - Albany County
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector noaa_region_weather.py
 - name: x_population_2025
-  label: null
-  unit: null
+  label: The county's population, the Census Bureau's estimate of 1 July 2025 (census_county_population)
+  unit: count
   type: integer
   values:
     distinct: 271
     lowest: 80175
     highest: 9694934
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method region_weather.md
 - name: x_station_name
-  label: null
-  unit: null
+  label: The station's name as NOAA's isd-history.csv gives it
+  unit: none
   type: text
   values:
     distinct: 215
@@ -189,24 +196,25 @@ columns:
     - ALBERT WHITTED AIRPORT
     - ALBUQUERQUE INTL SUNPORT AIRPORT
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector noaa_region_weather.py; method region_weather.md
 - name: x_km
-  label: null
-  unit: null
+  label: The distance from the county's 2020 center of population to the station
+  unit: km
   type: number
   values:
     distinct: 172
     lowest: 0.3
     highest: 79.1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector noaa_region_weather.py; method region_weather.md
 - name: x_lst_offset
-  label: null
-  unit: null
+  label: 'The station''s local standard time offset from UTC in hours (-5 to -8), read from the data: the offset under which
+    ISD-Lite and the Local Climatological Data agree in the most hours of July 2025'
+  unit: hour
   type: integer
   values:
     list:
@@ -215,12 +223,12 @@ columns:
       '-7': 20
       '-8': 26
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector noaa_region_weather.py; method region_weather.md
 - name: x_lcd_agreement_jul2025
-  label: null
-  unit: null
+  label: The share of July 2025's hours held by both products in which they agree to a tenth of a degree C under that offset
+  unit: ratio
   type: number
   values:
     list:
@@ -232,12 +240,13 @@ columns:
       '0.999': 34
       '1.0': 231
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector noaa_region_weather.py; method region_weather.md
 variables:
 - name: station_weight
-  label: null
+  label: The county's population over the population of its region's chosen counties (ratio); a station chosen by several
+    counties carries their sum
   unit: ratio
   rows: 271
   first: '2025-07-01T00:00:00Z'

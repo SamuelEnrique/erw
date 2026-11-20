@@ -5,9 +5,10 @@
 table: census_cbp_hosting_annual
 family: census
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's establishments, employment or annual payroll in NAICS 518210 (data processing, hosting and related services)
+  in one year, County Business Patterns.
+time: ts_utc is 1 January of the reference year at 00:00:00Z (freq P1Y).
+vintage_rule: A snapshot, replaced whole by each run; vintage is each year's file's Last-Modified time.
 keys:
 - entity
 - variable
@@ -35,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: census_cbp_518210:<state postal code, lowercase>
   type: text
   values:
     distinct: 51
@@ -112,6 +114,7 @@ columns:
   missing_cells: 1836
 - name: node
   shared: true
+  particular: The state's postal code, not a pricing node
   type: text
   values:
     distinct: 51
@@ -184,8 +187,9 @@ columns:
       '2025-06-26T12:00:29Z': 153
   missing_cells: 0
 - name: x_emp_noise
-  label: null
-  unit: null
+  label: 'The Bureau''s noise flag for employment: G low, H moderate, J high noise, N not available; D and S mark a figure
+    the Bureau withholds, kept as a zero'
+  unit: none
   type: text
   values:
     list:
@@ -195,12 +199,13 @@ columns:
       J: 93
       S: 18
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: emp_nf
+  documented_by: header; connector census_cbp_hosting.py; method census_cbp_hosting_annual.md
 - name: x_ap_noise
-  label: null
-  unit: null
+  label: 'The Bureau''s noise flag for annual payroll: G low, H moderate, J high noise, N not available; D marks a figure
+    the Bureau withholds, kept as a zero'
+  unit: none
   type: text
   values:
     list:
@@ -209,36 +214,36 @@ columns:
       H: 588
       J: 60
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: ap_nf
+  documented_by: header; connector census_cbp_hosting.py; method census_cbp_hosting_annual.md
 - name: x_naics_vintage
-  label: null
-  unit: null
+  label: 'The NAICS edition the connector assigns the year: 2022 from 2022, else 2017'
+  unit: none
   type: integer
   values:
     list:
       '2017': 1530
       '2022': 306
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector census_cbp_hosting.py; method census_cbp_hosting_annual.md
 variables:
 - name: annual_payroll
-  label: null
+  label: Annual payroll, USD (the Bureau's thousands times 1,000; noise infused by the Bureau)
   unit: USD
   rows: 612
   first: '2012-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: employment
-  label: null
+  label: Employment in the pay period including 12 March (noise infused by the Bureau)
   unit: count
   rows: 612
   first: '2012-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: establishments
-  label: null
+  label: Establishments in the industry in the state
   unit: count
   rows: 612
   first: '2012-01-01T00:00:00Z'

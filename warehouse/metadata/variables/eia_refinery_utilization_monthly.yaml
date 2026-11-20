@@ -5,9 +5,10 @@
 table: eia_refinery_utilization_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's refinery gross input, capacity (operable, operating, idle) or utilization in the U.S., a PADD or a refining
+  district.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -34,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_refinery_utilization:<EIA series id>
   type: text
   values:
     distinct: 80
@@ -83,6 +85,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row, the PADDs and districts included
   type: text
   values:
     list:
@@ -90,12 +93,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 36672
 - name: node
   shared: true
+  particular: EIA's series description
   type: text
   values:
     distinct: 80
@@ -137,37 +142,40 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 36672
 variables:
 - name: gross_input
-  label: null
+  label: Gross input to refineries, thousand barrels a day
   unit: kbbl/d
   rows: 7984
   first: '1985-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: idle_capacity
-  label: null
+  label: 'Idle crude distillation capacity, thousand barrels a day (no row where operable equals operating capacity: nil,
+    not unknown)'
   unit: kbbl/d
   rows: 4736
   first: '1985-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: operable_capacity
-  label: null
+  label: Operable crude distillation capacity, thousand barrels a day
   unit: kbbl/d
   rows: 7984
   first: '1985-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: operating_capacity
-  label: null
+  label: Operating crude distillation capacity, thousand barrels a day
   unit: kbbl/d
   rows: 7984
   first: '1985-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: utilization
-  label: null
+  label: Utilization of operable capacity, a ratio (EIA's percent divided by 100; above 1 where gross input exceeds operable
+    capacity)
   unit: ratio
   rows: 7984
   first: '1985-01-01T00:00:00Z'

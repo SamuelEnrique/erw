@@ -5,9 +5,10 @@
 table: dst_dk_electricity_supply_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's value of Denmark's electricity supply, production or imports, or its wind, hydro or solar power supply, from
+  Statistics Denmark's Energy Account table ENE1HT.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y; 1966 to 2025.
+vintage_rule: Rewritten whole as one snapshot by each run from the StatBank answer; vintage is not filled.
 keys:
 - entity
 - variable
@@ -34,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: dst_ene:dk on every row
   type: text
   values:
     list:
@@ -77,6 +79,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: DK on every row
   type: text
   values:
     list:
@@ -84,12 +87,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 360
 - name: node
   shared: true
+  particular: The StatBank codes and texts of the supply item and energy kind, not a pricing node
   type: text
   values:
     list:
@@ -124,43 +129,44 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 360
 variables:
 - name: electricity_imports
-  label: null
+  label: Imports of electricity (EIMPORT, EMEL)
   unit: MWh
   rows: 60
   first: '1966-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: electricity_production
-  label: null
+  label: Total production of electricity (EPRODI, EMEL)
   unit: MWh
   rows: 60
   first: '1966-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: electricity_total_supply
-  label: null
+  label: Total supply of electricity (ETIL, EMEL)
   unit: MWh
   rows: 60
   first: '1966-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: hydro_power_supply
-  label: null
+  label: Supply of renewable energy from hydro power (ETILVE, EMVAND)
   unit: MWh
   rows: 60
   first: '1966-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: solar_power_supply
-  label: null
+  label: Supply of renewable energy from solar power (ETILVE, EMSOLK)
   unit: MWh
   rows: 60
   first: '1966-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: wind_power_supply
-  label: null
+  label: Supply of renewable energy from wind power (ETILVE, EMVIND)
   unit: MWh
   rows: 60
   first: '1966-01-01T00:00:00Z'

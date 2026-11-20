@@ -5,9 +5,11 @@
 table: eia_annual_generation_ba
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One balancing authority's year of net generation, storage net generation or plant count, summed from Form EIA-923's plant
+  rows by their Balancing Authority Code.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (the file is deleted and rebuilt from the annual files); vintage is the year's file's
+  Last-Modified time.
 keys:
 - entity
 - variable
@@ -33,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia923:<balancing authority code>; eia923:none for plants with no code, eia923:state_fuel_increment for EIA's
+    state-fuel level increment rows
   type: text
   values:
     distinct: 68
@@ -83,6 +87,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
@@ -90,12 +95,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 515
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -126,6 +133,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified time of the year's EIA-923 zip file
   type: utc time
   values:
     list:
@@ -135,19 +143,19 @@ columns:
   missing_cells: 0
 variables:
 - name: net_generation_mwh
-  label: null
+  label: Net generation of the plants coded to the authority in the year (sheet Page 1 Generation and Fuel Data), MWh
   unit: MWh
   rows: 201
   first: '2023-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: plants
-  label: null
+  label: The plants with a row coded to the authority
   unit: count
   rows: 201
   first: '2023-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: storage_net_generation_mwh
-  label: null
+  label: Net generation of the storage plants coded to the authority (sheet Page 1 Energy Storage, negative), MWh
   unit: MWh
   rows: 113
   first: '2023-01-01T00:00:00Z'

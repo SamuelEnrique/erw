@@ -5,9 +5,10 @@
 table: bcrp_peru_hydrocarbons_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Peru's production of crude oil, natural gas liquids or natural gas in one month, from the central bank's BCRPData (data
+  from INEI and MINEM).
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; from 2000-01.
+vintage_rule: Rewritten whole as one snapshot by each run from the BCRPData answer; vintage is not filled.
 keys:
 - entity
 - variable
@@ -34,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: bcrp_pe:crude_oil, bcrp_pe:natural_gas_liquids or bcrp_pe:natural_gas
   type: text
   values:
     list:
@@ -80,6 +82,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: PE on every row
   type: text
   values:
     list:
@@ -87,12 +90,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 960
 - name: node
   shared: true
+  particular: BCRP's series name in Spanish, with its unit, not a pricing node
   type: text
   values:
     list:
@@ -124,13 +129,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 960
 - name: x_series_code
-  label: null
-  unit: null
+  label: BCRP's code of the series (PN01882AM, PN01883AM, PN01884AM)
+  unit: none
   type: text
   values:
     list:
@@ -138,12 +144,12 @@ columns:
       PN01883AM: 320
       PN01884AM: 320
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector bcrp_peru_hydrocarbons.py
 variables:
 - name: production
-  label: null
+  label: 'Production in the month: crude oil and natural gas liquids in thousand barrels, natural gas in million cubic feet'
   unit: MMcf; kbbl
   rows: 960
   first: '2000-01-01T00:00:00Z'

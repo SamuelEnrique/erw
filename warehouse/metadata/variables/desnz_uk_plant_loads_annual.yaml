@@ -5,9 +5,12 @@
 table: desnz_uk_plant_loads_annual
 family: desnz
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One of the major power producers' load, load factor or efficiency figures for the UK, one of its areas or one plant type
+  in one year, 1996 to 2025 (DUKES table 5.10).
+time: ts_utc is the first day of DESNZ's year at 00:00:00Z; the maximum load's year runs to March of the next (DESNZ's note
+  3); freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot of the DUKES edition read, here 2026); vintage is the workbook's last-modified
+  time.
 keys:
 - entity
 - variable
@@ -34,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: desnz_pl:<area or plant type>
   type: text
   values:
     list:
@@ -88,6 +92,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: GB (the UK, Great Britain, England and Wales and the plant types), GB-SCT or GB-NIR
   type: text
   values:
     list:
@@ -97,12 +102,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 425
 - name: node
   shared: true
+  particular: The sheet's row, prefixed with its part (5.10.A, B or C), not a pricing node
   type: text
   values:
     list:
@@ -146,6 +153,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time
   type: utc time
   values:
     list:
@@ -153,31 +161,32 @@ columns:
   missing_cells: 0
 variables:
 - name: load_factor
-  label: null
+  label: Plant load factor of a plant type (5.10.B), pct
   unit: pct
   rows: 179
   first: '1996-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: max_demand_share_of_capacity
-  label: null
+  label: Maximum demand as a percentage of the major power producers' capacity (5.10.A), pct
   unit: pct
   rows: 30
   first: '1996-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: max_load
-  label: null
+  label: The simultaneous maximum load met by the transmission network, net of demand met by embedded generation (table 5.10.A),
+    MW
   unit: MW
   rows: 96
   first: '1996-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: system_load_factor
-  label: null
+  label: Average electricity available as a percentage of maximum demand (5.10.B), pct
   unit: pct
   rows: 30
   first: '1996-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: thermal_efficiency
-  label: null
+  label: Electricity generated as a percentage of the fuel used, gross calorific value (5.10.C), pct
   unit: pct
   rows: 90
   first: '1996-01-01T00:00:00Z'

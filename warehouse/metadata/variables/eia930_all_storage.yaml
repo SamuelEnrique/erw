@@ -5,9 +5,10 @@
 table: eia930_all_storage
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One balancing authority's (or the Lower 48's) battery storage net generation (EIA fuel type BAT) in one hour.
+time: ts_utc is the hour's start (EIA's period, the hour's end, minus one hour).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a run''s rows replace earlier rows with the same key, earlier rows
+  are kept. vintage is not filled.'
 keys:
 - entity
 - variable
@@ -32,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<respondent> (ERCO, ISNE, MISO, SWPP, US48); CISO, NYIS and PJM report no BAT series
   type: text
   values:
     list:
@@ -79,6 +81,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The respondent's states, comma-separated; US for US48
   type: text
   values:
     list:
@@ -146,7 +149,8 @@ columns:
   missing_cells: 0
 variables:
 - name: net_generation_battery_mw
-  label: null
+  label: 'Battery net generation: positive while discharging, negative while charging where the authority reports charging
+    (ISNE and SWPP never do; ERCO from 2025-12-15)'
   unit: MW
   rows: 76104
   first: '2024-11-01T00:00:00Z'

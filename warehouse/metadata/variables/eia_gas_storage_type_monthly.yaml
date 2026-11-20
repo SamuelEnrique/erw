@@ -5,9 +5,10 @@
 table: eia_gas_storage_type_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's U.S. underground natural gas storage figure for all fields, salt caverns or non-salt fields.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M); base and working gas are month-end stocks, the rest flows
+  over the month.
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_gas_storage_type:<EIA series id>
   type: text
   values:
     list:
@@ -93,6 +95,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
@@ -100,12 +103,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8367
 - name: node
   shared: true
+  particular: EIA's series description
   type: text
   values:
     list:
@@ -153,115 +158,116 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8367
 variables:
 - name: all_base_gas
-  label: null
+  label: Base gas in all storage fields at the month's end, million cubic feet
   unit: MMcf
   rows: 614
   first: '1973-12-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: all_injections
-  label: null
+  label: Injections into all storage fields in the month, million cubic feet
   unit: MMcf
   rows: 611
   first: '1975-09-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: all_net_withdrawals
-  label: null
+  label: Net withdrawals from all storage fields in the month, million cubic feet
   unit: MMcf
   rows: 611
   first: '1975-09-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: all_total
-  label: null
+  label: Total gas in all storage fields, million cubic feet
   unit: MMcf
   rows: 614
   first: '1973-12-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: all_withdrawals
-  label: null
+  label: Withdrawals from all storage fields in the month, million cubic feet
   unit: MMcf
   rows: 611
   first: '1975-09-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: all_working_gas
-  label: null
+  label: Working gas in all storage fields at the month's end, million cubic feet
   unit: MMcf
   rows: 614
   first: '1973-12-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: non_salt_base_gas
-  label: null
+  label: Base gas in non-salt fields at the month's end, million cubic feet
   unit: MMcf
   rows: 391
   first: '1994-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: non_salt_injections
-  label: null
+  label: Injections into non-salt fields in the month, million cubic feet
   unit: MMcf
   rows: 391
   first: '1994-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: non_salt_net_withdrawals
-  label: null
+  label: Net withdrawals from non-salt fields in the month, million cubic feet
   unit: MMcf
   rows: 391
   first: '1994-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: non_salt_total
-  label: null
+  label: Total gas in non-salt fields, million cubic feet
   unit: MMcf
   rows: 391
   first: '1994-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: non_salt_withdrawals
-  label: null
+  label: Withdrawals from non-salt fields in the month, million cubic feet
   unit: MMcf
   rows: 391
   first: '1994-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: non_salt_working_gas
-  label: null
+  label: Working gas in non-salt fields at the month's end, million cubic feet
   unit: MMcf
   rows: 391
   first: '1994-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: salt_base_gas
-  label: null
+  label: Base gas in salt caverns at the month's end, million cubic feet
   unit: MMcf
   rows: 391
   first: '1994-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: salt_injections
-  label: null
+  label: Injections into salt caverns in the month, million cubic feet
   unit: MMcf
   rows: 391
   first: '1994-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: salt_net_withdrawals
-  label: null
+  label: Net withdrawals from salt caverns in the month, million cubic feet
   unit: MMcf
   rows: 391
   first: '1994-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: salt_total
-  label: null
+  label: Total gas in salt caverns, million cubic feet
   unit: MMcf
   rows: 391
   first: '1994-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: salt_withdrawals
-  label: null
+  label: Withdrawals from salt caverns in the month, million cubic feet
   unit: MMcf
   rows: 391
   first: '1994-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: salt_working_gas
-  label: null
+  label: Working gas in salt caverns at the month's end, million cubic feet
   unit: MMcf
   rows: 391
   first: '1994-01-01T00:00:00Z'

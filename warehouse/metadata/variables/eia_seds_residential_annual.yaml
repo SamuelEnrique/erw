@@ -5,9 +5,10 @@
 table: eia_seds_residential_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or the nation's) yearly figure for the residential sector from EIA's State Energy Data System (expenditures
+  by source, total consumption, average price) or the state's population.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -34,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_seds_res:<seriesId>:<state>
   type: text
   values:
     distinct: 572
@@ -85,6 +87,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation
   type: text
   values:
     distinct: 52
@@ -97,12 +100,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 20020
 - name: node
   shared: true
+  particular: EIA's name of the series
   type: text
   values:
     list:
@@ -146,13 +151,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 20020
 - name: x_series
-  label: null
-  unit: null
+  label: EIA's SEDS series identifier (for example ESRCV electricity expenditures in the residential sector)
+  unit: none
   type: text
   values:
     list:
@@ -168,12 +174,12 @@ columns:
       TPOPP: 1820
       WDRCV: 1820
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: seriesId
+  documented_by: header; connector eia_seds_residential.py
 - name: x_source
-  label: null
-  unit: null
+  label: The energy source of the series in the ERW's words (electricity, natural_gas, petroleum, wood, total and the others)
+  unit: none
   type: text
   values:
     list:
@@ -186,30 +192,30 @@ columns:
       total: 5460
       wood: 1820
   missing_cells: 1820
-  missing_meaning: null
+  missing_meaning: The population rows (TPOPP), which have no energy source
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_seds_residential.py; data
 variables:
 - name: consumption
-  label: null
+  label: Residential total energy consumption (TERCB), trillion Btu (EIA's billion Btu times 0.001)
   unit: TBtu
   rows: 1820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: expenditures
-  label: null
+  label: Residential expenditures on the energy source, nominal USD (EIA's million dollars times 1,000,000)
   unit: USD
   rows: 14560
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: population
-  label: null
+  label: The state's resident population (TPOPP), a count (EIA's thousands times 1,000)
   unit: count
   rows: 1820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: price
-  label: null
+  label: Residential total energy average price (TERCD), USD per million Btu
   unit: USD/MMBtu
   rows: 1820
   first: '1990-01-01T00:00:00Z'

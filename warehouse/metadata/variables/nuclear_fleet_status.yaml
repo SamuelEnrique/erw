@@ -5,9 +5,11 @@
 table: nuclear_fleet_status
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One US reactor's, one grid's reactor fleet's or the whole US fleet's value of one measure (capacity, outages, available
+  energy, uprates) for one year.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y; the newest year runs to the newest day held.
+vintage_rule: Rewritten whole as one snapshot by each run of the builder from EIA's daily outage table and EIA-860M; vintage
+  is not filled.
 keys:
 - entity
 - variable
@@ -35,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: nuclear_fleet:<facility>:<generator> for a reactor, nuclear_fleet:grid:<BA> for a grid's fleet, nuclear_fleet:US
   type: text
   values:
     distinct: 124
@@ -104,6 +107,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
@@ -111,12 +115,15 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 15048
 - name: node
   shared: true
+  particular: The reactor's name (plant, reactor number) from EIA's outage table, not a pricing node; empty on the grid and
+    US rows
   type: text
   values:
     distinct: 107
@@ -150,25 +157,26 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 15048
 - name: x_facility
-  label: null
-  unit: null
+  label: EIA's plant id of the reactor
+  unit: none
   type: integer
   values:
     distinct: 66
     lowest: 46
     highest: 8907
   missing_cells: 1340
-  missing_meaning: null
+  missing_meaning: Empty on the grid and US rows
   source_name: null
-  documented_by: null
+  documented_by: method nuclear_fleet_status.md; connector nuclear_fleet_status.py
 - name: x_generator
-  label: null
-  unit: null
+  label: EIA's reactor (generator) id within the plant
+  unit: none
   type: integer
   values:
     list:
@@ -177,12 +185,13 @@ columns:
       '3': 1325
       '4': 159
   missing_cells: 1340
-  missing_meaning: null
+  missing_meaning: Empty on the grid and US rows
   source_name: null
-  documented_by: null
+  documented_by: method nuclear_fleet_status.md; connector nuclear_fleet_status.py
 - name: x_ba
-  label: null
-  unit: null
+  label: The balancing authority of the reactor's plant in EIA-860M (none where EIA-860M lists no operating nuclear generator
+    at the plant); on a grid row, the grid
+  unit: none
   type: text
   values:
     list:
@@ -203,12 +212,12 @@ columns:
       TVA: 997
       none: 813
   missing_cells: 80
-  missing_meaning: null
+  missing_meaning: Empty on the US rows
   source_name: null
-  documented_by: null
+  documented_by: header; method nuclear_fleet_status.md; connector nuclear_fleet_status.py
 - name: x_first
-  label: null
-  unit: null
+  label: The reactor's first day held (a day after 1 January 2007 is a restart)
+  unit: none
   type: date
   values:
     list:
@@ -217,12 +226,12 @@ columns:
       '2022-10-13': 27
       '2023-08-21': 20
   missing_cells: 1340
-  missing_meaning: null
+  missing_meaning: Empty on the grid and US rows
   source_name: null
-  documented_by: null
+  documented_by: header; method nuclear_fleet_status.md
 - name: x_last
-  label: null
-  unit: null
+  label: The reactor's last day held (a day before the newest day is a retirement)
+  unit: none
   type: date
   values:
     list:
@@ -237,54 +246,54 @@ columns:
       '2021-03-31': 104
       '2026-11-19': 12865
   missing_cells: 1340
-  missing_meaning: null
+  missing_meaning: Empty on the grid and US rows
   source_name: null
-  documented_by: null
+  documented_by: header; method nuclear_fleet_status.md
 variables:
 - name: available_mwh
-  label: null
+  label: Capacity less outage, times 24, summed over the year's days (summed over reactors on a grid or US row)
   unit: MWh
   rows: 2308
   first: '2007-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: capacity_change_mw
-  label: null
+  label: 'capacity_mw less the year before''s: an uprate or a derate'
   unit: MW
   rows: 1861
   first: '2008-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: capacity_mw
-  label: null
+  label: The year's highest daily capacity (summed over the reactors on a grid or US row)
   unit: MW
   rows: 2308
   first: '2007-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: days_held
-  label: null
+  label: Days of the year held
   unit: count
   rows: 1982
   first: '2007-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: full_outage_days
-  label: null
+  label: Days in the year the reactor was 99 percent out or more
   unit: count
   rows: 1973
   first: '2007-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: long_outages
-  label: null
+  label: Runs of 14 or more full-outage days in a row (refuelings and long outages)
   unit: count
   rows: 1973
   first: '2007-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: outage_share
-  label: null
+  label: Outage MW-days over capacity MW-days in the year
   unit: ratio
   rows: 2308
   first: '2007-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: reactors
-  label: null
+  label: Reactors counted in the grid's or the US fleet in the year
   unit: count
   rows: 335
   first: '2007-01-01T00:00:00Z'

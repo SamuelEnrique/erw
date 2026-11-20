@@ -5,9 +5,9 @@
 table: eurostat_gas_import_origin_annual
 family: eurostat
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One European country's (or the EU's) natural gas import dependency on one country of origin in one year, 2015 to 2020.
+time: ts_utc is the year's 1 January at 00:00:00Z, a label for the calendar year (freq P1Y).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised figure replaces the old; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_gas_origin:<geo>:<partner>
   type: text
   values:
     distinct: 224
@@ -86,6 +87,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
   type: text
   values:
     distinct: 32
@@ -104,6 +106,7 @@ columns:
   missing_cells: 1253
 - name: node
   shared: true
+  particular: <geo> natural gas import dependency on <origin>, not a pricing node
   type: text
   values:
     distinct: 224
@@ -142,8 +145,8 @@ columns:
     note: no cell holds a value
   missing_cells: 1253
 - name: x_geo_code
-  label: null
-  unit: null
+  label: Eurostat's geo code of the country or aggregate
+  unit: none
   type: text
   values:
     distinct: 32
@@ -154,12 +157,13 @@ columns:
     - CZ
     - DE
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_gas_import_origin.py
 - name: x_partner
-  label: null
-  unit: null
+  label: 'Eurostat''s code of the country of origin: DZ Algeria, NG Nigeria, NO Norway, QA Qatar, RU Russia, UK the United
+    Kingdom, US the United States'
+  unit: none
   type: text
   values:
     list:
@@ -171,35 +175,36 @@ columns:
       UK: 179
       US: 179
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: x_flag
-  label: null
-  unit: null
+  label: 'Eurostat''s flag of the observation: i on every row (see Eurostat''s metadata)'
+  unit: none
   type: text
   values:
     list:
       i: 1253
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: x_conf_status
-  label: null
-  unit: null
+  label: Eurostat's confidentiality status of the observation
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1253
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value'
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_gas_import_origin.py
 variables:
 - name: import_dependency_by_origin
-  label: null
+  label: Natural gas (G3000) import dependency on the country of origin, percent, as Eurostat gives it
   unit: pct
   rows: 1253
   first: '2015-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
-second_look: null
+second_look:
+- 'x_flag: the meaning of Eurostat''s flag i is not written in the repository (the header says to see Eurostat''s metadata)'

@@ -5,9 +5,10 @@
 table: eia930_forecast_error_daily
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One balancing authority's or region's day-ahead demand forecast against the demand that came, over one whole local day,
+  July 2018 on.
+time: ts_utc is the local day at 00:00:00Z (x_tz its zone), a label; only whole days (23, 24 or 25 hours).
+vintage_rule: One build, rebuilt whole by each run of the builder; no vintage column.
 keys:
 - entity
 - variable
@@ -38,6 +39,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<code>, a balancing authority or a region
   type: text
   values:
     distinct: 71
@@ -92,20 +94,20 @@ columns:
       erw:forecast_error: 195888
   missing_cells: 0
 - name: x_level
-  label: null
-  unit: null
+  label: ba for a balancing authority, region for a sum over its demand-filing authorities
+  unit: none
   type: text
   values:
     list:
       ba: 158615
       region: 37273
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector forecast_error.py
 - name: x_tz
-  label: null
-  unit: null
+  label: The time zone of the local day (IANA name)
+  unit: none
   type: text
   values:
     list:
@@ -115,12 +117,12 @@ columns:
       America/New_York: 69038
       America/Phoenix: 22954
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector forecast_error.py
 - name: x_hours
-  label: null
-  unit: null
+  label: 'The hours of the day (23, 24 or 25: only whole days)'
+  unit: hour count
   type: integer
   values:
     list:
@@ -128,72 +130,72 @@ columns:
       '24': 195235
       '25': 325
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: x_bias_mw
-  label: null
-  unit: null
+  label: The mean over the day's hours of forecast less demand
+  unit: MW
   type: number
   values:
     distinct: more than 5000
     lowest: -11739.7
     highest: 21605.6
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method forecast_error.md
 - name: x_mae_mw
-  label: null
-  unit: null
+  label: The mean absolute miss over the day's hours
+  unit: MW
   type: number
   values:
     distinct: more than 5000
     lowest: 0.0
     highest: 21605.6
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method forecast_error.md
 - name: x_peak_forecast_mw
-  label: null
-  unit: null
+  label: The day's highest hourly forecast
+  unit: MW
   type: integer
   values:
     distinct: more than 5000
     lowest: 23
     highest: 165557
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: x_peak_demand_mw
-  label: null
-  unit: null
+  label: The day's highest hourly demand
+  unit: MW
   type: integer
   values:
     distinct: more than 5000
     lowest: 24
     highest: 224345
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: x_peak_miss_pct
-  label: null
-  unit: null
+  label: The peak forecast less the peak demand, as a percent of the peak demand
+  unit: pct
   type: number
   values:
     distinct: more than 5000
     lowest: -65.02
     highest: 158.592
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector forecast_error.py
 variables:
 - name: demand_forecast_ape_pct
-  label: null
+  label: The mean over the day's hours of the absolute miss (forecast less demand) over the demand, percent
   unit: pct
   rows: 195888
   first: '2018-07-01T00:00:00Z'

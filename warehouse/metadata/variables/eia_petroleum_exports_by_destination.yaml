@@ -5,9 +5,9 @@
 table: eia_petroleum_exports_by_destination
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's U.S. exports of crude oil or one petroleum product to one destination country, in the month or per day.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -35,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_petroleum_exports:<EIA destination code>:<product>; products are part of EPP0's total, so a sum leaves EPP0
+    out
   type: text
   values:
     distinct: 1145
@@ -84,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row (the exporter)
   type: text
   values:
     list:
@@ -91,12 +94,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 112478
 - name: node
   shared: true
+  particular: The destination and product as EIA names them
   type: text
   values:
     distinct: 1098
@@ -156,19 +161,20 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 112478
 variables:
 - name: exports
-  label: null
+  label: Exports of the product to the destination in the month, thousand barrels
   unit: kbbl
   rows: 56239
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: exports_per_day
-  label: null
+  label: Exports of the product to the destination, thousand barrels a day
   unit: kbbl/d
   rows: 56239
   first: '2015-01-01T00:00:00Z'

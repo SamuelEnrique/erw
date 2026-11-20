@@ -5,9 +5,11 @@
 table: ercot_storage_dam_awards_monthly
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: What ERCOT's Energy Storage Resources (batteries) were awarded in the day-ahead market in one local month, for the whole
+  fleet or one duration class.
+time: ts_utc is the first day of the local (Central) month at 00:00:00Z.
+vintage_rule: Rewritten whole by each run of the builder from ercot_dam_esr_awards; a row whose value has not moved keeps
+  its earlier retrieved_at. vintage is not filled.
 keys:
 - entity
 - variable
@@ -37,6 +39,9 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:esr_fleet (every storage resource), or a duration class ercot:esr_class_under_2h, _2_to_4h, _4h_and_over,
+    _not_seen_rt (a resource's class is its highest state of charge seen in real time over its highest HSL there, a floor
+    on its hours)
   type: text
   values:
     list:
@@ -102,6 +107,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
   type: text
   values:
     list:
@@ -109,6 +115,7 @@ columns:
   missing_cells: 0
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -139,175 +146,177 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1244
 variables:
 - name: days_held
-  label: null
+  label: Operating days of the month held
   unit: count
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: days_in_month
-  label: null
+  label: The days of the month
   unit: count
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: days_missing
-  label: null
+  label: Operating days of the month missing between the first and last held
   unit: count
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: energy_bought_mwh
-  label: null
+  label: Energy the resources were awarded to buy (charging) day-ahead, MWh
   unit: MWh
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: energy_bought_usd
-  label: null
+  label: Energy bought, each award at the resource's own day-ahead settlement point price, USD
   unit: USD
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: energy_sold_mwh
-  label: null
+  label: Energy the resources were awarded to sell day-ahead, MWh
   unit: MWh
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: energy_sold_usd
-  label: null
+  label: Energy sold, each award at the resource's own day-ahead settlement point price, USD
   unit: USD
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: mw
-  label: null
+  label: The sum of each resource's highest High Sustained Limit (HSL) in the month, MW; a resource with no award is in it
   unit: MW
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: resource_hours
-  label: null
+  label: Resource-hours of the month
   unit: count
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: resource_hours_energy_award
-  label: null
+  label: Resource-hours with a day-ahead energy award
   unit: count
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: resources
-  label: null
+  label: Storage resources with a row in the month
   unit: count
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: resources_with_award
-  label: null
+  label: Of those, resources with any award (not blank and not zero) in the month
   unit: count
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: revenue_ancillary_usd
-  label: null
+  label: The five ancillary service awards valued at their clearing prices, together, USD
   unit: USD
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: revenue_ancillary_usd_per_mw
-  label: null
+  label: revenue_ancillary_usd over the month's mw, USD/MW
   unit: USD/MW
   rows: 43
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: revenue_ecrs_usd
-  label: null
+  label: ERCOT Contingency Reserve Service awards times their clearing price (MCPC), USD
   unit: USD
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: revenue_ecrs_usd_per_mw
-  label: null
+  label: revenue_ecrs_usd over the month's mw, USD/MW
   unit: USD/MW
   rows: 43
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: revenue_energy_usd
-  label: null
+  label: Energy sold less energy bought (net of charging), valued day-ahead, USD
   unit: USD
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: revenue_energy_usd_per_mw
-  label: null
+  label: revenue_energy_usd over the month's mw, USD/MW
   unit: USD/MW
   rows: 43
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: revenue_nspin_usd
-  label: null
+  label: Non-Spin awards times their clearing price (MCPC), USD
   unit: USD
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: revenue_nspin_usd_per_mw
-  label: null
+  label: revenue_nspin_usd over the month's mw, USD/MW
   unit: USD/MW
   rows: 43
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: revenue_regdn_usd
-  label: null
+  label: Regulation Down awards times their clearing price (MCPC), USD
   unit: USD
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: revenue_regdn_usd_per_mw
-  label: null
+  label: revenue_regdn_usd over the month's mw, USD/MW
   unit: USD/MW
   rows: 43
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: revenue_regup_usd
-  label: null
+  label: Regulation Up awards times their clearing price (MCPC), USD
   unit: USD
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: revenue_regup_usd_per_mw
-  label: null
+  label: revenue_regup_usd over the month's mw, USD/MW
   unit: USD/MW
   rows: 43
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: revenue_rrs_usd
-  label: null
+  label: Responsive Reserve awards times their clearing price (MCPC), USD
   unit: USD
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: revenue_rrs_usd_per_mw
-  label: null
+  label: revenue_rrs_usd over the month's mw, USD/MW
   unit: USD/MW
   rows: 43
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: revenue_total_usd
-  label: null
+  label: Energy and ancillary service awards valued day-ahead, together, USD (a floor on market revenue, not what any battery
+    earned)
   unit: USD
   rows: 45
   first: '2025-12-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: revenue_total_usd_per_mw
-  label: null
+  label: revenue_total_usd over the month's mw, USD/MW
   unit: USD/MW
   rows: 43
   first: '2025-12-01T00:00:00Z'

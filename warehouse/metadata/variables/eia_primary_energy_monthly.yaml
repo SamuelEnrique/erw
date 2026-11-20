@@ -5,9 +5,11 @@
 table: eia_primary_energy_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's U.S. primary energy production, trade, stock change or consumption, in all or of one source, from EIA's Monthly
+  Energy Review (Tables 1.1 to 1.3).
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Each run asks for the full history and merges it on (entity, variable, ts_utc), keeping EIA's newest value;
+  a row EIA stops giving is kept. The copy held was rebuilt from the ERW archive by restore_tables.py. vintage is not filled.
 keys:
 - entity
 - variable
@@ -34,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:<Monthly Energy Review series id (MSN)>
   type: text
   values:
     list:
@@ -100,6 +103,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
@@ -107,12 +111,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 15180
 - name: node
   shared: true
+  particular: 'Not filled: EIA''s series names are in the header''s Series line'
   type: empty
   values:
     note: no cell holds a value
@@ -151,49 +157,51 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 15180
 variables:
 - name: consumption
-  label: null
+  label: Primary energy consumption of the source, trillion Btu
   unit: TBtu
   rows: 4501
   first: '1973-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: consumption_production
-  label: null
+  label: Nuclear, hydro, geothermal, solar or wind energy, which EIA gives as one series for both production and consumption,
+    trillion Btu
   unit: TBtu
   rows: 2963
   first: '1973-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: exports
-  label: null
+  label: Primary energy exports (TEEXBUS), trillion Btu
   unit: TBtu
   rows: 643
   first: '1973-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Primary energy imports (TEIMBUS), trillion Btu
   unit: TBtu
   rows: 643
   first: '1973-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_imports
-  label: null
+  label: Primary energy net imports (TENIBUS), trillion Btu
   unit: TBtu
   rows: 643
   first: '1973-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: production
-  label: null
+  label: Primary energy production of the source, trillion Btu
   unit: TBtu
   rows: 5144
   first: '1973-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: stock_change_and_other
-  label: null
+  label: Primary energy stock change and other (TEAJBUS), trillion Btu
   unit: TBtu
   rows: 643
   first: '1973-01-01T00:00:00Z'

@@ -5,9 +5,11 @@
 table: usgs_comcat_earthquakes_south_central
 family: usgs
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One earthquake of magnitude 2.5 or above from 2010 in the bounding box of Oklahoma, Kansas, Texas and New Mexico, as
+  the USGS ANSS Comprehensive Earthquake Catalog (ComCat) lists it.
+time: event_date is the origin time in UTC to the second (YYYY-MM-DDTHH:MM:SSZ); x_time_utc keeps the catalog's milliseconds.
+vintage_rule: A snapshot; each run replaces the table whole with what the catalog then holds. x_updated_utc keeps each event's
+  last update in the catalog.
 keys:
 - event_id
 license: public
@@ -32,6 +34,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: usgs_comcat:<catalog id>
   type: text
   values:
     distinct: more than 5000
@@ -44,6 +47,7 @@ columns:
   missing_cells: 0
 - name: event_date
   shared: true
+  particular: The origin time in UTC to the second
   type: utc time
   values:
     distinct: more than 5000
@@ -52,6 +56,7 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: Always earthquake
   type: text
   values:
     list:
@@ -89,6 +94,7 @@ columns:
   missing_cells: 16000
 - name: status
   shared: true
+  particular: The catalog's review status (reviewed or automatic), not a deal's state
   type: text
   values:
     list:
@@ -118,8 +124,8 @@ columns:
       '2026-10-23T22:27:51Z': 16000
   missing_cells: 0
 - name: x_time_utc
-  label: null
-  unit: null
+  label: The origin time with the catalog's milliseconds, in UTC
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -130,60 +136,60 @@ columns:
     - '2010-01-15T15:18:26.350Z'
     - '2010-01-15T15:27:02.320Z'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: time
+  documented_by: method usgs_comcat_earthquakes_south_central.md; connector usgs_earthquakes.py
 - name: x_latitude
-  label: null
-  unit: null
+  label: The earthquake's latitude
+  unit: degree
   type: number
   values:
     distinct: more than 5000
     lowest: 25.8001
     highest: 39.9889
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: latitude
+  documented_by: header; method usgs_comcat_earthquakes_south_central.md
 - name: x_longitude
-  label: null
-  unit: null
+  label: The earthquake's longitude (west negative)
+  unit: degree
   type: number
   values:
     distinct: more than 5000
     lowest: -109.0587
     highest: -93.5339
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: longitude
+  documented_by: header; method usgs_comcat_earthquakes_south_central.md
 - name: x_depth_km
-  label: null
-  unit: null
+  label: The earthquake's depth
+  unit: km
   type: number
   values:
     distinct: more than 5000
     lowest: -1.25
     highest: 56.21
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: depth
+  documented_by: header; method usgs_comcat_earthquakes_south_central.md
 - name: x_magnitude
-  label: null
-  unit: null
+  label: The earthquake's magnitude, on the scale x_magnitude_type names
+  unit: none
   type: number
   values:
     distinct: 153
     lowest: 2.5
     highest: 5.8
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: mag
+  documented_by: header; method usgs_comcat_earthquakes_south_central.md
 - name: x_magnitude_type
-  label: null
-  unit: null
+  label: The catalog's magnitude type code (ml, mb_lg, mwr, md and the others)
+  unit: none
   type: text
   values:
     list:
@@ -200,12 +206,12 @@ columns:
       mwr: 670
       mww: 14
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: magType
+  documented_by: method usgs_comcat_earthquakes_south_central.md; connector usgs_earthquakes.py
 - name: x_place
-  label: null
-  unit: null
+  label: The catalog's place text, usually 'N km DIR of Town, State'
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -216,12 +222,12 @@ columns:
     - 0 km E of Jones, Oklahoma
     - 0 km E of Meridian, Oklahoma
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: place
+  documented_by: method usgs_comcat_earthquakes_south_central.md
 - name: x_place_state
-  label: null
-  unit: null
+  label: The state (or Mexico) the place text names after its last comma, in full; read by the connector
+  unit: none
   type: text
   values:
     list:
@@ -238,12 +244,12 @@ columns:
       Texas: 2822
       Utah: 10
   missing_cells: 5
-  missing_meaning: null
+  missing_meaning: The place names no state (5 rows)
   source_name: null
-  documented_by: null
+  documented_by: header; method usgs_comcat_earthquakes_south_central.md; connector usgs_earthquakes.py
 - name: x_net
-  label: null
-  unit: null
+  label: The contributing seismic network's code (us, tx, ok and the others)
+  unit: none
   type: text
   values:
     list:
@@ -254,12 +260,12 @@ columns:
       us: 11550
       uu: 11
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: net
+  documented_by: method usgs_comcat_earthquakes_south_central.md
 - name: x_location_source
-  label: null
-  unit: null
+  label: The catalog's source of the location (a network code)
+  unit: none
   type: text
   values:
     list:
@@ -276,12 +282,12 @@ columns:
       us_tul: 13
       uu: 11
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: locationSource
+  documented_by: method usgs_comcat_earthquakes_south_central.md; connector usgs_earthquakes.py
 - name: x_magnitude_source
-  label: null
-  unit: null
+  label: The catalog's source of the magnitude (a network code)
+  unit: none
   type: text
   values:
     list:
@@ -300,72 +306,72 @@ columns:
       us_unm: 9
       uu: 11
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: magSource
+  documented_by: method usgs_comcat_earthquakes_south_central.md; connector usgs_earthquakes.py
 - name: x_stations
-  label: null
-  unit: null
+  label: The number of seismic stations used, as the catalog gives it
+  unit: count
   type: integer
   values:
     distinct: 115
     lowest: 4
     highest: 474
   missing_cells: 10278
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The catalog gives none
+  source_name: nst
+  documented_by: method usgs_comcat_earthquakes_south_central.md; connector usgs_earthquakes.py
 - name: x_gap_degrees
-  label: null
-  unit: null
+  label: The azimuthal gap, as the catalog gives it
+  unit: degree
   type: number
   values:
     distinct: 716
     lowest: 13.0
     highest: 315.7684326
   missing_cells: 626
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The catalog gives none
+  source_name: gap
+  documented_by: method usgs_comcat_earthquakes_south_central.md; connector usgs_earthquakes.py
 - name: x_horizontal_error_km
-  label: null
-  unit: null
+  label: The error of the location, horizontally, as published
+  unit: km
   type: number
   values:
     distinct: 4053
     lowest: 0.0
     highest: 11.6
   missing_cells: 2629
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The catalog gives none
+  source_name: horizontalError
+  documented_by: method usgs_comcat_earthquakes_south_central.md; connector usgs_earthquakes.py
 - name: x_depth_error_km
-  label: null
-  unit: null
+  label: The error of the depth, as published
+  unit: km
   type: number
   values:
     distinct: 4291
     lowest: 0.0
     highest: 31.61
   missing_cells: 714
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The catalog gives none
+  source_name: depthError
+  documented_by: method usgs_comcat_earthquakes_south_central.md; connector usgs_earthquakes.py
 - name: x_magnitude_error
-  label: null
-  unit: null
+  label: The error of the magnitude, as published
+  unit: none
   type: number
   values:
     distinct: 259
     lowest: 0.0
     highest: 1.0
   missing_cells: 8456
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The catalog gives none
+  source_name: magError
+  documented_by: method usgs_comcat_earthquakes_south_central.md; connector usgs_earthquakes.py
 - name: x_updated_utc
-  label: null
-  unit: null
+  label: The event's last update in the catalog, in UTC
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -376,7 +382,7 @@ columns:
     - '2013-10-12T21:32:34.000Z'
     - '2013-10-19T02:41:41.000Z'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: updated
+  documented_by: method usgs_comcat_earthquakes_south_central.md; connector usgs_earthquakes.py
 second_look: null

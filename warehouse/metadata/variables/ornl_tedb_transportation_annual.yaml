@@ -1,0 +1,256 @@
+# The codebook's metadata of table ornl_tedb_transportation_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ornl_tedb_transportation_annual
+family: ornl
+shape: series
+row: One year's figure for one row of a table of ORNL's Transportation Energy Data Book (energy by end-use sector, transportation
+  energy by source, energy by mode and fuel, or light-duty vehicle sales).
+time: ts_utc is the year's first day; freq P1Y.
+vintage_rule: 'Merged on (entity, variable, ts_utc): a new edition replaces the years it restates and the years it no longer
+  prints stay. vintage is the zip''s last-modified time.'
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1Y
+source:
+- name: 'ornl:tedb Davis, S. C., Dahal, P. M., Moore, A. M., Patwary, L., Boundy, R. G., Transportation Energy Data Book:
+    Edition 41, Oak Ridge National Laboratory, https://tedb.ornl.gov ; Table 6.2 compiled by the Transportation Research Center
+    at Argonne National Laboratory'
+  url: https://tedb.ornl.gov
+cite: Oak Ridge National Laboratory (ORNL), Transportation Energy Data Book. Transportation Energy Data Book, Edition 41,
+  Tables 2.2, 2.4, 2.7, 2.8 and 6.2. Via the Energy Research Warehouse (ERW), table `ornl_tedb_transportation_annual`.
+method: docs/methods/ornl_tedb_transportation_annual.md
+header_title: 'Oak Ridge National Laboratory, Transportation Energy Data Book, Edition 41: Tables 2.2, 2.4, 2.7, 2.8 and 6.2
+  (session 2048)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity ornl_tedb:<table>:<row> (a mode''s path, e.g. t2_7:highway.light_duty.cars);
+  variables energy_consumption (2.2, TEDB''s quadrillion Btu x 1,000 as TBtu), energy_use and share_<source> (2.4; a share
+  in percent, TEDB''s fraction x 100), energy_use_<fuel> (2.7), energy_use (2.8), sales_* (6.2, TEDB''s thousands x 1,000
+  as a count); ts_utc the year''s first day, freq P1Y; node the row''s label as printed.'
+read:
+  date: '2026-11-20'
+  rows: 674
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: ornl_tedb:<table>:<row>, a sector or a mode's path built from the label's level
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 674
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The row's or column's label as printed
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The data book zip's last-modified time
+- name: x_table
+  label: The data book's table the row is read from
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method ornl_tedb_transportation_annual.md
+- name: x_edition
+  label: The data book's edition
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method ornl_tedb_transportation_annual.md
+variables:
+- name: energy_consumption
+  label: Energy consumption of the end-use sector (Table 2.2; the book's quadrillion Btu times 1,000)
+  unit: TBtu
+  rows: 175
+  first: '1950-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: energy_use
+  label: Transportation energy use (Table 2.4), or energy use of the mode (Table 2.8)
+  unit: TBtu
+  rows: 97
+  first: '1950-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: energy_use_diesel
+  label: Diesel used by the mode (Table 2.7)
+  unit: TBtu
+  rows: 21
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: energy_use_electricity
+  label: Electricity used by the mode (Table 2.7)
+  unit: TBtu
+  rows: 14
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: energy_use_gasoline
+  label: Gasoline used by the mode (Table 2.7)
+  unit: TBtu
+  rows: 17
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: energy_use_jet_fuel
+  label: Jet fuel used by the mode (Table 2.7)
+  unit: TBtu
+  rows: 6
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: energy_use_lpg
+  label: Liquefied petroleum gas used by the mode (Table 2.7)
+  unit: TBtu
+  rows: 7
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: energy_use_natural_gas
+  label: Natural gas used by the mode (Table 2.7)
+  unit: TBtu
+  rows: 6
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: energy_use_residual_fuel_oil
+  label: Residual fuel oil used by the mode (Table 2.7)
+  unit: TBtu
+  rows: 4
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: energy_use_total
+  label: Total energy used by the mode, all fuels (Table 2.7)
+  unit: TBtu
+  rows: 28
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: sales_battery_electric
+  label: Battery electric light-duty vehicles sold (Table 6.2; the book's thousands times 1,000)
+  unit: count
+  rows: 26
+  first: '1999-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: sales_hybrid
+  label: Hybrid light-duty vehicles sold (Table 6.2; the book's thousands times 1,000)
+  unit: count
+  rows: 26
+  first: '1999-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: sales_light_duty
+  label: All light-duty vehicles sold (Table 6.2; the book's thousands times 1,000)
+  unit: count
+  rows: 26
+  first: '1999-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: sales_plugin_hybrid
+  label: Plug-in hybrid light-duty vehicles sold (Table 6.2; the book's thousands times 1,000)
+  unit: count
+  rows: 26
+  first: '1999-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: share_coal
+  label: Coal's share of transportation energy use (Table 2.4; the book's fraction times 100)
+  unit: pct
+  rows: 39
+  first: '1950-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: share_electricity
+  label: Electricity's share of transportation energy use (Table 2.4; the book's fraction times 100)
+  unit: pct
+  rows: 39
+  first: '1950-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: share_natural_gas
+  label: Natural gas's share of transportation energy use (Table 2.4; the book's fraction times 100)
+  unit: pct
+  rows: 39
+  first: '1950-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: share_petroleum
+  label: Petroleum's share of transportation energy use (Table 2.4; the book's fraction times 100)
+  unit: pct
+  rows: 39
+  first: '1950-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: share_renewables
+  label: Renewables' share of transportation energy use (Table 2.4; the book's fraction times 100)
+  unit: pct
+  rows: 39
+  first: '1950-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

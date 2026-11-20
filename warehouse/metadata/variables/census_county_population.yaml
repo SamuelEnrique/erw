@@ -5,9 +5,11 @@
 table: census_county_population
 family: census
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One county's population, the 2020 census count or the Census Bureau's estimate of 1 July of one year.
+time: ts_utc is 2020-04-01 for population_census_2020 (freq empty) and 1 July of each year, 2018 to 2025, for population_estimate
+  (freq P1Y), at 00:00:00Z.
+vintage_rule: Merged by key (entity, variable, ts_utc), a run's rows replacing earlier rows with the same key; vintage is
+  not filled, and x_product names the Bureau's product.
 keys:
 - entity
 - variable
@@ -36,6 +38,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: census:county:<five-digit state and county FIPS>; Connecticut's planning regions and former counties each under
+    their own code
   type: text
   values:
     distinct: 3152
@@ -84,6 +88,7 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: Empty on the population_census_2020 rows (a single count, not an interval)
   type: text
   values:
     list:
@@ -109,6 +114,7 @@ columns:
   missing_cells: 28293
 - name: node
   shared: true
+  particular: The Bureau's county name (CTYNAME), not a pricing node
   type: text
   values:
     distinct: 1887
@@ -153,8 +159,8 @@ columns:
     note: no cell holds a value
   missing_cells: 28293
 - name: x_state
-  label: null
-  unit: null
+  label: The state's name as the Bureau writes it
+  unit: none
   type: text
   values:
     distinct: 51
@@ -165,30 +171,32 @@ columns:
     - Arkansas
     - California
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: STNAME
+  documented_by: connector census_county_population.py
 - name: x_product
-  label: null
-  unit: null
+  label: 'The Bureau''s file the row came from: intercensal 2010-2020 (2018, 2019 and the 2020 count) or vintage 2025 (2020
+    to 2025)'
+  unit: none
   type: text
   values:
     list:
       intercensal 2010-2020: 9429
       vintage 2025: 18864
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector census_county_population.py; method county_population_and_regions.md
 variables:
 - name: population_census_2020
-  label: null
+  label: The county's 2020 census count of 1 April 2020 (the Modified Age and Race Census file as the intercensal files print
+    it)
   unit: count
   rows: 3143
   first: '2020-04-01T00:00:00Z'
   last: '2020-04-01T00:00:00Z'
 - name: population_estimate
-  label: null
+  label: The Census Bureau's estimate of the county's population on 1 July of the year
   unit: count
   rows: 25150
   first: '2018-07-01T00:00:00Z'

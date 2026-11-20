@@ -5,9 +5,9 @@
 table: eurostat_import_concentration_annual
 family: eurostat
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One EU country's import origin concentration index for one fuel in one year.
+time: ts_utc is the year's 1 January at 00:00:00Z, a label for the calendar year (freq P1Y).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised figure replaces the old; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_ioc:<geo>:<SIEC code>
   type: text
   values:
     distinct: 713
@@ -88,6 +89,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2
   type: text
   values:
     distinct: 27
@@ -106,6 +108,7 @@ columns:
   missing_cells: 6497
 - name: node
   shared: true
+  particular: <geo> import origin concentration, <the fuel's name>, not a pricing node
   type: text
   values:
     distinct: 713
@@ -144,8 +147,8 @@ columns:
     note: no cell holds a value
   missing_cells: 6497
 - name: x_geo_code
-  label: null
-  unit: null
+  label: Eurostat's geo code of the country
+  unit: none
   type: text
   values:
     distinct: 27
@@ -156,12 +159,12 @@ columns:
     - CY
     - CZ
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_import_concentration.py
 - name: x_siec
-  label: null
-  unit: null
+  label: Eurostat's SIEC code of the fuel
+  unit: none
   type: text
   values:
     distinct: 43
@@ -172,32 +175,32 @@ columns:
     - C0210
     - C0220
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: x_flag
-  label: null
-  unit: null
+  label: Eurostat's flag of the observation
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 6497
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value'
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_import_concentration.py
 - name: x_conf_status
-  label: null
-  unit: null
+  label: Eurostat's confidentiality status of the observation
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 6497
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value'
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_import_concentration.py
 variables:
 - name: import_origin_concentration
-  label: null
+  label: 'Energy import origin concentration index: 0 for imports spread over many origins, 1 for one origin'
   unit: index
   rows: 6497
   first: '2015-01-01T00:00:00Z'

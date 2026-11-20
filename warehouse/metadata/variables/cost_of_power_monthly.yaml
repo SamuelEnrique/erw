@@ -5,9 +5,12 @@
 table: cost_of_power_monthly
 family: cost
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One ISO hub's value of one cost-of-power measure (load-weighted or simple mean price, shape premium, hours) for one market
+  over one local month.
+time: 'ts_utc is the first day of the ISO''s local month at 00:00:00Z (freq P1M): ERCOT and SPP America/Chicago, CAISO America/Los_Angeles,
+  NYISO and ISO-NE America/New_York, MISO EST.'
+vintage_rule: Rebuilt by each run of the builder; months the rolling input tables no longer reach are carried over from the
+  previous file (header). vintage is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <iso>:<hub or zone> (the price board's main hubs, with CAISO NP15 and ERCOT's LZ_HOUSTON and LZ_NORTH)
   type: text
   values:
     list:
@@ -97,6 +101,8 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: <iso>_dam on day-ahead rows, <iso>_rtm on real-time rows; empty on the hours_in_month rows, which belong to
+    neither
   type: text
   values:
     list:
@@ -169,55 +175,57 @@ columns:
   missing_cells: 0
 variables:
 - name: da_hours
-  label: null
+  label: Day-ahead hours counted in the month
   unit: count
   rows: 492
   first: '2018-07-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: da_load_weighted
-  label: null
+  label: 'Day-ahead price weighted by the balancing authority''s demand: the sum of each hour''s price times demand over the
+    sum of demand'
   unit: USD/MWh
   rows: 492
   first: '2018-07-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: da_shape_premium
-  label: null
+  label: Day-ahead load-weighted price less the simple mean (each rounded to 4 decimals first)
   unit: USD/MWh
   rows: 492
   first: '2018-07-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: da_simple_mean
-  label: null
+  label: The simple mean of the same day-ahead hours
   unit: USD/MWh
   rows: 492
   first: '2018-07-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: hours_in_month
-  label: null
+  label: The hours of the local month (a month is complete when rt_hours equals it)
   unit: count
   rows: 492
   first: '2018-07-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_hours
-  label: null
+  label: Real-time hours counted in the month
   unit: count
   rows: 492
   first: '2018-07-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_load_weighted
-  label: null
+  label: 'Real-time price weighted by the balancing authority''s demand: the sum of each hour''s price times demand over the
+    sum of demand'
   unit: USD/MWh
   rows: 492
   first: '2018-07-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_shape_premium
-  label: null
+  label: Real-time load-weighted price less the simple mean (each rounded to 4 decimals first)
   unit: USD/MWh
   rows: 492
   first: '2018-07-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_simple_mean
-  label: null
+  label: The simple mean of the same real-time hours
   unit: USD/MWh
   rows: 492
   first: '2018-07-01T00:00:00Z'

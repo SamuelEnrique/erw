@@ -5,9 +5,12 @@
 table: energy_deals
 family: energy
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One energy deal (a power purchase agreement, acquisition, financing, fuel supply and the others) extracted by a model
+  from scored news stories and checked against the stories' words (platform tool 6).
+time: event_date is the announced date where the story states it (date_basis stated), else the first story's publish time
+  in UTC (first_story_published). extracted_at is UTC.
+vintage_rule: Deals from new stories are added each run; a later story about a deal already held is merged into its record
+  (one record a deal), moving its status forward and adding parties and links (status_history keeps each change).
 keys:
 - event_id
 license: public
@@ -48,6 +51,7 @@ columns:
   missing_cells: 0
 - name: event_date
   shared: true
+  particular: The announced date where the story states it, else the first story's publish time
   type: text
   values:
     distinct: 408
@@ -60,6 +64,7 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: Always deal
   type: text
   values:
     list:
@@ -67,6 +72,7 @@ columns:
   missing_cells: 0
 - name: parties
   shared: true
+  particular: buyer;seller;other_parties
   type: text
   values:
     distinct: 538
@@ -85,6 +91,7 @@ columns:
   missing_cells: 583
 - name: mw
   shared: true
+  particular: As stated; written by the model, its span checked in the story
   type: number
   values:
     distinct: 34
@@ -93,18 +100,22 @@ columns:
   missing_cells: 547
 - name: price
   shared: true
+  particular: Only a price stated in USD/MWh
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 583
 - name: currency
   shared: true
+  particular: USD where price is filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 583
 - name: status
   shared: true
+  particular: rumored, announced, signed, closed or cancelled; written by the model where its words are in the story, moved
+    forward by a later story
   type: text
   values:
     list:
@@ -116,6 +127,7 @@ columns:
   missing_cells: 98
 - name: source
   shared: true
+  particular: The outlet of the first story
   type: text
   values:
     list:
@@ -158,8 +170,9 @@ columns:
     - https://lngprime.com/americas/cheniere-petrobras-seal-long-term-lng-spa/197674/
   missing_cells: 0
 - name: deal_type
-  label: null
-  unit: null
+  label: 'The form of the deal: ppa, offtake, m_and_a, project_finance, tax_equity, debt, equity_raise, joint_venture, lease,
+    behind_the_meter, nuclear_restart, smr, fuel_supply, other; written by the model'
+  unit: none
   type: text
   values:
     list:
@@ -177,12 +190,12 @@ columns:
       project_finance: 25
       smr: 3
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method energy_deals.md; connector extract.py
 - name: buyer
-  label: null
-  unit: null
+  label: The buyer as the story names it; written by the model
+  unit: none
   type: text
   values:
     distinct: 273
@@ -193,12 +206,12 @@ columns:
     - Adani
     - Adnoc Logistics
   missing_cells: 168
-  missing_meaning: null
+  missing_meaning: The story names no buyer
   source_name: null
-  documented_by: null
+  documented_by: connector extract.py
 - name: seller
-  label: null
-  unit: null
+  label: The seller as the story names it; written by the model
+  unit: none
   type: text
   values:
     distinct: 341
@@ -209,12 +222,12 @@ columns:
     - AEP
     - AES
   missing_cells: 109
-  missing_meaning: null
+  missing_meaning: The story names no seller
   source_name: null
-  documented_by: null
+  documented_by: connector extract.py
 - name: other_parties
-  label: null
-  unit: null
+  label: Other named parties (lenders, partners, advisers named as parties), joined by ';'; written by the model
+  unit: none
   type: text
   values:
     distinct: 86
@@ -225,12 +238,12 @@ columns:
     - Amazon
     - Amni;TotalEnergies
   missing_cells: 490
-  missing_meaning: null
+  missing_meaning: No other party named
   source_name: null
-  documented_by: null
+  documented_by: connector extract.py; method energy_deals.md
 - name: asset
-  label: null
-  unit: null
+  label: The project, plant, company or asset traded, as named; written by the model
+  unit: none
   type: text
   values:
     distinct: 518
@@ -241,12 +254,13 @@ columns:
     - 25 mtpa LNG export terminal at Port Fourchon
     - 25 percent stake in 26 leases in the Gulf of America
   missing_cells: 25
-  missing_meaning: null
+  missing_meaning: No asset named
   source_name: null
-  documented_by: null
+  documented_by: connector extract.py
 - name: technology
-  label: null
-  unit: null
+  label: The generation or asset technology when stated (solar, wind, gas, nuclear, storage, LNG and others); written by the
+    model
+  unit: none
   type: text
   values:
     distinct: 45
@@ -257,12 +271,12 @@ columns:
     - FSRU
     - LNG
   missing_cells: 270
-  missing_meaning: null
+  missing_meaning: No technology stated
   source_name: null
-  documented_by: null
+  documented_by: connector extract.py
 - name: state
-  label: null
-  unit: null
+  label: The US state, two-letter code, only where the story's words name it; written by the model, its span checked
+  unit: none
   type: text
   values:
     list:
@@ -291,12 +305,12 @@ columns:
       WV: 2
       WY: 1
   missing_cells: 530
-  missing_meaning: null
+  missing_meaning: The story names no US state
   source_name: null
-  documented_by: null
+  documented_by: method energy_deals.md; connector extract.py
 - name: country
-  label: null
-  unit: null
+  label: The country as named, only where the story's words name it; written by the model, its span checked
+  unit: none
   type: text
   values:
     distinct: 39
@@ -307,12 +321,12 @@ columns:
     - Azerbaijan
     - Bahamas
   missing_cells: 473
-  missing_meaning: null
+  missing_meaning: The story names no country
   source_name: null
-  documented_by: null
+  documented_by: method energy_deals.md; connector extract.py
 - name: mwh
-  label: null
-  unit: null
+  label: The energy of the deal as stated; written by the model, its span checked in the story
+  unit: MWh
   type: integer
   values:
     list:
@@ -320,48 +334,49 @@ columns:
       '3300000': 1
       '462': 1
   missing_cells: 580
-  missing_meaning: null
+  missing_meaning: The story states none
   source_name: null
-  documented_by: null
+  documented_by: header; method energy_deals.md
 - name: dollars
-  label: null
-  unit: null
+  label: The deal's value in US dollars as stated (no figure converted from another currency); written by the model, its span
+    checked
+  unit: USD
   type: integer
   values:
     distinct: 154
     lowest: 30000000
     highest: 1250000000000
   missing_cells: 285
-  missing_meaning: null
+  missing_meaning: The story states none in US dollars
   source_name: null
-  documented_by: null
+  documented_by: header; method energy_deals.md
 - name: price_value
-  label: null
-  unit: null
+  label: A price stated in a unit other than USD/MWh, as stated (with price_unit); written by the model
+  unit: price_unit
   type: integer
   values:
     list:
       '12': 1
       '80': 1
   missing_cells: 581
-  missing_meaning: null
+  missing_meaning: No such price stated
   source_name: null
-  documented_by: null
+  documented_by: header; method energy_deals.md
 - name: price_unit
-  label: null
-  unit: null
+  label: The unit of price_value exactly as stated
+  unit: none
   type: text
   values:
     list:
       '%': 1
       CAD/share: 1
   missing_cells: 581
-  missing_meaning: null
+  missing_meaning: No such price stated
   source_name: null
-  documented_by: null
+  documented_by: header; connector extract.py
 - name: term_years
-  label: null
-  unit: null
+  label: The term of the contract as stated; written by the model, its span checked
+  unit: year
   type: integer
   values:
     list:
@@ -371,12 +386,12 @@ columns:
       '27': 1
       '5': 1
   missing_cells: 562
-  missing_meaning: null
+  missing_meaning: The story states none
   source_name: null
-  documented_by: null
+  documented_by: header; method energy_deals.md
 - name: announced_date
-  label: null
-  unit: null
+  label: The date of the deal, only where the story states it; written by the model
+  unit: none
   type: date
   values:
     list:
@@ -384,24 +399,25 @@ columns:
       '2026-10-27': 2
       '2026-11-12': 1
   missing_cells: 579
-  missing_meaning: null
+  missing_meaning: The story states no date of the deal
   source_name: null
-  documented_by: null
+  documented_by: connector extract.py
 - name: date_basis
-  label: null
-  unit: null
+  label: 'What event_date is: stated (the announced date) or first_story_published'
+  unit: none
   type: text
   values:
     list:
       first_story_published: 579
       stated: 4
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector extract.py
 - name: ai_power
-  label: null
-  unit: null
+  label: True where a named AI lab, hyperscaler, datacenter operator or AI-load buyer is a party, or the story's words name
+    a datacenter load (set by the rule, ai_power_basis)
+  unit: none
   type: boolean
   values:
     list:
@@ -409,12 +425,12 @@ columns:
       'false': 365
       'true': 213
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method energy_deals.md; connector extract.py
 - name: confidence
-  label: null
-  unit: null
+  label: The model's confidence, 0 to 1, that this is a real, specific transaction and the fields are right
+  unit: none
   type: number
   values:
     list:
@@ -436,12 +452,12 @@ columns:
       '0.93': 3
       '0.95': 2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector extract.py
 - name: n_stories
-  label: null
-  unit: null
+  label: The stories that report the deal
+  unit: count
   type: integer
   values:
     list:
@@ -457,12 +473,12 @@ columns:
       '7': 1
       '8': 2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector extract.py
 - name: story_ids
-  label: null
-  unit: null
+  label: The event_ids of those stories in news_stories, oldest first, joined by ';'
+  unit: none
   type: text
   values:
     distinct: 576
@@ -473,12 +489,12 @@ columns:
     - news:016b4448b2cc023d
     - news:01c33293894e159b
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector extract.py
 - name: story_urls
-  label: null
-  unit: null
+  label: The addresses of those stories, joined by ';'
+  unit: none
   type: text
   values:
     distinct: 576
@@ -489,36 +505,37 @@ columns:
     - https://lngprime.com/americas/baker-hughes-in-venezuela-move/197943/;https://news.google.com/rss/articles/CBMiuAFBVV95cUxNODZwRnlLSm5GQ3dRbmFhUVozQUJvbWxRek5Xc2R1WlVyWmp2ZGZlNVpxeGRvZUNoVFRmeWlESnFUWlB3N2dfQ01wdFJyb1pFNGRveHJmZm9UWDYxUFBpOFdzV3oxMXRqdmZTOFl0Y3NPVGV6ZFBxd0tRLWFqNGZyYk5aU0FfeXdQa2FRTjRkVHgwUzk2VjFmRE1Ob0FhMlFkdFFERXBLRDFQX05tTnV3UXUxVXVlS1da?oc=5;https://naturalgasintel.com/news/baker-hughes-signs-deals-to-boost-venezuelas-natural-gas-lng-sector/
     - https://lngprime.com/americas/cheniere-petrobras-seal-long-term-lng-spa/197674/;https://www.rigzone.com/news/cheniere_notches_22year_lng_contract_to_supply_petrobras-30-sep-2026-184741-article/?rss=true
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector extract.py
 - name: model_id
-  label: null
-  unit: null
+  label: The model of the deal's first extraction
+  unit: none
   type: text
   values:
     list:
       claude-sonnet-5: 191
       claude-sonnet-5-5: 392
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector extract.py; data
 - name: extracted_at
-  label: null
-  unit: null
+  label: When the deal was first extracted, UTC
+  unit: none
   type: utc time
   values:
     distinct: 28
     earliest: '2026-09-27T01:52:23Z'
     latest: '2026-11-12T22:08:35Z'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector extract.py
 - name: kind
-  label: null
-  unit: null
+  label: Tool 6's kind of deal, the power kind first (nuclear_restart_uprate, smr, behind_the_meter, gas_buildout, transmission,
+    storage, compute_capacity), then the form (ppa, offtake, project_finance, m_and_a, capital and others)
+  unit: none
   type: text
   values:
     list:
@@ -536,12 +553,12 @@ columns:
       smr: 7
       storage: 10
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method energy_deals.md
 - name: kind_basis
-  label: null
-  unit: null
+  label: The words or rule that set the kind
+  unit: none
   type: text
   values:
     distinct: 31
@@ -552,12 +569,13 @@ columns:
     - deal_type behind_the_meter
     - deal_type debt
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector fields.py
 - name: stage
-  label: null
-  unit: null
+  label: The deal's stage as stated (rumored, announced, signed, financed, closed, under_construction, operating, cancelled);
+    written by the model, its words checked in the story
+  unit: none
   type: text
   values:
     list:
@@ -568,45 +586,45 @@ columns:
       rumored: 6
       signed: 25
   missing_cells: 535
-  missing_meaning: null
+  missing_meaning: The words do not say, or a row extracted before session 2232 (upgraded)
   source_name: null
-  documented_by: null
+  documented_by: header; method energy_deals.md
 - name: grid
-  label: null
-  unit: null
+  label: The US grid operator, only where the story's words name one (never read from a state)
+  unit: none
   type: text
   values:
     list:
       PJM: 1
   missing_cells: 582
-  missing_meaning: null
+  missing_meaning: The story names no grid operator
   source_name: null
-  documented_by: null
+  documented_by: header; connector fields.py
 - name: usd
-  label: null
-  unit: null
+  label: The deal's value in US dollars, the same as dollars
+  unit: USD
   type: integer
   values:
     distinct: 154
     lowest: 30000000
     highest: 1250000000000
   missing_cells: 285
-  missing_meaning: null
+  missing_meaning: The story states none in US dollars
   source_name: null
-  documented_by: null
+  documented_by: header; method energy_deals.md
 - name: usd_per_mwh
-  label: null
-  unit: null
+  label: A price stated in US dollars per MWh, the same as price
+  unit: USD/MWh
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 583
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value'
   source_name: null
-  documented_by: null
+  documented_by: header; method energy_deals.md
 - name: ai_power_basis
-  label: null
-  unit: null
+  label: 'Why ai_power is true: the AI party named, or the datacenter load words'
+  unit: none
   type: text
   values:
     list:
@@ -626,12 +644,13 @@ columns:
       party OpenAI: 1
       party Oracle: 1
   missing_cells: 567
-  missing_meaning: null
+  missing_meaning: ai_power is false, or a row extracted before session 2232 (upgraded)
   source_name: null
-  documented_by: null
+  documented_by: method energy_deals.md; data
 - name: flags
-  label: null
-  unit: null
+  label: 'What the cross-check found: a headline''s figure the record lacks or contradicts, MW and MWh or USD and USD/MWh
+    confused, a term in months, a figure above a bound'
+  unit: none
   type: text
   values:
     list:
@@ -649,24 +668,24 @@ columns:
       'headline: USD 2 billion; record: USD 2.4 billion': 1
       usd 1250000000000 above the bound 500000000000: 1
   missing_cells: 569
-  missing_meaning: null
+  missing_meaning: Nothing found
   source_name: null
-  documented_by: null
+  documented_by: method energy_deals.md
 - name: fields_version
-  label: null
-  unit: null
+  label: 2232, or upgraded for a row extracted before (its new fields read from its own values)
+  unit: none
   type: text
   values:
     list:
       '2232': 54
       upgraded: 529
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: status_history
-  label: null
-  unit: null
+  label: Every change of stage a story brought, as 'date stage (story)', oldest first
+  unit: none
   type: text
   values:
     distinct: 50
@@ -677,12 +696,12 @@ columns:
     - 2026-10-23 rumored (first record); 2026-10-29 signed (news:b0ea9aee747df24b)
     - 2026-10-26 announced (news:ac8169a366307d22)
   missing_cells: 533
-  missing_meaning: null
+  missing_meaning: The status never changed
   source_name: null
-  documented_by: null
+  documented_by: method energy_deals.md
 - name: buyer_name
-  label: null
-  unit: null
+  label: The buyer as one company name, by the rules of the deal counterparties method
+  unit: none
   type: text
   values:
     distinct: 259
@@ -693,12 +712,12 @@ columns:
     - Adnoc Logistics
     - AirTrunk
   missing_cells: 168
-  missing_meaning: null
+  missing_meaning: No buyer, or the buyer is not a company name
   source_name: null
-  documented_by: null
+  documented_by: method energy_deals.md
 - name: seller_name
-  label: null
-  unit: null
+  label: The seller as one company name, by the rules of the deal counterparties method
+  unit: none
   type: text
   values:
     distinct: 331
@@ -709,12 +728,12 @@ columns:
     - AES Corp
     - AMD
   missing_cells: 109
-  missing_meaning: null
+  missing_meaning: No seller, or the seller is not a company name
   source_name: null
-  documented_by: null
+  documented_by: method energy_deals.md
 - name: buyer_parent
-  label: null
-  unit: null
+  label: The buyer's parent company
+  unit: none
   type: text
   values:
     list:
@@ -725,12 +744,12 @@ columns:
       Geely Holding: 1
       General Motors: 1
   missing_cells: 577
-  missing_meaning: null
+  missing_meaning: No parent named
   source_name: null
-  documented_by: null
+  documented_by: method energy_deals.md
 - name: seller_parent
-  label: null
-  unit: null
+  label: The seller's parent company
+  unit: none
   type: text
   values:
     list:
@@ -745,27 +764,27 @@ columns:
       OGE Energy: 1
       Vivek Ramaswamy: 1
   missing_cells: 573
-  missing_meaning: null
+  missing_meaning: No parent named
   source_name: null
-  documented_by: null
+  documented_by: method energy_deals.md
 - name: buyer_eia861
-  label: null
-  unit: null
+  label: The buyer's EIA-861 utility number
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 583
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value'
   source_name: null
-  documented_by: null
+  documented_by: method energy_deals.md
 - name: seller_eia861
-  label: null
-  unit: null
+  label: The seller's EIA-861 utility number
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 583
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value'
   source_name: null
-  documented_by: null
+  documented_by: method energy_deals.md
 second_look: null

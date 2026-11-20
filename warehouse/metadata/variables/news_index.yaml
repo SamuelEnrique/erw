@@ -5,9 +5,11 @@
 table: news_index
 family: news
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One scored news story, as links, metadata and a model's scores and headline only (nothing the outlet wrote is copied),
+  the public companion of the internal news_stories.
+time: event_date is the story's publish time in UTC.
+vintage_rule: Rewritten whole by warehouse/news/index.py from news_stories (every scored story) each run; a stored story is
+  never rewritten by the ingest, so its scores stay.
 keys:
 - event_id
 license: public
@@ -63,6 +65,7 @@ columns:
   missing_cells: 0
 - name: event_date
   shared: true
+  particular: The story's publish time, UTC
   type: utc time
   values:
     distinct: more than 5000
@@ -71,6 +74,7 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: Always news
   type: text
   values:
     list:
@@ -78,6 +82,7 @@ columns:
   missing_cells: 0
 - name: source
   shared: true
+  particular: The outlet
   type: text
   values:
     distinct: 77
@@ -90,6 +95,7 @@ columns:
   missing_cells: 0
 - name: source_url
   shared: true
+  particular: The story's link; a news.google.com link where Google News could not be resolved to the outlet
   type: text
   values:
     distinct: more than 5000
@@ -101,8 +107,9 @@ columns:
     - https://electrek.co/2026/09/24/comma-ai-openpilot-nhtsa-investigation-crashes/
   missing_cells: 0
 - name: sector
-  label: null
-  unit: null
+  label: 'The model''s sector of the story (one of the scorer''s sectors: datacenter_power, gas, nuclear, policy, oil and
+    the others)'
+  unit: none
   type: text
   values:
     list:
@@ -128,12 +135,12 @@ columns:
       transmission: 184
       transport: 375
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector score.py; method news_index.md
 - name: region
-  label: null
-  unit: null
+  label: 'The model''s region of the story: the US state, the country, or ''global'''
+  unit: none
   type: text
   values:
     distinct: 313
@@ -144,12 +151,13 @@ columns:
     - Africa
     - Alabama
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector score.py
 - name: significance
-  label: null
-  unit: null
+  label: The model's score, 0 to 10, of how much the story changes what an informed energy professional believes about where
+    the industry is going (the news rubric)
+  unit: none
   type: integer
   values:
     list:
@@ -165,12 +173,13 @@ columns:
       '8': 349
       '9': 79
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: source warehouse/news/rubric.md; connector score.py
 - name: ai_power_relevance
-  label: null
-  unit: null
+  label: The model's score, 0 to 10, of how directly the story concerns power demand from AI and datacenters and what serves
+    it (a tag, not a filter)
+  unit: none
   type: integer
   values:
     list:
@@ -186,12 +195,12 @@ columns:
       '8': 747
       '9': 486
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: source warehouse/news/rubric.md; connector score.py
 - name: cluster_id
-  label: null
-  unit: null
+  label: 'Joins stories the model marks as one event (an is_duplicate_of chain), written as a news: id'
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -202,12 +211,12 @@ columns:
     - news:0010af91ce2cf5c0
     - news:0010e7ad3689a2d6
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method news_index.md
 - name: headline
-  label: null
-  unit: null
+  label: The model's plain headline of the story, at most 14 words
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -218,7 +227,7 @@ columns:
     - $29 billion manager tips Nigerian stocks over South Korea's Kospi
     - $67.8 billion in Asian LNG-to-power projects scrapped or stalled since 2021
   missing_cells: 632
-  missing_meaning: null
+  missing_meaning: Scored before session 7, when the model wrote no headline
   source_name: null
-  documented_by: null
+  documented_by: header; connector score.py; connector index.py
 second_look: null

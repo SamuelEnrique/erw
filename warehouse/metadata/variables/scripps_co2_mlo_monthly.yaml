@@ -5,9 +5,9 @@
 table: scripps_co2_mlo_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Atmospheric CO2 at Mauna Loa Observatory in one month, from the Scripps CO2 Program's in situ record.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; from 1958-03.
+vintage_rule: Rewritten whole as one snapshot by each run from the Scripps file; vintage is the file's Last-Modified.
 keys:
 - entity
 - variable
@@ -16,7 +16,8 @@ license: public
 tier: source
 interval: P1M
 source:
-- name: scripps:co2_mlo_monthly Scripps CO2 Program, monthly_in_situ_co2_mlo.csv,  (linked from
+- name: scripps:co2_mlo_monthly Scripps CO2 Program, monthly_in_situ_co2_mlo.csv, https://keelinglabsites.ucsd.edu/websitedataco2/monthly_in_situ_co2_mlo.csv
+    (linked from
   url: https://scrippsco2.ucsd.edu/data/primary-mauna-loa-co2-record/
 cite: 'Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego). Primary Mauna Loa CO2 Record: monthly in situ
   CO2. Via the Energy Research Warehouse (ERW), table `scripps_co2_mlo_monthly`.'
@@ -34,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: scripps:mlo on every row
   type: text
   values:
     list:
@@ -77,18 +79,21 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1636
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1636
 - name: node
   shared: true
+  particular: Mauna Loa Observatory on every row, not a pricing node
   type: text
   values:
     list:
@@ -117,32 +122,33 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-10-21T21:16:30Z': 1636
   missing_cells: 0
 - name: x_station
-  label: null
-  unit: null
+  label: 'The station measured: MLO (Mauna Loa), or MKO (Maunakea''s summit) for the months after Mauna Loa''s 2022 eruption'
+  unit: none
   type: text
   values:
     list:
       MKO: 6
       MLO: 1630
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector scripps_co2_mlo.py
 variables:
 - name: co2
-  label: null
+  label: Monthly mean CO2 concentration, adjusted to the 15th of the month, ppm of dry air
   unit: ppm
   rows: 818
   first: '1958-03-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: co2_seasonally_adjusted
-  label: null
+  label: Monthly mean CO2 concentration, seasonally adjusted, ppm of dry air
   unit: ppm
   rows: 818
   first: '1958-03-01T00:00:00Z'

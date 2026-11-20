@@ -5,9 +5,10 @@
 table: eia_wood_pellets_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's figure from EIA's Monthly Densified Biomass Fuel Report (wood pellets) for a region, the U.S. or a feedstock
+  type (a price, a feedstock cost, facilities or employees).
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_wood_pellets:<sales|export|capacity|feedstocks>:<region or fuel type>
   type: text
   values:
     list:
@@ -89,6 +91,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row, the regions included
   type: text
   values:
     list:
@@ -96,12 +99,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2090
 - name: node
   shared: true
+  particular: EIA's region or fuel type name
   type: text
   values:
     list:
@@ -145,37 +150,38 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2090
 variables:
 - name: domestic_price
-  label: null
+  label: Average price of domestic sales of densified biomass in the region, USD per short ton
   unit: USD/short_ton
   rows: 500
   first: '2016-01-01T00:00:00Z'
   last: '2026-05-01T00:00:00Z'
 - name: export_price
-  label: null
+  label: Average price of densified biomass exports, USD per short ton
   unit: USD/short_ton
   rows: 113
   first: '2016-01-01T00:00:00Z'
   last: '2026-05-01T00:00:00Z'
 - name: facilities
-  label: null
+  label: Number of densified biomass facilities in the region
   unit: count
   rows: 500
   first: '2016-01-01T00:00:00Z'
   last: '2026-05-01T00:00:00Z'
 - name: feedstock_cost
-  label: null
+  label: Cost of the feedstock type, USD per short ton
   unit: USD/short_ton
   rows: 477
   first: '2016-01-01T00:00:00Z'
   last: '2026-05-01T00:00:00Z'
 - name: fte_employees
-  label: null
+  label: Full-time equivalent employees of the region's facilities
   unit: count
   rows: 500
   first: '2016-01-01T00:00:00Z'

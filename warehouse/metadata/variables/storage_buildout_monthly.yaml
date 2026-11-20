@@ -5,9 +5,12 @@
 table: storage_buildout_monthly
 family: storage
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One grid's (or the US's) value of one measure of the battery fleet, or of solar, at one month's end, rebuilt from one
+  EIA-860M inventory.
+time: ts_utc is the first of the month at 00:00:00Z, and the value is the fleet at that month's end (freq P1M); the planned
+  rows stand at the inventory month only.
+vintage_rule: Merged by key (entity, variable, ts_utc), a run's rows replacing earlier rows with the same key and earlier
+  rows otherwise kept; every month is rebuilt from the one inventory read, its month named in the header. vintage is not filled.
 keys:
 - entity
 - variable
@@ -32,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: iso:<caiso|ercot|isone|miso|nyiso|pjm|spp> by the generator's balancing authority in EIA-860M; us:outside_isos
+    for every other code and no code; us:total for every unit
   type: text
   values:
     list:
@@ -86,6 +91,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
@@ -133,157 +139,157 @@ columns:
   missing_cells: 21382
 variables:
 - name: battery_mwh_per_solar_mw
-  label: null
+  label: Operating battery MWh per MW of operating solar
   unit: MWh/MW
   rows: 1269
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_operating_mw
-  label: null
+  label: Operating battery capacity, nameplate MW
   unit: MW
   rows: 1269
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_operating_mw_2to4h
-  label: null
+  label: Operating battery MW of units of 2 to 4 hours
   unit: MW
   rows: 1269
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_operating_mw_4to6h
-  label: null
+  label: Operating battery MW of units of 4 to 6 hours
   unit: MW
   rows: 1269
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_operating_mw_energy_not_reported
-  label: null
+  label: Operating battery MW of units EIA gives no energy for (in no duration bucket)
   unit: MW
   rows: 1269
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_operating_mw_ge6h
-  label: null
+  label: Operating battery MW of units of 6 hours and more
   unit: MW
   rows: 1269
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_operating_mw_lt2h
-  label: null
+  label: Operating battery MW of units under 2 hours (MWh over MW)
   unit: MW
   rows: 1269
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_operating_mw_net_added_12m
-  label: null
+  label: Operating battery MW less the value twelve months before (net of retirements)
   unit: MW
   rows: 1161
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_operating_mwh
-  label: null
+  label: Operating battery energy capacity (EIA's Nameplate Energy Capacity)
   unit: MWh
   rows: 1269
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_operating_mwh_2to4h
-  label: null
+  label: Operating battery MWh of units of 2 to 4 hours
   unit: MWh
   rows: 1269
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_operating_mwh_4to6h
-  label: null
+  label: Operating battery MWh of units of 4 to 6 hours
   unit: MWh
   rows: 1269
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_operating_mwh_ge6h
-  label: null
+  label: Operating battery MWh of units of 6 hours and more
   unit: MWh
   rows: 1269
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_operating_mwh_lt2h
-  label: null
+  label: Operating battery MWh of units under 2 hours
   unit: MWh
   rows: 1269
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_operating_mwh_net_added_12m
-  label: null
+  label: Operating battery MWh less the value twelve months before (net of retirements)
   unit: MWh
   rows: 1161
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_operating_mwh_per_mw
-  label: null
+  label: 'Average battery duration: MWh over the MW of the units that report energy'
   unit: MWh/MW
   rows: 1213
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_operating_units
-  label: null
+  label: Operating battery units
   unit: count
   rows: 1269
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_planned_mw
-  label: null
+  label: Planned battery capacity in the inventory month, nameplate MW
   unit: MW
   rows: 9
   first: '2026-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_planned_mw_online_2026
-  label: null
+  label: Planned battery MW with EIA's planned operation date in 2026
   unit: MW
   rows: 9
   first: '2026-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_planned_mw_online_2027
-  label: null
+  label: Planned battery MW with EIA's planned operation date in 2027
   unit: MW
   rows: 9
   first: '2026-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_planned_mw_online_2028
-  label: null
+  label: Planned battery MW with EIA's planned operation date in 2028
   unit: MW
   rows: 9
   first: '2026-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_planned_mw_online_2029
-  label: null
+  label: Planned battery MW with EIA's planned operation date in 2029
   unit: MW
   rows: 9
   first: '2026-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_planned_mw_online_2030
-  label: null
+  label: Planned battery MW with EIA's planned operation date in 2030
   unit: MW
   rows: 9
   first: '2026-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_planned_mw_online_2031
-  label: null
+  label: Planned battery MW with EIA's planned operation date in 2031
   unit: MW
   rows: 9
   first: '2026-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_planned_mw_under_construction
-  label: null
+  label: Planned battery MW whose status is under construction
   unit: MW
   rows: 9
   first: '2026-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_planned_units
-  label: null
+  label: Planned battery units in the inventory month
   unit: count
   rows: 9
   first: '2026-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: solar_operating_mw
-  label: null
+  label: Operating solar capacity (photovoltaic and solar thermal), nameplate MW
   unit: MW
   rows: 1269
   first: '2015-01-01T00:00:00Z'

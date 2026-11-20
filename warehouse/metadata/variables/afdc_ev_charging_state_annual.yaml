@@ -5,9 +5,10 @@
 table: afdc_ev_charging_state_annual
 family: afdc
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's count of public and private (non-residential) electric vehicle charging stations or ports, in total or by
+  charging level, near the end of December of one year, 2014 to 2025, from AFDC's historical station counts.
+time: ts_utc is 1 January of the year at 00:00:00Z; the count was taken near the end of that year's December; freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot); vintage is the workbook's Last-Modified time.
 keys:
 - entity
 - variable
@@ -34,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: afdc_ev:<state postal code, lower case>
   type: text
   values:
     distinct: 51
@@ -92,6 +94,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>
   type: text
   values:
     distinct: 51
@@ -104,12 +107,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3060
 - name: node
   shared: true
+  particular: The state's name, not a pricing node
   type: text
   values:
     distinct: 51
@@ -143,14 +148,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's Last-Modified time
   type: utc time
   values:
     list:
       '2026-06-23T22:12:10Z': 3060
   missing_cells: 0
 - name: x_counted_at
-  label: null
-  unit: null
+  label: AFDC's words for when the count was taken (near the end of December <year>)
+  unit: none
   type: text
   values:
     list:
@@ -167,36 +173,36 @@ columns:
       near the end of December 2024: 255
       near the end of December 2025: 255
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector afdc_ev_charging.py
 variables:
 - name: ev_dcfast_ports
-  label: null
+  label: DC fast charging ports, count
   unit: count
   rows: 612
   first: '2014-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: ev_level1_ports
-  label: null
+  label: Level 1 charging ports, count
   unit: count
   rows: 612
   first: '2014-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: ev_level2_ports
-  label: null
+  label: Level 2 charging ports, count
   unit: count
   rows: 612
   first: '2014-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: ev_ports
-  label: null
+  label: EV charging ports in the state, count (from 2021 an outlet is a port; before, a connector)
   unit: count
   rows: 612
   first: '2014-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: ev_stations
-  label: null
+  label: EV charging stations in the state, count
   unit: count
   rows: 612
   first: '2014-01-01T00:00:00Z'

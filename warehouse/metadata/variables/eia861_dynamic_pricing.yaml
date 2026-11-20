@@ -5,9 +5,11 @@
 table: eia861_dynamic_pricing
 family: eia861
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One utility's customers enrolled in dynamic pricing programs in one state, balancing authority and customer sector, for
+  one year, with the kinds of program it marks, from Form EIA-861's dynamic pricing file.
+time: ts_utc is the data year's 1 January at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: A run reads the years given with --years and writes the table whole; vintage is not filled. EIA's aggregates
+  88888 and 99999 left out; a '.' cell has no row.
 keys:
 - entity
 - variable
@@ -34,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia861_dp:<utility number>:<state>:<balancing authority>; ends in a colon before 2017 (no balancing authority
+    column) and where EIA gives none
   type: text
   values:
     distinct: 1751
@@ -91,6 +95,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>
   type: text
   values:
     distinct: 54
@@ -103,12 +108,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 33157
 - name: node
   shared: true
+  particular: The utility's name, not a pricing node
   type: text
   values:
     distinct: 974
@@ -162,25 +169,26 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 33157
 - name: x_utility_number
-  label: null
-  unit: null
+  label: EIA's utility identifier
+  unit: none
   type: integer
   values:
     distinct: 907
     lowest: 55
     highest: 66867
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_programs.md
 - name: x_state
-  label: null
-  unit: null
+  label: The state, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 54
@@ -191,12 +199,12 @@ columns:
     - AZ
     - CA
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_programs.md
 - name: x_ba_code
-  label: null
-  unit: null
+  label: The balancing authority (the grid operator of the area) code EIA gives for the row
+  unit: none
   type: text
   values:
     distinct: 48
@@ -207,24 +215,24 @@ columns:
     - AVA
     - AZPS
   missing_cells: 5110
-  missing_meaning: null
+  missing_meaning: Before 2017, when EIA added the column, and where EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia861_programs.md
 - name: x_tou_residential
-  label: null
-  unit: null
+  label: Whether the utility offers time of use pricing to residential customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 7427
       Y: 14610
   missing_cells: 11120
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 - name: x_tou_commercial
-  label: null
-  unit: null
+  label: Whether the utility offers time of use pricing to commercial customers, Y or N as EIA marks it (20 rows hold X)
+  unit: none
   type: text
   values:
     list:
@@ -232,254 +240,255 @@ columns:
       X: 20
       Y: 19369
   missing_cells: 8781
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md; data
 - name: x_tou_industrial
-  label: null
-  unit: null
+  label: Whether the utility offers time of use pricing to industrial customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 5091
       Y: 18972
   missing_cells: 9094
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 - name: x_tou_transportation
-  label: null
-  unit: null
+  label: Whether the utility offers time of use pricing to transportation customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 13244
       Y: 1190
   missing_cells: 18723
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 - name: x_rtp_residential
-  label: null
-  unit: null
+  label: Whether the utility offers real time pricing to residential customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 13353
       Y: 964
   missing_cells: 18840
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 - name: x_rtp_commercial
-  label: null
-  unit: null
+  label: Whether the utility offers real time pricing to commercial customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 12232
       Y: 4547
   missing_cells: 16378
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 - name: x_rtp_industrial
-  label: null
-  unit: null
+  label: Whether the utility offers real time pricing to industrial customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 12099
       Y: 4380
   missing_cells: 16678
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 - name: x_rtp_transportation
-  label: null
-  unit: null
+  label: Whether the utility offers real time pricing to transportation customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 13527
       Y: 229
   missing_cells: 19401
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 - name: x_vpp_residential
-  label: null
-  unit: null
+  label: Whether the utility offers variable peak pricing to residential customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 13484
       Y: 347
   missing_cells: 19326
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 - name: x_vpp_commercial
-  label: null
-  unit: null
+  label: Whether the utility offers variable peak pricing to commercial customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 13324
       Y: 729
   missing_cells: 19104
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 - name: x_vpp_industrial
-  label: null
-  unit: null
+  label: Whether the utility offers variable peak pricing to industrial customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 13389
       Y: 587
   missing_cells: 19181
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 - name: x_vpp_transportation
-  label: null
-  unit: null
+  label: Whether the utility offers variable peak pricing to transportation customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 13611
       Y: 75
   missing_cells: 19471
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 - name: x_cpp_residential
-  label: null
-  unit: null
+  label: Whether the utility offers critical peak pricing to residential customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 13058
       Y: 1286
   missing_cells: 18813
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 - name: x_cpp_commercial
-  label: null
-  unit: null
+  label: Whether the utility offers critical peak pricing to commercial customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 12676
       Y: 2018
   missing_cells: 18463
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 - name: x_cpp_industrial
-  label: null
-  unit: null
+  label: Whether the utility offers critical peak pricing to industrial customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 12499
       Y: 2390
   missing_cells: 18268
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 - name: x_cpp_transportation
-  label: null
-  unit: null
+  label: Whether the utility offers critical peak pricing to transportation customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 13598
       Y: 128
   missing_cells: 19431
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 - name: x_cpr_residential
-  label: null
-  unit: null
+  label: Whether the utility offers a critical peak rebate to residential customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 13381
       Y: 564
   missing_cells: 19212
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 - name: x_cpr_commercial
-  label: null
-  unit: null
+  label: Whether the utility offers a critical peak rebate to commercial customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 13344
       Y: 677
   missing_cells: 19136
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 - name: x_cpr_industrial
-  label: null
-  unit: null
+  label: Whether the utility offers a critical peak rebate to industrial customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 13293
       Y: 789
   missing_cells: 19075
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 - name: x_cpr_transportation
-  label: null
-  unit: null
+  label: Whether the utility offers a critical peak rebate to transportation customers, Y or N as EIA marks it
+  unit: none
   type: text
   values:
     list:
       N: 13611
       Y: 76
   missing_cells: 19470
-  missing_meaning: null
+  missing_meaning: EIA's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_programs.md
 variables:
 - name: customers_enrolled_commercial
-  label: null
+  label: Commercial customers on a dynamic pricing program, count
   unit: count
   rows: 7213
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: customers_enrolled_industrial
-  label: null
+  label: Industrial customers on a dynamic pricing program, count
   unit: count
   rows: 6586
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: customers_enrolled_residential
-  label: null
+  label: Residential customers on a dynamic pricing program, count
   unit: count
   rows: 6713
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: customers_enrolled_total
-  label: null
+  label: All customers on a dynamic pricing program, count
   unit: count
   rows: 8387
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: customers_enrolled_transportation
-  label: null
+  label: Transportation customers on a dynamic pricing program, count
   unit: count
   rows: 4258
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
-second_look: null
+second_look:
+- 'x_tou_commercial: 20 rows hold X, a value neither the header nor the method note explains (they name Y, N or empty).'

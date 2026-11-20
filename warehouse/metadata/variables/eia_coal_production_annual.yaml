@@ -5,9 +5,10 @@
 table: eia_coal_production_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One producing state's, region's or the nation's yearly coal production, number of mines or average employees, by coal
+  rank and mine type, from EIA's Annual Coal Report.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -34,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_coal_production:<stateRegionId>:<coalRankId>:<mineTypeId>
   type: text
   values:
     distinct: 422
@@ -105,6 +107,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> for a state; US for a region or the U.S.
   type: text
   values:
     distinct: 27
@@ -117,12 +120,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 22630
 - name: node
   shared: true
+  particular: EIA's area, rank and mine type names
   type: text
   values:
     distinct: 422
@@ -157,25 +162,26 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 22630
 variables:
 - name: employees
-  label: null
+  label: Average employees, as EIA gives them
   unit: count
   rows: 3808
   first: '2001-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: mines
-  label: null
+  label: Number of mines
   unit: count
   rows: 9399
   first: '2001-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: production
-  label: null
+  label: Coal produced, short tons
   unit: short_ton
   rows: 9423
   first: '2001-01-01T00:00:00Z'

@@ -5,9 +5,9 @@
 table: eia_crude_tank_farm_stocks_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's end crude oil stocks at tank farms and pipelines in the U.S. or one PADD, or ending stocks at Cushing, Oklahoma.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M); a month-end stock.
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_crude_tank_farm_stocks:<EIA series id>
   type: text
   values:
     list:
@@ -82,6 +83,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-OK for Cushing, US otherwise (the PADDs included)
   type: text
   values:
     list:
@@ -90,12 +92,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3553
 - name: node
   shared: true
+  particular: EIA's series description
   type: text
   values:
     list:
@@ -131,19 +135,20 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3553
 variables:
 - name: ending_stocks
-  label: null
+  label: Cushing, Oklahoma ending stocks of crude oil at the month's end, thousand barrels
   unit: kbbl
   rows: 271
   first: '2004-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: tank_farm_pipeline_stocks
-  label: null
+  label: Crude oil stocks at tank farms and pipelines at the month's end, thousand barrels
   unit: kbbl
   rows: 3282
   first: '1981-01-01T00:00:00Z'

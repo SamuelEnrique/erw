@@ -5,9 +5,11 @@
 table: desnz_uk_derated_capacity_annual
 family: desnz
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One kind of company's (major power producers, other generators, or all) de-rated generating capacity of one fuel or thermal
+  station type in one year, 1996 to 2025 (DUKES table 5.7).
+time: ts_utc is the year's first day at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot of the DUKES edition read, here 2026); vintage is the workbook's last-modified
+  time.
 keys:
 - entity
 - variable
@@ -34,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: desnz_cap:<mpp|other|all>:<item>
   type: text
   values:
     distinct: 50
@@ -82,6 +85,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always GB, standing for the UK
   type: text
   values:
     list:
@@ -89,12 +93,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1680
 - name: node
   shared: true
+  particular: The sheet's two labels (company group and item), not a pricing node
   type: text
   values:
     distinct: 53
@@ -128,6 +134,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time
   type: utc time
   values:
     list:
@@ -135,13 +142,14 @@ columns:
   missing_cells: 0
 variables:
 - name: derated_capacity
-  label: null
+  label: 'De-rated generating capacity by fuel (table 5.7.A): small hydro, wind and solar multiplied by 0.365, 0.43 and 0.17
+    for intermittency, MW'
   unit: MW
   rows: 1200
   first: '1996-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: thermal_capacity
-  label: null
+  label: Capacity of thermal power stations by type (table 5.7.B), MW
   unit: MW
   rows: 480
   first: '1996-01-01T00:00:00Z'

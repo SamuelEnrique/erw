@@ -5,9 +5,11 @@
 table: statec_lu_electricity_trade_annual
 family: statec
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Luxembourg's electricity imports from one origin or exports to one destination (or the totals) in one year, 1933 to 2024,
+  from LUSTAT table DF_A4208.
+time: ts_utc is the year's first day at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot of STATEC's file); STATEC adds a year each year and may revise earlier
+  ones. vintage is not filled.
 keys:
 - entity
 - variable
@@ -34,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'statec_trade:lu:<STATEC''s code, lower-cased>: l01 imports, l02 exports, sl01 to sl06 by country, ssl01 and
+    ssl02 Germany''s split'
   type: text
   values:
     list:
@@ -86,6 +90,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always LU (Luxembourg)
   type: text
   values:
     list:
@@ -93,12 +98,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 584
 - name: node
   shared: true
+  particular: STATEC's code and label (SL01 From Belgium), not a pricing node
   type: text
   values:
     list:
@@ -136,19 +143,22 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 584
 variables:
 - name: electricity_exports
-  label: null
+  label: Electricity Luxembourg exported in the year, to the destination the node names (or in total), MWh (STATEC's GWh times
+    1,000)
   unit: MWh
   rows: 227
   first: '1933-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: electricity_imports
-  label: null
+  label: Electricity Luxembourg imported in the year, from the origin the node names (or in total), MWh (STATEC's GWh times
+    1,000)
   unit: MWh
   rows: 357
   first: '1933-01-01T00:00:00Z'

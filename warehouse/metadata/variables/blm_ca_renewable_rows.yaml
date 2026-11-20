@@ -5,9 +5,10 @@
 table: blm_ca_renewable_rows
 family: other_sources
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One renewable energy right-of-way on public lands in California (verified or preliminary), from the Bureau of Land Management's
+  California renewable energy projects layers.
+time: No time column; status_date is the effective date; the table is a snapshot as read on its retrieved_at.
+vintage_rule: Rewritten whole as one snapshot by each run from BLM's two layers; vintage is not filled.
 keys:
 - entity_id
 license: public
@@ -32,6 +33,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: blm_row:<BLM serial number, spaces removed>
   type: text
   values:
     distinct: 57
@@ -44,6 +46,7 @@ columns:
   missing_cells: 0
 - name: entity_type
   shared: true
+  particular: project on every row
   type: text
   values:
     list:
@@ -51,6 +54,7 @@ columns:
   missing_cells: 0
 - name: name
   shared: true
+  particular: BLM's project name (the holder or applicant as BLM writes it)
   type: text
   values:
     distinct: 55
@@ -63,6 +67,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-CA on every row
   type: text
   values:
     list:
@@ -82,18 +87,21 @@ columns:
   missing_cells: 57
 - name: capacity_mw
   shared: true
+  particular: 'Not filled: BLM gives no capacity'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 57
 - name: status
   shared: true
+  particular: 'Not filled: BLM''s disposition is in x_disposition'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 57
 - name: status_date
   shared: true
+  particular: The right-of-way's effective date
   type: date
   values:
     distinct: 32
@@ -132,25 +140,26 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 57
 - name: x_layer
-  label: null
-  unit: null
+  label: 'BLM''s layer: verified (layer 0) or preliminary (layer 1) renewable energy rights-of-way'
+  unit: none
   type: text
   values:
     list:
       preliminary: 11
       verified: 46
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector blm_renewable.py; method blm_ca_renewable_rows.md
 - name: x_serial_number
-  label: null
-  unit: null
+  label: BLM's serial number of the case
+  unit: none
   type: text
   values:
     distinct: 57
@@ -161,12 +170,12 @@ columns:
     - CACA 013198
     - CACA 013528
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector blm_renewable.py; method blm_ca_renewable_rows.md
 - name: x_disposition
-  label: null
-  unit: null
+  label: 'BLM''s disposition: Authorized, Pending or Closed'
+  unit: none
   type: text
   values:
     list:
@@ -174,12 +183,13 @@ columns:
       Closed: 2
       Pending: 23
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Disposition
+  documented_by: header; connector blm_renewable.py
 - name: x_case_type
-  label: null
-  unit: null
+  label: BLM's case type (ROW-SOLAR DEV FAC solar development, ROW-WIND DEV FAC wind development, ROW-WIND PROJ TEST wind
+    testing)
+  unit: none
   type: text
   values:
     list:
@@ -187,12 +197,12 @@ columns:
       ROW-WIND DEV FAC: 22
       ROW-WIND PROJ TEST: 19
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: CaseType
+  documented_by: header; connector blm_renewable.py; data
 - name: x_case_type_code
-  label: null
-  unit: null
+  label: BLM's code of the case type
+  unit: none
   type: integer
   values:
     list:
@@ -200,12 +210,12 @@ columns:
       '283003': 21
       '283103': 16
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: CaseTypeCode
+  documented_by: connector blm_renewable.py
 - name: x_commodity
-  label: null
-  unit: null
+  label: BLM's commodity (solar or wind energy facilities), as written
+  unit: none
   type: text
   values:
     list:
@@ -213,12 +223,12 @@ columns:
       Solar Energy Facilities: 15
       Wind Energy Facilities: 41
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Commodity
+  documented_by: connector blm_renewable.py; data
 - name: x_project_type
-  label: null
-  unit: null
+  label: BLM's project type (CSP, PV, testing, turbines)
+  unit: none
   type: text
   values:
     list:
@@ -227,36 +237,36 @@ columns:
       testing: 19
       turbines: 22
   missing_cells: 3
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BLM leaves the field blank
+  source_name: ProjectType
+  documented_by: connector blm_renewable.py; data
 - name: x_application_date
-  label: null
-  unit: null
+  label: The application date
+  unit: none
   type: date
   values:
     distinct: 50
     earliest: '1981-03-19'
     latest: '2016-05-23'
   missing_cells: 2
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BLM leaves the field blank
+  source_name: ApplicationDate
+  documented_by: connector blm_renewable.py
 - name: x_effective_date
-  label: null
-  unit: null
+  label: The effective date
+  unit: none
   type: date
   values:
     distinct: 32
     earliest: '1982-12-08'
     latest: '2014-03-21'
   missing_cells: 25
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BLM leaves the field blank
+  source_name: EffectiveDate
+  documented_by: connector blm_renewable.py
 - name: x_expiration_date
-  label: null
-  unit: null
+  label: The expiration date
+  unit: none
   type: date
   values:
     list:
@@ -283,12 +293,12 @@ columns:
       '2042-12-31': 2
       '2043-12-31': 2
   missing_cells: 32
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BLM leaves the field blank
+  source_name: ExpirationDate
+  documented_by: connector blm_renewable.py
 - name: x_expiration_year
-  label: null
-  unit: null
+  label: The expiration year
+  unit: none
   type: integer
   values:
     list:
@@ -307,36 +317,36 @@ columns:
       '2042': 2
       '2043': 2
   missing_cells: 32
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BLM leaves the field blank
+  source_name: ExpirationYear
+  documented_by: connector blm_renewable.py
 - name: x_project_acres
-  label: null
-  unit: null
+  label: The project's acres
+  unit: acre
   type: integer
   values:
     distinct: 36
     lowest: 20
     highest: 30810
   missing_cells: 20
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BLM leaves the field blank
+  source_name: ProjectAcres
+  documented_by: connector blm_renewable.py
 - name: x_blm_acres
-  label: null
-  unit: null
+  label: The acres on BLM land
+  unit: acre
   type: integer
   values:
     distinct: 53
     lowest: 13
     highest: 37219
   missing_cells: 3
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BLM leaves the field blank
+  source_name: BLMAcres
+  documented_by: connector blm_renewable.py
 - name: x_data_source
-  label: null
-  unit: null
+  label: BLM's data source field as written (Application, LR2000, a map, a shapefile)
+  unit: none
   type: text
   values:
     list:
@@ -351,12 +361,12 @@ columns:
       POD: 1
       Shapefile-company: 2
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: DataSource
+  documented_by: connector blm_renewable.py; data
 - name: x_remarks
-  label: null
-  unit: null
+  label: BLM's remarks
+  unit: none
   type: text
   values:
     distinct: 42
@@ -367,18 +377,19 @@ columns:
     - Amended 1/4/08; Amended 9/22/10
     - Amended 10/09;12/09;5/10; Lark Canyon OHV & ACEC within project,08/2014
   missing_cells: 13
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BLM leaves the field blank
+  source_name: Remarks
+  documented_by: connector blm_renewable.py
 - name: x_in_time
-  label: null
-  unit: null
+  label: not documented by the source
+  unit: none
   type: text
   values:
     list:
       1st: 57
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
-second_look: null
+  missing_meaning: never empty
+  source_name: InTime
+  documented_by: connector blm_renewable.py; data
+second_look:
+- 'x_in_time (BLM''s InTime, 1st on every row): what it marks is not written in the connector, the method note or the header.'

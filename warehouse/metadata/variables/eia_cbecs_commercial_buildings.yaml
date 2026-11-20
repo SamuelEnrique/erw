@@ -5,9 +5,11 @@
 table: eia_cbecs_commercial_buildings
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One category of commercial buildings (by a building characteristic, or all buildings) and one figure from EIA's 2018
+  Commercial Buildings Energy Consumption Survey tables C1, C2 and E1.
+time: ts_utc is 1 January of the survey year (2018) at 00:00:00Z (freq P1Y).
+vintage_rule: Written whole each run (write_snapshot) from the saved workbooks; EIA's revision is taken only when the saved
+  copy is gone. vintage is each workbook's last-modified time.
 keys:
 - entity
 - variable
@@ -35,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: cbecs:<heading>_<category>, slugged; cbecs:all for all buildings
   type: text
   values:
     distinct: 270
@@ -84,6 +87,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row (census regions are categories)
   type: text
   values:
     list:
@@ -91,12 +95,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5944
 - name: node
   shared: true
+  particular: The category as EIA prints it
   type: text
   values:
     distinct: 231
@@ -134,6 +140,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time from EIA's server
   type: utc time
   values:
     list:
@@ -142,8 +149,8 @@ columns:
       '2023-07-28T13:37:19Z': 2907
   missing_cells: 0
 - name: x_heading
-  label: null
-  unit: null
+  label: The heading the category sits under (for example Principal building activity), a footnote letter set aside
+  unit: none
   type: text
   values:
     distinct: 42
@@ -154,24 +161,24 @@ columns:
     - Cooking energy sources (more than one may apply)
     - Cool roof characteristics (more than one may apply)
   missing_cells: 23
-  missing_meaning: null
+  missing_meaning: The all-buildings row, which sits under no heading
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_buildings.py; method eia_buildings_surveys.md
 - name: x_level
-  label: null
-  unit: null
+  label: 'The category''s indent: 0 a category, 1 a part of the category above it (add level-0 rows only)'
+  unit: none
   type: integer
   values:
     list:
       '0': 5019
       '1': 925
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_buildings.py; method eia_buildings_surveys.md
 - name: x_parent
-  label: null
-  unit: null
+  label: The category a level-1 row is a part of
+  unit: none
   type: text
   values:
     list:
@@ -188,12 +195,12 @@ columns:
       South: 64
       West: 42
   missing_cells: 5019
-  missing_meaning: null
+  missing_meaning: A level-0 row (a part of no other category)
   source_name: null
-  documented_by: null
+  documented_by: connector eia_buildings.py; method eia_buildings_surveys.md
 - name: x_table
-  label: null
-  unit: null
+  label: The CBECS table the figure is read from (C1, C2 or E1)
+  unit: none
   type: text
   values:
     list:
@@ -201,144 +208,144 @@ columns:
       C2: 1252
       E1: 2907
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_buildings.py; method eia_buildings_surveys.md
 variables:
 - name: buildings
-  label: null
+  label: Number of buildings (C1, thousand buildings times 1,000)
   unit: count
   rows: 270
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: consumption_district_heat
-  label: null
+  label: District heat consumed, trillion Btu (C1)
   unit: TBtu
   rows: 212
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: consumption_electricity_primary
-  label: null
+  label: Electricity consumed, counted as the primary energy used to make it, trillion Btu (C1)
   unit: TBtu
   rows: 269
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: consumption_electricity_site
-  label: null
+  label: Electricity consumed, at the site, trillion Btu (C1)
   unit: TBtu
   rows: 269
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: consumption_fuel_oil
-  label: null
+  label: Fuel oil consumed, trillion Btu (C1)
   unit: TBtu
   rows: 233
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: consumption_natural_gas
-  label: null
+  label: Natural gas consumed, trillion Btu (C1)
   unit: TBtu
   rows: 263
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: consumption_sum_major_fuels
-  label: null
+  label: Consumption of the major fuels together, trillion Btu (C1)
   unit: TBtu
   rows: 269
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: enduse_computing
-  label: null
+  label: Major fuels' consumption for computing, trillion Btu (E1)
   unit: TBtu
   rows: 258
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: enduse_cooking
-  label: null
+  label: Major fuels' consumption for cooking, trillion Btu (E1)
   unit: TBtu
   rows: 262
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: enduse_cooling
-  label: null
+  label: Major fuels' consumption for cooling, trillion Btu (E1)
   unit: TBtu
   rows: 266
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: enduse_lighting
-  label: null
+  label: Major fuels' consumption for lighting, trillion Btu (E1)
   unit: TBtu
   rows: 267
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: enduse_office_equipment
-  label: null
+  label: Major fuels' consumption for office equipment, trillion Btu (E1)
   unit: TBtu
   rows: 261
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: enduse_other
-  label: null
+  label: Major fuels' consumption for other end uses, trillion Btu (E1)
   unit: TBtu
   rows: 266
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: enduse_refrigeration
-  label: null
+  label: Major fuels' consumption for refrigeration, trillion Btu (E1)
   unit: TBtu
   rows: 264
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: enduse_space_heating
-  label: null
+  label: Major fuels' consumption for space heating, trillion Btu (E1)
   unit: TBtu
   rows: 267
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: enduse_total
-  label: null
+  label: Major fuels' consumption for all end uses, trillion Btu (E1)
   unit: TBtu
   rows: 269
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: enduse_ventilation
-  label: null
+  label: Major fuels' consumption for ventilation, trillion Btu (E1)
   unit: TBtu
   rows: 267
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: enduse_water_heating
-  label: null
+  label: Major fuels' consumption for water heating, trillion Btu (E1)
   unit: TBtu
   rows: 260
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: expenditure_district_heat
-  label: null
+  label: Expenditure on district heat, USD (C2)
   unit: USD
   rows: 213
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: expenditure_electricity
-  label: null
+  label: Expenditure on electricity, USD (C2)
   unit: USD
   rows: 269
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: expenditure_fuel_oil
-  label: null
+  label: Expenditure on fuel oil, USD (C2)
   unit: USD
   rows: 237
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: expenditure_natural_gas
-  label: null
+  label: Expenditure on natural gas, USD (C2)
   unit: USD
   rows: 264
   first: '2018-01-01T00:00:00Z'
   last: '2018-01-01T00:00:00Z'
 - name: expenditure_sum_major_fuels
-  label: null
+  label: Expenditure on the major fuels together, USD (C2, million dollars times 1,000,000)
   unit: USD
   rows: 269
   first: '2018-01-01T00:00:00Z'

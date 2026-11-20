@@ -5,9 +5,10 @@
 table: eurostat_solid_fuels_monthly
 family: eurostat
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One European country's (or the EU's) flow of one solid fuel (hard coal, brown coal, coke oven coke, peat, oil shale and
+  oil sands) in one month.
+time: ts_utc is the month's first day at 00:00:00Z (freq P1M).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised month replaces the old figure; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -34,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_sff:<Eurostat geo code>:<SIEC code>
   type: text
   values:
     distinct: 190
@@ -82,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
   type: text
   values:
     distinct: 37
@@ -100,6 +103,7 @@ columns:
   missing_cells: 209040
 - name: node
   shared: true
+  particular: '<fuel>: <flow>, not a pricing node'
   type: text
   values:
     distinct: 49
@@ -139,8 +143,8 @@ columns:
     note: no cell holds a value
   missing_cells: 209040
 - name: x_geo_code
-  label: null
-  unit: null
+  label: Eurostat's geo code of the country or aggregate
+  unit: none
   type: text
   values:
     distinct: 38
@@ -151,12 +155,13 @@ columns:
     - BE
     - BG
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_solid_fuels_monthly.py
 - name: x_siec
-  label: null
-  unit: null
+  label: 'Eurostat''s SIEC code of the fuel: C0100 hard coal, C0200 brown coal, C0311 coke oven coke, P1100 peat, S2000 oil
+    shale and oil sands'
+  unit: none
   type: text
   values:
     list:
@@ -166,12 +171,12 @@ columns:
       P1100: 27874
       S2000: 33560
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: x_nrg_bal
-  label: null
-  unit: null
+  label: Eurostat's NRG_BAL code of the flow (the part of the variable after flow:)
+  unit: none
   type: text
   values:
     list:
@@ -192,12 +197,13 @@ columns:
       TI_CO: 4413
       TI_EHG_MAP: 17877
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; data
 - name: x_flag
-  label: null
-  unit: null
+  label: 'Eurostat''s flag of the observation: e estimated, n not significant, p provisional, b break in series, d definition
+    differs, u low reliability, and the pairs be and bn'
+  unit: none
   type: text
   values:
     list:
@@ -210,113 +216,113 @@ columns:
       p: 904
       u: 67
   missing_cells: 202168
-  missing_meaning: null
+  missing_meaning: No flag on the observation
   source_name: null
-  documented_by: null
+  documented_by: method eurostat_solid_fuels_monthly.md
 - name: x_conf_status
-  label: null
-  unit: null
+  label: 'Eurostat''s confidentiality status of the observation: C confidential'
+  unit: none
   type: text
   values:
     list:
       C: 6
   missing_cells: 209034
-  missing_meaning: null
+  missing_meaning: Not confidential
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_solid_fuels_monthly.py; method eurostat_crude_imports_by_field_monthly.md
 variables:
 - name: flow:EXP
-  label: null
+  label: Exports, tonnes (NRG_BAL EXP)
   unit: t
   rows: 22238
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:FC_IND
-  label: null
+  label: Final consumption by the industry sector, tonnes (FC_IND)
   unit: t
   rows: 4358
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:FC_IND_IS
-  label: null
+  label: Final consumption by iron and steel, tonnes (FC_IND_IS)
   unit: t
   rows: 8685
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:FC_OTH
-  label: null
+  label: Final consumption by other sectors, tonnes (FC_OTH)
   unit: t
   rows: 4442
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:GID_CAL
-  label: null
+  label: Gross inland deliveries, calculated, tonnes (GID_CAL)
   unit: t
   rows: 22450
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:GID_OBS
-  label: null
+  label: Gross inland deliveries, observed, tonnes (GID_OBS)
   unit: t
   rows: 4199
   first: '2017-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:IMP
-  label: null
+  label: Imports, tonnes (IMP)
   unit: t
   rows: 22435
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:IMP_FROM_NEU
-  label: null
+  label: Imports from outside the EU, tonnes (IMP_FROM_NEU)
   unit: t
   rows: 8161
   first: '2017-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:IPRD
-  label: null
+  label: Indigenous production, tonnes (IPRD)
   unit: t
   rows: 22239
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:RCV_RCY
-  label: null
+  label: Recovered and recycled products, tonnes (RCV_RCY)
   unit: t
   rows: 4575
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:STATDIFF
-  label: null
+  label: Statistical differences, tonnes (STATDIFF)
   unit: t
   rows: 4192
   first: '2017-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:STKCL_NAT
-  label: null
+  label: Closing stocks on national territory, tonnes (STKCL_NAT)
   unit: t
   rows: 18173
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:STKOP_NAT
-  label: null
+  label: Opening stocks on national territory, tonnes (STKOP_NAT)
   unit: t
   rows: 18174
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:STK_CHG
-  label: null
+  label: Change in stock, tonnes (STK_CHG)
   unit: t
   rows: 22429
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:TI_CO
-  label: null
+  label: Transformation input to coke ovens, tonnes (TI_CO)
   unit: t
   rows: 4413
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:TI_EHG_MAP
-  label: null
+  label: Transformation input to electricity and heat generation, main activity producers, tonnes (TI_EHG_MAP)
   unit: t
   rows: 17877
   first: '2016-01-01T00:00:00Z'

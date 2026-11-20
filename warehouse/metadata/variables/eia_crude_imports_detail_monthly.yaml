@@ -5,9 +5,10 @@
 table: eia_crude_imports_detail_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's crude oil imports from one country of origin to one destination (refinery, state, PADD or the U.S.) of one
+  grade, from EIA's company level imports (Form EIA-814).
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -34,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_crude_imports:<originId>:<destinationId>:<gradeId>; destinations nest, so a sum takes one destination type
   type: text
   values:
     distinct: more than 5000
@@ -82,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
@@ -89,12 +92,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 183393
 - name: node
   shared: true
+  particular: The origin, destination (with its type) and grade in EIA's names
   type: text
   values:
     distinct: more than 5000
@@ -131,13 +136,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 183393
 variables:
 - name: imports
-  label: null
+  label: Crude oil imported in the month along the origin, destination and grade, thousand barrels
   unit: kbbl
   rows: 183393
   first: '2009-01-01T00:00:00Z'

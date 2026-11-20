@@ -5,9 +5,10 @@
 table: eia_state_source_disposition_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or the nation's) yearly electricity supply or disposition figure, one of EIA's columns in its State Electricity
+  Profiles.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -34,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_state_disposition:<state>
   type: text
   values:
     distinct: 52
@@ -83,6 +85,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation
   type: text
   values:
     distinct: 52
@@ -95,12 +98,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 37738
 - name: node
   shared: true
+  particular: The state's name
   type: text
   values:
     distinct: 52
@@ -135,133 +140,134 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 37738
 variables:
 - name: combined_heat_and_pwr_comm
-  label: null
+  label: 'Supply: net generation by commercial combined heat and power plants, MWh'
   unit: MWh
   rows: 1820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: combined_heat_and_pwr_elect
-  label: null
+  label: 'Supply: net generation by electric power sector combined heat and power plants, MWh'
   unit: MWh
   rows: 1820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: combined_heat_and_pwr_indust
-  label: null
+  label: 'Supply: net generation by industrial combined heat and power plants, MWh'
   unit: MWh
   rows: 1820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: direct_use
-  label: null
+  label: 'Disposition: direct use (electricity used where it is generated), MWh'
   unit: MWh
   rows: 1817
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: elect_pwr_sector_gen_subtotal
-  label: null
+  label: 'Supply: electric power sector generation, EIA''s subtotal, MWh'
   unit: MWh
   rows: 1820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: electric_utilities
-  label: null
+  label: 'Supply: net generation by electric utilities, MWh'
   unit: MWh
   rows: 1820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: energy_only_providers
-  label: null
+  label: 'Disposition: retail sales by energy-only providers, MWh'
   unit: MWh
   rows: 1820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: estimated_losses
-  label: null
+  label: 'Disposition: estimated losses, MWh'
   unit: MWh
   rows: 1820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: facility_direct
-  label: null
+  label: 'Disposition: facility direct retail purchases, MWh'
   unit: MWh
   rows: 1507
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: full_service_providers
-  label: null
+  label: 'Disposition: retail sales by full-service providers, MWh'
   unit: MWh
   rows: 1820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: independent_power_producers
-  label: null
+  label: 'Supply: net generation by independent power producers, MWh'
   unit: MWh
   rows: 1820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: indust_and_comm_gen_subtotal
-  label: null
+  label: 'Supply: industrial and commercial generation, EIA''s subtotal, MWh'
   unit: MWh
   rows: 1820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: net_interstate_trade
-  label: null
+  label: 'Disposition: net interstate trade, MWh'
   unit: MWh
   rows: 1820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: net_trade_index
-  label: null
+  label: EIA's net trade index, a ratio
   unit: ratio
   rows: 1820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: total_disposition
-  label: null
+  label: Total disposition, EIA's total, MWh
   unit: MWh
   rows: 1820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: total_elect_indust
-  label: null
+  label: 'Disposition: total electric industry retail sales, EIA''s subtotal, MWh'
   unit: MWh
   rows: 1820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: total_international_exports
-  label: null
+  label: 'Disposition: total international exports, MWh'
   unit: MWh
   rows: 1736
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: total_international_imports
-  label: null
+  label: 'Supply: total international imports, MWh'
   unit: MWh
   rows: 1738
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: total_net_generation
-  label: null
+  label: 'Supply: total net generation, EIA''s total, MWh'
   unit: MWh
   rows: 1820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: total_supply
-  label: null
+  label: Total supply, EIA's total, MWh
   unit: MWh
   rows: 1820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: unaccounted
-  label: null
+  label: 'Disposition: unaccounted for, MWh'
   unit: MWh
   rows: 1820
   first: '1990-01-01T00:00:00Z'

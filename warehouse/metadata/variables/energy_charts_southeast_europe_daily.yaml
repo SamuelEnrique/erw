@@ -5,9 +5,10 @@
 table: energy_charts_southeast_europe_daily
 family: energy
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One UTC day's energy of one of Hungary's, Romania's, Greece's or Bulgaria's public net production types, its load, residual
+  load or cross-border trading, summed from Energy-Charts' (Fraunhofer ISE) mean power.
+time: ts_utc is the UTC day at 00:00:00Z; freq P1D. A day is summed only when its periods cover the whole day with none blank.
+vintage_rule: Rewritten whole by each run, every country asked again; vintage is empty (the API sends no Last-Modified).
 keys:
 - entity
 - variable
@@ -35,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: energy_charts:<country>:<type>, Energy-Charts' name as a slug
   type: text
   values:
     distinct: 58
@@ -83,6 +85,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: HU, RO, GR or BG (ISO 3166-1 country codes)
   type: text
   values:
     list:
@@ -93,12 +96,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 128530
 - name: node
   shared: true
+  particular: '''<geo>: <Energy-Charts'' name>'', not a pricing node'
   type: text
   values:
     distinct: 58
@@ -138,13 +143,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: the API sends no Last-Modified'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 128530
 - name: x_type
-  label: null
-  unit: null
+  label: Energy-Charts' name of the production type or measure (Nuclear, Fossil gas, Solar, Load, Residual load, Cross border
+    electricity trading and the others)
+  unit: none
   type: text
   values:
     list:
@@ -170,12 +177,13 @@ columns:
       Waste: 4964
       Wind onshore: 9888
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method energy_charts_southeast_europe_daily.md; connector energy_charts_southeast.py
 - name: x_periods
-  label: null
-  unit: null
+  label: 'The number of periods summed into the day: 96 quarter hours, 24 hours, or 30 (Romania''s 31 December 2021, 22 hours
+    and 8 quarter hours)'
+  unit: count
   type: integer
   values:
     list:
@@ -183,30 +191,30 @@ columns:
       '30': 12
       '96': 62944
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method energy_charts_southeast_europe_daily.md
 variables:
 - name: cross_border_trading
-  label: null
+  label: The day's net cross-border trading, MWh; positive is a net import
   unit: MWh
   rows: 9948
   first: '2020-01-01T00:00:00Z'
   last: '2026-10-22T00:00:00Z'
 - name: load
-  label: null
+  label: The day's load (electricity demand), MWh
   unit: MWh
   rows: 9897
   first: '2020-01-01T00:00:00Z'
   last: '2026-10-22T00:00:00Z'
 - name: public_net_energy
-  label: null
+  label: The day's public net production of the entity's production type, MWh (consumption series negative, as given)
   unit: MWh
   rows: 98788
   first: '2020-01-01T00:00:00Z'
   last: '2026-10-22T00:00:00Z'
 - name: residual_load
-  label: null
+  label: 'The day''s residual load: load less solar and onshore wind, MWh'
   unit: MWh
   rows: 9897
   first: '2020-01-01T00:00:00Z'

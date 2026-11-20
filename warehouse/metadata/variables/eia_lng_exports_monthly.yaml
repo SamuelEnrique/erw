@@ -33,6 +33,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'eia:<EIA series id>: NGM_EPG0_ENG_Y<terminal>-Z00_MMCF for a volume, NGM_EPG0_PNG_Y<terminal>-Z00_DMCF for
+    a price'
   type: text
   values:
     list:
@@ -54,8 +56,6 @@ columns:
       eia:NGM_EPG0_PNG_YPLAQ-Z00_DMCF: 21
       eia:NGM_EPG0_PNG_YSPL-Z00_DMCF: 91
   missing_cells: 0
-  particular: 'eia:<EIA series id>: NGM_EPG0_ENG_Y<terminal>-Z00_MMCF for a volume, NGM_EPG0_PNG_Y<terminal>-Z00_DMCF for
-    a price'
 - name: variable
   shared: true
   type: text
@@ -95,26 +95,26 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 1100
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1100
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: EIA''s series names are in the header''s Series line'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1100
-  particular: 'Not filled: EIA''s series names are in the header''s Series line'
 - name: source
   shared: true
   type: text
@@ -141,11 +141,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1100
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: export_price
   label: Price of the terminal's LNG exports, USD per thousand cubic feet

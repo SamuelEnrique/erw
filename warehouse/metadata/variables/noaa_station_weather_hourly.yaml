@@ -5,9 +5,11 @@
 table: noaa_station_weather_hourly
 family: noaa
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The temperature or dew point measured at one of the 35 NOAA airport stations behind the grids' weighted weather, for
+  one hour, 2019 to now.
+time: ts_utc is the hour in UTC; the reading is the one taken in the ten minutes up to it.
+vintage_rule: Each run deletes the table and writes it whole, cut to the hours from 1 January 2019 to the last hour every
+  station reaches; with --refresh the later answer's hours replace the held ones. vintage is not filled.
 keys:
 - entity
 - variable
@@ -38,6 +40,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: noaa:<GHCN identifier> (USW000 and the WBAN)
   type: text
   values:
     distinct: 35
@@ -86,6 +89,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> of the station
   type: text
   values:
     list:
@@ -110,12 +114,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4781257
 - name: node
   shared: true
+  particular: The station's airport code (DFW, LAX and the others), not a pricing node
   type: text
   values:
     distinct: 35
@@ -157,12 +163,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4781257
 - name: ba
   shared: true
+  particular: The EIA-930 code of the grid the station stands for
   type: text
   values:
     list:
@@ -176,13 +184,15 @@ columns:
   missing_cells: 0
 variables:
 - name: dew_point_f
-  label: null
+  label: The measured dew point, degrees F (NOAA's tenths of a degree C times 9/5 plus 32, to two decimals); measured values
+    only
   unit: degF
   rows: 2390431
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-07T14:00:00Z'
 - name: temperature_f
-  label: null
+  label: The measured temperature, degrees F (NOAA's tenths of a degree C times 9/5 plus 32, to two decimals); an hour with
+    no measured value has no row, nothing interpolated
   unit: degF
   rows: 2390826
   first: '2019-01-01T00:00:00Z'

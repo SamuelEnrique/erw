@@ -5,9 +5,11 @@
 table: onrr_production_monthly
 family: onrr
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Oil, gas or coal produced on federal or Native American lands, onshore or offshore, in one month, nationally, from ONRR's
+  Natural Resources Revenue Data.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M.
+vintage_rule: A snapshot; each run replaces the table whole. vintage is the file's last-modified time. ONRR revises recent
+  months.
 keys:
 - entity
 - variable
@@ -33,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: onrr_production:<federal|native_american>:<onshore|offshore>:<oil|gas|coal>
   type: text
   values:
     list:
@@ -85,6 +88,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always US
   type: text
   values:
     list:
@@ -92,12 +96,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2264
 - name: node
   shared: true
+  particular: Land class and category, product (Federal Offshore, gas), not a pricing node
   type: text
   values:
     list:
@@ -133,38 +139,39 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's last-modified time, one value
   type: utc time
   values:
     list:
       '2026-10-21T17:11:27Z': 2264
   missing_cells: 0
 - name: x_land_class
-  label: null
-  unit: null
+  label: 'ONRR''s land class: Federal or Native American'
+  unit: none
   type: text
   values:
     list:
       Federal: 1415
       Native American: 849
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Land Class
+  documented_by: method onrr.md; connector onrr.py; data
 - name: x_land_category
-  label: null
-  unit: null
+  label: 'ONRR''s land category: Onshore or Offshore'
+  unit: none
   type: text
   values:
     list:
       Offshore: 566
       Onshore: 1698
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Land Category
+  documented_by: method onrr.md; connector onrr.py; data
 - name: x_commodity
-  label: null
-  unit: null
+  label: ONRR's commodity with its unit (Oil Prod Vol (bbl), Gas Prod Vol (mcf), Coal Prod Vol (tons))
+  unit: none
   type: text
   values:
     list:
@@ -172,12 +179,12 @@ columns:
       Gas Prod Vol (mcf): 849
       Oil Prod Vol (bbl): 849
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Commodity
+  documented_by: connector onrr.py; data
 variables:
 - name: production
-  label: null
+  label: The oil, gas or coal produced in the month, bbl, Mcf or short_ton (ONRR's tons) as the row's unit says
   unit: Mcf; bbl; short_ton
   rows: 2264
   first: '2003-01-01T00:00:00Z'

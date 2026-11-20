@@ -5,9 +5,11 @@
 table: lbnl_interconnection_queue
 family: lbnl
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One interconnection request (a project's request to connect to the grid) in Berkeley Lab and GridTracker's Queued Up
+  data file, 2026 edition, requests through the end of 2025, across the seven ISOs and the West and Southeast outside them.
+time: No time column; status_date is the online date (operating), the withdrawal date (withdrawn) or the request date; vintage
+  is the edition ('2026 edition (through 2025)').
+vintage_rule: A snapshot of one edition; a run replaces the table. Rebuilt from the ERW archive in session 305.
 keys:
 - entity_id
 license: public
@@ -32,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: lbnl:<Berkeley Lab's entity>:<q_id>; a repeated pair takes its row number after a colon
   type: text
   values:
     distinct: more than 5000
@@ -44,6 +47,7 @@ columns:
   missing_cells: 0
 - name: entity_type
   shared: true
+  particular: Always project
   type: text
   values:
     list:
@@ -51,6 +55,7 @@ columns:
   missing_cells: 0
 - name: name
   shared: true
+  particular: The project name, else the q_id
   type: text
   values:
     distinct: more than 5000
@@ -63,6 +68,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>; empty where the file gives no state
   type: text
   values:
     distinct: 52
@@ -87,6 +93,7 @@ columns:
   missing_cells: 38201
 - name: capacity_mw
   shared: true
+  particular: mw_1 + mw_2 + mw_3, as Berkeley Lab adds them for a hybrid; 16 rows negative as the file gives them
   type: number
   values:
     distinct: more than 5000
@@ -95,6 +102,7 @@ columns:
   missing_cells: 0
 - name: status
   shared: true
+  particular: 'From q_status: active, withdrawn, suspended, operational written operating; empty for unknown'
   type: text
   values:
     list:
@@ -105,6 +113,7 @@ columns:
   missing_cells: 10
 - name: status_date
   shared: true
+  particular: on_date for operating, wd_date for withdrawn, else q_date
   type: date
   values:
     distinct: more than 5000
@@ -113,6 +122,7 @@ columns:
   missing_cells: 10230
 - name: operator
   shared: true
+  particular: The utility
   type: text
   values:
     distinct: 386
@@ -146,14 +156,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The edition, as text
   type: text
   values:
     list:
       2026 edition (through 2025): 38201
   missing_cells: 0
 - name: q_id
-  label: null
-  unit: null
+  label: The request's queue identifier as Berkeley Lab's file gives it (9 are dates as Excel turned them)
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -164,12 +175,12 @@ columns:
     - 0127A
     - 0141A
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method lbnl_interconnection_queue.md
 - name: q_status
-  label: null
-  unit: null
+  label: 'Berkeley Lab''s status of the request: active, suspended, operational, withdrawn or unknown'
+  unit: none
   type: text
   values:
     list:
@@ -179,72 +190,73 @@ columns:
       unknown: 10
       withdrawn: 24221
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method lbnl_interconnection_queue.md; method interconnection_queue_summary.md
 - name: q_date
-  label: null
-  unit: null
+  label: The date the request entered the queue
+  unit: none
   type: date
   values:
     distinct: more than 5000
     earliest: '1995-11-08'
     latest: '2025-12-24'
   missing_cells: 665
-  missing_meaning: null
+  missing_meaning: The file gives no request date
   source_name: null
-  documented_by: null
+  documented_by: method interconnection_queue_summary.md; connector interconnection_durations.py
 - name: prop_date
-  label: null
-  unit: null
+  label: The proposed operation date of the request
+  unit: none
   type: date
   values:
     distinct: 3723
     earliest: '1980-12-31'
     latest: '2057-09-01'
   missing_cells: 5265
-  missing_meaning: null
+  missing_meaning: The file gives no proposed date
   source_name: null
-  documented_by: null
+  documented_by: method interconnection_agreements.md; connector interconnection_agreements.py
 - name: on_date
-  label: null
-  unit: null
+  label: The date the project began operating (its online date)
+  unit: none
   type: date
   values:
     distinct: 1891
     earliest: '1982-06-30'
     latest: '2025-12-31'
   missing_cells: 34492
-  missing_meaning: null
+  missing_meaning: Not operating, or no online date given
   source_name: null
-  documented_by: null
+  documented_by: header; method interconnection_queue_summary.md
 - name: wd_date
-  label: null
-  unit: null
+  label: The date the request was withdrawn
+  unit: none
   type: date
   values:
     distinct: 4119
     earliest: '1999-06-26'
     latest: '2026-01-16'
   missing_cells: 22578
-  missing_meaning: null
+  missing_meaning: Not withdrawn, or no withdrawal date given
   source_name: null
-  documented_by: null
+  documented_by: header; connector lbnl_queues.py
 - name: ia_date
-  label: null
-  unit: null
+  label: The date of the signed interconnection agreement
+  unit: none
   type: date
   values:
     distinct: 2741
     earliest: '1999-08-25'
     latest: '2025-12-31'
   missing_cells: 33368
-  missing_meaning: null
+  missing_meaning: The file gives no agreement date
   source_name: null
-  documented_by: null
+  documented_by: method interconnection_agreements.md
 - name: ia_phase
-  label: null
-  unit: null
+  label: The study phase of the request (Feasibility Study, System Impact Study, Facility Study, IA Executed meaning a signed
+    agreement, and the others)
+  unit: none
   type: text
   values:
     list:
@@ -260,12 +272,12 @@ columns:
       System Impact Study: 4042
       Withdrawn: 5297
   missing_cells: 7167
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The file gives no phase
+  source_name: IA_phase_clean
+  documented_by: header; method interconnection_agreements.md; data
 - name: region
-  label: null
-  unit: null
+  label: 'Berkeley Lab''s region: the seven ISOs, West and Southeast (outside the ISOs)'
+  unit: none
   type: text
   values:
     list:
@@ -279,12 +291,12 @@ columns:
       Southeast: 4334
       West: 8097
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method lbnl_interconnection_queue.md; method interconnection_queue_summary.md
 - name: lbnl_entity
-  label: null
-  unit: null
+  label: 'The transmission provider whose queue holds the request: Berkeley Lab''s entity field'
+  unit: none
   type: text
   values:
     distinct: 57
@@ -295,12 +307,12 @@ columns:
     - BHCT
     - BHP
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: entity
+  documented_by: header; method interconnection_durations.md
 - name: utility
-  label: null
-  unit: null
+  label: The file's own utility field
+  unit: none
   type: text
   values:
     distinct: 386
@@ -311,12 +323,12 @@ columns:
     - AEP
     - AEP/OGE
   missing_cells: 7855
-  missing_meaning: null
+  missing_meaning: The file names no utility
   source_name: null
-  documented_by: null
+  documented_by: method lbnl_interconnection_queue.md; method interconnection_durations.md
 - name: state
-  label: null
-  unit: null
+  label: The state as the file gives it
+  unit: none
   type: text
   values:
     distinct: 52
@@ -327,12 +339,12 @@ columns:
     - CA
     - CO
   missing_cells: 1235
-  missing_meaning: null
+  missing_meaning: The file gives no state
   source_name: null
-  documented_by: null
+  documented_by: method lbnl_interconnection_queue.md
 - name: county
-  label: null
-  unit: null
+  label: The county as the file gives it
+  unit: none
   type: text
   values:
     distinct: 1673
@@ -343,24 +355,25 @@ columns:
     - Ada
     - Adair
   missing_cells: 2063
-  missing_meaning: null
+  missing_meaning: The file gives no county
   source_name: null
-  documented_by: null
+  documented_by: method lbnl_interconnection_queue.md
 - name: fips_code
-  label: null
-  unit: null
+  label: The FIPS code the file gives, which places the request with its state and county (filled values end in '.0' on the
+    data machine)
+  unit: none
   type: number
   values:
     distinct: 2637
     lowest: 1001.0
     highest: 3610136003.0
   missing_cells: 1770
-  missing_meaning: null
+  missing_meaning: The file gives no code
   source_name: null
-  documented_by: null
+  documented_by: method lbnl_interconnection_queue.md
 - name: poi_name
-  label: null
-  unit: null
+  label: not documented by the source
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -371,12 +384,12 @@ columns:
     - '#1-Marktown 138 kV Sub or #2-Sheffield 345 kV sub'
     - '#10012 METEOR 5 Substation 345kV'
   missing_cells: 2813
-  missing_meaning: null
+  missing_meaning: The file's cell is blank
   source_name: null
-  documented_by: null
+  documented_by: data
 - name: service
-  label: null
-  unit: null
+  label: not documented by the source
+  unit: none
   type: text
   values:
     list:
@@ -385,12 +398,12 @@ columns:
       NRIS/ERIS: 4602
       Other: 819
   missing_cells: 10797
-  missing_meaning: null
+  missing_meaning: The file's cell is blank
   source_name: null
-  documented_by: null
+  documented_by: data
 - name: project_type
-  label: null
-  unit: null
+  label: not documented by the source
+  unit: none
   type: text
   values:
     list:
@@ -399,12 +412,12 @@ columns:
       Surplus: 100
       Upgrade: 80
   missing_cells: 1224
-  missing_meaning: null
+  missing_meaning: The file's cell is blank
   source_name: null
-  documented_by: null
+  documented_by: data
 - name: type_clean
-  label: null
-  unit: null
+  label: Berkeley Lab's clean type of the request (Solar, Battery, Gas, Wind, Solar+Battery and the others)
+  unit: none
   type: text
   values:
     distinct: 49
@@ -415,12 +428,12 @@ columns:
     - Diesel
     - Gas
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method interconnection_queue_summary.md
 - name: type_1
-  label: null
-  unit: null
+  label: The type of the request's first part
+  unit: none
   type: text
   values:
     list:
@@ -439,12 +452,12 @@ columns:
       Solar: 17873
       Wind: 6600
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method interconnection_queue_summary.md
 - name: type_2
-  label: null
-  unit: null
+  label: The type of the request's second part (a hybrid's)
+  unit: none
   type: text
   values:
     list:
@@ -459,12 +472,12 @@ columns:
       Other Storage: 5
       Wind: 103
   missing_cells: 33144
-  missing_meaning: null
+  missing_meaning: The request has one part
   source_name: null
-  documented_by: null
+  documented_by: method interconnection_queue_summary.md
 - name: type_3
-  label: null
-  unit: null
+  label: The type of the request's third part
+  unit: none
   type: text
   values:
     list:
@@ -473,36 +486,36 @@ columns:
       Other: 1
       Other Storage: 8
   missing_cells: 38091
-  missing_meaning: null
+  missing_meaning: The request has fewer than three parts
   source_name: null
-  documented_by: null
+  documented_by: method interconnection_queue_summary.md
 - name: mw_1
-  label: null
-  unit: null
+  label: The capacity of the request's first part, as filed
+  unit: MW
   type: number
   values:
     distinct: more than 5000
     lowest: -75.0
     highest: 16875.0
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method interconnection_queue_summary.md; method lbnl_interconnection_queue.md
 - name: mw_2
-  label: null
-  unit: null
+  label: The capacity of the request's second part, as filed
+  unit: MW
   type: number
   values:
     distinct: 431
     lowest: 1.0
     highest: 2107.4
   missing_cells: 37105
-  missing_meaning: null
+  missing_meaning: The request has one part
   source_name: null
-  documented_by: null
+  documented_by: method interconnection_queue_summary.md
 - name: mw_3
-  label: null
-  unit: null
+  label: The capacity of the request's third part, as filed
+  unit: MW
   type: number
   values:
     list:
@@ -532,31 +545,35 @@ columns:
       '90.0': 1
       '990.0': 1
   missing_cells: 38156
-  missing_meaning: null
+  missing_meaning: The request has fewer than three parts
   source_name: null
-  documented_by: null
+  documented_by: method interconnection_queue_summary.md
 - name: q_year
-  label: null
-  unit: null
+  label: The year the request entered the queue (filled values end in '.0' on the data machine)
+  unit: none
   type: number
   values:
     distinct: 30
     lowest: 1995.0
     highest: 2025.0
   missing_cells: 665
-  missing_meaning: null
+  missing_meaning: The file gives no year entered
   source_name: null
-  documented_by: null
+  documented_by: method interconnection_queue_summary.md; method lbnl_interconnection_queue.md
 - name: prop_year
-  label: null
-  unit: null
+  label: not documented by the source
+  unit: none
   type: number
   values:
     distinct: 50
     lowest: 1980.0
     highest: 2057.0
   missing_cells: 5265
-  missing_meaning: null
+  missing_meaning: The file gives none (as prop_date)
   source_name: null
-  documented_by: null
-second_look: null
+  documented_by: data
+second_look:
+- 'poi_name, service (ERIS, NRIS, NRIS/ERIS, Other) and project_type (Generation, Replacement, Surplus, Upgrade): Berkeley
+  Lab''s own codebook sheet (''04. Data Codebook'') defines them, but the repository holds no copy of it and no method note
+  or connector says what they mean.'
+- 'prop_year: no note says it is the year of prop_date, though it is empty on exactly the rows prop_date is (5,265).'

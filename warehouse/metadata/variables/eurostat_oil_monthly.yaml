@@ -5,9 +5,10 @@
 table: eurostat_oil_monthly
 family: eurostat
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One European country's (or the EU's) flow of one oil product (crude oil, oil products, motor gasoline, gas and diesel
+  oil, jet fuel, fuel oil, LPG) in one month.
+time: ts_utc is the month's first day at 00:00:00Z (freq P1M).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised figure replaces the old; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -35,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_oil:<Eurostat geo code>:<SIEC code>
   type: text
   values:
     distinct: 252
@@ -83,6 +85,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
   type: text
   values:
     distinct: 35
@@ -101,6 +104,7 @@ columns:
   missing_cells: 457009
 - name: node
   shared: true
+  particular: '<product>: <flow>, not a pricing node'
   type: text
   values:
     distinct: 143
@@ -140,8 +144,8 @@ columns:
     note: no cell holds a value
   missing_cells: 457009
 - name: x_geo_code
-  label: null
-  unit: null
+  label: Eurostat's geo code of the country or aggregate
+  unit: none
   type: text
   values:
     distinct: 36
@@ -152,12 +156,14 @@ columns:
     - BG
     - CY
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eurostat_oil_monthly.py
 - name: x_siec
-  label: null
-  unit: null
+  label: 'Eurostat''s SIEC code of the product: O4100_TOT crude oil, O4600 oil products, O4652XR5210B motor gasoline, O4671XR5220B
+    gas oil and diesel oil, O4661XR5230B kerosene-type jet fuel (each without its biofuel portion), O4680 fuel oil, O4630
+    LPG'
+  unit: none
   type: text
   values:
     list:
@@ -169,12 +175,12 @@ columns:
       O4671XR5220B: 66913
       O4680: 64681
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: x_nrg_bal
-  label: null
-  unit: null
+  label: Eurostat's NRG_BAL code of the flow (the part of the variable after flow:)
+  unit: none
   type: text
   values:
     distinct: 26
@@ -185,184 +191,184 @@ columns:
     - FC_TRA_RAIL_DNAVI_E
     - FC_TRA_ROAD_E
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; data
 - name: x_flag
-  label: null
-  unit: null
+  label: 'Eurostat''s flag of the observation: p provisional, e estimated'
+  unit: none
   type: text
   values:
     list:
       e: 9
       p: 6712
   missing_cells: 450288
-  missing_meaning: null
+  missing_meaning: No flag on the observation
   source_name: null
-  documented_by: null
+  documented_by: method eurostat_oil_monthly.md
 - name: x_conf_status
-  label: null
-  unit: null
+  label: Eurostat's confidentiality status of the observation
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 457009
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value'
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_oil_monthly.py
 variables:
 - name: flow:BKFLOW
-  label: null
+  label: Backflows of the product, tonnes (NRG_BAL BKFLOW)
   unit: t
   rows: 24335
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:DU
-  label: null
+  label: Direct use, tonnes (DU)
   unit: t
   rows: 3894
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:EXP
-  label: null
+  label: Exports, tonnes (EXP)
   unit: t
   rows: 29449
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:FC_TRA_RAIL_DNAVI_E
-  label: null
+  label: Final consumption by rail and domestic navigation, energy use, tonnes (FC_TRA_RAIL_DNAVI_E)
   unit: t
   rows: 3905
   first: '2019-04-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:FC_TRA_ROAD_E
-  label: null
+  label: Final consumption by road transport, energy use, tonnes (FC_TRA_ROAD_E)
   unit: t
   rows: 5431
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:GD_PI
-  label: null
+  label: Gross deliveries to the petrochemical industry, tonnes (GD_PI)
   unit: t
   rows: 28037
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:GID_CAL
-  label: null
+  label: Gross inland deliveries, calculated, tonnes (GID_CAL)
   unit: t
   rows: 26861
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:GID_OBS
-  label: null
+  label: Gross inland deliveries, observed, tonnes (GID_OBS)
   unit: t
   rows: 29680
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:IMP
-  label: null
+  label: Imports, tonnes (IMP)
   unit: t
   rows: 29889
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:INTAVI_E
-  label: null
+  label: International aviation, energy use, tonnes (INTAVI_E)
   unit: t
   rows: 5592
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:INTMARB
-  label: null
+  label: International maritime bunkers, tonnes (INTMARB)
   unit: t
   rows: 24588
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:IPRD
-  label: null
+  label: Indigenous production, tonnes (IPRD)
   unit: t
   rows: 4176
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:IT
-  label: null
+  label: Interproduct transfers, tonnes (IT)
   unit: t
   rows: 27883
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:ND_TP
-  label: null
+  label: Net deliveries of total products, tonnes (ND_TP)
   unit: t
   rows: 4496
   first: '2018-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:PPR
-  label: null
+  label: Primary product receipts, tonnes (PPR)
   unit: t
   rows: 27817
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:PT
-  label: null
+  label: Products transferred, tonnes (PT)
   unit: t
   rows: 25010
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:RCV_RCY
-  label: null
+  label: Recovered and recycled products, tonnes (RCV_RCY)
   unit: t
   rows: 23891
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:RF
-  label: null
+  label: Refinery fuel, tonnes (RF)
   unit: t
   rows: 24405
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:RI_CAL
-  label: null
+  label: Refinery intake, calculated, tonnes (RI_CAL)
   unit: t
   rows: 2788
   first: '2018-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:RI_OBS
-  label: null
+  label: Refinery intake, observed, tonnes (RI_OBS)
   unit: t
   rows: 4230
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:RL
-  label: null
+  label: Refinery losses, tonnes (RL)
   unit: t
   rows: 4180
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:STATDIFF
-  label: null
+  label: Statistical differences, tonnes (STATDIFF)
   unit: t
   rows: 18583
   first: '2018-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:STK_CHG
-  label: null
+  label: Change in stock, tonnes (STK_CHG)
   unit: t
   rows: 29926
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:TI_EHG_MAP
-  label: null
+  label: Transformation input to electricity and heat generation, main activity producers, tonnes (TI_EHG_MAP)
   unit: t
   rows: 22094
   first: '2016-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flow:TOS
-  label: null
+  label: Transfer from other sources, tonnes (TOS)
   unit: t
   rows: 378
   first: '2020-12-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: flow:TO_RPI_RO
-  label: null
+  label: Transformation output, refinery output, tonnes (TO_RPI_RO)
   unit: t
   rows: 25491
   first: '2016-01-01T00:00:00Z'

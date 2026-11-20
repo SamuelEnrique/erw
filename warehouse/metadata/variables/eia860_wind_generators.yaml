@@ -5,9 +5,12 @@
 table: eia860_wind_generators
 family: eia860
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One wind generator from Form EIA-860's wind schedule (3_2) for data year 2025, sheets Operable, Retired and Canceled,
+  with its turbines, their maker, model, design wind speed, wind class and hub height.
+time: No time column; vintage is the data year (2025). status_date is the first day of the month of operation (operable) or
+  of retirement (retired), empty for the canceled and the indefinitely postponed.
+vintage_rule: A snapshot; each run replaces the table whole with the newest final year EIA's page links, so an earlier year
+  is not kept.
 keys:
 - entity_id
 license: public
@@ -31,6 +34,8 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: eia860_wind:<plant code>:<generator id>; EIA-860M's tables name the same generator eia860:<plant code>:<generator
+    id>
   type: text
   values:
     distinct: 1745
@@ -43,6 +48,7 @@ columns:
   missing_cells: 0
 - name: entity_type
   shared: true
+  particular: Always generator
   type: text
   values:
     list:
@@ -50,6 +56,7 @@ columns:
   missing_cells: 0
 - name: name
   shared: true
+  particular: The plant's name
   type: text
   values:
     distinct: 1471
@@ -62,6 +69,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<plant state>
   type: text
   values:
     distinct: 44
@@ -74,18 +82,21 @@ columns:
   missing_cells: 0
 - name: lat
   shared: true
+  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1745
 - name: lon
   shared: true
+  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1745
 - name: capacity_mw
   shared: true
+  particular: EIA's nameplate capacity
   type: number
   values:
     distinct: 700
@@ -94,6 +105,8 @@ columns:
   missing_cells: 0
 - name: status
   shared: true
+  particular: 'EIA''s code (x_eia_status) as the standard''s word: OP, OA, OS operating; RE retired; CN withdrawn; IP suspended
+    (the wind file has no Proposed sheet)'
   type: text
   values:
     list:
@@ -104,6 +117,7 @@ columns:
   missing_cells: 0
 - name: status_date
   shared: true
+  particular: The first day of the month of operation (operable) or of retirement (retired); empty for the canceled and postponed
   type: date
   values:
     distinct: 302
@@ -112,6 +126,7 @@ columns:
   missing_cells: 70
 - name: operator
   shared: true
+  particular: The reporting utility's name (EIA's Utility Name)
   type: text
   values:
     distinct: 770
@@ -145,26 +160,27 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The data year, 2025
   type: integer
   values:
     list:
       '2025': 1745
   missing_cells: 0
 - name: x_plant_code
-  label: null
-  unit: null
+  label: EIA's plant code
+  unit: none
   type: integer
   values:
     distinct: 1471
     lowest: 1
     highest: 69327
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Plant Code
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_generator_id
-  label: null
-  unit: null
+  label: EIA's generator identifier within the plant
+  unit: none
   type: text
   values:
     distinct: 833
@@ -175,12 +191,12 @@ columns:
     - '01'
     - '0540'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Generator ID
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_state
-  label: null
-  unit: null
+  label: The plant's state, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 44
@@ -191,12 +207,13 @@ columns:
     - CA
     - CO
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: State
+  documented_by: method eia860_schedules.md
 - name: x_eia_status
-  label: null
-  unit: null
+  label: EIA's status code of the generator, kept as given (OP, SB, OA, OS operating or standby; P, L, T planned; U, V, TS
+    under construction; RE retired; CN canceled; IP indefinitely postponed)
+  unit: none
   type: text
   values:
     list:
@@ -207,36 +224,36 @@ columns:
       OS: 14
       RE: 102
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Status
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_sheet
-  label: null
-  unit: null
+  label: The sheet of EIA's workbook the row came from (Operable, or Retired and Canceled)
+  unit: none
   type: text
   values:
     list:
       Operable: 1573
       Retired and Canceled: 172
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia860_schedules.md
 - name: x_utility_id
-  label: null
-  unit: null
+  label: EIA's identifier of the reporting utility, the one responsible for the generator's day-to-day operation
+  unit: none
   type: integer
   values:
     distinct: 770
     lowest: 219
     highest: 67873
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Utility ID
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_county
-  label: null
-  unit: null
+  label: The plant's county as EIA gives it
+  unit: none
   type: text
   values:
     distinct: 464
@@ -247,36 +264,37 @@ columns:
     - Albany
     - Aleutians East
   missing_cells: 4
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none (4 rows)
+  source_name: County
+  documented_by: method eia860_schedules.md
 - name: x_technology
-  label: null
-  unit: null
+  label: EIA's high-level description of the technology the generator uses
+  unit: none
   type: text
   values:
     list:
       Offshore Wind Turbine: 13
       Onshore Wind Turbine: 1732
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Technology
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_prime_mover
-  label: null
-  unit: null
+  label: 'EIA''s prime mover code: WT onshore wind turbine, WS offshore wind turbine'
+  unit: none
   type: text
   values:
     list:
       WS: 13
       WT: 1732
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Prime Mover
+  documented_by: source EIA-860 LayoutY2025.xlsx; connector eia860.py
 - name: x_sector_name
-  label: null
-  unit: null
+  label: 'EIA''s sector of the plant: Electric Utility, IPP (independent power producer), Commercial or Industrial, each CHP
+    (combined heat and power) or Non-CHP'
+  unit: none
   type: text
   values:
     list:
@@ -287,12 +305,13 @@ columns:
       Industrial CHP: 4
       Industrial Non-CHP: 30
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia860_schedules.md; data
 - name: x_sector
-  label: null
-  unit: null
+  label: EIA's sector number of the plant (1 electric utility, 2 and 3 IPP non-CHP and CHP, 4 and 5 commercial, 6 and 7 industrial;
+    x_sector_name gives its words)
+  unit: none
   type: integer
   values:
     list:
@@ -303,36 +322,36 @@ columns:
       '6': 30
       '7': 4
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
 - name: x_summer_capacity_mw
-  label: null
-  unit: null
+  label: EIA's net summer capacity of the generator
+  unit: MW
   type: number
   values:
     distinct: 702
     lowest: 0.1
     highest: 1215.0
   missing_cells: 2
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none (2 rows)
+  source_name: Summer Capacity (MW)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_winter_capacity_mw
-  label: null
-  unit: null
+  label: EIA's net winter capacity of the generator
+  unit: MW
   type: number
   values:
     distinct: 705
     lowest: 0.1
     highest: 1215.0
   missing_cells: 2
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none (2 rows)
+  source_name: Winter Capacity (MW)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_operating_month
-  label: null
-  unit: null
+  label: The month the generator began commercial operation
+  unit: none
   type: integer
   values:
     list:
@@ -349,36 +368,36 @@ columns:
       '8': 85
       '9': 90
   missing_cells: 70
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Never operated (canceled or postponed)
+  source_name: Operating Month
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_operating_year
-  label: null
-  unit: null
+  label: The year the generator began commercial operation
+  unit: none
   type: integer
   values:
     distinct: 43
     lowest: 1981
     highest: 2025
   missing_cells: 70
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Never operated (canceled or postponed)
+  source_name: Operating Year
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_number_of_turbines
-  label: null
-  unit: null
+  label: The number of wind turbines (or hydrokinetic buoys) of the generator
+  unit: count
   type: integer
   values:
     distinct: 192
     lowest: 0
     highest: 460
   missing_cells: 49
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Turbines, or Hydrokinetic Buoys
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_predominant_turbine_manufacturer
-  label: null
-  unit: null
+  label: The predominant maker of the generator's turbines
+  unit: none
   type: text
   values:
     distinct: 41
@@ -389,12 +408,12 @@ columns:
     - Bonus
     - CCWE
   missing_cells: 77
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Predominant Turbine Manufacturer
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_predominant_turbine_model_number
-  label: null
-  unit: null
+  label: The predominant model number of the generator's turbines
+  unit: none
   type: text
   values:
     distinct: 207
@@ -405,24 +424,25 @@ columns:
     - 1.5 XLE
     - 1.5-77
   missing_cells: 81
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Predominant Turbine Model Number
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_design_wind_speed_mph
-  label: null
-  unit: null
+  label: The design average annual wind speed of the turbines (the most representative where they differ)
+  unit: mph
   type: number
   values:
     distinct: 113
     lowest: 0.0
     highest: 35.0
   missing_cells: 81
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Design Wind Speed (mph)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_wind_quality_class
-  label: null
-  unit: null
+  label: 'The wind class the turbines are built for: 1 high wind (10 m/s annual average), 2 medium (8.5), 3 low (7.5), 4 very
+    low (6)'
+  unit: none
   type: integer
   values:
     list:
@@ -431,24 +451,24 @@ columns:
       '3': 444
       '4': 43
   missing_cells: 70
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Wind Quality Class
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_turbine_hub_height_feet
-  label: null
-  unit: null
+  label: The hub height of the turbines (the most representative where they differ)
+  unit: ft
   type: number
   values:
     distinct: 211
     lowest: 60.0
     highest: 489.0
   missing_cells: 79
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Turbine Hub Height (Feet)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_retirement_month
-  label: null
-  unit: null
+  label: The month the generator retired
+  unit: none
   type: integer
   values:
     list:
@@ -465,12 +485,12 @@ columns:
       '8': 5
       '9': 3
   missing_cells: 1643
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not retired
+  source_name: Retirement Month
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 - name: x_retirement_year
-  label: null
-  unit: null
+  label: The year the generator retired
+  unit: none
   type: integer
   values:
     list:
@@ -496,7 +516,7 @@ columns:
       '2024': 8
       '2025': 11
   missing_cells: 1643
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not retired
+  source_name: Retirement Year
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 second_look: null

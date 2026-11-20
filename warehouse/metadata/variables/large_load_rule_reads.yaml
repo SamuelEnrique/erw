@@ -5,9 +5,13 @@
 table: large_load_rule_reads
 family: large
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One line a model wrote on what a large-load proceeding, order or federal action would change for a large load seeking
+  power, kept only when code finds every number in it in the document's text; a model's read, not the regulator's words and
+  not legal advice.
+time: No time column; event_date is the date of the row read (the large_load_rules row's date, or the federal action's publication
+  date). read_at is when the model wrote the line, UTC.
+vintage_rule: Built whole and replaced by each run (write_snapshot); the table on the machine was rebuilt from the ERW archive
+  as of run 20261008T050942Z-local. No vintage column.
 keys:
 - event_id
 license: public
@@ -33,6 +37,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: ruleread:<rule_event_id>
   type: text
   values:
     distinct: 87
@@ -53,6 +58,7 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: Always rule_read
   type: text
   values:
     list:
@@ -60,6 +66,7 @@ columns:
   missing_cells: 0
 - name: parties
   shared: true
+  particular: The regulator
   type: text
   values:
     list:
@@ -102,6 +109,7 @@ columns:
   missing_cells: 87
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -126,8 +134,8 @@ columns:
     - https://apps.puc.state.or.us/orders/2026ords/26-239.pdf
   missing_cells: 0
 - name: rule_event_id
-  label: null
-  unit: null
+  label: 'The event_id of the row read: a large_load_rules (or large_load_rules_internal) event_id, or a policy_actions event_id'
+  unit: none
   type: text
   values:
     distinct: 87
@@ -138,12 +146,12 @@ columns:
     - azcc:E-01933A-25-0187:order:4758eae80e
     - cpuc:A.24-11-007:order:bff75ba3f6
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector rule_reads.py
 - name: regulator
-  label: null
-  unit: null
+  label: The regulator or agency of the row read
+  unit: none
   type: text
   values:
     list:
@@ -160,12 +168,12 @@ columns:
       Public Utility Commission of Texas: 11
       Virginia State Corporation Commission: 13
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector rule_reads.py; data
 - name: docket_number
-  label: null
-  unit: null
+  label: The docket number of the row read, as the row gives it
+  unit: none
   type: text
   values:
     distinct: 57
@@ -176,12 +184,12 @@ columns:
     - 26-0113-EL-ATA
     - 26-0364
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector rule_reads.py
 - name: row_kind
-  label: null
-  unit: null
+  label: 'The kind of row read: proceeding, order or federal action'
+  unit: none
   type: text
   values:
     list:
@@ -189,12 +197,12 @@ columns:
       order: 54
       proceeding: 32
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector rule_reads.py; data
 - name: read
-  label: null
-  unit: null
+  label: The model's one line on what the action would change for a large load seeking power
+  unit: none
   type: text
   values:
     distinct: 87
@@ -210,12 +218,13 @@ columns:
     - A new Texas commission staff project would review how ERCOT connects large loads to the grid and may recommend ways
       to make the process more efficient while keeping the system reliable.
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector rule_reads.py
 - name: read_from
-  label: null
-  unit: null
+  label: 'What the model was given: the document''s own sentence and the saved text around it, or a federal action''s title
+    and abstract'
+  unit: none
   type: text
   values:
     distinct: 82
@@ -226,24 +235,24 @@ columns:
     - the document's own sentence and the saved text around it (2,152 characters of the document), nothing else
     - the document's own sentence and the saved text around it (2,256 characters of the document), nothing else
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector rule_reads.py
 - name: text_chars
-  label: null
-  unit: null
+  label: The length of the text given to the model
+  unit: count
   type: integer
   values:
     distinct: 82
     lowest: 657
     highest: 7850
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector rule_reads.py
 - name: text_sha256
-  label: null
-  unit: null
+  label: The SHA-256 of the text given to the model
+  unit: none
   type: text
   values:
     distinct: 87
@@ -254,12 +263,12 @@ columns:
     - 10c6e31042b64d19d4a9f4982a6836f82e6b28ff44ecf434cdeb0ae9d08d727a
     - 163ef41070edcfbb82ffd6df181909f2ba0076902e730225c98d9c9c142dd7d1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector rule_reads.py
 - name: answer_file
-  label: null
-  unit: null
+  label: The saved answer file, under warehouse/raw/large_load_rule_reads/ (not in git)
+  unit: none
   type: text
   values:
     distinct: 87
@@ -270,30 +279,30 @@ columns:
     - answers/azcc_E-01933A-25-0187_order_4758eae80e.json
     - answers/cpuc_A.24-11-007_order_bff75ba3f6.json
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector rule_reads.py
 - name: model_id
-  label: null
-  unit: null
+  label: The model that wrote the line
+  unit: none
   type: text
   values:
     list:
       claude-sonnet-5-5: 87
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector rule_reads.py
 - name: read_at
-  label: null
-  unit: null
+  label: When the model wrote the line, UTC
+  unit: none
   type: utc time
   values:
     distinct: 87
     earliest: '2026-10-08T04:27:35Z'
     latest: '2026-10-08T04:46:52Z'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector rule_reads.py
 second_look: null

@@ -5,9 +5,11 @@
 table: statec_lu_electricity_generation_annual
 family: statec
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Luxembourg's gross or net electricity generation of one STATEC category (total, primary or secondary generation, or a
+  plant type) in one year, 1928 to 2024, from LUSTAT table DF_A4203.
+time: ts_utc is the year's first day at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot of STATEC's file); STATEC adds a year each year and may revise earlier
+  ones. vintage is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: statec_elec:lu:<STATEC's category code, lower-cased> (l01 total gross, l02 net, sl.. and ssl.. its parts)
   type: text
   values:
     list:
@@ -94,6 +97,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always LU (Luxembourg)
   type: text
   values:
     list:
@@ -101,12 +105,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 942
 - name: node
   shared: true
+  particular: STATEC's category code and label (L02 Net generation), not a pricing node
   type: text
   values:
     list:
@@ -153,13 +159,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 942
 variables:
 - name: electricity_generation
-  label: null
+  label: Electricity generated in the year by the row's category (gross or net, as the node says), MWh (STATEC's GWh times
+    1,000)
   unit: MWh
   rows: 942
   first: '1928-01-01T00:00:00Z'

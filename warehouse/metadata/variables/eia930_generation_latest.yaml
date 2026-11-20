@@ -5,9 +5,10 @@
 table: eia930_generation_latest
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One balancing authority's (or the Lower 48's) net generation, in total or from one energy source, in one of the last
+  48 complete hours.
+time: ts_utc is the hour's start, UTC (EIA's hourly period is the hour's end; one hour is subtracted).
+vintage_rule: A snapshot, replaced whole by each run; vintage is not filled.
 keys:
 - entity
 - variable
@@ -36,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<respondent>, the seven ISO authorities and US48
   type: text
   values:
     list:
@@ -86,6 +88,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The respondent's states, comma-separated; US for US48
   type: text
   values:
     list:
@@ -144,103 +147,103 @@ columns:
   missing_cells: 2988
 variables:
 - name: net_generation_battery_mw
-  label: null
+  label: 'Net generation from battery storage (EIA fuel type BAT): positive discharging, negative charging'
   unit: MW
   rows: 169
   first: '2026-11-14T14:00:00Z'
   last: '2026-11-16T04:00:00Z'
 - name: net_generation_coal_mw
-  label: null
+  label: Net generation from coal (EIA fuel type COL)
   unit: MW
   rows: 271
   first: '2026-11-14T14:00:00Z'
   last: '2026-11-16T06:00:00Z'
 - name: net_generation_geothermal_mw
-  label: null
+  label: Net generation from geothermal (EIA fuel type GEO)
   unit: MW
   rows: 79
   first: '2026-11-14T14:00:00Z'
   last: '2026-11-16T06:00:00Z'
 - name: net_generation_hydro_mw
-  label: null
+  label: Net generation from hydro (EIA fuel type WAT)
   unit: MW
   rows: 286
   first: '2026-11-14T14:00:00Z'
   last: '2026-11-16T06:00:00Z'
 - name: net_generation_mw
-  label: null
+  label: Total net generation of the authority (EIA type NG, region-data route)
   unit: MW
   rows: 286
   first: '2026-11-14T14:00:00Z'
   last: '2026-11-16T06:00:00Z'
 - name: net_generation_natural_gas_mw
-  label: null
+  label: Net generation from natural gas (EIA fuel type NG)
   unit: MW
   rows: 286
   first: '2026-11-14T14:00:00Z'
   last: '2026-11-16T06:00:00Z'
 - name: net_generation_nuclear_mw
-  label: null
+  label: Net generation from nuclear (EIA fuel type NUC)
   unit: MW
   rows: 286
   first: '2026-11-14T14:00:00Z'
   last: '2026-11-16T06:00:00Z'
 - name: net_generation_oil_mw
-  label: null
+  label: Net generation from oil (EIA fuel type OIL)
   unit: MW
   rows: 209
   first: '2026-11-14T14:00:00Z'
   last: '2026-11-16T06:00:00Z'
 - name: net_generation_other_mw
-  label: null
+  label: Net generation from other sources (EIA fuel type OTH)
   unit: MW
   rows: 286
   first: '2026-11-14T14:00:00Z'
   last: '2026-11-16T06:00:00Z'
 - name: net_generation_other_storage_mw
-  label: null
+  label: Net generation from other energy storage (EIA fuel type OES)
   unit: MW
   rows: 38
   first: '2026-11-14T14:00:00Z'
   last: '2026-11-16T03:00:00Z'
 - name: net_generation_pumped_storage_mw
-  label: null
+  label: Net generation from pumped storage (EIA fuel type PS)
   unit: MW
   rows: 53
   first: '2026-11-14T14:00:00Z'
   last: '2026-11-16T03:00:00Z'
 - name: net_generation_solar_mw
-  label: null
+  label: Net generation from solar (EIA fuel type SUN)
   unit: MW
   rows: 286
   first: '2026-11-14T14:00:00Z'
   last: '2026-11-16T06:00:00Z'
 - name: net_generation_solar_with_battery_mw
-  label: null
+  label: Net generation from solar with integrated battery storage (EIA fuel type SNB)
   unit: MW
   rows: 53
   first: '2026-11-14T14:00:00Z'
   last: '2026-11-16T03:00:00Z'
 - name: net_generation_unknown_mw
-  label: null
+  label: Net generation from unknown sources (EIA fuel type UNK)
   unit: MW
   rows: 38
   first: '2026-11-14T14:00:00Z'
   last: '2026-11-16T03:00:00Z'
 - name: net_generation_unknown_storage_mw
-  label: null
+  label: Net generation from unknown energy storage (EIA fuel type UES)
   unit: MW
   rows: 38
   first: '2026-11-14T14:00:00Z'
   last: '2026-11-16T03:00:00Z'
 - name: net_generation_wind_mw
-  label: null
+  label: Net generation from wind (EIA fuel type WND)
   unit: MW
   rows: 286
   first: '2026-11-14T14:00:00Z'
   last: '2026-11-16T06:00:00Z'
 - name: net_generation_wind_with_battery_mw
-  label: null
+  label: Net generation from wind with integrated battery storage (EIA fuel type WNB)
   unit: MW
   rows: 38
   first: '2026-11-14T14:00:00Z'

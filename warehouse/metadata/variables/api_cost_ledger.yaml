@@ -1,0 +1,198 @@
+# The codebook's metadata of table api_cost_ledger (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: api_cost_ledger
+family: erw_derived
+shape: events
+row: One call the ERW's code made to the Anthropic Messages API, with the tokens and web searches Anthropic reported for it
+  and its cost.
+time: event_date and ts_utc are the time of the call in UTC.
+vintage_rule: 'Appended at the time of each call: one row written per call and merged by event_id (Anthropic''s request id
+  where given). No vintage column.'
+keys:
+- event_id
+license: internal
+tier: derived
+interval: event
+source:
+- name: 'anthropic:messages-usage, the usage block of each Messages API response (https://docs.anthropic.com/en/api/messages):
+    input, output, cache read and cache write tokens and web searches, as Anthropic reported them per call.'
+  url: 'https://docs.anthropic.com/en/api/messages):'
+cite: Anthropic. Messages API response usage (tokens per call). Via the Energy Research Warehouse (ERW), table `api_cost_ledger`.
+method: docs/methods/api_cost_ledger.md
+header_title: Anthropic API cost ledger, one row per Messages API call made by ERW code (session 30, Part B1).
+header_shape: ''
+read:
+  date: '2026-11-20'
+  rows: 4293
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: anthropic:<request id>, or anthropic:<run id>:<step>:<time> where no request id is given
+- name: event_date
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The time of the call, UTC
+- name: event_type
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: currency
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The currency of usd
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: run_id
+  label: The run that made the call (ERW_RUN_ID, else the process start, YYYYMMDDTHHMMSSZ)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method api_cost_ledger.md; connector llm.py
+- name: session
+  label: The Claude Code session number that ran the step (ERW_SESSION), else daily on GitHub and local elsewhere
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method api_cost_ledger.md
+- name: step
+  label: What made the call (news scoring, the digest, the roundup, an extraction, chat and others), as the client was built
+    with llm.client(step)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method api_cost_ledger.md
+- name: model
+  label: The model that answered, as the response names it
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method api_cost_ledger.md
+- name: input_tokens
+  label: Uncached input tokens
+  unit: count
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: input_tokens
+  documented_by: method api_cost_ledger.md; source Anthropic Messages API usage block
+- name: cached_input_tokens
+  label: Input tokens read from the prompt cache
+  unit: count
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: cache_read_input_tokens
+  documented_by: method api_cost_ledger.md; connector llm.py
+- name: cache_write_tokens
+  label: Input tokens written to the prompt cache
+  unit: count
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: cache_creation_input_tokens
+  documented_by: method api_cost_ledger.md; connector llm.py
+- name: output_tokens
+  label: Output tokens
+  unit: count
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: output_tokens
+  documented_by: method api_cost_ledger.md
+- name: web_searches
+  label: Web search tool uses in the call
+  unit: count
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: web_search_requests
+  documented_by: method api_cost_ledger.md; connector llm.py
+- name: usd
+  label: 'The call''s cost: tokens times the configured prices per million, plus web searches at USD 10 a thousand'
+  unit: USD
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: The model has no configured price (recorded empty with a warning, never guessed)
+  source_name: null
+  documented_by: header; method api_cost_ledger.md
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The time of the call, UTC
+- name: prices_as_of
+  label: The date of the price table (warehouse/config/model_prices.yaml) used for usd
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method api_cost_ledger.md
+- name: request_id
+  label: Anthropic's request id for the call
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty (blank where the response gave none)
+  source_name: null
+  documented_by: method api_cost_ledger.md
+second_look: null

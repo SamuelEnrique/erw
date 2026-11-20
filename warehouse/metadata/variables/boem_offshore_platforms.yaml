@@ -5,9 +5,10 @@
 table: boem_offshore_platforms
 family: boem
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One structure of an oil and gas platform complex on the Outer Continental Shelf, installed or removed, with its place,
+  dates and its complex's fields, from BOEM's Platform Structures, Locations and Masters files.
+time: No time column; status_date is the removal date where BOEM gives one, else the install date.
+vintage_rule: A snapshot; each run replaces the table whole. vintage is the structures file's last-modified time.
 keys:
 - entity_id
 license: public
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: boem_platform:<complex id>-<structure number>
   type: text
   values:
     distinct: more than 5000
@@ -45,6 +47,7 @@ columns:
   missing_cells: 0
 - name: entity_type
   shared: true
+  particular: Always platform
   type: text
   values:
     list:
@@ -52,6 +55,7 @@ columns:
   missing_cells: 0
 - name: name
   shared: true
+  particular: The structure's name (one has none)
   type: text
   values:
     distinct: 979
@@ -64,6 +68,7 @@ columns:
   missing_cells: 1
 - name: geo
   shared: true
+  particular: Always US (federal waters)
   type: text
   values:
     list:
@@ -71,6 +76,7 @@ columns:
   missing_cells: 0
 - name: lat
   shared: true
+  particular: From the locations file; empty for 8 structures with no location row
   type: number
   values:
     distinct: more than 5000
@@ -79,6 +85,7 @@ columns:
   missing_cells: 8
 - name: lon
   shared: true
+  particular: From the locations file; empty for 8 structures with no location row
   type: number
   values:
     distinct: more than 5000
@@ -87,12 +94,14 @@ columns:
   missing_cells: 8
 - name: capacity_mw
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 7092
 - name: status
   shared: true
+  particular: retired where BOEM gives a removal date, else active
   type: text
   values:
     list:
@@ -101,6 +110,7 @@ columns:
   missing_cells: 0
 - name: status_date
   shared: true
+  particular: The removal date, else the install date
   type: date
   values:
     distinct: 4065
@@ -109,6 +119,7 @@ columns:
   missing_cells: 0
 - name: operator
   shared: true
+  particular: 'Not filled: BOEM gives a company number (x_company_num), not a name'
   type: empty
   values:
     note: no cell holds a value
@@ -136,26 +147,27 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The structures file's last-modified time
   type: utc time
   values:
     list:
       '2026-10-01T15:03:11Z': 7092
   missing_cells: 0
 - name: x_complex_id
-  label: null
-  unit: null
+  label: BOEM's complex identifier (leading zeros dropped)
+  unit: none
   type: integer
   values:
     distinct: more than 5000
     lowest: 2
     highest: 90028
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Complex Id Num
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_structure_number
-  label: null
-  unit: null
+  label: The structure's number within its complex (leading zeros dropped)
+  unit: none
   type: integer
   values:
     list:
@@ -177,12 +189,12 @@ columns:
       '8': 7
       '9': 4
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Structure Number
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_area_code
-  label: null
-  unit: null
+  label: BOEM's code of the offshore area
+  unit: none
   type: text
   values:
     distinct: 35
@@ -193,12 +205,12 @@ columns:
     - BS
     - CA
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Area Code
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_block_number
-  label: null
-  unit: null
+  label: The block number within the area
+  unit: none
   type: text
   values:
     distinct: 940
@@ -209,12 +221,12 @@ columns:
     - '1002'
     - '1003'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Block Number
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_district
-  label: null
-  unit: null
+  label: BOEM's district code, from the locations file
+  unit: none
   type: integer
   values:
     list:
@@ -224,12 +236,13 @@ columns:
       '4': 948
       '5': 1839
   missing_cells: 8
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No location row (8 structures)
+  source_name: District Code
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_structure_type
-  label: null
-  unit: null
+  label: 'BOEM''s structure type code: FIXED fixed, CAIS caisson, WP well protector, and SEMI, SPAR, TLP, MTLP, MOPU, CT,
+    FPSO, SSTMP as BOEM codes them'
+  unit: none
   type: text
   values:
     list:
@@ -245,36 +258,36 @@ columns:
       TLP: 14
       WP: 642
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Structure Type Code
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_install_date
-  label: null
-  unit: null
+  label: The date the structure was installed
+  unit: none
   type: date
   values:
     distinct: 1894
     earliest: '1942-01-01'
     latest: '2025-07-17'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Install Date
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_removal_date
-  label: null
-  unit: null
+  label: The date the structure was removed
+  unit: none
   type: date
   values:
     distinct: 3701
     earliest: '1973-12-31'
     latest: '2026-09-21'
   missing_cells: 1312
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not removed (active)
+  source_name: Removal Date
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_deck_count
-  label: null
-  unit: null
+  label: The structure's number of decks
+  unit: count
   type: integer
   values:
     list:
@@ -287,36 +300,36 @@ columns:
       '6': 2
       '7': 1
   missing_cells: 102
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BOEM gives none
+  source_name: Deck Count
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_slot_count
-  label: null
-  unit: null
+  label: The structure's number of slots
+  unit: count
   type: integer
   values:
     distinct: 43
     lowest: 0
     highest: 62
   missing_cells: 217
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BOEM gives none
+  source_name: Slot Count
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_major_structure
-  label: null
-  unit: null
+  label: BOEM's major structure flag, Y or N
+  unit: none
   type: text
   values:
     list:
       N: 4248
       Y: 2844
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Major Structure Flag
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_authority_status
-  label: null
-  unit: null
+  label: BOEM's authority status code of the structure (TERMIN, RELINQ, UNIT, PROD and the others), as BOEM writes it
+  unit: none
   type: text
   values:
     list:
@@ -333,48 +346,48 @@ columns:
       TERMIN: 4193
       UNIT: 826
   missing_cells: 340
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BOEM gives none
+  source_name: Authority Status
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py; data
 - name: x_company_num
-  label: null
-  unit: null
+  label: BOEM's company number of the complex's company (no name given)
+  unit: none
   type: integer
   values:
     distinct: 333
     lowest: 1
     highest: 3748
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Mms Company Num
+  documented_by: header; method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_water_depth_ft
-  label: null
-  unit: null
+  label: The complex's water depth
+  unit: ft
   type: integer
   values:
     distinct: 474
     lowest: 1
     highest: 9560
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Water Depth
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_distance_to_shore_nmi
-  label: null
-  unit: null
+  label: The complex's distance to shore
+  unit: nautical mile
   type: integer
   values:
     distinct: 143
     lowest: 0
     highest: 180
   missing_cells: 73
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BOEM gives none
+  source_name: Distance To Shore
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_lease_number
-  label: null
-  unit: null
+  label: The lease named on the complex's masters row
+  unit: none
   type: text
   values:
     distinct: 2808
@@ -385,12 +398,12 @@ columns:
     - '00020'
     - '00024'
   missing_cells: 278
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BOEM gives none
+  source_name: Lease Number
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_field_name_code
-  label: null
-  unit: null
+  label: BOEM's field name code of the complex
+  unit: none
   type: text
   values:
     distinct: 1114
@@ -401,67 +414,71 @@ columns:
     - AC857
     - BA001A
   missing_cells: 225
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BOEM gives none
+  source_name: Field Name Code
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_production
-  label: null
-  unit: null
+  label: BOEM's production flag of the complex, Y or N
+  unit: none
   type: text
   values:
     list:
       N: 5559
       Y: 1480
   missing_cells: 53
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BOEM gives none
+  source_name: Production Flag
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_oil_production
-  label: null
-  unit: null
+  label: BOEM's oil production flag of the complex, Y or N
+  unit: none
   type: text
   values:
     list:
       N: 5831
       Y: 989
   missing_cells: 272
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BOEM gives none
+  source_name: Oil Prod Flag
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_gas_production
-  label: null
-  unit: null
+  label: BOEM's gas production flag of the complex, Y or N
+  unit: none
   type: text
   values:
     list:
       N: 5511
       Y: 1532
   missing_cells: 49
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BOEM gives none
+  source_name: Gas Prod Flag
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_manned_24h
-  label: null
-  unit: null
+  label: Whether the complex is manned 24 hours, Y or N
+  unit: none
   type: text
   values:
     list:
       N: 6499
       Y: 590
   missing_cells: 3
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BOEM gives none
+  source_name: Manned 24 Hr Fl
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
 - name: x_to_be_removed
-  label: null
-  unit: null
+  label: BOEM's abandon flag (to be removed), Y or N
+  unit: none
   type: text
   values:
     list:
       N: 1852
       Y: 5235
   missing_cells: 5
-  missing_meaning: null
-  source_name: null
-  documented_by: null
-second_look: null
+  missing_meaning: BOEM gives none
+  source_name: Abandon Flag
+  documented_by: method boem_offshore_platforms.md; connector boem_platforms.py
+second_look:
+- 'x_structure_type: SEMI, SPAR, TLP, MTLP, MOPU, CT, FPSO and SSTMP are kept as BOEM codes them; the method note does not
+  expand them.'
+- 'x_authority_status: its codes (ACT, EXP, EXPIR, NO-ISS, PRIMRY, PROD, RELINQ, RELQ, SOP, TERMIN, UNIT, Approved) are not
+  expanded in the method note or the connector.'

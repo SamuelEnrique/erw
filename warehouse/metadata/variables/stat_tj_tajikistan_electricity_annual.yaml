@@ -5,9 +5,10 @@
 table: stat_tj_tajikistan_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's value of Tajikistan's electricity output by plant type, trade, losses or consumption by sector, from the Agency
+  on Statistics' analytical table 11.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y; 1991 to 2025.
+vintage_rule: Rewritten whole as one snapshot by each run from the saved workbook; vintage is the workbook's Last-Modified.
 keys:
 - entity
 - variable
@@ -34,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: tajstat:tj:<item>
   type: text
   values:
     list:
@@ -90,6 +92,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: TJ on every row
   type: text
   values:
     list:
@@ -97,12 +100,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 475
 - name: node
   shared: true
+  particular: The row's label, not a pricing node
   type: text
   values:
     list:
@@ -144,6 +149,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's Last-Modified (UTC)
   type: utc time
   values:
     list:
@@ -151,37 +157,37 @@ columns:
   missing_cells: 0
 variables:
 - name: consumption
-  label: null
+  label: Consumption, total or by sector
   unit: MWh
   rows: 245
   first: '1991-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: distribution_losses
-  label: null
+  label: Distribution losses
   unit: MWh
   rows: 35
   first: '1991-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: exports
-  label: null
+  label: Exports
   unit: MWh
   rows: 35
   first: '1991-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: generation
-  label: null
+  label: Electricity output, total or by plant type (hydropower, thermal power)
   unit: MWh
   rows: 104
   first: '1991-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Imports
   unit: MWh
   rows: 35
   first: '1991-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: statistical_difference
-  label: null
+  label: Discrepancy, as the table names it
   unit: MWh
   rows: 21
   first: '1991-01-01T00:00:00Z'

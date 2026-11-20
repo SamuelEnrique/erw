@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<BA>-<partner> for a partner row, from the authority's side; eia930:<BA> for the share of demand
   type: text
   values:
     distinct: 406
@@ -47,7 +48,6 @@ columns:
     - eia930:AECI
     - eia930:AECI-MISO
   missing_cells: 0
-  particular: eia930:<BA>-<partner> for a partner row, from the authority's side; eia930:<BA> for the share of demand
 - name: variable
   shared: true
   type: text

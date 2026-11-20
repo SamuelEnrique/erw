@@ -5,9 +5,12 @@
 table: event_study_estimates
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: 'One estimate of an event''s effect on one grid''s daily demand served or on a hub''s daily mean real-time price: for
+  one event day, pooled over the window, as the counterfactual mean, or for one local hour.'
+time: <outcome>_effect_day rows at the event day (local date at 00:00:00Z); pooled, counterfactual-mean and hour-of-day rows
+  at the window's first day.
+vintage_rule: Rewritten whole each run (every estimate comes from this run); key (entity, variable, ts_utc, event); vintage
+  is not filled.
 keys:
 - entity
 - variable
@@ -34,6 +37,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<BA> for demand; ercot:HB_HUBAVG and three other main hubs (isone:.H.INTERNAL_HUB, miso:INDIANA.HUB,
+    nyiso:N.Y.C.) for the price
   type: text
   values:
     list:
@@ -106,12 +111,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3040
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -139,6 +146,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -158,8 +166,9 @@ columns:
       us48: 118
   missing_cells: 0
 - name: event
-  label: null
-  unit: null
+  label: The event studied, a partition column (uri_2021, covid_2020, caiso_heat_2020, caiso_heat_2022, elliott_2022, ercot_heat_2023,
+    cold_2025, cold_2026, east_heat_2025)
+  unit: none
   type: text
   values:
     list:
@@ -173,48 +182,48 @@ columns:
       ercot_heat_2023: 198
       uri_2021: 106
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method event_study.md; method events.md
 - name: x_std_error
-  label: null
-  unit: null
+  label: The estimate's heteroskedasticity-robust (HC1) standard error; a single day's adds the baseline residual variance
+  unit: the row's unit
   type: number
   values:
     distinct: 1966
     lowest: 1.558606
     highest: 941905.482593
   missing_cells: 65
-  missing_meaning: null
+  missing_meaning: Empty on the counterfactual-mean rows, which are means, not estimated effects
   source_name: null
-  documented_by: null
+  documented_by: header; method event_study.md; data
 - name: x_ci_low
-  label: null
-  unit: null
+  label: 'Lower end of the 95 percent interval: the estimate less 1.96 standard errors'
+  unit: the row's unit
   type: number
   values:
     distinct: 2975
     lowest: -2582448.607907
     highest: 616062.554395
   missing_cells: 65
-  missing_meaning: null
+  missing_meaning: Empty on the counterfactual-mean rows
   source_name: null
-  documented_by: null
+  documented_by: header; data
 - name: x_ci_high
-  label: null
-  unit: null
+  label: 'Upper end of the 95 percent interval: the estimate plus 1.96 standard errors'
+  unit: the row's unit
   type: number
   values:
     distinct: 2975
     lowest: -468714.428903
     highest: 4071124.723204
   missing_cells: 65
-  missing_meaning: null
+  missing_meaning: Empty on the counterfactual-mean rows
   source_name: null
-  documented_by: null
+  documented_by: header; data
 - name: x_n
-  label: null
-  unit: null
+  label: Days (or hours, for the hour-of-day profile) in the regression
+  unit: count
   type: integer
   values:
     list:
@@ -233,12 +242,13 @@ columns:
       '42': 57
       '54': 106
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector event_study.py
 - name: x_spec
-  label: null
-  unit: null
+  label: 'The specification: dow_year_mean_v1 (day-of-week and year effects), dow_year_temp_v1 (plus heating and cooling degree
+    days and their squares), dow_trend_v1 (a linear year trend in place of year effects, a robustness row)'
+  unit: none
   type: text
   values:
     list:
@@ -246,12 +256,12 @@ columns:
       dow_year_mean_v1: 2006
       dow_year_temp_v1: 995
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method event_study.md
 - name: x_term
-  label: null
-  unit: null
+  label: What the estimate is, in words (event day <date>, pooled effect at local hour HH, and so on)
+  unit: none
   type: text
   values:
     distinct: 431
@@ -262,234 +272,234 @@ columns:
     - event day 2020-03-02, controlling for temperature
     - event day 2020-03-03
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector event_study.py; data
 variables:
 - name: demand_mw_effect_h00
-  label: null
+  label: Pooled effect of the event on demand at local hour 00 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h01
-  label: null
+  label: Pooled effect of the event on demand at local hour 01 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h02
-  label: null
+  label: Pooled effect of the event on demand at local hour 02 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h03
-  label: null
+  label: Pooled effect of the event on demand at local hour 03 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h04
-  label: null
+  label: Pooled effect of the event on demand at local hour 04 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h05
-  label: null
+  label: Pooled effect of the event on demand at local hour 05 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h06
-  label: null
+  label: Pooled effect of the event on demand at local hour 06 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h07
-  label: null
+  label: Pooled effect of the event on demand at local hour 07 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h08
-  label: null
+  label: Pooled effect of the event on demand at local hour 08 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h09
-  label: null
+  label: Pooled effect of the event on demand at local hour 09 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h10
-  label: null
+  label: Pooled effect of the event on demand at local hour 10 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h11
-  label: null
+  label: Pooled effect of the event on demand at local hour 11 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h12
-  label: null
+  label: Pooled effect of the event on demand at local hour 12 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h13
-  label: null
+  label: Pooled effect of the event on demand at local hour 13 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h14
-  label: null
+  label: Pooled effect of the event on demand at local hour 14 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h15
-  label: null
+  label: Pooled effect of the event on demand at local hour 15 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h16
-  label: null
+  label: Pooled effect of the event on demand at local hour 16 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h17
-  label: null
+  label: Pooled effect of the event on demand at local hour 17 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h18
-  label: null
+  label: Pooled effect of the event on demand at local hour 18 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h19
-  label: null
+  label: Pooled effect of the event on demand at local hour 19 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h20
-  label: null
+  label: Pooled effect of the event on demand at local hour 20 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h21
-  label: null
+  label: Pooled effect of the event on demand at local hour 21 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h22
-  label: null
+  label: Pooled effect of the event on demand at local hour 22 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mw_effect_h23
-  label: null
+  label: Pooled effect of the event on demand at local hour 23 (the hour-of-day profile), MW
   unit: MW
   rows: 27
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mwh_counterfactual_mean
-  label: null
+  label: Mean counterfactual daily demand served over the event days (the denominator of the pooled effect's percent)
   unit: MWh
   rows: 34
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mwh_counterfactual_mean_temp
-  label: null
+  label: Mean counterfactual daily demand over the event days, temperature-controlled specification
   unit: MWh
   rows: 17
   first: '2020-03-01T00:00:00Z'
   last: '2023-08-01T00:00:00Z'
 - name: demand_mwh_effect_day
-  label: null
+  label: 'The event day''s effect on demand served: the day''s demand less its counterfactual'
   unit: MWh
   rows: 1043
   first: '2020-03-01T00:00:00Z'
   last: '2026-02-02T00:00:00Z'
 - name: demand_mwh_effect_day_temp
-  label: null
+  label: The event day's effect on demand served, temperature-controlled specification
   unit: MWh
   rows: 791
   first: '2020-03-01T00:00:00Z'
   last: '2023-09-10T00:00:00Z'
 - name: demand_mwh_effect_pooled
-  label: null
+  label: Pooled effect on daily demand served over the event days (one indicator for every event day), MWh a day
   unit: MWh
   rows: 34
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: demand_mwh_effect_pooled_temp
-  label: null
+  label: Pooled effect on daily demand served, temperature-controlled specification
   unit: MWh
   rows: 17
   first: '2020-03-01T00:00:00Z'
   last: '2023-08-01T00:00:00Z'
 - name: demand_mwh_effect_pooled_trend
-  label: null
+  label: Pooled effect on daily demand served with a linear year trend in place of the year effects (robustness)
   unit: MWh
   rows: 33
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: rt_mean_counterfactual_mean
-  label: null
+  label: Mean counterfactual daily mean real-time hub price over the event days
   unit: USD/MWh
   rows: 10
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: rt_mean_counterfactual_mean_temp
-  label: null
+  label: Mean counterfactual daily mean real-time hub price, temperature-controlled specification
   unit: USD/MWh
   rows: 4
   first: '2020-03-01T00:00:00Z'
   last: '2023-08-01T00:00:00Z'
 - name: rt_mean_effect_day
-  label: null
+  label: 'The event day''s effect on the day''s mean real-time hub price: the day''s price less its counterfactual'
   unit: USD/MWh
   rows: 227
   first: '2020-03-01T00:00:00Z'
   last: '2026-02-02T00:00:00Z'
 - name: rt_mean_effect_day_temp
-  label: null
+  label: The event day's effect on the mean real-time hub price, temperature-controlled specification
   unit: USD/MWh
   rows: 162
   first: '2020-03-01T00:00:00Z'
   last: '2023-09-10T00:00:00Z'
 - name: rt_mean_effect_pooled
-  label: null
+  label: Pooled effect on the daily mean real-time hub price over the event days, USD/MWh a day
   unit: USD/MWh
   rows: 10
   first: '2020-03-01T00:00:00Z'
   last: '2026-01-23T00:00:00Z'
 - name: rt_mean_effect_pooled_temp
-  label: null
+  label: Pooled effect on the daily mean real-time hub price, temperature-controlled specification
   unit: USD/MWh
   rows: 4
   first: '2020-03-01T00:00:00Z'
   last: '2023-08-01T00:00:00Z'
 - name: rt_mean_effect_pooled_trend
-  label: null
+  label: Pooled effect on the daily mean real-time hub price with a linear year trend (robustness)
   unit: USD/MWh
   rows: 6
   first: '2020-03-01T00:00:00Z'

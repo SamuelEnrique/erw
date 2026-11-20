@@ -5,9 +5,11 @@
 table: generator_pipeline_by_grid
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One cell of EIA-860M's planned generators (balancing authority, state, energy source, status, planned year) in one snapshot
+  month, or one balancing authority's (or the US's) move of planned generators between two months.
+time: ts_utc is the first day of the snapshot month (for a move, the later month) at 00:00:00Z; freq P1M.
+vintage_rule: Rewritten whole as one snapshot by each run of the builder; it holds the snapshot months the machine keeps;
+  vintage is the snapshot month (YYYY-MM).
 keys:
 - entity
 - variable
@@ -33,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia860m_pipeline:<BA>:<state>:<energy source>:<status>:<planned year> for a cell; eia860m_pipeline:<BA> or eia860m_pipeline:US
+    for a move
   type: text
   values:
     distinct: 924
@@ -82,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> on a cell, US on a move row or where the state is not a two-letter code
   type: text
   values:
     distinct: 53
@@ -94,12 +99,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5147
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -127,6 +134,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The EIA-860M snapshot month (YYYY-MM)
   type: text
   values:
     list:
@@ -134,8 +142,9 @@ columns:
       2026-09: 2654
   missing_cells: 0
 - name: x_ba
-  label: null
-  unit: null
+  label: The balancing authority of the generators' plants, EIA code (none where EIA gives none); US on the national move
+    rows
+  unit: none
   type: text
   values:
     distinct: 50
@@ -146,12 +155,12 @@ columns:
     - AZPS
     - BANC
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Balancing Authority Code
+  documented_by: header; method generator_pipeline_by_grid.md; connector generator_pipeline_by_grid.py
 - name: x_state
-  label: null
-  unit: null
+  label: The plants' state, two-letter code
+  unit: none
   type: text
   values:
     distinct: 52
@@ -162,12 +171,13 @@ columns:
     - AZ
     - CA
   missing_cells: 134
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Empty on the move rows
+  source_name: Plant State
+  documented_by: connector generator_pipeline_by_grid.py
 - name: x_energy_source
-  label: null
-  unit: null
+  label: EIA's energy source code of the generators (NG natural gas, SUN solar, WND wind, MWH battery storage, NUC nuclear
+    and others)
+  unit: none
   type: text
   values:
     list:
@@ -189,12 +199,14 @@ columns:
       WH: 6
       WND: 348
   missing_cells: 134
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Empty on the move rows
+  source_name: Energy Source Code
+  documented_by: method generator_pipeline_by_grid.md; connector generator_pipeline_by_grid.py
 - name: x_status
-  label: null
-  unit: null
+  label: 'EIA''s planned status code: P planned, regulatory approvals not started; L approvals pending; T approvals received,
+    not under construction; U under construction, half or less complete; V under construction, more than half complete; TS
+    construction complete, not yet operating'
+  unit: none
   type: text
   values:
     list:
@@ -205,12 +217,12 @@ columns:
       U: 1047
       V: 777
   missing_cells: 134
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Empty on the move rows
+  source_name: Status
+  documented_by: connector generator_pipeline_by_grid.py; method eia860m_planned_generators.md
 - name: x_planned_year
-  label: null
-  unit: null
+  label: The generators' planned operation year
+  unit: none
   type: integer
   values:
     list:
@@ -225,95 +237,96 @@ columns:
       '2034': 18
       '2039': 6
   missing_cells: 134
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Empty on the move rows
+  source_name: Planned Operation Year
+  documented_by: connector generator_pipeline_by_grid.py
 - name: x_from_vintage
-  label: null
-  unit: null
+  label: The earlier snapshot month a move is measured from (YYYY-MM)
+  unit: none
   type: text
   values:
     list:
       2026-08: 134
   missing_cells: 5013
-  missing_meaning: null
+  missing_meaning: Empty on the cell rows
   source_name: null
-  documented_by: null
+  documented_by: connector generator_pipeline_by_grid.py; method generator_pipeline_by_grid.md
 variables:
 - name: datacenter_mw
-  label: null
+  label: The MW of the cell's generators whose plant or owner name names a datacenter or a lab
   unit: MW
   rows: 1671
   first: '2026-08-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: entered_count
-  label: null
+  label: Generators planned now and in neither list the month before
   unit: count
   rows: 14
   first: '2026-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: entered_mw
-  label: null
+  label: MW of generators planned now and in neither list the month before
   unit: MW
   rows: 14
   first: '2026-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: left_count
-  label: null
+  label: Generators planned the month before and in neither list now
   unit: count
   rows: 5
   first: '2026-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: left_mw
-  label: null
+  label: MW (the earlier month's) of generators planned the month before and in neither list now (cancelled, postponed or
+    withdrawn, not told apart)
   unit: MW
   rows: 5
   first: '2026-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: online_count
-  label: null
+  label: Generators planned the month before and operating now
   unit: count
   rows: 18
   first: '2026-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: online_mw
-  label: null
+  label: MW (the earlier month's) of generators planned the month before and operating now
   unit: MW
   rows: 18
   first: '2026-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: planned_count
-  label: null
+  label: The cell's generators
   unit: count
   rows: 1671
   first: '2026-08-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: planned_mw
-  label: null
+  label: The cell's nameplate capacity as EIA gives it
   unit: MW
   rows: 1671
   first: '2026-08-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: slipped_count
-  label: null
+  label: Generators planned in both months whose planned year is later now
   unit: count
   rows: 12
   first: '2026-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: slipped_mw
-  label: null
+  label: MW of generators planned in both months whose planned year is later now
   unit: MW
   rows: 12
   first: '2026-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: status_moved_count
-  label: null
+  label: Generators planned in both months whose EIA status code changed
   unit: count
   rows: 18
   first: '2026-09-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: status_moved_mw
-  label: null
+  label: MW of generators planned in both months whose EIA status code changed
   unit: MW
   rows: 18
   first: '2026-09-01T00:00:00Z'

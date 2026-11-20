@@ -5,9 +5,11 @@
 table: isone_rtm_zone_prices
 family: isone
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: ISO-NE's real-time locational marginal price at one of its eight load zones or its Internal Hub, as a 15-minute mean
+  of its 5-minute prices.
+time: ts_utc is the start of the quarter hour in UTC; operating days are America/New_York days.
+vintage_rule: Merged by (entity, variable, ts_utc); a run asks the three complete Eastern days before today, and a day whole
+  at every node replaces its rows, while a day not whole is not written and earlier rows for it are kept. vintage is not filled.
 keys:
 - entity
 - variable
@@ -30,6 +32,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: isone:<node>, the node's ISO-NE name
   type: text
   values:
     list:
@@ -81,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO-NE's six states in every row, also for a zone in one state
   type: text
   values:
     list:
@@ -88,6 +92,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'isone_rtm in every row: ISO-NE''s real-time energy market'
   type: text
   values:
     list:
@@ -95,6 +100,8 @@ columns:
   missing_cells: 0
 - name: node
   shared: true
+  particular: 'ISO-NE''s name of the location: .H.INTERNAL_HUB (the Internal Hub) or .Z.<zone> for the eight load zones (CONNECTICUT,
+    MAINE, NEMASSBOST, NEWHAMPSHIRE, RHODEISLAND, SEMASS, VERMONT, WCMASS)'
   type: text
   values:
     list:
@@ -132,13 +139,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 57924
 variables:
 - name: lmp_rtm_15m_mean
-  label: null
+  label: Real-time locational marginal price (the price of energy at the location in the real-time market), the arithmetic
+    mean of exactly three 5-minute LMPs of the quarter hour, rounded to 4 decimals, USD/MWh
   unit: USD/MWh
   rows: 57924
   first: '2026-08-27T04:00:00Z'

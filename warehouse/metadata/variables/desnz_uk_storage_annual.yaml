@@ -5,9 +5,11 @@
 table: desnz_uk_storage_annual
 family: desnz
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The UK's electricity out of or into storage, or storage power capacity, for one storage type in one year, 1996 to 2025
+  (DUKES table 5.16).
+time: ts_utc is the year's first day at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot of the DUKES edition read, here 2026); vintage is the workbook's last-modified
+  time.
 keys:
 - entity
 - variable
@@ -34,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: desnz_st:<type> (pumped_storage, battery_grid_scale, other_storage, total)
   type: text
   values:
     list:
@@ -81,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always GB, standing for the UK
   type: text
   values:
     list:
@@ -88,12 +92,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 360
 - name: node
   shared: true
+  particular: The table and the storage type, not a pricing node
   type: text
   values:
     list:
@@ -125,6 +131,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time
   type: utc time
   values:
     list:
@@ -132,19 +139,19 @@ columns:
   missing_cells: 0
 variables:
 - name: input
-  label: null
+  label: Electricity into storage in the year (table 5.16.B), MWh
   unit: MWh
   rows: 120
   first: '1996-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: output
-  label: null
+  label: Electricity out of storage in the year (table 5.16.A), MWh (the sheet's GWh times 1,000)
   unit: MWh
   rows: 120
   first: '1996-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: power_capacity
-  label: null
+  label: The rate at which the sites may supply their stored energy (table 5.16.C), MW
   unit: MW
   rows: 120
   first: '1996-01-01T00:00:00Z'

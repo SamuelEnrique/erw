@@ -36,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:<EIA series id> (F003075793 Mars Blend; F002038__3 North Dakota; F003048__3 Texas; F003022__3 Louisiana;
+    F003035__3 New Mexico)
   type: text
   values:
     list:
@@ -45,8 +47,6 @@ columns:
       eia:F003048__3: 590
       eia:F003075793: 272
   missing_cells: 0
-  particular: eia:<EIA series id> (F003075793 Mars Blend; F002038__3 North Dakota; F003048__3 Texas; F003022__3 Louisiana;
-    F003035__3 New Mexico)
 - name: variable
   shared: true
   type: text
@@ -85,26 +85,26 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row, the state series included
   type: text
   values:
     list:
       US: 2632
   missing_cells: 0
-  particular: US on every row, the state series included
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2632
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: EIA''s series names are in the header''s Series line'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2632
-  particular: 'Not filled: EIA''s series names are in the header''s Series line'
 - name: source
   shared: true
   type: text
@@ -132,11 +132,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2632
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: first_purchase_price
   label: Crude oil first purchase price, the month's average, US dollars a barrel

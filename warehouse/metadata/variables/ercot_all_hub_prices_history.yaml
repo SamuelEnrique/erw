@@ -5,9 +5,12 @@
 table: ercot_all_hub_prices_history
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: ERCOT's settlement point price at one of its six trading hubs for one interval of one operating year from 2015, day-ahead
+  (hourly) or real-time (15-minute).
+time: ts_utc is the start of the interval in UTC; the year is ERCOT's operating year in Central time (America/Chicago).
+vintage_rule: Merged by (entity, variable, ts_utc) into each year's member and consolidated by market and year; a year is
+  written from ERCOT's yearly archive, the current year extended from the live window, and a workbook read later replaces
+  the appended rows. vintage is ERCOT's document publish time.
 keys:
 - entity
 - variable
@@ -35,6 +38,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<hub>
   type: text
   values:
     list:
@@ -91,6 +95,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: ercot_dam (day-ahead, hourly) or ercot_rtm (real-time, 15-minute)
   type: text
   values:
     list:
@@ -99,6 +104,8 @@ columns:
   missing_cells: 0
 - name: node
   shared: true
+  particular: 'ERCOT''s trading hub: HB_HOUSTON, HB_NORTH, HB_SOUTH, HB_WEST (the four regional hubs), HB_HUBAVG (ERCOT''s
+    average of the four) and HB_BUSAVG (ERCOT''s average over the hubs'' buses)'
   type: text
   values:
     list:
@@ -141,6 +148,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: ERCOT's document publish time; empty on a few rows
   type: utc time
   values:
     distinct: 3763
@@ -149,6 +157,7 @@ columns:
   missing_cells: 4608
 - name: year
   shared: true
+  particular: ERCOT's operating year in Central time, the member the row came from
   type: integer
   values:
     list:
@@ -167,13 +176,15 @@ columns:
   missing_cells: 0
 variables:
 - name: spp_dam
-  label: null
+  label: ERCOT's day-ahead settlement point price at the hub, hourly (spp here is ERCOT's 'settlement point price', not the
+    grid SPP)
   unit: USD/MWh
   rows: 624384
   first: '2015-01-01T06:00:00Z'
   last: '2026-11-17T05:00:00Z'
 - name: spp_rtm
-  label: null
+  label: ERCOT's real-time settlement point price at the hub, 15-minute (spp here is ERCOT's 'settlement point price', not
+    the grid SPP)
   unit: USD/MWh
   rows: 2499840
   first: '2015-01-01T06:00:00Z'

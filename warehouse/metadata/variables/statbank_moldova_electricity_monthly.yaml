@@ -5,9 +5,10 @@
 table: statbank_moldova_electricity_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's value of one electricity indicator of Moldova's stocks, inputs and consumption, from the National Bureau
+  of Statistics' StatBank table ENE010100.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; from 2015-01.
+vintage_rule: Rewritten whole as one snapshot by each run from one JSON-stat query; vintage is not filled.
 keys:
 - entity
 - variable
@@ -35,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: statbank_md:md on every row
   type: text
   values:
     list:
@@ -78,6 +80,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: MD on every row
   type: text
   values:
     list:
@@ -85,12 +88,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 980
 - name: node
   shared: true
+  particular: The indicator as StatBank writes it, not a pricing node
   type: text
   values:
     list:
@@ -125,13 +130,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 980
 - name: x_code
-  label: null
-  unit: null
+  label: StatBank's code of the indicator (1 to 7)
+  unit: none
   type: integer
   values:
     list:
@@ -143,48 +149,48 @@ columns:
       '6': 140
       '7': 140
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector statbank_moldova.py; method statbank_moldova_electricity_monthly.md
 variables:
 - name: acquired_from_other_sources
-  label: null
+  label: Acquired from other sources
   unit: MWh
   rows: 140
   first: '2015-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: exports
-  label: null
+  label: Exports
   unit: MWh
   rows: 140
   first: '2015-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: gross_inland_consumption
-  label: null
+  label: Gross inland consumption
   unit: MWh
   rows: 140
   first: '2015-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Imports
   unit: MWh
   rows: 140
   first: '2015-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: production
-  label: null
+  label: Production (not called gross or net by the bureau)
   unit: MWh
   rows: 140
   first: '2015-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: residential_consumption
-  label: null
+  label: Of which consumed in the residential sector
   unit: MWh
   rows: 140
   first: '2015-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: stock_change
-  label: null
+  label: Stock change
   unit: MWh
   rows: 140
   first: '2015-01-01T00:00:00Z'

@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:<Short-Term Energy Outlook series id>
   type: text
   values:
     list:
@@ -52,7 +53,6 @@ columns:
       eia:NGMPPM: 140
       eia:NGMPR48: 140
   missing_cells: 0
-  particular: eia:<Short-Term Energy Outlook series id>
 - name: variable
   shared: true
   type: text
@@ -92,21 +92,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row, the regions included
   type: text
   values:
     list:
       US: 1680
   missing_cells: 0
-  particular: US on every row, the regions included
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1680
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's name of the series (the producing region)
   type: text
   values:
     list:
@@ -123,7 +124,6 @@ columns:
       Natural Gas Permian Marketed Production: 140
       Natural Gas Rest of U.S. Marketed Production: 140
   missing_cells: 0
-  particular: EIA's name of the series (the producing region)
 - name: source
   shared: true
   type: text
@@ -148,11 +148,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1680
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: crude_production
   label: Crude oil production of the region, thousand barrels a day (the Outlook's million barrels a day times 1,000); the

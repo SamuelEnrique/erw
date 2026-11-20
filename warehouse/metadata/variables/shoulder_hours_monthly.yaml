@@ -5,9 +5,10 @@
 table: shoulder_hours_monthly
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: 'One grid''s (ERCOT''s or CAISO''s) value of one shoulder-hours measure: for a local month''s average day (P1M), one
+  of a year''s ten worst days (P1D), or a year (P1Y).'
+time: P1M rows at the first day of the local month at 00:00:00Z; P1D rows at the local day; P1Y rows at the year's first day.
+vintage_rule: Rewritten whole by each run (the old file removed first); vintage is not filled.
 keys:
 - entity
 - variable
@@ -16,8 +17,8 @@ license: public
 tier: derived
 interval: P1D;P1M;P1Y
 source:
-- name: erw:shoulder_hours EIA Form EIA-930 hourly demand and net generation by energy source, the per-BA workbooks ( and
-    CAISO's supply by fuel (caiso_fuel_supply); read by this run from warehouse/raw/eia930_emissions/20261102T174348Z/20261102T174425.135109Z_00004_ERCO.xlsx;
+- name: erw:shoulder_hours EIA Form EIA-930 hourly demand and net generation by energy source, the per-BA workbooks (https://www.eia.gov/electricity/gridmonitor/knownissues/xls/<BA>.xlsx),
+    and CAISO's supply by fuel (caiso_fuel_supply); read by this run from warehouse/raw/eia930_emissions/20261102T174348Z/20261102T174425.135109Z_00004_ERCO.xlsx;
     warehouse/raw/eia930_emissions/20261102T174348Z/20261102T174403.134912Z_00002_CISO.xlsx; warehouse/output/caiso_fuel_supply.csv
   url: https://www.eia.gov/electricity/gridmonitor/knownissues/xls/<BA>.xlsx
 cite: Energy Research Warehouse (ERW), derived. The shoulder hours by grid and month (docs/methods/shoulder_hours.md). Via
@@ -37,6 +38,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: iso:ercot, iso:caiso (EIA-930, to 2025-11) or iso:caiso_own (CAISO's own supply by fuel, from 2025-06), never
+    mixed
   type: text
   values:
     list:
@@ -96,12 +99,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27489
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -131,1159 +136,1174 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27489
 variables:
 - name: avg_battery_mw_h00
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 00 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h01
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 01 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h02
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 02 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h03
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 03 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h04
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 04 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h05
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 05 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h06
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 06 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h07
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 07 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h08
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 08 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h09
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 09 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h10
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 10 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h11
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 11 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h12
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 12 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h13
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 13 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h14
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 14 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h15
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 15 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h16
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 16 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h17
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 17 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h18
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 18 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h19
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 19 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h20
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 20 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h21
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 21 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h22
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 22 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_battery_mw_h23
-  label: null
+  label: 'The month''s average day: mean battery output (positive discharging) in local hour 23 over the complete days'
   unit: MW
   rows: 43
   first: '2024-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h00
-  label: null
+  label: 'The month''s average day: mean demand in local hour 00 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h01
-  label: null
+  label: 'The month''s average day: mean demand in local hour 01 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h02
-  label: null
+  label: 'The month''s average day: mean demand in local hour 02 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h03
-  label: null
+  label: 'The month''s average day: mean demand in local hour 03 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h04
-  label: null
+  label: 'The month''s average day: mean demand in local hour 04 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h05
-  label: null
+  label: 'The month''s average day: mean demand in local hour 05 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h06
-  label: null
+  label: 'The month''s average day: mean demand in local hour 06 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h07
-  label: null
+  label: 'The month''s average day: mean demand in local hour 07 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h08
-  label: null
+  label: 'The month''s average day: mean demand in local hour 08 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h09
-  label: null
+  label: 'The month''s average day: mean demand in local hour 09 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h10
-  label: null
+  label: 'The month''s average day: mean demand in local hour 10 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h11
-  label: null
+  label: 'The month''s average day: mean demand in local hour 11 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h12
-  label: null
+  label: 'The month''s average day: mean demand in local hour 12 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h13
-  label: null
+  label: 'The month''s average day: mean demand in local hour 13 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h14
-  label: null
+  label: 'The month''s average day: mean demand in local hour 14 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h15
-  label: null
+  label: 'The month''s average day: mean demand in local hour 15 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h16
-  label: null
+  label: 'The month''s average day: mean demand in local hour 16 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h17
-  label: null
+  label: 'The month''s average day: mean demand in local hour 17 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h18
-  label: null
+  label: 'The month''s average day: mean demand in local hour 18 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h19
-  label: null
+  label: 'The month''s average day: mean demand in local hour 19 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h20
-  label: null
+  label: 'The month''s average day: mean demand in local hour 20 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h21
-  label: null
+  label: 'The month''s average day: mean demand in local hour 21 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h22
-  label: null
+  label: 'The month''s average day: mean demand in local hour 22 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h23
-  label: null
+  label: 'The month''s average day: mean demand in local hour 23 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h00
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 00 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h01
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 01 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h02
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 02 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h03
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 03 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h04
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 04 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h05
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 05 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h06
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 06 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h07
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 07 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h08
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 08 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h09
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 09 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h10
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 10 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h11
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 11 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h12
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 12 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h13
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 13 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h14
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 14 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h15
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 15 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h16
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 16 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h17
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 17 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h18
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 18 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h19
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 19 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h20
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 20 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h21
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 21 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h22
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 22 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_load_mw_h23
-  label: null
+  label: 'The month''s average day: mean net load (demand less solar and wind) in local hour 23 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h00
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 00 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h01
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 01 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h02
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 02 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h03
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 03 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h04
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 04 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h05
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 05 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h06
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 06 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h07
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 07 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h08
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 08 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h09
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 09 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h10
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 10 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h11
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 11 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h12
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 12 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h13
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 13 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h14
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 14 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h15
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 15 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h16
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 16 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h17
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 17 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h18
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 18 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h19
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 19 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h20
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 20 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h21
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 21 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h22
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 22 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h23
-  label: null
+  label: 'The month''s average day: mean solar output in local hour 23 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h00
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 00 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h01
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 01 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h02
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 02 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h03
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 03 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h04
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 04 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h05
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 05 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h06
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 06 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h07
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 07 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h08
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 08 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h09
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 09 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h10
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 10 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h11
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 11 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h12
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 12 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h13
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 13 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h14
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 14 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h15
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 15 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h16
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 16 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h17
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 17 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h18
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 18 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h19
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 19 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h20
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 20 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h21
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 21 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h22
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 22 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h23
-  label: null
+  label: 'The month''s average day: mean wind output in local hour 23 over the complete days'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: curtailed_mwh_per_day
-  label: null
+  label: 'CAISO: the month''s curtailed solar plus curtailed wind over the days of the month held'
   unit: MWh
   rows: 97
   first: '2019-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: day_battery_discharge_mwh
-  label: null
+  label: 'Worst day: the batteries'' output in the shoulder''s hours, discharging only'
   unit: MWh
   rows: 49
   first: '2024-11-13T00:00:00Z'
   last: '2026-10-17T00:00:00Z'
 - name: day_battery_hours
-  label: null
+  label: 'Worst day: that discharge over the fleet''s MW (hours at rated power)'
   unit: hour
   rows: 43
   first: '2024-11-13T00:00:00Z'
   last: '2026-09-26T00:00:00Z'
 - name: day_battery_peak_mw
-  label: null
+  label: 'Worst day: the batteries'' highest output in the shoulder''s hours'
   unit: MW
   rows: 49
   first: '2024-11-13T00:00:00Z'
   last: '2026-10-17T00:00:00Z'
 - name: day_evening_peak_mw
-  label: null
+  label: 'Worst day: net load''s highest hour from the shoulder''s start to midnight'
   unit: MW
   rows: 170
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-17T00:00:00Z'
 - name: day_fleet_mw
-  label: null
+  label: 'Worst day: the month''s battery fleet, MW'
   unit: MW
   rows: 164
   first: '2019-01-01T00:00:00Z'
   last: '2026-09-26T00:00:00Z'
 - name: day_net_load_mean_mw
-  label: null
+  label: 'Worst day: net load''s mean over the day'
   unit: MW
   rows: 170
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-17T00:00:00Z'
 - name: day_shoulder2_end_hour
-  label: null
+  label: 'Worst day: the second measure''s last hour'
   unit: hour
   rows: 170
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-17T00:00:00Z'
 - name: day_shoulder2_hours
-  label: null
+  label: 'Worst day: the second measure''s length'
   unit: hour
   rows: 170
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-17T00:00:00Z'
 - name: day_shoulder2_hours_needed
-  label: null
+  label: 'Worst day: the second measure''s energy over the month''s fleet MW'
   unit: hour
   rows: 164
   first: '2019-01-01T00:00:00Z'
   last: '2026-09-26T00:00:00Z'
 - name: day_shoulder2_mwh_above_midpoint
-  label: null
+  label: 'Worst day: the second measure''s energy above the midpoint'
   unit: MWh
   rows: 170
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-17T00:00:00Z'
 - name: day_shoulder2_start_hour
-  label: null
+  label: 'Worst day: the second measure''s first hour'
   unit: hour
   rows: 170
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-17T00:00:00Z'
 - name: day_shoulder_hours
-  label: null
+  label: 'Worst day: the shoulder''s length'
   unit: hour
   rows: 170
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-17T00:00:00Z'
 - name: day_shoulder_hours_needed
-  label: null
+  label: 'Worst day: its shoulder energy above the mean over the month''s fleet MW'
   unit: hour
   rows: 164
   first: '2019-01-01T00:00:00Z'
   last: '2026-09-26T00:00:00Z'
 - name: day_shoulder_mwh_above_mean
-  label: null
+  label: 'Worst day: the shoulder''s energy above the day''s own mean'
   unit: MWh
   rows: 170
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-17T00:00:00Z'
 - name: day_shoulder_runs_to_midnight
-  label: null
+  label: 'Worst day: 1 when the shoulder runs to midnight, else 0'
   unit: count
   rows: 170
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-17T00:00:00Z'
 - name: day_shoulder_start_hour
-  label: null
+  label: 'Worst day: the shoulder''s first hour'
   unit: hour
   rows: 170
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-17T00:00:00Z'
 - name: days_held
-  label: null
+  label: The month's complete days (every hour of demand, solar and wind held)
   unit: count
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: days_in_month
-  label: null
+  label: The days of the month
   unit: count
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: evening_peak_hour
-  label: null
+  label: 'The average day''s evening peak: net load''s highest hour from the shoulder''s start to midnight, local hour'
   unit: hour
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: evening_peak_mw
-  label: null
+  label: Net load at the average day's evening peak
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: fleet_hours
-  label: null
+  label: 'The battery fleet''s average duration: its MWh over its MW'
   unit: hour
   rows: 190
   first: '2019-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: fleet_mw
-  label: null
+  label: The grid's operating battery fleet, power (EIA-860M, storage_buildout_monthly)
   unit: MW
   rows: 190
   first: '2019-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: fleet_mwh
-  label: null
+  label: The grid's operating battery fleet, energy (EIA-860M, storage_buildout_monthly)
   unit: MWh
   rows: 190
   first: '2019-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: midday_low_hour
-  label: null
+  label: The average day's hour of lowest net load, local
   unit: hour
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: midday_surplus_hours
-  label: null
+  label: 'Length of the midday surplus: the run of hours around net load''s lowest hour in which net load is below its daily
+    mean'
   unit: hour
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: midday_surplus_mwh
-  label: null
+  label: 'Energy of the midday surplus: the sum of the daily mean less net load over those hours'
   unit: MWh
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: net_load_mean_mw
-  label: null
+  label: Net load's daily mean on the average day
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: shoulder2_end_hour
-  label: null
+  label: 'Second measure: last hour of that run'
   unit: hour
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: shoulder2_hours
-  label: null
+  label: 'Second measure: length of the run around the evening peak above the midpoint'
   unit: hour
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: shoulder2_hours_covered
-  label: null
+  label: 'Second measure: the smaller of the run''s length and the fleet''s average duration'
   unit: hour
   rows: 190
   first: '2019-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: shoulder2_hours_needed
-  label: null
+  label: 'Second measure: its energy above the midpoint over the fleet''s MW'
   unit: hour
   rows: 190
   first: '2019-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: shoulder2_level_mw
-  label: null
+  label: 'Second measure: the midpoint between net load''s daily mean and the evening peak'
   unit: MW
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: shoulder2_mwh_above_midpoint
-  label: null
+  label: 'Second measure: net load less the midpoint, summed over the run'
   unit: MWh
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: shoulder2_runs_to_midnight
-  label: null
+  label: 'Second measure: 1 when the run reaches midnight, else 0'
   unit: count
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: shoulder2_start_hour
-  label: null
+  label: 'Second measure: first hour of the run around the evening peak in which net load is above the midpoint between its
+    daily mean and the peak'
   unit: hour
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: shoulder_end_hour
-  label: null
+  label: 'The evening shoulder''s end: the first hour, after net load has risen above its daily mean, in which it is back
+    at or below it (midnight if never)'
   unit: hour
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: shoulder_hours
-  label: null
+  label: Length of the evening shoulder
   unit: hour
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: shoulder_hours_covered
-  label: null
+  label: 'The smaller of the shoulder''s length and the fleet''s average duration: hours the fleet can run at rated power
+    through it'
   unit: hour
   rows: 190
   first: '2019-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: shoulder_hours_needed
-  label: null
+  label: 'The shoulder''s energy above the mean over the fleet''s MW: hours a fleet of that power would run at rated power
+    to deliver it'
   unit: hour
   rows: 190
   first: '2019-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: shoulder_mwh_above_mean
-  label: null
+  label: 'The shoulder''s energy: net load less its daily mean, summed over the shoulder''s hours in which net load is above
+    the mean'
   unit: MWh
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: shoulder_runs_to_midnight
-  label: null
+  label: 1 when net load stays above its mean to midnight and the shoulder ends there, else 0
   unit: count
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: shoulder_start_hour
-  label: null
+  label: 'The evening shoulder''s start: the first hour after solar''s highest hour in which solar is below half of that value'
   unit: hour
   rows: 192
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: worst_rank
-  label: null
+  label: The day's rank among the year's ten complete days with the most shoulder energy above the day's own mean (1 the worst)
   unit: count
   rows: 170
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-17T00:00:00Z'
 - name: year_days_ranked
-  label: null
+  label: 'Year: complete days of 24 local hours with a shoulder of at least one hour, the days that could be ranked'
   unit: count
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_end_fleet_hours
-  label: null
+  label: 'Year, at its last month held that has a fleet: the battery fleet''s average duration: its MWh over its MW'
   unit: hour
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_end_fleet_mw
-  label: null
+  label: 'Year, at its last month held that has a fleet: the grid''s operating battery fleet, power (EIA-860M, storage_buildout_monthly)'
   unit: MW
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_end_fleet_mwh
-  label: null
+  label: 'Year, at its last month held that has a fleet: the grid''s operating battery fleet, energy (EIA-860M, storage_buildout_monthly)'
   unit: MWh
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_mean_curtailed_mwh_per_day
-  label: null
+  label: 'Year, mean over its months held: cAISO: the month''s curtailed solar plus curtailed wind over the days of the month
+    held'
   unit: MWh
   rows: 9
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_mean_midday_surplus_hours
-  label: null
+  label: 'Year, mean over its months held: length of the midday surplus: the run of hours around net load''s lowest hour in
+    which net load is below its daily mean'
   unit: hour
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_mean_midday_surplus_mwh
-  label: null
+  label: 'Year, mean over its months held: energy of the midday surplus: the sum of the daily mean less net load over those
+    hours'
   unit: MWh
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_mean_shoulder2_hours
-  label: null
+  label: 'Year, mean over its months held: second measure: length of the run around the evening peak above the midpoint'
   unit: hour
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_mean_shoulder2_hours_covered
-  label: null
+  label: 'Year, mean over its months held: second measure: the smaller of the run''s length and the fleet''s average duration'
   unit: hour
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_mean_shoulder2_hours_needed
-  label: null
+  label: 'Year, mean over its months held: second measure: its energy above the midpoint over the fleet''s MW'
   unit: hour
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_mean_shoulder2_mwh_above_midpoint
-  label: null
+  label: 'Year, mean over its months held: second measure: net load less the midpoint, summed over the run'
   unit: MWh
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_mean_shoulder2_runs_to_midnight
-  label: null
+  label: 'Year, mean over its months held: second measure: 1 when the run reaches midnight, else 0'
   unit: ratio
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_mean_shoulder_hours
-  label: null
+  label: 'Year, mean over its months held: length of the evening shoulder'
   unit: hour
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_mean_shoulder_hours_covered
-  label: null
+  label: 'Year, mean over its months held: the smaller of the shoulder''s length and the fleet''s average duration: hours
+    the fleet can run at rated power through it'
   unit: hour
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_mean_shoulder_hours_needed
-  label: null
+  label: 'Year, mean over its months held: the shoulder''s energy above the mean over the fleet''s MW: hours a fleet of that
+    power would run at rated power to deliver it'
   unit: hour
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_mean_shoulder_mwh_above_mean
-  label: null
+  label: 'Year, mean over its months held: the shoulder''s energy: net load less its daily mean, summed over the shoulder''s
+    hours in which net load is above the mean'
   unit: MWh
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_mean_shoulder_runs_to_midnight
-  label: null
+  label: 'Year, mean over its months held: 1 when net load stays above its mean to midnight and the shoulder ends there, else
+    0'
   unit: ratio
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_mean_shoulder_start_hour
-  label: null
+  label: 'Year, mean over its months held: the evening shoulder''s start: the first hour after solar''s highest hour in which
+    solar is below half of that value'
   unit: hour
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_months_held
-  label: null
+  label: 'Year: months held'
   unit: count
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_worst10_days
-  label: null
+  label: 'Year: worst days ranked (up to ten)'
   unit: count
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_worst10_days_with_battery
-  label: null
+  label: 'Year: of the ten worst days, those whose every hour holds a battery output'
   unit: count
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_worst10_max_shoulder_hours_needed
-  label: null
+  label: 'Year: the largest shoulder hours needed among the ten worst days'
   unit: hour
   rows: 15
   first: '2019-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: year_worst10_mean_battery_hours
-  label: null
+  label: 'Year: mean over the ten worst days of the hours the batteries ran at rated power in the shoulder'
   unit: hour
   rows: 2
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: year_worst10_mean_shoulder2_hours
-  label: null
+  label: 'Year: mean length of the second measure over the ten worst days'
   unit: hour
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_worst10_mean_shoulder2_hours_needed
-  label: null
+  label: 'Year: mean hours needed by the second measure over the ten worst days'
   unit: hour
   rows: 15
   first: '2019-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: year_worst10_mean_shoulder_hours
-  label: null
+  label: 'Year: mean shoulder length over the ten worst days'
   unit: hour
   rows: 17
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: year_worst10_mean_shoulder_hours_needed
-  label: null
+  label: 'Year: mean shoulder hours needed over the ten worst days'
   unit: hour
   rows: 15
   first: '2019-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: year_worst10_mean_shoulder_mwh_above_mean
-  label: null
+  label: 'Year: mean shoulder energy above the day''s mean over the ten worst days'
   unit: MWh
   rows: 17
   first: '2019-01-01T00:00:00Z'

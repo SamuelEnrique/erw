@@ -5,9 +5,10 @@
 table: eia_gas_interstate_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's natural gas movement between a pair of areas (states, the federal Gulf, Canada, Mexico, other countries) for
+  one process, from EIA's Natural Gas Annual.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_gas_interstate:<process>:<from-to pair>; Z00 is the first area's total, Z0R and Z0S its parts
   type: text
   values:
     distinct: 1903
@@ -81,6 +83,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> of the pair's first area, US otherwise
   type: text
   values:
     distinct: 52
@@ -93,12 +96,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 29470
 - name: node
   shared: true
+  particular: EIA's series name, naming both areas
   type: text
   values:
     distinct: 1888
@@ -133,61 +138,62 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 29470
 variables:
 - name: deliveries
-  label: null
+  label: Interstate deliveries (MID), million cubic feet
   unit: MMcf
   rows: 6286
   first: '1997-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: deliveries_exports
-  label: null
+  label: Deliveries including exports (MIF), million cubic feet
   unit: MMcf
   rows: 1416
   first: '1997-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: exports_intransit
-  label: null
+  label: International deliveries including gas in transit (EEI), million cubic feet
   unit: MMcf
   rows: 1691
   first: '1997-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: imports_intransit
-  label: null
+  label: International receipts including gas in transit (IMI), million cubic feet
   unit: MMcf
   rows: 1531
   first: '1997-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: net_across_borders
-  label: null
+  label: Net movement across borders (IMB), million cubic feet
   unit: MMcf
   rows: 2152
   first: '1997-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: net_receipts
-  label: null
+  label: Net interstate receipts (MIN), million cubic feet
   unit: MMcf
   rows: 7220
   first: '1997-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: net_receipts_imports
-  label: null
+  label: Net receipts including imports (MIE), million cubic feet
   unit: MMcf
   rows: 1457
   first: '1997-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: receipts
-  label: null
+  label: Interstate receipts (MIR), million cubic feet
   unit: MMcf
   rows: 6287
   first: '1997-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: receipts_imports
-  label: null
+  label: Receipts including imports (MIT), million cubic feet
   unit: MMcf
   rows: 1430
   first: '1997-01-01T00:00:00Z'

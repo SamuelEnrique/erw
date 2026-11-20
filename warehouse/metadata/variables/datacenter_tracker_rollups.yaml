@@ -1,0 +1,172 @@
+# The codebook's metadata of table datacenter_tracker_rollups (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: datacenter_tracker_rollups
+family: datacenter
+shape: series
+row: One group of datacenter facilities (a grid, a state, an operator, or the whole tracker), one count or sum of the megawatts
+  the news states, on one day.
+time: ts_utc is the day the rollup was built, 00:00 UTC; freq P1D.
+vintage_rule: 'Merged on (entity, variable, ts_utc): each daily build adds its day''s rows; vintage is the build day. A group
+  with no stated MW has no sum row.'
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: model_extracted
+interval: P1D
+source: []
+cite: Energy Research Warehouse (ERW), derived. The datacenter tracker's rollups by grid, state and operator, from datacenter_projects
+  (docs/methods/datacenter_tracker_rollups.md). Via the Energy Research Warehouse (ERW), table `datacenter_tracker_rollups`.
+method: docs/methods/datacenter_tracker_rollups.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261113T155514Z-github
+  (2026-11-13T15:55:14Z); that run's own header of the table follows
+header_shape: 'Shape: series (docs/datastandard.md); derived from datacenter_projects by warehouse/derived/datacenter_tracker_rollups.py
+  (session 2236). One row a group, a variable and a day.'
+read:
+  date: '2026-11-20'
+  rows: 603
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: grid:<grid>, state:<postal code>, operator:<name> (the operator, else the developer), or tracker:all; <none>
+    where the facility has none
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 490
+  particular: US-<state> on a state's rows; empty on every other row
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 603
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 603
+  particular: 'Not filled: no cell holds a value'
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The day the rollup was built (as ts_utc)
+variables:
+- name: facilities
+  label: The group's facilities in datacenter_projects
+  unit: count
+  rows: 149
+  first: '2026-11-13T00:00:00Z'
+  last: '2026-11-13T00:00:00Z'
+- name: facilities_with_mw
+  label: The group's facilities whose stories state a MW
+  unit: count
+  rows: 149
+  first: '2026-11-13T00:00:00Z'
+  last: '2026-11-13T00:00:00Z'
+- name: facilities_without_mw
+  label: The group's facilities whose stories state no MW (counted, never added as zero)
+  unit: count
+  rows: 149
+  first: '2026-11-13T00:00:00Z'
+  last: '2026-11-13T00:00:00Z'
+- name: mw_stated
+  label: The sum of the MW the group's stories state, of any basis (IT load, total, a tenant's share, a phase or unstated)
+  unit: MW
+  rows: 68
+  first: '2026-11-13T00:00:00Z'
+  last: '2026-11-13T00:00:00Z'
+- name: mw_stated_none
+  label: mw_stated over the group's facilities with no status
+  unit: MW
+  rows: 28
+  first: '2026-11-13T00:00:00Z'
+  last: '2026-11-13T00:00:00Z'
+- name: mw_stated_operating
+  label: mw_stated over the group's facilities whose status is operating
+  unit: MW
+  rows: 6
+  first: '2026-11-13T00:00:00Z'
+  last: '2026-11-13T00:00:00Z'
+- name: mw_stated_planned
+  label: mw_stated over the group's facilities whose status is planned
+  unit: MW
+  rows: 37
+  first: '2026-11-13T00:00:00Z'
+  last: '2026-11-13T00:00:00Z'
+- name: mw_stated_under_construction
+  label: mw_stated over the group's facilities whose status is under construction
+  unit: MW
+  rows: 12
+  first: '2026-11-13T00:00:00Z'
+  last: '2026-11-13T00:00:00Z'
+- name: mw_stated_withdrawn
+  label: mw_stated over the group's facilities whose status is withdrawn
+  unit: MW
+  rows: 5
+  first: '2026-11-13T00:00:00Z'
+  last: '2026-11-13T00:00:00Z'
+second_look: null

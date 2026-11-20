@@ -5,9 +5,11 @@
 table: czso_cz_regional_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One Czech region's (or Czechia's) installed capacity or gross production by type of plant, or net consumption by activity,
+  in 2024, from the Czech Statistical Office's Comparison of Regions.
+time: ts_utc is the year's 1 January at 00:00:00Z; freq P1Y; capacity at 31 December.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s rows replace the same keys and older ones are kept; vintage
+  is the zip''s Last-Modified.'
 keys:
 - entity
 - variable
@@ -35,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: czso_regions:<ISO 3166-2 region code, or CZ>:<item>
   type: text
   values:
     distinct: 225
@@ -83,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: CZ on every row, whatever the region (the region is in entity and x_region)
   type: text
   values:
     list:
@@ -90,12 +94,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 360
 - name: node
   shared: true
+  particular: CZSO <area code>, <the table's English label>, in ASCII, not a pricing node
   type: text
   values:
     distinct: 255
@@ -129,14 +135,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The zip's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-02-12T12:46:51Z': 360
   missing_cells: 0
 - name: x_region
-  label: null
-  unit: null
+  label: The region's name in Czech, as the tables give it
+  unit: none
   type: text
   values:
     list:
@@ -156,24 +163,25 @@ columns:
       Ústecký: 24
       Česko Czechia: 24
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector czso_regional_electricity.py; method czso_cz_regional_electricity_annual.md
 - name: x_table
-  label: null
-  unit: null
+  label: 'The CZSO table the row is read from: 14.101 (capacity and gross production by type of plant) or 14.103 (net consumption
+    by activity)'
+  unit: none
   type: number
   values:
     list:
       '14.101': 240
       '14.103': 120
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector czso_regional_electricity.py
 - name: x_label
-  label: null
-  unit: null
+  label: The table's own label of the row, in Czech (the type of plant, the activity or the total)
+  unit: none
   type: text
   values:
     list:
@@ -195,26 +203,26 @@ columns:
       větrné elektrárny: 30
       zemědělství a lesnictví: 15
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector czso_regional_electricity.py; method czso_cz_regional_electricity_annual.md
 variables:
 - name: gross_production
-  label: null
+  label: Gross electricity production of the type of plant in the region in the year
   unit: MWh
   rows: 120
   first: '2024-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
   source_label: paroplynové elektrárny; plynové a spalovací elektrárny; vodní elektrárny včetně přečerpávacích
 - name: installed_capacity
-  label: null
+  label: Installed capacity of the type of plant in the region at 31 December
   unit: MW
   rows: 120
   first: '2024-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
   source_label: paroplynové elektrárny; plynové a spalovací elektrárny; vodní elektrárny včetně přečerpávacích
 - name: net_consumption
-  label: null
+  label: Net electricity consumption of the activity in the region in the year
   unit: MWh
   rows: 120
   first: '2024-01-01T00:00:00Z'

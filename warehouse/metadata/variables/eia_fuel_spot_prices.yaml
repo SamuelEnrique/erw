@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:henry_hub (RNGWHHD), eia:wti_cushing (RWTC) or eia:brent (RBRTE)
   type: text
   values:
     list:
@@ -43,7 +44,6 @@ columns:
       eia:henry_hub: 7503
       eia:wti_cushing: 10292
   missing_cells: 0
-  particular: eia:henry_hub (RNGWHHD), eia:wti_cushing (RWTC) or eia:brent (RBRTE)
 - name: variable
   shared: true
   type: text
@@ -83,27 +83,27 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-LA for Henry Hub, US-OK for WTI Cushing, empty for Brent (not a U.S. place)
   type: text
   values:
     list:
       US-LA: 7503
       US-OK: 10292
   missing_cells: 10019
-  particular: US-LA for Henry Hub, US-OK for WTI Cushing, empty for Brent (not a U.S. place)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27814
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27814
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -144,11 +144,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27814
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: spot_price
   label: 'The day''s spot price: USD per MMBtu for Henry Hub, USD a barrel for WTI and Brent (the unit column says which);

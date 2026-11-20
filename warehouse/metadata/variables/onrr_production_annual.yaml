@@ -5,9 +5,11 @@
 table: onrr_production_annual
 family: onrr
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One energy product (oil, gas, coal and its kinds, or geothermal electricity) produced on federal or Native American lands
+  in one county or offshore region in one calendar year, 2003 to 2025, from ONRR's Natural Resources Revenue Data.
+time: ts_utc is the year's 1 January at 00:00:00Z (a calendar year, not an instant); freq P1Y.
+vintage_rule: A snapshot; each run replaces the table whole. vintage is the file's last-modified time. ONRR revises recent
+  periods.
 keys:
 - entity
 - variable
@@ -35,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: onrr_production:<class>:<category>:<FIPS code>_<county name> or :<offshore region>, then :<product>
   type: text
   values:
     distinct: 830
@@ -107,6 +110,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>; empty for offshore rows and rows ONRR gives no state
   type: text
   values:
     distinct: 29
@@ -119,12 +123,14 @@ columns:
   missing_cells: 244
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 15068
 - name: node
   shared: true
+  particular: 'County, State: Product (or the offshore region), in ONRR''s words, not a pricing node'
   type: text
   values:
     distinct: 735
@@ -158,14 +164,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's last-modified time, one value
   type: utc time
   values:
     list:
       '2026-10-21T17:11:22Z': 15068
   missing_cells: 0
 - name: x_land_class
-  label: null
-  unit: null
+  label: 'ONRR''s land class: Federal, Native American or Mixed Exploratory'
+  unit: none
   type: text
   values:
     list:
@@ -173,24 +180,24 @@ columns:
       Mixed Exploratory: 1198
       Native American: 106
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Land Class
+  documented_by: method onrr.md; connector onrr.py; data
 - name: x_land_category
-  label: null
-  unit: null
+  label: 'ONRR''s land category: Onshore or Offshore'
+  unit: none
   type: text
   values:
     list:
       Offshore: 138
       Onshore: 14930
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Land Category
+  documented_by: method onrr.md; connector onrr.py; data
 - name: x_state
-  label: null
-  unit: null
+  label: The state, as ONRR names it
+  unit: none
   type: text
   values:
     distinct: 29
@@ -201,12 +208,12 @@ columns:
     - California
     - Colorado
   missing_cells: 244
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Offshore rows, or ONRR gives no state
+  source_name: State
+  documented_by: method onrr.md; connector onrr.py
 - name: x_county
-  label: null
-  unit: null
+  label: The county, as ONRR names it
+  unit: none
   type: text
   values:
     distinct: 356
@@ -217,24 +224,24 @@ columns:
     - Alfalfa
     - Allegan
   missing_cells: 244
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Offshore rows, or ONRR gives no county
+  source_name: County
+  documented_by: method onrr.md; connector onrr.py
 - name: x_fips
-  label: null
-  unit: null
+  label: The county's FIPS code
+  unit: none
   type: integer
   values:
     distinct: 412
     lowest: 1003
     highest: 56045
   missing_cells: 244
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Offshore rows, or ONRR gives no county
+  source_name: FIPS Code
+  documented_by: method onrr.md; connector onrr.py
 - name: x_offshore_region
-  label: null
-  unit: null
+  label: The offshore region (Alaska, Gulf of America, Pacific)
+  unit: none
   type: text
   values:
     list:
@@ -242,12 +249,13 @@ columns:
       Gulf of America: 46
       Pacific: 46
   missing_cells: 14930
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Onshore rows
+  source_name: Offshore Region
+  documented_by: method onrr.md; connector onrr.py
 - name: x_product
-  label: null
-  unit: null
+  label: ONRR's product with its unit (Oil (bbl), Gas (mcf), Coal (ton), Geothermal - electrical generation (kilowatt hours)
+    and the others)
+  unit: none
   type: text
   values:
     list:
@@ -259,12 +267,13 @@ columns:
       Geothermal - electrical generation (kilowatt hours): 281
       Oil (bbl): 6317
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Product
+  documented_by: method onrr.md; connector onrr.py; data
 variables:
 - name: production
-  label: null
+  label: 'The product produced in the year, in the row''s unit: bbl, Mcf, short_ton (ONRR''s tons) or MWh (geothermal electricity,
+    ONRR''s kilowatt hours over 1,000)'
   unit: MWh; Mcf; bbl; short_ton
   rows: 15068
   first: '2003-01-01T00:00:00Z'

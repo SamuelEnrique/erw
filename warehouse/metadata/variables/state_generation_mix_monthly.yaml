@@ -5,9 +5,9 @@
 table: state_generation_mix_monthly
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or the nation's) net generation from one group of energy sources in one month.
+time: ts_utc is the first of the month at 00:00:00Z; freq P1M.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run replaces the rows it writes and keeps the rest.'
 keys:
 - entity
 - variable
@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:<state>, or eia:US for the nation
   type: text
   values:
     distinct: 53
@@ -92,12 +93,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 108125
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -127,61 +130,62 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 108125
 variables:
 - name: net_generation_coal_mwh
-  label: null
+  label: Net generation from coal (EIA's COW)
   unit: MWh
   rows: 15258
   first: '2001-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_generation_hydro_mwh
-  label: null
+  label: Net generation from conventional hydro (EIA's HYC)
   unit: MWh
   rows: 15171
   first: '2001-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_generation_natural_gas_mwh
-  label: null
+  label: Net generation from natural gas (EIA's NG)
   unit: MWh
   rows: 15716
   first: '2001-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_generation_not_itemized_mwh
-  label: null
+  label: EIA's all-fuels total less the groups, where not zero to the MWh
   unit: MWh
   rows: 1081
   first: '2001-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_generation_nuclear_mwh
-  label: null
+  label: Net generation from nuclear (EIA's NUC)
   unit: MWh
   rows: 9560
   first: '2001-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_generation_oil_and_other_mwh
-  label: null
+  label: Net generation from oil and other sources (EIA's PET, OOG, HPS and OTH)
   unit: MWh
   rows: 16104
   first: '2001-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_generation_other_renewables_mwh
-  label: null
+  label: Net generation from geothermal and biomass (EIA's GEO and BIO)
   unit: MWh
   rows: 15306
   first: '2001-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_generation_solar_mwh
-  label: null
+  label: Net generation from utility-scale solar (EIA's SUN; small-scale solar not included)
   unit: MWh
   rows: 8649
   first: '2001-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_generation_wind_mwh
-  label: null
+  label: Net generation from wind (EIA's WND)
   unit: MWh
   rows: 11280
   first: '2001-01-01T00:00:00Z'

@@ -5,9 +5,10 @@
 table: frb_treasury_yields
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One US Treasury maturity's market yield at constant maturity for one business day.
+time: ts_utc is the business day at 00:00:00Z; freq P1D.
+vintage_rule: Rewritten whole by each run (the whole history from 2019 is read each run, so revisions are picked up); vintage
+  is not filled.
 keys:
 - entity
 - variable
@@ -35,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: frb:tcm_<maturity>, 2, 10 or 30 years
   type: text
   values:
     list:
@@ -87,12 +89,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5901
 - name: node
   shared: true
+  particular: The Federal Reserve Board's series identifier (H15/H15/RIFLGFCY<years>_N.B), not a pricing node
   type: text
   values:
     list:
@@ -139,13 +143,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5901
 variables:
 - name: yield
-  label: null
+  label: Market yield on US Treasury securities at constant maturity, quoted on an investment basis, percent a year
   unit: pct
   rows: 5901
   first: '2019-01-02T00:00:00Z'

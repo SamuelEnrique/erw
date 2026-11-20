@@ -5,9 +5,11 @@
 table: caiso_area_load_hourly
 family: caiso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: CAISO's actual load in one of its TAC areas (transmission access charge areas), or the ISO's own total, for one hour.
+time: ts_utc is the hour's start in UTC; the interval's start and end are CAISO's, in GMT.
+vintage_rule: Merged by (entity, variable, ts_utc); a 30-day window ending in the last 35 days is asked of CAISO again each
+  run and replaces the hours held, an earlier window is read from the raw file kept, and hours no longer asked are kept. vintage
+  is not filled.
 keys:
 - entity
 - variable
@@ -36,6 +38,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: caiso:<TAC area> under CAISO's own names (PGE-TAC, SCE-TAC, SDGE-TAC, VEA-TAC, MWD-TAC), or caiso:system for
+    the area CAISO names CA ISO-TAC, its own total
   type: text
   values:
     list:
@@ -91,6 +95,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: caiso_load in every row
   type: text
   values:
     list:
@@ -98,6 +103,7 @@ columns:
   missing_cells: 0
 - name: node
   shared: true
+  particular: The TAC area as CAISO names it (CA ISO-TAC for the total); a TAC area is not a trading hub (NP15, SP15, ZP26)
   type: text
   values:
     list:
@@ -137,13 +143,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 271644
 variables:
 - name: load
-  label: null
+  label: CAISO's SYS_FCST_ACT_MW, Total Actual Hourly Integrated Load, for the area and hour, MW over the hour (OASIS SLD_FCST,
+    the actual run)
   unit: MW
   rows: 271644
   first: '2021-09-17T00:00:00Z'

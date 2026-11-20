@@ -5,9 +5,11 @@
 table: statcan_power_disposition_annual
 family: statcan
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One area's value of one component of electricity supply and disposition (generation, trade, sales, losses) in one year,
+  from Statistics Canada table 25-10-0021-01.
+time: ts_utc is the year's 1 January at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Every run that is not offline asks again and writes the whole table again; vintage is the zip's Last-Modified
+  time.
 keys:
 - entity
 - variable
@@ -35,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: statcan_pd:<area>, the area ca or a province's or territory's postal code in lower case
   type: text
   values:
     list:
@@ -110,6 +113,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: CA for Canada, CA-<province> for a province or territory
   type: text
   values:
     list:
@@ -130,12 +134,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3909
 - name: node
   shared: true
+  particular: '<area>: <component> as StatCan names them, not a pricing node'
   type: text
   values:
     distinct: 229
@@ -169,14 +175,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified time of StatCan's zip
   type: utc time
   values:
     list:
       '2026-10-16T12:30:33Z': 3909
   missing_cells: 0
 - name: x_component
-  label: null
-  unit: null
+  label: The component of supply and disposition, StatCan's name (the variable is its slug)
+  unit: none
   type: text
   values:
     list:
@@ -202,12 +209,12 @@ columns:
       Total sales of electricity to ultimate customers: 294
       Unallocated electricity: 294
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Electric power, components
+  documented_by: header; connector statcan_power_disposition.py
 - name: x_vector
-  label: null
-  unit: null
+  label: StatCan's vector identifier of the series
+  unit: none
   type: text
   values:
     distinct: 229
@@ -218,143 +225,143 @@ columns:
     - v52300614
     - v52300615
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: VECTOR
+  documented_by: header; connector statcan_power_disposition.py
 - name: x_revised
-  label: null
-  unit: null
+  label: r where StatCan marks the figure revised
+  unit: none
   type: text
   values:
     list:
       r: 85
   missing_cells: 3824
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: StatCan gives no revision mark
+  source_name: SYMBOL
+  documented_by: header; connector statcan_power_disposition.py; method statcan_power_disposition_annual.md
 variables:
 - name: agriculture_sales_of_electricity
-  label: null
+  label: Agriculture sales of electricity, MWh
   unit: MWh
   rows: 231
   first: '2005-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: electricity_used_by_producers
-  label: null
+  label: Electricity used by producers, MWh
   unit: MWh
   rows: 294
   first: '2005-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: exports_of_electricity_to_the_united_states_exchanged
-  label: null
+  label: Exports of electricity to the United States, exchanged, MWh
   unit: MWh
   rows: 24
   first: '2005-01-01T00:00:00Z'
   last: '2013-01-01T00:00:00Z'
 - name: exports_of_electricity_to_the_united_states_firm
-  label: null
+  label: Exports of electricity to the United States, firm, MWh
   unit: MWh
   rows: 70
   first: '2005-01-01T00:00:00Z'
   last: '2013-01-01T00:00:00Z'
 - name: exports_of_electricity_to_the_united_states_secondary
-  label: null
+  label: Exports of electricity to the United States, secondary, MWh
   unit: MWh
   rows: 78
   first: '2005-01-01T00:00:00Z'
   last: '2013-01-01T00:00:00Z'
 - name: imports_of_electricity_from_the_united_states_exchanged
-  label: null
+  label: Imports of electricity from the United States, exchanged, MWh
   unit: MWh
   rows: 22
   first: '2005-01-01T00:00:00Z'
   last: '2012-01-01T00:00:00Z'
 - name: imports_of_electricity_from_the_united_states_purchased
-  label: null
+  label: Imports of electricity from the United States, purchased, MWh
   unit: MWh
   rows: 81
   first: '2005-01-01T00:00:00Z'
   last: '2013-01-01T00:00:00Z'
 - name: interprovincial_deliveries_of_electricity_firm
-  label: null
+  label: Interprovincial deliveries of electricity, firm, MWh
   unit: MWh
   rows: 90
   first: '2005-01-01T00:00:00Z'
   last: '2013-01-01T00:00:00Z'
 - name: interprovincial_deliveries_of_electricity_secondary
-  label: null
+  label: Interprovincial deliveries of electricity, secondary, MWh
   unit: MWh
   rows: 48
   first: '2005-01-01T00:00:00Z'
   last: '2013-01-01T00:00:00Z'
 - name: interprovincial_receipts_of_electricity_purchased
-  label: null
+  label: Interprovincial receipts of electricity, purchased, MWh
   unit: MWh
   rows: 93
   first: '2005-01-01T00:00:00Z'
   last: '2013-01-01T00:00:00Z'
 - name: mining_and_manufacturing_sales_of_electricity
-  label: null
+  label: Mining and manufacturing sales of electricity, MWh
   unit: MWh
   rows: 270
   first: '2005-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_industries_sales_of_electricity
-  label: null
+  label: Other industries sales of electricity, MWh
   unit: MWh
   rows: 294
   first: '2005-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: residential_sales_of_electricity
-  label: null
+  label: Residential sales of electricity, MWh
   unit: MWh
   rows: 294
   first: '2005-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_electricity_available_for_use_within_specific_geographic_border
-  label: null
+  label: Total electricity available for use within the area's border, MWh
   unit: MWh
   rows: 294
   first: '2005-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_exports_of_electricity_to_the_united_states
-  label: null
+  label: Total exports of electricity to the United States, MWh
   unit: MWh
   rows: 199
   first: '2005-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_generation_of_electricity
-  label: null
+  label: Total generation of electricity in the year, MWh
   unit: MWh
   rows: 294
   first: '2005-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_imports_of_electricity_from_the_united_states
-  label: null
+  label: Total imports of electricity from the United States, MWh
   unit: MWh
   rows: 199
   first: '2005-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_interprovincial_deliveries_of_electricity
-  label: null
+  label: Total interprovincial deliveries of electricity, MWh
   unit: MWh
   rows: 221
   first: '2005-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_interprovincial_receipts_of_electricity
-  label: null
+  label: Total interprovincial receipts of electricity, MWh
   unit: MWh
   rows: 225
   first: '2005-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_sales_of_electricity_to_ultimate_customers
-  label: null
+  label: Total sales of electricity to ultimate customers, MWh
   unit: MWh
   rows: 294
   first: '2005-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: unallocated_electricity
-  label: null
+  label: Unallocated electricity, MWh
   unit: MWh
   rows: 294
   first: '2005-01-01T00:00:00Z'

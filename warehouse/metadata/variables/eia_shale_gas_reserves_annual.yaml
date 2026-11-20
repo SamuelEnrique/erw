@@ -5,9 +5,10 @@
 table: eia_shale_gas_reserves_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's shale gas proved reserves, reserves-based production, or a change in reserves, for the U.S., a state or a
+  reporting district (2007 to 2021).
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y); reserves are as of 31 December.
+vintage_rule: Rewritten whole by each run (write_snapshot); EIA's route ends in 2021. vintage is not filled.
 keys:
 - entity
 - variable
@@ -35,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_shale_gas_reserves:<EIA series id>
   type: text
   values:
     distinct: 469
@@ -96,6 +98,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation
   type: text
   values:
     list:
@@ -123,12 +126,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4455
 - name: node
   shared: true
+  particular: EIA's description
   type: text
   values:
     distinct: 469
@@ -164,73 +169,74 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4455
 variables:
 - name: acquisitions
-  label: null
+  label: Shale gas proved reserves acquired, billion cubic feet
   unit: bcf
   rows: 478
   first: '2009-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: adjustments
-  label: null
+  label: Adjustments to shale gas proved reserves, billion cubic feet
   unit: bcf
   rows: 478
   first: '2009-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: extensions
-  label: null
+  label: Extensions of shale gas proved reserves, billion cubic feet
   unit: bcf
   rows: 251
   first: '2009-01-01T00:00:00Z'
   last: '2015-01-01T00:00:00Z'
 - name: extensions_and_discoveries
-  label: null
+  label: Extensions and discoveries of shale gas proved reserves, billion cubic feet
   unit: bcf
   rows: 226
   first: '2016-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: new_field_discoveries
-  label: null
+  label: New field discoveries of shale gas, billion cubic feet
   unit: bcf
   rows: 251
   first: '2009-01-01T00:00:00Z'
   last: '2015-01-01T00:00:00Z'
 - name: new_reservoir_discoveries_in_old_fields
-  label: null
+  label: New reservoir discoveries of shale gas in old fields (R5309), billion cubic feet
   unit: bcf
   rows: 251
   first: '2009-01-01T00:00:00Z'
   last: '2015-01-01T00:00:00Z'
 - name: proved_reserves
-  label: null
+  label: Shale gas proved reserves at the year's end, billion cubic feet
   unit: bcf
   rows: 543
   first: '2007-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: reserves_based_production
-  label: null
+  label: Shale gas production counted against reserves (R5302), billion cubic feet
   unit: bcf
   rows: 543
   first: '2007-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: revision_decreases
-  label: null
+  label: Revision decreases of shale gas proved reserves, billion cubic feet
   unit: bcf
   rows: 478
   first: '2009-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: revision_increases
-  label: null
+  label: Revision increases of shale gas proved reserves, billion cubic feet
   unit: bcf
   rows: 478
   first: '2009-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: sales
-  label: null
+  label: Shale gas proved reserves sold, billion cubic feet
   unit: bcf
   rows: 478
   first: '2009-01-01T00:00:00Z'

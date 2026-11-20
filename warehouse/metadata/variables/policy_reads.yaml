@@ -5,9 +5,11 @@
 table: policy_reads
 family: policy
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One model's impact read of one policy action scored 5 or more (what changes, who is affected, the direction of the effect,
+  the timeline, a plain read), each field kept only where its quotations stand word for word in the action's own text.
+time: event_date is the action's date; read_at and rechecked_at are UTC.
+vintage_rule: Actions already read are not read again (warehouse/policy/read_done.csv); new reads are added each run. Rebuilt
+  from the ERW archive in session 305.
 keys:
 - event_id
 license: public
@@ -55,6 +57,7 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: Always policy_read
   type: text
   values:
     list:
@@ -112,6 +115,7 @@ columns:
   missing_cells: 412
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -136,8 +140,8 @@ columns:
     - https://gov.texas.gov/news/post/governor-abbott-announces-texas-energy-fund-loan-for-452-mw-west-texas-natural-gas-power-plant
   missing_cells: 0
 - name: action_event_id
-  label: null
-  unit: null
+  label: The action's event_id in policy_actions
+  unit: none
   type: text
   values:
     distinct: 412
@@ -148,12 +152,12 @@ columns:
     - doe:168509c4dc69
     - doe:24e5dd11b236
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector reads.py
 - name: agency
-  label: null
-  unit: null
+  label: The action's agency, short name
+  unit: none
   type: text
   values:
     list:
@@ -167,12 +171,12 @@ columns:
       NRC: 128
       PUCT: 11
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: action_type
-  label: null
-  unit: null
+  label: 'The action''s type: rule, proposed_rule, notice or press_release'
+  unit: none
   type: text
   values:
     list:
@@ -181,12 +185,12 @@ columns:
       proposed_rule: 26
       rule: 24
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: title
-  label: null
-  unit: null
+  label: The action's title
+  unit: none
   type: text
   values:
     distinct: 392
@@ -200,12 +204,12 @@ columns:
     - Algonquin Gas Transmission, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Planned
       Algonquin Reliable Affordable Resilient Enhancement Project, and Notice of Public Scoping Sessions
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: significance
-  label: null
-  unit: null
+  label: The action's significance score (a model's, 0 to 10); 5 or more on every row
+  unit: none
   type: integer
   values:
     list:
@@ -215,12 +219,12 @@ columns:
       '8': 14
       '9': 5
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method policy_monitor.md
 - name: what_changes
-  label: null
-  unit: null
+  label: What the action changes, in plain words; written by the model, kept only where its quotations are found in the text
+  unit: none
   type: text
   values:
     distinct: 400
@@ -240,12 +244,12 @@ columns:
       returns Areas of Critical Environmental Concern rules to the framework in place since 1983, and rescinds the Land Health
       Standards provisions.
   missing_cells: 12
-  missing_meaning: null
+  missing_meaning: Dropped by the check (fields_dropped says why)
   source_name: null
-  documented_by: null
+  documented_by: connector reads.py; method policy_monitor.md
 - name: affected_sectors
-  label: null
-  unit: null
+  label: The sectors the action affects, joined by ';'; written by the model (a sector only if its keyword is in the text)
+  unit: none
   type: text
   values:
     distinct: 67
@@ -256,12 +260,12 @@ columns:
     - coal;oil;emissions
     - coal;power
   missing_cells: 16
-  missing_meaning: null
+  missing_meaning: Dropped by the check, or none
   source_name: null
-  documented_by: null
+  documented_by: connector reads.py; method policy_monitor.md
 - name: affected_isos
-  label: null
-  unit: null
+  label: The grid operators (ISOs) the action affects; written by the model
+  unit: none
   type: text
   values:
     list:
@@ -274,12 +278,12 @@ columns:
       PJM;MISO: 1
       SPP: 5
   missing_cells: 360
-  missing_meaning: null
+  missing_meaning: None named, or dropped
   source_name: null
-  documented_by: null
+  documented_by: connector reads.py
 - name: affected_states
-  label: null
-  unit: null
+  label: The states the action applies to, joined by ';'; written by the model, held by the place rule
+  unit: none
   type: text
   values:
     distinct: 73
@@ -290,12 +294,12 @@ columns:
     - AR
     - AR;TX
   missing_cells: 115
-  missing_meaning: null
+  missing_meaning: None, or dropped
   source_name: null
-  documented_by: null
+  documented_by: connector reads.py; method policy_monitor.md
 - name: direction_supply
-  label: null
-  unit: null
+  label: 'The model''s direction of the action''s effect on supply: up, down, none or unclear'
+  unit: none
   type: text
   values:
     list:
@@ -303,12 +307,12 @@ columns:
       unclear: 263
       up: 55
   missing_cells: 81
-  missing_meaning: null
+  missing_meaning: The direction field was dropped by the check
   source_name: null
-  documented_by: null
+  documented_by: connector reads.py
 - name: direction_demand
-  label: null
-  unit: null
+  label: 'The model''s direction of the action''s effect on demand: up, down, none or unclear'
+  unit: none
   type: text
   values:
     list:
@@ -316,12 +320,13 @@ columns:
       unclear: 250
       up: 1
   missing_cells: 81
-  missing_meaning: null
+  missing_meaning: The direction field was dropped by the check
   source_name: null
-  documented_by: null
+  documented_by: connector reads.py
 - name: direction_prices
-  label: null
-  unit: null
+  label: 'The model''s direction of the action''s effect on prices: up or down only where the text speaks of prices, rates
+    or bills; else none or unclear'
+  unit: none
   type: text
   values:
     list:
@@ -330,12 +335,12 @@ columns:
       unclear: 320
       up: 2
   missing_cells: 81
-  missing_meaning: null
+  missing_meaning: The direction field was dropped by the check
   source_name: null
-  documented_by: null
+  documented_by: connector reads.py; method policy_monitor.md
 - name: direction_buildout
-  label: null
-  unit: null
+  label: 'The model''s direction of the action''s effect on buildout: up, down, none or unclear'
+  unit: none
   type: text
   values:
     list:
@@ -343,12 +348,12 @@ columns:
       unclear: 222
       up: 84
   missing_cells: 81
-  missing_meaning: null
+  missing_meaning: The direction field was dropped by the check
   source_name: null
-  documented_by: null
+  documented_by: connector reads.py
 - name: timeline
-  label: null
-  unit: null
+  label: When the action takes effect or what comes next; written by the model
+  unit: none
   type: text
   values:
     distinct: 406
@@ -364,12 +369,12 @@ columns:
     - Bids are due by 11:00 A.M. Central Time on Tuesday, October 6, 2026. Deliveries under awarded exchanges are scheduled
       for November and December 2026.
   missing_cells: 6
-  missing_meaning: null
+  missing_meaning: Dropped by the check
   source_name: null
-  documented_by: null
+  documented_by: connector reads.py
 - name: plain_read
-  label: null
-  unit: null
+  label: A two-sentence plain-language read; written by the model
+  unit: none
   type: text
   values:
     distinct: 403
@@ -388,12 +393,12 @@ columns:
     - A company has applied to the NRC for permission to build four reactors in Idaho that would make isotopes, not electricity.
       The NRC is still checking whether to accept the application, and no public participation steps have been set yet.
   missing_cells: 9
-  missing_meaning: null
+  missing_meaning: Dropped by the check
   source_name: null
-  documented_by: null
+  documented_by: connector reads.py
 - name: fields_kept
-  label: null
-  unit: null
+  label: The model's fields kept by the check, joined by ';'
+  unit: none
   type: text
   values:
     list:
@@ -407,12 +412,12 @@ columns:
       plain_read;what_changes;who_affected: 1
       timeline;what_changes;who_affected: 3
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector reads.py
 - name: fields_dropped
-  label: null
-  unit: null
+  label: The fields dropped by the check, each with why (no span, a span not found, a number not in the spans)
+  unit: none
   type: text
   values:
     distinct: 178
@@ -424,12 +429,12 @@ columns:
     - 'direction (no span) | plain_read: numbers in the text, outside its quotations: [''100'']'
     - 'direction (no span) | plain_read: numbers in the text, outside its quotations: [''16'']'
   missing_cells: 145
-  missing_meaning: null
+  missing_meaning: Nothing dropped
   source_name: null
-  documented_by: null
+  documented_by: header; connector reads.py
 - name: news_story_urls
-  label: null
-  unit: null
+  label: The news stories that report the same action, joined by ';'
+  unit: none
   type: text
   values:
     list:
@@ -453,36 +458,37 @@ columns:
       https://www.energy.gov/articles/trump-administration-mitigates-blackout-risks-keeping-colorado-coal-plant-online: 1
       https://www.energy.gov/articles/united-states-energy-department-continues-execution-strategic-reserve-release-commitments: 1
   missing_cells: 396
-  missing_meaning: null
+  missing_meaning: No story matched
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: model_id
-  label: null
-  unit: null
+  label: The model that made the read
+  unit: none
   type: text
   values:
     list:
       claude-sonnet-5: 8
       claude-sonnet-5-5: 404
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector reads.py
 - name: read_at
-  label: null
-  unit: null
+  label: When the read was made, UTC
+  unit: none
   type: utc time
   values:
     distinct: 263
     earliest: '2026-09-28T10:17:29Z'
     latest: '2026-11-12T22:08:32Z'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector reads.py
 - name: recheck
-  label: null
-  unit: null
+  label: 'Whether the read was rechecked against the source text in session 157: rechecked, not rechecked, source not reachable,
+    or read with the corrected reader'
+  unit: none
   type: text
   values:
     list:
@@ -490,19 +496,19 @@ columns:
       read with the corrected reader: 173
       rechecked: 226
   missing_cells: 5
-  missing_meaning: null
+  missing_meaning: No mark
   source_name: null
-  documented_by: null
+  documented_by: connector reads.py
 - name: rechecked_at
-  label: null
-  unit: null
+  label: When the read was rechecked, UTC
+  unit: none
   type: utc time
   values:
     distinct: 182
     earliest: '2026-10-08T09:03:53Z'
     latest: '2026-10-08T09:40:14Z'
   missing_cells: 186
-  missing_meaning: null
+  missing_meaning: Not rechecked
   source_name: null
-  documented_by: null
+  documented_by: connector reads.py
 second_look: null

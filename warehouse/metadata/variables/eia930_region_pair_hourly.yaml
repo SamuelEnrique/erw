@@ -5,9 +5,11 @@
 table: eia930_region_pair_hourly
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One pair of EIA's regions with a tie and one hour, the interchange between them with each region's report summed from
+  its balancing authorities' reports, July 2018 on.
+time: ts_utc is the hour's start, UTC.
+vintage_rule: Rebuilt whole by each run from the newest saved copies of EIA's six-month INTERCHANGE files; no vintage column,
+  x_file names each row's file.
 keys:
 - entity
 - variable
@@ -35,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<first region>-<second region>, first before second by EIA's code
   type: text
   values:
     list:
@@ -108,8 +111,8 @@ columns:
       erw:eia930_ba_interchange_hourly: 1821286
   missing_cells: 0
 - name: x_first
-  label: null
-  unit: null
+  label: The first region of the pair, EIA's code
+  unit: none
   type: text
   values:
     list:
@@ -125,12 +128,12 @@ columns:
       NW: 69818
       SE: 73489
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_region_hourly.md
 - name: x_second
-  label: null
-  unit: null
+  label: The second region of the pair, EIA's code
+  unit: none
   type: text
   values:
     list:
@@ -146,60 +149,61 @@ columns:
       TEN: 293946
       TEX: 146822
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_region_hourly.md
 - name: x_basis
-  label: null
-  unit: null
+  label: 'Which side value is: first (the first region''s report) or second (the second''s, where the first is not held)'
+  unit: none
   type: text
   values:
     list:
       first: 1318450
       second: 502836
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_region_hourly.md
 - name: x_first_report
-  label: null
-  unit: null
+  label: The sum of every report a balancing authority of the first region filed about one of the second, as power from the
+    first to the second
+  unit: MW
   type: integer
   values:
     distinct: more than 5000
     lowest: -5378863
     highest: 33212
   missing_cells: 502836
-  missing_meaning: null
+  missing_meaning: Not every tie appearing in the hour has the first side's value
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_region_hourly.md
 - name: x_second_report
-  label: null
-  unit: null
+  label: The sum of every report an authority of the second region filed about one of the first, its sign turned
+  unit: MW
   type: integer
   values:
     distinct: more than 5000
     lowest: -32500
     highest: 57499
   missing_cells: 84000
-  missing_meaning: null
+  missing_meaning: Not every tie appearing in the hour has the second side's value
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_region_hourly.md
 - name: x_gap
-  label: null
-  unit: null
+  label: The first side less the second, where both are held
+  unit: MW
   type: integer
   values:
     distinct: more than 5000
     lowest: -5380057
     highest: 34160
   missing_cells: 586836
-  missing_meaning: null
+  missing_meaning: One side is not held
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_region_hourly.md
 - name: x_ties
-  label: null
-  unit: null
+  label: How many ties between the two regions appear in the hour
+  unit: count
   type: integer
   values:
     list:
@@ -214,12 +218,12 @@ columns:
       '8': 25248
       '9': 25845
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia930_region_hourly.md
 - name: x_file
-  label: null
-  unit: null
+  label: The six-month INTERCHANGE file the row was read from (<year>_<Jan_Jun or Jul_Dec>)
+  unit: none
   type: text
   values:
     list:
@@ -241,12 +245,12 @@ columns:
       2026_Jan_Jun: 104537
       2026_Jul_Dec: 84532
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 variables:
 - name: interchange_mw
-  label: null
+  label: 'Power sent from the first region to the second: the first side''s report where held, else the second''s (x_basis)'
   unit: MW
   rows: 1821286
   first: '2018-07-01T04:00:00Z'

@@ -5,9 +5,10 @@
 table: statfi_finland_electricity_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's value of one line of Finland's electricity supply and consumption (generation by source, net imports by country,
+  total consumption), from Statistics Finland's table 12su.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; from 1992-01.
+vintage_rule: Rewritten whole as one snapshot by each run from one JSON-stat query; vintage is the answer's updated time.
 keys:
 - entity
 - variable
@@ -34,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: statfi:fi on every row
   type: text
   values:
     list:
@@ -77,6 +79,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: FI on every row
   type: text
   values:
     list:
@@ -84,12 +87,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 6350
 - name: node
   shared: true
+  particular: The line as Statistics Finland writes it, code included, not a pricing node
   type: text
   values:
     list:
@@ -133,14 +138,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The JSON-stat answer's updated time (UTC)
   type: utc time
   values:
     list:
       '2026-09-23T05:00:00Z': 6350
   missing_cells: 0
 - name: x_code
-  label: null
-  unit: null
+  label: 'Statistics Finland''s code of the line (1, 1.1, ..., 2.4: its place in the table)'
+  unit: none
   type: text
   values:
     list:
@@ -161,102 +167,102 @@ columns:
       '2.4': 236
       SSS: 414
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector statfi_electricity.py; method statfi_finland_electricity_monthly.md
 variables:
 - name: chp_district_heating
-  label: null
+  label: CHP, district heating
   unit: MWh
   rows: 414
   first: '1992-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: chp_industri
-  label: null
+  label: CHP, industry
   unit: MWh
   rows: 414
   first: '1992-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: combined_heat_and_power_chp
-  label: null
+  label: Combined heat and power (CHP)
   unit: MWh
   rows: 414
   first: '1992-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: conventional_condensing_power
-  label: null
+  label: Conventional condensing power
   unit: MWh
   rows: 414
   first: '1992-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: estonia
-  label: null
+  label: Net imports from Estonia
   unit: MWh
   rows: 236
   first: '2006-11-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: hydro_power
-  label: null
+  label: Hydro power
   unit: MWh
   rows: 414
   first: '1992-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: micro_chp
-  label: null
+  label: Micro-CHP
   unit: MWh
   rows: 318
   first: '2000-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: net_imports_of_electricity
-  label: null
+  label: Net imports of electricity
   unit: MWh
   rows: 414
   first: '1992-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: norway
-  label: null
+  label: Net imports from Norway
   unit: MWh
   rows: 414
   first: '1992-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: nuclear_power
-  label: null
+  label: Nuclear power
   unit: MWh
   rows: 414
   first: '1992-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: russia
-  label: null
+  label: Net imports from Russia
   unit: MWh
   rows: 414
   first: '1992-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: solar_power
-  label: null
+  label: Solar power
   unit: MWh
   rows: 414
   first: '1992-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: sweden
-  label: null
+  label: Net imports from Sweden
   unit: MWh
   rows: 414
   first: '1992-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: total_electricity_consumption
-  label: null
+  label: Total electricity consumption
   unit: MWh
   rows: 414
   first: '1992-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: total_electricity_generation
-  label: null
+  label: Total electricity generation
   unit: MWh
   rows: 414
   first: '1992-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: wind_power
-  label: null
+  label: Wind power
   unit: MWh
   rows: 414
   first: '1992-01-01T00:00:00Z'

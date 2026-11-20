@@ -5,9 +5,10 @@
 table: usdm_drought_state_weekly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One contiguous state's percent of area in one U.S. Drought Monitor category (cumulative) in one weekly map.
+time: ts_utc is the map date (a Tuesday) at 00:00:00Z; freq P1W; x_valid_start and x_valid_end give the week the map is valid
+  for.
+vintage_rule: Rewritten whole as one snapshot by each run from the Monitor's data services; vintage is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: usdm:<state postal code>
   type: text
   values:
     distinct: 48
@@ -81,6 +83,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>
   type: text
   values:
     distinct: 48
@@ -93,12 +96,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 177696
 - name: node
   shared: true
+  particular: The state's postal code, not a pricing node
   type: text
   values:
     distinct: 48
@@ -139,67 +144,68 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 177696
 - name: x_valid_start
-  label: null
-  unit: null
+  label: The first day the map is valid for
+  unit: none
   type: date
   values:
     distinct: 617
     earliest: '2014-12-30'
     latest: '2026-10-20'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: ValidStart
+  documented_by: header; connector usdm_drought.py
 - name: x_valid_end
-  label: null
-  unit: null
+  label: The last day the map is valid for
+  unit: none
   type: date
   values:
     distinct: 617
     earliest: '2015-01-05'
     latest: '2026-10-26'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: ValidEnd
+  documented_by: header; connector usdm_drought.py
 variables:
 - name: d0
-  label: null
+  label: Percent of the state's area abnormally dry or worse
   unit: pct
   rows: 29616
   first: '2014-12-30T00:00:00Z'
   last: '2026-10-20T00:00:00Z'
 - name: d1
-  label: null
+  label: Percent of the state's area in moderate drought or worse
   unit: pct
   rows: 29616
   first: '2014-12-30T00:00:00Z'
   last: '2026-10-20T00:00:00Z'
 - name: d2
-  label: null
+  label: Percent of the state's area in severe drought or worse
   unit: pct
   rows: 29616
   first: '2014-12-30T00:00:00Z'
   last: '2026-10-20T00:00:00Z'
 - name: d3
-  label: null
+  label: Percent of the state's area in extreme drought or worse
   unit: pct
   rows: 29616
   first: '2014-12-30T00:00:00Z'
   last: '2026-10-20T00:00:00Z'
 - name: d4
-  label: null
+  label: Percent of the state's area in exceptional drought
   unit: pct
   rows: 29616
   first: '2014-12-30T00:00:00Z'
   last: '2026-10-20T00:00:00Z'
 - name: none
-  label: null
+  label: Percent of the state's area in none of the categories
   unit: pct
   rows: 29616
   first: '2014-12-30T00:00:00Z'

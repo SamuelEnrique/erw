@@ -5,9 +5,10 @@
 table: lbnl_ppa_prices
 family: lbnl
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One wind or PV-only solar power purchase agreement in Berkeley Lab's wind (2026 Edition) and solar (2025 Data Update)
+  data files; LBNL names no project.
+time: No time column; event_date is the PPA's execution date.
+vintage_rule: Rewritten whole by each run from the two data files; one edition each, no vintage column.
 keys:
 - event_id
 license: public
@@ -15,7 +16,8 @@ tier: source
 interval: event
 source:
 - name: lbnl:ppa_prices Lawrence Berkeley National Laboratory, Land-Based Wind Energy Technology Data Update (2026 Edition)
-    and Utility-Scale Solar (2025 Data Update),  and
+    and Utility-Scale Solar (2025 Data Update), https://eta-publications.lbl.gov/publications/land-based-wind-energy-technology-0
+    and
   url: https://eta-publications.lbl.gov/publications/us-utility-scale-solar-2025-data
 cite: Lawrence Berkeley National Laboratory (Berkeley Lab). Land-Based Wind Energy Technology Data Update; Utility-Scale Solar
   Data Update (PPA prices). Via the Energy Research Warehouse (ERW), table `lbnl_ppa_prices`.
@@ -33,6 +35,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: lbnl_ppa:<wind|solar>:<12 hex of the row's date, MW, term, region and price>, -2 for a second identical row
   type: text
   values:
     distinct: 1133
@@ -53,6 +56,7 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: Always ppa
   type: text
   values:
     list:
@@ -72,6 +76,7 @@ columns:
   missing_cells: 1133
 - name: mw
   shared: true
+  particular: The contract capacity
   type: number
   values:
     distinct: 440
@@ -80,6 +85,8 @@ columns:
   missing_cells: 0
 - name: price
   shared: true
+  particular: Levelized over the term after escalation and time-of-delivery factors, 4 percent real discount rate, in real
+    USD of x_dollar_year per MWh
   type: number
   values:
     distinct: 1076
@@ -95,6 +102,7 @@ columns:
   missing_cells: 0
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -124,32 +132,32 @@ columns:
       '2026-10-23T08:30:21Z': 546
   missing_cells: 0
 - name: x_technology
-  label: null
-  unit: null
+  label: 'The technology: wind or solar (PV only)'
+  unit: none
   type: text
   values:
     list:
       solar: 546
       wind: 587
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector lbnl_ppa_prices.py; method lbnl_ppa_prices.md
 - name: x_term_years
-  label: null
-  unit: null
+  label: The contract's term
+  unit: year
   type: number
   values:
     distinct: 34
     lowest: 3.0
     highest: 35.0
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Term (years)
+  documented_by: connector lbnl_ppa_prices.py; method lbnl_ppa_prices.md
 - name: x_region
-  label: null
-  unit: null
+  label: 'LBNL''s region: an ISO (CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP), West (non-ISO), Southeast (non-ISO) or Hawaii'
+  unit: none
   type: text
   values:
     list:
@@ -164,12 +172,12 @@ columns:
       Southeast (non-ISO): 74
       West (non-ISO): 275
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Region (wind); the region column holding the price (solar)
+  documented_by: header; method lbnl_ppa_prices.md; connector lbnl_ppa_prices.py
 - name: x_macro_region
-  label: null
-  unit: null
+  label: 'LBNL''s consolidated region (wind: West, Central, East; solar: Hawaii, West, Central, Northeast, Southeast)'
+  unit: none
   type: text
   values:
     list:
@@ -180,31 +188,31 @@ columns:
       Southeast: 65
       West: 509
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Macro Region
+  documented_by: header; method lbnl_ppa_prices.md
 - name: x_price_unit
-  label: null
-  unit: null
+  label: 'The price''s unit in words: USD/MWh, levelized, real dollars of the dollar year'
+  unit: none
   type: text
   values:
     list:
       USD/MWh, levelized, real 2024 dollars: 546
       USD/MWh, levelized, real 2025 dollars: 587
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector lbnl_ppa_prices.py
 - name: x_dollar_year
-  label: null
-  unit: null
+  label: 'The year of the real dollars the price is in: 2025 for wind, 2024 for solar'
+  unit: none
   type: integer
   values:
     list:
       '2024': 546
       '2025': 587
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method lbnl_ppa_prices.md
 second_look: null

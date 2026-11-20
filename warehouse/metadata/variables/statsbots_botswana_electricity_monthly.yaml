@@ -5,9 +5,11 @@
 table: statsbots_botswana_electricity_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's Botswana local generation, imports or distribution, or one quarter's generation or imports by source, from
+  Statistics Botswana's Electricity Stats Brief.
+time: ts_utc is the month's 1st (freq P1M) or the quarter's first day (freq P3M) at 00:00:00Z.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s periods replace the same keys and older ones are kept; vintage
+  is the brief''s Last-Modified.'
 keys:
 - entity
 - variable
@@ -35,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: statsbots_bw:BW on every row
   type: text
   values:
     list:
@@ -71,6 +74,7 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: P1M for generation, imports and distribution; P3M for the brief's one quarter by source
   type: text
   values:
     list:
@@ -79,6 +83,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: BW on every row
   type: text
   values:
     list:
@@ -86,12 +91,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 383
 - name: node
   shared: true
+  particular: Botswana on every row, not a pricing node
   type: text
   values:
     list:
@@ -121,6 +128,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The brief PDF's Last-Modified (UTC)
   type: utc time
   values:
     list:
@@ -128,55 +136,55 @@ columns:
   missing_cells: 0
 variables:
 - name: distribution
-  label: null
+  label: Electricity distributed in the month
   unit: MWh
   rows: 125
   first: '2016-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: generation
-  label: null
+  label: Electricity generated locally in the month
   unit: MWh
   rows: 126
   first: '2016-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: generation_coal
-  label: null
+  label: Generation from coal in the quarter
   unit: MWh
   rows: 1
   first: '2026-04-01T00:00:00Z'
   last: '2026-04-01T00:00:00Z'
 - name: generation_diesel
-  label: null
+  label: Generation from diesel in the quarter
   unit: MWh
   rows: 1
   first: '2026-04-01T00:00:00Z'
   last: '2026-04-01T00:00:00Z'
 - name: generation_solar
-  label: null
+  label: Generation from solar in the quarter
   unit: MWh
   rows: 1
   first: '2026-04-01T00:00:00Z'
   last: '2026-04-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Electricity imported in the month
   unit: MWh
   rows: 126
   first: '2016-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: imports_cross_border
-  label: null
+  label: Cross-border imports in the quarter
   unit: MWh
   rows: 1
   first: '2026-04-01T00:00:00Z'
   last: '2026-04-01T00:00:00Z'
 - name: imports_eskom
-  label: null
+  label: Imports from Eskom in the quarter
   unit: MWh
   rows: 1
   first: '2026-04-01T00:00:00Z'
   last: '2026-04-01T00:00:00Z'
 - name: imports_sapp_markets
-  label: null
+  label: Imports from the SAPP markets in the quarter
   unit: MWh
   rows: 1
   first: '2026-04-01T00:00:00Z'

@@ -5,9 +5,11 @@
 table: statec_lu_power_capacity_annual
 family: statec
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Luxembourg's power stations of one STATEC category (total, primary or secondary generation, or a station type) in one
+  year, as net maximum power or as a number of stations, 1960 to 2024, from LUSTAT table DF_A4201.
+time: ts_utc is the year's first day at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot of STATEC's file); STATEC adds a year each year and may revise earlier
+  ones. vintage is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: statec_cap:lu:<STATEC's category code, lower-cased> (l01 total, sl.. ssl.. sssl.. its parts)
   type: text
   values:
     list:
@@ -90,6 +93,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always LU (Luxembourg)
   type: text
   values:
     list:
@@ -97,12 +101,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 951
 - name: node
   shared: true
+  particular: STATEC's category code and label (SSL01 Hydropower stations), not a pricing node
   type: text
   values:
     list:
@@ -144,19 +150,20 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 951
 variables:
 - name: net_maximum_power
-  label: null
+  label: The net maximum power of the category's power stations in the year, MW (STATEC's MWe)
   unit: MW
   rows: 476
   first: '1960-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: power_stations
-  label: null
+  label: The number of the category's power stations in the year, count
   unit: count
   rows: 475
   first: '1960-01-01T00:00:00Z'

@@ -5,9 +5,11 @@
 table: census_c30_construction_monthly
 family: census
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The value of construction put in place in one month for one owner (private, public, state and local, federal) and type
+  of construction, US.
+time: ts_utc is the month's first day at 00:00:00Z (freq P1M).
+vintage_rule: A snapshot, rewritten whole by each run (the Bureau revises recent months at each release); vintage is the workbook's
+  Last-Modified time, and x_status marks the release's preliminary and revised months.
 keys:
 - entity
 - variable
@@ -35,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: census_c30:<owner>:<type>
   type: text
   values:
     distinct: 110
@@ -83,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
@@ -96,6 +100,7 @@ columns:
   missing_cells: 82760
 - name: node
   shared: true
+  particular: The column as the Census Bureau names it (the same as x_column), not a pricing node
   type: text
   values:
     distinct: 110
@@ -144,8 +149,8 @@ columns:
       '2026-10-01T15:28:41Z': 14564
   missing_cells: 0
 - name: x_column
-  label: null
-  unit: null
+  label: The Census Bureau's column name of the construction type
+  unit: none
   type: text
   values:
     distinct: 110
@@ -156,30 +161,30 @@ columns:
     - Auxiliary building
     - Building supply store
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method census_c30_construction_monthly.md
 - name: x_status
-  label: null
-  unit: null
+  label: 'The release''s mark: p preliminary, r revised'
+  unit: none
   type: text
   values:
     list:
       p: 220
       r: 440
   missing_cells: 82100
-  missing_meaning: null
+  missing_meaning: No mark in the release (the months before the newest three)
   source_name: null
-  documented_by: null
+  documented_by: header; method census_c30_construction_monthly.md
 variables:
 - name: value_put_in_place
-  label: null
+  label: Value of construction put in place in the month, not seasonally adjusted, USD (millions times 1,000,000)
   unit: USD
   rows: 41380
   first: '1993-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: value_put_in_place_saar
-  label: null
+  label: Value of construction put in place, seasonally adjusted annual rate, USD (millions times 1,000,000)
   unit: USD
   rows: 41380
   first: '1993-01-01T00:00:00Z'

@@ -5,9 +5,10 @@
 table: interchange_pair_monthly
 family: interchange
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One pair of balancing authorities, or of EIA's regions, and one Eastern month, the interchange between them with each
+  side's report, their mean and gap.
+time: ts_utc is the first day of the Eastern month at 00:00:00Z (freq P1M), a label.
+vintage_rule: One build, rebuilt whole by each run of the builder; no vintage column.
 keys:
 - entity
 - variable
@@ -36,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<A>-<B>, A before B by code
   type: text
   values:
     distinct: 205
@@ -90,20 +92,20 @@ columns:
       erw:interchange_pairs: 18284
   missing_cells: 0
 - name: x_level
-  label: null
-  unit: null
+  label: 'The level of the pair: ba for two balancing authorities, region for two of EIA''s regions'
+  unit: none
   type: text
   values:
     list:
       ba: 15765
       region: 2519
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method interchange_pairs.md
 - name: x_a
-  label: null
-  unit: null
+  label: A, the first party of the pair (the code that sorts first), EIA-930 code
+  unit: none
   type: text
   values:
     distinct: 73
@@ -114,12 +116,12 @@ columns:
     - AVA
     - AVRN
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector interchange_pairs.py
 - name: x_b
-  label: null
-  unit: null
+  label: B, the second party of the pair, EIA-930 code
+  unit: none
   type: text
   values:
     distinct: 65
@@ -130,12 +132,12 @@ columns:
     - CISO
     - DOPD
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector interchange_pairs.py
 - name: x_basis
-  label: null
-  unit: null
+  label: 'What value is: mean (the mean of the two reports over the hours both reported), a or b (only that side reported)'
+  unit: none
   type: text
   values:
     list:
@@ -143,84 +145,84 @@ columns:
       b: 1717
       mean: 16231
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method interchange_pairs.md
 - name: x_a_report_mwh
-  label: null
-  unit: null
+  label: The sum of A's reported hours, read as power from A to B
+  unit: MWh
   type: integer
   values:
     distinct: more than 5000
     lowest: -10215190
     highest: 100538613
   missing_cells: 1717
-  missing_meaning: null
+  missing_meaning: A reported no hour of the month (x_basis b)
   source_name: null
-  documented_by: null
+  documented_by: header; method interchange_pairs.md
 - name: x_b_report_mwh
-  label: null
-  unit: null
+  label: The sum of B's reported hours, turned to the direction from A to B
+  unit: MWh
   type: integer
   values:
     distinct: more than 5000
     lowest: -430177411
     highest: 10805407
   missing_cells: 334
-  missing_meaning: null
+  missing_meaning: B reported no hour of the month (x_basis a)
   source_name: null
-  documented_by: null
+  documented_by: header; method interchange_pairs.md
 - name: x_gap_mwh
-  label: null
-  unit: null
+  label: Over the hours both reported, A's report less B's
+  unit: MWh
   type: integer
   values:
     distinct: more than 5000
     lowest: -10780271
     highest: 429491127
   missing_cells: 2053
-  missing_meaning: null
+  missing_meaning: No hour of the month has both reports
   source_name: null
-  documented_by: null
+  documented_by: header; method interchange_pairs.md
 - name: x_hours_a
-  label: null
-  unit: null
+  label: The hours A reported
+  unit: hour count
   type: integer
   values:
     distinct: 127
     lowest: 0
     highest: 744
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method interchange_pairs.md
 - name: x_hours_b
-  label: null
-  unit: null
+  label: The hours B reported
+  unit: hour count
   type: integer
   values:
     distinct: 147
     lowest: 0
     highest: 744
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method interchange_pairs.md
 - name: x_hours_both
-  label: null
-  unit: null
+  label: The hours both reported
+  unit: hour count
   type: integer
   values:
     distinct: 186
     lowest: 0
     highest: 744
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method interchange_pairs.md
 - name: x_direction
-  label: null
-  unit: null
+  label: a_to_b when value is above zero, b_to_a below, none at zero
+  unit: none
   type: text
   values:
     list:
@@ -228,12 +230,13 @@ columns:
       b_to_a: 9522
       none: 152
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method interchange_pairs.md
 variables:
 - name: interchange_mwh
-  label: null
+  label: 'Interchange from A to B over the month: the mean of the two sides'' reports over the hours both reported, else the
+    one side that reported (x_basis)'
   unit: MWh
   rows: 18284
   first: '2018-07-01T00:00:00Z'

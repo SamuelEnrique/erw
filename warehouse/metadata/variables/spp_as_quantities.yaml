@@ -5,9 +5,13 @@
 table: spp_as_quantities
 family: spp
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The MW of one operating reserve product cleared in SPP's day-ahead market for one hour, for one of the regions the file's
+  BAA column names.
+time: ts_utc is the start of the hour in UTC (the file's GMTIntervalEnd less one hour); operating days are Central (America/Chicago)
+  days.
+vintage_rule: Merged by (entity, variable, ts_utc); each run reads every day from 1 September 2024 again, from the raw files
+  where a day's file is saved (a saved file is never asked again). A (region, product, day) is written only when every hour
+  of the day is there. vintage is not filled.
 keys:
 - entity
 - variable
@@ -31,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: spp:SPP (every file) or spp:SWPW (files from 2026-04-01), the file's BAA column
   type: text
   values:
     list:
@@ -75,6 +80,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The same list of fourteen states in every row (SPP's footprint), whatever the region
   type: text
   values:
     list:
@@ -82,6 +88,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'spp_dam in every row: SPP''s day-ahead market'
   type: text
   values:
     list:
@@ -89,6 +96,7 @@ columns:
   missing_cells: 0
 - name: node
   shared: true
+  particular: The region as the file's BAA column names it, SPP or SWPW
   type: text
   values:
     list:
@@ -124,51 +132,55 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 159768
 variables:
 - name: quantity_mw_dam_rampdn
-  label: null
+  label: MW of the product RampDN (SPP's column RampDN) cleared in the day-ahead market for the hour
   unit: MW
   rows: 22824
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-05T04:00:00Z'
 - name: quantity_mw_dam_rampup
-  label: null
+  label: MW of the product RampUP (SPP's column RampUP) cleared in the day-ahead market for the hour
   unit: MW
   rows: 22824
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-05T04:00:00Z'
 - name: quantity_mw_dam_regdn
-  label: null
+  label: MW of the product RegDN (SPP's column RegDN) cleared in the day-ahead market for the hour
   unit: MW
   rows: 22824
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-05T04:00:00Z'
 - name: quantity_mw_dam_regup
-  label: null
+  label: MW of the product RegUP (SPP's column RegUP) cleared in the day-ahead market for the hour
   unit: MW
   rows: 22824
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-05T04:00:00Z'
 - name: quantity_mw_dam_spin
-  label: null
+  label: MW of the product Spin (SPP's column Spin) cleared in the day-ahead market for the hour
   unit: MW
   rows: 22824
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-05T04:00:00Z'
 - name: quantity_mw_dam_supp
-  label: null
+  label: MW of the product Supp (SPP's column Supp) cleared in the day-ahead market for the hour
   unit: MW
   rows: 22824
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-05T04:00:00Z'
 - name: quantity_mw_dam_uncup
-  label: null
+  label: MW of the product UncUP (SPP's column UncUP) cleared in the day-ahead market for the hour
   unit: MW
   rows: 22824
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-05T04:00:00Z'
-second_look: null
+second_look:
+- What SPP's region SWPW stands for is not stated in SPP's file and not documented.
+- The products' names (RegUP, RegDN, Spin, Supp, RampUP, RampDN, UncUP) are kept as SPP's column names; the method note does
+  not spell them out.

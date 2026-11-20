@@ -5,9 +5,11 @@
 table: carb_auction_allowance_prices
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One cap-and-trade auction's (California, joint with Quebec) value of one result for its current-vintage or advance-vintage
+  allowances.
+time: ts_utc is the first day of the auction month at 00:00:00Z (the summary gives no day); freq P3M.
+vintage_rule: Merged by (entity, variable, ts_utc); each run reads the whole summary and replaces every row; vintage is not
+  filled.
 keys:
 - entity
 - variable
@@ -17,7 +19,7 @@ tier: source
 interval: P3M
 source:
 - name: carb:auction-results-summary California Air Resources Board, Summary of Joint Auction Settlement Prices and Results
-    (PDF, Last updated August 2026; linked from
+    (PDF, Last updated August 2026; linked from https://ww2.arb.ca.gov/our-work/programs/cap-and-trade-program/auction-information)
   url: https://ww2.arb.ca.gov/sites/default/files/2020-08/results_summary.pdf
 cite: California Air Resources Board (CARB). Summary of California and Joint Auction Settlement Prices and Results. Via the
   Energy Research Warehouse (ERW), table `carb_auction_allowance_prices`.
@@ -32,6 +34,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: carb:current_auction (the current-vintage allowances sold at the auction) or carb:advance_auction (the advance-vintage
+    allowances)
   type: text
   values:
     list:
@@ -84,12 +88,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 336
 - name: node
   shared: true
+  particular: 'The auction as CARB numbers it (Auction #1 to #8, Joint Auction #1 to #48), not a pricing node'
   type: text
   values:
     distinct: 56
@@ -123,25 +129,26 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 336
 variables:
 - name: allowances_offered
-  label: null
+  label: Allowances offered at the auction (one allowance is one metric ton of CO2 equivalent)
   unit: count
   rows: 112
   first: '2012-11-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: allowances_sold
-  label: null
+  label: Allowances sold at the auction
   unit: count
   rows: 112
   first: '2012-11-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: settlement_price
-  label: null
+  label: The auction's settlement price, USD per metric ton of CO2 equivalent
   unit: USD/tCO2
   rows: 112
   first: '2012-11-01T00:00:00Z'

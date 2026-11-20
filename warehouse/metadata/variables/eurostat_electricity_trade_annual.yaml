@@ -5,9 +5,10 @@
 table: eurostat_electricity_trade_annual
 family: eurostat
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One European country's (or EU aggregate's) electricity imports from, or exports to, one partner in one year, as the country
+  reports them.
+time: ts_utc is the year's 1 January at 00:00:00Z, a label for the calendar year (freq P1Y).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised figure replaces the old; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -36,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_elec_trade:<Eurostat geo code>:<partner code>
   type: text
   values:
     distinct: more than 5000
@@ -97,6 +99,8 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The reporting country's ISO alpha-2 code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020 and
+    EA21
   type: text
   values:
     distinct: 39
@@ -115,6 +119,7 @@ columns:
   missing_cells: 198783
 - name: node
   shared: true
+  particular: Electricity trade with <partner>, not a pricing node
   type: text
   values:
     distinct: 167
@@ -157,8 +162,8 @@ columns:
     note: no cell holds a value
   missing_cells: 198783
 - name: x_geo_code
-  label: null
-  unit: null
+  label: Eurostat's geo code of the reporting country or aggregate
+  unit: none
   type: text
   values:
     distinct: 41
@@ -169,12 +174,13 @@ columns:
     - BE
     - BG
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eurostat_electricity_trade.py
 - name: x_partner
-  label: null
-  unit: null
+  label: 'Eurostat''s partner code (a country, or an aggregate: TOTAL every partner, NSP not specified, _OTH groups; NA is
+    Namibia)'
+  unit: none
   type: text
   values:
     distinct: 167
@@ -185,12 +191,12 @@ columns:
     - AL
     - AM
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eurostat_electricity_trade.py
 - name: x_partner_name
-  label: null
-  unit: null
+  label: Eurostat's name of the partner
+  unit: none
   type: text
   values:
     distinct: 167
@@ -201,28 +207,28 @@ columns:
     - Angola
     - Argentina
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eurostat_electricity_trade.py
 - name: x_flag
-  label: null
-  unit: null
+  label: Eurostat's status of the observation
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 198783
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value'
   source_name: null
-  documented_by: null
+  documented_by: header; connector eurostat_electricity_trade.py
 variables:
 - name: exports
-  label: null
+  label: Electricity exported to the partner, as the reporting country reports it
   unit: MWh
   rows: 99392
   first: '2010-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Electricity imported from the partner, as the reporting country reports it
   unit: MWh
   rows: 99391
   first: '2010-01-01T00:00:00Z'

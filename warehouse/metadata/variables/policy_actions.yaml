@@ -5,9 +5,13 @@
 table: policy_actions
 family: policy
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One policy action (a Federal Register rule, proposed rule or notice of DOE, FERC, EPA, NRC, BLM, Interior, Treasury or
+  the IRS on energy, or a news release of NRC, DOE, the PUCT or the CPUC), with fields read from its record and text and a
+  model's score.
+time: event_date is the publication date (Register) or the release date (news), a date. text_read_at, scored_at and model_rechecked_at
+  are UTC.
+vintage_rule: Every run reads the Register window (from 2025-10-01) again and merges news releases; a document's printed text
+  is read once.
 keys:
 - event_id
 license: public
@@ -29,6 +33,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: federalregister:<document number>, or <source>:<12 hex of a SHA-1 of the link>
   type: text
   values:
     distinct: 2063
@@ -41,6 +46,7 @@ columns:
   missing_cells: 0
 - name: event_date
   shared: true
+  particular: The publication date (Register) or the release date (news)
   type: text
   values:
     distinct: 272
@@ -53,6 +59,7 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: filing (a Register document) or announcement (a news release)
   type: text
   values:
     list:
@@ -61,6 +68,7 @@ columns:
   missing_cells: 0
 - name: parties
   shared: true
+  particular: The agencies, as named
   type: text
   values:
     distinct: 32
@@ -97,6 +105,7 @@ columns:
   missing_cells: 2063
 - name: status
   shared: true
+  particular: The Register's action line ('Final rule.', 'Notice of availability.') or 'news release'
   type: text
   values:
     distinct: 244
@@ -132,8 +141,8 @@ columns:
     - https://ftp.puc.texas.gov/public/puct-info/agency/resources/pubs/news/2025/PUCT_Provides_Money_Saving_Tips_for_Utility_Consumers_as_Winter_Weather_Approaches.pdf
   missing_cells: 0
 - name: agency
-  label: null
-  unit: null
+  label: 'The agency''s short name: DOE, FERC, EPA, NRC, BLM, Interior, IRS, PUCT or CPUC'
+  unit: none
   type: text
   values:
     list:
@@ -147,12 +156,12 @@ columns:
       NRC: 506
       PUCT: 37
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: action_type
-  label: null
-  unit: null
+  label: 'The action''s type: rule, proposed_rule, notice or press_release'
+  unit: none
   type: text
   values:
     list:
@@ -161,12 +170,12 @@ columns:
       proposed_rule: 157
       rule: 200
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: title
-  label: null
-  unit: null
+  label: The action's title
+  unit: none
   type: text
   values:
     distinct: 1783
@@ -177,12 +186,12 @@ columns:
     - 2026 Civil Monetary Penalty Inflation Adjustments
     - 2026 Regulatory Plan and Unified Agenda of Federal Regulatory and Deregulatory Actions
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: abstract
-  label: null
-  unit: null
+  label: The Register's own summary of the document
+  unit: none
   type: text
   values:
     distinct: 802
@@ -213,12 +222,12 @@ columns:
       requested on the draft staff assessment, the adequacy of the State of Wyoming's source material program, and the adequacy
       of the staffing of the State's program, as discussed in this document.
   missing_cells: 1215
-  missing_meaning: null
+  missing_meaning: A news release, or the Register gives none
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: docket
-  label: null
-  unit: null
+  label: Docket ids and RINs, joined by ';'
+  unit: none
   type: text
   values:
     distinct: 1286
@@ -229,12 +238,12 @@ columns:
     - 1994-AA06
     - 1994-AA07
   missing_cells: 340
-  missing_meaning: null
+  missing_meaning: None given
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: rin
-  label: null
-  unit: null
+  label: The RINs the Register gives (also in docket), joined by ';'
+  unit: none
   type: text
   values:
     distinct: 138
@@ -245,12 +254,12 @@ columns:
     - 1004-AF05
     - 1004-AF18
   missing_cells: 1865
-  missing_meaning: null
+  missing_meaning: None given
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: fr_document_number
-  label: null
-  unit: null
+  label: The Federal Register document number
+  unit: none
   type: text
   values:
     distinct: 1792
@@ -261,12 +270,12 @@ columns:
     - 2025-19161
     - 2025-19194
   missing_cells: 271
-  missing_meaning: null
+  missing_meaning: A news release
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: sector_tags
-  label: null
-  unit: null
+  label: Sector tags from keyword rules (SECTOR_TAGS in the connector), joined by ';'
+  unit: none
   type: text
   values:
     distinct: 81
@@ -277,12 +286,12 @@ columns:
     - coal;minerals
     - efficiency
   missing_cells: 169
-  missing_meaning: null
+  missing_meaning: No keyword rule matched
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: states
-  label: null
-  unit: null
+  label: The US states named in the title or abstract, or the commission's state, joined by ';'
+  unit: none
   type: text
   values:
     distinct: 104
@@ -293,23 +302,23 @@ columns:
     - AL;GA;MS
     - AL;GA;NC;SC;VA
   missing_cells: 810
-  missing_meaning: null
+  missing_meaning: No state named
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: related_urls
-  label: null
-  unit: null
+  label: The link of a news release that reports this Register document, folded into it
+  unit: none
   type: text
   values:
     list:
       https://www.nrc.gov/sites/default/files/cdn/doc-collection-news/2026/26-018.pdf: 1
   missing_cells: 2062
-  missing_meaning: null
+  missing_meaning: No release folded in
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: news_story_ids
-  label: null
-  unit: null
+  label: The scored news stories (news_stories event_ids) that report the same action, joined by ';'
+  unit: none
   type: text
   values:
     distinct: 44
@@ -320,12 +329,12 @@ columns:
     - news:24e5dd11b236d857
     - news:29c20ba64e34faf6
   missing_cells: 2017
-  missing_meaning: null
+  missing_meaning: No story matched
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: news_story_urls
-  label: null
-  unit: null
+  label: The addresses of those stories, joined by ';'
+  unit: none
   type: text
   values:
     distinct: 44
@@ -336,12 +345,12 @@ columns:
     - https://news.google.com/rss/articles/CBMifkFVX3lxTE0xN0NhY2FuTGJWUzZ3a3RUdWtvUXRoWmdWYjlwMEd6dTVuQjhpVE9udHVJeFFETzd2eURrOWJvT1BjVXFmbWFYa2NTNllPVGoxVVVmS082UFB5SHJCWVV2Q2c4ckxRclRseUJ3UWROY01RNHQ2WkVIckRyeC1UQQ?oc=5
     - https://news.google.com/rss/articles/CBMijwFBVV95cUxQN0psNWtTRTJUTDZTZ1RPMjk5WVZrZnVsUG1VT3p3VnhWb2ZMX2VoYllNZlVSQ0FzLXBJUmQxamRNUG53S0hSVno2ZFllckRSRTZjMno3WVVFZ3B2bFlfWmxBR2dqRGs3VFZXMWdOUmtwN25UelU4cVZfQ0xORlZpSVRoSDBjanJxdlZHOGpTbw?oc=5
   missing_cells: 2017
-  missing_meaning: null
+  missing_meaning: No story matched
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: first_paragraph
-  label: null
-  unit: null
+  label: The first paragraph of the printed text, at most 1,500 characters (its SUMMARY where it has one)
+  unit: none
   type: text
   values:
     distinct: 1600
@@ -380,12 +389,13 @@ columns:
       and related definitions, representing the second tranche of Reliability Standards directed by the Commission in Order
       No. 901.
   missing_cells: 272
-  missing_meaning: null
+  missing_meaning: No printed text read (a news release, or not yet read)
   source_name: null
-  documented_by: null
+  documented_by: header; connector policy_sources.py
 - name: place_words
-  label: null
-  unit: null
+  label: Where the title, abstract and first paragraph name no state, the first sentence of the printed text that places something
+    in a county, parish or borough of a state
+  unit: none
   type: text
   values:
     distinct: 190
@@ -404,47 +414,47 @@ columns:
       station (Ridgeline Compressor Station), and a new meter and regulator station (Ridgeland Meter and Regulator Station)
       in Madison County, Mississippi.
   missing_cells: 1851
-  missing_meaning: null
+  missing_meaning: A state is named elsewhere, or no such sentence
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: title_register
-  label: null
-  unit: null
+  label: The Register's record title, only where the printed title goes on and was taken
+  unit: none
   type: text
   values:
     list:
       Biweekly Notice;: 1
       Gulf South Pipeline Company, LLC;: 1
   missing_cells: 2061
-  missing_meaning: null
+  missing_meaning: The printed title was not taken
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: text_status
-  label: null
-  unit: null
+  label: 'Whether the printed text was read: ''read'', ''not reachable'' with why'
+  unit: none
   type: text
   values:
     list:
       read: 1792
   missing_cells: 271
-  missing_meaning: null
+  missing_meaning: Not asked yet, or no printed text (a news release)
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: text_read_at
-  label: null
-  unit: null
+  label: When the printed text was read, UTC
+  unit: none
   type: utc time
   values:
     distinct: 1423
     earliest: '2026-10-08T08:52:08Z'
     latest: '2026-11-16T09:17:10Z'
   missing_cells: 271
-  missing_meaning: null
+  missing_meaning: No printed text read
   source_name: null
-  documented_by: null
+  documented_by: header; connector policy_sources.py
 - name: body
-  label: null
-  unit: null
+  label: 'The issuing body at the level a reader filters by (a bureau before its department: BOEM, BLM, not Interior)'
+  unit: none
   type: text
   values:
     list:
@@ -466,12 +476,13 @@ columns:
       Texas Governor: 17
       USGS: 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method policy_monitor.md
 - name: instrument
-  label: null
-  unit: null
+  label: The kind of instrument (rule, proposed_rule, order, guidance, approval, lease_sale, award, application, complaint,
+    environmental_review, meeting, decision, notice, announcement), by written rules
+  unit: none
   type: text
   values:
     list:
@@ -490,12 +501,13 @@ columns:
       proposed_rule: 113
       rule: 147
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method policy_monitor.md
 - name: action_status
-  label: null
-  unit: null
+  label: 'The action''s status as of the document''s date: proposed, final, effective, stayed, vacated, withdrawn, filed,
+    open, scheduled, issued or announced'
+  unit: none
   type: text
   values:
     list:
@@ -509,12 +521,13 @@ columns:
       scheduled: 197
       withdrawn: 33
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method policy_monitor.md
 - name: dates
-  label: null
-  unit: null
+  label: Every dated step the text states, as kind=date (effective, expires, comments_due, intervention_due, review_due, decision_due,
+    meeting)
+  unit: none
   type: text
   values:
     distinct: 882
@@ -525,12 +538,12 @@ columns:
     - comments_due=2025-06-16; effective=2026-03-09
     - comments_due=2025-06-16; effective=2026-06-04
   missing_cells: 662
-  missing_meaning: null
+  missing_meaning: Neither the record nor the text states a step
   source_name: null
-  documented_by: null
+  documented_by: header; method policy_monitor.md
 - name: dates_evidence
-  label: null
-  unit: null
+  label: The sentence each date stands in, or the record's field
+  unit: none
   type: text
   values:
     distinct: 1239
@@ -545,12 +558,12 @@ columns:
     - A request for a hearing or petition for leave to intervene must be filed by September 14, 2026.
     - A request for a hearing or petitions for leave to intervene must be filed by December 21, 2026.
   missing_cells: 662
-  missing_meaning: null
+  missing_meaning: No dates
   source_name: null
-  documented_by: null
+  documented_by: method policy_monitor.md
 - name: next_step
-  label: null
-  unit: null
+  label: The first dated step on or after the document's date (comments due, takes effect and others)
+  unit: none
   type: text
   values:
     list:
@@ -564,24 +577,24 @@ columns:
       petitions for judicial review due: 19
       takes effect: 196
   missing_cells: 728
-  missing_meaning: null
+  missing_meaning: No step on or after the document's date
   source_name: null
-  documented_by: null
+  documented_by: method policy_monitor.md
 - name: next_step_date
-  label: null
-  unit: null
+  label: The date of next_step
+  unit: none
   type: date
   values:
     distinct: 328
     earliest: '2025-10-02'
     latest: '2029-11-30'
   missing_cells: 728
-  missing_meaning: null
+  missing_meaning: No next step
   source_name: null
-  documented_by: null
+  documented_by: method policy_monitor.md
 - name: next_step_evidence
-  label: null
-  unit: null
+  label: The sentence the next step stands in
+  unit: none
   type: text
   values:
     distinct: 1152
@@ -597,24 +610,24 @@ columns:
     - A request for a hearing must be filed by February 18, 2026.
     - A request for a hearing must be filed by March 26, 2026.
   missing_cells: 728
-  missing_meaning: null
+  missing_meaning: No next step
   source_name: null
-  documented_by: null
+  documented_by: method policy_monitor.md
 - name: figure_value
-  label: null
-  unit: null
+  label: The action's own figure, from the title or the opening paragraph only (a size, a voltage or a sum of money)
+  unit: figure_unit
   type: number
   values:
     distinct: 261
     lowest: 0.168
     highest: 18000000000.0
   missing_cells: 1715
-  missing_meaning: null
+  missing_meaning: The title and opening state no such figure
   source_name: null
-  documented_by: null
+  documented_by: method policy_monitor.md
 - name: figure_unit
-  label: null
-  unit: null
+  label: 'The unit of figure_value: MW, GW, kW, MWh, kV, Dth/d, Bcf/d, MMcf/d or USD'
+  unit: none
   type: text
   values:
     list:
@@ -627,12 +640,12 @@ columns:
       kV: 3
       kW: 44
   missing_cells: 1715
-  missing_meaning: null
+  missing_meaning: No figure
   source_name: null
-  documented_by: null
+  documented_by: method policy_monitor.md
 - name: figure_evidence
-  label: null
-  unit: null
+  label: The words the figure stands in
+  unit: none
   type: text
   values:
     distinct: 342
@@ -661,12 +674,12 @@ columns:
       and 20-foot-deep tailrace; (8) a 46/2.3-kilovolt (kV) step-up transformer; (9) a 133-foot-long, 46-kV transmission line;
       and (10) appurtenant facilities.
   missing_cells: 1715
-  missing_meaning: null
+  missing_meaning: No figure
   source_name: null
-  documented_by: null
+  documented_by: method policy_monitor.md
 - name: docket_ids
-  label: null
-  unit: null
+  label: The docket and project numbers, one form each
+  unit: none
   type: text
   values:
     distinct: 1260
@@ -677,12 +690,12 @@ columns:
     - 05000615;NRC-2024-0146
     - 05200051;05200052;05200053;05200054;NRC-2026-0100
   missing_cells: 340
-  missing_meaning: null
+  missing_meaning: None given
   source_name: null
-  documented_by: null
+  documented_by: method policy_monitor.md
 - name: fields_from
-  label: null
-  unit: null
+  label: What the session 3056 fields were read from (record and text, text, title and the others)
+  unit: none
   type: text
   values:
     list:
@@ -690,12 +703,12 @@ columns:
       text: 169
       title: 102
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method policy_monitor.md
 - name: scope
-  label: null
-  unit: null
+  label: '''out of scope'' with why, by a written list (marked, never dropped)'
+  unit: none
   type: text
   values:
     list:
@@ -707,12 +720,12 @@ columns:
       'out of scope: an official sworn in': 5
       'out of scope: electronic reporting rules': 1
   missing_cells: 2041
-  missing_meaning: null
+  missing_meaning: In scope
   source_name: null
-  documented_by: null
+  documented_by: method policy_monitor.md
 - name: significance
-  label: null
-  unit: null
+  label: A model's score of the action's significance, 0 to 10, by the news rubric
+  unit: none
   type: integer
   values:
     list:
@@ -727,12 +740,12 @@ columns:
       '8': 16
       '9': 3
   missing_cells: 14
-  missing_meaning: null
+  missing_meaning: Not scored
   source_name: null
-  documented_by: null
+  documented_by: header; method policy_monitor.md
 - name: sector
-  label: null
-  unit: null
+  label: A model's sector of the action (the part of the energy system it applies to), by the news rubric
+  unit: none
   type: text
   values:
     list:
@@ -755,12 +768,12 @@ columns:
       transmission: 22
       transport: 9
   missing_cells: 14
-  missing_meaning: null
+  missing_meaning: Not scored
   source_name: null
-  documented_by: null
+  documented_by: header; method policy_monitor.md
 - name: why
-  label: null
-  unit: null
+  label: A model's line on why the action matters
+  unit: none
   type: text
   values:
     distinct: 1939
@@ -771,36 +784,37 @@ columns:
     - 535,360 dekatherms per day of added winter peak service for power generation and heating in Iowa and Nebraska.
     - A 0.65-mile gathering pipeline segment for gas export needs a Presidential Permit; small but a real filing.
   missing_cells: 14
-  missing_meaning: null
+  missing_meaning: Not scored
   source_name: null
-  documented_by: null
+  documented_by: header; method policy_monitor.md
 - name: model_id
-  label: null
-  unit: null
+  label: The model that scored the action
+  unit: none
   type: text
   values:
     list:
       claude-sonnet-5: 897
       claude-sonnet-5-5: 1152
   missing_cells: 14
-  missing_meaning: null
+  missing_meaning: Not scored
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: scored_at
-  label: null
-  unit: null
+  label: When the action was scored, UTC
+  unit: none
   type: utc time
   values:
     distinct: 63
     earliest: '2026-09-28T09:58:12Z'
     latest: '2026-11-12T22:08:23Z'
   missing_cells: 14
-  missing_meaning: null
+  missing_meaning: Not scored
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: model_recheck
-  label: null
-  unit: null
+  label: 'Whether the model''s fields were rechecked against the printed text in session 157: rechecked, not rechecked, source
+    not reachable, or scored on the source text'
+  unit: none
   type: text
   values:
     list:
@@ -808,21 +822,21 @@ columns:
       rechecked: 953
       scored on the source text: 164
   missing_cells: 46
-  missing_meaning: null
+  missing_meaning: Not scored, or no mark
   source_name: null
-  documented_by: null
+  documented_by: header; connector policy_sources.py
 - name: model_rechecked_at
-  label: null
-  unit: null
+  label: When the model's fields were rechecked, UTC
+  unit: none
   type: utc time
   values:
     distinct: 37
     earliest: '2026-10-08T09:20:20Z'
     latest: '2026-10-08T09:49:44Z'
   missing_cells: 1110
-  missing_meaning: null
+  missing_meaning: Not rechecked
   source_name: null
-  documented_by: null
+  documented_by: header; connector policy_sources.py
 - name: retrieved_at
   shared: true
   type: utc time

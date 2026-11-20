@@ -5,9 +5,10 @@
 table: census_qss_utilities_hosting_quarterly
 family: census
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One industry's (the utilities, NAICS 22, 2211, 2212, 2213, or data processing and hosting, 518) revenue or expenses figure
+  in one quarter, the Quarterly Services Survey's 2024 benchmark.
+time: ts_utc is the quarter's first day at 00:00:00Z (freq P3M).
+vintage_rule: A snapshot, replaced whole by each run; vintage is the benchmark file's Last-Modified time.
 keys:
 - entity
 - variable
@@ -34,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: census_qss:<NAICS code>
   type: text
   values:
     list:
@@ -94,6 +96,7 @@ columns:
   missing_cells: 784
 - name: node
   shared: true
+  particular: The category as the Census Bureau names it (code and title), not a pricing node
   type: text
   values:
     list:
@@ -132,44 +135,44 @@ columns:
       '2025-05-22T14:15:27Z': 784
   missing_cells: 0
 - name: x_cv
-  label: null
-  unit: null
+  label: The coefficient of variation QSS gives for the figure
+  unit: pct
   type: number
   values:
     distinct: 120
     lowest: 1.6
     highest: 29.8
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector census_qss.py; method census_qss_utilities_hosting_quarterly.md
 variables:
 - name: revenue_from_businesses
-  label: null
+  label: Revenue from businesses, USD (millions times 1,000,000)
   unit: USD
   rows: 45
   first: '2003-10-01T00:00:00Z'
   last: '2017-07-01T00:00:00Z'
 - name: revenue_from_governments
-  label: null
+  label: Revenue from governments, USD (millions times 1,000,000)
   unit: USD
   rows: 60
   first: '2003-10-01T00:00:00Z'
   last: '2021-07-01T00:00:00Z'
 - name: revenue_from_households
-  label: null
+  label: Revenue from households, USD (millions times 1,000,000)
   unit: USD
   rows: 29
   first: '2003-10-01T00:00:00Z'
   last: '2022-04-01T00:00:00Z'
 - name: total_revenue
-  label: null
+  label: Total revenue in the quarter, USD (millions times 1,000,000)
   unit: USD
   rows: 325
   first: '2003-10-01T00:00:00Z'
   last: '2024-10-01T00:00:00Z'
 - name: total_revenue_sa
-  label: null
+  label: Total revenue in the quarter, seasonally adjusted, USD (millions times 1,000,000)
   unit: USD
   rows: 325
   first: '2003-10-01T00:00:00Z'

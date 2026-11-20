@@ -5,9 +5,10 @@
 table: eia_gas_for_others_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or the nation's) yearly natural gas delivered for the account of others (customer choice and transportation
+  gas) to one sector, as a volume or as a share of the sector's deliveries.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -35,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_gas_for_others:<EIA series id>
   type: text
   values:
     distinct: 269
@@ -84,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation
   type: text
   values:
     distinct: 51
@@ -96,12 +99,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 9245
 - name: node
   shared: true
+  particular: EIA's series description
   type: text
   values:
     distinct: 269
@@ -137,43 +142,44 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 9245
 variables:
 - name: commercial_for_others
-  label: null
+  label: Commercial gas delivered for the account of others, million cubic feet
   unit: MMcf
   rows: 1888
   first: '1987-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: commercial_share
-  label: null
+  label: Share of commercial deliveries made for the account of others, a ratio (EIA's percent over 100)
   unit: ratio
   rows: 1753
   first: '1989-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: industrial_for_others
-  label: null
+  label: Industrial gas delivered for the account of others, million cubic feet
   unit: MMcf
   rows: 2124
   first: '1982-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: industrial_share
-  label: null
+  label: Share of industrial deliveries made for the account of others, a ratio (EIA's percent over 100)
   unit: ratio
   rows: 1767
   first: '1989-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: residential_for_others
-  label: null
+  label: Residential gas delivered for the account of others, million cubic feet
   unit: MMcf
   rows: 1237
   first: '1988-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: residential_share
-  label: null
+  label: Share of residential deliveries made for the account of others, a ratio (EIA's percent over 100; whole percents)
   unit: ratio
   rows: 476
   first: '2007-01-01T00:00:00Z'

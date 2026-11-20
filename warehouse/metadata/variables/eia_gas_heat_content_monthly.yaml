@@ -5,9 +5,9 @@
 table: eia_gas_heat_content_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's average heat content of natural gas delivered to consumers in one state, DC or the U.S.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_gas_heat_content:<EIA series id>
   type: text
   values:
     distinct: 52
@@ -81,6 +82,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation
   type: text
   values:
     distinct: 52
@@ -93,12 +95,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8476
 - name: node
   shared: true
+  particular: EIA's series description (the area)
   type: text
   values:
     distinct: 52
@@ -134,13 +138,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8476
 variables:
 - name: heat_content
-  label: null
+  label: Average heat content of the gas delivered to consumers, Btu per cubic foot; never summed across states
   unit: Btu/ft3
   rows: 8476
   first: '2013-01-01T00:00:00Z'

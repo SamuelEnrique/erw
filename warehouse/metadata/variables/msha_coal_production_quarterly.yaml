@@ -5,9 +5,11 @@
 table: msha_coal_production_quarterly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One coal mine's production, employee hours or average employees in one calendar quarter, its subunits summed, from MSHA's
+  Quarterly Mine Employment and Production.
+time: ts_utc is the calendar quarter's first day at 00:00:00Z; freq P3M; from 2010.
+vintage_rule: Rewritten whole as one snapshot by each run from MSHA's file (the newest quarters grow as operators report);
+  vintage is the file's Last-Modified.
 keys:
 - entity
 - variable
@@ -35,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: msha_mine:<MINE_ID>
   type: text
   values:
     distinct: 3378
@@ -84,6 +87,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>
   type: text
   values:
     distinct: 27
@@ -96,12 +100,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 294323
 - name: node
   shared: true
+  particular: The mine's name (the last a quarter's rows give), not a pricing node
   type: text
   values:
     distinct: 3130
@@ -135,14 +141,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-10-23T11:58:32Z': 294323
   missing_cells: 0
 - name: x_subunits
-  label: null
-  unit: null
+  label: The mine's subunits reported in the quarter and summed
+  unit: count
   type: integer
   values:
     list:
@@ -151,12 +158,12 @@ columns:
       '3': 48966
       '4': 15393
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector msha_mines.py; method msha_coal_mines.md
 - name: x_production_blank
-  label: null
-  unit: null
+  label: The subunits whose production MSHA leaves empty in the quarter (the others are summed)
+  unit: count
   type: integer
   values:
     list:
@@ -165,24 +172,24 @@ columns:
       '2': 38
       '3': 21
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector msha_mines.py; method msha_coal_mines.md
 variables:
 - name: average_employees
-  label: null
+  label: The subunits' average employees in the quarter, summed
   unit: count
   rows: 98108
   first: '2010-01-01T00:00:00Z'
   last: '2026-04-01T00:00:00Z'
 - name: coal_production
-  label: null
+  label: Coal produced in the quarter (MSHA's tons, short tons)
   unit: short_ton
   rows: 98107
   first: '2010-01-01T00:00:00Z'
   last: '2026-04-01T00:00:00Z'
 - name: employee_hours
-  label: null
+  label: The hours the operator reports its employees worked in the quarter
   unit: count
   rows: 98108
   first: '2010-01-01T00:00:00Z'

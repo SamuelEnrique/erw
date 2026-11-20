@@ -5,9 +5,11 @@
 table: eia930_all_history
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One ISO balancing authority's hourly demand or net generation in one hour of the first half of 2018, from EIA's six-month
+  file.
+time: ts_utc is the hour's start (the file's UTC Time at End of Hour minus one hour).
+vintage_rule: Merged by key (entity, variable, ts_utc); vintage is the file's Last-Modified time, the same in every row of
+  the one run.
 keys:
 - entity
 - variable
@@ -33,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<BA>, the seven ISO balancing authorities
   type: text
   values:
     list:
@@ -128,6 +131,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The six-month file's Last-Modified time
   type: utc time
   values:
     list:
@@ -148,13 +152,13 @@ columns:
   missing_cells: 0
 variables:
 - name: demand_mw
-  label: null
+  label: Hourly demand, the file's Adjusted column (EIA's published series), EIA's MWh per hour
   unit: MW
   rows: 30402
   first: '2018-01-01T05:00:00Z'
   last: '2018-07-01T06:00:00Z'
 - name: net_generation_mw
-  label: null
+  label: Hourly net generation, the file's Adjusted column (EIA's published series), EIA's MWh per hour
   unit: MW
   rows: 29682
   first: '2018-01-01T05:00:00Z'

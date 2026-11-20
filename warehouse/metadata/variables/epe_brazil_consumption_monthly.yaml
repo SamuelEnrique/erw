@@ -5,9 +5,10 @@
 table: epe_brazil_consumption_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One Brazilian state's electricity consumption or consumers in one market class (captive or free) and sector in one month,
+  from EPE's Statistical Yearbook raw data.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; 2011-01 to 2025-12.
+vintage_rule: Rewritten whole as one snapshot by each run from EPE's workbook; vintage is the workbook's Last-Modified.
 keys:
 - entity
 - variable
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: epe:br:<state>:<captive or free>:<sector>
   type: text
   values:
     distinct: 354
@@ -82,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: BR-<state>
   type: text
   values:
     distinct: 27
@@ -94,12 +97,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 105032
 - name: node
   shared: true
+  particular: The state, class and sector as EPE names them in Portuguese, not a pricing node
   type: text
   values:
     distinct: 354
@@ -133,32 +138,33 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-06-03T16:54:55Z': 105032
   missing_cells: 0
 - name: x_rows
-  label: null
-  unit: null
+  label: The number of EPE's rows summed into the value (over system, the sector's lower levels, voltage and band)
+  unit: count
   type: integer
   values:
     distinct: 56
     lowest: 1
     highest: 57
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector epe_brazil_electricity.py; method epe_brazil_consumption_monthly.md
 variables:
 - name: consumers
-  label: null
+  label: Consumers in the month
   unit: count
   rows: 52537
   first: '2011-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: consumption
-  label: null
+  label: Electricity consumption in the month
   unit: MWh
   rows: 52495
   first: '2011-01-01T00:00:00Z'

@@ -5,9 +5,10 @@
 table: cer_gas_trade
 family: cer
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One measure of Canada's natural gas trade with the United States in one month (pipeline exports in total or by U.S. region
+  of the border crossing, LNG exports, imports, or the export or import price), from the CER's Natural Gas Trade Summary.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M.
+vintage_rule: A snapshot; each run replaces the table whole. vintage is the workbook's last-modified time.
 keys:
 - entity
 - variable
@@ -34,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: cer_gas_trade:CA (pipeline trade with the U.S.), cer_gas_trade:CA:US_WEST, :US_MIDWEST, :US_EAST (exports by
+    U.S. region of the crossing), cer_gas_trade:CA:LNG (LNG exports)
   type: text
   values:
     list:
@@ -82,6 +85,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always CA
   type: text
   values:
     list:
@@ -89,12 +93,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1427
 - name: node
   shared: true
+  particular: The measure in words (Canada, natural gas export price), not a pricing node
   type: text
   values:
     list:
@@ -131,6 +137,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time, one value in every row
   type: utc time
   values:
     list:
@@ -138,25 +145,26 @@ columns:
   missing_cells: 0
 variables:
 - name: export_price
-  label: null
+  label: The CER's price of Canada's natural gas exports in the month, USD/MMBtu
   unit: USD/MMBtu
   rows: 192
   first: '2010-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: exports
-  label: null
+  label: Natural gas exported to the United States in the month (by pipeline, or as LNG in its gaseous equivalent), Mcf (thousand
+    cubic feet)
   unit: Mcf
   rows: 923
   first: '2010-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: import_price
-  label: null
+  label: The CER's price of Canada's natural gas imports in the month, USD/MMBtu
   unit: USD/MMBtu
   rows: 156
   first: '2010-01-01T00:00:00Z'
   last: '2022-12-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Natural gas imported from the United States in the month, Mcf (thousand cubic feet), 2010 to 2022
   unit: Mcf
   rows: 156
   first: '2010-01-01T00:00:00Z'

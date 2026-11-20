@@ -5,9 +5,10 @@
 table: eia_coal_distribution_quarterly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One quarter's domestic coal shipments of 2024 along one flow (origin, destination state, consuming sector, transport
+  mode), from EIA's Annual Coal Distribution Report.
+time: ts_utc is the first day of the quarter at 00:00:00Z (freq P3M).
+vintage_rule: Rewritten whole by each run (write_snapshot); vintage is the workbook's last-modified time.
 keys:
 - entity
 - variable
@@ -35,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_coal_flow:<origin>:<destination>:<consumer type>:<mode>
   type: text
   values:
     distinct: 351
@@ -85,6 +87,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<destination state>, US for EIA's U.S. rows
   type: text
   values:
     distinct: 42
@@ -97,12 +100,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1207
 - name: node
   shared: true
+  particular: <origin> to <destination>, consumer type, mode, in EIA's words
   type: text
   values:
     distinct: 351
@@ -136,14 +141,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time from EIA's server
   type: utc time
   values:
     list:
       '2025-10-30T13:23:20Z': 1207
   missing_cells: 0
 - name: x_origin
-  label: null
-  unit: null
+  label: The coal-origin state or region as EIA writes it (U.S. (All States) is EIA's total level)
+  unit: none
   type: text
   values:
     list:
@@ -172,12 +178,12 @@ columns:
       West Virginia (Southern): 87
       Wyoming: 166
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Origin State
+  documented_by: header; connector eia_coal_distribution.py
 - name: x_destination
-  label: null
-  unit: null
+  label: The destination state as EIA writes it
+  unit: none
   type: text
   values:
     distinct: 42
@@ -188,12 +194,13 @@ columns:
     - Arkansas
     - California
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eia_coal_distribution.py
 - name: x_consumer_type
-  label: null
-  unit: null
+  label: The consuming sector as EIA writes it (electric power, industrial plants excluding coke, coke plant, commercial and
+    institutional)
+  unit: none
   type: text
   values:
     list:
@@ -202,12 +209,12 @@ columns:
       Electric Power Sector: 548
       Industrial Plants Excluding Coke: 493
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Consumer Type
+  documented_by: connector eia_coal_distribution.py
 - name: x_mode
-  label: null
-  unit: null
+  label: The transport mode as EIA writes it (railroad, river, truck and the others)
+  unit: none
   type: text
   values:
     list:
@@ -217,12 +224,12 @@ columns:
       Tramway and Conveyor: 32
       Truck: 344
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Transportation Mode
+  documented_by: connector eia_coal_distribution.py
 variables:
 - name: shipments
-  label: null
+  label: Coal shipped along the flow in the quarter, short tons
   unit: short_ton
   rows: 1207
   first: '2024-01-01T00:00:00Z'

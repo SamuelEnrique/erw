@@ -5,16 +5,19 @@
 table: ercot_grid_notices
 family: ercot
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One ERCOT notice (an Energy Emergency Alert, rotating outages, a conservation appeal, a watch, a control-room message
+  and others) for one Central day it covers.
+time: event_date is the Central day the notice covers (the days it names, else the day it was issued); x_issued_at is when
+  it was issued.
+vintage_rule: Merged by event_id; each run keeps the rows it read before, so the table only grows. No vintage column.
 keys:
 - event_id
 license: public
 tier: source
 interval: event
 source:
-- name: ercot:news_releases ERCOT, News Releases,  ercot:operations_messages ERCOT, Operations Messages
+- name: ercot:news_releases ERCOT, News Releases, https://www.ercot.com/news/releases; ercot:operations_messages ERCOT, Operations
+    Messages
   url: https://www.ercot.com/services/comm/mkt_notices/opsmessages
 cite: 'Electric Reliability Council of Texas (ERCOT). News Releases (grid conditions: EEAs, conservation appeals, watches);
   Operations Messages (the control room''s notices). Via the Energy Research Warehouse (ERW), table `ercot_grid_notices`.'
@@ -33,6 +36,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: ercot_notice:<day>:<event_type>:<a 10-character hash of the source, address, issue time and text>
   type: text
   values:
     distinct: 178
@@ -45,6 +49,7 @@ columns:
   missing_cells: 0
 - name: event_date
   shared: true
+  particular: The Central day the notice covers, YYYY-MM-DD
   type: date
   values:
     distinct: 142
@@ -53,6 +58,8 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: 'Read from the notice''s words: eea1 to eea3, rotating_outages, conservation_appeal, voluntary_conservation,
+    weather_watch, power_watch, ocn_weather, ocn, advisory, watch, emergency_notice, emergency_test, update, statement'
   type: text
   values:
     list:
@@ -72,6 +79,7 @@ columns:
   missing_cells: 0
 - name: parties
   shared: true
+  particular: ERCOT in every row
   type: text
   values:
     list:
@@ -79,30 +87,36 @@ columns:
   missing_cells: 0
 - name: entity_ids
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 178
 - name: mw
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 178
 - name: price
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 178
 - name: currency
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 178
 - name: status
   shared: true
+  particular: ended for a news release that ends or cancels a notice, issued for other releases; for a control-room message
+    the status ERCOT's page prints (active, cancelled), else issued
   type: text
   values:
     list:
@@ -139,8 +153,9 @@ columns:
       '2026-10-19T21:02:01Z': 178
   missing_cells: 0
 - name: x_label
-  label: null
-  unit: null
+  label: The news release's title, or the control-room message's notice type as ERCOT's page gives it (Advisory, Watch, OCN
+    and others)
+  unit: none
   type: text
   values:
     distinct: 83
@@ -151,24 +166,24 @@ columns:
     - Consumers asked to conserve electricity 3-7 pm today and next week
     - Consumers asked to conserve electricity 3-7 pm today and this week
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector ercot_grid_notices.py
 - name: x_region
-  label: null
-  unit: null
+  label: 'The area the notice is for: ERCOT (system-wide) or Rio Grande Valley, read from the release''s words'
+  unit: none
   type: text
   values:
     list:
       ERCOT: 170
       Rio Grande Valley: 8
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector ercot_grid_notices.py; method ercot_grid_notices.md
 - name: x_issued_at
-  label: null
-  unit: null
+  label: 'When the notice was issued: the day of a news release (YYYY-MM-DD), the UTC time of a control-room message'
+  unit: none
   type: text
   values:
     distinct: 108
@@ -179,24 +194,24 @@ columns:
     - '2011-02-09'
     - '2011-02-10'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector ercot_grid_notices.py
 - name: x_counts
-  label: null
-  unit: null
+  label: yes when the notice is a system-wide call on supply or demand, the kinds grid_stress_days counts; no otherwise
+  unit: none
   type: text
   values:
     list:
       'no': 58
       'yes': 120
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_grid_notices.md
 - name: x_text
-  label: null
-  unit: null
+  label: 'The notice''s own words: the release''s title and first two paragraphs, or the message, as ERCOT wrote them'
+  unit: none
   type: text
   values:
     distinct: 125
@@ -210,7 +225,7 @@ columns:
       Grande Valley, the Electric Reliability Council of Texas (ERCOT) is asking Valley-area residents to reduce their electric
       use from 4:30 p.m. today until 9 a.m. Saturday, Feb. 8.
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_grid_notices.md
 second_look: null

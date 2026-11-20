@@ -5,9 +5,10 @@
 table: lbnl_solar_projects
 family: lbnl
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One utility-scale solar project (PV or concentrating solar) in Berkeley Lab's Utility-Scale Solar, 2025 Data Update,
+  with its place, technology, size, design, storage, offtaker, value, cost, PPA price and yearly capacity factors.
+time: No time column; status_date is the solar commercial operation date. vintage is the data file's time (UTC).
+vintage_rule: Rewritten whole by each run from the data file lbnl_ppa_prices.py saves; one edition.
 keys:
 - entity_id
 license: public
@@ -32,6 +33,8 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: lbnl_solar:<EIA ID as LBNL writes it, suffixes such as ret, a, b kept>, or lbnl_solar:none-<name> where it gives
+    none
   type: text
   values:
     distinct: 1775
@@ -44,6 +47,7 @@ columns:
   missing_cells: 0
 - name: entity_type
   shared: true
+  particular: Always plant
   type: text
   values:
     list:
@@ -51,6 +55,7 @@ columns:
   missing_cells: 0
 - name: name
   shared: true
+  particular: The project's name
   type: text
   values:
     distinct: 1775
@@ -91,6 +96,7 @@ columns:
   missing_cells: 0
 - name: capacity_mw
   shared: true
+  particular: The AC capacity (MW-AC)
   type: number
   values:
     distinct: 497
@@ -99,12 +105,14 @@ columns:
   missing_cells: 0
 - name: status
   shared: true
+  particular: 'Not filled: LBNL lists projects that reached commercial operation'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1775
 - name: status_date
   shared: true
+  particular: The solar commercial operation date
   type: date
   values:
     distinct: 367
@@ -146,8 +154,8 @@ columns:
       '2025-10-15T19:03:15Z': 1775
   missing_cells: 0
 - name: eia_id
-  label: null
-  unit: null
+  label: The project's EIA ID as LBNL writes it (a suffix such as 'ret' kept)
+  unit: none
   type: text
   values:
     distinct: 1772
@@ -158,12 +166,12 @@ columns:
     - 10438ret
     - '10439'
   missing_cells: 3
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL gives no EIA id
+  source_name: EIA ID
+  documented_by: connector lbnl_solar_projects.py
 - name: cod_year
-  label: null
-  unit: null
+  label: The year of the solar commercial operation date
+  unit: none
   type: integer
   values:
     list:
@@ -193,12 +201,12 @@ columns:
       '2023': 223
       '2024': 248
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Solar COD Year
+  documented_by: connector lbnl_solar_projects.py
 - name: region
-  label: null
-  unit: null
+  label: 'LBNL''s region: an ISO, Southeast (non-ISO), West (non-ISO), AK or HI'
+  unit: none
   type: text
   values:
     list:
@@ -214,12 +222,12 @@ columns:
       Southeast (non-ISO): 381
       West (non-ISO): 313
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Region
+  documented_by: connector lbnl_solar_projects.py; data
 - name: state
-  label: null
-  unit: null
+  label: The state, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 48
@@ -230,36 +238,36 @@ columns:
     - AZ
     - CA
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: State
+  documented_by: connector lbnl_solar_projects.py
 - name: ghi_kwh_m2_day
-  label: null
-  unit: null
+  label: The site's average irradiance (GHI), in kWh per square metre a day
+  unit: kWh/m2/day
   type: number
   values:
     distinct: 1300
     lowest: 3.4574997717
     highest: 5.9509810502
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell is blank
+  source_name: Avg GHI
+  documented_by: connector lbnl_solar_projects.py
 - name: technology
-  label: null
-  unit: null
+  label: 'The main solar technology: PV or CSP'
+  unit: none
   type: text
   values:
     list:
       CSP: 16
       PV: 1759
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Solar Tech Main
+  documented_by: header; connector lbnl_solar_projects.py
 - name: technology_sub
-  label: null
-  unit: null
+  label: The technology's sub-type (c-Si, Thin-Film, CPV, Trough, Tower and combinations)
+  unit: none
   type: text
   values:
     list:
@@ -271,36 +279,36 @@ columns:
       Trough: 14
       c-Si: 1388
   missing_cells: 6
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell is blank
+  source_name: Solar Tech Sub
+  documented_by: connector lbnl_solar_projects.py; data
 - name: capacity_dc_mw
-  label: null
-  unit: null
+  label: The project's DC capacity
+  unit: MW
   type: number
   values:
     distinct: 1210
     lowest: 5.4
     highest: 966.8
   missing_cells: 49
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell is blank
+  source_name: Solar Capacity MW-DC
+  documented_by: connector lbnl_solar_projects.py
 - name: ilr
-  label: null
-  unit: null
+  label: The inverter loading ratio, as LBNL gives it
+  unit: ratio
   type: number
   values:
     distinct: 1229
     lowest: 1.0
     highest: 2.3291341731653668
   missing_cells: 49
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell is blank
+  source_name: ILR
+  documented_by: connector lbnl_solar_projects.py
 - name: mount
-  label: null
-  unit: null
+  label: 'The mount: Fixed Tilt, Tracking or Combo'
+  unit: none
   type: text
   values:
     list:
@@ -308,12 +316,12 @@ columns:
       Fixed Tilt: 413
       Tracking: 1360
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Mount
+  documented_by: connector lbnl_solar_projects.py; data
 - name: tracking
-  label: null
-  unit: null
+  label: The tracking type as LBNL writes it (Single Axis, Dual Axis, Fixed Tilt and variants)
+  unit: none
   type: text
   values:
     list:
@@ -325,12 +333,12 @@ columns:
       Single Asis: 1
       Single Axis: 1348
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Tracking Type
+  documented_by: connector lbnl_solar_projects.py; data
 - name: tilt
-  label: null
-  unit: null
+  label: The panels' tilt as LBNL gives it (text; no unit is stated)
+  unit: none
   type: text
   values:
     distinct: 28
@@ -341,24 +349,24 @@ columns:
     - '14'
     - '15'
   missing_cells: 189
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell is blank
+  source_name: Tilt
+  documented_by: connector lbnl_solar_projects.py
 - name: azimuth_deg
-  label: null
-  unit: null
+  label: The panels' azimuth, in degrees
+  unit: degree
   type: number
   values:
     distinct: 48
     lowest: 52.0
     highest: 238.0
   missing_cells: 21
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell is blank
+  source_name: Azimuth
+  documented_by: connector lbnl_solar_projects.py
 - name: hybrid
-  label: null
-  unit: null
+  label: The hybrid configuration (PV+Storage, PV+Fossil and others), or LBNL's note
+  unit: none
   type: text
   values:
     list:
@@ -375,12 +383,12 @@ columns:
       Wind+PV+Storage: 2
       colocated with nearby Atrisco Energy Storage - not sure whether they share same POI, has different EIA ID: 1
   missing_cells: 1577
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not a hybrid
+  source_name: Hybrid?
+  documented_by: header; connector lbnl_solar_projects.py
 - name: storage_technology
-  label: null
-  unit: null
+  label: The storage technology as LBNL writes it (LIB, Lithium-Ion, LFP and others)
+  unit: none
   type: text
   values:
     list:
@@ -395,24 +403,24 @@ columns:
       NIB: 1
       Zinc: 1
   missing_cells: 1586
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No storage, or not given
+  source_name: Storage Tech
+  documented_by: connector lbnl_solar_projects.py; data
 - name: storage_coupling
-  label: null
-  unit: null
+  label: 'How the storage is coupled: AC or DC'
+  unit: none
   type: text
   values:
     list:
       AC: 127
       DC: 55
   missing_cells: 1593
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No storage, or not given
+  source_name: Storage Coupling
+  documented_by: connector lbnl_solar_projects.py; data
 - name: storage_cod_year
-  label: null
-  unit: null
+  label: The year the storage began commercial operation
+  unit: none
   type: integer
   values:
     list:
@@ -429,84 +437,84 @@ columns:
       '2023': 53
       '2024': 47
   missing_cells: 1570
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No storage, or not given
+  source_name: Storage COD Year
+  documented_by: connector lbnl_solar_projects.py
 - name: storage_mw
-  label: null
-  unit: null
+  label: The storage's power capacity
+  unit: MW
   type: number
   values:
     distinct: 97
     lowest: 0.0
     highest: 409.0
   missing_cells: 1569
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No storage, or not given
+  source_name: Storage Capacity MW
+  documented_by: connector lbnl_solar_projects.py
 - name: storage_mwh
-  label: null
-  unit: null
+  label: The storage's energy capacity
+  unit: MWh
   type: number
   values:
     distinct: 122
     lowest: 0.0
     highest: 1680.0
   missing_cells: 1571
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No storage, or not given
+  source_name: Storage Energy MWh
+  documented_by: connector lbnl_solar_projects.py
 - name: energy_value_2024_usd_mwh
-  label: null
-  unit: null
+  label: The project's 2024 energy value, in 2024 USD per MWh
+  unit: USD/MWh
   type: number
   values:
     distinct: 1061
     lowest: -56.23
     highest: 174.08
   missing_cells: 322
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell is blank
+  source_name: 2024 Energy Value ($/MWh)
+  documented_by: header; connector lbnl_solar_projects.py
 - name: capacity_value_2024_usd_mwh
-  label: null
-  unit: null
+  label: The project's 2024 capacity value, in 2024 USD per MWh
+  unit: USD/MWh
   type: number
   values:
     distinct: 979
     lowest: 0.64
     highest: 51.16
   missing_cells: 453
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell is blank
+  source_name: 2024 Capacity Value ($/MWh)
+  documented_by: header; connector lbnl_solar_projects.py
 - name: lcoe_no_credits_2024_usd_mwh
-  label: null
-  unit: null
+  label: The PV levelized cost of energy without tax credits, in 2024 USD per MWh
+  unit: USD/MWh
   type: number
   values:
     distinct: 1508
     lowest: 20.35
     highest: 484.76
   missing_cells: 146
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell is blank
+  source_name: PV LCOE no Tax Credits (2024$/MWh)
+  documented_by: header; connector lbnl_solar_projects.py
 - name: lcoe_with_credits_2024_usd_mwh
-  label: null
-  unit: null
+  label: The PV levelized cost of energy with federal tax credits, in 2024 USD per MWh
+  unit: USD/MWh
   type: number
   values:
     distinct: 1460
     lowest: 14.88
     highest: 315.1
   missing_cells: 146
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell is blank
+  source_name: PV LCOE with Federal Tax Credits (2024$/MWh)
+  documented_by: header; connector lbnl_solar_projects.py
 - name: offtaker
-  label: null
-  unit: null
+  label: The type of buyer of the output (Investor-owned Utility, Corporate, Public Utilities, Merchant and others)
+  unit: none
   type: text
   values:
     list:
@@ -523,24 +531,24 @@ columns:
       Public Utilities and Corporate: 4
       Unknown: 194
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Offtaker Type
+  documented_by: connector lbnl_solar_projects.py; data
 - name: ppa_2024_usd_mwh
-  label: null
-  unit: null
+  label: The levelized PPA (power purchase agreement) price, in 2024 USD per MWh
+  unit: USD/MWh
   type: number
   values:
     distinct: 412
     lowest: 15.864736186255652
     highest: 363.3954928781191
   missing_cells: 1350
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No PPA price given
+  source_name: Levelized PV PPA 2024$/MWh
+  documented_by: header; connector lbnl_solar_projects.py
 - name: cf_2008
-  label: null
-  unit: null
+  label: The project's capacity factor in 2008, a fraction, as LBNL gives it
+  unit: ratio
   type: number
   values:
     list:
@@ -556,12 +564,12 @@ columns:
       '0.230809073381693': 1
       '0.308325743776563': 1
   missing_cells: 1764
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell for 2008 is blank
+  source_name: 2008 Capacity Factor
+  documented_by: header; connector lbnl_solar_projects.py
 - name: cf_2009
-  label: null
-  unit: null
+  label: The project's capacity factor in 2009, a fraction, as LBNL gives it
+  unit: ratio
   type: number
   values:
     list:
@@ -578,12 +586,12 @@ columns:
       '0.247271689497716': 1
       '0.30441400304414': 1
   missing_cells: 1763
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell for 2009 is blank
+  source_name: 2009 Capacity Factor
+  documented_by: header; connector lbnl_solar_projects.py
 - name: cf_2010
-  label: null
-  unit: null
+  label: The project's capacity factor in 2010, a fraction, as LBNL gives it
+  unit: ratio
   type: number
   values:
     list:
@@ -602,12 +610,12 @@ columns:
       '0.271010002174385': 1
       '0.297762842465753': 1
   missing_cells: 1761
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell for 2010 is blank
+  source_name: 2010 Capacity Factor
+  documented_by: header; connector lbnl_solar_projects.py
 - name: cf_2011
-  label: null
-  unit: null
+  label: The project's capacity factor in 2011, a fraction, as LBNL gives it
+  unit: ratio
   type: number
   values:
     list:
@@ -634,163 +642,163 @@ columns:
       '0.293571256909396': 1
       '0.305598458904109': 1
   missing_cells: 1753
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell for 2011 is blank
+  source_name: 2011 Capacity Factor
+  documented_by: header; connector lbnl_solar_projects.py
 - name: cf_2012
-  label: null
-  unit: null
+  label: The project's capacity factor in 2012, a fraction, as LBNL gives it
+  unit: ratio
   type: number
   values:
     distinct: 51
     lowest: 0.0953476017000607
     highest: 0.3091985428051
   missing_cells: 1724
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell for 2012 is blank
+  source_name: 2012 Capacity Factor
+  documented_by: header; connector lbnl_solar_projects.py
 - name: cf_2013
-  label: null
-  unit: null
+  label: The project's capacity factor in 2013, a fraction, as LBNL gives it
+  unit: ratio
   type: number
   values:
     distinct: 91
     lowest: 0.0777827410495665
     highest: 0.32707248297594
   missing_cells: 1684
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell for 2013 is blank
+  source_name: 2013 Capacity Factor
+  documented_by: header; connector lbnl_solar_projects.py
 - name: cf_2014
-  label: null
-  unit: null
+  label: The project's capacity factor in 2014, a fraction, as LBNL gives it
+  unit: ratio
   type: number
   values:
     distinct: 133
     lowest: 0.0289611872146118
     highest: 0.349160143509458
   missing_cells: 1642
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell for 2014 is blank
+  source_name: 2014 Capacity Factor
+  documented_by: header; connector lbnl_solar_projects.py
 - name: cf_2015
-  label: null
-  unit: null
+  label: The project's capacity factor in 2015, a fraction, as LBNL gives it
+  unit: ratio
   type: number
   values:
     distinct: 192
     lowest: 0.103914367017404
     highest: 0.357354859752119
   missing_cells: 1583
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell for 2015 is blank
+  source_name: 2015 Capacity Factor
+  documented_by: header; connector lbnl_solar_projects.py
 - name: cf_2016
-  label: null
-  unit: null
+  label: The project's capacity factor in 2016, a fraction, as LBNL gives it
+  unit: ratio
   type: number
   values:
     distinct: 271
     lowest: 0.0991412958626073
     highest: 0.373428961748633
   missing_cells: 1500
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell for 2016 is blank
+  source_name: 2016 Capacity Factor
+  documented_by: header; connector lbnl_solar_projects.py
 - name: cf_2017
-  label: null
-  unit: null
+  label: The project's capacity factor in 2017, a fraction, as LBNL gives it
+  unit: ratio
   type: number
   values:
     distinct: 414
     lowest: 0.0436166459111664
     highest: 0.352345890410958
   missing_cells: 1354
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell for 2017 is blank
+  source_name: 2017 Capacity Factor
+  documented_by: header; connector lbnl_solar_projects.py
 - name: cf_2018
-  label: null
-  unit: null
+  label: The project's capacity factor in 2018, a fraction, as LBNL gives it
+  unit: ratio
   type: number
   values:
     distinct: 568
     lowest: 0.0826247834986616
     highest: 0.354343835616438
   missing_cells: 1205
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell for 2018 is blank
+  source_name: 2018 Capacity Factor
+  documented_by: header; connector lbnl_solar_projects.py
 - name: cf_2019
-  label: null
-  unit: null
+  label: The project's capacity factor in 2019, a fraction, as LBNL gives it
+  unit: ratio
   type: number
   values:
     distinct: 664
     lowest: 0.0232800608828006
     highest: 0.361480365296803
   missing_cells: 1110
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell for 2019 is blank
+  source_name: 2019 Capacity Factor
+  documented_by: header; connector lbnl_solar_projects.py
 - name: cf_2020
-  label: null
-  unit: null
+  label: The project's capacity factor in 2020, a fraction, as LBNL gives it
+  unit: ratio
   type: number
   values:
     distinct: 765
     lowest: 0.0528460837887067
     highest: 0.364961986220004
   missing_cells: 1009
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell for 2020 is blank
+  source_name: 2020 Capacity Factor
+  documented_by: header; connector lbnl_solar_projects.py
 - name: cf_2021
-  label: null
-  unit: null
+  label: The project's capacity factor in 2021, a fraction, as LBNL gives it
+  unit: ratio
   type: number
   values:
     distinct: 918
     lowest: 0.0469634703196347
     highest: 0.350644977168949
   missing_cells: 852
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell for 2021 is blank
+  source_name: 2021 Capacity Factor
+  documented_by: header; connector lbnl_solar_projects.py
 - name: cf_2022
-  label: null
-  unit: null
+  label: The project's capacity factor in 2022, a fraction, as LBNL gives it
+  unit: ratio
   type: number
   values:
     distinct: 1052
     lowest: 0.0361757990867579
     highest: 0.369908675799086
   missing_cells: 720
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell for 2022 is blank
+  source_name: 2022 Capacity Factor
+  documented_by: header; connector lbnl_solar_projects.py
 - name: cf_2023
-  label: null
-  unit: null
+  label: The project's capacity factor in 2023, a fraction, as LBNL gives it
+  unit: ratio
   type: number
   values:
     distinct: 1237
     lowest: 0.0620267614588752
     highest: 0.353754794520547
   missing_cells: 533
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell for 2023 is blank
+  source_name: 2023 Capacity Factor
+  documented_by: header; connector lbnl_solar_projects.py
 - name: cf_2024
-  label: null
-  unit: null
+  label: The project's capacity factor in 2024, a fraction, as LBNL gives it
+  unit: ratio
   type: number
   values:
     distinct: 1417
     lowest: 0.0699704295496991
     highest: 0.377132513661202
   missing_cells: 355
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: LBNL's cell for 2024 is blank
+  source_name: 2024 Capacity Factor
+  documented_by: header; connector lbnl_solar_projects.py
 second_look: null

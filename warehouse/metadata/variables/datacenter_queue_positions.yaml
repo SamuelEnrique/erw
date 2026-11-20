@@ -5,9 +5,12 @@
 table: datacenter_queue_positions
 family: datacenter
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One ISO interconnection queue position whose name or fuel field names a datacenter or a large load, copied with the queue
+  table's own columns (ERCOT and NYISO rows in this edition).
+time: No time column; the queue tables' dates (queue_date, proposed_in_service_date, withdrawn_date) as the ISOs print them.
+  vintage is the queue table's own (a retrieval date or day).
+vintage_rule: Rebuilt by each run from the six ISO queue tables; when a queue table is absent, its matched rows are kept from
+  the last datacenter_queue_positions.
 keys:
 - entity_id
 license: public
@@ -27,6 +30,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: The queue table's own (<iso>_queue:<queue_id>)
   type: text
   values:
     list:
@@ -72,6 +76,7 @@ columns:
   missing_cells: 3
 - name: capacity_mw
   shared: true
+  particular: The generation or storage the position asks to connect, not the load
   type: number
   values:
     list:
@@ -81,6 +86,7 @@ columns:
   missing_cells: 0
 - name: status
   shared: true
+  particular: 'The queue table''s: active, completed or withdrawn, mapped from iso_status'
   type: text
   values:
     list:
@@ -130,6 +136,8 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'The queue table''s own, as text: ERCOT''s the retrieval date (YYYY-MM-DD), NYISO''s the retrieval day at 00:00:00Z;
+    not a publication date'
   type: text
   values:
     list:
@@ -137,8 +145,8 @@ columns:
       '2026-11-05': 2
   missing_cells: 0
 - name: queue_id
-  label: null
-  unit: null
+  label: The ISO's identifier of the interconnection request (ERCOT's INR number, NYISO's queue number)
+  unit: none
   type: text
   values:
     list:
@@ -146,12 +154,12 @@ columns:
       25INR0688: 1
       28INR0499: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Queue ID
+  documented_by: connector iso_queues.py (the queue tables)
 - name: county
-  label: null
-  unit: null
+  label: The county of the project as the ISO writes it
+  unit: none
   type: text
   values:
     list:
@@ -159,24 +167,25 @@ columns:
       Rockland: 1
       Travis: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: County
+  documented_by: connector iso_queues.py (the queue tables)
 - name: state
-  label: null
-  unit: null
+  label: The state of the project as the ISO writes it
+  unit: none
   type: text
   values:
     list:
       NY: 1
       TX: 2
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: State
+  documented_by: connector iso_queues.py (the queue tables)
 - name: poi
-  label: null
-  unit: null
+  label: 'The point of interconnection: the substation or line where the project would connect, as the ISO writes it (may
+    run over several lines)'
+  unit: none
   type: text
   values:
     list:
@@ -189,46 +198,47 @@ columns:
         we may need to tie in for redundancy to the Hillburn Area Substation
       : 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Interconnection Location
+  documented_by: connector iso_queues.py (the queue tables); data
 - name: zone
-  label: null
-  unit: null
+  label: NYISO's load zone letter of the project
+  unit: none
   type: text
   values:
     list:
       G: 1
   missing_cells: 2
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT's report gives no zone
+  source_name: Zone
+  documented_by: connector iso_queues.py (the queue tables); method datacenter_facilities.md
 - name: transmission_owner
-  label: null
-  unit: null
+  label: The transmission owner the project connects to, as the ISO writes it
+  unit: none
   type: text
   values:
     list:
       O&R: 1
   missing_cells: 2
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT's report gives no transmission owner
+  source_name: Transmission Owner
+  documented_by: connector iso_queues.py (the queue tables)
 - name: fuel_technology
-  label: null
-  unit: null
+  label: The project's fuel and technology in the ISO's words (Gas - Combined-Cycle, Other - Battery Energy Storage)
+  unit: none
   type: text
   values:
     list:
       Gas - Combined-Cycle: 1
       Other - Battery Energy Storage: 1
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The ISO gives no type
+  source_name: Generation Type
+  documented_by: connector iso_queues.py (the queue tables); data
 - name: iso_status
-  label: null
-  unit: null
+  label: The ISO's own status of the request (Active, Completed, Withdrawn); for ERCOT, Completed means a signed interconnection
+    agreement, not a plant in operation
+  unit: none
   type: text
   values:
     list:
@@ -236,12 +246,12 @@ columns:
       Completed: 1
       Withdrawn: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Status
+  documented_by: connector iso_queues.py (the queue tables); method energy_projects.md
 - name: queue_date
-  label: null
-  unit: null
+  label: The date the request entered the queue
+  unit: none
   type: date
   values:
     list:
@@ -249,52 +259,52 @@ columns:
       '2024-08-27': 1
       '2026-04-28': 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Queue Date
+  documented_by: connector iso_queues.py (the queue tables)
 - name: proposed_in_service_date
-  label: null
-  unit: null
+  label: The date the project proposes to begin operating
+  unit: none
   type: date
   values:
     list:
       '2027-08-13': 1
       '2027-12-31': 1
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The ISO gives no proposed date
+  source_name: Proposed Completion Date
+  documented_by: connector iso_queues.py (the queue tables)
 - name: actual_in_service_date
-  label: null
-  unit: null
+  label: The date the project began operating
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'Every row: not in service, or no date given'
+  source_name: Actual Completion Date
+  documented_by: connector iso_queues.py (the queue tables)
 - name: withdrawn_date
-  label: null
-  unit: null
+  label: The date the request was withdrawn
+  unit: none
   type: date
   values:
     list:
       '2023-12-31': 1
   missing_cells: 2
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not withdrawn
+  source_name: Withdrawn Date
+  documented_by: connector iso_queues.py (the queue tables)
 - name: matched
-  label: null
-  unit: null
+  label: The words of the name or fuel field that matched the datacenter or large-load pattern
+  unit: none
   type: text
   values:
     list:
       Data Center: 2
       Digital Campus: 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector datacenter_facilities.py
 second_look: null

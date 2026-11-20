@@ -5,9 +5,10 @@
 table: eia_net_imports_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's U.S. net imports (imports less exports) of crude oil, petroleum products or both with one partner country,
+  group or the world.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -36,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_net_imports:<EIA series id>
   type: text
   values:
     distinct: 530
@@ -84,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row (the importer)
   type: text
   values:
     list:
@@ -91,12 +94,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 65501
 - name: node
   shared: true
+  particular: EIA's series description
   type: text
   values:
     distinct: 530
@@ -144,13 +149,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 65501
 - name: x_partner
-  label: null
-  unit: null
+  label: 'The trading partner: its ISO 3166 three-letter code as EIA gives it, or EIA''s area code for the world (NUS-Z00),
+    a group (OPEC, non-OPEC, Persian Gulf) or a country EIA gives no three-letter code'
+  unit: none
   type: text
   values:
     distinct: 208
@@ -161,24 +168,24 @@ columns:
     - AIA
     - ALB
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: duoarea
+  documented_by: header; connector eia_net_imports.py; method eia_net_imports_monthly.md
 variables:
 - name: net_imports_crude
-  label: null
+  label: Net imports of crude oil from the partner, thousand barrels a day (negative a net export)
   unit: kbbl/d
   rows: 8061
   first: '2010-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_imports_crude_and_products
-  label: null
+  label: Net imports of crude oil and petroleum products from the partner, thousand barrels a day (negative a net export)
   unit: kbbl/d
   rows: 28828
   first: '2010-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_imports_products
-  label: null
+  label: Net imports of petroleum products from the partner, thousand barrels a day (negative a net export)
   unit: kbbl/d
   rows: 28612
   first: '2010-01-01T00:00:00Z'

@@ -5,9 +5,9 @@
 table: cbs_curacao_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Curacao's electricity production by Aqualectra in one year, from the Central Bureau of Statistics Curacao.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y.
+vintage_rule: Rewritten whole as one snapshot by each run from the saved page; vintage is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: cbs_cw:aqualectra on every row
   type: text
   values:
     list:
@@ -78,6 +79,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: CW on every row
   type: text
   values:
     list:
@@ -85,12 +87,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3
 - name: node
   shared: true
+  particular: CBS's label, not a pricing node
   type: text
   values:
     list:
@@ -119,13 +123,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3
 variables:
 - name: production
-  label: null
+  label: Electricity produced by Aqualectra in the year (CBS's million kWh times 1,000)
   unit: MWh
   rows: 3
   first: '2022-01-01T00:00:00Z'

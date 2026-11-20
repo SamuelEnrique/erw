@@ -5,9 +5,12 @@
 table: noaa_cpc_oni_monthly
 family: noaa
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The Oceanic Nino Index (ONI) of one three-month season, or the season's mean Nino 3.4 sea surface temperature, from NOAA's
+  Climate Prediction Center.
+time: ts_utc is the first day of the three-month season's middle month at 00:00:00Z (DJF is January, NDJ December; CPC's YR
+  is the middle month's year).
+vintage_rule: A snapshot written whole by each run, which asks for CPC's file fresh, so CPC's revisions of recent seasons
+  are taken. vintage is the file's Last-Modified.
 keys:
 - entity
 - variable
@@ -33,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: cpc:oni_nino34 in every row
   type: text
   values:
     list:
@@ -82,12 +86,14 @@ columns:
   missing_cells: 1840
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1840
 - name: node
   shared: true
+  particular: 'Nino 3.4 in every row: the ocean region of the index, not a pricing node'
   type: text
   values:
     list:
@@ -116,14 +122,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified of CPC's file oni.ascii.txt
   type: utc time
   values:
     list:
       '2026-10-03T18:32:01Z': 1840
   missing_cells: 0
 - name: x_season
-  label: null
-  unit: null
+  label: CPC's three letters of the three-month season (DJF, JFM, ... NDJ)
+  unit: none
   type: text
   values:
     list:
@@ -140,18 +147,19 @@ columns:
       OND: 152
       SON: 152
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: SEAS
+  documented_by: header; method noaa_cpc_oni_monthly.md
 variables:
 - name: nino34_sst
-  label: null
+  label: 'CPC''s TOTAL: the three-month running mean of the Nino 3.4 sea surface temperature, degC'
   unit: degC
   rows: 920
   first: '1950-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: oni_anomaly
-  label: null
+  label: 'The Oceanic Nino Index: CPC''s ANOM, the anomaly of the three-month running mean of the Nino 3.4 sea surface temperature,
+    degC'
   unit: degC
   rows: 920
   first: '1950-01-01T00:00:00Z'

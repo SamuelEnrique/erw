@@ -5,9 +5,10 @@
 table: eia_gas_balance_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or the nation's or the federal Gulf's) yearly natural gas supply or disposition figure for one process,
+  from EIA's Natural Gas Annual.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +34,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_gas_balance:<process>:<area>, EIA's process code and area (S<state>, NUS, R3FM, with EIA's -Z00 and -Z0S
+    forms)
   type: text
   values:
     distinct: 460
@@ -81,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> for a state area, US otherwise
   type: text
   values:
     distinct: 52
@@ -93,12 +97,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 11274
 - name: node
   shared: true
+  particular: EIA's series name
   type: text
   values:
     distinct: 460
@@ -133,67 +139,68 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 11274
 variables:
 - name: balancing_item
-  label: null
+  label: EIA's balancing item, the difference supply and disposition leave (VG4), million cubic feet
   unit: MMcf
   rows: 1480
   first: '1997-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: dry_production
-  label: null
+  label: Dry natural gas production (FPD), million cubic feet
   unit: MMcf
   rows: 982
   first: '1997-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: exports_intransit
-  label: null
+  label: International deliveries, exports including gas in transit (EEI), million cubic feet
   unit: MMcf
   rows: 676
   first: '1997-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: imports_intransit
-  label: null
+  label: International receipts, imports including gas in transit (IMI), million cubic feet
   unit: MMcf
   rows: 799
   first: '1997-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: interstate_deliveries
-  label: null
+  label: Gas delivered to other states (MID), million cubic feet
   unit: MMcf
   rows: 1438
   first: '1997-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: interstate_receipts
-  label: null
+  label: Gas received from other states (MIR), million cubic feet
   unit: MMcf
   rows: 1426
   first: '1997-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: storage_injections
-  label: null
+  label: Injections into underground storage (SAI), million cubic feet
   unit: MMcf
   rows: 903
   first: '1997-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: storage_withdrawals
-  label: null
+  label: Withdrawals from underground storage (SAW), million cubic feet
   unit: MMcf
   rows: 904
   first: '1997-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: supplemental_fuels
-  label: null
+  label: Supplemental gaseous fuels supplied (OVI), million cubic feet
   unit: MMcf
   rows: 1183
   first: '1997-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_consumption
-  label: null
+  label: Total natural gas consumption (VC0), million cubic feet
   unit: MMcf
   rows: 1483
   first: '1997-01-01T00:00:00Z'

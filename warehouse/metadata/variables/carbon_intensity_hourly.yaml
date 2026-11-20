@@ -5,9 +5,9 @@
 table: carbon_intensity_hourly
 family: carbon
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One balancing authority's carbon intensity of generation or of demand in one hour.
+time: ts_utc is the hour's start, UTC (freq PT1H).
+vintage_rule: Rewritten whole by each run of the builder; vintage is not filled.
 keys:
 - entity
 - variable
@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<BA>, the seven ISO balancing authorities and US48
   type: text
   values:
     list:
@@ -154,13 +155,14 @@ columns:
   missing_cells: 0
 variables:
 - name: intensity_demand
-  label: null
+  label: 'kg of CO2 per MWh of demand: EIA''s CO2 emissions consumed (generated plus imported less exported) over EIA''s demand'
   unit: kgCO2/MWh
   rows: 568211
   first: '2018-07-02T00:00:00Z'
   last: '2026-11-12T23:00:00Z'
 - name: intensity_generation
-  label: null
+  label: 'kg of CO2 per MWh generated: EIA''s CO2 emissions generated over EIA''s net generation (California from 2025-12-16T08:00Z
+    over CAISO''s own net generation)'
   unit: kgCO2/MWh
   rows: 568037
   first: '2018-07-02T00:00:00Z'

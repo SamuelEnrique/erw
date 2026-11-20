@@ -5,9 +5,10 @@
 table: eia_power_co2_state_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or the nation's) yearly carbon dioxide emissions from power plants of one fuel, or their emission rate,
+  from EIA's State Electricity Profiles.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_power_co2:<state>:<fuel>; fuels COL, NG, PET, OTH and ALL (a sum leaves ALL out)
   type: text
   values:
     distinct: 256
@@ -82,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation
   type: text
   values:
     distinct: 52
@@ -94,12 +97,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 10640
 - name: node
   shared: true
+  particular: <state>, <fuel> in EIA's names
   type: text
   values:
     distinct: 256
@@ -134,19 +139,20 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 10640
 variables:
 - name: co2
-  label: null
+  label: Carbon dioxide emitted by power plants burning the fuel, tonnes of CO2 (EIA's thousand metric tons times 1,000)
   unit: tCO2
   rows: 8820
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: co2_rate
-  label: null
+  label: Carbon dioxide emitted per unit of electricity, kg of CO2 per MWh (EIA's pounds per MWh times 0.453592)
   unit: kgCO2/MWh
   rows: 1820
   first: '1990-01-01T00:00:00Z'

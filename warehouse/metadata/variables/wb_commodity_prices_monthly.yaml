@@ -5,9 +5,9 @@
 table: wb_commodity_prices_monthly
 family: wb
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One World Bank Pink Sheet commodity's average price in one month, nominal US dollars.
+time: ts_utc is the month's first day at 00:00:00Z (freq P1M).
+vintage_rule: A snapshot, replaced whole by each run; vintage is the workbook's Last-Modified time.
 keys:
 - entity
 - variable
@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: wb_pink:<series name as a slug>
   type: text
   values:
     list:
@@ -91,6 +92,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Empty on every row: world markets'
   type: empty
   values:
     note: no cell holds a value
@@ -103,6 +105,7 @@ columns:
   missing_cells: 11139
 - name: node
   shared: true
+  particular: The series' name as the workbook writes it, not a pricing node
   type: text
   values:
     list:
@@ -145,6 +148,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's Last-Modified time as the server sent it
   type: utc time
   values:
     list:
@@ -152,7 +156,8 @@ columns:
   missing_cells: 0
 variables:
 - name: price
-  label: null
+  label: 'The commodity''s monthly price, nominal US dollars: USD/bbl for crude oil, USD/t for coal and the metals, USD/MMBtu
+    for natural gas and LNG'
   unit: USD/MMBtu; USD/bbl; USD/t
   rows: 11139
   first: '1960-01-01T00:00:00Z'

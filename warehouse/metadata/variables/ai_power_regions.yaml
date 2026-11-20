@@ -5,9 +5,12 @@
 table: ai_power_regions
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: 'One ISO region''s value of one measure of where the next gigawatts for AI can come from: cost, carbon, price stress,
+  connection queues or reliance on imports.'
+time: 'ts_utc dates the measure''s window, not an instant: 2025-09-01 for the twelve months 2025-09-01 to 2026-09-01, 2026-01-01
+  for Berkeley Lab''s queue data, 2026-09-30 for the ISOs'' own queues, 2018-07-01 for CAISO''s emergency days; x_window says
+  which.'
+vintage_rule: Rewritten whole by each run of the builder (the old file removed first); vintage is not filled.
 keys:
 - entity
 - variable
@@ -38,6 +41,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: iso:<region>, one of caiso, ercot, isone, miso, nyiso, pjm, spp
   type: text
   values:
     list:
@@ -90,24 +94,28 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 187
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 187
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 187
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -135,13 +143,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 187
 - name: x_window
-  label: null
-  unit: null
+  label: The period the measure covers, in words (the twelve months, the Berkeley Lab edition, the ISO queue's retrieval,
+    the emergency report's span, or the studied event windows)
+  unit: none
   type: text
   values:
     list:
@@ -151,12 +161,13 @@ columns:
       studied event windows (event_study_estimates): 14
       the ISO's queue as retrieved in late September 2026: 6
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector ai_power_regions.py; method ai_power_regions.md
 - name: x_note
-  label: null
-  unit: null
+  label: The event the largest-effect measure names (with temperature-controlled where held) and the day the ISO queue was
+    retrieved
+  unit: none
   type: text
   values:
     list:
@@ -166,194 +177,210 @@ columns:
       elliott_2022 (temperature-controlled); retrieved 2026-09-30: 6
       ercot_heat_2023 (temperature-controlled); retrieved 2026-09-30: 2
   missing_cells: 174
-  missing_meaning: null
+  missing_meaning: Empty on every measure but event_largest_effect_pct and queue_active_mw
   source_name: null
-  documented_by: null
+  documented_by: header; connector ai_power_regions.py
 variables:
 - name: carbon_days
-  label: null
+  label: Days held behind the carbon intensity (carbon_intensity_daily)
   unit: count
   rows: 7
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: carbon_intensity_kg_mwh
-  label: null
+  label: 'Mean of the year''s daily consumption-based carbon intensity: the CO2 of the generation the region used, imports
+    included, per MWh of demand'
   unit: kgCO2/MWh
   rows: 7
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: demand_mwh
-  label: null
+  label: The year's demand over the hours of the EIA-930 workbook extract where demand and net generation are both held (the
+    import share's denominator)
   unit: MWh
   rows: 7
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: emergency_days
-  label: null
+  label: 'CAISO only: days with an ISO-wide Flex Alert or grid emergency, 2018-07 to 2025-04, as the Flex Alert scorecard
+    reads them'
   unit: count
   rows: 1
   first: '2018-07-01T00:00:00Z'
   last: '2018-07-01T00:00:00Z'
 - name: event_largest_effect_pct
-  label: null
+  label: Among the studied events (COVID-19 left out), the pooled effect on daily demand with the largest size, as a percent
+    of the event's counterfactual; temperature-controlled where held
   unit: pct
   rows: 7
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: event_largest_is_caiso_heat_2020
-  label: null
+  label: '1: the largest event effect is that of the August 2020 heat wave in CAISO (caiso_heat_2020)'
   unit: count
   rows: 1
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: event_largest_is_elliott_2022
-  label: null
+  label: '1: the largest event effect is that of Winter Storm Elliott, December 2022 (elliott_2022)'
   unit: count
   rows: 5
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: event_largest_is_ercot_heat_2023
-  label: null
+  label: '1: the largest event effect is that of the summer 2023 heat in ERCOT (ercot_heat_2023)'
   unit: count
   rows: 1
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: flat_1gw_co2_t
-  label: null
+  label: CO2 of a load that draws a flat 1 GW for a year (8,760 GWh) at that carbon intensity, tonnes
   unit: tCO2
   rows: 7
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: flat_1gw_cost_usd
-  label: null
+  label: Wholesale energy cost of a load that draws a flat 1 GW for a year at the real-time flat price (8,760 MWh per MW times
+    1,000 MW)
   unit: USD
   rows: 6
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: flat_da_price_usd_mwh
-  label: null
+  label: 'What a flat load pays per MWh at the region''s main hub, day-ahead: the monthly simple mean of hourly prices weighted
+    by hours, over the year'
   unit: USD/MWh
   rows: 6
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: flat_rt_price_usd_mwh
-  label: null
+  label: 'What a flat load pays per MWh at the region''s main hub, real time: the monthly simple mean of hourly prices weighted
+    by hours, over the year'
   unit: USD/MWh
   rows: 6
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: interchange_days
-  label: null
+  label: 'Complete days of the pair sums: every regular neighbour reported and no pair-day was screened out'
   unit: count
   rows: 7
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: interchange_days_reported
-  label: null
+  label: Days of the year on which any interchange of the region is reported in eia930_daily_interchange
   unit: count
   rows: 7
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: lbnl_active_mw
-  label: null
+  label: MW of the interconnection requests with status active at the end of 2025 in Berkeley Lab's queue data, the region
+    as Berkeley Lab assigns it
   unit: MW
   rows: 7
   first: '2026-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: lbnl_active_requests
-  label: null
+  label: Interconnection requests with status active at the end of 2025 in Berkeley Lab's queue data
   unit: count
   rows: 7
   first: '2026-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: lbnl_cod_sample
-  label: null
+  label: Requests that came online in 2018 to 2025, behind the median years to commercial operation
   unit: count
   rows: 7
   first: '2026-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: lbnl_cohort_requests
-  label: null
+  label: Requests made in 2000 to 2019, behind the completion rate
   unit: count
   rows: 7
   first: '2026-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: lbnl_completion_pct
-  label: null
+  label: Share of the requests made in 2000 to 2019 that came online
   unit: pct
   rows: 7
   first: '2026-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: lbnl_median_years_to_cod
-  label: null
+  label: Median years from request to commercial operation, over the requests that came online in 2018 to 2025
   unit: year
   rows: 6
   first: '2026-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: max_rt_hour_usd_mwh
-  label: null
+  label: The year's highest hourly real-time hub price
   unit: USD/MWh
   rows: 6
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: net_import_days_pct
-  label: null
+  label: Share of the complete days on which the region's summed interchange was negative (a net importer)
   unit: pct
   rows: 7
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: net_import_share_pct
-  label: null
+  label: 'Net imports as EIA''s own balance: the year''s demand less net generation, over demand, from the complete hours
+    of the workbook extract'
   unit: pct
   rows: 7
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: pair_import_share_pct
-  label: null
+  label: Net imports from the pair sums (minus the summed interchange with every neighbour) over demand, complete days only
   unit: pct
   rows: 7
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: peak_import_share_pct
-  label: null
+  label: Mean net import share on the year's ten highest-demand complete days
   unit: pct
   rows: 7
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: queue_active_mw
-  label: null
+  label: Active MW in the ISO's own interconnection queue as retrieved in late September 2026
   unit: MW
   rows: 6
   first: '2026-09-30T00:00:00Z'
   last: '2026-09-30T00:00:00Z'
 - name: rt_hours_priced
-  label: null
+  label: Real-time hours behind the flat prices (cost_of_power_monthly's rt_hours, summed over the year)
   unit: count
   rows: 6
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: rt_hours_seen
-  label: null
+  label: Hours of real-time hub price held behind the scarcity counts
   unit: count
   rows: 6
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: scarcity_hours_1000
-  label: null
+  label: Hours of the year whose real-time hub price (the mean of the hour's 15-minute prices; MISO's hourly price) was at
+    least USD 1,000 per MWh
   unit: count
   rows: 6
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: scarcity_hours_200
-  label: null
+  label: Hours of the year whose real-time hub price (the mean of the hour's 15-minute prices; MISO's hourly price) was at
+    least USD 200 per MWh
   unit: count
   rows: 6
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
 - name: screened_pair_days
-  label: null
+  label: 'Pair-days left out as implausible: further than 10 median absolute deviations (at least 500 MWh) from the pair''s
+    own median'
   unit: count
   rows: 7
   first: '2025-09-01T00:00:00Z'
   last: '2025-09-01T00:00:00Z'
-second_look: null
+second_look:
+- 'x_note on the queue_active_mw rows carries the region''s largest-event name as well as the queue''s retrieval date: the
+  builder writes one notes string to both measures.'
+- The report's methods appendix defines net_import_share_pct from the pair sums, while the header and the builder define it
+  as EIA's balance (demand less net generation); the label follows the header and the code.

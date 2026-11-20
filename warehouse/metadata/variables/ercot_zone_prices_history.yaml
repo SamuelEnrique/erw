@@ -5,9 +5,12 @@
 table: ercot_zone_prices_history
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: ERCOT's settlement point price at one load zone for one interval of one operating year from 2015, day-ahead (hourly,
+  eight load zones) or real-time (15-minute, the four competitive load zones).
+time: ts_utc is the interval start in UTC; the year is ERCOT's operating year in Central time. The hour the clocks repeat
+  in autumn is two distinct UTC hours.
+vintage_rule: Merged by (entity, variable, ts_utc); ERCOT posts the current year's workbook again each week, and a later copy
+  replaces that year's rows. vintage is ERCOT's document publish time.
 keys:
 - entity
 - variable
@@ -34,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<load zone>
   type: text
   values:
     list:
@@ -92,6 +96,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: ercot_dam (hourly) or ercot_rtm (15-minute)
   type: text
   values:
     list:
@@ -100,6 +105,8 @@ columns:
   missing_cells: 0
 - name: node
   shared: true
+  particular: 'ERCOT''s load zone: LZ_HOUSTON, LZ_NORTH, LZ_SOUTH, LZ_WEST (both markets) and LZ_AEN, LZ_CPS, LZ_LCRA, LZ_RAYBN
+    (day-ahead only)'
   type: text
   values:
     list:
@@ -182,6 +189,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: ERCOT's publish time of the yearly workbook
   type: utc time
   values:
     list:
@@ -212,6 +220,7 @@ columns:
   missing_cells: 0
 - name: year
   shared: true
+  particular: ERCOT's operating year in Central time
   type: integer
   values:
     list:
@@ -230,13 +239,15 @@ columns:
   missing_cells: 0
 variables:
 - name: spp_dam
-  label: null
+  label: ERCOT's day-ahead settlement point price at the load zone, hourly (spp here is ERCOT's 'settlement point price',
+    not the grid SPP)
   unit: USD/MWh
   rows: 832512
   first: '2015-01-01T06:00:00Z'
   last: '2026-11-15T05:00:00Z'
 - name: spp_rtm
-  label: null
+  label: ERCOT's real-time settlement point price at the load zone, 15-minute (spp here is ERCOT's 'settlement point price',
+    not the grid SPP)
   unit: USD/MWh
   rows: 1665024
   first: '2015-01-01T06:00:00Z'

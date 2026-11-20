@@ -5,9 +5,11 @@
 table: noaa_cpc_degree_days_daily
 family: noaa
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The population-weighted heating or cooling degree days of one day for one of the 48 contiguous states, one census division
+  or the contiguous U.S., as NOAA's Climate Prediction Center computes them.
+time: ts_utc is the day CPC labels, at 00:00:00Z.
+vintage_rule: Merged by (entity, variable, ts_utc); the current year's files grow each day and are fetched again on each run,
+  earlier years' are kept. vintage is the Last-Modified of the file the row came from.
 keys:
 - entity
 - variable
@@ -34,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: cpc_dd:<state> (the 48 contiguous states), cpc_dd:division_<n> (a census division as CPC numbers it, 1 to 9)
+    or cpc_dd:conus
   type: text
   values:
     distinct: 58
@@ -82,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, US for the contiguous U.S., empty for a census division
   type: text
   values:
     distinct: 49
@@ -94,12 +99,14 @@ columns:
   missing_cells: 18450
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 118900
 - name: node
   shared: true
+  particular: The region as CPC's file writes it (a state code, a division number), not a pricing node
   type: text
   values:
     distinct: 58
@@ -155,6 +162,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified of CPC's yearly file the row came from
   type: utc time
   values:
     list:
@@ -164,26 +172,27 @@ columns:
       '2026-10-23T08:07:00Z': 34104
   missing_cells: 0
 - name: x_regions
-  label: null
-  unit: null
+  label: 'CPC''s set of regions the row comes from: StatesCONUS (the states) or Population (the census divisions and the contiguous
+    U.S.)'
+  unit: none
   type: text
   values:
     list:
       Population: 20500
       StatesCONUS: 98400
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector noaa_cpc_degree_days.py
 variables:
 - name: cdd
-  label: null
+  label: Cooling degree days of the day at a base of 65 F, weighted by population as CPC computes them, degF-day
   unit: degF-day
   rows: 59450
   first: '2024-01-01T00:00:00Z'
   last: '2026-10-21T00:00:00Z'
 - name: hdd
-  label: null
+  label: Heating degree days of the day at a base of 65 F, weighted by population as CPC computes them, degF-day
   unit: degF-day
   rows: 59450
   first: '2024-01-01T00:00:00Z'

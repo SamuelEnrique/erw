@@ -5,9 +5,12 @@
 table: usbr_mead_powell_daily
 family: usbr
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One daily reading (pool elevation, storage, total release or inflow) of Lake Powell (Glen Canyon Dam) or Lake Mead (Hoover
+  Dam), from Reclamation's Upper Colorado hydrodata.
+time: ts_utc is the day at 00:00:00Z; freq P1D. A day not yet ended when its file was fetched is left out. Reclamation calls
+  all data provisional and subject to revision.
+vintage_rule: A later run merges by (entity, variable, ts_utc), a revised value replacing the old one; a day Reclamation later
+  blanks writes no row, so the earlier value stays. vintage is each file's Last-Modified time.
 keys:
 - entity
 - variable
@@ -33,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: usbr_hydrodata:<Reclamation's site number> (919 Lake Powell, 921 Lake Mead)
   type: text
   values:
     list:
@@ -79,6 +83,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always US-AZ
   type: text
   values:
     list:
@@ -86,12 +91,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 192508
 - name: node
   shared: true
+  particular: The lake and its dam, not a pricing node
   type: text
   values:
     list:
@@ -128,6 +135,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: Each data file's Last-Modified time
   type: utc time
   values:
     list:
@@ -141,25 +149,25 @@ columns:
   missing_cells: 0
 variables:
 - name: inflow
-  label: null
+  label: Water flowing into the lake, ft3/s (cubic feet per second; Lake Powell only)
   unit: ft3/s
   rows: 23237
   first: '1963-03-11T00:00:00Z'
   last: '2026-10-22T00:00:00Z'
 - name: pool_elevation
-  label: null
+  label: The lake's water surface elevation, ft (feet above mean sea level)
   unit: ft
   rows: 56446
   first: '1935-02-02T00:00:00Z'
   last: '2026-10-22T00:00:00Z'
 - name: storage
-  label: null
+  label: The water held in the lake, acre-ft
   unit: acre-ft
   rows: 55783
   first: '1937-05-28T00:00:00Z'
   last: '2026-10-22T00:00:00Z'
 - name: total_release
-  label: null
+  label: All water released from the dam, ft3/s (cubic feet per second)
   unit: ft3/s
   rows: 57042
   first: '1934-04-01T00:00:00Z'

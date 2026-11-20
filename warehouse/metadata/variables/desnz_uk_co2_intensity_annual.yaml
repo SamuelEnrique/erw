@@ -5,9 +5,11 @@
 table: desnz_uk_co2_intensity_annual
 family: desnz
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The estimated carbon dioxide intensity of the UK's electricity supplied from one fuel group (coal, gas, all non-renewable
+  fuels, all fuels) in one year, 1996 to 2025 (DUKES table 5.14).
+time: ts_utc is the year's first day at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot of the DUKES edition read, here 2026); vintage is the workbook's last-modified
+  time. 2025's emissions are provisional (DESNZ's note 3).
 keys:
 - entity
 - variable
@@ -34,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: desnz_ci:<fuel> (coal, gas, non_renewable, all_fuels)
   type: text
   values:
     list:
@@ -80,6 +83,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always GB, standing for the UK
   type: text
   values:
     list:
@@ -87,12 +91,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 119
 - name: node
   shared: true
+  particular: The sheet's row label, not a pricing node
   type: text
   values:
     list:
@@ -124,6 +130,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time
   type: utc time
   values:
     list:
@@ -131,7 +138,7 @@ columns:
   missing_cells: 0
 variables:
 - name: co2_intensity
-  label: null
+  label: Estimated CO2 emitted per unit of electricity supplied, kgCO2/MWh (the sheet's tonnes per GWh supplied)
   unit: kgCO2/MWh
   rows: 119
   first: '1996-01-01T00:00:00Z'

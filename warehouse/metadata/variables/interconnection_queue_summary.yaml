@@ -5,9 +5,12 @@
 table: interconnection_queue_summary
 family: interconnection
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One grid and technology's count, MW, share or median of interconnection requests, by year entered, by year operation
+  began, or for the whole file, from Berkeley Lab's Queued Up file (2026 edition).
+time: ts_utc is the first day of the year entered (requests_ and mw_ variables), of the year operation began (on_ variables),
+  or 2025-01-01 for the whole file; a year, not an instant. freq P1Y.
+vintage_rule: Rewritten whole by each run of the builder (warehouse/derived/queue_summary.py) from lbnl_interconnection_queue;
+  vintage is not filled.
 keys:
 - entity
 - variable
@@ -34,6 +37,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: queue:<grid>:<technology>; grid caiso, ercot, isone, miso, nyiso, pjm, spp, west, southeast or us; technology
+    solar, solar_battery, battery, wind, offshore_wind, gas, other or all
   type: text
   values:
     distinct: 76
@@ -85,6 +90,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US, or the state of a one-state grid (US-CA, US-NY, US-TX)
   type: text
   values:
     list:
@@ -95,12 +101,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 17296
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -128,219 +136,224 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 17296
 variables:
 - name: active_mw_parts_battery
-  label: null
+  label: Over the active requests, the MW of every battery part (a hybrid's battery beside a battery alone); the unit column
+    says count, the method says MW
   unit: count
   rows: 10
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: active_mw_parts_gas
-  label: null
+  label: Over the active requests, the MW of every gas part; the unit column says count, the method says MW
   unit: count
   rows: 10
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: active_mw_parts_other_storage
-  label: null
+  label: Over the active requests, the MW of every other storage part; the unit column says count, the method says MW
   unit: count
   rows: 10
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: active_mw_parts_solar
-  label: null
+  label: Over the active requests, the MW of every solar part; the unit column says count, the method says MW
   unit: count
   rows: 10
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: active_mw_parts_wind
-  label: null
+  label: Over the active requests, the MW of every wind part (onshore and offshore); the unit column says count, the method
+    says MW
   unit: count
   rows: 10
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: median_years_to_operation
-  label: null
+  label: The median over those of the days from request date to operation date, over 365.25 (written when at least five)
   unit: year
   rows: 56
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: mw_active
-  label: null
+  label: The MW of requests entered in the year whose status is active
   unit: MW
   rows: 1499
   first: '1995-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: mw_entered
-  label: null
+  label: The MW of requests that entered in the year (all parts of a hybrid)
   unit: MW
   rows: 1499
   first: '1995-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: mw_operating
-  label: null
+  label: The MW of requests entered in the year that reached operation
   unit: MW
   rows: 1499
   first: '1995-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: mw_suspended
-  label: null
+  label: The MW of requests entered in the year whose status is suspended
   unit: MW
   rows: 1499
   first: '1995-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: mw_withdrawn
-  label: null
+  label: The MW of requests entered in the year that were withdrawn
   unit: MW
   rows: 1499
   first: '1995-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: on_median_years_to_operation
-  label: null
+  label: The median years from request to operation of the requests that began operating in the year (at least five dated)
   unit: year
   rows: 463
   first: '2000-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: on_requests_dated
-  label: null
+  label: Requests that began operating in the year with both dates in order, count
   unit: count
   rows: 463
   first: '2000-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: operating_requests
-  label: null
+  label: Requests that reached operation, count
   unit: count
   rows: 76
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: past_mw
-  label: null
+  label: The MW of those past requests
   unit: MW
   rows: 76
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: past_mw_open_share_pct
-  label: null
+  label: Of past_mw, the share still open (active or suspended), percent
   unit: pct
   rows: 73
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: past_mw_operating_share_pct
-  label: null
+  label: Of past_mw, the share that reached operation, percent
   unit: pct
   rows: 73
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: past_mw_withdrawn_share_pct
-  label: null
+  label: Of past_mw, the share withdrawn, percent
   unit: pct
   rows: 73
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: past_open_share_pct
-  label: null
+  label: Of past_requests, the share still open (active or suspended), percent
   unit: pct
   rows: 73
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: past_operating_share_pct
-  label: null
+  label: Of past_requests, the share that reached operation, percent (written when at least 20)
   unit: pct
   rows: 73
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: past_requests
-  label: null
+  label: Requests that entered from 2000 to 2020 with a known status, count
   unit: count
   rows: 76
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: past_withdrawn_share_pct
-  label: null
+  label: Of past_requests, the share withdrawn, percent
   unit: pct
   rows: 73
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: requests_active
-  label: null
+  label: Requests entered in the year whose status is active, count
   unit: count
   rows: 1499
   first: '1995-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: requests_entered
-  label: null
+  label: Requests that entered the queue in the year, count
   unit: count
   rows: 1499
   first: '1995-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: requests_operating
-  label: null
+  label: Requests entered in the year that reached operation, count
   unit: count
   rows: 1499
   first: '1995-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: requests_suspended
-  label: null
+  label: Requests entered in the year whose status is suspended, count
   unit: count
   rows: 1499
   first: '1995-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: requests_withdrawn
-  label: null
+  label: Requests entered in the year that were withdrawn, count
   unit: count
   rows: 1499
   first: '1995-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: requests_without_year
-  label: null
+  label: Requests with no year entered, count
   unit: count
   rows: 76
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_active_mw
-  label: null
+  label: The MW of requests whose status is active
   unit: MW
   rows: 76
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_active_requests
-  label: null
+  label: Requests whose status is active, count
   unit: count
   rows: 76
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_mw
-  label: null
+  label: The MW of every request of the view
   unit: MW
   rows: 76
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_requests
-  label: null
+  label: Every request of the view, count
   unit: count
   rows: 76
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_suspended_mw
-  label: null
+  label: The MW of requests whose status is suspended
   unit: MW
   rows: 76
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_suspended_requests
-  label: null
+  label: Requests whose status is suspended (not in the active figures), count
   unit: count
   rows: 76
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: years_to_operation_n
-  label: null
+  label: Of those, the requests with both a request and an operation date in order, count
   unit: count
   rows: 76
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
-second_look: null
+second_look:
+- 'active_mw_parts_battery, _solar, _wind, _gas and _other_storage carry unit count in the table, while the method note (session
+  7051) and the builder say they are MW: the unit column looks wrong.'

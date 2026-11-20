@@ -5,9 +5,10 @@
 table: eia_coal_receipts_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's coal received at one power plant from one mine, by supplier, coal rank, contract type and transport mode,
+  with its price and quality (Form EIA-923).
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -35,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_coal_receipt:<mineMSHAId>:<plantId>:<supplier>:<coalRankId>:<contractType>:<transportationMode>; rank TOT
+    is EIA's sum of the ranks beside it
   type: text
   values:
     distinct: more than 5000
@@ -102,6 +105,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<plant state>
   type: text
   values:
     distinct: 47
@@ -114,12 +118,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 270547
 - name: node
   shared: true
+  particular: <mine> to <plant>
   type: text
   values:
     distinct: more than 5000
@@ -154,25 +160,26 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 270547
 - name: x_msha_id
-  label: null
-  unit: null
+  label: The mine's identifier at the Mine Safety and Health Administration (MSHA)
+  unit: none
   type: integer
   values:
     distinct: 1129
     lowest: 100114
     highest: 5000030
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eia_coal_receipts.py; method eia_coal_receipts_annual.md
 - name: x_mine_state
-  label: null
-  unit: null
+  label: The mine's state, EIA's code
+  unit: none
   type: text
   values:
     distinct: 28
@@ -183,12 +190,12 @@ columns:
     - AZ
     - CO
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: mineStateId
+  documented_by: connector eia_coal_receipts.py
 - name: x_mine_county
-  label: null
-  unit: null
+  label: The mine's county as EIA writes it
+  unit: none
   type: text
   values:
     distinct: 114
@@ -199,12 +206,12 @@ columns:
     - Athens
     - Bates
   missing_cells: 99965
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives no county
+  source_name: mineCountyName
+  documented_by: connector eia_coal_receipts.py
 - name: x_mine_basin
-  label: null
-  unit: null
+  label: The mine's coal basin as EIA writes it (Powder River Basin, Illinois Basin and the others)
+  unit: none
   type: text
   values:
     list:
@@ -217,36 +224,36 @@ columns:
       Powder River Basin: 102272
       Uinta Basin: 11674
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: mineBasinDescription
+  documented_by: connector eia_coal_receipts.py
 - name: x_mine_type
-  label: null
-  unit: null
+  label: The mine type (surface or underground)
+  unit: none
   type: text
   values:
     list:
       Surface: 170995
       Underground: 99552
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: mineTypeDescription
+  documented_by: connector eia_coal_receipts.py
 - name: x_plant_id
-  label: null
-  unit: null
+  label: EIA's plant code of the receiving power plant, as in eia860_plants_annual
+  unit: none
   type: integer
   values:
     distinct: 471
     lowest: 3
     highest: 56848
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eia_coal_receipts.py; method eia_coal_receipts_annual.md
 - name: x_plant_state
-  label: null
-  unit: null
+  label: The receiving plant's state
+  unit: none
   type: text
   values:
     distinct: 47
@@ -257,12 +264,12 @@ columns:
     - AZ
     - CA
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eia_coal_receipts.py
 - name: x_supplier
-  label: null
-  unit: null
+  label: The coal supplier as EIA writes it
+  unit: none
   type: text
   values:
     distinct: 1205
@@ -273,12 +280,12 @@ columns:
     - '2400839'
     - '2902170'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eia_coal_receipts.py
 - name: x_rank
-  label: null
-  unit: null
+  label: The coal rank as EIA writes it (All is EIA's sum of the ranks; leave it out of a sum over ranks)
+  unit: none
   type: text
   values:
     list:
@@ -289,12 +296,12 @@ columns:
       Subbituminous: 52778
       Waste Coal: 2048
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: coalRankDescription
+  documented_by: connector eia_coal_receipts.py; method eia_coal_receipts_annual.md
 - name: x_contract_type
-  label: null
-  unit: null
+  label: The purchase type (contract, new contract, spot-market purchase)
+  unit: none
   type: text
   values:
     list:
@@ -302,12 +309,12 @@ columns:
       New Contract: 8476
       Spot-Market Purchase: 70355
   missing_cells: 750
-  missing_meaning: null
+  missing_meaning: EIA gives no contract type
   source_name: null
-  documented_by: null
+  documented_by: connector eia_coal_receipts.py
 - name: x_transport_mode
-  label: null
-  unit: null
+  label: The mode the coal was carried in (rail, river, truck and the others)
+  unit: none
   type: text
   values:
     list:
@@ -320,36 +327,36 @@ columns:
       Truck: 32869
       Water: 120
   missing_cells: 8
-  missing_meaning: null
+  missing_meaning: EIA gives no transport mode
   source_name: null
-  documented_by: null
+  documented_by: connector eia_coal_receipts.py
 variables:
 - name: ash_content
-  label: null
+  label: Ash content of the coal, percent by weight
   unit: pct
   rows: 56858
   first: '2008-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: heat_content
-  label: null
+  label: Heat content of the coal, Btu per pound
   unit: Btu/lb
   rows: 56858
   first: '2008-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: price
-  label: null
+  label: Price of the coal received, USD per short ton
   unit: USD/short_ton
   rows: 43115
   first: '2008-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: quantity
-  label: null
+  label: Coal received, short tons
   unit: short_ton
   rows: 56858
   first: '2008-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: sulfur_content
-  label: null
+  label: Sulfur content of the coal, percent by weight
   unit: pct
   rows: 56858
   first: '2008-01-01T00:00:00Z'

@@ -5,9 +5,11 @@
 table: eurostat_gas_balance_monthly
 family: eurostat
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One European country's (or EU aggregate's) natural gas for one balance item (production, trade, stock change, consumption,
+  losses) in one month.
+time: ts_utc is the month's first day at 00:00:00Z (freq P1M).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised month replaces the old figure, and a month Eurostat stops
+  printing keeps its earlier value; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -35,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_gas_balance:<geo>
   type: text
   values:
     distinct: 38
@@ -83,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020 and EA21
   type: text
   values:
     distinct: 36
@@ -101,6 +105,7 @@ columns:
   missing_cells: 53214
 - name: node
   shared: true
+  particular: <geo> natural gas <NRG_BAL code>, not a pricing node
   type: text
   values:
     distinct: 580
@@ -140,8 +145,8 @@ columns:
     note: no cell holds a value
   missing_cells: 53214
 - name: x_geo_code
-  label: null
-  unit: null
+  label: Eurostat's geo code of the country or aggregate
+  unit: none
   type: text
   values:
     distinct: 38
@@ -152,12 +157,12 @@ columns:
     - BG
     - CY
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_gas_balance.py
 - name: x_nrg_bal
-  label: null
-  unit: null
+  label: Eurostat's NRG_BAL code of the balance item
+  unit: none
   type: text
   values:
     list:
@@ -178,12 +183,12 @@ columns:
       TOS: 2585
       VENT: 2126
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eurostat_gas_balance.py
 - name: x_flag
-  label: null
-  unit: null
+  label: 'Eurostat''s flag of the observation: p provisional, e estimated, n not significant'
+  unit: none
   type: text
   values:
     list:
@@ -191,112 +196,113 @@ columns:
       n: 25
       p: 277
   missing_cells: 52784
-  missing_meaning: null
+  missing_meaning: No flag on the observation
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_gas_balance.py; method eurostat_gas_balance_monthly.md
 - name: x_conf_status
-  label: null
-  unit: null
+  label: Eurostat's confidentiality status of the observation
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 53214
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value'
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_gas_balance.py
 variables:
 - name: distribution_losses
-  label: null
+  label: Distribution losses (DL), MWh of gross calorific value
   unit: MWh
   rows: 4542
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: exports
-  label: null
+  label: Exports of natural gas (EXP), MWh of gross calorific value
   unit: MWh
   rows: 4679
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: final_consumption_industry
-  label: null
+  label: Final consumption by industry (FC_IND), MWh of gross calorific value
   unit: MWh
   rows: 779
   first: '2019-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: final_consumption_other
-  label: null
+  label: Final consumption by other sectors (FC_OTH), MWh of gross calorific value
   unit: MWh
   rows: 854
   first: '2019-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: flared
-  label: null
+  label: Gas flared (FLARE), MWh of gross calorific value
   unit: MWh
   rows: 2126
   first: '2017-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Imports of natural gas (IMP), MWh of gross calorific value
   unit: MWh
   rows: 4848
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: indigenous_production
-  label: null
+  label: Indigenous production of natural gas (NRG_BAL IPRD), MWh of gross calorific value
   unit: MWh
   rows: 4609
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: inland_consumption_calculated
-  label: null
+  label: Inland consumption, calculated (IC_CAL_MG), MWh of gross calorific value
   unit: MWh
   rows: 4871
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: inland_consumption_observed
-  label: null
+  label: Inland consumption, observed (IC_OBS), MWh of gross calorific value
   unit: MWh
   rows: 4868
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: international_maritime_bunkers
-  label: null
+  label: International maritime bunkers (INTMARB), MWh of gross calorific value
   unit: MWh
   rows: 2484
   first: '2017-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: statistical_differences
-  label: null
+  label: Statistical differences (STATDIFF), MWh of gross calorific value
   unit: MWh
   rows: 2787
   first: '2017-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: stock_change
-  label: null
+  label: Stock change (STK_CHG_MG), MWh of gross calorific value
   unit: MWh
   rows: 4758
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: stock_change_cushion_gas
-  label: null
+  label: Stock change of cushion gas (STK_CHG_CG), MWh of gross calorific value
   unit: MWh
   rows: 1485
   first: '2019-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: transfer_from_other_sources
-  label: null
+  label: Transfer from other sources (TOS), MWh of gross calorific value
   unit: MWh
   rows: 2585
   first: '2017-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: transformation_input_electricity_heat_main
-  label: null
+  label: Transformation input to electricity and heat generation, main activity producers (TI_EHG_MAP), MWh of gross calorific
+    value
   unit: MWh
   rows: 4813
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: vented
-  label: null
+  label: Gas vented (VENT), MWh of gross calorific value
   unit: MWh
   rows: 2126
   first: '2017-01-01T00:00:00Z'

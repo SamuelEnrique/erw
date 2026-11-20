@@ -5,9 +5,11 @@
 table: nrc_advanced_reactor_preapplicants
 family: nrc
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One applicant, vendor or research or test reactor that the NRC's pre-application table for advanced reactors lists, by
+  technology.
+time: No time column; the table is a snapshot of the NRC's pre-application page as read; vintage is the page's last-modified
+  time (UTC).
+vintage_rule: A snapshot, written whole by each run from the page as read.
 keys:
 - entity_id
 license: public
@@ -32,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: nrc_preapp:<the name as the page writes it>
   type: text
   values:
     distinct: 43
@@ -44,6 +47,7 @@ columns:
   missing_cells: 0
 - name: entity_type
   shared: true
+  particular: Always company
   type: text
   values:
     list:
@@ -51,6 +55,7 @@ columns:
   missing_cells: 0
 - name: name
   shared: true
+  particular: As the NRC's table writes it; a link's text kept as written
   type: text
   values:
     distinct: 43
@@ -63,6 +68,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -87,6 +93,7 @@ columns:
   missing_cells: 43
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value (activity is in x_active)'
   type: empty
   values:
     note: no cell holds a value
@@ -126,14 +133,16 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The page's last-modified time as the NRC's server gave it, UTC
   type: utc time
   values:
     list:
       '2026-10-23T13:32:13Z': 43
   missing_cells: 0
 - name: x_technology
-  label: null
-  unit: null
+  label: The technology column of the NRC's table the name sits in (High Temperature Gas Reactors, Light Water Reactors, Liquid
+    Metal Cooled Reactors, Molten Salt Reactors, Other Designs)
+  unit: none
   type: text
   values:
     list:
@@ -143,36 +152,36 @@ columns:
       Molten Salt Reactors / Molten Chloride Fast Reactors: 5
       Other Designs/ Not Specified: 9
   missing_cells: 1
-  missing_meaning: null
+  missing_meaning: In no column of the table (Westinghouse eVinci, named only among the inactive projects)
   source_name: null
-  documented_by: null
+  documented_by: header; method nrc_new_reactors.md; connector nrc_new_reactors.py
 - name: x_microreactor
-  label: null
-  unit: null
+  label: yes where the NRC's table marks the design a microreactor (its '*'), else no
+  unit: none
   type: text
   values:
     list:
       'no': 32
       'yes': 11
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector nrc_new_reactors.py
 - name: x_active
-  label: null
-  unit: null
+  label: no for the 'Inactive Projects' the page names after the table, else yes
+  unit: none
   type: text
   values:
     list:
       'no': 2
       'yes': 41
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method nrc_new_reactors.md
 - name: x_page
-  label: null
-  unit: null
+  label: The address of the NRC page the name links to
+  unit: none
   type: text
   values:
     distinct: 43
@@ -183,7 +192,7 @@ columns:
     - https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/pre-application-activities/antares-nuclear-inc
     - https://www.nrc.gov/facilities-safety/new-reactors/advanced-reactors/who-were-working-with/pre-application-activities/apco-joshua-falls
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector nrc_new_reactors.py
 second_look: null

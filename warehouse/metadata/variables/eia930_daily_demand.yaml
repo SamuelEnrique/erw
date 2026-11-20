@@ -5,9 +5,11 @@
 table: eia930_daily_demand
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One EIA-930 respondent's demand over one Eastern day (balancing authorities, EIA's regions and US48, so a sum over entities
+  double counts), from 2019.
+time: ts_utc is the day at 00:00:00Z, a label for EIA's Eastern day (x_timezone), not a UTC day.
+vintage_rule: 'Merged by key (entity, variable, ts_utc): each run asks again for the last days and replaces them, earlier
+  rows are kept. vintage is not filled.'
 keys:
 - entity
 - variable
@@ -34,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<respondent>
   type: text
   values:
     distinct: 71
@@ -144,19 +147,19 @@ columns:
     - banc
   missing_cells: 0
 - name: x_timezone
-  label: null
-  unit: null
+  label: 'The time zone of EIA''s day: Eastern in every row'
+  unit: none
   type: text
   values:
     list:
       Eastern: 193183
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_daily_demand.md
 variables:
 - name: demand_mwh
-  label: null
+  label: Demand over the day as EIA sums it over the day's hours (EIA type D), its faulty hours included
   unit: MWh
   rows: 193183
   first: '2019-01-01T00:00:00Z'

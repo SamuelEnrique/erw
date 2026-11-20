@@ -5,9 +5,11 @@
 table: noaa_grid_weather_stations
 family: noaa
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One of the 35 NOAA airport stations behind the grids' weighted weather (five a grid), with one figure about it (its weight,
+  its metropolitan population, or its hours measured, interpolated and missing) over the span counted.
+time: ts_utc is 2019-01-01T00:00:00Z, the start of the span counted; the span runs x_hours hours to x_through. freq is blank.
+vintage_rule: Each run deletes the table and writes it whole, recounting over the whole span and taking the weights again
+  from census_metro_population. vintage is not filled.
 keys:
 - entity
 - variable
@@ -37,6 +39,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: noaa:<GHCN identifier> (USW000 and the WBAN)
   type: text
   values:
     distinct: 35
@@ -78,12 +81,14 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: 'Not filled: the counts run over the span from ts_utc to x_through'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 245
 - name: geo
   shared: true
+  particular: US-<state> of the station
   type: text
   values:
     list:
@@ -108,12 +113,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 245
 - name: node
   shared: true
+  particular: The grid the station stands for, not a pricing node
   type: text
   values:
     list:
@@ -148,12 +155,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 245
 - name: ba
   shared: true
+  particular: The grid's EIA-930 code
   type: text
   values:
     list:
@@ -166,8 +175,8 @@ columns:
       swpp: 35
   missing_cells: 0
 - name: x_airport
-  label: null
-  unit: null
+  label: The station's airport code (DFW, LAX and the others)
+  unit: none
   type: text
   values:
     distinct: 35
@@ -178,12 +187,12 @@ columns:
     - BDR
     - BOS
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector noaa_grid_weather.py
 - name: x_station
-  label: null
-  unit: null
+  label: NOAA's station identifier, USAF-WBAN
+  unit: none
   type: text
   values:
     distinct: 35
@@ -194,12 +203,12 @@ columns:
     - 722540-13904
     - 722590-03927
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector noaa_grid_weather.py
 - name: x_name
-  label: null
-  unit: null
+  label: The station's name as NOAA gives it (isd-history.csv)
+  unit: none
   type: text
   values:
     distinct: 35
@@ -210,36 +219,36 @@ columns:
     - BRADLEY INTERNATIONAL AIRPORT
     - BUFFALO NIAGARA INTERNATIONAL AIRPOR
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: x_lat
-  label: null
-  unit: null
+  label: The station's latitude as NOAA gives it (isd-history.csv)
+  unit: degree
   type: number
   values:
     distinct: 35
     lowest: 26.179
     highest: 44.885
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: x_lon
-  label: null
-  unit: null
+  label: The station's longitude as NOAA gives it (isd-history.csv)
+  unit: degree
   type: number
   values:
     distinct: 35
     lowest: -122.366
     highest: -71.01
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: x_metro
-  label: null
-  unit: null
+  label: The metropolitan area the station stands for
+  unit: none
   type: text
   values:
     distinct: 35
@@ -250,34 +259,34 @@ columns:
     - Boston-Cambridge-Newton
     - Bridgeport-Stamford-Norwalk
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: x_hours
-  label: null
-  unit: null
+  label: The hours of the span the counts run over
+  unit: hour
   type: integer
   values:
     list:
       '68823': 245
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method noaa_grid_weather_stations.md
 - name: x_through
-  label: null
-  unit: null
+  label: 'The last hour of the span, UTC: the last hour every station reaches'
+  unit: none
   type: utc time
   values:
     list:
       '2026-11-07T14:00:00Z': 245
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method noaa_grid_weather_stations.md
 - name: x_cbsa
-  label: null
-  unit: null
+  label: The Census Bureau's code of the metropolitan area, with a state after a colon where only a part is counted
+  unit: none
   type: text
   values:
     distinct: 35
@@ -288,48 +297,48 @@ columns:
     - '14460'
     - '14860'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 variables:
 - name: dew_point_hours_missing
-  label: null
+  label: Hours of the span with no dew point, count
   unit: count
   rows: 35
   first: '2019-01-01T00:00:00Z'
   last: '2019-01-01T00:00:00Z'
 - name: hours_interpolated
-  label: null
+  label: Hours of the span with a temperature interpolated across at most 3 hours, count
   unit: count
   rows: 35
   first: '2019-01-01T00:00:00Z'
   last: '2019-01-01T00:00:00Z'
 - name: hours_measured
-  label: null
+  label: Hours of the span with a measured temperature, count
   unit: count
   rows: 35
   first: '2019-01-01T00:00:00Z'
   last: '2019-01-01T00:00:00Z'
 - name: hours_missing
-  label: null
+  label: Hours of the span with no temperature, count
   unit: count
   rows: 35
   first: '2019-01-01T00:00:00Z'
   last: '2019-01-01T00:00:00Z'
 - name: longest_gap_hours
-  label: null
+  label: The longest run of missing hours, count
   unit: count
   rows: 35
   first: '2019-01-01T00:00:00Z'
   last: '2019-01-01T00:00:00Z'
 - name: population_base_2020
-  label: null
+  label: The Census Bureau's estimates base of 1 April 2020 for the station's metropolitan area (x_cbsa), count
   unit: count
   rows: 35
   first: '2019-01-01T00:00:00Z'
   last: '2019-01-01T00:00:00Z'
 - name: weight
-  label: null
+  label: 'The station''s share of its grid: its metropolitan population over the sum of its grid''s five (ratio)'
   unit: ratio
   rows: 35
   first: '2019-01-01T00:00:00Z'

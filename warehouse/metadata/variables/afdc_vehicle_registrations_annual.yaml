@@ -5,9 +5,10 @@
 table: afdc_vehicle_registrations_annual
 family: afdc
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or the United States') count of light-duty vehicles registered of one fuel type in one year, 2016 to 2025,
+  from AFDC's Vehicle Registration Counts by State.
+time: ts_utc is the year's first day at 00:00:00Z; the count is the vehicles registered through the year's end; freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot); vintage is not filled (the pages send no Last-Modified).
 keys:
 - entity
 - variable
@@ -35,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: afdc_reg:<state code>, or afdc_reg:US for the page's own United States row
   type: text
   values:
     distinct: 52
@@ -91,6 +93,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US
   type: text
   values:
     distinct: 52
@@ -103,12 +106,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 6240
 - name: node
   shared: true
+  particular: The page's column name (Electric (EV)), not a pricing node
   type: text
   values:
     list:
@@ -166,79 +171,80 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: the pages send no Last-Modified'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 6240
 variables:
 - name: registrations_biodiesel
-  label: null
+  label: Biodiesel vehicles registered, count (rounded to the closest 100)
   unit: count
   rows: 520
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: registrations_cng
-  label: null
+  label: Compressed natural gas (CNG) vehicles registered, count (rounded to the closest 100)
   unit: count
   rows: 520
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: registrations_diesel
-  label: null
+  label: Diesel vehicles registered, count (rounded to the closest 100)
   unit: count
   rows: 520
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: registrations_e85
-  label: null
+  label: Ethanol flex-fuel (E85) vehicles registered, count (rounded to the closest 100)
   unit: count
   rows: 520
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: registrations_ev
-  label: null
+  label: Battery electric (EV) light-duty vehicles registered, count (rounded to the closest 100)
   unit: count
   rows: 520
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: registrations_gasoline
-  label: null
+  label: Gasoline vehicles registered, count (rounded to the closest 100)
   unit: count
   rows: 520
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: registrations_hev
-  label: null
+  label: Hybrid electric (HEV) vehicles registered, count (rounded to the closest 100)
   unit: count
   rows: 520
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: registrations_hydrogen
-  label: null
+  label: Hydrogen vehicles registered, count (rounded to the closest 100)
   unit: count
   rows: 520
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: registrations_methanol
-  label: null
+  label: Methanol vehicles registered, count (rounded to the closest 100)
   unit: count
   rows: 520
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: registrations_phev
-  label: null
+  label: Plug-in hybrid electric (PHEV) vehicles registered, count (rounded to the closest 100)
   unit: count
   rows: 520
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: registrations_propane
-  label: null
+  label: Propane vehicles registered, count (rounded to the closest 100)
   unit: count
   rows: 520
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: registrations_unknown_fuel
-  label: null
+  label: Vehicles of unknown fuel registered, count (rounded to the closest 100)
   unit: count
   rows: 520
   first: '2016-01-01T00:00:00Z'

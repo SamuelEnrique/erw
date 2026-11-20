@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: mecs:<region>_<naics>, region us, northeast, midwest, south or west; naics the code or total
   type: text
   values:
     distinct: 405
@@ -46,7 +47,6 @@ columns:
     - mecs:midwest_31131
     - mecs:midwest_3114
   missing_cells: 0
-  particular: mecs:<region>_<naics>, region us, northeast, midwest, south or west; naics the code or total
 - name: variable
   shared: true
   type: text
@@ -85,21 +85,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US for the nation; empty for a census region (no single ISO code)
   type: text
   values:
     list:
       US: 1146
   missing_cells: 4217
-  particular: US for the nation; empty for a census region (no single ISO code)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5363
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The industry as the table names it
   type: text
   values:
     distinct: 82
@@ -110,7 +111,6 @@ columns:
     - All Other Petroleum and Coal Products Manufacturing
     - All manufacturing
   missing_cells: 0
-  particular: The industry as the table names it
 - name: source
   shared: true
   type: text
@@ -138,6 +138,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time from EIA's server
   type: utc time
   values:
     list:
@@ -145,7 +146,6 @@ columns:
       '2025-07-28T15:43:31Z': 905
       '2026-02-27T15:15:37Z': 2655
   missing_cells: 0
-  particular: The workbook's last-modified time from EIA's server
 - name: x_naics
   label: The industry's NAICS code (North American Industry Classification System), or total for all manufacturing
   unit: none

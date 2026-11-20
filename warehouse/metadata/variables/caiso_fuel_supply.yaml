@@ -5,9 +5,10 @@
 table: caiso_fuel_supply
 family: caiso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: CAISO's supply from one fuel source (or imports) over one hour, from Today's Outlook.
+time: ts_utc is the start of the hour in UTC; days are Pacific days. The value is the mean of the hour's twelve 5-minute values.
+vintage_rule: Merged by (entity, variable, ts_utc); each day is read on three consecutive runs and the last read stands. vintage
+  is not filled.
 keys:
 - entity
 - variable
@@ -32,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'caiso:ISO in every row: CAISO''s whole system'
   type: text
   values:
     list:
@@ -82,12 +84,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 165035
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -121,85 +125,86 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 165035
 variables:
 - name: batteries_mw
-  label: null
+  label: Supply from batteries (CAISO's column Batteries), the hour's mean MW, positive discharging
   unit: MW
   rows: 12695
   first: '2025-06-01T07:00:00Z'
   last: '2026-11-16T07:00:00Z'
 - name: biogas_mw
-  label: null
+  label: Supply from biogas (CAISO's column Biogas), the hour's mean MW
   unit: MW
   rows: 12695
   first: '2025-06-01T07:00:00Z'
   last: '2026-11-16T07:00:00Z'
 - name: biomass_mw
-  label: null
+  label: Supply from biomass (CAISO's column Biomass), the hour's mean MW
   unit: MW
   rows: 12695
   first: '2025-06-01T07:00:00Z'
   last: '2026-11-16T07:00:00Z'
 - name: coal_mw
-  label: null
+  label: Supply from coal (CAISO's column Coal), the hour's mean MW
   unit: MW
   rows: 12695
   first: '2025-06-01T07:00:00Z'
   last: '2026-11-16T07:00:00Z'
 - name: geothermal_mw
-  label: null
+  label: Supply from geothermal plants (CAISO's column Geothermal), the hour's mean MW
   unit: MW
   rows: 12695
   first: '2025-06-01T07:00:00Z'
   last: '2026-11-16T07:00:00Z'
 - name: imports_mw
-  label: null
+  label: Imports (CAISO's column Imports), the hour's mean MW
   unit: MW
   rows: 12695
   first: '2025-06-01T07:00:00Z'
   last: '2026-11-16T07:00:00Z'
 - name: large_hydro_mw
-  label: null
+  label: Supply from large hydro (CAISO's column Large Hydro), the hour's mean MW
   unit: MW
   rows: 12695
   first: '2025-06-01T07:00:00Z'
   last: '2026-11-16T07:00:00Z'
 - name: natural_gas_mw
-  label: null
+  label: Supply from natural gas (CAISO's column Natural Gas), the hour's mean MW
   unit: MW
   rows: 12695
   first: '2025-06-01T07:00:00Z'
   last: '2026-11-16T07:00:00Z'
 - name: nuclear_mw
-  label: null
+  label: Supply from nuclear (CAISO's column Nuclear), the hour's mean MW
   unit: MW
   rows: 12695
   first: '2025-06-01T07:00:00Z'
   last: '2026-11-16T07:00:00Z'
 - name: other_mw
-  label: null
+  label: Supply from other sources (CAISO's column Other), the hour's mean MW
   unit: MW
   rows: 12695
   first: '2025-06-01T07:00:00Z'
   last: '2026-11-16T07:00:00Z'
 - name: small_hydro_mw
-  label: null
+  label: Supply from small hydro (CAISO's column Small hydro), the hour's mean MW
   unit: MW
   rows: 12695
   first: '2025-06-01T07:00:00Z'
   last: '2026-11-16T07:00:00Z'
 - name: solar_mw
-  label: null
+  label: Supply from solar (CAISO's column Solar), the hour's mean MW (also its MWh)
   unit: MW
   rows: 12695
   first: '2025-06-01T07:00:00Z'
   last: '2026-11-16T07:00:00Z'
 - name: wind_mw
-  label: null
+  label: Supply from wind (CAISO's column Wind), the hour's mean MW
   unit: MW
   rows: 12695
   first: '2025-06-01T07:00:00Z'

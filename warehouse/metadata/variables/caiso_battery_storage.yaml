@@ -5,9 +5,11 @@
 table: caiso_battery_storage
 family: caiso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The output of the batteries on CAISO's grid (all, standalone or hybrid) over one 5-minute interval, from CAISO's Today's
+  Outlook.
+time: ts_utc is the start of the 5-minute interval in UTC; days are Pacific days.
+vintage_rule: Merged by (entity, variable, ts_utc); each run asks again for the last 30 complete Pacific days, so an interval
+  read again replaces the held one and older intervals are kept. vintage is not filled.
 keys:
 - entity
 - variable
@@ -32,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'caiso:ISO in every row: CAISO''s whole system'
   type: text
   values:
     list:
@@ -82,12 +85,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 386172
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -121,25 +126,26 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 386172
 variables:
 - name: batteries_mw
-  label: null
+  label: 'Output of all batteries (CAISO''s Total batteries), MW: positive is discharge to the grid, negative is charging'
   unit: MW
   rows: 128724
   first: '2025-08-24T07:00:00Z'
   last: '2026-11-16T07:55:00Z'
 - name: hybrid_batteries_mw
-  label: null
+  label: Output of hybrid batteries, the other part of the total as CAISO publishes them, MW (positive discharge)
   unit: MW
   rows: 128724
   first: '2025-08-24T07:00:00Z'
   last: '2026-11-16T07:55:00Z'
 - name: standalone_batteries_mw
-  label: null
+  label: Output of standalone batteries, one of the two parts of the total as CAISO publishes them, MW (positive discharge)
   unit: MW
   rows: 128724
   first: '2025-08-24T07:00:00Z'

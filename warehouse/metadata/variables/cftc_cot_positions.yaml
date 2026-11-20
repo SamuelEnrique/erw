@@ -5,9 +5,10 @@
 table: cftc_cot_positions
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One NYMEX futures contract's value of one Commitments of Traders measure for one report week.
+time: ts_utc is the report's as-of date (a Tuesday, or the Monday the CFTC gives in a holiday week) at 00:00:00Z; the CFTC
+  publishes it the Friday after; freq P1W.
+vintage_rule: Rewritten whole by each run (the old file removed first); vintage is not filled.
 keys:
 - entity
 - variable
@@ -35,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'cftc:<CFTC contract market code>: 067651 WTI crude oil, 06765T Brent Last Day, 023651 Henry Hub natural gas,
+    111659 RBOB gasoline'
   type: text
   values:
     list:
@@ -88,6 +91,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: nymex on every row
   type: text
   values:
     list:
@@ -95,6 +99,7 @@ columns:
   missing_cells: 0
 - name: node
   shared: true
+  particular: The CFTC's market name as printed (its wording changes over the years)
   type: text
   values:
     list:
@@ -141,31 +146,32 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 9888
 variables:
 - name: managed_money_long
-  label: null
+  label: Managed money long positions, futures only (the CFTC's m_money_positions_long_all), contracts
   unit: count
   rows: 2472
   first: '2015-01-06T00:00:00Z'
   last: '2026-11-03T00:00:00Z'
 - name: managed_money_net
-  label: null
+  label: Managed money long less short, computed by the ERW, contracts
   unit: count
   rows: 2472
   first: '2015-01-06T00:00:00Z'
   last: '2026-11-03T00:00:00Z'
 - name: managed_money_short
-  label: null
+  label: Managed money short positions, futures only (the CFTC's m_money_positions_short_all), contracts
   unit: count
   rows: 2472
   first: '2015-01-06T00:00:00Z'
   last: '2026-11-03T00:00:00Z'
 - name: open_interest
-  label: null
+  label: Open interest, futures only (the CFTC's open_interest_all), contracts
   unit: count
   rows: 2472
   first: '2015-01-06T00:00:00Z'

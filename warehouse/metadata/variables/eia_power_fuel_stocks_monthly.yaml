@@ -5,9 +5,10 @@
 table: eia_power_fuel_stocks_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One location's month-end stocks of coal, petroleum liquids or petroleum coke at power plants, in the electric power sector
+  or all sectors (Form EIA-923).
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M); a month-end stock.
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -35,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_power_stocks:<location>:<sector 98 electric power or 99 all sectors>:<fuel COL, PEL or PC>
   type: text
   values:
     distinct: 320
@@ -84,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation; empty for a census region
   type: text
   values:
     distinct: 53
@@ -96,12 +99,14 @@ columns:
   missing_cells: 9221
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 48702
 - name: node
   shared: true
+  particular: EIA's names (location, sector, fuel)
   type: text
   values:
     distinct: 320
@@ -136,13 +141,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 48702
 variables:
 - name: stocks
-  label: null
+  label: 'Fuel stocks at power plants at the month''s end: short tons for coal (excluding waste coal) and petroleum coke (EIA''s
+    thousand short tons times 1,000), thousand barrels for petroleum liquids; the unit column says which'
   unit: kbbl; short_ton
   rows: 48702
   first: '2008-01-01T00:00:00Z'

@@ -5,9 +5,10 @@
 table: eia_lng_liquefaction_projects
 family: eia
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One train (liquefaction unit) of a U.S. LNG export project in operation, commissioning or construction, or one large
+  approved project, from EIA's U.S. Liquefaction Capacity workbook (2026 Q3).
+time: No time column. status_date is the in-service day where EIA gives one; vintage is the workbook's last-modified time.
+vintage_rule: Rewritten whole by each run (write_snapshot) from the newest quarterly workbook.
 keys:
 - entity_id
 license: public
@@ -34,6 +35,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: eia_lng:<project>:<train>, or eia_lng:<project> for an approved project
   type: text
   values:
     distinct: 48
@@ -46,6 +48,7 @@ columns:
   missing_cells: 0
 - name: entity_type
   shared: true
+  particular: project on every row
   type: text
   values:
     list:
@@ -53,6 +56,7 @@ columns:
   missing_cells: 0
 - name: name
   shared: true
+  particular: The project's name as EIA prints it, footnote letters included
   type: text
   values:
     distinct: 48
@@ -65,6 +69,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> of the project's location, US for an offshore project
   type: text
   values:
     list:
@@ -78,24 +83,28 @@ columns:
   missing_cells: 0
 - name: lat
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 48
 - name: lon
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 48
 - name: capacity_mw
   shared: true
+  particular: 'Not filled: the capacities are in bcf/d and Mtpa, in x_ columns'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 48
 - name: status
   shared: true
+  particular: operating, under_construction or planned (approved); empty for EIA's Commissioning
   type: text
   values:
     list:
@@ -105,6 +114,7 @@ columns:
   missing_cells: 4
 - name: status_date
   shared: true
+  particular: The in-service day where EIA gives one
   type: date
   values:
     list:
@@ -133,6 +143,7 @@ columns:
   missing_cells: 24
 - name: operator
   shared: true
+  particular: The operator as EIA writes it
   type: text
   values:
     list:
@@ -166,20 +177,20 @@ columns:
       eia:us_liquefaction_capacity: 48
   missing_cells: 0
 - name: x_sheet
-  label: null
-  unit: null
+  label: The workbook sheet the row is from (existing_under_construction or approved)
+  unit: none
   type: text
   values:
     list:
       approved: 9
       existing_under_construction: 39
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_train
-  label: null
-  unit: null
+  label: EIA's train label (for example Train 1)
+  unit: none
   type: text
   values:
     distinct: 31
@@ -190,12 +201,12 @@ columns:
     - Train 1I
     - Train 2
   missing_cells: 9
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: An approved project's row (no train)
+  source_name: Train
+  documented_by: connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_status
-  label: null
-  unit: null
+  label: The project's status in EIA's words
+  unit: none
   type: text
   values:
     list:
@@ -222,12 +233,12 @@ columns:
       Under constructionH: 1
       Undergoing FEED: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Project status
+  documented_by: connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_in_service
-  label: null
-  unit: null
+  label: 'When the train entered or enters service: a day, a year or a half year as EIA writes it'
+  unit: none
   type: text
   values:
     distinct: 31
@@ -238,12 +249,12 @@ columns:
     - '2016-08-01'
     - '2017-01-01'
   missing_cells: 9
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: An approved project's row, or EIA gives none
+  source_name: In-service
+  documented_by: connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_commercial_operation_date
-  label: null
-  unit: null
+  label: The day the train began commercial operation
+  unit: none
   type: date
   values:
     list:
@@ -267,12 +278,12 @@ columns:
       '2022-05-01': 1
       '2023-10-01': 1
   missing_cells: 28
-  missing_meaning: null
+  missing_meaning: Not in commercial operation (only the operating rows have one)
   source_name: null
-  documented_by: null
+  documented_by: connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_trains
-  label: null
-  unit: null
+  label: An approved project's number of trains
+  unit: count
   type: integer
   values:
     list:
@@ -280,12 +291,12 @@ columns:
       '2': 4
       '3': 2
   missing_cells: 40
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: A train's row (not an approved project), or EIA gives none
+  source_name: Number of trains
+  documented_by: connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_baseload_bcfd
-  label: null
-  unit: null
+  label: 'Baseload capacity: a train''s nameplate, or for an approved project the baseload per train'
+  unit: bcf/d
   type: number
   values:
     list:
@@ -311,12 +322,12 @@ columns:
       '2.04': 1
       '2.18': 1
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA prints a note in place of the figure
+  source_name: Baseload
+  documented_by: header; connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_baseload_mtpa
-  label: null
-  unit: null
+  label: Baseload capacity in million tonnes a year
+  unit: million tonnes per year
   type: number
   values:
     list:
@@ -345,12 +356,12 @@ columns:
       '8.4': 1
       '9.9': 2
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA prints a note in place of the figure
+  source_name: Mtpa
+  documented_by: header; connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_peak_bcfd
-  label: null
-  unit: null
+  label: 'Peak capacity: a train''s nameplate, or for an approved project its proposed design capacity in all'
+  unit: bcf/d
   type: number
   values:
     list:
@@ -379,72 +390,72 @@ columns:
       '2.55': 1
       '2.86': 1
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA prints a note in place of the figure
+  source_name: Peak
+  documented_by: header; connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_peak_mtpa
-  label: null
-  unit: null
+  label: Peak capacity in million tonnes a year
+  unit: million tonnes per year
   type: number
   values:
     distinct: 26
     lowest: 1.45
     highest: 20.22
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA prints a note in place of the figure
+  source_name: Mtpa
+  documented_by: header; connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_doe_fta_bcfd
-  label: null
-  unit: null
+  label: Export quantity the Department of Energy authorized to free trade agreement countries
+  unit: bcf/d
   type: number
   values:
     distinct: 28
     lowest: 0.25
     highest: 3.71
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: DOE-authorized
+  documented_by: connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_doe_fta_mtpa
-  label: null
-  unit: null
+  label: DOE-authorized export quantity to free trade agreement countries, million tonnes a year
+  unit: million tonnes per year
   type: number
   values:
     distinct: 26
     lowest: 2.0
     highest: 25.28
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Mtpa
+  documented_by: connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_doe_nonfta_bcfd
-  label: null
-  unit: null
+  label: DOE-authorized export quantity to countries without a free trade agreement
+  unit: bcf/d
   type: number
   values:
     distinct: 28
     lowest: 0.21
     highest: 2.86
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: DOE-authorized
+  documented_by: connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_doe_nonfta_mtpa
-  label: null
-  unit: null
+  label: DOE-authorized export quantity to non-free trade agreement countries, million tonnes a year
+  unit: million tonnes per year
   type: number
   values:
     distinct: 28
     lowest: 1.45
     highest: 20.22
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Mtpa
+  documented_by: connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_ferc_bcfd
-  label: null
-  unit: null
+  label: Quantity the Federal Energy Regulatory Commission (FERC) authorized
+  unit: bcf/d
   type: number
   values:
     list:
@@ -473,24 +484,24 @@ columns:
       '2.55': 1
       '2.86': 1
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA writes n/a
+  source_name: FERC-authorized
+  documented_by: connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_ferc_mtpa
-  label: null
-  unit: null
+  label: FERC-authorized quantity, million tonnes a year
+  unit: million tonnes per year
   type: number
   values:
     distinct: 26
     lowest: 1.45
     highest: 20.22
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA writes n/a
+  source_name: Mtpa
+  documented_by: connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_doe_fta_docket
-  label: null
-  unit: null
+  label: The DOE docket of the free trade agreement export application, as EIA writes it
+  unit: none
   type: text
   values:
     distinct: 26
@@ -501,12 +512,12 @@ columns:
     - 11-145-LNG/14-204-LNG
     - 11-59-LNG/13-04-LNG
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: FTA application docket
+  documented_by: connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_doe_nonfta_docket
-  label: null
-  unit: null
+  label: The DOE docket of the non-free trade agreement export application, as EIA writes it
+  unit: none
   type: text
   values:
     distinct: 26
@@ -517,12 +528,12 @@ columns:
     - 11-162-LNG/15-67-LNG
     - 11-59-LNG/13-04-LNG
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: non-FTA application docket
+  documented_by: connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_ferc_docket
-  label: null
-  unit: null
+  label: The FERC docket, as EIA writes it
+  unit: none
   type: text
   values:
     list:
@@ -552,12 +563,12 @@ columns:
       PF13-3/CP14-103: 2
       PF13-8/CP13-552/CP13-553/CP19-515: 2
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: FERC docket
+  documented_by: connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_project_type
-  label: null
-  unit: null
+  label: Greenfield, Brownfield or Floating, as EIA writes it
+  unit: none
   type: text
   values:
     list:
@@ -565,12 +576,12 @@ columns:
       Floating: 2
       Greenfield: 21
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Project type
+  documented_by: connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: x_marks
-  label: null
-  unit: null
+  label: EIA's footnote marks beside a figure, as column:mark joined by semicolons (the notes are in EIA's file)
+  unit: none
   type: text
   values:
     list:
@@ -589,9 +600,9 @@ columns:
       peak_mtpa:^; doe_fta_mtpa:^; doe_nonfta_mtpa:^; ferc_mtpa:^: 7
       peak_mtpa:^; doe_nonfta_mtpa:^; ferc_mtpa:^: 2
   missing_cells: 13
-  missing_meaning: null
+  missing_meaning: No figure of the row carries a mark
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_lng_liquefaction.py; method eia_lng_liquefaction_projects.md
 - name: source_url
   shared: true
   type: text
@@ -608,6 +619,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time from EIA's server
   type: utc time
   values:
     list:

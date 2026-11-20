@@ -5,9 +5,12 @@
 table: interconnection_agreements_by_grid
 family: interconnection
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One grid's (or one grid and fuel's) count, MW or share of interconnection requests still in the queue with a signed interconnection
+  agreement, at the end of 2025 or in one year of agreement, from Berkeley Lab's Queued Up file.
+time: ts_utc is 2025-01-01 for the queue at the end of 2025, or the first day of the year of agreement for the _in_year variables
+  (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run of the builder (warehouse/derived/interconnection_agreements.py) from lbnl_interconnection_queue;
+  vintage is not filled.
 keys:
 - entity
 - variable
@@ -34,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: interconnection_agreements:<grid> (the seven ISOs, west, southeast, us) or interconnection_agreements:<grid>:<fuel>
   type: text
   values:
     distinct: 118
@@ -99,6 +103,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always US
   type: text
   values:
     list:
@@ -106,12 +111,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 438
 - name: node
   shared: true
+  particular: The grid, or the grid and fuel, in words (CAISO, Battery), not a pricing node
   type: text
   values:
     distinct: 118
@@ -145,49 +152,51 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 438
 variables:
 - name: active_mw
-  label: null
+  label: The MW of every request still in the queue
   unit: MW
   rows: 10
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: active_projects
-  label: null
+  label: Every request still in the queue (active or suspended), count
   unit: count
   rows: 10
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: mw_signed
-  label: null
+  label: The MW of those requests
   unit: MW
   rows: 118
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: mw_signed_in_year
-  label: null
+  label: The MW of requests whose agreement date falls in the year
   unit: MW
   rows: 86
   first: '2002-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: projects_signed
-  label: null
+  label: Requests still in the queue (active or suspended) with a signed interconnection agreement and no operation date,
+    count
   unit: count
   rows: 118
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: projects_signed_in_year
-  label: null
+  label: Requests whose agreement date falls in the year, count (requests that give an agreement date)
   unit: count
   rows: 86
   first: '2002-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: signed_share_pct
-  label: null
+  label: Signed MW over the MW still in the queue, percent
   unit: pct
   rows: 10
   first: '2025-01-01T00:00:00Z'

@@ -40,6 +40,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: filed:<EIA utility id>:<schedule slug>
   type: text
   values:
     list:
@@ -66,7 +67,6 @@ columns:
       filed:5416:large_load_tariff_llt_with_schedule_hlf: 3
       filed:7140:rules_and_regulations_for_electric_service_a1_d13_and_d14_cu: 1
   missing_cells: 0
-  particular: filed:<EIA utility id>:<schedule slug>
 - name: variable
   shared: true
   type: text
@@ -121,13 +121,14 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: 'Not filled: a tariff is in force from its effective date'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 86
-  particular: 'Not filled: a tariff is in force from its effective date'
 - name: geo
   shared: true
+  particular: US-<state> of the utility
   type: text
   values:
     list:
@@ -146,16 +147,16 @@ columns:
       US-VA: 12
       US-WA: 7
   missing_cells: 0
-  particular: US-<state> of the utility
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 86
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The schedule's name, not a pricing node
   type: text
   values:
     list:
@@ -181,7 +182,6 @@ columns:
       Service Classification No. 7, Large General Service with Time-of-Use Metering, S.C. 7-4 Transmission: 3
       Service Classification No. 9, General - Large, Rate II - General - Large - Time-of-Day: 4
   missing_cells: 0
-  particular: The schedule's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -191,6 +191,7 @@ columns:
   missing_cells: 0
 - name: source_url
   shared: true
+  particular: The filed document's address (for New York, the Electronic Tariff System's listing of the tariff's leaves)
   type: text
   values:
     list:
@@ -220,7 +221,6 @@ columns:
       https://www.santeecooper.com/Rates/_pdfs/Industrial-Wholesale/L-25-LL-FINAL.pdf: 6
       https://www.selc.org/wp-content/uploads/2026/10/2026-10-06-Duke-Energy-LLT-Settlement.pdf: 3
   missing_cells: 0
-  particular: The filed document's address (for New York, the Electronic Tariff System's listing of the tariff's leaves)
 - name: retrieved_at
   shared: true
   type: utc time
@@ -245,11 +245,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 86
-  particular: 'Not filled: no cell holds a value'
 - name: x_eia_id
   label: The utility's EIA-861 utility number
   unit: none

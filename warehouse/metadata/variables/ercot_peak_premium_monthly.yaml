@@ -5,9 +5,12 @@
 table: ercot_peak_premium_monthly
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One price statistic of ERCOT's 15-minute real-time prices at one trading hub over one local calendar month, for all intervals
+  or one block of the day.
+time: ts_utc is the first day of the local (America/Chicago) month at 00:00:00Z. The current month is partial (n_intervals
+  says how many intervals it holds).
+vintage_rule: Merged by (entity, variable, ts_utc) through the merge writer; a past month is written only when complete. vintage
+  is not filled.
 keys:
 - entity
 - variable
@@ -31,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<hub>
   type: text
   values:
     list:
@@ -88,6 +92,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
   type: text
   values:
     list:
@@ -95,6 +100,8 @@ columns:
   missing_cells: 0
 - name: node
   shared: true
+  particular: 'ERCOT''s trading hub: HB_HOUSTON, HB_NORTH, HB_SOUTH, HB_WEST, HB_HUBAVG (average of the four) and HB_BUSAVG
+    (average over the hubs'' buses)'
   type: text
   values:
     list:
@@ -128,175 +135,176 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 24024
 variables:
 - name: all_iqr
-  label: null
+  label: 75th less 25th percentile of all intervals' prices, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: all_max
-  label: null
+  label: Highest price of all intervals, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: all_median
-  label: null
+  label: Median of all intervals' prices, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: all_min
-  label: null
+  label: Lowest price of all the month's intervals, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: all_p999
-  label: null
+  label: 99.9th percentile of all intervals' prices, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: all_q1
-  label: null
+  label: 25th percentile of all intervals' prices, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: all_q3
-  label: null
+  label: 75th percentile of all intervals' prices, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: midday_max
-  label: null
+  label: Highest price of the midday block, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: midday_median
-  label: null
+  label: Median of the midday block, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: midday_min
-  label: null
+  label: Lowest price of the midday block (intervals starting 12:00 to 16:00 local), USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: midday_q1
-  label: null
+  label: 25th percentile of the midday block, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: midday_q3
-  label: null
+  label: 75th percentile of the midday block, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: n_intervals
-  label: null
+  label: The 15-minute intervals the period holds
   unit: count
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: n_negative
-  label: null
+  label: Intervals priced at or below 0 USD/MWh
   unit: count
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: n_scarcity
-  label: null
+  label: Intervals priced at or above 1,000 USD/MWh
   unit: count
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: overnight_max
-  label: null
+  label: Highest price of the overnight block, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: overnight_median
-  label: null
+  label: Median of the overnight block, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: overnight_min
-  label: null
+  label: Lowest price of the overnight block (intervals starting 21:00 to 12:00 local), USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: overnight_q1
-  label: null
+  label: 25th percentile of the overnight block, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: overnight_q3
-  label: null
+  label: 75th percentile of the overnight block, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: peak_iqr
-  label: null
+  label: 75th less 25th percentile of the peak block, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: peak_max
-  label: null
+  label: Highest price of the peak block, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: peak_median
-  label: null
+  label: Median of the peak block, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: peak_min
-  label: null
+  label: Lowest price of the peak block (intervals starting 16:00 to 21:00 local), USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: peak_minus_midday_median
-  label: null
+  label: Peak block median less midday block median, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: peak_q1
-  label: null
+  label: 25th percentile of the peak block, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: peak_q3
-  label: null
+  label: 75th percentile of the peak block, USD/MWh
   unit: USD/MWh
   rows: 858
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: worst_interval_multiple
-  label: null
+  label: 99.9th percentile over median of all intervals (ratio)
   unit: ratio
   rows: 858
   first: '2015-01-01T00:00:00Z'

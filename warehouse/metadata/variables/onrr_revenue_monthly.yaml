@@ -5,9 +5,11 @@
 table: onrr_revenue_monthly
 family: onrr
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The revenue ONRR collected of one revenue type (royalties, rents, bonuses and the rest) for one lease type, commodity
+  and product, in one county, offshore region or no place, in one month, from ONRR's Natural Resources Revenue Data.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M.
+vintage_rule: A snapshot; each run replaces the table whole. vintage is the file's last-modified time. A negative value is
+  ONRR's adjustment of an earlier month, kept.
 keys:
 - entity
 - variable
@@ -34,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: onrr_revenue:<class>:<category>:<place>:<revenue type>:<lease type>:<commodity>:<product>, none where ONRR leaves
+    a part empty
   type: text
   values:
     distinct: more than 5000
@@ -82,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or empty (offshore, not tied to a lease, or Native American revenue ONRR gives no state for)
   type: text
   values:
     distinct: 40
@@ -94,12 +99,14 @@ columns:
   missing_cells: 20303
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 413554
 - name: node
   shared: true
+  particular: 'Place: revenue type, commodity in ONRR''s words, not a pricing node'
   type: text
   values:
     distinct: more than 5000
@@ -133,26 +140,27 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's last-modified time, one value
   type: utc time
   values:
     list:
       '2026-10-21T17:11:24Z': 413554
   missing_cells: 0
 - name: x_land_class
-  label: null
-  unit: null
+  label: 'ONRR''s land class: Federal or Native American'
+  unit: none
   type: text
   values:
     list:
       Federal: 404239
       Native American: 9315
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Land Class
+  documented_by: method onrr.md; connector onrr.py; data
 - name: x_land_category
-  label: null
-  unit: null
+  label: 'ONRR''s land category: Onshore, Offshore or Not Tied to a Lease'
+  unit: none
   type: text
   values:
     list:
@@ -160,12 +168,12 @@ columns:
       Offshore: 10426
       Onshore: 402578
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Land Category
+  documented_by: method onrr.md; connector onrr.py; data
 - name: x_state
-  label: null
-  unit: null
+  label: The state, as ONRR names it
+  unit: none
   type: text
   values:
     distinct: 40
@@ -176,12 +184,12 @@ columns:
     - Arkansas
     - California
   missing_cells: 20303
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Offshore, not tied to a lease, or ONRR gives no state
+  source_name: State
+  documented_by: method onrr.md; connector onrr.py
 - name: x_county
-  label: null
-  unit: null
+  label: The county, as ONRR names it
+  unit: none
   type: text
   values:
     distinct: 602
@@ -192,24 +200,24 @@ columns:
     - Albany
     - Alcona
   missing_cells: 20303
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Offshore, not tied to a lease, or ONRR gives no county
+  source_name: County
+  documented_by: method onrr.md; connector onrr.py
 - name: x_fips
-  label: null
-  unit: null
+  label: The county's FIPS code
+  unit: none
   type: integer
   values:
     distinct: 745
     lowest: 1003
     highest: 56045
   missing_cells: 20303
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Offshore, not tied to a lease, or ONRR gives no county
+  source_name: FIPS Code
+  documented_by: method onrr.md; connector onrr.py
 - name: x_offshore_region
-  label: null
-  unit: null
+  label: The offshore region (Alaska, Atlantic, Gulf of America, Pacific)
+  unit: none
   type: text
   values:
     list:
@@ -218,12 +226,12 @@ columns:
       Gulf of America: 7054
       Pacific: 2416
   missing_cells: 403323
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not an offshore row
+  source_name: Offshore Region
+  documented_by: method onrr.md; connector onrr.py
 - name: x_revenue_type
-  label: null
-  unit: null
+  label: 'ONRR''s revenue type: Royalties, Rents, Bonus, Other revenues, Civil penalties, Inspection fees'
+  unit: none
   type: text
   values:
     list:
@@ -234,12 +242,12 @@ columns:
       Rents: 50998
       Royalties: 284730
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Revenue Type
+  documented_by: method onrr.md; connector onrr.py; data
 - name: x_lease_type
-  label: null
-  unit: null
+  label: ONRR's mineral lease type (Coal, Asphalt, Clay and the others)
+  unit: none
   type: text
   values:
     distinct: 27
@@ -250,12 +258,12 @@ columns:
     - Clay
     - Coal
   missing_cells: 753
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ONRR gives none
+  source_name: Mineral Lease Type
+  documented_by: method onrr.md; connector onrr.py
 - name: x_commodity
-  label: null
-  unit: null
+  label: ONRR's commodity the revenue is paid on
+  unit: none
   type: text
   values:
     distinct: 43
@@ -266,12 +274,12 @@ columns:
     - Chat
     - Cinders
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Commodity
+  documented_by: method onrr.md; connector onrr.py
 - name: x_product
-  label: null
-  unit: null
+  label: ONRR's product the revenue is paid on
+  unit: none
   type: text
   values:
     distinct: 116
@@ -282,12 +290,12 @@ columns:
     - Black Wax Crude
     - Borax-Anhydrous
   missing_cells: 122243
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ONRR gives none
+  source_name: Product
+  documented_by: method onrr.md; connector onrr.py
 variables:
 - name: revenue
-  label: null
+  label: The revenue ONRR collected in the month, USD (negative for an adjustment of an earlier month)
   unit: USD
   rows: 413554
   first: '2003-01-01T00:00:00Z'

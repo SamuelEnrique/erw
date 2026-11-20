@@ -5,9 +5,10 @@
 table: forecast_tool_parameters
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: 'One parameter the forecast tool reads, for one technology and place: EIA''s capital cost and case figures, JEDI''s construction
+  cost and taxable share, or the gas plant''s fuel defaults.'
+time: ts_utc is 1 January of the value's dollar year where it has one, else 2026-01-01; no freq (a parameter, not a time series).
+vintage_rule: Rewritten whole by each run from the forecast tool's files (the old file removed first); vintage is not filled.
 keys:
 - entity
 - variable
@@ -17,9 +18,10 @@ tier: derived
 interval: ''
 source:
 - name: 'eia:capital_cost_aeo2025 U.S. Energy Information Administration (EIA), Capital Cost and Performance Characteristic
-    Estimates for Utility Scale Electric Power Generating Technologies (AEO2025), Appendix A,  nlr:jedi_models National Laboratory
-    of the Rockies (NLR, formerly NREL), JEDI models (Jobs and Economic Development Impact),  erw:forecast_gas: the study''s
-    heat rate, JEDI''s default capacity factor, eia_steo_forecasts'' NGHHUUS and EIA''s heat content'
+    Estimates for Utility Scale Electric Power Generating Technologies (AEO2025), Appendix A, https://www.eia.gov/analysis/studies/powerplants/capitalcost/pdf/capital_cost_AEO2025.pdf;
+    nlr:jedi_models National Laboratory of the Rockies (NLR, formerly NREL), JEDI models (Jobs and Economic Development Impact),
+    https://www.nlr.gov/analysis/jedi/models; erw:forecast_gas: the study''s heat rate, JEDI''s default capacity factor, eia_steo_forecasts''
+    NGHHUUS and EIA''s heat content'
   url: https://www.nlr.gov/analysis/jedi/models
 cite: Energy Research Warehouse (ERW); National Laboratory of the Rockies (NLR, formerly NREL); U.S. Energy Information Administration
   (EIA). Capital Cost and Performance Characteristic Estimates for Utility Scale Electric Power Generating Technologies (AEO2025),
@@ -40,6 +42,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: forecast:<file>:<technology>:<place>, file eia_capex, jedi_costs, jedi_taxable or gas; place us, a state code,
+    or <state>_<city>
   type: text
   values:
     distinct: 559
@@ -92,12 +96,14 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: 'Not filled: a parameter, not a time series'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 768
 - name: geo
   shared: true
+  particular: US on every row, whatever the place (x_place names it)
   type: text
   values:
     list:
@@ -105,12 +111,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 768
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -143,13 +151,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 768
 - name: x_technology
-  label: null
-  unit: null
+  label: 'The generating technology: geothermal, land_based_wind, natural_gas or utility_pv'
+  unit: none
   type: text
   values:
     list:
@@ -158,12 +167,12 @@ columns:
       natural_gas: 231
       utility_pv: 228
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector forecast_tool_parameters.py; data
 - name: x_place
-  label: null
-  unit: null
+  label: 'The place the value is for: us (the study''s base case), a state''s two-letter code, or <state>_<city>'
+  unit: none
   type: text
   values:
     distinct: 113
@@ -174,12 +183,12 @@ columns:
     - ar
     - ar_little_rock
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector forecast_tool_parameters.py
 - name: x_dollar_year
-  label: null
-  unit: null
+  label: The dollar year of a money value (the study's 2023 dollars, a JEDI model's own year, 2025 for the gas price)
+  unit: none
   type: integer
   values:
     list:
@@ -188,12 +197,13 @@ columns:
       '2023': 349
       '2025': 1
   missing_cells: 212
-  missing_meaning: null
+  missing_meaning: The value is not money and has no dollar year
   source_name: null
-  documented_by: null
+  documented_by: header; connector forecast_tool_parameters.py
 - name: x_detail
-  label: null
-  unit: null
+  label: 'Where the value was read: the study''s table, case and basis, the city and state, or the JEDI file and cells with
+    its arithmetic'
+  unit: none
   type: text
   values:
     distinct: 328
@@ -209,72 +219,73 @@ columns:
     - '01d-jedi-geothermal-model-rel-gt12-23-16.xlsm (nameplate MW (the model''s 10 MW net output)), CALIFORNIA: Summary Results!D7
       45,928,513.17 USD over 12.2262 MW'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector forecast_tool_parameters.py
 variables:
 - name: capacity_factor
-  label: null
+  label: The gas plant's capacity factor, JEDI's default
   unit: ratio
   rows: 1
   first: '2026-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: case_mw
-  label: null
+  label: The size of the study's case for the technology
   unit: MW
   rows: 4
   first: '2026-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: construction_cost
-  label: null
+  label: JEDI's default construction cost per MW of its default project, by technology and location, in the model's dollar
+    year
   unit: USD/MW
   rows: 206
   first: '2010-01-01T00:00:00Z'
   last: '2017-01-01T00:00:00Z'
 - name: construction_months
-  label: null
+  label: The study case's construction period
   unit: month
   rows: 4
   first: '2026-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: fuel_price
-  label: null
+  label: 'The gas price the tool uses: the 2025 mean of Henry Hub (eia_steo_forecasts'' NGHHUUS)'
   unit: USD/MMBtu
   rows: 1
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: heat_content
-  label: null
+  label: Natural gas heat content, EIA's figure
   unit: Btu/ft3
   rows: 1
   first: '2026-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: heat_rate
-  label: null
+  label: The plant's heat rate from the study (higher heating value), MMBtu per MWh
   unit: MMBtu/MWh
   rows: 2
   first: '2026-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: location_variation
-  label: null
+  label: The location variation the study's Appendix A (labor location-based cost adjustments) gives for the city
   unit: ratio
   rows: 193
   first: '2026-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: operating_life
-  label: null
+  label: The study case's operating life
   unit: year
   rows: 4
   first: '2026-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: overnight_cost
-  label: null
+  label: EIA's overnight capital cost (financing during construction excluded), per kW, in the study's dollar year
   unit: USD/kW
   rows: 349
   first: '2023-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: taxable_share
-  label: null
+  label: Share of construction spending that bears sales and use tax, JEDI's own taxable base
   unit: ratio
   rows: 3
   first: '2026-01-01T00:00:00Z'

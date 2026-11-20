@@ -5,9 +5,11 @@
 table: cbs_netherlands_electricity_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's value of one measure of the Netherlands' electricity balance (production by source, own use, imports and
+  exports by country, losses, net consumption), from Statistics Netherlands table 84575NED.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; from 1976-01.
+vintage_rule: Rewritten whole as one snapshot by each run from CBS's table; vintage is the file's Last-Modified; x_status
+  gives the period's status.
 keys:
 - entity
 - variable
@@ -34,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: cbs:nl on every row
   type: text
   values:
     list:
@@ -77,6 +80,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: NL on every row
   type: text
   values:
     list:
@@ -84,12 +88,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8880
 - name: node
   shared: true
+  particular: CBS's Dutch title of the measure, not a pricing node
   type: text
   values:
     list:
@@ -142,14 +148,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-09-29T18:03:10Z': 8880
   missing_cells: 0
 - name: x_measure
-  label: null
-  unit: null
+  label: CBS's code of the measure
+  unit: none
   type: text
   values:
     distinct: 30
@@ -160,12 +167,13 @@ columns:
     - E006566
     - E006587
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Measure
+  documented_by: header; connector cbs_electricity.py; method cbs_netherlands_electricity_monthly.md
 - name: x_status
-  label: null
-  unit: null
+  label: 'The period''s status in CBS''s period codes: Definitief (final), NaderVoorlopig (revised provisional), Voorlopig
+    (provisional)'
+  unit: none
   type: text
   values:
     list:
@@ -173,186 +181,186 @@ columns:
       NaderVoorlopig: 719
       Voorlopig: 210
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector cbs_electricity.py; method cbs_netherlands_electricity_monthly.md
 variables:
 - name: distribution_losses
-  label: null
+  label: Distribution losses
   unit: MWh
   rows: 607
   first: '1976-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: export
-  label: null
+  label: Exports, total
   unit: MWh
   rows: 607
   first: '1976-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: export_belgium
-  label: null
+  label: Exports to Belgium
   unit: MWh
   rows: 376
   first: '1982-08-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: export_denmark
-  label: null
+  label: Exports to Denmark
   unit: MWh
   rows: 91
   first: '2019-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: export_germany
-  label: null
+  label: Exports to Germany
   unit: MWh
   rows: 376
   first: '1982-08-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: export_norway
-  label: null
+  label: Exports to Norway
   unit: MWh
   rows: 219
   first: '2008-05-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: export_united_kingdom
-  label: null
+  label: Exports to the United Kingdom
   unit: MWh
   rows: 183
   first: '2011-05-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: gross_production
-  label: null
+  label: Gross electricity production
   unit: MWh
   rows: 607
   first: '1976-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: import
-  label: null
+  label: Imports, total
   unit: MWh
   rows: 607
   first: '1976-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: import_belgium
-  label: null
+  label: Imports from Belgium
   unit: MWh
   rows: 340
   first: '1976-02-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: import_denmark
-  label: null
+  label: Imports from Denmark
   unit: MWh
   rows: 91
   first: '2019-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: import_germany
-  label: null
+  label: Imports from Germany
   unit: MWh
   rows: 340
   first: '1976-02-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: import_norway
-  label: null
+  label: Imports from Norway
   unit: MWh
   rows: 219
   first: '2008-05-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: import_united_kingdom
-  label: null
+  label: Imports from the United Kingdom
   unit: MWh
   rows: 183
   first: '2011-05-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_biomass
-  label: null
+  label: Net production from biomass
   unit: MWh
   rows: 139
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_coal
-  label: null
+  label: Net production from coal
   unit: MWh
   rows: 139
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_consumption
-  label: null
+  label: Net electricity consumption
   unit: MWh
   rows: 607
   first: '1976-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_fuels
-  label: null
+  label: Net production from fuels, total
   unit: MWh
   rows: 139
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_hydro
-  label: null
+  label: Net production from hydro power
   unit: MWh
   rows: 139
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_natural_gas
-  label: null
+  label: Net production from natural gas
   unit: MWh
   rows: 139
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_nuclear
-  label: null
+  label: Net production from nuclear energy
   unit: MWh
   rows: 134
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_oil_products
-  label: null
+  label: Net production from oil products
   unit: MWh
   rows: 139
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_other_fuels
-  label: null
+  label: Net production from other fuels
   unit: MWh
   rows: 139
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_other_sources
-  label: null
+  label: Net production from other sources
   unit: MWh
   rows: 139
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_production
-  label: null
+  label: Net electricity production, total
   unit: MWh
   rows: 607
   first: '1976-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_solar
-  label: null
+  label: Net production from solar
   unit: MWh
   rows: 139
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_wind
-  label: null
+  label: Net production from wind, total
   unit: MWh
   rows: 295
   first: '2002-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_wind_offshore
-  label: null
+  label: Net production from offshore wind
   unit: MWh
   rows: 238
   first: '2006-10-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_wind_onshore
-  label: null
+  label: Net production from onshore wind
   unit: MWh
   rows: 295
   first: '2002-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: own_use
-  label: null
+  label: Own use at electricity production
   unit: MWh
   rows: 607
   first: '1976-01-01T00:00:00Z'

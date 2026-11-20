@@ -31,6 +31,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: eia861:<utility number>:<state>:<county>
   type: text
   values:
     distinct: more than 5000
@@ -41,17 +42,17 @@ columns:
     - eia861:10000:KS:Douglas
     - eia861:10000:KS:Franklin
   missing_cells: 0
-  particular: eia861:<utility number>:<state>:<county>
 - name: entity_type
   shared: true
+  particular: Always utility
   type: text
   values:
     list:
       utility: 11893
   missing_cells: 0
-  particular: Always utility
 - name: name
   shared: true
+  particular: The utility's name as EIA writes it
   type: text
   values:
     distinct: 2909
@@ -62,9 +63,9 @@ columns:
     - AEP Texas North Company
     - AES Indiana
   missing_cells: 0
-  particular: The utility's name as EIA writes it
 - name: geo
   shared: true
+  particular: US-<state> of the county
   type: text
   values:
     distinct: 56
@@ -75,7 +76,6 @@ columns:
     - US-AS
     - US-AZ
   missing_cells: 0
-  particular: US-<state> of the county
 - name: lat
   shared: true
   type: empty
@@ -96,11 +96,11 @@ columns:
   missing_cells: 11893
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 11893
-  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -136,12 +136,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: EIA-861 <data year>, not a time
   type: text
   values:
     list:
       EIA-861 2025: 11893
   missing_cells: 0
-  particular: EIA-861 <data year>, not a time
 - name: x_utility_number
   label: EIA's utility identifier, the key of eia861_utility_sales and of OpenEI's eiaid
   unit: none

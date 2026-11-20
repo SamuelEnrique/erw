@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:<EIA series id>
   type: text
   values:
     distinct: 36
@@ -47,7 +48,6 @@ columns:
     - eia:N9132CN2
     - eia:N9132MX2
   missing_cells: 0
-  particular: eia:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -86,21 +86,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 1999
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1999
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's name of the series without its unit
   type: text
   values:
     distinct: 36
@@ -111,7 +112,6 @@ columns:
     - Cameron (Calcasieu Pass), LA Liquefied Natural Gas Exports to All Countries
     - Cameron, LA Liquefied Natural Gas Exports
   missing_cells: 0
-  particular: EIA's name of the series without its unit
 - name: source
   shared: true
   type: text
@@ -161,11 +161,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1999
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: export_volume
   label: Natural gas exported in the month (by pipeline to Canada or Mexico, LNG in all, or through one point of exit), million

@@ -5,9 +5,12 @@
 table: eia930_ba_interchange_hourly_2021
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One balancing authority's report of its interchange with one directly connected neighbour in one hour of 2021 (UTC),
+  from EIA's six-month files; the neighbour's own report is its own row.
+time: ts_utc is the hour's start (the file's UTC Time at End of Hour minus one hour); this table holds the hours of 2021,
+  UTC.
+vintage_rule: Rebuilt whole by each run from the newest saved copies of EIA's six-month INTERCHANGE files, which EIA rewrites
+  as authorities revise; no vintage column, x_file names each row's file.
 keys:
 - entity
 - variable
@@ -34,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<reporting BA>-<neighbour>
   type: text
   values:
     distinct: 305
@@ -89,6 +93,7 @@ columns:
   missing_cells: 0
 - name: ba
   shared: true
+  particular: The reporting balancing authority, lowercase
   type: text
   values:
     distinct: 64
@@ -100,8 +105,8 @@ columns:
     - azps
   missing_cells: 0
 - name: x_diba
-  label: null
-  unit: null
+  label: 'The neighbour: EIA''s Directly Interconnected Balancing Authority, its code'
+  unit: none
   type: text
   values:
     distinct: 72
@@ -112,12 +117,12 @@ columns:
     - AVA
     - AVRN
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Directly Interconnected Balancing Authority
+  documented_by: connector eia930_ba_interchange_hourly.py
 - name: x_region
-  label: null
-  unit: null
+  label: EIA's region the file names for the reporting authority
+  unit: none
   type: text
   values:
     list:
@@ -135,12 +140,12 @@ columns:
       TEN: 61320
       TEX: 17516
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Region
+  documented_by: connector eia930_ba_interchange_hourly.py; method eia930_region_hourly.md
 - name: x_diba_region
-  label: null
-  unit: null
+  label: EIA's region (or CAN, MEX for a neighbour abroad) the file names for the neighbour
+  unit: none
   type: text
   values:
     list:
@@ -160,12 +165,13 @@ columns:
       TEN: 60781
       TEX: 8261
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: DIBA_Region
+  documented_by: connector eia930_ba_interchange_hourly.py; data
 - name: x_file
-  label: null
-  unit: null
+  label: The six-month INTERCHANGE file the row was read from (<year>_<Jan_Jun or Jul_Dec>); the header gives each file's
+    address
+  unit: none
   type: text
   values:
     list:
@@ -173,12 +179,13 @@ columns:
       2021_Jan_Jun: 1317846
       2021_Jul_Dec: 1329559
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_region_hourly.md
 variables:
 - name: interchange_mw
-  label: null
+  label: 'Interchange with the neighbour as the reporting authority filed it: positive when it sends power to the neighbour
+    (EIA''s Interchange (MW))'
   unit: MW
   rows: 2649346
   first: '2021-01-01T00:00:00Z'

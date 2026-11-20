@@ -5,9 +5,10 @@
 table: merchant_revenue_monthly
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One ISO main hub's value of one merchant revenue measure for one asset type (solar, wind, a 2-hour or 4-hour battery,
+  a gas peaker) and one month, or the month's flat price and hours.
+time: ts_utc is the first day of the hub's local month at 00:00:00Z; freq P1M.
+vintage_rule: Rewritten whole by each run (the old file removed first); vintage is not filled; partition column ba.
 keys:
 - entity
 - variable
@@ -35,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <iso>:<hub>, each ISO's main hub (ercot:HB_HUBAVG, caiso:TH_SP15_GEN-APND, isone:.H.INTERNAL_HUB, miso:INDIANA.HUB,
+    nyiso:N.Y.C., spp:SPPNORTH_HUB)
   type: text
   values:
     list:
@@ -99,6 +102,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: '<iso>_rtm on every row: real-time prices only'
   type: text
   values:
     list:
@@ -144,6 +148,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -162,223 +167,231 @@ columns:
   missing_cells: 0
 variables:
 - name: battery_2h_capture_price
-  label: null
+  label: 'A 2-hour battery (perfect-foresight upper bound): capture price, sales over energy delivered'
   unit: USD/MWh
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: battery_2h_capture_rate
-  label: null
+  label: 'A 2-hour battery (perfect-foresight upper bound): capture price over flat price, percent'
   unit: pct
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: battery_2h_energy_per_mw
-  label: null
+  label: 'A 2-hour battery (perfect-foresight upper bound): energy delivered per MW in the month'
   unit: MWh/MW
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: battery_2h_flat_price
-  label: null
+  label: 'A 2-hour battery (perfect-foresight upper bound): mean real-time price over the hours the asset used'
   unit: USD/MWh
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: battery_2h_hours
-  label: null
+  label: 'A 2-hour battery (perfect-foresight upper bound): priced hours used (for batteries, the days)'
   unit: count
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: battery_2h_revenue_per_mw
-  label: null
+  label: 'A 2-hour battery (perfect-foresight upper bound): merchant revenue per MW in the month: sales less purchases (batteries)
+    or less fuel and variable O&M (peaker)'
   unit: USD/MW
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: battery_2h_sales_per_mw
-  label: null
+  label: 'A 2-hour battery (perfect-foresight upper bound): sales per MW in the month at the real-time hub price'
   unit: USD/MW
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: battery_4h_capture_price
-  label: null
+  label: 'A 4-hour battery (perfect-foresight upper bound): capture price, sales over energy delivered'
   unit: USD/MWh
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: battery_4h_capture_rate
-  label: null
+  label: 'A 4-hour battery (perfect-foresight upper bound): capture price over flat price, percent'
   unit: pct
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: battery_4h_energy_per_mw
-  label: null
+  label: 'A 4-hour battery (perfect-foresight upper bound): energy delivered per MW in the month'
   unit: MWh/MW
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: battery_4h_flat_price
-  label: null
+  label: 'A 4-hour battery (perfect-foresight upper bound): mean real-time price over the hours the asset used'
   unit: USD/MWh
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: battery_4h_hours
-  label: null
+  label: 'A 4-hour battery (perfect-foresight upper bound): priced hours used (for batteries, the days)'
   unit: count
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: battery_4h_revenue_per_mw
-  label: null
+  label: 'A 4-hour battery (perfect-foresight upper bound): merchant revenue per MW in the month: sales less purchases (batteries)
+    or less fuel and variable O&M (peaker)'
   unit: USD/MW
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: battery_4h_sales_per_mw
-  label: null
+  label: 'A 4-hour battery (perfect-foresight upper bound): sales per MW in the month at the real-time hub price'
   unit: USD/MW
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: flat_price
-  label: null
+  label: The month's mean real-time price over all its priced hours
   unit: USD/MWh
   rows: 245
   first: '2018-06-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: hours_in_month
-  label: null
+  label: The hours of the month
   unit: count
   rows: 245
   first: '2018-06-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: peaker_capture_price
-  label: null
+  label: 'A gas peaker (runs when the hub price exceeds its fuel and variable cost): capture price, sales over energy delivered'
   unit: USD/MWh
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: peaker_capture_rate
-  label: null
+  label: 'A gas peaker (runs when the hub price exceeds its fuel and variable cost): capture price over flat price, percent'
   unit: pct
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: peaker_energy_per_mw
-  label: null
+  label: 'A gas peaker (runs when the hub price exceeds its fuel and variable cost): energy delivered per MW in the month'
   unit: MWh/MW
   rows: 245
   first: '2018-06-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: peaker_flat_price
-  label: null
+  label: 'A gas peaker (runs when the hub price exceeds its fuel and variable cost): mean real-time price over the hours the
+    asset used'
   unit: USD/MWh
   rows: 245
   first: '2018-06-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: peaker_hours
-  label: null
+  label: 'A gas peaker (runs when the hub price exceeds its fuel and variable cost): priced hours used (for batteries, the
+    days)'
   unit: count
   rows: 245
   first: '2018-06-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: peaker_revenue_per_mw
-  label: null
+  label: 'A gas peaker (runs when the hub price exceeds its fuel and variable cost): merchant revenue per MW in the month:
+    sales less purchases (batteries) or less fuel and variable O&M (peaker)'
   unit: USD/MW
   rows: 245
   first: '2018-06-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: peaker_sales_per_mw
-  label: null
+  label: 'A gas peaker (runs when the hub price exceeds its fuel and variable cost): sales per MW in the month at the real-time
+    hub price'
   unit: USD/MW
   rows: 245
   first: '2018-06-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: solar_capture_price
-  label: null
+  label: 'Solar (fleet average per MW of nameplate): capture price, sales over energy delivered'
   unit: USD/MWh
   rows: 218
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: solar_capture_rate
-  label: null
+  label: 'Solar (fleet average per MW of nameplate): capture price over flat price, percent'
   unit: pct
   rows: 218
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: solar_energy_per_mw
-  label: null
+  label: 'Solar (fleet average per MW of nameplate): energy delivered per MW in the month'
   unit: MWh/MW
   rows: 218
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: solar_flat_price
-  label: null
+  label: 'Solar (fleet average per MW of nameplate): mean real-time price over the hours the asset used'
   unit: USD/MWh
   rows: 218
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: solar_hours
-  label: null
+  label: 'Solar (fleet average per MW of nameplate): priced hours used (for batteries, the days)'
   unit: count
   rows: 218
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: solar_revenue_per_mw
-  label: null
+  label: 'Solar (fleet average per MW of nameplate): merchant revenue per MW in the month: sales less purchases (batteries)
+    or less fuel and variable O&M (peaker)'
   unit: USD/MW
   rows: 218
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: solar_sales_per_mw
-  label: null
+  label: 'Solar (fleet average per MW of nameplate): sales per MW in the month at the real-time hub price'
   unit: USD/MW
   rows: 218
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: wind_capture_price
-  label: null
+  label: 'Wind (fleet average per MW of nameplate): capture price, sales over energy delivered'
   unit: USD/MWh
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: wind_capture_rate
-  label: null
+  label: 'Wind (fleet average per MW of nameplate): capture price over flat price, percent'
   unit: pct
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: wind_energy_per_mw
-  label: null
+  label: 'Wind (fleet average per MW of nameplate): energy delivered per MW in the month'
   unit: MWh/MW
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: wind_flat_price
-  label: null
+  label: 'Wind (fleet average per MW of nameplate): mean real-time price over the hours the asset used'
   unit: USD/MWh
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: wind_hours
-  label: null
+  label: 'Wind (fleet average per MW of nameplate): priced hours used (for batteries, the days)'
   unit: count
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: wind_revenue_per_mw
-  label: null
+  label: 'Wind (fleet average per MW of nameplate): merchant revenue per MW in the month: sales less purchases (batteries)
+    or less fuel and variable O&M (peaker)'
   unit: USD/MW
   rows: 244
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: wind_sales_per_mw
-  label: null
+  label: 'Wind (fleet average per MW of nameplate): sales per MW in the month at the real-time hub price'
   unit: USD/MW
   rows: 244
   first: '2018-07-01T00:00:00Z'

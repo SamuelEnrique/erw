@@ -5,9 +5,11 @@
 table: cer_pipeline_throughput
 family: cer
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One measure (throughput, contracted volumes or capacity) at one key point of one of the nine Canadian pipelines that
+  cross the U.S. border, for one oil month or one gas day, from the CER's Pipeline Throughput and Capacity Data.
+time: ts_utc is the CER's date at 00:00:00Z, an oil month's first day (P1M) or a gas day (P1D).
+vintage_rule: A later run merges by (entity, variable, ts_utc), a revised value replacing the old one; vintage is each file's
+  last-modified time.
 keys:
 - entity
 - variable
@@ -34,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: cer_pipe:<pipeline>:<key point>, with :<product>:<trade type> for an oil line's volumes and :<direction> for
+    a gas line
   type: text
   values:
     distinct: 54
@@ -75,6 +79,7 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: P1M for an oil line, P1D for a gas line
   type: text
   values:
     list:
@@ -83,6 +88,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always CA
   type: text
   values:
     list:
@@ -90,12 +96,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 408073
 - name: node
   shared: true
+  particular: The pipeline, key point (and product) in the CER's words, not a pricing node
   type: text
   values:
     distinct: 44
@@ -145,6 +153,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: Each pipeline file's last-modified time
   type: utc time
   values:
     list:
@@ -158,8 +167,8 @@ columns:
       '2026-08-27T21:33:30Z': 100670
   missing_cells: 0
 - name: x_company
-  label: null
-  unit: null
+  label: The company that operates the pipeline, as the CER writes it
+  unit: none
   type: text
   values:
     list:
@@ -173,12 +182,12 @@ columns:
       TransCanada PipeLines Limited (TCPL): 213510
       Westcoast Energy Inc.: 100670
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Company
+  documented_by: method cer_pipeline_throughput.md; connector cer_throughput.py
 - name: x_direction
-  label: null
-  unit: null
+  label: The direction of flow at the key point (east, south, north and the others)
+  unit: none
   type: text
   values:
     list:
@@ -189,12 +198,13 @@ columns:
       southeast: 44816
       west: 74906
   missing_cells: 414
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The CER's file gives none
+  source_name: Direction Of Flow
+  documented_by: method cer_pipeline_throughput.md; connector cer_throughput.py
 - name: x_trade_type
-  label: null
-  unit: null
+  label: 'The trade type of the flow: export, import, intracanada, or as the CER writes it intracanada / export; a capacity
+    row carries the first product row''s trade type that month'
+  unit: none
   type: text
   values:
     list:
@@ -203,36 +213,36 @@ columns:
       intracanada: 175872
       intracanada / export: 707
   missing_cells: 414
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The CER's file gives none (Keystone, 414 rows)
+  source_name: Trade Type
+  documented_by: method cer_pipeline_throughput.md; connector cer_throughput.py
 - name: x_latitude
-  label: null
-  unit: null
+  label: The key point's latitude, as the CER gives it
+  unit: degree
   type: number
   values:
     distinct: 27
     lowest: 42.28
     highest: 55.8643
   missing_cells: 180
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The CER's file gives none
+  source_name: Latitude
+  documented_by: method cer_pipeline_throughput.md; connector cer_throughput.py
 - name: x_longitude
-  label: null
-  unit: null
+  label: The key point's longitude, as the CER gives it (west negative)
+  unit: degree
   type: number
   values:
     distinct: 27
     lowest: -122.22
     highest: -67.4545
   missing_cells: 180
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The CER's file gives none
+  source_name: Longitude
+  documented_by: method cer_pipeline_throughput.md; connector cer_throughput.py
 - name: x_reason
-  label: null
-  unit: null
+  label: The CER's reason for variance, a note on an oil line's figures, as written
+  unit: none
   type: text
   values:
     list:
@@ -263,42 +273,43 @@ columns:
         by the US portion of Cochin, which currently has a capacity of 95,000 bpd (15.10 10^3 m/3).
       : 2
   missing_cells: 404537
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The CER gives no reason (all gas rows and most oil rows)
+  source_name: Reason For Variance
+  documented_by: method cer_pipeline_throughput.md; connector cer_throughput.py
 variables:
 - name: available_capacity
-  label: null
+  label: An oil key point's available capacity, one figure a month for all its products, m3/d
   unit: m3/d
   rows: 906
   first: '2007-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: capacity
-  label: null
+  label: A gas key point's capacity, m3/d (the CER's thousand cubic metres a day times 1,000)
   unit: m3/d
   rows: 201956
   first: '2006-01-01T00:00:00Z'
   last: '2026-06-30T00:00:00Z'
 - name: committed_volume
-  label: null
+  label: An oil line's committed (contracted) volumes, m3/d (Keystone only)
   unit: m3/d
   rows: 138
   first: '2015-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: nameplate_capacity
-  label: null
+  label: An oil key point's nameplate capacity, one figure a month for all its products, m3/d (Enbridge's Mainline only)
   unit: m3/d
   rows: 468
   first: '2007-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: throughput
-  label: null
+  label: The volume that flowed through the key point, m3/d (the CER's thousand cubic metres a day times 1,000; a rate, not
+    a total)
   unit: m3/d
   rows: 204467
   first: '2006-01-01T00:00:00Z'
   last: '2026-06-30T00:00:00Z'
 - name: uncommitted_volume
-  label: null
+  label: An oil line's uncommitted volumes, m3/d (Keystone only)
   unit: m3/d
   rows: 138
   first: '2015-01-01T00:00:00Z'

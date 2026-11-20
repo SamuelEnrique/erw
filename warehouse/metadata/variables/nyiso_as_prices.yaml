@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: nyiso:<region>, the reserve region as NYISO's file names it
   type: text
   values:
     list:
@@ -42,7 +43,6 @@ columns:
       nyiso:NYCA: 18336
       nyiso:WEST: 55008
   missing_cells: 0
-  particular: nyiso:<region>, the reserve region as NYISO's file names it
 - name: variable
   shared: true
   type: text
@@ -88,14 +88,17 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'nyiso_dam in every row: NYISO''s day-ahead market'
   type: text
   values:
     list:
       nyiso_dam: 293376
   missing_cells: 0
-  particular: 'nyiso_dam in every row: NYISO''s day-ahead market'
 - name: node
   shared: true
+  particular: 'The reserve region: five of NYISO''s eleven load zones, one for each set of zones that can price reserves apart
+    (CAPITL, HUD VL, LONGIL, N.Y.C., WEST; WEST also stands for GENESE, CENTRL, NORTH and MHK VL, HUD VL for MILLWD and DUNWOD),
+    and NYCA, the whole control area, for regulation'
   type: text
   values:
     list:
@@ -106,9 +109,6 @@ columns:
       NYCA: 18336
       WEST: 55008
   missing_cells: 0
-  particular: 'The reserve region: five of NYISO''s eleven load zones, one for each set of zones that can price reserves apart
-    (CAPITL, HUD VL, LONGIL, N.Y.C., WEST; WEST also stands for GENESE, CENTRL, NORTH and MHK VL, HUD VL for MILLWD and DUNWOD),
-    and NYCA, the whole control area, for regulation'
 - name: source
   shared: true
   type: text
@@ -138,11 +138,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 293376
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: as_price_dam_nsync10
   label: Day-ahead price of 10-minute non-synchronous reserve (NYISO's 10 Min Non-Synchronous Reserve), USD per MW held for

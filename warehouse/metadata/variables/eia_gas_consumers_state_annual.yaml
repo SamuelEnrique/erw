@@ -5,9 +5,10 @@
 table: eia_gas_consumers_state_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or the nation's) yearly number of natural gas consumers of one kind (residential, commercial, industrial;
+  in all, buying from a utility, or with gas transported for them).
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'eia_gas_consumers:<EIA area: NUS or S<state>>'
   type: text
   values:
     distinct: 52
@@ -81,6 +83,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation
   type: text
   values:
     distinct: 52
@@ -93,12 +96,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 12864
 - name: node
   shared: true
+  particular: EIA's series description
   type: text
   values:
     distinct: 444
@@ -132,61 +137,62 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 12864
 variables:
 - name: commercial_consumers
-  label: null
+  label: Number of commercial natural gas consumers
   unit: count
   rows: 1987
   first: '1986-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: commercial_consumers_sales
-  label: null
+  label: Commercial consumers buying gas from a utility
   unit: count
   rows: 1248
   first: '1998-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: commercial_consumers_transported
-  label: null
+  label: Commercial consumers with gas transported for them
   unit: count
   rows: 1198
   first: '1998-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: industrial_consumers
-  label: null
+  label: Number of industrial natural gas consumers
   unit: count
   rows: 1934
   first: '1986-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: industrial_consumers_sales
-  label: null
+  label: Industrial consumers buying gas from a utility
   unit: count
   rows: 1224
   first: '1998-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: industrial_consumers_transported
-  label: null
+  label: Industrial consumers with gas transported for them
   unit: count
   rows: 1199
   first: '1998-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: residential_consumers
-  label: null
+  label: Number of residential natural gas consumers
   unit: count
   rows: 1987
   first: '1986-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: residential_consumers_sales
-  label: null
+  label: Residential consumers buying gas from a utility
   unit: count
   rows: 1299
   first: '1997-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: residential_consumers_transported
-  label: null
+  label: Residential consumers with gas transported for them
   unit: count
   rows: 788
   first: '1997-01-01T00:00:00Z'

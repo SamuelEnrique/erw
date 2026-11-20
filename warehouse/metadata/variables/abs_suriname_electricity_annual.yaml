@@ -5,9 +5,11 @@
 table: abs_suriname_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's value of one Suriname electricity measure (EBS's demand by category, net generation, net consumption or capacity,
+  or a Staatsolie plant's generation), from the statistics office's Environment Statistics Publication.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y.
+vintage_rule: Rewritten whole as one snapshot by each run from the saved publication; vintage is the publication's last-modified
+  time.
 keys:
 - entity
 - variable
@@ -36,6 +38,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: abs_sr:ebs, abs_sr:ebs:<demand category> or abs_sr:staatsolie:<plant>
   type: text
   values:
     list:
@@ -91,6 +94,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: SR on every row
   type: text
   values:
     list:
@@ -98,12 +102,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 56
 - name: node
   shared: true
+  particular: ABS's label of the row (English part), not a pricing node
   type: text
   values:
     list:
@@ -143,14 +149,16 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The publication's last-modified time (UTC)
   type: utc time
   values:
     list:
       '2024-12-31T08:40:24Z': 56
   missing_cells: 0
 - name: x_table
-  label: null
-  unit: null
+  label: The publication's table the row is read from (7.1 capacity, 7.4 demand, 7.8 net generation and consumption, 7.9 Staatsolie's
+    generation)
+  unit: none
   type: number
   values:
     list:
@@ -159,42 +167,43 @@ columns:
       '7.8': 10
       '7.9': 15
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method abs_suriname_electricity_annual.md; connector abs_suriname_electricity.py
 variables:
 - name: available_capacity
-  label: null
+  label: EBS's available capacity, table 7.1
   unit: MW
   rows: 3
   first: '2019-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: demand
-  label: null
+  label: EBS's electricity demand in the year by customer category (residential, commercial, industrial, other, total), table
+    7.4
   unit: MWh
   rows: 25
   first: '2019-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: generation
-  label: null
+  label: A Staatsolie plant's electricity generation in the year, table 7.9
   unit: MWh
   rows: 15
   first: '2019-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: installed_capacity
-  label: null
+  label: EBS's installed capacity, table 7.1
   unit: MW
   rows: 3
   first: '2019-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: net_consumption
-  label: null
+  label: EBS's net consumption in the year, table 7.8
   unit: MWh
   rows: 5
   first: '2019-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: net_generation
-  label: null
+  label: EBS's total electricity net generation in the year, table 7.8
   unit: MWh
   rows: 5
   first: '2019-01-01T00:00:00Z'

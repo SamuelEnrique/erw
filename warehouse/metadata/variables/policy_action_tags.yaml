@@ -5,9 +5,10 @@
 table: policy_action_tags
 family: policy
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One tag (large_load, interconnection, transmission_cost or tax_credit) given to one policy action of policy_actions by
+  a written rule applied by code (no model reads a row).
+time: event_date is the action's own date (publication or release, a date).
+vintage_rule: A snapshot; a later rule version replaces the rows, rewritten whole by warehouse/derived/policy_action_tags.py.
 keys:
 - event_id
 license: public
@@ -43,6 +44,7 @@ columns:
   missing_cells: 0
 - name: event_date
   shared: true
+  particular: The action's date
   type: date
   values:
     list:
@@ -65,6 +67,7 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: Always policy_tag
   type: text
   values:
     list:
@@ -107,6 +110,7 @@ columns:
   missing_cells: 38
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -126,8 +130,8 @@ columns:
       https://github.com/SamuelEnrique/erw/blob/main/docs/methods/policy_action_tags.md: 38
   missing_cells: 0
 - name: action_event_id
-  label: null
-  unit: null
+  label: The tagged action's event_id in policy_actions
+  unit: none
   type: text
   values:
     list:
@@ -154,12 +158,12 @@ columns:
       federalregister:2026-18105: 1
       puct:537c766a4c02: 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector policy_action_tags.py
 - name: tag
-  label: null
-  unit: null
+  label: 'The tag: large_load, interconnection, transmission_cost or tax_credit'
+  unit: none
   type: text
   values:
     list:
@@ -168,12 +172,12 @@ columns:
       tax_credit: 5
       transmission_cost: 12
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: matched_term
-  label: null
-  unit: null
+  label: The rule's term that matched (a phrase, or a docket number the rule lists)
+  unit: none
   type: text
   values:
     list:
@@ -194,12 +198,12 @@ columns:
       transmission formula rate: 1
       transmission service rate: 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: matched_field
-  label: null
-  unit: null
+  label: 'The field the term matched in: title, abstract, first_paragraph (the first paragraph of the printed text) or docket'
+  unit: none
   type: text
   values:
     list:
@@ -208,12 +212,12 @@ columns:
       first_paragraph: 3
       title: 10
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: agency
-  label: null
-  unit: null
+  label: The action's agency, short name (FERC, DOE, IRS, CPUC, PUCT and the others)
+  unit: none
   type: text
   values:
     list:
@@ -223,12 +227,12 @@ columns:
       IRS: 5
       PUCT: 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py; data
 - name: action_type
-  label: null
-  unit: null
+  label: 'The action''s type: rule, proposed_rule, notice or press_release'
+  unit: none
   type: text
   values:
     list:
@@ -236,12 +240,12 @@ columns:
       press_release: 2
       proposed_rule: 3
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: title
-  label: null
-  unit: null
+  label: The action's title
+  unit: none
   type: text
   values:
     list:
@@ -332,12 +336,12 @@ columns:
         Green Chile Project
       : 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector policy_sources.py
 - name: action_url
-  label: null
-  unit: null
+  label: The action's own document
+  unit: none
   type: text
   values:
     list:
@@ -382,20 +386,20 @@ columns:
       ? https://www.federalregister.gov/documents/2026/09/04/2026-18105/publication-of-inflation-adjustment-factor-and-applicable-amounts-for-clean-electricity-production
       : 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: rule_version
-  label: null
-  unit: null
+  label: The version of the tag rules (warehouse/config/policy_tag_rules.json) that gave the tag
+  unit: none
   type: integer
   values:
     list:
       '3': 38
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: retrieved_at
   shared: true
   type: utc time

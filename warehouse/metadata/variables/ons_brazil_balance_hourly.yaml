@@ -5,9 +5,11 @@
 table: ons_brazil_balance_hourly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One Brazilian subsystem's (or the national interconnected system's) generation by source, load or net interchange in
+  one hour, from ONS's energy balance.
+time: ts_utc is the hour's start in UTC, from Brasilia time (UTC-3) as ONS prints it; freq PT1H.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s hours replace the same hours (ONS revises its data) and older
+  ones are kept; vintage is each yearly file''s Last-Modified.'
 keys:
 - entity
 - variable
@@ -34,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'ons:<subsystem>: N, NE, S, SE, or SIN (the national interconnected system)'
   type: text
   values:
     list:
@@ -81,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: BR on every row
   type: text
   values:
     list:
@@ -88,12 +92,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1790640
 - name: node
   shared: true
+  particular: ONS's subsystem name in Portuguese, not a pricing node
   type: text
   values:
     list:
@@ -135,6 +141,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The yearly file's Last-Modified (UTC)
   type: utc time
   values:
     list:
@@ -147,8 +154,8 @@ columns:
       '2026-10-23T22:00:22Z': 212400
   missing_cells: 0
 - name: x_brasilia_hour
-  label: null
-  unit: null
+  label: ONS's stamp of the hour as printed, Brasilia time
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -159,42 +166,42 @@ columns:
     - '2020-01-01 03:00:00'
     - '2020-01-01 04:00:00'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: din_instante
+  documented_by: connector ons_balance.py; method ons_brazil_balance_hourly.md
 variables:
 - name: hydro
-  label: null
+  label: Hydro generation, the hour's mean (ONS's MWmed)
   unit: MW
   rows: 298440
   first: '2020-01-01T03:00:00Z'
   last: '2026-10-23T02:00:00Z'
 - name: load
-  label: null
+  label: Load, the hour's mean
   unit: MW
   rows: 298440
   first: '2020-01-01T03:00:00Z'
   last: '2026-10-23T02:00:00Z'
 - name: net_interchange
-  label: null
+  label: ONS's net interchange, positive an export (it can differ from generation minus load)
   unit: MW
   rows: 298440
   first: '2020-01-01T03:00:00Z'
   last: '2026-10-23T02:00:00Z'
 - name: solar
-  label: null
+  label: Solar generation, the hour's mean
   unit: MW
   rows: 298440
   first: '2020-01-01T03:00:00Z'
   last: '2026-10-23T02:00:00Z'
 - name: thermal
-  label: null
+  label: Thermal generation, the hour's mean
   unit: MW
   rows: 298440
   first: '2020-01-01T03:00:00Z'
   last: '2026-10-23T02:00:00Z'
 - name: wind
-  label: null
+  label: Wind generation, the hour's mean
   unit: MW
   rows: 298440
   first: '2020-01-01T03:00:00Z'

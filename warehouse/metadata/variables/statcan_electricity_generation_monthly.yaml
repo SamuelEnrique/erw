@@ -5,9 +5,11 @@
 table: statcan_electricity_generation_monthly
 family: statcan
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One area's (Canada, a province or a territory) electricity generation by one class of producer and one type of generation
+  in one month, from Statistics Canada table 25-10-0015-01.
+time: ts_utc is the month's first day at 00:00:00Z (a month, not an instant); freq P1M.
+vintage_rule: Each run writes the whole table again (a snapshot), since StatCan revises the table at the same address; vintage
+  is the zip's Last-Modified time, the same in every row.
 keys:
 - entity
 - variable
@@ -35,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: statcan_gen:<area>:<class>:<type>, the area ca or the province's or territory's postal code in lower case
   type: text
   values:
     distinct: 458
@@ -83,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: CA for Canada, CA-<province> for a province or territory
   type: text
   values:
     list:
@@ -103,12 +107,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 58361
 - name: node
   shared: true
+  particular: The area, class and type as StatCan names them, not a pricing node
   type: text
   values:
     distinct: 458
@@ -142,14 +148,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified time of StatCan's zip
   type: utc time
   values:
     list:
       '2026-09-29T12:30:43Z': 58361
   missing_cells: 0
 - name: x_class
-  label: null
-  unit: null
+  label: 'The class of electricity producer: all (StatCan''s total of all classes), utilities (electric utilities) or industries'
+  unit: none
   type: text
   values:
     list:
@@ -157,12 +164,13 @@ columns:
       industries: 15465
       utilities: 21403
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Class of electricity producer
+  documented_by: header; connector statcan_electricity.py
 - name: x_type
-  label: null
-  unit: null
+  label: The type of electricity generation, StatCan's name as a slug (hydraulic_turbine, solar, total_all_types_of_electricity_generation
+    and the others)
+  unit: none
   type: text
   values:
     list:
@@ -180,23 +188,23 @@ columns:
       total_electricity_production_from_non_renewable_combustible_fuels: 3257
       wind_power_turbine: 7217
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Type of electricity generation
+  documented_by: header; connector statcan_electricity.py; method statcan_electricity_generation_monthly.md
 - name: x_total
-  label: null
-  unit: null
+  label: yes where the class or the type is one of StatCan's totals, never to be summed with its parts
+  unit: none
   type: text
   values:
     list:
       'yes': 35051
   missing_cells: 23310
-  missing_meaning: null
+  missing_meaning: Neither the class nor the type is a total
   source_name: null
-  documented_by: null
+  documented_by: header; connector statcan_electricity.py
 - name: x_vector
-  label: null
-  unit: null
+  label: StatCan's vector identifier of the series
+  unit: none
   type: text
   values:
     distinct: 458
@@ -207,23 +215,23 @@ columns:
     - v1059484807
     - v1059484808
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: VECTOR
+  documented_by: header; connector statcan_electricity.py
 - name: x_revised
-  label: null
-  unit: null
+  label: r where StatCan marks the figure revised
+  unit: none
   type: text
   values:
     list:
       r: 698
   missing_cells: 57663
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: StatCan gives no revision mark
+  source_name: SYMBOL
+  documented_by: header; connector statcan_electricity.py; method statcan_electricity_generation_monthly.md
 variables:
 - name: generation
-  label: null
+  label: Electricity generated in the month by the class and type of the row, MWh
   unit: MWh
   rows: 58361
   first: '2008-01-01T00:00:00Z'

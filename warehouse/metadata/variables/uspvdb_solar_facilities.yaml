@@ -5,9 +5,9 @@
 table: uspvdb_solar_facilities
 family: other_sources
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One large-scale solar photovoltaic facility in the USGS U.S. Large-Scale Solar Photovoltaic Database.
+time: No time column; project_year is the year of operation; image_date the date of the image it was drawn from.
+vintage_rule: Rewritten whole as one snapshot by each run from the database's API; vintage is not filled.
 keys:
 - entity_id
 license: public
@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: uspvdb:<case_id>
   type: text
   values:
     distinct: more than 5000
@@ -44,6 +45,7 @@ columns:
   missing_cells: 0
 - name: entity_type
   shared: true
+  particular: plant on every row
   type: text
   values:
     list:
@@ -51,6 +53,7 @@ columns:
   missing_cells: 0
 - name: name
   shared: true
+  particular: The facility's name (p_name)
   type: text
   values:
     distinct: more than 5000
@@ -63,6 +66,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>
   type: text
   values:
     distinct: 50
@@ -75,6 +79,7 @@ columns:
   missing_cells: 0
 - name: lat
   shared: true
+  particular: The outline's centroid (ylat)
   type: number
   values:
     distinct: more than 5000
@@ -83,6 +88,7 @@ columns:
   missing_cells: 0
 - name: lon
   shared: true
+  particular: The outline's centroid (xlong)
   type: number
   values:
     distinct: more than 5000
@@ -91,6 +97,7 @@ columns:
   missing_cells: 0
 - name: capacity_mw
   shared: true
+  particular: The facility's AC capacity (p_cap_ac)
   type: number
   values:
     distinct: 475
@@ -99,6 +106,7 @@ columns:
   missing_cells: 0
 - name: status
   shared: true
+  particular: 'Not filled: the database lists facilities in operation'
   type: empty
   values:
     note: no cell holds a value
@@ -138,37 +146,38 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 6611
 - name: case_id
-  label: null
-  unit: null
+  label: The database's id of the facility
+  unit: none
   type: integer
   values:
     distinct: more than 5000
     lowest: 400004
     highest: 407577
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: case_id
+  documented_by: connector uspvdb.py; method uspvdb_solar_facilities.md
 - name: eia_plant_id
-  label: null
-  unit: null
+  label: EIA's plant id
+  unit: none
   type: integer
   values:
     distinct: more than 5000
     lowest: 645
     highest: 69098
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: eia_id
+  documented_by: method uspvdb_solar_facilities.md
 - name: project_name
-  label: null
-  unit: null
+  label: The facility's name
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -179,12 +188,12 @@ columns:
     - 10 Briggs Solar NG, LLC (East)
     - 10 Finderne Avenue Solar, LLC
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: p_name
+  documented_by: method uspvdb_solar_facilities.md
 - name: project_year
-  label: null
-  unit: null
+  label: The year of operation (the newest year not complete)
+  unit: none
   type: integer
   values:
     list:
@@ -214,12 +223,12 @@ columns:
       '2024': 647
       '2025': 217
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: p_year
+  documented_by: method uspvdb_solar_facilities.md
 - name: state
-  label: null
-  unit: null
+  label: The state, postal code
+  unit: none
   type: text
   values:
     distinct: 50
@@ -230,12 +239,12 @@ columns:
     - AZ
     - CA
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: p_state
+  documented_by: method uspvdb_solar_facilities.md
 - name: county
-  label: null
-  unit: null
+  label: The county
+  unit: none
   type: text
   values:
     distinct: 880
@@ -246,12 +255,12 @@ columns:
     - Adams
     - Addison
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: p_county
+  documented_by: method uspvdb_solar_facilities.md
 - name: power_region
-  label: null
-  unit: null
+  label: The power region (PJM, MISO, ISNE, CISO, ERCO and others)
+  unit: none
   type: text
   values:
     distinct: 53
@@ -262,59 +271,59 @@ columns:
     - AVRN
     - AZPS
   missing_cells: 17
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: USGS leaves it blank
+  source_name: p_pwr_reg
+  documented_by: method uspvdb_solar_facilities.md
 - name: capacity_ac_mw
-  label: null
-  unit: null
+  label: The facility's AC capacity
+  unit: MW
   type: number
   values:
     distinct: 475
     lowest: 0.2
     highest: 690.0
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: p_cap_ac
+  documented_by: method uspvdb_solar_facilities.md
 - name: capacity_dc_mw
-  label: null
-  unit: null
+  label: The facility's DC capacity
+  unit: MW
   type: number
   values:
     distinct: 857
     lowest: 1.0
     highest: 788.2
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: p_cap_dc
+  documented_by: method uspvdb_solar_facilities.md
 - name: area_m2
-  label: null
-  unit: null
+  label: The outline's area
+  unit: m2
   type: integer
   values:
     distinct: more than 5000
     lowest: 869
     highest: 18802490
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: p_area
+  documented_by: method uspvdb_solar_facilities.md
 - name: technology_primary
-  label: null
-  unit: null
+  label: The primary technology (PV on every row)
+  unit: none
   type: text
   values:
     list:
       PV: 6611
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: p_tech_pri
+  documented_by: method uspvdb_solar_facilities.md
 - name: technology_secondary
-  label: null
-  unit: null
+  label: The secondary technology (c-si crystalline silicon, thin-film, cpv concentrating PV, other)
+  unit: none
   type: text
   values:
     list:
@@ -326,12 +335,12 @@ columns:
       other: 18
       thin-film: 631
   missing_cells: 236
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: USGS leaves it blank
+  source_name: p_tech_sec
+  documented_by: method uspvdb_solar_facilities.md
 - name: axis
-  label: null
-  unit: null
+  label: 'The tracking: single-axis, fixed-tilt, dual-axis, or more than one'
+  unit: none
   type: text
   values:
     list:
@@ -341,47 +350,47 @@ columns:
       fixed-tilt,single-axis: 21
       single-axis: 3146
   missing_cells: 284
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: USGS leaves it blank
+  source_name: p_axis
+  documented_by: method uspvdb_solar_facilities.md
 - name: azimuth_deg
-  label: null
-  unit: null
+  label: The panels' azimuth
+  unit: degree
   type: integer
   values:
     distinct: 185
     lowest: 0
     highest: 360
   missing_cells: 222
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: USGS leaves it blank
+  source_name: p_azimuth
+  documented_by: method uspvdb_solar_facilities.md
 - name: tilt_deg
-  label: null
-  unit: null
+  label: The panels' tilt
+  unit: degree
   type: integer
   values:
     distinct: 54
     lowest: 0
     highest: 90
   missing_cells: 1323
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: USGS leaves it blank
+  source_name: p_tilt
+  documented_by: method uspvdb_solar_facilities.md
 - name: battery
-  label: null
-  unit: null
+  label: batteries where the facility has them
+  unit: none
   type: text
   values:
     list:
       batteries: 375
   missing_cells: 6236
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The facility has no battery listed
+  source_name: p_battery
+  documented_by: method uspvdb_solar_facilities.md
 - name: agrivoltaic
-  label: null
-  unit: null
+  label: non-agrivoltaic, or es, grazing, crop and their combinations, as USGS gives them
+  unit: none
   type: text
   values:
     list:
@@ -394,12 +403,12 @@ columns:
       grazing: 106
       non-agrivoltaic: 6170
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: p_agrivolt
+  documented_by: method uspvdb_solar_facilities.md
 - name: site_type
-  label: null
-  unit: null
+  label: The site type (greenfield, landfill, superfund and others, as USGS gives them)
+  unit: none
   type: text
   values:
     list:
@@ -411,12 +420,12 @@ columns:
       landfill named: 67
       superfund: 38
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: p_type
+  documented_by: method uspvdb_solar_facilities.md; data
 - name: system_type
-  label: null
-  unit: null
+  label: 'The system type: ground, rooftop, canopy, floating, or more than one'
+  unit: none
   type: text
   values:
     list:
@@ -429,24 +438,24 @@ columns:
       ground,rooftop: 4
       rooftop: 407
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: p_sys_type
+  documented_by: method uspvdb_solar_facilities.md
 - name: image_date
-  label: null
-  unit: null
+  label: The image's date, YYYY-MM-DD
+  unit: none
   type: date
   values:
     distinct: 1573
     earliest: '2009-04-17'
     latest: '2026-02-08'
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'USGS''s date is no calendar date (one row: 20240231)'
+  source_name: p_img_date
+  documented_by: header; method uspvdb_solar_facilities.md
 - name: digitizing_confidence
-  label: null
-  unit: null
+  label: The digitizing confidence (1 to 4)
+  unit: none
   type: integer
   values:
     list:
@@ -455,54 +464,56 @@ columns:
       '3': 92
       '4': 6264
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: p_dig_conf
+  documented_by: method uspvdb_solar_facilities.md
 - name: zscore
-  label: null
-  unit: null
+  label: USGS's z-score, as published
+  unit: none
   type: number
   values:
     distinct: 339
     lowest: -1.04
     highest: 58.18
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: p_zscore
+  documented_by: method uspvdb_solar_facilities.md
 - name: multi_polygon
-  label: null
-  unit: null
+  label: 'single or multi: whether the facility''s outline is one polygon or several, as USGS gives it'
+  unit: none
   type: text
   values:
     list:
       multi: 3082
       single: 3529
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: multi_poly
+  documented_by: method uspvdb_solar_facilities.md; data
 - name: comments
-  label: null
-  unit: null
+  label: USGS's comments (community solar)
+  unit: none
   type: text
   values:
     list:
       community solar: 1101
   missing_cells: 5510
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: USGS gives no comment
+  source_name: p_comm
+  documented_by: method uspvdb_solar_facilities.md; data
 - name: image_date_usgs
-  label: null
-  unit: null
+  label: The image date as USGS gives it (YYYYMMDD)
+  unit: none
   type: integer
   values:
     distinct: 1574
     lowest: 20090417
     highest: 20260208
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
-second_look: null
+  missing_meaning: never empty
+  source_name: p_img_date
+  documented_by: header; method uspvdb_solar_facilities.md
+second_look:
+- 'zscore (USGS''s p_zscore): what the z-score measures is not written in the connector, the method note or the header.'
+- 'site_type: the codes AML, PCSC and RCRA are not defined in the repository.'

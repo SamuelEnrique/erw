@@ -5,9 +5,10 @@
 table: nyiso_dam_cleared_energy
 family: nyiso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The load scheduled in NYISO's day-ahead market for one hour, system-wide.
+time: ts_utc is the hour's start in UTC; operating days are America/New_York days.
+vintage_rule: Merged by (entity, variable, ts_utc); an hour read again replaces the one held, and the table keeps months NYISO's
+  window no longer covers. vintage is not filled.
 keys:
 - entity
 - variable
@@ -32,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'nyiso:system in every row: NYISO''s whole system'
   type: text
   values:
     list:
@@ -82,6 +84,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'nyiso_dam in every row: NYISO''s day-ahead market'
   type: text
   values:
     list:
@@ -89,6 +92,7 @@ columns:
   missing_cells: 0
 - name: node
   shared: true
+  particular: 'Total Load Scheduled in every row: NYISO''s column read, not a place'
   type: text
   values:
     list:
@@ -148,13 +152,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 10441
 variables:
 - name: dam_cleared_energy
-  label: null
+  label: NYISO's column Total Load Scheduled for the hour, MW over the hour (P-30, Day-Ahead Market Daily Energy Report);
+    the file's daily Total line is not written
   unit: MW
   rows: 10441
   first: '2025-09-01T04:00:00Z'

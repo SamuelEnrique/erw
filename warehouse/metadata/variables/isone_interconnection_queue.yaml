@@ -32,6 +32,8 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: isone_queue:<queue id>, with :<n> added where ISO-NE lists one queue id on several rows (units, phases), n in
+    ISO-NE's row order
   type: text
   values:
     distinct: 1751
@@ -42,8 +44,6 @@ columns:
     - isone_queue:1000
     - isone_queue:1001
   missing_cells: 0
-  particular: isone_queue:<queue id>, with :<n> added where ISO-NE lists one queue id on several rows (units, phases), n in
-    ISO-NE's row order
 - name: entity_type
   shared: true
   type: text
@@ -65,6 +65,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> from ISO-NE's State; empty where the state is not a US state or DC (New Brunswick's NB) or not given
   type: text
   values:
     list:
@@ -76,7 +77,6 @@ columns:
       US-RI: 123
       US-VT: 109
   missing_cells: 32
-  particular: US-<state> from ISO-NE's State; empty where the state is not a US state or DC (New Brunswick's NB) or not given
 - name: lat
   shared: true
   type: empty
@@ -91,16 +91,17 @@ columns:
   missing_cells: 1751
 - name: capacity_mw
   shared: true
+  particular: ISO-NE's requested capacity as gridstatus reads it (Capacity (MW)); a negative value is a net reduction as ISO-NE
+    states it
   type: number
   values:
     distinct: 722
     lowest: -21.2
     highest: 2400.0
   missing_cells: 278
-  particular: ISO-NE's requested capacity as gridstatus reads it (Capacity (MW)); a negative value is a net reduction as ISO-NE
-    states it
 - name: status
   shared: true
+  particular: active, withdrawn or completed, mapped one to one from iso_status
   type: text
   values:
     list:
@@ -108,23 +109,22 @@ columns:
       completed: 364
       withdrawn: 1337
   missing_cells: 0
-  particular: active, withdrawn or completed, mapped one to one from iso_status
 - name: status_date
   shared: true
+  particular: The withdrawn date of a withdrawn row; ISO-NE gives no in-service date, so no completed row has one
   type: date
   values:
     distinct: 606
     earliest: '2006-04-13'
     latest: '2026-10-29'
   missing_cells: 556
-  particular: The withdrawn date of a withdrawn row; ISO-NE gives no in-service date, so no completed row has one
 - name: operator
   shared: true
+  particular: The interconnecting entity; empty in every row, ISO-NE does not give it
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1751
-  particular: The interconnecting entity; empty in every row, ISO-NE does not give it
 - name: source
   shared: true
   type: text
@@ -148,12 +148,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The retrieval date (retrieved_at's day), not a publication date
   type: date
   values:
     list:
       '2026-11-05': 1751
   missing_cells: 0
-  particular: The retrieval date (retrieved_at's day), not a publication date
 - name: queue_id
   label: ISO-NE's queue number of the request
   unit: none

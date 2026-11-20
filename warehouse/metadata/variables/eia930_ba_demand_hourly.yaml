@@ -5,9 +5,10 @@
 table: eia930_ba_demand_hourly
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One balancing authority's demand or day-ahead demand forecast in one hour, July 2018 on, from EIA's six-month files.
+time: ts_utc is the hour's start (the file's UTC Time at End of Hour minus one hour).
+vintage_rule: Rebuilt whole by each run from the newest saved copies of EIA's six-month files, which EIA rewrites as authorities
+  revise; no vintage column, x_file names each row's file.
 keys:
 - entity
 - variable
@@ -34,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<BA>
   type: text
   values:
     distinct: 58
@@ -89,6 +91,7 @@ columns:
   missing_cells: 0
 - name: ba
   shared: true
+  particular: The balancing authority's code, lowercase
   type: text
   values:
     distinct: 58
@@ -100,8 +103,8 @@ columns:
     - banc
   missing_cells: 0
 - name: x_region
-  label: null
-  unit: null
+  label: EIA's region the file names for the authority in that file (CAL, CAR, CENT, FLA and the others)
+  unit: none
   type: text
   values:
     list:
@@ -119,48 +122,49 @@ columns:
       TEN: 146963
       TEX: 146834
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia930_region_hourly.md
 - name: x_basis
-  label: null
-  unit: null
+  label: 'What value is: adjusted (EIA''s adjusted value) or reported (the value as the authority submitted it; the forecast
+    has no adjusted column)'
+  unit: none
   type: text
   values:
     list:
       adjusted: 3920817
       reported: 3914075
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_region_hourly.md
 - name: x_value_reported
-  label: null
-  unit: null
+  label: The value as the authority submitted it, kept as published (a few far out of range)
+  unit: MW
   type: integer
   values:
     distinct: more than 5000
     lowest: -429490415
     highest: 2147480000
   missing_cells: 10448
-  missing_meaning: null
+  missing_meaning: The file prints no reported value for the hour
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_region_hourly.md
 - name: x_value_adjusted
-  label: null
-  unit: null
+  label: EIA's adjusted value (its published series after its own checks and imputation)
+  unit: MW
   type: integer
   values:
     distinct: more than 5000
     lowest: 0
     highest: 224345
   missing_cells: 3914075
-  missing_meaning: null
+  missing_meaning: 'No adjusted value: every demand_forecast_mw row (the forecast has one column)'
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_region_hourly.md
 - name: x_file
-  label: null
-  unit: null
+  label: The six-month file the row was read from (<year>_<Jan_Jun or Jul_Dec>); the header gives each file's address
+  unit: none
   type: text
   values:
     list:
@@ -182,18 +186,18 @@ columns:
       2026_Jan_Jun: 456253
       2026_Jul_Dec: 357989
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_region_hourly.md
 variables:
 - name: demand_forecast_mw
-  label: null
+  label: The authority's day-ahead demand forecast for the hour (EIA's Demand Forecast)
   unit: MW
   rows: 3914075
   first: '2018-07-01T04:00:00Z'
   last: '2026-11-20T07:00:00Z'
 - name: demand_mw
-  label: null
+  label: Hourly demand of the balancing authority, EIA's MWh per hour
   unit: MW
   rows: 3920817
   first: '2018-07-01T04:00:00Z'

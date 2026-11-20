@@ -1,0 +1,141 @@
+# The codebook's metadata of table datacenter_projects_evidence (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: datacenter_projects_evidence
+family: datacenter
+shape: events
+row: One datacenter facility of datacenter_projects and one news story that names it, with the evidence sentence copied verbatim
+  from the story.
+time: event_date is the story's publish time in UTC.
+vintage_rule: 'Merged by event_id (<facility_id>|<story_id>): each extraction run adds the rows of the stories it checked;
+  a re-extraction copies the old table aside and rebuilds it. No vintage column.'
+keys:
+- event_id
+license: internal
+tier: model_extracted
+interval: event
+source: []
+cite: Bloomberg; Bloomberg.com; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Energy-Storage.news; Financial
+  Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Utility
+  Dive; WSJ. news stories; news stories via feed 'Bloomberg energy (via Google News)'; news stories via feed 'Data Center
+  Frontier'; news stories via feed 'Data Center Knowledge'; news stories via feed 'Energy-Storage.news'; news stories via
+  feed 'FT energy (via Google News)'; news stories via feed 'Hart Energy'; news stories via feed 'Latitude Media'; news stories
+  via feed 'Natural Gas Intelligence'; news stories via feed 'POWER Magazine'; news stories via feed 'Reuters energy (via
+  Google News)'; news stories via feed 'Utility Dive'; news stories via feed 'WSJ energy (via Google News)'. Via the Energy
+  Research Warehouse (ERW), table `datacenter_projects_evidence`.
+method: docs/methods/datacenter_projects_evidence.md
+header_title: Evidence sentences for datacenter_projects, copied verbatim from the stories
+header_shape: 'Shape: events (docs/datastandard.md v0), event_type datacenter_evidence; one row per facility and story. event_date
+  is the story''s publish time.'
+read:
+  date: '2026-11-20'
+  rows: 217
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: <facility_id>|<story_id>
+- name: event_date
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The story's publish time, UTC
+- name: event_type
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: datacenter_evidence on every row
+- name: parties
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 217
+- name: entity_ids
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The facility, the same as facility_id on every row
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 217
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 217
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 217
+- name: status
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 217
+  particular: 'Not filled: no cell holds a value'
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The outlet of the story
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The story's link
+- name: facility_id
+  label: The facility of datacenter_projects the sentence names (the model's same_as, where the rule accepts it)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method datacenter_projects_evidence.md; connector extract.py
+- name: story_id
+  label: The story the sentence is from, its event_id in news_stories (the model's choice, kept only when it is one of the
+    cluster's stories, else the cluster's first story)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method datacenter_projects_evidence.md
+- name: evidence
+  label: One sentence (or the title) copied verbatim from the story that names the facility, kept only when found in the cluster's
+    titles and summaries
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method datacenter_projects_evidence.md; connector extract.py
+second_look: null

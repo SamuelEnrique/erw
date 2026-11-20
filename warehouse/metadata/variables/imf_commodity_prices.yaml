@@ -5,9 +5,10 @@
 table: imf_commodity_prices
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One commodity's average price for one month, from the IMF's Primary Commodity Price System.
+time: ts_utc is the first day of the month at 00:00:00Z; freq P1M; monthly averages, not daily prices.
+vintage_rule: Rewritten whole by each run (the whole history from 2019 is read each run, so revisions are picked up); vintage
+  is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: imf:PCPS:<IMF commodity code>
   type: text
   values:
     list:
@@ -85,18 +87,21 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 752
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 752
 - name: node
   shared: true
+  particular: The commodity in words, not a pricing node
   type: text
   values:
     list:
@@ -133,15 +138,19 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 752
 variables:
 - name: price
-  label: null
+  label: The IMF's average price of the commodity in the month, in US dollars per the row's unit (a metric ton; uranium a
+    pound; gas and LNG an MMBtu)
   unit: USD/MMBtu; USD/lb; USD/t
   rows: 752
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
-second_look: null
+second_look:
+- The header's title names uranium, lithium, cobalt, nickel and copper, but the table also holds coal (Australia), natural
+  gas (EU) and LNG (Asia), as its access line asks for.

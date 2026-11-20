@@ -5,9 +5,10 @@
 table: gfz_kp_index_3h
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The planetary geomagnetic index Kp for one three-hour interval, from GFZ's file since 1932.
+time: ts_utc is the three-hour interval's start (00, 03, ..., 21 UTC); freq PT3H.
+vintage_rule: Rewritten whole as one snapshot by each run from GFZ's file; vintage is the file's Last-Modified; x_status marks
+  preliminary intervals.
 keys:
 - entity
 - variable
@@ -16,7 +17,8 @@ license: public
 tier: source
 interval: PT3H
 source:
-- name: gfz:kp_ap_since_1932 GFZ Potsdam, Kp_ap_since_1932.txt,  (listed on
+- name: gfz:kp_ap_since_1932 GFZ Potsdam, Kp_ap_since_1932.txt, https://kp.gfz-potsdam.de/fileadmin/files_for_gfz_cms/Kp_ap_since_1932.txt
+    (listed on
   url: https://kp.gfz-potsdam.de/en/data
 cite: GFZ Helmholtz Centre for Geosciences (Potsdam). Geomagnetic Kp index (Kp and ap since 1932). Via the Energy Research
   Warehouse (ERW), table `gfz_kp_index_3h`.
@@ -33,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: gfz:kp on every row
   type: text
   values:
     list:
@@ -76,18 +79,21 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: a planetary index'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 277032
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 277032
 - name: node
   shared: true
+  particular: planetary on every row, not a pricing node
   type: text
   values:
     list:
@@ -116,38 +122,39 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-10-22T23:52:43Z': 277032
   missing_cells: 0
 - name: x_ap
-  label: null
-  unit: null
+  label: The interval's ap, GFZ's equivalent amplitude (unitless; times 2 nT, the disturbance at 50 degrees geomagnetic latitude)
+  unit: index
   type: integer
   values:
     distinct: 28
     lowest: 0
     highest: 400
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty (an ap below 0 would be left empty)
   source_name: null
-  documented_by: null
+  documented_by: header; connector gfz_kp_index.py; method gfz_kp_index_3h.md
 - name: x_status
-  label: null
-  unit: null
+  label: definitive or preliminary, GFZ's status of the interval
+  unit: none
   type: text
   values:
     list:
       definitive: 276856
       preliminary: 176
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector gfz_kp_index.py
 variables:
 - name: kp
-  label: null
+  label: The planetary geomagnetic index Kp in thirds (5- is 4.667, 5o 5.000, 5+ 5.333)
   unit: index
   rows: 277032
   first: '1932-01-01T00:00:00Z'

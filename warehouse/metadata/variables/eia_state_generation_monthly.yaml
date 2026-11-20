@@ -5,9 +5,11 @@
 table: eia_state_generation_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or census region's, or the nation's) monthly net electricity generation from one energy source, all sectors
+  (Form EIA-923).
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Each run asks for the full history and merges it on (entity, variable, ts_utc), keeping EIA's newest value;
+  a row EIA stops giving is kept. The copy held was rebuilt from the ERW archive by restore_tables.py. vintage is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:generation:<location>:<fueltypeid>; ALL is the sum of the sources except DPV (estimated small-scale solar)
   type: text
   values:
     distinct: 759
@@ -81,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation; empty for an EIA census region
   type: text
   values:
     distinct: 53
@@ -93,12 +97,14 @@ columns:
   missing_cells: 40208
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 201076
 - name: node
   shared: true
+  particular: 'Not filled: EIA''s names (location, source) are in the header''s Series line'
   type: empty
   values:
     note: no cell holds a value
@@ -132,13 +138,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 201076
 variables:
 - name: net_generation
-  label: null
+  label: Net electricity generation from the source, all sectors, MWh (EIA's thousand MWh times 1,000)
   unit: MWh
   rows: 201076
   first: '2001-01-01T00:00:00Z'

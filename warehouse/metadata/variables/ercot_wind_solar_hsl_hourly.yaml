@@ -5,9 +5,10 @@
 table: ercot_wind_solar_hsl_hourly
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: ERCOT's wind or solar output or High Sustained Limit for one hour, system-wide or in one of ERCOT's wind or solar regions.
+time: ts_utc is the hour's start in UTC (ERCOT's DELIVERY_DATE and HOUR_ENDING are Central time, the hour named by its end).
+vintage_rule: Merged by (entity, variable, ts_utc); an hour's value is the newest posting's that holds it. vintage is not
+  filled.
 keys:
 - entity
 - variable
@@ -39,6 +40,9 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'ercot:system (ERCOT''s SYSTEM_WIDE columns), ercot:wind:<REGION> (PANHANDLE, COASTAL, SOUTH, WEST, NORTH) or
+    ercot:solar:<Region> (CenterWest, NorthWest, FarWest, FarEast, SouthEast, CenterEast): ERCOT''s wind and solar regions,
+    not its weather zones'
   type: text
   values:
     list:
@@ -100,12 +104,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 17757
 - name: node
   shared: true
+  particular: The region as ERCOT prints it; empty on the system-wide rows
   type: text
   values:
     list:
@@ -150,31 +156,33 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 17757
 variables:
 - name: solar_generation_mw
-  label: null
+  label: 'ERCOT''s GEN for solar: the hourly average of actual output, MW'
   unit: MW
   rows: 8288
   first: '2026-09-28T05:00:00Z'
   last: '2026-11-16T12:00:00Z'
 - name: solar_hsl_mw
-  label: null
+  label: 'ERCOT''s SYSTEM_WIDE_HSL for solar: the hourly average of the High Sustained Limit, MW (system-wide only)'
   unit: MW
   rows: 1182
   first: '2026-09-28T05:00:00Z'
   last: '2026-11-16T12:00:00Z'
 - name: wind_generation_mw
-  label: null
+  label: 'ERCOT''s GEN for wind: the hourly average of actual output, MW'
   unit: MW
   rows: 7104
   first: '2026-09-28T05:00:00Z'
   last: '2026-11-16T12:00:00Z'
 - name: wind_hsl_mw
-  label: null
+  label: 'ERCOT''s SYSTEM_WIDE_HSL for wind: the hourly average of the High Sustained Limit, the output the resources report
+    they could sustain, MW (system-wide only)'
   unit: MW
   rows: 1183
   first: '2026-09-28T05:00:00Z'

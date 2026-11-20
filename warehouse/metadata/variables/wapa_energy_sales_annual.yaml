@@ -5,9 +5,10 @@
 table: wapa_energy_sales_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One WAPA project's (or WAPA's total) energy sold or power rate in one federal fiscal year, from WAPA's Rates and Sales
+  Data.
+time: ts_utc is the fiscal year's first day (1 October of the year before) at 00:00:00Z; freq P1Y; FY 2008 to FY 2025.
+vintage_rule: Rewritten whole as one snapshot by each run from WAPA's workbook; vintage is the workbook's Last-Modified.
 keys:
 - entity
 - variable
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: wapa_proj:<project> or wapa_proj:wapa_total
   type: text
   values:
     list:
@@ -104,6 +106,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
@@ -111,12 +114,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 307
 - name: node
   shared: true
+  particular: The row's label (the project), not a pricing node
   type: text
   values:
     list:
@@ -156,6 +161,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's Last-Modified (UTC)
   type: utc time
   values:
     list:
@@ -163,13 +169,13 @@ columns:
   missing_cells: 0
 variables:
 - name: energy_sold
-  label: null
+  label: Energy sold in the fiscal year
   unit: MWh
   rows: 199
   first: '2007-10-01T00:00:00Z'
   last: '2024-10-01T00:00:00Z'
 - name: power_rate
-  label: null
+  label: Power rate (WAPA's cents/kWh times 10); see the header for the surcharges a rate excludes
   unit: USD/MWh
   rows: 108
   first: '2007-10-01T00:00:00Z'

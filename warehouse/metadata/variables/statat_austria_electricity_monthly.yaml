@@ -5,9 +5,10 @@
 table: statat_austria_electricity_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's value of Austria's net electricity production by source or of its monthly balance, from Statistics Austria's
+  monthly electricity statistics.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; from 2023-01.
+vintage_rule: Rewritten whole as one snapshot by each run from the yearly files; vintage is each file's Last-Modified.
 keys:
 - entity
 - variable
@@ -34,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: statat_mele:at or statat_mele:at:<source>
   type: text
   values:
     list:
@@ -88,6 +90,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: AT on every row
   type: text
   values:
     list:
@@ -95,12 +98,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 793
 - name: node
   shared: true
+  particular: The year and the row, not a pricing node
   type: text
   values:
     distinct: 74
@@ -140,6 +145,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The year's file's Last-Modified (UTC)
   type: utc time
   values:
     list:
@@ -150,49 +156,49 @@ columns:
   missing_cells: 0
 variables:
 - name: consumption
-  label: null
+  label: Consumption
   unit: MWh
   rows: 43
   first: '2023-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: exports
-  label: null
+  label: Exports
   unit: MWh
   rows: 43
   first: '2023-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: exports_to_eu
-  label: null
+  label: Exports to the EU
   unit: MWh
   rows: 43
   first: '2023-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Imports
   unit: MWh
   rows: 43
   first: '2023-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: imports_from_eu
-  label: null
+  label: Imports from the EU
   unit: MWh
   rows: 43
   first: '2023-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: losses
-  label: null
+  label: Losses
   unit: MWh
   rows: 43
   first: '2023-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_production
-  label: null
+  label: Net electricity production, total or by source
   unit: MWh
   rows: 492
   first: '2023-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: pumped_storage_use
-  label: null
+  label: Electricity used by pumped storage
   unit: MWh
   rows: 43
   first: '2023-01-01T00:00:00Z'

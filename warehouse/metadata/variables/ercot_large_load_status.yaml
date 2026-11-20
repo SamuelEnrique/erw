@@ -5,9 +5,9 @@
 table: ercot_large_load_status
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One figure stated in words in one of ERCOT's monthly Large Load Interconnection Status Update reports.
+time: ts_utc is the day on the report's first page at 00:00:00Z; the month the sentence names is in x_month_as_written.
+vintage_rule: Merged by (entity, variable, ts_utc); vintage is the report's date at 00:00:00Z.
 keys:
 - entity
 - variable
@@ -17,7 +17,7 @@ tier: source
 interval: P1M
 source:
 - name: ercot:large_load_status_update ERCOT, Large Load Interconnection Status Update (the Large Load Integration team's
-    monthly report to TAC and the LLWG); found on the meeting pages of  and
+    monthly report to TAC and the LLWG); found on the meeting pages of https://www.ercot.com/committees/tac/llwg and
   url: https://www.ercot.com/committees/tac
 cite: Electric Reliability Council of Texas (ERCOT). Large Load Interconnection Status Update (the Large Load Integration
   team's monthly report to TAC and the LLWG). Via the Energy Research Warehouse (ERW), table `ercot_large_load_status`.
@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'ercot:large_load in every row: ERCOT''s large loads together'
   type: text
   values:
     list:
@@ -96,12 +97,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 38
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -140,6 +143,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The day on the report's first page at 00:00:00Z
   type: utc time
   values:
     list:
@@ -157,8 +161,8 @@ columns:
       '2026-06-19T00:00:00Z': 3
   missing_cells: 0
 - name: x_month_as_written
-  label: null
-  unit: null
+  label: The month the report's sentence names, as ERCOT wrote it
+  unit: none
   type: text
   values:
     list:
@@ -174,12 +178,12 @@ columns:
       November 2025: 2
       October 2025: 2
   missing_cells: 14
-  missing_meaning: null
+  missing_meaning: The sentence names no month (the approved-to-energize and new-submission figures)
   source_name: null
-  documented_by: null
+  documented_by: header; connector ercot_large_load_status.py; method ercot_large_load_status.md
 - name: x_document
-  label: null
-  unit: null
+  label: The file name of the report
+  unit: none
   type: text
   values:
     list:
@@ -196,36 +200,37 @@ columns:
       November TAC Report.pdf: 3
       October TAC Report.pptx: 3
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector ercot_large_load_status.py
 variables:
 - name: approved_to_energize_mw
-  label: null
+  label: MW of large load that has received ERCOT's Approval to Energize
   unit: MW
   rows: 12
   first: '2025-05-28T00:00:00Z'
   last: '2026-06-19T00:00:00Z'
 - name: new_submissions_count
-  label: null
+  label: New large load interconnection submissions ERCOT had recently received
   unit: count
   rows: 1
   first: '2026-03-13T00:00:00Z'
   last: '2026-03-13T00:00:00Z'
 - name: new_submissions_mw
-  label: null
+  label: The approximate MW of those new submissions, by ERCOT's preliminary review
   unit: MW
   rows: 1
   first: '2026-03-13T00:00:00Z'
   last: '2026-03-13T00:00:00Z'
 - name: observed_nonsimultaneous_peak_mw
-  label: null
+  label: 'The sum of each approved load''s own highest consumption in the month: how much approved load ERCOT believes is
+    operational, MW'
   unit: MW
   rows: 12
   first: '2025-05-28T00:00:00Z'
   last: '2026-06-19T00:00:00Z'
 - name: observed_simultaneous_peak_mw
-  label: null
+  label: The highest consumption of all the large loads together at one point in the month, MW
   unit: MW
   rows: 12
   first: '2025-05-28T00:00:00Z'

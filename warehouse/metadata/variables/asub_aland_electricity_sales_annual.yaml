@@ -5,9 +5,10 @@
 table: asub_aland_electricity_sales_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's electricity sales of one Aland distributor region to one sector (or its total), or Aland's exports, from ASUB's
+  table MI010.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y; 1980, 1985, 1990 and each year from 1994.
+vintage_rule: Rewritten whole as one snapshot by each run from one JSON-stat query; vintage is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: asub:ax:<region>:<sector>; sectors total, households, agriculture, industry, services, public_sector
   type: text
   values:
     list:
@@ -93,6 +95,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: AX on every row
   type: text
   values:
     list:
@@ -100,12 +103,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 603
 - name: node
   shared: true
+  particular: The region and sector as ASUB names them in Swedish, not a pricing node
   type: text
   values:
     list:
@@ -151,19 +156,20 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 603
 variables:
 - name: exports
-  label: null
+  label: Aland's electricity exports in the year (the region export)
   unit: MWh
   rows: 8
   first: '2018-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: sales
-  label: null
+  label: Electricity sold to the sector in the region in the year
   unit: MWh
   rows: 595
   first: '1980-01-01T00:00:00Z'

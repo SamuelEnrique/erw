@@ -5,9 +5,11 @@
 table: ercot_as_prices
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: ERCOT's day-ahead market clearing price for capacity (MCPC) of one ancillary service for one delivery hour.
+time: ts_utc is the start of the delivery hour in UTC (ERCOT publishes the hour ending, Central time).
+vintage_rule: Every run reads the whole series again (every yearly file from 2018, then the daily files) and merges it by
+  (entity, variable, ts_utc), so an hour read again replaces the one held; a day first held from the daily report is replaced
+  by the yearly file's row. vintage is the document's publish time.
 keys:
 - entity
 - variable
@@ -34,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<service>, the ancillary service
   type: text
   values:
     list:
@@ -88,6 +91,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
   type: text
   values:
     list:
@@ -95,6 +99,8 @@ columns:
   missing_cells: 0
 - name: node
   shared: true
+  particular: 'The ancillary service, not a place: REGUP Regulation Up, REGDN Regulation Down, RRS Responsive Reserve, NSPIN
+    Non-Spin, ECRS ERCOT Contingency Reserve Service (from June 2023)'
   type: text
   values:
     list:
@@ -156,6 +162,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The publish time of ERCOT's yearly or daily document the row came from
   type: utc time
   values:
     list:
@@ -177,7 +184,7 @@ columns:
   missing_cells: 0
 variables:
 - name: mcpc_dam
-  label: null
+  label: Day-ahead market clearing price for capacity of the service (MCPC), USD per MW held for one hour
   unit: USD/MW-hour
   rows: 339332
   first: '2018-01-01T06:00:00Z'

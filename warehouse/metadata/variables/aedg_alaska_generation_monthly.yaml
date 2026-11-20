@@ -5,9 +5,9 @@
 table: aedg_alaska_generation_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One Alaska service area's electricity generation from one fuel in one month, from the Alaska Energy Data Gateway.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; 2001 to 2021.
+vintage_rule: Rewritten whole as one snapshot by each run from the Gateway's one JSON answer; vintage is not filled.
 keys:
 - entity
 - variable
@@ -35,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: aedg:ak:<service area id>:<fuel>, the Gateway's service_area_geom_id and its fuel type as a slug
   type: text
   values:
     distinct: 271
@@ -83,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-AK on every row
   type: text
   values:
     list:
@@ -90,12 +92,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 51061
 - name: node
   shared: true
+  particular: The service area's first community in alphabetical order and how many others share its grid, not a pricing node
   type: text
   values:
     distinct: 175
@@ -129,13 +133,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 51061
 variables:
 - name: generation
-  label: null
+  label: 'The service area''s electricity generation from the fuel in the month, as published (negatives kept: net generation,
+    storage''s own use)'
   unit: MWh
   rows: 51061
   first: '2001-01-01T00:00:00Z'

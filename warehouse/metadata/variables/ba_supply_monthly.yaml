@@ -37,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<BA> for a balancing authority's rows, eia930:<BA>-<NEIGHBOUR> for a tie's rows
   type: text
   values:
     distinct: 473
@@ -47,7 +48,6 @@ columns:
     - eia930:AECI
     - eia930:AECI-MISO
   missing_cells: 0
-  particular: eia930:<BA> for a balancing authority's rows, eia930:<BA>-<NEIGHBOUR> for a tie's rows
 - name: variable
   shared: true
   type: text
@@ -133,6 +133,7 @@ columns:
   missing_cells: 158503
 - name: ba
   shared: true
+  particular: The balancing authority whose supply the row measures
   type: text
   values:
     distinct: 83
@@ -143,7 +144,6 @@ columns:
     - avrn
     - azps
   missing_cells: 0
-  particular: The balancing authority whose supply the row measures
 - name: x_to_ba
   label: The neighbour on the other side of the tie, EIA-930 code in lowercase
   unit: none

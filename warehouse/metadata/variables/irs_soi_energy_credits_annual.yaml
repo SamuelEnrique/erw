@@ -5,9 +5,10 @@
 table: irs_soi_energy_credits_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or the US's, or SOI's other areas') returns claiming, or amount of, one residential energy credit in one
+  tax year, from IRS Statistics of Income Historic Table 2.
+time: ts_utc is the tax year's first day at 00:00:00Z; freq P1Y; tax years 2015 to 2023.
+vintage_rule: Rewritten whole as one snapshot by each run from SOI's yearly files; vintage is each file's Last-Modified.
 keys:
 - entity
 - variable
@@ -35,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: irs_soi:<SOI's state code>; US is SOI's national row, OA its other areas
   type: text
   values:
     distinct: 54
@@ -91,6 +93,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, US for the national row, empty for OA (other areas)
   type: text
   values:
     distinct: 53
@@ -103,12 +106,14 @@ columns:
   missing_cells: 20
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1074
 - name: node
   shared: true
+  particular: SOI's state code, not a pricing node
   type: text
   values:
     distinct: 54
@@ -158,6 +163,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The year's file's Last-Modified (UTC; one file gives 1970-01-01, an epoch time)
   type: utc time
   values:
     list:
@@ -172,8 +178,9 @@ columns:
       '2026-08-21T14:12:00Z': 216
   missing_cells: 0
 - name: x_soi_column
-  label: null
-  unit: null
+  label: 'SOI''s column the value is read from (N07260, A07260, N07262, A07262, N07265, A07265: N a count of returns, A an
+    amount)'
+  unit: none
   type: text
   values:
     list:
@@ -184,42 +191,42 @@ columns:
       N07262: 54
       N07265: 54
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector irs_soi_energy.py
 variables:
 - name: energy_efficient_home_improvement_credit_amount
-  label: null
+  label: Amount of the energy efficient home improvement credit (A07265, 2023)
   unit: USD
   rows: 54
   first: '2023-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: energy_efficient_home_improvement_credit_returns
-  label: null
+  label: Returns claiming the energy efficient home improvement credit (N07265, 2023)
   unit: count
   rows: 54
   first: '2023-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: residential_clean_energy_credit_amount
-  label: null
+  label: Amount of the residential clean energy credit (A07262, 2023)
   unit: USD
   rows: 54
   first: '2023-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: residential_clean_energy_credit_returns
-  label: null
+  label: Returns claiming the residential clean energy credit (N07262, 2023)
   unit: count
   rows: 54
   first: '2023-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: residential_energy_credit_amount
-  label: null
+  label: Amount of the residential energy credit (A07260, 2015 to 2022; SOI's thousands of dollars times 1,000)
   unit: USD
   rows: 429
   first: '2015-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: residential_energy_credit_returns
-  label: null
+  label: Returns claiming the residential energy credit (N07260, 2015 to 2022)
   unit: count
   rows: 429
   first: '2015-01-01T00:00:00Z'

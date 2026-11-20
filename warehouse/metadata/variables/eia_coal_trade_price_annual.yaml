@@ -5,9 +5,10 @@
 table: eia_coal_trade_price_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's average price of U.S. coal exports or imports of one rank with one country through one customs district, from
+  EIA's Quarterly Coal Report.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_coal_trade:<exportImportType>:<coalRankId>:<countryId>:<customsDistrictId>
   type: text
   values:
     distinct: 3460
@@ -81,6 +83,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
@@ -88,12 +91,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 24623
 - name: node
   shared: true
+  particular: EIA's names (exports or imports, country, rank, customs district)
   type: text
   values:
     distinct: 3460
@@ -128,13 +133,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 24623
 variables:
 - name: price
-  label: null
+  label: Average price of the coal exported or imported, USD per short ton
   unit: USD/short_ton
   rows: 24623
   first: '2000-01-01T00:00:00Z'

@@ -5,9 +5,11 @@
 table: caiso_reliability_daily
 family: caiso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One measure of how tight CAISO's grid was on one Pacific day (demand peak and evening ramp, battery output at the evening
+  peak, notices issued).
+time: ts_utc is the local (Pacific) day at 00:00:00Z; a day is written only when every hour of it is held.
+vintage_rule: Rebuilt whole from caiso_battery_storage, caiso_grid_emergencies and eia930_all_demand by each run of the builder;
+  vintage is not filled.
 keys:
 - entity
 - variable
@@ -34,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:CISO for the demand measures (EIA-930 demand of CAISO's balancing authority), caiso:ISO for the battery
+    and notice measures
   type: text
   values:
     list:
@@ -88,12 +92,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 20832
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -121,139 +127,141 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 20832
 variables:
 - name: afternoon_mean_mw
-  label: null
+  label: The mean demand of the hours starting 12:00, 13:00 and 14:00, MW
   unit: MW
   rows: 3025
   first: '2018-07-01T00:00:00Z'
   last: '2026-11-13T00:00:00Z'
 - name: battery_mw_evening_peak
-  label: null
+  label: The batteries' mean output over the evening peak hour (its twelve 5-minute intervals), MW, positive discharge; from
+    2025-08-24
   unit: MW
   rows: 438
   first: '2025-08-24T00:00:00Z'
   last: '2026-11-13T00:00:00Z'
 - name: battery_share_pct
-  label: null
+  label: The batteries' output at the evening peak as a percent of the evening peak's demand
   unit: pct
   rows: 438
   first: '2025-08-24T00:00:00Z'
   last: '2026-11-13T00:00:00Z'
 - name: evening_peak_hour
-  label: null
+  label: The local start of the evening peak hour, the earliest on a tie
   unit: hour
   rows: 3025
   first: '2018-07-01T00:00:00Z'
   last: '2026-11-13T00:00:00Z'
 - name: evening_peak_mw
-  label: null
+  label: The highest demand of the hours starting 17:00 to 20:00, MW
   unit: MW
   rows: 3025
   first: '2018-07-01T00:00:00Z'
   last: '2026-11-13T00:00:00Z'
 - name: evening_ramp_mw
-  label: null
+  label: 'The evening peak less the afternoon mean: the rise into the evening, MW'
   unit: MW
   rows: 3025
   first: '2018-07-01T00:00:00Z'
   last: '2026-11-13T00:00:00Z'
 - name: notices_alert
-  label: null
+  label: The day's CAISO notices of type alert
   unit: count
   rows: 245
   first: '1998-05-30T00:00:00Z'
   last: '2020-10-15T00:00:00Z'
 - name: notices_eea1
-  label: null
+  label: The day's Energy Emergency Alert 1 notices
   unit: count
   rows: 7
   first: '2022-08-31T00:00:00Z'
   last: '2023-07-20T00:00:00Z'
 - name: notices_eea2
-  label: null
+  label: The day's Energy Emergency Alert 2 notices
   unit: count
   rows: 4
   first: '2022-09-05T00:00:00Z'
   last: '2022-09-08T00:00:00Z'
 - name: notices_eea3
-  label: null
+  label: The day's Energy Emergency Alert 3 notices
   unit: count
   rows: 1
   first: '2022-09-06T00:00:00Z'
   last: '2022-09-06T00:00:00Z'
 - name: notices_eea_watch
-  label: null
+  label: The day's Energy Emergency Alert watch notices
   unit: count
   rows: 12
   first: '2022-08-31T00:00:00Z'
   last: '2024-07-24T00:00:00Z'
 - name: notices_flex_alert
-  label: null
+  label: The day's Flex Alert notices (Power Watch included)
   unit: count
   rows: 137
   first: '2000-05-22T00:00:00Z'
   last: '2022-09-09T00:00:00Z'
 - name: notices_load_interruption
-  label: null
+  label: The day's 1-Hour Probable Load Interruption notices
   unit: count
   rows: 1
   first: '2020-08-18T00:00:00Z'
   last: '2020-08-18T00:00:00Z'
 - name: notices_rmo
-  label: null
+  label: The day's Restricted Maintenance Operations notices (No Touch included)
   unit: count
   rows: 689
   first: '1998-07-27T00:00:00Z'
   last: '2026-10-08T00:00:00Z'
 - name: notices_stage1
-  label: null
+  label: The day's stage 1 emergency notices
   unit: count
   rows: 146
   first: '1998-07-27T00:00:00Z'
   last: '2017-05-03T00:00:00Z'
 - name: notices_stage2
-  label: null
+  label: The day's stage 2 emergency notices
   unit: count
   rows: 118
   first: '1998-07-27T00:00:00Z'
   last: '2021-07-09T00:00:00Z'
 - name: notices_stage3
-  label: null
+  label: The day's stage 3 emergency notices
   unit: count
   rows: 41
   first: '2000-12-07T00:00:00Z'
   last: '2020-08-15T00:00:00Z'
 - name: notices_transmission_emergency
-  label: null
+  label: The day's transmission emergency notices
   unit: count
   rows: 77
   first: '2004-01-12T00:00:00Z'
   last: '2025-04-30T00:00:00Z'
 - name: notices_vlrp
-  label: null
+  label: The day's Voluntary Load Reduction Program notices
   unit: count
   rows: 8
   first: '2004-02-03T00:00:00Z'
   last: '2006-07-25T00:00:00Z'
 - name: notices_warning
-  label: null
+  label: The day's CAISO notices of type warning
   unit: count
   rows: 320
   first: '1998-07-27T00:00:00Z'
   last: '2021-07-29T00:00:00Z'
 - name: peak_demand_mw
-  label: null
+  label: The day's highest hour of demand, MW (each hour's mean)
   unit: MW
   rows: 3025
   first: '2018-07-01T00:00:00Z'
   last: '2026-11-13T00:00:00Z'
 - name: peak_hour
-  label: null
+  label: The local start (0 to 23) of the day's highest hour of demand, the earliest on a tie
   unit: hour
   rows: 3025
   first: '2018-07-01T00:00:00Z'

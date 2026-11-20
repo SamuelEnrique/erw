@@ -5,9 +5,11 @@
 table: nlr_jedi_multipliers
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: 'One JEDI figure per MW for one technology, location, phase and effect: jobs, earnings or output, or the default project''s
+  MW, or the phase''s local spending share.'
+time: ts_utc is 1 January of the model's dollar year; freq P1Y.
+vintage_rule: Rewritten whole as one snapshot by each run of the connector; vintage is not filled (x_version names the model
+  release).
 keys:
 - entity
 - variable
@@ -36,6 +38,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: nlr_jedi:<technology>:<state or us>:<phase>:<effect>
   type: text
   values:
     distinct: 2266
@@ -101,12 +104,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5562
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -140,13 +145,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5562
 - name: x_technology
-  label: null
-  unit: null
+  label: 'The technology of the JEDI model: geothermal, land_based_wind, natural_gas or utility_pv'
+  unit: none
   type: text
   values:
     list:
@@ -155,12 +161,12 @@ columns:
       natural_gas: 1350
       utility_pv: 1404
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method economic_impact.md
 - name: x_state
-  label: null
-  unit: null
+  label: The location's state, two-letter code
+  unit: none
   type: text
   values:
     distinct: 51
@@ -171,12 +177,12 @@ columns:
     - AZ
     - CA
   missing_cells: 108
-  missing_meaning: null
+  missing_meaning: The location is the United States as a whole
   source_name: null
-  documented_by: null
+  documented_by: connector jedi_multipliers.py; data
 - name: x_location
-  label: null
-  unit: null
+  label: The location as the JEDI model's own list spells it
+  unit: none
   type: text
   values:
     distinct: 54
@@ -187,12 +193,12 @@ columns:
     - ARKANSAS
     - CALIFORNIA
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector jedi_multipliers.py
 - name: x_phase
-  label: null
-  unit: null
+  label: 'The phase: construction, operations, or all (the project row)'
+  unit: none
   type: text
   values:
     list:
@@ -200,12 +206,13 @@ columns:
       construction: 2678
       operations: 2678
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; data
 - name: x_effect
-  label: null
-  unit: null
+  label: 'The part of the effect: onsite, supply_chain, induced or total; project (the default project''s MW) or spending
+    (the local share)'
+  unit: none
   type: text
   values:
     list:
@@ -216,12 +223,12 @@ columns:
       supply_chain: 1236
       total: 1236
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method economic_impact.md
 - name: x_model
-  label: null
-  unit: null
+  label: The JEDI model's name
+  unit: none
   type: text
   values:
     list:
@@ -230,12 +237,12 @@ columns:
       JEDI Natural Gas Model: 1350
       JEDI Photovoltaics Model: 1404
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector jedi_multipliers.py
 - name: x_version
-  label: null
-  unit: null
+  label: The model's release (its About sheet)
+  unit: none
   type: text
   values:
     list:
@@ -244,12 +251,12 @@ columns:
       PV05.20.21: 1404
       W9.14.18: 1404
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method economic_impact.md
 - name: x_file
-  label: null
-  unit: null
+  label: The model's workbook file name
+  unit: none
   type: text
   values:
     list:
@@ -258,24 +265,24 @@ columns:
       01d-jedi-ngas-model_rel-ng4-17-17.xlsm: 1350
       jedi-pv-model.xlsm: 1404
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector jedi_multipliers.py
 - name: x_sheet
-  label: null
-  unit: null
+  label: The model's summary sheet the figure is read from
+  unit: none
   type: text
   values:
     list:
       Summary Results: 1404
       SummaryResults: 4158
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector jedi_multipliers.py
 - name: x_cells
-  label: null
-  unit: null
+  label: The workbook cells the figure is computed from (the figure's cell over the project's MW cell)
+  unit: none
   type: text
   values:
     distinct: 91
@@ -286,12 +293,12 @@ columns:
     - Summary Results!B28 / Summary Results!B7
     - Summary Results!B31 / Summary Results!B7
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector jedi_multipliers.py; data
 - name: x_project_mw
-  label: null
-  unit: null
+  label: The MW of JEDI's default project the figures are per
+  unit: MW
   type: number
   values:
     list:
@@ -300,12 +307,12 @@ columns:
       '300.0': 1404
       '500.0': 1350
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector jedi_multipliers.py
 - name: x_mw_basis
-  label: null
-  unit: null
+  label: What the project's MW measures (nameplate, DC nameplate, or the model's net output)
+  unit: none
   type: text
   values:
     list:
@@ -313,24 +320,24 @@ columns:
       nameplate MW: 2754
       nameplate MW (the model's 10 MW net output): 1404
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector jedi_multipliers.py; data
 - name: x_dollar_year
-  label: null
-  unit: null
+  label: The model's dollar year; the table converts nothing
+  unit: none
   type: integer
   values:
     list:
       '2010': 4158
       '2017': 1404
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method economic_impact.md
 - name: x_multiplier_data
-  label: null
-  unit: null
+  label: The year and source of the model's IMPLAN multipliers, as its Multipliers sheet states them
+  unit: none
   type: text
   values:
     list:
@@ -339,24 +346,24 @@ columns:
       'Multipliers!D2 (Year of Data) 2016; the sheet''s note: Source: IMPLAN™, using 2016 state data.': 1404
       'Multipliers!D2 (Year of Data) 2019; the sheet''s note: Source: IMPLAN™, using 2019 state data.': 1404
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector jedi_multipliers.py; data
 - name: x_local_share
-  label: null
-  unit: null
+  label: JEDI's local spending over the phase's cost
+  unit: ratio
   type: number
   values:
     distinct: 195
     lowest: 0.027304
     highest: 1.037868
   missing_cells: 206
-  missing_meaning: null
+  missing_meaning: Empty on the project_mw rows
   source_name: null
-  documented_by: null
+  documented_by: method economic_impact.md; connector jedi_multipliers.py
 - name: x_local_share_cells
-  label: null
-  unit: null
+  label: The workbook cells the local share is computed from
+  unit: none
   type: text
   values:
     list:
@@ -368,23 +375,24 @@ columns:
       SummaryResults!C17 / SummaryResults!C16: 676
       SummaryResults!C18 / SummaryResults!C17: 650
   missing_cells: 206
-  missing_meaning: null
+  missing_meaning: Empty on the project_mw rows
   source_name: null
-  documented_by: null
+  documented_by: connector jedi_multipliers.py
 - name: x_settings
-  label: null
-  unit: null
+  label: Settings changed from the workbook's saved project (the PV model's System Application set to Utility)
+  unit: none
   type: text
   values:
     list:
       ProjectData!B15 = Utility: 1404
   missing_cells: 4158
-  missing_meaning: null
+  missing_meaning: No setting changed (every model but the PV model)
   source_name: null
-  documented_by: null
+  documented_by: header; connector jedi_multipliers.py; data
 - name: x_method
-  label: null
-  unit: null
+  label: 'How the figure was computed: JEDI''s own formulas from the workbook''s constants with Project Location set to the
+    location'
+  unit: none
   type: text
   values:
     list:
@@ -396,36 +404,36 @@ columns:
       : 4077
       the workbook's saved project, computed from its constants (every saved figure reproduced): 81
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector jedi_multipliers.py
 variables:
 - name: earnings
-  label: null
+  label: 'JEDI''s earnings per MW: construction over the build (USD/MW), operations each year (USD/MW-year)'
   unit: USD/MW; USD/MW-year
   rows: 1648
   first: '2010-01-01T00:00:00Z'
   last: '2017-01-01T00:00:00Z'
 - name: jobs
-  label: null
+  label: 'JEDI''s jobs per MW: construction job-years over the build (1 FTE = 2,080 hours), operations jobs each year'
   unit: FTE-year/MW; FTE/MW
   rows: 1648
   first: '2010-01-01T00:00:00Z'
   last: '2017-01-01T00:00:00Z'
 - name: local_share
-  label: null
+  label: JEDI's local spending over the phase's cost
   unit: ratio
   rows: 412
   first: '2010-01-01T00:00:00Z'
   last: '2017-01-01T00:00:00Z'
 - name: output
-  label: null
+  label: 'JEDI''s economic output per MW: construction over the build (USD/MW), operations each year (USD/MW-year)'
   unit: USD/MW; USD/MW-year
   rows: 1648
   first: '2010-01-01T00:00:00Z'
   last: '2017-01-01T00:00:00Z'
 - name: project_mw
-  label: null
+  label: The MW of JEDI's default project
   unit: MW
   rows: 206
   first: '2010-01-01T00:00:00Z'

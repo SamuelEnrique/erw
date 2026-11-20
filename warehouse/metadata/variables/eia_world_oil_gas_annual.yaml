@@ -5,9 +5,10 @@
 table: eia_world_oil_gas_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One country's or region's yearly petroleum or natural gas figure (production, consumption, trade, bunkers or stocks)
+  for one product, from EIA's International Energy Statistics bulk file.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot); vintage is the bulk file's last-modified time.
 keys:
 - entity
 - variable
@@ -39,6 +40,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_intl:<EIA country or region code>:<EIA product id>; a product's parts overlap
   type: text
   values:
     distinct: more than 5000
@@ -89,18 +91,21 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: no ISO code is guessed from EIA''s area codes'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 448267
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 448267
 - name: node
   shared: true
+  particular: <area>, <product> in EIA's names
   type: text
   values:
     distinct: more than 5000
@@ -134,14 +139,16 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The bulk file's last-modified time from EIA's server
   type: utc time
   values:
     list:
       '2026-10-19T19:55:35Z': 448267
   missing_cells: 0
 - name: x_area
-  label: null
-  unit: null
+  label: 'The kind of area: country, former (a country that no longer exists), part (EIA''s offshore and trade-zone parts)
+    or region (the world, continents, groups); a sum over countries takes country and former only'
+  unit: none
   type: text
   values:
     list:
@@ -150,42 +157,43 @@ columns:
       part: 1858
       region: 59101
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_intl_bulk.py; method eia_world_electricity_annual.md
 variables:
 - name: bunker_consumption
-  label: null
+  label: Bunker consumption of the product, as EIA gives it, thousand barrels a day
   unit: kbbl/d
   rows: 19237
   first: '1980-01-01T00:00:00Z'
   last: '2015-01-01T00:00:00Z'
 - name: consumption
-  label: null
+  label: 'Consumption of the product: thousand barrels a day for liquids, billion cubic feet a year for gas'
   unit: bcf; kbbl/d
   rows: 156524
   first: '1973-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: exports
-  label: null
+  label: 'Exports of the product: thousand barrels a day for liquids, billion cubic feet a year for gas'
   unit: bcf; kbbl/d
   rows: 37887
   first: '1980-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: imports
-  label: null
+  label: 'Imports of the product: thousand barrels a day for liquids, billion cubic feet a year for gas'
   unit: bcf; kbbl/d
   rows: 37451
   first: '1980-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: production
-  label: null
+  label: 'Production of the product: thousand barrels a day for liquids, billion cubic feet a year for gas (the unit column
+    says which)'
   unit: bcf; kbbl/d
   rows: 195912
   first: '1973-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: stocks
-  label: null
+  label: Stocks of petroleum and other liquids, thousand barrels (EIA's million barrels times 1,000)
   unit: kbbl
   rows: 1256
   first: '1973-01-01T00:00:00Z'

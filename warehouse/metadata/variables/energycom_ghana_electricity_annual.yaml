@@ -1,0 +1,180 @@
+# The codebook's metadata of table energycom_ghana_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: energycom_ghana_electricity_annual
+family: other_sources
+shape: series
+row: One year's value of one measure of Ghana's electricity (generation by source, imports, exports, net exports, or the Ghana
+  and system peak load), from the Energy Commission's National Energy Statistical Bulletin.
+time: ts_utc is the year's 1 January at 00:00:00Z; freq P1Y.
+vintage_rule: 'Merged by (entity, variable, ts_utc) (ip.write_csv): a run replaces the rows it reads again and keeps rows
+  from earlier runs; vintage is not filled.'
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1Y
+source:
+- name: energycom:national_energy_statistics Energy Commission, Ghana, 2026 National Energy Statistical Bulletin, tables 3.7
+    Annual Electricity Generation, 3.8 Electricity Import and Export and 3.9 Ghana and System Peak Load (printed pages 12,
+    14 and 16; 3.4 to 3.6 in its list of tables)
+  url: https://www.energycom.gov.gh/index.php/planning/energy-statistics
+cite: Energy Commission, Ghana. National Energy Statistical Bulletin 2026, tables 3.7 (generation), 3.8 (imports and exports)
+  and 3.9 (peak load). Via the Energy Research Warehouse (ERW), table `energycom_ghana_electricity_annual`.
+method: docs/methods/energycom_ghana_electricity_annual.md
+header_title: Energy Commission, Ghana, National Energy Statistical Bulletin 2026, electricity generation by source, imports
+  and exports, and peak load, 2000 to 2025 (session 2373)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity energycom:GH; variable generation_hydro, generation_thermal,
+  generation_other_renewables, generation_total, imports, exports, net_exports (MWh, the bulletin''s GWh times 1,000), peak_ghana,
+  peak_system (MW); ts_utc the year''s 1 January; freq P1Y; geo GH. generation_total is hydro plus thermal plus other renewables
+  (footnote 8''s "and import" does not hold for table 3.7: the bulletin''s energy transmitted is that total plus imports);
+  the system peak is defined as Ghana''s peak, or Ghana''s load at peak, plus export load, so peak_system less peak_ghana
+  is not export load.'
+read:
+  date: '2026-11-20'
+  rows: 221
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: One entity, the country
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 221
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The bulletin's label of the row, not a pricing node
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 221
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: exports
+  label: Electricity exported (table 3.8)
+  unit: MWh
+  rows: 26
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_hydro
+  label: Generation from hydro (table 3.7)
+  unit: MWh
+  rows: 26
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_other_renewables
+  label: Generation from other renewables (table 3.7)
+  unit: MWh
+  rows: 13
+  first: '2013-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_thermal
+  label: Generation from thermal plants (table 3.7)
+  unit: MWh
+  rows: 26
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_total
+  label: 'Total generation: hydro plus thermal plus other renewables (imports not included)'
+  unit: MWh
+  rows: 26
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: imports
+  label: Electricity imported (table 3.8)
+  unit: MWh
+  rows: 26
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: net_exports
+  label: 'Net exports: exports less imports'
+  unit: MWh
+  rows: 26
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: peak_ghana
+  label: Ghana's peak load (table 3.9)
+  unit: MW
+  rows: 26
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: peak_system
+  label: 'The system peak: Ghana''s peak, or Ghana''s load at peak, plus export load (table 3.9); less peak_ghana it is not
+    export load'
+  unit: MW
+  rows: 26
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

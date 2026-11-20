@@ -18,7 +18,8 @@ tier: model_extracted
 interval: event
 source:
 - name: research:large_load_2026-11-13, docs/research/large_load/changes_2026-11-13.csv (window P4 of the portable laptop,
-    sessions 5300 to 5304; method  each row's source_url is the document it was read in. No request is made by this connector.
+    sessions 5300 to 5304; method https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md); each
+    row's source_url is the document it was read in. No request is made by this connector.
   url: https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md
 cite: US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and
   the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rule_changes`.
@@ -36,6 +37,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: llchange:<change_id>
   type: text
   values:
     distinct: 94
@@ -46,24 +48,23 @@ columns:
     - llchange:east_changes-04
     - llchange:east_changes-05
   missing_cells: 0
-  particular: llchange:<change_id>
 - name: event_date
   shared: true
+  particular: The change's date where the document prints a day, else the day the document was read (x_date_kind)
   type: date
   values:
     distinct: 45
     earliest: '2026-08-18'
     latest: '2026-11-13'
   missing_cells: 0
-  particular: The change's date where the document prints a day, else the day the document was read (x_date_kind)
 - name: event_type
   shared: true
+  particular: Always large_load_rule_change
   type: text
   values:
     list:
       large_load_rule_change: 94
   missing_cells: 0
-  particular: Always large_load_rule_change
 - name: parties
   shared: true
   type: text
@@ -86,11 +87,11 @@ columns:
   missing_cells: 94
 - name: mw
   shared: true
+  particular: 'Not filled: the files print sizes as phrases'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 94
-  particular: 'Not filled: the files print sizes as phrases'
 - name: price
   shared: true
   type: empty
@@ -105,6 +106,7 @@ columns:
   missing_cells: 94
 - name: status
   shared: true
+  particular: 'The kind of change: filed, order issued, approved, in effect, amended, suspended, hearing set or other'
   type: text
   values:
     list:
@@ -117,7 +119,6 @@ columns:
       other: 26
       suspended: 7
   missing_cells: 0
-  particular: 'The kind of change: filed, order issued, approved, in effect, amended, suspended, hearing set or other'
 - name: source
   shared: true
   type: text
@@ -127,6 +128,7 @@ columns:
   missing_cells: 0
 - name: source_url
   shared: true
+  particular: The document the change was read in
   type: text
   values:
     distinct: 80
@@ -137,7 +139,6 @@ columns:
     - https://apps.puc.state.or.us/edockets/docket.asp?DocketID=24470
     - https://apps.puc.state.or.us/orders/2026ords/26-309.pdf
   missing_cells: 0
-  particular: The document the change was read in
 - name: x_change_id
   label: The research file's identifier of the change (<group>-<number>)
   unit: none

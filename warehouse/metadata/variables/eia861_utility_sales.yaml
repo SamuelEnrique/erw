@@ -5,9 +5,12 @@
 table: eia861_utility_sales
 family: eia861
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One utility's retail sales, revenue or customers in one state, one part of Form EIA-861, one balancing authority and
+  one customer sector, for one year.
+time: ts_utc is the data year's 1 January at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: A run writes one data year; the table is merged on (entity, variable, ts_utc), a later run replacing a row with
+  the same key and keeping every other row. vintage is not filled. Observed rows only (imputed rows, EIA's 88888 and 99999
+  aggregates and '.' cells are not taken).
 keys:
 - entity
 - variable
@@ -32,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia861:<utility number>:<state>:<part>:<balancing authority code>; ends in a colon where EIA gives no balancing
+    authority
   type: text
   values:
     distinct: more than 5000
@@ -91,6 +96,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>
   type: text
   values:
     distinct: 56
@@ -103,12 +109,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 433115
 - name: node
   shared: true
+  particular: The utility's name, not a pricing node
   type: text
   values:
     distinct: 3529
@@ -162,25 +170,26 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 433115
 - name: x_utility_number
-  label: null
-  unit: null
+  label: EIA's utility identifier
+  unit: none
   type: integer
   values:
     distinct: 3339
     lowest: 34
     highest: 67932
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_utility_sales.md
 - name: x_state
-  label: null
-  unit: null
+  label: The state of the sales, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 56
@@ -191,12 +200,12 @@ columns:
     - AS
     - AZ
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_utility_sales.md
 - name: x_part
-  label: null
-  unit: null
+  label: 'The part of Form EIA-861: A bundled service, B energy only, C delivery only, D bundled by a power marketer'
+  unit: none
   type: text
   values:
     list:
@@ -205,12 +214,12 @@ columns:
       C: 11442
       D: 12712
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_utility_sales.md
 - name: x_service_type
-  label: null
-  unit: null
+  label: 'EIA''s service type: Bundled, Energy or Delivery'
+  unit: none
   type: text
   values:
     list:
@@ -218,12 +227,12 @@ columns:
       Delivery: 11442
       Energy: 130477
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_utility_sales.md
 - name: x_ownership
-  label: null
-  unit: null
+  label: EIA's ownership class (Investor Owned, Cooperative, Municipal, Retail Power Marketer, Behind the Meter and others)
+  unit: none
   type: text
   values:
     list:
@@ -238,12 +247,12 @@ columns:
       State: 2617
       Wholesale Power Marketer: 6
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_utility_sales.md
 - name: x_ba_code
-  label: null
-  unit: null
+  label: The balancing authority (the grid operator of the area) code EIA gives for the row
+  unit: none
   type: text
   values:
     distinct: 62
@@ -254,107 +263,107 @@ columns:
     - AVA
     - AZPS
   missing_cells: 4985
-  missing_meaning: null
+  missing_meaning: EIA gives no balancing authority
   source_name: null
-  documented_by: null
+  documented_by: method eia861_utility_sales.md
 - name: x_data_type
-  label: null
-  unit: null
+  label: EIA's data type, always O (observed; imputed rows are not taken)
+  unit: none
   type: text
   values:
     list:
       O: 433115
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia861_utility_sales.md
 variables:
 - name: commercial_customers
-  label: null
+  label: Commercial customers, count
   unit: count
   rows: 31730
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: commercial_revenue
-  label: null
+  label: Revenue from commercial customers in the year, USD
   unit: USD
   rows: 31730
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: commercial_sales
-  label: null
+  label: Retail sales to commercial customers in the year, MWh
   unit: MWh
   rows: 31727
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: industrial_customers
-  label: null
+  label: Industrial customers, count
   unit: count
   rows: 28910
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: industrial_revenue
-  label: null
+  label: Revenue from industrial customers in the year, USD
   unit: USD
   rows: 28938
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: industrial_sales
-  label: null
+  label: Retail sales to industrial customers in the year, MWh
   unit: MWh
   rows: 28921
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: residential_customers
-  label: null
+  label: Residential customers, count
   unit: count
   rows: 32135
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: residential_revenue
-  label: null
+  label: Revenue from residential customers in the year, USD (EIA's thousand dollars times 1,000)
   unit: USD
   rows: 32138
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: residential_sales
-  label: null
+  label: Retail sales to residential customers in the year, MWh
   unit: MWh
   rows: 32136
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_customers
-  label: null
+  label: All customers, count
   unit: count
   rows: 32982
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_revenue
-  label: null
+  label: Revenue from all customers in the year, USD
   unit: USD
   rows: 32981
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_sales
-  label: null
+  label: Retail sales to all customers in the year, MWh
   unit: MWh
   rows: 32981
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: transportation_customers
-  label: null
+  label: Transportation customers, count
   unit: count
   rows: 18546
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: transportation_revenue
-  label: null
+  label: Revenue from transportation customers in the year, USD
   unit: USD
   rows: 18661
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: transportation_sales
-  label: null
+  label: Retail sales to transportation customers in the year, MWh
   unit: MWh
   rows: 18599
   first: '2015-01-01T00:00:00Z'

@@ -5,9 +5,11 @@
 table: energy_charts_central_europe
 family: energy
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One hour's mean power of one of Austria's, Switzerland's or Czechia's public net production types, its load, residual
+  load or cross-border trading, as Energy-Charts (Fraunhofer ISE) gives it.
+time: ts_utc is the start of the hour, UTC; freq PT1H. A quarter-hour answer's four values are averaged, the hour kept only
+  when all four are given. From 23:00 UTC on 31 December 2022.
+vintage_rule: Rewritten whole by each run from the yearly answers; vintage is blank (the answers carry no date of their own).
 keys:
 - entity
 - variable
@@ -35,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: energy_charts:<at|ch|cz>:<type>, Energy-Charts' name as a slug
   type: text
   values:
     distinct: 43
@@ -83,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: AT, CH or CZ (ISO 3166-1 country codes)
   type: text
   values:
     list:
@@ -92,12 +96,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1419805
 - name: node
   shared: true
+  particular: '''<Country>: <Energy-Charts'' name>'', not a pricing node'
   type: text
   values:
     distinct: 43
@@ -153,13 +159,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: the answers carry no date of their own'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1419805
 - name: x_type
-  label: null
-  unit: null
+  label: Energy-Charts' name of the production type or measure (Biomass, Fossil gas, Nuclear, Load, Residual load, Cross border
+    electricity trading and the others)
+  unit: none
   type: text
   values:
     list:
@@ -184,42 +192,43 @@ columns:
       Waste: 66813
       Wind onshore: 100220
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method energy_charts_central_europe.md; connector energy_charts_central.py
 - name: x_resolution
-  label: null
-  unit: null
+  label: 'The spacing of the API answer the hour came from: PT15M (a quarter hour, averaged to the hour) or PT1H'
+  unit: none
   type: text
   values:
     list:
       PT15M: 755375
       PT1H: 664430
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method energy_charts_central_europe.md; connector energy_charts_central.py
 variables:
 - name: cross_border_trading
-  label: null
+  label: The hour's mean net cross-border trading, MW; negative in hours of net export
   unit: MW
   rows: 100221
   first: '2022-12-31T23:00:00Z'
   last: '2026-10-23T21:00:00Z'
 - name: load
-  label: null
+  label: The hour's mean load (electricity demand) as Energy-Charts gives it, MW
   unit: MW
   rows: 100220
   first: '2022-12-31T23:00:00Z'
   last: '2026-10-23T21:00:00Z'
 - name: public_net_power
-  label: null
+  label: 'The hour''s mean public net production of the entity''s production type, MW (pumped storage consumption negative:
+    the power the pumps draw)'
   unit: MW
   rows: 1119144
   first: '2022-12-31T23:00:00Z'
   last: '2026-10-23T21:00:00Z'
 - name: residual_load
-  label: null
+  label: The hour's mean residual load as Energy-Charts gives it, MW
   unit: MW
   rows: 100220
   first: '2022-12-31T23:00:00Z'

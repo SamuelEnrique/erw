@@ -5,9 +5,9 @@
 table: iso_rt_top_intervals
 family: iso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One of the 10 highest real-time price intervals, over all hubs, of one ISO's latest 7 complete local days.
+time: ts_utc is the interval start in UTC; freq is the real-time table's interval (PT15M or PT1H).
+vintage_rule: A snapshot replaced whole by each run; the header names each ISO's week. Ties go to the earlier interval.
 keys:
 - entity
 - variable
@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: The hub or zone of the real-time price table, <iso>:<node>
   type: text
   values:
     distinct: 33
@@ -96,12 +97,14 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 50
 - name: market
   shared: true
+  particular: The ISO (caiso, ercot, isone, miso, nyiso), not a market code
   type: text
   values:
     list:
@@ -113,6 +116,7 @@ columns:
   missing_cells: 0
 - name: node
   shared: true
+  particular: The hub or zone name as in the real-time price table
   type: text
   values:
     distinct: 33
@@ -149,13 +153,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 50
 variables:
 - name: rt_price_top10_week
-  label: null
+  label: A real-time price among the ISO's 10 highest intervals of the week, USD/MWh
   unit: USD/MWh
   rows: 50
   first: '2026-09-28T22:00:00Z'

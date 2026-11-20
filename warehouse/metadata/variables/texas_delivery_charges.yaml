@@ -1,0 +1,319 @@
+# The codebook's metadata of table texas_delivery_charges (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: texas_delivery_charges
+family: erw_derived
+shape: events
+row: One charge figure (a delivery charge for a load at transmission voltage) as a Texas wires utility's Tariff for Retail
+  Delivery Service, or a Public Utility Commission of Texas filing, prints it.
+time: event_date is the effective date printed on the figure's page where it reads as a date, else the day the document was
+  retrieved (event_date_basis says which).
+vintage_rule: Merged by event_id (the document and a hash of page, class, charge, figure and line); a run that reads a document
+  again replaces its rows with the same key. No vintage column.
+keys:
+- event_id
+license: internal
+tier: model_extracted
+interval: event
+source:
+- name: 'oncor:retail_delivery_tariff, Tariff for Retail Delivery Service, Oncor Electric Delivery Company LLC (https://www.oncor.com/content/dam/oncorwww/documents/about-us/regulatory/tariff-and-rate-schedules/Tariff%20for%20Retail%20Delivery%20Service.pdf.coredownload.pdf,
+    retrieved 2026-10-07T01:36:32Z); centerpoint:retail_delivery_tariff, Tariff for Retail Delivery Service, CenterPoint Energy
+    Houston Electric, LLC (https://assets.centerpointenergy.com/api/public/content/houston-electric-tariff-for-retail-delivery-service.pdf,
+    retrieved 2026-10-07T01:37:07Z); aeptexas:retail_delivery_tariff, Tariff for Retail Delivery Service, AEP Texas (https://www.aeptexas.com/lib/docs/ratesandtariffs/Texas/AEP_TEXAS_TARIFF_Eff_Sept_29_2026v1.pdf,
+    retrieved 2026-10-07T01:37:09Z); tnmp:retail_delivery_tariff, Tariff for Retail Delivery Service, Texas-New Mexico Power
+    Company (the file the Commission''s rates page links) (https://tnmp.com/sites/default/files/inline-images/TNMP%20Retail%20Tariff%20%2820251229%29_0.pdf,
+    retrieved 2026-10-07T01:42:57Z); puct:wholesale_transmission_charges, Docket No. 57491, Commission Staff''s Petition to
+    Set 2025 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 53 (the latest
+    year with a final order: Docket No. 59080, the 2026 charges, was remanded on 4 June 2026 and has none in the filing list
+    read on 2026-10-07) (https://interchange.puc.texas.gov/Documents/57491_53_1486508.PDF, retrieved 2026-10-07T01:42:36Z)'
+  url: https://interchange.puc.texas.gov/Documents/57491_53_1486508.PDF
+cite: 'AEP Texas Inc.; CenterPoint Energy Houston Electric, LLC; Oncor Electric Delivery Company LLC; Public Utility Commission
+  of Texas; Texas-New Mexico Power Company. Docket No. 57491, Commission Staff''s Petition to Set 2025 Wholesale Transmission
+  Service Charges for the Electric Reliability Council of Texas, Inc., item 53 (the latest year with a final order: Docket
+  No. 59080, the 2026 charges, was remanded on 4 June 2026 and has none in the filing list read on 2026-10-07). Reuse, as
+  read 2026-10-07 at https://www.puc.texas.gov/agency/about/policies/: "the Site Policies page read is an index and prints
+  only: Copyright (c) 2026 Public Utility Commission of Texas; its Link Policy page, which states the reuse rule, was not
+  read (the 14 documents allowed were used); held internal until a person reads it"; Tariff for Retail Delivery Service, AEP
+  Texas. Reuse, as read 2026-10-07 at https://www.aep.com/terms/: "You may not copy or display for redistribution to third
+  parties for commercial purposes any portion of the content without the prior written permission of AEP."; Tariff for Retail
+  Delivery Service, CenterPoint Energy Houston Electric, LLC. Reuse, as read 2026-10-07 at https://www.centerpointenergy.com/en-us/about-us/legal/terms-of-use:
+  "Except as otherwise permitted under these Terms of Use, you agree not to copy, reproduce, modify, create derivative works
+  from, or store any Content, in whole or in part, from the Service or to display, perform, publish, distribute, transmit,
+  broadcast or circulate any Content to anyone, or for any commercial purpose, without the express prior written consent of
+  CenterPoint."; Tariff for Retail Delivery Service, Oncor Electric Delivery Company LLC. Reuse, as read 2026-10-07 at https://www.oncor.com/content/oncorwww/us/en/home/legal.html:
+  "You may copy, display and distribute Content, without modification, enhancement, customization, or reformatting of any
+  kind, for personal, noncommercial, and/or educational purposes only"; Tariff for Retail Delivery Service, Texas-New Mexico
+  Power Company (the file the Commission''s rates page links). Reuse, as read 2026-10-07: "no terms page read: tnmp.com answered
+  HTTP 403 to its rates page on 2026-10-07, and the 14 documents allowed were used; held internal until a person reads TNMP''s
+  terms". Via the Energy Research Warehouse (ERW), table `texas_delivery_charges`.'
+method: docs/methods/datacenter_cost.md
+header_title: Texas delivery charges for a load at transmission voltage, as the four large wires utilities' retail delivery
+  tariffs and a Public Utility Commission of Texas filing print them (session 138)
+header_shape: 'Shape: events (docs/datastandard.md v0), event_type tariff_charge or wholesale_transmission_charge; one row
+  per figure. event_date: the effective date printed on the figure''s page where there is one and it reads as a date, else
+  the day the document was retrieved (event_date_basis says which).'
+read:
+  date: '2026-11-20'
+  rows: 73
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: tariff_charge for a tariff's figure, wholesale_transmission_charge for a Commission order's
+- name: parties
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The publisher of the document (the utility, or the Commission)
+- name: entity_ids
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The entity the document belongs to, as the connector names it
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 73
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 73
+- name: currency
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: USD on every row
+- name: status
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 73
+  particular: 'Not filled: no cell holds a value'
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: utility
+  label: The publisher of the document the figure is read from (the utility, or the Commission for its order)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector texas_delivery_charges.py
+- name: rate_class
+  label: The rate class the charge applies to, as the page names it (the model's reading)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector texas_delivery_charges.py
+- name: schedule
+  label: The rate schedule or rider the charge belongs to, as the page names it (the model's reading)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector texas_delivery_charges.py
+- name: charge_name
+  label: The charge's name as the page words it (the model's reading)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector texas_delivery_charges.py
+- name: amount
+  label: The printed figure as a decimal (commas dropped, negative when printed in parentheses), in the unit of unit_as_written
+  unit: unit_as_written
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector texas_delivery_charges.py
+- name: value_as_written
+  label: The figure exactly as the page prints it
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector texas_delivery_charges.py
+- name: unit_as_written
+  label: The charge's unit in the tariff's own words, outside the standard's unit vocabulary
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 4
+  missing_meaning: No unit is printed on the page for the figure
+  source_name: null
+  documented_by: header; connector texas_delivery_charges.py
+- name: effective_date_as_written
+  label: The effective date as the page prints it
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1
+  missing_meaning: No effective date is printed on the page
+  source_name: null
+  documented_by: header; connector texas_delivery_charges.py
+- name: event_date_basis
+  label: 'What event_date is: the effective date printed on the page, or the date the document was retrieved'
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector texas_delivery_charges.py
+- name: document_title
+  label: The document's title
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector texas_delivery_charges.py
+- name: page
+  label: The page of the document the figure was read from
+  unit: none
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector texas_delivery_charges.py
+- name: sentence
+  label: The sentence or table line the figure was read from, found literally in the page's extracted text
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector texas_delivery_charges.py
+- name: checks
+  label: What was found literally on the page (line, value, unit, effective date, charge name, rate class, schedule), joined
+    by ';'
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector texas_delivery_charges.py
+- name: figures_in_sentence
+  label: How many decimal figures the sentence holds; above 1, which column belongs to the class is the model's reading
+  unit: count
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector texas_delivery_charges.py
+- name: class_in_sentence
+  label: yes when the sentence itself names the rate class, else no
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector texas_delivery_charges.py
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: model_id
+  label: The Claude model that read the page
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector texas_delivery_charges.py
+- name: read_run_id
+  label: The run in which the model read the page
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector texas_delivery_charges.py
+- name: request_id
+  label: Anthropic's request id of the model's reading
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector texas_delivery_charges.py
+second_look: null

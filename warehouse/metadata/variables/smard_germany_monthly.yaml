@@ -5,9 +5,9 @@
 table: smard_germany_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Germany's actual generation from one source, or its grid load, in one month, from the Bundesnetzagentur's SMARD.
+time: ts_utc is the month's first day (SMARD's Start date, a month in German time); freq P1M; from 2015-01.
+vintage_rule: Rewritten whole as one snapshot by each run from SMARD's one download; vintage is not filled.
 keys:
 - entity
 - variable
@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: smard:de on every row
   type: text
   values:
     list:
@@ -77,6 +78,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: DE on every row
   type: text
   values:
     list:
@@ -84,12 +86,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1800
 - name: node
   shared: true
+  particular: The column as SMARD writes it, not a pricing node
   type: text
   values:
     list:
@@ -130,97 +134,98 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1800
 - name: x_file
-  label: null
-  unit: null
+  label: The file of SMARD's download the value is read from (actual generation or actual consumption)
+  unit: none
   type: text
   values:
     list:
       Actual_consumption_201501010000_202610240445_Month_2.csv: 141
       Actual_generation_201501010000_202610240445_Month_1.csv: 1659
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector smard_germany.py; data
 variables:
 - name: generation_biomass
-  label: null
+  label: Actual generation from biomass
   unit: MWh
   rows: 141
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: generation_fossil_gas
-  label: null
+  label: Actual generation from fossil gas
   unit: MWh
   rows: 141
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: generation_hard_coal
-  label: null
+  label: Actual generation from hard coal
   unit: MWh
   rows: 141
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: generation_hydro_pumped_storage
-  label: null
+  label: Actual generation from pumped storage hydro
   unit: MWh
   rows: 141
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: generation_hydropower
-  label: null
+  label: Actual generation from hydropower
   unit: MWh
   rows: 141
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: generation_lignite
-  label: null
+  label: Actual generation from lignite
   unit: MWh
   rows: 141
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: generation_nuclear
-  label: null
+  label: Actual generation from nuclear
   unit: MWh
   rows: 108
   first: '2015-01-01T00:00:00Z'
   last: '2023-12-01T00:00:00Z'
 - name: generation_other_conventional
-  label: null
+  label: Actual generation from other conventional sources
   unit: MWh
   rows: 141
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: generation_other_renewable
-  label: null
+  label: Actual generation from other renewables
   unit: MWh
   rows: 141
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: generation_photovoltaics
-  label: null
+  label: Actual generation from photovoltaics
   unit: MWh
   rows: 141
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: generation_wind_offshore
-  label: null
+  label: Actual generation from offshore wind
   unit: MWh
   rows: 141
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: generation_wind_onshore
-  label: null
+  label: Actual generation from onshore wind
   unit: MWh
   rows: 141
   first: '2015-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: grid_load
-  label: null
+  label: Grid load
   unit: MWh
   rows: 141
   first: '2015-01-01T00:00:00Z'

@@ -5,9 +5,11 @@
 table: ercot_sced_esr_hourly
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One ERCOT Energy Storage Resource (a battery) in one hour of real-time dispatch (SCED), its telemetered net output and
+  limits, state of charge and real-time ancillary service awards, from ERCOT's 60-day SCED disclosure.
+time: ts_utc is the start of the hour in UTC; operating days are Central (America/Chicago) days.
+vintage_rule: Each operating day is reduced to resource-hours once and added; a day already reduced is not read again unless
+  asked. vintage is the operating day plus 60 days at 00:00:00Z.
 keys:
 - entity
 - variable
@@ -16,7 +18,8 @@ license: public
 tier: source
 interval: PT1H
 source:
-- name: ercot:NP3-965-ER ERCOT, 60-Day SCED Disclosure Reports (report type 13052),  document list
+- name: ercot:NP3-965-ER ERCOT, 60-Day SCED Disclosure Reports (report type 13052), https://www.ercot.com/mp/data-products/data-product-details?id=NP3-965-ER;
+    document list
   url: https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=13052
 cite: 'Electric Reliability Council of Texas (ERCOT). 60-Day SCED Disclosure Reports (the file 60d_ESR_Data_in_SCED: Energy
   Storage Resources in real time). Via the Energy Research Warehouse (ERW), table `ercot_sced_esr_hourly`.'
@@ -40,6 +43,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<Resource Name>, the storage resource
   type: text
   values:
     distinct: 342
@@ -95,6 +99,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
   type: text
   values:
     list:
@@ -102,6 +107,8 @@ columns:
   missing_cells: 0
 - name: node
   shared: true
+  particular: The resource's settlement point as ercot_dam_esr_awards names it; empty for the three resources that file never
+    names
   type: text
   values:
     distinct: 293
@@ -141,6 +148,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The operating day plus 60 days at 00:00:00Z (when ERCOT publishes the disclosure)
   type: utc time
   values:
     distinct: 208
@@ -148,8 +156,8 @@ columns:
     latest: '2026-10-26T00:00:00Z'
   missing_cells: 0
 - name: x_qse
-  label: null
-  unit: null
+  label: The scheduling entity (QSE) of the resource, ERCOT's code
+  unit: none
   type: text
   values:
     distinct: 120
@@ -160,12 +168,12 @@ columns:
     - QBEEP1
     - QBEEP2
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: QSE
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_sced_runs
-  label: null
-  unit: null
+  label: The SCED dispatch runs in the hour that hold the resource
+  unit: count
   type: integer
   values:
     list:
@@ -180,239 +188,241 @@ columns:
       '19': 335
       '7': 3
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_net_q1_mwh
-  label: null
-  unit: null
+  label: Telemetered net output integrated over the hour's first 15-minute settlement interval (positive is discharge)
+  unit: MWh
   type: number
   values:
     distinct: more than 5000
     lowest: -60.000005
     highest: 60.000005
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_net_q2_mwh
-  label: null
-  unit: null
+  label: Telemetered net output integrated over the hour's second 15-minute settlement interval (positive is discharge)
+  unit: MWh
   type: number
   values:
     distinct: more than 5000
     lowest: -60.000005
     highest: 60.000005
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_net_q3_mwh
-  label: null
-  unit: null
+  label: Telemetered net output integrated over the hour's third 15-minute settlement interval (positive is discharge)
+  unit: MWh
   type: number
   values:
     distinct: more than 5000
     lowest: -60.000005
     highest: 60.000005
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_net_q4_mwh
-  label: null
-  unit: null
+  label: Telemetered net output integrated over the hour's fourth 15-minute settlement interval (positive is discharge); the
+    four add up to the value
+  unit: MWh
   type: number
   values:
     distinct: more than 5000
     lowest: -60.000005
     highest: 60.000005
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_discharge_mwh
-  label: null
-  unit: null
+  label: 'The positive part of the integrated net output: energy discharged in the hour'
+  unit: MWh
   type: number
   values:
     distinct: more than 5000
     lowest: 0.0
     highest: 240.00002
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_charge_mwh
-  label: null
-  unit: null
+  label: 'The negative part of the integrated net output, as a positive number: energy charged in the hour'
+  unit: MWh
   type: number
   values:
     distinct: more than 5000
     lowest: 0.0
     highest: 240.00002
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_base_point_mwh
-  label: null
-  unit: null
+  label: The Base Point (what SCED instructed) integrated over the hour the same way
+  unit: MWh
   type: number
   values:
     distinct: more than 5000
     lowest: -240.000015
     highest: 240.000015
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Base Point
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_hsl_mw
-  label: null
-  unit: null
+  label: The hour's highest High Sustained Limit
+  unit: MW
   type: number
   values:
     distinct: 2335
     lowest: -8.8
     highest: 240.0
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: HSL
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_lsl_mw
-  label: null
-  unit: null
+  label: 'The hour''s lowest Low Sustained Limit (negative: charging)'
+  unit: MW
   type: number
   values:
     distinct: 2248
     lowest: -240.0
     highest: 195.0
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: LSL
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_soc_start_mwh
-  label: null
-  unit: null
+  label: The State of Charge (energy stored) at the hour's first SCED run
+  unit: MWh
   type: number
   values:
     distinct: more than 5000
     lowest: -703.6
     highest: 974.9
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: State of Charge
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_soc_min_mwh
-  label: null
-  unit: null
+  label: The lowest State of Charge in the hour
+  unit: MWh
   type: number
   values:
     distinct: more than 5000
     lowest: -703.6
     highest: 974.9
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: State of Charge
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_soc_max_mwh
-  label: null
-  unit: null
+  label: The highest State of Charge in the hour
+  unit: MWh
   type: number
   values:
     distinct: more than 5000
     lowest: -0.3718
     highest: 974.9
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: State of Charge
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_as_regup_mwh
-  label: null
-  unit: null
+  label: The real-time award of Regulation Up integrated over the hour (a MW for an hour)
+  unit: MWh
   type: number
   values:
     distinct: more than 5000
     lowest: 0.0
     highest: 269.745653
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: AS Awards REGUP
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_as_regdn_mwh
-  label: null
-  unit: null
+  label: The real-time award of Regulation Down integrated over the hour (a MW for an hour)
+  unit: MWh
   type: number
   values:
     distinct: more than 5000
     lowest: 0.0
     highest: 200.0
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: AS Awards REGDN
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_as_rrspfr_mwh
-  label: null
-  unit: null
+  label: The real-time award of Responsive Reserve, PFR kind, integrated over the hour (a MW for an hour)
+  unit: MWh
   type: number
   values:
     distinct: more than 5000
     lowest: 0.0
     highest: 157.0
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: AS Awards RRSPFR
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_as_rrsffr_mwh
-  label: null
-  unit: null
+  label: The real-time award of Responsive Reserve, FFR kind, integrated over the hour (a MW for an hour)
+  unit: MWh
   type: number
   values:
     distinct: more than 5000
     lowest: 0.0
     highest: 175.672674
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: AS Awards RRSFFR
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_as_rrsufr_mwh
-  label: null
-  unit: null
+  label: The real-time award of Responsive Reserve, UFR kind, integrated over the hour (a MW for an hour)
+  unit: MWh
   type: integer
   values:
     list:
       '0': 1637727
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: AS Awards RRSUFR
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_as_ecrs_mwh
-  label: null
-  unit: null
+  label: The real-time award of ERCOT Contingency Reserve Service integrated over the hour (a MW for an hour)
+  unit: MWh
   type: number
   values:
     distinct: more than 5000
     lowest: 0.0
     highest: 237.127168
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: AS Awards ECRS
+  documented_by: header; connector ercot_sced_esr.py
 - name: x_as_nspin_mwh
-  label: null
-  unit: null
+  label: The real-time award of Non-Spin integrated over the hour (a MW for an hour)
+  unit: MWh
   type: number
   values:
     distinct: more than 5000
     lowest: 0.0
     highest: 118.98
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: AS Awards NSPIN
+  documented_by: header; connector ercot_sced_esr.py
 variables:
 - name: net_output_mwh
-  label: null
+  label: The resource's Telemetered Net Output integrated over the hour, MWh (positive is discharge; each SCED run's MW held
+    until the next run of the day, never across a run the resource is not in); telemetry, not the settlement meter
   unit: MWh
   rows: 1637727
   first: '2026-02-01T06:00:00Z'

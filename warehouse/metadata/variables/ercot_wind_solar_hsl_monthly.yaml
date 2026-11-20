@@ -5,9 +5,11 @@
 table: ercot_wind_solar_hsl_monthly
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: ERCOT's wind or solar output, High Sustained Limit (HSL), or output below the HSL, summed over one Central month, system-wide
+  or in one of ERCOT's wind or solar regions.
+time: ts_utc is the first day of the Central (America/Chicago) month at 00:00:00Z.
+vintage_rule: Merged by (entity, variable, ts_utc), built from ercot_wind_solar_hsl_hourly and nothing else; a month is written
+  only with at least 95 percent of its hours held. vintage is not filled.
 keys:
 - entity
 - variable
@@ -32,6 +34,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'ercot:system, ercot:wind:<REGION> (COASTAL, NORTH, PANHANDLE, SOUTH, WEST) or ercot:solar:<Region> (CenterEast,
+    CenterWest, FarEast, FarWest, NorthWest, SouthEast): ERCOT''s wind and solar regions, not its weather zones'
   type: text
   values:
     list:
@@ -112,12 +116,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 45
 - name: node
   shared: true
+  particular: The region as ERCOT prints it; empty on the system-wide rows
   type: text
   values:
     list:
@@ -156,79 +162,83 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 45
 variables:
 - name: solar_below_hsl_mwh
-  label: null
+  label: 'Solar output below the HSL: the sum over hours of HSL less GEN where positive, MWh; the ERW''s estimate of curtailment,
+    not ERCOT''s figure'
   unit: MWh
   rows: 1
   first: '2026-10-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: solar_below_hsl_share_pct
-  label: null
+  label: solar_below_hsl_mwh over solar_hsl_mwh, times 100
   unit: pct
   rows: 1
   first: '2026-10-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: solar_generation_mwh
-  label: null
+  label: 'Solar output in the month: the sum of hourly GEN, MWh'
   unit: MWh
   rows: 7
   first: '2026-10-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: solar_hours_held
-  label: null
+  label: Hours of the month held for solar (with both GEN and HSL where the area has an HSL, with GEN for a region)
   unit: count
   rows: 7
   first: '2026-10-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: solar_hours_in_month
-  label: null
+  label: The hours the Central month has
   unit: count
   rows: 7
   first: '2026-10-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: solar_hsl_mwh
-  label: null
+  label: The sum of the hourly High Sustained Limit of solar, MWh (system-wide only)
   unit: MWh
   rows: 1
   first: '2026-10-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: wind_below_hsl_mwh
-  label: null
+  label: 'Wind output below the HSL: the sum over hours of HSL less GEN where positive, MWh; the ERW''s estimate of curtailment,
+    not ERCOT''s figure'
   unit: MWh
   rows: 1
   first: '2026-10-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: wind_below_hsl_share_pct
-  label: null
+  label: wind_below_hsl_mwh over wind_hsl_mwh, times 100
   unit: pct
   rows: 1
   first: '2026-10-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: wind_generation_mwh
-  label: null
+  label: 'Wind output in the month: the sum of hourly GEN, MWh'
   unit: MWh
   rows: 6
   first: '2026-10-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: wind_hours_held
-  label: null
+  label: Hours of the month held for wind (with both GEN and HSL where the area has an HSL, with GEN for a region)
   unit: count
   rows: 6
   first: '2026-10-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: wind_hours_in_month
-  label: null
+  label: The hours the Central month has
   unit: count
   rows: 6
   first: '2026-10-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: wind_hsl_mwh
-  label: null
+  label: The sum of the hourly High Sustained Limit of wind (the output the resources report they could sustain), MWh (system-wide
+    only)
   unit: MWh
   rows: 1
   first: '2026-10-01T00:00:00Z'

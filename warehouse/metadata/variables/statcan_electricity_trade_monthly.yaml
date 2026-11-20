@@ -5,9 +5,11 @@
 table: statcan_electricity_trade_monthly
 family: statcan
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One area's (Canada, a province or a territory) value of one component of electricity supply and disposition (generation,
+  receipts, deliveries, availability) in one month, from Statistics Canada table 25-10-0016-01.
+time: ts_utc is the month's first day at 00:00:00Z (a month, not an instant); freq P1M.
+vintage_rule: A snapshot; each run replaces the whole file, so a revised month is revised at the next run; vintage is the
+  zip's Last-Modified time.
 keys:
 - entity
 - variable
@@ -35,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: statcan_trade:<area>, the area ca or the province's or territory's postal code in lower case
   type: text
   values:
     list:
@@ -91,6 +94,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: CA for Canada, CA-<province> for a province or territory
   type: text
   values:
     list:
@@ -111,12 +115,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 25215
 - name: node
   shared: true
+  particular: '<area>: <component> as StatCan names them, not a pricing node'
   type: text
   values:
     distinct: 170
@@ -150,25 +156,26 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified time of StatCan's zip
   type: utc time
   values:
     list:
       '2026-10-08T12:30:35Z': 25215
   missing_cells: 0
 - name: x_total
-  label: null
-  unit: null
+  label: yes where the component is one of StatCan's totals (its name begins Total), never to be summed with its parts
+  unit: none
   type: text
   values:
     list:
       'yes': 13217
   missing_cells: 11998
-  missing_meaning: null
+  missing_meaning: The component is not a total
   source_name: null
-  documented_by: null
+  documented_by: header; connector statcan_electricity_trade.py
 - name: x_vector
-  label: null
-  unit: null
+  label: StatCan's vector identifier of the series
+  unit: none
   type: text
   values:
     distinct: 170
@@ -179,119 +186,119 @@ columns:
     - v44158997
     - v44158998
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: VECTOR
+  documented_by: header; connector statcan_electricity_trade.py
 - name: x_revised
-  label: null
-  unit: null
+  label: r where StatCan marks the figure revised
+  unit: none
   type: text
   values:
     list:
       r: 254
   missing_cells: 24961
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: StatCan gives no revision mark
+  source_name: SYMBOL
+  documented_by: header; connector statcan_electricity_trade.py; method statcan_electricity_trade_monthly.md
 variables:
 - name: available_for_use
-  label: null
+  label: Total electricity available for use within the area's border, MWh
   unit: MWh
   rows: 3122
   first: '2008-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: deliveries_firm_other_provinces
-  label: null
+  label: Firm deliveries to other provinces, MWh
   unit: MWh
   rows: 641
   first: '2008-01-01T00:00:00Z'
   last: '2015-12-01T00:00:00Z'
 - name: deliveries_firm_total
-  label: null
+  label: Total firm deliveries, MWh
   unit: MWh
   rows: 936
   first: '2008-01-01T00:00:00Z'
   last: '2015-12-01T00:00:00Z'
 - name: deliveries_firm_us
-  label: null
+  label: Firm deliveries to the United States, MWh
   unit: MWh
   rows: 728
   first: '2008-01-01T00:00:00Z'
   last: '2015-12-01T00:00:00Z'
 - name: deliveries_non_firm_other_provinces
-  label: null
+  label: Non-firm deliveries to other provinces, MWh
   unit: MWh
   rows: 690
   first: '2008-01-01T00:00:00Z'
   last: '2015-12-01T00:00:00Z'
 - name: deliveries_non_firm_total
-  label: null
+  label: Total non-firm deliveries, MWh
   unit: MWh
   rows: 875
   first: '2008-01-01T00:00:00Z'
   last: '2015-12-01T00:00:00Z'
 - name: deliveries_non_firm_us
-  label: null
+  label: Non-firm deliveries to the United States, MWh
   unit: MWh
   rows: 786
   first: '2008-01-01T00:00:00Z'
   last: '2015-12-01T00:00:00Z'
 - name: deliveries_other_provinces
-  label: null
+  label: Deliveries to other provinces, MWh
   unit: MWh
   rows: 2159
   first: '2008-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: deliveries_other_total
-  label: null
+  label: Total other deliveries, MWh
   unit: MWh
   rows: 319
   first: '2008-01-01T00:00:00Z'
   last: '2013-12-01T00:00:00Z'
 - name: deliveries_other_us
-  label: null
+  label: Other deliveries to the United States, MWh
   unit: MWh
   rows: 319
   first: '2008-01-01T00:00:00Z'
   last: '2013-12-01T00:00:00Z'
 - name: deliveries_total
-  label: null
+  label: 'Total deliveries, MWh: for Canada its deliveries to the United States only, for a province also to other provinces'
   unit: MWh
   rows: 2390
   first: '2008-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: deliveries_us
-  label: null
+  label: Deliveries to the United States, MWh
   unit: MWh
   rows: 2077
   first: '2008-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: generation
-  label: null
+  label: Total generation in the month, MWh (StatCan's Total generation)
   unit: MWh
   rows: 3122
   first: '2008-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: receipts_other_provinces
-  label: null
+  label: Receipts from other provinces, MWh
   unit: MWh
   rows: 2225
   first: '2008-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: receipts_total
-  label: null
+  label: 'Total receipts, MWh: for Canada its receipts from the United States only, for a province also from other provinces'
   unit: MWh
   rows: 2453
   first: '2008-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: receipts_us_other
-  label: null
+  label: Other receipts from the United States, MWh
   unit: MWh
   rows: 283
   first: '2008-01-01T00:00:00Z'
   last: '2011-12-01T00:00:00Z'
 - name: receipts_us_purchased
-  label: null
+  label: Purchased receipts from the United States, MWh
   unit: MWh
   rows: 2090
   first: '2008-01-01T00:00:00Z'

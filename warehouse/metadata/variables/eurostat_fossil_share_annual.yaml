@@ -5,9 +5,9 @@
 table: eurostat_fossil_share_annual
 family: eurostat
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One European country's (or the EU's) share of fossil fuels in its gross available energy in one year.
+time: ts_utc is the year's 1 January at 00:00:00Z, a label for the calendar year (freq P1Y).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised figure replaces the old; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -31,6 +31,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_fossil_share:<geo>
   type: text
   values:
     distinct: 39
@@ -79,6 +80,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
   type: text
   values:
     distinct: 38
@@ -97,6 +99,7 @@ columns:
   missing_cells: 1279
 - name: node
   shared: true
+  particular: <geo> share of fossil fuels in gross available energy, not a pricing node
   type: text
   values:
     distinct: 39
@@ -135,8 +138,8 @@ columns:
     note: no cell holds a value
   missing_cells: 1279
 - name: x_geo_code
-  label: null
-  unit: null
+  label: Eurostat's geo code of the country or aggregate
+  unit: none
   type: text
   values:
     distinct: 39
@@ -147,32 +150,32 @@ columns:
     - BE
     - BG
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_fossil_share.py
 - name: x_flag
-  label: null
-  unit: null
+  label: Eurostat's flag of the observation
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1279
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value'
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_fossil_share.py
 - name: x_conf_status
-  label: null
-  unit: null
+  label: Eurostat's confidentiality status of the observation
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1279
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value'
   source_name: null
-  documented_by: null
+  documented_by: connector eurostat_fossil_share.py
 variables:
 - name: fossil_share_gross_available_energy
-  label: null
+  label: Share of fossil fuels in gross available energy, percent
   unit: pct
   rows: 1279
   first: '1990-01-01T00:00:00Z'

@@ -35,6 +35,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia:retail_sales:<stateid>:<sectorid> or eia:customers:<stateid>:<sectorid>; sectors RES, COM, IND, TRA, OTH
+    (EIA's older series), ALL
   type: text
   values:
     distinct: 744
@@ -45,8 +47,6 @@ columns:
     - eia:customers:AK:OTH
     - eia:customers:AK:RES
   missing_cells: 0
-  particular: eia:retail_sales:<stateid>:<sectorid> or eia:customers:<stateid>:<sectorid>; sectors RES, COM, IND, TRA, OTH
-    (EIA's older series), ALL
 - name: variable
   shared: true
   type: text
@@ -86,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, or US for the nation; empty for an EIA census division
   type: text
   values:
     distinct: 52
@@ -96,21 +97,20 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 36904
-  particular: US-<state>, or US for the nation; empty for an EIA census division
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 228947
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: EIA''s names (state, sector) are in the header''s Series line'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 228947
-  particular: 'Not filled: EIA''s names (state, sector) are in the header''s Series line'
 - name: source
   shared: true
   type: text
@@ -140,11 +140,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 228947
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: customers
   label: Number of retail electricity customers in the sector, EIA's count as published (0 before January 2008)

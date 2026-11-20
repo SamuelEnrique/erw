@@ -5,9 +5,10 @@
 table: state_large_load_laws
 family: erw_derived
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One US state law or bill of the 2025 and 2026 sessions that sets terms for large loads (data centers and others) or tells
+  the utilities or the commission to set them.
+time: event_date is the status date printed, else the day the document was read (x_date_kind says which).
+vintage_rule: Rewritten whole from the research file by each run (the old file removed first).
 keys:
 - event_id
 license: public
@@ -15,7 +16,8 @@ tier: model_extracted
 interval: event
 source:
 - name: research:large_load_2026-11-13, docs/research/large_load/legislation_2026-11-13.csv (window P4 of the portable laptop,
-    sessions 5300 to 5304; method  each row's source_url is the document it was read in. No request is made by this connector.
+    sessions 5300 to 5304; method https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md); each
+    row's source_url is the document it was read in. No request is made by this connector.
   url: https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md
 cite: US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and
   the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `state_large_load_laws`.
@@ -32,6 +34,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: lllaw:<law_id>
   type: text
   values:
     distinct: 27
@@ -74,6 +77,7 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: large_load_law on every row
   type: text
   values:
     list:
@@ -81,6 +85,7 @@ columns:
   missing_cells: 0
 - name: parties
   shared: true
+  particular: The state's legislature
   type: text
   values:
     list:
@@ -112,30 +117,35 @@ columns:
   missing_cells: 0
 - name: entity_ids
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27
 - name: mw
   shared: true
+  particular: 'Not filled: the files print sizes as phrases, kept in x_threshold_mw'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27
 - name: price
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27
 - name: currency
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 27
 - name: status
   shared: true
+  particular: 'The bill''s status as printed: introduced, passed one chamber, passed, enacted, in effect, vetoed or died'
   type: text
   values:
     list:
@@ -167,8 +177,8 @@ columns:
     - https://le.utah.gov/~2025/bills/sbillenr/SB0132.pdf
   missing_cells: 0
 - name: x_law_id
-  label: null
-  unit: null
+  label: The research file's id of the law
+  unit: none
   type: text
   values:
     distinct: 27
@@ -179,24 +189,24 @@ columns:
     - laws_midwest_northeast-05
     - laws_midwest_northeast-06
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: law_id
+  documented_by: header; connector large_load_research.py
 - name: x_group
-  label: null
-  unit: null
+  label: The research group of states the law was read in
+  unit: none
   type: text
   values:
     list:
       laws_midwest_northeast: 20
       laws_south_west: 7
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: group
+  documented_by: connector large_load_research.py; data
 - name: x_state
-  label: null
-  unit: null
+  label: The state, two-letter code
+  unit: none
   type: text
   values:
     list:
@@ -226,12 +236,12 @@ columns:
       WI: 1
       WV: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: state
+  documented_by: connector large_load_research.py
 - name: x_bill
-  label: null
-  unit: null
+  label: The bill or act as the legislature numbers it
+  unit: none
   type: text
   values:
     distinct: 27
@@ -242,12 +252,12 @@ columns:
     - A.B. 840 (as amended by Assembly Substitute Amendment 1)
     - CS/CS/SB 484 (Chapter 2026-65, Laws of Florida)
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: bill
+  documented_by: connector large_load_research.py
 - name: x_session
-  label: null
-  unit: null
+  label: The legislative session
+  unit: none
   type: text
   values:
     list:
@@ -274,12 +284,12 @@ columns:
       94th Legislature, 2025 First Special Session: 1
       February Session, 2026: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: session
+  documented_by: connector large_load_research.py
 - name: x_title
-  label: null
-  unit: null
+  label: The bill's or act's own title
+  unit: none
   type: text
   values:
     distinct: 27
@@ -291,12 +301,12 @@ columns:
     - AN ACT to amend the environmental conservation law, the public service law, the public authorities law, the energy law
       and the labor law, in relation to enacting the responsible data center development act
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: title
+  documented_by: connector large_load_research.py
 - name: x_status_date
-  label: null
-  unit: null
+  label: The status date as printed
+  unit: none
   type: text
   values:
     list:
@@ -324,24 +334,24 @@ columns:
       '2026-08-26': 1
       not published: 5
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: status_date
+  documented_by: connector large_load_research.py
 - name: x_date_kind
-  label: null
-  unit: null
+  label: 'Which date event_date is: stated date (printed in the document) or date read'
+  unit: none
   type: text
   values:
     list:
       date read: 5
       stated date: 22
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_research.py; method large_load_research.md
 - name: x_effective_date
-  label: null
-  unit: null
+  label: The law's effective date as printed, or not published
+  unit: none
   type: text
   values:
     list:
@@ -358,12 +368,12 @@ columns:
       '2026-10-01': 1
       not published: 15
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: effective_date
+  documented_by: connector large_load_research.py; method large_load_research.md
 - name: x_status_cite
-  label: null
-  unit: null
+  label: 'Where the status and dates are printed: the document''s address and the words'
+  unit: none
   type: text
   values:
     distinct: 27
@@ -391,12 +401,12 @@ columns:
       "Passed to be engrossed -- see Roll Call #205 (Yeas 32 to Nays 8)" | https://malegislature.gov/Bills/194/H5175 (read
       2026-11-14) p. 1, Bill History, 7/16/2026 Senate: "Committee of conference appointed (Barrett-Creem-Tarr), in concurrence"'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: status_cite
+  documented_by: connector large_load_research.py
 - name: x_threshold_mw
-  label: null
-  unit: null
+  label: The size of load the law applies to, as the text's phrase
+  unit: none
   type: text
   values:
     list:
@@ -464,12 +474,12 @@ columns:
         the emergency curtailment duty applies above 25 MW of peak demand
       : 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: threshold_mw
+  documented_by: header; method large_load_research.md
 - name: x_threshold_mw_cite
-  label: null
-  unit: null
+  label: 'Where the size is printed: page, section and words'
+  unit: none
   type: text
   values:
     distinct: 27
@@ -488,12 +498,12 @@ columns:
     - 'p. 1, Section 1b(1): "minimum megawatt size designation, which shall not be greater than 50 megawatts." | p. 1, Section
       1b(1): "the board shall aggregate the peak monthly"'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: threshold_mw_cite
+  documented_by: connector large_load_research.py
 - name: x_requirements
-  label: null
-  unit: null
+  label: The duties the law sets, by topic (cost allocation, minimum term, collateral and others), as printed
+  unit: none
   type: text
   values:
     distinct: 27
@@ -598,12 +608,12 @@ columns:
       to offer a clean energy and capacity tariff for commercial and industrial customers." | p. 1, 216B.1623(5): "(5) prohibit
       cost shifting from the participating customers to other utility customers or vice versa; and"]'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: requirements
+  documented_by: header
 - name: x_source_title
-  label: null
-  unit: null
+  label: The title of the document the law was read in
+  unit: none
   type: text
   values:
     distinct: 27
@@ -614,24 +624,24 @@ columns:
     - Assembly Substitute Amendment 1 to 2025 Assembly Bill 840 (LRBs0244/5), Wisconsin Legislature
     - CS for CS for SB 484, 2nd Engrossed, Enrolled (2026 Legislature)
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: source_title
+  documented_by: connector large_load_research.py
 - name: x_date_read
-  label: null
-  unit: null
+  label: The day the document was read
+  unit: none
   type: date
   values:
     list:
       '2026-11-13': 11
       '2026-11-14': 16
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: date_read
+  documented_by: connector large_load_research.py
 - name: x_notes
-  label: null
-  unit: null
+  label: The research's notes on the law
+  unit: none
   type: text
   values:
     distinct: 27
@@ -663,7 +673,7 @@ columns:
       bill history is not rendered in the page read, so no later action is stated; Iowa''s 2026 session has ended. Leads not
       read: SF 2249 and HF 2261 (large energy use facilities of 20 MW or more), from trackers only.'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: notes
+  documented_by: connector large_load_research.py
 second_look: null

@@ -5,9 +5,11 @@
 table: eia923_fuel_receipts
 family: eia923
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One delivery of fuel to one power plant in one month, with its supplier, quantity, quality and cost, from Form EIA-923
+  Schedule 2 (Fuel Receipts and Costs).
+time: event_date is the receipt month's first day (a month, not a day).
+vintage_rule: A run reads the years given with --years and writes the table whole; a row repeated with every field the same
+  is kept once.
 keys:
 - event_id
 license: public
@@ -32,6 +34,8 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: eia923r:<plant id>:<year>-<month>:<first 12 characters of the SHA-1 of the row's fields> (EIA gives a delivery
+    no id)
   type: text
   values:
     distinct: more than 5000
@@ -44,6 +48,7 @@ columns:
   missing_cells: 0
 - name: event_date
   shared: true
+  particular: The receipt month's first day
   type: date
   values:
     list:
@@ -62,6 +67,7 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: Always fuel_receipt
   type: text
   values:
     list:
@@ -69,6 +75,7 @@ columns:
   missing_cells: 0
 - name: parties
   shared: true
+  particular: The supplier as EIA names it (the same as x_supplier)
   type: text
   values:
     distinct: 679
@@ -81,30 +88,35 @@ columns:
   missing_cells: 0
 - name: entity_ids
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 36733
 - name: mw
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 36733
 - name: price
   shared: true
+  particular: 'Not filled: the cost is in cents per MMBtu, kept in x_fuel_cost'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 36733
 - name: currency
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 36733
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -131,8 +143,9 @@ columns:
       '2026-10-23T06:29:28Z': 36733
   missing_cells: 0
 - name: x_quantity_unit
-  label: null
-  unit: null
+  label: 'The unit of x_quantity by fuel group: short_ton (coal and petroleum coke), bbl barrels (petroleum) or Mcf thousand
+    cubic feet (gas)'
+  unit: none
   type: text
   values:
     list:
@@ -140,12 +153,12 @@ columns:
       bbl: 2543
       short_ton: 6653
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia923_receipts.md
 - name: x_month
-  label: null
-  unit: null
+  label: The receipt month, 1 to 12
+  unit: none
   type: integer
   values:
     list:
@@ -162,24 +175,24 @@ columns:
       '8': 3155
       '9': 3078
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: MONTH
+  documented_by: method eia923_receipts.md
 - name: x_plant_id
-  label: null
-  unit: null
+  label: EIA's plant identifier
+  unit: none
   type: integer
   values:
     distinct: 967
     lowest: 3
     highest: 67766
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md
 - name: x_plant_name
-  label: null
-  unit: null
+  label: The plant's name as EIA writes it
+  unit: none
   type: text
   values:
     distinct: 967
@@ -190,12 +203,12 @@ columns:
     - AES Huntington Beach Energy Project
     - AES Huntington Beach LLC
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md
 - name: x_plant_state
-  label: null
-  unit: null
+  label: The plant's state, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 49
@@ -206,12 +219,12 @@ columns:
     - AZ
     - CA
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md
 - name: x_purchase_type
-  label: null
-  unit: null
+  label: 'EIA''s purchase type: C contract, S spot; T and NC as EIA gives them'
+  unit: none
   type: text
   values:
     list:
@@ -220,12 +233,12 @@ columns:
       S: 20659
       T: 1328
   missing_cells: 1
-  missing_meaning: null
+  missing_meaning: EIA gives none (1 row)
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md
 - name: x_contract_expiration_date
-  label: null
-  unit: null
+  label: The contract's expiry as EIA gives it, month and two-digit year (1225 is December 2025); a dot where EIA gives none
+  unit: none
   type: text
   values:
     distinct: 123
@@ -236,12 +249,12 @@ columns:
     - '1027'
     - '1028'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md
 - name: x_energy_source
-  label: null
-  unit: null
+  label: EIA's energy source code of the fuel (BIT bituminous coal, NG natural gas, DFO distillate fuel oil and the others)
+  unit: none
   type: text
   values:
     list:
@@ -255,12 +268,12 @@ columns:
       SUB: 2888
       WC: 428
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md; data
 - name: x_fuel_group
-  label: null
-  unit: null
+  label: 'EIA''s fuel group: Coal, Natural Gas, Petroleum or Petroleum Coke'
+  unit: none
   type: text
   values:
     list:
@@ -269,12 +282,12 @@ columns:
       Petroleum: 2543
       Petroleum Coke: 37
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md; data
 - name: x_coalmine_type
-  label: null
-  unit: null
+  label: EIA's coal mine type code (F, P, S, U), as EIA gives it
+  unit: none
   type: text
   values:
     list:
@@ -283,12 +296,12 @@ columns:
       S: 4050
       U: 2102
   missing_cells: 30136
-  missing_meaning: null
+  missing_meaning: Not a coal delivery, or EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md; data
 - name: x_coalmine_state
-  label: null
-  unit: null
+  label: The coal mine's state code, as EIA gives it
+  unit: none
   type: text
   values:
     list:
@@ -313,12 +326,12 @@ columns:
       WV: 900
       WY: 2800
   missing_cells: 30095
-  missing_meaning: null
+  missing_meaning: Not a coal delivery, or EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md; data
 - name: x_coalmine_county
-  label: null
-  unit: null
+  label: The coal mine's county code, as EIA gives it
+  unit: none
   type: text
   values:
     distinct: 66
@@ -329,12 +342,12 @@ columns:
     - '105'
     - '107'
   missing_cells: 30122
-  missing_meaning: null
+  missing_meaning: Not a coal delivery, or EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md; data
 - name: x_coalmine_msha_id
-  label: null
-  unit: null
+  label: The coal mine's identifier at the Mine Safety and Health Administration (MSHA), as EIA gives it
+  unit: none
   type: text
   values:
     distinct: 184
@@ -345,12 +358,12 @@ columns:
     - 0502962
     - '0503505'
   missing_cells: 30210
-  missing_meaning: null
+  missing_meaning: Not a coal delivery, or EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md
 - name: x_coalmine_name
-  label: null
-  unit: null
+  label: The coal mine's name, as EIA gives it
+  unit: none
   type: text
   values:
     distinct: 195
@@ -361,12 +374,12 @@ columns:
     - 209 STRIP & BANK JOB
     - 4TH GEN AUGER
   missing_cells: 30152
-  missing_meaning: null
+  missing_meaning: Not a coal delivery, or EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md
 - name: x_supplier
-  label: null
-  unit: null
+  label: The fuel's supplier as EIA names it (also in parties)
+  unit: none
   type: text
   values:
     distinct: 679
@@ -377,72 +390,72 @@ columns:
     - ACNR COAL SALES, INC.
     - ACNR COAL SALES, Inc.
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md
 - name: x_quantity
-  label: null
-  unit: null
+  label: The quantity of fuel received, in the unit of x_quantity_unit
+  unit: x_quantity_unit
   type: integer
   values:
     distinct: more than 5000
     lowest: 1
     highest: 13863179
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia923_receipts.md
 - name: x_average_heat_content
-  label: null
-  unit: null
+  label: The fuel's heat content per unit of quantity
+  unit: MMBtu per unit
   type: number
   values:
     distinct: 3311
     lowest: 0.0
     highest: 30.312
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia923_receipts.md
 - name: x_average_sulfur_content
-  label: null
-  unit: null
+  label: The fuel's sulfur content
+  unit: pct by weight
   type: number
   values:
     distinct: 480
     lowest: 0.0
     highest: 6.58
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia923_receipts.md
 - name: x_average_ash_content
-  label: null
-  unit: null
+  label: The fuel's ash content
+  unit: pct by weight
   type: number
   values:
     distinct: 460
     lowest: 0.0
     highest: 73.0
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia923_receipts.md
 - name: x_average_mercury_content
-  label: null
-  unit: null
+  label: The fuel's mercury content
+  unit: ppm
   type: number
   values:
     distinct: 124
     lowest: 0.0
     highest: 0.49
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia923_receipts.md
 - name: x_fuel_cost
-  label: null
-  unit: null
+  label: 'EIA''s FUEL_COST: all costs of purchase and delivery to the plant'
+  unit: cents per MMBtu
   type: text
   values:
     distinct: more than 5000
@@ -453,24 +466,24 @@ columns:
     - '-102.4'
     - '-104.2'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: FUEL_COST
+  documented_by: header; method eia923_receipts.md
 - name: x_regulated
-  label: null
-  unit: null
+  label: EIA's regulated field, REG or UNR, as EIA gives it
+  unit: none
   type: text
   values:
     list:
       REG: 27711
       UNR: 9022
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md
 - name: x_operator_name
-  label: null
-  unit: null
+  label: The plant's operator as EIA names it
+  unit: none
   type: text
   values:
     distinct: 525
@@ -481,36 +494,36 @@ columns:
     - AES Huntington Beach LLC
     - AES Indiana
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md
 - name: x_operator_id
-  label: null
-  unit: null
+  label: EIA's identifier of the plant's operator
+  unit: none
   type: integer
   values:
     distinct: 525
     lowest: 7
     highest: 67826
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md
 - name: x_reporting_frequency
-  label: null
-  unit: null
+  label: EIA's reporting frequency code of the plant, M or A, as EIA gives it
+  unit: none
   type: text
   values:
     list:
       A: 14138
       M: 22595
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md
 - name: x_primary_transportation_mode
-  label: null
-  unit: null
+  label: EIA's code of the main way the fuel was carried (GL, PL, RR, RV, TC, TP, TR, WT), as EIA gives it
+  unit: none
   type: text
   values:
     list:
@@ -523,12 +536,12 @@ columns:
       TR: 3050
       WT: 51
   missing_cells: 88
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md; data
 - name: x_secondary_transportation_mode
-  label: null
-  unit: null
+  label: EIA's code of a second way the fuel was carried, as EIA gives it
+  unit: none
   type: text
   values:
     list:
@@ -540,36 +553,36 @@ columns:
       TR: 345
       WT: 4
   missing_cells: 36230
-  missing_meaning: null
+  missing_meaning: No second mode given
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md; data
 - name: x_natural_gas_supply_contract_type
-  label: null
-  unit: null
+  label: EIA's natural gas supply contract type code (F or I), as EIA gives it
+  unit: none
   type: text
   values:
     list:
       F: 20605
       I: 6932
   missing_cells: 9196
-  missing_meaning: null
+  missing_meaning: Not a gas delivery, or EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md; data
 - name: x_natural_gas_delivery_contract_type
-  label: null
-  unit: null
+  label: EIA's natural gas delivery (transport) contract type code (F or I), as EIA gives it
+  unit: none
   type: text
   values:
     list:
       F: 20959
       I: 6577
   missing_cells: 9197
-  missing_meaning: null
+  missing_meaning: Not a gas delivery, or EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia923_receipts.md; data
 - name: x_moisture_content
-  label: null
-  unit: null
+  label: The fuel's moisture content; a dot where EIA gives none
+  unit: pct by weight
   type: text
   values:
     distinct: 1659
@@ -580,12 +593,12 @@ columns:
     - '10.02'
     - '10.03'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia923_receipts.md; data
 - name: x_chlorine_content
-  label: null
-  unit: null
+  label: The fuel's chlorine content; a dot where EIA gives none
+  unit: ppm
   type: text
   values:
     distinct: 202
@@ -596,12 +609,12 @@ columns:
     - '100'
     - '1009'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia923_receipts.md; data
 - name: x_balancing_authority_code
-  label: null
-  unit: null
+  label: The balancing authority (the grid operator of the area) of the plant, EIA's code
+  unit: none
   type: text
   values:
     distinct: 49
@@ -612,7 +625,11 @@ columns:
     - AZPS
     - BANC
   missing_cells: 1341
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
-second_look: null
+  documented_by: method eia923_receipts.md
+second_look:
+- 'Codes not expanded by the method note or the connector: x_coalmine_type (F, P, S, U), x_coalmine_state''s non-state codes
+  (CL, IM), x_regulated (REG, UNR), x_reporting_frequency (M, A), the transportation mode codes, the gas contract types (F,
+  I) and x_purchase_type''s T and NC.'
+- x_coalmine_county holds numbers such as 0 and 103; the method note says only that it is the coal mine's county.

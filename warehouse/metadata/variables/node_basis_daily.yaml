@@ -5,9 +5,10 @@
 table: node_basis_daily
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One ERCOT settlement point's value of one price measure (mean, four-hour spread, or basis against the hub average) for
+  one operating day, day-ahead or real time.
+time: ts_utc is the Central operating day at 00:00:00Z; freq P1D. A day is written only whole, for the point and the hub.
+vintage_rule: Rewritten whole by each run from ERCOT's saved files (the old file removed first); vintage is not filled.
 keys:
 - entity
 - variable
@@ -35,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ercot:<settlement point>
   type: text
   values:
     distinct: 888
@@ -90,6 +92,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: ercot_dam or ercot_rtm
   type: text
   values:
     list:
@@ -131,24 +134,27 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1035045
 - name: x_hub
-  label: null
-  unit: null
+  label: 'The hub the basis is taken against: HB_HUBAVG, the hub average, for every point (the ERW holds no list of each node''s
+    zone and zonal hub)'
+  unit: none
   type: text
   values:
     list:
       HB_HUBAVG: 1035045
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method node_basis.md
 - name: x_resource_type
-  label: null
-  unit: null
+  label: ERCOT's resource types at the point in the day's files, joined by + (PWRSTR, ESR, PVGR, WIND, CCGT90, SCGT90 and
+    others); HU for a hub, LZ for a load zone
+  unit: none
   type: text
   values:
     distinct: 33
@@ -159,12 +165,13 @@ columns:
     - DSL
     - DSL+RENEW
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method node_basis.md
 - name: x_class
-  label: null
-  unit: null
+  label: 'The point''s class: storage, solar, wind, gas, other or mixed (a resource node, by its types), hub, zone, or unknown
+    (a point no disclosure names)'
+  unit: none
   type: text
   values:
     list:
@@ -177,42 +184,42 @@ columns:
       wind: 204915
       zone: 9744
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method node_basis.md
 variables:
 - name: dam_basis
-  label: null
+  label: 'Day-ahead: the point''s daily mean less HB_HUBAVG''s daily mean over the same hours'
   unit: USD/MWh
   rows: 299831
   first: '2025-10-01T00:00:00Z'
   last: '2026-10-20T00:00:00Z'
 - name: dam_mean
-  label: null
+  label: 'Day-ahead: the day''s mean hourly price at the point'
   unit: USD/MWh
   rows: 299831
   first: '2025-10-01T00:00:00Z'
   last: '2026-10-20T00:00:00Z'
 - name: dam_spread_4h
-  label: null
+  label: 'Day-ahead: the mean of the day''s four dearest hours less the mean of its four cheapest'
   unit: USD/MWh
   rows: 299831
   first: '2025-10-01T00:00:00Z'
   last: '2026-10-20T00:00:00Z'
 - name: rtm_basis
-  label: null
+  label: 'Real time: the point''s daily mean less HB_HUBAVG''s daily mean over the same hours'
   unit: USD/MWh
   rows: 45184
   first: '2026-09-28T00:00:00Z'
   last: '2026-11-18T00:00:00Z'
 - name: rtm_mean
-  label: null
+  label: 'Real time: the day''s mean hourly price at the point'
   unit: USD/MWh
   rows: 45184
   first: '2026-09-28T00:00:00Z'
   last: '2026-11-18T00:00:00Z'
 - name: rtm_spread_4h
-  label: null
+  label: 'Real time: the mean of the day''s four dearest hours less the mean of its four cheapest'
   unit: USD/MWh
   rows: 45184
   first: '2026-09-28T00:00:00Z'

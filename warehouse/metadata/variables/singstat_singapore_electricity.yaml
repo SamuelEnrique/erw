@@ -5,9 +5,10 @@
 table: singstat_singapore_electricity
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Singapore's monthly electricity generation (table M890831), or one row of its annual generation and consumption by sector
+  (table M890841), from SingStat's Table Builder.
+time: ts_utc is the month's or the year's first day at 00:00:00Z; freq P1M (M890831) or P1Y (M890841).
+vintage_rule: Rewritten whole as one snapshot by each run from SingStat's two tables; vintage is each table's dataLastUpdated.
 keys:
 - entity
 - variable
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: singstat:sg on every row
   type: text
   values:
     list:
@@ -69,6 +71,7 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: P1M for table M890831, P1Y for table M890841
   type: text
   values:
     list:
@@ -77,6 +80,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: SG on every row
   type: text
   values:
     list:
@@ -84,12 +88,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1009
 - name: node
   shared: true
+  particular: The row as SingStat writes it, not a pricing node
   type: text
   values:
     list:
@@ -137,6 +143,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The table's dataLastUpdated, as a date at 00:00Z
   type: utc time
   values:
     list:
@@ -144,20 +151,20 @@ columns:
       '2026-10-14T00:00:00Z': 618
   missing_cells: 0
 - name: x_table
-  label: null
-  unit: null
+  label: 'SingStat''s table: M890831 (generation, monthly) or M890841 (generation and consumption, annual)'
+  unit: none
   type: text
   values:
     list:
       M890831: 618
       M890841: 391
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector singstat_electricity.py; method singstat_singapore_electricity.md
 - name: x_series
-  label: null
-  unit: null
+  label: 'SingStat''s series number of the row (1, 2, 2.1, 2.1.1 and so on: its place in the table''s hierarchy)'
+  unit: none
   type: text
   values:
     list:
@@ -180,120 +187,120 @@ columns:
       '2.4': 20
       '2.5': 20
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: seriesNo
+  documented_by: connector singstat_electricity.py; method singstat_singapore_electricity.md
 variables:
 - name: m890831_electricity_generation
-  label: null
+  label: Electricity generation in the month (table M890831)
   unit: MWh
   rows: 618
   first: '1975-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: m890841_accommodation_and_food_services
-  label: null
+  label: Annual electricity consumption, accommodation and food services
   unit: MWh
   rows: 20
   first: '2005-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: m890841_commerce_and_service_related
-  label: null
+  label: Annual electricity consumption, commerce and service-related
   unit: MWh
   rows: 20
   first: '2005-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: m890841_construction
-  label: null
+  label: Annual electricity consumption, construction
   unit: MWh
   rows: 20
   first: '2005-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: m890841_electricity_consumption
-  label: null
+  label: Electricity consumption in the year, total (table M890841)
   unit: MWh
   rows: 20
   first: '2005-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: m890841_electricity_generation
-  label: null
+  label: Electricity generation in the year (table M890841)
   unit: MWh
   rows: 51
   first: '1975-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: m890841_financial_and_insurance_activities
-  label: null
+  label: Annual electricity consumption, financial and insurance activities
   unit: MWh
   rows: 20
   first: '2005-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: m890841_households
-  label: null
+  label: Annual electricity consumption, households
   unit: MWh
   rows: 20
   first: '2005-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: m890841_industrial_related
-  label: null
+  label: Annual electricity consumption, industrial-related
   unit: MWh
   rows: 20
   first: '2005-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: m890841_information_and_communications
-  label: null
+  label: Annual electricity consumption, information and communications
   unit: MWh
   rows: 20
   first: '2005-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: m890841_manufacturing
-  label: null
+  label: Annual electricity consumption, manufacturing
   unit: MWh
   rows: 20
   first: '2005-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: m890841_other_commerce_and_service_related
-  label: null
+  label: Annual electricity consumption, other commerce and service-related
   unit: MWh
   rows: 20
   first: '2005-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: m890841_other_industrial_related
-  label: null
+  label: Annual electricity consumption, other industrial-related
   unit: MWh
   rows: 20
   first: '2005-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: m890841_others
-  label: null
+  label: Annual electricity consumption, others
   unit: MWh
   rows: 20
   first: '2005-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: m890841_professional_scientific_technical_administration_support_activities
-  label: null
+  label: Annual electricity consumption, professional, scientific, technical, administration and support activities
   unit: MWh
   rows: 20
   first: '2005-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: m890841_real_estate_activities
-  label: null
+  label: Annual electricity consumption, real estate activities
   unit: MWh
   rows: 20
   first: '2005-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: m890841_transport_related
-  label: null
+  label: Annual electricity consumption, transport-related
   unit: MWh
   rows: 20
   first: '2005-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: m890841_utilities
-  label: null
+  label: Annual electricity consumption, utilities
   unit: MWh
   rows: 20
   first: '2005-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: m890841_wholesale_and_retail_trade
-  label: null
+  label: Annual electricity consumption, wholesale and retail trade
   unit: MWh
   rows: 20
   first: '2005-01-01T00:00:00Z'

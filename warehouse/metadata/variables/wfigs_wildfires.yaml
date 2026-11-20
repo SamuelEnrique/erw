@@ -5,9 +5,9 @@
 table: wfigs_wildfires
 family: other_sources
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One wildfire of 1,000 acres or more discovered from 2015, from NIFC's WFIGS Incident Locations.
+time: event_date is the discovery's UTC day; x_discovered_utc, x_contained_utc and x_out_utc are UTC times.
+vintage_rule: Rewritten whole as one snapshot by each run from the WFIGS feature service; vintage is the answer's Last-Modified.
 keys:
 - event_id
 license: public
@@ -32,6 +32,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: wfigs:<IRWIN id, lower case, braces dropped>
   type: text
   values:
     distinct: more than 5000
@@ -52,6 +53,7 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: wildfire on every row
   type: text
   values:
     list:
@@ -89,6 +91,7 @@ columns:
   missing_cells: 6222
 - name: status
   shared: true
+  particular: out or contained where those times are given, else empty
   type: text
   values:
     list:
@@ -110,8 +113,8 @@ columns:
       https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/WFIGS_Incident_Locations/FeatureServer/0: 6222
   missing_cells: 0
 - name: x_name
-  label: null
-  unit: null
+  label: The incident's name, as published
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -122,12 +125,12 @@ columns:
     - ' CONSTELLATION'
     - ' Diamond Watch'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: IncidentName
+  documented_by: connector wfigs_wildfires.py; method wfigs_wildfires.md
 - name: x_state
-  label: null
-  unit: null
+  label: The state of the point of origin (US-<state>)
+  unit: none
   type: text
   values:
     distinct: 42
@@ -138,12 +141,12 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: POOState
+  documented_by: connector wfigs_wildfires.py; data
 - name: x_county
-  label: null
-  unit: null
+  label: The county of the point of origin
+  unit: none
   type: text
   values:
     distinct: 730
@@ -154,60 +157,60 @@ columns:
     - Aitkin
     - Alameda
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: POOCounty
+  documented_by: connector wfigs_wildfires.py
 - name: x_latitude
-  label: null
-  unit: null
+  label: The initial latitude of the point of origin, as published
+  unit: degree
   type: number
   values:
     distinct: 4996
     lowest: 0.0
     highest: 81.2877
   missing_cells: 1136
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: WFIGS gives none
+  source_name: InitialLatitude
+  documented_by: header; connector wfigs_wildfires.py
 - name: x_longitude
-  label: null
-  unit: null
+  label: The initial longitude of the point of origin, as published
+  unit: degree
   type: number
   values:
     distinct: 4739
     lowest: -231.667
     highest: 102.53
   missing_cells: 1136
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: WFIGS gives none
+  source_name: InitialLongitude
+  documented_by: header; connector wfigs_wildfires.py
 - name: x_final_acres
-  label: null
-  unit: null
+  label: The fire's final acres, as published
+  unit: acre
   type: number
   values:
     distinct: 446
     lowest: 1000.0
     highest: 318156.0
   missing_cells: 5729
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: WFIGS gives no final acres
+  source_name: FinalAcres
+  documented_by: header; connector wfigs_wildfires.py
 - name: x_incident_size_acres
-  label: null
-  unit: null
+  label: The incident size, as published
+  unit: acre
   type: number
   values:
     distinct: 4492
     lowest: 918.0
     highest: 1054150.0
   missing_cells: 24
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: WFIGS gives no incident size
+  source_name: IncidentSize
+  documented_by: header; connector wfigs_wildfires.py
 - name: x_cause_general
-  label: null
-  unit: null
+  label: The general fire cause (Lightning, Equipment, Arson and others)
+  unit: none
   type: text
   values:
     list:
@@ -237,12 +240,12 @@ columns:
       Undetermined (remarks required): 45
       Utilities: 38
   missing_cells: 5071
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: WFIGS gives no general cause
+  source_name: FireCauseGeneral
+  documented_by: connector wfigs_wildfires.py; data
 - name: x_cause
-  label: null
-  unit: null
+  label: 'The fire cause: Human, Natural, Undetermined or Unknown'
+  unit: none
   type: text
   values:
     list:
@@ -251,48 +254,48 @@ columns:
       Undetermined: 1079
       Unknown: 292
   missing_cells: 147
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: WFIGS gives no cause
+  source_name: FireCause
+  documented_by: connector wfigs_wildfires.py; data
 - name: x_discovered_utc
-  label: null
-  unit: null
+  label: The discovery time, UTC
+  unit: none
   type: utc time
   values:
     distinct: more than 5000
     earliest: '2015-01-18T19:03:00Z'
     latest: '2026-10-21T19:40:00Z'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: FireDiscoveryDateTime
+  documented_by: header; connector wfigs_wildfires.py
 - name: x_contained_utc
-  label: null
-  unit: null
+  label: The containment time, UTC
+  unit: none
   type: utc time
   values:
     distinct: 4133
     earliest: '2015-01-19T18:00:00Z'
     latest: '2026-10-22T19:58:00Z'
   missing_cells: 1640
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: WFIGS gives no containment time
+  source_name: ContainmentDateTime
+  documented_by: header; connector wfigs_wildfires.py
 - name: x_out_utc
-  label: null
-  unit: null
+  label: The fire-out time, UTC
+  unit: none
   type: utc time
   values:
     distinct: 3808
     earliest: '2015-01-23T02:00:00Z'
     latest: '2026-10-23T22:17:00Z'
   missing_cells: 1709
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: WFIGS gives no fire-out time
+  source_name: FireOutDateTime
+  documented_by: header; connector wfigs_wildfires.py
 - name: x_unique_fire_id
-  label: null
-  unit: null
+  label: The unique fire identifier, as published
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -303,9 +306,9 @@ columns:
     - 2015-AKFAS-511408
     - 2015-AKFAS-511414
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: UniqueFireIdentifier
+  documented_by: header; connector wfigs_wildfires.py; data
 - name: retrieved_at
   shared: true
   type: utc time
@@ -318,6 +321,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The answer's Last-Modified (UTC)
   type: utc time
   values:
     list:

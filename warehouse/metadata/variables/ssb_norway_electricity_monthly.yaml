@@ -5,9 +5,10 @@
 table: ssb_norway_electricity_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's value of one line of Norway's electricity balance (generation by source, trade, consumption by industry and
+  households, losses), from Statistics Norway's table 14091.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; from 1993-01.
+vintage_rule: Rewritten whole as one snapshot by each run from SSB's JSON-stat answer; vintage is SSB's updated time.
 keys:
 - entity
 - variable
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: ssb:norway on every row
   type: text
   values:
     list:
@@ -76,6 +78,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: NO on every row
   type: text
   values:
     list:
@@ -83,12 +86,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5550
 - name: node
   shared: true
+  particular: The line's name as SSB writes it, not a pricing node
   type: text
   values:
     distinct: 26
@@ -122,176 +127,177 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: SSB's updated time of the table (UTC)
   type: utc time
   values:
     list:
       '2026-10-19T06:00:00Z': 5550
   missing_cells: 0
 - name: x_code
-  label: null
-  unit: null
+  label: 'SSB''s code for the line (1, 1.1, ..., 7.42: its place in the balance)'
+  unit: none
   type: number
   values:
     distinct: 26
     lowest: 1.0
     highest: 7.42
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector ssb_electricity.py; method ssb_norway_electricity_monthly.md
 variables:
 - name: consumption_in_cottages_and_holiday_houses
-  label: null
+  label: Consumption in cottages and holiday houses
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: consumption_in_dwellings
-  label: null
+  label: Consumption in dwellings
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: consumption_in_electricity_supply_wsw_construction
-  label: null
+  label: Consumption in electricity supply, water, sewerage and waste, and construction, as SSB names the line
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: consumption_in_extraction_of_crude_petroleum_and_natural_gas
-  label: null
+  label: Consumption in extraction of crude petroleum and natural gas
   unit: MWh
   rows: 201
   first: '2010-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: consumption_in_households
-  label: null
+  label: Consumption in households
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: consumption_in_manufacturing_excluding_power_intensive_manufacturing
-  label: null
+  label: Consumption in manufacturing excluding power-intensive manufacturing
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: consumption_in_mining_industries
-  label: null
+  label: Consumption in mining industries
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: consumption_in_power_intensive_manufacturing
-  label: null
+  label: Consumption in power-intensive manufacturing
   unit: MWh
   rows: 405
   first: '1993-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: consumption_in_primary_industries
-  label: null
+  label: Consumption in primary industries
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: consumption_in_production_of_aluminium_and_other_metals
-  label: null
+  label: Consumption in production of aluminium and other metals
   unit: MWh
   rows: 201
   first: '2010-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: consumption_in_production_of_industrial_chemicals
-  label: null
+  label: Consumption in production of industrial chemicals
   unit: MWh
   rows: 201
   first: '2010-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: consumption_in_production_of_iron_steel_and_ferro_alloys
-  label: null
+  label: Consumption in production of iron, steel and ferro-alloys
   unit: MWh
   rows: 201
   first: '2010-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: consumption_in_production_of_pulp_paper_and_cardboard
-  label: null
+  label: Consumption in production of pulp, paper and cardboard
   unit: MWh
   rows: 201
   first: '2010-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: consumption_in_secondary_industries
-  label: null
+  label: Consumption in secondary industries
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: consumption_in_tertiary_industries
-  label: null
+  label: Consumption in tertiary industries
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: export
-  label: null
+  label: Exports
   unit: MWh
   rows: 405
   first: '1993-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: grid_loss_and_statistical_difference
-  label: null
+  label: Grid loss and statistical difference
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: gross_electricity_consumption
-  label: null
+  label: Gross electricity consumption
   unit: MWh
   rows: 405
   first: '1993-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: hydro_power_generation
-  label: null
+  label: Hydro power generation
   unit: MWh
   rows: 405
   first: '1993-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: import
-  label: null
+  label: Imports
   unit: MWh
   rows: 405
   first: '1993-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: net_electricity_consumption
-  label: null
+  label: Net electricity consumption
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: pump_storage_consumption
-  label: null
+  label: Pump storage consumption
   unit: MWh
   rows: 405
   first: '1993-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: solar_power_generation
-  label: null
+  label: Solar power generation
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: thermal_power_generation
-  label: null
+  label: Thermal power generation
   unit: MWh
   rows: 405
   first: '1993-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: total_electricity_generation
-  label: null
+  label: Total electricity generation
   unit: MWh
   rows: 405
   first: '1993-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: wind_power_generation
-  label: null
+  label: Wind power generation
   unit: MWh
   rows: 333
   first: '1999-01-01T00:00:00Z'

@@ -5,9 +5,10 @@
 table: ornl_hydropower_pipeline
 family: ornl
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One proposed U.S. hydropower or pumped storage project in permitting, licensing or exemption, or under construction,
+  on 31 December 2025, from ORNL's U.S. Hydropower Development Pipeline, 2026.
+time: No time column; status_date is the snapshot's day, 2025-12-31; vintage is the workbook's last-modified time (UTC).
+vintage_rule: A snapshot of one yearly edition, replaced whole by each run.
 keys:
 - entity_id
 license: public
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: ornl_hydro_pipeline:<FERC docket>, or ornl_hydro_pipeline:none-<project name slug> where there is no docket
   type: text
   values:
     distinct: 196
@@ -45,6 +47,7 @@ columns:
   missing_cells: 0
 - name: entity_type
   shared: true
+  particular: Always project
   type: text
   values:
     list:
@@ -64,6 +67,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>
   type: text
   values:
     distinct: 33
@@ -92,6 +96,7 @@ columns:
   missing_cells: 0
 - name: capacity_mw
   shared: true
+  particular: The project's proposed capacity (Capacity_MW)
   type: number
   values:
     distinct: 123
@@ -100,6 +105,8 @@ columns:
   missing_cells: 0
 - name: status
   shared: true
+  particular: under_construction where ORNL writes Under Construction, else planned (issued or pending permits, licenses and
+    exemptions included)
   type: text
   values:
     list:
@@ -108,6 +115,7 @@ columns:
   missing_cells: 0
 - name: status_date
   shared: true
+  particular: The snapshot's day, 2025-12-31, not the date the status took effect
   type: date
   values:
     list:
@@ -115,6 +123,7 @@ columns:
   missing_cells: 0
 - name: operator
   shared: true
+  particular: The developer (Project_developer)
   type: text
   values:
     distinct: 161
@@ -149,14 +158,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time, UTC
   type: utc time
   values:
     list:
       '2026-04-20T17:05:22Z': 196
   missing_cells: 0
 - name: ferc_docket
-  label: null
-  unit: null
+  label: The project's FERC docket number (P- a license or exemption, CD- a qualifying conduit), as ORNL writes it
+  unit: none
   type: text
   values:
     distinct: 193
@@ -167,12 +177,14 @@ columns:
     - CD22-5
     - CD22-6
   missing_cells: 3
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'No docket: the project seeks authorization from the Bureau of Reclamation (lease of power privilege) or
+    a preliminary lease'
+  source_name: FERC_docket
+  documented_by: header; source Pipeline Field Descriptions sheet
 - name: permit_status
-  label: null
-  unit: null
+  label: ORNL's status of the project (Issued Preliminary Permit, Issued License, Pending License, Under Construction and
+    the others)
+  unit: none
   type: text
   values:
     list:
@@ -186,24 +198,24 @@ columns:
       Pending Preliminary Permit: 13
       Under Construction: 7
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Status
+  documented_by: header; connector ornl_hydro_pipeline.py; data
 - name: project_type
-  label: null
-  unit: null
+  label: HY conventional hydropower or PSH pumped storage
+  unit: none
   type: text
   values:
     list:
       HY: 128
       PSH: 68
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Project_type
+  documented_by: header; source Pipeline Field Descriptions sheet
 - name: project_subcategory
-  label: null
-  unit: null
+  label: Whether the project is a conduit, a new stream-reach development, a non-powered dam or pumped storage
+  unit: none
   type: text
   values:
     list:
@@ -212,12 +224,12 @@ columns:
       Non-Powered Dam: 92
       Pumped Storage Hydropower: 68
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Project_subcategory
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet
 - name: state
-  label: null
-  unit: null
+  label: The project's state, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 33
@@ -228,12 +240,12 @@ columns:
     - AZ
     - CA
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: State
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet
 - name: county
-  label: null
-  unit: null
+  label: The project's U.S. county as ORNL writes it
+  unit: none
   type: text
   values:
     distinct: 148
@@ -244,24 +256,24 @@ columns:
     - Allegheny
     - Amador County
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: County
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet
 - name: county_fips
-  label: null
-  unit: null
+  label: The county's FIPS (Federal Information Processing Standards) code
+  unit: none
   type: integer
   values:
     distinct: 150
     lowest: 1023
     highest: 56023
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: FIPS_Census
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet
 - name: developer_type
-  label: null
-  unit: null
+  label: The type of developer (Private non-utility, Investor-owned utility, Municipal, Political subdivision and the others)
+  unit: none
   type: text
   values:
     list:
@@ -272,12 +284,12 @@ columns:
       Private non-utility: 157
       State: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Developer_type
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet
 - name: dam_name
-  label: null
-  unit: null
+  label: The name of the dam where the project would be located
+  unit: none
   type: text
   values:
     distinct: 89
@@ -288,12 +300,12 @@ columns:
     - Allegheny Lock and Dam 2
     - Annandale Dam
   missing_cells: 106
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No dam named (conduits, new stream-reach and most pumped storage projects)
+  source_name: Dam_Name
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet
 - name: dam_owner
-  label: null
-  unit: null
+  label: The owner of that dam as ORNL writes it (Corps of Engineers districts by code, such as CELRP)
+  unit: none
   type: text
   values:
     list:
@@ -319,12 +331,12 @@ columns:
       USACE: 40
       Village of Swanton: 1
   missing_cells: 112
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No dam owner named
+  source_name: Dam_Owner
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet; data
 - name: waterway
-  label: null
-  unit: null
+  label: The water source where the project would be located
+  unit: none
   type: text
   values:
     distinct: 71
@@ -335,24 +347,24 @@ columns:
     - Arkansas River
     - Barrett Lake
   missing_cells: 77
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives none
+  source_name: Waterway
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet
 - name: psh_configuration
-  label: null
-  unit: null
+  label: Whether a pumped storage project would be open-loop or closed-loop
+  unit: none
   type: text
   values:
     list:
       Closed-Loop: 58
       Open-Loop: 10
   missing_cells: 128
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not a pumped storage project
+  source_name: PSH_configuration
+  documented_by: header; source Pipeline Field Descriptions sheet
 - name: nerc_region
-  label: null
-  unit: null
+  label: The project's North American Electric Reliability Corporation region
+  unit: none
   type: text
   values:
     list:
@@ -363,19 +375,19 @@ columns:
       SPP: 7
       WECC: 86
   missing_cells: 8
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives none
+  source_name: NERC
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet
 - name: huc
-  label: null
-  unit: null
+  label: The 12-digit hydrologic unit code (the watershed), as given
+  unit: none
   type: integer
   values:
     distinct: 184
     lowest: 10400020505
     highest: 190207011806
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: HUC12_All
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet
 second_look: null

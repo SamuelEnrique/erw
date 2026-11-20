@@ -5,9 +5,11 @@
 table: nrc_license_actions
 family: nrc
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One reactor license renewal the NRC completed (or one withdrawn application), or one power uprate the NRC approved.
+time: event_date is the renewed license's issue date, the uprate's approval date, or for the withdrawn application the date
+  received (a date).
+vintage_rule: A snapshot, written whole by each run from the two pages; a row the NRC removes leaves the table. vintage is
+  each page's last-modified time.
 keys:
 - event_id
 license: public
@@ -32,6 +34,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: nrc:renewal:<plant slug>:<YYYYMMDD received> or nrc:uprate:<the NRC's number>
   type: text
   values:
     distinct: 236
@@ -52,6 +55,7 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: license_renewal (initial renewals) or power_uprate
   type: text
   values:
     list:
@@ -60,6 +64,7 @@ columns:
   missing_cells: 0
 - name: parties
   shared: true
+  particular: Always NRC
   type: text
   values:
     list:
@@ -91,6 +96,7 @@ columns:
   missing_cells: 236
 - name: status
   shared: true
+  particular: issued or withdrawn (renewals), approved (uprates)
   type: text
   values:
     list:
@@ -114,8 +120,8 @@ columns:
       https://www.nrc.gov/reactors/operating/licensing/renewal/applications.html: 64
   missing_cells: 0
 - name: x_plant
-  label: null
-  unit: null
+  label: The plant and units as the NRC writes them (Calvert Cliffs 1 & 2)
+  unit: none
   type: text
   values:
     distinct: 156
@@ -126,24 +132,24 @@ columns:
     - Beaver Valley 1
     - Beaver Valley 1 & 2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method nrc_license_actions.md
 - name: x_application_received
-  label: null
-  unit: null
+  label: 'Renewals: the date the NRC received the renewal application'
+  unit: none
   type: date
   values:
     distinct: 59
     earliest: '1998-04-10'
     latest: '2024-02-14'
   missing_cells: 172
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: An uprate row
+  source_name: Application Received
+  documented_by: method nrc_license_actions.md
 - name: x_extended_operation
-  label: null
-  unit: null
+  label: 'Renewals: the date each unit enters extended operation, as the NRC writes it (two-digit years kept)'
+  unit: none
   type: text
   values:
     distinct: 61
@@ -154,12 +160,12 @@ columns:
     - 02/06/13 (Unit 1) 10/06/13 (Unit 2) 07/19/14 (Unit 3)
     - 02/08/30 (Unit 1) 02/02/33 (Unit 2)
   missing_cells: 175
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: An uprate row, or the NRC gives none (Crystal River 3, Kewaunee, Pilgrim 1)
+  source_name: Date Entering Extended Operation
+  documented_by: method nrc_license_actions.md
 - name: x_note
-  label: null
-  unit: null
+  label: 'Renewals: the page''s notes for the row''s footnote marks (a shutdown, a withdrawal, an earlier application)'
+  unit: none
   type: text
   values:
     list:
@@ -177,12 +183,12 @@ columns:
       : 1
       Vermont Yankee Nuclear Power Station was permanently shut down on December 29, 2014.: 1
   missing_cells: 229
-  missing_meaning: null
+  missing_meaning: The row carries no footnote mark
   source_name: null
-  documented_by: null
+  documented_by: method nrc_license_actions.md
 - name: x_uprate_type
-  label: null
-  unit: null
+  label: 'Uprates: MU (measurement uncertainty recapture), S (stretch), E or E(1) (extended), as the NRC writes them'
+  unit: none
   type: text
   values:
     list:
@@ -191,36 +197,36 @@ columns:
       MU: 73
       S: 65
   missing_cells: 64
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: A renewal row
+  source_name: TYPE
+  documented_by: header; method nrc_license_actions.md
 - name: x_uprate_pct
-  label: null
-  unit: null
+  label: 'Uprates: the increase as a percent of the unit''s thermal power'
+  unit: pct
   type: number
   values:
     distinct: 45
     lowest: 0.4
     highest: 20.0
   missing_cells: 64
-  missing_meaning: null
+  missing_meaning: A renewal row
   source_name: null
-  documented_by: null
+  documented_by: method nrc_license_actions.md
 - name: x_uprate_mwt
-  label: null
-  unit: null
+  label: 'Uprates: the increase in thermal megawatts (not electric)'
+  unit: MWt
   type: number
   values:
     distinct: 81
     lowest: 13.0
     highest: 579.0
   missing_cells: 64
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: A renewal row
+  source_name: MWt
+  documented_by: header; method nrc_license_actions.md
 - name: x_accession
-  label: null
-  unit: null
+  label: 'Uprates: the ADAMS (NRC document library) accession number as printed; 8 older numbers end in ''*'''
+  unit: none
   type: text
   values:
     distinct: 119
@@ -231,12 +237,12 @@ columns:
     - 9503070354*
     - 9505090259*
   missing_cells: 64
-  missing_meaning: null
+  missing_meaning: A renewal row
   source_name: null
-  documented_by: null
+  documented_by: method nrc_license_actions.md
 - name: x_link
-  label: null
-  unit: null
+  label: 'Renewals: the row''s NRC page'
+  unit: none
   type: text
   values:
     distinct: 64
@@ -247,9 +253,9 @@ columns:
     - https://www.nrc.gov/licensing-applications/power-reactor-licensing/braidwood-nuclear-stations-units-1-and-2---license-renewal-application
     - https://www.nrc.gov/licensing-applications/power-reactor-licensing/browns-ferry-nuclear-plant---license-renewal-application
   missing_cells: 172
-  missing_meaning: null
+  missing_meaning: An uprate row
   source_name: null
-  documented_by: null
+  documented_by: method nrc_license_actions.md
 - name: retrieved_at
   shared: true
   type: utc time
@@ -260,6 +266,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'The page''s last-modified time (UTC): one for the renewal page, one for the uprate page'
   type: utc time
   values:
     list:

@@ -5,9 +5,11 @@
 table: desnz_uk_capacity_by_connection_annual
 family: desnz
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One area's (Great Britain, Northern Ireland or the UK) installed generating capacity of one fuel, connected to the transmission
+  or the distribution network or both, at the end of one year, 2011 to 2025 (DUKES table 5.12).
+time: ts_utc is the year's first day at 00:00:00Z; the capacity is as at 31 December of that year; freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot of the DUKES edition read, here 2026); vintage is the workbook's last-modified
+  time.
 keys:
 - entity
 - variable
@@ -35,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: desnz_conn:<gb|ni|uk>:<transmission|distribution|all>:<fuel>
   type: text
   values:
     distinct: 83
@@ -96,6 +99,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: GB on the Great Britain and the UK rows, GB-NIR on Northern Ireland's
   type: text
   values:
     list:
@@ -104,12 +108,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1245
 - name: node
   shared: true
+  particular: The sheet's labels (connection and fuel), not a pricing node
   type: text
   values:
     distinct: 43
@@ -143,6 +149,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time
   type: utc time
   values:
     list:
@@ -150,7 +157,7 @@ columns:
   missing_cells: 0
 variables:
 - name: installed_capacity
-  label: null
+  label: Installed generating capacity at 31 December (not de-rated), MW
   unit: MW
   rows: 1245
   first: '2011-01-01T00:00:00Z'

@@ -5,9 +5,11 @@
 table: boem_ogor_lease_production_monthly
 family: boem
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The oil or gas produced on one offshore lease (or unit agreement) in the Gulf of America in one month, summed over its
+  completions, from BOEM's OGOR-A well production reports.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M.
+vintage_rule: Rewritten whole by each run (write_snapshot); a year's saved file is reused unless asked again, so BOEM's revision
+  reaches the table only then. vintage is each year's file's Last-Modified time.
 keys:
 - entity
 - variable
@@ -34,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: boem_lease:<lease number>, or boem_unit:<unit agreement> where BOEM gives no lease
   type: text
   values:
     distinct: 4654
@@ -83,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always US
   type: text
   values:
     list:
@@ -90,12 +94,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1131562
 - name: node
   shared: true
+  particular: The lease's operators that month, not a pricing node
   type: text
   values:
     distinct: 1378
@@ -135,6 +141,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The year's file's Last-Modified time
   type: utc time
   values:
     distinct: 31
@@ -143,13 +150,13 @@ columns:
   missing_cells: 0
 variables:
 - name: gas_production
-  label: null
+  label: Gas produced on the lease in the month, MMcf (BOEM's thousand cubic feet over 1,000)
   unit: MMcf
   rows: 565781
   first: '1996-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: oil_production
-  label: null
+  label: Oil produced on the lease in the month, kbbl (BOEM's barrels over 1,000)
   unit: kbbl
   rows: 565781
   first: '1996-01-01T00:00:00Z'

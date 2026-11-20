@@ -5,9 +5,12 @@
 table: noaa_grid_weather_daily
 family: noaa
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One grid's weighted daily temperature, dew point, heating or cooling degree days, from five NOAA airport stations a grid
+  weighted by their metropolitan populations, 2019 to now.
+time: ts_utc is the grid's local day at 00:00:00Z (America/Chicago for ERCOT, MISO and SPP, America/Los_Angeles for CAISO,
+  America/New_York for NYISO, ISO-NE and PJM). A day is written only when every one of its hours is held.
+vintage_rule: Each run deletes the table and writes it whole from the saved files, so a day is recomputed every run; with
+  --refresh the later answer's hours replace the held ones. vintage is not filled.
 keys:
 - entity
 - variable
@@ -38,6 +41,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: iso:<grid>
   type: text
   values:
     list:
@@ -88,6 +92,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The states the grid serves, comma-separated
   type: text
   values:
     list:
@@ -101,12 +106,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 119494
 - name: node
   shared: true
+  particular: The grid's name (CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP), not a pricing node
   type: text
   values:
     list:
@@ -149,12 +156,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 119494
 - name: ba
   shared: true
+  particular: The grid's EIA-930 code (ciso, erco, isne, miso, nyis, pjm, swpp), to join eia930 tables
   type: text
   values:
     list:
@@ -167,8 +176,8 @@ columns:
       swpp: 17124
   missing_cells: 0
 - name: x_hours
-  label: null
-  unit: null
+  label: 'The hours of the grid''s local day: 24, or 23 and 25 on the clock-change days'
+  unit: count
   type: integer
   values:
     list:
@@ -176,42 +185,42 @@ columns:
       '24': 118822
       '25': 336
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector noaa_grid_weather.py; method noaa_grid_weather_daily.md
 variables:
 - name: cooling_degree_days
-  label: null
+  label: The sum of the day's hourly cooling degrees (base 65 F) over 24, degF-day
   unit: degF-day
   rows: 19918
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: dew_point_f
-  label: null
+  label: The mean of the day's weighted hourly dew points, degrees F
   unit: degF
   rows: 19904
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: heating_degree_days
-  label: null
+  label: The sum of the day's hourly heating degrees (base 65 F) over 24, degF-day
   unit: degF-day
   rows: 19918
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: temperature_f
-  label: null
+  label: The mean of the day's weighted hourly temperatures, degrees F
   unit: degF
   rows: 19918
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: temperature_max_f
-  label: null
+  label: The day's highest weighted hourly temperature, degrees F
   unit: degF
   rows: 19918
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-06T00:00:00Z'
 - name: temperature_min_f
-  label: null
+  label: The day's lowest weighted hourly temperature, degrees F
   unit: degF
   rows: 19918
   first: '2019-01-01T00:00:00Z'

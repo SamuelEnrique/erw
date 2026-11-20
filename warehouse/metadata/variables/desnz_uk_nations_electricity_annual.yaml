@@ -5,9 +5,11 @@
 table: desnz_uk_nations_electricity_annual
 family: desnz
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One item of the electricity generation by fuel or the supply balance of the UK or one of its nations (England, Scotland,
+  Wales, Northern Ireland) in one year, 2004 to 2025.
+time: ts_utc is the year's first day at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run (DESNZ republishes the whole series each year, with revisions); vintage is the workbook's
+  last-modified time.
 keys:
 - entity
 - variable
@@ -35,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: desnz:<nation>:<item>, nation uk, england, scotland, wales or northern_ireland
   type: text
   values:
     distinct: 200
@@ -103,6 +106,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: GB on the UK's rows, GB-ENG, GB-SCT, GB-WLS or GB-NIR on a nation's
   type: text
   values:
     list:
@@ -114,12 +118,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 4167
 - name: node
   shared: true
+  particular: The row's label (note marks dropped), not a pricing node
   type: text
   values:
     distinct: 40
@@ -154,6 +160,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time
   type: utc time
   values:
     list:
@@ -161,55 +168,55 @@ columns:
   missing_cells: 0
 variables:
 - name: consumption
-  label: null
+  label: Consumption from the public supply, by autogenerators, or in total, MWh
   unit: MWh
   rows: 330
   first: '2004-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: generation
-  label: null
+  label: Electricity generated, by fuel (table 2a) or in the supply balance (table 1), MWh (the tables' GWh times 1,000)
   unit: MWh
   rows: 2517
   first: '2004-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: losses
-  label: null
+  label: Transmission or distribution losses, MWh
   unit: MWh
   rows: 220
   first: '2004-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: net_supply
-  label: null
+  label: Net supply of electricity of the major power producers, the other generators or all, MWh
   unit: MWh
   rows: 220
   first: '2004-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: net_transfers
-  label: null
+  label: Net transfers to England, Northern Ireland or Europe, net of receipts as published (negative a net import), MWh
   unit: MWh
   rows: 330
   first: '2004-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: own_use
-  label: null
+  label: Electricity used by the generators themselves, MWh
   unit: MWh
   rows: 220
   first: '2004-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: sales
-  label: null
+  label: Electricity sales, MWh
   unit: MWh
   rows: 110
   first: '2004-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: statistical_difference
-  label: null
+  label: Statistical difference of the supply balance, MWh
   unit: MWh
   rows: 110
   first: '2004-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: transfers
-  label: null
+  label: Transfers from other generators to the public supply, MWh
   unit: MWh
   rows: 110
   first: '2004-01-01T00:00:00Z'

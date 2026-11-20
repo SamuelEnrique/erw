@@ -5,9 +5,11 @@
 table: owid_ember_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One country's or region's electricity demand or power sector greenhouse gas emissions in one year, the Ember columns
+  of Our World in Data's energy dataset.
+time: ts_utc is the year's 1 January at 00:00:00Z; freq P1Y.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s years replace the same keys and older ones are kept; vintage
+  is the file''s Last-Modified.'
 keys:
 - entity
 - variable
@@ -35,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: owid_energy:<ISO alpha-3>, or owid_energy:<region or income group in snake case>
   type: text
   values:
     distinct: 239
@@ -84,18 +87,21 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 12406
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 12406
 - name: node
   shared: true
+  particular: The country's or region's name, not a pricing node
   type: text
   values:
     distinct: 239
@@ -129,14 +135,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-09-30T14:42:02Z': 12406
   missing_cells: 0
 - name: x_iso_code
-  label: null
-  unit: null
+  label: The country's ISO alpha-3 code
+  unit: none
   type: text
   values:
     distinct: 214
@@ -147,30 +154,30 @@ columns:
     - ALB
     - ARE
   missing_cells: 1302
-  missing_meaning: null
+  missing_meaning: Empty on regions and income groups
   source_name: null
-  documented_by: null
+  documented_by: connector owid_energy.py; method owid_ember_electricity_annual.md
 - name: x_owid_column
-  label: null
-  unit: null
+  label: Our World in Data's column the value is read from (electricity_demand_twh, electricity_emissions_mtco2eq)
+  unit: none
   type: text
   values:
     list:
       electricity_demand_twh: 6378
       electricity_emissions_mtco2eq: 6028
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector owid_energy.py; data
 variables:
 - name: electricity_demand
-  label: null
+  label: Electricity demand in the year (Ember via Our World in Data; TWh times 1,000,000)
   unit: MWh
   rows: 6378
   first: '1990-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: electricity_emissions
-  label: null
+  label: The power sector's greenhouse gas emissions in the year, CO2 equivalent (million tonnes times 1,000,000)
   unit: tCO2e
   rows: 6028
   first: '2000-01-01T00:00:00Z'

@@ -5,9 +5,9 @@
 table: aneel_siga_plants
 family: other_sources
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One Brazilian central generation plant in ANEEL's SIGA register (operating, under construction or not yet begun).
+time: No time column; status_date is the first unit's entry into operation; the register as ANEEL generated it on x_dataset_date.
+vintage_rule: Rewritten whole as one snapshot by each run from ANEEL's one CSV; vintage is the file's Last-Modified.
 keys:
 - entity_id
 license: public
@@ -32,6 +32,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: aneel_siga:<CodCEG>, ANEEL's unique plant code (type, source, state, number, check digit, version)
   type: text
   values:
     distinct: more than 5000
@@ -44,6 +45,7 @@ columns:
   missing_cells: 0
 - name: entity_type
   shared: true
+  particular: plant on every row
   type: text
   values:
     list:
@@ -51,6 +53,7 @@ columns:
   missing_cells: 0
 - name: name
   shared: true
+  particular: ANEEL's plant name (NomEmpreendimento)
   type: text
   values:
     distinct: more than 5000
@@ -63,6 +66,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: BR-<the plant's main state>
   type: text
   values:
     distinct: 27
@@ -75,6 +79,7 @@ columns:
   missing_cells: 0
 - name: lat
   shared: true
+  particular: ANEEL's approximate centroid; empty where ANEEL gives 0 and 0
   type: number
   values:
     distinct: more than 5000
@@ -83,6 +88,7 @@ columns:
   missing_cells: 465
 - name: lon
   shared: true
+  particular: ANEEL's approximate centroid; empty where ANEEL gives 0 and 0
   type: number
   values:
     distinct: more than 5000
@@ -91,6 +97,7 @@ columns:
   missing_cells: 465
 - name: capacity_mw
   shared: true
+  particular: The granted or registered capacity (MdaPotenciaOutorgadaKw / 1,000)
   type: number
   values:
     distinct: 2175
@@ -99,6 +106,7 @@ columns:
   missing_cells: 0
 - name: status
   shared: true
+  particular: operating, under_construction or planned (not yet begun), from ANEEL's phase
   type: text
   values:
     list:
@@ -108,6 +116,8 @@ columns:
   missing_cells: 0
 - name: status_date
   shared: true
+  particular: The first generating unit's entry into operation (DatEntradaOperacao); empty where ANEEL gives its placeholder
+    1900-01-03
   type: date
   values:
     distinct: 3891
@@ -116,6 +126,7 @@ columns:
   missing_cells: 2398
 - name: operator
   shared: true
+  particular: Not filled
   type: empty
   values:
     note: no cell holds a value
@@ -144,14 +155,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The CSV's Last-Modified (UTC)
   type: utc time
   values:
     list:
       '2026-10-01T05:01:27Z': 25042
   missing_cells: 0
 - name: x_ceg
-  label: null
-  unit: null
+  label: 'ANEEL''s unique code of the plant (GGG.FF.UF.999999-D.VV: type, source, main state, number, check digit, version)'
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -162,12 +174,13 @@ columns:
     - CGH.PH.AL.028557-9.2
     - CGH.PH.AL.028860-8.1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: CodCEG
+  documented_by: connector aneel_siga.py; method aneel_siga_plants.md
 - name: x_generation_type
-  label: null
-  unit: null
+  label: 'ANEEL''s generation type: UHE hydro plant, PCH small hydro, CGH mini hydro, EOL wind, UFV solar photovoltaic, UTE
+    thermal, UTN nuclear'
+  unit: none
   type: text
   values:
     list:
@@ -179,12 +192,13 @@ columns:
       UTE: 3055
       UTN: 3
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: SigTipoGeracao
+  documented_by: method aneel_siga_plants.md; connector aneel_siga.py
 - name: x_phase
-  label: null
-  unit: null
+  label: 'ANEEL''s phase in Portuguese: Operacao (operating), Construcao (under construction), Construcao nao iniciada (not
+    yet begun)'
+  unit: none
   type: text
   values:
     list:
@@ -192,12 +206,12 @@ columns:
       Construção não iniciada: 2099
       Operação: 22798
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: DscFaseUsina
+  documented_by: connector aneel_siga.py; data
 - name: x_fuel_origin
-  label: null
-  unit: null
+  label: ANEEL's fuel origin in Portuguese (biomass, wind, fossil, hydro, nuclear, solar)
+  unit: none
   type: text
   values:
     list:
@@ -208,12 +222,13 @@ columns:
       Nuclear: 3
       Solar: 18962
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: DscOrigemCombustivel
+  documented_by: connector aneel_siga.py; data
 - name: x_fuel_source
-  label: null
-  unit: null
+  label: ANEEL's fuel source in Portuguese (hydraulic potential, wind, solar radiation, natural gas, petroleum, agro-industrial
+    residues and others)
+  unit: none
   type: text
   values:
     list:
@@ -231,12 +246,12 @@ columns:
       Resíduos sólidos urbanos: 42
       Urânio: 3
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: DscFonteCombustivel
+  documented_by: connector aneel_siga.py; method aneel_siga_plants.md; data
 - name: x_fuel_name
-  label: null
-  unit: null
+  label: ANEEL's fuel name in Portuguese (sugarcane bagasse, biogas and others)
+  unit: none
   type: text
   values:
     distinct: 31
@@ -247,12 +262,13 @@ columns:
     - Biogás - RU
     - Biogás-AGR
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: NomFonteCombustivel
+  documented_by: connector aneel_siga.py; data
 - name: x_grant_type
-  label: null
-  unit: null
+  label: 'ANEEL''s grant type: Registro (registration), Autorizacao (authorization), Concessao (concession); joined by ; for
+    the three plants listed under two'
+  unit: none
   type: text
   values:
     list:
@@ -261,72 +277,72 @@ columns:
       Concessão: 256
       Registro: 19682
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: DscTipoOutorga
+  documented_by: method aneel_siga_plants.md; connector aneel_siga.py
 - name: x_capacity_operating_mw
-  label: null
-  unit: null
+  label: The capacity in operation (for a plant no longer operating, the last power considered in operation)
+  unit: MW
   type: number
   values:
     distinct: 1840
     lowest: 0.0
     highest: 11233.1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: MdaPotenciaFiscalizadaKw
+  documented_by: connector aneel_siga.py; method aneel_siga_plants.md
 - name: x_physical_guarantee_mw
-  label: null
-  unit: null
+  label: The plant's physical guarantee approved by the Ministry of Mines and Energy
+  unit: MW
   type: number
   values:
     distinct: 1052
     lowest: 0.0
     highest: 7750.8
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: MdaGarantiaFisicaKw
+  documented_by: connector aneel_siga.py; method aneel_siga_plants.md
 - name: x_qualified_generation
-  label: null
-  unit: null
+  label: 'ANEEL''s qualified generation indicator as published: Sim (yes) or Nao (no)'
+  unit: none
   type: text
   values:
     list:
       Não: 9015
       Sim: 70
   missing_cells: 15957
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ANEEL leaves the field blank
+  source_name: IdcGeracaoQualificada
+  documented_by: connector aneel_siga.py; data
 - name: x_grant_start
-  label: null
-  unit: null
+  label: The start of the grant's validity
+  unit: none
   type: date
   values:
     distinct: 1481
     earliest: '1970-07-17'
     latest: '2032-09-25'
   missing_cells: 19683
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ANEEL gives no grant dates (most registered plants)
+  source_name: DatInicioVigencia
+  documented_by: connector aneel_siga.py; method aneel_siga_plants.md
 - name: x_grant_end
-  label: null
-  unit: null
+  label: The end of the grant's validity
+  unit: none
   type: date
   values:
     distinct: 1677
     earliest: '1998-09-15'
     latest: '2063-01-14'
   missing_cells: 19693
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ANEEL gives no grant dates (most registered plants)
+  source_name: DatFimVigencia
+  documented_by: connector aneel_siga.py; method aneel_siga_plants.md
 - name: x_ownership
-  label: null
-  unit: null
+  label: The owners and their shares, as ANEEL's text
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -342,12 +358,12 @@ columns:
     - 100% para 3 IRMÃOS MATERIAIS DE CONSTRUÇÃO UNIPESSOAL LTDA - 00.616.839/0001-59 (REG)
     - 100% para 3M DO BRASIL LTDA - 45.985.371/0001-08 (APE)
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: DscPropriRegimePariticipacao
+  documented_by: connector aneel_siga.py; method aneel_siga_plants.md
 - name: x_sub_basin
-  label: null
-  unit: null
+  label: The river sub-basin, ANEEL's number and name
+  unit: none
   type: text
   values:
     distinct: 60
@@ -358,12 +374,12 @@ columns:
     - 18 - Xingu e Paru
     - 19 - Amazonas, entre o rio Xingu e a foz
   missing_cells: 23589
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ANEEL leaves the field blank (most non-hydro plants)
+  source_name: DscSubBacia
+  documented_by: connector aneel_siga.py; data
 - name: x_municipalities
-  label: null
-  unit: null
+  label: The municipalities the plant lies in, with their states
+  unit: none
   type: text
   values:
     distinct: 2182
@@ -374,18 +390,20 @@ columns:
     - Abdon Batista - SC, Anita Garibaldi - SC, Campos Novos - SC, Celso Ramos - SC
     - Abelardo Luz - SC
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: DscMuninicpios
+  documented_by: connector aneel_siga.py; data
 - name: x_dataset_date
-  label: null
-  unit: null
+  label: ANEEL's generation date of the dataset
+  unit: none
   type: date
   values:
     list:
       '2026-10-01': 25042
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
-second_look: null
+  missing_meaning: never empty
+  source_name: DatGeracaoConjuntoDados
+  documented_by: connector aneel_siga.py; method aneel_siga_plants.md
+second_look:
+- 'x_qualified_generation (ANEEL''s IdcGeracaoQualificada, Sim or Nao): what makes generation qualified is not written in
+  the connector, the method note or the header.'

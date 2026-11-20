@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: nyiso:<zone>, the zone's NYISO name
   type: text
   values:
     list:
@@ -49,7 +50,6 @@ columns:
       nyiso:NORTH: 7300
       nyiso:WEST: 7300
   missing_cells: 0
-  particular: nyiso:<zone>, the zone's NYISO name
 - name: variable
   shared: true
   type: text
@@ -95,14 +95,16 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'nyiso_rtm in every row: NYISO''s real-time market, its 5-minute RTD prices'
   type: text
   values:
     list:
       nyiso_rtm: 80300
   missing_cells: 0
-  particular: 'nyiso_rtm in every row: NYISO''s real-time market, its 5-minute RTD prices'
 - name: node
   shared: true
+  particular: 'NYISO''s name of the load zone, one of eleven: CAPITL, CENTRL, DUNWOD, GENESE, HUD VL, LONGIL, MHK VL, MILLWD,
+    N.Y.C., NORTH, WEST'
   type: text
   values:
     list:
@@ -118,8 +120,6 @@ columns:
       NORTH: 7300
       WEST: 7300
   missing_cells: 0
-  particular: 'NYISO''s name of the load zone, one of eleven: CAPITL, CENTRL, DUNWOD, GENESE, HUD VL, LONGIL, MHK VL, MILLWD,
-    N.Y.C., NORTH, WEST'
 - name: source
   shared: true
   type: text
@@ -149,13 +149,13 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Last-Modified of the day's file (report P-24A)
   type: utc time
   values:
     distinct: 54
     earliest: '2026-09-01T03:57:09Z'
     latest: '2026-11-16T04:57:07Z'
   missing_cells: 0
-  particular: The Last-Modified of the day's file (report P-24A)
 variables:
 - name: lmp_rtm_15m_mean
   label: Real-time zonal LBMP (the price of energy in the zone in the real-time market), the 15-minute time-weighted mean

@@ -5,9 +5,11 @@
 table: epa_rfs_rins_monthly
 family: epa
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One D code's RINs generated or renewable fuel batch volume in one production month of EPA's Renewable Fuel Standard data,
+  July 2010 to September 2026.
+time: ts_utc is the month's first day (UTC), from EPA's RIN_YEAR and Production Month; freq P1M.
+vintage_rule: Rewritten whole by each run from the newest monthly file, which carries the whole history; EPA's corrections
+  replace earlier figures. vintage is the file's Last-Modified time.
 keys:
 - entity
 - variable
@@ -34,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: epa_rfs:d<code> (d3 to d7)
   type: text
   values:
     list:
@@ -82,6 +85,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always US
   type: text
   values:
     list:
@@ -89,12 +93,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1632
 - name: node
   shared: true
+  particular: The D code's name as EPA's fuel type file gives it, not a pricing node
   type: text
   values:
     list:
@@ -127,6 +133,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The file's Last-Modified time
   type: utc time
   values:
     list:
@@ -134,13 +141,13 @@ columns:
   missing_cells: 0
 variables:
 - name: batch_volume
-  label: null
+  label: The renewable fuel's volume produced in the month, in gallons (EPA's BATCH_VOLUME)
   unit: gal
   rows: 816
   first: '2010-07-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: rins_generated
-  label: null
+  label: RINs generated in the month, a count (EPA's RIN_QUANTITY)
   unit: count
   rows: 816
   first: '2010-07-01T00:00:00Z'

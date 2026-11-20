@@ -5,9 +5,11 @@
 table: sne_panama_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's value of one Panama electricity measure (gross generation by plant type or system, net production, maximum
+  demand, load factor), from the Secretaria Nacional de Energia's historical series.
+time: ts_utc is the year's 1 January at 00:00:00Z; freq P1Y; 1970 to 2021.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s years replace the same keys and older ones are kept; vintage
+  is the workbook''s Last-Modified.'
 keys:
 - entity
 - variable
@@ -38,6 +40,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: sne:PA on every row
   type: text
   values:
     list:
@@ -83,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: PA on every row
   type: text
   values:
     list:
@@ -90,12 +94,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 569
 - name: node
   shared: true
+  particular: Panama on every row, not a pricing node
   type: text
   values:
     list:
@@ -124,6 +130,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's Last-Modified (UTC)
   type: utc time
   values:
     list:
@@ -131,103 +138,103 @@ columns:
   missing_cells: 0
 variables:
 - name: generation_gross_biogas
-  label: null
+  label: Gross generation, biogas
   unit: MWh
   rows: 6
   first: '2016-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: generation_gross_canal_authority
-  label: null
+  label: Gross generation of the Panama Canal Authority's plants (from 2000)
   unit: MWh
   rows: 22
   first: '2000-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: generation_gross_gas_turbine_light_diesel
-  label: null
+  label: Gross generation, gas turbines on light diesel
   unit: MWh
   rows: 42
   first: '1980-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: generation_gross_gas_turbine_marine_diesel
-  label: null
+  label: Gross generation, gas turbines on marine diesel
   unit: MWh
   rows: 34
   first: '1988-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: generation_gross_hydro
-  label: null
+  label: Gross generation, hydro plants
   unit: MWh
   rows: 42
   first: '1980-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: generation_gross_interconnected
-  label: null
+  label: Gross generation of the national interconnected system
   unit: MWh
   rows: 42
   first: '1980-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: generation_gross_internal_combustion
-  label: null
+  label: Gross generation, internal combustion (bunker or diesel)
   unit: MWh
   rows: 42
   first: '1980-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: generation_gross_isolated_systems
-  label: null
+  label: Gross generation of the isolated systems (both a type and a part of the system)
   unit: MWh
   rows: 42
   first: '1980-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: generation_gross_light_diesel_other
-  label: null
+  label: Gross generation, the sheet's Sub-Total (Diesel Liviano)
   unit: MWh
   rows: 42
   first: '1980-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: generation_gross_natural_gas
-  label: null
+  label: Gross generation, natural gas (excluding the isolated systems' natural gas)
   unit: MWh
   rows: 4
   first: '2018-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: generation_gross_solar
-  label: null
+  label: Gross generation, solar
   unit: MWh
   rows: 8
   first: '2014-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: generation_gross_steam_bunker
-  label: null
+  label: Gross generation, steam plants (Vapor (Bunker); mostly coal from 2011, wholly coal from 2015)
   unit: MWh
   rows: 42
   first: '1980-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: generation_gross_total
-  label: null
+  label: Gross generation, total (Cuadro GE-8; the Canal Authority's plants from 2000)
   unit: MWh
   rows: 42
   first: '1980-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: generation_gross_wind
-  label: null
+  label: Gross generation, wind
   unit: MWh
   rows: 9
   first: '2013-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: load_factor
-  label: null
+  label: Load factor (Cuadro GE-14)
   unit: pct
   rows: 49
   first: '1973-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: net_production
-  label: null
+  label: 'Net production: net generation plus purchases from other companies (Cuadro GE-14)'
   unit: MWh
   rows: 52
   first: '1970-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: peak_demand
-  label: null
+  label: Maximum demand (Cuadro GE-14; neither sheet says whose)
   unit: MW
   rows: 49
   first: '1973-01-01T00:00:00Z'

@@ -5,9 +5,11 @@
 table: eia861_advanced_meters
 family: eia861
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One utility's count of meters of one kind (or energy served through them, or customers with a meter service) in one state,
+  balancing authority and customer sector, for one year, from Form EIA-861's advanced meters file.
+time: ts_utc is the data year's 1 January at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: A run reads the years given with --years and writes the table whole; vintage is not filled. EIA's aggregates
+  88888 and 99999 left out; a '.' cell has no row.
 keys:
 - entity
 - variable
@@ -33,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia861_am:<utility number>:<state>:<balancing authority>; ends in a colon where EIA gives no balancing authority
   type: text
   values:
     distinct: 3332
@@ -91,6 +94,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, territories included
   type: text
   values:
     distinct: 56
@@ -103,12 +107,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 497838
 - name: node
   shared: true
+  particular: The utility's name, not a pricing node
   type: text
   values:
     distinct: 3110
@@ -162,25 +168,26 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 497838
 - name: x_utility_number
-  label: null
-  unit: null
+  label: EIA's utility identifier
+  unit: none
   type: integer
   values:
     distinct: 2932
     lowest: 34
     highest: 66101
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_meters_netmetering.md
 - name: x_state
-  label: null
-  unit: null
+  label: The state or territory, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 56
@@ -191,12 +198,12 @@ columns:
     - AS
     - AZ
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_meters_netmetering.md
 - name: x_ba_code
-  label: null
-  unit: null
+  label: The balancing authority (the grid operator of the area) code EIA gives for the row
+  unit: none
   type: text
   values:
     distinct: 61
@@ -207,278 +214,280 @@ columns:
     - AVA
     - AZPS
   missing_cells: 6805
-  missing_meaning: null
+  missing_meaning: EIA gives no balancing authority
   source_name: null
-  documented_by: null
+  documented_by: method eia861_meters_netmetering.md; connector eia861_meters_netmetering.py
 variables:
 - name: customers_with_daily_digital_access_commercial
-  label: null
+  label: Customers with daily digital access (EIA's heading), commercial sector, count
   unit: count
   rows: 8744
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: customers_with_daily_digital_access_industrial
-  label: null
+  label: Customers with daily digital access (EIA's heading), industrial sector, count
   unit: count
   rows: 7960
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: customers_with_daily_digital_access_residential
-  label: null
+  label: Customers with daily digital access (EIA's heading), residential sector, count
   unit: count
   rows: 8972
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: customers_with_daily_digital_access_total
-  label: null
+  label: Customers with daily digital access (EIA's heading), all sectors, count
   unit: count
   rows: 10015
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: customers_with_daily_digital_access_transportation
-  label: null
+  label: Customers with daily digital access (EIA's heading), transportation sector, count
   unit: count
   rows: 4496
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: customers_with_direct_load_control_commercial
-  label: null
+  label: Customers with direct load control (EIA's heading), commercial sector, count
   unit: count
   rows: 5520
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: customers_with_direct_load_control_industrial
-  label: null
+  label: Customers with direct load control (EIA's heading), industrial sector, count
   unit: count
   rows: 5119
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: customers_with_direct_load_control_residential
-  label: null
+  label: Customers with direct load control (EIA's heading), residential sector, count
   unit: count
   rows: 6110
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: customers_with_direct_load_control_total
-  label: null
+  label: Customers with direct load control (EIA's heading), all sectors, count
   unit: count
   rows: 7111
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: customers_with_direct_load_control_transportation
-  label: null
+  label: Customers with direct load control (EIA's heading), transportation sector, count
   unit: count
   rows: 3893
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: energy_served_ami_mwh_commercial
-  label: null
+  label: Energy served through AMI meters, commercial sector, MWh
   unit: MWh
   rows: 16235
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: energy_served_ami_mwh_industrial
-  label: null
+  label: Energy served through AMI meters, industrial sector, MWh
   unit: MWh
   rows: 13707
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: energy_served_ami_mwh_residential
-  label: null
+  label: Energy served through AMI meters, residential sector, MWh
   unit: MWh
   rows: 16689
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: energy_served_ami_mwh_total
-  label: null
+  label: Energy served through AMI meters, all sectors, MWh
   unit: MWh
   rows: 17959
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: energy_served_ami_mwh_transportation
-  label: null
+  label: Energy served through AMI meters, transportation sector, MWh
   unit: MWh
   rows: 5109
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_ami_advanced_metering_infrastructure_commercial
-  label: null
+  label: AMI (advanced metering infrastructure) meters, commercial sector, count
   unit: count
   rows: 16840
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_ami_advanced_metering_infrastructure_industrial
-  label: null
+  label: AMI (advanced metering infrastructure) meters, industrial sector, count
   unit: count
   rows: 14211
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_ami_advanced_metering_infrastructure_residential
-  label: null
+  label: AMI (advanced metering infrastructure) meters, residential sector, count
   unit: count
   rows: 17301
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_ami_advanced_metering_infrastructure_total
-  label: null
+  label: AMI (advanced metering infrastructure) meters, all sectors, count
   unit: count
   rows: 18885
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_ami_advanced_metering_infrastructure_transportation
-  label: null
+  label: AMI (advanced metering infrastructure) meters, transportation sector, count
   unit: count
   rows: 5440
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_amr_automated_meter_reading_commercial
-  label: null
+  label: AMR (automated meter reading) meters, commercial sector, count
   unit: count
   rows: 17482
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_amr_automated_meter_reading_industrial
-  label: null
+  label: AMR (automated meter reading) meters, industrial sector, count
   unit: count
   rows: 13910
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_amr_automated_meter_reading_residential
-  label: null
+  label: AMR (automated meter reading) meters, residential sector, count
   unit: count
   rows: 18017
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_amr_automated_meter_reading_total
-  label: null
+  label: AMR (automated meter reading) meters, all sectors, count
   unit: count
   rows: 20913
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_amr_automated_meter_reading_transportation
-  label: null
+  label: AMR (automated meter reading) meters, transportation sector, count
   unit: count
   rows: 5679
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_home_area_network_commercial
-  label: null
+  label: EIA's Number Home Area Network, commercial sector, count
   unit: count
   rows: 4714
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_home_area_network_industrial
-  label: null
+  label: EIA's Number Home Area Network, industrial sector, count
   unit: count
   rows: 4556
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_home_area_network_residential
-  label: null
+  label: EIA's Number Home Area Network, residential sector, count
   unit: count
   rows: 4850
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_home_area_network_total
-  label: null
+  label: EIA's Number Home Area Network, all sectors, count
   unit: count
   rows: 5767
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_home_area_network_transportation
-  label: null
+  label: EIA's Number Home Area Network, transportation sector, count
   unit: count
   rows: 4135
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_non_amr_ami_meters_commercial
-  label: null
+  label: Meters that are neither AMR nor AMI, commercial sector, count (2015 to 2019)
   unit: count
   rows: 6371
   first: '2015-01-01T00:00:00Z'
   last: '2019-01-01T00:00:00Z'
 - name: number_non_amr_ami_meters_industrial
-  label: null
+  label: Meters that are neither AMR nor AMI, industrial sector, count (2015 to 2019)
   unit: count
   rows: 5428
   first: '2015-01-01T00:00:00Z'
   last: '2019-01-01T00:00:00Z'
 - name: number_non_amr_ami_meters_residential
-  label: null
+  label: Meters that are neither AMR nor AMI, residential sector, count (2015 to 2019)
   unit: count
   rows: 6127
   first: '2015-01-01T00:00:00Z'
   last: '2019-01-01T00:00:00Z'
 - name: number_non_amr_ami_meters_total
-  label: null
+  label: Meters that are neither AMR nor AMI, all sectors, count (2015 to 2019)
   unit: count
   rows: 7092
   first: '2015-01-01T00:00:00Z'
   last: '2019-01-01T00:00:00Z'
 - name: number_non_amr_ami_meters_transportation
-  label: null
+  label: Meters that are neither AMR nor AMI, transportation sector, count (2015 to 2019)
   unit: count
   rows: 2702
   first: '2015-01-01T00:00:00Z'
   last: '2019-01-01T00:00:00Z'
 - name: number_standard_non_amr_ami_meters_commercial
-  label: null
+  label: Standard meters, neither AMR nor AMI, commercial sector, count (EIA's heading from 2020)
   unit: count
   rows: 4476
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_standard_non_amr_ami_meters_industrial
-  label: null
+  label: Standard meters, neither AMR nor AMI, industrial sector, count (EIA's heading from 2020)
   unit: count
   rows: 3981
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_standard_non_amr_ami_meters_residential
-  label: null
+  label: Standard meters, neither AMR nor AMI, residential sector, count (EIA's heading from 2020)
   unit: count
   rows: 4393
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_standard_non_amr_ami_meters_total
-  label: null
+  label: Standard meters, neither AMR nor AMI, all sectors, count (EIA's heading from 2020)
   unit: count
   rows: 5151
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: number_standard_non_amr_ami_meters_transportation
-  label: null
+  label: Standard meters, neither AMR nor AMI, transportation sector, count (EIA's heading from 2020)
   unit: count
   rows: 2418
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_numbers_of_meters_commercial
-  label: null
+  label: All meters, commercial sector, count
   unit: count
   rows: 28362
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_numbers_of_meters_industrial
-  label: null
+  label: All meters, industrial sector, count
   unit: count
   rows: 27795
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_numbers_of_meters_residential
-  label: null
+  label: All meters, residential sector, count
   unit: count
   rows: 28404
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_numbers_of_meters_total
-  label: null
+  label: All meters, all sectors, count
   unit: count
   rows: 28435
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_numbers_of_meters_transportation
-  label: null
+  label: All meters, transportation sector, count
   unit: count
   rows: 26364
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
-second_look: null
+second_look:
+- 'number_home_area_network_*: the method note gives EIA''s heading only; whether it counts meters or customers with a home
+  area network is not written.'

@@ -5,9 +5,11 @@
 table: eia861_operational_data
 family: eia861
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One utility's peak demand, one source or disposition of its energy, or one kind of its revenue, in one state, for one
+  year, from Form EIA-861's operational data file.
+time: ts_utc is the data year's 1 January at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: A run reads the years given with --years and writes the table whole; vintage is not filled. EIA's aggregates
+  88888 and 99999 left out; a '.' cell has no row.
 keys:
 - entity
 - variable
@@ -38,6 +40,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia861_op:<utility number>:<state>, with no balancing authority; ends in a colon where EIA gives no state
   type: text
   values:
     distinct: 3628
@@ -97,6 +100,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state>, territories included; US where EIA gives no state
   type: text
   values:
     distinct: 58
@@ -109,12 +113,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 367768
 - name: node
   shared: true
+  particular: The utility's name, not a pricing node
   type: text
   values:
     distinct: 3770
@@ -168,25 +174,26 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 367768
 - name: x_utility_number
-  label: null
-  unit: null
+  label: EIA's utility identifier
+  unit: none
   type: integer
   values:
     distinct: 3556
     lowest: 34
     highest: 67932
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_operations.md
 - name: x_state
-  label: null
-  unit: null
+  label: The state or territory, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 57
@@ -197,12 +204,12 @@ columns:
     - AS
     - AZ
   missing_cells: 150
-  missing_meaning: null
+  missing_meaning: EIA gives no state (150 rows; geo is then US)
   source_name: null
-  documented_by: null
+  documented_by: method eia861_operations.md; connector eia861_operations.py
 - name: x_ownership
-  label: null
-  unit: null
+  label: EIA's ownership type (Municipal, Cooperative, Investor Owned, Retail Power Marketer and others)
+  unit: none
   type: text
   values:
     list:
@@ -220,12 +227,12 @@ columns:
       Unknown: 72
       Wholesale Power Marketer: 4194
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Ownership Type
+  documented_by: method eia861_operations.md; connector eia861_operations.py
 - name: x_nerc_region
-  label: null
-  unit: null
+  label: The NERC reliability region as EIA writes it, not cleaned (some rows hold two regions or lower case)
+  unit: none
   type: text
   values:
     distinct: 35
@@ -236,167 +243,167 @@ columns:
     - ASCC
     - ECAR
   missing_cells: 44256
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: NERC Region
+  documented_by: method eia861_operations.md
 - name: x_data_type
-  label: null
-  unit: null
+  label: EIA's data type, O observed or I imputed; every row is O
+  unit: none
   type: text
   values:
     list:
       O: 367768
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Data Type
+  documented_by: header; method eia861_operations.md
 variables:
 - name: consumed_without_charge
-  label: null
+  label: 'Disposition: energy consumed by the utility itself without charge, MWh'
   unit: MWh
   rows: 12647
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: energy_losses
-  label: null
+  label: 'Disposition: total energy losses, MWh'
   unit: MWh
   rows: 19246
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: exchange_delivered
-  label: null
+  label: 'Source of energy: exchange energy delivered, MWh'
   unit: MWh
   rows: 7178
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: exchange_net
-  label: null
+  label: 'Source of energy: net power exchanged, MWh (can be negative)'
   unit: MWh
   rows: 22177
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: exchange_received
-  label: null
+  label: 'Source of energy: exchange energy received, MWh'
   unit: MWh
   rows: 8631
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: furnished_without_charge
-  label: null
+  label: 'Disposition: energy furnished without charge, MWh'
   unit: MWh
   rows: 8841
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: net_generation
-  label: null
+  label: 'Source of energy: net generation, MWh'
   unit: MWh
   rows: 11438
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: retail_sales
-  label: null
+  label: 'Disposition: retail sales (EIA''s Sales to Ultimate Customers in 2025), MWh'
   unit: MWh
   rows: 21073
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: revenue_credits_adjustments
-  label: null
+  label: Revenue from credits or adjustments, USD (can be negative)
   unit: USD
   rows: 8024
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: revenue_delivery_customers
-  label: null
+  label: Revenue from delivery customers, USD
   unit: USD
   rows: 5429
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: revenue_other
-  label: null
+  label: Other revenue, USD (can be negative)
   unit: USD
   rows: 16363
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: revenue_retail_sales
-  label: null
+  label: Revenue from retail sales, USD (EIA's thousand dollars times 1,000)
   unit: USD
   rows: 21099
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: revenue_sales_for_resale
-  label: null
+  label: Revenue from sales for resale, USD
   unit: USD
   rows: 11070
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: revenue_total
-  label: null
+  label: Total revenue, USD
   unit: USD
   rows: 22730
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: revenue_transmission
-  label: null
+  label: Revenue from transmission, USD
   unit: USD
   rows: 9313
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: sales_for_resale
-  label: null
+  label: 'Disposition: sales for resale, MWh'
   unit: MWh
   rows: 10968
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: summer_peak_demand
-  label: null
+  label: Summer peak demand, MW
   unit: MW
   rows: 20181
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_disposition
-  label: null
+  label: Total disposition of energy, MWh
   unit: MWh
   rows: 22596
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_sources
-  label: null
+  label: Total sources of energy, MWh
   unit: MWh
   rows: 22627
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: transmission_by_others_losses
-  label: null
+  label: 'Source of energy: losses of transmission by others, MWh (can be negative)'
   unit: MWh
   rows: 7013
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: wheeled_delivered
-  label: null
+  label: 'Source of energy: wheeled power delivered, MWh'
   unit: MWh
   rows: 7364
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: wheeled_net
-  label: null
+  label: 'Source of energy: net wheeled power, MWh (can be negative)'
   unit: MWh
   rows: 22177
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: wheeled_received
-  label: null
+  label: 'Source of energy: wheeled power received, MWh'
   unit: MWh
   rows: 7413
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: wholesale_purchases
-  label: null
+  label: 'Source of energy: wholesale power purchases, MWh'
   unit: MWh
   rows: 21991
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: winter_peak_demand
-  label: null
+  label: Winter peak demand, MW
   unit: MW
   rows: 20179
   first: '2015-01-01T00:00:00Z'

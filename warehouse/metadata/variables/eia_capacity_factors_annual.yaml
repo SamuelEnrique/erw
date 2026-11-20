@@ -5,9 +5,10 @@
 table: eia_capacity_factors_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One energy source and technology's yearly capacity factor or time adjusted capacity for U.S. utility-scale generators,
+  from EIA's Electric Power Annual Tables 4.8.A and 4.8.B.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot); vintage is the workbook's last-modified time.
 keys:
 - entity
 - variable
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_epa_cf:<energy source>:<technology>, all where EIA gives no technology
   type: text
   values:
     list:
@@ -102,6 +104,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
@@ -109,12 +112,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 374
 - name: node
   shared: true
+  particular: EIA's row name (source, technology)
   type: text
   values:
     list:
@@ -160,6 +165,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time from EIA's server
   type: utc time
   values:
     list:
@@ -168,13 +174,13 @@ columns:
   missing_cells: 0
 variables:
 - name: capacity_factor
-  label: null
+  label: 'Capacity factor: the energy generated over what the capacity could make running all year, a ratio'
   unit: ratio
   rows: 187
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: time_adjusted_capacity
-  label: null
+  label: Summer capacity in operation the whole month, a year's the months' time weighted average, MW
   unit: MW
   rows: 187
   first: '2015-01-01T00:00:00Z'

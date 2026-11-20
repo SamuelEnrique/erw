@@ -5,9 +5,10 @@
 table: eurostat_electricity_consumption_annual
 family: eurostat
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One European country's (or the EU's) electricity for one balance item (available for final consumption, final consumption,
+  a sector's use, losses, statistical differences) in one year.
+time: ts_utc is the year's 1 January at 00:00:00Z, a label for the calendar year (freq P1Y).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised figure replaces the old; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -37,6 +38,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_electricity_consumption:<geo>
   type: text
   values:
     distinct: 40
@@ -85,6 +87,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
   type: text
   values:
     distinct: 39
@@ -103,6 +106,7 @@ columns:
   missing_cells: 15667
 - name: node
   shared: true
+  particular: <geo> electricity, <the balance item's name>, not a pricing node
   type: text
   values:
     distinct: 479
@@ -142,8 +146,8 @@ columns:
     note: no cell holds a value
   missing_cells: 15667
 - name: x_geo_code
-  label: null
-  unit: null
+  label: Eurostat's geo code of the country or aggregate
+  unit: none
   type: text
   values:
     distinct: 40
@@ -154,12 +158,12 @@ columns:
     - BE
     - BG
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eurostat_electricity_consumption_annual.md
 - name: x_nrg_bal
-  label: null
-  unit: null
+  label: Eurostat's NRG_BAL code of the balance item
+  unit: none
   type: text
   values:
     list:
@@ -176,100 +180,100 @@ columns:
       NRG_E: 1326
       STATDIFF: 1327
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eurostat_electricity_consumption_annual.md
 - name: x_flag
-  label: null
-  unit: null
+  label: 'Eurostat''s flag of the observation: e estimated, p provisional'
+  unit: none
   type: text
   values:
     list:
       e: 11
       p: 208
   missing_cells: 15448
-  missing_meaning: null
+  missing_meaning: No flag on the observation
   source_name: null
-  documented_by: null
+  documented_by: method eurostat_electricity_consumption_annual.md; method eurostat_electricity_monthly.md
 - name: x_conf_status
-  label: null
-  unit: null
+  label: Eurostat's confidentiality status of the observation
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 15667
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value'
   source_name: null
-  documented_by: null
+  documented_by: method eurostat_electricity_consumption_annual.md
 variables:
 - name: agriculture_forestry
-  label: null
+  label: Final consumption by agriculture and forestry (FC_OTH_AF_E)
   unit: MWh
   rows: 1290
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: available_for_final_consumption
-  label: null
+  label: Electricity available for final consumption (AFC)
   unit: MWh
   rows: 1328
   first: '1990-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: commercial_public_services
-  label: null
+  label: Final consumption by commercial and public services (FC_OTH_CP_E)
   unit: MWh
   rows: 1290
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: energy_sector_use
-  label: null
+  label: The energy sector's own use of electricity (NRG_E)
   unit: MWh
   rows: 1326
   first: '1990-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: final_consumption
-  label: null
+  label: Final consumption of electricity (FC), here including the energy sector's own use
   unit: MWh
   rows: 1326
   first: '1990-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: fishing
-  label: null
+  label: Final consumption by fishing (FC_OTH_FISH_E)
   unit: MWh
   rows: 1290
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: households
-  label: null
+  label: Final consumption by households (FC_OTH_HH_E)
   unit: MWh
   rows: 1290
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: industry
-  label: null
+  label: Final consumption by industry (FC_IND_E)
   unit: MWh
   rows: 1326
   first: '1990-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: losses
-  label: null
+  label: Electricity losses (LOSS)
   unit: MWh
   rows: 1259
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: other_not_specified
-  label: null
+  label: Final consumption not elsewhere specified (FC_OTH_NSP_E)
   unit: MWh
   rows: 1289
   first: '1990-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: statistical_differences
-  label: null
+  label: Statistical differences of the balance (STATDIFF)
   unit: MWh
   rows: 1327
   first: '1990-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: transport
-  label: null
+  label: Final consumption by transport (FC_TRA_E)
   unit: MWh
   rows: 1326
   first: '1990-01-01T00:00:00Z'

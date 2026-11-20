@@ -5,9 +5,10 @@
 table: battery_sourced_ranges
 family: battery
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One published low, mid or high case of one utility-scale battery cost or finance assumption, for one source, technology
+  and year (NLR's 2025 ATB).
+time: ts_utc is 1 January of the year the value is for (freq P1Y); vintage is the workbook's date.
+vintage_rule: A snapshot, replaced whole by each run; vintage is the workbook's date (27 August 2026).
 keys:
 - entity
 - variable
@@ -35,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <source>:<technology>:<case>, for example nlr_atb_2025:utility_battery_10h:advanced
   type: text
   values:
     list:
@@ -98,6 +100,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
@@ -138,14 +141,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's date
   type: utc time
   values:
     list:
       '2026-08-27T00:00:00Z': 90
   missing_cells: 0
 - name: x_case
-  label: null
-  unit: null
+  label: 'The case on the cost scale: low, mid or high'
+  unit: none
   type: text
   values:
     list:
@@ -153,12 +157,12 @@ columns:
       low: 30
       mid: 30
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method battery_sourced_ranges.md
 - name: x_published_case
-  label: null
-  unit: null
+  label: 'The ATB''s own case: Advanced (low), Moderate (mid), Conservative (high)'
+  unit: none
   type: text
   values:
     list:
@@ -166,12 +170,12 @@ columns:
       Conservative: 30
       Moderate: 30
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method battery_sourced_ranges.md
 - name: x_duration_h
-  label: null
-  unit: null
+  label: The battery's duration in hours
+  unit: hour
   type: integer
   values:
     list:
@@ -181,12 +185,12 @@ columns:
       '6': 15
       '8': 15
   missing_cells: 15
-  missing_meaning: null
+  missing_meaning: The assumption has no duration
   source_name: null
-  documented_by: null
+  documented_by: method battery_sourced_ranges.md
 - name: x_document
-  label: null
-  unit: null
+  label: The document the value stands in
+  unit: none
   type: text
   values:
     list:
@@ -195,12 +199,12 @@ columns:
         Battery Storage: 2025 Update, NREL/TP-6A40-93281)'
       : 90
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method battery_sourced_ranges.md
 - name: x_page
-  label: null
-  unit: null
+  label: 'Where the value stands in the document: the sheet, row and column'
+  unit: none
   type: text
   values:
     distinct: 88
@@ -211,77 +215,77 @@ columns:
     - sheet Utility-Scale Battery - R&D, row 107, column 2025
     - sheet Utility-Scale Battery - R&D, row 108, column 2025
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method battery_sourced_ranges.md
 - name: x_dollar_year
-  label: null
-  unit: null
+  label: The dollar year of a value in dollars (2023)
+  unit: none
   type: integer
   values:
     list:
       '2023': 66
   missing_cells: 24
-  missing_meaning: null
+  missing_meaning: The value is not in dollars
   source_name: null
-  documented_by: null
+  documented_by: method battery_sourced_ranges.md
 variables:
 - name: capex
-  label: null
+  label: Capital expenditure per kW (the ATB's CAPEX ($/kW))
   unit: USD/kW
   rows: 15
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: energy_capital_cost
-  label: null
+  label: Battery energy capital cost per kWh (the ATB's Battery Energy Capital Cost ($/kWh))
   unit: USD/kWh
   rows: 3
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: fixed_om
-  label: null
+  label: Fixed operation and maintenance expenses per kW a year (the ATB's Fixed O&M ($/kW-yr))
   unit: USD/kW-year
   rows: 15
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: grid_connection_cost
-  label: null
+  label: Grid connection costs per kW (the ATB's GCC ($/kW))
   unit: USD/kW
   rows: 15
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: interest_rate_nominal
-  label: null
+  label: Nominal interest rate, a ratio (the ATB's Interest Rate Nominal)
   unit: ratio
   rows: 3
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: overnight_capital_cost
-  label: null
+  label: Overnight capital cost per kW (the ATB's Overnight Capital Cost ($/kW))
   unit: USD/kW
   rows: 15
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: power_capital_cost
-  label: null
+  label: Battery power capital cost per kW (the ATB's Battery Power Capital Cost ($/kW))
   unit: USD/kW
   rows: 3
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: return_on_equity_nominal
-  label: null
+  label: Nominal rate of return on equity, a ratio (the ATB's Rate of Return on Equity Nominal)
   unit: ratio
   rows: 3
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: round_trip_efficiency
-  label: null
+  label: Round-trip efficiency, a ratio (energy out over energy in)
   unit: ratio
   rows: 15
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: technical_life
-  label: null
+  label: Technical life, years
   unit: year
   rows: 3
   first: '2025-01-01T00:00:00Z'

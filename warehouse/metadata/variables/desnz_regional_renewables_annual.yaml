@@ -5,9 +5,10 @@
 table: desnz_regional_renewables_annual
 family: desnz
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One UK region's renewable electricity generation from one technology in one year, 2003 to 2025.
+time: ts_utc is the year's first day at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run (DESNZ republishes the whole series each year); vintage is the workbook's last-modified
+  time.
 keys:
 - entity
 - variable
@@ -34,6 +35,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: desnz_re:<region>:<technology>
   type: text
   values:
     distinct: 194
@@ -103,6 +105,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: GB for the UK and the other sites, GB-SCT, GB-WLS, GB-NIR, or GB-ENG for England and its regions
   type: text
   values:
     list:
@@ -114,12 +117,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3002
 - name: node
   shared: true
+  particular: The region and the workbook's column, not a pricing node
   type: text
   values:
     distinct: 194
@@ -153,6 +158,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time
   type: utc time
   values:
     list:
@@ -160,7 +166,7 @@ columns:
   missing_cells: 0
 variables:
 - name: generation
-  label: null
+  label: Renewable electricity generated in the year, MWh (the workbook's GWh times 1,000)
   unit: MWh
   rows: 3002
   first: '2003-01-01T00:00:00Z'

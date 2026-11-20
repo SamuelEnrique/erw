@@ -5,9 +5,10 @@
 table: bsee_offshore_incidents
 family: other_sources
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One incident on the US outer continental shelf reported to the Bureau of Safety and Environmental Enforcement, from its
+  calendar-year workbooks.
+time: event_date is the incident's date; x_time its time as BSEE writes it.
+vintage_rule: Rewritten whole as one snapshot by each run from BSEE's workbooks; the table has no vintage column.
 keys:
 - event_id
 license: public
@@ -32,6 +33,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: bsee_incident:<serial>
   type: text
   values:
     distinct: 4818
@@ -52,6 +54,7 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: offshore_incident on every row
   type: text
   values:
     list:
@@ -59,6 +62,7 @@ columns:
   missing_cells: 0
 - name: parties
   shared: true
+  particular: The operator
   type: text
   values:
     distinct: 95
@@ -71,6 +75,7 @@ columns:
   missing_cells: 0
 - name: entity_ids
   shared: true
+  particular: lease:<number>
   type: text
   values:
     distinct: 683
@@ -101,6 +106,7 @@ columns:
   missing_cells: 4818
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -137,8 +143,8 @@ columns:
       '2026-10-24T01:00:09Z': 943
   missing_cells: 0
 - name: x_year
-  label: null
-  unit: null
+  label: The workbook's calendar year (the year of event_date)
+  unit: none
   type: integer
   values:
     list:
@@ -149,24 +155,24 @@ columns:
       '2023': 943
       '2024': 1042
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method bsee_offshore_incidents.md
 - name: x_time
-  label: null
-  unit: null
+  label: The incident's time as BSEE writes it, a 24-hour hhmm number without leading zeros
+  unit: none
   type: integer
   values:
     distinct: 718
     lowest: 0
     highest: 2359
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Time
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
 - name: x_region
-  label: null
-  unit: null
+  label: BSEE's OCS region as written (Gulf of Mexico, Gulf of America from 2024, Pacific, Alaska)
+  unit: none
   type: text
   values:
     list:
@@ -175,12 +181,12 @@ columns:
       Gulf of Mexico: 3600
       Pacific: 209
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: OCS Region
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
 - name: x_district
-  label: null
-  unit: null
+  label: BSEE's district name
+  unit: none
   type: text
   values:
     list:
@@ -194,12 +200,12 @@ columns:
       New Orleans District: 1646
       Santa Maria District: 3
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BSEE leaves the cell blank (one row)
+  source_name: District Name
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
 - name: x_area
-  label: null
-  unit: null
+  label: The offshore area's name
+  unit: none
   type: text
   values:
     distinct: 66
@@ -210,12 +216,12 @@ columns:
     - BRAZOS AREA
     - Bay Marchand Area
   missing_cells: 59
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BSEE leaves the cell blank (2022 and 2023)
+  source_name: Area Name
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
 - name: x_block
-  label: null
-  unit: null
+  label: The offshore block
+  unit: none
   type: text
   values:
     distinct: 495
@@ -226,24 +232,24 @@ columns:
     - '1003'
     - '1006'
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BSEE leaves the cell blank
+  source_name: Block
+  documented_by: connector bsee_incidents.py
 - name: x_water_depth_ft
-  label: null
-  unit: null
+  label: The water depth, as BSEE gives it
+  unit: ft
   type: integer
   values:
     distinct: 726
     lowest: 5
     highest: 60817
   missing_cells: 104
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BSEE leaves the cell blank
+  source_name: Water Depth (feet)
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
 - name: x_structure
-  label: null
-  unit: null
+  label: The structure's name
+  unit: none
   type: text
   values:
     distinct: 290
@@ -254,12 +260,12 @@ columns:
     - '1'
     - '10'
   missing_cells: 1404
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BSEE leaves the cell blank
+  source_name: Structure Name
+  documented_by: connector bsee_incidents.py
 - name: x_structure_type
-  label: null
-  unit: null
+  label: The structure's type as written (fixed platform, caisson, FPSO, tension leg platform and others)
+  unit: none
   type: text
   values:
     list:
@@ -283,12 +289,12 @@ columns:
       Tension Leg Platform: 49
       WP: 1
   missing_cells: 1404
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BSEE leaves the cell blank
+  source_name: Structure Type
+  documented_by: connector bsee_incidents.py; data
 - name: x_rig
-  label: null
-  unit: null
+  label: The rig's name
+  unit: none
   type: text
   values:
     distinct: 104
@@ -299,24 +305,24 @@ columns:
     - '* DP SEMI RIG TO BE DETERMINED'
     - '* DRILL SHIP TO BE DETERMINED'
   missing_cells: 3267
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BSEE leaves the cell blank
+  source_name: Rig Name
+  documented_by: connector bsee_incidents.py
 - name: x_fatalities
-  label: null
-  unit: null
+  label: Fatalities, every fatality column summed (operator and contractor)
+  unit: count
   type: integer
   values:
     list:
       '0': 4799
       '1': 19
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
 - name: x_injuries
-  label: null
-  unit: null
+  label: Injuries, every injury column summed (operator and contractor, each injury class)
+  unit: count
   type: integer
   values:
     list:
@@ -324,84 +330,84 @@ columns:
       '1': 1057
       '2': 30
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
 - name: x_fire
-  label: null
-  unit: null
+  label: Y when the incident involved a fire, else N
+  unit: none
   type: text
   values:
     list:
       N: 4102
       Y: 716
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Fire
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
 - name: x_explosion
-  label: null
-  unit: null
+  label: Y when the incident involved an explosion, else N
+  unit: none
   type: text
   values:
     list:
       N: 4807
       Y: 11
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Explosion
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
 - name: x_loss_of_well_control
-  label: null
-  unit: null
+  label: Y when the incident involved a loss of well control (any of BSEE's four kinds), else N
+  unit: none
   type: text
   values:
     list:
       N: 4802
       Y: 16
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
 - name: x_collision
-  label: null
-  unit: null
+  label: Y when the incident involved a collision (major or minor), else N
+  unit: none
   type: text
   values:
     list:
       N: 4778
       Y: 40
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
 - name: x_lifting
-  label: null
-  unit: null
+  label: Y when the incident involved a crane or other lifting device, else N
+  unit: none
   type: text
   values:
     list:
       N: 3095
       Y: 1723
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
 - name: x_gas_release
-  label: null
-  unit: null
+  label: Y when the incident involved a reportable H2S release or a shut-down gas release, else N
+  unit: none
   type: text
   values:
     list:
       N: 4396
       Y: 422
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
 - name: x_summary
-  label: null
-  unit: null
+  label: BSEE's summary of the incident in its own words, spaces run together
+  unit: none
   type: text
   values:
     distinct: 4788
@@ -474,7 +480,7 @@ columns:
       of this event. _x000D_ _x000D_ _x000D_ "Please reference the report attachment for additional details of the incident
       investigation. This is the final report."_x000D_'
   missing_cells: 11
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: BSEE leaves the cell blank (11 rows of 2021)
+  source_name: Incident Summary
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
 second_look: null

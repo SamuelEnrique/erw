@@ -5,9 +5,11 @@
 table: eia_state_to_state_capacity
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One natural gas pipeline's capacity at one state (or national) border crossing for one year, from EIA's U.S. State-to-State
+  Capacity workbook (2026-01 issue).
+time: ts_utc is the first day of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot); vintage is the workbook's last-modified time. A row EIA lists
+  twice is kept twice.
 keys:
 - entity
 - variable
@@ -34,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_s2s:<pipeline>:<state from>:<county from>:<state to>:<county to>:<n>, n the crossing's place among the year's
+    rows with the same five
   type: text
   values:
     distinct: 686
@@ -82,6 +86,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state to>; empty for Canada and Mexico
   type: text
   values:
     distinct: 49
@@ -94,12 +99,14 @@ columns:
   missing_cells: 1346
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 19311
 - name: node
   shared: true
+  particular: The pipeline
   type: text
   values:
     distinct: 173
@@ -133,14 +140,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time from EIA's server
   type: utc time
   values:
     list:
       '2026-02-03T21:15:45Z': 19311
   missing_cells: 0
 - name: x_region_from
-  label: null
-  unit: null
+  label: The region the gas leaves, as EIA prints it (Midwest, Gulf of America, Canada and the others)
+  unit: none
   type: text
   values:
     list:
@@ -154,12 +162,12 @@ columns:
       South Central: 5292
       Southeast: 306
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_state_to_state.py; method eia_state_to_state_capacity.md
 - name: x_region_to
-  label: null
-  unit: null
+  label: The region the gas enters, as EIA prints it (Intra-regional where both sides are one region)
+  unit: none
   type: text
   values:
     list:
@@ -173,12 +181,12 @@ columns:
       South Central: 1899
       Southeast: 317
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_state_to_state.py; method eia_state_to_state_capacity.md
 - name: x_state_from
-  label: null
-  unit: null
+  label: The state (or province, country, offshore area) the gas leaves, as EIA prints it
+  unit: none
   type: text
   values:
     distinct: 56
@@ -189,12 +197,12 @@ columns:
     - Arkansas
     - British Columbia
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eia_state_to_state.py; method eia_state_to_state_capacity.md
 - name: x_county_from
-  label: null
-  unit: null
+  label: The county the gas leaves, as EIA prints it
+  unit: none
   type: text
   values:
     distinct: 348
@@ -205,12 +213,12 @@ columns:
     - Alimos Canyon AC25
     - Allegany
   missing_cells: 33
-  missing_meaning: null
+  missing_meaning: EIA prints no county (North Baja Pipeline from California)
   source_name: null
-  documented_by: null
+  documented_by: connector eia_state_to_state.py; method eia_state_to_state_capacity.md
 - name: x_state_to
-  label: null
-  unit: null
+  label: The state (or province, country) the gas enters, as EIA prints it
+  unit: none
   type: text
   values:
     distinct: 57
@@ -221,12 +229,12 @@ columns:
     - British Columbia
     - California
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eia_state_to_state.py; method eia_state_to_state_capacity.md
 - name: x_county_to
-  label: null
-  unit: null
+  label: The county the gas enters, as EIA prints it
+  unit: none
   type: text
   values:
     distinct: 352
@@ -237,24 +245,24 @@ columns:
     - Alexander
     - Allegany
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eia_state_to_state.py; method eia_state_to_state_capacity.md
 - name: x_capacity_mmcfd
-  label: null
-  unit: null
+  label: The crossing's capacity as EIA publishes it
+  unit: MMcf/d
   type: number
   values:
     distinct: 870
     lowest: 0.0
     highest: 5118.0
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_state_to_state.py
 - name: x_notes
-  label: null
-  unit: null
+  label: EIA's note on the row
+  unit: none
   type: text
   values:
     distinct: 370
@@ -265,12 +273,12 @@ columns:
     - '2071'
     - '236000'
   missing_cells: 18432
-  missing_meaning: null
+  missing_meaning: EIA gives no note
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_state_to_state.py; method eia_state_to_state_capacity.md
 variables:
 - name: capacity
-  label: null
+  label: The pipeline's capacity at the crossing, billion cubic feet a day (EIA's MMcf a day over 1,000)
   unit: bcf/d
   rows: 19311
   first: '1990-01-01T00:00:00Z'

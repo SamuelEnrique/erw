@@ -5,9 +5,10 @@
 table: storage_daily_cycle
 family: storage
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One balancing authority's value of one measure of its batteries' charging and discharging on one complete local day.
+time: 'ts_utc is the local day at 00:00:00Z (freq P1D): ERCO and SWPP America/Chicago, MISO EST, ISNE and US48 America/New_York,
+  CISO America/Los_Angeles; only days that ended at least 48 hours before the area''s newest hour held.'
+vintage_rule: Rewritten whole by each run of the builder; vintage is not filled.
 keys:
 - entity
 - variable
@@ -38,6 +39,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<BA> from EIA-930; caiso:ISO for CAISO's own data
   type: text
   values:
     list:
@@ -141,6 +143,7 @@ columns:
   missing_cells: 15085
 - name: ba
   shared: true
+  particular: ciso on the caiso:ISO rows
   type: text
   values:
     list:
@@ -153,31 +156,31 @@ columns:
   missing_cells: 0
 variables:
 - name: mwh_charged
-  label: null
+  label: Sum of the negative hourly battery net generation over the day, as a positive number (charging)
   unit: MWh
   rows: 3599
   first: '2024-11-01T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: mwh_discharged
-  label: null
+  label: Sum of the positive hourly battery net generation over the day (discharging)
   unit: MWh
   rows: 3599
   first: '2024-11-01T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: peak_charge_hour
-  label: null
+  label: The local hour (0 to 23, its start) of the day's largest charge
   unit: hour
   rows: 2159
   first: '2024-11-05T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: peak_discharge_hour
-  label: null
+  label: The local hour (0 to 23, its start) of the day's largest discharge; the earliest on a tie
   unit: hour
   rows: 3569
   first: '2024-11-01T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: round_trip_ratio
-  label: null
+  label: mwh_discharged over mwh_charged, a ratio of the day's energies as reported, not a measured efficiency
   unit: ratio
   rows: 2159
   first: '2024-11-05T00:00:00Z'

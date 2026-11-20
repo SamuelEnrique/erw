@@ -5,9 +5,11 @@
 table: noaa_region_station_hourly_2026
 family: noaa
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The temperature at one station chosen for EIA's regions' weather in one UTC hour of 2026.
+time: ts_utc is the hour in UTC; the reading is the Local Climatological Data v2 report put on ISD-Lite's hour rule (from
+  ten minutes before the hour up to it, the closest to it), its local standard time moved to UTC.
+vintage_rule: A snapshot written whole by each run of the connector (one table a UTC year); not in the daily run, so the year
+  grows only when the connector is run. No vintage column.
 keys:
 - entity
 - variable
@@ -34,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: noaa:<USAF-WBAN>, the station (the node of noaa_region_stations)
   type: text
   values:
     distinct: 215
@@ -82,6 +85,7 @@ columns:
   missing_cells: 0
 - name: source
   shared: true
+  particular: noaa:lcd_v2 (Local Climatological Data v2) in every row
   type: text
   values:
     list:
@@ -89,7 +93,8 @@ columns:
   missing_cells: 0
 variables:
 - name: temperature_f
-  label: null
+  label: The station's temperature in the hour, degrees F; runs of at most three missing hours between two measured hours
+    are interpolated on a straight line
   unit: degF
   rows: 1577028
   first: '2026-01-01T00:00:00Z'

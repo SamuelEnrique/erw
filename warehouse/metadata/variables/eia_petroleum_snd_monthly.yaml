@@ -5,9 +5,10 @@
 table: eia_petroleum_snd_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's supply or disposition figure (production, inputs, trade, stocks, product supplied) of crude oil or one petroleum
+  product in the U.S. or a PADD, from EIA's Petroleum Supply Monthly.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M); a stock is at the month's end.
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -37,6 +38,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_petroleum_snd:<EIA series id>; EP00 the total holds the other products
   type: text
   values:
     distinct: 4459
@@ -86,6 +88,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row, the PADDs included
   type: text
   values:
     list:
@@ -93,12 +96,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 523835
 - name: node
   shared: true
+  particular: EIA's series name
   type: text
   values:
     distinct: 4455
@@ -141,145 +146,146 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 523835
 variables:
 - name: ending_stocks
-  label: null
+  label: Ending stocks (SAE) at the month's end, thousand barrels
   unit: kbbl
   rows: 40018
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: exports
-  label: null
+  label: Exports (EEX) in the month, thousand barrels
   unit: kbbl
   rows: 27415
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: exports_per_day
-  label: null
+  label: Exports (EEX), thousand barrels a day
   unit: kbbl/d
   rows: 27416
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: field_production
-  label: null
+  label: Field production (FPF) in the month, thousand barrels
   unit: kbbl
   rows: 7670
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: field_production_per_day
-  label: null
+  label: Field production (FPF), thousand barrels a day
   unit: kbbl/d
   rows: 7670
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Imports (IM0) in the month, thousand barrels
   unit: kbbl
   rows: 27007
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: imports_per_day
-  label: null
+  label: Imports (IM0), thousand barrels a day
   unit: kbbl/d
   rows: 27007
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_receipts
-  label: null
+  label: Net receipts from other PADDs (VNR) in the month, thousand barrels
   unit: kbbl
   rows: 24049
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_receipts_per_day
-  label: null
+  label: Net receipts from other PADDs (VNR), thousand barrels a day
   unit: kbbl/d
   rows: 24049
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: product_supplied
-  label: null
+  label: Product supplied, EIA's measure of consumption (VPP), in the month, thousand barrels
   unit: kbbl
   rows: 41005
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: product_supplied_per_day
-  label: null
+  label: Product supplied (VPP), thousand barrels a day
   unit: kbbl/d
   rows: 41283
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: refinery_net_input
-  label: null
+  label: Refinery net input (YIR) in the month, thousand barrels
   unit: kbbl
   rows: 16364
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: refinery_net_input_per_day
-  label: null
+  label: Refinery net input (YIR), thousand barrels a day
   unit: kbbl/d
   rows: 16372
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: refinery_net_production
-  label: null
+  label: Refinery net production (YPR) in the month, thousand barrels
   unit: kbbl
   rows: 29297
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: refinery_net_production_per_day
-  label: null
+  label: Refinery net production (YPR), thousand barrels a day
   unit: kbbl/d
   rows: 29297
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: renewable_plant_production
-  label: null
+  label: Renewable plant net production (YNP) in the month, thousand barrels
   unit: kbbl
   rows: 11738
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: renewable_plant_production_per_day
-  label: null
+  label: Renewable plant net production (YNP), thousand barrels a day
   unit: kbbl/d
   rows: 11738
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: stock_change
-  label: null
+  label: Stock change (SCG) in the month, thousand barrels
   unit: kbbl
   rows: 40054
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: stock_change_per_day
-  label: null
+  label: Stock change (SCG), thousand barrels a day
   unit: kbbl/d
   rows: 40054
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: supply_adjustment
-  label: null
+  label: EIA's supply adjustment (VUA) in the month, thousand barrels
   unit: kbbl
   rows: 14310
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: supply_adjustment_per_day
-  label: null
+  label: EIA's supply adjustment (VUA), thousand barrels a day
   unit: kbbl/d
   rows: 14310
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: transfers_to_crude_supply
-  label: null
+  label: Transfers to crude oil supply (TVP) in the month, thousand barrels
   unit: kbbl
   rows: 2856
   first: '2022-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: transfers_to_crude_supply_per_day
-  label: null
+  label: Transfers to crude oil supply (TVP), thousand barrels a day
   unit: kbbl/d
   rows: 2856
   first: '2022-01-01T00:00:00Z'

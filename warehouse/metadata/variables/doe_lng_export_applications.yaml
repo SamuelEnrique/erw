@@ -5,9 +5,10 @@
 table: doe_lng_export_applications
 family: doe
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One application to export natural gas (as LNG, CNG or CGL) in DOE's Summary of LNG Export Applications of the Lower 48
+  States, with its FTA and non-FTA parts.
+time: No time column; status_date is the summary's date (as of 30 September 2026).
+vintage_rule: A snapshot, written whole each run, so an application the Department drops leaves the table; no vintage column.
 keys:
 - entity_id
 license: public
@@ -33,6 +34,7 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: doe_lng:<docket>, the row's FTA docket, else its non-FTA docket
   type: text
   values:
     distinct: 135
@@ -45,6 +47,7 @@ columns:
   missing_cells: 0
 - name: entity_type
   shared: true
+  particular: Always project
   type: text
   values:
     list:
@@ -52,6 +55,7 @@ columns:
   missing_cells: 0
 - name: name
   shared: true
+  particular: The applicant as printed
   type: text
   values:
     distinct: 112
@@ -64,6 +68,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
@@ -88,6 +93,8 @@ columns:
   missing_cells: 135
 - name: status
   shared: true
+  particular: 'The ERW''s: active when either part is approved, planned when a part is under review or in abeyance and none
+    approved, withdrawn otherwise'
   type: text
   values:
     list:
@@ -97,6 +104,7 @@ columns:
   missing_cells: 0
 - name: status_date
   shared: true
+  particular: The summary's date
   type: date
   values:
     list:
@@ -116,8 +124,9 @@ columns:
       doe:lng_export_applications: 135
   missing_cells: 0
 - name: x_section
-  label: null
-  unit: null
+  label: 'Which of the summary''s three tables the row is in: lower48 (Lower-48 applications), canada_mexico (US gas exported
+    as LNG from Canada and Mexico) or small_scale'
+  unit: none
   type: text
   values:
     list:
@@ -125,12 +134,12 @@ columns:
       lower48: 100
       small_scale: 23
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method doe_lng_export_applications.md; connector doe_lng_exports.py
 - name: x_quantity_as_published
-  label: null
-  unit: null
+  label: The quantity cell's text as printed
+  unit: none
   type: text
   values:
     distinct: 100
@@ -141,36 +150,36 @@ columns:
     - '0.007'
     - 0.008 Bcf/d
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector doe_lng_exports.py
 - name: x_fta_bcfd
-  label: null
-  unit: null
+  label: The quantity applied for to export to free trade agreement (FTA) countries, billion cubic feet a day
+  unit: Bcf/d
   type: number
   values:
     distinct: 76
     lowest: 0.003
     highest: 5.13
   missing_cells: 12
-  missing_meaning: null
+  missing_meaning: The application has no FTA part
   source_name: null
-  documented_by: null
+  documented_by: header; method doe_lng_export_applications.md
 - name: x_non_fta_bcfd
-  label: null
-  unit: null
+  label: The quantity applied for to export to countries without a free trade agreement (non-FTA), billion cubic feet a day
+  unit: Bcf/d
   type: number
   values:
     distinct: 77
     lowest: 0.002
     highest: 5.13
   missing_cells: 20
-  missing_meaning: null
+  missing_meaning: The application has no non-FTA part
   source_name: null
-  documented_by: null
+  documented_by: header; method doe_lng_export_applications.md
 - name: x_fta_status
-  label: null
-  unit: null
+  label: The Department's status of the FTA part (Approved, Vacated, Under DOE Review, Withdrawn, Dismissed, n/a)
+  unit: none
   type: text
   values:
     list:
@@ -181,12 +190,12 @@ columns:
       Withdrawn: 2
       n/a: 9
   missing_cells: 3
-  missing_meaning: null
+  missing_meaning: The summary prints no status (3 rows)
   source_name: null
-  documented_by: null
+  documented_by: method doe_lng_export_applications.md; data
 - name: x_fta_docket
-  label: null
-  unit: null
+  label: The FTA part's DOE docket number
+  unit: none
   type: text
   values:
     distinct: 123
@@ -197,12 +206,13 @@ columns:
     - 11-127-LNG
     - 11-145-LNG
   missing_cells: 12
-  missing_meaning: null
+  missing_meaning: The application has no FTA docket
   source_name: null
-  documented_by: null
+  documented_by: connector doe_lng_exports.py; method doe_lng_export_applications.md
 - name: x_non_fta_status
-  label: null
-  unit: null
+  label: The Department's status of the non-FTA part (Approved, Approved (F), Under DOE Review, Withdrawn, Expired, Vacated,
+    Vacated (F), Dismissed, In Abeyance, n/a)
+  unit: none
   type: text
   values:
     list:
@@ -217,12 +227,12 @@ columns:
       Withdrawn: 13
       n/a: 19
   missing_cells: 1
-  missing_meaning: null
+  missing_meaning: The summary prints no status (1 row)
   source_name: null
-  documented_by: null
+  documented_by: method doe_lng_export_applications.md; connector doe_lng_exports.py; data
 - name: x_non_fta_docket
-  label: null
-  unit: null
+  label: The non-FTA part's DOE docket number
+  unit: none
   type: text
   values:
     distinct: 115
@@ -233,44 +243,44 @@ columns:
     - 11-141-LNG
     - 11-161-LNG
   missing_cells: 20
-  missing_meaning: null
+  missing_meaning: The application has no non-FTA docket
   source_name: null
-  documented_by: null
+  documented_by: connector doe_lng_exports.py
 - name: x_nepa_pending
-  label: null
-  unit: null
+  label: 'yes where the summary marks the application with its ''*'': waiting for its NEPA (environmental) review'
+  unit: none
   type: text
   values:
     list:
       'yes': 12
   missing_cells: 123
-  missing_meaning: null
+  missing_meaning: Not marked
   source_name: null
-  documented_by: null
+  documented_by: method doe_lng_export_applications.md; connector doe_lng_exports.py
 - name: x_footnotes
-  label: null
-  unit: null
+  label: The footnote markers printed beside the name, joined by ';'
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 135
-  missing_meaning: null
+  missing_meaning: 'Every row: in this edition every marker is 7-point text, which the reader drops'
   source_name: null
-  documented_by: null
+  documented_by: method doe_lng_export_applications.md; connector doe_lng_exports.py
 - name: x_as_of
-  label: null
-  unit: null
+  label: The date the summary is as of
+  unit: none
   type: date
   values:
     list:
       '2026-09-30': 135
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method doe_lng_export_applications.md
 - name: x_page
-  label: null
-  unit: null
+  label: The PDF page the row was read from
+  unit: none
   type: integer
   values:
     list:
@@ -284,9 +294,9 @@ columns:
       '5': 20
       '6': 13
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method doe_lng_export_applications.md
 - name: source_url
   shared: true
   type: text

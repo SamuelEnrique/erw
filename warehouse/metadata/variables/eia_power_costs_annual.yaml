@@ -5,9 +5,10 @@
 table: eia_power_costs_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's figure from EIA's Electric Power Annual chapter 8 (tables 8.1 to 8.4) for the U.S. (a heat rate, a line of
+  investor-owned utilities' revenue and expenses, or a plant type's operating expense).
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -35,6 +36,8 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_epa:heat_rate:<source>, eia_epa:tested_heat_rate:<prime mover>:<source>, eia_epa:iou_finance:<line path>,
+    or eia_epa:iou_plant_expense:<plant type>
   type: text
   values:
     distinct: 39
@@ -94,6 +97,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
@@ -101,12 +105,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 550
 - name: node
   shared: true
+  particular: EIA's row name
   type: text
   values:
     distinct: 48
@@ -144,49 +150,51 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 550
 variables:
 - name: amount
-  label: null
+  label: A line of investor-owned utilities' revenue and expenses, USD (table 8.3, EIA's million dollars times 1,000,000);
+    the lines are a hierarchy
   unit: USD
   rows: 231
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: fuel_expense
-  label: null
+  label: A plant type's fuel expense, USD per MWh (table 8.4)
   unit: USD/MWh
   rows: 33
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: heat_rate
-  label: null
+  label: Average operating heat rate of the source's plants (fuel burned per unit of electricity), MMBtu per MWh (table 8.1)
   unit: MMBtu/MWh
   rows: 44
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: maintenance_expense
-  label: null
+  label: A plant type's maintenance expense, USD per MWh (table 8.4)
   unit: USD/MWh
   rows: 44
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: operation_expense
-  label: null
+  label: A plant type's operation expense, USD per MWh (table 8.4, EIA's mills per kWh, the same number)
   unit: USD/MWh
   rows: 44
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: tested_heat_rate
-  label: null
+  label: Average tested heat rate by prime mover and energy source, MMBtu per MWh (table 8.2)
   unit: MMBtu/MWh
   rows: 110
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_expense
-  label: null
+  label: A plant type's total operating expense, USD per MWh (table 8.4)
   unit: USD/MWh
   rows: 44
   first: '2015-01-01T00:00:00Z'

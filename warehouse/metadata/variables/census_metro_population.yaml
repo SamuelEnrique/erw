@@ -5,9 +5,10 @@
 table: census_metro_population
 family: census
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One metropolitan statistical area's population, whole or its part in one state, at the 2020 estimates base or the estimate
+  of 1 July 2025.
+time: ts_utc is 2020-04-01 for population_base_2020 and 2025-07-01 for population_2025, at 00:00:00Z; freq empty.
+vintage_rule: Merged by key (entity, variable, ts_utc); vintage is the Bureau's vintage, 2025.
 keys:
 - entity
 - variable
@@ -35,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: census:cbsa:<code> for a whole area; census:cbsa:<code>:<state FIPS> for its part in one state
   type: text
   values:
     distinct: 825
@@ -76,6 +78,7 @@ columns:
   missing_cells: 0
 - name: freq
   shared: true
+  particular: Empty on every row (two single dates)
   type: empty
   values:
     note: no cell holds a value
@@ -95,6 +98,7 @@ columns:
   missing_cells: 1650
 - name: node
   shared: true
+  particular: The Bureau's name for the area, not a pricing node
   type: text
   values:
     distinct: 387
@@ -128,26 +132,27 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The Population Estimates vintage, 2025 (a year, not a UTC time)
   type: integer
   values:
     list:
       '2025': 1650
   missing_cells: 0
 - name: x_state
-  label: null
-  unit: null
+  label: The state's FIPS code of a part by state
+  unit: none
   type: integer
   values:
     distinct: 51
     lowest: 1
     highest: 56
   missing_cells: 774
-  missing_meaning: null
+  missing_meaning: Empty on a whole area's rows
   source_name: null
-  documented_by: null
+  documented_by: connector census_metro_population.py; method census_metro_population.md
 - name: x_counties
-  label: null
-  unit: null
+  label: How many of the area's counties lie in that state, as the file lists them (summed for the part)
+  unit: count
   type: integer
   values:
     list:
@@ -169,18 +174,18 @@ columns:
       '8': 12
       '9': 6
   missing_cells: 774
-  missing_meaning: null
+  missing_meaning: Empty on a whole area's rows
   source_name: null
-  documented_by: null
+  documented_by: header; connector census_metro_population.py
 variables:
 - name: population_2025
-  label: null
+  label: The Bureau's population estimate, 1 July 2025
   unit: count
   rows: 825
   first: '2025-07-01T00:00:00Z'
   last: '2025-07-01T00:00:00Z'
 - name: population_base_2020
-  label: null
+  label: The Bureau's estimates base population, 1 April 2020
   unit: count
   rows: 825
   first: '2020-04-01T00:00:00Z'

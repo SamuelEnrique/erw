@@ -36,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_epa_heat_rate:<coal|petroleum|natural_gas|nuclear>
   type: text
   values:
     list:
@@ -44,7 +45,6 @@ columns:
       eia_epa_heat_rate:nuclear: 11
       eia_epa_heat_rate:petroleum: 11
   missing_cells: 0
-  particular: eia_epa_heat_rate:<coal|petroleum|natural_gas|nuclear>
 - name: variable
   shared: true
   type: text
@@ -92,21 +92,22 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row
   type: text
   values:
     list:
       US: 44
   missing_cells: 0
-  particular: US on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 44
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: EIA's row name (fuel, average operating heat rate)
   type: text
   values:
     list:
@@ -115,7 +116,6 @@ columns:
       Nuclear, average operating heat rate: 11
       Petroleum, average operating heat rate: 11
   missing_cells: 0
-  particular: EIA's row name (fuel, average operating heat rate)
 - name: source
   shared: true
   type: text
@@ -139,12 +139,12 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time from EIA's server
   type: utc time
   values:
     list:
       '2026-10-19T22:54:36Z': 44
   missing_cells: 0
-  particular: The workbook's last-modified time from EIA's server
 variables:
 - name: heat_rate
   label: Average operating heat rate (fuel burned per unit of electricity), MMBtu per MWh (EIA's Btu per kWh over 1,000);

@@ -5,9 +5,9 @@
 table: friction_index_weekly
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One sector and place's value of one Friction Index measure (opposition in the news) in one week.
+time: ts_utc is the Monday 00:00Z of the week; weeks run Monday to Sunday, UTC; freq P1W.
+vintage_rule: Rewritten whole as one snapshot by each run of the index builder.
 keys:
 - entity
 - variable
@@ -31,6 +31,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: attention:<sector>:<geo>, the entities of attention_index_weekly
   type: text
   values:
     distinct: 184
@@ -83,6 +84,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US or US-<state> for those places; empty for the place all
   type: text
   values:
     distinct: 47
@@ -116,61 +118,63 @@ columns:
   missing_cells: 0
 variables:
 - name: friction_index
-  label: null
+  label: The cell's stories that report opposition, as a percent of the cell's stories
   unit: pct
   rows: 461
   first: '2026-10-05T00:00:00Z'
   last: '2026-11-02T00:00:00Z'
 - name: kind_lawsuit
-  label: null
+  label: The cell's stories whose main kind of opposition is a lawsuit or court challenge
   unit: count
   rows: 461
   first: '2026-10-05T00:00:00Z'
   last: '2026-11-02T00:00:00Z'
 - name: kind_moratorium
-  label: null
+  label: The cell's stories whose main kind of opposition is a moratorium or ban
   unit: count
   rows: 461
   first: '2026-10-05T00:00:00Z'
   last: '2026-11-02T00:00:00Z'
 - name: kind_other_opposition
-  label: null
+  label: The cell's stories whose main kind of opposition is another kind
   unit: count
   rows: 461
   first: '2026-10-05T00:00:00Z'
   last: '2026-11-02T00:00:00Z'
 - name: kind_permit_denied
-  label: null
+  label: The cell's stories whose main kind of opposition is a permit denied
   unit: count
   rows: 461
   first: '2026-10-05T00:00:00Z'
   last: '2026-11-02T00:00:00Z'
 - name: kind_political_opposition
-  label: null
+  label: The cell's stories whose main kind of opposition is political opposition
   unit: count
   rows: 461
   first: '2026-10-05T00:00:00Z'
   last: '2026-11-02T00:00:00Z'
 - name: kind_protest
-  label: null
+  label: The cell's stories whose main kind of opposition is a protest
   unit: count
   rows: 461
   first: '2026-10-05T00:00:00Z'
   last: '2026-11-02T00:00:00Z'
 - name: kind_rate_case
-  label: null
+  label: The cell's stories whose main kind of opposition is a rate-case fight
   unit: count
   rows: 461
   first: '2026-10-05T00:00:00Z'
   last: '2026-11-02T00:00:00Z'
 - name: opposition_events
-  label: null
+  label: Distinct news events behind the cell's opposition stories (a news cluster of the scorer counted once; a story clustered
+    with none counts as its own)
   unit: count
   rows: 461
   first: '2026-10-05T00:00:00Z'
   last: '2026-11-02T00:00:00Z'
 - name: opposition_stories
-  label: null
+  label: The cell's stories that report opposition (a moratorium or ban, a lawsuit, a protest, a permit denied, a rate-case
+    fight, political or other opposition)
   unit: count
   rows: 461
   first: '2026-10-05T00:00:00Z'

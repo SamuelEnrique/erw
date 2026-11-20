@@ -5,9 +5,11 @@
 table: large_load_connection_rules
 family: large
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One step that a grid operator's, regulator's or utility's document states for connecting a large load (who acts, what
+  the step is, and any time or size the step prints).
+time: event_date is a date (no time zone), the date the step prints, else the document's own date (x_date_kind says which).
+vintage_rule: Rewritten whole from the registry (warehouse/sources/large_load_connection_rules/, one file a document) by each
+  run; a held document's steps leave it.
 keys:
 - event_id
 license: public
@@ -32,6 +34,7 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: rule:<document>:<section>
   type: text
   values:
     distinct: 85
@@ -44,6 +47,7 @@ columns:
   missing_cells: 0
 - name: event_date
   shared: true
+  particular: The date the step prints, else the document's own date (x_date_kind)
   type: date
   values:
     list:
@@ -67,6 +71,7 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: Always connection_rule
   type: text
   values:
     list:
@@ -74,6 +79,7 @@ columns:
   missing_cells: 0
 - name: parties
   shared: true
+  particular: Who acts in the step
   type: text
   values:
     list:
@@ -110,6 +116,7 @@ columns:
   missing_cells: 85
 - name: mw
   shared: true
+  particular: A load size the step prints
   type: integer
   values:
     list:
@@ -133,6 +140,7 @@ columns:
   missing_cells: 85
 - name: status
   shared: true
+  particular: Always stated
   type: text
   values:
     list:
@@ -168,8 +176,8 @@ columns:
       https://www.puc.pa.gov/pcdocs/1929842.pdf: 8
   missing_cells: 0
 - name: x_body
-  label: null
-  unit: null
+  label: 'Who states the rule: the grid operator, regulator or legislature, as the registry names it'
+  unit: none
   type: text
   values:
     list:
@@ -184,12 +192,12 @@ columns:
       Southwest Power Pool (SPP), as the Federal Energy Regulatory Commission's order states its Tariff: 13
       Utah Legislature (Utah Code Title 54 Chapter 26, S.B. 132 of 2025): 8
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: body
+  documented_by: connector large_load_connection_rules.py; source warehouse/sources/large_load_connection_rules/README.md
 - name: x_grid
-  label: null
-  unit: null
+  label: The grid the rule applies in (ERCOT, PJM, CAISO, SPP, PACE)
+  unit: none
   type: text
   values:
     list:
@@ -199,34 +207,34 @@ columns:
       PJM: 22
       SPP: 13
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: grid
+  documented_by: source warehouse/sources/large_load_connection_rules/README.md; data
 - name: x_utility
-  label: null
-  unit: null
+  label: The utility, where the rule is a utility's
+  unit: none
   type: text
   values:
     list:
       PacifiCorp (Rocky Mountain Power): 13
   missing_cells: 72
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not a utility's rule (a grid operator's or regulator's)
+  source_name: utility
+  documented_by: source warehouse/sources/large_load_connection_rules/README.md
 - name: x_eia_id
-  label: null
-  unit: null
+  label: The utility's EIA utility id, where the rule is a utility's
+  unit: none
   type: integer
   values:
     list:
       '14354': 13
   missing_cells: 72
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not a utility's rule
+  source_name: eia_id
+  documented_by: source warehouse/sources/large_load_connection_rules/README.md
 - name: x_state
-  label: null
-  unit: null
+  label: The state, two-letter postal code
+  unit: none
   type: text
   values:
     list:
@@ -236,12 +244,12 @@ columns:
       TX: 27
       UT: 13
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: state
+  documented_by: source warehouse/sources/large_load_connection_rules/README.md
 - name: x_document
-  label: null
-  unit: null
+  label: The document the step is read in, by name and status
+  unit: none
   type: text
   values:
     list:
@@ -276,12 +284,12 @@ columns:
       : 5
       Utah S.B. 132, Electric Utility Amendments, 2025 General Session, enrolled copy (Utah Code 54-26-101 to 54-26-901): 8
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: document
+  documented_by: source warehouse/sources/large_load_connection_rules/README.md
 - name: x_document_date
-  label: null
-  unit: null
+  label: The document's own date
+  unit: none
   type: date
   values:
     list:
@@ -299,12 +307,12 @@ columns:
       '2026-10-09': 2
       '2026-10-28': 3
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: document_date
+  documented_by: source warehouse/sources/large_load_connection_rules/README.md
 - name: x_section
-  label: null
-  unit: null
+  label: The section of the document the step is printed in
+  unit: none
   type: text
   values:
     distinct: 85
@@ -315,12 +323,12 @@ columns:
     - 54-26-202(1)(c)
     - 54-26-202(2)
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: section
+  documented_by: header; method large_load_connection_rules.md
 - name: x_page
-  label: null
-  unit: null
+  label: The PDF's page the step is printed on
+  unit: none
   type: integer
   values:
     list:
@@ -350,12 +358,12 @@ columns:
       '8': 3
       '9': 5
   missing_cells: 22
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The document has no pages (a web page or a Word file)
+  source_name: page
+  documented_by: header; method large_load_connection_rules.md
 - name: x_step
-  label: null
-  unit: null
+  label: What the step is, in short words
+  unit: none
   type: text
   values:
     distinct: 85
@@ -367,12 +375,12 @@ columns:
       within 30 days
     - PJM takes at most ten EIT applications a year
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: step
+  documented_by: method large_load_connection_rules.md
 - name: x_duration
-  label: null
-  unit: null
+  label: The number of the step's time limit as the document prints it (never summed, business days never converted)
+  unit: x_duration_unit
   type: number
   values:
     list:
@@ -397,12 +405,12 @@ columns:
       '7': 1
       '90': 7
   missing_cells: 31
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The step states no duration
+  source_name: duration
+  documented_by: header; method large_load_connection_rules.md
 - name: x_duration_unit
-  label: null
-  unit: null
+  label: 'The unit of x_duration as printed: business days, calendar days, days, months or years'
+  unit: none
   type: text
   values:
     list:
@@ -412,24 +420,24 @@ columns:
       months: 9
       years: 5
   missing_cells: 31
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The step states no duration
+  source_name: unit
+  documented_by: header; method large_load_connection_rules.md
 - name: x_date_kind
-  label: null
-  unit: null
+  label: 'What event_date is: ''stated date'' (a date the step prints) or ''document date'''
+  unit: none
   type: text
   values:
     list:
       document date: 78
       stated date: 7
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_connection_rules.py
 - name: x_printed
-  label: null
-  unit: null
+  label: The words the step is printed in
+  unit: none
   type: text
   values:
     distinct: 85
@@ -442,12 +450,12 @@ columns:
     - A Large Load Customer's Initial Contract Term should be made for a period of not less than five (5) years.
     - A modification of any existing Load Facility that increases the aggregate peak Demand of the Facility by 75 MW or more
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: printed
+  documented_by: header; method large_load_connection_rules.md
 - name: x_retrieved_at
-  label: null
-  unit: null
+  label: When the document was read, UTC
+  unit: none
   type: utc time
   values:
     list:
@@ -465,7 +473,7 @@ columns:
       '2026-11-13T10:36:06Z': 4
       '2026-11-14T09:04:27Z': 3
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: retrieved_at
+  documented_by: connector large_load_connection_rules.py
 second_look: null

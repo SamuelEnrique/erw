@@ -5,9 +5,10 @@
 table: bpa_ba_hourly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One hour's value of the BPA balancing authority's load, generation by type or net interchange, the hour's mean of BPA's
+  five-minute values.
+time: ts_utc is the hour's start (UTC); freq PT1H; files before 2022 in Pacific local time, put into UTC.
+vintage_rule: Rewritten whole as one snapshot by each run from BPA's yearly workbooks; vintage is each workbook's Last-Modified.
 keys:
 - entity
 - variable
@@ -35,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: bpa:bpat on every row
   type: text
   values:
     list:
@@ -78,18 +80,21 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: 'Not filled: the area spans states'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 400261
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 400261
 - name: node
   shared: true
+  particular: BPA balancing authority on every row, not a pricing node
   type: text
   values:
     list:
@@ -130,6 +135,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The year's workbook's Last-Modified (UTC)
   type: utc time
   values:
     list:
@@ -143,14 +149,15 @@ columns:
   missing_cells: 0
 - name: ba
   shared: true
+  particular: bpat on every row
   type: text
   values:
     list:
       bpat: 400261
   missing_cells: 0
 - name: x_intervals
-  label: null
-  unit: null
+  label: How many five-minute values the hour holds (12 in a full hour)
+  unit: count
   type: integer
   values:
     list:
@@ -161,60 +168,60 @@ columns:
       '5': 4
       '7': 7
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector bpa_ba.py; method bpa_ba_hourly.md
 - name: x_format
-  label: null
-  unit: null
+  label: 'The file''s format: new (BPA''s UTC column, 2022 on) or old (Pacific local time, 2021 and before)'
+  unit: none
   type: text
   values:
     list:
       new: 294997
       old: 105264
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector bpa_ba.py
 variables:
 - name: hydro_generation
-  label: null
+  label: Hydro generation
   unit: MW
   rows: 59686
   first: '2020-01-01T08:00:00Z'
   last: '2026-10-23T06:00:00Z'
 - name: load
-  label: null
+  label: The balancing authority's load
   unit: MW
   rows: 59687
   first: '2020-01-01T08:00:00Z'
   last: '2026-10-23T06:00:00Z'
 - name: net_interchange
-  label: null
+  label: Net interchange, positive an export
   unit: MW
   rows: 59687
   first: '2020-01-01T08:00:00Z'
   last: '2026-10-23T06:00:00Z'
 - name: nuclear_generation
-  label: null
+  label: Nuclear generation
   unit: MW
   rows: 59687
   first: '2020-01-01T08:00:00Z'
   last: '2026-10-23T06:00:00Z'
 - name: solar_generation
-  label: null
+  label: Solar generation (2022 on)
   unit: MW
   rows: 42142
   first: '2022-01-01T08:00:00Z'
   last: '2026-10-23T06:00:00Z'
 - name: thermal_generation
-  label: null
+  label: Thermal generation (BPA's fossil and biomass)
   unit: MW
   rows: 59686
   first: '2020-01-01T08:00:00Z'
   last: '2026-10-23T06:00:00Z'
 - name: wind_generation
-  label: null
+  label: Wind generation
   unit: MW
   rows: 59686
   first: '2020-01-01T08:00:00Z'

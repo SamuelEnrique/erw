@@ -5,9 +5,11 @@
 table: eia930_all_interchange
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One directed pair's hourly interchange as the reporting party filed it, for every pair EIA reports (balancing authorities,
+  EIA's regions and the Lower 48, and neighbours abroad).
+time: ts_utc is the hour's start, UTC.
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a run''s rows replace earlier rows with the same key, earlier rows
+  are kept; a pair-day with any hour missing is not written. vintage is not filled.'
 keys:
 - entity
 - variable
@@ -34,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia930:<FROM>-<TO>, FROM the reporting party
   type: text
   values:
     distinct: 348
@@ -133,6 +136,7 @@ columns:
   missing_cells: 442992
 - name: ba
   shared: true
+  particular: The reporting party (FROM), lowercase
   type: text
   values:
     distinct: 74
@@ -144,8 +148,8 @@ columns:
     - banc
   missing_cells: 0
 - name: x_to_ba
-  label: null
-  unit: null
+  label: The neighbour (TO) the reporting party reports its interchange with, EIA-930 code in lowercase
+  unit: none
   type: text
   values:
     distinct: 85
@@ -156,12 +160,13 @@ columns:
     - avrn
     - azps
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_all_interchange.md
 variables:
 - name: interchange_mw
-  label: null
+  label: 'Interchange with the neighbour, the hour''s mean MW as EIA publishes it: positive when the reporting party exports
+    to the neighbour'
   unit: MW
   rows: 442992
   first: '2026-09-13T00:00:00Z'

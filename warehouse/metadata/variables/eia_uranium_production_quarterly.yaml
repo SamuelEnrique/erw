@@ -5,9 +5,10 @@
 table: eia_uranium_production_quarterly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One U.S. facility's (or EIA's total) uranium concentrate production in one quarter, or the number of facilities of one
+  kind producing at the end of a year or the latest quarter.
+time: ts_utc is the quarter's first day (freq P3M) or the year's 1 January (freq P1Y, a count at the year's end), at 00:00:00Z.
+vintage_rule: Rewritten whole by each run (write_snapshot); vintage is the workbook's last-modified time.
 keys:
 - entity
 - variable
@@ -17,7 +18,7 @@ tier: source
 interval: P1Y;P3M
 source:
 - name: 'eia:uranium_production_quarterly U.S. Energy Information Administration, Domestic Uranium Production Report (Quarterly),
-    Forms EIA-851Q and EIA-851A,  (Release Date: August 2026)'
+    Forms EIA-851Q and EIA-851A, https://www.eia.gov/uranium/production/quarterly/ (Release Date: August 2026)'
   url: https://www.eia.gov/uranium/production/quarterly/
 cite: U.S. Energy Information Administration (EIA). Domestic Uranium Production Report (Quarterly). Via the Energy Research
   Warehouse (ERW), table `eia_uranium_production_quarterly`.
@@ -35,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eia_u3o8:<facility> (eia_u3o8:total EIA's total) for production; eia_uranium_facilities:<kind> for counts
   type: text
   values:
     list:
@@ -93,6 +95,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> for a facility in one state, US for the totals
   type: text
   values:
     list:
@@ -104,12 +107,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 171
 - name: node
   shared: true
+  particular: The facility, or the kind of facility and the period, as EIA writes it
   type: text
   values:
     distinct: 144
@@ -144,6 +149,7 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's last-modified time from EIA's server
   type: utc time
   values:
     list:
@@ -151,8 +157,8 @@ columns:
       '2026-08-13T19:09:04Z': 135
   missing_cells: 0
 - name: x_facility
-  label: null
-  unit: null
+  label: The facility's name as EIA writes it (Table 1)
+  unit: none
   type: text
   values:
     list:
@@ -166,12 +172,12 @@ columns:
       White Mesa Mill: 4
       Willow Creek Project (Ludeman, Christensen Ranch And Irigaray): 4
   missing_cells: 135
-  missing_meaning: null
+  missing_meaning: A facility-count row (Table 2)
   source_name: null
-  documented_by: null
+  documented_by: connector eia_uranium_production.py; method eia_uranium_production.md
 - name: x_location
-  label: null
-  unit: null
+  label: The facility's county and state as EIA writes them
+  unit: none
   type: text
   values:
     list:
@@ -184,18 +190,18 @@ columns:
       San Juan, Utah: 4
       Sweetwater, Wyoming: 5
   missing_cells: 140
-  missing_meaning: null
+  missing_meaning: A facility-count row, or EIA's total row
   source_name: null
-  documented_by: null
+  documented_by: connector eia_uranium_production.py; method eia_uranium_production.md
 variables:
 - name: facilities_producing
-  label: null
+  label: Number of facilities of the kind producing uranium concentrate at the end of the period
   unit: count
   rows: 135
   first: '2000-01-01T00:00:00Z'
   last: '2026-04-01T00:00:00Z'
 - name: production
-  label: null
+  label: Uranium concentrate produced in the quarter, pounds of U3O8
   unit: lb
   rows: 36
   first: '2025-04-01T00:00:00Z'

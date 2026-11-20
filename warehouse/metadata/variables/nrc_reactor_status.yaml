@@ -5,9 +5,10 @@
 table: nrc_reactor_status
 family: nrc
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One US power reactor's power level on one day, as the NRC's Power Reactor Status Report gives it.
+time: ts_utc is the report date at 00:00:00Z (a date, not an instant); the power is the reactor's on that report's morning.
+vintage_rule: Merged on (entity, variable, ts_utc) by each run, so a day the NRC restates replaces the old row and earlier
+  years stay; the 365-day file wins over a yearly file within a run. vintage is not filled.
 keys:
 - entity
 - variable
@@ -32,6 +33,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: nrc:<unit name lower-cased, other characters as one underscore>
   type: text
   values:
     distinct: 99
@@ -80,6 +82,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always US
   type: text
   values:
     list:
@@ -87,12 +90,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 237570
 - name: node
   shared: true
+  particular: The NRC's unit name as written, not a pricing node
   type: text
   values:
     distinct: 99
@@ -133,13 +138,14 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 237570
 variables:
 - name: power_pct
-  label: null
+  label: The reactor's power as a percent of its licensed power on the morning of the report (whole numbers, 0 to 100)
   unit: pct
   rows: 237570
   first: '2020-01-01T00:00:00Z'

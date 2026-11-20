@@ -5,9 +5,10 @@
 table: hub_price_comparison
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One public hub or zone's value of one price measure, day-ahead or real time, over the last twelve months (freq P1Y) or
+  the last whole month (P1M), or its grid's carbon intensity over the same window.
+time: ts_utc is the window's first day in the grid's local time; P1Y the twelve months from it, P1M its month.
+vintage_rule: Rewritten whole by each run (the windows move with the last whole month); vintage is not filled.
 keys:
 - entity
 - variable
@@ -36,6 +37,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <iso>:<node>, every public hub and zone price held (MISO and PJM not included)
   type: text
   values:
     distinct: 39
@@ -99,6 +101,7 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: the market is in the variable''s prefix (dam or rtm)'
   type: empty
   values:
     note: no cell holds a value
@@ -138,115 +141,116 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 880
 variables:
 - name: dam_above_200_hours_share_pct
-  label: null
+  label: 'Day-ahead: share of the window''s hours with a price above USD 200 per MWh'
   unit: pct
   rows: 58
   first: '2025-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: dam_avg_price
-  label: null
+  label: 'Day-ahead: mean of the window''s hourly prices'
   unit: USD/MWh
   rows: 58
   first: '2025-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: dam_daily_spread_days
-  label: null
+  label: 'Day-ahead: the whole local days behind the mean daily spread'
   unit: count
   rows: 58
   first: '2025-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: dam_daily_spread_mean_top4_bottom4
-  label: null
+  label: 'Day-ahead: mean over the window''s whole local days of each day''s four dearest hours less its four cheapest'
   unit: USD/MWh
   rows: 58
   first: '2025-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: dam_day_spread_top4_bottom4
-  label: null
+  label: 'Day-ahead: on the window''s average day, the mean of its four dearest hours less the mean of its four cheapest'
   unit: USD/MWh
   rows: 58
   first: '2025-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: dam_hours_held
-  label: null
+  label: 'Day-ahead: hours of the window with a price held'
   unit: count
   rows: 58
   first: '2025-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: dam_hours_in_window
-  label: null
+  label: 'Day-ahead: hours in the window'
   unit: count
   rows: 58
   first: '2025-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: dam_negative_hours_share_pct
-  label: null
+  label: 'Day-ahead: share of the window''s hours with a price below zero'
   unit: pct
   rows: 58
   first: '2025-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: grid_carbon_days_held
-  label: null
+  label: Days of the window with the grid's daily carbon intensity held
   unit: count
   rows: 58
   first: '2025-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: grid_carbon_intensity
-  label: null
+  label: Mean of the grid's daily carbon intensities of generation held in the window
   unit: kgCO2/MWh
   rows: 54
   first: '2025-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: rtm_above_200_hours_share_pct
-  label: null
+  label: 'Real time: share of the window''s hours with a price above USD 200 per MWh'
   unit: pct
   rows: 38
   first: '2025-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: rtm_avg_price
-  label: null
+  label: 'Real time: mean of the window''s hourly prices'
   unit: USD/MWh
   rows: 38
   first: '2025-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: rtm_daily_spread_days
-  label: null
+  label: 'Real time: the whole local days behind the mean daily spread'
   unit: count
   rows: 38
   first: '2025-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: rtm_daily_spread_mean_top4_bottom4
-  label: null
+  label: 'Real time: mean over the window''s whole local days of each day''s four dearest hours less its four cheapest'
   unit: USD/MWh
   rows: 38
   first: '2025-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: rtm_day_spread_top4_bottom4
-  label: null
+  label: 'Real time: on the window''s average day, the mean of its four dearest hours less the mean of its four cheapest'
   unit: USD/MWh
   rows: 38
   first: '2025-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: rtm_hours_held
-  label: null
+  label: 'Real time: hours of the window with a price held'
   unit: count
   rows: 38
   first: '2025-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: rtm_hours_in_window
-  label: null
+  label: 'Real time: hours in the window'
   unit: count
   rows: 38
   first: '2025-11-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: rtm_negative_hours_share_pct
-  label: null
+  label: 'Real time: share of the window''s hours with a price below zero'
   unit: pct
   rows: 38
   first: '2025-11-01T00:00:00Z'

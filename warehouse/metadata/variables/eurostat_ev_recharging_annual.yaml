@@ -5,9 +5,9 @@
 table: eurostat_ev_recharging_annual
 family: eurostat
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One European country's count or power output of electric vehicle recharging infrastructure of one kind in one year.
+time: ts_utc is the year's 1 January at 00:00:00Z, a label for the calendar year (freq P1Y).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised figure replaces the old; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -34,6 +34,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: eurostat_ev_recharging:<geo>
   type: text
   values:
     distinct: 33
@@ -88,6 +89,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2
   type: text
   values:
     distinct: 33
@@ -106,6 +108,7 @@ columns:
   missing_cells: 465
 - name: node
   shared: true
+  particular: <geo> <the infrastructure's name>, <number or power output>, not a pricing node
   type: text
   values:
     distinct: 119
@@ -144,8 +147,8 @@ columns:
     note: no cell holds a value
   missing_cells: 465
 - name: x_geo_code
-  label: null
-  unit: null
+  label: Eurostat's geo code of the country
+  unit: none
   type: text
   values:
     distinct: 33
@@ -156,12 +159,13 @@ columns:
     - CH
     - CY
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eurostat_ev_recharging_annual.md
 - name: x_tra_infr
-  label: null
-  unit: null
+  label: 'Eurostat''s TRA_INFR code: RCHRG_PNT recharging point, RCHRG_STN station, RCHRG_POOL pool, RCHRG_POOL_HVY heavy-duty
+    pool'
+  unit: none
   type: text
   values:
     list:
@@ -170,78 +174,79 @@ columns:
       RCHRG_POOL_HVY: 56
       RCHRG_STN: 91
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; data
 - name: x_unit
-  label: null
-  unit: null
+  label: 'Eurostat''s unit code of the figure: NR a number, KW power output'
+  unit: none
   type: text
   values:
     list:
       KW: 109
       NR: 356
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; data
 - name: x_flag
-  label: null
-  unit: null
+  label: 'Eurostat''s flag of the observation: b break in series; i (see Eurostat''s metadata)'
+  unit: none
   type: text
   values:
     list:
       b: 1
       i: 36
   missing_cells: 428
-  missing_meaning: null
+  missing_meaning: No flag on the observation
   source_name: null
-  documented_by: null
+  documented_by: method eurostat_ev_recharging_annual.md; method eurostat_electricity_monthly.md
 - name: x_conf_status
-  label: null
-  unit: null
+  label: Eurostat's confidentiality status of the observation
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 465
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value'
   source_name: null
-  documented_by: null
+  documented_by: method eurostat_ev_recharging_annual.md
 variables:
 - name: heavy_duty_pools
-  label: null
+  label: Recharging pools for heavy-duty vehicles
   unit: count
   rows: 27
   first: '2019-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: heavy_duty_pools_power
-  label: null
+  label: Power output of the heavy-duty recharging pools, MW (Eurostat's kW divided by 1,000)
   unit: MW
   rows: 29
   first: '2019-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: recharging_points
-  label: null
+  label: Recharging points for electric vehicles
   unit: count
   rows: 157
   first: '2019-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: recharging_pools
-  label: null
+  label: Recharging pools
   unit: count
   rows: 81
   first: '2019-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: recharging_pools_power
-  label: null
+  label: Power output of the recharging pools, MW (Eurostat's kW divided by 1,000)
   unit: MW
   rows: 80
   first: '2019-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: recharging_stations
-  label: null
+  label: Recharging stations
   unit: count
   rows: 91
   first: '2019-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
-second_look: null
+second_look:
+- 'x_flag: the meaning of Eurostat''s flag i is not written in the repository (the method note says to see Eurostat''s metadata)'

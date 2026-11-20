@@ -5,9 +5,13 @@
 table: lbnl_wind_costs
 family: lbnl
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: 'One wind cost measure for one year from Berkeley Lab''s Land-Based Wind Energy Technology Data Update, 2026 Edition:
+  a turbine maker''s or LBNL''s average turbine price, or the installed cost or levelized cost of the projects of a commercial
+  operation year.'
+time: ts_utc is 1 January of the year (a year, not an instant); freq P1Y. For capex and lcoe the year is the projects' commercial
+  operation year; for maker turbine prices it is from LBNL's mid-year dates.
+vintage_rule: Rewritten whole by each run from the data file lbnl_ppa_prices.py saves; one edition. vintage is the data file's
+  time (UTC).
 keys:
 - entity
 - variable
@@ -35,6 +39,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: lbnl_wind_cost:<turbine_price|capex|lcoe>:<vestas|sgre|nordex|lbnl|us>
   type: text
   values:
     list:
@@ -84,6 +89,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US; empty on the makers' global average turbine prices (40 rows)
   type: text
   values:
     list:
@@ -91,12 +97,15 @@ columns:
   missing_cells: 40
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 119
 - name: node
   shared: true
+  particular: 'Not a pricing node: the sheet''s block heading for turbine prices (as ''Vestas global average'', ''Average
+    Turbine Price''), else ''projects of COD <year>'''
   type: text
   values:
     distinct: 35
@@ -131,61 +140,63 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The data file's time, UTC
   type: utc time
   values:
     list:
       '2026-08-31T00:14:36Z': 119
   missing_cells: 0
 - name: x_sample
-  label: null
-  unit: null
+  label: The number of projects in the year's sample
+  unit: count
   type: integer
   values:
     distinct: 31
     lowest: 4
     highest: 131
   missing_cells: 60
-  missing_meaning: null
+  missing_meaning: Empty on turbine price rows
   source_name: null
-  documented_by: null
+  documented_by: header; method lbnl_projects.md; connector lbnl_wind_costs.py
 - name: x_sample_mw
-  label: null
-  unit: null
+  label: The capacity of the LCOE sample's projects
+  unit: MW
   type: number
   values:
     distinct: 28
     lowest: 46.67
     highest: 17184.1
   missing_cells: 91
-  missing_meaning: null
+  missing_meaning: Empty on turbine price and capex rows (LCOE only)
   source_name: null
-  documented_by: null
+  documented_by: header; method lbnl_projects.md; connector lbnl_wind_costs.py
 - name: x_dollar_year
-  label: null
-  unit: null
+  label: The year of the real dollars the values are in
+  unit: none
   type: integer
   values:
     list:
       '2025': 119
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector lbnl_wind_costs.py
 variables:
 - name: capex
-  label: null
+  label: The capacity-weighted installed project cost of the commercial operation year's projects, real 2025 USD per kW
   unit: USD/kW
   rows: 31
   first: '1983-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: lcoe
-  label: null
+  label: The generation-weighted levelized cost of energy of the commercial operation year's projects, real 2025 USD per MWh
   unit: USD/MWh
   rows: 28
   first: '1998-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: turbine_price
-  label: null
+  label: 'The wind turbine price in real 2025 USD per kW: a maker''s global average (Vestas, SGRE, Nordex) at LBNL''s mid-year
+    dates, or LBNL''s US average a year'
   unit: USD/kW
   rows: 60
   first: '2005-06-30T00:00:00Z'

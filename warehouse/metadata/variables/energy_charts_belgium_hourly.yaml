@@ -5,9 +5,11 @@
 table: energy_charts_belgium_hourly
 family: energy
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One hour's mean power of one of Belgium's public net production types, its load, residual load or cross-border trading,
+  as Energy-Charts (Fraunhofer ISE) gives it.
+time: ts_utc is the start of the hour, UTC; freq PT1H. The first hour is 23:00 UTC on 31 December 2019 (Belgian 1 January
+  2020).
+vintage_rule: Rewritten whole by each run, every year asked again; vintage is empty (the API sends no Last-Modified).
 keys:
 - entity
 - variable
@@ -34,6 +36,7 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: energy_charts:be:<type>, Energy-Charts' name as a slug
   type: text
   values:
     list:
@@ -92,6 +95,7 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Always BE (an ISO 3166-1 country code)
   type: text
   values:
     list:
@@ -99,12 +103,14 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 908600
 - name: node
   shared: true
+  particular: '''Belgium: <Energy-Charts'' name>'', not a pricing node'
   type: text
   values:
     list:
@@ -160,13 +166,15 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: the API sends no Last-Modified'
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 908600
 - name: x_type
-  label: null
-  unit: null
+  label: Energy-Charts' name of the production type or measure (Biomass, Fossil gas, Nuclear, Load, Residual load, Cross border
+    electricity trading and the others)
+  unit: none
   type: text
   values:
     list:
@@ -187,30 +195,31 @@ columns:
       Wind offshore: 59711
       Wind onshore: 59711
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method energy_charts_belgium_hourly.md; connector energy_charts_belgium.py
 variables:
 - name: cross_border_trading
-  label: null
+  label: The hour's mean net cross-border trading, MW; positive is a net import
   unit: MW
   rows: 59711
   first: '2019-12-31T23:00:00Z'
   last: '2026-10-23T21:00:00Z'
 - name: load
-  label: null
+  label: The hour's mean load (electricity demand), MW
   unit: MW
   rows: 59711
   first: '2019-12-31T23:00:00Z'
   last: '2026-10-23T21:00:00Z'
 - name: public_net_power
-  label: null
+  label: The hour's mean public net production of the entity's production type, MW (pumped storage consumption negative, as
+    given)
   unit: MW
   rows: 729467
   first: '2019-12-31T23:00:00Z'
   last: '2026-10-23T21:00:00Z'
 - name: residual_load
-  label: null
+  label: 'The hour''s mean residual load: load less solar, offshore and onshore wind, MW'
   unit: MW
   rows: 59711
   first: '2019-12-31T23:00:00Z'
