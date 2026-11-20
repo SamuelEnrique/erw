@@ -1,6 +1,6 @@
 # Session 9871: the five least-tested pages read as a reader (chain 610, part E)
 
-Energy Research Warehouse (ERW). 20 November 2026, 20:44 to 20:58 UTC. The desktop's third window.
+Energy Research Warehouse (ERW). 20 November 2026, 20:41 to 20:50 UTC. The desktop's third window.
 
 ## What was done
 
