@@ -19,7 +19,7 @@ Energy Research Warehouse (ERW). 20 November 2026, lab-desktop, the fourth Claud
 ## Decisions made without you
 
 - Every draft of the sheet was drawn again even where nothing was found, so that the forty read as one set; a row says when the picture came out the same.
-- A label with no clear place is placed where it crosses least and the render says so; none of the drawn charts needed that.
+- A marked figure with no clear place beside its point goes to the nearest clear place with a thin cardinal leader to the point (the COVID-19 Tennessee chart, the one such case so far); any other label with no clear place is placed where it crosses least and the render says so.
 - The pictures inside each Supabase row and the 1080 px squares keep the old drawing: no write to Supabase was made (writes are refused, and none was asked).
 - Part 3 starts with the 33 of the sheet not in part 1, then the rest by strength; a row of part 3 is a picture drawn again with its faults listed.
 
@@ -33,7 +33,7 @@ Energy Research Warehouse (ERW). 20 November 2026, lab-desktop, the fourth Claud
 
 | Push | Before | After | Differences |
 |---|---|---|---|
-| Every push of images, b01 to b19 so far (rows 1 to 190 of the review) | `s9820-bNN-before` | `s9820-bNN-after` | 0 in all, each push (expected) |
+| Every push of images, b01 to b30 so far (rows 1 to 300 of the review) | `s9820-bNN-before` | `s9820-bNN-after` | 0 in all, each push (expected) |
 
 ## Needs the key
 
