@@ -410,6 +410,30 @@ The old laptop's section (chain 503), read on production on 20 November between 
 
 Pictures: `docs/reviews/browser-read-2026-11-20/supply-country/as-it-opens-1280.png` (the page as it opens); `the-whole-country-1280.png` (the section, Tennessee and its neighbours); `who-trades-with-whom-1280.png` (the pairs of regions for 2025); `tennessee-beside-midwest-1280.png` (after choosing Tennessee beside the Midwest).
 
+## 20. `/events` and `/events/<event>#whole-country`: the thirteen regions across each event (read in full by the desktop's second window)
+
+The old laptop's section (chain 503), read on production on 20 November between 21:05 and 21:40 UTC by the desktop's second window (session 9203). Scripts: `runs/c620w2/dump.mjs`, `runs/c620w2/cmp_events.py` (from `site/data/regions/events/<event>.json`, without the page's code; `RULE=page` follows the page's own counting, `RULE=both` the section's stated rule), `runs/c620w2/hand.mjs`. Four events were read in full: Elliott as it opens, Uri with Texas beside Central, the June 2025 heat with the Mid-Atlantic beside New York, COVID-19 with California beside the Northwest. The old laptop's last fixes to this section (session 8470, eleven commits: among them the hours a region's percent rests on, said on hover) are still not on main.
+
+**Five cases.**
+1. *A grid operator in the Carolinas.* How far above normal did Elliott push demand? "Each region across the event": the Carolinas 8,542.5 GWh over the window, +29.3 percent on the baseline, the highest hour 44,630 MW at 2022-12-24 11:00 UTC against 26,915 MW in the baseline that hour. Answered.
+2. *A Tennessee planner.* Who sent Tennessee power during Elliott? "Power between regions, pair by pair": the Midwest to Tennessee, 3,407 MW on average and 909.7 GWh over the window, against 1,220 MW in the baseline. Answered.
+3. *A Texas analyst.* Did Texas import during Uri? Texas beside Central: each region's demand, net imports and generation by source over the window, the event against its baseline. Answered.
+4. *A California utility.* What did COVID-19 do to California and the Northwest? California beside the Northwest over 2,210 hours: demand against the baseline, the two regions' charts one beside the other. Answered.
+5. *A student.* Which regions did a storm reach? The sentence over the table counts the regions whose demand stood 5 percent or more from the baseline, with the list on hover. Answered.
+
+**Figures.** Every figure of "Each region across the event" (13 regions) and of "Power between regions, pair by pair" (25 pairs) for the four events: **912 figures, all agree with the file as the page counts them.** Set beside the rule the section itself states, 12 differ (row 1).
+
+**What answers to the hand.** The keyboard alone at 1280 px: 101 stops from the top to the foot, each in sight with a focus mark. A finger at 390 px on 15 charts, four places each: a card on every one; 390 px wide throughout. A link carrying two regions opened fresh reads them; the back button after two choices gives the first choice with lists true. No error.
+
+**Quiet faults.** None. 1.8 to 2.9 s to load at 1280 px.
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| 1 | "Power between regions, pair by pair", set beside "How a figure here is formed" ("Each figure is a sum or a mean over the hours of the window that the file holds for both the event and the baseline") | A pair's mean and sum run over the hours its flow is held, and its baseline mean over the baseline's own hours (`pairs()` in `site/lib/countryfiles.ts`). Elliott, Central and Canada: 17 MW over 267 hours against a baseline over 219; over the hours both hold the mean is 10 MW and the sum 2.2 GWh, not 4.5. COVID-19, the Midwest to Central: 3,892 MW over 2,209 hours, 3,897 over the 2,207 both hold. 10 of the 224 pairs drawn over the nine events rest on different hours | The table and its note agree, and a pair's event and baseline means rest on the same hours, as the regions' figures do. Which way (the note's words, or the pair's hours) is a choice of method on the old laptop's page, whose pending branch `wip/8440-events-regions-done` changes the same lines and keeps this rule | ruling |
+| 2 | "Each region across the event", COVID-19, Florida | "Hours held 2,187 of 2,210" beside a demand summed over the 1,790 hours the event and the baseline both hold. The column says what it counts ("the hours ... for which the file holds the region's demand"), and the demand's hover says it is over the hours both hold | A reader takes the figure to rest on 2,187 hours. The old laptop's session 8470 (not on main) names the hours a region's percent rests on in the hover | noted |
+
+Pictures: `docs/reviews/browser-read-2026-11-20/events-country/events-index-1280.png` (the list of events); `elliott-as-it-opens-1280.png` (Elliott's page as it opens); `elliott-the-whole-country-1280.png` (the section, Tennessee and the Carolinas); `elliott-each-region-1280.png` (the thirteen regions across the storm); `elliott-pairs-1280.png` (the pairs of regions); `uri-texas-beside-central-1280.png` (Uri, after choosing Texas beside Central).
+
 ## Part C: the same number in two places
 
 Each pair read on production on 20 November between 11:40 and 11:50 UTC (`runs/c620/survey.mjs` into `runs/c620/c1/`, and the page files).
