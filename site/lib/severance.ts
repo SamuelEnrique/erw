@@ -52,6 +52,27 @@ export type Result = {
   fees: { id: string; name: string; amount: number; cite: string }[];
 };
 
+/** Ruling alternative 1 of /severance (session 7702, branch wip/alt-severance-1; not a default on main): the mean of
+ * each calendar month of an EIA daily spot series, rounded to the cent as the calculator's default price is rounded
+ * (lib/leaseprices.ts latestMonthMean), so that the price box can take the report period's own month. */
+export type PeriodMeans = Record<string, { value: number; n: number }>;
+export function periodMeans(rows: { ts_utc: string; value: number }[]): PeriodMeans {
+  const by = new Map<string, number[]>();
+  for (const r of rows) {
+    const m = r.ts_utc.slice(0, 7);
+    if (!by.has(m)) by.set(m, []);
+    by.get(m)!.push(r.value);
+  }
+  const out: PeriodMeans = {};
+  for (const [m, xs] of by) out[m] = { value: Math.round((xs.reduce((a, b) => a + b, 0) / xs.length) * 100) / 100, n: xs.length };
+  return out;
+}
+/** The price the box takes when a report period is chosen: that month's mean; null when the month is not held (the box
+ * then keeps what it holds). */
+export function periodPrice(means: PeriodMeans | undefined, period: string | undefined): number | null {
+  return period && means && means[period] ? means[period].value : null;
+}
+
 function baseRate(b: Base, p: Product, x: Input): number {
   if (typeof b.rate === "number") return b.rate;
   if (b.rate === "variant") {

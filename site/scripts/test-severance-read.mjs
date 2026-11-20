@@ -31,11 +31,12 @@ const L = await import("../lib/lease.ts");
 
 // the default prices as the page gave them on 16 November 2026 (October 2026's means of eia_fuel_spot_prices)
 const prices = { oil: 102.07, gas: 2.99, label: { oil: "WTI Cushing, the mean of 22 daily EIA spot prices in 2026-10, $102.07 per barrel", gas: "Henry Hub, the mean of 22 daily EIA spot prices in 2026-10, $2.99 per MMBtu, applied per Mcf as if one Mcf held one MMBtu" } };
-const ORDER = ["state", "product", "volume", "price", "variant", "district", "royaltyPct", "trucking", "transport", "option", "param", "tier", "period", "credit"];
+const ORDER = ["state", "product", "volume", "price", "variant", "district", "royaltyPct", "trucking", "transport", "option", "param", "tier", "period", "credit", "priceMonth"];   // priceMonth: wip/alt-severance-1
+const MEANS = () => Object.fromEntries(["oil", "gas"].map((k) => [k, Object.fromEntries(Object.entries(book[k]).map(([m, p]) => [m, { value: p.value, n: p.n }]))]));   // wip/alt-severance-1: the book below, as month means
 const calc = (o) => {
   first = {}; at = 0;
   for (const [k, v] of Object.entries(o)) { if (!ORDER.includes(k)) throw new Error(`no input ${k}`); first[ORDER.indexOf(k)] = v; }
-  const html = renderToStaticMarkup(h(Calculator, { rules, prices }));
+  const html = renderToStaticMarkup(h(Calculator, { rules, prices, means: MEANS() }));
   first = null;
   return html;
 };
@@ -63,9 +64,25 @@ ok(short && periods.some(([m, p]) => m === short.period && p === short.price.toF
 const r10 = compute(rules, { state: "TX", product: "gas", volume: 1860, price: 2.99, option: { id: "tx_lp_gas", period: short.period } });
 ok(r10.applied[0].effect.includes(`certified price $${short.price.toFixed(2)} for ${short.period}`) && r10.withTotal === 0, "row 1: the line a credit draws states the certified price to the cent; the credit itself is unchanged");
 const tip3 = tipOf(gas, "sev-period-tx_lp_gas");
-ok(tip3 && tip3.includes(`The latest month this page holds is ${cert.as_of}.`) && tip3.includes("The price box is not changed by this list.") && tip3.includes("in 2026-10"), "row 3: the report period's tip names the latest month held and the month the price box opened on");
+ok(tip3 && tip3.includes(`The latest month this page holds is ${cert.as_of}.`) && tip3.includes("Choosing a period puts that month's own mean in the price box") && tip3.includes("in 2026-10") && tip3.includes("Default on the site: the box keeps the latest complete month"),
+  "row 3 under alternative 1 (wip/alt-severance-1): the report period's tip names the latest month held, the month the box opened on, and that a period chosen puts its own mean in the box");
 ok(/<select[^>]*aria-label="Report period, Low-producing gas well credit"/.test(gas) && words(gas).includes("Report period (the production month)"), "row 3: the list is named, and says the period is the production month");
 ok(words(gas).includes("$417.11") && words(gas).includes("a 100 percent credit (certified price $1.36 for 2026-08, 2005 dollars)"), "case 1: 1,860 Mcf at $2.99: tax $417.11, a 100 percent credit for 2026-08");
+
+// ---- ruling alternative 1 (session 7702, wip/alt-severance-1, not a default on main): the price box follows the report period
+{
+  const S = await import("../lib/severance.ts");
+  const means = MEANS();
+  ok(S.periodPrice(means.gas, "2026-08") === 2.79 && S.periodPrice(means.gas, "2019-01") === null && S.periodPrice(undefined, "2026-08") === null, "alternative 1: a period held gives its month's mean; one not held gives none, and the box keeps its price");
+  const aug = calc({ state: "TX", product: "gas", volume: 1860, price: 2.79, option: "tx_lp_gas", period: { tx_lp_gas: "2026-08" }, priceMonth: "2026-08" });
+  ok(words(aug).includes("$389.21") && /data-price-month="2026-08"/.test(aug) && words(aug).includes("Price of the report period chosen: Henry Hub, the mean of 21 daily EIA spot prices in 2026-08, $2.79 per MMBtu"),
+    "alternative 1: 1,860 Mcf with August 2026 chosen: the box holds August's $2.79 and the tax at the base rate reads $389.21 (main: $417.11 at October's $2.99)");
+  const r = compute(rules, { state: "TX", product: "oil", volume: 1000, price: S.periodPrice(means.oil, "2026-08") });
+  ok(Math.round(r.baseTotal * 100) / 100 === 3859.4, "alternative 1: 1,000 bbl of oil at August's $83.90: $3,859.40 (main: $4,695.22)");
+  const src = fs.readFileSync(new URL("../app/severance/Calculator.tsx", import.meta.url), "utf-8");
+  ok(/onChange=\{\(e\) => choosePeriod\(o\.id, e\.target\.value\)\}/.test(src) && /if \(v !== null\) \{ setPrice\(v\); setPriceMonth\(p\); \}/.test(src), "alternative 1: the period list's change puts the month's mean in the box");
+  ok(!/data-price-month=/.test(calc({ state: "TX", product: "gas", volume: 1860, price: 2.99, option: "tx_lp_gas" })), "alternative 1: before a period is chosen the line names the default month as on main");
+}
 
 const months = ["2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10"];
 const panhandle = lease(file(months.map((m) => ({ state: "TX", well_id: "GAS-60", month: m, gas_mcf: 60 * days(m), well_type: "gas" }))));

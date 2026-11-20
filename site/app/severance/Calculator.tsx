@@ -3,13 +3,13 @@
 // the arithmetic is lib/severance.ts. An estimate for education and planning, not tax advice.
 import { useMemo, useState } from "react";
 import { Tip } from "@/components/tool/ToolPage";
-import { compute, type Input, type Option, type Rules } from "@/lib/severance";
+import { compute, periodPrice, type Input, type Option, type PeriodMeans, type Rules } from "@/lib/severance";
 
 const usd = (v: number) => `$${v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 const pct = (r: number) => `${(r * 100).toLocaleString("en-US", { maximumFractionDigits: 4 })}%`;
 const field = "w-full border border-rule bg-panel px-2 py-1 text-sm";
 
-export function Calculator({ rules, prices }: { rules: Rules; prices: { oil: number | null; gas: number | null; label: { oil: string; gas: string } } }) {
+export function Calculator({ rules, prices, means }: { rules: Rules; prices: { oil: number | null; gas: number | null; label: { oil: string; gas: string } }; means?: { oil: PeriodMeans; gas: PeriodMeans } }) {
   const [state, setState] = useState("TX");
   const products = Object.keys(rules.states[state].products);
   const [product, setProduct] = useState("oil");
@@ -34,6 +34,14 @@ export function Calculator({ rules, prices }: { rules: Rules; prices: { oil: num
   // session 41: a report period for the Texas low-producing credits; the tier follows from its certified price
   const [period, setPeriod] = useState<Record<string, string>>({});
   const [credit, setCredit] = useState<string>("");
+  // ruling alternative 1 (wip/alt-severance-1, not a default on main): the month whose own mean the price box holds after
+  // a report period is chosen; null while the box holds the default (the latest complete month) or a typed price
+  const [priceMonth, setPriceMonth] = useState<string | null>(null);
+  const choosePeriod = (id: string, p: string) => {
+    setPeriod({ ...period, [id]: p });
+    const v = periodPrice(means?.[kind], p);
+    if (v !== null) { setPrice(v); setPriceMonth(p); }
+  };
 
   function latest(id: string): string | undefined {
     const o = Object.values(rules.states).flatMap((st) => Object.values(st.products)).flatMap((pr) => pr.options).find((q) => q.id === id);
@@ -48,10 +56,11 @@ export function Calculator({ rules, prices }: { rules: Rules; prices: { oil: num
       <span className="text-xs">Report period (the production month)
         <Tip id={`sev-period-${o.id}`} label="the report period and the price">
           <span className="block">The credit follows the Comptroller&apos;s certified price of the month chosen here. The latest month this page holds is {o.certified.as_of}.</span>
-          <span className="block">The price box is not changed by this list. It opened on: {kind === "gas" ? prices.label.gas : prices.label.oil}. For another month, type that month&apos;s price; the Lease tab prices each month of a file at its own mean.</span>
+          <span className="block" data-period-price="1">Choosing a period puts that month&apos;s own mean in the price box (the mean of EIA&apos;s daily {kind === "gas" ? "Henry Hub" : "WTI Cushing"} spot prices of the month, to the cent), so the tax and the credit are of one month. It opened on: {kind === "gas" ? prices.label.gas : prices.label.oil}. A price typed after that is kept until another period is chosen.</span>
+          <span className="block">Default on the site: the box keeps the latest complete month whatever the period. Source: EIA daily spot prices (eia_fuel_spot_prices); the Comptroller&apos;s certified prices.</span>
         </Tip>
       </span>
-      <select value={period[o.id] ?? o.certified.prices[0].period} onChange={(e) => setPeriod({ ...period, [o.id]: e.target.value })} className={field + " text-xs"} aria-label={`Report period, ${o.name}`}>
+      <select value={period[o.id] ?? o.certified.prices[0].period} onChange={(e) => choosePeriod(o.id, e.target.value)} className={field + " text-xs"} aria-label={`Report period, ${o.name}`}>
         {o.certified.prices.map((p) => <option key={p.period} value={p.period}>Report period {p.period}: certified ${p.price.toFixed(2)} ({p.eligibility})</option>)}
       </select>
     </div>
@@ -63,7 +72,7 @@ export function Calculator({ rules, prices }: { rules: Rules; prices: { oil: num
   const pick = (s: string, p: string) => {
     const ps = Object.keys(rules.states[s].products);
     const np = ps.includes(p) ? p : ps[0];
-    setState(s); setProduct(np); setOption(""); setCredit("");
+    setState(s); setProduct(np); setOption(""); setCredit(""); setPriceMonth(null);
     setPrice((np === "gas" ? prices.gas : prices.oil) ?? "");
   };
   const x: Input = {
@@ -80,7 +89,7 @@ export function Calculator({ rules, prices }: { rules: Rules; prices: { oil: num
   // session 282: every input back to what the page opens on
   const reset = () => {
     setState("TX"); setProduct("oil"); setVolume(1000); setPrice(prices.oil ?? ""); setVariant("la_oil_pre2025");
-    setDistrict(""); setRoyaltyPct(0); setTrucking(0); setTransport(0); setOption(""); setParam({}); setTier({}); setPeriod({}); setCredit("");
+    setDistrict(""); setRoyaltyPct(0); setTrucking(0); setTransport(0); setOption(""); setParam({}); setTier({}); setPeriod({}); setCredit(""); setPriceMonth(null);
   };
   const src = (id: string) => rules.sources[id];
   const Cite = ({ id }: { id: string }) => <a href={src(id)?.url} className="text-xs">{src(id)?.publisher === "Louisiana State Legislature" ? "La. R.S. 47:633" : src(id)?.title}</a>;
@@ -117,10 +126,12 @@ export function Calculator({ rules, prices }: { rules: Rules; prices: { oil: num
             <input id="sev-volume" type="number" min={0} value={volume} onChange={(e) => setVolume(Math.max(0, Number(e.target.value)))} className={field} />
           </div>
           <label className="flex flex-col">Price, USD per {prod.unit}
-            <input type="number" min={0} step="0.01" value={price} onChange={(e) => setPrice(e.target.value === "" ? "" : Number(e.target.value))} className={field} />
+            <input type="number" min={0} step="0.01" value={price} onChange={(e) => { setPrice(e.target.value === "" ? "" : Number(e.target.value)); setPriceMonth(null); }} className={field} />
           </label>
         </div>
-        <p className="text-xs text-muted">Default price (an assumption, edit it): {kind === "gas" ? prices.label.gas : prices.label.oil}. A hub price is not the value at the well, which is what the states tax.</p>
+        {priceMonth && means?.[kind][priceMonth] ? (
+          <p className="text-xs" data-price-month={priceMonth}>Price of the report period chosen: {kind === "gas" ? "Henry Hub" : "WTI Cushing"}, the mean of {means[kind][priceMonth].n} daily EIA spot prices in {priceMonth}, ${means[kind][priceMonth].value.toFixed(2)} per {kind === "gas" ? "MMBtu" : "barrel"}. A hub price is not the value at the well, which is what the states tax.</p>
+        ) : <p className="text-xs text-muted">Default price (an assumption, edit it): {kind === "gas" ? prices.label.gas : prices.label.oil}. A hub price is not the value at the well, which is what the states tax.</p>}
         {la && product === "oil" ? (
           <label className="flex flex-col">Well completion
             <select value={variant} onChange={(e) => setVariant(e.target.value)} className={field}>
