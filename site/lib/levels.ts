@@ -40,7 +40,15 @@ function localMidnight(day: string): number {
   throw new Error(`no local midnight for ${day}`);
 }
 
-export const FAMOUS: Level[] = (famous.levels as Level[]).map((l) => l);
+/** Ruling alternative 4 (session 7718, branch wip/alt-play-battery-4; not a default on main): the August 2023 heat day's
+ *  line says it held ERCOT's highest hour of 2023, from the warehouse's own row: ercot_zone_load_hourly, entity
+ *  ercot:system (ERCOT's Hourly Load Data Archives), 85,464.12 MW in the hour from 2023-08-10T22:00:00Z, the highest of
+ *  2023's 8,760 hours held. The rulings file quotes Potomac Economics' 2023 State of the Market Report, 85.7 GW, a
+ *  document the warehouse has not read; the warehouse's own figure is used. On main the line is the builder's alone. */
+export const DAY_RECORDS: Record<string, string> = {
+  heat: " It held ERCOT's highest hour of 2023: 85,464 MW in the hour from 5 p.m. Central (ERCOT's hourly load archive).",
+};
+export const FAMOUS: Level[] = (famous.levels as Level[]).map((l) => (DAY_RECORDS[l.slug] ? { ...l, why: l.why + DAY_RECORDS[l.slug] } : l));
 
 type Row = { ts_utc: string; value: number; retrieved_at?: string; source?: string; source_url?: string };
 
