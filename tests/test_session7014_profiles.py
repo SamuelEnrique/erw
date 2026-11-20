@@ -35,6 +35,10 @@ class TheSteps(unittest.TestCase):
         why = scheduled.where(env=env, role="data", held=lambda t: True)
         self.assertIn("GitHub runner", why)
         old = os.environ.get("GITHUB_ACTIONS")
+        # session 8009 (data request 543): the daily run starts its test step under warehouse/health.py, which sets
+        # ERW_SKIP_EXIT=75, so a skip there exits 75; this test asks what a plain start returns, so the variable is set
+        # aside for it (on 18 November the daily run stopped at this test both times, and the live set was not loaded)
+        old_skip = os.environ.pop("ERW_SKIP_EXIT", None)
         os.environ["GITHUB_ACTIONS"] = "true"
         try:
             rc = scheduled.step("curtailment_profile", run=lambda *a, **k: called.append(a), restore=lambda t: called.append(t))
@@ -43,6 +47,8 @@ class TheSteps(unittest.TestCase):
                 os.environ.pop("GITHUB_ACTIONS", None)
             else:
                 os.environ["GITHUB_ACTIONS"] = old
+            if old_skip is not None:
+                os.environ["ERW_SKIP_EXIT"] = old_skip
         self.assertEqual(called, [])
         self.assertEqual(rc, 0)
 
