@@ -52,8 +52,14 @@ export function params(): Params {
   };
 }
 
+/** Ruling alternative 14 (wip/alt-impact-14, not a default on main): the states whose gas severance rate comes from a
+ * table that is held; the forecast draws no figure for them and says "license needed" (main: none; /severance not changed). */
+export const SEVERANCE_HELD = new Set(["LA"]);
+
 /** The gas rules of the three states /severance holds (the only part of its rules the forecast reads) */
 export function gasSeverance(): unknown {
   const r = severanceRules as unknown as { version: string; sources: Record<string, unknown>; states: Record<string, { name: string; products: Record<string, unknown>; value_deduction?: unknown }> };
-  return { version: r.version, sources: {}, states: Object.fromEntries(Object.entries(r.states).map(([k, v]) => [k, { name: v.name, value_deduction: v.value_deduction, products: { gas: v.products.gas } }])) };
+  return { version: r.version, sources: {}, states: Object.fromEntries(Object.entries(r.states).map(([k, v]) => [k, SEVERANCE_HELD.has(k)
+    ? { name: v.name, held: true, products: {} }
+    : { name: v.name, value_deduction: v.value_deduction, products: { gas: v.products.gas } }])) };
 }
