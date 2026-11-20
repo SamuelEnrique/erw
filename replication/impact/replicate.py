@@ -371,6 +371,9 @@ def run(P, jedi, x):
     pv = {"earnings": total("earnings", True), "property": total("property", True) if whole else None, "sales": total("sales", True),
           "income": total("income", True), "severance": None if sev_year is None else total("severance", True)}
     pv["taxes"] = (pv["property"] or 0) + (pv["sales"] or 0) + pv["income"] + (pv["severance"] or 0)
+    # ruling alternative 23 (wip/alt-impact-23): a sum of 0 made only of taxes not held is not held; main: 0
+    if pv["taxes"] == 0 and (pv["property"] is None or pv["sales"] is None or (tech == "natural_gas" and pv["severance"] is None)):
+        pv["taxes"] = None
     return {"c": c, "o": o, "years": years, "sums": sums, "pv": pv, "production": production}
 
 
@@ -431,12 +434,12 @@ def state_figures(P, jedi, tech, state, given):
             place += 1
             for e in ("onsite", "supply_chain", "induced"):
                 out[f"states:jobs:{place}:{st}:{e}"] = r["c"][("jobs", e)]
-    by_tax = sorted(per, key=lambda v: -v[1]["pv"]["taxes"])
+    by_tax = sorted(per, key=lambda v: -(v[1]["pv"]["taxes"] or 0))   # or 0: wip/alt-impact-23
     place = 0
     for i, (st, r) in enumerate(by_tax):
         if i < 10 or i >= n - 5 or st == state:
             place += 1
-            out[f"states:taxes:{place}:{st}"] = r["pv"]["taxes"]
+            out[f"states:taxes:{place}:{st}"] = r["pv"]["taxes"] or 0   # or 0: wip/alt-impact-23, the chart draws 0 as on main
     out["states:rank"] = next(i for i, (st, _) in enumerate(per) if st == state) + 1
     out["states:count"] = n
     return out

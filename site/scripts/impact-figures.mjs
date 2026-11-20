@@ -146,7 +146,7 @@ function main() {
         const st = k.split(":")[1];
         const ix = U.STATE_LIST.findIndex(([s]) => s === st);
         const res = F.run(U.resolve(P, { ...start[view], state: ix, proj: NaN }), F.unpack(jedi, x.tech, st), P, sev);
-        return { k: st, name: I.stateName(st), ok: res.ok, c: res.construction.jobs, taxes: res.pv.taxes };
+        return { k: st, name: I.stateName(st), ok: res.ok, c: res.construction.jobs, taxes: res.pv.taxes ?? 0 };   // ?? 0: wip/alt-impact-23, as the page's chart
       }).filter((v) => v.ok).sort((a, b) => b.c.total - a.c.total);
       const shown = per.filter((v, i) => i < 10 || i >= per.length - 5 || v.k === x.state);
       const taxSorted = [...per].sort((a, b) => b.taxes - a.taxes);
