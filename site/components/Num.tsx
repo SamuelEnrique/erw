@@ -1,4 +1,4 @@
-import { LICENSE_NEEDED, gridEntityOfKey, gridOfEntity, licenseGridTitle, licenseHeldGrid, licenseHeldRow, licenseTitle } from "@/lib/license";
+import { LICENSE_NEEDED, eia930NoGrid, gridEntityOfKey, gridOfEntity, licenseGridTitle, licenseHeldGrid, licenseHeldRow, licenseTitle } from "@/lib/license";
 
 // A number on the page, carrying where it came from: `check` names the Supabase
 // table and key it was read from, and `raw` the value as read. scripts/check-values.mjs
@@ -29,7 +29,10 @@ export function heldBy(check: string): { table: string; title: string } | null {
   const head = p[0];
   // session 382: or the grid an input names (mr| and ms| keys carry iso=<grid>), so a held grid's figures are held and
   // the others' shown, as the ruling of 12 October holds a table decided by grids row by row
+
   const entity = p.slice(1).find((x) => gridOfEntity(x) !== "") ?? gridEntityOfKey(p.slice(1));
+  // ruling alternative 1 of /events (wip/alt-events-1): an EIA-930 entity of no grid is a row of no grid, not the table whole
+  const rowOf = entity ?? p.slice(1).find((x) => eia930NoGrid(x));
   // session 315: a finding card's figure (finding|<card>|...|<grid>) is held by the grid its words name; the Digest's
   // chart of the day (digest_chart|<date>|<table>|<key>) by its table
   if (head === "finding") {
@@ -67,7 +70,7 @@ export function heldBy(check: string): { table: string; title: string } | null {
   else if (head === "dcgrid" && p[1] === "reserve_margin") table = "ercot_cdr_reserve_margins";
   else if (head in KEY_TABLE) table = KEY_TABLE[head];
   if (!table) return null;
-  return licenseHeldRow(table, entity ?? (head.startsWith("series") || head === "es" ? undefined : null)) ? { table, title: licenseTitle(table) } : null;
+  return licenseHeldRow(table, rowOf ?? (head.startsWith("series") || head === "es" ? undefined : null)) ? { table, title: licenseTitle(table) } : null;
 }
 
 // Session 2200 (chain 086): `source`, when given, is the words of where the figure came from (the table, the entity,

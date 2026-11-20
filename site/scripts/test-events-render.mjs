@@ -40,7 +40,8 @@ ok(!cv.includes("The baseline is one year, 2019") && !cv.includes("against the s
 ok(cv.includes("Weekly demand against the same weeks of earlier years, all grids") && cv.includes("Deepest weekly drop against the baseline"),
   "fault 2: the chart's title and each grid's line name the baseline");
 ok(/data-covid-baseline="2018-2019"/.test(drawn["covid-2020"].html), "fault 2: the caveat carries its mark");
-ok((cv.match(/2018, same weekday/g) ?? []).length >= 7, "fault 2: each of the seven ISO grids' charts draws its 2018 days");
+// ruling alternative 1 (wip/alt-events-1): ISO-NE's, MISO's and NYISO's EIA-930 rows are their grids' and held, so their charts draw no day; main: 7 or more
+ok((cv.match(/2018, same weekday/g) ?? []).length >= 4, "fault 2: each of the four ISO grids not held draws its 2018 days (the three held grids' rows are held under alternative 1)");
 for (const kept of ["COVID-19: demand in the seven ISO grids, spring 2020", "Price context: ERCOT hub average", "What the estimates say", "Executive Order N-33-20"])
   ok(cv.includes(kept), `the COVID-19 page keeps what it had: ${kept}`);
 
@@ -83,14 +84,18 @@ const keys = [...sec.slice(0, sec.indexOf("\n## ", 5)).matchAll(/^\| \d+ \| `([a
 ok(JSON.stringify(keys) === JSON.stringify(EVENT_DECISIONS.map((d) => d.key)), `the method note lists the same ${keys.length} choices in the same order`);
 
 // ---- the hold as it stands (fault 1, a ruling: no hold is lifted here)
-let held = 0, eiaShown = 0, heldHubShown = 0;
+// ruling alternative 1 (session 7712, wip/alt-events-1, not a default on main), choice (a): EIA-930's entities are named to
+// their grids, so the figures of CAISO, ERCOT, PJM, SPP and the Lower 48 are drawn and only the three held grids' stay
+// "license needed"; main draws every EIA-930 figure "license needed" (held > 1000, eiaShown 0)
+let held = 0, eiaShown = 0, eiaHeldShown = 0, heldHubShown = 0;
 for (const [slug] of PAGES) {
   const html = drawn[slug].html;
   held += (html.match(/data-license-held="event_window_daily"/g) ?? []).length;
   eiaShown += (html.match(/data-check="(series\|event_window_daily|es)\|[^"]*eia930:/g) ?? []).length;
+  eiaHeldShown += (html.match(/data-check="(series\|event_window_daily|es)\|[^"]*eia930:(ISNE|MISO|NYIS)\|/g) ?? []).length;
   heldHubShown += (html.match(/data-check="series\|event_window_daily\|(isone|miso|nyiso):/g) ?? []).length;
 }
-ok(held > 1000 && eiaShown === 0 && heldHubShown === 0, `the hold is drawn as it stands: ${held} figures "license needed", no EIA-930 figure and no ISO-NE, MISO or NYISO hub figure drawn as a number`);
+ok(eiaShown > 0 && eiaHeldShown === 0 && heldHubShown === 0, `under alternative 1: ${eiaShown} EIA-930 figures drawn, ${held} "license needed", none of ISO-NE, MISO or NYISO drawn as a number`);
 ok(drawn.index.html.includes('data-check="series|event_window_daily|ercot:HB_HUBAVG|rt_max|2021-02-17'), "ERCOT's hub figures are not held and are drawn");
 
 // ---- the replication's figures file
