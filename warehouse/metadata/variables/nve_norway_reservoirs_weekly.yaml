@@ -5,9 +5,10 @@
 table: nve_norway_reservoirs_weekly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One Norwegian area's (the country, a price area or a water region) hydropower reservoir filling, stored energy or capacity
+  in one week, from NVE's reservoir statistics.
+time: 'ts_utc is the date NVE gives the week (its last day) at 00:00:00Z: a stock at that date; freq P1W.'
+vintage_rule: Rewritten whole as one snapshot by each run from NVE's one answer; vintage is not filled.
 keys:
 - entity
 - variable
@@ -47,6 +48,7 @@ columns:
       nve:no:region_2: 4977
       nve:no:region_3: 4977
   missing_cells: 0
+  particular: 'nve:no:<area>: no (the country), no1 to no5 (price areas), region_1 to region_3 (water regions)'
 - name: variable
   shared: true
   type: text
@@ -91,12 +93,14 @@ columns:
     list:
       'NO': 44793
   missing_cells: 0
+  particular: NO on every row, whatever the area
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 44793
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -109,6 +113,7 @@ columns:
     - EL 1, 1995-W04
     - EL 1, 1995-W05
   missing_cells: 0
+  particular: NVE's area type and number with the ISO week, not a pricing node
 - name: source
   shared: true
   type: text
@@ -136,9 +141,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 44793
+  particular: 'Not filled: no cell holds a value'
 - name: x_iso_week
-  label: null
-  unit: null
+  label: The ISO week (YYYY-Www)
+  unit: none
   type: text
   values:
     distinct: 1659
@@ -149,24 +155,24 @@ columns:
     - 1995-W04
     - 1995-W05
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector nve_norway_reservoirs.py
 variables:
 - name: capacity
-  label: null
+  label: Reservoir capacity in energy (from TWh)
   unit: MWh
   rows: 14931
   first: '1995-01-08T00:00:00Z'
   last: '2026-10-18T00:00:00Z'
 - name: filling_share
-  label: null
+  label: Reservoir filling, percent of capacity, at the week's date
   unit: pct
   rows: 14931
   first: '1995-01-08T00:00:00Z'
   last: '2026-10-18T00:00:00Z'
 - name: stored_energy
-  label: null
+  label: Energy stored in the reservoirs at the week's date (from TWh)
   unit: MWh
   rows: 14931
   first: '1995-01-08T00:00:00Z'

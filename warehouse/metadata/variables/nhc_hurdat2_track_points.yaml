@@ -5,9 +5,10 @@
 table: nhc_hurdat2_track_points
 family: other_sources
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One best-track fix (six-hourly, or a landfall or peak between) of one tropical or subtropical cyclone in the Atlantic
+  or the Northeast and North Central Pacific from 2000, from NOAA's HURDAT2.
+time: event_date is the fix's UTC day; x_time_utc its UTC time (HHMM).
+vintage_rule: Rewritten whole as one snapshot by each run from the two HURDAT2 files; vintage is each file's Last-Modified.
 keys:
 - event_id
 license: public
@@ -43,6 +44,7 @@ columns:
     - nhc:AL012000:200006081200
     - nhc:AL012001:200106051200
   missing_cells: 0
+  particular: nhc:<storm id>:<YYYYMMDDHHMM>
 - name: event_date
   shared: true
   type: date
@@ -66,6 +68,7 @@ columns:
       tropical_storm: 9720
       wave: 116
   missing_cells: 0
+  particular: The system's status at the fix (tropical storm, hurricane and others)
 - name: parties
   shared: true
   type: text
@@ -73,6 +76,7 @@ columns:
     list:
       NHC: 27812
   missing_cells: 0
+  particular: NHC on every row
 - name: entity_ids
   shared: true
   type: empty
@@ -103,6 +107,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 27812
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -119,8 +124,8 @@ columns:
       https://www.nhc.noaa.gov/data/hurdat/hurdat2-nepac-1949-2025-092926.txt: 13976
   missing_cells: 0
 - name: x_storm_id
-  label: null
-  unit: null
+  label: The storm's ATCF id (basin, number, season)
+  unit: none
   type: text
   values:
     distinct: 973
@@ -131,12 +136,12 @@ columns:
     - AL012003
     - AL012004
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method nhc_hurdat2_track_points.md
 - name: x_storm_name
-  label: null
-  unit: null
+  label: The storm's name as the file writes it (UNNAMED for some)
+  unit: none
   type: text
   values:
     distinct: 341
@@ -147,36 +152,37 @@ columns:
     - AKONI
     - ALBERTO
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method nhc_hurdat2_track_points.md
 - name: x_basin
-  label: null
-  unit: null
+  label: 'The basin: atlantic or pacific'
+  unit: none
   type: text
   values:
     list:
       atlantic: 13836
       pacific: 13976
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector nhc_hurdat2.py
 - name: x_time_utc
-  label: null
-  unit: null
+  label: The fix's UTC time, HHMM (0000, 0600, 1200, 1800, or another hour for a record the file marks)
+  unit: none
   type: integer
   values:
     distinct: 126
     lowest: 0
     highest: 2330
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method nhc_hurdat2_track_points.md
 - name: x_record
-  label: null
-  unit: null
+  label: 'The file''s record identifier: L a landfall, I an intensity peak, P a minimum pressure, others as the file writes
+    them'
+  unit: none
   type: text
   values:
     list:
@@ -190,69 +196,69 @@ columns:
       T: 13
       W: 2
   missing_cells: 27230
-  missing_meaning: null
+  missing_meaning: The fix carries no record identifier
   source_name: null
-  documented_by: null
+  documented_by: connector nhc_hurdat2.py; method nhc_hurdat2_track_points.md
 - name: x_landfall
-  label: null
-  unit: null
+  label: 1 where x_record is L (a landfall), else 0
+  unit: none
   type: integer
   values:
     list:
       '0': 27303
       '1': 509
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector nhc_hurdat2.py; method nhc_hurdat2_track_points.md
 - name: x_lat
-  label: null
-  unit: null
+  label: The fix's latitude, decimal degrees, north positive
+  unit: degree
   type: number
   values:
     distinct: 585
     lowest: 0.4
     highest: 70.7
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method nhc_hurdat2_track_points.md
 - name: x_lon
-  label: null
-  unit: null
+  label: The fix's longitude, decimal degrees, east positive
+  unit: degree
   type: number
   values:
     distinct: 1923
     lowest: -180.0
     highest: 179.9
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method nhc_hurdat2_track_points.md
 - name: x_max_wind_kt
-  label: null
-  unit: null
+  label: The maximum sustained wind
+  unit: kt
   type: integer
   values:
     distinct: 34
     lowest: 10
     highest: 185
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method nhc_hurdat2_track_points.md
 - name: x_min_pressure_mb
-  label: null
-  unit: null
+  label: The minimum central pressure
+  unit: mb
   type: integer
   values:
     distinct: 129
     lowest: 872
     highest: 1024
   missing_cells: 41
-  missing_meaning: null
+  missing_meaning: The file writes -999 (no pressure given)
   source_name: null
-  documented_by: null
+  documented_by: header; method nhc_hurdat2_track_points.md
 - name: retrieved_at
   shared: true
   type: utc time
@@ -269,4 +275,6 @@ columns:
       '2026-09-30T18:37:36Z': 13836
       '2026-09-30T18:37:37Z': 13976
   missing_cells: 0
-second_look: null
+  particular: The basin file's Last-Modified (UTC)
+second_look:
+- 'x_record: the record identifiers C, G, R, S, T and W are not defined in the connector or the method note (L, I and P are).'

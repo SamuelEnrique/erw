@@ -5,9 +5,11 @@
 table: rte_eco2mix_france_halfhourly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: France's consumption, production from one source or net physical exchanges in one half hour, from RTE's eco2mix national
+  files.
+time: ts_utc is the half hour's start in UTC, from RTE's date and hour in French local time; freq PT30M.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s half hours replace the same keys and older ones are kept;
+  vintage is each file''s Last-Modified; x_nature says definitive or consolidated.'
 keys:
 - entity
 - variable
@@ -38,6 +40,7 @@ columns:
     list:
       rte_eco2mix:FR: 1448927
   missing_cells: 0
+  particular: rte_eco2mix:FR on every row
 - name: variable
   shared: true
   type: text
@@ -81,12 +84,14 @@ columns:
     list:
       FR: 1448927
   missing_cells: 0
+  particular: FR on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1448927
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -94,6 +99,7 @@ columns:
     list:
       France: 1448927
   missing_cells: 0
+  particular: France on every row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -140,33 +146,34 @@ columns:
       '2026-10-06T10:02:08Z': 151593
       '2026-10-06T10:02:20Z': 227708
   missing_cells: 0
+  particular: The file's Last-Modified (UTC)
 - name: x_nature
-  label: null
-  unit: null
+  label: 'RTE''s nature of the data: Donnees definitives (definitive) or Donnees consolidees (consolidated)'
+  unit: none
   type: text
   values:
     list:
       Données consolidées: 151593
       Données définitives: 1297334
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method rte_eco2mix_france_halfhourly.md
 - name: x_local_date
-  label: null
-  unit: null
+  label: RTE's date in French local time
+  unit: none
   type: date
   values:
     distinct: 2435
     earliest: '2020-01-01'
     latest: '2026-08-31'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method rte_eco2mix_france_halfhourly.md
 - name: x_local_hour
-  label: null
-  unit: null
+  label: RTE's hour in French local time (HH:MM)
+  unit: none
   type: text
   values:
     distinct: 48
@@ -177,84 +184,84 @@ columns:
     - 01:30
     - 02:00
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method rte_eco2mix_france_halfhourly.md
 variables:
 - name: bioenergy
-  label: null
+  label: Production from bioenergy
   unit: MW
   rows: 116853
   first: '2019-12-31T23:00:00Z'
   last: '2026-08-31T21:30:00Z'
 - name: coal
-  label: null
+  label: Production from coal
   unit: MW
   rows: 116853
   first: '2019-12-31T23:00:00Z'
   last: '2026-08-31T21:30:00Z'
 - name: consumption
-  label: null
+  label: Consumption
   unit: MW
   rows: 116853
   first: '2019-12-31T23:00:00Z'
   last: '2026-08-31T21:30:00Z'
 - name: gas
-  label: null
+  label: Production from gas
   unit: MW
   rows: 116853
   first: '2019-12-31T23:00:00Z'
   last: '2026-08-31T21:30:00Z'
 - name: hydro
-  label: null
+  label: Production from hydro
   unit: MW
   rows: 116853
   first: '2019-12-31T23:00:00Z'
   last: '2026-08-31T21:30:00Z'
 - name: nuclear
-  label: null
+  label: Production from nuclear
   unit: MW
   rows: 116853
   first: '2019-12-31T23:00:00Z'
   last: '2026-08-31T21:30:00Z'
 - name: oil
-  label: null
+  label: Production from oil
   unit: MW
   rows: 116853
   first: '2019-12-31T23:00:00Z'
   last: '2026-08-31T21:30:00Z'
 - name: physical_exchanges
-  label: null
+  label: Net physical exchanges
   unit: MW
   rows: 116853
   first: '2019-12-31T23:00:00Z'
   last: '2026-08-31T21:30:00Z'
 - name: pumping
-  label: null
+  label: Pumping (negative)
   unit: MW
   rows: 116853
   first: '2019-12-31T23:00:00Z'
   last: '2026-08-31T21:30:00Z'
 - name: solar
-  label: null
+  label: Production from solar
   unit: MW
   rows: 116853
   first: '2019-12-31T23:00:00Z'
   last: '2026-08-31T21:30:00Z'
 - name: wind
-  label: null
+  label: Production from wind
   unit: MW
   rows: 116853
   first: '2019-12-31T23:00:00Z'
   last: '2026-08-31T21:30:00Z'
 - name: wind_offshore
-  label: null
+  label: Production from offshore wind (from 2022)
   unit: MW
   rows: 81772
   first: '2021-12-31T23:30:00Z'
   last: '2026-08-31T21:30:00Z'
 - name: wind_onshore
-  label: null
+  label: Production from onshore wind (from 2022)
   unit: MW
   rows: 81772
   first: '2021-12-31T23:30:00Z'

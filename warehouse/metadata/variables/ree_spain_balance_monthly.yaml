@@ -5,9 +5,11 @@
 table: ree_spain_balance_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's value of one series of Spain's electrical energy balance (generation by technology, storage, exchanges, demand
+  at busbars), from Red Electrica's REData.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; from 2020-01.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s months replace the same months and older ones are kept; vintage
+  is not filled.'
 keys:
 - entity
 - variable
@@ -38,6 +40,7 @@ columns:
     list:
       ree:ES: 1890
   missing_cells: 0
+  particular: ree:ES on every row
 - name: variable
   shared: true
   type: text
@@ -81,12 +84,14 @@ columns:
     list:
       ES: 1890
   missing_cells: 0
+  particular: ES on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1890
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -94,6 +99,7 @@ columns:
     list:
       Spain: 1890
   missing_cells: 0
+  particular: Spain on every row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -140,9 +146,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 1890
+  particular: 'Not filled: no cell holds a value'
 - name: x_group
-  label: null
-  unit: null
+  label: 'REE''s group of the series: Renewable, Non-renewable, Almacenamiento (storage) or Demand'
+  unit: none
   type: text
   values:
     list:
@@ -151,12 +158,12 @@ columns:
       Non-renewable: 747
       Renewable: 648
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: type
+  documented_by: connector ree_balance.py; method ree_spain_balance_monthly.md; data
 - name: x_series_id
-  label: null
-  unit: null
+  label: REE's id of the series
+  unit: none
   type: integer
   values:
     list:
@@ -186,156 +193,156 @@ columns:
       '2180': 45
       '2181': 45
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: id
+  documented_by: connector ree_balance.py; method ree_spain_balance_monthly.md
 variables:
 - name: battery_charging
-  label: null
+  label: Battery charging (negative, as REE gives it)
   unit: MWh
   rows: 45
   first: '2023-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: battery_delivery
-  label: null
+  label: Battery delivery
   unit: MWh
   rows: 45
   first: '2023-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: coal
-  label: null
+  label: Coal generation
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: cogeneration
-  label: null
+  label: Cogeneration
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: combined_cycle
-  label: null
+  label: Combined cycle generation
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: cross_border_exchange_balance
-  label: null
+  label: Cross-border exchange balance (a net export negative)
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: demand_at_busbars
-  label: null
+  label: Demand at busbars
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: diesel_engines
-  label: null
+  label: Diesel engine generation
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: fuel_gas
-  label: null
+  label: Fuel and gas generation
   unit: MWh
   rows: 18
   first: '2020-03-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: gas_turbine
-  label: null
+  label: Gas turbine generation
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: hydro
-  label: null
+  label: Hydro generation
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: hydroeolian
-  label: null
+  label: Hydro-wind generation
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: non_renewable_generation
-  label: null
+  label: Non-renewable generation, REE's subtotal
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: non_renewable_waste
-  label: null
+  label: Non-renewable waste generation
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: nuclear
-  label: null
+  label: Nuclear generation
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: other_renewables
-  label: null
+  label: Other renewable generation
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: pumping_consumption
-  label: null
+  label: Pumping consumption (negative, as REE gives it)
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: pumping_turbine
-  label: null
+  label: Pumped storage turbine generation
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: renewable_generation
-  label: null
+  label: Renewable generation, REE's subtotal
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: renewable_waste
-  label: null
+  label: Renewable waste generation
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: solar_photovoltaic
-  label: null
+  label: Solar photovoltaic generation
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: steam_turbine
-  label: null
+  label: Steam turbine generation
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: storage_balance
-  label: null
+  label: Storage balance, REE's subtotal
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: thermal_solar
-  label: null
+  label: Solar thermal generation
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: wind
-  label: null
+  label: Wind generation
   unit: MWh
   rows: 81
   first: '2020-01-01T00:00:00Z'

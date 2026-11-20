@@ -5,9 +5,9 @@
 table: scripps_co2_mlo_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Atmospheric CO2 at Mauna Loa Observatory in one month, from the Scripps CO2 Program's in situ record.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; from 1958-03.
+vintage_rule: Rewritten whole as one snapshot by each run from the Scripps file; vintage is the file's Last-Modified.
 keys:
 - entity
 - variable
@@ -39,6 +39,7 @@ columns:
     list:
       scripps:mlo: 1636
   missing_cells: 0
+  particular: scripps:mlo on every row
 - name: variable
   shared: true
   type: text
@@ -81,12 +82,14 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 1636
+  particular: 'Not filled: no cell holds a value'
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1636
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -94,6 +97,7 @@ columns:
     list:
       Mauna Loa Observatory: 1636
   missing_cells: 0
+  particular: Mauna Loa Observatory on every row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -122,27 +126,28 @@ columns:
     list:
       '2026-10-21T21:16:30Z': 1636
   missing_cells: 0
+  particular: The file's Last-Modified (UTC)
 - name: x_station
-  label: null
-  unit: null
+  label: 'The station measured: MLO (Mauna Loa), or MKO (Maunakea''s summit) for the months after Mauna Loa''s 2022 eruption'
+  unit: none
   type: text
   values:
     list:
       MKO: 6
       MLO: 1630
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector scripps_co2_mlo.py
 variables:
 - name: co2
-  label: null
+  label: Monthly mean CO2 concentration, adjusted to the 15th of the month, ppm of dry air
   unit: ppm
   rows: 818
   first: '1958-03-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: co2_seasonally_adjusted
-  label: null
+  label: Monthly mean CO2 concentration, seasonally adjusted, ppm of dry air
   unit: ppm
   rows: 818
   first: '1958-03-01T00:00:00Z'

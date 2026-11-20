@@ -2,7 +2,7 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 94 public tables (9 entities, 6 events, 79 series; tiers: 94 source); 61 documented in full.
+**What the family holds.** 94 public tables (9 entities, 6 events, 79 series; tiers: 94 source); 73 documented in full.
 
 - [`abs_suriname_electricity_annual`](#abs_suriname_electricity_annual): One year's value of one Suriname electricity measure (EBS's demand by category, net generation, net consumption or capacity, or a Staatsolie plant's generation), from the statistics office's Environment Statistics Publication.
 - [`aedg_alaska_generation_monthly`](#aedg_alaska_generation_monthly): One Alaska service area's electricity generation from one fuel in one month, from the Alaska Energy Data Gateway.
@@ -63,19 +63,19 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 - [`msha_coal_mines`](#msha_coal_mines): One US coal mine in MSHA's Mines data set, with its current status, operator, place and type.
 - [`msha_coal_production_quarterly`](#msha_coal_production_quarterly): One coal mine's production, employee hours or average employees in one calendar quarter, its subunits summed, from MSHA's Quarterly Mine Employment and Production.
 - [`ncsi_oman_electricity_annual`](#ncsi_oman_electricity_annual): One year's value of Oman's electricity production, distribution or connections by governorate, or production by source, from NCSI's Energy Statistics 2026 tables 11 and 12.
-- [`nhc_hurdat2_track_points`](#nhc_hurdat2_track_points): NOAA National Hurricane Center, HURDAT2 best tracks: the fixes (six-hourly, landfalls and peaks between) of every cyclone in the Atlantic and the Northeast and North Central Pacific from 2000, with the landfalls the files mark (session 2059)
-- [`nlr_atb_electricity_costs`](#nlr_atb_electricity_costs): NLR (formerly NREL) 2025 Electricity Annual Technology Baseline, projected costs by technology and year (session 487)
-- [`ntd_transit_energy_annual`](#ntd_transit_energy_annual): Federal Transit Administration, National Transit Database, fuel and energy used by each agency, mode and type of service, report years 2022 to 2025, 553 agencies (session 2182)
-- [`nve_norway_reservoirs_weekly`](#nve_norway_reservoirs_weekly): Norwegian Water Resources and Energy Directorate (NVE), reservoir statistics (magasinstatistikk), Norway's hydropower reservoirs a week, 1995-01-08 to 2026-10-18 (session 2516)
-- [`ons_brazil_balance_hourly`](#ons_brazil_balance_hourly): ONS (Operador Nacional do Sistema Eletrico), Balanco de Energia nos Subsistemas, Brazil's generation by source, load and net interchange an hour by subsystem, 2020-01-01 to 2026-10-23 (session 2240)
-- [`owid_ember_electricity_annual`](#owid_ember_electricity_annual): Our World in Data, energy dataset, the columns from Ember alone: electricity demand and the power sector's greenhouse gas emissions by country and region, a year (session 2126)
-- [`ree_spain_balance_monthly`](#ree_spain_balance_monthly): Red Electrica (REE), REData, Spain's electrical energy balance a month: generation by technology, storage, exchanges and demand at busbars, 2020-01 to 2026-09 (session 2239)
+- [`nhc_hurdat2_track_points`](#nhc_hurdat2_track_points): One best-track fix (six-hourly, or a landfall or peak between) of one tropical or subtropical cyclone in the Atlantic or the Northeast and North Central Pacific from 2000, from NOAA's HURDAT2.
+- [`nlr_atb_electricity_costs`](#nlr_atb_electricity_costs): One technology case's value of one cost or performance measure (capital cost, O&M, fuel, capacity factor, LCOE) for one projection year, from the 2025 Electricity Annual Technology Baseline of the National Laboratory of the Rockies (formerly NREL).
+- [`ntd_transit_energy_annual`](#ntd_transit_energy_annual): One transit agency's fuel or energy used by one mode and type of service in one report year, from the National Transit Database.
+- [`nve_norway_reservoirs_weekly`](#nve_norway_reservoirs_weekly): One Norwegian area's (the country, a price area or a water region) hydropower reservoir filling, stored energy or capacity in one week, from NVE's reservoir statistics.
+- [`ons_brazil_balance_hourly`](#ons_brazil_balance_hourly): One Brazilian subsystem's (or the national interconnected system's) generation by source, load or net interchange in one hour, from ONS's energy balance.
+- [`owid_ember_electricity_annual`](#owid_ember_electricity_annual): One country's or region's electricity demand or power sector greenhouse gas emissions in one year, the Ember columns of Our World in Data's energy dataset.
+- [`ree_spain_balance_monthly`](#ree_spain_balance_monthly): One month's value of one series of Spain's electrical energy balance (generation by technology, storage, exchanges, demand at busbars), from Red Electrica's REData.
 - [`rrc_lease_production_monthly`](#rrc_lease_production_monthly): One Texas Railroad Commission lease's reported production of oil, casinghead gas, gas or condensate in Martin County in one month.
-- [`rte_eco2mix_france_halfhourly`](#rte_eco2mix_france_halfhourly): RTE, eco2mix, France's consumption, production by source and net physical exchanges every half hour, 2019-12-31 to 2026-08-31 (session 2238)
-- [`scb_sweden_electricity_monthly`](#scb_sweden_electricity_monthly): Statistics Sweden (SCB), table TAB1011, Electricity supply in Sweden by type of production (the Swedish Energy Agency's statistics), a month, 1974-01 to 2026-08 (session 2236)
-- [`scripps_co2_mlo_monthly`](#scripps_co2_mlo_monthly): the Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego), atmospheric CO2 at Mauna Loa Observatory, Hawaii, from in situ air measurements, a month from 1958 (session 2137)
-- [`singstat_singapore_electricity`](#singstat_singapore_electricity): Singapore Department of Statistics, SingStat Table Builder M890831 (Electricity Generation, Monthly) and M890841 (Electricity Generation And Consumption, Annual), 1975-01 to 2026-06 (session 2308)
-- [`smard_germany_monthly`](#smard_germany_monthly): Bundesnetzagentur, SMARD, Germany's actual generation by source and grid load, a month, 2015-01 to 2026-09 (session 2230)
+- [`rte_eco2mix_france_halfhourly`](#rte_eco2mix_france_halfhourly): France's consumption, production from one source or net physical exchanges in one half hour, from RTE's eco2mix national files.
+- [`scb_sweden_electricity_monthly`](#scb_sweden_electricity_monthly): One month's electricity supply in Sweden from one type of production (or imports, or the sum), from Statistics Sweden's table TAB1011 (the Swedish Energy Agency's statistics).
+- [`scripps_co2_mlo_monthly`](#scripps_co2_mlo_monthly): Atmospheric CO2 at Mauna Loa Observatory in one month, from the Scripps CO2 Program's in situ record.
+- [`singstat_singapore_electricity`](#singstat_singapore_electricity): Singapore's monthly electricity generation (table M890831), or one row of its annual generation and consumption by sector (table M890841), from SingStat's Table Builder.
+- [`smard_germany_monthly`](#smard_germany_monthly): Germany's actual generation from one source, or its grid load, in one month, from the Bundesnetzagentur's SMARD.
 - [`sne_panama_electricity_annual`](#sne_panama_electricity_annual): Secretaria Nacional de Energia, Panama, gross generation by plant type, net production, maximum demand and load factor, 1970 to 2021 (session 2407)
 - [`sne_panama_generation_monthly`](#sne_panama_generation_monthly): Secretaria Nacional de Energia, Panama, total gross generation a month, 1980-01 to 2021-12 (session 2407)
 - [`sors_serbia_electricity_annual`](#sors_serbia_electricity_annual): Statistical Office of the Republic of Serbia (SORS), Energy Balances, 2024 (final data), table 1, Serbia's balance of electricity in 2024 (session 2525)
@@ -2573,305 +2573,325 @@ Variables (4):
 
 ### `nhc_hurdat2_track_points`
 
-What a row is: not yet written.
+One best-track fix (six-hourly, or a landfall or peak between) of one tropical or subtropical cyclone in the Atlantic or the Northeast and North Central Pacific from 2000, from NOAA's HURDAT2.
 
 Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 2026-11-20: 27812.
 
+- **Time:** event_date is the fix's UTC day; x_time_utc its UTC time (HHMM).
+- **Revisions:** Rewritten whole as one snapshot by each run from the two HURDAT2 files; vintage is each file's Last-Modified.
 - **Source:** nhc:hurdat2 NOAA National Hurricane Center, HURDAT2 (the best track data) (https://www.nhc.noaa.gov/data/#hurdat)
 - **Method note:** [`docs/methods/nhc_hurdat2_track_points.md`](../methods/nhc_hurdat2_track_points.md)
 - **Cite as:** NOAA National Weather Service, National Hurricane Center. HURDAT2: best track data, Atlantic and Northeast and North Central Pacific. Via the Energy Research Warehouse (ERW), table `nhc_hurdat2_track_points`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents | none | text | for example nhc:AL012000:200006071800, nhc:AL012000:200006080000, nhc:AL012000:200006080600; more than 5000 distinct | 0 |
+| `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents. Here: nhc:<storm id>:<YYYYMMDDHHMM> | none | text | for example nhc:AL012000:200006071800, nhc:AL012000:200006080000, nhc:AL012000:200006080600; more than 5000 distinct | 0 |
 | `event_date` | The date the event happened or was announced (each table's file says which) | none | date | 2000-05-22 to 2025-11-01; 3686 distinct | 0 |
-| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others) | none | text | disturbance, extratropical, hurricane, low, subtropical_depression, subtropical_storm, tropical_depression, tropical_storm, wave | 0 |
-| `parties` | The parties to the event, as the publisher names them, separated by semicolons | none | text | NHC | 0 |
+| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others). Here: The system's status at the fix (tropical storm, hurricane and others) | none | text | disturbance, extratropical, hurricane, low, subtropical_depression, subtropical_storm, tropical_depression, tropical_storm, wave | 0 |
+| `parties` | The parties to the event, as the publisher names them, separated by semicolons. Here: NHC on every row | none | text | NHC | 0 |
 | `entity_ids` | The entity_id values of the things involved, separated by semicolons | none | empty | no cell holds a value | 27812 |
 | `mw` | The capacity involved, in megawatts | MW | empty | no cell holds a value | 27812 |
 | `price` | The price, in the row's currency per MWh unless the table's file says otherwise | the row's currency per MWh, unless the table's file says otherwise | empty | no cell holds a value | 27812 |
 | `currency` | The currency of the price, as an ISO 4217 code (USD) | none | empty | no cell holds a value | 27812 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | empty | no cell holds a value | 27812 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 27812 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | nhc:hurdat2 | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.nhc.noaa.gov/data/hurdat/hurdat2-1851-2025-092326.txt, https://www.nhc.noaa.gov/data/hurdat/hurdat2-nepac-1949-2025-092926.txt | 0 |
-| `x_storm_id` | not yet written |  | text | for example AL012000, AL012001, AL012002; 973 distinct | 0 |
-| `x_storm_name` | not yet written |  | text | for example ADOLPH, ADRIAN, AGATHA; 341 distinct | 0 |
-| `x_basin` | not yet written |  | text | atlantic, pacific | 0 |
-| `x_time_utc` | not yet written |  | integer | 0 to 2330; 126 distinct | 0 |
-| `x_record` | not yet written |  | text | C, G, I, L, P, R, S, T, W | 27230 |
-| `x_landfall` | not yet written |  | integer | 0, 1 | 0 |
-| `x_lat` | not yet written |  | number | 0.4 to 70.7; 585 distinct | 0 |
-| `x_lon` | not yet written |  | number | -180.0 to 179.9; 1923 distinct | 0 |
-| `x_max_wind_kt` | not yet written |  | integer | 10 to 185; 34 distinct | 0 |
-| `x_min_pressure_mb` | not yet written |  | integer | 872 to 1024; 129 distinct | 41 |
+| `x_storm_id` | The storm's ATCF id (basin, number, season) | none | text | for example AL012000, AL012001, AL012002; 973 distinct | 0 |
+| `x_storm_name` | The storm's name as the file writes it (UNNAMED for some) | none | text | for example ADOLPH, ADRIAN, AGATHA; 341 distinct | 0 |
+| `x_basin` | The basin: atlantic or pacific | none | text | atlantic, pacific | 0 |
+| `x_time_utc` | The fix's UTC time, HHMM (0000, 0600, 1200, 1800, or another hour for a record the file marks) | none | integer | 0 to 2330; 126 distinct | 0 |
+| `x_record` | The file's record identifier: L a landfall, I an intensity peak, P a minimum pressure, others as the file writes them | none | text | C, G, I, L, P, R, S, T, W | 27230: The fix carries no record identifier |
+| `x_landfall` | 1 where x_record is L (a landfall), else 0 | none | integer | 0, 1 | 0 |
+| `x_lat` | The fix's latitude, decimal degrees, north positive | degree | number | 0.4 to 70.7; 585 distinct | 0 |
+| `x_lon` | The fix's longitude, decimal degrees, east positive | degree | number | -180.0 to 179.9; 1923 distinct | 0 |
+| `x_max_wind_kt` | The maximum sustained wind | kt | integer | 10 to 185; 34 distinct | 0 |
+| `x_min_pressure_mb` | The minimum central pressure | mb | integer | 872 to 1024; 129 distinct | 41: The file writes -999 (no pressure given) |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T20:09:44Z, 2026-10-23T20:09:46Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-09-30T18:37:36Z, 2026-09-30T18:37:37Z | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The basin file's Last-Modified (UTC) | none | utc time | 2026-09-30T18:37:36Z, 2026-09-30T18:37:37Z | 0 |
+
+Waiting for a second look: x_record: the record identifiers C, G, R, S, T and W are not defined in the connector or the method note (L, I and P are)..
 
 ### `nlr_atb_electricity_costs`
 
-What a row is: not yet written.
+One technology case's value of one cost or performance measure (capital cost, O&M, fuel, capacity factor, LCOE) for one projection year, from the 2025 Electricity Annual Technology Baseline of the National Laboratory of the Rockies (formerly NREL).
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 95000.
 
+- **Time:** ts_utc is the projection year's 1 January at 00:00:00Z; freq P1Y; 2023 to 2060.
+- **Revisions:** Rewritten whole as one snapshot by each run from the ATB's parquet file; vintage is the file's Last-Modified.
 - **Source:** nlr:atb_electricity National Laboratory of the Rockies (NLR, formerly NREL), 2025 Electricity Annual Technology Baseline (ATB) v1.0.0 (https://atb.nrel.gov/electricity/)
 - **Method note:** [`docs/methods/nlr_atb_electricity_costs.md`](../methods/nlr_atb_electricity_costs.md)
 - **Cite as:** National Laboratory of the Rockies (NLR, formerly NREL). Electricity Annual Technology Baseline (ATB), flat file. Via the Energy Research Warehouse (ERW), table `nlr_atb_electricity_costs`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example nlr_atb_2025:biopower:dedicated:biopower:utility:advanced, nlr_atb_2025:biopower:dedicated:biopower:utility:conservative, nlr_atb_2025:biopower:dedicated:biopower:utility:moderate; 547 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: nlr_atb_2025:<technology>:<detail>:<scenario>, lower case | none | text | for example nlr_atb_2025:biopower:dedicated:biopower:utility:advanced, nlr_atb_2025:biopower:dedicated:biopower:utility:conservative, nlr_atb_2025:biopower:dedicated:biopower:utility:moderate; 547 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2023-01-01T00:00:00Z to 2060-01-01T00:00:00Z; 38 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.1169815322192364 to 24600.93062840958; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | USD/MWh, USD/kW, USD/kW-year, ratio | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 95000 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Biopower - Dedicated, CSP - Class 2, CSP - Class 3; 183 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US on every row | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 95000 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The ATB's display name, not a pricing node | none | text | for example Biopower - Dedicated, CSP - Class 2, CSP - Class 3; 183 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | nlr:atb_electricity | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://oedi-data-lake.s3.amazonaws.com/ATB/electricity/parquet/2025/v1.0.0/ATBe.parquet | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-21T17:03:29Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-09-01T22:22:25Z | 0 |
-| `x_technology` | not yet written |  | text | Biopower, CSP, Coal_FE, Coal_Retrofits, CommPV, Commercial Battery Storage, DistributedWind, Geothermal, Hydropower, LandbasedWind, NaturalGas_FE, NaturalGas_Retrofits, Nuclear, OffShoreWind, Pumped Storage Hydropower, ResPV, Residential Battery Storage, Utility-Scale Battery Storage, Utility-Scale PV-Plus-Battery, UtilityPV | 0 |
-| `x_techdetail` | not yet written |  | text | for example 10Hr Battery Storage, 1Hr Battery Storage, 2Hr Battery Storage; 124 distinct | 456 |
-| `x_techdetail2` | not yet written |  | text | for example 90%-CCS, 95%-CCS, 99%-CCS; 59 distinct | 0 |
-| `x_resourcedetail` | not yet written |  | text | for example Class1, Class10, Class11; 39 distinct | 4104 |
-| `x_scale` | not yet written |  | text | Commercial, Residential, Utility | 0 |
-| `x_scenario` | not yet written |  | text | Advanced, Conservative, Moderate | 0 |
-| `x_display_name` | not yet written |  | text | for example Biopower - Dedicated, CSP - Class 2, CSP - Class 3; 183 distinct | 0 |
-| `x_default` | not yet written |  | integer | 0, 1 | 0 |
-| `x_maturity` | not yet written |  | text | N, Y | 0 |
-| `x_case` | not yet written |  | text | R&D | 0 |
-| `x_crp_years` | not yet written |  | integer | 30 | 0 |
-| `x_dollar_year` | not yet written |  | integer | 2023 | 0 |
-| `x_atb_version` | not yet written |  | text | 2025 v1.0.0 | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The parquet file's Last-Modified (UTC) | none | utc time | 2026-09-01T22:22:25Z | 0 |
+| `x_technology` | The ATB's technology (UtilityPV, LandbasedWind, NaturalGas_FE, Utility-Scale Battery Storage and others) (the source's name: technology) | none | text | Biopower, CSP, Coal_FE, Coal_Retrofits, CommPV, Commercial Battery Storage, DistributedWind, Geothermal, Hydropower, LandbasedWind, NaturalGas_FE, NaturalGas_Retrofits, Nuclear, OffShoreWind, Pumped Storage Hydropower, ResPV, Residential Battery Storage, Utility-Scale Battery Storage, Utility-Scale PV-Plus-Battery, UtilityPV | 0 |
+| `x_techdetail` | The ATB's technology detail (a class, a duration, a configuration) (the source's name: techdetail) | none | text | for example 10Hr Battery Storage, 1Hr Battery Storage, 2Hr Battery Storage; 124 distinct | 456: The ATB gives no detail |
+| `x_techdetail2` | The ATB's second technology detail (a carbon capture share, a technology name) (the source's name: techdetail2) | none | text | for example 90%-CCS, 95%-CCS, 99%-CCS; 59 distinct | 0 |
+| `x_resourcedetail` | The ATB's resource detail (a resource class) (the source's name: resourcedetail) | none | text | for example Class1, Class10, Class11; 39 distinct | 4104: The ATB gives no resource detail |
+| `x_scale` | The ATB's scale: Utility, Commercial or Residential (the source's name: scale) | none | text | Commercial, Residential, Utility | 0 |
+| `x_scenario` | The ATB's scenario: Advanced, Moderate or Conservative (the source's name: scenario) | none | text | Advanced, Conservative, Moderate | 0 |
+| `x_display_name` | The ATB's display name of the technology case (the source's name: display_name) | none | text | for example Biopower - Dedicated, CSP - Class 2, CSP - Class 3; 183 distinct | 0 |
+| `x_default` | The ATB's default field, as published (1 or 0) (the source's name: default) | none | integer | 0, 1 | 0 |
+| `x_maturity` | The ATB's maturity field, as published (Y or N) (the source's name: maturity) | none | text | N, Y | 0 |
+| `x_case` | The ATB's cost case: R&D (no tax credits), the default view | none | text | R&D | 0 |
+| `x_crp_years` | The cost recovery period, years (30, the default view) | year | integer | 30 | 0 |
+| `x_dollar_year` | The dollar year of the costs (2023) | none | integer | 2023 | 0 |
+| `x_atb_version` | The ATB edition and version (2025 v1.0.0) | none | text | 2025 v1.0.0 | 0 |
 
 Variables (7):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `capacity_factor` |  | ratio | 14496 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
-| `capex` |  | USD/kW | 19844 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
-| `fixed_om` |  | USD/kW-year | 20528 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
-| `fuel` |  | USD/MWh | 393 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
-| `lcoe` |  | USD/MWh | 14496 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
-| `occ` |  | USD/kW | 19844 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
-| `variable_om` |  | USD/MWh | 5399 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
+| `capacity_factor` | Capacity factor | ratio | 14496 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
+| `capex` | Capital expenditure, USD per kW (2023 dollars) | USD/kW | 19844 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
+| `fixed_om` | Fixed operation and maintenance cost, USD per kW-year | USD/kW-year | 20528 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
+| `fuel` | Fuel cost, USD per MWh | USD/MWh | 393 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
+| `lcoe` | Levelized cost of energy, USD per MWh (R&D case, 30-year cost recovery period) | USD/MWh | 14496 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
+| `occ` | Overnight capital cost, USD per kW | USD/kW | 19844 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
+| `variable_om` | Variable operation and maintenance cost, USD per MWh | USD/MWh | 5399 | 2023-01-01T00:00:00Z | 2060-01-01T00:00:00Z |
+
+Waiting for a second look: x_default (the ATB's default field, 1 or 0) and x_maturity (the ATB's maturity field, Y or N): what each marks is not written in the connector, the method note or the header..
 
 ### `ntd_transit_energy_annual`
 
-What a row is: not yet written.
+One transit agency's fuel or energy used by one mode and type of service in one report year, from the National Transit Database.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 10161.
 
+- **Time:** ts_utc is the report year's first day at 00:00:00Z; freq P1Y; 2022 to 2025.
+- **Revisions:** Rewritten whole as one snapshot by each run from the FTA's CSV; vintage is the file's Last-Modified.
 - **Source:** fta:ntd_fuel_energy Federal Transit Administration, 2022 - 2025 NTD Annual Data - Fuel and Energy (DOT DataHub 8ehq-7his) (https://data.transportation.gov/d/8ehq-7his)
 - **Method note:** [`docs/methods/ntd_transit_energy_annual.md`](../methods/ntd_transit_energy_annual.md)
 - **Cite as:** U.S. Department of Transportation, Federal Transit Administration (FTA). 2022 - 2025 NTD Annual Data - Fuel and Energy. Via the Energy Research Warehouse (ERW), table `ntd_transit_energy_annual`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example ntd_mode:00001:DR:PT, ntd_mode:00001:DR:TX, ntd_mode:00001:FB:DO; 1425 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ntd_mode:<NTD ID>:<mode>:<type of service> | none | text | for example ntd_mode:00001:DR:PT, ntd_mode:00001:DR:TX, ntd_mode:00001:FB:DO; 1425 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2022-01-01T00:00:00Z, 2023-01-01T00:00:00Z, 2024-01-01T00:00:00Z, 2025-01-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 28389998.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MWh, gal, t | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US-AK, US-AL, US-AR; 51 distinct | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 10161 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Academy Lines, Inc., dba: Academy: Commuter Bus (DO), Academy Lines, Inc.: Commuter Bus (DO), Access Services: Demand Response (PT); 1751 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state of the agency's headquarters> | none | text | for example US-AK, US-AL, US-AR; 51 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 10161 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The agency, mode and type of service as the FTA names them, not a pricing node | none | text | for example Academy Lines, Inc., dba: Academy: Commuter Bus (DO), Academy Lines, Inc.: Commuter Bus (DO), Access Services: Demand Response (PT); 1751 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | fta:ntd_fuel_energy | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://data.transportation.gov/api/views/8ehq-7his/rows.csv?accessType=DOWNLOAD | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T01:54:08Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-10-14T15:08:39Z | 0 |
-| `x_ntd_id` | not yet written |  | integer | 1 to 99425; 553 distinct | 0 |
-| `x_agency` | not yet written |  | text | for example Academy Lines, Inc., Academy Lines, Inc., dba: Academy, Access Services; 696 distinct | 0 |
-| `x_city` | not yet written |  | text | for example Akron, Albany, Albuquerque; 425 distinct | 16 |
-| `x_mode` | not yet written |  | text | AR, CB, CC, CR, DR, FB, HR, IP, LR, MB, MG, PB, RB, SR, TB, TR, VP, YR | 0 |
-| `x_tos` | not yet written |  | text | DO, PT, TN, TX | 0 |
-| `x_uza` | not yet written |  | text | for example Akron, OH, Albany, GA, Albany--Schenectady, NY; 302 distinct | 0 |
-| `x_mode_voms` | not yet written |  | integer | 0 to 5489; 466 distinct | 7 |
-| `x_reporter_type` | not yet written |  | text | Full Reporter, Reduced Reporter | 0 |
-| `x_questionable` | not yet written |  | empty | no cell holds a value | 10161 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The file's Last-Modified (UTC) | none | utc time | 2026-10-14T15:08:39Z | 0 |
+| `x_ntd_id` | The agency's NTD ID (the source's name: NTD ID) | none | integer | 1 to 99425; 553 distinct | 0 |
+| `x_agency` | The agency's name in the report year (it can differ between years) (the source's name: Agency) | none | text | for example Academy Lines, Inc., Academy Lines, Inc., dba: Academy, Access Services; 696 distinct | 0 |
+| `x_city` | The agency's city (the source's name: City) | none | text | for example Akron, Albany, Albuquerque; 425 distinct | 16: The FTA gives no city (four agencies) |
+| `x_mode` | The FTA's mode code (MB, DR, CB, VP and others; the mode's name is in node) (the source's name: Mode) | none | text | AR, CB, CC, CR, DR, FB, HR, IP, LR, MB, MG, PB, RB, SR, TB, TR, VP, YR | 0 |
+| `x_tos` | The type of service: DO directly operated, PT purchased transportation, and the FTA's other codes (the source's name: TOS) | none | text | DO, PT, TN, TX | 0 |
+| `x_uza` | The urbanized area (the source's name: UZA Name) | none | text | for example Akron, OH, Albany, GA, Albany--Schenectady, NY; 302 distinct | 0 |
+| `x_mode_voms` | Vehicles operated in maximum service in the mode (the source's name: Mode VOMS) | count | integer | 0 to 5489; 466 distinct | 7: The FTA leaves it blank |
+| `x_reporter_type` | The agency's reporter type: Full Reporter or Reduced Reporter (the source's name: Reporter Type) | none | text | Full Reporter, Reduced Reporter | 0 |
+| `x_questionable` | yes where the FTA marks the figure Questionable | none | empty | no cell holds a value | 10161: Not marked Questionable (no row is marked in this run) |
 
 Variables (9):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `biodiesel` |  | gal | 571 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `cng_gal_equivalent` |  | gal | 832 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `diesel` |  | gal | 2236 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `electric_battery` |  | MWh | 3000 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `electric_propulsion` |  | MWh | 359 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `gasoline` |  | gal | 2862 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `hydrogen` |  | t | 43 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `lpg_gal_equivalent` |  | gal | 222 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `other_fuel` |  | gal | 36 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `biodiesel` | Biodiesel used in the year | gal | 571 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `cng_gal_equivalent` | Compressed natural gas used, gallon equivalents as the FTA reports them | gal | 832 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `diesel` | Diesel used in the year | gal | 2236 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `electric_battery` | Electric battery energy used (the FTA's kWh / 1,000) | MWh | 3000 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `electric_propulsion` | Electric propulsion energy used (the FTA's kWh / 1,000) | MWh | 359 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `gasoline` | Gasoline used in the year | gal | 2862 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `hydrogen` | Hydrogen used (the FTA's kg / 1,000) | t | 43 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `lpg_gal_equivalent` | Liquefied petroleum gas used, gallon equivalents as the FTA reports them | gal | 222 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `other_fuel` | Other fuel used in the year | gal | 36 | 2022-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+
+Waiting for a second look: x_tos: the type-of-service codes TN and TX are not defined in the connector or the method note (DO and PT are)..
 
 ### `nve_norway_reservoirs_weekly`
 
-What a row is: not yet written.
+One Norwegian area's (the country, a price area or a water region) hydropower reservoir filling, stored energy or capacity in one week, from NVE's reservoir statistics.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 44793.
 
+- **Time:** ts_utc is the date NVE gives the week (its last day) at 00:00:00Z: a stock at that date; freq P1W.
+- **Revisions:** Rewritten whole as one snapshot by each run from NVE's one answer; vintage is not filled.
 - **Source:** nve:magasinstatistikk NVE, reservoir statistics (magasinstatistikk) (https://api.nve.no/doc/magasinstatistikk/)
 - **Method note:** [`docs/methods/nve_norway_reservoirs_weekly.md`](../methods/nve_norway_reservoirs_weekly.md)
 - **Cite as:** Norwegian Water Resources and Energy Directorate (NVE). Reservoir statistics (magasinstatistikk): filling share, stored energy and capacity a week. Via the Energy Research Warehouse (ERW), table `nve_norway_reservoirs_weekly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | nve:no:no, nve:no:no1, nve:no:no2, nve:no:no3, nve:no:no4, nve:no:no5, nve:no:region_1, nve:no:region_2, nve:no:region_3 | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: nve:no:<area>: no (the country), no1 to no5 (price areas), region_1 to region_3 (water regions) | none | text | nve:no:no, nve:no:no1, nve:no:no2, nve:no:no3, nve:no:no4, nve:no:no5, nve:no:region_1, nve:no:region_2, nve:no:region_3 | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 1995-01-08T00:00:00Z to 2026-10-18T00:00:00Z; 1659 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 5.165346 to 87437580.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MWh, pct | 0 |
 | `freq` | How long the interval of the row is | none | text | P1W | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | NO | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 44793 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example EL 1, 1995-W01, EL 1, 1995-W02, EL 1, 1995-W03; more than 5000 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: NO on every row, whatever the area | none | text | NO | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 44793 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: NVE's area type and number with the ISO week, not a pricing node | none | text | for example EL 1, 1995-W01, EL 1, 1995-W02, EL 1, 1995-W03; more than 5000 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | nve:magasinstatistikk | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://biapi.nve.no/magasinstatistikk/api/Magasinstatistikk/HentOffentligData | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T17:57:48Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 44793 |
-| `x_iso_week` | not yet written |  | text | for example 1995-W01, 1995-W02, 1995-W03; 1659 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 44793 |
+| `x_iso_week` | The ISO week (YYYY-Www) | none | text | for example 1995-W01, 1995-W02, 1995-W03; 1659 distinct | 0 |
 
 Variables (3):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `capacity` |  | MWh | 14931 | 1995-01-08T00:00:00Z | 2026-10-18T00:00:00Z |
-| `filling_share` |  | pct | 14931 | 1995-01-08T00:00:00Z | 2026-10-18T00:00:00Z |
-| `stored_energy` |  | MWh | 14931 | 1995-01-08T00:00:00Z | 2026-10-18T00:00:00Z |
+| `capacity` | Reservoir capacity in energy (from TWh) | MWh | 14931 | 1995-01-08T00:00:00Z | 2026-10-18T00:00:00Z |
+| `filling_share` | Reservoir filling, percent of capacity, at the week's date | pct | 14931 | 1995-01-08T00:00:00Z | 2026-10-18T00:00:00Z |
+| `stored_energy` | Energy stored in the reservoirs at the week's date (from TWh) | MWh | 14931 | 1995-01-08T00:00:00Z | 2026-10-18T00:00:00Z |
 
 ### `ons_brazil_balance_hourly`
 
-What a row is: not yet written.
+One Brazilian subsystem's (or the national interconnected system's) generation by source, load or net interchange in one hour, from ONS's energy balance.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1790640.
 
+- **Time:** ts_utc is the hour's start in UTC, from Brasilia time (UTC-3) as ONS prints it; freq PT1H.
+- **Revisions:** Merged by (entity, variable, ts_utc): each run's hours replace the same hours (ONS revises its data) and older ones are kept; vintage is each yearly file's Last-Modified.
 - **Source:** ons:balanco_energia_subsistema ONS, open data, Balanco de Energia nos Subsistemas (hourly) (https://dados.ons.org.br/dataset/balanco-energia-subsistema)
 - **Method note:** [`docs/methods/ons_brazil_balance_hourly.md`](../methods/ons_brazil_balance_hourly.md)
 - **Cite as:** Operador Nacional do Sistema Eletrico (ONS). Dados Abertos ONS, Balanco de Energia nos Subsistemas (hourly). Via the Energy Research Warehouse (ERW), table `ons_brazil_balance_hourly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | ons:N, ons:NE, ons:S, ons:SE, ons:SIN | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ons:<subsystem>: N, NE, S, SE, or SIN (the national interconnected system) | none | text | ons:N, ons:NE, ons:S, ons:SE, ons:SIN | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2020-01-01T03:00:00Z to 2026-10-23T02:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -16172.03099999 to 106148.66; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | BR | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 1790640 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | NORDESTE, NORTE, SISTEMA INTERLIGADO NACIONAL, SUDESTE/CENTRO-OESTE, SUL | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: BR on every row | none | text | BR | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1790640 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: ONS's subsystem name in Portuguese, not a pricing node | none | text | NORDESTE, NORTE, SISTEMA INTERLIGADO NACIONAL, SUDESTE/CENTRO-OESTE, SUL | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | ons:balanco_energia_subsistema | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://ons-aws-prod-opendata.s3.amazonaws.com/dataset/balanco_energia_subsistema_ho/BALANCO_ENERGIA_SUBSISTEMA_2020.csv, https://ons-aws-prod-opendata.s3.amazonaws.com/dataset/balanco_energia_subsistema_ho/BALANCO_ENERGIA_SUBSISTEMA_2021.csv, https://ons-aws-prod-opendata.s3.amazonaws.com/dataset/balanco_energia_subsistema_ho/BALANCO_ENERGIA_SUBSISTEMA_2022.csv, https://ons-aws-prod-opendata.s3.amazonaws.com/dataset/balanco_energia_subsistema_ho/BALANCO_ENERGIA_SUBSISTEMA_2023.csv, https://ons-aws-prod-opendata.s3.amazonaws.com/dataset/balanco_energia_subsistema_ho/BALANCO_ENERGIA_SUBSISTEMA_2024.csv, https://ons-aws-prod-opendata.s3.amazonaws.com/dataset/balanco_energia_subsistema_ho/BALANCO_ENERGIA_SUBSISTEMA_2025.csv, https://ons-aws-prod-opendata.s3.amazonaws.com/dataset/balanco_energia_subsistema_ho/BALANCO_ENERGIA_SUBSISTEMA_2026.csv | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T03:25:26Z, 2026-10-24T03:25:27Z, 2026-10-24T03:25:28Z, 2026-10-24T03:25:29Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2024-10-20T14:55:51Z, 2024-10-20T14:56:38Z, 2024-10-20T14:57:21Z, 2025-07-28T13:30:26Z, 2025-07-28T13:31:29Z, 2026-01-31T22:01:09Z, 2026-10-23T22:00:22Z | 0 |
-| `x_brasilia_hour` | not yet written |  | text | for example 2020-01-01 00:00:00, 2020-01-01 01:00:00, 2020-01-01 02:00:00; more than 5000 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The yearly file's Last-Modified (UTC) | none | utc time | 2024-10-20T14:55:51Z, 2024-10-20T14:56:38Z, 2024-10-20T14:57:21Z, 2025-07-28T13:30:26Z, 2025-07-28T13:31:29Z, 2026-01-31T22:01:09Z, 2026-10-23T22:00:22Z | 0 |
+| `x_brasilia_hour` | ONS's stamp of the hour as printed, Brasilia time (the source's name: din_instante) | none | text | for example 2020-01-01 00:00:00, 2020-01-01 01:00:00, 2020-01-01 02:00:00; more than 5000 distinct | 0 |
 
 Variables (6):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `hydro` |  | MW | 298440 | 2020-01-01T03:00:00Z | 2026-10-23T02:00:00Z |
-| `load` |  | MW | 298440 | 2020-01-01T03:00:00Z | 2026-10-23T02:00:00Z |
-| `net_interchange` |  | MW | 298440 | 2020-01-01T03:00:00Z | 2026-10-23T02:00:00Z |
-| `solar` |  | MW | 298440 | 2020-01-01T03:00:00Z | 2026-10-23T02:00:00Z |
-| `thermal` |  | MW | 298440 | 2020-01-01T03:00:00Z | 2026-10-23T02:00:00Z |
-| `wind` |  | MW | 298440 | 2020-01-01T03:00:00Z | 2026-10-23T02:00:00Z |
+| `hydro` | Hydro generation, the hour's mean (ONS's MWmed) | MW | 298440 | 2020-01-01T03:00:00Z | 2026-10-23T02:00:00Z |
+| `load` | Load, the hour's mean | MW | 298440 | 2020-01-01T03:00:00Z | 2026-10-23T02:00:00Z |
+| `net_interchange` | ONS's net interchange, positive an export (it can differ from generation minus load) | MW | 298440 | 2020-01-01T03:00:00Z | 2026-10-23T02:00:00Z |
+| `solar` | Solar generation, the hour's mean | MW | 298440 | 2020-01-01T03:00:00Z | 2026-10-23T02:00:00Z |
+| `thermal` | Thermal generation, the hour's mean | MW | 298440 | 2020-01-01T03:00:00Z | 2026-10-23T02:00:00Z |
+| `wind` | Wind generation, the hour's mean | MW | 298440 | 2020-01-01T03:00:00Z | 2026-10-23T02:00:00Z |
 
 ### `owid_ember_electricity_annual`
 
-What a row is: not yet written.
+One country's or region's electricity demand or power sector greenhouse gas emissions in one year, the Ember columns of Our World in Data's energy dataset.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 12406.
 
+- **Time:** ts_utc is the year's 1 January at 00:00:00Z; freq P1Y.
+- **Revisions:** Merged by (entity, variable, ts_utc): each run's years replace the same keys and older ones are kept; vintage is the file's Last-Modified.
 - **Source:** owid:energy Our World in Data, energy dataset (based on Ember's Yearly Electricity Data and Yearly Electricity Data Europe, 2026) (https://ourworldindata.org/energy)
 - **Method note:** [`docs/methods/owid_ember_electricity_annual.md`](../methods/owid_ember_electricity_annual.md)
 - **Cite as:** Ember; Our World in Data. Energy dataset (owid_energy), Ember's electricity demand and emissions columns; Yearly Electricity Data and Yearly Electricity Data Europe (through Our World in Data). Via the Energy Research Warehouse (ERW), table `owid_ember_electricity_annual`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example owid_energy:ABW, owid_energy:AFG, owid_energy:AGO; 239 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: owid_energy:<ISO alpha-3>, or owid_energy:<region or income group in snake case> | none | text | for example owid_energy:ABW, owid_energy:AFG, owid_energy:AGO; 239 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 1990-01-01T00:00:00Z to 2025-01-01T00:00:00Z; 36 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 31772350000.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MWh, tCO2e | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | empty | no cell holds a value | 12406 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 12406 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example ASEAN (Ember), Afghanistan, Africa; 239 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 12406 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 12406 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The country's or region's name, not a pricing node | none | text | for example ASEAN (Ember), Afghanistan, Africa; 239 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | owid:energy | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://catalog.ourworldindata.org/energy/owid_energy/owid_energy.csv | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T23:07:14Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-09-30T14:42:02Z | 0 |
-| `x_iso_code` | not yet written |  | text | for example ABW, AFG, AGO; 214 distinct | 1302 |
-| `x_owid_column` | not yet written |  | text | electricity_demand_twh, electricity_emissions_mtco2eq | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The file's Last-Modified (UTC) | none | utc time | 2026-09-30T14:42:02Z | 0 |
+| `x_iso_code` | The country's ISO alpha-3 code | none | text | for example ABW, AFG, AGO; 214 distinct | 1302: Empty on regions and income groups |
+| `x_owid_column` | Our World in Data's column the value is read from (electricity_demand_twh, electricity_emissions_mtco2eq) | none | text | electricity_demand_twh, electricity_emissions_mtco2eq | 0 |
 
 Variables (2):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `electricity_demand` |  | MWh | 6378 | 1990-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `electricity_emissions` |  | tCO2e | 6028 | 2000-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `electricity_demand` | Electricity demand in the year (Ember via Our World in Data; TWh times 1,000,000) | MWh | 6378 | 1990-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `electricity_emissions` | The power sector's greenhouse gas emissions in the year, CO2 equivalent (million tonnes times 1,000,000) | tCO2e | 6028 | 2000-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 
 ### `ree_spain_balance_monthly`
 
-What a row is: not yet written.
+One month's value of one series of Spain's electrical energy balance (generation by technology, storage, exchanges, demand at busbars), from Red Electrica's REData.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1890.
 
+- **Time:** ts_utc is the month's first day at 00:00:00Z; freq P1M; from 2020-01.
+- **Revisions:** Merged by (entity, variable, ts_utc): each run's months replace the same months and older ones are kept; vintage is not filled.
 - **Source:** ree:redata_balance_electrico Red Electrica (REE), REData API, balance-electrico (https://www.ree.es/en/datos/balance)
 - **Method note:** [`docs/methods/ree_spain_balance_monthly.md`](../methods/ree_spain_balance_monthly.md)
 - **Cite as:** Red Electrica (REE). REData API, electrical energy balance (balance-electrico), a month. Via the Energy Research Warehouse (ERW), table `ree_spain_balance_monthly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | ree:ES | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: ree:ES on every row | none | text | ree:ES | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2020-01-01T00:00:00Z to 2026-09-01T00:00:00Z; 81 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -2876662.709 to 25259616.550000016; 1873 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MWh | 0 |
 | `freq` | How long the interval of the row is | none | text | P1M | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | ES | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 1890 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Spain | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: ES on every row | none | text | ES | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1890 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Spain on every row, not a pricing node | none | text | Spain | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | ree:redata_balance_electrico | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://apidatos.ree.es/en/datos/balance/balance-electrico?start_date=2020-01-01T00:00&end_date=2020-12-31T23:59&time_trunc=month, https://apidatos.ree.es/en/datos/balance/balance-electrico?start_date=2021-01-01T00:00&end_date=2021-12-31T23:59&time_trunc=month, https://apidatos.ree.es/en/datos/balance/balance-electrico?start_date=2022-01-01T00:00&end_date=2022-12-31T23:59&time_trunc=month, https://apidatos.ree.es/en/datos/balance/balance-electrico?start_date=2023-01-01T00:00&end_date=2023-12-31T23:59&time_trunc=month, https://apidatos.ree.es/en/datos/balance/balance-electrico?start_date=2024-01-01T00:00&end_date=2024-12-31T23:59&time_trunc=month, https://apidatos.ree.es/en/datos/balance/balance-electrico?start_date=2025-01-01T00:00&end_date=2025-12-31T23:59&time_trunc=month, https://apidatos.ree.es/en/datos/balance/balance-electrico?start_date=2026-01-01T00:00&end_date=2026-12-31T23:59&time_trunc=month | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T03:18:21Z, 2026-10-24T03:18:54Z, 2026-10-24T03:19:23Z, 2026-10-24T03:19:46Z, 2026-10-24T03:20:09Z, 2026-10-24T03:20:34Z, 2026-10-24T03:21:03Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 1890 |
-| `x_group` | not yet written |  | text | Almacenamiento, Demand, Non-renewable, Renewable | 0 |
-| `x_series_id` | not yet written |  | integer | 10288, 10289, 10290, 10291, 10292, 10293, 10294, 10295, 10297, 10298, 10299, 10344, 10483, 1445, 1446, 1450, 1451, 1454, 1455, 1458, 1459, 1472, 1474, 2180, 2181 | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1890 |
+| `x_group` | REE's group of the series: Renewable, Non-renewable, Almacenamiento (storage) or Demand (the source's name: type) | none | text | Almacenamiento, Demand, Non-renewable, Renewable | 0 |
+| `x_series_id` | REE's id of the series (the source's name: id) | none | integer | 10288, 10289, 10290, 10291, 10292, 10293, 10294, 10295, 10297, 10298, 10299, 10344, 10483, 1445, 1446, 1450, 1451, 1454, 1455, 1458, 1459, 1472, 1474, 2180, 2181 | 0 |
 
 Variables (25):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `battery_charging` |  | MWh | 45 | 2023-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `battery_delivery` |  | MWh | 45 | 2023-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `coal` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `cogeneration` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `combined_cycle` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `cross_border_exchange_balance` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `demand_at_busbars` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `diesel_engines` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `fuel_gas` |  | MWh | 18 | 2020-03-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `gas_turbine` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `hydro` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `hydroeolian` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `non_renewable_generation` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `non_renewable_waste` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `nuclear` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `other_renewables` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `pumping_consumption` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `pumping_turbine` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `renewable_generation` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `renewable_waste` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `solar_photovoltaic` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `steam_turbine` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `storage_balance` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `thermal_solar` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `wind` |  | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `battery_charging` | Battery charging (negative, as REE gives it) | MWh | 45 | 2023-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `battery_delivery` | Battery delivery | MWh | 45 | 2023-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `coal` | Coal generation | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `cogeneration` | Cogeneration | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `combined_cycle` | Combined cycle generation | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `cross_border_exchange_balance` | Cross-border exchange balance (a net export negative) | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `demand_at_busbars` | Demand at busbars | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `diesel_engines` | Diesel engine generation | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `fuel_gas` | Fuel and gas generation | MWh | 18 | 2020-03-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `gas_turbine` | Gas turbine generation | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `hydro` | Hydro generation | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `hydroeolian` | Hydro-wind generation | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `non_renewable_generation` | Non-renewable generation, REE's subtotal | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `non_renewable_waste` | Non-renewable waste generation | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `nuclear` | Nuclear generation | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `other_renewables` | Other renewable generation | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `pumping_consumption` | Pumping consumption (negative, as REE gives it) | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `pumping_turbine` | Pumped storage turbine generation | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `renewable_generation` | Renewable generation, REE's subtotal | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `renewable_waste` | Renewable waste generation | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `solar_photovoltaic` | Solar photovoltaic generation | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `steam_turbine` | Steam turbine generation | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `storage_balance` | Storage balance, REE's subtotal | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `thermal_solar` | Solar thermal generation | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `wind` | Wind generation | MWh | 81 | 2020-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
 
 ### `rrc_lease_production_monthly`
 
@@ -2923,224 +2943,234 @@ Variables (4):
 
 ### `rte_eco2mix_france_halfhourly`
 
-What a row is: not yet written.
+France's consumption, production from one source or net physical exchanges in one half hour, from RTE's eco2mix national files.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1448927.
 
+- **Time:** ts_utc is the half hour's start in UTC, from RTE's date and hour in French local time; freq PT30M.
+- **Revisions:** Merged by (entity, variable, ts_utc): each run's half hours replace the same keys and older ones are kept; vintage is each file's Last-Modified; x_nature says definitive or consolidated.
 - **Source:** rte:eco2mix_national RTE (Reseau de Transport d'Electricite), eco2mix, national definitive and consolidated files (https://www.rte-france.com/eco2mix/telecharger-les-indicateurs)
 - **Method note:** [`docs/methods/rte_eco2mix_france_halfhourly.md`](../methods/rte_eco2mix_france_halfhourly.md)
 - **Cite as:** RTE (Reseau de Transport d'Electricite). eco2mix, national definitive and consolidated files (France, every half hour). Via the Energy Research Warehouse (ERW), table `rte_eco2mix_france_halfhourly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | rte_eco2mix:FR | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: rte_eco2mix:FR on every row | none | text | rte_eco2mix:FR | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2019-12-31T23:00:00Z to 2026-08-31T21:30:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -21063.0 to 90236.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW | 0 |
 | `freq` | How long the interval of the row is | none | text | PT30M | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | FR | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 1448927 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | France | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: FR on every row | none | text | FR | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1448927 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: France on every row, not a pricing node | none | text | France | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | rte:eco2mix_national | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://eco2mix.rte-france.com/download/eco2mix/eCO2mix_RTE_Annuel-Definitif_2020.zip, https://eco2mix.rte-france.com/download/eco2mix/eCO2mix_RTE_Annuel-Definitif_2021.zip, https://eco2mix.rte-france.com/download/eco2mix/eCO2mix_RTE_Annuel-Definitif_2022.zip, https://eco2mix.rte-france.com/download/eco2mix/eCO2mix_RTE_Annuel-Definitif_2023.zip, https://eco2mix.rte-france.com/download/eco2mix/eCO2mix_RTE_Annuel-Definitif_2024.zip, https://eco2mix.rte-france.com/download/eco2mix/eCO2mix_RTE_Annuel-Definitif_2025.zip, https://eco2mix.rte-france.com/download/eco2mix/eCO2mix_RTE_En-cours-Consolide.zip | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T03:06:36Z, 2026-10-24T03:06:38Z, 2026-10-24T03:06:39Z, 2026-10-24T03:06:41Z, 2026-10-24T03:06:43Z, 2026-10-24T03:06:45Z, 2026-10-24T03:06:47Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2023-02-09T13:08:49Z, 2024-05-16T15:29:17Z, 2025-06-25T11:26:58Z, 2025-06-25T13:41:41Z, 2026-03-19T04:07:52Z, 2026-10-06T10:02:08Z, 2026-10-06T10:02:20Z | 0 |
-| `x_nature` | not yet written |  | text | Données consolidées, Données définitives | 0 |
-| `x_local_date` | not yet written |  | date | 2020-01-01 to 2026-08-31; 2435 distinct | 0 |
-| `x_local_hour` | not yet written |  | text | for example 00:00, 00:30, 01:00; 48 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The file's Last-Modified (UTC) | none | utc time | 2023-02-09T13:08:49Z, 2024-05-16T15:29:17Z, 2025-06-25T11:26:58Z, 2025-06-25T13:41:41Z, 2026-03-19T04:07:52Z, 2026-10-06T10:02:08Z, 2026-10-06T10:02:20Z | 0 |
+| `x_nature` | RTE's nature of the data: Donnees definitives (definitive) or Donnees consolidees (consolidated) | none | text | Données consolidées, Données définitives | 0 |
+| `x_local_date` | RTE's date in French local time | none | date | 2020-01-01 to 2026-08-31; 2435 distinct | 0 |
+| `x_local_hour` | RTE's hour in French local time (HH:MM) | none | text | for example 00:00, 00:30, 01:00; 48 distinct | 0 |
 
 Variables (13):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `bioenergy` |  | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
-| `coal` |  | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
-| `consumption` |  | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
-| `gas` |  | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
-| `hydro` |  | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
-| `nuclear` |  | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
-| `oil` |  | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
-| `physical_exchanges` |  | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
-| `pumping` |  | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
-| `solar` |  | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
-| `wind` |  | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
-| `wind_offshore` |  | MW | 81772 | 2021-12-31T23:30:00Z | 2026-08-31T21:30:00Z |
-| `wind_onshore` |  | MW | 81772 | 2021-12-31T23:30:00Z | 2026-08-31T21:30:00Z |
+| `bioenergy` | Production from bioenergy | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
+| `coal` | Production from coal | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
+| `consumption` | Consumption | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
+| `gas` | Production from gas | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
+| `hydro` | Production from hydro | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
+| `nuclear` | Production from nuclear | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
+| `oil` | Production from oil | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
+| `physical_exchanges` | Net physical exchanges | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
+| `pumping` | Pumping (negative) | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
+| `solar` | Production from solar | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
+| `wind` | Production from wind | MW | 116853 | 2019-12-31T23:00:00Z | 2026-08-31T21:30:00Z |
+| `wind_offshore` | Production from offshore wind (from 2022) | MW | 81772 | 2021-12-31T23:30:00Z | 2026-08-31T21:30:00Z |
+| `wind_onshore` | Production from onshore wind (from 2022) | MW | 81772 | 2021-12-31T23:30:00Z | 2026-08-31T21:30:00Z |
 
 ### `scb_sweden_electricity_monthly`
 
-What a row is: not yet written.
+One month's electricity supply in Sweden from one type of production (or imports, or the sum), from Statistics Sweden's table TAB1011 (the Swedish Energy Agency's statistics).
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 6059.
 
+- **Time:** ts_utc is the month's first day at 00:00:00Z; freq P1M; from 1974-01.
+- **Revisions:** Rewritten whole as one snapshot by each run from SCB's JSON-stat answer; vintage is SCB's updated time.
 - **Source:** scb:TAB1011 Swedish Energy Agency, via Statistics Sweden, table TAB1011 (https://www.statistikdatabasen.scb.se/pxweb/en/ssd/START__EN__EN0108/)
 - **Method note:** [`docs/methods/scb_sweden_electricity_monthly.md`](../methods/scb_sweden_electricity_monthly.md)
 - **Cite as:** Statistics Sweden (SCB). Table TAB1011: Electricity supply in Sweden by type of production, monthly. Via the Energy Research Warehouse (ERW), table `scb_sweden_electricity_monthly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | scb:se | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: scb:se on every row | none | text | scb:se | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 1974-01-01T00:00:00Z to 2026-08-01T00:00:00Z; 632 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 18923000.0; 3074 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MWh | 0 |
 | `freq` | How long the interval of the row is | none | text | P1M | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | SE | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 6059 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | - of which back pressure, industrial, - of which back-pressure, district heating work, - of which condensation, - of which gas turbine etc., conventional thermal power, net, hydro power (including pump power), net, import, nuclear power (condensation), net, solar power (on-grid), sum of supply, wind | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: SE on every row | none | text | SE | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 6059 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: SCB's label as written, not a pricing node | none | text | - of which back pressure, industrial, - of which back-pressure, district heating work, - of which condensation, - of which gas turbine etc., conventional thermal power, net, hydro power (including pump power), net, import, nuclear power (condensation), net, solar power (on-grid), sum of supply, wind | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | scb:TAB1011 | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://statistikdatabasen.scb.se/api/v2/tables/TAB1011 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T03:00:52Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-10-09T06:00:00Z | 0 |
-| `x_code` | not yet written |  | text | Gast, Imp, Karn, Kondens, Mottri, Mottrk, Solkraft, SumVarmeKraft, Tot, Vatten, Vind | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: SCB's updated time of the table (UTC) | none | utc time | 2026-10-09T06:00:00Z | 0 |
+| `x_code` | SCB's code of the type of production (Tot, Vatten, Vind, Karn and others) (the source's name: Prodslag) | none | text | Gast, Imp, Karn, Kondens, Mottri, Mottrk, Solkraft, SumVarmeKraft, Tot, Vatten, Vind | 0 |
 
 Variables (11):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `conventional_thermal_power` |  | MWh | 632 | 1974-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `hydro_power` |  | MWh | 632 | 1974-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `import` |  | MWh | 630 | 1974-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `nuclear_power` |  | MWh | 629 | 1974-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `of_which_back_pressure_district_heating_work` |  | MWh | 608 | 1976-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `of_which_back_pressure_industrial` |  | MWh | 608 | 1976-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `of_which_condensation` |  | MWh | 630 | 1974-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `of_which_gas_turbine_etc` |  | MWh | 610 | 1974-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `solar_power` |  | MWh | 92 | 2019-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `sum_of_supply` |  | MWh | 632 | 1974-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `wind` |  | MWh | 356 | 1997-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `conventional_thermal_power` | Conventional thermal power, net (SumVarmeKraft) | MWh | 632 | 1974-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `hydro_power` | Hydro power including pump power, net (Vatten) | MWh | 632 | 1974-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `import` | Imports, including transit through Sweden from abroad (Imp) | MWh | 630 | 1974-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `nuclear_power` | Nuclear power (condensation), net (Karn) | MWh | 629 | 1974-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `of_which_back_pressure_district_heating_work` | Of which back pressure, district heating (Mottrk) | MWh | 608 | 1976-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `of_which_back_pressure_industrial` | Of which back pressure, industrial (Mottri) | MWh | 608 | 1976-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `of_which_condensation` | Of which condensation (Kondens) | MWh | 630 | 1974-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `of_which_gas_turbine_etc` | Of which gas turbine and others (Gast) | MWh | 610 | 1974-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `solar_power` | Solar power (Solkraft) | MWh | 92 | 2019-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `sum_of_supply` | Sum of supply (Tot) | MWh | 632 | 1974-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `wind` | Wind power (Vind) | MWh | 356 | 1997-01-01T00:00:00Z | 2026-08-01T00:00:00Z |
 
 ### `scripps_co2_mlo_monthly`
 
-What a row is: not yet written.
+Atmospheric CO2 at Mauna Loa Observatory in one month, from the Scripps CO2 Program's in situ record.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1636.
 
+- **Time:** ts_utc is the month's first day at 00:00:00Z; freq P1M; from 1958-03.
+- **Revisions:** Rewritten whole as one snapshot by each run from the Scripps file; vintage is the file's Last-Modified.
 - **Source:** scripps:co2_mlo_monthly Scripps CO2 Program, monthly_in_situ_co2_mlo.csv,  (linked from (https://scrippsco2.ucsd.edu/data/primary-mauna-loa-co2-record/)
 - **Method note:** [`docs/methods/scripps_co2_mlo_monthly.md`](../methods/scripps_co2_mlo_monthly.md)
 - **Cite as:** Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego). Primary Mauna Loa CO2 Record: monthly in situ CO2. Via the Energy Research Warehouse (ERW), table `scripps_co2_mlo_monthly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | scripps:mlo | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: scripps:mlo on every row | none | text | scripps:mlo | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 1958-03-01T00:00:00Z to 2026-09-01T00:00:00Z; 818 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 313.21 to 432.0; 1516 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | ppm | 0 |
 | `freq` | How long the interval of the row is | none | text | P1M | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | empty | no cell holds a value | 1636 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 1636 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Mauna Loa Observatory | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1636 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1636 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Mauna Loa Observatory on every row, not a pricing node | none | text | Mauna Loa Observatory | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | scripps:co2_mlo_monthly | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://keelinglabsites.ucsd.edu/websitedataco2/monthly_in_situ_co2_mlo.csv | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T23:40:15Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-10-21T21:16:30Z | 0 |
-| `x_station` | not yet written |  | text | MKO, MLO | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The file's Last-Modified (UTC) | none | utc time | 2026-10-21T21:16:30Z | 0 |
+| `x_station` | The station measured: MLO (Mauna Loa), or MKO (Maunakea's summit) for the months after Mauna Loa's 2022 eruption | none | text | MKO, MLO | 0 |
 
 Variables (2):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `co2` |  | ppm | 818 | 1958-03-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `co2_seasonally_adjusted` |  | ppm | 818 | 1958-03-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `co2` | Monthly mean CO2 concentration, adjusted to the 15th of the month, ppm of dry air | ppm | 818 | 1958-03-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `co2_seasonally_adjusted` | Monthly mean CO2 concentration, seasonally adjusted, ppm of dry air | ppm | 818 | 1958-03-01T00:00:00Z | 2026-09-01T00:00:00Z |
 
 ### `singstat_singapore_electricity`
 
-What a row is: not yet written.
+Singapore's monthly electricity generation (table M890831), or one row of its annual generation and consumption by sector (table M890841), from SingStat's Table Builder.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1009.
 
+- **Time:** ts_utc is the month's or the year's first day at 00:00:00Z; freq P1M (M890831) or P1Y (M890841).
+- **Revisions:** Rewritten whole as one snapshot by each run from SingStat's two tables; vintage is each table's dataLastUpdated.
 - **Source:** singstat:M890831_M890841 Singapore Department of Statistics, SingStat Table Builder (https://tablebuilder.singstat.gov.sg/table/TS/M890831)
 - **Method note:** [`docs/methods/singstat_singapore_electricity.md`](../methods/singstat_singapore_electricity.md)
 - **Cite as:** Singapore Department of Statistics (SingStat). Table Builder M890831 and M890841: electricity generation, monthly; generation and consumption, annual. Via the Energy Research Warehouse (ERW), table `singstat_singapore_electricity`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | singstat:sg | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: singstat:sg on every row | none | text | singstat:sg | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 1975-01-01T00:00:00Z to 2026-06-01T00:00:00Z; 618 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 25900.0 to 60410400.0; 999 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MWh | 0 |
-| `freq` | How long the interval of the row is | none | text | P1M, P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | SG | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 1009 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Accommodation And Food Services, Commerce And Service-Related, Construction, Electricity Consumption, Electricity Generation, Financial And Insurance Activities, Households, Industrial-Related, Information And Communications, Manufacturing, Other Commerce And Service-Related, Other Industrial-Related, Others, Professional, Scientific & Technical, Administration & Support Activities, Real Estate Activities, Transport-Related, Utilities, Wholesale And Retail Trade | 0 |
+| `freq` | How long the interval of the row is. Here: P1M for table M890831, P1Y for table M890841 | none | text | P1M, P1Y | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: SG on every row | none | text | SG | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1009 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The row as SingStat writes it, not a pricing node | none | text | Accommodation And Food Services, Commerce And Service-Related, Construction, Electricity Consumption, Electricity Generation, Financial And Insurance Activities, Households, Industrial-Related, Information And Communications, Manufacturing, Other Commerce And Service-Related, Other Industrial-Related, Others, Professional, Scientific & Technical, Administration & Support Activities, Real Estate Activities, Transport-Related, Utilities, Wholesale And Retail Trade | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | singstat:M890831_M890841 | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://tablebuilder.singstat.gov.sg/api/table/tabledata/M890831, https://tablebuilder.singstat.gov.sg/api/table/tabledata/M890841 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T06:06:34Z, 2026-10-24T06:06:37Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-06-23T00:00:00Z, 2026-10-14T00:00:00Z | 0 |
-| `x_table` | not yet written |  | text | M890831, M890841 | 0 |
-| `x_series` | not yet written |  | text | 1, 2, 2.1, 2.1.1, 2.1.2, 2.1.3, 2.1.4, 2.2, 2.2.1, 2.2.2, 2.2.3, 2.2.4, 2.2.5, 2.2.6, 2.2.7, 2.3, 2.4, 2.5 | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The table's dataLastUpdated, as a date at 00:00Z | none | utc time | 2026-06-23T00:00:00Z, 2026-10-14T00:00:00Z | 0 |
+| `x_table` | SingStat's table: M890831 (generation, monthly) or M890841 (generation and consumption, annual) | none | text | M890831, M890841 | 0 |
+| `x_series` | SingStat's series number of the row (1, 2, 2.1, 2.1.1 and so on: its place in the table's hierarchy) (the source's name: seriesNo) | none | text | 1, 2, 2.1, 2.1.1, 2.1.2, 2.1.3, 2.1.4, 2.2, 2.2.1, 2.2.2, 2.2.3, 2.2.4, 2.2.5, 2.2.6, 2.2.7, 2.3, 2.4, 2.5 | 0 |
 
 Variables (19):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `m890831_electricity_generation` |  | MWh | 618 | 1975-01-01T00:00:00Z | 2026-06-01T00:00:00Z |
-| `m890841_accommodation_and_food_services` |  | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `m890841_commerce_and_service_related` |  | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `m890841_construction` |  | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `m890841_electricity_consumption` |  | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `m890841_electricity_generation` |  | MWh | 51 | 1975-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `m890841_financial_and_insurance_activities` |  | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `m890841_households` |  | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `m890841_industrial_related` |  | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `m890841_information_and_communications` |  | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `m890841_manufacturing` |  | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `m890841_other_commerce_and_service_related` |  | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `m890841_other_industrial_related` |  | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `m890841_others` |  | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `m890841_professional_scientific_technical_administration_support_activities` |  | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `m890841_real_estate_activities` |  | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `m890841_transport_related` |  | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `m890841_utilities` |  | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `m890841_wholesale_and_retail_trade` |  | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `m890831_electricity_generation` | Electricity generation in the month (table M890831) | MWh | 618 | 1975-01-01T00:00:00Z | 2026-06-01T00:00:00Z |
+| `m890841_accommodation_and_food_services` | Annual electricity consumption, accommodation and food services | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `m890841_commerce_and_service_related` | Annual electricity consumption, commerce and service-related | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `m890841_construction` | Annual electricity consumption, construction | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `m890841_electricity_consumption` | Electricity consumption in the year, total (table M890841) | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `m890841_electricity_generation` | Electricity generation in the year (table M890841) | MWh | 51 | 1975-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `m890841_financial_and_insurance_activities` | Annual electricity consumption, financial and insurance activities | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `m890841_households` | Annual electricity consumption, households | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `m890841_industrial_related` | Annual electricity consumption, industrial-related | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `m890841_information_and_communications` | Annual electricity consumption, information and communications | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `m890841_manufacturing` | Annual electricity consumption, manufacturing | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `m890841_other_commerce_and_service_related` | Annual electricity consumption, other commerce and service-related | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `m890841_other_industrial_related` | Annual electricity consumption, other industrial-related | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `m890841_others` | Annual electricity consumption, others | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `m890841_professional_scientific_technical_administration_support_activities` | Annual electricity consumption, professional, scientific, technical, administration and support activities | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `m890841_real_estate_activities` | Annual electricity consumption, real estate activities | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `m890841_transport_related` | Annual electricity consumption, transport-related | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `m890841_utilities` | Annual electricity consumption, utilities | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `m890841_wholesale_and_retail_trade` | Annual electricity consumption, wholesale and retail trade | MWh | 20 | 2005-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
 
 ### `smard_germany_monthly`
 
-What a row is: not yet written.
+Germany's actual generation from one source, or its grid load, in one month, from the Bundesnetzagentur's SMARD.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1800.
 
+- **Time:** ts_utc is the month's first day (SMARD's Start date, a month in German time); freq P1M; from 2015-01.
+- **Revisions:** Rewritten whole as one snapshot by each run from SMARD's one download; vintage is not filled.
 - **Source:** smard:market_data_month Bundesnetzagentur, SMARD market data (https://www.smard.de/en/downloadcenter/download-market-data)
 - **Method note:** [`docs/methods/smard_germany_monthly.md`](../methods/smard_germany_monthly.md)
 - **Cite as:** Bundesnetzagentur (SMARD). SMARD market data: actual generation and grid load. Via the Energy Research Warehouse (ERW), table `smard_germany_monthly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | smard:de | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: smard:de on every row | none | text | smard:de | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2015-01-01T00:00:00Z to 2026-09-01T00:00:00Z; 141 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 47418616.09; 1793 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MWh | 0 |
 | `freq` | How long the interval of the row is | none | text | P1M | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | DE | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 1800 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Biomass, Fossil gas, Hard coal, Hydro pumped storage, Hydropower, Lignite, Nuclear, Other conventional, Other renewable, Photovoltaics, Wind offshore, Wind onshore, grid load | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: DE on every row | none | text | DE | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1800 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The column as SMARD writes it, not a pricing node | none | text | Biomass, Fossil gas, Hard coal, Hydro pumped storage, Hydropower, Lignite, Nuclear, Other conventional, Other renewable, Photovoltaics, Wind offshore, Wind onshore, grid load | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | smard:market_data_month | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.smard.de/nip-download-manager/nip/download/market-data | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-24T02:45:34Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 1800 |
-| `x_file` | not yet written |  | text | Actual_consumption_201501010000_202610240445_Month_2.csv, Actual_generation_201501010000_202610240445_Month_1.csv | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1800 |
+| `x_file` | The file of SMARD's download the value is read from (actual generation or actual consumption) | none | text | Actual_consumption_201501010000_202610240445_Month_2.csv, Actual_generation_201501010000_202610240445_Month_1.csv | 0 |
 
 Variables (13):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `generation_biomass` |  | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `generation_fossil_gas` |  | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `generation_hard_coal` |  | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `generation_hydro_pumped_storage` |  | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `generation_hydropower` |  | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `generation_lignite` |  | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `generation_nuclear` |  | MWh | 108 | 2015-01-01T00:00:00Z | 2023-12-01T00:00:00Z |
-| `generation_other_conventional` |  | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `generation_other_renewable` |  | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `generation_photovoltaics` |  | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `generation_wind_offshore` |  | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `generation_wind_onshore` |  | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `grid_load` |  | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `generation_biomass` | Actual generation from biomass | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `generation_fossil_gas` | Actual generation from fossil gas | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `generation_hard_coal` | Actual generation from hard coal | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `generation_hydro_pumped_storage` | Actual generation from pumped storage hydro | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `generation_hydropower` | Actual generation from hydropower | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `generation_lignite` | Actual generation from lignite | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `generation_nuclear` | Actual generation from nuclear | MWh | 108 | 2015-01-01T00:00:00Z | 2023-12-01T00:00:00Z |
+| `generation_other_conventional` | Actual generation from other conventional sources | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `generation_other_renewable` | Actual generation from other renewables | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `generation_photovoltaics` | Actual generation from photovoltaics | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `generation_wind_offshore` | Actual generation from offshore wind | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `generation_wind_onshore` | Actual generation from onshore wind | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `grid_load` | Grid load | MWh | 141 | 2015-01-01T00:00:00Z | 2026-09-01T00:00:00Z |
 
 ### `sne_panama_electricity_annual`
 
