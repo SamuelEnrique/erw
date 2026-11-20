@@ -184,8 +184,11 @@ def set_labels(rtable, table):
         if name in labels:
             label, desc = labels[name]
             if v.properties.get("label") != label or (v.properties.get("description") or "") != desc:
-                v.update(label=label, description=desc)
-                n += 1
+                try:
+                    v.update(label=label, description=desc)
+                    n += 1
+                except Exception as exc:  # noqa: BLE001 - one refused label is printed; the others go on
+                    print(f"{table}.{name}: label refused ({type(exc).__name__}: {str(exc)[:160]})", flush=True)
     return n
 
 
