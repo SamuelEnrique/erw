@@ -53,8 +53,10 @@ class NewStops(unittest.TestCase):
     def test_a_landed_stop_quotes_only_headings_the_check_reads(self):
         for s in self.t["STOPS"][7:]:
             self.assertTrue(s["headings"], s["href"])
+            # session 9601: a stop may quote a fold and a heading inside it (`inFold`), which the check reads too
+            read = s["headings"] + ([s["inFold"]["fold"]] + s["inFold"]["headings"] if s.get("inFold") else [])
             for q in re.findall(r'"([^"]+)"', s["look"]):
-                self.assertIn(q, s["headings"], s["href"])
+                self.assertIn(q, read, s["href"])
 
     def test_the_words(self):
         tour = open(os.path.join(SITE, "lib", "tour.ts"), encoding="utf-8").read()
