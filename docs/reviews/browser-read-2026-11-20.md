@@ -139,6 +139,18 @@ Read with `runs/c620/b_sweep.mjs`: 101 addresses at 1280 and at 390 px, for what
 | 1 | `/data/methods/resources` at 390 px, then all 609 method pages at 390 px (`runs/c620/b_methods_wide.mjs`) | Six scroll sideways, each over one long unbroken word of the note's text: `resources` 544 px (a 61-character file name), `interconnection_queue_summary` 421, `amm_guatemala_generation_monthly` 417, `ercot_dam_esr_awards` 411, `makstat_macedonia_electricity_monthly` 401, `statcan_oil_gas_supply_monthly` 392 | 390 px | fixed on `wip/9601-method-pages-phone` (one rule of the prose style) |
 | 2 | `/internal/findings`, its size | 17.1 MB of HTML for 614 drafts, of which forty are shown at a time; 3.7 to 4.1 s to load over five loads | Inside five seconds on this laptop; heavy for a phone. An internal page | noted |
 
+### The tour's stops 8 to 16 walked as a reader (the desktop's second window, session 9203)
+
+`runs/c620w2/b_tour.mjs`, on production at 1280 and 390 px, about 19:45 UTC: each stop's page (its bar, Back, Next and its Open link), then the page it opens, timed, with its quiet faults, every heading the stop quotes looked for, and the stop's own action done as its words say. **75 of 77 checks pass.** Each stop opens in 0.1 to 0.5 s and each page it opens in under 4 s (`/grid` 3.9 s the first time at 1280 px, 1.3 s at 390 px); none scrolls sideways or shows "undefined", "NaN" or "null"; stop 16's "choose Winter Storm Uri under Event" works at both widths (`/conditions?a=ercot&b=none&event=uri_2021`).
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| 3 | Stop 8, as its words say: "Pick Tennessee ... in the region list at the top; open its network view for the map" | Tennessee is a link of the "EIA region" row (`/grid?region=ten`); its Network tab opens on the 3D network, with no area of the map drawn. The map is one more press, on "Map" (`&shape=map`, 60 areas). The network opening first is Samuel's standing ruling; the stop's words never name the press | The stop names the press on Map | fixed on `wip/w2-c620-fixes` (`1d7b451a6`, with `tests/test_session9203_tour_stop8.py`); landing row 4 of `docs/state/landing_request_window2.md` |
+| 4 | Stop 8: "then read "Ask" at the foot of the page" | At 1280 px "Ask" is a panel beside the tool, at the top right; it is under the tool only at a phone's width | The words say where it stands at both widths | fixed in the same commit ("beside the tool on a wide screen and under it on a phone") |
+| 5 | Stop 12, "How the map is drawn" | Inside the closed fold "Method note" on production | | already fixed on `wip/9601-tour-headings` (row D6), now in `wip/w2-c620-fixes` |
+
+Pictures: `docs/reviews/browser-read-2026-11-20/tour/stop-08-1280.png` to `stop-16-1280.png` (each stop's own page); `stop-08-tennessee-network-1280.png` (where stop 8's words leave a reader: Tennessee's Network tab on the 3D network, the Map button beside it); `stop-09-page-1280.png` to `stop-15-page-1280.png` (the page each stop opens, as it opens); `stop-16-uri-1280.png` (`/conditions` after choosing Winter Storm Uri).
+
 ## 6. `/queues/places`: queues outside the seven grids
 
 The data machine's page (chain 581). Read with `runs/c620/b_queues_places.mjs`.
@@ -351,6 +363,29 @@ The data machine's section (chain 505). Read with `runs/c620/b_forecast.mjs`.
 **What answers to the hand.** Four Chart and Table switches give a table; the line charts answer the mouse with a card; the bar charts of the view give their figures as the browser's tooltip (row S2). 390 px wide at 390. 1.7 s to load.
 
 Pictures: `docs/reviews/browser-read-2026-11-20/demand-forecast/as-it-opens-1280.png` (Tennessee and the Carolinas); `texas-beside-california-1280.png`.
+
+## 18. `/demand?view=country`: the whole country, any two places (read in full by the desktop's second window)
+
+The old laptop's page (chain 503), read in full on production on 20 November between 19:55 and 20:25 UTC by the desktop's second window (session 9203), which took the chain over. Scripts: `runs/c620w2/dump.mjs` (every table, every Chart and Table switch pressed), `runs/c620w2/cmp_demand.py` (recomputes from `site/data/regions/demand/<place>.json` without the page's code), `runs/c620w2/hand.mjs`. The old laptop's last fixes to this page (session 8480: the 95 percent rule on a blank weather cell's hover, a day whole only on all the hours of its local day, the authorities across the border) are still not on main; what is read here is production as it is.
+
+**Five cases.**
+1. *A TVA planner.* How has Tennessee's demand moved since 2019, and when was the record? As the page opens (Tennessee beside the Carolinas), "Year by year": 18,190 MW on average in 2019, 19,490 in 2025 (+7.15 percent), 20,098 in 2026 to October (+9.48 percent on 2019's same ten months); the record hour 35,086 MW on 22 January 2025 at 07:00. Answered.
+2. *A Texas analyst.* Is ERCOT the whole of the Texas region? Chooses ERCOT beside Texas: two places side by side, each with its own year rows and its own highest hour. Answered, the page names what each sums ("balancing authorities summed").
+3. *A Northwest utility.* BPA's growth against its region's: BPA +9.41 percent from 2019 to 2025 and +15.11 percent for 2026 to October; the Northwest +6.91 percent, with no row for 2020 (its file holds no 2020) and "not held" for 2021's change on the year before. Answered, the gap said.
+4. *A datacenter siting analyst.* When in the year and day has demand grown most? "Where the growth is": Tennessee's largest cell January at 02:00, +24.81 percent (4,477 MW); the Carolinas' January at 03:00, +28.64 percent (6,942 MW). Answered: winter nights, not summer afternoons.
+5. *A student.* Yesterday's demand: "The newest days", seven days of each place (Tennessee 458.3 GWh on 16 November, highest hour 22,058 MW). Answered.
+
+**Figures.** As it opens and after two choices (ERCOT beside Texas; the Northwest beside BPA), every cell of "Year by year", the summary of "Demand by day", "The newest days", the first 500 rows of each place's daily table and the two sentences under each month-by-hour grid, recomputed from the files: **6,431 figures, none differs.** The 2026 row is set against 2019's same months, as its label says. Two figures that look odd are the file's own: Tennessee's forecast on 7 July 2018 equals its demand (22,987 MW both, a miss of 0); and every "With the weather taken out" row for Tennessee reads "not held" because the file holds no figure for the year's energy in any year from 2022.
+
+**What answers to the hand.** The keyboard alone at 1280 px: 62 stops from the top to the foot, each in sight with a focus mark. A finger at 390 px on the eight charts, four places each: a card on every chart; the page stays 390 px wide. A link that carries two places opened fresh reads them in its lists; after two choices the back button gives the first choice's address and lists that read what the page shows. No error in the page.
+
+**Quiet faults.** None: 390 px wide at 390 (the first pass); 0.8 to 1.8 s to load at 1280 px.
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| 1 | "Where the growth is", the Carolinas | August is white across the month-by-hour grid and has no bar in "by month"; the hover says "August, 12:00: not held" and "Aug: not held", not why. The file holds no hour of 1 or 2 August 2025 for the Carolinas, so 2025's August has no average | A blank with its hover, as the page has it; the hover could say which days are missing | noted |
+
+Pictures: `docs/reviews/browser-read-2026-11-20/demand-country/as-it-opens-1280.png` (Tennessee beside the Carolinas, the page as it opens); `year-by-year-1280.png` (the year rows and the record hours); `where-the-growth-is-1280.png` (the month-by-hour grids, the Carolinas' blank August); `ercot-beside-texas-1280.png` (after the choice ERCOT beside the Texas region).
 
 ## Part C: the same number in two places
 
