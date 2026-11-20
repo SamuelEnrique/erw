@@ -264,7 +264,7 @@ def property_tax(P, x, i):
                 continue
             if r.get("requires") == "option" and not option:
                 continue
-            if "years" in r and not x["build"] + i < r["years"]:
+            if "years" in r and not (i if r.get("years_from") == "operation" else x["build"] + i) < r["years"]:   # years_from: wip/alt-impact-21
                 continue
             if "above_mw" in r and not mw > r["above_mw"]:
                 continue

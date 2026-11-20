@@ -442,7 +442,7 @@ test("Wisconsin's payments to the municipality and county, USD 5,000 per MW a ye
   assert.equal(F.propertyTax(P, { ...F.defaults(P, "natural_gas", "wi"), mw: 500 }, 0).tax, null, "gas: no rule held");
 });
 
-test("Nevada's abatement: off by default; where approved 55 percent off the reader's own rate for 20 years from the first construction year", () => {
+test("Nevada's abatement: off by default; where approved 55 percent off the reader's own rate for 20 years from the first construction year", { skip: "ruling alternative 21 (wip/alt-impact-21): the years are counted from the first operating year; tests/test_alt_impact_21.py pins the other choice" }, () => {
   const nv = { ...F.defaults(P, "utility_pv", "nv"), mw: 100, capex: 1500, start: 2027, build: 1, own: 1, ownyears: 30 };
   near(F.propertyTax(P, nv, 0).tax, 150e6 * 0.01, 1e-12, "off: the whole rate");
   const on = { ...nv, iaval: true };

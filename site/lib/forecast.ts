@@ -51,6 +51,8 @@ export type PropertyRule = {
   /** own_exempt (session 4257, Florida's device exemption): the share of the reader's own rate's base exempt, through a calendar year;
    *  with requires "option" and years (session 4262, Nevada's abatement) only when the option is on, for that many years from the first construction year */
   exempt_share?: number; until_year?: number;
+  /** ruling alternative 21 (wip/alt-impact-21, not a default on main): "operation" counts own_exempt's years from the first operating year (main: from the first construction year) */
+  years_from?: "operation";
   /** own_exempt (session 7515, Nevada): the statute abates a share of the tax, not of the value (NRS 701A.370: "55 percent
    *  of the taxes"), so the year's taxable value stays whole while the tax is the taxed share's */
   abates?: "tax";
@@ -260,7 +262,7 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
     const share = Math.max(0, 1 - i / x.ownyears);
     // an exemption of part of the base (Florida's 80 percent of a renewable device's value, through 2037) acts on the own rate
     const ex = rules.find((r) => r.kind === "own_exempt" && x.start + x.build + i <= (r.until_year ?? Infinity)
-      && (r.requires !== "option" || x.iaval) && (r.years === undefined || x.build + i < r.years)
+      && (r.requires !== "option" || x.iaval) && (r.years === undefined || (r.years_from === "operation" ? i : x.build + i) < r.years)   /* years_from: ruling alternative 21 (wip/alt-impact-21) */
       && (r.above_mw === undefined || x.mw > r.above_mw) && (r.below_mw === undefined || x.mw < r.below_mw)
       && (r.op_years === undefined || i < r.op_years) && (r.built_before === undefined || x.start + x.build <= r.built_before)
       && (r.min_mw === undefined || x.mw >= r.min_mw));

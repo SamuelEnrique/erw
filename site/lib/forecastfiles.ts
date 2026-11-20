@@ -128,7 +128,7 @@ def property_tax(d, i):
         taxed = 1.0
         for r in d["property"]:
             if (r["kind"] == "own_exempt" and x["start"] + x["build"] + i <= r.get("until_year", 9999)
-                    and (r.get("requires") != "option" or x["iaval"]) and (r.get("years") is None or x["build"] + i < r["years"])
+                    and (r.get("requires") != "option" or x["iaval"]) and (r.get("years") is None or (i if r.get("years_from") == "operation" else x["build"] + i) < r["years"])
                     and (r.get("above_mw") is None or mw > r["above_mw"]) and (r.get("below_mw") is None or mw < r["below_mw"])
                     and (r.get("op_years") is None or i < r["op_years"])
                     and (r.get("built_before") is None or x["start"] + x["build"] <= r["built_before"])
@@ -253,7 +253,7 @@ export function stataOf(P: Params, x: Record<View, Inputs>, rows: Record<View, R
       const taxedShare = !fx || !fxOn ? "1"
         : fx.exempt_steps ? steps(fx.exempt_steps)
         : fx.op_years !== undefined ? `cond(i < ${fx.op_years}, ${1 - (fx.exempt_share ?? 0)}, 1)`
-        : fx.years !== undefined ? `cond(i < ${fx.years - xi.build}, ${1 - (fx.exempt_share ?? 0)}, 1)`
+        : fx.years !== undefined ? `cond(i < ${fx.years_from === "operation" ? fx.years : fx.years - xi.build}, ${1 - (fx.exempt_share ?? 0)}, 1)` /* years_from: wip/alt-impact-21 */
         : fx.until_year === undefined ? `${1 - (fx.exempt_share ?? 0)}` : `cond(year <= ${fx.until_year}, ${1 - (fx.exempt_share ?? 0)}, 1)`;
       if (xi.own !== null && xi.ownyears) out.push(`replace property = ${spend} * max(0, 1 - i / ${xi.ownyears}) * ${taxedShare} * ${xi.own} / 100 if !build${exemptYears !== null ? ` & i >= ${exemptYears}` : ""}`);
     }
