@@ -103,6 +103,7 @@ PAGE_PATHS+=(site/data/storage_owners.json   # session 7050: the owners tab's co
             site/data/demand_weather.json)   # session 7051: demand with the weather taken out (dm_demand_weather --snapshot)
 PAGE_PATHS+=(site/data/regions site/data/industry.json)   # session 8008 (chain 501 step B8): the whole country's page files and industry.json
 PAGE_PATHS+=(site/data/states)   # session 8014 (chain 581, part B): every state on one page (docs/state/page_files_states.md)
+PAGE_PATHS+=(site/data/curtailment/where_when.json)   # session 8014 (chain 581, part C): where and when power is spare
 PAGE_PATHS+=(replication/datacenter/page_figures.json replication/datacenter/page_figures.csv   # session 3779: dm_datacenter_figures
             docs/methods/automated_analysis_findings.md   # session 3779: dm_cross_check_rows
             replication/analysis/page_figures.json replication/analysis/page_figures.csv)   # session 3803: dm_analysis_figures
@@ -316,6 +317,9 @@ soft_step dm_prices_map "$PYTHON" warehouse/derived/prices_map.py
 # Session 8014 (chain 581, part B): every state on one page (site/data/states/), from the EIA and Census tables the
 # daily run keeps; no table of its own
 soft_step dm_states_page "$PYTHON" warehouse/derived/states_page.py
+# Session 8014 (chain 581, part C): where and when power is spare (site/data/curtailment/where_when.json), from the
+# curtailment profile, SPP's daily curtailment and the public price tables free_energy.py reads; no table of its own
+soft_step dm_where_when "$PYTHON" warehouse/derived/where_when.py
 for t in eia930_forecast_error_hourly eia930_forecast_error_daily; do soft_step "dm_stores_$t" "$PYTHON" warehouse/table_stores.py "$t" --no-redivis; done
 
 # ---- 2. ERCOT's load zones --------------------------------------------------------------------------------------------
@@ -545,6 +549,7 @@ group dm_test_regions "dm_region_files dm_interchange_pairs dm_industry_page dm_
 # Session 8014 (chain 581, part B): the states' page files, with the test that holds them to their contract; a refused
 # build is put back whole.
 group dm_test_states "dm_states_page" "tests.test_session8014_states" -- site/data/states
+group dm_test_where_when "dm_where_when" "tests.test_session8014_where_when" -- site/data/curtailment/where_when.json
 
 # ---- 4. the commit ----------------------------------------------------------------------------------------------------
 echo "== status"
