@@ -30,6 +30,9 @@ const SHOWN = F.operators.filter((o) => o.status === "shown" && F.constraints[o.
 const PLACES: Place[] = Object.values(F.places).flat();
 const placeOf = (id: string) => PLACES.find((p) => p.id === id) ?? null;
 const opOf = (id: string) => F.operators.find((o) => o.id === id.split(":")[0]);
+// Session 9001, row H2: SPP's places are named "SPP North hub" in the file, so the operator is not written twice.
+const placeLabel = (op: string | undefined, name: string) => (op && !name.startsWith(`${op} `) ? `${op} ${name}` : name);
+const labelOf = (p: Place) => placeLabel(opOf(p.id)?.name, p.name);
 
 function Fig({ v, src, k, fmt, reason }: { v: number | null | undefined; src: string; k: string; fmt: (v: number) => string; reason?: string }) {
   if (v === null || v === undefined) return <span className="cursor-help text-muted" title={reason ?? `Not held in the file. ${src}`} data-not-held={k}>not held</span>;
@@ -103,12 +106,12 @@ export default async function CongestionPage({ searchParams }: { searchParams: P
   };
   const head = ["Constraint, as the operator names it", "Hours bound", "Mean shadow price", "Highest", "Summed (USD/MWh x hours)"];
   const ranked = PLACES.filter((p) => p.by_year[py]).map((p) => ({ p, y: p.by_year[py] })).sort((x, z) => (z.y.congestion_mean ?? 0) - (x.y.congestion_mean ?? 0));
-  const congLines: Line[] = [A, ...(B ? [B] : [])].map((p, i) => ({ label: `${opOf(p.id)?.name} ${p.name}`, color: i ? "series-3" : "accent",
+  const congLines: Line[] = [A, ...(B ? [B] : [])].map((p, i) => ({ label: labelOf(p), color: i ? "series-3" : "accent",
     points: p.monthly.filter((m) => m[4] !== null).map((m) => ({ t: monthT(m[0]), v: m[4] as number })) }));
-  const shareLines: Line[] = [A, ...(B ? [B] : [])].map((p, i) => ({ label: `${opOf(p.id)?.name} ${p.name}`, color: i ? "series-3" : "accent",
+  const shareLines: Line[] = [A, ...(B ? [B] : [])].map((p, i) => ({ label: labelOf(p), color: i ? "series-3" : "accent",
     points: p.monthly.filter((m) => m[7] !== null).map((m) => ({ t: monthT(m[0]), v: m[7] as number })) }));
   const hoursLine: Line[] = C ? [{ label: constraintLabel(C), color: "accent", points: C.monthly.map((m) => ({ t: monthT(m[0]), v: m[1] })) }] : [];
-  const placeOptions = PLACES.map((p) => ({ value: p.id, label: `${opOf(p.id)?.name} ${p.name}` }));
+  const placeOptions = PLACES.map((p) => ({ value: p.id, label: labelOf(p) }));
   const blank = F.operators.filter((o) => o.status !== "shown");
 
   return (
@@ -137,7 +140,10 @@ export default async function CongestionPage({ searchParams }: { searchParams: P
           <>
             <p className="mb-2 text-sm" data-held-line="1">{O.constraints_by_year[year] !== undefined ? <>{whole(O.constraints_by_year[year])} constraints bound in {whole(O.hours_by_year[year])} constraint-hours over {O.days_held[year]} days held in {year}.</> : <>Every year held: {years.join(", ")}.</>} {" "}
               <Hint words="(source)" why={`${src.constraints}. Hours in ${O.time}. ${F.sign_rule}`} /></p>
+            {/* Session 9001, row H1: each list has a visible heading, so a reader can tell the two apart. */}
+            <h3 className="mb-1 mt-4 font-serif text-base text-accent" data-list-heading="hours">Bound most: ranked by hours bound</h3>
             <ToolTable minWidth={720} caption={`${F.operators.find((o) => o.id === op)?.name}: the constraints that bound most hours, ${yearWords}`} head={head} rows={top.by_hours.map(rowOf)} />
+            <h3 className="mb-1 mt-5 font-serif text-base text-accent" data-list-heading="cost">Cost most: ranked by shadow price summed over the hours bound</h3>
             <ToolTable minWidth={720} caption={`${F.operators.find((o) => o.id === op)?.name}: the constraints whose shadow price summed highest, ${yearWords}`} head={head} rows={top.by_cost.map(rowOf)} />
           </>
         ) : <p className="text-sm text-muted">No constraint of this operator is held.</p>}
@@ -162,7 +168,7 @@ export default async function CongestionPage({ searchParams }: { searchParams: P
           rows={ranked.map(({ p, y }) => {
             const s = `${F.sources[p.id.split(":")[0]].prices}. ${p.time}.`;
             return { key: p.id, highlight: p.id === a || p.id === b, cells: [
-              <a key="n" className="underline" href={`/congestion?op=${op}&year=${year}&c=${encodeURIComponent(ck)}&a=${encodeURIComponent(p.id)}&py=${py}#side`}>{opOf(p.id)?.name} {p.name}</a>,
+              <a key="n" className="underline" href={`/congestion?op=${op}&year=${year}&c=${encodeURIComponent(ck)}&a=${encodeURIComponent(p.id)}&py=${py}#side`}>{labelOf(p)}</a>,
               <Fig key="l" v={y.lmp_mean} src={`Mean day-ahead LMP over ${y.hours} hours held. ${s}`} k={`pl-${p.id}`} fmt={usd} />,
               <Fig key="c" v={y.congestion_mean} src={`Mean congestion part over ${y.hours} hours held; highest ${y.congestion_max}, lowest ${y.congestion_min}. ${s}`} k={`pc-${p.id}`} fmt={usd} />,
               <Fig key="s" v={y.congestion_share_pct} src={`${F.share_rule} ${s}`} k={`ps-${p.id}`} fmt={pct} reason={`The mean LMP was not above zero. ${s}`} />,
@@ -181,7 +187,7 @@ export default async function CongestionPage({ searchParams }: { searchParams: P
         </ChartFrame>
         {[A, ...(B ? [B] : [])].map((p, i) => {
           const g = p.hod_month_congestion_mean[py];
-          return g ? <Heat key={p.id} cells={g} k={i ? "pb" : "pa"} label={`${opOf(p.id)?.name} ${p.name}: mean congestion part by month and hour of the day, ${py} (USD/MWh)`} src={() => `${F.sources[p.id.split(":")[0]].prices}.`} fmt={usd} note={<>Hours of the day in {p.time}. Positive (adds to the price) in the accent color, negative (takes off) in the second color.</>} />
+          return g ? <Heat key={p.id} cells={g} k={i ? "pb" : "pa"} label={`${labelOf(p)}: mean congestion part by month and hour of the day, ${py} (USD/MWh)`} src={() => `${F.sources[p.id.split(":")[0]].prices}.`} fmt={usd} note={<>Hours of the day in {p.time}. Positive (adds to the price) in the accent color, negative (takes off) in the second color.</>} />
             : <p key={p.id} className="text-sm text-muted">No hour of {p.name} is held in {py}.</p>;
         })}
       </ToolSection>

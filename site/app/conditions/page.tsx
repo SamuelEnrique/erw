@@ -32,6 +32,23 @@ function Blank({ s, name, k }: { s: Strip; name: string; k: string }) {
   );
 }
 
+// Session 9001, row H3: a strip whose window holds no figure (ERCOT's adder ends on 2025-12-04; SPP's outages begin in
+// 2016) says so in words, with the last day the file holds, instead of drawing an empty chart with a broken axis.
+function lastHeld(f: OperatorFile, c: string): string | null {
+  const i = col(f.daily_columns, c);
+  for (let j = f.daily.length - 1; j >= 0; j--) if (f.daily[j][i] !== null) return f.daily[j][0] as string;
+  return null;
+}
+
+function NoneHeld({ title, f, c, w, k }: { title: string; f: OperatorFile; c: string; w: { start: string; end: string }; k: string }) {
+  const last = lastHeld(f, c);
+  return (
+    <div className="my-2 border border-dashed border-rule bg-panel px-3 py-4 text-center text-sm text-muted" data-none-held={k}>
+      {title}: no figure held from {w.start} to {w.end}. {last ? `The file's last figure is of ${last}.` : "The file holds none."}
+    </div>
+  );
+}
+
 function hourlyLines(f: OperatorFile, rows: (string | number | null)[][], names: { c: string; label: string; color: string }[]): Line[] {
   return names.map((n) => {
     const i = col(f.hourly_columns, n.c);
@@ -58,53 +75,72 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
   const st = f.strips;
   const alerts = f.alerts.filter((a) => a[0] >= w.start && a[0] <= w.end);
   const src = (k: string) => st[k]?.source ?? "";
+  const hDemand = hourlyLines(f, hourly, [{ c: "demand", label: "Demand", color: "accent" }, { c: "forecast", label: "Day-ahead forecast", color: "series-3" }]);
+  const hOut = hourlyLines(f, hourly, [{ c: "out_total", label: "Total", color: "accent" }, { c: "out_planned", label: "Planned", color: "series-3" }, { c: "out_forced", label: "Forced", color: "series-5" }]);
+  const hCons = [...hourlyLines(f, hourly, [{ c: "cons_n", label: "Constraints binding", color: "accent" }]), ...hourlyLines(f, hourly, [{ c: "cons_max", label: "Largest shadow price", color: "series-3" }]).map((l) => ({ ...l, y2: true }))];
+  const hAdder = hourlyLines(f, hourly, [{ c: "adder", label: "Adder", color: "accent" }]);
+  const dDemand = dailySeries(f, daily, [{ c: "demand_peak", label: "Peak demand", color: "accent" }, { c: "forecast_peak", label: "Forecast peak", color: "series-3" }]);
+  const dOut = dailySeries(f, daily, [{ c: "out_mean", label: "Mean", color: "accent" }, { c: "out_max", label: "Highest hour", color: "series-3" }]);
+  const dCons = dailySeries(f, daily, [{ c: "cons_hours", label: "Constraint-hours", color: "accent" }]);
+  const dAdder = dailySeries(f, daily, [{ c: "adder_hours", label: "Hours", color: "accent" }]);
   return (
     <div data-operator={f.op} data-tag={tag}>
       <h3 className="mb-1 font-serif text-xl text-accent">{f.name}</h3>
       <p className="mb-2 text-xs text-muted">{w.title}, {w.start} to {w.end}; days and hours in {f.time}. {hourly.length ? `Hour by hour (${hourly.length} hours), then day by day.` : "Day by day (no hourly figures are kept for this window: they are kept for the newest days and the nine events)."}</p>
       {hourly.length ? (
         <>
-          <ChartFrame title="Demand and the day-ahead forecast, MW" tip={<Hint words=" (source)" why={src("demand")} />}>
-            <LineChart lines={hourlyLines(f, hourly, [{ c: "demand", label: "Demand", color: "accent" }, { c: "forecast", label: "Day-ahead forecast", color: "series-3" }])} unit="MW" ariaLabel={`${f.name} demand and forecast by hour`} />
-          </ChartFrame>
-          {st.out.status === "shown" ? (
+          {hDemand.length ? (
+            <ChartFrame title="Demand and the day-ahead forecast, MW" tip={<Hint words=" (source)" why={src("demand")} />}>
+              <LineChart lines={hDemand} unit="MW" ariaLabel={`${f.name} demand and forecast by hour`} />
+            </ChartFrame>
+          ) : <NoneHeld title="Demand and the day-ahead forecast" f={f} c="forecast_peak" w={w} k={`${tag}-demand`} />}
+          {st.out.status === "shown" ? (hOut.length ? (
             <ChartFrame title="Out of service, MW" tip={<Hint words=" (source)" why={src("out")} />}>
-              <LineChart lines={hourlyLines(f, hourly, [{ c: "out_total", label: "Total", color: "accent" }, { c: "out_planned", label: "Planned", color: "series-3" }, { c: "out_forced", label: "Forced", color: "series-5" }])} unit="MW" ariaLabel={`${f.name} megawatts out of service by hour`} />
+              <LineChart lines={hOut} unit="MW" ariaLabel={`${f.name} megawatts out of service by hour`} />
             </ChartFrame>
-          ) : <Blank s={st.out} name={STRIP_NAMES.out} k={`${tag}-out`} />}
-          {st.constraints.status === "shown" ? (
+          ) : <NoneHeld title="Out of service" f={f} c="out_mean" w={w} k={`${tag}-out`} />) : <Blank s={st.out} name={STRIP_NAMES.out} k={`${tag}-out`} />}
+          {st.constraints.status === "shown" ? (hCons.length ? (
             <ChartFrame title="Constraints binding (count) and the largest shadow price (USD/MWh)" tip={<Hint words=" (source)" why={`${src("constraints")}. The largest shadow price is by size: SPP prints them negative.`} />}>
-              <LineChart lines={[...hourlyLines(f, hourly, [{ c: "cons_n", label: "Constraints binding", color: "accent" }]), ...hourlyLines(f, hourly, [{ c: "cons_max", label: "Largest shadow price", color: "series-3" }]).map((l) => ({ ...l, y2: true }))]} unit="count" unit2="USD/MWh" ariaLabel={`${f.name} constraints binding by hour`} />
+              <LineChart lines={hCons} unit="count" unit2="USD/MWh" ariaLabel={`${f.name} constraints binding by hour`} />
             </ChartFrame>
-          ) : <Blank s={st.constraints} name={STRIP_NAMES.constraints} k={`${tag}-cons`} />}
-          {st.scarcity.status === "shown" ? (
+          ) : <NoneHeld title="Constraints binding" f={f} c="cons_hours" w={w} k={`${tag}-cons`} />) : <Blank s={st.constraints} name={STRIP_NAMES.constraints} k={`${tag}-cons`} />}
+          {st.scarcity.status === "shown" ? (hAdder.length ? (
             <ChartFrame title="Online reserve price adder, USD/MWh (hourly mean)" tip={<Hint words=" (source)" why={`${src("scarcity")}. ${st.scarcity.note ?? ""}`} />}>
-              <LineChart lines={hourlyLines(f, hourly, [{ c: "adder", label: "Adder", color: "accent" }])} unit="USD/MWh" ariaLabel={`${f.name} reserve price adder by hour`} />
+              <LineChart lines={hAdder} unit="USD/MWh" ariaLabel={`${f.name} reserve price adder by hour`} />
             </ChartFrame>
-          ) : <Blank s={st.scarcity} name={STRIP_NAMES.scarcity} k={`${tag}-scar`} />}
+          ) : <NoneHeld title="Online reserve price adder" f={f} c="adder_hours" w={w} k={`${tag}-scar`} />) : <Blank s={st.scarcity} name={STRIP_NAMES.scarcity} k={`${tag}-scar`} />}
         </>
       ) : null}
-      <ChartFrame title="Peak demand and the forecast's peak, MW a day" tip={<Hint words=" (source)" why={src("demand")} />}>
-        <TimeChart series={dailySeries(f, daily, [{ c: "demand_peak", label: "Peak demand", color: "accent" }, { c: "forecast_peak", label: "Forecast peak", color: "series-3" }])} unit="MW" x="day" ariaLabel={`${f.name} peak demand by day`} />
-      </ChartFrame>
-      {st.out.status === "shown" ? (
+      {dDemand.length ? (
+        <ChartFrame title="Peak demand and the forecast's peak, MW a day" tip={<Hint words=" (source)" why={src("demand")} />}>
+          <TimeChart series={dDemand} unit="MW" x="day" ariaLabel={`${f.name} peak demand by day`} />
+        </ChartFrame>
+      ) : <NoneHeld title="Peak demand and the forecast's peak" f={f} c="forecast_peak" w={w} k={`${tag}-demand-d`} />}
+      {st.out.status === "shown" ? (dOut.length ? (
         <ChartFrame title="Out of service: the day's mean and highest hour, MW" tip={<Hint words=" (source)" why={src("out")} />}>
-          <TimeChart series={dailySeries(f, daily, [{ c: "out_mean", label: "Mean", color: "accent" }, { c: "out_max", label: "Highest hour", color: "series-3" }])} unit="MW" x="day" ariaLabel={`${f.name} out of service by day`} />
+          <TimeChart series={dOut} unit="MW" x="day" ariaLabel={`${f.name} out of service by day`} />
         </ChartFrame>
-      ) : hourly.length ? null : <Blank s={st.out} name={STRIP_NAMES.out} k={`${tag}-out-d`} />}
-      {st.constraints.status === "shown" ? (
+      ) : hourly.length ? null : <NoneHeld title="Out of service" f={f} c="out_mean" w={w} k={`${tag}-out-d`} />) : hourly.length ? null : <Blank s={st.out} name={STRIP_NAMES.out} k={`${tag}-out-d`} />}
+      {st.constraints.status === "shown" ? (dCons.length ? (
         <ChartFrame title="Constraint-hours a day" tip={<Hint words=" (source)" why={`${src("constraints")}. The number of (constraint, hour) pairs that bound in the day-ahead market.`} />}>
-          <TimeChart series={dailySeries(f, daily, [{ c: "cons_hours", label: "Constraint-hours", color: "accent" }])} unit="count" x="day" ariaLabel={`${f.name} constraint-hours by day`} />
+          <TimeChart series={dCons} unit="count" x="day" ariaLabel={`${f.name} constraint-hours by day`} />
         </ChartFrame>
-      ) : hourly.length ? null : <Blank s={st.constraints} name={STRIP_NAMES.constraints} k={`${tag}-cons-d`} />}
-      {st.scarcity.status === "shown" ? (
+      ) : hourly.length ? null : <NoneHeld title="Constraints binding" f={f} c="cons_hours" w={w} k={`${tag}-cons-d`} />) : hourly.length ? null : <Blank s={st.constraints} name={STRIP_NAMES.constraints} k={`${tag}-cons-d`} />}
+      {st.scarcity.status === "shown" ? (dAdder.length ? (
         <ChartFrame title="Hours the adder was above zero, a day" tip={<Hint words=" (source)" why={`${src("scarcity")}. ${st.scarcity.note ?? ""}`} />}>
-          <TimeChart series={dailySeries(f, daily, [{ c: "adder_hours", label: "Hours", color: "accent" }])} unit="hours" x="day" ariaLabel={`${f.name} scarcity hours by day`} />
+          <TimeChart series={dAdder} unit="hours" x="day" ariaLabel={`${f.name} scarcity hours by day`} />
         </ChartFrame>
-      ) : hourly.length ? null : <Blank s={st.scarcity} name={STRIP_NAMES.scarcity} k={`${tag}-scar-d`} />}
+      ) : hourly.length ? null : <NoneHeld title="Hours the adder was above zero" f={f} c="adder_hours" w={w} k={`${tag}-scar-d`} />) : hourly.length ? null : <Blank s={st.scarcity} name={STRIP_NAMES.scarcity} k={`${tag}-scar-d`} />}
       {st.alerts.status === "shown" ? (
-        <ToolTable minWidth={360} caption={`Alerts and notices, ${w.start} to ${w.end} (${alerts.length})`} head={["Date", "Kind, as the operator words it", "Start", "End"]}
-          rows={alerts.slice(0, 40).map((a, i) => ({ key: `${a[0]}-${i}`, cells: [<a key="d" className="underline" href={a[4]} title={src("alerts")}>{a[0]}</a>, a[1], a[2] ?? "", a[3] ?? ""] }))} />
+        <>
+          <h4 className="mb-1 mt-4 font-serif text-base text-accent" data-alerts-heading={tag}>Alerts and notices in force, {w.start} to {w.end} ({alerts.length})</h4>
+          {alerts.length ? (
+            <ToolTable minWidth={360} caption={`Alerts and notices, ${w.start} to ${w.end} (${alerts.length})`} head={["Date", "Kind, as the operator words it", "Start", "End"]}
+              rows={alerts.slice(0, 40).map((a, i) => ({ key: `${a[0]}-${i}`, cells: [<a key="d" className="underline" href={a[4]} title={src("alerts")}>{a[0]}</a>, a[1], a[2] ?? "", a[3] ?? ""] }))} />
+          ) : (
+            <p className="text-sm text-muted" data-none-held={`${tag}-alerts`}>None held in this window. {f.alerts.length ? `The last the file holds is of ${f.alerts.reduce((m, a) => (a[0] > m ? a[0] : m), f.alerts[0][0])}.` : "The file holds none."}</p>
+          )}
+        </>
       ) : <Blank s={st.alerts} name={STRIP_NAMES.alerts} k={`${tag}-alerts`} />}
       <Blank s={st.reserves} name={STRIP_NAMES.reserves} k={`${tag}-reserves`} />
     </div>
