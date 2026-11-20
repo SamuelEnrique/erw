@@ -1,0 +1,179 @@
+# The codebook's metadata of table price_congestion_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: price_congestion_hourly
+family: ''
+shape: series
+row: One part of the day-ahead price at one hub or load zone for one hour, as SPP or CAISO splits it.
+time: ts_utc is the hour's start in UTC.
+vintage_rule: Merged by (entity, variable, ts_utc); a day is written only when every hour of the operating day is there once,
+  and a day read again replaces the one held. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: spp:DA-LMP-SL Day-Ahead LMP by Settlement Location
+  url: https://portal.spp.org/pages/da-lmp-by-location
+cite: CAISO; SPP. Via the Energy Research Warehouse (ERW), table `price_congestion_hourly`.
+method: docs/methods/grid_congestion.md
+header_title: the parts of the day-ahead price at hubs and zones, hourly (SPP and CAISO)
+header_shape: 'Shape: series (docs/datastandard.md v0). USD/MWh. lmp_dam = energy_dam + congestion_dam + loss_dam (+ ghg_dam
+  at CAISO), as each operator publishes the split; nothing here is computed. ts_utc is the start of the hour, UTC.'
+read:
+  date: '2026-11-20'
+  rows: 1279835
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:DLAP_PGAE-APND: 143885
+      caiso:DLAP_SCE-APND: 143885
+      caiso:DLAP_SDGE-APND: 143885
+      caiso:DLAP_VEA-APND: 143885
+      caiso:TH_NP15_GEN-APND: 143885
+      caiso:TH_SP15_GEN-APND: 143885
+      caiso:TH_ZP26_GEN-APND: 143885
+      spp:SPPNORTH_HUB: 136320
+      spp:SPPSOUTH_HUB: 136320
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2023-01-01T06:00:00Z'
+    latest: '2026-11-21T07:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -201.8997
+    highest: 1288.8055
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 1279835
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 1279835
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 272640
+      US-CA,US-NV: 1007195
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      caiso_dam: 1007195
+      spp_dam: 272640
+  missing_cells: 0
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      DLAP_PGAE-APND: 143885
+      DLAP_SCE-APND: 143885
+      DLAP_SDGE-APND: 143885
+      DLAP_VEA-APND: 143885
+      SPPNORTH_HUB: 136320
+      SPPSOUTH_HUB: 136320
+      TH_NP15_GEN-APND: 143885
+      TH_SP15_GEN-APND: 143885
+      TH_ZP26_GEN-APND: 143885
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:PRC_LMP: 1007195
+      spp:DA-LMP-SL: 272640
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 731
+    examples:
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND,DLAP_PGAE-APND,DLAP_SCE-APND,DLAP_SDGE-APND,DLAP_VEA-APND&startdatetime=20230801T07:00-0000&enddatetime=20230901T07:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND,DLAP_PGAE-APND,DLAP_SCE-APND,DLAP_SDGE-APND,DLAP_VEA-APND&startdatetime=20230901T07:00-0000&enddatetime=20231001T07:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND,DLAP_PGAE-APND,DLAP_SCE-APND,DLAP_SDGE-APND,DLAP_VEA-APND&startdatetime=20231001T07:00-0000&enddatetime=20231101T07:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND,DLAP_PGAE-APND,DLAP_SCE-APND,DLAP_SDGE-APND,DLAP_VEA-APND&startdatetime=20231101T07:00-0000&enddatetime=20231201T08:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND,DLAP_PGAE-APND,DLAP_SCE-APND,DLAP_SDGE-APND,DLAP_VEA-APND&startdatetime=20231201T08:00-0000&enddatetime=20240101T08:00-0000
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 731
+    earliest: '2026-11-20T10:42:12Z'
+    latest: '2026-11-20T12:47:00Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1279835
+variables:
+- name: congestion_dam
+  label: The congestion part of the day-ahead price (SPP MCC, CAISO MCC), USD/MWh
+  unit: USD/MWh
+  rows: 269599
+  first: '2023-01-01T06:00:00Z'
+  last: '2026-11-21T07:00:00Z'
+- name: energy_dam
+  label: The energy part of the day-ahead price (SPP MEC, CAISO MCE), USD/MWh
+  unit: USD/MWh
+  rows: 269599
+  first: '2023-01-01T06:00:00Z'
+  last: '2026-11-21T07:00:00Z'
+- name: ghg_dam
+  label: The greenhouse gas part of CAISO's day-ahead price (MGHG), USD/MWh
+  unit: USD/MWh
+  rows: 201439
+  first: '2023-08-10T07:00:00Z'
+  last: '2026-11-21T07:00:00Z'
+- name: lmp_dam
+  label: The day-ahead locational marginal price (SPP LMP, CAISO LMP), USD/MWh
+  unit: USD/MWh
+  rows: 269599
+  first: '2023-01-01T06:00:00Z'
+  last: '2026-11-21T07:00:00Z'
+- name: loss_dam
+  label: The loss part of the day-ahead price (SPP MLC, CAISO MCL), USD/MWh
+  unit: USD/MWh
+  rows: 269599
+  first: '2023-01-01T06:00:00Z'
+  last: '2026-11-21T07:00:00Z'
+second_look: null

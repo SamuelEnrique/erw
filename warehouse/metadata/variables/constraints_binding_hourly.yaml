@@ -1,0 +1,252 @@
+# The codebook's metadata of table constraints_binding_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: constraints_binding_hourly
+family: ''
+shape: series
+row: One transmission constraint that bound in one hour of an operator's day-ahead market (SPP or CAISO), with the shadow
+  price the operator published.
+time: ts_utc is the hour's start in UTC.
+vintage_rule: Merged by (entity, variable, ts_utc); a day read again from the operator replaces the rows held for it, and
+  rows not read again are kept. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+keys_note: A constraint has a row only in an hour it bound; an absent hour is an hour it did not bind (or a missing file,
+  named in the header).
+license: public
+tier: source
+interval: PT1H
+source:
+- name: spp:DA-BC Day-Ahead Binding Constraints
+  url: https://portal.spp.org/pages/da-binding-constraints
+cite: CAISO; SPP. Via the Energy Research Warehouse (ERW), table `constraints_binding_hourly`.
+method: docs/methods/grid_congestion.md
+header_title: binding transmission constraints and their shadow prices, day-ahead, hourly (SPP and CAISO)
+header_shape: 'Shape: series (docs/datastandard.md v0). One row a constraint that bound in an hour: an hour it did not bind
+  has no row. value is the shadow price in USD/MWh as the operator prints it (SPP''s are negative, CAISO''s positive; no sign
+  is changed). ts_utc is the start of the hour, UTC.'
+read:
+  date: '2026-11-20'
+  rows: 1808231
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - caiso:18023_PAHRUMP _230_18904_BOB SS  _230_BR_1 _1|Base Case
+    - caiso:18023_PAHRUMP _230_18910_INOVATIN_230_BR_1 _1|Base Case
+    - caiso:18076_LTHRPWLS_138_18999_VEAJAF  _138_BR_1 _1|Base Case
+    - caiso:18083_NNSS_SW _138_18105_NNSS_VA _138_BR_1 _1|VE1 JACKAS-MERCRY 138
+    - caiso:18083_NNSS_SW _138_18105_NNSS_VA _138_BR_1 _1|VE1 VEAVST-PAHRUM 138
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2014-03-01T06:00:00Z'
+    latest: '2026-11-21T07:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -9446.50604
+    highest: 8529.24217
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 1808231
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 1808231
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 1318120
+      US-CA,US-NV: 490111
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    list:
+      caiso_dam: 490111
+      spp_dam: 1318120
+  missing_cells: 0
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1808231
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:PRC_NOMOGRAM: 490111
+      spp:DA-BC: 1318120
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 843
+    examples:
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_NOMOGRAM&version=1&market_run_id=DAM&startdatetime=20150101T08:00-0000&enddatetime=20150201T08:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_NOMOGRAM&version=1&market_run_id=DAM&startdatetime=20150201T08:00-0000&enddatetime=20150301T08:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_NOMOGRAM&version=1&market_run_id=DAM&startdatetime=20150301T08:00-0000&enddatetime=20150401T07:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_NOMOGRAM&version=1&market_run_id=DAM&startdatetime=20150401T07:00-0000&enddatetime=20150501T07:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_NOMOGRAM&version=1&market_run_id=DAM&startdatetime=20150501T07:00-0000&enddatetime=20150601T07:00-0000
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 843
+    earliest: '2026-11-20T10:41:34Z'
+    latest: '2026-11-20T12:07:29Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1808231
+- name: x_constraint
+  label: The constraint's name alone, as the operator prints it (SPP Constraint Name, CAISO NOMOGRAM_ID_XML)
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 021BA_LN@TULSA_NO<CON1097>
+    - 1001_LN@COULTER<28374>
+    - 10028A_LN@NESCTY<11922>
+    - 10028A_LN@NESCTY<20496>
+    - 10028A_LN@NESCTY<26412>
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: docs/methods/grid_congestion.md
+- name: x_contingency
+  label: The contingency under which the constraint bound, as the operator prints it (SPP Contingency Name, CAISO CONSTRAINT_CAUSE);
+    empty in SPP's files before 2022, which print none
+  unit: none
+  type: text
+  values:
+    distinct: 2316
+    examples:
+    - '100'
+    - '1003'
+    - '10042'
+    - '10105'
+    - '10107'
+  missing_cells: 622588
+  missing_meaning: the operator's file prints no contingency for the row
+  source_name: null
+  documented_by: docs/methods/grid_congestion.md
+- name: x_monitored
+  label: The monitored facility, as SPP prints it (Monitored Facility)
+  unit: none
+  type: text
+  values:
+    distinct: 2746
+    examples:
+    - LN  - BEVRC7
+    - LN  - TEXAS_CO
+    - LN 103_ROKE - MOORE
+    - LN 116THSTR - JARB
+    - LN 121LYNN4 - ONETA
+  missing_cells: 490111
+  missing_meaning: CAISO prints no such column
+  source_name: null
+  documented_by: docs/methods/grid_congestion.md
+- name: x_contingent_facility
+  label: The contingent facility, as SPP prints it (Contingent Facility)
+  unit: none
+  type: text
+  values:
+    distinct: 4639
+    examples:
+    - ADD NEW EAST
+    - 'AECI : 5HOLMAN MARSHFLD : 161 69 :'
+    - 'AECI : BLACKBRY JASPER7 : 345 : 1'
+    - 'AECI : BROOK_LN : 161 345 : 1 : 7'
+    - 'AECI : CLEVCOV TABLE_RK : 161 : 1'
+  missing_cells: 490111
+  missing_meaning: CAISO prints no such column
+  source_name: null
+  documented_by: docs/methods/grid_congestion.md
+- name: x_constraint_type
+  label: SPP's constraint type code as printed (FG flowgate, MA, MCE, RTCA, WRC)
+  unit: none
+  type: text
+  values:
+    list:
+      FG: 806759
+      MA: 369137
+      MCE: 142185
+      RTCA: 7
+      WRC: 32
+  missing_cells: 490111
+  missing_meaning: CAISO prints no such column
+  source_name: null
+  documented_by: docs/methods/grid_congestion.md
+- name: x_nerc_id
+  label: The NERC flowgate identifier SPP prints (NERCID)
+  unit: none
+  type: integer
+  values:
+    distinct: 3287
+    lowest: 1015
+    highest: 99995
+  missing_cells: 1072052
+  missing_meaning: CAISO prints no such column, or SPP printed none for the row
+  source_name: null
+  documented_by: docs/methods/grid_congestion.md
+- name: x_state
+  label: SPP's state of the constraint in the hour (BINDING, BREACHED, MONITORED), not a US state
+  unit: none
+  type: text
+  values:
+    list:
+      BINDING: 1293548
+      BREACHED: 7976
+      MONITORED: 16596
+  missing_cells: 490111
+  missing_meaning: CAISO prints no such column
+  source_name: null
+  documented_by: docs/methods/grid_congestion.md
+variables:
+- name: shadow_price_dam
+  label: The constraint's shadow price in the day-ahead market, USD/MWh, sign as printed (SPP negative, CAISO positive)
+  unit: USD/MWh
+  rows: 1808231
+  first: '2014-03-01T06:00:00Z'
+  last: '2026-11-21T07:00:00Z'
+second_look: null

@@ -1,0 +1,223 @@
+# The codebook's metadata of table grid_all_alerts (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: grid_all_alerts
+family: ''
+shape: events
+row: One grid alert, watch, emergency or disturbance report, from CAISO's emergencies, ERCOT's notices or DOE's OE-417 reports;
+  derived.
+time: event_date is the date the source gives the event; x_start and x_end are the source's own start and end where printed.
+vintage_rule: Rebuilt whole from its three input tables at each run; an event's row follows its input table's row.
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: erw:grid_all_alerts ERW derived table
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/grid_alerts.md
+cite: CAISO; ERCOT; U.S. Department of Energy (DOE). Via the Energy Research Warehouse (ERW), table `grid_all_alerts`.
+method: docs/methods/grid_alerts.md
+header_title: every grid alert, watch and emergency notice the warehouse holds, one table (derived, chain 601 session 9000)
+header_shape: 'Shape: events (docs/datastandard.md v0). event_date is the date the source gives the event; x_kind is the source''s
+  own words for its kind; x_start and x_end are the source''s own start and end where printed.'
+read:
+  date: '2026-11-20'
+  rows: 5397
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - caiso_awe:1998-05-30:alert:c7046d023c
+    - caiso_awe:1998-07-26:alert:efb4878194
+    - caiso_awe:1998-07-27:alert:4c4cdaae48
+    - caiso_awe:1998-07-27:rmo:ec6686dcce
+    - caiso_awe:1998-07-27:stage1:a0672fa625
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    distinct: 2541
+    earliest: '1998-05-30'
+    latest: '2026-10-15'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  type: text
+  values:
+    distinct: 88
+    examples:
+    - actual_physical_attack
+    - actual_physical_attack_vandalism
+    - actual_physical_event
+    - advisory
+    - alert
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: text
+  values:
+    list:
+      California ISO: 1906
+      ERCOT: 178
+  missing_cells: 3313
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5397
+- name: mw
+  shared: true
+  type: number
+  values:
+    distinct: 357
+    lowest: 0.0
+    highest: 160000.0
+  missing_cells: 3525
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5397
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5397
+- name: status
+  shared: true
+  type: text
+  values:
+    list:
+      active: 26
+      cancelled: 5
+      declared: 1906
+      ended: 15
+      issued: 132
+      restored: 2619
+  missing_cells: 694
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:grid_emergencies_history: 1906
+      doe:oe417: 3313
+      ercot:news_releases: 147
+      ercot:operations_messages: 31
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 116
+    examples:
+    - https://doe417.pnnl.gov/summaries/2016_Annual_Summary.xls
+    - https://doe417.pnnl.gov/summaries/2017_Annual_Summary.xls
+    - https://doe417.pnnl.gov/summaries/2018_Annual_Summary.xls
+    - https://doe417.pnnl.gov/summaries/2019_Annual_Summary.xls
+    - https://doe417.pnnl.gov/summaries/2020_Annual_Summary.xls
+  missing_cells: 0
+- name: x_input_table
+  label: The ERW table the row comes from (caiso_grid_emergencies, ercot_grid_notices, doe_oe417_events)
+  unit: none
+  type: text
+  values:
+    list:
+      caiso_grid_emergencies: 1906
+      doe_oe417_events: 3313
+      ercot_grid_notices: 178
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: docs/methods/grid_alerts.md
+- name: x_grid
+  label: The grid (caiso, ercot) or, for an OE-417 report, the NERC region as the report prints it
+  unit: none
+  type: text
+  values:
+    distinct: 34
+    examples:
+    - FRCC
+    - MPCC
+    - MRO
+    - MRO / RF
+    - MRO/RF
+  missing_cells: 1058
+  missing_meaning: null
+  source_name: null
+  documented_by: docs/methods/grid_alerts.md
+- name: x_kind
+  label: The kind of alert in the source's own words (CAISO's label, ERCOT's headline label, OE-417's event type as published)
+  unit: none
+  type: text
+  values:
+    distinct: 313
+    examples:
+    - '- Cyber event (information technology)'
+    - '- Failure at high voltage substation or switchyard'
+    - '- Failure at high voltage substation or switchyard - Other'
+    - '- Failure at high voltage substation or switchyard - Weather or natural disaster'
+    - '- Fuel supply emergency'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: docs/methods/grid_alerts.md
+- name: x_start
+  label: The event's start as the source prints it
+  unit: none
+  type: text
+  values:
+    distinct: 3532
+    examples:
+    - '2011-02-02'
+    - '2011-02-03'
+    - 2011-02-03 1201
+    - 2011-02-04 1201
+    - '2011-02-08'
+  missing_cells: 1347
+  missing_meaning: the source prints no start
+  source_name: null
+  documented_by: docs/methods/grid_alerts.md
+- name: x_end
+  label: The event's end as the source prints it
+  unit: none
+  type: text
+  values:
+    distinct: 2777
+    examples:
+    - '- Unknown - Unknown'
+    - 2011-02-03 1200
+    - 2011-02-04 1200
+    - 2011-07-06 2000
+    - 2011-09-07 2200
+  missing_cells: 1888
+  missing_meaning: the source prints no end (ERCOT's notices print none)
+  source_name: null
+  documented_by: docs/methods/grid_alerts.md
+- name: x_area
+  label: The area the source names (CAISO's and ERCOT's region, OE-417's area affected)
+  unit: none
+  type: text
+  values:
+    distinct: 1375
+    examples:
+    - Ada County, Idaho
+    - AitkinCounty, Minnesota
+    - Alabama
+    - Alabama, Georgia
+    - 'Alabama:'
+  missing_cells: 0
+  missing_meaning: the source names no area
+  source_name: null
+  documented_by: docs/methods/grid_alerts.md
+second_look: null
