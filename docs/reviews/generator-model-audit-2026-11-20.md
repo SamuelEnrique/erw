@@ -157,7 +157,11 @@ The 23 decisions at the page's foot (`site/lib/decisions.ts`, `GENERATOR_DECISIO
 - **Wind, other grids and other hubs**: the same code, not recomputed. Of the other assets, ERCOT's battery (finding 5) and peaker (finding 9) were recomputed; their finance was not.
 - **The plant with a battery beside it** (`seller_hybrid.py`) and the pasted profile: not read.
 - **The capture file's own build** (`capture_price.py`, every hub and zone): not re-run; only the default hub's figure was recomputed (above).
-- **The fleet's own curtailment.** EIA-930 counts what was generated, so the plant inherits the fleet's curtailment while it is paid the hub's price. Only an indication, outside the page's window: in the 1,271 hours `ercot_wind_solar_hsl_hourly` holds (28 September to 20 November 2026), the solar fleet's High Sustained Limit less its generation was 5.5 percent of its potential; only 11 percent of it fell in negative-price hours; valued at the hub-average price (USD 30.25 per MWh where curtailed) it was worth 6.7 percent of the generated energy. Much of that is local congestion, which a plant at its own node would see as a low price instead; the table's history is too short to measure the page's twelve months.
+- **The fleet's own curtailment.** EIA-930 counts what was generated, so the plant inherits the fleet's curtailment while it is paid the hub's price.
+  - Only an indication, outside the page's window: the 1,271 hours `ercot_wind_solar_hsl_hourly` holds (28 September to 20 November 2026).
+  - The solar fleet's High Sustained Limit less its generation: 5.5 percent of its potential, 11 percent of it in negative-price hours.
+  - Valued at the hub-average price (USD 30.25 per MWh where curtailed): 6.7 percent of the generated energy's value.
+  - Much of it is local congestion, which a plant at its own node would see as a low price instead. The table's history is too short to measure the page's twelve months.
 - **The capital cost's basis** (per kW of AC or DC capacity) against an output per MW of AC nameplate: not checked against Lazard's text.
 
 ## The deploys of this file (rule 8)
