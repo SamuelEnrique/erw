@@ -5,9 +5,11 @@
 table: ba_boundaries
 family: ba
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One balancing authority area of the United States (and its Canadian neighbours) as a polygon of HIFLD's Control Areas
+  layer, keyed to its EIA-930 code.
+time: No time column. vintage is HIFLD's SOURCEDATE of the polygon (a date); the table is a snapshot as read on its retrieved_at.
+vintage_rule: One row a polygon, rewritten whole by each run; vintage holds HIFLD's source date, so a redrawn polygon replaces
+  the old.
 keys:
 - entity_id
 license: public
@@ -45,6 +47,7 @@ columns:
     - eia930:AVRN
     - eia930:AZPS
   missing_cells: 0
+  particular: eia930:<code>, or hifld:control_area:<HIFLD ID> where EIA-861 pairs the ID with no EIA-930 code (4 polygons)
 - name: entity_type
   shared: true
   type: text
@@ -76,6 +79,7 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
+  particular: The ISO 3166-2 code of the authority's address state (HIFLD's STATE), not its whole area
 - name: lat
   shared: true
   type: number
@@ -84,6 +88,7 @@ columns:
     lowest: 21.4547
     highest: 60.30734
   missing_cells: 0
+  particular: The polygon's centroid
 - name: lon
   shared: true
   type: number
@@ -92,6 +97,7 @@ columns:
     lowest: -157.96851
     highest: -68.34041
   missing_cells: 0
+  particular: The polygon's centroid
 - name: capacity_mw
   shared: true
   type: empty
@@ -104,6 +110,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 71
+  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -146,21 +153,22 @@ columns:
       '2019-06-20': 2
       '2021-06-21': 68
   missing_cells: 0
+  particular: HIFLD's SOURCEDATE, a date (YYYY-MM-DD)
 - name: x_hifld_id
-  label: null
-  unit: null
+  label: HIFLD's ID of the control area, which is EIA's entity identifier of the authority
+  unit: none
   type: integer
   values:
     distinct: 71
     lowest: 1
     highest: 59504
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: ID
+  documented_by: header; connector hifld_control_areas.py
 - name: x_eia930_code
-  label: null
-  unit: null
+  label: The authority's EIA-930 code, paired with HIFLD's ID through EIA-861's Balancing_Authority files
+  unit: none
   type: text
   values:
     distinct: 70
@@ -171,12 +179,12 @@ columns:
     - AVRN
     - AZPS
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No EIA-930 code pairs with the ID (nothing is matched by name)
+  source_name: BA Code (EIA-930 reference tables)
+  documented_by: header; connector hifld_control_areas.py
 - name: x_eia930_name
-  label: null
-  unit: null
+  label: The authority's name in EIA-930's reference tables
+  unit: none
   type: text
   values:
     distinct: 67
@@ -187,12 +195,12 @@ columns:
     - Associated Electric Cooperative, Inc.
     - Avangrid Renewables, LLC
   missing_cells: 4
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No EIA-930 code pairs with the ID
+  source_name: BA Name
+  documented_by: connector hifld_control_areas.py
 - name: x_region
-  label: null
-  unit: null
+  label: EIA-930's region of the authority (CAL, TEX, MIDW and the others)
+  unit: none
   type: text
   values:
     list:
@@ -211,48 +219,48 @@ columns:
       TEN: 1
       TEX: 1
   missing_cells: 4
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No EIA-930 code pairs with the ID
+  source_name: Region/Country Code
+  documented_by: connector hifld_control_areas.py
 - name: x_area_km2
-  label: null
-  unit: null
+  label: The polygon's area on a sphere of radius 6,371.0088 km, before simplification
+  unit: km2
   type: number
   values:
     distinct: 71
     lowest: 8.0
     highest: 1677182.9
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector hifld_control_areas.py
 - name: x_parts
-  label: null
-  unit: null
+  label: The number of parts of the polygon
+  unit: count
   type: integer
   values:
     distinct: 37
     lowest: 1
     highest: 1326
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector hifld_control_areas.py
 - name: x_vertices
-  label: null
-  unit: null
+  label: The number of vertices of the polygon as HIFLD serves it
+  unit: count
   type: integer
   values:
     distinct: 71
     lowest: 4
     highest: 305771
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector hifld_control_areas.py
 - name: x_source_date
-  label: null
-  unit: null
+  label: HIFLD's source date of the polygon
+  unit: none
   type: date
   values:
     list:
@@ -260,12 +268,12 @@ columns:
       '2019-06-20': 2
       '2021-06-21': 68
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: SOURCEDATE
+  documented_by: connector hifld_control_areas.py
 - name: x_val_date
-  label: null
-  unit: null
+  label: HIFLD's validation date of the polygon
+  unit: none
   type: date
   values:
     list:
@@ -273,12 +281,12 @@ columns:
       '2020-05-15': 2
       '2022-06-03': 68
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: VAL_DATE
+  documented_by: connector hifld_control_areas.py
 - name: x_year
-  label: null
-  unit: null
+  label: The year of HIFLD's load figures
+  unit: none
   type: integer
   values:
     list:
@@ -286,42 +294,42 @@ columns:
       '2018': 2
       '2020': 63
   missing_cells: 5
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: HIFLD's YEAR is not a year
+  source_name: YEAR
+  documented_by: connector hifld_control_areas.py
 - name: x_peak_load_mw
-  label: null
-  unit: null
+  label: The authority's peak load as HIFLD prints it
+  unit: MW
   type: number
   values:
     distinct: 58
     lowest: 0.0
     highest: 144530.0
   missing_cells: 6
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: HIFLD printed -999 or nothing
+  source_name: PEAK_LOAD
+  documented_by: connector hifld_control_areas.py
 - name: x_total_cap_mw
-  label: null
-  unit: null
+  label: The authority's total capacity as HIFLD prints it
+  unit: MW
   type: number
   values:
     distinct: 59
     lowest: 0.0
     highest: 163030.0
   missing_cells: 7
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: HIFLD printed -999 or nothing
+  source_name: TOTAL_CAP
+  documented_by: connector hifld_control_areas.py
 - name: x_raw_sha256
-  label: null
-  unit: null
+  label: The SHA-256 of the raw GeoJSON file the row was read from
+  unit: none
   type: text
   values:
     list:
       7baf60e617f9d3364c9e49dea9f3bc8a1d4dc32c6bc0cf206cac1613145ec57d: 71
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector hifld_control_areas.py
 second_look: null
