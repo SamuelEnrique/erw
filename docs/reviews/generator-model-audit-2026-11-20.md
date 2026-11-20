@@ -7,6 +7,14 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 - Nothing changed on main but this file. No table written, no lock taken, no default moved.
 - Each finding's test is on its own branch, `wip/audit-generator-<n>`, not requested for landing.
 
+## In short
+
+- **The revenue is sound.** The model reproduces from the page's own hourly file, the fleet's solar hours line up with the sun, and the two small faults found in it (selling below zero, the month-start nameplate) move the headline by less than 1 percent each, in opposite directions.
+- **The finance carries the battery page's faults, larger.** No tax and no depreciation against an after-tax rate (+240.52 per kW of NPV, finding 1); two kinds of dollars over 35 years (+59.72 to +77.42, finding 2).
+- **Two code faults in the contract and the credit.** An as-generated PPA is paid on energy the plant no longer makes, so the breakeven PPA price reads 58.36 where it is 61.50 per MWh (finding 4). The same tax credit lands a year later here than on the battery page (finding 3).
+- **The battery on this page is called an upper bound and sits 2.1 percent under the battery page's own program on the same prices (finding 5).**
+- **The note's table of defaults is two rulings out of date (finding 8, fixed in words on its branch).**
+
 ## How every number here was computed
 
 - The default case: ERCOT, solar, 100 MW, priced at the hub average in real time; the page's last twelve months, October 2025 to September 2026: USD 59.85 per kW, coverage 0.67 on debt payments of USD 7,078,769.
@@ -92,3 +100,27 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 - **How much.** No figure on the page; the note's worked NPV of section 11.4 (USD -78.43 million) is the 9.6 percent figure of sessions 196 to 207. At the page's defaults the NPV is USD -76.66 million (-766.62 per kW, finding 1's mirror).
 - **The test.** `tests/test_audit_generator_8.py` on `wip/audit-generator-8`: the note's two rows against the two constants. Fails on main, passes on the branch.
 - **The fix on the branch.** The two rows in words, with the rulings that set them.
+
+## What was checked and found right
+
+- **The revenue.** The public hourly file gives the page's 59.8523 per kW and 2,579.9 MWh per MW for its twelve months: price times the fleet's generation over the month's nameplate, summed.
+- **The hours.** EIA-930's hour-ending time is read as the hour's start less one hour (`fuel_hours`, line 102). Checked against the sun: the output-weighted centre of the day falls at 12:43 in January (standard time) and 13:41 in June (daylight time), where solar noon is in Texas. An hour's shift would show.
+- **The price.** The same hub-average real-time hourly mean as the battery page (complete hours only), from the same tables in the same order.
+- **The debt.** 1,375 x 1,000 x 100 x 0.6 x `crf(0.08, 35)` = 7,078,769; coverage (59.85 - 12.5) / 70.79 = 0.67; the price for 1.25 times coverage, 39.14 per MWh; the breakeven PPA, 58.36 per MWh: each as the page.
+- **The breakeven PPA price is a breakeven.** It is the contract price at which NPV to equity is zero, and the page keeps the coverage price under its own name. The battery page's finding 5 asks for this form.
+- **The battery's dynamic program** (`battery_day`) finds the exact optimum of its own rules: each state of charge and energy cycled kept exactly, the better of two paths kept. Its rules, not its arithmetic, are finding 5.
+- **The peaker's rule.** Run where the price is strictly above Henry Hub (the day's, or the last trading day's) times the heat rate plus variable O&M; CAISO adds the allowance cost. Read, not recomputed.
+
+## Not covered, or left open
+
+- **Wind, the battery and the peaker as the page's own assets**, other grids and other hubs: the same code; only the solar default was recomputed.
+- **The plant with a battery beside it** (`seller_hybrid.py`) and the pasted profile: not read.
+- **The capture file** (`capture_price.py`) beside the model: the note's own item 7 (two fleets of weights, 23.27 against 23.20) was not recomputed.
+- **The fleet's own curtailment**: EIA-930 counts what was generated, so energy the fleet curtailed is missing from a plant that would not have curtailed it. Not measured.
+- **The capital cost's basis** (per kW of AC or DC capacity) against an output per MW of AC nameplate: not checked against Lazard's text.
+
+## The deploys of this file (rule 8)
+
+Every page is in review; this file changes no page. Snapshots as in the battery audit (`s9840-<label>-before` and `-after`, `node site/scripts/snapshot-live.mjs`).
+
+- Push 1 (findings 1 to 5, with the battery file's record of its push 6), merge `df0ac9d0`; success about 21:42 UTC. `s9840-g1to5-before` against `s9840-g1to5-after`: 0 differences on 25 pages. Expected.
