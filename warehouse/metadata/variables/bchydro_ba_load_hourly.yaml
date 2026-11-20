@@ -35,11 +35,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: One entity, the balancing authority's load
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: One entity, the balancing authority's load
 - name: variable
   shared: true
   type: text
@@ -72,25 +72,25 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The province's ISO 3166-2 code (Canada)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The province's ISO 3166-2 code (Canada)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 24095
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The balancing authority's code, not a pricing node
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The balancing authority's code, not a pricing node
 - name: source
   shared: true
   type: text
@@ -111,11 +111,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's Last-Modified time as the server sent it
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The workbook's Last-Modified time as the server sent it
 variables:
 - name: load
   label: The balancing authority's load in the hour (BC Hydro's Hourly Control Area Load Report)

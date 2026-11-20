@@ -35,11 +35,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: One entity, the country
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: One entity, the country
 - name: variable
   shared: true
   type: text
@@ -72,25 +72,25 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 2039
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The indicator as CSP writes it, not a pricing node
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The indicator as CSP writes it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -111,11 +111,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The JSON-stat answer's updated field
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The JSON-stat answer's updated field
 - name: x_code
   label: CSP's code of the indicator
   unit: none

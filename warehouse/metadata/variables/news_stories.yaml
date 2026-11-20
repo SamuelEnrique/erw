@@ -61,18 +61,18 @@ columns:
   missing_cells: 0
 - name: event_date
   shared: true
+  particular: The story's publish time, UTC
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The story's publish time, UTC
 - name: event_type
   shared: true
+  particular: news on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: news on every row
 - name: parties
   shared: true
   type: text
@@ -105,25 +105,25 @@ columns:
   missing_cells: 27419
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 27419
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
+  particular: 'The outlet: the feed''s name, or for a Google News item the outlet in its source element'
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: 'The outlet: the feed''s name, or for a Google News item the outlet in its source element'
 - name: source_url
   shared: true
+  particular: The story's link; the outlet's address where a Google News link was resolved
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The story's link; the outlet's address where a Google News link was resolved
 - name: title
   label: The story's title as the feed gives it (the outlet's text)
   unit: none

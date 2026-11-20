@@ -37,11 +37,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: dbedt:hi:<island>:<source> (17.07), dbedt:hi:<island> (17.10) or the Oahu utility's entity (17.13)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: dbedt:hi:<island>:<source> (17.07), dbedt:hi:<island> (17.10) or the Oahu utility's entity (17.13)
 - name: variable
   shared: true
   type: text
@@ -74,25 +74,25 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: Hawaii's ISO 3166-2 code on every row, whatever the island
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: Hawaii's ISO 3166-2 code on every row, whatever the island
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 268
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: DBEDT's label of the row, not a pricing node
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: DBEDT's label of the row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -113,11 +113,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The workbook's Last-Modified time as the server sent it
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The workbook's Last-Modified time as the server sent it
 - name: x_table
   label: The Data Book table the row is read from
   unit: none

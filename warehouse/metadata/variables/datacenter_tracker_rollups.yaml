@@ -32,12 +32,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: grid:<grid>, state:<postal code>, operator:<name> (the operator, else the developer), or tracker:all; <none>
+    where the facility has none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: grid:<grid>, state:<postal code>, operator:<name> (the operator, else the developer), or tracker:all; <none>
-    where the facility has none
 - name: variable
   shared: true
   type: text
@@ -70,25 +70,25 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US-<state> on a state's rows; empty on every other row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 490
-  particular: US-<state> on a state's rows; empty on every other row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 603
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 603
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -109,11 +109,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The day the rollup was built (as ts_utc)
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The day the rollup was built (as ts_utc)
 variables:
 - name: facilities
   label: The group's facilities in datacenter_projects

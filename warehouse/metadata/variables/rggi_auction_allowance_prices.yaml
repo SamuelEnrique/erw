@@ -32,11 +32,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: 'rggi:<current or future>_auction: the auction''s current-vintage or future-vintage allowances'
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: 'rggi:<current or future>_auction: the auction''s current-vintage or future-vintage allowances'
 - name: variable
   shared: true
   type: text
@@ -69,25 +69,25 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The country's code (US) on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The country's code (US) on every row
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 304
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: The auction as RGGI names it, not a pricing node
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The auction as RGGI names it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -108,11 +108,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 304
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: allowances_offered
   label: Allowances offered (one allowance is one short ton of CO2); RGGI's offered quantity does not count the Cost Containment

@@ -36,11 +36,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: derk:ba:<utility>, or the country's total column
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: derk:ba:<utility>, or the country's total column
 - name: variable
   shared: true
   type: text
@@ -73,25 +73,25 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
 - name: market
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 214
-  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
+  particular: DERK's row label, not a pricing node (the same as x_label)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: DERK's row label, not a pricing node (the same as x_label)
 - name: source
   shared: true
   type: text
@@ -112,11 +112,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The annex's Last-Modified time as the server sent it
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The annex's Last-Modified time as the server sent it
 - name: x_label
   label: DERK's row label, as printed in the annex
   unit: none

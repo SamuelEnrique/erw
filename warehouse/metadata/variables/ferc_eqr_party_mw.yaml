@@ -36,18 +36,18 @@ read:
 columns:
 - name: entity_id
   shared: true
+  particular: ferc_eqr_party_mw:<role>:<product>:<rank by megawatts>
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: ferc_eqr_party_mw:<role>:<product>:<rank by megawatts>
 - name: entity_type
   shared: true
+  particular: company on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: company on every row
 - name: name
   shared: true
   type: text
@@ -56,11 +56,11 @@ columns:
   missing_cells: 0
 - name: geo
   shared: true
+  particular: US on every row (set by the builder)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: US on every row (set by the builder)
 - name: lat
   shared: true
   type: empty
@@ -81,11 +81,11 @@ columns:
   missing_cells: 812
 - name: status
   shared: true
+  particular: active on every row (set by the builder)
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: active on every row (set by the builder)
 - name: status_date
   shared: true
   type: empty
@@ -118,11 +118,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 812
-  particular: 'Not filled: no cell holds a value'
 - name: x_role
   label: buyer or seller
   unit: none

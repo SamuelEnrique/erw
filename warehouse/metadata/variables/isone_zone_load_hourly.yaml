@@ -38,12 +38,12 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: The load zone under the names of isone_dam_zone_prices and isone_rtm_zone_prices; isone:system is ISO-NE's own
+    control-area sheet, never a sum made here
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The load zone under the names of isone_dam_zone_prices and isone_rtm_zone_prices; isone:system is ISO-NE's own
-    control-area sheet, never a sum made here
 - name: variable
   shared: true
   type: text
@@ -88,11 +88,11 @@ columns:
   missing_cells: 0
 - name: node
   shared: true
+  particular: The workbook sheet's name for the zone
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The workbook sheet's name for the zone
 - name: source
   shared: true
   type: text
@@ -113,11 +113,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 137799
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: load
   label: ISO-NE's real-time demand for the zone (or control area) and hour (RT_Demand), MW over the hour

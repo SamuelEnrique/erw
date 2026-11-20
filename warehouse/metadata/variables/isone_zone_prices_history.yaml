@@ -79,18 +79,18 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
+  particular: 'Partition column: the day-ahead or the real-time market of ISO-NE'
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: 'Partition column: the day-ahead or the real-time market of ISO-NE'
 - name: node
   shared: true
+  particular: The load zone as ISO-NE names it
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The load zone as ISO-NE names it
 - name: source
   shared: true
   type: text
@@ -111,11 +111,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 1086544
-  particular: 'Not filled: no cell holds a value'
 variables:
 - name: lmp_dam
   label: Day-ahead locational marginal price of the zone for the hour (ISO-NE's DA_LMP)

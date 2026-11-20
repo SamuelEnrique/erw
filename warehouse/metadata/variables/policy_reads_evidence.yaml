@@ -29,11 +29,11 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: <read id>#<field>#<n>
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: <read id>#<field>#<n>
 - name: event_date
   shared: true
   type: text
@@ -42,11 +42,11 @@ columns:
   missing_cells: 0
 - name: event_type
   shared: true
+  particular: policy_read_evidence on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: policy_read_evidence on every row
 - name: parties
   shared: true
   type: empty
@@ -79,11 +79,11 @@ columns:
   missing_cells: 3592
 - name: status
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 3592
-  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -92,11 +92,11 @@ columns:
   missing_cells: 0
 - name: source_url
   shared: true
+  particular: The regulator's document the read is of
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The regulator's document the read is of
 - name: read_id
   label: The read of policy_reads the span supports (its event_id)
   unit: none

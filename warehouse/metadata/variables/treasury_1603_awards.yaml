@@ -33,67 +33,67 @@ read:
 columns:
 - name: event_id
   shared: true
+  particular: treasury_1603:<the first 12 hex digits of a SHA-1 of the business, state, technology, amount and date>
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: treasury_1603:<the first 12 hex digits of a SHA-1 of the business, state, technology, amount and date>
 - name: event_date
   shared: true
+  particular: The award date
   type: date
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The award date
 - name: event_type
   shared: true
+  particular: grant_award on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: grant_award on every row
 - name: parties
   shared: true
+  particular: The business as the Treasury names it
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: The business as the Treasury names it
 - name: entity_ids
   shared: true
+  particular: 'US-<state or territory>: an ISO 3166-2 code of the award''s state, not an entity_id of an entities table'
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: 'US-<state or territory>: an ISO 3166-2 code of the award''s state, not an entity_id of an entities table'
 - name: mw
   shared: true
+  particular: 'Not filled: the list gives no capacity'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 10012
-  particular: 'Not filled: the list gives no capacity'
 - name: price
   shared: true
+  particular: 'Not filled: the award is not a price per MWh'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 10012
-  particular: 'Not filled: the award is not a price per MWh'
 - name: currency
   shared: true
+  particular: 'Not filled: no cell holds a value'
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 10012
-  particular: 'Not filled: no cell holds a value'
 - name: status
   shared: true
+  particular: awarded on every row
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: awarded on every row
 - name: source
   shared: true
   type: text

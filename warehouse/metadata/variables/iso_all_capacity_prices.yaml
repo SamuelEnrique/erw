@@ -48,11 +48,11 @@ read:
 columns:
 - name: entity
   shared: true
+  particular: <market's grid>:<zone or location as published>
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  particular: <market's grid>:<zone or location as published>
 - name: variable
   shared: true
   type: text
@@ -91,19 +91,19 @@ columns:
   missing_cells: 0
 - name: market
   shared: true
-  type: text
-  values:
-    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
-  missing_cells: 0
   particular: 'Partition column: the auction market (PJM''s base residual auction, NYISO''s ICAP spot, ISO-NE''s forward capacity
     auction, MISO''s planning resource auction)'
-- name: node
-  shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+- name: node
+  shared: true
   particular: The zone or location as the publisher names it
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
 - name: source
   shared: true
   type: text
@@ -124,11 +124,11 @@ columns:
   missing_cells: 0
 - name: vintage
   shared: true
+  particular: The source document's Last-Modified time, or NYISO's Posted Date; empty where neither was given
   type: utc time
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 26
-  particular: The source document's Last-Modified time, or NYISO's Posted Date; empty where neither was given
 - name: x_auction
   label: The auction as the publisher names it
   unit: none
