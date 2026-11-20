@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate tie_side_gap, region bg_ciso_srp (the California ISO (CISO) and the Salt River Project (SRP))
+# Computed 2026-11-19T11:05:25Z by warehouse/analysis/findings/deep/trade.py (tie_side_gap); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean absolute difference between the two balancing authorities' reports on their tie (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_interchange_hourly_2018, eia930_ba_interchange_hourly_2019, eia930_ba_interchange_hourly_2020, eia930_ba_interchange_hourly_2021, eia930_ba_interchange_hourly_2022, eia930_ba_interchange_hourly_2023, eia930_ba_interchange_hourly_2024, eia930_ba_interchange_hourly_2025, eia930_ba_interchange_hourly_2026
+region,year,value,n_observations,full_year
+bg_ciso_srp,2018,15.28234379051076,3857.0,0
+bg_ciso_srp,2019,1.5344907407407407,8640.0,1
+bg_ciso_srp,2020,68.26934523809524,8736.0,1
+bg_ciso_srp,2021,198.22545662100455,8760.0,1
+bg_ciso_srp,2022,215.10365296803653,8760.0,1
+bg_ciso_srp,2023,212.15730593607307,8760.0,1
+bg_ciso_srp,2024,206.2562326869806,8664.0,1
+bg_ciso_srp,2025,229.36753902662994,8712.0,1
+bg_ciso_srp,2026,344.2535470310037,7612.0,0

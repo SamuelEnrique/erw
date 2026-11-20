@@ -75,7 +75,7 @@ GRIDS = {
 # iso_zone_prices_history.)
 HELD_INTERNAL = ["isone_zone_prices_history"]
 TABLES = ["iso_hub_prices_history", "ercot_all_hub_prices_history", "ercot_zone_prices_history", "iso_zone_prices_history"] + [
-    t for t in pc.TABLES if t not in ("iso_hub_prices_history", "ercot_all_hub_prices_history")]
+    t for t in pc.TABLES if t not in ("iso_hub_prices_history", "ercot_all_hub_prices_history", "ercot_zone_prices_history")]  # session 7052: the comparison reads the zone history too (request 142); read once, in its place here
 # ERCOT's load zones, where a load settles, each with its name and the trading hub shown beside it for reference. The
 # four competitive zones have a hub of the same area; the four zones of municipal and cooperative systems (Austin
 # Energy, CPS Energy, the Lower Colorado River Authority, Rayburn) have none of their own and stand beside the hub
