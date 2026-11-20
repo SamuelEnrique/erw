@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate winter_temp, region wt_sw (the Southwest (EIA's region))
+# Computed 2026-11-19T11:23:50Z by warehouse/analysis/findings/deep/weather.py (winter_temp); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean temperature of the year's January, February and December hours (F), the observations it rests on, and whether the year is full
+# Tables: region_weather_hourly
+region,year,value,n_observations,full_year
+wt_sw,2018,51.901276881720435,744.0,0
+wt_sw,2019,51.68795833333333,2160.0,1
+wt_sw,2020,53.15323691460055,2178.0,1
+wt_sw,2021,54.78328240740741,2160.0,1
+wt_sw,2022,53.130884259259254,2160.0,1
+wt_sw,2023,53.084731481481484,2160.0,1
+wt_sw,2024,55.68691197019096,2147.0,1
+wt_sw,2025,57.02966666666667,2160.0,1
+wt_sw,2026,59.362492937853105,1416.0,0
