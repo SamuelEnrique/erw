@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ghg_power_state, region ghgpp_al (the power plants of Alabama that report to EPA)
+# Computed 2026-11-19T12:11:35Z by warehouse/analysis/findings/deep/emissions_climate.py (ghg_power_state); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the direct emissions the state's reporting power plants reported (million t CO2e), the observations it rests on, and whether the year is full
+# Tables: epa_ghgrp_facility_emissions
+region,year,value,n_observations,full_year
+ghgpp_al,2015,66.879832315,1.0,1
+ghgpp_al,2016,60.145122889,1.0,1
+ghgpp_al,2017,55.870122426,1.0,1
+ghgpp_al,2018,57.09662020100001,1.0,1
+ghgpp_al,2019,51.595434354999995,1.0,1
+ghgpp_al,2020,45.352626531,1.0,1
+ghgpp_al,2021,49.667375275000005,1.0,1
+ghgpp_al,2022,52.651518174,1.0,1
+ghgpp_al,2023,45.383180104,1.0,1

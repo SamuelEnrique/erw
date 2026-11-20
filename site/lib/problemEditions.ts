@@ -21,7 +21,12 @@ export function edition(date: string): Edition | null {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !editions().includes(date)) return null;
   return JSON.parse(fs.readFileSync(path.join(DIR(), `${date}.json`), "utf-8")) as Edition;
 }
-export const editionPath = (slug: string, date: string) => `/learn/problems/${slug}/${date}`;
+/** Session 8901: whether an edition holds a set. A set added after the edition was built (the four of the whole country,
+ *  after the edition of 15 October 2026) has no copy in it, so no page links to one. */
+export function editionHolds(slug: string, date: string): boolean {
+  return !!edition(date)?.sets.some((s) => s.slug === slug);
+}
+export const editionPath =(slug: string, date: string) => `/learn/problems/${slug}/${date}`;
 export const teacherPath = (slug: string, date: string) => `/learn/problems/${slug}/${date}/teacher`;
 /** "15 October 2026" for 2026-10-15. */
 export const longDate = (d: string) => new Date(`${d}T12:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
