@@ -17,7 +17,11 @@ const base = (process.argv[2] ?? "http://localhost:3000").replace(/\/$/, "");
 let bad = 0, n = 0;
 const check = (ok, what) => { n += 1; if (!ok) bad += 1; console.log(`${ok ? "ok  " : "FAIL"} ${what}`); };
 const LINKS = `[...document.querySelectorAll('main a[href]')].map((a) => ({ href: a.getAttribute('href'), rel: a.getAttribute('rel') ?? '', open: a.hasAttribute('data-tour-open'), text: a.innerText.trim() }))`;
-const HEADS = `[...document.querySelectorAll('main h1, main h2, main h3')].map((h) => h.innerText.replace(/\\s+/g, ' ').trim())`;
+// Session 9601: a heading that carries its year ("Who trades with whom, 2025") is also read without it, so a stop
+// quotes the words that stay; a heading inside a closed fold has no drawn text, and is read by FOLDED below.
+const HEADS = `[...document.querySelectorAll('main h1, main h2, main h3')].map((h) => h.innerText.replace(/\\s+/g, ' ').trim()).flatMap((h) => (/, \\d{4}$/.test(h) ? [h, h.replace(/, \\d{4}$/, '')] : [h]))`;
+// The headings inside the fold a stop names: the fold must be on the page with that name, closed or open.
+const FOLDED = (fold) => `(() => { const d = [...document.querySelectorAll('main details')].find((x) => (x.querySelector('summary')?.textContent ?? '').replace(/\\s+/g, ' ').trim().startsWith(${JSON.stringify(fold)})); return d ? [...d.querySelectorAll('h1, h2, h3')].map((h) => (h.textContent ?? '').replace(/\\s+/g, ' ').trim()) : null; })()`;
 
 const code = await withBrowser(async ({ go, evaluate, unlock, send }) => {
   await send("Network.setExtraHTTPHeaders", { headers: { "x-erw-check": "1" } });
@@ -37,6 +41,11 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send }) => {
     const hs = await evaluate(HEADS);
     check(!(await evaluate(`!!document.querySelector('[data-in-review="1"]')`)), `${s.href}: answers in the internal view`);
     for (const q of s.headings) check(hs.includes(q), `${s.href}: the heading "${q}" is on the page${hs.includes(q) ? "" : ` (its headings: ${hs.slice(0, 12).join(" | ")})`}`);
+    if (s.inFold) {
+      const inside = await evaluate(FOLDED(s.inFold.fold));
+      check(inside !== null, `${s.href}: the fold "${s.inFold.fold}" is on the page`);
+      for (const q of s.inFold.headings) check(!!inside && inside.includes(q), `${s.href}: the heading "${q}" is inside the fold "${s.inFold.fold}"`);
+    }
   }
   return bad;
 });
