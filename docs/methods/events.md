@@ -346,3 +346,60 @@ have no input, and every figure is fixed when the table is built or the page is 
 - **The cross-check**: [`docs/reviews/events-crosscheck-2026-11-16.md`](../reviews/events-crosscheck-2026-11-16.md),
   sixteen rows against FERC's, CAISO's, ERCOT's, PJM's and EIA's own accounts. Every peak stands within 2.0 percent of
   the operator's; the differences are of definition (an instant against an hourly mean, losses allocated, settlement).
+
+## The whole country (session 8410, 19 November 2026)
+
+Each of the nine event pages has a section "The whole country", under the event study and above the decisions block,
+and each event's card on `/events` has a line of regions. Nothing else on the ten pages changed: outside what was
+added, each page is byte for byte what it was (`site/scripts/test-events-pin.mjs`, as a visitor's build draws it and
+with the hold stood aside).
+
+- **What it reads.** One file an event, `site/data/regions/events/<event>.json`, written by the data machine from
+  EIA's Form EIA-930 in the form of the contract [`docs/state/page_files_regions.md`](../state/page_files_regions.md)
+  (its section 6): for each of EIA's thirteen regions of the lower 48 (California, Carolinas, Central, Florida,
+  Mid-Atlantic, Midwest, New England, Northwest, New York, Southeast, Southwest, Tennessee, Texas) the hourly demand,
+  net generation, net imports and generation by eight sources over the event's window, the baseline of each, and the
+  hourly flow between each pair of regions with its baseline. The window and the baseline days are the ones this note
+  gives for the event. Six of the regions were on no page before: the Southeast, Florida, the Carolinas, Tennessee,
+  the Northwest and the Southwest (none of the seven grids is in them).
+- **Until a file is on the site** the section reads "not built yet" and draws no figure, and the card's line reads the
+  same. A file that cannot be read as JSON is treated the same way. No value is filled in.
+- **What it computes** (`site/lib/countryfiles.ts`), each a sum or a mean of what the file holds, over the hours the
+  event and the baseline both hold: a region's demand over the window in GWh and its percent on the baseline; its
+  highest hour, when it was (UTC) and the baseline at that same hour; the mean of its net imports and of the
+  baseline's (above zero the region imported); each source's generation less the baseline's, in GWh. For a pair of
+  regions: which sent and which took over the window (the sign of the window's sum; the file's flow is from the first
+  code to the second), the mean in MW and the energy in GWh, and the same for the baseline. A null hour is left out of
+  both sums. The baseline at an hour is the file's: the mean of that hour at each baseline offset that holds it. The
+  older sections take each baseline day's own highest hour, so the two comparisons are not the same, and the head's
+  hover says so.
+- **A region is not a grid.** A region's figure is EIA's sum of its balancing authorities, so the Mid-Atlantic is not
+  PJM and Texas is not ERCOT even where they cover nearly the same ground. The lead's hover says so.
+- **The choice of region.** Two lists (Region A, Region B) in a form that needs no script; the address carries the
+  choice (`?region=ten&b=car#whole-country`). The regions drawn first are the page's own: Texas for the two ERCOT
+  events, California for the two CAISO events and COVID-19, the Mid-Atlantic for the three events whose first grid is
+  PJM, and Tennessee and the Carolinas for Winter Storm Elliott (FERC and NERC, quoted on the page: the balancing
+  authorities that shed firm load were in the southeast, among them TVA and Duke). A window of 21 days or less is
+  drawn by hour; a longer one (COVID-19) by UTC day, the mean of the day's held hours.
+- **"Reached N of 13 regions" on `/events`.** A region is counted when its demand over the window stood 5 percent or
+  more from the baseline, above or below. The 5 percent is this page's own default (session 8410); no publisher's
+  threshold stands behind it, and the hover says so and gives every region's percent.
+- **What it does not do.** No estimate of a share of a shock covered by imports, no ledger of regions that gave and
+  took: the pair table gives each pair's own flow and nothing is summed across pairs. No carbon intensity and no
+  price by region (the file holds neither).
+- **License.** EIA's Form EIA-930 is public domain and the contract gives every file as `public`. The section still
+  reads the file's own license line and the status file (`site/data/license_status.json`) for each table the file
+  names: a file that is not public is drawn with every cell blank and "license needed" on hover. The older sections'
+  hold on `event_window_daily` stands as it was.
+- **Tests.** `site/scripts/test-events-regions.mjs` (the section drawn from a fixture in the contract's form, whose
+  values are made by a rule and are not data; the whole pages with and without a file) and
+  `tests/test_session8410_events_regions.py`.
+- **The replication (session 8440).** `replication/events/replicate_regions.py`, written from this section and the
+  contract alone, recomputes every figure the section and the card's line print from the event's file and sets it
+  beside the figure the site's own code draws (`site/scripts/events-regions-figures.mjs` writes those): a figure
+  passes within half the last digit shown, and a figure the rule gives that the page does not show fails too. Run:
+  `node --import ./scripts/events-page-register.mjs scripts/events-regions-figures.mjs <figures.json>` from `site/`,
+  then `python replication/events/replicate_regions.py --figures <figures.json>`. While no event's file is on the
+  site it says so and compares nothing. On the test's fixture: 203 of 203. The count on the real files, the Stata
+  do-file's five headline figures and the cross-check against published figures are written when the files land
+  (`docs/reviews/events-regions-read-2026-11-19.md` says what waits).

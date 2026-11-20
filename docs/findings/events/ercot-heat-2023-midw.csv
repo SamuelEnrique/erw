@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), event ercot_heat_2023, region MIDW (the Midwest (EIA's region))
+# Computed 2026-11-19T11:32:43Z by warehouse/analysis/findings/deep/events.py; plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the window's highest hour of demand (MW) from 08-01 to 09-10, the hours it rests on, and whether it is the event year
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,event_year
+MIDW,2018,122300.0,984,0
+MIDW,2019,119183.0,984,0
+MIDW,2020,123035.0,984,0
+MIDW,2021,125699.0,984,0
+MIDW,2022,119536.0,984,0
+MIDW,2023,132438.0,984,1
+MIDW,2024,129798.0,984,0
+MIDW,2025,126018.0,984,0
+MIDW,2026,131458.0,968,0

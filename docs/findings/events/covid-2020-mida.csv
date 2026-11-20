@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), event covid_2020, region MIDA (the Mid-Atlantic (EIA's region))
+# Computed 2026-11-19T11:32:41Z by warehouse/analysis/findings/deep/events.py; plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the window's mean hour of demand (MW) from 03-01 to 05-31, the hours it rests on, and whether it is the event year
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,event_year
+MIDA,2019,83192.44610507246,2208,0
+MIDA,2020,76468.83152173914,2208,1
+MIDA,2021,80449.55525362318,2208,0
+MIDA,2022,83350.93885869565,2208,0
+MIDA,2023,81894.76902173914,2208,0
+MIDA,2024,83615.99048913043,2208,0
+MIDA,2025,83934.67436594203,2208,0
+MIDA,2026,87483.88813405797,2208,0

@@ -1,0 +1,35 @@
+# Session 7803 (chain 401 part D): read whole by this session from El Paso Electric's filed Texas tariff, Schedule No. 33A,
+# Section 1, Sheet 21.1, Revision 0, as the company publishes it (4 pages; saved under runs/c401/tariffs/, not in git).
+# LICENSE INTERNAL (the owner's ruling 4 of 6 November 2026; held since session 3760 for any host whose terms ask written
+# permission): epelectric.com's Terms of Use say "The content of the Site is for your personal, noncommercial use ... For
+# commercial use of any portion of the contents you must secure the written consent from the appropriate content
+# provider" (read 18 November 2026; its robots file answers 404), and the Commission's copy on interchange.puc.texas.gov is
+# under the PUCT's terms, "Site owners should contact the PUCT to request permission to use or copy content" (the license
+# record's verdict, session 4102). So this file is held and its rows are not written to the public table. Pages are the
+# sheet's own (Page 1 of 4 to 4 of 4).
+utility: El Paso Electric Company
+eia_id: 5701
+state: TX
+grid: EPE
+sector: data centers (highest measured demand over 50,000 kW)
+status: adopted
+schedule: Schedule No. 33A, Large Economic Development Service Rate
+tariff_sheet: Section Number 1, Sheet Number 21.1, Revision Number 0
+effective: 2025-08-01
+voltage: {text: "three phase, transmission voltage", page: 1}
+commission: Public Utility Commission of Texas
+docket: "56903"
+document: El Paso Electric Company, Schedule No. 33A, Large Economic Development Service Rate, effective for electricity consumed on and after August 1, 2025
+document_url: https://www.epelectric.com/el-paso-electric/uploads/02_schedule-33a-large-economic-development-service-rate-clean.pdf
+retrieved_at: 2026-11-18T01:33:39Z
+license: internal
+notes: "Held for a license (ruling 4): epelectric.com's terms allow personal, noncommercial use; the PUCT's terms ask permission. Texas Service Area only. The rate requires the customer to meet Schedule No. 33 (Economic Development Rate Rider); the term is a ceiling, not a minimum (\"will not exceed five (5) years from date of initiation of service\"). Summer (June through September): demand $13.42 per kW, on-peak energy $0.15102 per kWh (12:00 P.M. to 6:00 P.M. Mountain Daylight Time, Monday to Friday), off-peak $0.00264 per kWh; Non-Summer: demand $10.53 per kW, $0.00264 per kWh in every hour. Fuel is billed under Schedule No. 98 (Fixed Fuel Factor), not in these charges. Displaced Load Service (Schedule No. GEP-A): demand $7.80 and $6.12 per kW, $231.25 a month, Renewable Energy Transmission Charge $0.00592 per kWh (page 2)."
+terms:
+  min_bill: {text: "The Monthly Minimum Charge is the Customer Charge plus applicable Demand Charge plus, Other Non-Consumption Fixed Amount Applicable Riders, Facilities Charges and Tax Adjustment.", page: 2}
+  ramp: {text: "The Billing Demand (in kW) will be the highest of: A. 50,000 kW; or B. The Maximum Demand, adjusted by the Meter Voltage Adjustment, if applicable; or C. 80% of the highest measured demand established during the billing months of June through September in the twelve (12) month period ending with the current month.", page: 3}
+  term: {text: "Service under this rate schedule will not exceed five (5) years from date of initiation of service unless extended by the Company and approved by the appropriate regulatory authority.", page: 1}
+figures:
+  - {variable: min_demand_mw, value: 50, printed: "Data Center Customers whose highest measured demand exceeds fifty thousand (50,000) kilowatts (kW)", page: 1}
+  - {variable: demand_charge, value: 13.42, printed: "Demand Charge per kW $13.42 (Summer, June through September)", page: 1}
+  - {variable: energy_charge, value: 2.64, printed: "Energy Charge per kWh Off-Peak Period $0.00264", page: 1}
+  - {variable: fixed_charge, value: 500, printed: "Customer Charge (per meter per month) $500.00", page: 1}

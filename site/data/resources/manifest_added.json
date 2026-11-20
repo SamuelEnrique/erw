@@ -1,0 +1,73 @@
+{
+ "built_at_utc": "2026-11-19T16:51:29Z",
+ "note": "Layers added after manifest.json, in its form; manifest.json is not changed (chain 501). A page reads both.",
+ "layers": [
+  {
+   "id": "coal_fields",
+   "group": "coal",
+   "title": "Coal fields",
+   "kind": "shapes",
+   "measure": "Where coal lies in the ground in the lower 48, by field, with its age and rank, as the U.S. Geological Survey maps it.",
+   "source_url": "https://pubs.usgs.gov/of/2012/1205/Downloads/GIS.zip",
+   "terms_url": "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits",
+   "terms_quote": "USGS-authored or produced data and information are considered to be in the U.S. Public Domain. [...] When using information from USGS information products, publications, or websites, we ask that proper credit be given.",
+   "terms_file": "usgs/terms/usgs_copyrights_and_credits.html",
+   "terms_sha256": "be68d363d1ab447ea0bea87e436ad6c8614e0f5dc4e17643e2393f7e18504820",
+   "retrieved_at_utc": "2026-11-19T12:39:54Z",
+   "source_file": "usgs_coal_fields/GIS.zip",
+   "source_bytes": 230322811,
+   "source_sha256": "e491215d0a937cae48cc5e9a2763ea43c85a4d11c183ec7c5b1ac559d2a585a5",
+   "unit": "square miles",
+   "value_label": "area of the coal field (computed on a sphere from the source's polygon, square kilometres over 2.589988110336; AREA_KM2 holds the square kilometres)",
+   "publisher": "U.S. Geological Survey (USGS)",
+   "source_title": "Coal fields of the conterminous United States, National Coal Resource Assessment updated version (Open-File Report 2012-1205, East 2013), Updated Coal Fields/Coal_Fields.shp",
+   "vintage": "2013",
+   "extent": "contiguous United States",
+   "source_resolution": "polygons, the report's map at 1:5,000,000",
+   "reduction": "each polygon simplified to 0.01 degrees with its topology kept (Douglas-Peucker, one feature at a time); coordinates to 3 decimals; no feature dropped",
+   "file": "coal_fields.json",
+   "bytes": 460988,
+   "features": 602,
+   "bounds": [
+    -124.359,
+    26.034,
+    -71.152,
+    49.002
+   ],
+   "legend": {
+    "kinds": [
+     "coal field"
+    ]
+   },
+   "stats": {
+    "n": 602,
+    "min": 0.0,
+    "mean": 1014.1041528239202,
+    "max": 187546.8
+   },
+   "hover_fields": [
+    "PROVINCE",
+    "NAME",
+    "AGE",
+    "RANK"
+   ],
+   "acknowledgment": "Source: U.S. Geological Survey, Open-File Report 2012-1205 (2013)",
+   "notes_for_method": "An outline of where coal fields lie and their rank, not a measure of coal in place or of what can be mined.",
+   "method_note": "docs/methods/resource_layers_table.md"
+  }
+ ],
+ "missing": [
+  {
+   "id": "uranium_deposits",
+   "group": "uranium",
+   "title": "Uranium deposits",
+   "reason": "Not fetched: USGS's mineral deposit databases are served from mrdata.usgs.gov, whose robots file disallows every path to every agent, and from ScienceBase, whose robots file disallows Claude by name; EIA's atlas lists no uranium deposit layer."
+  },
+  {
+   "id": "critical_mineral_deposits",
+   "group": "critical minerals",
+   "title": "Critical mineral deposits",
+   "reason": "Not fetched: the same two USGS hosts; the warehouse's usgs_mcs_critical_minerals is national statistics, not places."
+  }
+ ]
+}
