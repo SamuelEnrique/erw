@@ -15,3 +15,4 @@ Chain file: queue/done/610-night-20-november-oldlaptop-weekend-pack-security.md.
 - Session 9820, part E: chain 610's note `docs/state/note_2026-11-20_oldlaptop_c610.md` (parts B to D). **A session number shared:** another window of this desktop committed "Session 9820" (findings charts, 20:39 UTC) a minute before this window's note; from here this window uses 9870 upward, each checked free first. done, 9820 (shared)
 - Session 9871, part E: the five least-tested pages drawn and read; `wip/9871-reader-pages-tests`, row 13. requested, 9871
 - Session 9872, part E: the next tier (`/data/standard`, sixteen tour stops, three company pages) on the same branch, 49 of 49; row 13 moved to `fc5883f60`. requested, 9872
+- Session 9873, part E: `/states`, `/conditions`, `/congestion`, `/attention`, `/deals/capital` added to the drawing, 74 of 74; row 13 at `fb3772ba9`. requested, 9873
