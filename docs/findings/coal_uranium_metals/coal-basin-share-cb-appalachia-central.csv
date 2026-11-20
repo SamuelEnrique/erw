@@ -1,0 +1,23 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate coal_basin_share, region cb_appalachia_central (coal from Appalachia Central (EIA's mine basin))
+# Computed 2026-11-19T12:11:36Z by warehouse/analysis/findings/deep/coal_uranium_metals.py (coal_basin_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: a basin's share of the coal power plants received (percent), the observations it rests on, and whether the year is full
+# Tables: eia_coal_receipts_annual
+region,year,value,n_observations,full_year
+cb_appalachia_central,2008,6.096927569032904,1.0,1
+cb_appalachia_central,2009,6.983086630367789,1.0,1
+cb_appalachia_central,2010,6.496263937348661,1.0,1
+cb_appalachia_central,2011,5.452991984796481,1.0,1
+cb_appalachia_central,2012,3.5339405895846996,1.0,1
+cb_appalachia_central,2013,2.5269182390106866,1.0,1
+cb_appalachia_central,2014,2.4040737440827975,1.0,1
+cb_appalachia_central,2015,1.7109011817503756,1.0,1
+cb_appalachia_central,2016,1.2783412563362038,1.0,1
+cb_appalachia_central,2017,1.051371721363538,1.0,1
+cb_appalachia_central,2018,0.9885990496015327,1.0,1
+cb_appalachia_central,2019,1.4442499810337235,1.0,1
+cb_appalachia_central,2020,1.2994941912789892,1.0,1
+cb_appalachia_central,2021,1.2031318535209758,1.0,1
+cb_appalachia_central,2022,1.2054885693556285,1.0,1
+cb_appalachia_central,2023,1.251607897240973,1.0,1
+cb_appalachia_central,2024,1.4151962142848835,1.0,1
+cb_appalachia_central,2025,1.6090814226750163,1.0,1

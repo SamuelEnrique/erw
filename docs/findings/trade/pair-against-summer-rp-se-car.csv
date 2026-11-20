@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate pair_against_summer, region rp_se_car (the Southeast to the Carolinas)
+# Computed 2026-11-19T11:05:27Z by warehouse/analysis/findings/deep/trade.py (pair_against_summer); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the share of June to August hours a pair's flow ran against its standing direction (percent of hours), the observations it rests on, and whether the year is full
+# Tables: eia930_region_pair_hourly
+region,year,value,n_observations,full_year
+rp_se_car,2018,12.129380053908356,1484.0,0
+rp_se_car,2019,39.221014492753625,2208.0,1
+rp_se_car,2020,33.3786231884058,2208.0,1
+rp_se_car,2021,25.45289855072464,2208.0,1
+rp_se_car,2022,23.05253623188406,2208.0,1
+rp_se_car,2023,23.233695652173914,2208.0,1
+rp_se_car,2024,8.78623188405797,2208.0,1
+rp_se_car,2025,7.880434782608696,2208.0,1
+rp_se_car,2026,0.4076086956521739,2208.0,0
