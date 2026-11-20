@@ -1,0 +1,94 @@
+{
+ "built_at_utc": "2026-11-19T21:41:33Z",
+ "note": "Notes on three layers of the resource map, asked by data requests 554 to 556 (docs/state/data_requests_done_line.md). The layer files and manifest.json are unchanged; built by warehouse/derived/resource_layer_notes.py.",
+ "layers": {
+  "oil_gas_basins": {
+   "request": 554,
+   "features": 32,
+   "names_that_differ": [
+    {
+     "NAME": "TX-LA-MS SALT",
+     "name_in_layer": "Tx-La-Ms Salt",
+     "name_as_written": "TX-LA-MS Salt"
+    },
+    {
+     "NAME": "VALLEY AND RIDGE",
+     "name_in_layer": "Valley And Ridge",
+     "name_as_written": "Valley and Ridge"
+    }
+   ],
+   "rule": "a word or hyphenated part that is a US state's postal code keeps its capitals; 'and', 'of', 'the', 'in' are small unless first; every other word has its first letter a capital",
+   "plays": "oil_gas_plays keeps the publisher's own text (no str.title), so no play is listed",
+   "source": {
+    "source_url": "https://www.eia.gov/maps/map_data/SedimentaryBasins_US_EIA.zip",
+    "source_sha256": "02a017ccb84bdcc15726838098e3cfa73450b9655cf06e28d2eca6f3c04edcff",
+    "retrieved_at_utc": "2026-10-07T21:26:20Z"
+   }
+  },
+  "wind_capacity_factor": {
+   "request": 555,
+   "rows": 56528,
+   "decimals_kept": {
+    "lon": 3,
+    "lat": 3,
+    "value": 4,
+    "resource": 2,
+    "capacity_ac_mw": 0,
+    "area_developable_sq_km": 1
+   },
+   "reduction_in_manifest": "none: every row of the source at the source's own centroid (coordinates to 3 decimals, the capacity factor to 4); the state, county, cost and transmission columns are left out of the web file",
+   "reduction_all_roundings": "none: every row of the source at the source's own centroid (coordinates to 3, the capacity factor to 4, the wind speed to 2 and the developable area to 1 decimals); the state, county, cost and transmission columns are left out of the web file",
+   "source": {
+    "source_url": "https://data.openei.org/files/8314/lbw_open_access_2035_moderate_115hh_170rd_supply_curve.csv",
+    "source_sha256": "ef13116bd66f31157b2f7db6369831d63f3098877e91c6163766dbe6da47eb7d",
+    "retrieved_at_utc": "2026-10-07T21:39:41Z"
+   }
+  },
+  "offshore_wind_leases": {
+   "request": 556,
+   "outlines": 51,
+   "block_rows": 4891,
+   "outlines_whose_type_the_blocks_do_not_give": [
+    {
+     "LEASE_NUMB": "OCS-A 0497",
+     "COMPANY": "Virginia Department of Energy",
+     "outline_type": "Commercial",
+     "outline_acres": 2135.0,
+     "block_types": [
+      "Easement",
+      "Research"
+     ],
+     "kind_in_layer": "lease area (Commercial)"
+    },
+    {
+     "LEASE_NUMB": "OCS-A 0506",
+     "COMPANY": "The Narragansett Electric Company",
+     "outline_type": "Commercial",
+     "outline_acres": 0.0,
+     "block_types": [
+      "Right-of-Way Grant"
+     ],
+     "kind_in_layer": "lease area (Commercial)"
+    },
+    {
+     "LEASE_NUMB": "OCS-G 37334 Provisional",
+     "COMPANY": "RWE Offshore US Gulf, LLC",
+     "outline_type": "Commercial",
+     "outline_acres": 102479.0,
+     "block_types": [],
+     "kind_in_layer": "lease area (Commercial)"
+    }
+   ],
+   "tables": {
+    "outlines": "Offshore_Wind_Leases_outlines (the layer draws these)",
+    "blocks": "Offshore_Wind_Leases (one row a lease block)"
+   },
+   "choice": "none: both of BOEM's tables are listed where they differ; the layer is unchanged",
+   "source": {
+    "source_url": "https://www.boem.gov/renewable-energy/boem-renewable-energy-shapefiles",
+    "source_sha256": "47c5f33f5d16cede3295394fb54549fbbfc5b7f80f25acf073275939d1404a0b",
+    "retrieved_at_utc": "2026-10-07T21:26:22Z"
+   }
+  }
+ }
+}

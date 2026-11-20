@@ -2,7 +2,7 @@
 
 Draft `scan-deep-1fd8bb1d1483` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** Batteries' share of the MW requested in the United States was 29.7 percent of requested MW in 2024, against 0.0 percent of requested MW in 2005, the first year this measure counts.
+**The finding.** Batteries' share of the MW requested in the United States was 29.7 percent of requested MW in 2024, against 0.0 percent of requested MW in 2005, the first year of the window the hunt read; the table holds the measure from 1995.
 
 ![Batteries in the queue, requests in the United States](storage-share-us-req-battery-share.png)
 

@@ -1,0 +1,352 @@
+[
+ {
+  "draft": "cross_family/battery-per-peak-caiso-bat-peak.reproduce.py",
+  "ok": true,
+  "printed_first": 0.554036,
+  "printed_last": 46.619278,
+  "expected": {
+   "first_year": 2019,
+   "first": 0.554036,
+   "last_year": 2025,
+   "last": 46.619278,
+   "change": 46.065242
+  },
+  "tolerance": 0.23032621
+ },
+ {
+  "draft": "cross_family/battery-per-peak-ercot-bat-peak.reproduce.py",
+  "ok": true,
+  "printed_first": 0.181353,
+  "printed_last": 19.923571,
+  "expected": {
+   "first_year": 2019,
+   "first": 0.181353,
+   "last_year": 2025,
+   "last": 19.923571,
+   "change": 19.742219
+  },
+  "tolerance": 0.098711095
+ },
+ {
+  "draft": "cross_family/battery-per-peak-us-bat-peak.reproduce.py",
+  "ok": true,
+  "printed_first": 0.175299,
+  "printed_last": 7.033629,
+  "expected": {
+   "first_year": 2019,
+   "first": 0.175299,
+   "last_year": 2025,
+   "last": 7.033629,
+   "change": 6.85833
+  },
+  "tolerance": 0.03429165
+ },
+ {
+  "draft": "cross_family/built-per-asked-us-battery-built-asked.reproduce.py",
+  "ok": true,
+  "printed_first": 0.0,
+  "printed_last": 7.029207,
+  "expected": {
+   "first_year": 2010,
+   "first": 0.0,
+   "last_year": 2024,
+   "last": 7.029207,
+   "change": 7.029207
+  },
+  "tolerance": 0.035146035000000006
+ },
+ {
+  "draft": "cross_family/built-per-asked-us-solar-built-asked.reproduce.py",
+  "ok": true,
+  "printed_first": 0.998334,
+  "printed_last": 26.751742,
+  "expected": {
+   "first_year": 2010,
+   "first": 0.998334,
+   "last_year": 2024,
+   "last": 26.751742,
+   "change": 25.753408
+  },
+  "tolerance": 0.12876704
+ },
+ {
+  "draft": "cross_family/energy-vs-3y-xe3-ciso.reproduce.py",
+  "ok": true,
+  "printed_first": -5.380745,
+  "printed_last": 0.801643,
+  "expected": {
+   "first_year": 2019,
+   "first": -5.380745,
+   "last_year": 2025,
+   "last": 0.801643,
+   "change": 6.182388
+  },
+  "tolerance": 0.030911940000000002
+ },
+ {
+  "draft": "cross_family/energy-vs-3y-xe3-pjm.reproduce.py",
+  "ok": true,
+  "printed_first": -2.863301,
+  "printed_last": 4.044756,
+  "expected": {
+   "first_year": 2019,
+   "first": -2.863301,
+   "last_year": 2025,
+   "last": 4.044756,
+   "change": 6.908057
+  },
+  "tolerance": 0.034540285000000004
+ },
+ {
+  "draft": "cross_family/energy-vs-5y-xe5-pjm.reproduce.py",
+  "ok": true,
+  "printed_first": -9.487626,
+  "printed_last": 6.072736,
+  "expected": {
+   "first_year": 2019,
+   "first": -9.487626,
+   "last_year": 2025,
+   "last": 6.072736,
+   "change": 15.560362
+  },
+  "tolerance": 0.07780181
+ },
+ {
+  "draft": "cross_family/peak-vs-3y-xp3-isne.reproduce.py",
+  "ok": true,
+  "printed_first": -17.248878,
+  "printed_last": -3.757107,
+  "expected": {
+   "first_year": 2019,
+   "first": -17.248878,
+   "last_year": 2025,
+   "last": -3.757107,
+   "change": 13.491771
+  },
+  "tolerance": 0.067458855
+ },
+ {
+  "draft": "cross_family/peak-vs-3y-xp3-miso.reproduce.py",
+  "ok": true,
+  "printed_first": -12.181602,
+  "printed_last": -7.720774,
+  "expected": {
+   "first_year": 2019,
+   "first": -12.181602,
+   "last_year": 2025,
+   "last": -7.720774,
+   "change": 4.460828
+  },
+  "tolerance": 0.02230414
+ },
+ {
+  "draft": "cross_family/peak-vs-3y-xp3-pjm.reproduce.py",
+  "ok": true,
+  "printed_first": -1.272378,
+  "printed_last": 6.38467,
+  "expected": {
+   "first_year": 2019,
+   "first": -1.272378,
+   "last_year": 2025,
+   "last": 6.38467,
+   "change": 7.657049
+  },
+  "tolerance": 0.038285245
+ },
+ {
+  "draft": "cross_family/peak-vs-5y-xp5-isne.reproduce.py",
+  "ok": true,
+  "printed_first": -19.718027,
+  "printed_last": -7.589652,
+  "expected": {
+   "first_year": 2019,
+   "first": -19.718027,
+   "last_year": 2025,
+   "last": -7.589652,
+   "change": 12.128375
+  },
+  "tolerance": 0.060641875000000005
+ },
+ {
+  "draft": "cross_family/peak-vs-5y-xp5-nyis.reproduce.py",
+  "ok": true,
+  "printed_first": -10.908878,
+  "printed_last": 1.229743,
+  "expected": {
+   "first_year": 2019,
+   "first": -10.908878,
+   "last_year": 2025,
+   "last": 1.229743,
+   "change": 12.13862
+  },
+  "tolerance": 0.0606931
+ },
+ {
+  "draft": "cross_family/peak-vs-5y-xp5-pjm.reproduce.py",
+  "ok": true,
+  "printed_first": -8.738766,
+  "printed_last": 5.681639,
+  "expected": {
+   "first_year": 2019,
+   "first": -8.738766,
+   "last_year": 2025,
+   "last": 5.681639,
+   "change": 14.420404
+  },
+  "tolerance": 0.07210202
+ },
+ {
+  "draft": "cross_family/storage-per-solar-caiso-bat-solar.reproduce.py",
+  "ok": true,
+  "printed_first": 0.0038,
+  "printed_last": 2.1695,
+  "expected": {
+   "first_year": 2015,
+   "first": 0.0038,
+   "last_year": 2025,
+   "last": 2.1695,
+   "change": 2.1657
+  },
+  "tolerance": 0.010828500000000001
+ },
+ {
+  "draft": "cross_family/storage-per-solar-ercot-bat-solar.reproduce.py",
+  "ok": true,
+  "printed_first": 0.0439,
+  "printed_last": 0.7189,
+  "expected": {
+   "first_year": 2015,
+   "first": 0.0439,
+   "last_year": 2025,
+   "last": 0.7189,
+   "change": 0.675
+  },
+  "tolerance": 0.0033750000000000004
+ },
+ {
+  "draft": "cross_family/storage-per-solar-us-bat-solar.reproduce.py",
+  "ok": true,
+  "printed_first": 0.0111,
+  "printed_last": 0.7828,
+  "expected": {
+   "first_year": 2015,
+   "first": 0.0111,
+   "last_year": 2025,
+   "last": 0.7828,
+   "change": 0.7717
+  },
+  "tolerance": 0.0038585000000000004
+ },
+ {
+  "draft": "cross_family/util-vs-3y-xu3-12293.reproduce.py",
+  "ok": true,
+  "printed_first": -9.259141,
+  "printed_last": -7.262145,
+  "expected": {
+   "first_year": 2019,
+   "first": -9.259141,
+   "last_year": 2025,
+   "last": -7.262145,
+   "change": 1.996996
+  },
+  "tolerance": 0.009984980000000001
+ },
+ {
+  "draft": "cross_family/util-vs-3y-xu3-195.reproduce.py",
+  "ok": true,
+  "printed_first": -17.941117,
+  "printed_last": -14.514296,
+  "expected": {
+   "first_year": 2020,
+   "first": -17.941117,
+   "last_year": 2025,
+   "last": -14.514296,
+   "change": 3.426821
+  },
+  "tolerance": 0.017134105
+ },
+ {
+  "draft": "cross_family/util-vs-3y-xu3-7140.reproduce.py",
+  "ok": true,
+  "printed_first": -9.978435,
+  "printed_last": -2.444003,
+  "expected": {
+   "first_year": 2020,
+   "first": -9.978435,
+   "last_year": 2025,
+   "last": -2.444003,
+   "change": 7.534432
+  },
+  "tolerance": 0.03767216
+ },
+ {
+  "draft": "cross_family/util-vs-3y-xu3-9617.reproduce.py",
+  "ok": true,
+  "printed_first": -6.792001,
+  "printed_last": -1.362715,
+  "expected": {
+   "first_year": 2019,
+   "first": -6.792001,
+   "last_year": 2025,
+   "last": -1.362715,
+   "change": 5.429286
+  },
+  "tolerance": 0.027146430000000003
+ },
+ {
+  "draft": "cross_family/util-vs-5y-xu5-15500.reproduce.py",
+  "ok": true,
+  "printed_first": -24.593782,
+  "printed_last": -7.807985,
+  "expected": {
+   "first_year": 2019,
+   "first": -24.593782,
+   "last_year": 2025,
+   "last": -7.807985,
+   "change": 16.785797
+  },
+  "tolerance": 0.083928985
+ },
+ {
+  "draft": "cross_family/util-vs-5y-xu5-6452.reproduce.py",
+  "ok": true,
+  "printed_first": -11.894194,
+  "printed_last": 2.380607,
+  "expected": {
+   "first_year": 2019,
+   "first": -11.894194,
+   "last_year": 2025,
+   "last": 2.380607,
+   "change": 14.274801
+  },
+  "tolerance": 0.071374005
+ },
+ {
+  "draft": "cross_family/util-vs-5y-xu5-7140.reproduce.py",
+  "ok": true,
+  "printed_first": -12.629028,
+  "printed_last": 0.978627,
+  "expected": {
+   "first_year": 2019,
+   "first": -12.629028,
+   "last_year": 2025,
+   "last": 0.978627,
+   "change": 13.607655
+  },
+  "tolerance": 0.068038275
+ },
+ {
+  "draft": "cross_family/util-vs-5y-xu5-803.reproduce.py",
+  "ok": true,
+  "printed_first": -12.890882,
+  "printed_last": -1.113467,
+  "expected": {
+   "first_year": 2019,
+   "first": -12.890882,
+   "last_year": 2025,
+   "last": -1.113467,
+   "change": 11.777415
+  },
+  "tolerance": 0.058887075
+ }
+]
