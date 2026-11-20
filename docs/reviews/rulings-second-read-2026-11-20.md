@@ -1,0 +1,134 @@
+Written 20 November 2026, last updated at 20:09 UTC by session 9801 on Samuel's own laptop; in progress, pushed as rows come in. Ask Claude in chat for anything on this page.
+
+# The rulings read a second time (20 November 2026)
+
+Energy Research Warehouse (ERW). Written by session 9801 on Samuel's own laptop, at his instruction of 20 November: a second reader of the 54 recommended switches and 48 recommended keeps of [the rulings for one sitting](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-one-sitting-2026-11-19.md), whose evidence one session (chain 503) gathered on 19 November. For each entry the evidence it cites was opened again: a publisher's page only after its robots file and terms; one of Samuel's rulings in the ruling itself under `docs/state/`; the tool's method note under `docs/methods/`. Two things were judged: does the evidence say what the entry claims, and does it decide this question. Nothing was changed: no recommendation in the ranked list or the sheet, no ruling taken, nothing landed.
+
+- **How it was read:** six readers worked at once, each given the entries and the method above and none of the first session's conclusions beyond what the entry itself says; each row was written by the reader that opened the evidence. Entries are in the ranked list's order, which is the largest change first inside each of its sections.
+- **Verdicts:** holds; holds weakly (the evidence is right but decides the question only partly, or by a like case); does not hold (the evidence does not say it, or does not decide this question); could not check (the reason is given).
+
+## The counts
+
+- **All 102 entries:** holds 2; holds weakly 3; being read 97.
+- **The 54 switches:** holds 1; holds weakly 1; being read 52.
+- **The 48 keeps:** holds 1; holds weakly 2; being read 45.
+
+## Do not rule these by group
+
+Each entry below is not "holds": rule it on its own, after its row. The group line in the template of the weekend pack should name it as an exception.
+
+- **51** (S4), holds weakly: The state tax office page does list the Oil and Gas Ad Valorem Production Tax among the five taxes on the value of gas, so leaving it out understates the state's own tally. The "statewide average 0.88 percent" claim rests on legislature PDFs I could not read as text (compressed PDF, no extractor here), so the rate to add is unverified.
+- **2** (K2), holds weakly: The method note does say demand is shown at its own newest hour and the exchange's two-day lag is printed, and EIA confirms demand comes hourly while generation and interchange come a day or more late. But the note describes what the page does rather than weighing the common-hour option, and the 18 October ruling (3c) is about stating the age of the network's hour, a like case, not the three figures of the Mix sentence.
+- **5** (K3), holds weakly: Section 18 of the method note does say a grid operator's action that names no state is under Grid, as the hover tells the reader. That line describes the page as built (written by a read in session 7204), not a decision that weighed listing PJM-wide actions under each state, so it is the current rule rather than a ruling; the point that five PJM places are only partly in PJM is a fair reason on its own.
+
+## The recommended switches
+
+| Entry | Group | Question | Verdict | Why | Checked |
+|---:|---|---|---|---|---|
+| [1](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S3 | | being read | | |
+| [4](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [6](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S4 | | being read | | |
+| [8](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S2 | | being read | | |
+| [10](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S4 | | being read | | |
+| [13](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S3 | | being read | | |
+| [17](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [19](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [20](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S4 | | being read | | |
+| [24](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S3 | | being read | | |
+| [26](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [27](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [30](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [31](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S3 | | being read | | |
+| [33](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S3 | | being read | | |
+| [42](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S4 | | being read | | |
+| [44](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S3 | | being read | | |
+| [46](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S4 | | being read | | |
+| [48](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S3 | Correct the stored chart of 12 November | **holds** | The scanner's method note (session 1982) names this exact chart as wrong and gives July 2026's 1,034,451 MWh as the record until now; adding a line under the stored text fits non-negotiable 3. Which vintage of July 2026 to name stays open, as the entry says. | docs/methods/automated_analysis_scanner.md (lines 41 to 46); CLAUDE.md non-negotiables 1, 3, 5 |
+| [51](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S4 | New Mexico gas: add the district production tax | **holds weakly** | The state tax office page does list the Oil and Gas Ad Valorem Production Tax among the five taxes on the value of gas, so leaving it out understates the state's own tally. The "statewide average 0.88 percent" claim rests on legislature PDFs I could not read as text (compressed PDF, no extractor here), so the rate to add is unverified. | https://www.tax.newmexico.gov/robots.txt; https://www.tax.newmexico.gov/businesses/2020/10/22/oil-gas-production-taxes/; https://www.nmlegis.gov/robots.txt; https://www.nmlegis.gov/sessions/25%20Regular/AgencyAnalysis/HB0548_333.pdf (unreadable); docs/methods/forecast.md line 293, 346 |
+| [54](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [56](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S2 | | being read | | |
+| [57](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S2 | | being read | | |
+| [59](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S2 | | being read | | |
+| [60](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [62](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S3 | | being read | | |
+| [65](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [67](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S3 | | being read | | |
+| [68](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S2 | | being read | | |
+| [70](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S2 | | being read | | |
+| [71](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [78](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S4 | | being read | | |
+| [85](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S2 | | being read | | |
+| [90](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S2 | | being read | | |
+| [92](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S4 | | being read | | |
+| [96](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [97](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [98](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [100](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [101](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [102](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [103](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S2 | | being read | | |
+| [104](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S2 | | being read | | |
+| [107](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S2 | | being read | | |
+| [108](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S2 | | being read | | |
+| [112](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [113](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S2 | | being read | | |
+| [114](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [115](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [116](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [117](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S4 | | being read | | |
+| [122](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [123](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+| [126](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | S1 | | being read | | |
+
+## The recommended keeps
+
+| Entry | Group | Question | Verdict | Why | Checked |
+|---:|---|---|---|---|---|
+| [2](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K2 | Mix tab: three lead figures at one hour | **holds weakly** | The method note does say demand is shown at its own newest hour and the exchange's two-day lag is printed, and EIA confirms demand comes hourly while generation and interchange come a day or more late. But the note describes what the page does rather than weighing the common-hour option, and the 18 October ruling (3c) is about stating the age of the network's hour, a like case, not the three figures of the Mix sentence. | docs/methods/grid_network.md (sections "How far behind the newest hour is", "The two-day lag", "One page, four tabs", ruling 3c); https://www.eia.gov/robots.txt; https://www.eia.gov/todayinenergy/detail.php?id=54899 |
+| [5](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K3 | State filter: show PJM-wide actions | **holds weakly** | Section 18 of the method note does say a grid operator's action that names no state is under Grid, as the hover tells the reader. That line describes the page as built (written by a read in session 7204), not a decision that weighed listing PJM-wide actions under each state, so it is the current rule rather than a ruling; the point that five PJM places are only partly in PJM is a fair reason on its own. | docs/methods/policy_monitor.md (line 591, section 18) |
+| [9](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K3 | Home battery game: 13.5 kWh or 2, 4, 8 hours | **holds** | The game's method note gives 13.5 kWh as "one home battery's usable energy", and the 2, 4 and 8 hour durations belong to the grid battery page, so they do not answer a home battery question. The note also confirms that a preset carries the battery size and plays rank only against the same preset, so a new default starts new boards. | docs/methods/battery_game.md (settings table line 52, "The leaderboard: presets") |
+| [11](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K2 | | being read | | |
+| [15](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K2 | | being read | | |
+| [18](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K2 | | being read | | |
+| [21](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K2 | | being read | | |
+| [22](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K1 | | being read | | |
+| [23](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K2 | | being read | | |
+| [25](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K1 | | being read | | |
+| [28](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K1 | | being read | | |
+| [29](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K1 | | being read | | |
+| [32](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K1 | | being read | | |
+| [34](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K1 | | being read | | |
+| [35](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K1 | | being read | | |
+| [36](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K2 | | being read | | |
+| [37](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K1 | | being read | | |
+| [38](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K1 | | being read | | |
+| [39](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K3 | | being read | | |
+| [40](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K1 | | being read | | |
+| [41](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K2 | | being read | | |
+| [43](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K1 | | being read | | |
+| [45](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K1 | | being read | | |
+| [49](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K3 | | being read | | |
+| [50](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K1 | | being read | | |
+| [52](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K1 | | being read | | |
+| [58](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K3 | | being read | | |
+| [63](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K3 | | being read | | |
+| [64](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K3 | | being read | | |
+| [66](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K1 | | being read | | |
+| [69](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K2 | | being read | | |
+| [72](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K2 | | being read | | |
+| [75](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K2 | | being read | | |
+| [76](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K2 | | being read | | |
+| [79](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K3 | | being read | | |
+| [80](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K3 | | being read | | |
+| [81](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K2 | | being read | | |
+| [84](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K2 | | being read | | |
+| [87](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K3 | | being read | | |
+| [89](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K3 | | being read | | |
+| [91](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K1 | | being read | | |
+| [93](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K2 | | being read | | |
+| [111](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K1 | | being read | | |
+| [118](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K3 | | being read | | |
+| [119](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K2 | | being read | | |
+| [120](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K2 | | being read | | |
+| [125](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K3 | | being read | | |
+| [128](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/rulings-ranked-2026-11-17.md) | K3 | | being read | | |
