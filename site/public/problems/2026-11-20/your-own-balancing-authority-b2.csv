@@ -1,0 +1,9 @@
+# ERW problem sets, the edition of 2026-11-20: "Your own balancing authority: what it owns, what is coming, how clean it is, whom it leans on", question 2 (b2): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-20T03:59:21Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: For the Tennessee Valley Authority, what share of its capacity is nuclear and what share is natural gas, and what share of its generation from November 2025 to October 2026 did each make? Which fleet runs harder?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/regions/authority/tva.json,,pf|regions/authority/tva.json|owns/capacity_mw/nuclear,,8834.8,,,page file
+site/data/regions/authority/tva.json,,pf|regions/authority/tva.json|owns/total_mw,,44697.4,,,page file
+site/data/regions/authority/tva.json,,pf|regions/authority/tva.json|burns/share_pct/nuclear,,40.6,%,,page file
+site/data/regions/authority/tva.json,,pf|regions/authority/tva.json|owns/capacity_mw/natural_gas,,18591.8,,,page file
+site/data/regions/authority/tva.json,,pf|regions/authority/tva.json|burns/share_pct/natural_gas,,33.22,%,,page file

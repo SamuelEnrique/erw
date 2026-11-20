@@ -1,0 +1,10 @@
+# ERW problem sets, the edition of 2026-11-20: "Prices and your bill", question 5 (b2): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-20T03:59:21Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: The table's public rows hold 6 hubs: CAISO NP15, CAISO SP15, ERCOT hub average, ercot:LZ_HOUSTON, ercot:LZ_NORTH, SPP North hub. In the latest month all 6 hold at least 95 percent of their hours, which had the largest shape premium, and which the smallest?
+source,entity,variable,ts_utc,value,unit,event,note
+cost_of_power_monthly,spp:SPPNORTH_HUB,rt_shape_premium,2026-09-01T00:00:00+00:00,2.8403,USD/MWh,,
+cost_of_power_monthly,caiso:TH_SP15_GEN-APND,rt_shape_premium,2026-09-01T00:00:00+00:00,0.2102,USD/MWh,,
+cost_of_power_monthly,caiso:TH_NP15_GEN-APND,rt_shape_premium,2026-09-01T00:00:00+00:00,0.5921,USD/MWh,,
+cost_of_power_monthly,ercot:HB_HUBAVG,rt_shape_premium,2026-09-01T00:00:00+00:00,1.1163,USD/MWh,,
+cost_of_power_monthly,ercot:LZ_HOUSTON,rt_shape_premium,2026-09-01T00:00:00+00:00,1.3677,USD/MWh,,
+cost_of_power_monthly,ercot:LZ_NORTH,rt_shape_premium,2026-09-01T00:00:00+00:00,2.074,USD/MWh,,

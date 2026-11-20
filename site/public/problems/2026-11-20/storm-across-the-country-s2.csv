@@ -1,0 +1,6 @@
+# ERW problem sets, the edition of 2026-11-20: "A storm across the country: Elliott and Uri", question 2 (s2): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-20T03:59:21Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: Winter Storm Uri (2021-02-07 to 2021-02-24): what was Texas's highest hour of demand in the window, when was it, and by how many MW did it exceed the baseline's demand in that hour?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/regions/events/uri_2021.json,,pf|regions/events/uri_2021.json|regions/TEX/demand_mw/188,,69215,MW,,page file
+site/data/regions/events/uri_2021.json,,pf|regions/events/uri_2021.json|regions/TEX/baseline/demand_mw/188,,40461,MW,,page file

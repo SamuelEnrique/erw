@@ -1,0 +1,6 @@
+# ERW problem sets, the edition of 2026-11-20: "What is under the ground and in the wind", question 4 (r6): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-20T03:59:21Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: The layer "Solid biomass resources by county" is counted in dry metric tons/year. What is its national total, how much of it is crop residue (the part CropRes), and what share is that?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/resources/manifest.json,,pf|resources/manifest.json|layers/@id=biomass/national_total,,315802780.059,dry metric tons/year,,page file
+site/data/resources/manifest.json,,pf|resources/manifest.json|layers/@id=biomass/parts/CropRes,,173997321.42436415,dry metric tons/year,,page file

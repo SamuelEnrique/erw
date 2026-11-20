@@ -1,0 +1,8 @@
+# ERW problem sets, the edition of 2026-11-20: "Who trades with whom: power between regions", question 5 (t5): the rows it needs.
+# Read from the ERW live set (Supabase table series) on 2026-11-20T03:59:21Z by site/scripts/build-problem-edition.mjs; a row marked "computed" is a figure lib/ computes from the file named in "source", not a table row.
+# Question: Power from the Midwest to Tennessee: by Tennessee's own report, how many times its 2019 flow was its 2025 flow? And by the Midwest's report?
+source,entity,variable,ts_utc,value,unit,event,note
+site/data/regions/trade_matrix.json,,pf|regions/trade_matrix.json|region_pairs/@a=MIDW+b=TEN+year=2025/b_report_mwh,,16681508,,,page file
+site/data/regions/trade_matrix.json,,pf|regions/trade_matrix.json|region_pairs/@a=MIDW+b=TEN+year=2019/b_report_mwh,,10053816,,,page file
+site/data/regions/trade_matrix.json,,pf|regions/trade_matrix.json|region_pairs/@a=MIDW+b=TEN+year=2025/a_report_mwh,,15679234,,,page file
+site/data/regions/trade_matrix.json,,pf|regions/trade_matrix.json|region_pairs/@a=MIDW+b=TEN+year=2019/a_report_mwh,,9404170,,,page file
