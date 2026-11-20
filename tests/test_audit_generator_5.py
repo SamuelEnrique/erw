@@ -50,5 +50,15 @@ class GeneratorBatteryIsNotABound(unittest.TestCase):
         self.assertGreater(below, 300)
 
 
+    def test_no_text_calls_it_an_upper_bound(self):
+        """The fix on this branch, in words: decision 3 and the note's section 3.3 (fails on main)."""
+        for p in (("site", "lib", "decisions.ts"), ("docs", "methods", "generator_earns_algorithm.md")):
+            with open(os.path.join(ROOT, *p), encoding="utf-8") as f:
+                t = f.read()
+            self.assertNotIn("so its figure is an upper bound", t, os.path.join(*p))
+        with open(os.path.join(ROOT, "docs", "methods", "generator_earns_algorithm.md"), encoding="utf-8") as f:
+            self.assertNotIn("known in advance: **an upper bound**", f.read())
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -61,7 +61,7 @@ export const GENERATOR_DECISIONS: Decision[] = [
   { key: "fleet-shape", session: "sessions 51 and 145",
     text: "A solar or wind plant has its grid's fleet shape: EIA-930's hourly generation of the fuel over EIA-860M's installed nameplate of the month. It is not a site's own resource, curtailment or node price, and nothing is trimmed." },
   { key: "battery-rule", session: "session 145",
-    text: "A battery beside nothing earns energy alone: each day from empty, at most one full cycle a day, 86 percent round trip (the low end of Lazard's range), with the day's prices known in advance, so its figure is an upper bound; What a battery earns is the page for a battery." },
+    text: "A battery beside nothing earns energy alone: each day from empty, at most one full cycle a day, 86 percent round trip (the low end of Lazard's range), with the day's prices known in advance, in full-power hourly steps, so its figure is optimistic but not an upper bound (the battery page's own program earns more on the same prices); What a battery earns is the page for a battery." },
   { key: "peaker-rule", session: "sessions 145 and 298", ruling: "ruling 1a of 18 October 2026",
     text: "The gas peaker runs in each hour whose price is strictly above Henry Hub times its heat rate plus variable O&M, with no start cost, minimum run or gas basis; where a grid's generators buy allowances (California) the fuel's carbon cost is added." },
   { key: "months", session: "sessions 145 and 183",
