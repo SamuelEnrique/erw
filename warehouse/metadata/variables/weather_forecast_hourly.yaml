@@ -5,9 +5,10 @@
 table: weather_forecast_hourly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One airport's forecast temperature or wind speed for one hour, from the National Weather Service's hourly forecast.
+time: ts_utc is the forecast hour's start (UTC); freq PT1H; about 7 days ahead.
+vintage_rule: 'Merged by (entity, variable, ts_utc): a newer run replaces the value for the same hour (the latest forecast);
+  vintage is the forecast''s updateTime.'
 keys:
 - entity
 - variable
@@ -43,6 +44,7 @@ columns:
       nws:KOKC: 2652
       nws:KPHL: 2652
   missing_cells: 0
+  particular: nws:<station>, one airport per ISO load center
 - name: variable
   shared: true
   type: text
@@ -93,12 +95,14 @@ columns:
       US-PA: 2652
       US-TX: 2652
   missing_cells: 0
+  particular: US-<the airport's state>
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 18538
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -112,6 +116,7 @@ columns:
       PJM: 2652
       SPP: 2652
   missing_cells: 0
+  particular: The ISO whose load center the airport stands for, not a pricing node
 - name: source
   shared: true
   type: text
@@ -148,15 +153,16 @@ columns:
     earliest: '2026-09-28T06:26:20Z'
     latest: '2026-11-16T14:15:32Z'
   missing_cells: 0
+  particular: The forecast's updateTime (UTC)
 variables:
 - name: temperature_f
-  label: null
+  label: Forecast temperature for the hour
   unit: degF
   rows: 9269
   first: '2026-09-28T09:00:00Z'
   last: '2026-11-23T01:00:00Z'
 - name: wind_speed_mph
-  label: null
+  label: Forecast wind speed for the hour
   unit: mph
   rows: 9269
   first: '2026-09-28T09:00:00Z'

@@ -5,9 +5,10 @@
 table: usace_nid_dams
 family: other_sources
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One dam (or a dam's associated structure) in the U.S. Army Corps of Engineers' National Inventory of Dams.
+time: No time column; vintage is the inventory's data-last-updated date; year_completed is the dam's completion year.
+vintage_rule: Rewritten whole as one snapshot by each run from the inventory's national CSV; vintage is the date the inventory
+  says its data were last updated.
 keys:
 - entity_id
 license: public
@@ -41,6 +42,7 @@ columns:
     - usace_nid:AK00004
     - usace_nid:AK00005
   missing_cells: 0
+  particular: usace_nid:<Federal ID> (unique; the NID ID repeats for associated structures and is in nid_id)
 - name: entity_type
   shared: true
   type: text
@@ -48,6 +50,7 @@ columns:
     list:
       dam: 92788
   missing_cells: 0
+  particular: dam on every row
 - name: name
   shared: true
   type: text
@@ -60,6 +63,7 @@ columns:
     - '#2'
     - '#3 Slurry Pond'
   missing_cells: 4335
+  particular: The dam's name
 - name: geo
   shared: true
   type: text
@@ -72,6 +76,7 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
+  particular: US-<state or territory>
 - name: lat
   shared: true
   type: number
@@ -80,6 +85,7 @@ columns:
     lowest: 0.0
     highest: 71.266667
   missing_cells: 162
+  particular: As the inventory gives it; empty where only one coordinate of the two is given (that one is in coordinate_given)
 - name: lon
   shared: true
   type: number
@@ -88,18 +94,21 @@ columns:
     lowest: -176.6873
     highest: 144.7061
   missing_cells: 162
+  particular: As the inventory gives it; empty where only one coordinate of the two is given (that one is in coordinate_given)
 - name: capacity_mw
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 92788
+  particular: 'Not filled: the inventory gives no MW'
 - name: status
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 92788
+  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -118,6 +127,7 @@ columns:
     - (7) RANCH LLC
     - ','
   missing_cells: 6829
+  particular: The owners' names
 - name: source
   shared: true
   type: text
@@ -146,9 +156,10 @@ columns:
     list:
       '2026-10-22': 92788
   missing_cells: 0
+  particular: The inventory's data-last-updated date (YYYY-MM-DD)
 - name: nid_id
-  label: null
-  unit: null
+  label: The NID ID (shared by a dam's associated structures)
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -159,12 +170,12 @@ columns:
     - AK00004
     - AK00005
   missing_cells: 3
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The inventory leaves it blank
+  source_name: NID ID
+  documented_by: header; connector usace_nid.py; method usace_nid_dams.md
 - name: owner_types
-  label: null
-  unit: null
+  label: The owner types, joined by ; (Federal, State, Local Government, Private, Public Utility, Tribal Government, Not Listed)
+  unit: none
   type: text
   values:
     distinct: 27
@@ -175,12 +186,12 @@ columns:
     - Federal;State
     - Federal;State;Local Government
   missing_cells: 12
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The inventory leaves it blank
+  source_name: Owner Types
+  documented_by: connector usace_nid.py; data
 - name: primary_owner_type
-  label: null
-  unit: null
+  label: The primary owner type
+  unit: none
   type: text
   values:
     list:
@@ -192,12 +203,12 @@ columns:
       State: 6752
       Tribal Government: 18
   missing_cells: 12
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The inventory leaves it blank
+  source_name: Primary Owner Type
+  documented_by: connector usace_nid.py; data
 - name: primary_purpose
-  label: null
-  unit: null
+  label: The dam's primary purpose (Recreation, Flood Risk Reduction, Hydroelectric, Irrigation, Water Supply and others)
+  unit: none
   type: text
   values:
     list:
@@ -214,12 +225,12 @@ columns:
       Tailings: 1207
       Water Supply: 5215
   missing_cells: 5873
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The inventory leaves it blank
+  source_name: Primary Purpose
+  documented_by: connector usace_nid.py; data
 - name: purposes
-  label: null
-  unit: null
+  label: All the dam's purposes, joined by ;
+  unit: none
   type: text
   values:
     distinct: 571
@@ -230,24 +241,24 @@ columns:
     - Debris Control;Fire Protection, Stock, Or Small Fish Pond;Irrigation;Recreation
     - Debris Control;Fire Protection, Stock, Or Small Fish Pond;Irrigation;Recreation;Water Supply
   missing_cells: 5869
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The inventory leaves it blank
+  source_name: Purposes
+  documented_by: connector usace_nid.py; method usace_nid_dams.md
 - name: associated_structure
-  label: null
-  unit: null
+  label: Yes when the row is an associated structure of a dam, else No
+  unit: none
   type: text
   values:
     list:
       'No': 91776
       'Yes': 1012
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Is Associated Structure?
+  documented_by: connector usace_nid.py; data
 - name: county
-  label: null
-  unit: null
+  label: The county
+  unit: none
   type: text
   values:
     distinct: 1792
@@ -258,12 +269,12 @@ columns:
     - Ada
     - Adair
   missing_cells: 155
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The inventory leaves it blank
+  source_name: County
+  documented_by: connector usace_nid.py
 - name: river
-  label: null
-  unit: null
+  label: The river or stream name, as published
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -274,12 +285,12 @@ columns:
     - .
     - '0'
   missing_cells: 9047
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The inventory leaves it blank
+  source_name: River or Stream Name
+  documented_by: connector usace_nid.py
 - name: primary_dam_type
-  label: null
-  unit: null
+  label: The primary dam type (Earth, Concrete, Gravity, Rockfill, Arch and others)
+  unit: none
   type: text
   values:
     list:
@@ -296,108 +307,108 @@ columns:
       Stone: 181
       Timber Crib: 125
   missing_cells: 7881
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The inventory leaves it blank
+  source_name: Primary Dam Type
+  documented_by: connector usace_nid.py; data
 - name: nid_height_ft
-  label: null
-  unit: null
+  label: The dam's NID height
+  unit: ft
   type: integer
   values:
     distinct: 382
     lowest: 0
     highest: 789
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: NID Height (Ft)
+  documented_by: connector usace_nid.py
 - name: dam_length_ft
-  label: null
-  unit: null
+  label: The dam's length
+  unit: ft
   type: number
   values:
     distinct: 4271
     lowest: 0.0
     highest: 470610.0
   missing_cells: 14087
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The inventory leaves it blank
+  source_name: Dam Length (Ft)
+  documented_by: connector usace_nid.py
 - name: year_completed
-  label: null
-  unit: null
+  label: The year the dam was completed
+  unit: none
   type: integer
   values:
     distinct: 267
     lowest: 0
     highest: 2026
   missing_cells: 19052
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The inventory leaves it blank
+  source_name: Year Completed
+  documented_by: connector usace_nid.py
 - name: nid_storage_acre_ft
-  label: null
-  unit: null
+  label: The NID storage
+  unit: acre-ft
   type: number
   values:
     distinct: more than 5000
     lowest: 0.0
     highest: 277540000.0
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: NID Storage (Acre-Ft)
+  documented_by: connector usace_nid.py
 - name: normal_storage_acre_ft
-  label: null
-  unit: null
+  label: The normal storage
+  unit: acre-ft
   type: number
   values:
     distinct: more than 5000
     lowest: -48.0
     highest: 277540000.0
   missing_cells: 6718
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The inventory leaves it blank
+  source_name: Normal Storage (Acre-Ft)
+  documented_by: connector usace_nid.py
 - name: surface_area_acres
-  label: null
-  unit: null
+  label: The reservoir's surface area
+  unit: acre
   type: number
   values:
     distinct: 4683
     lowest: 0.0
     highest: 20255000.0
   missing_cells: 20390
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The inventory leaves it blank
+  source_name: Surface Area (Acres)
+  documented_by: connector usace_nid.py
 - name: drainage_area_sq_mi
-  label: null
-  unit: null
+  label: The drainage area
+  unit: sq mi
   type: number
   values:
     distinct: 4902
     lowest: 0.0
     highest: 8300000.0
   missing_cells: 30860
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The inventory leaves it blank
+  source_name: Drainage Area (Sq Miles)
+  documented_by: connector usace_nid.py
 - name: max_discharge_cfs
-  label: null
-  unit: null
+  label: The maximum discharge
+  unit: cubic ft/second
   type: number
   values:
     distinct: more than 5000
     lowest: 0.0
     highest: 3707516.0
   missing_cells: 46769
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The inventory leaves it blank
+  source_name: Max Discharge (Cubic Ft/Second)
+  documented_by: connector usace_nid.py
 - name: locks_n
-  label: null
-  unit: null
+  label: The number of locks
+  unit: count
   type: integer
   values:
     list:
@@ -408,12 +419,12 @@ columns:
       '4': 3
       '5': 2
   missing_cells: 57464
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The inventory leaves it blank
+  source_name: Number of Locks
+  documented_by: connector usace_nid.py
 - name: source_agency
-  label: null
-  unit: null
+  label: The agency that supplied the record (a state or a federal agency)
+  unit: none
   type: text
   values:
     distinct: 69
@@ -424,12 +435,12 @@ columns:
     - Arkansas
     - Bureau of Indian Affairs
   missing_cells: 3
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The inventory leaves it blank
+  source_name: Source Agency
+  documented_by: connector usace_nid.py; data
 - name: record_updated
-  label: null
-  unit: null
+  label: The date the record's data were last updated, as published (MM/DD/YYYY)
+  unit: none
   type: text
   values:
     distinct: 261
@@ -440,19 +451,19 @@ columns:
     - 01/10/2025
     - 01/14/2025
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Data Last Updated
+  documented_by: connector usace_nid.py; data
 - name: coordinate_given
-  label: null
-  unit: null
+  label: Where the inventory gives only one coordinate of the two, the one given (lat and lon are then left empty)
+  unit: none
   type: text
   values:
     list:
       lat ; lon -79.87083333: 1
       lat ; lon -81.98228: 1
   missing_cells: 92786
-  missing_meaning: null
+  missing_meaning: Both coordinates or neither given
   source_name: null
-  documented_by: null
+  documented_by: header; connector usace_nid.py; method usace_nid_dams.md
 second_look: null

@@ -5,9 +5,10 @@
 table: sors_serbia_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One item of Serbia's balance of electricity in 2024 (production, trade, transformation, own use, losses, final consumption
+  by sector), from the statistics office's Energy Balances table 1.
+time: ts_utc is 2024-01-01T00:00:00Z; freq P1Y.
+vintage_rule: Rewritten whole as one snapshot by each run from the saved publication; vintage is the PDF's Last-Modified.
 keys:
 - entity
 - variable
@@ -59,6 +60,7 @@ columns:
       sors:rs:transport: 1
       sors:rs:wind: 3
   missing_cells: 0
+  particular: 'sors:rs:<item>: total, a plant type, an energy-sector branch, a final sector or a renewable source'
 - name: variable
   shared: true
   type: text
@@ -101,12 +103,14 @@ columns:
     list:
       RS: 36
   missing_cells: 0
+  particular: RS on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 36
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -119,6 +123,7 @@ columns:
     - Домаћинства
     - Екстракција нафте и гаса
   missing_cells: 0
+  particular: SORS's label in Serbian, not a pricing node
 - name: source
   shared: true
   type: text
@@ -147,9 +152,10 @@ columns:
     list:
       '2026-02-26T07:42:33Z': 36
   missing_cells: 0
+  particular: The PDF's Last-Modified (UTC)
 - name: x_label
-  label: null
-  unit: null
+  label: The row's label in Serbian, as SORS prints it (the same as node)
+  unit: none
   type: text
   values:
     distinct: 31
@@ -160,75 +166,75 @@ columns:
     - Домаћинства
     - Екстракција нафте и гаса
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector sors_serbia_electricity.py; method sors_serbia_electricity_annual.md
 variables:
 - name: available_final
-  label: null
+  label: Energy available for final consumption
   unit: MWh
   rows: 1
   first: '2024-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
   source_label: Енергија расположива за финалну потрошњу
 - name: exports
-  label: null
+  label: Exports
   unit: MWh
   rows: 1
   first: '2024-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
   source_label: Извоз
 - name: final_consumption
-  label: null
+  label: Final consumption, by sector
   unit: MWh
   rows: 7
   first: '2024-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
   source_label: Грађевинарство; Домаћинства; Пољопривреда
 - name: gross_available
-  label: null
+  label: Gross available energy
   unit: MWh
   rows: 1
   first: '2024-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
   source_label: Укупно расположива енергија
 - name: gross_production
-  label: null
+  label: Gross electricity production, total or by plant type
   unit: MWh
   rows: 7
   first: '2024-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
   source_label: Енергане; Термоелектране-топлане (ТЕ-ТО); Хидроелектране
 - name: imports
-  label: null
+  label: Imports
   unit: MWh
   rows: 1
   first: '2024-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
   source_label: Увоз
 - name: losses
-  label: null
+  label: Losses
   unit: MWh
   rows: 1
   first: '2024-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
   source_label: Губици
 - name: own_use
-  label: null
+  label: Own use of the energy sector, by branch
   unit: MWh
   rows: 12
   first: '2024-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
   source_label: Енергане; Рудници угља; Термоелектране-топлане (ТЕ-ТО)
 - name: primary_production
-  label: null
+  label: Primary production of electricity (hydro, wind, solar)
   unit: MWh
   rows: 3
   first: '2024-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
   source_label: Примарна производња енергије (hydro); Примарна производња енергије (solar); Примарна производња енергије (wind)
 - name: transformation_input
-  label: null
+  label: Electricity used in transformation (pumped storage, production of other energy)
   unit: MWh
   rows: 2
   first: '2024-01-01T00:00:00Z'

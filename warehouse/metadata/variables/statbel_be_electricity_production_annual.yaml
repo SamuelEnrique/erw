@@ -5,9 +5,9 @@
 table: statbel_be_electricity_production_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Belgium's gross electricity production from one energy product (or in total) in one year, from Statbel's beSTAT.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y; 2018 to 2025.
+vintage_rule: Rewritten whole as one snapshot by each run from beSTAT's CSV; vintage is not filled.
 keys:
 - entity
 - variable
@@ -63,6 +63,7 @@ columns:
       statbel_gep:be:solid_fossil_fuels:other_bituminous_coal: 8
       statbel_gep:be:total: 8
   missing_cells: 0
+  particular: statbel_gep:be:total or statbel_gep:be:<product group>:<product>
 - name: variable
   shared: true
   type: text
@@ -112,12 +113,14 @@ columns:
     list:
       BE: 200
   missing_cells: 0
+  particular: BE on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 200
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -149,6 +152,7 @@ columns:
       'Renewables and biofuels: Wind': 8
       'Solid fossil fuels: Other bituminous coal': 8
   missing_cells: 0
+  particular: The product levels as Statbel writes them, not a pricing node
 - name: source
   shared: true
   type: text
@@ -176,9 +180,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 200
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: gross_electricity_production
-  label: null
+  label: Gross electricity production from the energy product in the year (Statbel's GWh times 1,000)
   unit: MWh
   rows: 200
   first: '2018-01-01T00:00:00Z'
