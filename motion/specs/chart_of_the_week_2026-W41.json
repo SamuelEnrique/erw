@@ -3,7 +3,7 @@
  "kicker": "ERW, chart of the week, 2026-W41",
  "title": "Batteries discharging, Lower 48",
  "subtitle": "Lower 48 battery discharge, daily mean of the week, by week, 2024-11-04 to 2026-10-04",
- "source": "Source: Energy Research Warehouse (ERW), derived, Energy Research Warehouse (ERW), derived from California ISO via the Energy Research Warehouse (ERW), table storage_daily_cycle; data retrieved to 2026-10-11.",
+ "source": "Source: EIA-930, Hourly Electric Grid Monitor, hourly net generation by energy source, via the ERW's derived table storage_daily_cycle; data retrieved to 2026-10-11.",
  "width": 1080,
  "height": 1350,
  "type": "draw-on",
