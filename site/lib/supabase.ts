@@ -277,7 +277,15 @@ export async function restPaged<T>(
   const rows = await askAgainOnFailure(() => restPages<T>(table, query, revalidate, max, together));
   if (!hold.filter) return rows;
   const t = tableOf(query);
-  return rows.filter((r) => !licenseHeldRow(t, (r as { entity?: string }).entity ?? ""));
+  return rows.filter((r) => !licenseHeldRow(t, heldRowId(r as Record<string, unknown>)));
+}
+
+/** Session 9811: the id a row of a table held by grid is its grid's by, whatever the table's shape: a series row's
+ *  entity, a thing's entity_id, an event's event_id (lib/chat/heldrows.ts rowId reads the same three). "" when the row
+ *  carries none of them. */
+export function heldRowId(r: Record<string, unknown>): string {
+  for (const k of ["entity", "entity_id", "event_id"]) if (typeof r[k] === "string" && r[k]) return r[k] as string;
+  return "";
 }
 
 async function restPages<T>(table: string, query: Record<string, string>, revalidate: number, max: number, together: number): Promise<T[]> {

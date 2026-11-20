@@ -4,6 +4,7 @@ import { Cite } from "@/components/Cite";
 import { InlineSpark } from "@/components/InlineSpark";
 import { LineChart, type Line } from "@/components/LineChart";
 import { Num, heldBy } from "@/components/Num";   // session 1898: heldBy, the news section held whole
+import { LICENSE_NEEDED, licenseHeldRow, licenseTitle } from "@/lib/license";   // session 9811
 import { Section } from "@/components/Section";
 import { ShareBar } from "@/components/ShareBar";
 import { StackedArea } from "@/components/StackedArea";
@@ -304,6 +305,9 @@ function Building({ g, d }: { g: GridConfig; d: GridData }) {
   let queue: React.ReactNode;
   if (!g.queue_table) {
     queue = <NotYet what={`${g.iso}'s interconnection queue`} where={`${g.iso} publishes it`} href={g.queue_url ?? "https://www.eia.gov/electricity/data/eia860m/"} />;
+  } else if (licenseHeldRow("energy_projects", `${g.queue_table.replace(/_interconnection_queue$/, "_queue")}:x`)) {
+    // session 9811: a held grid's queue positions never reach the page (lib/supabase.ts heldRowId); its cell says why
+    queue = <span className="text-muted" role="status" data-license-held={`${g.iso}'s interconnection queue`} title={licenseTitle("energy_projects")}>{LICENSE_NEEDED}</span>;
   } else if (!d.queue.length) {
     queue = <NotYet what={`${g.iso}'s interconnection queue in the live set`} where={`${g.iso} publishes it`} href="https://www.eia.gov/electricity/data/eia860m/" />;
   } else {
