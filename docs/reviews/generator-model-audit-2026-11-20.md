@@ -39,7 +39,7 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 | 7 | Output per MW is over the nameplate of the month's start, so new plants add output and not megawatts | -0.34 (-0.6 percent) at mid-month nameplate | NPV -2.6 per kW | `wip/audit-generator-7` (test with 6) |
 | 8 | The note's table of defaults says hurdle 9.6 and solar degradation 0; the page uses 12 and 0.7 | none | none (words) | `wip/audit-generator-8` (fix in words) |
 
-- Ranked by how far NPV moves, per kW, on the asset each finding is about (the smaller end of a range): solar for 1, 2, 3, 6 and 7, the peaker for 9, the battery for 5. Finding 4 moves a printed price (and every contracted scenario's NPV); finding 8 moves words.
+- Ranked by how far NPV moves, per kW, on the default grid (ERCOT) and the asset each finding is about (the smaller end of a range): solar for 1, 2, 3, 6 and 7, the peaker for 9, the battery for 5. Finding 4 moves a printed price (and every contracted scenario's NPV); finding 8 moves words. In CAISO finding 6 would rank near the top.
 
 ## 1. The NPV holds no tax and no depreciation
 
@@ -90,6 +90,7 @@ Session 9841, 20 November 2026, the desktop's fifth window, after the battery pa
 - **Why it is wrong.** A merchant plant with no production credit loses money on every MWh sold below zero and stops. The fleet's shape still sells there. Stated in the note; wrong for the plant the page says it models ("a merchant solar plant").
 - **How much.** The page's twelve months: 189 negative hours, all with output; 117.7 MWh per MW sold below zero (4.6 percent of the year's energy) for USD -0.41 per kW. A plant that stops below zero: 60.26 per kW against 59.85 (+0.68 percent). It grows: -0.09 per kW in 2024, -0.31 in 2025, -0.32 in the nine months of 2026 held.
 - **In CAISO it is a fifth of the revenue.** The fleet's solar output per MW by hour (`site/data/seller/hybrid.json`, from November 2025) against SP15's real-time hourly price in the page's own snapshot (`site/data/merchant_snapshot.json`), checked month by month against the snapshot's rows (within about 1 percent): over the eleven months November 2025 to September 2026 the plant earns USD 26.82 per kW (the rows: 26.66) and sells 611 MWh per MW below zero, 32.3 percent of its energy, for -5.49 per kW. A plant that stopped below zero earns 32.32 (+20.5 percent). The page's own months for April and May 2026 are below zero (USD -1,330 and -1,176 per MW): the modelled merchant plant pays to generate. On the day-ahead price the share is 27.7 percent and the gain 12.4 percent.
+- **Wind as well.** The same two files, the ten whole months December 2025 to September 2026, each month checked against the snapshot's row: CAISO's wind sells 16.2 percent of its energy below zero and would gain 6.6 percent by stopping; ERCOT's wind 2.4 percent and 0.4 percent; ERCOT's solar 4.6 and 0.7, CAISO's solar 33.8 and 22.5 over those months.
 - **The test.** `tests/test_audit_generator_6.py` on `wip/audit-generator-6`: from the public hourly file, 59.8523, 189 hours, -0.4076, 60.2599; and CAISO from the two site files, more than a quarter of the energy below zero and more than 15 percent to gain.
 - **Not fixed.** A curtailment rule moves the revenue: the owner's ruling. A plant that does take a production credit would sell down to minus the credit, which the page's credit field could set.
 
@@ -176,5 +177,6 @@ Every page is in review; this file changes no page. Snapshots as in the battery 
 - The battery file's push of its finding 11, merge `7bb43879`; success, confirmed 22:04 UTC. `s9840-f11-before` against `s9840-f11-after`: 0 differences. Expected.
 - Push 3 (finding 9; the battery file's finding 1 to 3 additions, the decisions lists, the other cases), merge `6f4afa71`; success confirmed about 22:15 UTC. `s9840-backlog-before` against `s9840-backlog-after`: 0 differences. Expected.
 - Push 4 (the battery file's finding 1 with the call's timing, the re-ranked tables, the summaries), merge `31411023`; success confirmed about 22:20 UTC. `s9840-p4-before` against `s9840-p4-after`: 0 differences. Expected.
+- Push 5 (finding 6 in CAISO), merge `33124347` (a first attempt at 22:21 was refused by the remote with no reason given; the retry a minute later went through); success confirmed about 22:26 UTC. `s9840-p5-before` against `s9840-p5-after`: 0 differences. Expected.
 - GitHub's unsigned allowance (60 requests an hour, shared with this machine's other windows) ran out at 21:45 UTC; from then on a deploy was watched by the live page's Vercel deployment id and confirmed with one status request once the allowance returned (22:04 UTC).
 - Each push's comparison is written with the next push; the last push's is in the session's closing message.
