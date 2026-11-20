@@ -1,0 +1,21 @@
+{
+ "date": "2026-11-20",
+ "fact_id": "ff_1c084d1a13",
+ "kind": "warehouse",
+ "fact": "In 2001, wind made 1.2% of the electricity generated in Iowa; in 2025 it made 58.9%.",
+ "second": "",
+ "structure": "none",
+ "conjecture": "False",
+ "sources": [
+  {
+   "part": "fact",
+   "label": "ERW table state_generation_mix_monthly",
+   "table": "state_generation_mix_monthly",
+   "publisher": "Energy Research Warehouse (ERW), derived",
+   "url": "/data",
+   "raw": "warehouse/news/facts/raw/warehouse/share_ia_wind_20261002T002257Z.txt",
+   "span": "state_generation_mix_monthly eia:IA: wind share of net generation 1.2% in 2001, 58.9% in 2025 (sums of monthly MWh over complete years)",
+   "retrieved_at": "20261002T002257Z"
+  }
+ ]
+}

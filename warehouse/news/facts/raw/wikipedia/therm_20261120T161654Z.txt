@@ -1,0 +1,45 @@
+# source: Wikipedia (CC BY-SA 4.0), MediaWiki API plain-text extract
+# title: Therm
+# url: https://en.wikipedia.org/wiki/Therm
+# revision: 1328147718
+# note: em dashes in the source are stored as hyphens
+# retrieved_at: 20261120T161654Z
+
+The therm (symbol, thm) is a non-SI unit of heat energy equal to 100,000 British thermal units (BTU), and approximately 105 megajoules, 29.3 kilowatt-hours, 25,200 kilocalories and 25.2 thermies. One therm is the energy content of approximately 100 cubic feet (2.83 cubic metres) of natural gas at standard temperature and pressure. However, the BTU is not standardised worldwide, with slightly different values in the EU, UK, and United States, meaning that the energy content of the therm also varies by territory.
+Natural gas meters measure volume and not energy content, and given that the energy density varies with the mix of hydrocarbons in the natural gas, a "therm factor" is used by natural gas companies to convert the volume of gas used to its heat equivalent, usually being expressed in units of "therms per CCF" (CCF is an abbreviation for 100 standard cubic feet). Higher than average concentration of ethane, propane or butane will increase the therm factor and the inclusion of non-flammable impurities, such as carbon dioxide or nitrogen will reduce it. The Wobbe Index of a fuel gas is also sometimes used to quantify the amount of heat per unit volume burnt.
+
+
+== Definitions ==
+Therm (EC) ≡ 100000 BTUISO
+= 105506000 joules
+≈ 29.3072 kWh
+The therm (EC) is often used by engineers in the US.
+Therm (US) ≡ 100000 BTU59 °F
+= 105480400 joules
+≈ 29.3001111111111 kWh.
+Therm (UK) ≡ 105505585.257348 joules
+≡ 29.3071070159300 kWh
+
+
+== Decatherm ==
+A decatherm or dekatherm (dth or Dth) is 10 therms, which is 1,000,000 British thermal units or 1.055 GJ. It is a combination of the prefix  for 10 (deca, often with the US spelling "deka") and the energy unit therm. There is some ambiguity, as "decatherm" uses the prefix "d" to mean 10, where in metric the prefix "d" means "deci" or one-tenth, and the prefix "da" means "deca", or 10, though decatherm may use a capital "D". The energy content of 1,000 cubic feet (28 m3) natural gas measured at standard conditions is approximately equal to one dekatherm. 
+This unit of energy is used primarily to measure natural gas. Natural gas is a mixture of gases containing approximately 80% methane (CH4) and its heating value varies from about or 10.1 to 11.4 kilowatt-hours per cubic metre (975 to 1,100 Btu/ft3), depending on the mix of different gases in the gas stream. The volume of natural gas with heating value of one dekatherm is about 910 to 1,026 cubic feet (25.8 to 29.1 m3). Noncombustible carbon dioxide (CO2) lowers the heating value of natural gas.  Heavier hydrocarbons such as ethane (C2H6), propane (C3H8), and  butane (C4H10) increase its heating value. Since customers who buy natural gas are actually buying heat, gas distribution companies who bill by volume routinely adjust their rates to compensate for this.
+The company Texas Eastern Transmission Corporation, a natural gas pipeline company, started to use the unit dekatherm in about 1972. To simplify billing, Texas Eastern staff members coined the term dekatherm and proposed using calorimeters to measure and bill gas delivered to customers in dekatherms.  This would eliminate the constant calculation of rate adjustments to dollar per 1000 cubic feet rates in order to assure that all customers received the same amount of heat per dollar. A settlement agreement reflecting the new billing procedure and settlement rates was filed in 1973.  The Federal Power Commission issued an order approving the settlement agreement and the new tariff using dekatherms later that year,  Other gas distribution companies also began to use this process.
+In spite of the need for adjustments, many companies continue to use standard cubic feet rather than dekatherms to measure and bill natural gas.
+
+
+== Usage ==
+United Kingdom regulations were amended to replace therms with joules with effect from 1999, with natural gas usually retailed in the derived unit, kilowatt-hours. Despite this, the wholesale UK gas market trades in therms. In the United States, natural gas is commonly billed in CCFs (hundreds of cubic feet) or therms.
+
+
+== Carbon footprint ==
+According to the United States Environmental Protection Agency, burning one therm of natural gas produces on average 5.3 kg (11.7 lb) of carbon dioxide.
+
+
+== See also ==
+Barrel of oil equivalent
+Conversion of units § Energy
+A Cubic Mile of Oil
+
+
+== References ==

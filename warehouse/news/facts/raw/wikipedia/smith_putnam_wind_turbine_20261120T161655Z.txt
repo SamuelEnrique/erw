@@ -1,0 +1,50 @@
+# source: Wikipedia (CC BY-SA 4.0), MediaWiki API plain-text extract
+# title: Smith–Putnam wind turbine
+# url: https://en.wikipedia.org/wiki/Smith%E2%80%93Putnam_wind_turbine
+# revision: 1331630537
+# note: em dashes in the source are stored as hyphens
+# retrieved_at: 20261120T161655Z
+
+The Smith–Putnam wind turbine was the world's first megawatt-size wind turbine. In 1941 it was connected to the local electrical distribution system on Grandpa's Knob in Castleton, Vermont, US. It was designed by Palmer Cosslett Putnam and manufactured by the S. Morgan Smith Company. The 1.25 MW turbine operated for 1100 hours before a blade failed at a known weak point, which had not been reinforced due to wartime material shortages. It would be the largest wind turbine ever built until 1979.
+
+
+== Description ==
+The turbine had two blades, 175 feet (53 m)  in diameter, on the down-wind side of a 120-foot (37 m)-foot steel lattice tower.  Each blade was approximately 8 feet (2.4 m) wide and 66 feet (20 m) long, and weighed eight tons. The blades were built on steel spars and covered with a stainless steel skin. The blade spars were hinged  at their root attachment to the hub, allowing them to assume a slight cone shape.  The generator was a 1250 kva 600 RPM synchronous generator made by General Electric, producing 2,400 V at 60 cycles. The actual generation of this generator would be something around 1MW, allowing for a power factor of less than 1.  The generator and rotor hub were mounted on a pintle beam, which allowed the rotor to capture wind from varying directions. The pitch of the blades was controlled by hydraulic cylinders to maintain constant speed.
+
+
+== Origins ==
+Palmer Putnam became interested in production of electric power from wind after observing high winds at Cape Cod. Putnam was aware of the Balaklava 100 kW turbine  and desired to improve on its performance. By 1937 he had enlisted General Electric,  and Central Vermont Public Service. General Electric provided a generator, and Central Vermont Public Services Corporation was interested in an energy supply that could displace purchased power for meeting peak loads. Only 23 months elapsed between first discussions and production of power.
+Palmer concluded that the most promising concept was a two-bladed propeller driving a synchronous AC generator. He developed a  preliminary design and cost estimates. Dr. Vannevar Bush, Dean of Engineering at MIT, reacted favorably when shown these calculations in 1937. Bush introduced Putnam to a vice president of General Electric Company, Mr. T. Knight. From this point on Putnam was able to enlist the services of some very talented people which included Theodore von Karman, a world-famous authority on aerodynamics, to assist in the design, parametric studies, cost analyses, site selection, and determination of wind characteristics.
+In 1939, the Guggenheim Aeronautical Laboratories of the California Institute of Technology (GALCIT) was approached by Palmer C. Putnam,  to design the turbine. Theodore von Kármán had William Rees Sears and W. Duncan Rannie carry out the aerodynamic design. Unfortunately, Rannie's analytical findings regarding the stability of the giant windmill were not incorporated in the prototype that was built and tested on the mountain.
+Putnam obtained the financial and technical backing of the S. Morgan Smith Company of York, Pennsylvania. The Smith Company manufactured  hydroelectric hydraulic turbines. Since the number of feasible sites for hydroelectric development was felt to be declining, the Smith company sought diversification into a new but related product line.  The S. Morgan Smith Co. agreed to take on the project as general contractor and financed construction of a pilot turbine.
+
+
+== Construction ==
+The site chosen for the prototype turbine was a previously unnamed 2,000-foot (610 m) elevation, named "Grandpa's Knob"; this mountain was not so high as to have excessive ice build up, but had high wind speeds. Access to the site required construction of a road with 12 to 15% grade.  Due to the impending entry of the United States into World War II, some of the fundamental research and testing process was skipped so that major components could be made before wartime material shortages occurred.
+
+
+== Operation  and failures ==
+No-load testing of the unit began in August 1941 to verify mechanical operation of the turbine and the blade control system. The generator was first synchronized to the local electrical grid on the evening of October 19, 1941, and tested under load varying from zero to 700 kW. The unit operated for about 1000 hours between startup and February 1943, when a shaft bearing failed.  Due to wartime material priorities, the bearing was not replaced until March 3, 1945, when the unit achieved another three weeks of operation.
+In the early morning of March 26, 1945, the operator on duty in the nacelle of the turbine was thrown down by vibrations.  He stopped the turbine. On investigation, it was found one turbine blade had broken off and fallen about 750 feet (230 m) away.  The blade had failed at a previously repaired weak point in the spar; due to wartime shortages, it had been impractical to complete a full repair and reinforcement of the blade root.
+
+
+== Aftermath ==
+A study completed in 1945 suggested that a block of six turbines similar to the prototype, producing 9 MW, could be installed in Vermont for around US$190 per kilowatt. However, the economic value to the power utility was only $125 per kilowatt, and the wind turbine was not considered economically viable by a factor of 1.5.  Although the S. Morgan Smith company had spent more than US$1.25 million on the prototype turbine, entirely private funding, it concluded that there was insufficient prospect for profit on further development. Repairs were never done after the March 1945 failure. The prototype turbine was dismantled in 1946, leaving only concrete footings and a marker plaque at the site today. In the introduction to Putnam's book, Vannevar Bush stated that the project achieved proof of the concept of synchronous generation of wind power, and projected future commercial use of wind-generated electricity.
+
+
+== See also ==
+History of wind power
+
+
+== Notes ==
+
+
+== Further reading ==
+Putnam, Palmer Cosslett (1948). Power From The Wind. D. Van Nostrand Company.
+Righter, Robert (1996). Wind energy in America : a history. Norman, Okla: University of Oklahoma Press. ISBN 0-8061-2812-7.
+Harnessing the Wind, September 1941, TIME magazine, retrieved 2009 Nov 21
+Engineering and Technology History Wiki, Palmer Putnam's 1.5 MW Wind Turbine, retrieved 2016 Jan 23
+
+
+== External links ==
+Smith–Putnam Industrial Photos | Wind-Works.org
