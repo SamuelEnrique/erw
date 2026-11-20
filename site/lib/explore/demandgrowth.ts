@@ -69,8 +69,16 @@ export function yearsOf(rows: Row[], entity: string, variable: string): number[]
 export const lastWhole = (rows: Row[], entity: string) => yearsOf(rows, entity, "avg_demand_mw").at(-1);
 /** The newest year of an area: the newest with a year-to-date average. */
 export const newest = (rows: Row[], entity: string) => yearsOf(rows, entity, "ytd_avg_demand_mw").at(-1);
-/** The year a window's growth is read at, for an area. */
-export const latestOf = (rows: Row[], entity: string, w: Win) => (w.latest === "newest" ? newest(rows, entity) : lastWhole(rows, entity));
+/** The year a window's growth is read at, for an area. Ruling alternative 2 (session 7709, branch
+ *  wip/alt-demand-growth-2; not a default on main): a calendar month is read at the newest year when the table writes
+ *  that year's own growth for the month (the branch's builder does, for each whole month the newest year holds), else at
+ *  the last whole year, as on main. */
+export const latestOf = (rows: Row[], entity: string, w: Win) => {
+  if (w.latest === "newest") return newest(rows, entity);
+  const y = newest(rows, entity);
+  if (/^m\d{2}$/.test(w.slug) && y !== undefined && valueOf(rows, entity, w.growth, y) !== undefined) return y;
+  return lastWhole(rows, entity);
+};
 
 /** The end of the year-to-date window, from the table's header ("year to date: 1 January to the end of MM/YYYY of each
  *  year"): { month, year }, or null when the header does not say. */
