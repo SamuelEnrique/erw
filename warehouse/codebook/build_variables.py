@@ -164,7 +164,8 @@ class Col:
             return {"note": "no cell holds a value"}
         n = len(self.distinct)
         if not self.many and n <= SHORT:
-            out["list"] = {str(v): self.distinct[v] for v in sorted(self.distinct)}
+            keys = sorted(self.distinct, key=float) if k in ("integer", "number") else sorted(self.distinct)
+            out["list"] = {str(v): self.distinct[v] for v in keys}
             return out
         out["distinct"] = f"more than {TRACK}" if self.many else n
         if k in ("integer", "number"):
@@ -234,9 +235,10 @@ def source_lines(header):
             text = ln[len("Source:"):].strip()
             urls = re.findall(r"https?://\S+", text)
             name = text
-            for u in urls:
-                name = name.replace(u, "")
-            out.append({"name": clean(name.strip().rstrip(",;").strip()), "url": urls[-1].rstrip(".,;)") if urls else ""})
+            # the address is taken out of the words only where it ends the line; inside a sentence it stays
+            if urls and text.rstrip().endswith(urls[-1]):
+                name = text.rstrip()[: -len(urls[-1])]
+            out.append({"name": clean(name.strip().rstrip(",;:").strip()), "url": urls[-1].rstrip(".,;)") if urls else ""})
     return out
 
 
