@@ -3,7 +3,7 @@ import { Brand } from "@/components/Brand";  // session 261: the page takes the 
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Section } from "@/components/Section";
 import { SETS } from "@/lib/problems";
-import { editionPath, editions, longDate, teacherPath } from "@/lib/problemEditions";
+import { editionHolds, editionPath, editions, longDate, teacherPath } from "@/lib/problemEditions";
 import { GUIDE, instructorNote } from "@/lib/problemkit";  // session 3650: each set's grids, tables and skills; the instructors' hover
 import { Tip } from "@/components/tool/ToolPage";
 import { ProblemDecisions } from "./Decisions";  // session 7534 (chain 304): the decisions block
@@ -36,12 +36,17 @@ export default function ProblemSets() {
               {/* session 3650: the grids, the tables and the skills the set uses, and its figures as CSV (public tables only) */}
               {GUIDE[s.slug] ? (
                 <div className="text-sm" data-set-facts={s.slug}>
-                  Grid: {GUIDE[s.slug].grids.join(", ")}. Tables: {GUIDE[s.slug].tables.map((t, i) => <span key={t}>{i ? ", " : ""}<Link href={`/data#${t}`} className="font-mono">{t}</Link></span>)}.
+                  Grid: {GUIDE[s.slug].grids.join(", ")}. Tables: {GUIDE[s.slug].tables.map((t, i) => <span key={t}>{i ? ", " : ""}<Link href={`/data#${t}`} className="font-mono">{t}</Link></span>)}{GUIDE[s.slug].tables.length ? null : "none of the warehouse's"}.
+                  {/* session 8901: a set of the whole country names the committed page files its figures read */}
+                  {GUIDE[s.slug].files?.length ? <span data-set-files={s.slug}>{" "}Page files: {GUIDE[s.slug].files!.map((f, i) => <span key={f}>{i ? ", " : ""}<span className="font-mono">site/data/{f}</span></span>)}.</span> : null}
                   {" "}Skills: {GUIDE[s.slug].skills.join(", ")}. <a href={`/learn/problems/${s.slug}/data.csv`} download>The set&apos;s data, CSV</a>.
                 </div>
               ) : null}
-              {editions().length ? (
+              {editions().length && editionHolds(s.slug, editions()[0]) ? (
                 <div className="text-sm">The live set; <Link href={editionPath(s.slug, editions()[0])}>the edition of {editions()[0]}</Link>; <Link href={teacherPath(s.slug, editions()[0])}>its teacher&apos;s copy</Link>.</div>
+              ) : editions().length ? (
+                // session 8901: a set added after the newest edition was built has no dated copy yet
+                <div className="text-sm" data-no-edition={s.slug}>The live set; no dated edition holds this set yet. The live page shows every answer and worked solution under each question.</div>
               ) : null}
             </li>
           ))}

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { EventStudy } from "@/components/EventStudy";
 import { EventDecisions } from "../Decisions";
+import { WholeCountrySection, type PageProps } from "../WholeCountry";
 import { EventWindow, N, day, pickOf } from "../EventWindow";
 
 // Session 64: the January 2025 cold, event cold_2025 of event_window_daily (docs/methods/events.md): PJM, MISO, SPP,
@@ -14,7 +15,7 @@ export const revalidate = 3600;
 const EV = "cold_2025";
 const inWin = (d: string) => d >= "2025-01-17" && d <= "2025-01-26";
 
-export default function Cold2025() {
+export default function Cold2025({ searchParams }: PageProps = {}) {
   return (
     <Brand>
     <div>
@@ -74,6 +75,9 @@ export default function Cold2025() {
     {/* the event study, as for every event: demand and, where it has baseline days, ERCOT's hub price */}
     <EventStudy event="cold_2025" grids={["eia930:PJM", "eia930:ERCO", "eia930:ISNE", "eia930:MISO", "eia930:NYIS", "eia930:SWPP"]} primary="eia930:PJM" price />
     {/* session 7531: the page's decisions (Decisions.tsx), each with its default and source on hover */}
+    {/* session 8410 (chain 503): EIA's thirteen regions across the event, from the data machine's file (WholeCountry.tsx) */}
+    <WholeCountrySection event="cold_2025" path="/events/cold-2025" first="MIDA" searchParams={searchParams}
+      firstWhy="PJM, the first grid of the page above, is among the Mid-Atlantic's balancing authorities, so the Mid-Atlantic is drawn first." />
     <EventDecisions event="cold_2025" />
     </div>
     </Brand>

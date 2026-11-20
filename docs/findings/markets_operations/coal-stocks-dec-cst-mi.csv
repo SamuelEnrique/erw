@@ -1,0 +1,23 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate coal_stocks_dec, region cst_mi (the power plants of Michigan)
+# Computed 2026-11-19T12:24:26Z by warehouse/analysis/findings/deep/markets_operations.py (coal_stocks_dec); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the coal stocks of the electric power sector at the end of December (million short tons), the observations it rests on, and whether the year is full
+# Tables: eia_power_fuel_stocks_monthly
+region,year,value,n_observations,full_year
+cst_mi,2008,7.673689,1.0,1
+cst_mi,2009,5.61521,1.0,1
+cst_mi,2010,6.851807,1.0,1
+cst_mi,2011,6.512098,1.0,1
+cst_mi,2012,6.728942,1.0,1
+cst_mi,2013,6.03234,1.0,1
+cst_mi,2014,6.982109,1.0,1
+cst_mi,2015,7.742996,1.0,1
+cst_mi,2016,6.024253,1.0,1
+cst_mi,2017,6.080306,1.0,1
+cst_mi,2018,4.438191,1.0,1
+cst_mi,2019,4.998417,1.0,1
+cst_mi,2020,4.930346,1.0,1
+cst_mi,2021,2.370911,1.0,1
+cst_mi,2022,3.10888,1.0,1
+cst_mi,2023,3.72953,1.0,1
+cst_mi,2024,3.296791,1.0,1
+cst_mi,2025,2.554363,1.0,1
