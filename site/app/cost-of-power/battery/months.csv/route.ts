@@ -8,6 +8,7 @@
 import { COSTS, PRODUCTS, REVIEW_TABLE, TABLE, gridOf, inputsOf, last36, monthsOf, waiting, type Inputs, type Month } from "@/lib/batterystack";
 import stepsData from "@/data/battery_scenario_steps.json";
 import { debtUsd, defaultsOf, parseScenarios, stepState, stepsOffered, type StepFile } from "@/lib/battery/finance";
+import { STORAGE_VARS, storageRows } from "@/lib/nodebasisread";
 import { statusOf } from "@/lib/release";
 import { internalView, reviewRows, rowsOf } from "../read";
 
@@ -45,6 +46,16 @@ export async function GET(req: Request) {
   const A = parseScenarios(q, defaultsOf(COSTS[asked.dur]), offered, asked.mw).a;
   const x: Inputs = { ...asked, fom: A.fom, ds: debtUsd(A, asked.mw) };
   const products = PRODUCTS[x.grid] ?? [];
+  // session 7620, the other choice of the ruling on the fold (wip/alt-battery-2, not landed): the six figures of ERCOT's
+  // storage nodes against the hub, each month, which the page's fold drew, are columns here alone (node_basis_summary);
+  // blank for a month the table does not hold. Only for the ERCOT hub, the one battery the page draws the band for.
+  const nodes = x.grid === "ercot" && g.entity === "ercot:HB_HUBAVG" ? await storageRows() : null;
+  const nodeAt = (m: string, v: string): string => {
+    if (!nodes?.ok) return "";
+    const r = nodes.data.find((d) => d.ts_utc.slice(0, 7) === m && d.variable === `dam_storage_${v}`);
+    return r ? String(Number(r.value)) : "";
+  };
+  const nodeCols = nodes ? STORAGE_VARS.map((v) => `storage_nodes_${v}`) : [];
   const now = new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
   const head = [
     `# Energy Research Warehouse (ERW): every month of "What a battery earns", ${g.name}, ${x.dur}-hour, ${x.strat === "foresight" ? "perfect foresight" : "day-ahead schedule"}, ${x.mw} MW`,
@@ -54,13 +65,17 @@ export async function GET(req: Request) {
     ...ms.filter(waiting).map((r) => `# ${r.m}: ${r.daysHeld} of ${r.daysInMonth} days solved and ${r.daysOut} left out, not yet whole: not held, and outside every figure on the page, until every one of its days is in the table`),
     `# coverage: the month's revenue times twelve, less a year of fixed O&M (USD ${x.fom} per kW a year), over a year of debt payments (USD ${x.ds}): scenario A's as the address has them; blank for a month not held`,
     `# method: /data/methods/battery_earns_algorithm (sections 3 to 5); the page: /cost-of-power/battery`,
+    ...(nodes ? [nodes.ok
+      ? `# storage_nodes_*: ERCOT's storage settlement points against the hub, day-ahead, from node_basis_summary (the live set): the four-hour spread at the 10th percentile, median and 90th of the storage nodes, the hub's own spread over the same days, in USD per MWh; the percent of storage nodes wider than the hub; the days held. Added to no figure`
+      : `# storage_nodes_*: node_basis_summary could not be read: ${nodes.reason}`] : []),
   ];
-  const cols = ["month", "held", "energy_usd", "ancillary_usd", "total_usd", "total_usd_per_kw", "coverage", "days_held", "days_in_month", "days_left_out", "days_left_out_ancillary", ...products.map((p) => `${p.key}_usd`)];
+  const cols = ["month", "held", "energy_usd", "ancillary_usd", "total_usd", "total_usd_per_kw", "coverage", "days_held", "days_in_month", "days_left_out", "days_left_out_ancillary", ...products.map((p) => `${p.key}_usd`), ...nodeCols];
   const lines = [...head, cols.join(",")];
   for (const r of ms) {
     const usd = (v: number | null | undefined) => (v === null || v === undefined ? "" : String(Math.round(v * x.mw)));
     lines.push([r.m, r.held ? "yes" : "no", usd(r.energy), usd(r.ancillary), usd(r.total), r.total === null ? "" : (r.total / 1000).toFixed(2), coverOf(r, x),
-      String(r.daysHeld), String(r.daysInMonth), String(r.daysOut), String(r.daysOutAncillary), ...products.map((p) => (r.total === null ? "" : usd(r.products[p.key] ?? 0)))].map(cell).join(","));
+      String(r.daysHeld), String(r.daysInMonth), String(r.daysOut), String(r.daysOutAncillary), ...products.map((p) => (r.total === null ? "" : usd(r.products[p.key] ?? 0))),
+      ...(nodes ? STORAGE_VARS.map((v) => nodeAt(r.m, v)) : [])].map(cell).join(","));
   }
   const name = `erw_battery_months_${x.grid}_${x.dur}h_${x.strat}.csv`;
   return new Response(lines.join("\n") + "\n", {

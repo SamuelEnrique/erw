@@ -24,7 +24,10 @@ class TheBatteryBand(unittest.TestCase):
         self.assertIn('asked.grid === "ercot" && g.entity === "ercot:HB_HUBAVG" && l12m.length === 12', page)
         self.assertIn("nodeMonths.reduce((a, r) => a + r[v] * r.days, 0) / nodeDays", page)   # weighted by the days held
         self.assertIn("Added to no figure (node_basis_summary).", page)
-        self.assertIn("`series|node_basis_summary|ercot:HB_HUBAVG|dam_storage_${v}|${r.ts}`", page)
+        # session 7620 (wip/alt-battery-2, the other choice of the ruling on the fold): each month's six figures are in
+        # months.csv alone; the page keeps the twelve months' weighted means
+        self.assertNotIn("`series|node_basis_summary|ercot:HB_HUBAVG|dam_storage_${v}|${r.ts}`", page)
+        self.assertIn("storage_nodes_${v}", src("site", "app", "cost-of-power", "battery", "months.csv", "route.ts"))
 
 
 class TheCards(unittest.TestCase):
