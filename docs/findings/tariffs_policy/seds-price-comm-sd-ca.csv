@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate seds_price_comm, region sd_ca (California)
+# Computed 2026-11-19T12:30:31Z by warehouse/analysis/findings/deep/tariffs_policy.py (seds_price_comm); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the state's average electricity price to its commercial sector (USD per MWh), the observations it rests on, and whether the year is full
+# Tables: eia_seds_state_energy
+region,year,value,n_observations,full_year
+sd_ca,1990,89.80384,1.0,1
+sd_ca,1991,95.97955999999999,1.0,1
+sd_ca,1992,99.18683999999999,1.0,1
+sd_ca,1993,99.90335999999999,1.0,1
+sd_ca,1994,103.65655999999998,1.0,1
+sd_ca,1995,102.66708,1.0,1
+sd_ca,1996,96.32075999999999,1.0,1
+sd_ca,1997,97.48084,1.0,1
+sd_ca,1998,91.98752,1.0,1
+sd_ca,1999,92.39695999999999,1.0,1
+sd_ca,2000,98.64092,1.0,1
+sd_ca,2001,117.714,1.0,1
+sd_ca,2002,129.656,1.0,1
+sd_ca,2003,124.77683999999999,1.0,1
+sd_ca,2004,116.38332,1.0,1
+sd_ca,2005,119.14704,1.0,1
+sd_ca,2006,128.93948,1.0,1
+sd_ca,2007,128.18884,1.0,1
+sd_ca,2008,125.45924000000001,1.0,1
+sd_ca,2009,132.7268,1.0,1
+sd_ca,2010,130.95256,1.0,1
+sd_ca,2011,130.47488,1.0,1
+sd_ca,2012,134.05748,1.0,1
+sd_ca,2013,142.04156,1.0,1
+sd_ca,2014,156.20136,1.0,1
+sd_ca,2015,157.36144,1.0,1
+sd_ca,2016,150.74215999999998,1.0,1
+sd_ca,2017,157.6344,1.0,1
+sd_ca,2018,163.4348,1.0,1
+sd_ca,2019,166.71032,1.0,1
+sd_ca,2020,175.30856,1.0,1
+sd_ca,2021,191.78852,1.0,1
+sd_ca,2022,218.12915999999998,1.0,1
+sd_ca,2023,239.14708,1.0,1
+sd_ca,2024,255.38819999999996,1.0,1

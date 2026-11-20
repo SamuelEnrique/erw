@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate pair_flow, region rp_cent_nw (the Central region to the Northwest)
+# Computed 2026-11-19T11:05:22Z by warehouse/analysis/findings/deep/trade.py (pair_flow); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean hourly flow between two of EIA's regions, in its standing direction over 2019 to 2025 (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_region_pair_hourly
+region,year,value,n_observations,full_year
+rp_cent_nw,2018,43.46950804806166,4411.0,0
+rp_cent_nw,2019,7.1628995433789955,8760.0,1
+rp_cent_nw,2020,54.63957194899818,8784.0,1
+rp_cent_nw,2021,263.3892694063927,8760.0,1
+rp_cent_nw,2022,222.42819634703196,8760.0,1
+rp_cent_nw,2023,233.44819690898683,8735.0,1
+rp_cent_nw,2024,188.91006375227687,8784.0,1
+rp_cent_nw,2025,253.99531910035392,8759.0,1
+rp_cent_nw,2026,101.46098095398618,5933.0,0
