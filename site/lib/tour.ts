@@ -106,7 +106,7 @@ export const NEW_STOPS: Stop[] = [
     headings: ["Every figure, as printed", "The publishers"],
   },
   {
-    href: "/states", title: "Every state", seconds: 35, landed: false,
+    href: "/states", title: "Every state", seconds: 35, landed: true,
     line: "One state, or two side by side: what it runs on and how that changed since 2001, what its homes, businesses and industry pay, what is built and coming, and who operates its grid.",
     look: "Read \"What it runs on\", then \"What its homes, businesses and industry buy and pay\".",
     headings: ["What it runs on", "What its homes, businesses and industry buy and pay"],
