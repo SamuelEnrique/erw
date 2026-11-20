@@ -1,0 +1,192 @@
+# The codebook's metadata of table statat_austria_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: statat_austria_electricity_annual
+family: other_sources
+shape: series
+row: One year's value of one item of Austria's electricity balance (trade, transformation input and output by plant type,
+  owner and fuel, final energy use by sector, energy sector use by branch), from Statistics Austria's energy balances.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y; 1970 to 2024.
+vintage_rule: Rewritten whole as one snapshot by each run from the saved spreadsheet; vintage is the file's Last-Modified.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: statat:energy_balances_1970_2024 STATISTIK AUSTRIA, Energy balances Austria 1970-2024, sheet Electricity
+  url: ''
+cite: Statistics Austria (Statistik Austria). Energy balances Austria 1970-2024, sheet Electricity. Via the Energy Research
+  Warehouse (ERW), table `statat_austria_electricity_annual`.
+method: docs/methods/statat_austria_electricity_annual.md
+header_title: 'Statistics Austria, Energy balances Austria 1970-2024, sheet Electricity, its blocks in MWh: the balance items,
+  the transformation input and output by plant type, owner and fuel, final energy use by sector and the energy sector''s use
+  by branch, each year from 1970 to 2024 (session 2764)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity statat_ele:at (a total), statat_ele:<plant>[:<owner>[:<fuel>[:<sub-fuel>]]],
+  statat_ele:sector:<sector> or statat_ele:branch:<branch>; variable the balance item; unit MWh (the sheet''s own MWh blocks,
+  nothing converted); ts_utc the year''s first day; freq P1Y; geo AT; node the sheet''s labels. Gross inland consumption of
+  electricity is its net imports; generation is the transformation output.'
+read:
+  date: '2026-11-20'
+  rows: 6675
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: statat_ele:at (a total), statat_ele:<plant>[:<owner>[:<fuel>[:<sub-fuel>]]], statat_ele:sector:<sector> or statat_ele:branch:<branch>
+  type: text
+  values:
+    distinct: 117
+    examples:
+    - statat_ele:at
+    - statat_ele:branch:blast_furnaces
+    - statat_ele:branch:coke_ovens
+    - statat_ele:branch:electricity_chp_and_heat_plants
+    - statat_ele:branch:oil_and_gas_extraction
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 55
+    earliest: '1970-01-01T00:00:00Z'
+    latest: '2024-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 4246
+    lowest: -6779832.094
+    highest: 78753844.014
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 6675
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 6675
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: AT on every row
+  type: text
+  values:
+    list:
+      AT: 6675
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 6675
+- name: node
+  shared: true
+  particular: The sheet's labels joined, not a pricing node
+  type: text
+  values:
+    distinct: 124
+    examples:
+    - Energy sector use
+    - Energy sector use / Blast furnaces
+    - Energy sector use / Coke ovens
+    - Energy sector use / Electricity, CHP and heat plants
+    - Energy sector use / Oil and gas extraction
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      statat:energy_balances_1970_2024: 6675
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.statistik.at/fileadmin/pages/99/energy_balances_austria_1970-2024_data.ods: 6675
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T23:33:09Z': 6675
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The spreadsheet's Last-Modified (UTC)
+  type: utc time
+  values:
+    list:
+      '2025-11-07T08:00:30Z': 6675
+  missing_cells: 0
+variables:
+- name: energy_sector_use
+  label: The energy sector's use, by branch
+  unit: MWh
+  rows: 185
+  first: '1970-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: exports
+  label: Exports of electricity
+  unit: MWh
+  rows: 55
+  first: '1970-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: final_energy_use
+  label: Final energy use, by sector
+  unit: MWh
+  rows: 1265
+  first: '1970-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: gross_inland_consumption
+  label: Gross inland consumption of electricity (its net imports)
+  unit: MWh
+  rows: 55
+  first: '1970-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: imports
+  label: Imports of electricity
+  unit: MWh
+  rows: 55
+  first: '1970-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: transformation_input
+  label: Electricity used as transformation input
+  unit: MWh
+  rows: 165
+  first: '1970-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: transformation_output
+  label: 'Transformation output: electricity generated, by plant type, owner and fuel'
+  unit: MWh
+  rows: 4840
+  first: '1970-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: transport_losses
+  label: Transport losses
+  unit: MWh
+  rows: 55
+  first: '1970-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

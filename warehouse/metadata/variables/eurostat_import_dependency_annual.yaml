@@ -1,0 +1,207 @@
+# The codebook's metadata of table eurostat_import_dependency_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_import_dependency_annual
+family: eurostat
+shape: series
+row: One European country's (or the EU's) import dependency for one fuel (SIEC product) in one year.
+time: ts_utc is the year's 1 January at 00:00:00Z, a label for the calendar year (freq P1Y).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised figure replaces the old; vintage is not filled.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eurostat:nrg_ind_id Eurostat, Energy imports dependency (nrg_ind_id)
+  url: https://ec.europa.eu/eurostat/databrowser/view/nrg_ind_id/default/table
+cite: Eurostat (Statistical Office of the European Union). Energy imports dependency (nrg_ind_id). Via the Energy Research
+  Warehouse (ERW), table `eurostat_import_dependency_annual`.
+method: docs/methods/eurostat_import_dependency_annual.md
+header_title: Eurostat, energy import dependency by product (nrg_ind_id), 1990 to 2024 (session 2790)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_import_dependency:<geo>:<SIEC>; variable import_dependency;
+  unit pct (net imports over gross available energy, times 100; negative for a net exporter); ts_utc the year''s 1 January;
+  freq P1Y; geo ISO alpha-2 (EL is GR), blank for EU27_2020; node the SIEC product''s name; x_siec Eurostat''s product code.'
+read:
+  date: '2026-11-20'
+  rows: 16627
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eurostat_import_dependency:<geo>:<SIEC>
+  type: text
+  values:
+    distinct: 507
+    examples:
+    - eurostat_import_dependency:AL:C0000X0350-0370
+    - eurostat_import_dependency:AL:C0110
+    - eurostat_import_dependency:AL:C0121
+    - eurostat_import_dependency:AL:C0129
+    - eurostat_import_dependency:AL:C0210
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 35
+    earliest: '1990-01-01T00:00:00Z'
+    latest: '2024-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -31930.25
+    highest: 3600.913
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      pct: 16627
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 16627
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
+  type: text
+  values:
+    distinct: 38
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 455
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 16627
+- name: node
+  shared: true
+  particular: <geo> import dependency, <the SIEC product's name>, not a pricing node
+  type: text
+  values:
+    distinct: 507
+    examples:
+    - AL import dependency, Anthracite
+    - AL import dependency, Coking coal
+    - AL import dependency, Crude oil
+    - AL import dependency, Lignite
+    - AL import dependency, Natural gas
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:nrg_ind_id: 16627
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nrg_ind_id/A...?format=SDMX-CSV&compressed=false: 16627
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-26T02:04:16Z': 16627
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 16627
+- name: x_geo_code
+  label: Eurostat's geo code of the country or aggregate
+  unit: none
+  type: text
+  values:
+    distinct: 39
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector eurostat_import_dependency.py
+- name: x_siec
+  label: Eurostat's SIEC product code of the fuel
+  unit: none
+  type: text
+  values:
+    list:
+      C0000X0350-0370: 1279
+      C0110: 1279
+      C0121: 1279
+      C0129: 1279
+      C0210: 1279
+      C0220: 1279
+      G3000: 1279
+      O4000XBIO: 1279
+      O4100_TOT: 1279
+      O4200: 1279
+      P1100: 1279
+      S2000: 1279
+      TOTAL: 1279
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector eurostat_import_dependency.py
+- name: x_flag
+  label: Eurostat's flag of the observation
+  unit: none
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 16627
+  missing_meaning: 'Not filled: no cell holds a value'
+  source_name: null
+  documented_by: connector eurostat_import_dependency.py
+- name: x_conf_status
+  label: Eurostat's confidentiality status of the observation
+  unit: none
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 16627
+  missing_meaning: 'Not filled: no cell holds a value'
+  source_name: null
+  documented_by: connector eurostat_import_dependency.py
+variables:
+- name: import_dependency
+  label: Net imports over gross available energy, times 100; negative for a net exporter
+  unit: pct
+  rows: 16627
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

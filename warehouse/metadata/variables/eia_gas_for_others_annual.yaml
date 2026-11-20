@@ -1,0 +1,187 @@
+# The codebook's metadata of table eia_gas_for_others_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_gas_for_others_annual
+family: eia
+shape: series
+row: One state's (or the nation's) yearly natural gas delivered for the account of others (customer choice and transportation
+  gas) to one sector, as a volume or as a share of the sector's deliveries.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:natural-gas/cons/acct U.S. Energy Information Administration, Natural Gas Annual, natural gas delivered for the
+    account of others (API v2, route natural-gas/cons/acct)
+  url: https://api.eia.gov/v2/natural-gas/cons/acct/
+cite: U.S. Energy Information Administration (EIA). Natural Gas Annual, natural gas delivered for the account of others (API
+  v2). Via the Energy Research Warehouse (ERW), table `eia_gas_for_others_annual`.
+method: docs/methods/eia_gas_for_others_annual.md
+header_title: EIA, natural gas delivered for the account of others (customer choice and transportation gas), by state and
+  sector, a year (session 2377)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_gas_for_others:<series>; variable residential_for_others,
+  commercial_for_others, industrial_for_others (MMcf) or residential_share, commercial_share, industrial_share (ratio, EIA''s
+  percent divided by 100); ts_utc the year''s 1 January; freq P1Y; geo US or US-<state>; node EIA''s series description. The
+  states are parts of the U.S.: a sum takes one level.'
+read:
+  date: '2026-11-20'
+  rows: 9245
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia_gas_for_others:<EIA series id>
+  type: text
+  values:
+    distinct: 269
+    examples:
+    - eia_gas_for_others:NA1502_NUS_2
+    - eia_gas_for_others:NA1502_SAL_2
+    - eia_gas_for_others:NA1502_SAZ_2
+    - eia_gas_for_others:NA1502_SCA_2
+    - eia_gas_for_others:NA1502_SCO_2
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 43
+    earliest: '1982-01-01T00:00:00Z'
+    latest: '2024-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 7415212.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MMcf: 5249
+      ratio: 3996
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 9245
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state>, or US for the nation
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 9245
+- name: node
+  shared: true
+  particular: EIA's series description
+  type: text
+  values:
+    distinct: 269
+    examples:
+    - Alabama Natural Gas % of Total Commercial Delivered for the Account of Others (%)
+    - Alabama Natural Gas % of Total Industrial Delivered for the Account of Others (%)
+    - Alabama Natural Gas % of Total Residential Consumers Delivered for the Account of Others (%)
+    - Alabama Natural Gas Delivered to Commercial Consumers for the Account of Others (MMcf)
+    - Alabama Natural Gas Delivered to Industrial Consumers for the Account of Others (MMcf)
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:natural-gas/cons/acct: 9245
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/natural-gas/cons/acct/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5Bprocess%5D%5B%5D=VRT&facets%5Bprocess%5D%5B%5D=VF8&facets%5Bprocess%5D%5B%5D=VFT&facets%5Bprocess%5D%5B%5D=VF9&facets%5Bprocess%5D%5B%5D=VF6&facets%5Bprocess%5D%5B%5D=VFI&start=1982
+      : 9245
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T09:01:59Z': 4988
+      '2026-10-24T09:02:05Z': 4257
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 9245
+variables:
+- name: commercial_for_others
+  label: Commercial gas delivered for the account of others, million cubic feet
+  unit: MMcf
+  rows: 1888
+  first: '1987-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: commercial_share
+  label: Share of commercial deliveries made for the account of others, a ratio (EIA's percent over 100)
+  unit: ratio
+  rows: 1753
+  first: '1989-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: industrial_for_others
+  label: Industrial gas delivered for the account of others, million cubic feet
+  unit: MMcf
+  rows: 2124
+  first: '1982-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: industrial_share
+  label: Share of industrial deliveries made for the account of others, a ratio (EIA's percent over 100)
+  unit: ratio
+  rows: 1767
+  first: '1989-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: residential_for_others
+  label: Residential gas delivered for the account of others, million cubic feet
+  unit: MMcf
+  rows: 1237
+  first: '1988-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: residential_share
+  label: Share of residential deliveries made for the account of others, a ratio (EIA's percent over 100; whole percents)
+  unit: ratio
+  rows: 476
+  first: '2007-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

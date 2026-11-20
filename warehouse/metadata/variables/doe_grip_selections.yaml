@@ -1,0 +1,255 @@
+# The codebook's metadata of table doe_grip_selections (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: doe_grip_selections
+family: doe
+shape: events
+row: One project selected in the first two rounds of DOE's Grid Resilience and Innovation Partnerships (GRIP) program, as
+  the Office of Electricity's GRIP Program Projects page lists it.
+time: No time column; event_date is the round's announcement date for the program, as the program's page prints it.
+vintage_rule: A snapshot, written whole each run, all four pages asked fresh; no vintage column.
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: doe:grip_selections U.S. Department of Energy, Office of Electricity, GRIP Program Projects
+  url: https://www.energy.gov/oe/grid-resilience-and-innovation-partnerships-grip-program-projects
+cite: U.S. Department of Energy (DOE). Grid Resilience and Innovation Partnerships (GRIP) Program Projects (Office of Electricity).
+  Via the Energy Research Warehouse (ERW), table `doe_grip_selections`.
+method: docs/methods/doe_grip_selections.md
+header_title: 'U.S. Department of Energy, Office of Electricity, Grid Resilience and Innovation Partnerships (GRIP) Program
+  Projects: each project selected in the first two rounds (session 2050)'
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id doe_grip:<round>:<12 hex of the SHA-1 of program|applicant|project>;
+  event_date the round''s announcement as the program''s page prints it; event_type grip_selection; parties the applicant;
+  status DOE''s; x_federal_usd and x_recipient_usd the cost shares in USD.'
+read:
+  date: '2026-11-20'
+  rows: 105
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  particular: doe_grip:<round>:<12 hex of the SHA-1 of program|applicant|project>, the ERW's own (DOE gives none)
+  type: text
+  values:
+    distinct: 105
+    examples:
+    - doe_grip:first:0ab9829b115d
+    - doe_grip:first:0d5c5da6f61c
+    - doe_grip:first:0da2c3abc8a7
+    - doe_grip:first:14d939c1195c
+    - doe_grip:first:175192a11973
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    list:
+      '2023-10-18': 58
+      '2024-08-06': 8
+      '2024-10-18': 39
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: Always grip_selection
+  type: text
+  values:
+    list:
+      grip_selection: 105
+  missing_cells: 0
+- name: parties
+  shared: true
+  particular: The applicant or selectee
+  type: text
+  values:
+    distinct: 100
+    examples:
+    - Alaska Energy Authority
+    - Algonquin Power Fund America Inc.
+    - Allete Inc.
+    - Ameresco, Inc.
+    - American Electric Power Service Corporation
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 105
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 105
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 105
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 105
+- name: status
+  shared: true
+  particular: 'DOE''s status, lower-cased: awarded, selected or withdrawn'
+  type: text
+  values:
+    list:
+      awarded: 60
+      selected: 44
+      withdrawn: 1
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      doe:grip_selections: 105
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.energy.gov/oe/grid-resilience-and-innovation-partnerships-grip-program-projects: 105
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T19:08:05Z': 105
+  missing_cells: 0
+- name: x_project
+  label: The project's title as DOE lists it
+  unit: none
+  type: text
+  values:
+    distinct: 105
+    examples:
+    - AEP Advance Distribution Management System and Distributed Energy Resource Management System (ADMS &amp; DERMS) Initiative
+    - AI Grid-Enabled Transportation Electrification in America’s Automotive Heartland
+    - Accelerating Building Thermal Electrification While Managing System Impacts
+    - Accelerating Clean Energy Resiliency for the Grid and California Water Utilities
+    - Accelerating and Deploying Grid-Edge Computing
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Project
+  documented_by: connector doe_grip.py
+- name: x_program
+  label: 'The GRIP program: Grid Resilience Utility and Industry Grants, Smart Grid Grants or Grid Innovation Program'
+  unit: none
+  type: text
+  values:
+    list:
+      Grid Innovation Program: 16
+      Grid Resilience Utility and Industry Grants: 31
+      Smart Grid Grants: 58
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: program
+  documented_by: connector doe_grip.py; data
+- name: x_round
+  label: 'The selection round: first or second'
+  unit: none
+  type: text
+  values:
+    list:
+      first: 58
+      second: 47
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Round
+  documented_by: connector doe_grip.py; data
+- name: x_federal_usd
+  label: The federal cost share
+  unit: USD
+  type: integer
+  values:
+    distinct: 90
+    lowest: 1116174
+    highest: 700000000
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Federal Cost Share
+  documented_by: header; connector doe_grip.py
+- name: x_recipient_usd
+  label: The recipient's cost share
+  unit: USD
+  type: integer
+  values:
+    distinct: 104
+    lowest: 1116174
+    highest: 3209440351
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Recipient Cost Share
+  documented_by: header; connector doe_grip.py
+- name: x_states
+  label: The postal codes of the project's states, joined by ';'
+  unit: none
+  type: text
+  values:
+    distinct: 65
+    examples:
+    - AK
+    - AL
+    - AL;GA;KY;MO;MS;NC;TN;VA
+    - AR
+    - AR;IN;LA;OH;OK;TN;VA;WV
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Locations
+  documented_by: method doe_grip_selections.md; connector doe_grip.py
+- name: x_state_names
+  label: DOE's names of the project's states, as listed
+  unit: none
+  type: text
+  values:
+    distinct: 65
+    examples:
+    - Alabama
+    - Alabama, Georgia, Kentucky, Missouri, Mississippi, North Carolina, Tennessee, Virginia
+    - Alaska
+    - Arizona
+    - Arizona, California, Colorado, Idaho, Kansas, Minnesota, Montana, North Dakota, Nebraska, New Mexico, Oklahoma, Oregon,
+      South Dakota, Utah, Washington, Wyoming
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: StateFull
+  documented_by: method doe_grip_selections.md; connector doe_grip.py
+- name: x_announced_on
+  label: The round's announcement date for the program (the same as event_date)
+  unit: none
+  type: date
+  values:
+    list:
+      '2023-10-18': 58
+      '2024-08-06': 8
+      '2024-10-18': 39
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method doe_grip_selections.md
+- name: x_dates_from
+  label: The program page the announcement date was read from
+  unit: none
+  type: text
+  values:
+    list:
+      https://www.energy.gov/oe/grid-innovation-program: 16
+      https://www.energy.gov/oe/grid-resilience-utility-and-industry-grants: 31
+      https://www.energy.gov/oe/smart-grid-grants: 58
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method doe_grip_selections.md; connector doe_grip.py
+second_look: null

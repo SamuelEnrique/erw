@@ -1,0 +1,233 @@
+# The codebook's metadata of table smard_germany_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: smard_germany_monthly
+family: other_sources
+shape: series
+row: Germany's actual generation from one source, or its grid load, in one month, from the Bundesnetzagentur's SMARD.
+time: ts_utc is the month's first day (SMARD's Start date, a month in German time); freq P1M; from 2015-01.
+vintage_rule: Rewritten whole as one snapshot by each run from SMARD's one download; vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: smard:market_data_month Bundesnetzagentur, SMARD market data
+  url: https://www.smard.de/en/downloadcenter/download-market-data
+cite: 'Bundesnetzagentur (SMARD). SMARD market data: actual generation and grid load. Via the Energy Research Warehouse (ERW),
+  table `smard_germany_monthly`.'
+method: docs/methods/smard_germany_monthly.md
+header_title: Bundesnetzagentur, SMARD, Germany's actual generation by source and grid load, a month, 2015-01 to 2026-09 (session
+  2230)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity smard:de; variable generation_<source> (biomass, hydropower,
+  wind_offshore, wind_onshore, photovoltaics, other_renewable, nuclear, lignite, hard_coal, fossil_gas, hydro_pumped_storage,
+  other_conventional) or grid_load; unit MWh; ts_utc the month''s first day (SMARD''s Start date, a month in German time);
+  freq P1M; geo DE; node the column as SMARD writes it.'
+read:
+  date: '2026-11-20'
+  rows: 1800
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: smard:de on every row
+  type: text
+  values:
+    list:
+      smard:de: 1800
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 141
+    earliest: '2015-01-01T00:00:00Z'
+    latest: '2026-09-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1793
+    lowest: 0.0
+    highest: 47418616.09
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 1800
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 1800
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: DE on every row
+  type: text
+  values:
+    list:
+      DE: 1800
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1800
+- name: node
+  shared: true
+  particular: The column as SMARD writes it, not a pricing node
+  type: text
+  values:
+    list:
+      Biomass: 141
+      Fossil gas: 141
+      Hard coal: 141
+      Hydro pumped storage: 141
+      Hydropower: 141
+      Lignite: 141
+      Nuclear: 108
+      Other conventional: 141
+      Other renewable: 141
+      Photovoltaics: 141
+      Wind offshore: 141
+      Wind onshore: 141
+      grid load: 141
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      smard:market_data_month: 1800
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.smard.de/nip-download-manager/nip/download/market-data: 1800
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T02:45:34Z': 1800
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1800
+- name: x_file
+  label: The file of SMARD's download the value is read from (actual generation or actual consumption)
+  unit: none
+  type: text
+  values:
+    list:
+      Actual_consumption_201501010000_202610240445_Month_2.csv: 141
+      Actual_generation_201501010000_202610240445_Month_1.csv: 1659
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector smard_germany.py; data
+variables:
+- name: generation_biomass
+  label: Actual generation from biomass
+  unit: MWh
+  rows: 141
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: generation_fossil_gas
+  label: Actual generation from fossil gas
+  unit: MWh
+  rows: 141
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: generation_hard_coal
+  label: Actual generation from hard coal
+  unit: MWh
+  rows: 141
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: generation_hydro_pumped_storage
+  label: Actual generation from pumped storage hydro
+  unit: MWh
+  rows: 141
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: generation_hydropower
+  label: Actual generation from hydropower
+  unit: MWh
+  rows: 141
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: generation_lignite
+  label: Actual generation from lignite
+  unit: MWh
+  rows: 141
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: generation_nuclear
+  label: Actual generation from nuclear
+  unit: MWh
+  rows: 108
+  first: '2015-01-01T00:00:00Z'
+  last: '2023-12-01T00:00:00Z'
+- name: generation_other_conventional
+  label: Actual generation from other conventional sources
+  unit: MWh
+  rows: 141
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: generation_other_renewable
+  label: Actual generation from other renewables
+  unit: MWh
+  rows: 141
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: generation_photovoltaics
+  label: Actual generation from photovoltaics
+  unit: MWh
+  rows: 141
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: generation_wind_offshore
+  label: Actual generation from offshore wind
+  unit: MWh
+  rows: 141
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: generation_wind_onshore
+  label: Actual generation from onshore wind
+  unit: MWh
+  rows: 141
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: grid_load
+  label: Grid load
+  unit: MWh
+  rows: 141
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+second_look: null

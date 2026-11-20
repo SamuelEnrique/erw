@@ -1,0 +1,491 @@
+# The codebook's metadata of table large_load_public (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: large_load_public
+family: large
+shape: events
+row: One figure (megawatts or a duration) that a public document (a regulatory filing, an SEC filing, or an ERCOT or CAISO
+  document) states about large loads for one entity, as a fact with a link and no quoted text.
+time: event_date is the document's date (event_date_basis 'document').
+vintage_rule: Rewritten whole by each run of the builder (warehouse/derived/large_load_public.py) from large_load_statements.
+keys:
+- event_id
+license: public
+tier: model_extracted
+interval: event
+source:
+- name: erw:large_load_public ERW derived table, docs/methods/large_load_public.md, https://github.com/SamuelEnrique/erw/blob/main/docs/methods/large_load_public.md;
+    each row's source_url is the regulator's, the SEC's or the publisher's own copy of the document
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/large_load_public.md
+cite: Energy Research Warehouse (ERW), derived. The large-load statements whose source document is public, as facts with a
+  link (warehouse/derived/large_load_public.py). Via the Energy Research Warehouse (ERW), table `large_load_public`.
+method: docs/methods/large_load_public.md
+header_title: the large-load statements whose source document is public, as facts with a link and no quoted text (session
+  255)
+header_shape: 'Shape: events (docs/datastandard.md v0), event_type large_load_statement; one row a figure a public document
+  states. parties: the entity. mw (row_kind mw; a range in mw_low and mw_high) or duration_as_stated (row_kind wait: the figure
+  as written, a number and its unit). status and stage_class: the ERW''s class of the stage, one of five, or not classed;
+  not the document''s words. source_url, document_title, page: where it stands. public_basis: SEC filing, public regulatory
+  filing, or publisher''s terms read in session 205. statement_id: the row of large_load_statements it comes from.'
+read:
+  date: '2026-11-20'
+  rows: 341
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: 341
+    examples:
+    - llpub:00c050e1541571db
+    - llpub:02493cc33ad7e869
+    - llpub:0326c00e3ddc209c
+    - llpub:0470dd02c2c3c88a
+    - llpub:047deb4cc7872817
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    distinct: 85
+    earliest: '2024-05-01'
+    latest: '2026-09-30'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: Always large_load_statement
+  type: text
+  values:
+    list:
+      large_load_statement: 341
+  missing_cells: 0
+- name: parties
+  shared: true
+  particular: The entity, as the statements table names it
+  type: text
+  values:
+    distinct: 67
+    examples:
+    - AES Indiana
+    - Amazon Data Services, Inc. (about Dominion Energy Virginia)
+    - Ameren Missouri (Union Electric Company)
+    - American Electric Power
+    - Appalachian Power (AEP)
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 341
+- name: mw
+  shared: true
+  particular: Megawatts on a row_kind mw row
+  type: number
+  values:
+    distinct: 170
+    lowest: 5.32039
+    highest: 474000.0
+  missing_cells: 101
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 341
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 341
+- name: status
+  shared: true
+  particular: The stage as one of the ERW's five classes, or not classed; not the document's words
+  type: text
+  values:
+    list:
+      1 request or inquiry: 49
+      2 study or engineering: 52
+      3 financial commitment: 2
+      4 signed service agreement: 27
+      5 under construction or energized: 34
+      not classed: 177
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:large_load_public: 341
+  missing_cells: 0
+- name: source_url
+  shared: true
+  particular: The regulator's, the SEC's or the publisher's own copy of the document
+  type: text
+  values:
+    distinct: 124
+    examples:
+    - https://apps.psc.wi.gov/ERF/ERFview/viewdoc.aspx?docid=587405
+    - https://dms.psc.sc.gov/Attachments/Matter/930ac334-5261-40c7-b503-04b9a80ae966
+    - https://dms.psc.sc.gov/Attachments/Matter/de0c7c13-0d78-48ab-ac99-0589702ddad9
+    - https://docs.cpuc.ca.gov/PublishedDocs/Efile/G000/M556/K897/556897173.PDF
+    - https://docs.cpuc.ca.gov/PublishedDocs/Efile/G000/M604/K023/604023792.PDF
+  missing_cells: 0
+- name: entity_group
+  label: The group the entity is counted under (67 entities in 55 groups), as the builder names it
+  unit: none
+  type: text
+  values:
+    distinct: 55
+    examples:
+    - AES
+    - Alliant Energy
+    - Amazon Data Services (about Dominion Energy Virginia)
+    - Ameren
+    - American Electric Power
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method large_load_public.md
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      association of utilities: 7
+      electric cooperative: 3
+      federal regulator: 2
+      generation and transmission cooperative: 14
+      grid operator: 34
+      large load customer: 8
+      municipal utility: 2
+      operator: 21
+      public power district: 2
+      regulator: 9
+      state agency: 13
+      state regulator: 1
+      utility: 223
+      utility group: 2
+  missing_cells: 0
+- name: row_kind
+  label: 'What the row states: mw (megawatts) or wait (a duration)'
+  unit: none
+  type: text
+  values:
+    list:
+      mw: 250
+      wait: 91
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method large_load_public.md
+- name: mw_low
+  label: The low end of a megawatt range the document states
+  unit: MW
+  type: number
+  values:
+    list:
+      '1000.0': 1
+      '1800.0': 1
+      '2750.0': 1
+      '3000.0': 1
+      '350.0': 1
+      '470.0': 1
+      '500.0': 1
+      '5000.0': 1
+      '800.0': 1
+      '860.0': 1
+  missing_cells: 331
+  missing_meaning: Not a range (or not a megawatt row)
+  source_name: null
+  documented_by: header; method large_load_public.md
+- name: mw_high
+  label: The high end of a megawatt range the document states
+  unit: MW
+  type: number
+  values:
+    list:
+      '1100.0': 1
+      '1630.0': 1
+      '1950.0': 1
+      '2000.0': 1
+      '2600.0': 1
+      '4000.0': 1
+      '4300.0': 1
+      '6000.0': 1
+      '6250.0': 1
+      '700.0': 1
+  missing_cells: 331
+  missing_meaning: Not a range (or not a megawatt row)
+  source_name: null
+  documented_by: header; method large_load_public.md
+- name: duration_as_stated
+  label: 'A duration as written: a number and its unit with its bound (''up to'', ''at least'', ''approximately'')'
+  unit: none
+  type: text
+  values:
+    distinct: 80
+    examples:
+    - 1,021 (~3 years)
+    - 1,285 calendar days
+    - 1-5 years
+    - 12 months
+    - 12-13 months
+  missing_cells: 250
+  missing_meaning: A megawatt row
+  source_name: null
+  documented_by: header; method large_load_public.md
+- name: wait_basis
+  label: 'The ERW''s reading of a duration: measured, expected, a general statement, or what happened with no duration written'
+  unit: none
+  type: text
+  values:
+    list:
+      expected: 56
+      general statement: 21
+      measured: 11
+      what happened, no duration written: 3
+  missing_cells: 250
+  missing_meaning: A megawatt row
+  source_name: null
+  documented_by: method large_load_public.md; data
+- name: wait_counted
+  label: 'Whether the duration is a large load''s wait at all: yes, or no with the reason'
+  unit: none
+  type: text
+  values:
+    list:
+      'no: a generation or equipment lead time': 3
+      'no: a rate, an interval or a difference, not a duration': 1
+      'no: a regulator''s approval time': 13
+      'yes': 74
+  missing_cells: 250
+  missing_meaning: A megawatt row
+  source_name: null
+  documented_by: header; method large_load_public.md
+- name: load_scope
+  label: 'What a duration covers: large loads, or every distribution project'
+  unit: none
+  type: text
+  values:
+    list:
+      all distribution projects, not large loads: 10
+      'large loads (or every load at transmission voltage: the notes say which)': 81
+  missing_cells: 250
+  missing_meaning: A megawatt row
+  source_name: null
+  documented_by: header; method large_load_public.md
+- name: stage_class
+  label: The stage as one of the ERW's five classes (request or inquiry, study or engineering, financial commitment, signed
+    service agreement, under construction or energized), 'none' or 'not classed'; not the document's words
+  unit: none
+  type: text
+  values:
+    list:
+      1 request or inquiry: 49
+      2 study or engineering: 52
+      3 financial commitment: 2
+      4 signed service agreement: 27
+      5 under construction or energized: 34
+      none: 124
+      not classed: 53
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method large_load_public.md; data
+- name: document_title
+  label: The document's title
+  unit: none
+  type: text
+  values:
+    distinct: 128
+    examples:
+    - 2025 ERCOT System Planning Long-Term Hourly Peak Demand and Energy Forecast
+    - '2025 IEPR: Preliminary Data Center Forecast (California Energy Commission staff presentation of November 13, 2025,
+      docket 25-IEPR-03, TN 267165)'
+    - '2026 Carolinas Resource Plan, Appendix D: Load Forecast (Duke Energy Carolinas and Duke Energy Progress, SCPSC Docket
+      2026-10-E)'
+    - AES Indiana 2025 Integrated Resource Plan, Volume I
+    - Alliant Energy Corporation Form 10-Q for the quarter ended June 30, 2026 (filed July 31, 2026)
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method large_load_public.md
+- name: document_type
+  label: The document's type as the statements table holds it (commission filing, SEC filing, earnings presentation and the
+    others)
+  unit: none
+  type: text
+  values:
+    list:
+      SEC filing: 12
+      commission filing: 108
+      earnings presentation: 39
+      earnings release: 16
+      integrated resource plan: 14
+      large load tariff filing: 49
+      load forecast report: 33
+      operator report: 50
+      rate case testimony: 16
+      sec filing: 4
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method large_load_public.md; data
+- name: page
+  label: The page of the document the figure stands on
+  unit: none
+  type: integer
+  values:
+    distinct: 53
+    lowest: 1
+    highest: 132
+  missing_cells: 104
+  missing_meaning: The statements table gives no page
+  source_name: null
+  documented_by: header; method large_load_public.md
+- name: event_date_basis
+  label: 'What event_date is: always document (the document''s date)'
+  unit: none
+  type: text
+  values:
+    list:
+      document: 341
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method large_load_public.md
+- name: document_class
+  label: 'How the document was classed for its license: SEC filing, regulatory filing, or read publisher''s document'
+  unit: none
+  type: text
+  values:
+    list:
+      SEC filing: 71
+      read publisher's document: 31
+      regulatory filing: 239
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method large_load_public.md
+- name: public_basis
+  label: 'Why the row is public: SEC filing, public regulatory filing, or publisher''s terms read in session 205'
+  unit: none
+  type: text
+  values:
+    list:
+      SEC filing: 71
+      public regulatory filing: 239
+      publisher's terms read in session 205: 31
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method large_load_public.md
+- name: regulator
+  label: The regulator whose docket holds the document
+  unit: none
+  type: text
+  values:
+    list:
+      California Energy Commission: 21
+      California Public Utilities Commission: 22
+      Colorado Public Utilities Commission: 5
+      Federal Energy Regulatory Commission: 2
+      Florida Public Service Commission: 11
+      Georgia Public Service Commission: 16
+      Indiana Utility Regulatory Commission: 15
+      Kentucky Public Service Commission: 3
+      Louisiana Public Service Commission: 3
+      Maryland Public Service Commission: 1
+      Michigan Public Service Commission: 1
+      Missouri Public Service Commission: 15
+      Nebraska Power Review Board: 9
+      New York State Department of Public Service: 11
+      Pennsylvania Public Utility Commission: 15
+      Public Service Commission of South Carolina: 10
+      Public Service Commission of Utah: 1
+      Public Service Commission of Wisconsin: 1
+      Public Utility Commission of Texas: 50
+      South Dakota Public Utilities Commission: 1
+      Virginia State Corporation Commission: 26
+  missing_cells: 102
+  missing_meaning: Not a regulatory filing (an SEC filing or an operator's document)
+  source_name: null
+  documented_by: method large_load_public.md
+- name: state
+  label: The regulator's state for a regulatory filing; else the states the entity serves, written by hand in the code from
+    its service territory
+  unit: none
+  type: text
+  values:
+    distinct: 26
+    examples:
+    - AL, GA, MS
+    - AR, IN, KY, LA, MI, OH, OK, TN, TX, VA, WV
+    - AZ
+    - CA
+    - CO
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method large_load_public.md
+- name: grid
+  label: The grid of the page the entity is in (caiso, ercot, miso, nyiso, pjm, spp, more than one, none of the seven)
+  unit: none
+  type: text
+  values:
+    list:
+      caiso: 48
+      ercot: 67
+      miso: 43
+      more than one: 13
+      none of the seven: 74
+      nyiso: 5
+      pjm: 72
+      spp: 19
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method large_load_public.md; data
+- name: source_flag
+  label: The statements table's flag where the document speaks of another entity
+  unit: none
+  type: text
+  values:
+    list:
+      'a statement about another entity: Dominion Energy Virginia': 8
+      'a statement about another entity: New York ISO': 2
+      'a statement about another entity: Pacific Gas and Electric': 2
+  missing_cells: 329
+  missing_meaning: The document speaks of its own entity
+  source_name: null
+  documented_by: method large_load_public.md
+- name: statement_id
+  label: The row of large_load_statements the figure comes from
+  unit: none
+  type: text
+  values:
+    distinct: 341
+    examples:
+    - llstmt:00c050e1541571db
+    - llstmt:02493cc33ad7e869
+    - llstmt:0326c00e3ddc209c
+    - llstmt:0470dd02c2c3c88a
+    - llstmt:047deb4cc7872817
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method large_load_public.md
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-14T09:42:52Z': 341
+  missing_cells: 0
+second_look:
+- 'stage_class: the values ''none'' (124 rows) and ''not classed'' (53 rows) are told apart in the table, but the method note
+  names only ''not classed''; what ''none'' means beside it is not documented.'

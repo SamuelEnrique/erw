@@ -1,0 +1,1118 @@
+# The codebook's metadata of table utility_large_load_tariffs (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: utility_large_load_tariffs
+family: utility
+shape: series
+row: One figure (a minimum load, a demand charge, an energy charge, a term) that one utility's filed large-load schedule prints,
+  as of the schedule's effective date.
+time: ts_utc is the schedule's effective date at 00:00:00Z (a date, not an instant); freq is blank, a tariff in force from
+  that day.
+vintage_rule: The filed rows are rewritten whole from the registry (warehouse/sources/large_load_tariffs/) by each run, keeping
+  only other connectors' rows (OpenEI's, none written); schedules held for a license are named in the header and not written.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: ''
+source:
+- name: the registry warehouse/sources/large_load_tariffs/ (one file a schedule, each figure with its page and words), filled
+    by reading each commission's filed copy. No request is made by this connector.
+  url: ''
+cite: the state commissions (filed tariffs), read into the ERW's registry. Large loads' filed tariffs (warehouse/sources/large_load_tariffs).
+  Via the Energy Research Warehouse (ERW), table `utility_large_load_tariffs`.
+method: docs/methods/large_load_tariffs.md
+header_title: large loads' filed tariffs, one row a figure a schedule prints (session 2871, chain 147)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity filed:<EIA utility id>:<schedule>; ts_utc the schedule''s effective
+  date at 00:00:00Z; variables min_demand_mw (MW), demand_charge (USD/kW-month), demand_charge_transmission (USD/kW-month),
+  demand_charge_distribution (USD/kW-month), demand_charge_generation (USD/kW-month), energy_charge (USD/MWh), fixed_charge
+  (USD), min_contract_years (year), min_bill_pct (pct), collateral_months (month), exit_fee_months (month), demand_charge_summer
+  (USD/kW-month), demand_charge_winter (USD/kW-month), energy_charge_summer (USD/MWh), energy_charge_winter (USD/MWh), grid_charge_transmission
+  (USD/kW-month), grid_charge_substation (USD/kW-month). value is the printed figure (x_printed) in the unit, converted only
+  between units; nothing is derived. source_url is the filed document, x_page its page.'
+read:
+  date: '2026-11-20'
+  rows: 86
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: filed:<EIA utility id>:<schedule slug>
+  type: text
+  values:
+    list:
+      filed:10000:schedule_llps_large_load_power_service: 10
+      filed:12698:schedule_llps_large_load_power_service: 10
+      filed:13407:form_large_load_electric_service_agreement_llesa: 2
+      filed:13407:schedule_lgs_x_large_general_service_extra_large: 2
+      filed:13511:service_classification_no_7_large_general_service_with_time_: 3
+      filed:13573:service_classification_no_3a_large_general_service_time_of_u: 4
+      filed:13640:schedule_hv_2_large_power_dedicated_facilities_contract_serv: 4
+      filed:14006:schedule_dct_data_center_tariff_as_the_puco_s_opinion_and_or: 3
+      filed:14354:large_load_contracts_under_utah_code_title_54_chapter_26_s_b: 1
+      filed:14624:rate_schedule_no_15_large_industrial_service_with_rate_sched: 4
+      filed:14715:rate_schedule_lp_6_large_load_interconnections: 4
+      filed:15248:schedule_96_data_centers_of_20_mw_and_above: 3
+      filed:15466:schedule_tl_transmission_large_service_proposed: 1
+      filed:17543:schedule_l_25_ll_large_light_and_power_experimental_large_lo: 6
+      filed:19436:service_classification_no_11_m_large_load_customer_service_l: 9
+      filed:195:large_load_data_center_customer_contracts_under_act_2026_610: 1
+      filed:19876:rate_schedule_gs_5: 3
+      filed:20169:schedule_25_extra_large_general_service_washington: 3
+      filed:40228:schedule_lp_3_large_power_substation_direct_service: 5
+      filed:4226:service_classification_no_9_general_large_rate_ii_general_la: 4
+      filed:5416:large_load_tariff_llt_with_schedule_hlf: 3
+      filed:7140:rules_and_regulations_for_electric_service_a1_d13_and_d14_cu: 1
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2018-02-15T00:00:00Z': 2
+      '2023-04-01T00:00:00Z': 4
+      '2024-10-01T00:00:00Z': 5
+      '2025-02-01T00:00:00Z': 1
+      '2025-04-25T00:00:00Z': 6
+      '2025-05-07T00:00:00Z': 1
+      '2025-07-09T00:00:00Z': 3
+      '2026-01-01T00:00:00Z': 3
+      '2026-01-04T00:00:00Z': 9
+      '2026-02-01T00:00:00Z': 4
+      '2026-03-09T00:00:00Z': 20
+      '2026-04-01T00:00:00Z': 8
+      '2026-05-03T00:00:00Z': 1
+      '2026-05-07T00:00:00Z': 2
+      '2026-06-01T00:00:00Z': 3
+      '2026-07-01T00:00:00Z': 4
+      '2026-07-08T00:00:00Z': 3
+      '2026-10-01T00:00:00Z': 1
+      '2027-01-01T00:00:00Z': 6
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 62
+    lowest: 0.337
+    highest: 47891.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 20
+      USD: 12
+      USD/MWh: 8
+      USD/kW-month: 17
+      month: 4
+      pct: 11
+      year: 14
+  missing_cells: 0
+- name: freq
+  shared: true
+  particular: 'Not filled: a tariff is in force from its effective date'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 86
+- name: geo
+  shared: true
+  particular: US-<state> of the utility
+  type: text
+  values:
+    list:
+      US-AL: 1
+      US-CO: 1
+      US-GA: 1
+      US-MO: 29
+      US-NC: 3
+      US-NV: 4
+      US-NY: 11
+      US-OH: 3
+      US-OR: 3
+      US-PA: 4
+      US-SC: 6
+      US-UT: 1
+      US-VA: 12
+      US-WA: 7
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 86
+- name: node
+  shared: true
+  particular: The schedule's name, not a pricing node
+  type: text
+  values:
+    list:
+      Form Large Load Electric Service Agreement (LLESA): 2
+      Large Load Tariff (LLT), with Schedule HLF: 3
+      Large load contracts under Utah Code Title 54 Chapter 26 (S.B. 132 of 2025): 1
+      Large load data center customer contracts under Act 2026-610 (Code of Alabama 37-4-22.1): 1
+      Rate Schedule GS-5: 3
+      Rate Schedule LP-6, Large Load Interconnections: 4
+      Rate Schedule No. 15, Large Industrial Service, with Rate Schedule No. 94, New Large Load Service: 4
+      Rules and Regulations for Electric Service, A1, D13 and D14 (customers of 100 MW or more): 1
+      Schedule 25, Extra Large General Service - Washington: 3
+      Schedule 96, data centers of 20 MW and above: 3
+      Schedule DCT, Data Center Tariff (as the PUCO's Opinion and Order of 9 July 2025 adopts it): 3
+      Schedule HV-2, Large Power Dedicated Facilities Contract Service: 4
+      Schedule L-25-LL, Large Light and Power, Experimental Large Load Service: 6
+      Schedule LGS-X, Large General Service - Extra Large: 2
+      Schedule LLPS, Large Load Power Service: 20
+      Schedule LP-3, Large Power Substation Direct Service: 5
+      Schedule TL, Transmission Large Service (proposed): 1
+      Service Classification No. 11(M), Large Load Customer Service (LLCS): 9
+      Service Classification No. 3A, Large General Service, Time of Use Rate, delivery voltage over 60 kV: 4
+      Service Classification No. 7, Large General Service with Time-of-Use Metering, S.C. 7-4 Transmission: 3
+      Service Classification No. 9, General - Large, Rate II - General - Large - Time-of-Day: 4
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      filed:large_load_tariffs: 86
+  missing_cells: 0
+- name: source_url
+  shared: true
+  particular: The filed document's address (for New York, the Electronic Tariff System's listing of the tariff's leaves)
+  type: text
+  values:
+    list:
+      https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2026RS/SB270-enr.pdf: 1
+      https://apps.puc.state.or.us/orders/2026ords/26-309.pdf: 3
+      https://earthjustice.org/document/xcel-tariff-intervention-written-decision: 1
+      https://efis.psc.mo.gov/Document/Display/859644: 9
+      https://efis.psc.mo.gov/Document/Display/865318: 10
+      https://efis.psc.mo.gov/Document/Display/866165: 10
+      https://ets.dps.ny.gov/ets_web/search/searchShortcutEffective.cfm?companyID=3569014&serviceType=ELECTRIC&psc_num=10: 4
+      https://ets.dps.ny.gov/ets_web/search/searchShortcutEffective.cfm?companyID=3569016&serviceType=ELECTRIC&psc_num=220: 4
+      https://ets.dps.ny.gov/ets_web/search/searchShortcutEffective.cfm?companyID=3569018&serviceType=ELECTRIC&psc_num=120: 3
+      https://le.utah.gov/~2025/bills/sbillenr/SB0132.pdf: 1
+      ? https://pplelectric.com/site/-/media/PPLElectric/At-Your-Service/Docs/Current-Electric-Tariff/2026/October/402master4_posted-10-2-26.pdf
+      : 4
+      https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/220667/101841: 1
+      https://www.floridapsc.com/pscfiles/library/filings/2026/05289-2026/05289-2026.pdf: 3
+      https://www.grantpud.org/images/2026/2026-Rates/2026-Rate-Schedule-15.pdf: 4
+      https://www.myavista.com/-/media/myavista/content-documents/our-rates-and-tariffs/wa/wa_025.pdf: 3
+      https://www.myrec.coop/sites/default/files/documents/Electric%20Rates/Large%20Power%20Service%20LP-3.pdf: 5
+      https://www.novec.com/About_NOVEC/upload/Large-Power-Dedicated-Facilities-Contract-Service-HV-2-3-22-23.pdf: 4
+      ? https://www.nvenergy.com/publish/content/dam/nvenergy/brochures_arch/about-nvenergy/rates-regulatory/electric-schedules-south/LGSX_South.pdf
+      : 2
+      ? https://www.nvenergy.com/publish/content/dam/nvenergy/brochures_arch/about-nvenergy/rates-regulatory/recent-regulatory-filings/2026-irp/NPC-SPPC-Volume-2.pdf
+      : 2
+      https://www.psc.state.fl.us/library/FILINGS/2025/07142-2025/07142-2025.pdf: 3
+      https://www.santeecooper.com/Rates/_pdfs/Industrial-Wholesale/L-25-LL-FINAL.pdf: 6
+      https://www.selc.org/wp-content/uploads/2026/10/2026-10-06-Duke-Energy-LLT-Settlement.pdf: 3
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-08T04:10:32Z': 1
+      '2026-10-08T04:16:03Z': 3
+      '2026-11-12T10:50:12Z': 10
+      '2026-11-12T10:50:13Z': 19
+      '2026-11-12T11:14:13Z': 5
+      '2026-11-12T11:14:14Z': 2
+      '2026-11-12T13:27:59Z': 1
+      '2026-11-13T00:00:00Z': 8
+      '2026-11-13T05:37:53Z': 4
+      '2026-11-13T05:41:14Z': 7
+      '2026-11-18T01:44:32Z': 4
+      '2026-11-18T03:57:42Z': 4
+      '2026-11-18T04:08:45Z': 5
+      '2026-11-18T04:39:19Z': 4
+      '2026-11-18T04:44:00Z': 6
+      '2026-11-19T12:48:47Z': 3
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 86
+- name: x_eia_id
+  label: The utility's EIA-861 utility number
+  unit: none
+  type: integer
+  values:
+    list:
+      '10000': 10
+      '12698': 10
+      '13407': 4
+      '13511': 3
+      '13573': 4
+      '13640': 4
+      '14006': 3
+      '14354': 1
+      '14624': 4
+      '14715': 4
+      '15248': 3
+      '15466': 1
+      '17543': 6
+      '19436': 9
+      '195': 1
+      '19876': 3
+      '20169': 3
+      '40228': 5
+      '4226': 4
+      '5416': 3
+      '7140': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: eia_id
+  documented_by: connector large_load_tariffs.py; source warehouse/sources/large_load_tariffs/README.md
+- name: x_utility
+  label: The utility as the filing names it
+  unit: none
+  type: text
+  values:
+    list:
+      Alabama Power Company: 1
+      Avista Corporation (Avista Utilities): 3
+      Consolidated Edison Company of New York, Inc.: 4
+      Duke Energy Carolinas, LLC: 3
+      Evergy Metro, Inc. d/b/a Evergy Missouri Metro: 10
+      Evergy Missouri West, Inc. d/b/a Evergy Missouri West: 10
+      Georgia Power Company: 1
+      Nevada Power Company d/b/a NV Energy: 2
+      Nevada Power Company d/b/a NV Energy (and Sierra Pacific Power Company): 2
+      New York State Electric & Gas Corporation (NYSEG): 3
+      Niagara Mohawk Power Corporation (National Grid): 4
+      Northern Virginia Electric Cooperative: 4
+      Ohio Power Company (AEP Ohio): 3
+      PPL Electric Utilities Corporation: 4
+      PacifiCorp: 1
+      Portland General Electric Company: 3
+      Public Service Company of Colorado (Xcel Energy): 1
+      Public Utility District No. 2 of Grant County: 4
+      Rappahannock Electric Cooperative: 5
+      South Carolina Public Service Authority (Santee Cooper): 6
+      Union Electric Company d/b/a Ameren Missouri: 9
+      Virginia Electric and Power Company (Dominion Energy Virginia): 3
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: utility
+  documented_by: connector large_load_tariffs.py; source warehouse/sources/large_load_tariffs/README.md
+- name: x_sector
+  label: The customer class the schedule serves, as written in the registry file
+  unit: none
+  type: text
+  values:
+    list:
+      all classes (Rules and Regulations for Electric Service): 1
+      customers whose demand exceeds 2,000 kW (Service Classification No. 3A): 4
+      customers whose monthly maximum demand exceeds 1,500 kW (Service Classification No. 9, Rate II): 4
+      customers with a billing demand of 500 kW or more (Service Classification No. 7): 3
+      ? customers with a measured or contracted demand of 25 MW or greater on a contiguous site and a load factor of at least
+        75 percent
+      : 3
+      ? customers with monthly capacity requirements of 5,000 kW or more served from a 138,000/34,500 volt load center substation
+        within five miles, or at the low voltage side of a wholesale supplier substation fed at 34,500 volts or more
+      : 5
+      data centers (new load or expansion greater in the aggregate than 25 MW): 3
+      ? data centers with an aggregate monthly maximum demand of greater than 50,000 kW, mobile large loads (including cryptocurrency
+        mining) over 1,000 kW, and other high load factor facilities over 50,000 kW, otherwise eligible for Large Light and
+        Power Schedule L
+      : 6
+      extra large general service, a demand of not less than 3,000 kVa: 3
+      ? industrial customers whose billing demand is 10 MW/MVA or more; a New Large Load (an increase of over 10 average MW
+        above the customer's highest annual average load since 2010) takes its energy under Rate Schedule No. 94
+      : 4
+      ? large commercial or industrial consumers with a minimum contract billing demand of 65,000 kW, or 45,000 kW when served
+        at 34.5 kV or higher from dedicated facilities at a 230 kV delivery point
+      : 4
+      large data centers (Schedule 96): 3
+      large general service, extra large (22 MW coincident peak; closed to new customers): 2
+      large load (75 MW and above): 29
+      large load (data center) customers, 50 MW or greater at a single facility: 4
+      large load customers (50 MW at 80 percent load factor, or 150 MW at any load factor): 3
+      large load data center customers (150 MW or more): 1
+      large loads served under a customer-specific agreement (the form names no size): 2
+      large-scale service requests (100 MW or more within five years): 1
+      new or expanded large loads of 50 MW or more: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: sector
+  documented_by: connector large_load_tariffs.py; source warehouse/sources/large_load_tariffs/README.md
+- name: x_state
+  label: The utility's state, two-letter postal code
+  unit: none
+  type: text
+  values:
+    list:
+      AL: 1
+      CO: 1
+      GA: 1
+      MO: 29
+      NC: 3
+      NV: 4
+      NY: 11
+      OH: 3
+      OR: 3
+      PA: 4
+      SC: 6
+      UT: 1
+      VA: 12
+      WA: 7
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: state
+  documented_by: connector large_load_tariffs.py
+- name: x_grid
+  label: The grid operator (ISO) or balancing authority the load is in
+  unit: none
+  type: text
+  values:
+    list:
+      AVA: 3
+      DUK: 3
+      GCPD: 4
+      MISO: 9
+      NEVP: 4
+      NYISO: 11
+      PACE: 1
+      PGE: 3
+      PJM: 19
+      PSCO: 1
+      SC: 6
+      SOCO: 2
+      SPP: 20
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: grid
+  documented_by: source warehouse/sources/large_load_tariffs/README.md
+- name: x_schedule
+  label: The schedule's own name
+  unit: none
+  type: text
+  values:
+    list:
+      Form Large Load Electric Service Agreement (LLESA): 2
+      Large Load Tariff (LLT), with Schedule HLF: 3
+      Large load contracts under Utah Code Title 54 Chapter 26 (S.B. 132 of 2025): 1
+      Large load data center customer contracts under Act 2026-610 (Code of Alabama 37-4-22.1): 1
+      Rate Schedule GS-5: 3
+      Rate Schedule LP-6, Large Load Interconnections: 4
+      Rate Schedule No. 15, Large Industrial Service, with Rate Schedule No. 94, New Large Load Service: 4
+      Rules and Regulations for Electric Service, A1, D13 and D14 (customers of 100 MW or more): 1
+      Schedule 25, Extra Large General Service - Washington: 3
+      Schedule 96, data centers of 20 MW and above: 3
+      Schedule DCT, Data Center Tariff (as the PUCO's Opinion and Order of 9 July 2025 adopts it): 3
+      Schedule HV-2, Large Power Dedicated Facilities Contract Service: 4
+      Schedule L-25-LL, Large Light and Power, Experimental Large Load Service: 6
+      Schedule LGS-X, Large General Service - Extra Large: 2
+      Schedule LLPS, Large Load Power Service: 20
+      Schedule LP-3, Large Power Substation Direct Service: 5
+      Schedule TL, Transmission Large Service (proposed): 1
+      Service Classification No. 11(M), Large Load Customer Service (LLCS): 9
+      Service Classification No. 3A, Large General Service, Time of Use Rate, delivery voltage over 60 kV: 4
+      Service Classification No. 7, Large General Service with Time-of-Use Metering, S.C. 7-4 Transmission: 3
+      Service Classification No. 9, General - Large, Rate II - General - Large - Time-of-Day: 4
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: schedule
+  documented_by: source warehouse/sources/large_load_tariffs/README.md
+- name: x_tariff_sheet
+  label: The tariff book and sheet (or leaf) numbers the schedule is printed on
+  unit: none
+  type: text
+  values:
+    list:
+      Colorado P.U.C. No. 8 - Electric, sheets filed with Advice Letter No. 2018-Electric (numbers not read): 1
+      MO.P.S.C. Schedule No. 6, 2nd Revised Sheet No. 61.5 (rates) and Original Sheet Nos. 61.6 to 61.19: 9
+      NC Original Leaf No. (blank), 3 pages, Exhibit 1 to the Agreement and Stipulation of Settlement: 3
+      P.S.C. MO. No. 1, Original Sheet Nos. 187 to 192 (the rate page is a second page also numbered 187): 10
+      P.S.C. MO. No. 7, Original Sheet Nos. 76 to 82: 10
+      ? PSC No. 10 Electricity, Leaf 449, Revision 20 (Rate II charges); Leaf 447, Revision 1 (Rate II applicability); Leaf
+        444, Revision 3 (voltages)
+      : 4
+      ? PSC No. 120 Electricity, Leaf No. 215, Revision 31 (S.C. 7-4 charges); Leaf No. 211, Revision 1 (applicability and
+        voltages)
+      : 3
+      ? PSC No. 220 Electricity, Leaf No. 391, Revision 27 (charges); Leaf No. 390, Revision 1 (applicability); Leaf No. 395,
+        Revision 6 (term)
+      : 4
+      Rate Code L, Schedule L-25-LL, pages 1 to 12 (adopted April 25, 2025; expires no later than April 24, 2029): 6
+      Rate Schedule No. 15 (Resolution No. 9114) and Rate Schedule No. 94 (Resolution 8802), one page each: 4
+      Rules and Regulations, Page Number 1.10 (A1) and Page Number 1.41 (D13, D14): 1
+      Schedule 96 as adopted by Order No. 26-154 (UM 2377) and reconsidered by Order No. 26-309: 3
+      Schedule LP-3, pages 1 to 4 (accepted for filing October 2, 2024): 5
+      ? Supplement No. 2 to Electric Pa. P.U.C. No. 202, First Revised Pages No. 35C to 35F (canceling Original Pages No.
+        35C to 35F)
+      : 4
+      Tariff No. 1-B, 39th Revised PUCN Sheet No. 16 (applicability) and 24th Revised Sheet No. 17 (facilities charges): 2
+      Unbundled Rates, Regulated Rates, Large Power Dedicated Facilities Contract Service, Schedule HV-2, pages 1 to 3: 4
+      WN U-28 Twentieth Revision Sheet 25 (canceling Substitute Nineteenth Revision Sheet 25) and Sixteenth Revision Sheet 25A: 3
+      no tariff sheet read; the Final Order's GS-5 terms (pp. 31 to 35): 3
+      no tariff sheet; Act 2026-610 (SB 270, enrolled): 1
+      no tariff sheet; Exhibit Wells-Direct-2 (Form LLESA) of the 2027-2046 IRP application, Volume 2 of 41: 2
+      no tariff sheet; S.B. 132 (2025 General Session, enrolled): 1
+      no tariff sheet; the Opinion and Order's terms of the 10/23 Stipulation, as modified: 3
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: tariff_sheet
+  documented_by: source warehouse/sources/large_load_tariffs/README.md
+- name: x_voltage
+  label: The delivery voltage the schedule states, in its words with the page
+  unit: none
+  type: text
+  values:
+    list:
+      'CHARGES: Delivery Voltage Up to 2.2 kV 2.2-15 kV 22-50 kV Over 60 kV (p. 587)': 4
+      'High Tension Alternating Current - 60 cycles: ... Three phase at 69,000 volts Three phase at 138,000 volts (p. 683)': 4
+      Schedule LLPS Customers shall receive service at either substation or transmission voltage levels. (p. 20): 10
+      Schedule LLPS Customers shall receive service at either substation or transmission voltage levels. (p. 7): 10
+      'Service Voltage for Large Load Customer Service: 115 kV or greater (Sheet 61.6) (p. 5)': 9
+      Three phase, available voltage (p. 1): 3
+      Transmission Service at 115,000 Volts and above. (p. 461): 3
+      ? 'a delivery voltage of 34.5 kV or greater where service is: i) at the low voltage side of dedicated substation facilities
+        served from a 230 kV transmission delivery point, or ii) from dedicated sub-transmission or primary distribution facilities
+        emanating directly from a NOVEC delivery point served at the low side of 230 kV transmission delivery source (p. 1)'
+      : 4
+      ? at one of the Authority's standard nominal voltages of 480 volts or higher ... Only one transformation will be provided
+        hereunder from the available transmission voltage (p. 1)
+      : 6
+      large general service supplied from available lines of 69,000 volts or higher (p. 109): 4
+      ? served from a 138,000/34,500 volt load center substation located within five (5) miles of the point of delivery to
+        the Customer. Also applicable to Customers whose delivery point is at the low voltage side of a wholesale supplier
+        substation where high side delivery is from transmission facilities of at least 34,500 volts (p. 1)
+      : 5
+  missing_cells: 24
+  missing_meaning: The registry file gives no voltage text
+  source_name: voltage
+  documented_by: connector large_load_tariffs.py; source warehouse/sources/large_load_tariffs/README.md
+- name: x_commission
+  label: The commission (or board) the schedule is filed with or reviewed by
+  unit: none
+  type: text
+  values:
+    list:
+      Alabama Public Service Commission (contract review under the Act): 1
+      Colorado Public Utilities Commission: 1
+      Georgia Public Service Commission: 1
+      ? Grant PUD Commission (the District's elected board; Washington's Utilities and Transportation Commission does not
+        set public utility district rates)
+      : 4
+      Missouri Public Service Commission: 29
+      New York State Public Service Commission: 11
+      North Carolina Utilities Commission: 3
+      Pennsylvania Public Utility Commission: 4
+      Public Service Commission of Utah (contract approval under 54-26-302): 1
+      Public Utilities Commission of Nevada: 4
+      Public Utilities Commission of Ohio: 3
+      Public Utility Commission of Oregon: 3
+      ? Santee Cooper Board of Directors (the Authority sets its own rates; South Carolina Code section 58-31-730(F) limits
+        this experimental schedule's class share)
+      : 6
+      State Corporation Commission of Virginia: 9
+      Virginia State Corporation Commission: 3
+      Washington Utilities and Transportation Commission: 3
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: commission
+  documented_by: source warehouse/sources/large_load_tariffs/README.md
+- name: x_docket
+  label: The docket, case or advice letter of the filing, as written in the registry
+  unit: none
+  type: text
+  values:
+    list:
+      24-508-EL-ATA: 3
+      '44280': 1
+      Act 2026-610 (Alabama Legislature, 2026 regular session, SB 270): 1
+      Advice No. 478 (Sheet 16) and Advice No. 553-R-2 (Sheet 17, effective 1 October 2025): 2
+      Case 24-E-0322 (Leaf 391, issued in compliance with the Order of 14 August 2025): 4
+      Case 25-E-0072 (Leaf 449, issued in compliance with the Order of 22 January 2026): 4
+      Case 25-E-0375 (Leaf 215, issued in compliance with the Order of 14 May 2026): 3
+      E-7, Sub 1329 (and E-2, Sub 1380 for Duke Energy Progress): 3
+      EO-2025-0154 (tariff tracking JE-2026-0104): 10
+      EO-2025-0154 (tariff tracking JE-2026-0105): 10
+      ET-2025-0184 (tariff tracking JE-2026-0076): 9
+      PUCN Docket No. 26-05007 (the posted application leaves the number blank, "Docket No. 26-05___"): 2
+      PUR-2025-00058: 3
+      Proceeding No. 26AL-0137E (Decision Nos. C26-0280 and C26-0396-I): 1
+      R-2025-3057164: 4
+      S.B. 132, 2025 General Session (Utah Legislature): 1
+      UM 2377: 3
+  missing_cells: 22
+  missing_meaning: The registry file names no docket
+  source_name: docket
+  documented_by: connector large_load_tariffs.py; source warehouse/sources/large_load_tariffs/README.md
+- name: x_document
+  label: 'The document read: the filing or order and its part'
+  unit: none
+  type: text
+  values:
+    list:
+      Act 2026-610, SB 270 of the 2026 regular session, enrolled, as published by the Alabama Legislature: 1
+      Agreement and Stipulation of Settlement on Large Load Tariff, 6 October 2026, Exhibit 1 (the Large Load Tariff), as filed: 3
+      ? Ameren Missouri's Large Load Customer Service compliance tariff sheets, issued 5 December 2025, effective 4 January
+        2026 (EFIS document 859644)
+      : 9
+      ? Avista Utilities, Washington electric tariff WN U-28, Schedule 25 and 25A, issued January 18, 2024, effective January
+        1, 2026, as posted on myavista.com
+      : 3
+      Colorado PUC Decision No. C26-0396-I, Proceeding No. 26AL-0137E, interim decision on interventions: 1
+      ? Consolidated Edison Company of New York, Inc., PSC No. 10 Electricity, the effective tariff as served by the Department
+        of Public Service's Electronic Tariff System
+      : 4
+      Evergy Missouri Metro's Schedule LLPS tariff sheets, issued 5 February 2026, effective 9 March 2026 (EFIS document 865318): 10
+      Evergy Missouri West's substitute Schedule LLPS tariff sheets, effective 9 March 2026 (EFIS document 866165): 10
+      ? Georgia Power Company's request of 11 December 2024 for approval of revisions to its Rules and Regulations (the revised
+        pages), approved by the Commission's order of 23 January 2025
+      : 1
+      ? Joint Application of Nevada Power Company and Sierra Pacific Power Company for approval of their 2027-2046 integrated
+        resource plan, Volume 2 of 41, Exhibit Wells-Direct-2 (Form LLESA), dated 6 May 2026
+      : 2
+      Nevada Power's Schedule LGS-X, Sheets 16 and 17, as NV Energy publishes its southern Nevada electric schedules: 2
+      ? New York State Electric & Gas Corporation, PSC No. 120 Electricity, the effective tariff as served by the Department
+        of Public Service's Electronic Tariff System
+      : 3
+      ? Niagara Mohawk Power Corporation, PSC No. 220 Electricity, the effective tariff as served by the Department of Public
+        Service's Electronic Tariff System
+      : 4
+      ? Northern Virginia Electric Cooperative, Unbundled Rates, Regulated Rates, Large Power Dedicated Facilities Contract
+        Service, Schedule HV-2, effective April 1, 2023 (filed for informational purposes only, March 22, 2023)
+      : 4
+      Order No. 26-309, entered 31 August 2026, on the applications for reconsideration and rehearing of Order No. 26-154: 3
+      ? PPL Electric Utilities Corporation, General Tariff, Electric Pa. P.U.C. No. 202 as posted 2 October 2026, Rate Schedule
+        LP-6, issued June 30, 2026, effective July 1, 2026
+      : 4
+      ? PUCO Opinion and Order, Case No. 24-508-EL-ATA (entered 9 July 2025), as Exhibit D to Walmart's motion in Florida
+        PSC filing 07142-2025
+      : 3
+      ? Public Utility District No. 2 of Grant County, Rate Schedule No. 15, Large Industrial Service, Resolution No. 9114,
+        effective with meter readings after April 1, 2026; and Rate Schedule No. 94, New Large Load Service, Resolution 8802,
+        effective with meter readings on and after January 1, 2016
+      : 4
+      ? Rappahannock Electric Cooperative, Large Power Substation Direct Service, Schedule LP-3, effective on all bills issued
+        on and after October 1, 2024 (accepted for filing by the Division of Public Utility Regulation, October 2, 2024)
+      : 5
+      ? South Carolina Public Service Authority (Santee Cooper), Large Light and Power, Experimental Large Load Service, Schedule
+        L-25-LL, adopted April 25, 2025, effective for bills rendered on and after April 25, 2025
+      : 6
+      Utah S.B. 132, Electric Utility Amendments, 2025 General Session, enrolled copy: 1
+      ? Virginia SCC, Final Order of 25 November 2025 in Case No. PUR-2025-00058 (Doc. Con. Cen. No. 251140150), as reproduced
+        in Florida PSC Document No. 05289-2026 (Docket No. 20260064-EI, filed 18 August 2026)
+      : 3
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: document
+  documented_by: source warehouse/sources/large_load_tariffs/README.md
+- name: x_page
+  label: The page of the filed document the figure is printed on
+  unit: none
+  type: integer
+  values:
+    distinct: 35
+    lowest: 1
+    highest: 688
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: page
+  documented_by: header; connector large_load_tariffs.py; method large_load_tariffs.md
+- name: x_printed
+  label: The figure in the words the schedule prints it (value is this figure in the row's unit)
+  unit: none
+  type: text
+  values:
+    distinct: 81
+    examples:
+    - $0.02881 per kWh (Summer and Winter Seasons)
+    - $0.02988 per kWh (Summer and Winter Seasons)
+    - $47,891.00 for the first 3,000 kVa of demand or less.
+    - (1) minimum distribution charge of 85% contracted demand; (2) minimum transmission charge of 85% contracted demand
+    - A monthly charge for each Delivery Point of ... $3,605.00
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: printed
+  documented_by: header; method large_load_tariffs.md
+- name: x_min_bill
+  label: The schedule's minimum bill terms, in its own words with the page
+  unit: none
+  type: text
+  values:
+    list:
+      Billing demand will not be less than 75% of contract demand for all demand charges in Schedule HLF (p. 23): 3
+      In Order No. 26-154, we adopted MGD and MTD charges of 90 percent (p. 16): 3
+      ? 'Minimum Demand shall be 80% of the annual Contract Capacity. Billing Demand shall be the higher of: (a) the Monthly
+        Maximum Demand in the current month or (b) the Minimum Demand. (Sheet 77) (p. 21)'
+      : 10
+      ? 'Minimum Demand shall be 80% of the annual Contract Capacity. Billing Demand shall be the higher of: (a) the Monthly
+        Maximum Demand in the current month or (b) the Minimum Demand. (second Sheet 187) (p. 8)'
+      : 10
+      ? 'Minimum Demand: at least ninety percent (90%) of the Ramp Demand during each month of the Ramp Period, and at least
+        ninety percent (90%) of the Maximum Demand during each month of the Term from and after the end of the Ramp Period;
+        Minimum Energy: the Maximum Demand multiplied by the Load Factor (80%) multiplied by ninety percent (90%) (p. 143)'
+      : 2
+      ? 'The Commission approves Dominion''s proposed minimum demand charges: (1) minimum distribution charge of 85% contracted
+        demand; (2) minimum transmission charge of 85% contracted demand; and (3) minimum generation charge of 60% contracted
+        demand. (p. 33)'
+      : 3
+      ? The Minimum Monthly Bill shall consist of the sum of (i) the Monthly Customer Charge, (ii) the Monthly Facilities
+        Maintenance Charge, if any, (iii) the Monthly Demand Charge for Large Load Service, (iv) the Monthly Coincident Peak
+        Demand Charge, and (v) the minimum monthly charges, if any, determined pursuant to any applicable rider (p. 5)
+      : 6
+      ? The Minimum shall be computed as Demand Charge times 75% of the Customer's Maximum Billing Demand during the most
+        recent 12-month period. (p. 1)
+      : 4
+      The demand charge unless a higher minimum is required under contract to cover special conditions (p. 1): 3
+      ? The minimum monthly delivery charge under the above rate shall be the greater of the amount determined in accordance
+        with Section IV-A or the amount specified in any contract currently in force. (p. 3)
+      : 5
+      ? The minimum monthly distribution charge shall be the amount as specified in the contract for service plus any Excess
+        Facilities Charge. (p. 3)
+      : 4
+      ? Until the LP-6 customer's Rate Base Security Obligation is satisfied, the ESA will require the customer to pay applicable
+        rates based on the greater of actual peak demand values, or 80% of the load provided in the load ramp schedule; after
+        it ... 80% ... for the first (5) years of the initial term and 50% for the second five (5) years of the initial term
+        (p. 111)
+      : 4
+      ? 'a) 85-percent of the customer''s highest previously established monthly billing demand during the past 11 months;
+        or ... for customers with 25,001 kW to 75,000 kW of total contract capacity: minimum demand is 15,000 kW plus 85 percent
+        of any capacity above 25,000 kW; or with more than 75,000 kW of total contract capacity, minimum demand is 57,500
+        kW plus 100 percent of any capacity above 75,000 kW. However, the minimum demand cannot exceed 85 percent of the total
+        contract capacity. (p. 92)'
+      : 3
+      ? but in no event less than eighty percent (80%) of the Contract Capacity specified in the LLSC Service Agreement ("Minimum
+        Billing Demand") (p. 7)
+      : 9
+      ? the Company may require additional terms and conditions of electric service, including, without limitation, minimum
+        billing requirements and a longer term of contract, when the Company deems it appropriate to ensure the Company recovers
+        all costs associated with serving or preparing to serve a customer with an expected peak demand of 100 MW or greater
+        at one or more premises located on one tract or contiguous tracts of land (p. 4)
+      : 1
+      ? the eligible Customer must agree in writing to take or continue to pay for the minimum bill under Schedule LGS-X for
+        a minimum period of 36 months (p. 1)
+      : 2
+  missing_cells: 14
+  missing_meaning: The schedule's registry file gives no minimum bill words
+  source_name: terms.min_bill
+  documented_by: connector large_load_tariffs.py; method large_load_tariffs.md
+- name: x_collateral
+  label: The schedule's collateral or credit terms, in its own words with the page
+  unit: none
+  type: text
+  values:
+    list:
+      ? As a condition of serving or preparing to serve a customer or prospective customer with an expected peak demand of
+        100 MW or greater at one or more premises located on one tract or contiguous tracts of land, the Company may require
+        and call upon those performance and credit provisions it deems appropriate to protect the Company and ensure the recovery
+        of costs incurred by the Company in serving or preparing to serve the Customer (p. 16)
+      : 1
+      ? 'Dedicated Facilities: advanced funds equal to the estimated total cost as CIAC within 60 days of the LA; Transmission
+        Network Upgrades: a letter of credit equal to the estimated total cost within 60 days of the ESA; After the customer
+        meets or exceeds an actual monthly billing demand of 75% of full contract demand for three (3) consecutive billing
+        months, the letter of credit ... will be reduced once per year on a ratable basis over the remaining term of the ESA
+        (p. 22); The customer must provide security equal to the applicable liquidated damages for early termination in the
+        form of cash, letter of credit or parent guarantee, or a combination thereof (p. 24) (p. 22)'
+      : 3
+      ? 'The Commission approves the Company''s proposed collateral requirement terms, including: (1) $1.5 million/MW; (2)
+        a reduction up to 70% based on the customer''s established credit; (3) provisions for third-party guarantees and letters
+        of credit; and (4) releasing 1714th of the collateral requirement each year throughout the contract term. (p. 33)'
+      : 3
+      ? The Company will require Schedule LLPS Customers to provide collateral in an amount equal to two (2) years of Minimum
+        Monthly Bills (Sheet 190); a customer meeting the credit rating and liquidity tests will be exempt from sixty (60)
+        percent of the Collateral Requirement, with the sixty (60) percent discount not to exceed $175 million (down to twenty-five
+        (25) percent, not to exceed $75 million); The Collateral Requirement must be provided at the time of executing the
+        LLPS Service Agreement (Sheet 191, p. 12) (p. 11)
+      : 10
+      ? The Company will require Schedule LLPS Customers to provide collateral in an amount equal to two (2) years of Minimum
+        Monthly Bills (Sheet 80); a customer meeting the credit rating and liquidity tests will be exempt from sixty (60)
+        percent of the Collateral Requirement, with the sixty (60) percent discount not to exceed $175 million (down to twenty-five
+        (25) percent, not to exceed $75 million); The Collateral Requirement must be provided at the time of executing the
+        LLPS Service Agreement (Sheet 81, p. 25) (p. 24)
+      : 10
+      ? The ESA will require the LP-6 customer to provide security in an amount equal to the cost of upgrades needed to serve
+        the customer ... that are placed into rate base and recovered through transmission rates (such amount is referred
+        to as the "Rate Base Security Obligation") (p. 110)
+      : 4
+      ? an amount equal to two (2) years of Minimum Monthly Bills, as calculated; a customer meeting the credit rating and
+        liquidity tests will be exempt from sixty (60) percent of the Collateral Requirement, with the sixty (60) percent
+        discount not to exceed $175 million (or fifty, forty or twenty-five percent, not to exceed $150 million, $125 million
+        and $75 million, pp. 15 to 16); The Collateral Requirement must be provided at the time of executing the LLCS Service
+        Agreement (p. 16) (p. 14)
+      : 9
+      ? not more than fifteen (15) Business Days, after the PUCN Approval Date, Customer shall provide to NV Energy, and thereafter
+        maintain, financial security for its obligations under this Agreement in an amount equal to the sum of the aggregate
+        applicable Minimum Demand and Minimum Energy multiplied by the ESA Overall Rate for the remaining Term (letter of
+        credit, cash deposit or guaranty, Section 6.1(b)) (p. 157)
+      : 2
+      ? the Customer shall provide to the Authority collateral and/or financial assurances equivalent to the value of the
+        initial one hundred eighty months (180) months of Minimum Bills ... At least twelve (12) months of Minimum Bills shall
+        be in the form of a mandatory cash deposit (p. 11)
+      : 6
+      ? which would require data center customers who have credit ratings less than A- from S&P, A3 from Moody's to provide
+        a parent guarantee or collateral in the form of a letter of credit or cash equal to 50 percent of the customer's minimum
+        charges under the ESA (p. 91)
+      : 3
+  missing_cells: 35
+  missing_meaning: The registry file gives no collateral words
+  source_name: terms.collateral
+  documented_by: connector large_load_tariffs.py; source warehouse/sources/large_load_tariffs/README.md
+- name: x_exit_fee
+  label: The schedule's exit fee or termination terms, in its own words with the page
+  unit: none
+  type: text
+  values:
+    list:
+      ? A customer with an expected peak demand of 100 MW or greater at one or more premises located on one tract or contiguous
+        tracts of land may be required by the Company, upon termination of its contract for electric service, to pay any costs
+        the Company incurred in serving or preparing to serve the customer, including, but not limited to, distribution, transmission,
+        and generation costs associated with the provision of electric service to the customer (p. 16)
+      : 1
+      ? If the customer ceases operations or otherwise defaults on its agreement during the contract term, the customer shall
+        be required to pay an exit fee covering any outstanding minimum charges over the remaining contract duration (subject
+        to capacity reassignment as addressed below). (p. 32)
+      : 3
+      ? 'Liquidated damages for early termination ... equal to (1) 100% of minimum billing demand charges at the customer''s
+        annual contract demand and Extra Facilities Charges during the applicable notification period, plus (2) the net present
+        value of remaining Extra Facilities Charges ..., plus (3) 25% of remaining minimum billing demand charges ... after
+        expiration of the notification period. Notification period: Below 250 MW: 24 months; Between 250 MW and 499 MW: 36
+        months; 500 MW or more: 48 months (p. 23)'
+      : 3
+      ? 'Termination Payment: the aggregate Minimum Demand multiplied by the ESA Overall Rate, from the Termination Date through
+        the end of the Term, excluding BTER, DEAA, and all other applicable rates; due not more than thirty (30) days after
+        the Termination Date (p. 150) (p. 145)'
+      : 2
+      ? The ESA will contain an exit fee that is equal to the remaining minimum load guarantee obligation during the ESA term
+        at the time the customer terminates the ESA, or the remaining amount of the Rate Base Security Obligation, whichever
+        is greater (p. 111)
+      : 4
+      ? an Exit Fee equal to the nominal value of the Minimum Monthly Bill times the number of months remaining in the Term
+        or Extension Term, or for twelve (12) months, whichever is greater; with less than thirty-six (36) months' notice,
+        an Early Termination Fee of the Exit Fee plus two (2) times the Minimum Monthly Bill times the months short (Sheet
+        189) (p. 10)
+      : 10
+      ? an Exit Fee equal to the nominal value of the Minimum Monthly Bill times the number of months remaining in the Term
+        or Extension Term, or for twelve (12) months, whichever is greater; with less than thirty-six (36) months' notice,
+        an Early Termination Fee of the Exit Fee plus two (2) times the Minimum Monthly Bill times the months short (Sheet
+        79) (p. 23)
+      : 10
+      ? 'during the Ramp Period: the Minimum Monthly Bill multiplied by the months in the remaining term of the Load Ramp
+        period plus sixty (60) calendar months; after it: the Minimum Monthly Bill multiplied by the lesser of sixty (60)
+        calendar months or the months remaining in the Term or Extension Term (p. 11)'
+      : 9
+      ? loads 20 MW and greater exiting PGE's system before the end of their contracts are to pay the sum of (1) the net book
+        value of the incremental distribution assets caused by the customer, and (2) the greater of (a) the remaining Minimum
+        Transmission Demand (MTD) and Minimum Generation Demand (MGD) charges for the remainder of the contract, or (b) three
+        years' worth of MTD and MGD charges at the highest allocated system capacity during the contract (p. 7)
+      : 3
+      ? making a one-time payment equal to the un-amortized value of the facilities supplied under the contract, plus, if
+        applicable, the cost to remove the facilities (p. 4)
+      : 5
+  missing_cells: 36
+  missing_meaning: The registry file gives no exit fee words
+  source_name: terms.exit_fee
+  documented_by: connector large_load_tariffs.py; source warehouse/sources/large_load_tariffs/README.md
+- name: x_ramp
+  label: The schedule's load ramp provisions (how the load may build up), in its own words with the page
+  unit: none
+  type: text
+  values:
+    list:
+      ? A customer may also include, within the contract term, a load ramp period not to exceed four years (with a minimum
+        annual ramp of 20%). (p. 32)
+      : 3
+      During the Load Ramp the customer's maximum load may be lower than seventy-five megawatts (75 MW) (p. 9): 9
+      ? During the transitional load ramp period, the Customer's maximum load may be lower than seventy-five megawatts (75
+        MW). (Sheet 187) (p. 7)
+      : 10
+      ? During the transitional load ramp period, the Customer's maximum load may be lower than seventy-five megawatts (75
+        MW). (Sheet 76) (p. 20)
+      : 10
+      ? The ESA will require the customer to provide an initial load ramp schedule for up to the first five (5) years of the
+        initial term (p. 110)
+      : 4
+      the contract minimum billing demand times the applicable ramp-up percentages as specified in the contract (p. 2): 4
+  missing_cells: 46
+  missing_meaning: The registry file gives no ramp words
+  source_name: terms.ramp
+  documented_by: connector large_load_tariffs.py; source warehouse/sources/large_load_tariffs/README.md
+- name: x_term
+  label: The schedule's contract term provisions, in its own words with the page; a rider is named here when the schedule
+    names it
+  unit: none
+  type: text
+  values:
+    list:
+      ("Load Ramp" or "Ramp Period") plus twelve (12) years (the "Term") (p. 9): 9
+      An initial term of service of not less than one hundred and eighty (180) months. (p. 10): 6
+      ? At the end of the 36 month contract period, a Customer may elect to continue to take service under LGS-X on a month-to-month
+        basis (p. 1)
+      : 2
+      ? For a customer that is 20 MW, the minimum contract term length is ten years. The term increases by one year for each
+        10 MW increment, reaching an upper limit at 30 years for a load 220 MW or greater. (p. 7)
+      : 3
+      ? The ESA term for distribution service shall be negotiable between the customer and the Cooperative, but the term shall
+        be structured to recover the full cost of distribution and/or sub-transmission plant investment, maintenance and operation
+        (p. 1)
+      : 4
+      The ESA will contain an initial term of not less than ten (10) years (p. 110): 4
+      The Total term of this Agreement is to be a period of not less than ten (10) years after the Effective Date. (p. 149): 2
+      The contract term shall be 14 years. (p. 32): 3
+      The initial term of the contract will equal the Load Ramp Period (no greater than four years) plus eight years. (p. 91): 3
+      ? The minimum initial contract term for ESAs below 100 MW will be the greater of (a) 10 years and (b) 5 years plus the
+        load ramp period. The minimum initial contract term for ESAs of 100 MW or more will be the greater of (a) 15 years
+        and (b) 10 years plus the load ramp period. At the expiration of the contract term, ESAs will be automatically extended
+        for one-year terms unless the customer notifies the Company in writing of its intent to terminate the contract at
+        least 24 months in advance of such termination. (p. 23)
+      : 3
+      ? enter into a written contract for five (5) years or longer. The written contract will specify a limit on both firm
+        energy and demand (p. 1)
+      : 3
+      ? in no case shall the term of contract be less than one (1) year ... in no case, shall the term of the contract be
+        less than seven (7) years (p. 4)
+      : 5
+      matters such as minimum term for contract length, upfront payments, security and collateral, and minimum payment (p. 3): 1
+      negotiate the terms of a large load contract with a large load customer on a case-by-case basis (p. 10): 1
+      ? the Term under this service classification shall be one year from commencement of service and continuously thereafter
+        until permanently canceled by customer upon ninety days' prior written notice to the Company (p. 591)
+      : 4
+      ? transitional load ramp period plus twelve (12) years; extends for periods of five years unless thirty-six (36) months'
+        written notice (Sheet 187) (p. 7)
+      : 10
+      ? transitional load ramp period plus twelve (12) years; extends for periods of five years unless thirty-six (36) months'
+        written notice (Sheets 76 and 77) (p. 20)
+      : 10
+  missing_cells: 13
+  missing_meaning: The registry file gives no term words
+  source_name: terms.term
+  documented_by: connector large_load_tariffs.py; method large_load_tariffs.md
+- name: x_status
+  label: 'The schedule''s state: adopted (in force), ordered (a commission ordered it, no sheet yet), proposed (filed, pending)
+    or framework (a statute or agreements with no rate schedule)'
+  unit: none
+  type: text
+  values:
+    list:
+      adopted: 75
+      framework: 2
+      ordered: 3
+      proposed: 6
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: status
+  documented_by: method large_load_tariffs.md
+- name: x_license
+  label: The row's license; public on every written row
+  unit: none
+  type: text
+  values:
+    list:
+      public: 86
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method large_load_tariffs.md
+- name: x_notes
+  label: What the schedule prints that has no variable (demand blocks, per-kVA charges, a closed schedule) and other notes
+  unit: none
+  type: text
+  values:
+    list:
+      ? 'A statute, not a tariff: a contract between a utility and a large load data center customer covers matters such as
+        minimum term for contract length, upfront payments, security and collateral, and minimum payment, and the PSC reviews
+        whether its pricing and terms are expected to cover the incremental costs of service. No figure for any term is printed.'
+      : 1
+      ? 'A statute, not a tariff: a qualified electric utility and a large load customer negotiate a large load contract case
+        by case (54-26-301(7)(b)), and the commission approves it within 60 days of the application (54-26-302(4)), its review
+        limited to the requirements of 54-26-302(2), among them that existing ratepayers do not bear costs justly and reasonably
+        attributable to providing electric service for the large load customer. Service under the chapter is for contracts
+        providing service to commence on or before December 31, 2034 (54-26-801). No rate, term or collateral figure is printed.'
+      : 1
+      ? 'Closed to new Customers and to new meter locations of existing Customers (Sheet 16). Customer-specific facilities
+        charges on Sheet 17: Bellagio/Park MGM $24,728, Mandalay Bay/Excalibur/Luxor $36,770, Paris/Horseshoe $16,876 a month.'
+      : 2
+      ? 'Demand: the first 300 kW or less of firm billing demand 8,223.00 USD, all additional kW 21.08 USD/kW (less 0.70 USD/kW
+        when the customer takes delivery at 69 kV or more and provides the transformation), excess on-peak demand 13.00 USD/kW
+        more, and a coincident peak demand charge of 7.00 USD/kW. Energy: 0.0497 USD/kWh summer and winter on-peak, 0.0375
+        USD/kWh off-peak (plus an off-peak energy premium of 0.02287 USD/kWh for energy under the off-peak demand provision),
+        with the fuel adjustment clause (FAC-25, Fb/Sb 0.03641 USD/kWh) and deferred cost recovery (DCR-25); no single energy
+        charge is printed. The minimum firm billing demand factor is 100% for months 1 to 60, 95% for 61 to 120 and 90% after;
+        the minimum coincident peak demand billing factor 50%, 65% and 80%. Before the service agreement the customer pays
+        in full for delivery point and transmission costs (interconnection, network upgrades, redundant facilities). Experimental:
+        available through no later than April 24, 2029; customers with loads of 100 MW or more are excluded from the 12% class
+        size limit.'
+      : 6
+      ? 'Distribution is a Customer Charge only ($999.11 per month); transmission is billed under the TSC rate schedule on
+        the customer''s peak load contribution to the PJM peak load, and generation under GSC-2, so no demand or energy charge
+        is printed on LP-6. Applies to large load (data center) customers that commenced service on or after October 1, 2025,
+        with a peak of 50 MW or greater at a single facility or at least 75 MW in the aggregate within a 10-mile radius at
+        or above 69 kV; a 50 to 75 MW facility that causes no transmission network upgrade costs may be petitioned into Rate
+        LP-5. Voluntary interruptible option: the minimum load guarantee falls to 60% for the first five years and 30% for
+        the second five (page 111).'
+      : 4
+      ? Effective for service on 8 July 2026 (Order No. 26-239, p. 5, approving Advice No. 26-24). Order No. 26-154 (p. 45)
+        adds a system capacity allocation deposit due at contract signing equal to two years of minimum transmission demand,
+        refundable at 50 percent in year two and 50 percent in year three after energization if the customer meets 80 percent
+        of its allocated system capacity and its contracted flexibility plan.
+      : 3
+      ? 'Energy is charged in three blocks: First 500,000 kWh 5.745 cents per kWh, Next 5,500,000 kWh 5.160 cents per kWh,
+        All Over 6,000,000 kWh 4.211 cents per kWh (page 1); energy_charge is the last block, the one a load of more than
+        6,000,000 kWh a month pays at the margin. Demand: $47,891.00 for the first 3,000 kVa of demand or less, and $12.98
+        per kVa for each additional kVa of demand (page 1). Primary voltage discounts of $0.20, $1.52 and $4.39 per kVa of
+        demand per month at 11 kV, 60 kV and 115 kV or higher (page 1). Annual minimum $1,177,388 (Schedule 25A, page 2).
+        The monthly rate is subject to Schedules 58, 61, 63, 66, 88, 91, 92, 93, 98 and 99 (page 2).'
+      : 3
+      ? 'Proposed: a settlement filed 6 October 2026, pending NCUC approval as of 12 November 2026. Applies to letter agreements
+        and electric service agreements executed on and after 1 June 2026. Contract term: below 100 MW the greater of 10 years
+        and 5 years plus the load ramp period; 100 MW or more the greater of 15 years and 10 years plus the load ramp period.'
+      : 3
+      ? 'Proposed: filed 2 April 2026 with a requested effective date of 3 May 2026 (the date written), suspended 120 days
+        by Decision No. C26-0280 of 30 April 2026; final decision not read. The 15-year minimum initial term is now read in
+        primary documents (session 3937, window P4''s research pass, 13 November 2026, row xcel_plains-03): PSCo''s Form 10-Q
+        for the quarter ended 30 September 2026 (''The proposed tariff also includes a minimum initial term of 15 years, minimum
+        bill provisions, termination and exit fees, and credit requirements''; ''A CPUC decision is expected in late 2026
+        or early 2027'') and the Colorado PUC''s Electric Rate Cases page (''Requiring large customers to sign contracts of
+        15 years or more''; ''New customers using between 20 and 50 MW may also be subject to the tariff''; the Commission''s
+        decision ''TBD''). Leads from intervenor testimony, still not verified in the filing: minimum monthly bill on 80 percent
+        of contract capacity; an optional ramp of up to 5 years within the term; exit fee the sum of the remaining minimum
+        monthly bills.'
+      : 1
+      ? 'Proposed: the companies ask an expedited ruling on the form (p. 7); the statutory period runs to 2 December 2026
+        (p. 6). Termination by the customer after long-term supply begins, on not less than 36 months'' notice (p. 149). The
+        June 2026 fact sheet (https://www.nvenergy.com/publish/content/dam/nvenergy/brochures_arch/help/brochures/Large-Load-Electric-Service-Agreement-LLESA-Fact-Sheet.pdf,
+        read 2026-11-12) says the LLESA serves customers whose energy needs typically exceed 25 MW.'
+      : 2
+      ? 'Schedule 94 (https://www.grantpud.org/templates/galaxy/images/images/Downloads/Rates/NewLargeLoadService94/Sch_94_Jan_1_2016_-_Final.pdf):
+        a New Large Load''s monthly energy charge is the greater of the month''s weighted average ICE Mid-C index price (peak
+        and off-peak) or the largest energy block on Schedule 15, plus a 5% premium; its demand charges are those of the underlying
+        schedule. Schedule 15''s own energy charges (PRP 0.02548, incremental 0.00260 and temporary stabilization 0.00520
+        USD per kWh) apply to loads that are not New Large Loads. Billing demand is the larger of the contract demand or the
+        month''s highest 15-minute demand adjusted up to a 95 percent power factor. Customer Service Policy section 2.3: "Service
+        to New Large Loads will only be made pursuant to Rate Schedule No. 94"; section 8 sets the large power application,
+        inquiry form and fees.'
+      : 4
+      ? The Commission's modification lets the customer's financial sponsor meet the collateral as a co-signer (p. 150). Ramp
+        floors of 50, 65, 80 and 90 percent of contract capacity in years 1 to 4 (p. 91). The 1st Revised sheets effective
+        28 August 2026 (Case 26-113-EL-ATA) are held for a license and not written.
+      : 3
+      ? The charges are NOVEC's distribution charges (Part B); energy supply (Part A) is bought from NOVEC under the Market
+        Based Rate Option, "to be determined on a case by case basis", so no supply price is printed. Billing demand is the
+        higher of the month's highest 30-minute kW or the contract minimum times the contract's ramp-up percentages; billing
+        energy the higher of metered kWh or billing demand times the month's hours times 0.85. An rKVA charge of $0.16 per
+        rKVA is printed beside the demand charge, and monthly fixed charge rates on contributed capital for excess facilities
+        (0.442% high voltage line, 0.644% substation, 0.893% primary distribution). The minimum monthly distribution charge
+        is the amount in the contract. Not for back-up or standby service. NOVEC announced a filing to update its terms and
+        conditions in July 2026 (news release nr071726); this schedule is the one its Regulated Rates page links on 18 November
+        2026.
+      : 4
+      ? The contract provisions apply to customers taking initial service and signing an ESA on or after 1 January 2027 (p.
+        32); a load ramp period of up to four years within the term, with a minimum annual ramp of 20 percent (p. 32); contracted
+        capacity may be reduced by up to 20 percent at no cost and by a further 30 percent if another customer assumes it,
+        each on a separate 36-month notice (p. 35); PJM capacity expense excluded from the minimum generation charge (p. 34).
+        Appeal pending (Dominion's Form 10-Q for the quarter ended 30 September 2026).
+      : 3
+      ? 'The figures are the distribution delivery charges of section IV-A-3, open to every qualifying customer (A-1 and A-2
+        are closed: demand 1.68 and 2.77 USD/kW). Electricity supply is billed at the prevailing ODEC transmission level demand
+        and energy rates adjusted for distribution losses, with an excess demand charge of 42.5% of ODEC''s owned resources
+        demand charge, so no supply price is printed. Distribution billing demand is the greater of the month''s highest 15-minute
+        kW or 500 kW. A facilities charge applies to dedicated local facilities (1.43% a month of installed cost for standard
+        plant without a contribution, down to 0.82% with one). A customer may end its facilities contract by paying the unamortized
+        value of the facilities plus removal.'
+      : 5
+  missing_cells: 41
+  missing_meaning: The registry file has no notes
+  source_name: notes
+  documented_by: method large_load_tariffs.md
+variables:
+- name: collateral_months
+  label: Collateral stated as months of bills
+  unit: month
+  rows: 4
+  first: '2025-04-25T00:00:00Z'
+  last: '2026-03-09T00:00:00Z'
+- name: demand_charge
+  label: The schedule's one delivery demand charge, USD per kW of demand per month
+  unit: USD/kW-month
+  rows: 6
+  first: '2023-04-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: demand_charge_summer
+  label: The demand charge in the summer season, USD per kW-month
+  unit: USD/kW-month
+  rows: 3
+  first: '2026-01-04T00:00:00Z'
+  last: '2026-03-09T00:00:00Z'
+- name: demand_charge_winter
+  label: The demand charge in the winter season, USD per kW-month
+  unit: USD/kW-month
+  rows: 4
+  first: '2026-01-04T00:00:00Z'
+  last: '2026-03-09T00:00:00Z'
+- name: energy_charge
+  label: The schedule's one energy charge for delivery or bundled service, USD/MWh
+  unit: USD/MWh
+  rows: 6
+  first: '2023-04-01T00:00:00Z'
+  last: '2026-03-09T00:00:00Z'
+- name: energy_charge_summer
+  label: The energy charge in the summer season, USD/MWh
+  unit: USD/MWh
+  rows: 1
+  first: '2026-01-04T00:00:00Z'
+  last: '2026-01-04T00:00:00Z'
+- name: energy_charge_winter
+  label: The energy charge in the winter season, USD/MWh
+  unit: USD/MWh
+  rows: 1
+  first: '2026-01-04T00:00:00Z'
+  last: '2026-01-04T00:00:00Z'
+- name: fixed_charge
+  label: The customer or facilities charge, USD a month
+  unit: USD
+  rows: 12
+  first: '2023-04-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: grid_charge_substation
+  label: Evergy's LLPS substation grid charge, USD per kW-month
+  unit: USD/kW-month
+  rows: 2
+  first: '2026-03-09T00:00:00Z'
+  last: '2026-03-09T00:00:00Z'
+- name: grid_charge_transmission
+  label: Evergy's LLPS transmission grid charge, USD per kW-month
+  unit: USD/kW-month
+  rows: 2
+  first: '2026-03-09T00:00:00Z'
+  last: '2026-03-09T00:00:00Z'
+- name: min_bill_pct
+  label: A minimum bill or take-or-pay share of contract demand, where printed as a share, percent
+  unit: pct
+  rows: 11
+  first: '2025-04-25T00:00:00Z'
+  last: '2027-01-01T00:00:00Z'
+- name: min_contract_years
+  label: The shortest contract term the schedule takes, years
+  unit: year
+  rows: 14
+  first: '2018-02-15T00:00:00Z'
+  last: '2027-01-01T00:00:00Z'
+- name: min_demand_mw
+  label: The smallest load the schedule takes, MW
+  unit: MW
+  rows: 20
+  first: '2018-02-15T00:00:00Z'
+  last: '2027-01-01T00:00:00Z'
+second_look: null

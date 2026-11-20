@@ -1,0 +1,211 @@
+# The codebook's metadata of table stat_kz_kazakhstan_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: stat_kz_kazakhstan_electricity_annual
+family: other_sources
+shape: series
+row: One year's value of one item of the electricity column of Kazakhstan's fuel and energy balance (output by plant class,
+  trade, own use, losses, consumption by sector), from the Bureau of National Statistics.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y; 2022 to 2025.
+vintage_rule: Rewritten whole as one snapshot by each run from the yearly workbooks; vintage is each workbook's Last-Modified.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: stat_kz:fuel_energy_balance_physical Bureau of National Statistics of the Agency for Strategic Planning and Reforms
+    of the Republic of Kazakhstan, Fuel and energy balance of the Republic of Kazakhstan, in physical terms
+  url: ''
+cite: Bureau of National Statistics of Kazakhstan. Fuel and energy balance of the Republic of Kazakhstan, in physical terms
+  (2022 to 2025), the electricity column. Via the Energy Research Warehouse (ERW), table `stat_kz_kazakhstan_electricity_annual`.
+method: docs/methods/stat_kz_kazakhstan_electricity_annual.md
+header_title: 'Bureau of National Statistics of Kazakhstan, fuel and energy balances in physical terms, the electricity column:
+  Kazakhstan''s electricity output, trade and use, 2022 to 2025 (session 2664)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity statkz:kz:<item>; variable generation, imports, exports (positive),
+  own_use, losses, consumption or statistical_difference; unit MWh (the balance''s million kWh times 1,000); ts_utc the year''s
+  first day; freq P1Y; geo KZ; node the row''s label.'
+read:
+  date: '2026-11-20'
+  rows: 84
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: 'statkz:kz:<item>: a plant class, a balance item or a sector'
+  type: text
+  values:
+    list:
+      statkz:kz:agriculture: 4
+      statkz:kz:biogas: 4
+      statkz:kz:chpp_main: 4
+      statkz:kz:chpp_secondary: 4
+      statkz:kz:consumption: 4
+      statkz:kz:exports: 4
+      statkz:kz:households: 4
+      statkz:kz:hydro: 4
+      statkz:kz:imports: 4
+      statkz:kz:industry: 4
+      statkz:kz:losses: 4
+      statkz:kz:other: 4
+      statkz:kz:output: 4
+      statkz:kz:own_use: 4
+      statkz:kz:services: 4
+      statkz:kz:solar: 4
+      statkz:kz:statistical_difference: 4
+      statkz:kz:tpp_main: 4
+      statkz:kz:tpp_secondary: 4
+      statkz:kz:transport: 4
+      statkz:kz:wind: 4
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2022-01-01T00:00:00Z': 21
+      '2023-01-01T00:00:00Z': 21
+      '2024-01-01T00:00:00Z': 21
+      '2025-01-01T00:00:00Z': 21
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 82
+    lowest: -1208814.998
+    highest: 123782240.2
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 84
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 84
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: KZ on every row
+  type: text
+  values:
+    list:
+      KZ: 84
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 84
+- name: node
+  shared: true
+  particular: The row's label in the balance, not a pricing node
+  type: text
+  values:
+    distinct: 35
+    examples:
+    - 3. Final energy consumption
+    - Agriculture/forestry
+    - Combined Heat and Power Plants (CHPP) (main activity)
+    - Combined Heat and Power Plants (CHPP) (main activity) - electricity and heat generation
+    - Combined Heat and Power Plants (CHPP) (secondary activity)
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      stat_kz:fuel_energy_balance_physical: 84
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://stat.gov.kz/api/iblock/element/205511/file/en/: 21
+      https://stat.gov.kz/api/iblock/element/411633/file/en/: 21
+      https://stat.gov.kz/api/iblock/element/411634/file/en/: 21
+      https://stat.gov.kz/api/iblock/element/75937/file/en/: 21
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T10:27:38Z': 21
+      '2026-10-25T10:28:52Z': 21
+      '2026-10-25T10:28:57Z': 21
+      '2026-10-25T10:29:01Z': 21
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The year's workbook's Last-Modified (UTC)
+  type: utc time
+  values:
+    list:
+      '2023-08-01T11:06:34Z': 21
+      '2024-08-01T13:42:57Z': 21
+      '2025-08-01T04:35:25Z': 21
+      '2026-08-03T06:42:05Z': 21
+  missing_cells: 0
+variables:
+- name: consumption
+  label: Final consumption, total or by sector
+  unit: MWh
+  rows: 28
+  first: '2022-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: exports
+  label: Exports (written positive)
+  unit: MWh
+  rows: 4
+  first: '2022-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation
+  label: Electricity output, total or by plant class
+  unit: MWh
+  rows: 36
+  first: '2022-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: imports
+  label: Imports
+  unit: MWh
+  rows: 4
+  first: '2022-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: losses
+  label: Losses
+  unit: MWh
+  rows: 4
+  first: '2022-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: own_use
+  label: Own use
+  unit: MWh
+  rows: 4
+  first: '2022-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: statistical_difference
+  label: Statistical difference
+  unit: MWh
+  rows: 4
+  first: '2022-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,402 @@
+# The codebook's metadata of table epra_kenya_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: epra_kenya_electricity_annual
+family: other_sources
+shape: series
+row: One fiscal year's value of one Kenyan generation capacity (by grid kind and technology) or electricity consumption (by
+  customer category) measure, from EPRA's Energy and Petroleum Statistics Reports.
+time: ts_utc is the fiscal year's 1 July at 00:00:00Z; freq P1Y; capacity as at 30 June.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s rows replace the same keys and older ones are kept; vintage
+  is the report''s Last-Modified.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: epra:energy_petroleum_statistics_report Energy and Petroleum Regulatory Authority (EPRA), Energy and Petroleum Statistics
+    Reports for the fiscal years 2023/24, 2024/25 and 2025/26, tables 2.1 and 2.2
+  url: https://www.epra.go.ke/index.php/statistics-0
+cite: Energy and Petroleum Regulatory Authority, Kenya (EPRA). Energy and Petroleum Statistics Report (fiscal years 2023/24
+  to 2025/26), table 2.1 (installed, effective and captive capacity) and table 2.2 (consumption by customer category). Via
+  the Energy Research Warehouse (ERW), table `epra_kenya_electricity_annual`.
+method: docs/methods/epra_kenya_electricity_annual.md
+header_title: EPRA (Energy and Petroleum Regulatory Authority), Kenya's generation capacity by technology and electricity
+  consumption by customer category, fiscal years ending June 2024 to 2026 (session 2325)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity epra:KE; variable capacity_<interconnected_installed, interconnected_effective,
+  captive, offgrid, total_installed>_<technology> (MW, as at 30 June) and consumption_<industrial, domestic, small_commercial,
+  street_lighting, e_mobility, total> (MWh, EPRA''s GWh times 1,000); ts_utc the fiscal year''s 1 July; freq P1Y; geo KE.'
+read:
+  date: '2026-11-20'
+  rows: 129
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: epra:KE on every row
+  type: text
+  values:
+    list:
+      epra:KE: 129
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2023-07-01T00:00:00Z': 43
+      '2024-07-01T00:00:00Z': 43
+      '2025-07-01T00:00:00Z': 43
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 84
+    lowest: 0.1
+    highest: 12444710.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 111
+      MWh: 18
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 129
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: KE on every row
+  type: text
+  values:
+    list:
+      KE: 129
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 129
+- name: node
+  shared: true
+  particular: Kenya on every row, not a pricing node
+  type: text
+  values:
+    list:
+      Kenya: 129
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      epra:energy_petroleum_statistics_report: 129
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://www.epra.go.ke/sites/default/files/2024-10/EPRA%20Energy%20and%20Petroleum%20Statistics%20Report%20FY%202023-2024_2.pdf
+      : 43
+      https://www.epra.go.ke/sites/default/files/2025-09/Statistics-Report-June-2025-Web.pdf: 43
+      https://www.epra.go.ke/sites/default/files/2026-09/Energy%20%26%20Petroleum%20Statistics%20Report%202026.pdf: 43
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T07:11:19Z': 43
+      '2026-10-24T07:12:01Z': 43
+      '2026-10-24T07:12:08Z': 43
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The report PDF's Last-Modified (UTC)
+  type: utc time
+  values:
+    list:
+      '2024-10-17T13:42:23Z': 43
+      '2025-09-29T18:41:35Z': 43
+      '2026-09-28T10:44:25Z': 43
+  missing_cells: 0
+variables:
+- name: capacity_captive_bioenergy
+  label: Captive capacity, bioenergy
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_captive_geothermal
+  label: Captive capacity, geothermal
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_captive_hydro
+  label: Captive capacity, hydro
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_captive_solar
+  label: Captive capacity, solar
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_captive_thermal
+  label: Captive capacity, thermal
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_captive_total
+  label: Captive capacity, total
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_captive_waste_heat_recovery
+  label: Captive capacity, waste heat recovery
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_interconnected_effective_bioenergy
+  label: Effective capacity on the interconnected grid, bioenergy
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_interconnected_effective_geothermal
+  label: Effective capacity on the interconnected grid, geothermal
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_interconnected_effective_hydro
+  label: Effective capacity on the interconnected grid, hydro
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_interconnected_effective_imports
+  label: Effective capacity on the interconnected grid, imports
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_interconnected_effective_solar
+  label: Effective capacity on the interconnected grid, solar
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_interconnected_effective_thermal
+  label: Effective capacity on the interconnected grid, thermal
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_interconnected_effective_total
+  label: Effective capacity on the interconnected grid, total
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_interconnected_effective_wind
+  label: Effective capacity on the interconnected grid, wind
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_interconnected_installed_bioenergy
+  label: Installed capacity on the interconnected grid, bioenergy, as at 30 June
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_interconnected_installed_geothermal
+  label: Installed capacity on the interconnected grid, geothermal
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_interconnected_installed_hydro
+  label: Installed capacity on the interconnected grid, hydro
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_interconnected_installed_imports
+  label: Installed capacity on the interconnected grid, imports
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_interconnected_installed_solar
+  label: Installed capacity on the interconnected grid, solar
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_interconnected_installed_thermal
+  label: Installed capacity on the interconnected grid, thermal
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_interconnected_installed_total
+  label: Installed capacity on the interconnected grid, total
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_interconnected_installed_wind
+  label: Installed capacity on the interconnected grid, wind
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_offgrid_hydro
+  label: Off-grid capacity, hydro
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_offgrid_solar
+  label: Off-grid capacity, solar
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_offgrid_thermal
+  label: Off-grid capacity, thermal
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_offgrid_total
+  label: Off-grid capacity, total
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_offgrid_wind
+  label: Off-grid capacity, wind
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_total_installed_bioenergy
+  label: Total installed capacity, bioenergy
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_total_installed_geothermal
+  label: Total installed capacity, geothermal
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_total_installed_hydro
+  label: Total installed capacity, hydro
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_total_installed_imports
+  label: Total installed capacity, imports
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_total_installed_solar
+  label: Total installed capacity, solar
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_total_installed_thermal
+  label: Total installed capacity, thermal
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_total_installed_total
+  label: Total installed capacity, all technologies
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_total_installed_waste_heat_recovery
+  label: Total installed capacity, waste heat recovery
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: capacity_total_installed_wind
+  label: Total installed capacity, wind
+  unit: MW
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: consumption_domestic
+  label: Electricity consumption by domestic customers in the fiscal year
+  unit: MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: consumption_e_mobility
+  label: Electricity consumption by e-mobility in the fiscal year
+  unit: MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: consumption_industrial
+  label: Electricity consumption by industrial customers in the fiscal year
+  unit: MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: consumption_small_commercial
+  label: Electricity consumption by small commercial customers in the fiscal year
+  unit: MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: consumption_street_lighting
+  label: Electricity consumption by street lighting in the fiscal year
+  unit: MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: consumption_total
+  label: Electricity consumption, all categories, in the fiscal year
+  unit: MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+second_look: null

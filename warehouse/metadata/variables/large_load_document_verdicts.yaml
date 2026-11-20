@@ -1,0 +1,210 @@
+# The codebook's metadata of table large_load_document_verdicts (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: large_load_document_verdicts
+family: large
+shape: events
+row: One source document behind large_load_statements or large_load_waits, with the license verdict the ERW gives it and why.
+time: event_date is the day of the verdict (a date).
+vintage_rule: Rebuilt whole from its inputs by each run of the builder (warehouse/derived/large_load_public.py removes the
+  old file first); no vintage column.
+keys:
+- event_id
+license: internal
+tier: derived
+interval: event
+source:
+- name: erw:large_load_document_verdicts ERW derived table, docs/methods/large_load_public.md
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/large_load_public.md
+cite: Energy Research Warehouse (ERW), derived. A license verdict for each source document of the large-load tables (warehouse/derived/large_load_public.py).
+  Via the Energy Research Warehouse (ERW), table `large_load_document_verdicts`.
+method: docs/methods/large_load_public.md
+header_title: a license verdict for each source document behind large_load_statements and large_load_waits (session 255)
+header_shape: 'Shape: events (docs/datastandard.md v0), event_type license_verdict; one row a document. source_url: the document''s
+  address. parties: the regulator, the publisher session 205 read, or the host. status: the verdict (public; needs written
+  permission; not settled; not public). document_class and verdict_basis say why. rows: the table''s rows that rest on the
+  document; rows_public: those that are in large_load_public. event_date: the day of the verdict.'
+read:
+  date: '2026-11-20'
+  rows: 427
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: license_verdict on every row
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: parties
+  shared: true
+  particular: The regulator, the publisher whose terms session 205 read, or the document's host
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 427
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 427
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 427
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 427
+- name: status
+  shared: true
+  particular: 'The verdict: public, needs written permission, needs a paid license, not settled or not public'
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  particular: The document's address
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: of_table
+  label: 'The table whose rows rest on the document: large_load_statements or large_load_waits'
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method large_load_public.md; connector large_load_public.py
+- name: host
+  label: The host name of the document's address, in lower case
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_public.py
+- name: document_title
+  label: The document's title as the statements table holds it
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 126
+  missing_meaning: A document of large_load_waits (that table holds no title)
+  source_name: null
+  documented_by: method large_load_public.md
+- name: document_type
+  label: The document's type as the statements table holds it (commission filing, SEC filing, earnings presentation and others)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method large_load_public.md
+- name: document_class
+  label: 'How the document was classed for its license: third party''s copy, SEC filing, regulatory filing, read publisher''s
+    document, federal body''s document, filed document on the filer''s own copy, publisher''s own document, or a queue copy'
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method large_load_public.md; connector large_load_public.py
+- name: verdict_basis
+  label: 'Why the verdict was given: the rule or the terms it rests on'
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method large_load_public.md
+- name: regulator_state
+  label: The state of the regulator whose docket or site holds the document
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 326
+  missing_meaning: Not a regulator's document, or a federal regulator
+  source_name: null
+  documented_by: connector large_load_public.py
+- name: rows
+  label: The rows of the table named in of_table that rest on the document
+  unit: count
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method large_load_public.md
+- name: rows_public
+  label: Of those rows, the ones in large_load_public
+  unit: count
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method large_load_public.md
+- name: address_holds_email
+  label: yes when the document's address holds an e-mail address, else no
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method large_load_public.md; connector large_load_public.py
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+second_look: null

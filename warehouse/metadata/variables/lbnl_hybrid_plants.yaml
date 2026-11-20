@@ -1,0 +1,387 @@
+# The codebook's metadata of table lbnl_hybrid_plants (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: lbnl_hybrid_plants
+family: lbnl
+shape: entities
+row: One operating U.S. hybrid power plant (two kinds of generator, or a generator and storage, at one site) or a storage-only
+  plant Berkeley Lab lists beside them, from LBNL's Hybrid Power Plants 2026 data update, sheet "01. Operating Plants".
+time: No time column. vintage is the data file's last-modified time; the plants are those operating through 2025.
+vintage_rule: A snapshot, rewritten whole by each run from the one data file; LBNL publishes each year's update at a new address.
+keys:
+- entity_id
+license: internal
+tier: source
+interval: snapshot
+source:
+- name: 'lbnl:hybrid_plants Lawrence Berkeley National Laboratory, Hybrid Power Plants: Status of Operating and Proposed Plants,
+    2026 Data Update'
+  url: https://eta-publications.lbl.gov/publications/hybrid-power-plants-status-4
+cite: 'Lawrence Berkeley National Laboratory (Berkeley Lab). Hybrid Power Plants: Status of Operating and Proposed Plants
+  (operating plants). Via the Energy Research Warehouse (ERW), table `lbnl_hybrid_plants`.'
+method: docs/methods/lbnl_hybrid_plants.md
+header_title: 'Berkeley Lab, operating U.S. hybrid power plants through 2025 (Hybrid Power Plants: Status of Operating and
+  Proposed Plants, 2026 Data Update, sheet ''01. Operating Plants'') (session 979)'
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id lbnl_hybrid:<EIA plant id> (none-<name> where LBNL writes
+  ''missing''); entity_type plant; geo US-<state>; capacity_mw the generators'' and storage''s total; status empty (operating
+  plants); x_* LBNL''s columns, renamed.'
+read:
+  date: '2026-11-20'
+  rows: 1068
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  particular: lbnl_hybrid:<EIA plant id>, or lbnl_hybrid:none-<name as a slug> where LBNL writes missing
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  particular: plant on every row
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: name
+  shared: true
+  particular: EIA's plant name as LBNL gives it
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state>
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: lon
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: capacity_mw
+  shared: true
+  particular: The generators' and storage's total capacity (LBNL's Total Capacity, Generators and Storage); empty for storage-only
+    plants
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 436
+- name: status
+  shared: true
+  particular: 'Not filled: LBNL lists operating plants'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1068
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1068
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1068
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: x_region
+  label: LBNL's region of the plant
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Region
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_final_type
+  label: LBNL's final type of the hybrid (PV+Storage, Wind+Storage, Fossil+PV and the others)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 436
+  missing_meaning: A storage-only plant
+  source_name: Final Type
+  documented_by: header; connector lbnl_hybrid_plants.py
+- name: x_type
+  label: LBNL's type of the plant (Storage for a storage-only plant)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Type
+  documented_by: header; connector lbnl_hybrid_plants.py
+- name: x_duration_h
+  label: The storage's duration in hours, as LBNL writes it
+  unit: hour
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 116
+  missing_meaning: LBNL left it blank (no storage)
+  source_name: Duration (Hrs)
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_storage_generation_ratio_pct
+  label: The plant's storage capacity as a percent of its generation capacity
+  unit: pct
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 552
+  missing_meaning: LBNL left it blank
+  source_name: Storage:Generation Ratio (%)
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_generator1_mw
+  label: The capacity of the plant's first generator type
+  unit: MW
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 436
+  missing_meaning: LBNL left it blank (a storage-only plant)
+  source_name: Generator 1 Capacity (MW)
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_generator2_mw
+  label: The capacity of the plant's second generator type
+  unit: MW
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 941
+  missing_meaning: LBNL left it blank (no second generator type)
+  source_name: Generator 2 Capacity (MW)
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_generator3_mw
+  label: The capacity of the plant's third generator type
+  unit: MW
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1054
+  missing_meaning: LBNL left it blank (no third generator type)
+  source_name: Generator 3 Capacity (MW)
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_storage_mw
+  label: The storage's power capacity
+  unit: MW
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 116
+  missing_meaning: LBNL left it blank (no storage)
+  source_name: Storage Capacity (MW)
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_storage_mwh
+  label: The storage's nameplate energy capacity, as LBNL writes it
+  unit: MWh
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 116
+  missing_meaning: LBNL left it blank (no storage)
+  source_name: Nameplate Storage Energy Capacity (MWh)
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_battery_online
+  label: The date the battery came online, written as a day
+  unit: none
+  type: date
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 116
+  missing_meaning: LBNL left it blank (no storage)
+  source_name: Battery Online Date
+  documented_by: connector lbnl_hybrid_plants.py; method lbnl_hybrid_plants.md
+- name: x_generator1_online
+  label: The date the first generator came online, written as a day
+  unit: none
+  type: date
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 436
+  missing_meaning: LBNL left it blank (a storage-only plant)
+  source_name: Generator 1 Online Date
+  documented_by: connector lbnl_hybrid_plants.py; method lbnl_hybrid_plants.md
+- name: x_coupling
+  label: The plant's coupling, as LBNL writes it
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 552
+  missing_meaning: LBNL left it blank
+  source_name: Coupling
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_storage_technology
+  label: The storage's (first) technology, as LBNL writes it
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 116
+  missing_meaning: LBNL left it blank (no storage)
+  source_name: Storage Technology 1
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_battery_uses_n
+  label: The total number of uses LBNL lists for the battery
+  unit: count
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Total Number of Uses for Battery
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_use_arbitrage
+  label: LBNL's mark for arbitrage as a use of the battery
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 583
+  missing_meaning: LBNL left it blank (not marked)
+  source_name: Arbitrage
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_use_frequency_regulation
+  label: LBNL's mark for frequency regulation as a use of the battery
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 623
+  missing_meaning: LBNL left it blank (not marked)
+  source_name: Frequency Regulation
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_use_load_following
+  label: LBNL's mark for load following as a use of the battery
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 965
+  missing_meaning: LBNL left it blank (not marked)
+  source_name: Load Following
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_use_ramping_spinning_reserve
+  label: LBNL's mark for ramping or spinning reserve as a use of the battery
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 822
+  missing_meaning: LBNL left it blank (not marked)
+  source_name: Ramping / Spinning Reserve
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_use_renewable_firming
+  label: LBNL's mark for firming co-located renewables as a use of the battery
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 961
+  missing_meaning: LBNL left it blank (not marked)
+  source_name: Co-Located Renewable Firming
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_use_td_deferral
+  label: LBNL's mark for transmission and distribution deferral as a use of the battery
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1017
+  missing_meaning: LBNL left it blank (not marked)
+  source_name: Transmission and Distribution Deferral
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_use_peak_shaving
+  label: LBNL's mark for system peak shaving as a use of the battery
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 741
+  missing_meaning: LBNL left it blank (not marked)
+  source_name: System Peak Shaving
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_use_load_management
+  label: LBNL's mark for load management as a use of the battery
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 916
+  missing_meaning: LBNL left it blank (not marked)
+  source_name: Load Management
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_use_voltage_support
+  label: LBNL's mark for voltage or reactive power support as a use of the battery
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 884
+  missing_meaning: LBNL left it blank (not marked)
+  source_name: Voltage or Reactive Power Support
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_use_backup_power
+  label: LBNL's mark for backup power as a use of the battery
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1003
+  missing_meaning: LBNL left it blank (not marked)
+  source_name: Backup Power
+  documented_by: connector lbnl_hybrid_plants.py
+- name: x_use_excess_wind_solar
+  label: LBNL's mark for storing excess wind and solar generation as a use of the battery
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 690
+  missing_meaning: LBNL left it blank (not marked)
+  source_name: Excess Wind and Solar Generation
+  documented_by: connector lbnl_hybrid_plants.py
+second_look:
+- 'x_region, x_coupling and the x_use_* columns: LBNL''s codes or marks in these columns are not explained in the repository
+  (the connector copies them as written)'

@@ -1,0 +1,259 @@
+# The codebook's metadata of table gas_balance_weekly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: gas_balance_weekly
+family: erw_derived
+shape: series
+row: One EIA storage region's weekly working gas measure, or one monthly measure of the US natural gas balance.
+time: ts_utc is the storage report's week (freq P1W) or the first day of the month (freq P1M), at 00:00:00Z.
+vintage_rule: Rewritten whole as one snapshot by each run of the builder from the EIA source tables; vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1M;P1W
+source:
+- name: eia:natural-gas U.S. Energy Information Administration, Weekly Natural Gas Storage Report and Natural Gas Monthly
+  url: ''
+cite: Energy Research Warehouse (ERW), derived. The weekly gas storage balance and the monthly U.S. gas balance (docs/methods/gas_balance_weekly.md).
+  Via the Energy Research Warehouse (ERW), table `gas_balance_weekly`.
+method: docs/methods/gas_balance_weekly.md
+header_title: working gas in storage by region each week, its change and its place in the five years before; and the monthly
+  U.S. gas balance with LNG's and power's shares (derived, session 2956)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity gas_storage:<region> (freq P1W) and gas_balance:US (freq P1M);
+  variables working_gas_bcf, net_change_bcf, five_year_min_bcf, five_year_max_bcf, five_year_avg_bcf, vs_five_year_avg_bcf,
+  five_year_position_pct (weekly); dry_production, imports, consumption, power_burn, exports, lng_exports, implied_balance
+  (MMcf), lng_share_pct, power_share_pct (monthly).'
+read:
+  date: '2026-11-20'
+  rows: 40507
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: gas_storage:<EIA region> for the weekly rows, gas_balance:US for the monthly rows
+  type: text
+  values:
+    list:
+      gas_balance:US: 1923
+      gas_storage:east: 4823
+      gas_storage:lower48: 4823
+      gas_storage:midwest: 4823
+      gas_storage:mountain: 4823
+      gas_storage:nonsalt: 4823
+      gas_storage:pacific: 4823
+      gas_storage:salt: 4823
+      gas_storage:south_central: 4823
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 1154
+    earliest: '2001-01-01T00:00:00Z'
+    latest: '2026-10-16T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -1047507.0
+    highest: 3921586.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MMcf: 1477
+      bcf: 33672
+      pct: 5358
+  missing_cells: 0
+- name: freq
+  shared: true
+  particular: P1W for storage rows, P1M for balance rows
+  type: text
+  values:
+    list:
+      P1M: 1923
+      P1W: 38584
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US on every row, whatever the region
+  type: text
+  values:
+    list:
+      US: 40507
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 40507
+- name: node
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 40507
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:gas_balance_weekly: 40507
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/gas_balance_weekly.md: 40507
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-06T08:28:34Z': 40507
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 40507
+- name: x_region
+  label: EIA's storage region (east, midwest, south_central, mountain, pacific, salt, nonsalt, lower48), or US on the monthly
+    balance rows
+  unit: none
+  type: text
+  values:
+    list:
+      US: 1923
+      east: 4823
+      lower48: 4823
+      midwest: 4823
+      mountain: 4823
+      nonsalt: 4823
+      pacific: 4823
+      salt: 4823
+      south_central: 4823
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method gas_balance_weekly.md; connector gas_balance_weekly.py
+variables:
+- name: consumption
+  label: US total natural gas consumption in the month
+  unit: MMcf
+  rows: 307
+  first: '2001-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: dry_production
+  label: US dry natural gas production in the month
+  unit: MMcf
+  rows: 307
+  first: '2001-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: exports
+  label: US natural gas exports in the month (pipeline to Canada and Mexico, and LNG)
+  unit: MMcf
+  rows: 139
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: five_year_avg_bcf
+  label: The average working gas of the same ISO week in the five years before (written only when all five are held)
+  unit: bcf
+  rows: 4912
+  first: '2015-01-02T00:00:00Z'
+  last: '2026-10-16T00:00:00Z'
+- name: five_year_max_bcf
+  label: The highest working gas of the same ISO week in the five years before (written only when all five are held)
+  unit: bcf
+  rows: 4912
+  first: '2015-01-02T00:00:00Z'
+  last: '2026-10-16T00:00:00Z'
+- name: five_year_min_bcf
+  label: The lowest working gas of the same ISO week in the five years before (written only when all five are held)
+  unit: bcf
+  rows: 4912
+  first: '2015-01-02T00:00:00Z'
+  last: '2026-10-16T00:00:00Z'
+- name: five_year_position_pct
+  label: 'Working gas''s place in the five-year range: 0 at the five-year low, 100 at the high'
+  unit: pct
+  rows: 4912
+  first: '2015-01-02T00:00:00Z'
+  last: '2026-10-16T00:00:00Z'
+- name: implied_balance
+  label: 'Dry production plus imports less consumption less exports: what went to storage, the losses and EIA''s balancing
+    item (written only when all four are held)'
+  unit: MMcf
+  rows: 139
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: imports
+  label: US natural gas imports in the month (pipeline from Canada and Mexico, and LNG)
+  unit: MMcf
+  rows: 139
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: lng_exports
+  label: US LNG exports in the month
+  unit: MMcf
+  rows: 139
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: lng_share_pct
+  label: LNG exports as a percent of dry production
+  unit: pct
+  rows: 139
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: net_change_bcf
+  label: Working gas less the week exactly 7 days before
+  unit: bcf
+  rows: 7008
+  first: '2010-01-08T00:00:00Z'
+  last: '2026-10-16T00:00:00Z'
+- name: power_burn
+  label: US natural gas consumed for electric power in the month
+  unit: MMcf
+  rows: 307
+  first: '2001-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: power_share_pct
+  label: Power burn as a percent of consumption
+  unit: pct
+  rows: 307
+  first: '2001-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: vs_five_year_avg_bcf
+  label: Working gas less the five-year average
+  unit: bcf
+  rows: 4912
+  first: '2015-01-02T00:00:00Z'
+  last: '2026-10-16T00:00:00Z'
+- name: working_gas_bcf
+  label: Working gas in underground storage in the region at the report's week
+  unit: bcf
+  rows: 7016
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-10-16T00:00:00Z'
+second_look: null

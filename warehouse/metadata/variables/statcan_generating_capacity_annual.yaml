@@ -1,0 +1,324 @@
+# The codebook's metadata of table statcan_generating_capacity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: statcan_generating_capacity_annual
+family: statcan
+shape: series
+row: One area's installed generating capacity of one type for one class of producer in one year, from Statistics Canada table
+  25-10-0022-01.
+time: ts_utc is the year's 1 January at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: A snapshot; each run asks the zip again and writes the whole table; vintage is the zip's Last-Modified time.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: statcan:25-10-0022-01 Statistics Canada, Table 25-10-0022-01, Installed plants, annual generating capacity by type
+    of electricity generation
+  url: https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2510002201
+cite: Statistics Canada. Table 25-10-0022-01, Installed plants, annual generating capacity by type of electricity generation.
+  Via the Energy Research Warehouse (ERW), table `statcan_generating_capacity_annual`.
+method: docs/methods/statcan_generating_capacity_annual.md
+header_title: Statistics Canada, table 25-10-0022-01, installed plants, annual generating capacity by type of electricity
+  generation and class of producer, by province, 2006 to 2025 (session 2418)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity statcan_cap:<area>:<class> (class all, public utilities, private
+  utilities or industry); variable capacity_<type> (total, hydraulic_turbine, wind_power_turbine, tidal_power_turbine, solar_power,
+  geothermal, other_non_combustibles, total_thermal and its conventional_steam_turbine, nuclear_steam_turbine, combustion_turbine,
+  internal_combustion_turbine); unit MW (StatCan''s kilowatts divided by 1,000); freq P1Y; ts_utc the year''s 1 January; geo
+  CA or CA-<province>; x_class, x_type StatCan''s names; x_vector; x_symbol r revised. Types and classes overlap (totals hold
+  their parts): a sum takes one level. Capacity is gross, at the generators'' terminals before station service (StatCan''s
+  note 3); the survey grew from 400 to 1,200 establishments in 2015 (note 12); solar below 100 kW counts only from 2024 (note
+  7); 2012 has no figure (all .. in StatCan''s file).'
+read:
+  date: '2026-11-20'
+  rows: 5952
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: statcan_cap:<area>:<class>, the class all, public utilities, private utilities or industry
+  type: text
+  values:
+    distinct: 55
+    examples:
+    - statcan_cap:ab:all
+    - statcan_cap:ab:industry
+    - statcan_cap:ab:private
+    - statcan_cap:ab:public
+    - statcan_cap:bc:all
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2006-01-01T00:00:00Z': 287
+      '2007-01-01T00:00:00Z': 304
+      '2008-01-01T00:00:00Z': 288
+      '2009-01-01T00:00:00Z': 290
+      '2010-01-01T00:00:00Z': 295
+      '2011-01-01T00:00:00Z': 298
+      '2013-01-01T00:00:00Z': 296
+      '2014-01-01T00:00:00Z': 304
+      '2015-01-01T00:00:00Z': 306
+      '2016-01-01T00:00:00Z': 307
+      '2017-01-01T00:00:00Z': 306
+      '2018-01-01T00:00:00Z': 314
+      '2019-01-01T00:00:00Z': 317
+      '2020-01-01T00:00:00Z': 322
+      '2021-01-01T00:00:00Z': 323
+      '2022-01-01T00:00:00Z': 326
+      '2023-01-01T00:00:00Z': 345
+      '2024-01-01T00:00:00Z': 361
+      '2025-01-01T00:00:00Z': 363
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 3211
+    lowest: 0.0
+    highest: 155906.393
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 5952
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 5952
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: CA for Canada, CA-<province> for a province or territory
+  type: text
+  values:
+    list:
+      CA: 698
+      CA-AB: 543
+      CA-BC: 498
+      CA-MB: 354
+      CA-NB: 460
+      CA-NL: 388
+      CA-NS: 366
+      CA-NT: 353
+      CA-NU: 128
+      CA-ON: 659
+      CA-PE: 262
+      CA-QC: 518
+      CA-SK: 448
+      CA-YT: 277
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5952
+- name: node
+  shared: true
+  particular: '<area>: <class>: <type> as StatCan names them, not a pricing node'
+  type: text
+  values:
+    distinct: 392
+    examples:
+    - 'Alberta: Electricity producer, industries: Combustion turbine'
+    - 'Alberta: Electricity producer, industries: Conventional steam turbine'
+    - 'Alberta: Electricity producer, industries: Internal combustion turbine'
+    - 'Alberta: Electricity producer, industries: Solar power'
+    - 'Alberta: Electricity producer, industries: Total installed capacity'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      statcan:25-10-0022-01: 5952
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www150.statcan.gc.ca/n1/tbl/csv/25100022-eng.zip: 5952
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T11:01:55Z': 5952
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The Last-Modified time of StatCan's zip
+  type: utc time
+  values:
+    list:
+      '2026-10-19T12:30:44Z': 5952
+  missing_cells: 0
+- name: x_class
+  label: The class of electricity producer, StatCan's name (public or private electric utilities, industries, or the total
+    of all classes)
+  unit: none
+  type: text
+  values:
+    list:
+      Electricity producer, industries: 1108
+      Electricity producer, private electric utilities: 1457
+      Electricity producer, public electric utilities: 1498
+      Total all classes of electricity producer: 1889
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Class of electricity producer
+  documented_by: header; connector statcan_generating_capacity.py; data
+- name: x_type
+  label: The type of electricity generation, StatCan's name
+  unit: none
+  type: text
+  values:
+    list:
+      Combustion turbine: 668
+      Conventional steam turbine: 707
+      Geothermal: 12
+      Hydraulic turbine: 698
+      Internal combustion turbine: 707
+      Nuclear steam turbine: 160
+      Other non-combustibles: 43
+      Solar power: 319
+      Tidal power turbine: 60
+      Total installed capacity: 988
+      Total thermal: 927
+      Wind power turbine: 663
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Type of electricity generation
+  documented_by: header; connector statcan_generating_capacity.py; data
+- name: x_vector
+  label: StatCan's vector identifier of the series
+  unit: none
+  type: text
+  values:
+    distinct: 392
+    examples:
+    - v105775408
+    - v105775409
+    - v105775410
+    - v105775412
+    - v105775413
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: VECTOR
+  documented_by: header; connector statcan_generating_capacity.py
+- name: x_symbol
+  label: 'StatCan''s symbol of the figure: r revised'
+  unit: none
+  type: text
+  values:
+    list:
+      r: 180
+  missing_cells: 5772
+  missing_meaning: StatCan gives no symbol
+  source_name: SYMBOL
+  documented_by: header; connector statcan_generating_capacity.py; method statcan_generating_capacity_annual.md
+- name: x_terminated
+  label: StatCan's mark of an ended series (TERMINATED); no row holds one
+  unit: none
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5952
+  missing_meaning: 'Always empty: no series of the table is ended'
+  source_name: TERMINATED
+  documented_by: connector statcan_generating_capacity.py; data
+variables:
+- name: capacity_combustion_turbine
+  label: Installed capacity of combustion turbines, MW
+  unit: MW
+  rows: 668
+  first: '2006-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_conventional_steam_turbine
+  label: Installed capacity of conventional steam turbines, MW
+  unit: MW
+  rows: 707
+  first: '2006-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_geothermal
+  label: Installed capacity of geothermal plants, MW
+  unit: MW
+  rows: 12
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_hydraulic_turbine
+  label: Installed capacity of hydraulic turbines, MW
+  unit: MW
+  rows: 698
+  first: '2006-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_internal_combustion_turbine
+  label: Installed capacity of internal combustion engines, MW
+  unit: MW
+  rows: 707
+  first: '2006-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_nuclear_steam_turbine
+  label: Installed capacity of nuclear steam turbines, MW
+  unit: MW
+  rows: 160
+  first: '2006-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_other_non_combustibles
+  label: Installed capacity of other non-combustible types, MW
+  unit: MW
+  rows: 43
+  first: '2018-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_solar_power
+  label: Installed capacity of solar power, MW (below 100 kW counted only from 2024)
+  unit: MW
+  rows: 319
+  first: '2007-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_tidal_power_turbine
+  label: Installed capacity of tidal power turbines, MW
+  unit: MW
+  rows: 60
+  first: '2006-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: capacity_total
+  label: Total installed capacity, MW (gross, at the generators' terminals)
+  unit: MW
+  rows: 988
+  first: '2006-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_total_thermal
+  label: Total thermal installed capacity, MW (the four turbine types below)
+  unit: MW
+  rows: 927
+  first: '2006-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_wind_power_turbine
+  label: Installed capacity of wind power turbines, MW
+  unit: MW
+  rows: 663
+  first: '2006-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,393 @@
+# The codebook's metadata of table ornl_hydropower_pipeline (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ornl_hydropower_pipeline
+family: ornl
+shape: entities
+row: One proposed U.S. hydropower or pumped storage project in permitting, licensing or exemption, or under construction,
+  on 31 December 2025, from ORNL's U.S. Hydropower Development Pipeline, 2026.
+time: No time column; status_date is the snapshot's day, 2025-12-31; vintage is the workbook's last-modified time (UTC).
+vintage_rule: A snapshot of one yearly edition, replaced whole by each run.
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: ornl:hydro_pipeline M.M. Johnson and R. Uria-Martinez, U.S. Hydropower Development Pipeline Data, 2026, HydroSource,
+    Oak Ridge National Laboratory, Oak Ridge, Tennessee, DOI 10.21951/HMR_PipelineFY26/3025030
+  url: https://hydrosource.ornl.gov/data/datasets/us-hydropower-development-pipeline-data-2026/
+cite: Oak Ridge National Laboratory (ORNL), HydroSource. U.S. Hydropower Development Pipeline Data. Via the Energy Research
+  Warehouse (ERW), table `ornl_hydropower_pipeline`.
+method: docs/methods/ornl_hydropower.md
+header_title: 'Oak Ridge National Laboratory, U.S. Hydropower Development Pipeline, 2026: proposed hydropower and pumped storage
+  projects on 31 December 2025 (session 916)'
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id ornl_hydro_pipeline:<FERC docket> (none-<name> where there
+  is no docket); entity_type project; geo US-<state>; lat, lon NAD83; capacity_mw the project''s proposed capacity; status
+  under_construction or planned, ORNL''s own in permit_status; status_date the snapshot''s day; operator the developer; project_type
+  HY or PSH; psh_configuration open or closed loop.'
+read:
+  date: '2026-11-20'
+  rows: 196
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  particular: ornl_hydro_pipeline:<FERC docket>, or ornl_hydro_pipeline:none-<project name slug> where there is no docket
+  type: text
+  values:
+    distinct: 196
+    examples:
+    - ornl_hydro_pipeline:CD20-8
+    - ornl_hydro_pipeline:CD21-5*
+    - ornl_hydro_pipeline:CD22-1
+    - ornl_hydro_pipeline:CD22-5
+    - ornl_hydro_pipeline:CD22-6
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  particular: Always project
+  type: text
+  values:
+    list:
+      project: 196
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 196
+    examples:
+    - A. I. Selden Dam
+    - Aberdeen Hydroelectric Project
+    - Allegheny Lock & Dam 2
+    - 'Allegheny Lock and Dam #4'
+    - Annandale Micro
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state>
+  type: text
+  values:
+    distinct: 33
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: number
+  values:
+    distinct: 195
+    lowest: 31.18667
+    highest: 60.457491
+  missing_cells: 0
+- name: lon
+  shared: true
+  type: number
+  values:
+    distinct: 196
+    lowest: -153.306198
+    highest: -70.37631
+  missing_cells: 0
+- name: capacity_mw
+  shared: true
+  particular: The project's proposed capacity (Capacity_MW)
+  type: number
+  values:
+    distinct: 123
+    lowest: 0.003
+    highest: 5287.0
+  missing_cells: 0
+- name: status
+  shared: true
+  particular: under_construction where ORNL writes Under Construction, else planned (issued or pending permits, licenses and
+    exemptions included)
+  type: text
+  values:
+    list:
+      planned: 189
+      under_construction: 7
+  missing_cells: 0
+- name: status_date
+  shared: true
+  particular: The snapshot's day, 2025-12-31, not the date the status took effect
+  type: date
+  values:
+    list:
+      '2025-12-31': 196
+  missing_cells: 0
+- name: operator
+  shared: true
+  particular: The developer (Project_developer)
+  type: text
+  values:
+    distinct: 161
+    examples:
+    - 3R Valve
+    - Aberdeen Hydro AE, LLC
+    - Alaska Village Electric Cooperative, Inc.
+    - Allegheny Hydro, LLC.
+    - BOST3 Hydroelectric LLC
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ornl:hydro_pipeline: 196
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://hydrosource.s3.us-east-2.amazonaws.com/files/data/datasets/us-hydropower-development-pipeline-data-2026/ORNL_US_Hydropower_DevelopmentPipeline_Data_2026.xlsx
+      : 196
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T08:33:21Z': 196
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The workbook's last-modified time, UTC
+  type: utc time
+  values:
+    list:
+      '2026-04-20T17:05:22Z': 196
+  missing_cells: 0
+- name: ferc_docket
+  label: The project's FERC docket number (P- a license or exemption, CD- a qualifying conduit), as ORNL writes it
+  unit: none
+  type: text
+  values:
+    distinct: 193
+    examples:
+    - CD20-8
+    - CD21-5*
+    - CD22-1
+    - CD22-5
+    - CD22-6
+  missing_cells: 3
+  missing_meaning: 'No docket: the project seeks authorization from the Bureau of Reclamation (lease of power privilege) or
+    a preliminary lease'
+  source_name: FERC_docket
+  documented_by: header; source Pipeline Field Descriptions sheet
+- name: permit_status
+  label: ORNL's status of the project (Issued Preliminary Permit, Issued License, Pending License, Under Construction and
+    the others)
+  unit: none
+  type: text
+  values:
+    list:
+      Issued Exemption: 23
+      Issued LOPP Authorization: 2
+      Issued License: 38
+      Issued Preliminary Lease: 1
+      Issued Preliminary Permit: 99
+      Pending Exemption: 2
+      Pending License: 11
+      Pending Preliminary Permit: 13
+      Under Construction: 7
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Status
+  documented_by: header; connector ornl_hydro_pipeline.py; data
+- name: project_type
+  label: HY conventional hydropower or PSH pumped storage
+  unit: none
+  type: text
+  values:
+    list:
+      HY: 128
+      PSH: 68
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Project_type
+  documented_by: header; source Pipeline Field Descriptions sheet
+- name: project_subcategory
+  label: Whether the project is a conduit, a new stream-reach development, a non-powered dam or pumped storage
+  unit: none
+  type: text
+  values:
+    list:
+      Conduit: 27
+      New Stream-Reach Development: 9
+      Non-Powered Dam: 92
+      Pumped Storage Hydropower: 68
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Project_subcategory
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet
+- name: state
+  label: The project's state, two-letter postal code
+  unit: none
+  type: text
+  values:
+    distinct: 33
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: State
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet
+- name: county
+  label: The project's U.S. county as ORNL writes it
+  unit: none
+  type: text
+  values:
+    distinct: 148
+    examples:
+    - Adams
+    - Alameda
+    - Alleghany
+    - Allegheny
+    - Amador County
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: County
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet
+- name: county_fips
+  label: The county's FIPS (Federal Information Processing Standards) code
+  unit: none
+  type: integer
+  values:
+    distinct: 150
+    lowest: 1023
+    highest: 56023
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: FIPS_Census
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet
+- name: developer_type
+  label: The type of developer (Private non-utility, Investor-owned utility, Municipal, Political subdivision and the others)
+  unit: none
+  type: text
+  values:
+    list:
+      Cooperative: 1
+      Investor-owned utility: 12
+      Municipal: 10
+      Political subdivision: 15
+      Private non-utility: 157
+      State: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Developer_type
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet
+- name: dam_name
+  label: The name of the dam where the project would be located
+  unit: none
+  type: text
+  values:
+    distinct: 89
+    examples:
+    - A.I. Selden Lock and Dam
+    - Aberdeen Lock and Dam
+    - Allegheny Lock & Dam 4
+    - Allegheny Lock and Dam 2
+    - Annandale Dam
+  missing_cells: 106
+  missing_meaning: No dam named (conduits, new stream-reach and most pumped storage projects)
+  source_name: Dam_Name
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet
+- name: dam_owner
+  label: The owner of that dam as ORNL writes it (Corps of Engineers districts by code, such as CELRP)
+  unit: none
+  type: text
+  values:
+    list:
+      Bard College: 1
+      Beaver Falls Municiple Authority: 1
+      Bureau of Reclamation: 1
+      CELRP: 12
+      CEMVK: 8
+      CEMVR: 3
+      CENAB: 1
+      CENAO: 1
+      CESAM: 1
+      Central Hudson Gas & Electric Corp: 2
+      Commonwealth of Kentucky: 3
+      Commonwealth of Pennsylvania, Department of Environmental Protection: 1
+      Kentucky River Authority: 2
+      RIDEM: 1
+      Reclamation: 1
+      Rhode Island Department of Environmental Management: 1
+      State of New York Canal Corporation: 1
+      Town of Cumberland: 1
+      Town of West Warwick: 1
+      USACE: 40
+      Village of Swanton: 1
+  missing_cells: 112
+  missing_meaning: No dam owner named
+  source_name: Dam_Owner
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet; data
+- name: waterway
+  label: The water source where the project would be located
+  unit: none
+  type: text
+  values:
+    distinct: 71
+    examples:
+    - Alabama River
+    - Allegheny River
+    - Antelope Valley Water Storage
+    - Arkansas River
+    - Barrett Lake
+  missing_cells: 77
+  missing_meaning: ORNL gives none
+  source_name: Waterway
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet
+- name: psh_configuration
+  label: Whether a pumped storage project would be open-loop or closed-loop
+  unit: none
+  type: text
+  values:
+    list:
+      Closed-Loop: 58
+      Open-Loop: 10
+  missing_cells: 128
+  missing_meaning: Not a pumped storage project
+  source_name: PSH_configuration
+  documented_by: header; source Pipeline Field Descriptions sheet
+- name: nerc_region
+  label: The project's North American Electric Reliability Corporation region
+  unit: none
+  type: text
+  values:
+    list:
+      MRO: 6
+      NPCC: 14
+      RFC: 40
+      SERC: 35
+      SPP: 7
+      WECC: 86
+  missing_cells: 8
+  missing_meaning: ORNL gives none
+  source_name: NERC
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet
+- name: huc
+  label: The 12-digit hydrologic unit code (the watershed), as given
+  unit: none
+  type: integer
+  values:
+    distinct: 184
+    lowest: 10400020505
+    highest: 190207011806
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: HUC12_All
+  documented_by: connector ornl_hydro_pipeline.py; source Pipeline Field Descriptions sheet
+second_look: null

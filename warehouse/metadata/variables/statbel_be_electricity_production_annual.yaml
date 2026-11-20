@@ -1,0 +1,191 @@
+# The codebook's metadata of table statbel_be_electricity_production_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: statbel_be_electricity_production_annual
+family: other_sources
+shape: series
+row: Belgium's gross electricity production from one energy product (or in total) in one year, from Statbel's beSTAT.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y; 2018 to 2025.
+vintage_rule: Rewritten whole as one snapshot by each run from beSTAT's CSV; vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: statbel:bestat_gross_electricity_production Statbel (Directorate-General Statistics, Statistics Belgium), beSTAT,
+    Evolution Gross electricity production 2025
+  url: ''
+cite: 'Statistics Belgium (Statbel). beSTAT: Evolution Gross electricity production 2025, by energy product. Via the Energy
+  Research Warehouse (ERW), table `statbel_be_electricity_production_annual`.'
+method: docs/methods/statbel_be_electricity_production_annual.md
+header_title: 'Statbel, beSTAT, Evolution Gross electricity production 2025: Belgium''s gross electricity production by energy
+  product, each year from 2018 to 2025 (session 2770)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity statbel_gep:be:total or statbel_gep:be:<product group>:<product>;
+  variable gross_electricity_production; unit MWh (Statbel''s GWh times 1,000); ts_utc the year''s first day; freq P1Y; geo
+  BE; node the product levels as Statbel writes them. Pumped hydro is a product of its own (other sources).'
+read:
+  date: '2026-11-20'
+  rows: 200
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: statbel_gep:be:total or statbel_gep:be:<product group>:<product>
+  type: text
+  values:
+    list:
+      statbel_gep:be:manufactered_gases:blast_furnace_gas: 8
+      statbel_gep:be:manufactered_gases:coke_oven_gas: 8
+      statbel_gep:be:manufactered_gases:other_recovered_gases: 8
+      statbel_gep:be:natural_gas:natural_gas: 8
+      statbel_gep:be:non_renewable_waste:non_renewable_industrial_waste: 8
+      statbel_gep:be:non_renewable_waste:non_renewable_municipal_waste: 8
+      statbel_gep:be:nuclear_energy:nuclear_energy: 8
+      statbel_gep:be:oil_and_petroleum_products:gasoil_diesel: 8
+      statbel_gep:be:oil_and_petroleum_products:heavy_fuel_oil: 8
+      statbel_gep:be:oil_and_petroleum_products:lpg: 8
+      statbel_gep:be:oil_and_petroleum_products:other_kerosene: 8
+      statbel_gep:be:oil_and_petroleum_products:refinery_gas: 8
+      statbel_gep:be:other_sources:other_sources: 8
+      statbel_gep:be:other_sources:pumped_hydro: 8
+      statbel_gep:be:other_sources:recovered_heat: 8
+      statbel_gep:be:renewables_and_biofuels:biodiesel: 8
+      statbel_gep:be:renewables_and_biofuels:biogas: 8
+      statbel_gep:be:renewables_and_biofuels:natural_hydro: 8
+      statbel_gep:be:renewables_and_biofuels:other_liquid_biofuels: 8
+      statbel_gep:be:renewables_and_biofuels:renewable_municipal_waste: 8
+      statbel_gep:be:renewables_and_biofuels:solar_photovoltaic: 8
+      statbel_gep:be:renewables_and_biofuels:solid_biofuels: 8
+      statbel_gep:be:renewables_and_biofuels:wind: 8
+      statbel_gep:be:solid_fossil_fuels:other_bituminous_coal: 8
+      statbel_gep:be:total: 8
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2018-01-01T00:00:00Z': 25
+      '2019-01-01T00:00:00Z': 25
+      '2020-01-01T00:00:00Z': 25
+      '2021-01-01T00:00:00Z': 25
+      '2022-01-01T00:00:00Z': 25
+      '2023-01-01T00:00:00Z': 25
+      '2024-01-01T00:00:00Z': 25
+      '2025-01-01T00:00:00Z': 25
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 188
+    lowest: 300.0
+    highest: 100481800.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 200
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 200
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: BE on every row
+  type: text
+  values:
+    list:
+      BE: 200
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 200
+- name: node
+  shared: true
+  particular: The product levels as Statbel writes them, not a pricing node
+  type: text
+  values:
+    list:
+      All products: 8
+      'Manufactered gases: Blast furnace gas': 8
+      'Manufactered gases: Coke oven gas': 8
+      'Manufactered gases: Other recovered gases': 8
+      'Natural gas: Natural gas': 8
+      'Non-renewable waste: Non-renewable industrial waste': 8
+      'Non-renewable waste: Non-renewable municipal waste': 8
+      'Nuclear energy: Nuclear energy': 8
+      'Oil and petroleum products: Gasoil/diesel': 8
+      'Oil and petroleum products: Heavy fuel oil': 8
+      'Oil and petroleum products: LPG': 8
+      'Oil and petroleum products: Other kerosene': 8
+      'Oil and petroleum products: Refinery gas': 8
+      'Other sources: Other sources': 8
+      'Other sources: Pumped hydro': 8
+      'Other sources: Recovered heat': 8
+      'Renewables and biofuels: Biodiesel': 8
+      'Renewables and biofuels: Biogas': 8
+      'Renewables and biofuels: Natural hydro': 8
+      'Renewables and biofuels: Other liquid biofuels': 8
+      'Renewables and biofuels: Renewable municipal waste': 8
+      'Renewables and biofuels: Solar photovoltaic': 8
+      'Renewables and biofuels: Solid biofuels': 8
+      'Renewables and biofuels: Wind': 8
+      'Solid fossil fuels: Other bituminous coal': 8
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      statbel:bestat_gross_electricity_production: 200
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://bestat.statbel.fgov.be/bestat/api/views/cd9605c7-3f71-4527-9404-40bfb81c8523/result/CSV: 200
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-26T00:03:53Z': 200
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 200
+variables:
+- name: gross_electricity_production
+  label: Gross electricity production from the energy product in the year (Statbel's GWh times 1,000)
+  unit: MWh
+  rows: 200
+  first: '2018-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

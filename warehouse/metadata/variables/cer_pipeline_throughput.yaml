@@ -1,0 +1,317 @@
+# The codebook's metadata of table cer_pipeline_throughput (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: cer_pipeline_throughput
+family: cer
+shape: series
+row: One measure (throughput, contracted volumes or capacity) at one key point of one of the nine Canadian pipelines that
+  cross the U.S. border, for one oil month or one gas day, from the CER's Pipeline Throughput and Capacity Data.
+time: ts_utc is the CER's date at 00:00:00Z, an oil month's first day (P1M) or a gas day (P1D).
+vintage_rule: A later run merges by (entity, variable, ts_utc), a revised value replacing the old one; vintage is each file's
+  last-modified time.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1D;P1M
+source:
+- name: cer:throughput_capacity Canada Energy Regulator, Pipeline Throughput and Capacity Data (open.canada.ca)
+  url: https://open.canada.ca/data/en/dataset/dc343c43-a592-4a27-8ee7-c77df56afb34
+cite: Canada Energy Regulator (CER), Open Government Licence - Canada. Pipeline Throughput and Capacity Data (nine cross-border
+  pipelines). Via the Energy Research Warehouse (ERW), table `cer_pipeline_throughput`.
+method: docs/methods/cer_pipeline_throughput.md
+header_title: Canada Energy Regulator (CER), Pipeline Throughput and Capacity Data, the nine pipelines that cross the U.S.
+  border (session 2169)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity cer_pipe:<pipeline>:<key point>[:<product>:<trade type> for
+  an oil line''s volumes, :<direction> for a gas line]; variable throughput, committed_volume, uncommitted_volume, nameplate_capacity,
+  available_capacity (oil) or capacity (gas); unit m3/d (Decision 69: the CER''s thousand cubic metres a day times 1,000);
+  ts_utc the CER''s date (an oil month''s first day, P1M; a gas day, P1D); geo CA.'
+read:
+  date: '2026-11-20'
+  rows: 408073
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: cer_pipe:<pipeline>:<key point>, with :<product>:<trade type> for an oil line's volumes and :<direction> for
+    a gas line
+  type: text
+  values:
+    distinct: 54
+    examples:
+    - cer_pipe:alliance_pipeline:border:southeast
+    - cer_pipe:alliance_pipeline:zone_2:southeast
+    - cer_pipe:cochin_pipeline:ft_saskatchewan
+    - cer_pipe:cochin_pipeline:ft_saskatchewan:condensate:import
+    - cer_pipe:cochin_pipeline:regina:refined_petroleum_products:import
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2006-01-01T00:00:00Z'
+    latest: '2026-06-30T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -943910.533
+    highest: 209646227.9
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      m3/d: 408073
+  missing_cells: 0
+- name: freq
+  shared: true
+  particular: P1M for an oil line, P1D for a gas line
+  type: text
+  values:
+    list:
+      P1D: 403912
+      P1M: 4161
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: Always CA
+  type: text
+  values:
+    list:
+      CA: 408073
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 408073
+- name: node
+  shared: true
+  particular: The pipeline, key point (and product) in the CER's words, not a pricing node
+  type: text
+  values:
+    distinct: 44
+    examples:
+    - Alliance pipeline, Border
+    - Alliance pipeline, Zone 2
+    - Cochin pipeline, Ft. Saskatchewan
+    - Cochin pipeline, Ft. Saskatchewan, condensate
+    - Cochin pipeline, Regina, refined petroleum products
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      cer:throughput_capacity: 408073
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.cer-rec.gc.ca/open/energy/throughput-capacity/alliance-throughput-and-capacity.csv: 29844
+      https://www.cer-rec.gc.ca/open/energy/throughput-capacity/cochin-throughput-and-capacity.csv: 373
+      https://www.cer-rec.gc.ca/open/energy/throughput-capacity/enbridge-mainline-throughput-and-capacity.csv: 2756
+      https://www.cer-rec.gc.ca/open/energy/throughput-capacity/foothills-throughput-and-capacity.csv: 29944
+      https://www.cer-rec.gc.ca/open/energy/throughput-capacity/keystone-throughput-and-capacity.csv: 852
+      https://www.cer-rec.gc.ca/open/energy/throughput-capacity/mnp-throughput-and-capacity.csv: 29944
+      https://www.cer-rec.gc.ca/open/energy/throughput-capacity/southern-lights-throughput-and-capacity.csv: 180
+      https://www.cer-rec.gc.ca/open/energy/throughput-capacity/tcpl-mainline-throughput-and-capacity.csv: 213510
+      https://www.cer-rec.gc.ca/open/energy/throughput-capacity/westcoast-throughput-and-capacity.csv: 100670
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T00:41:07Z': 852
+      '2026-10-24T00:41:08Z': 29844
+      '2026-10-24T00:42:39Z': 2756
+      '2026-10-24T00:46:03Z': 180
+      '2026-10-24T00:46:04Z': 373
+      '2026-10-24T00:46:05Z': 29944
+      '2026-10-24T00:46:07Z': 100670
+      '2026-10-24T00:46:10Z': 213510
+      '2026-10-24T00:46:14Z': 29944
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: Each pipeline file's last-modified time
+  type: utc time
+  values:
+    list:
+      '2026-08-27T21:29:23Z': 2756
+      '2026-08-27T21:29:24Z': 852
+      '2026-08-27T21:29:25Z': 553
+      '2026-08-27T21:29:45Z': 29844
+      '2026-08-27T21:29:56Z': 29944
+      '2026-08-27T21:30:11Z': 29944
+      '2026-08-27T21:32:40Z': 213510
+      '2026-08-27T21:33:30Z': 100670
+  missing_cells: 0
+- name: x_company
+  label: The company that operates the pipeline, as the CER writes it
+  unit: none
+  type: text
+  values:
+    list:
+      Alliance Pipeline Ltd.: 29844
+      Enbridge Pipelines Inc.: 2756
+      Enbridge Southern Lights GP Inc. on behalf of Enbridge Southern Lights LP: 180
+      Foothills Pipe Lines Ltd.: 29944
+      Maritimes & Northeast Pipeline Management Ltd.: 29944
+      PKM Cochin ULC: 373
+      South Bow GP (Canada) Ltd.: 852
+      TransCanada PipeLines Limited (TCPL): 213510
+      Westcoast Energy Inc.: 100670
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Company
+  documented_by: method cer_pipeline_throughput.md; connector cer_throughput.py
+- name: x_direction
+  label: The direction of flow at the key point (east, south, north and the others)
+  unit: none
+  type: text
+  values:
+    list:
+      east: 141187
+      north: 41328
+      north-west: 180
+      south: 105242
+      southeast: 44816
+      west: 74906
+  missing_cells: 414
+  missing_meaning: The CER's file gives none
+  source_name: Direction Of Flow
+  documented_by: method cer_pipeline_throughput.md; connector cer_throughput.py
+- name: x_trade_type
+  label: 'The trade type of the flow: export, import, intracanada, or as the CER writes it intracanada / export; a capacity
+    row carries the first product row''s trade type that month'
+  unit: none
+  type: text
+  values:
+    list:
+      export: 170950
+      import: 60130
+      intracanada: 175872
+      intracanada / export: 707
+  missing_cells: 414
+  missing_meaning: The CER's file gives none (Keystone, 414 rows)
+  source_name: Trade Type
+  documented_by: method cer_pipeline_throughput.md; connector cer_throughput.py
+- name: x_latitude
+  label: The key point's latitude, as the CER gives it
+  unit: degree
+  type: number
+  values:
+    distinct: 27
+    lowest: 42.28
+    highest: 55.8643
+  missing_cells: 180
+  missing_meaning: The CER's file gives none
+  source_name: Latitude
+  documented_by: method cer_pipeline_throughput.md; connector cer_throughput.py
+- name: x_longitude
+  label: The key point's longitude, as the CER gives it (west negative)
+  unit: degree
+  type: number
+  values:
+    distinct: 27
+    lowest: -122.22
+    highest: -67.4545
+  missing_cells: 180
+  missing_meaning: The CER's file gives none
+  source_name: Longitude
+  documented_by: method cer_pipeline_throughput.md; connector cer_throughput.py
+- name: x_reason
+  label: The CER's reason for variance, a note on an oil line's figures, as written
+  unit: none
+  type: text
+  values:
+    list:
+      A: 2468
+      ? As previously indicated, the Canadian portion of the Cochin pipeline has a higher nameplate capacity (110,000 bpd)
+        as compared to the US portion of Cochin (95,000 bpd). Now that a new receipt point at Maxbass, ND has been placed
+        into service, the Canadian Cochin capacity is 110,000 bpd and is no longer restricted by the US Cochin nameplate capacity
+        of 95,000 barrels per day.
+      : 116
+      ? Capacity may vary month to month based on CER Regulatory Directive, Downstream Restrictions, Curtailment/Interruptions,
+        Force Majeure and System Operating Factor
+      : 690
+      ? Capacity may vary month to month based on NEB Regulatory Directive, Downstream Restrictions, Curtailment/Interruptions,
+        Force Majeure and System Operating Factor
+      : 72
+      DOWNSTREAM RESTRICTIONS: 51
+      DOWNSTREAM RESTRICTIONS , CURTAILMENT/INTERRUPTION: 15
+      DOWNSTREAM RESTRICTIONS , FORCE MAJEURE: 6
+      NEB/REGULATORY DIRECTIVE: 18
+      ? The Canadian portion of the Cochin pipeline has a higher nameplate capacity as compared to the US portion of Cochin.
+        Since Kankakee, IL, USA is currently the sole receipt point into Cochin, the Canadian Cochin capacity is restricted
+        by the US Cochin nameplate capacity of 95,000 barrels per day
+      : 88
+      ? The Canadian portion of the Cochin pipeline has a nameplate capacity of 110,000 bpd (17.49 10^3 m/3) but is restricted
+        by the US portion of Cochin, which currently has a capacity of 105,000 bpd (16.69 10^3 m/3).
+      : 10
+      ? The Canadian portion of the Cochin pipeline has a nameplate capacity of 110,000 bpd (17.49 10^3 m/3) but is restricted
+        by the US portion of Cochin, which currently has a capacity of 95,000 bpd (15.10 10^3 m/3).
+      : 2
+  missing_cells: 404537
+  missing_meaning: The CER gives no reason (all gas rows and most oil rows)
+  source_name: Reason For Variance
+  documented_by: method cer_pipeline_throughput.md; connector cer_throughput.py
+variables:
+- name: available_capacity
+  label: An oil key point's available capacity, one figure a month for all its products, m3/d
+  unit: m3/d
+  rows: 906
+  first: '2007-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: capacity
+  label: A gas key point's capacity, m3/d (the CER's thousand cubic metres a day times 1,000)
+  unit: m3/d
+  rows: 201956
+  first: '2006-01-01T00:00:00Z'
+  last: '2026-06-30T00:00:00Z'
+- name: committed_volume
+  label: An oil line's committed (contracted) volumes, m3/d (Keystone only)
+  unit: m3/d
+  rows: 138
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: nameplate_capacity
+  label: An oil key point's nameplate capacity, one figure a month for all its products, m3/d (Enbridge's Mainline only)
+  unit: m3/d
+  rows: 468
+  first: '2007-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: throughput
+  label: The volume that flowed through the key point, m3/d (the CER's thousand cubic metres a day times 1,000; a rate, not
+    a total)
+  unit: m3/d
+  rows: 204467
+  first: '2006-01-01T00:00:00Z'
+  last: '2026-06-30T00:00:00Z'
+- name: uncommitted_volume
+  label: An oil line's uncommitted volumes, m3/d (Keystone only)
+  unit: m3/d
+  rows: 138
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+second_look: null

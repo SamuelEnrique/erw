@@ -1,0 +1,279 @@
+# The codebook's metadata of table energinet_dk_production_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: energinet_dk_production_hourly
+family: other_sources
+shape: series
+row: One Danish price area's (DK1 or DK2) value of one production, consumption or exchange measure in one hour, from Energinet's
+  settlement data.
+time: ts_utc is the hour's start in UTC (Energinet's HourUTC); freq PT1H; x_hour_dk is the same hour in Danish time.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s hours replace the same hours (settlement data revised for
+  up to two years) and older ones are kept; vintage is the answer''s Last-Modified.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: energinet:production_consumption_settlement Energinet, Energi Data Service, Production and Consumption - Settlement
+  url: https://www.energidataservice.dk/tso-electricity/ProductionConsumptionSettlement
+cite: Energinet (Energi Data Service). Energi Data Service, Production and Consumption - Settlement (ProductionConsumptionSettlement).
+  Via the Energy Research Warehouse (ERW), table `energinet_dk_production_hourly`.
+method: docs/methods/energinet_dk_production_hourly.md
+header_title: 'Energinet, Energi Data Service, ProductionConsumptionSettlement: Denmark''s production by technology, gross
+  consumption and exchanges an hour, by price area, 2024-12-31 to 2026-10-13 (session 2217)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity energinet:<price area> (DK1, DK2); variable the measure in
+  snake case (central_power ... exchange_great_belt; exchanges negative for export); unit MWh for the hour; ts_utc the hour''s
+  start in UTC; freq PT1H; geo DK. Settlement data, revised for up to two years (Energinet).'
+read:
+  date: '2026-11-20'
+  rows: 607311
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: energinet:DK1 or energinet:DK2, the price area
+  type: text
+  values:
+    list:
+      energinet:DK1: 327093
+      energinet:DK2: 280218
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2024-12-31T23:00:00Z'
+    latest: '2026-10-13T23:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -3472.49
+    highest: 4870.058475
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 607311
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 607311
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: DK on every row
+  type: text
+  values:
+    list:
+      DK: 607311
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 607311
+- name: node
+  shared: true
+  particular: The price area (DK1 or DK2), not a pricing node
+  type: text
+  values:
+    list:
+      DK1: 327093
+      DK2: 280218
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      energinet:production_consumption_settlement: 607311
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.energidataservice.dk/dataset/ProductionConsumptionSettlement?start=2025-01-01T00:00&end=2026-10-15T00:00&limit=0&sort=HourUTC%20ASC
+      : 607311
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T01:51:11Z': 607311
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The API answer's Last-Modified (UTC)
+  type: utc time
+  values:
+    list:
+      '2026-10-24T01:51:12Z': 607311
+  missing_cells: 0
+- name: x_hour_dk
+  label: The hour in Danish local time (Energinet's HourDK)
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - '2025-01-01T00:00:00'
+    - '2025-01-01T01:00:00'
+    - '2025-01-01T02:00:00'
+    - '2025-01-01T03:00:00'
+    - '2025-01-01T04:00:00'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: HourDK
+  documented_by: connector energinet_production.py; method energinet_dk_production_hourly.md
+variables:
+- name: central_power
+  label: 'Energinet''s CentralPowerMWh: production by central power plants'
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: commercial_power
+  label: 'Energinet''s CommercialPowerMWh: commercial power production'
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: commercial_power_self_con
+  label: 'Energinet''s LocalPowerSelfConMWh: self-consumption of local power, very uncertain by Energinet''s word; ends 1
+    September 2026'
+  unit: MWh
+  rows: 29186
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-08-31T23:00:00Z'
+- name: exchange_gb
+  label: Exchange with Great Britain (negative an export)
+  unit: MWh
+  rows: 15625
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: exchange_ge
+  label: Exchange with Germany (negative an export)
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: exchange_great_belt
+  label: Exchange over the Great Belt link between DK1 and DK2 (negative an export)
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: exchange_nl
+  label: Exchange with the Netherlands (negative an export)
+  unit: MWh
+  rows: 15625
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: exchange_no
+  label: Exchange with Norway (negative an export)
+  unit: MWh
+  rows: 15625
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: exchange_se
+  label: Exchange with Sweden (negative an export)
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: gross_consumption
+  label: 'Gross consumption: Energinet''s sum of production and exchange'
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: hydro_power
+  label: Hydro power production
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: local_power
+  label: 'Energinet''s LocalPowerMWh: production by local power plants'
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: offshore_wind_ge100mw
+  label: Offshore wind production, turbines of 100 MW or more
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: offshore_wind_lt100mw
+  label: Offshore wind production, turbines under 100 MW
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: onshore_wind_ge50kw
+  label: Onshore wind production, turbines of 50 kW or more
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: onshore_wind_lt50kw
+  label: Onshore wind production, turbines under 50 kW
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: solar_power_ge10lt40kw
+  label: Solar power production, installations of 10 to 40 kW
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: solar_power_ge40kw
+  label: Solar power production, installations of 40 kW or more
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: solar_power_lt10kw
+  label: Solar power production, installations under 10 kW
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: solar_power_self_con
+  label: Self-consumption of solar power
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+- name: unknown_prod
+  label: Production of unknown type
+  unit: MWh
+  rows: 31250
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-13T23:00:00Z'
+second_look: null

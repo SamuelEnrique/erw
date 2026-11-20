@@ -1,0 +1,204 @@
+# The codebook's metadata of table portwatch_chokepoint_transits (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: portwatch_chokepoint_transits
+family: other_sources
+shape: series
+row: One day's vessel transits, or their deadweight tonnage, of one kind of vessel through one chokepoint (the Strait of Hormuz,
+  the Suez Canal or the Panama Canal), from IMF PortWatch.
+time: ts_utc is PortWatch's date at 00:00:00Z; freq P1D.
+vintage_rule: 'Merged by (entity, variable, ts_utc) (ip.write_csv): each run reads the full history the service offers, replaces
+  the rows it reads again and keeps a day the service stops serving; vintage is not filled. The table was rebuilt from the
+  ERW archive (warehouse/restore_tables.py).'
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1D
+source:
+- name: imf:portwatch-daily-chokepoints IMF PortWatch Daily Chokepoints Data (ArcGIS FeatureServer)
+  url: https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query
+cite: International Monetary Fund (IMF PortWatch). Daily Chokepoints Data (vessel transits). Via the Energy Research Warehouse
+  (ERW), table `portwatch_chokepoint_transits`.
+method: docs/methods/portwatch_chokepoint_transits.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261113T155514Z-github
+  (2026-11-13T15:55:14Z); that run's own header of the table follows
+header_shape: 'Shape: series (docs/datastandard.md v0). freq P1D: ts_utc is PortWatch''s date at 00:00:00Z. n_* are vessel
+  transits per day (count); capacity* the deadweight tonnage of those transits (dwt).'
+read:
+  date: '2026-11-20'
+  rows: 120498
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: portwatch:<PortWatch's port id of the chokepoint>
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 120498
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 120498
+- name: node
+  shared: true
+  particular: The chokepoint's name, not a pricing node
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 120498
+variables:
+- name: capacity
+  label: Deadweight tonnage of all the day's transits
+  unit: dwt
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: capacity_cargo
+  label: Deadweight tonnage of the day's cargo ship transits
+  unit: dwt
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: capacity_container
+  label: Deadweight tonnage of the day's container ship transits
+  unit: dwt
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: capacity_dry_bulk
+  label: Deadweight tonnage of the day's dry bulk carrier transits
+  unit: dwt
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: capacity_general_cargo
+  label: Deadweight tonnage of the day's general cargo ship transits
+  unit: dwt
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: capacity_roro
+  label: Deadweight tonnage of the day's roll-on roll-off ship transits
+  unit: dwt
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: capacity_tanker
+  label: Deadweight tonnage of the day's tanker transits
+  unit: dwt
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: n_cargo
+  label: 'Cargo ship transits in the day: container, dry bulk, general cargo and roll-on roll-off'
+  unit: count
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: n_container
+  label: Container ship transits in the day
+  unit: count
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: n_dry_bulk
+  label: Dry bulk carrier transits in the day
+  unit: count
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: n_general_cargo
+  label: General cargo ship transits in the day
+  unit: count
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: n_roro
+  label: Roll-on roll-off ship transits in the day
+  unit: count
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: n_tanker
+  label: Tanker transits in the day
+  unit: count
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+- name: n_total
+  label: 'All vessel transits in the day: tankers plus cargo ships'
+  unit: count
+  rows: 8607
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-08T00:00:00Z'
+second_look: null

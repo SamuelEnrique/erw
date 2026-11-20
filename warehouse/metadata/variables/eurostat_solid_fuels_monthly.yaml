@@ -1,0 +1,330 @@
+# The codebook's metadata of table eurostat_solid_fuels_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_solid_fuels_monthly
+family: eurostat
+shape: series
+row: One European country's (or the EU's) flow of one solid fuel (hard coal, brown coal, coke oven coke, peat, oil shale and
+  oil sands) in one month.
+time: ts_utc is the month's first day at 00:00:00Z (freq P1M).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised month replaces the old figure; vintage is not filled.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eurostat:nrg_cb_sffm Eurostat, Supply and transformation of solid fuels - monthly data (nrg_cb_sffm)
+  url: https://ec.europa.eu/eurostat/databrowser/view/nrg_cb_sffm/default/table
+cite: Eurostat (Statistical Office of the European Union). Supply and transformation of solid fuels - monthly data (nrg_cb_sffm).
+  Via the Energy Research Warehouse (ERW), table `eurostat_solid_fuels_monthly`.
+method: docs/methods/eurostat_solid_fuels_monthly.md
+header_title: Eurostat, monthly solid fuels supply (nrg_cb_sffm), 2016-01 to 2026-09, 37 European countries and the EU (session
+  2364)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_sff:<Eurostat geo code>:<SIEC code> (C0100 hard coal,
+  C0200 brown coal, C0311 coke oven coke, P1100 peat, S2000 oil shale and oil sands); variable flow:<NRG_BAL code>; unit t
+  (Eurostat''s thousand tonnes times 1,000); ts_utc the month''s first day; freq P1M; geo ISO alpha-2 (Eurostat''s EL is GR),
+  blank for EU27_2020; node the fuel and flow.'
+read:
+  date: '2026-11-20'
+  rows: 209040
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eurostat_sff:<Eurostat geo code>:<SIEC code>
+  type: text
+  values:
+    distinct: 190
+    examples:
+    - eurostat_sff:AL:C0100
+    - eurostat_sff:AL:C0200
+    - eurostat_sff:AL:C0311
+    - eurostat_sff:AL:P1100
+    - eurostat_sff:AL:S2000
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 129
+    earliest: '2016-01-01T00:00:00Z'
+    latest: '2026-09-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -2828701.0
+    highest: 42801000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      t: 209040
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 209040
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020
+  type: text
+  values:
+    distinct: 37
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 5681
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 209040
+- name: node
+  shared: true
+  particular: '<fuel>: <flow>, not a pricing node'
+  type: text
+  values:
+    distinct: 49
+    examples:
+    - 'Brown coal: Change in stock'
+    - 'Brown coal: Closing stocks on national territory'
+    - 'Brown coal: Exports'
+    - 'Brown coal: Gross inland deliveries - calculated'
+    - 'Brown coal: Imports'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:nrg_cb_sffm: 209040
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nrg_cb_sffm?format=SDMX-CSV&compressed=false&startPeriod=2016-01
+      : 209040
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T08:58:15Z': 209040
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 209040
+- name: x_geo_code
+  label: Eurostat's geo code of the country or aggregate
+  unit: none
+  type: text
+  values:
+    distinct: 38
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector eurostat_solid_fuels_monthly.py
+- name: x_siec
+  label: 'Eurostat''s SIEC code of the fuel: C0100 hard coal, C0200 brown coal, C0311 coke oven coke, P1100 peat, S2000 oil
+    shale and oil sands'
+  unit: none
+  type: text
+  values:
+    list:
+      C0100: 70755
+      C0200: 36422
+      C0311: 40429
+      P1100: 27874
+      S2000: 33560
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header
+- name: x_nrg_bal
+  label: Eurostat's NRG_BAL code of the flow (the part of the variable after flow:)
+  unit: none
+  type: text
+  values:
+    list:
+      EXP: 22238
+      FC_IND: 4358
+      FC_IND_IS: 8685
+      FC_OTH: 4442
+      GID_CAL: 22450
+      GID_OBS: 4199
+      IMP: 22435
+      IMP_FROM_NEU: 8161
+      IPRD: 22239
+      RCV_RCY: 4575
+      STATDIFF: 4192
+      STKCL_NAT: 18173
+      STKOP_NAT: 18174
+      STK_CHG: 22429
+      TI_CO: 4413
+      TI_EHG_MAP: 17877
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; data
+- name: x_flag
+  label: 'Eurostat''s flag of the observation: e estimated, n not significant, p provisional, b break in series, d definition
+    differs, u low reliability, and the pairs be and bn'
+  unit: none
+  type: text
+  values:
+    list:
+      b: 814
+      be: 12
+      bn: 5
+      d: 172
+      e: 3965
+      n: 933
+      p: 904
+      u: 67
+  missing_cells: 202168
+  missing_meaning: No flag on the observation
+  source_name: null
+  documented_by: method eurostat_solid_fuels_monthly.md
+- name: x_conf_status
+  label: 'Eurostat''s confidentiality status of the observation: C confidential'
+  unit: none
+  type: text
+  values:
+    list:
+      C: 6
+  missing_cells: 209034
+  missing_meaning: Not confidential
+  source_name: null
+  documented_by: connector eurostat_solid_fuels_monthly.py; method eurostat_crude_imports_by_field_monthly.md
+variables:
+- name: flow:EXP
+  label: Exports, tonnes (NRG_BAL EXP)
+  unit: t
+  rows: 22238
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:FC_IND
+  label: Final consumption by the industry sector, tonnes (FC_IND)
+  unit: t
+  rows: 4358
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:FC_IND_IS
+  label: Final consumption by iron and steel, tonnes (FC_IND_IS)
+  unit: t
+  rows: 8685
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:FC_OTH
+  label: Final consumption by other sectors, tonnes (FC_OTH)
+  unit: t
+  rows: 4442
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:GID_CAL
+  label: Gross inland deliveries, calculated, tonnes (GID_CAL)
+  unit: t
+  rows: 22450
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:GID_OBS
+  label: Gross inland deliveries, observed, tonnes (GID_OBS)
+  unit: t
+  rows: 4199
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:IMP
+  label: Imports, tonnes (IMP)
+  unit: t
+  rows: 22435
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:IMP_FROM_NEU
+  label: Imports from outside the EU, tonnes (IMP_FROM_NEU)
+  unit: t
+  rows: 8161
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:IPRD
+  label: Indigenous production, tonnes (IPRD)
+  unit: t
+  rows: 22239
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:RCV_RCY
+  label: Recovered and recycled products, tonnes (RCV_RCY)
+  unit: t
+  rows: 4575
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:STATDIFF
+  label: Statistical differences, tonnes (STATDIFF)
+  unit: t
+  rows: 4192
+  first: '2017-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:STKCL_NAT
+  label: Closing stocks on national territory, tonnes (STKCL_NAT)
+  unit: t
+  rows: 18173
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:STKOP_NAT
+  label: Opening stocks on national territory, tonnes (STKOP_NAT)
+  unit: t
+  rows: 18174
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:STK_CHG
+  label: Change in stock, tonnes (STK_CHG)
+  unit: t
+  rows: 22429
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:TI_CO
+  label: Transformation input to coke ovens, tonnes (TI_CO)
+  unit: t
+  rows: 4413
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: flow:TI_EHG_MAP
+  label: Transformation input to electricity and heat generation, main activity producers, tonnes (TI_EHG_MAP)
+  unit: t
+  rows: 17877
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+second_look: null

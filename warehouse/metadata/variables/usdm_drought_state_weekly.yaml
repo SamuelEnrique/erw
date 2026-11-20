@@ -1,0 +1,213 @@
+# The codebook's metadata of table usdm_drought_state_weekly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: usdm_drought_state_weekly
+family: other_sources
+shape: series
+row: One contiguous state's percent of area in one U.S. Drought Monitor category (cumulative) in one weekly map.
+time: ts_utc is the map date (a Tuesday) at 00:00:00Z; freq P1W; x_valid_start and x_valid_end give the week the map is valid
+  for.
+vintage_rule: Rewritten whole as one snapshot by each run from the Monitor's data services; vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1W
+source:
+- name: usdm:state_statistics the U.S. Drought Monitor's data services (National Drought Mitigation Center, USDA, NOAA)
+  url: https://droughtmonitor.unl.edu/DmData/DataDownload/WebServiceInfo.aspx
+cite: 'U.S. Drought Monitor (National Drought Mitigation Center, USDA, NOAA). U.S. Drought Monitor, state statistics: percent
+  of area by drought category, weekly. Via the Energy Research Warehouse (ERW), table `usdm_drought_state_weekly`.'
+method: docs/methods/usdm_drought_state_weekly.md
+header_title: the U.S. Drought Monitor, the percent of each of the 48 contiguous states' area in each drought category, a
+  week, from 2015 (session 2058)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity usdm:<ST>; variables none, d0, d1, d2, d3, d4 (pct of the state''s
+  area, the Monitor''s traditional statistics: cumulative, d1 the area in moderate drought or worse); freq P1W; ts_utc the
+  map date; geo US-<ST>; x_valid_start and x_valid_end the week the map is valid for.'
+read:
+  date: '2026-11-20'
+  rows: 177696
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: usdm:<state postal code>
+  type: text
+  values:
+    distinct: 48
+    examples:
+    - usdm:AL
+    - usdm:AR
+    - usdm:AZ
+    - usdm:CA
+    - usdm:CO
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 617
+    earliest: '2014-12-30T00:00:00Z'
+    latest: '2026-10-20T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 100.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      pct: 177696
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1W: 177696
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state>
+  type: text
+  values:
+    distinct: 48
+    examples:
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+    - US-CO
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 177696
+- name: node
+  shared: true
+  particular: The state's postal code, not a pricing node
+  type: text
+  values:
+    distinct: 48
+    examples:
+    - AL
+    - AR
+    - AZ
+    - CA
+    - CO
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      usdm:state_statistics: 177696
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://usdmdataservices.unl.edu/api/StateStatistics/GetDroughtSeverityStatisticsByAreaPercent?aoi=01%2C04%2C05%2C06%2C08%2C09%2C10%2C12%2C13%2C16%2C17%2C18%2C19%2C20%2C21%2C22%2C23%2C24%2C25%2C26%2C27%2C28%2C29%2C30%2C31%2C32%2C33%2C34%2C35%2C36%2C37%2C38%2C39%2C40%2C41%2C42%2C44%2C45%2C46%2C47%2C48%2C49%2C50%2C51%2C53%2C54%2C55%2C56&startdate=1/1/2015&enddate=12/31/2018&statisticsType=1
+      : 60192
+      ? https://usdmdataservices.unl.edu/api/StateStatistics/GetDroughtSeverityStatisticsByAreaPercent?aoi=01%2C04%2C05%2C06%2C08%2C09%2C10%2C12%2C13%2C16%2C17%2C18%2C19%2C20%2C21%2C22%2C23%2C24%2C25%2C26%2C27%2C28%2C29%2C30%2C31%2C32%2C33%2C34%2C35%2C36%2C37%2C38%2C39%2C40%2C41%2C42%2C44%2C45%2C46%2C47%2C48%2C49%2C50%2C51%2C53%2C54%2C55%2C56&startdate=1/1/2019&enddate=12/31/2022&statisticsType=1
+      : 60192
+      ? https://usdmdataservices.unl.edu/api/StateStatistics/GetDroughtSeverityStatisticsByAreaPercent?aoi=01%2C04%2C05%2C06%2C08%2C09%2C10%2C12%2C13%2C16%2C17%2C18%2C19%2C20%2C21%2C22%2C23%2C24%2C25%2C26%2C27%2C28%2C29%2C30%2C31%2C32%2C33%2C34%2C35%2C36%2C37%2C38%2C39%2C40%2C41%2C42%2C44%2C45%2C46%2C47%2C48%2C49%2C50%2C51%2C53%2C54%2C55%2C56&startdate=1/1/2023&enddate=10/23/2026&statisticsType=1
+      : 57312
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T20:06:26Z': 60192
+      '2026-10-23T20:06:43Z': 60192
+      '2026-10-23T20:06:50Z': 57312
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 177696
+- name: x_valid_start
+  label: The first day the map is valid for
+  unit: none
+  type: date
+  values:
+    distinct: 617
+    earliest: '2014-12-30'
+    latest: '2026-10-20'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: ValidStart
+  documented_by: header; connector usdm_drought.py
+- name: x_valid_end
+  label: The last day the map is valid for
+  unit: none
+  type: date
+  values:
+    distinct: 617
+    earliest: '2015-01-05'
+    latest: '2026-10-26'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: ValidEnd
+  documented_by: header; connector usdm_drought.py
+variables:
+- name: d0
+  label: Percent of the state's area abnormally dry or worse
+  unit: pct
+  rows: 29616
+  first: '2014-12-30T00:00:00Z'
+  last: '2026-10-20T00:00:00Z'
+- name: d1
+  label: Percent of the state's area in moderate drought or worse
+  unit: pct
+  rows: 29616
+  first: '2014-12-30T00:00:00Z'
+  last: '2026-10-20T00:00:00Z'
+- name: d2
+  label: Percent of the state's area in severe drought or worse
+  unit: pct
+  rows: 29616
+  first: '2014-12-30T00:00:00Z'
+  last: '2026-10-20T00:00:00Z'
+- name: d3
+  label: Percent of the state's area in extreme drought or worse
+  unit: pct
+  rows: 29616
+  first: '2014-12-30T00:00:00Z'
+  last: '2026-10-20T00:00:00Z'
+- name: d4
+  label: Percent of the state's area in exceptional drought
+  unit: pct
+  rows: 29616
+  first: '2014-12-30T00:00:00Z'
+  last: '2026-10-20T00:00:00Z'
+- name: none
+  label: Percent of the state's area in none of the categories
+  unit: pct
+  rows: 29616
+  first: '2014-12-30T00:00:00Z'
+  last: '2026-10-20T00:00:00Z'
+second_look: null

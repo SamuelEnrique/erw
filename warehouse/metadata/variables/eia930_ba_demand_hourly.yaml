@@ -1,0 +1,205 @@
+# The codebook's metadata of table eia930_ba_demand_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia930_ba_demand_hourly
+family: eia930
+shape: series
+row: One balancing authority's demand or day-ahead demand forecast in one hour, July 2018 on, from EIA's six-month files.
+time: ts_utc is the hour's start (the file's UTC Time at End of Hour minus one hour).
+vintage_rule: Rebuilt whole by each run from the newest saved copies of EIA's six-month files, which EIA rewrites as authorities
+  revise; no vintage column, x_file names each row's file.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: eia:gridmonitor/sixMonthFiles EIA-930 six-month files (Hourly Electric Grid Monitor)
+  url: https://www.eia.gov/electricity/gridmonitor/about
+cite: U.S. Energy Information Administration (EIA). EIA-930 six-month files (Hourly Electric Grid Monitor). Via the Energy
+  Research Warehouse (ERW), table `eia930_ba_demand_hourly`.
+method: docs/methods/eia930_region_hourly.md
+header_title: EIA-930 hourly, every balancing authority, demand and demand forecast, July 2018 to the newest hour, from EIA's
+  six-month files (session 7801)
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column ba (the code, lowercase). Variables: demand_mw, demand_forecast_mw;
+  MW (EIA''s MWh per hour). ts_utc is the hour''s start (the file''s UTC Time at End of Hour minus one hour). value is EIA''s
+  adjusted value where the file prints one, else the value as reported (x_basis); x_value_reported and x_value_adjusted keep
+  both. x_file names the six-month file each row was read from; the files are listed below. Method: docs/methods/eia930_region_hourly.md.'
+read:
+  date: '2026-11-20'
+  rows: 7834892
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia930:<BA>
+  type: text
+  values:
+    distinct: 58
+    examples:
+    - eia930:AEC
+    - eia930:AECI
+    - eia930:AVA
+    - eia930:AZPS
+    - eia930:BANC
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2018-07-01T04:00:00Z'
+    latest: '2026-11-20T07:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: -992136
+    highest: 466542
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 7834892
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 7834892
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:gridmonitor/sixMonthFiles: 7834892
+  missing_cells: 0
+- name: ba
+  shared: true
+  particular: The balancing authority's code, lowercase
+  type: text
+  values:
+    distinct: 58
+    examples:
+    - aec
+    - aeci
+    - ava
+    - azps
+    - banc
+  missing_cells: 0
+- name: x_region
+  label: EIA's region the file names for the authority in that file (CAL, CAR, CENT, FLA and the others)
+  unit: none
+  type: text
+  values:
+    list:
+      CAL: 732786
+      CAR: 733289
+      CENT: 292120
+      FLA: 1339318
+      MIDA: 154080
+      MIDW: 440952
+      NE: 147050
+      NW: 2480382
+      NY: 147026
+      SE: 199850
+      SW: 874242
+      TEN: 146963
+      TEX: 146834
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia930_region_hourly.md
+- name: x_basis
+  label: 'What value is: adjusted (EIA''s adjusted value) or reported (the value as the authority submitted it; the forecast
+    has no adjusted column)'
+  unit: none
+  type: text
+  values:
+    list:
+      adjusted: 3920817
+      reported: 3914075
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method eia930_region_hourly.md
+- name: x_value_reported
+  label: The value as the authority submitted it, kept as published (a few far out of range)
+  unit: MW
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: -429490415
+    highest: 2147480000
+  missing_cells: 10448
+  missing_meaning: The file prints no reported value for the hour
+  source_name: null
+  documented_by: header; method eia930_region_hourly.md
+- name: x_value_adjusted
+  label: EIA's adjusted value (its published series after its own checks and imputation)
+  unit: MW
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 0
+    highest: 224345
+  missing_cells: 3914075
+  missing_meaning: 'No adjusted value: every demand_forecast_mw row (the forecast has one column)'
+  source_name: null
+  documented_by: header; method eia930_region_hourly.md
+- name: x_file
+  label: The six-month file the row was read from (<year>_<Jan_Jun or Jul_Dec>); the header gives each file's address
+  unit: none
+  type: text
+  values:
+    list:
+      2018_Jul_Dec: 479925
+      2019_Jan_Jun: 475317
+      2019_Jul_Dec: 481292
+      2020_Jan_Jun: 465563
+      2020_Jul_Dec: 471319
+      2021_Jan_Jun: 467343
+      2021_Jul_Dec: 470643
+      2022_Jan_Jun: 459611
+      2022_Jul_Dec: 464421
+      2023_Jan_Jun: 459967
+      2023_Jul_Dec: 467743
+      2024_Jan_Jun: 462530
+      2024_Jul_Dec: 467542
+      2025_Jan_Jun: 460014
+      2025_Jul_Dec: 467420
+      2026_Jan_Jun: 456253
+      2026_Jul_Dec: 357989
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method eia930_region_hourly.md
+variables:
+- name: demand_forecast_mw
+  label: The authority's day-ahead demand forecast for the hour (EIA's Demand Forecast)
+  unit: MW
+  rows: 3914075
+  first: '2018-07-01T04:00:00Z'
+  last: '2026-11-20T07:00:00Z'
+- name: demand_mw
+  label: Hourly demand of the balancing authority, EIA's MWh per hour
+  unit: MW
+  rows: 3920817
+  first: '2018-07-01T04:00:00Z'
+  last: '2026-11-19T07:00:00Z'
+second_look: null

@@ -1,0 +1,287 @@
+# The codebook's metadata of table statcan_petroleum_products_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: statcan_petroleum_products_monthly
+family: statcan
+shape: series
+row: One area's value of one supply or disposition item for one petroleum product in one month, from Statistics Canada table
+  25-10-0081-01.
+time: ts_utc is the month's first day at 00:00:00Z (a month, not an instant); freq P1M.
+vintage_rule: A snapshot; each run asks the zip again and writes the whole table; vintage is the zip's Last-Modified time.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: statcan:25-10-0081-01 Statistics Canada, Table 25-10-0081-01, Petroleum products by supply and disposition, monthly
+  url: https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2510008101
+cite: Statistics Canada. Table 25-10-0081-01, Petroleum products by supply and disposition, monthly. Via the Energy Research
+  Warehouse (ERW), table `statcan_petroleum_products_monthly`.
+method: docs/methods/statcan_petroleum_products_monthly.md
+header_title: Statistics Canada, table 25-10-0081-01, petroleum products by supply and disposition, monthly, by province,
+  2019-01 to 2026-07 (session 2378)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity statcan_pp:<area>:<product>; variable the supply or disposition
+  item (field_production, renewable_production, refinery_production, imports, net_interregional_receipts, adjustments, stock_change,
+  refinery_inputs, exports, products_supplied, ending_stocks); unit m3; freq P1M; ts_utc the month''s first day; geo CA or
+  CA-<province>; x_product; x_parent the product it is part of; x_total yes for a product with parts (never summed with them);
+  x_vector; x_revised r where revised. Stock change is positive for a build; refinery production and inputs are net and can
+  be negative; products supplied and adjustments are Canada''s only; StatCan lists net inter-regional receipts but publishes
+  none.'
+read:
+  date: '2026-11-20'
+  rows: 112385
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: statcan_pp:<area>:<product>, the area ca or a province's or territory's postal code in lower case
+  type: text
+  values:
+    distinct: 406
+    examples:
+    - statcan_pp:ab:asphalt
+    - statcan_pp:ab:aviation_gasoline_blending_components
+    - statcan_pp:ab:butane
+    - statcan_pp:ab:distillate_fuel_oil
+    - statcan_pp:ab:ethane
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 91
+    earliest: '2019-01-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -1222456.0
+    highest: 10421525.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      m3: 112385
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 112385
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: CA for Canada, CA-<province> for a province or territory
+  type: text
+  values:
+    list:
+      CA: 13415
+      CA-AB: 10738
+      CA-BC: 5518
+      CA-MB: 10372
+      CA-NB: 5278
+      CA-NL: 6169
+      CA-NS: 6382
+      CA-NT: 10283
+      CA-NU: 3094
+      CA-ON: 10602
+      CA-PE: 6406
+      CA-QC: 10479
+      CA-SK: 10555
+      CA-YT: 3094
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 112385
+- name: node
+  shared: true
+  particular: '<area>: <item>: <product> as StatCan names them, not a pricing node'
+  type: text
+  values:
+    distinct: 1331
+    examples:
+    - 'Alberta: Ending stocks: Asphalt'
+    - 'Alberta: Ending stocks: Aviation gasoline blending components'
+    - 'Alberta: Ending stocks: Distillate fuel oil'
+    - 'Alberta: Ending stocks: Finished aviation gasoline'
+    - 'Alberta: Ending stocks: Finished motor gasoline'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      statcan:25-10-0081-01: 112385
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www150.statcan.gc.ca/n1/tbl/csv/25100081-eng.zip: 112385
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T09:05:20Z': 112385
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The Last-Modified time of StatCan's zip
+  type: utc time
+  values:
+    list:
+      '2026-09-29T12:30:43Z': 112385
+  missing_cells: 0
+- name: x_product
+  label: The petroleum product, StatCan's name (31 products)
+  unit: none
+  type: text
+  values:
+    distinct: 31
+    examples:
+    - Asphalt
+    - Aviation gasoline blending components
+    - Butane
+    - Distillate fuel oil
+    - Ethane
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Products
+  documented_by: header; connector statcan_petroleum_products.py
+- name: x_parent
+  label: The product this one is part of, StatCan's name
+  unit: none
+  type: text
+  values:
+    list:
+      Finished petroleum products: 56975
+      Hydrocarbon gas liquids: 5925
+      Natural gas liquids: 11621
+      Other liquids: 18703
+      Renewable fuels: 10591
+  missing_cells: 8570
+  missing_meaning: One of the three top products (hydrocarbon gas liquids, other liquids, finished petroleum products)
+  source_name: null
+  documented_by: header; connector statcan_petroleum_products.py
+- name: x_total
+  label: yes where the product has parts in the table, never to be summed with them
+  unit: none
+  type: text
+  values:
+    list:
+      'yes': 17329
+  missing_cells: 95056
+  missing_meaning: The product has no parts in the table
+  source_name: null
+  documented_by: header; connector statcan_petroleum_products.py
+- name: x_vector
+  label: StatCan's vector identifier of the series
+  unit: none
+  type: text
+  values:
+    distinct: 1331
+    examples:
+    - v1251227408
+    - v1251227409
+    - v1251227410
+    - v1251227411
+    - v1251227412
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: VECTOR
+  documented_by: header; connector statcan_petroleum_products.py
+- name: x_revised
+  label: r where StatCan marks the figure revised; no row holds one
+  unit: none
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 112385
+  missing_meaning: StatCan gives no symbol (every row now)
+  source_name: SYMBOL
+  documented_by: header; connector statcan_petroleum_products.py; method statcan_petroleum_products_monthly.md
+variables:
+- name: adjustments
+  label: Adjustments, m3 (Canada only)
+  unit: m3
+  rows: 668
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: ending_stocks
+  label: Ending stocks, m3
+  unit: m3
+  rows: 16200
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: exports
+  label: Exports, m3
+  unit: m3
+  rows: 20408
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: field_production
+  label: Field production, m3
+  unit: m3
+  rows: 1183
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: imports
+  label: Imports, m3
+  unit: m3
+  rows: 24206
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: products_supplied
+  label: Products supplied, m3 (Canada only)
+  unit: m3
+  rows: 1238
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: refinery_inputs
+  label: Refinery and blender net inputs, m3 (net, can be negative)
+  unit: m3
+  rows: 6381
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: refinery_production
+  label: Refinery and blender net production, m3 (net, can be negative)
+  unit: m3
+  rows: 15430
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: renewable_production
+  label: Renewable fuel plant net production, m3
+  unit: m3
+  rows: 463
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: stock_change
+  label: Stock change, m3 (positive for a build)
+  unit: m3
+  rows: 26208
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

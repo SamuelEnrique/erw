@@ -1,0 +1,433 @@
+# The codebook's metadata of table epa_tri_energy_releases_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: epa_tri_energy_releases_annual
+family: epa
+shape: series
+row: One Toxics Release Inventory form (one facility's report of one chemical, a document control number) of the five energy
+  industries in one reporting year, 2015 to 2023, with one of its three release totals.
+time: ts_utc is the reporting year's 1 January (UTC), naming the calendar year; freq P1Y.
+vintage_rule: 'Merged by (entity, variable, ts_utc): a run replaces each form''s rows and keeps rows it does not restate.
+  vintage is not filled (the service gave no last-modified time).'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: epa:tri_basic U.S. Environmental Protection Agency, Toxics Release Inventory (TRI) Program, TRI Basic Data Files
+  url: https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-data-files-calendar-years-1987-present
+cite: U.S. Environmental Protection Agency (EPA). Toxics Release Inventory (TRI) basic data files, US, by reporting year.
+  Via the Energy Research Warehouse (ERW), table `epa_tri_energy_releases_annual`.
+method: docs/methods/epa_tri_energy_releases_annual.md
+header_title: 'U.S. EPA, Toxics Release Inventory, basic data files, reporting years 2015 to 2023: the energy industries''
+  releases by facility, chemical and year (session 2121)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity tri:<TRIFD>:<TRI chemical id>:<document control number>, one
+  form (x_trifd and x_chemical_id group a site''s forms of a chemical; no sum is made); variable total_releases, on_site_release_total
+  or off_site_release_total, EPA''s totals of the form; unit lb, or g for dioxins (Decision 66), as printed, never converted
+  or summed across units; ts_utc the year''s 1 January; freq P1Y; node the facility''s name.'
+read:
+  date: '2026-11-20'
+  rows: 384483
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: tri:<TRIFD>:<TRI chemical id>:<document control number>, one form
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - tri:00612PRPCMPR681:0000091203:1315213976006
+    - tri:00612PRPCMPR681:0000091203:1316215151085
+    - tri:00612PRPCMPR681:0000091203:1317216110027
+    - tri:00612PRPCMPR681:0000091203:1318216821684
+    - tri:00612PRPCMPR681:0000091203:1319218042188
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2015-01-01T00:00:00Z': 44700
+      '2016-01-01T00:00:00Z': 43386
+      '2017-01-01T00:00:00Z': 43755
+      '2018-01-01T00:00:00Z': 43770
+      '2019-01-01T00:00:00Z': 41946
+      '2020-01-01T00:00:00Z': 40086
+      '2021-01-01T00:00:00Z': 39618
+      '2022-01-01T00:00:00Z': 44433
+      '2023-01-01T00:00:00Z': 42789
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 73621326.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      g: 8985
+      lb: 375498
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 384483
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state> of the facility, territories included
+  type: text
+  values:
+    distinct: 55
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 384483
+- name: node
+  shared: true
+  particular: The facility's name, not a pricing node
+  type: text
+  values:
+    distinct: 2624
+    examples:
+    - 50 BUTTES
+    - ACA SHAD HMA PLANT
+    - ACA SOUTEL HMA PLANT
+    - ACE-SAGINAW ASPHALT PAVING CO
+    - ACTION PETROLEUM CO LTD
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      epa:tri_basic: 384483
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://data.epa.gov/efservice/downloads/tri/mv_tri_basic_download/2015_US/csv: 44700
+      https://data.epa.gov/efservice/downloads/tri/mv_tri_basic_download/2016_US/csv: 43386
+      https://data.epa.gov/efservice/downloads/tri/mv_tri_basic_download/2017_US/csv: 43755
+      https://data.epa.gov/efservice/downloads/tri/mv_tri_basic_download/2018_US/csv: 43770
+      https://data.epa.gov/efservice/downloads/tri/mv_tri_basic_download/2019_US/csv: 41946
+      https://data.epa.gov/efservice/downloads/tri/mv_tri_basic_download/2020_US/csv: 40086
+      https://data.epa.gov/efservice/downloads/tri/mv_tri_basic_download/2021_US/csv: 39618
+      https://data.epa.gov/efservice/downloads/tri/mv_tri_basic_download/2022_US/csv: 44433
+      https://data.epa.gov/efservice/downloads/tri/mv_tri_basic_download/2023_US/csv: 42789
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T22:33:49Z': 42789
+      '2026-10-23T22:37:06Z': 44700
+      '2026-10-23T22:37:43Z': 43386
+      '2026-10-23T22:38:25Z': 43755
+      '2026-10-23T22:39:07Z': 43770
+      '2026-10-23T22:39:47Z': 41946
+      '2026-10-23T22:40:30Z': 40086
+      '2026-10-23T22:41:11Z': 39618
+      '2026-10-23T22:41:56Z': 44433
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 384483
+- name: x_trifd
+  label: The facility's TRI facility id (TRIFD)
+  unit: none
+  type: text
+  values:
+    distinct: 2856
+    examples:
+    - 00612PRPCMPR681
+    - 00619CRBBNLUCHE
+    - 00624CLCTRRD337
+    - 0062WPLNTPPR127
+    - 0062WPRTRCCARRE
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: 2. TRIFD
+  documented_by: connector epa_tri_energy.py
+- name: x_frs_id
+  label: The facility's id in EPA's Facility Registry Service, shared with epa_ghgrp_facility_emissions' x_frs_id
+  unit: none
+  type: integer
+  values:
+    distinct: 2846
+    lowest: 110000307800
+    highest: 110071821104
+  missing_cells: 72
+  missing_meaning: EPA gives no FRS id (72 rows)
+  source_name: 3. FRS ID
+  documented_by: connector epa_tri_energy.py; method epa_tri_energy_releases_annual.md
+- name: x_chemical_id
+  label: EPA's TRI chemical or compound id
+  unit: none
+  type: text
+  values:
+    distinct: 193
+    examples:
+    - '0000050000'
+    - '0000056235'
+    - '0000060355'
+    - '0000062533'
+    - 0000064186
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: 39. TRI CHEMICAL/COMPOUND ID
+  documented_by: connector epa_tri_energy.py
+- name: x_chemical
+  label: The chemical's name
+  unit: none
+  type: text
+  values:
+    distinct: 208
+    examples:
+    - 1,1,1,2-Tetrachloroethane
+    - 1,1,1-Trichloroethane
+    - 1,1,2,2-Tetrachloroethane
+    - 1,1,2-Trichloroethane
+    - 1,2,4-Trichlorobenzene
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: 37. CHEMICAL
+  documented_by: connector epa_tri_energy.py
+- name: x_cas
+  label: The chemical's CAS registry number as EPA gives it
+  unit: none
+  type: text
+  values:
+    distinct: 193
+    examples:
+    - 100-02-7
+    - 100-41-4
+    - 100-42-5
+    - 10028-15-6
+    - 10049-04-4
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: 40. CAS#
+  documented_by: connector epa_tri_energy.py
+- name: x_sector
+  label: 'EPA''s TRI industry sector: Electric Utilities, Petroleum, Petroleum Bulk Terminals, Natural Gas Processing or Coal
+    Mining'
+  unit: none
+  type: text
+  values:
+    list:
+      Coal Mining: 2442
+      Electric Utilities: 109440
+      Natural Gas Processing: 10782
+      Petroleum: 150234
+      Petroleum Bulk Terminals: 111585
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: 23. INDUSTRY SECTOR
+  documented_by: connector epa_tri_energy.py; method epa_tri_energy_releases_annual.md
+- name: x_sector_code
+  label: EPA's TRI industry sector code (2211, 324, 4247, 211, 2121)
+  unit: none
+  type: integer
+  values:
+    list:
+      '211': 10782
+      '2121': 2442
+      '2211': 109440
+      '324': 150234
+      '4247': 111585
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: 22. INDUSTRY SECTOR CODE
+  documented_by: connector epa_tri_energy.py; method epa_tri_energy_releases_annual.md
+- name: x_naics
+  label: The form's primary NAICS (industry classification) code
+  unit: none
+  type: integer
+  values:
+    list:
+      '211111': 3
+      '211112': 204
+      '211130': 10575
+      '212111': 984
+      '212112': 1083
+      '212114': 183
+      '212115': 192
+      '221111': 24
+      '221112': 104700
+      '221113': 258
+      '221117': 546
+      '221118': 678
+      '221121': 429
+      '221122': 2805
+      '324110': 103470
+      '324121': 20676
+      '324122': 7857
+      '324191': 9045
+      '324199': 9186
+      '424710': 111585
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: 30. PRIMARY NAICS
+  documented_by: connector epa_tri_energy.py
+- name: x_county
+  label: The facility's county as EPA writes it
+  unit: none
+  type: text
+  values:
+    distinct: 832
+    examples:
+    - ACADIA PARISH
+    - ACCOMACK
+    - ADA
+    - ADAMS
+    - ADDISON
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: 7. COUNTY
+  documented_by: connector epa_tri_energy.py
+- name: x_latitude
+  label: The facility's latitude, decimal degrees as EPA gives it
+  unit: degree
+  type: number
+  values:
+    distinct: 2812
+    lowest: 13.38531
+    highest: 70.19975
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: 12. LATITUDE
+  documented_by: connector epa_tri_energy.py
+- name: x_longitude
+  label: The facility's longitude, decimal degrees as EPA gives it (west negative)
+  unit: degree
+  type: number
+  values:
+    distinct: 2811
+    lowest: -166.535932
+    highest: 145.764563
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: 13. LONGITUDE
+  documented_by: connector epa_tri_energy.py; data
+- name: x_parent
+  label: The facility's parent company, EPA's standardized name
+  unit: none
+  type: text
+  values:
+    distinct: 583
+    examples:
+    - A TEICHERT & SON INC
+    - ABH ENTERPRISES INC
+    - ADAMS RESOURCES & ENERGY INC
+    - ADVANSIX INC
+    - AES CORP
+  missing_cells: 282
+  missing_meaning: EPA gives no parent company (282 rows)
+  source_name: 17. STANDARD PARENT CO NAME
+  documented_by: connector epa_tri_energy.py; method epa_tri_energy_releases_annual.md
+- name: x_carcinogen
+  label: 'Whether the chemical is a carcinogen: YES or NO'
+  unit: none
+  type: text
+  values:
+    list:
+      'NO': 259557
+      'YES': 124926
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: 46. CARCINOGEN
+  documented_by: connector epa_tri_energy.py
+- name: x_pbt
+  label: 'EPA''s PBT flag of the chemical: YES or NO'
+  unit: none
+  type: text
+  values:
+    list:
+      'NO': 290457
+      'YES': 94026
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: 47. PBT
+  documented_by: connector epa_tri_energy.py
+- name: x_pfas
+  label: 'Whether the chemical is a PFAS: YES or NO'
+  unit: none
+  type: text
+  values:
+    list:
+      'NO': 384405
+      'YES': 78
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: 48. PFAS
+  documented_by: connector epa_tri_energy.py
+- name: x_form_type
+  label: 'The form type: R, or A (EPA''s short form, which reports no quantities, so its totals are 0)'
+  unit: none
+  type: text
+  values:
+    list:
+      A: 32547
+      R: 351936
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: 49. FORM TYPE
+  documented_by: connector epa_tri_energy.py; method epa_tri_energy_releases_annual.md
+variables:
+- name: off_site_release_total
+  label: 'The form''s off-site releases: transferred off site for disposal or release (EPA''s OFF-SITE RELEASE TOTAL)'
+  unit: g; lb
+  rows: 128161
+  first: '2015-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: on_site_release_total
+  label: 'The form''s on-site releases: to air, water, underground injection and land (EPA''s ON-SITE RELEASE TOTAL)'
+  unit: g; lb
+  rows: 128161
+  first: '2015-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: total_releases
+  label: 'The form''s total releases: on-site and off-site disposal or other releases (EPA''s TOTAL RELEASES), in lb, or g
+    for dioxins'
+  unit: g; lb
+  rows: 128161
+  first: '2015-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+second_look:
+- 'x_pbt: the connector says only whether the chemical is ''a PBT''; the term is not expanded in the repository.'

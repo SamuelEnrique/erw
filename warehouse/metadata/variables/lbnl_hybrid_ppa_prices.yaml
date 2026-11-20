@@ -1,0 +1,435 @@
+# The codebook's metadata of table lbnl_hybrid_ppa_prices (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: lbnl_hybrid_ppa_prices
+family: lbnl
+shape: events
+row: One PV plus battery hybrid power purchase agreement in Berkeley Lab's Utility-Scale Solar, 2025 Data Update, either greenfield
+  (PV and battery contracted together) or a retrofit (a battery added to an operating PV plant).
+time: No time column; event_date is the PPA's execution date (greenfield) or the retrofit's execution date (retrofit), a date.
+vintage_rule: Rewritten whole by each run from the data file lbnl_ppa_prices.py saves; one edition, no vintage column.
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: lbnl:hybrid_ppa_prices Lawrence Berkeley National Laboratory, Utility-Scale Solar, 2025 Data Update (October 2025),
+    sheet 'PV+Battery Hybrid PPA Price'
+  url: https://eta-publications.lbl.gov/publications/us-utility-scale-solar-2025-data
+cite: Lawrence Berkeley National Laboratory (Berkeley Lab). Utility-Scale Solar Data Update (PV+Battery Hybrid PPA Price).
+  Via the Energy Research Warehouse (ERW), table `lbnl_hybrid_ppa_prices`.
+method: docs/methods/lbnl_ppa_prices.md
+header_title: Berkeley Lab, PV+battery hybrid PPA prices, one row a PPA, greenfield or retrofit (Utility-Scale Solar, 2025
+  Data Update) (session 940)
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id lbnl_hybrid:<EIA ID or plant>:<greenfield|retrofit>; event_date
+  the PPA''s or the retrofit''s execution; event_type ppa_hybrid; entity_ids lbnl_solar:<EIA ID> for each id named; mw the
+  PV capacity (MW-AC); price the PV+battery price levelized, real 2024 USD per MWh of PV output; x_* the plant, sizes, dates
+  and the price''s parts (PV, battery adder per MWh of PV, per MWh stored, per MW-month).'
+read:
+  date: '2026-11-20'
+  rows: 113
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: 113
+    examples:
+    - lbnl_hybrid:0:greenfield
+    - lbnl_hybrid:0:greenfield-10
+    - lbnl_hybrid:0:greenfield-11
+    - lbnl_hybrid:0:greenfield-12
+    - lbnl_hybrid:0:greenfield-13
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    distinct: 78
+    earliest: '2015-09-09'
+    latest: '2025-06-13'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: Always ppa_hybrid
+  type: text
+  values:
+    list:
+      ppa_hybrid: 113
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 113
+- name: entity_ids
+  shared: true
+  particular: lbnl_solar:<EIA ID> for each EIA id the row names; a retrofit names the PV plant and the battery
+  type: text
+  values:
+    distinct: 82
+    examples:
+    - lbnl_solar:0
+    - lbnl_solar:57242
+    - lbnl_solar:58462
+    - lbnl_solar:58542;lbnl_solar:65857
+    - lbnl_solar:59871
+  missing_cells: 0
+- name: mw
+  shared: true
+  particular: The PV capacity, MW-AC
+  type: number
+  values:
+    distinct: 61
+    lowest: 7.0
+    highest: 700.0
+  missing_cells: 0
+- name: price
+  shared: true
+  particular: The PV plus battery price levelized over the term, real 2024 USD per MWh of PV output (the sheet's PV+BESS_$_per_MWh-PV_real)
+  type: number
+  values:
+    distinct: 113
+    lowest: 18.48697031937399
+    highest: 206.40673223651368
+  missing_cells: 0
+- name: currency
+  shared: true
+  type: text
+  values:
+    list:
+      USD: 113
+  missing_cells: 0
+- name: status
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 113
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      lbnl:hybrid_ppa_prices: 113
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://eta-publications.lbl.gov/sites/default/files/2025-10/2025_utility-scale_solar_data_update.xlsx: 113
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T08:30:21Z': 113
+  missing_cells: 0
+- name: x_kind
+  label: Whether the PPA is greenfield (PV and battery contracted together) or a retrofit (a battery added to an operating
+    PV plant)
+  unit: none
+  type: text
+  values:
+    list:
+      greenfield: 102
+      retrofit: 11
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method lbnl_ppa_prices.md; connector lbnl_hybrid_ppa_prices.py
+- name: x_state
+  label: The plant's state, two-letter postal code
+  unit: none
+  type: text
+  values:
+    list:
+      AZ: 8
+      CA: 39
+      CO: 3
+      FL: 1
+      GA: 2
+      HI: 24
+      NM: 16
+      NV: 17
+      NY: 2
+      OR: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: State
+  documented_by: connector lbnl_hybrid_ppa_prices.py
+- name: x_plant
+  label: The plant's name as LBNL writes it, underscores turned to spaces
+  unit: none
+  type: text
+  values:
+    distinct: 113
+    examples:
+    - AES Kekaha
+    - AES Lawai
+    - Arica PPA1
+    - Arica PPA2
+    - Arlington Energy Center II
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Plant_Name
+  documented_by: connector lbnl_hybrid_ppa_prices.py
+- name: x_eia_id
+  label: The EIA id or ids LBNL gives for the plant (a retrofit gives the PV plant's and the battery's, as 58542/65857); 0
+    as the sheet gives it
+  unit: none
+  type: text
+  values:
+    distinct: 82
+    examples:
+    - '0'
+    - '57242'
+    - '58462'
+    - 58542/65857
+    - '59871'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: EIA ID
+  documented_by: connector lbnl_hybrid_ppa_prices.py; method lbnl_ppa_prices.md; data
+- name: x_year_added
+  label: LBNL's 'Year added' field as the sheet gives it (2025 or 0)
+  unit: none
+  type: integer
+  values:
+    list:
+      '0': 104
+      '2025': 9
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Year added
+  documented_by: connector lbnl_hybrid_ppa_prices.py; method lbnl_ppa_prices.md; data
+- name: x_pv_mwh_year
+  label: The PV plant's average annual output
+  unit: MWh
+  type: number
+  values:
+    distinct: 109
+    lowest: 22221.810000000045
+    highest: 2097970.296116577
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Avg Annual PV MWh
+  documented_by: connector lbnl_hybrid_ppa_prices.py
+- name: x_bess_mw
+  label: The battery's power capacity
+  unit: MW
+  type: number
+  values:
+    distinct: 54
+    lowest: 1.0
+    highest: 700.0
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: BESS MW
+  documented_by: connector lbnl_hybrid_ppa_prices.py
+- name: x_bess_mwh
+  label: The battery's energy capacity
+  unit: MWh
+  type: number
+  values:
+    distinct: 56
+    lowest: 2.0
+    highest: 2800.0
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: BESS MWh
+  documented_by: connector lbnl_hybrid_ppa_prices.py
+- name: x_bess_duration_h
+  label: 'The battery''s duration: hours it can discharge at full power'
+  unit: hour
+  type: number
+  values:
+    list:
+      '2.0': 5
+      '2.5': 1
+      '3.0': 1
+      '3.726315789473684': 1
+      '4.0': 100
+      '5.0': 4
+      '8.0': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: BESS Duration
+  documented_by: connector lbnl_hybrid_ppa_prices.py; method lbnl_ppa_prices.md
+- name: x_bess_pv_ratio
+  label: The ratio of battery power capacity to PV capacity
+  unit: ratio
+  type: number
+  values:
+    distinct: 51
+    lowest: 0.042016806722689
+    highest: 1.0
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: BESS:PV Ratio
+  documented_by: connector lbnl_hybrid_ppa_prices.py; method lbnl_ppa_prices.md
+- name: x_pv_equivalent_duration_h
+  label: 'The PV-equivalent duration: battery energy capacity over PV capacity'
+  unit: hour
+  type: number
+  values:
+    distinct: 53
+    lowest: 0.0909090909090909
+    highest: 8.0
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: PV-Equivalent Duration (Storage Energy / PV Capacity)
+  documented_by: connector lbnl_hybrid_ppa_prices.py
+- name: x_pv_usd_mwh
+  label: The PV part of the price, levelized, real 2024 USD per MWh
+  unit: USD/MWh
+  type: number
+  values:
+    distinct: 72
+    lowest: 12.397981981671771
+    highest: 148.40069722446546
+  missing_cells: 39
+  missing_meaning: LBNL's cell is blank
+  source_name: PV_$_per_MWh_real
+  documented_by: header; connector lbnl_hybrid_ppa_prices.py
+- name: x_bess_adder_usd_mwh_pv
+  label: The battery adder to the price, real 2024 USD per MWh of PV output
+  unit: USD/MWh
+  type: number
+  values:
+    distinct: 75
+    lowest: 2.338283787247718
+    highest: 58.58756991183108
+  missing_cells: 38
+  missing_meaning: LBNL's cell is blank
+  source_name: BESS_$_per_MWh-PV_real
+  documented_by: header; connector lbnl_hybrid_ppa_prices.py
+- name: x_bess_adder_usd_mwh_stored
+  label: The battery adder, real 2024 USD per MWh stored
+  unit: USD/MWh
+  type: number
+  values:
+    distinct: 73
+    lowest: 38.14808048331824
+    highest: 115.23324026159628
+  missing_cells: 38
+  missing_meaning: LBNL's cell is blank
+  source_name: BESS_$_per_MWh-stored_real
+  documented_by: header; connector lbnl_hybrid_ppa_prices.py
+- name: x_bess_adder_usd_mw_month
+  label: The battery adder, real 2024 USD per MW of battery a month
+  unit: USD/MW-month
+  type: number
+  values:
+    distinct: 73
+    lowest: 4481.475301109149
+    highest: 14031.761477159243
+  missing_cells: 38
+  missing_meaning: LBNL's cell is blank
+  source_name: BESS_$_per_MW-month_real
+  documented_by: header; connector lbnl_hybrid_ppa_prices.py
+- name: x_pv_ppa_execution
+  label: The date the PV PPA was executed
+  unit: none
+  type: date
+  values:
+    distinct: 82
+    earliest: '2009-08-17'
+    latest: '2025-06-13'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: PV PPA Execution
+  documented_by: connector lbnl_hybrid_ppa_prices.py
+- name: x_bess_ppa_execution
+  label: The date the battery PPA was executed
+  unit: none
+  type: date
+  values:
+    distinct: 78
+    earliest: '2015-09-09'
+    latest: '2025-06-13'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: BESS PPA Execution
+  documented_by: connector lbnl_hybrid_ppa_prices.py
+- name: x_pv_cod
+  label: The PV plant's commercial operation date
+  unit: none
+  type: date
+  values:
+    distinct: 80
+    earliest: '2014-10-22'
+    latest: '2029-07-01'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: PV COD
+  documented_by: connector lbnl_hybrid_ppa_prices.py
+- name: x_bess_cod
+  label: The battery's commercial operation date
+  unit: none
+  type: date
+  values:
+    distinct: 77
+    earliest: '2017-03-31'
+    latest: '2029-07-01'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: BESS COD
+  documented_by: connector lbnl_hybrid_ppa_prices.py
+- name: x_retrofit_execution
+  label: The date the retrofit's contract was executed
+  unit: none
+  type: date
+  values:
+    list:
+      '2020-04-09': 3
+      '2020-04-22': 2
+      '2020-05-13': 1
+      '2020-05-29': 1
+      '2021-10-18': 1
+      '2021-11-19': 1
+      '2023-09-27': 2
+  missing_cells: 102
+  missing_meaning: Not a retrofit
+  source_name: Retrofit_Execution
+  documented_by: connector lbnl_hybrid_ppa_prices.py; data
+- name: x_retrofit_cod
+  label: The retrofit battery's commercial operation date
+  unit: none
+  type: date
+  values:
+    list:
+      '2021-03-31': 1
+      '2021-05-31': 1
+      '2021-07-31': 1
+      '2021-09-01': 2
+      '2021-10-01': 1
+      '2022-03-31': 1
+      '2022-08-28': 1
+      '2022-10-01': 1
+      '2026-02-01': 2
+  missing_cells: 102
+  missing_meaning: Not a retrofit
+  source_name: Retrofit_COD
+  documented_by: connector lbnl_hybrid_ppa_prices.py; data
+- name: x_dollar_year
+  label: The year of the real dollars the prices are in
+  unit: none
+  type: integer
+  values:
+    list:
+      '2024': 113
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method lbnl_ppa_prices.md
+second_look:
+- 'x_year_added: LBNL''s ''Year added'' holds 2025 on 9 rows and 0 on 104; no note or connector says what 0 means (presumably
+  earlier editions, not confirmed).'

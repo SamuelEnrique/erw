@@ -1,0 +1,185 @@
+# The codebook's metadata of table clean_energy_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: clean_energy_hourly
+family: erw_derived
+shape: series
+row: One ISO grid's carbon-free share of its own generation in one held hour, with the hour's two sums.
+time: ts_utc is the hour's start, UTC; freq PT1H. Held hours only.
+vintage_rule: Rewritten whole by each run of mix_clean.py (the old file removed first); vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: PT1H
+source:
+- name: erw:clean_energy EIA Form EIA-930 hourly net generation by energy source, the per-BA workbooks (https://www.eia.gov/electricity/gridmonitor/knownissues/xls/<BA>.xlsx);
+    California from 2025-12-16T08:00:00Z is CAISO's own supply by fuel (caiso_fuel_supply), the warehouse's one join (docs/methods/eia930_caiso_break.md);
+    read by this run from warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175834.883363Z_00002_CISO.xlsx; warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175850.712544Z_00004_ERCO.xlsx;
+    warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175904.395449Z_00006_ISNE.xlsx; warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175918.956497Z_00008_MISO.xlsx;
+    warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175934.677962Z_00010_NYIS.xlsx; warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175949.986042Z_00012_PJM.xlsx;
+    warehouse/raw/eia930_emissions/20261116T175833Z/20261116T180008.741327Z_00014_SWPP.xlsx
+  url: https://www.eia.gov/electricity/gridmonitor/knownissues/xls/<BA>.xlsx
+cite: Energy Research Warehouse (ERW), derived. How clean each grid's generation is by hour, month and year; hourly against
+  annual matching; load moved into the cleanest hours (docs/methods/clean_energy.md). Via the Energy Research Warehouse (ERW),
+  table `clean_energy_hourly`.
+method: docs/methods/generation_mix_hourly.md
+header_title: the carbon-free share of each grid's generation by hour, the seven ISO grids (derived, session 122)
+header_shape: 'Shape: series (docs/datastandard.md v0). freq PT1H; ts_utc the hour''s start; entity iso:<grid>; variable carbon_free_share_pct
+  (percent); x_carbon_free_mwh and x_generation_mwh the hour''s two sums; x_side eia930 or caiso, the source of the hour.
+  Held hours only (docs/methods/generation_mix_hourly.md, and session 118''s rule on the hour''s net generation, docs/methods/impossible_hours.md).'
+read:
+  date: '2026-11-20'
+  rows: 478164
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: iso:<grid>, the seven ISO grids
+  type: text
+  values:
+    list:
+      iso:caiso: 68631
+      iso:ercot: 68903
+      iso:isone: 68953
+      iso:miso: 68975
+      iso:nyiso: 65757
+      iso:pjm: 68166
+      iso:spp: 68779
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2019-01-01T05:00:00Z'
+    latest: '2026-11-16T07:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 95.207
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      pct: 478164
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 478164
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 274873
+      US-CA: 68631
+      US-NY: 65757
+      US-TX: 68903
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 478164
+- name: node
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 478164
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:clean_energy: 478164
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/clean_energy.md: 478164
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T18:00:39Z': 478164
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 478164
+- name: x_carbon_free_mwh
+  label: 'The hour''s carbon-free generation inside the grid: nuclear, wind, solar and hydro'
+  unit: MWh
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 57449.0
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector mix_clean.py
+- name: x_generation_mwh
+  label: 'The hour''s generation inside the grid: the carbon-free sources plus natural gas, coal and other (storage is not
+    a source)'
+  unit: MWh
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 5561.0
+    highest: 164281.0
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector mix_clean.py
+- name: x_side
+  label: 'The source of the hour: eia930 (EIA-930) or caiso (CAISO''s own supply by fuel, California from the join of 2025-12-16)'
+  unit: none
+  type: text
+  values:
+    list:
+      caiso: 15814
+      eia930: 462350
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method generation_mix_hourly.md
+variables:
+- name: carbon_free_share_pct
+  label: The hour's carbon-free MWh over its generation MWh
+  unit: pct
+  rows: 478164
+  first: '2019-01-01T05:00:00Z'
+  last: '2026-11-16T07:00:00Z'
+second_look: null

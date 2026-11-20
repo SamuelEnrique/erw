@@ -1,0 +1,486 @@
+# The codebook's metadata of table bsee_offshore_incidents (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: bsee_offshore_incidents
+family: other_sources
+shape: events
+row: One incident on the US outer continental shelf reported to the Bureau of Safety and Environmental Enforcement, from its
+  calendar-year workbooks.
+time: event_date is the incident's date; x_time its time as BSEE writes it.
+vintage_rule: Rewritten whole as one snapshot by each run from BSEE's workbooks; the table has no vintage column.
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: bsee:offshore_incidents Bureau of Safety and Environmental Enforcement, Offshore Incident Statistics
+  url: https://www.bsee.gov/stats-facts/offshore-incident-statistics
+cite: 'U.S. Department of the Interior, Bureau of Safety and Environmental Enforcement (BSEE). Offshore Incident Statistics:
+  incidents for public use, by calendar year. Via the Energy Research Warehouse (ERW), table `bsee_offshore_incidents`.'
+method: docs/methods/bsee_offshore_incidents.md
+header_title: 'Bureau of Safety and Environmental Enforcement, offshore incidents for public use, calendar years 2018, 2020,
+  2021, 2022, 2023, 2024: 4,818 incidents (session 2177)'
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id bsee_incident:<serial>; event_date; event_type offshore_incident;
+  parties the operator; entity_ids lease:<number>; x_year; x_time; x_region; x_district; x_area; x_block; x_water_depth_ft;
+  x_structure; x_structure_type; x_rig; x_fatalities and x_injuries (operator and contractor, every injury class, summed);
+  x_fire, x_explosion, x_loss_of_well_control, x_collision, x_lifting, x_gas_release (Y or N); x_summary (BSEE''s words).'
+read:
+  date: '2026-11-20'
+  rows: 4818
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  particular: bsee_incident:<serial>
+  type: text
+  values:
+    distinct: 4818
+    examples:
+    - bsee_incident:-25871
+    - bsee_incident:-25874
+    - bsee_incident:-25878
+    - bsee_incident:-25879
+    - bsee_incident:-25880
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    distinct: 1921
+    earliest: '2018-01-02'
+    latest: '2024-12-31'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: offshore_incident on every row
+  type: text
+  values:
+    list:
+      offshore_incident: 4818
+  missing_cells: 0
+- name: parties
+  shared: true
+  particular: The operator
+  type: text
+  values:
+    distinct: 95
+    examples:
+    - ANKOR Energy LLC
+    - Anadarko Petroleum Corporation
+    - Apache Corporation
+    - Arena Offshore, LP
+    - Array Petroleum, LLC
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  particular: lease:<number>
+  type: text
+  values:
+    distinct: 683
+    examples:
+    - lease:00016
+    - lease:00019
+    - lease:00020
+    - lease:00026
+    - lease:00031
+  missing_cells: 606
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 4818
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 4818
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 4818
+- name: status
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 4818
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      bsee:offshore_incidents: 4818
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.bsee.gov/sites/bsee.gov/files/2023-03/cy-2021-excel-spreadsheet.xlsx: 773
+      https://www.bsee.gov/sites/bsee.gov/files/2024-02/cy-2022-excel-spreadsheet.xlsx: 870
+      https://www.bsee.gov/sites/bsee.gov/files/2024-10/cy-2023-excel-spreadsheet.xlsx: 943
+      https://www.bsee.gov/sites/bsee.gov/files/2026-04/cy-2024-excel-spreadsheet.xlsx: 1042
+      https://www.bsee.gov/sites/bsee.gov/files/cy-2020-offshore-incident-statistics-excel-spreadsheet.xlsx: 687
+      https://www.bsee.gov/sites/bsee.gov/files/cy2018-public-release-01-17-2020.xlsx: 503
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T00:54:22Z': 1042
+      '2026-10-24T00:59:41Z': 503
+      '2026-10-24T01:00:04Z': 687
+      '2026-10-24T01:00:05Z': 773
+      '2026-10-24T01:00:07Z': 870
+      '2026-10-24T01:00:09Z': 943
+  missing_cells: 0
+- name: x_year
+  label: The workbook's calendar year (the year of event_date)
+  unit: none
+  type: integer
+  values:
+    list:
+      '2018': 503
+      '2020': 687
+      '2021': 773
+      '2022': 870
+      '2023': 943
+      '2024': 1042
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method bsee_offshore_incidents.md
+- name: x_time
+  label: The incident's time as BSEE writes it, a 24-hour hhmm number without leading zeros
+  unit: none
+  type: integer
+  values:
+    distinct: 718
+    lowest: 0
+    highest: 2359
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Time
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
+- name: x_region
+  label: BSEE's OCS region as written (Gulf of Mexico, Gulf of America from 2024, Pacific, Alaska)
+  unit: none
+  type: text
+  values:
+    list:
+      Alaska: 3
+      Gulf of America: 1006
+      Gulf of Mexico: 3600
+      Pacific: 209
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: OCS Region
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
+- name: x_district
+  label: BSEE's district name
+  unit: none
+  type: text
+  values:
+    list:
+      Anchorage District: 3
+      California: 42
+      California District: 163
+      Houma District: 1787
+      Lafayette District: 628
+      Lake Charles District: 166
+      Lake Jackson District: 379
+      New Orleans District: 1646
+      Santa Maria District: 3
+  missing_cells: 1
+  missing_meaning: BSEE leaves the cell blank (one row)
+  source_name: District Name
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
+- name: x_area
+  label: The offshore area's name
+  unit: none
+  type: text
+  values:
+    distinct: 66
+    examples:
+    - Alaminos Canyon
+    - Atwater Valley
+    - BAY MARCHAND AREA
+    - BRAZOS AREA
+    - Bay Marchand Area
+  missing_cells: 59
+  missing_meaning: BSEE leaves the cell blank (2022 and 2023)
+  source_name: Area Name
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
+- name: x_block
+  label: The offshore block
+  unit: none
+  type: text
+  values:
+    distinct: 495
+    examples:
+    - '10'
+    - '100'
+    - '1000'
+    - '1003'
+    - '1006'
+  missing_cells: 1
+  missing_meaning: BSEE leaves the cell blank
+  source_name: Block
+  documented_by: connector bsee_incidents.py
+- name: x_water_depth_ft
+  label: The water depth, as BSEE gives it
+  unit: ft
+  type: integer
+  values:
+    distinct: 726
+    lowest: 5
+    highest: 60817
+  missing_cells: 104
+  missing_meaning: BSEE leaves the cell blank
+  source_name: Water Depth (feet)
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
+- name: x_structure
+  label: The structure's name
+  unit: none
+  type: text
+  values:
+    distinct: 290
+    examples:
+    - '"A" Sump'
+    - '#5'
+    - '#8'
+    - '1'
+    - '10'
+  missing_cells: 1404
+  missing_meaning: BSEE leaves the cell blank
+  source_name: Structure Name
+  documented_by: connector bsee_incidents.py
+- name: x_structure_type
+  label: The structure's type as written (fixed platform, caisson, FPSO, tension leg platform and others)
+  unit: none
+  type: text
+  values:
+    list:
+      CAIS: 69
+      CT: 54
+      Caisson: 11
+      Compliant Tower: 7
+      FIXED: 1478
+      FPSO: 38
+      Fixed Leg Platform: 263
+      Floating Production, Storage, And Offloading: 4
+      MOPU: 16
+      MTLP: 23
+      Mini Tension Leg Platform: 2
+      Mobile Production Unit: 4
+      SEMI: 470
+      SPAR: 437
+      Semi Submersible (Column Stabilized Unit) Floating Production System: 63
+      Spar Platform - Floating Production System: 87
+      TLP: 338
+      Tension Leg Platform: 49
+      WP: 1
+  missing_cells: 1404
+  missing_meaning: BSEE leaves the cell blank
+  source_name: Structure Type
+  documented_by: connector bsee_incidents.py; data
+- name: x_rig
+  label: The rig's name
+  unit: none
+  type: text
+  values:
+    distinct: 104
+    examples:
+    - '* BARGE RIG TO BE DETERMINED'
+    - '* BARGE TO BE DETERMINED'
+    - '* COIL TUBING UNIT'
+    - '* DP SEMI RIG TO BE DETERMINED'
+    - '* DRILL SHIP TO BE DETERMINED'
+  missing_cells: 3267
+  missing_meaning: BSEE leaves the cell blank
+  source_name: Rig Name
+  documented_by: connector bsee_incidents.py
+- name: x_fatalities
+  label: Fatalities, every fatality column summed (operator and contractor)
+  unit: count
+  type: integer
+  values:
+    list:
+      '0': 4799
+      '1': 19
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
+- name: x_injuries
+  label: Injuries, every injury column summed (operator and contractor, each injury class)
+  unit: count
+  type: integer
+  values:
+    list:
+      '0': 3731
+      '1': 1057
+      '2': 30
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
+- name: x_fire
+  label: Y when the incident involved a fire, else N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 4102
+      Y: 716
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Fire
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
+- name: x_explosion
+  label: Y when the incident involved an explosion, else N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 4807
+      Y: 11
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Explosion
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
+- name: x_loss_of_well_control
+  label: Y when the incident involved a loss of well control (any of BSEE's four kinds), else N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 4802
+      Y: 16
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
+- name: x_collision
+  label: Y when the incident involved a collision (major or minor), else N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 4778
+      Y: 40
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
+- name: x_lifting
+  label: Y when the incident involved a crane or other lifting device, else N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 3095
+      Y: 1723
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
+- name: x_gas_release
+  label: Y when the incident involved a reportable H2S release or a shut-down gas release, else N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 4396
+      Y: 422
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
+- name: x_summary
+  label: BSEE's summary of the incident in its own words, spaces run together
+  unit: none
+  type: text
+  values:
+    distinct: 4788
+    examples:
+    - '"06.27.2024: [REDACTED_NAME], As per 30 CFR 250.190, Talos Third Coast LLC respectfully submits the final investigation
+      report as a follow up to the initial submittal of a crane / material handling incident at the MP-138G (G16500) facility
+      on 06.14.2024 at 12:45 hours. After reviewing the report and corrective actions, if further clarification is necessary,
+      Talos Operations and HSE can schedule a call into the New Orleans District office at the district''s convenience. Total
+      Cost: $200.00 USD, repair light fixture wiring and replace safety cage. 06.14.2024 As required by 30 CFR 250.188(a)(8),
+      Talos Third Coast LLC submits the initial notification of a crane / material handling incident that occurred on MP-138G
+      (G16500) at 12:45hours on 06/14/2024. Incident Description: While operating the crane on a blind lift from boat to production
+      deck, crane operator bumped light fixture with tool box load breaking the coupling and casing light to fall. No personnel
+      were injured in the incident. Talos Third Coast LLC. will provide a written follow up report upon completion of the
+      incident investigation as required by 30 CFR 250.190. "'
+    - '"This is initial and final report." Event During backloading operations, the handrail of a gangway contacted a suspended
+      550-gallon tote tank of engine oil. Event Description - Sequence / Timeline On February 8, 2023, backloading operations
+      were underway utilizing Drill side crane of the EI 314 A Facility. . At approximately 08:00HRS; the marine vessel (M/V)
+      Wildcat transitioned from EI 314 A Production side, under crane, to the Drill side crane. . During the transition the
+      rigger attached the hook of the Drill side crane to a full 550-gallon tote tank of engine oil. . The crane operator
+      then hoisted the tote tank and positioned it over the water awaiting the M/V to move into position to receive it. .
+      While the load was held in position the M/V began to reverse toward the platform and under the load. . Once in position
+      to receive the load the M/V was exposed to side sea conditions which swayed the vessel up during side-to-side (transverse
+      axis) movements. . At that time, the bottom of the tote tank encountered one of the handrails of a gangway. . As the
+      boat leveled to its original elevation, the crane operator lifted the load slightly then swung the tote tank to the
+      left, away from the gangway and then lowered the tote tank to the deck of the M/V. . Once backloading operations were
+      complete the crane operator reported the event to the Person-in-Charge (PIC) on the platform and then the Field Foreman
+      and AOL''s incident reporting requirements were initiated which included reporting the incident to the Field Foreman,
+      Production Forman, and HSE Coordinator for investigation. Event Consequences 1. Gangway handrail was bent downward,
+      and a weld was broken on the base of a socket which connects the handrail to the walking plank. There were no environmental
+      impacts, or injuries to personnel because of this event. Reference Final Report Attachment.'
+    - '"This is initial and final report."_x000D_ _x000D_ Event: _x000D_ A production operator noticed a cotton cloth/rag
+      smoldering inside of a wheelbarrow that included filtration media material and used paint that was curing for non-hazardous
+      disposal._x000D_ _x000D_ Event Description - Sequence / Timeline:_x000D_ 15:25HRS 05/14/2022 EI 314 C a facility stop-work
+      was initiated when a production operator identified a smoldering cotton cloth/rag inside of a wheelbarrow designated
+      as a collection pan for paint operations waste. The operator immediately reacted with water to saturate the rag and
+      other items from any further stage of reaction._x000D_ _x000D_ 15:30HRS A safety stand-down meeting was conducted, and
+      production and paint operations personnel were in attendance to review the finding and establish a plan forward._x000D_
+      _x000D_ 17:00HRS Ultimate-work-authority (UWA) approved resumption of painting operations._x000D_ _x000D_ 08:00HRS 05/15/2022
+      A Microsoft Teams meeting was organized by Facilities Maintenance Management and representatives of current AOL painting
+      operations in various contractor roles were in attendance. During the meeting the event was reviewed, and discussions
+      of prevention were communicated to all affected and unaffected painting crews so that everyone was aware of the expectation
+      for reviewing and referencing safety data sheets, various risk affiliated with chemicals that contain reactive properties,
+      and onsite management planning and control._x000D_ _x000D_ Event Consequences:_x000D_ All facility operations were halted
+      for investigation and a safety stand-down meeting was conducted to review the smoldering cloth/rag finding and identify
+      a safe path forward._x000D_ _x000D_ Emergency muster actions did not occur and there was no injury, property damage
+      or environmental impact because of this event._x000D_'
+    - '"This is the Initial and Final Report." Event Description - Sequence / Timeline On January 21, 2023, crane operations
+      were underway utilizing the main crane located on the west of the EI 330 B Facility. At the time of the event, manifested
+      materials were being offloaded from the marine vessel (M/V) on to the platform. . At approximately 18:50HRS; the M/V
+      deckhand hooked the auxiliary line of the crane to a four-barrel drum rack (1,000 lbs.) that contained (4) empty DOT
+      Drums and then provided a hoist hand signal to the crane operator. As the load was ascending, at approximately 1.5''-
+      4'' FT off the back deck of the M/V, it contacted a tote tank and the securing binding chain of the tote tank. The binding
+      chain and the sling assembly of a tote tank is where the initial load contact happened. As a result, the D-Style keeper
+      pin inserted to secure the drum rack''s door closed was damaged, failed, and the door opened. The drum rack''s door
+      then caught the interior railing of the M/V and (2) empty drums fell out of the drum rack. The crane operator and the
+      boat captain conversed by radio and decided to continue with the lift, and the drum rack was offloaded and received
+      on the platform. . The crane operator immediately reported the event to the Person-in-Charge (PIC) on the platform and
+      then the Field Foreman and AOL''s incident reporting requirements were initiated which included reporting the incident
+      to the Field Foreman, Production Forman, and HSE Coordinator for investigation. Event Consequences 1. D-Style keeper
+      pin was damaged resulting into failure. 2. Contents of the load became unsecured, and a portion fell to the deck of
+      the M/V. 3. Barrel drum rack door hinge was damaged. There were no environmental impacts, or injuries to personnel because
+      of this event.'
+    - '"This is the initial and final report."_x000D_ _x000D_ Event Description:_x000D_ On March 14, 2024, at approximately
+      08:05HRS a lifting team was conducting a planned and authorized blind lift affiliated with deck-to-deck crane operations.
+      While performing a load control maneuver during the lift, the auxiliary ball latch encountered a structural member of
+      the deck therefore damaging the latch. The crane operator completed the lift, the equipment was inspected, and damage
+      to the positive latch was identified therefore the auxiliary winch was placed out-of-service until the damaged component
+      can be replaced. _x000D_ _x000D_ Event Consequences:_x000D_ Damage to the positive latch assembly. _x000D_ . The estimated
+      property damage value was $57.00. _x000D_ _x000D_ There were no injuries to personnel or environmental impacts because
+      of this event. _x000D_ _x000D_ _x000D_ "Please reference the report attachment for additional details of the incident
+      investigation. This is the final report."_x000D_'
+  missing_cells: 11
+  missing_meaning: BSEE leaves the cell blank (11 rows of 2021)
+  source_name: Incident Summary
+  documented_by: connector bsee_incidents.py; method bsee_offshore_incidents.md
+second_look: null

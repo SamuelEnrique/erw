@@ -1,0 +1,311 @@
+# The codebook's metadata of table eia923_plant_fuel_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia923_plant_fuel_monthly
+family: eia923
+shape: series
+row: One power plant's net generation or fuel consumed for one prime mover, fuel and (for nuclear) unit in one month, from
+  Form EIA-923 Schedules 2 to 5, page 1.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M.
+vintage_rule: A run reads the years given with --years and writes the table whole; vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:eia923:monthly U.S. Energy Information Administration, Form EIA-923, Schedules 2, 3, 4 and 5, page 1
+  url: https://www.eia.gov/electricity/data/eia923/
+cite: U.S. Energy Information Administration (EIA). Form EIA-923, monthly generation and fuel consumption by plant. Via the
+  Energy Research Warehouse (ERW), table `eia923_plant_fuel_monthly`.
+method: docs/methods/eia923_monthly.md
+header_title: EIA-923, each plant's monthly net generation and fuel consumed, by prime mover and fuel (session 897)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia923m:<plant>:<prime mover>:<fuel type code>:<nuclear unit,
+  empty for none>; variable net_generation (MWh), fuel_consumed and fuel_consumed_electric (TBtu, EIA''s MMBtu times 0.000001);
+  ts_utc the month''s first day; freq P1M; geo US-<state>; node the plant''s name; x_* EIA''s fields.'
+read:
+  date: '2026-11-20'
+  rows: 660531
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia923m:<plant id>:<prime mover>:<fuel type code>:<nuclear unit id, empty for none>
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 'eia923m:10003:ST:BIT:'
+    - 'eia923m:10003:ST:DFO:'
+    - 'eia923m:10003:ST:NG:'
+    - 'eia923m:10003:ST:WO:'
+    - 'eia923m:10004:ST:WH:'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2025-01-01T00:00:00Z': 54744
+      '2025-02-01T00:00:00Z': 54729
+      '2025-03-01T00:00:00Z': 54816
+      '2025-04-01T00:00:00Z': 54876
+      '2025-05-01T00:00:00Z': 54897
+      '2025-06-01T00:00:00Z': 54975
+      '2025-07-01T00:00:00Z': 55080
+      '2025-08-01T00:00:00Z': 55125
+      '2025-09-01T00:00:00Z': 55200
+      '2025-10-01T00:00:00Z': 55257
+      '2025-11-01T00:00:00Z': 55329
+      '2025-12-01T00:00:00Z': 55503
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -155750.0
+    highest: 1923932.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 220177
+      TBtu: 440354
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 660531
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<plant state> (US-PR for Puerto Rico); US for one entity with no state
+  type: text
+  values:
+    distinct: 53
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 660531
+- name: node
+  shared: true
+  particular: The plant's name, not a pricing node; empty for one entity EIA gives no name (36 rows)
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 12 Applegate Solar LLC
+    - 126 Grove Solar LLC
+    - 1370 Shannon
+    - 145 Talmadge Solar
+    - 158th Fighter Wing Solar Farm
+  missing_cells: 36
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia923:monthly: 660531
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia923/xls/f923_2025.zip: 660531
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T06:29:28Z': 660531
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 660531
+- name: x_operator_id
+  label: EIA's identifier of the plant's operator; a dot where EIA gives none
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - .
+    - '10000'
+    - '10004'
+    - '10005'
+    - '10035'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia923_monthly.md; data
+- name: x_operator_name
+  label: The plant's operator as EIA names it
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 0HAM WHAM8 Solar, LLC
+    - 1001 Ebenezer Church Solar, LLC
+    - 1008 Matthews Solar, LLC
+    - 1009 Yadkin Solar, LLC
+    - 1034 Catherine Lake Solar, LLC
+  missing_cells: 36
+  missing_meaning: EIA gives none (one entity, 36 rows)
+  source_name: null
+  documented_by: method eia923_monthly.md
+- name: x_nerc_region
+  label: The NERC reliability region of the plant, as EIA gives it
+  unit: none
+  type: text
+  values:
+    list:
+      MRO: 95628
+      NPCC: 112107
+      RFC: 96399
+      SERC: 138009
+      TRE: 38985
+      WECC: 148050
+  missing_cells: 31353
+  missing_meaning: EIA gives none
+  source_name: null
+  documented_by: method eia923_monthly.md
+- name: x_ba_code
+  label: The balancing authority (the grid operator of the area) of the plant, EIA's code
+  unit: none
+  type: text
+  values:
+    distinct: 65
+    examples:
+    - AECI
+    - AVA
+    - AVRN
+    - AZPS
+    - BANC
+  missing_cells: 16629
+  missing_meaning: EIA gives none
+  source_name: null
+  documented_by: method eia923_monthly.md
+- name: x_sector_name
+  label: EIA's sector of the plant (Electric Utility, NAICS-22 Cogen and Non-Cogen, Commercial and Industrial NAICS Cogen
+    and Non-Cogen)
+  unit: none
+  type: text
+  values:
+    list:
+      Commercial NAICS Cogen: 18702
+      Commercial NAICS Non-Cogen: 19641
+      Electric Utility: 189936
+      Industrial NAICS Cogen: 41412
+      Industrial NAICS Non-Cogen: 8334
+      NAICS-22 Cogen: 14343
+      NAICS-22 Non-Cogen: 368163
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia923_monthly.md; data
+- name: x_chp
+  label: Whether the plant is combined heat and power, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 579441
+      Y: 81090
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia923_monthly.md
+- name: x_mer_fuel_type
+  label: EIA's MER fuel type code of the row (COL, NG, NUC, HYC and the others), as EIA gives it
+  unit: none
+  type: text
+  values:
+    list:
+      COL: 18615
+      DFO: 75705
+      GEO: 2520
+      HPS: 1404
+      HYC: 49959
+      MLG: 13161
+      NG: 117357
+      NUC: 3384
+      OOG: 4350
+      ORW: 6906
+      OTH: 38118
+      PC: 1563
+      RFO: 6318
+      SUN: 256572
+      WND: 47850
+      WOC: 792
+      WOO: 6300
+      WWW: 9657
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia923_monthly.md; data
+- name: x_respondent_frequency
+  label: EIA's respondent frequency code of the plant (M, A or AM), as EIA gives it
+  unit: none
+  type: text
+  values:
+    list:
+      A: 106407
+      AM: 344121
+      M: 210003
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia923_monthly.md
+variables:
+- name: fuel_consumed
+  label: Fuel consumed in all in the month, TBtu (EIA's Tot_MMBtu times 0.000001)
+  unit: TBtu
+  rows: 220177
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: fuel_consumed_electric
+  label: The part of the fuel consumed to make electricity, TBtu (EIA's Elec_MMBtu times 0.000001)
+  unit: TBtu
+  rows: 220177
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: net_generation
+  label: Net generation in the month, MWh (EIA's Netgen; below zero where EIA gives it so)
+  unit: MWh
+  rows: 220177
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+second_look:
+- 'x_mer_fuel_type and x_respondent_frequency: their codes (and what MER stands for) are not expanded by the method note or
+  the connector.'

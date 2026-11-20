@@ -1,0 +1,170 @@
+# The codebook's metadata of table nyiso_zone_load_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: nyiso_zone_load_hourly
+family: nyiso
+shape: series
+row: NYISO's integrated real-time actual load in one of its eleven load zones for one hour.
+time: ts_utc is the hour's start in UTC; NYISO's Time Stamp is the hour's start, Eastern, its Time Zone column (EDT, EST)
+  placing every hour, the repeated autumn hour included.
+vintage_rule: Merged by (entity, variable, ts_utc); this month's file is asked every run (last month's too in a month's first
+  seven days), an earlier month once, so NYISO's later revisions of an older month are not taken. vintage is the monthly file's
+  Last-Modified.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: nyiso:palIntegrated New York ISO (NYISO), P-58C, Integrated Real-Time Actual Load (palIntegrated)
+  url: http://mis.nyiso.com/public/P-58Clist.htm
+cite: 'New York ISO (NYISO). P-58C, Integrated Real-Time Actual Load (palIntegrated), by zone [terms: "Access to this Web
+  site does not confer any license or ownership interest in either the form or content of the Web site"; the notice forbids
+  republishing "any image or video on this website as a stand-alone file", not data (https://www.nyiso.com/legal-notice, read
+  6 October 2026)]. Via the Energy Research Warehouse (ERW), table `nyiso_zone_load_hourly`.'
+method: docs/methods/nyiso_zone_load_hourly.md
+header_title: NYISO, hourly load by zone, the integrated real-time actual load of its eleven load zones (P-58C, palIntegrated)
+  (session 138)
+header_shape: 'Shape: series (docs/datastandard.md v0). variable load: the operator''s own figure for the zone (or area) and
+  hour, MW over the hour; freq PT1H, ts_utc the hour''s start in UTC. An hour the operator does not give is not written; nothing
+  is filled, summed across zones or estimated. The table is merged into the one held.'
+read:
+  date: '2026-11-20'
+  rows: 757328
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: nyiso:<zone>, the zone's NYISO name
+  type: text
+  values:
+    list:
+      nyiso:CAPITL: 68848
+      nyiso:CENTRL: 68848
+      nyiso:DUNWOD: 68848
+      nyiso:GENESE: 68848
+      nyiso:HUD VL: 68848
+      nyiso:LONGIL: 68848
+      nyiso:MHK VL: 68848
+      nyiso:MILLWD: 68848
+      nyiso:N.Y.C.: 68848
+      nyiso:NORTH: 68848
+      nyiso:WEST: 68848
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2019-01-01T05:00:00Z'
+    latest: '2026-11-16T10:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 140.9046
+    highest: 10830.2864
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 757328
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 757328
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-NY: 757328
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: nyiso_load in every row
+  type: text
+  values:
+    list:
+      nyiso_load: 757328
+  missing_cells: 0
+- name: node
+  shared: true
+  particular: 'NYISO''s name of the load zone, one of eleven: CAPITL, CENTRL, DUNWOD, GENESE, HUD VL, LONGIL, MHK VL, MILLWD,
+    N.Y.C., NORTH, WEST'
+  type: text
+  values:
+    list:
+      CAPITL: 68848
+      CENTRL: 68848
+      DUNWOD: 68848
+      GENESE: 68848
+      HUD VL: 68848
+      LONGIL: 68848
+      MHK VL: 68848
+      MILLWD: 68848
+      N.Y.C.: 68848
+      NORTH: 68848
+      WEST: 68848
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      nyiso:palIntegrated: 757328
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 95
+    examples:
+    - http://mis.nyiso.com/public/csv/palIntegrated/20190101palIntegrated_csv.zip
+    - http://mis.nyiso.com/public/csv/palIntegrated/20190201palIntegrated_csv.zip
+    - http://mis.nyiso.com/public/csv/palIntegrated/20190301palIntegrated_csv.zip
+    - http://mis.nyiso.com/public/csv/palIntegrated/20190401palIntegrated_csv.zip
+    - http://mis.nyiso.com/public/csv/palIntegrated/20190501palIntegrated_csv.zip
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 95
+    earliest: '2026-10-07T01:42:03Z'
+    latest: '2026-11-16T11:50:50Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The Last-Modified of the monthly file (report P-58C)
+  type: utc time
+  values:
+    distinct: 95
+    earliest: '2019-02-01T05:04:05Z'
+    latest: '2026-11-16T11:30:08Z'
+  missing_cells: 0
+variables:
+- name: load
+  label: NYISO's Integrated Load for the zone and hour, MW over the hour (P-58C, palIntegrated); no state total is written
+  unit: MW
+  rows: 757328
+  first: '2019-01-01T05:00:00Z'
+  last: '2026-11-16T10:00:00Z'
+second_look: null

@@ -1,0 +1,364 @@
+# The codebook's metadata of table eia_coal_receipts_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_coal_receipts_annual
+family: eia
+shape: series
+row: One year's coal received at one power plant from one mine, by supplier, coal rank, contract type and transport mode,
+  with its price and quality (Form EIA-923).
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:coal/shipments/receipts U.S. Energy Information Administration, coal receipts at power plants (Form EIA-923; API
+    v2, route coal/shipments/receipts)
+  url: https://www.eia.gov/coal/data/browser/
+cite: U.S. Energy Information Administration (EIA). Coal receipts at power plants (Form EIA-923, API v2). Via the Energy Research
+  Warehouse (ERW), table `eia_coal_receipts_annual`.
+method: docs/methods/eia_coal_receipts_annual.md
+header_title: 'EIA, coal receipts at power plants: each mine to each plant by supplier, rank, contract type and transport
+  mode, a year (session 875)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_coal_receipt:<mineMSHAId>:<plantId>:<supplier>:<coalRankId>:<contractType>:<transportationMode>;
+  coalRankId TOT is EIA''s sum of the ranks beside it; variables quantity (short_ton), price (USD/short_ton), heat_content
+  (Btu/lb), sulfur_content and ash_content (pct by weight); ts_utc the year''s 1 January; freq P1Y; geo US-<plant state>;
+  x_* EIA''s own fields.'
+read:
+  date: '2026-11-20'
+  rows: 270547
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia_coal_receipt:<mineMSHAId>:<plantId>:<supplier>:<coalRankId>:<contractType>:<transportationMode>; rank TOT
+    is EIA's sum of the ranks beside it
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - eia_coal_receipt:100114:10675:ALPHA_COAL:BIT:Contract_Purchase:Tidewater_Piers
+    - eia_coal_receipt:100114:10675:ALPHA_COAL:TOT:Contract_Purchase:Tidewater_Piers
+    - eia_coal_receipt:100114:4143:TWENTY_MILE:BIT:Spot_Market_Purchase:Rail
+    - eia_coal_receipt:100114:4143:TWENTY_MILE:TOT:Spot_Market_Purchase:Rail
+    - eia_coal_receipt:100315:2866:RESOURCE_FUELS:BIT:Contract_Purchase:Rail
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2008-01-01T00:00:00Z': 20148
+      '2009-01-01T00:00:00Z': 26812
+      '2010-01-01T00:00:00Z': 29308
+      '2011-01-01T00:00:00Z': 23460
+      '2012-01-01T00:00:00Z': 18621
+      '2013-01-01T00:00:00Z': 18776
+      '2014-01-01T00:00:00Z': 21198
+      '2015-01-01T00:00:00Z': 15460
+      '2016-01-01T00:00:00Z': 12477
+      '2017-01-01T00:00:00Z': 12135
+      '2018-01-01T00:00:00Z': 11883
+      '2019-01-01T00:00:00Z': 11755
+      '2020-01-01T00:00:00Z': 8608
+      '2021-01-01T00:00:00Z': 9567
+      '2022-01-01T00:00:00Z': 9295
+      '2023-01-01T00:00:00Z': 8094
+      '2024-01-01T00:00:00Z': 6528
+      '2025-01-01T00:00:00Z': 6422
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.07
+    highest: 10141666.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      Btu/lb: 56858
+      USD/short_ton: 43115
+      pct: 113716
+      short_ton: 56858
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 270547
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<plant state>
+  type: text
+  values:
+    distinct: 47
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 270547
+- name: node
+  shared: true
+  particular: <mine> to <plant>
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - '# 1 (SIDNEY) to Indian River Generating Station'
+    - '#1 (ALLIANCE  COAL) to Cross'
+    - '#1 (ALLIANCE  COAL) to Harllee Branch'
+    - '#1 (ALLIANCE  COAL) to Winyah'
+    - '#1 (ALLIANCE ENERGY) to Cross'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:coal/shipments/receipts: 270547
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/coal/shipments/receipts/data/?api_key=REDACTED&frequency=annual&data%5B%5D=quantity&data%5B%5D=price&data%5B%5D=heat-content&data%5B%5D=sulfur-content&data%5B%5D=ash-content&start=2008
+      : 270547
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T03:39:59Z': 270547
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 270547
+- name: x_msha_id
+  label: The mine's identifier at the Mine Safety and Health Administration (MSHA)
+  unit: none
+  type: integer
+  values:
+    distinct: 1129
+    lowest: 100114
+    highest: 5000030
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector eia_coal_receipts.py; method eia_coal_receipts_annual.md
+- name: x_mine_state
+  label: The mine's state, EIA's code
+  unit: none
+  type: text
+  values:
+    distinct: 28
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CO
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: mineStateId
+  documented_by: connector eia_coal_receipts.py
+- name: x_mine_county
+  label: The mine's county as EIA writes it
+  unit: none
+  type: text
+  values:
+    distinct: 114
+    examples:
+    - Allegany
+    - Anderson
+    - Atascosa
+    - Athens
+    - Bates
+  missing_cells: 99965
+  missing_meaning: EIA gives no county
+  source_name: mineCountyName
+  documented_by: connector eia_coal_receipts.py
+- name: x_mine_basin
+  label: The mine's coal basin as EIA writes it (Powder River Basin, Illinois Basin and the others)
+  unit: none
+  type: text
+  values:
+    list:
+      Appalachia Central: 39462
+      Appalachia Northern: 55828
+      Appalachia Southern: 2268
+      Illinois Basin: 50685
+      Other Interior: 3008
+      Other Western: 5350
+      Powder River Basin: 102272
+      Uinta Basin: 11674
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: mineBasinDescription
+  documented_by: connector eia_coal_receipts.py
+- name: x_mine_type
+  label: The mine type (surface or underground)
+  unit: none
+  type: text
+  values:
+    list:
+      Surface: 170995
+      Underground: 99552
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: mineTypeDescription
+  documented_by: connector eia_coal_receipts.py
+- name: x_plant_id
+  label: EIA's plant code of the receiving power plant, as in eia860_plants_annual
+  unit: none
+  type: integer
+  values:
+    distinct: 471
+    lowest: 3
+    highest: 56848
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector eia_coal_receipts.py; method eia_coal_receipts_annual.md
+- name: x_plant_state
+  label: The receiving plant's state
+  unit: none
+  type: text
+  values:
+    distinct: 47
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector eia_coal_receipts.py
+- name: x_supplier
+  label: The coal supplier as EIA writes it
+  unit: none
+  type: text
+  values:
+    distinct: 1205
+    examples:
+    - 101 COAL,INC.
+    - 1081 MINE
+    - '1202215'
+    - '2400839'
+    - '2902170'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector eia_coal_receipts.py
+- name: x_rank
+  label: The coal rank as EIA writes it (All is EIA's sum of the ranks; leave it out of a sum over ranks)
+  unit: none
+  type: text
+  values:
+    list:
+      All: 135179
+      Anthracite: 18
+      Bituminous: 78730
+      Lignite: 1794
+      Subbituminous: 52778
+      Waste Coal: 2048
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: coalRankDescription
+  documented_by: connector eia_coal_receipts.py; method eia_coal_receipts_annual.md
+- name: x_contract_type
+  label: The purchase type (contract, new contract, spot-market purchase)
+  unit: none
+  type: text
+  values:
+    list:
+      Contract Purchase: 190966
+      New Contract: 8476
+      Spot-Market Purchase: 70355
+  missing_cells: 750
+  missing_meaning: EIA gives no contract type
+  source_name: null
+  documented_by: connector eia_coal_receipts.py
+- name: x_transport_mode
+  label: The mode the coal was carried in (rail, river, truck and the others)
+  unit: none
+  type: text
+  values:
+    list:
+      Great Lakes: 90
+      Pipeline: 58
+      Rail: 179659
+      River: 53752
+      Tidewater Piers: 270
+      Tramway/Conveyor: 3721
+      Truck: 32869
+      Water: 120
+  missing_cells: 8
+  missing_meaning: EIA gives no transport mode
+  source_name: null
+  documented_by: connector eia_coal_receipts.py
+variables:
+- name: ash_content
+  label: Ash content of the coal, percent by weight
+  unit: pct
+  rows: 56858
+  first: '2008-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: heat_content
+  label: Heat content of the coal, Btu per pound
+  unit: Btu/lb
+  rows: 56858
+  first: '2008-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: price
+  label: Price of the coal received, USD per short ton
+  unit: USD/short_ton
+  rows: 43115
+  first: '2008-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: quantity
+  label: Coal received, short tons
+  unit: short_ton
+  rows: 56858
+  first: '2008-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: sulfur_content
+  label: Sulfur content of the coal, percent by weight
+  unit: pct
+  rows: 56858
+  first: '2008-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

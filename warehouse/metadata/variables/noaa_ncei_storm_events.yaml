@@ -1,0 +1,616 @@
+# The codebook's metadata of table noaa_ncei_storm_events (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: noaa_ncei_storm_events
+family: noaa
+shape: events
+row: One storm event of a type that takes power lines down or strains the grid (wind, winter, tropical, tornado, wildfire,
+  heat, cold, lightning, storm surge) in one county or forecast zone, from NOAA NCEI's Storm Events Database, 2015 to 2026.
+time: event_date is the event's begin time in UTC (NCEI's local time less the offset its CZ_TIMEZONE names); x_begin_local
+  and x_end_local keep NCEI's local times.
+vintage_rule: A snapshot written whole by each run, so an event NCEI drops leaves it; a revised yearly file has a new name
+  and is fetched. No vintage column; x_file_created is the file's creation date.
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: noaa:storm_events NOAA National Centers for Environmental Information, Storm Events Database (the National Weather
+    Service's Storm Data)
+  url: https://www.ncei.noaa.gov/stormevents/
+cite: National Oceanic and Atmospheric Administration (NOAA), National Centers for Environmental Information (NCEI). Storm
+  Events Database, bulk details files. Via the Energy Research Warehouse (ERW), table `noaa_ncei_storm_events`.
+method: docs/methods/noaa_ncei_storm_events.md
+header_title: NOAA NCEI Storm Events Database, the event types that take power lines down or strain the grid, 2015 to 2026
+  (session 2042)
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id noaa_storm:<EVENT_ID>; event_date the begin time in UTC (NCEI''s
+  local time less the offset its CZ_TIMEZONE names; x_begin_local keeps NCEI''s); event_type NCEI''s EVENT_TYPE in snake case
+  (x_noaa_event_type its words); x_damage_property_usd and x_damage_crops_usd NCEI''s K, M and B figures in dollars; x_geo
+  the state''s ISO 3166-2 code from NCEI''s state code (96 to 99 the territories).'
+read:
+  date: '2026-11-20'
+  rows: 411139
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  particular: noaa_storm:<EVENT_ID>, NCEI's own identifier
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - noaa_storm:1000000
+    - noaa_storm:1000001
+    - noaa_storm:1000003
+    - noaa_storm:1000004
+    - noaa_storm:1000006
+  missing_cells: 0
+- name: event_date
+  shared: true
+  particular: The event's begin time in UTC, YYYY-MM-DDTHH:MM:SSZ
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2015-01-01T06:00:00Z'
+    latest: '2026-07-01T05:49:00Z'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: NCEI's EVENT_TYPE in snake case (thunderstorm_wind, high_wind, winter_storm, tornado and others)
+  type: text
+  values:
+    list:
+      blizzard: 6182
+      cold_wind_chill: 7360
+      excessive_heat: 15469
+      extreme_cold_wind_chill: 10601
+      heat: 18695
+      heavy_snow: 24870
+      high_wind: 43770
+      hurricane: 1
+      hurricane_typhoon: 379
+      ice_storm: 2662
+      lightning: 3458
+      storm_surge_tide: 494
+      strong_wind: 12448
+      thunderstorm_wind: 206586
+      tornado: 17479
+      tropical_depression: 239
+      tropical_storm: 3190
+      wildfire: 4039
+      winter_storm: 33217
+  missing_cells: 0
+- name: parties
+  shared: true
+  particular: Empty in every row
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 411139
+- name: entity_ids
+  shared: true
+  particular: Empty in every row
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 411139
+- name: mw
+  shared: true
+  particular: Empty in every row
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 411139
+- name: price
+  shared: true
+  particular: Empty in every row
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 411139
+- name: currency
+  shared: true
+  particular: Empty in every row
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 411139
+- name: status
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 411139
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      noaa:storm_events: 411139
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_details-ftp_v1.0_d2015_c20260323.csv.gz: 28713
+      https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_details-ftp_v1.0_d2016_c20260323.csv.gz: 28563
+      https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_details-ftp_v1.0_d2017_c20260519.csv.gz: 30129
+      https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_details-ftp_v1.0_d2018_c20260323.csv.gz: 31047
+      https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_details-ftp_v1.0_d2019_c20260323.csv.gz: 37776
+      https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_details-ftp_v1.0_d2020_c20260323.csv.gz: 34045
+      https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_details-ftp_v1.0_d2021_c20260323.csv.gz: 33260
+      https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_details-ftp_v1.0_d2022_c20260625.csv.gz: 39500
+      https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_details-ftp_v1.0_d2023_c20260323.csv.gz: 42677
+      https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_details-ftp_v1.0_d2024_c20260728.csv.gz: 40680
+      https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_details-ftp_v1.0_d2025_c20260819.csv.gz: 42466
+      https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_details-ftp_v1.0_d2026_c20260918.csv.gz: 22283
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T18:27:36Z': 28713
+      '2026-10-23T18:27:39Z': 28563
+      '2026-10-23T18:27:42Z': 30129
+      '2026-10-23T18:27:56Z': 31047
+      '2026-10-23T18:28:00Z': 37776
+      '2026-10-23T18:28:04Z': 34045
+      '2026-10-23T18:28:08Z': 33260
+      '2026-10-23T18:28:12Z': 39500
+      '2026-10-23T18:28:17Z': 42677
+      '2026-10-23T18:28:21Z': 40680
+      '2026-10-23T18:28:26Z': 42466
+      '2026-10-23T18:28:30Z': 22283
+  missing_cells: 0
+- name: x_noaa_event_type
+  label: NCEI's event type in its own words (Thunderstorm Wind, High Wind, Winter Storm, Tornado and others)
+  unit: none
+  type: text
+  values:
+    list:
+      Blizzard: 6182
+      Cold/Wind Chill: 7360
+      Excessive Heat: 15469
+      Extreme Cold/Wind Chill: 10601
+      Heat: 18695
+      Heavy Snow: 24870
+      High Wind: 43770
+      Hurricane: 1
+      Hurricane (Typhoon): 379
+      Ice Storm: 2662
+      Lightning: 3458
+      Storm Surge/Tide: 494
+      Strong Wind: 12448
+      Thunderstorm Wind: 206586
+      Tornado: 17479
+      Tropical Depression: 239
+      Tropical Storm: 3190
+      Wildfire: 4039
+      Winter Storm: 33217
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: EVENT_TYPE
+  documented_by: header; connector noaa_storm_events.py
+- name: x_geo
+  label: The state's ISO 3166-2 code (US-TX), from NCEI's state code (96 to 99 its codes for the territories); the events
+    shape has no geo column of its own
+  unit: none
+  type: text
+  values:
+    distinct: 55
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AS
+    - US-AZ
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: STATE_FIPS
+  documented_by: header; method noaa_ncei_storm_events.md
+- name: x_begin_local
+  label: The event's begin time in NCEI's local time (the zone x_timezone names)
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - '2015-01-01T00:00:00'
+    - '2015-01-01T00:15:00'
+    - '2015-01-01T00:30:00'
+    - '2015-01-01T01:00:00'
+    - '2015-01-01T01:08:00'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: BEGIN_YEARMONTH, BEGIN_DAY, BEGIN_TIME
+  documented_by: header; connector noaa_storm_events.py
+- name: x_end_local
+  label: The event's end time in NCEI's local time
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - '2015-01-01T02:00:00'
+    - '2015-01-01T03:00:00'
+    - '2015-01-01T06:00:00'
+    - '2015-01-01T08:00:00'
+    - '2015-01-01T11:00:00'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: END_YEARMONTH, END_DAY, END_TIME
+  documented_by: connector noaa_storm_events.py; method noaa_ncei_storm_events.md
+- name: x_end_utc
+  label: The event's end time in UTC (x_end_local less the zone's offset)
+  unit: none
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2015-01-01T09:00:00Z'
+    latest: '2026-07-01T07:59:00Z'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector noaa_storm_events.py; method noaa_ncei_storm_events.md
+- name: x_damage_property_usd
+  label: Property damage, NCEI's K, M and B figures read as dollars (K alone is 0)
+  unit: USD
+  type: integer
+  values:
+    distinct: 912
+    lowest: 0
+    highest: 17000000000
+  missing_cells: 89007
+  missing_meaning: NCEI's cell is empty
+  source_name: DAMAGE_PROPERTY
+  documented_by: header; method noaa_ncei_storm_events.md
+- name: x_damage_crops_usd
+  label: Crop damage, NCEI's K, M and B figures read as dollars
+  unit: USD
+  type: integer
+  values:
+    distinct: 209
+    lowest: 0
+    highest: 500000000
+  missing_cells: 92372
+  missing_meaning: NCEI's cell is empty
+  source_name: DAMAGE_CROPS
+  documented_by: header; method noaa_ncei_storm_events.md
+- name: x_episode_id
+  label: NCEI's identifier of the episode (the storm system) the event belongs to
+  unit: none
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 91225
+    highest: 216449
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: EPISODE_ID
+  documented_by: connector noaa_storm_events.py; method noaa_ncei_storm_events.md
+- name: x_state
+  label: The state's name as NCEI writes it
+  unit: none
+  type: text
+  values:
+    distinct: 55
+    examples:
+    - ALABAMA
+    - ALASKA
+    - AMERICAN SAMOA
+    - ARIZONA
+    - ARKANSAS
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: STATE
+  documented_by: connector noaa_storm_events.py
+- name: x_state_fips
+  label: 'NCEI''s state code: the state''s FIPS code, or 96 to 99 for the territories'
+  unit: none
+  type: integer
+  values:
+    distinct: 55
+    lowest: 1
+    highest: 99
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: STATE_FIPS
+  documented_by: connector noaa_storm_events.py; method noaa_ncei_storm_events.md
+- name: x_cz_type
+  label: Whether the event is placed by county (C) or by forecast zone (Z), as published
+  unit: none
+  type: text
+  values:
+    list:
+      '5': 2
+      C: 227675
+      Z: 183462
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: CZ_TYPE
+  documented_by: connector noaa_storm_events.py; method noaa_ncei_storm_events.md
+- name: x_cz_fips
+  label: NCEI's number of the county or forecast zone within the state
+  unit: none
+  type: integer
+  values:
+    distinct: 629
+    lowest: 1
+    highest: 852
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: CZ_FIPS
+  documented_by: connector noaa_storm_events.py
+- name: x_cz_name
+  label: The name of the county or forecast zone
+  unit: none
+  type: text
+  values:
+    distinct: 3967
+    examples:
+    - ABBEVILLE
+    - ABSAROKA / BEARTOOTH MOUNTAINS
+    - ABSAROKA MOUNTAINS
+    - ABSAROKEE / BEARTOOTH MOUNTAINS
+    - ACADIA
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: CZ_NAME
+  documented_by: connector noaa_storm_events.py
+- name: x_wfo
+  label: The National Weather Service forecast office that reported the event, its code
+  unit: none
+  type: text
+  values:
+    distinct: 123
+    examples:
+    - ABQ
+    - ABR
+    - AFC
+    - AFG
+    - AJK
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: WFO
+  documented_by: connector noaa_storm_events.py
+- name: x_timezone
+  label: NCEI's time zone of the local times, with its own hours from UTC (EST-5, CST-6, PDT-7, GST10 and others)
+  unit: none
+  type: text
+  values:
+    list:
+      AKST-9: 2369
+      AST-4: 545
+      CDT-5: 7
+      CST-6: 185196
+      EDT-4: 47
+      EST-5: 146724
+      GST10: 68
+      HST-10: 374
+      MST-7: 53114
+      PDT-7: 290
+      PST-8: 22328
+      SST-11: 77
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: CZ_TIMEZONE
+  documented_by: header; connector noaa_storm_events.py
+- name: x_injuries_direct
+  label: Injuries directly caused by the event, as NCEI publishes them
+  unit: count
+  type: integer
+  values:
+    distinct: 76
+    lowest: 0
+    highest: 806
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: INJURIES_DIRECT
+  documented_by: connector noaa_storm_events.py
+- name: x_injuries_indirect
+  label: Injuries indirectly caused by the event, as NCEI publishes them
+  unit: count
+  type: integer
+  values:
+    distinct: 34
+    lowest: 0
+    highest: 500
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: INJURIES_INDIRECT
+  documented_by: connector noaa_storm_events.py
+- name: x_deaths_direct
+  label: Deaths directly caused by the event, as NCEI publishes them
+  unit: count
+  type: integer
+  values:
+    distinct: 32
+    lowest: 0
+    highest: 102
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: DEATHS_DIRECT
+  documented_by: connector noaa_storm_events.py
+- name: x_deaths_indirect
+  label: Deaths indirectly caused by the event, as NCEI publishes them
+  unit: count
+  type: integer
+  values:
+    list:
+      '0': 409927
+      '1': 832
+      '10': 5
+      '11': 3
+      '12': 3
+      '13': 1
+      '15': 2
+      '18': 1
+      '2': 200
+      '20': 1
+      '21': 1
+      '25': 1
+      '26': 1
+      '29': 1
+      '3': 76
+      '4': 36
+      '5': 20
+      '56': 1
+      '6': 11
+      '7': 6
+      '8': 7
+      '9': 3
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: DEATHS_INDIRECT
+  documented_by: connector noaa_storm_events.py
+- name: x_magnitude
+  label: The event's magnitude as NCEI publishes it (knots for wind)
+  unit: knots for wind
+  type: number
+  values:
+    distinct: 129
+    lowest: 1.0
+    highest: 173.0
+  missing_cells: 148335
+  missing_meaning: NCEI gives no magnitude (types without one)
+  source_name: MAGNITUDE
+  documented_by: connector noaa_storm_events.py
+- name: x_magnitude_type
+  label: NCEI's code of the kind of magnitude, as published (EG, ES, MG, MS)
+  unit: none
+  type: text
+  values:
+    list:
+      EG: 188123
+      ES: 317
+      MG: 70223
+      MS: 4141
+  missing_cells: 148335
+  missing_meaning: NCEI gives no magnitude
+  source_name: MAGNITUDE_TYPE
+  documented_by: connector noaa_storm_events.py
+- name: x_tor_f_scale
+  label: The tornado's rating on the Enhanced Fujita scale (EF0 to EF5, EFU), as published
+  unit: none
+  type: text
+  values:
+    list:
+      EF0: 7131
+      EF1: 6625
+      EF2: 1535
+      EF3: 360
+      EF4: 53
+      EF5: 1
+      EFU: 1774
+  missing_cells: 393660
+  missing_meaning: Not a tornado
+  source_name: TOR_F_SCALE
+  documented_by: connector noaa_storm_events.py; method noaa_ncei_storm_events.md
+- name: x_tor_length_mi
+  label: The length of the tornado's path
+  unit: miles
+  type: number
+  values:
+    distinct: 1719
+    lowest: 0.01
+    highest: 49.96
+  missing_cells: 393660
+  missing_meaning: Not a tornado
+  source_name: TOR_LENGTH
+  documented_by: connector noaa_storm_events.py
+- name: x_tor_width_yd
+  label: The width of the tornado's path
+  unit: yards
+  type: number
+  values:
+    distinct: 354
+    lowest: 1.0
+    highest: 3960.0
+  missing_cells: 393660
+  missing_meaning: Not a tornado
+  source_name: TOR_WIDTH
+  documented_by: connector noaa_storm_events.py
+- name: x_begin_lat
+  label: The latitude of the event's begin point
+  unit: degree
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -14.3449
+    highest: 66.65
+  missing_cells: 183631
+  missing_meaning: NCEI gives no begin point
+  source_name: BEGIN_LAT
+  documented_by: connector noaa_storm_events.py
+- name: x_begin_lon
+  label: The longitude of the event's begin point
+  unit: degree
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -170.8744
+    highest: 171.3065
+  missing_cells: 183631
+  missing_meaning: NCEI gives no begin point
+  source_name: BEGIN_LON
+  documented_by: connector noaa_storm_events.py
+- name: x_end_lat
+  label: The latitude of the event's end point
+  unit: degree
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -14.4375
+    highest: 66.6546
+  missing_cells: 183631
+  missing_meaning: NCEI gives no end point
+  source_name: END_LAT
+  documented_by: connector noaa_storm_events.py
+- name: x_end_lon
+  label: The longitude of the event's end point
+  unit: degree
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -170.8284
+    highest: 171.0623
+  missing_cells: 183631
+  missing_meaning: NCEI gives no end point
+  source_name: END_LON
+  documented_by: connector noaa_storm_events.py
+- name: x_data_source
+  label: NCEI's data source code, as published (CSV in every row)
+  unit: none
+  type: text
+  values:
+    list:
+      CSV: 411139
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: DATA_SOURCE
+  documented_by: connector noaa_storm_events.py; data
+- name: x_file_created
+  label: The creation date of NCEI's yearly file the row came from (its c<YYYYMMDD>)
+  unit: none
+  type: date
+  values:
+    list:
+      '2026-03-23': 236081
+      '2026-05-19': 30129
+      '2026-06-25': 39500
+      '2026-07-28': 40680
+      '2026-08-19': 42466
+      '2026-09-18': 22283
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector noaa_storm_events.py
+second_look:
+- 'x_magnitude_type: NCEI''s codes EG, ES, MG and MS are kept as published and not spelled out in the repository''s documents.'
+- 'x_cz_type: two rows hold 5, as published; NCEI''s meaning of it is not documented.'
+- 'x_data_source: CSV in every row; NCEI''s meaning of the code is not documented.'

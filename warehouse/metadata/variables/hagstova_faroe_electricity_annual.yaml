@@ -1,0 +1,187 @@
+# The codebook's metadata of table hagstova_faroe_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: hagstova_faroe_electricity_annual
+family: other_sources
+shape: series
+row: SEV's electricity production from one source, or its sales to one consumer group, in one year, from Statistics Faroe
+  Islands tables UO03020 and UO03030.
+time: ts_utc is the year's 1 January at 00:00:00Z; freq P1Y; 1990 to 2025.
+vintage_rule: Rewritten whole as one snapshot by each run from one JSON-stat query a table; vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: hagstova:UO03 Statistics Faroe Islands (Hagstova Foroya)
+  url: https://statbank.hagstova.fo/pxweb/en/H2/H2__UO__UO03/
+cite: Statistics Faroe Islands (Hagstova Foroya). Tables UO03020 (SEV's electricity production by source) and UO03030 (SEV's
+  electricity sales by consumer group). Via the Energy Research Warehouse (ERW), table `hagstova_faroe_electricity_annual`.
+method: docs/methods/hagstova_faroe_electricity_annual.md
+header_title: Statistics Faroe Islands (Hagstova Foroya), tables UO03020 and UO03030, SEV's electricity production by source
+  and sales by consumer group, 1990 to 2025 (session 2502)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity hagstova:fo:<item>; variable generation (UO03020, by source)
+  or sales (UO03030, by consumer group); unit MWh as given; ts_utc the year''s first day; freq P1Y; geo FO; node the category
+  as Statistics Faroe Islands names it; x_table the table.'
+read:
+  date: '2026-11-20'
+  rows: 421
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: hagstova:fo:<source or consumer group>
+  type: text
+  values:
+    list:
+      hagstova:fo:biogas: 6
+      hagstova:fo:finance_business_services: 29
+      hagstova:fo:fisheries_aquaculture: 29
+      hagstova:fo:households: 29
+      hagstova:fo:hydro: 36
+      hagstova:fo:production_construction: 29
+      hagstova:fo:public_private_services: 29
+      hagstova:fo:shops_hotels: 29
+      hagstova:fo:solar: 7
+      hagstova:fo:street_lights: 29
+      hagstova:fo:thermal: 36
+      hagstova:fo:tidal: 6
+      hagstova:fo:total: 36
+      hagstova:fo:total_sales: 29
+      hagstova:fo:transport_communication: 29
+      hagstova:fo:wind: 33
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 36
+    earliest: '1990-01-01T00:00:00Z'
+    latest: '2025-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 419
+    lowest: 0.0
+    highest: 506249.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 421
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 421
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: FO on every row
+  type: text
+  values:
+    list:
+      FO: 421
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 421
+- name: node
+  shared: true
+  particular: The category as Statistics Faroe Islands names it, not a pricing node
+  type: text
+  values:
+    list:
+      Agric., fish. ind., aquac., ressource comp.: 29
+      Biogas: 6
+      Finance, insurance a.o. industrial serv.: 29
+      Houses, apts, summer and boat houses: 29
+      Hydro: 36
+      Production and construction: 29
+      Publ. and priv. serv., church., meet. h., etc.: 29
+      Shops, restaurants and hotels, etc.: 29
+      Solar PV: 7
+      Street lights: 29
+      Thermal: 36
+      Tidal energy: 6
+      Total: 36
+      Total sale of electricity: 29
+      Transport, mail, and communication: 29
+      Wind: 33
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      hagstova:UO03: 421
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://statbank.hagstova.fo/api/v1/en/H2/UO/UO03/ork_elgerd.px: 160
+      https://statbank.hagstova.fo/api/v1/en/H2/UO/UO03/ork_elsola.px: 261
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T15:23:19Z': 160
+      '2026-10-24T15:23:23Z': 261
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 421
+- name: x_table
+  label: 'The table''s code: UO03020 (production by source) or UO03030 (sales by consumer group)'
+  unit: none
+  type: text
+  values:
+    list:
+      UO03020: 160
+      UO03030: 261
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector hagstova_faroe_electricity.py; method hagstova_faroe_electricity_annual.md
+variables:
+- name: generation
+  label: SEV's electricity production from the source in the year (table UO03020)
+  unit: MWh
+  rows: 160
+  first: '1990-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: sales
+  label: SEV's electricity sales to the consumer group in the year (table UO03030)
+  unit: MWh
+  rows: 261
+  first: '1997-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

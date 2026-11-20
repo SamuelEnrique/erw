@@ -1,0 +1,219 @@
+# The codebook's metadata of table lbnl_tracking_the_sun (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: lbnl_tracking_the_sun
+family: lbnl
+shape: series
+row: One state's customer segment's installed distributed solar systems in one year of installation, one measure, summarised
+  from Berkeley Lab's Tracking the Sun 2024 public data file (one record a system).
+time: ts_utc is 1 January of the year of installation (a year, not an instant); freq P1Y. The edition holds systems installed
+  to 2023; 2024 is a partial year.
+vintage_rule: Rewritten whole by each run; vintage is the Last-Modified time of the state's file in the data lake (28 February
+  2025).
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: lbnl:tracking_the_sun Lawrence Berkeley National Laboratory, Tracking the Sun, public data file, on the Open Energy
+    Data Initiative
+  url: https://data.openei.org/submissions/3
+cite: 'Lawrence Berkeley National Laboratory (Berkeley Lab). Tracking the Sun: installed distributed solar systems, public
+  data file. Via the Energy Research Warehouse (ERW), table `lbnl_tracking_the_sun`.'
+method: docs/methods/lbnl_tracking_the_sun.md
+header_title: Berkeley Lab, Tracking the Sun, installed distributed solar systems summarised by state, customer segment and
+  year of installation, the 2024 public data file (session 2015)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity tts:<st>_<segment>; variables systems, systems_priced, systems_battery
+  (count), capacity_dc (MW DC) and price_median (USD/kW: the median of total installed price over DC size, unscreened, not
+  Berkeley Lab''s reported figure); freq P1Y; ts_utc 1 January of the year of installation; geo US-<ST>; node and x_segment
+  the customer segment as the file writes it (unknown for its -1).'
+read:
+  date: '2026-11-20'
+  rows: 8762
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: tts:<state>_<segment>, lowercase
+  type: text
+  values:
+    distinct: 135
+    examples:
+    - tts:ar_com
+    - tts:ar_gov
+    - tts:ar_non_profit
+    - tts:ar_res
+    - tts:az_com
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 41
+    earliest: '1983-01-01T00:00:00Z'
+    latest: '2024-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 3811
+    lowest: 0.0
+    highest: 280412.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 1872
+      USD/kW: 1217
+      count: 5673
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 8762
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state>
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - US-AR
+    - US-AZ
+    - US-CA
+    - US-CO
+    - US-CT
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8762
+- name: node
+  shared: true
+  particular: The customer segment as the file writes it (RES, COM, NON-RES, GOV, NON-PROFIT, SCHOOL, or unknown for the file's
+    -1), not a pricing node
+  type: text
+  values:
+    list:
+      COM: 1158
+      GOV: 953
+      NON-PROFIT: 774
+      NON-RES: 1502
+      RES: 2530
+      SCHOOL: 915
+      unknown: 930
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      lbnl:tracking_the_sun: 8762
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - https://oedi-data-lake.s3.amazonaws.com/tracking-the-sun/2024/state=AR/part-00006-975d0624-ef42-4442-a6b6-46e6cbd8f20b.c000.snappy.parquet
+    - https://oedi-data-lake.s3.amazonaws.com/tracking-the-sun/2024/state=AZ/part-00000-975d0624-ef42-4442-a6b6-46e6cbd8f20b.c000.snappy.parquet
+    - https://oedi-data-lake.s3.amazonaws.com/tracking-the-sun/2024/state=CA/part-00002-975d0624-ef42-4442-a6b6-46e6cbd8f20b.c000.snappy.parquet
+    - https://oedi-data-lake.s3.amazonaws.com/tracking-the-sun/2024/state=CO/part-00006-975d0624-ef42-4442-a6b6-46e6cbd8f20b.c000.snappy.parquet
+    - https://oedi-data-lake.s3.amazonaws.com/tracking-the-sun/2024/state=CT/part-00003-975d0624-ef42-4442-a6b6-46e6cbd8f20b.c000.snappy.parquet
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 27
+    earliest: '2026-10-23T18:22:00Z'
+    latest: '2026-10-23T18:50:50Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The state's file's Last-Modified time, UTC
+  type: utc time
+  values:
+    list:
+      '2025-02-28T17:44:25Z': 3388
+      '2025-02-28T17:44:26Z': 528
+      '2025-02-28T17:44:29Z': 670
+      '2025-02-28T17:44:30Z': 731
+      '2025-02-28T17:44:32Z': 555
+      '2025-02-28T17:44:33Z': 443
+      '2025-02-28T17:44:34Z': 1379
+      '2025-02-28T17:44:36Z': 206
+      '2025-02-28T17:44:38Z': 409
+      '2025-02-28T17:44:41Z': 453
+  missing_cells: 0
+- name: x_segment
+  label: 'The customer segment as the file writes it: RES residential, COM commercial, NON-RES non-residential, GOV government,
+    NON-PROFIT, SCHOOL, or unknown for the file''s -1'
+  unit: none
+  type: text
+  values:
+    list:
+      COM: 1158
+      GOV: 953
+      NON-PROFIT: 774
+      NON-RES: 1502
+      RES: 2530
+      SCHOOL: 915
+      unknown: 930
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: customer_segment
+  documented_by: header; method lbnl_tracking_the_sun.md; data
+variables:
+- name: capacity_dc
+  label: The sum of the systems' DC size, in MW DC (the file's kW over 1,000)
+  unit: MW
+  rows: 1872
+  first: '1983-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: price_median
+  label: The median of total installed price over DC size, priced systems only, unscreened, USD per kW (not Berkeley Lab's
+    reported figure)
+  unit: USD/kW
+  rows: 1217
+  first: '1983-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: systems
+  label: The number of systems installed in the year (systems with an installation year)
+  unit: count
+  rows: 1891
+  first: '1983-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: systems_battery
+  label: The systems with a battery (battery_rated_capacity_kwh above zero)
+  unit: count
+  rows: 1891
+  first: '1983-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: systems_priced
+  label: The systems whose installed price and DC size are both above zero
+  unit: count
+  rows: 1891
+  first: '1983-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

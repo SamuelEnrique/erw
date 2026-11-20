@@ -1,0 +1,146 @@
+# The codebook's metadata of table ercot_dam_cleared_energy (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_dam_cleared_energy
+family: ercot
+shape: series
+row: The energy bought in ERCOT's day-ahead market in one delivery hour, summed over every settlement point.
+time: ts_utc is the start of the hour in UTC (ERCOT gives the hour ending in Central time; RepeatedHourFlag Y marks the repeated
+  autumn hour).
+vintage_rule: Merged by (entity, variable, ts_utc); an hour read again replaces the one held, and the table grows past the
+  31 days ERCOT lists. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: ercot:NP4-192-CD Electric Reliability Council of Texas (ERCOT), NP4-192-CD, DAM Total Energy Purchased
+  url: https://www.ercot.com/mp/data-products/data-product-details?id=NP4-192-CD
+cite: Electric Reliability Council of Texas (ERCOT). NP4-192-CD, DAM Total Energy Purchased. Via the Energy Research Warehouse
+  (ERW), table `ercot_dam_cleared_energy`.
+method: docs/methods/ercot_dam_cleared_energy.md
+header_title: ERCOT, energy bought in the day-ahead market by hour, system-wide (NP4-192-CD, DAM Total Energy Purchased) (session
+  136)
+header_shape: 'Shape: series (docs/datastandard.md v0). variable dam_cleared_energy: the operator''s own figure for the hour,
+  in the unit it gives; freq PT1H, ts_utc the hour''s start. An hour the operator does not give is not written; nothing is
+  filled or estimated. The table is merged into the one held, so it grows past the window the operator keeps.'
+read:
+  date: '2026-11-20'
+  rows: 816
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: 'ercot:system in every row: ERCOT''s whole system'
+  type: text
+  values:
+    list:
+      ercot:system: 816
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 816
+    earliest: '2026-09-23T05:00:00Z'
+    latest: '2026-11-17T05:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 812
+    lowest: 27811.1
+    highest: 52634.7
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 816
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 816
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 816
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
+  type: text
+  values:
+    list:
+      ercot_dam: 816
+  missing_cells: 0
+- name: node
+  shared: true
+  particular: 'The text ''Total_DAM_Energy_Bought, summed over settlement points'' in every row: the figure summed, not a
+    place'
+  type: text
+  values:
+    list:
+      Total_DAM_Energy_Bought, summed over settlement points: 816
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:NP4-192-CD: 816
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 34
+    examples:
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1277674205
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1278079535
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1278479657
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1278881900
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1279271281
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 34
+    earliest: '2026-10-06T20:27:09Z'
+    latest: '2026-11-16T11:49:05Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 816
+variables:
+- name: dam_cleared_energy
+  label: The sum of ERCOT's Total_DAM_Energy_Bought over every settlement point for the hour (NP4-192-CD); ERCOT names no
+    unit, read as MWh
+  unit: MWh
+  rows: 816
+  first: '2026-09-23T05:00:00Z'
+  last: '2026-11-17T05:00:00Z'
+second_look: null

@@ -1,0 +1,222 @@
+# The codebook's metadata of table energy_charts_portugal_power (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: energy_charts_portugal_power
+family: energy
+shape: series
+row: One hour's mean power of one of Portugal's public net production types, its load or its cross-border trading, as Energy-Charts'
+  API gives it.
+time: ts_utc is the start of the hour, UTC; freq PT1H (every answer is hourly).
+vintage_rule: Merged by (entity, variable, ts_utc), a changed value replacing the old; an interval later given as null writes
+  no row, so the earlier value stays. vintage is blank.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: energy_charts:public_power_pt Energy-Charts.info (Fraunhofer ISE), API, public_power, country pt
+  url: https://api.energy-charts.info/
+cite: Energy-Charts.info (Fraunhofer ISE). Energy-Charts API, public_power, Portugal. Via the Energy Research Warehouse (ERW),
+  table `energy_charts_portugal_power`.
+method: docs/methods/energy_charts_portugal_power.md
+header_title: Energy-Charts (Fraunhofer ISE), Portugal's public net electricity production by type, load and cross-border
+  trading, 2020-01-01 to 2026-10-22 (session 2282)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity energy_charts:PT; variable the API''s production type in snake
+  case (load and cross_border_electricity_trading among them; consumption and exports negative); unit MW; ts_utc the interval''s
+  start; freq each file''s own interval; geo PT. Residual load and the renewable shares, derived by the API, are not taken.'
+read:
+  date: '2026-11-20'
+  rows: 725799
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: Always energy_charts:PT
+  type: text
+  values:
+    list:
+      energy_charts:PT: 725799
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2020-01-01T00:00:00Z'
+    latest: '2026-10-22T22:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -4410.0
+    highest: 10176.6
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 725799
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 725799
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: Always PT (an ISO 3166-1 country code)
+  type: text
+  values:
+    list:
+      PT: 725799
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 725799
+- name: node
+  shared: true
+  particular: Always Portugal, not a pricing node
+  type: text
+  values:
+    list:
+      Portugal: 725799
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      energy_charts:public_power_pt: 725799
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://api.energy-charts.info/public_power?country=pt&start=2020-01-01&end=2020-12-31: 109826
+      https://api.energy-charts.info/public_power?country=pt&start=2021-01-01&end=2021-12-31: 110257
+      https://api.energy-charts.info/public_power?country=pt&start=2022-01-01&end=2022-12-31: 105120
+      https://api.energy-charts.info/public_power?country=pt&start=2023-01-01&end=2023-12-31: 105120
+      https://api.energy-charts.info/public_power?country=pt&start=2024-01-01&end=2024-12-31: 105408
+      https://api.energy-charts.info/public_power?country=pt&start=2025-01-01&end=2025-12-31: 105120
+      https://api.energy-charts.info/public_power?country=pt&start=2026-01-01&end=2026-10-22: 84948
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T05:08:12Z': 109826
+      '2026-10-24T05:08:46Z': 110257
+      '2026-10-24T05:09:20Z': 105120
+      '2026-10-24T05:09:55Z': 105120
+      '2026-10-24T05:10:29Z': 105408
+      '2026-10-24T05:11:03Z': 105120
+      '2026-10-24T05:11:38Z': 84948
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: the answers carry no Last-Modified'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 725799
+variables:
+- name: biomass
+  label: Public net production from biomass, MW
+  unit: MW
+  rows: 59687
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-10-22T22:00:00Z'
+- name: cross_border_electricity_trading
+  label: Net cross-border trading, MW; positive is a net import
+  unit: MW
+  rows: 59687
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-10-22T22:00:00Z'
+- name: fossil_gas
+  label: Public net production from natural gas, MW
+  unit: MW
+  rows: 59687
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-10-22T22:00:00Z'
+- name: fossil_hard_coal
+  label: Public net production from hard coal, MW (to November 2021)
+  unit: MW
+  rows: 16080
+  first: '2020-01-01T00:00:00Z'
+  last: '2021-11-30T23:00:00Z'
+- name: hydro_pumped_storage
+  label: Public net production from pumped storage hydro plants, MW (not REN's pumped-storage production)
+  unit: MW
+  rows: 59687
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-10-22T22:00:00Z'
+- name: hydro_pumped_storage_consumption
+  label: Power drawn by pumped storage plants' pumps, MW, 0 or negative
+  unit: MW
+  rows: 59687
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-10-22T22:00:00Z'
+- name: hydro_run_of_river
+  label: Public net production from run-of-river hydro, MW
+  unit: MW
+  rows: 59687
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-10-22T22:00:00Z'
+- name: hydro_water_reservoir
+  label: Public net production from reservoir hydro, MW
+  unit: MW
+  rows: 59687
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-10-22T22:00:00Z'
+- name: load
+  label: Load (electricity demand), MW
+  unit: MW
+  rows: 59687
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-10-22T22:00:00Z'
+- name: others
+  label: Public net production from other sources (Energy-Charts' Others), MW
+  unit: MW
+  rows: 59687
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-10-22T22:00:00Z'
+- name: solar
+  label: Public net production from solar, MW
+  unit: MW
+  rows: 59687
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-10-22T22:00:00Z'
+- name: wind_offshore
+  label: Public net production from offshore wind, MW
+  unit: MW
+  rows: 53162
+  first: '2020-05-31T22:00:00Z'
+  last: '2026-10-22T22:00:00Z'
+- name: wind_onshore
+  label: Public net production from onshore wind, MW
+  unit: MW
+  rows: 59687
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-10-22T22:00:00Z'
+second_look: null

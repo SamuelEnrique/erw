@@ -1,0 +1,203 @@
+# The codebook's metadata of table censtatd_hk_electricity (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: censtatd_hk_electricity
+family: other_sources
+shape: series
+row: One month's value of Hong Kong's electricity consumption by type of user (or exports to the Mainland), or one quarter's
+  value of its generation, imports, exports, own use and losses, from the Census and Statistics Department.
+time: ts_utc is the period's first day at 00:00:00Z; freq P1M (table 915-91201) or P3M (table 915-91203).
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s periods replace the same periods and older ones are kept;
+  vintage is not filled.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M;P3M
+source:
+- name: censtatd:hong_kong_energy_statistics Census and Statistics Department, Hong Kong Energy Statistics, tables 915-91201
+    and 915-91203 (figures from CLP Power and HK Electric), listed on DATA.GOV.HK
+  url: https://data.gov.hk/en-data/dataset/hk-censtatd-tablechart-915-91201
+cite: Census and Statistics Department, Hong Kong (C&SD). Hong Kong Energy Statistics, tables 915-91201 (monthly consumption
+  of electricity by type of user) and 915-91203 (electricity production, imports, exports and consumption). Via the Energy
+  Research Warehouse (ERW), table `censtatd_hk_electricity`.
+method: docs/methods/censtatd_hk_electricity.md
+header_title: 'Census and Statistics Department (C&SD), Hong Kong Energy Statistics, electricity: consumption by type of user
+  a month 1979-01 to 2026-08; generation, imports, exports, own use and losses a quarter (session 2323)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity censtatd:915-91201 (consumption_total, consumption_domestic,
+  consumption_commercial, consumption_industrial, consumption_street_lighting, exports_mainland; a month) or censtatd:915-91203
+  (local_consumption, local_generation, imports_mainland, exports_mainland, industry_own_use_and_losses; a quarter); unit
+  MWh (C&SD''s terajoules times 1,000,000/3,600); ts_utc the period''s first day; freq P1M or P3M; geo HK. The years C&SD
+  gives are the sums of these and are not taken. Local consumption excludes the power companies'' own use, losses and the
+  exports to the Chinese Mainland.'
+read:
+  date: '2026-11-20'
+  rows: 3699
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: censtatd:915-91201 (monthly consumption table) or censtatd:915-91203 (quarterly supply table), the C&SD table,
+    not a place
+  type: text
+  values:
+    list:
+      censtatd:915-91201: 3429
+      censtatd:915-91203: 270
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 572
+    earliest: '1979-01-01T00:00:00Z'
+    latest: '2026-08-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 2630
+    lowest: 0.0
+    highest: 14362222.222222222
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 3699
+  missing_cells: 0
+- name: freq
+  shared: true
+  particular: P1M for table 915-91201, P3M for table 915-91203
+  type: text
+  values:
+    list:
+      P1M: 3429
+      P3M: 270
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: HK on every row
+  type: text
+  values:
+    list:
+      HK: 3699
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3699
+- name: node
+  shared: true
+  particular: Hong Kong on every row, not a pricing node
+  type: text
+  values:
+    list:
+      Hong Kong: 3699
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      censtatd:hong_kong_energy_statistics: 3699
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.censtatd.gov.hk/api/get.php?id=915-91201&lang=en&full_series=1: 3429
+      https://www.censtatd.gov.hk/api/get.php?id=915-91203&lang=en&full_series=1: 270
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T06:44:04Z': 270
+      '2026-10-24T06:44:05Z': 3429
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3699
+variables:
+- name: consumption_commercial
+  label: Electricity consumption by commercial users
+  unit: MWh
+  rows: 572
+  first: '1979-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: consumption_domestic
+  label: Electricity consumption by domestic users
+  unit: MWh
+  rows: 572
+  first: '1979-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: consumption_industrial
+  label: Electricity consumption by industrial users
+  unit: MWh
+  rows: 572
+  first: '1979-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: consumption_street_lighting
+  label: Electricity consumption by street lighting
+  unit: MWh
+  rows: 572
+  first: '1979-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: consumption_total
+  label: Electricity consumption, all users (C&SD's terajoules converted)
+  unit: MWh
+  rows: 572
+  first: '1979-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: exports_mainland
+  label: Electricity exported to the Chinese Mainland
+  unit: MWh
+  rows: 623
+  first: '1979-04-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: imports_mainland
+  label: Electricity imported from the Chinese Mainland
+  unit: MWh
+  rows: 54
+  first: '2013-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: industry_own_use_and_losses
+  label: The power companies' own use and losses
+  unit: MWh
+  rows: 54
+  first: '2013-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: local_consumption
+  label: Local consumption (excluding the power companies' own use, losses and exports to the Mainland)
+  unit: MWh
+  rows: 54
+  first: '2013-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: local_generation
+  label: Local electricity generation
+  unit: MWh
+  rows: 54
+  first: '2013-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+second_look: null

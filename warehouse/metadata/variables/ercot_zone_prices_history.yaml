@@ -1,0 +1,255 @@
+# The codebook's metadata of table ercot_zone_prices_history (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_zone_prices_history
+family: ercot
+shape: series
+row: ERCOT's settlement point price at one load zone for one interval of one operating year from 2015, day-ahead (hourly,
+  eight load zones) or real-time (15-minute, the four competitive load zones).
+time: ts_utc is the interval start in UTC; the year is ERCOT's operating year in Central time. The hour the clocks repeat
+  in autumn is two distinct UTC hours.
+vintage_rule: Merged by (entity, variable, ts_utc); ERCOT posts the current year's workbook again each week, and a later copy
+  replaces that year's rows. vintage is ERCOT's document publish time.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT15M;PT1H
+source:
+- name: ERCOT NP4-180-ER Historical DAM Load Zone and Hub Prices
+  url: https://www.ercot.com/mp/data-products/data-product-details?id=NP4-180-ER
+- name: ERCOT NP6-785-ER Historical RTM Load Zone and Hub Prices
+  url: https://www.ercot.com/mp/data-products/data-product-details?id=NP6-785-ER
+cite: Electric Reliability Council of Texas (ERCOT). Historical DAM Load Zone and Hub Prices; Historical RTM Load Zone and
+  Hub Prices. Via the Energy Research Warehouse (ERW), table `ercot_zone_prices_history`.
+method: docs/methods/ercot_zone_prices_history.md
+header_title: ERCOT load zone settlement point prices, day-ahead (hourly, the eight load zones) and real time (15-minute,
+  the four competitive load zones), one row per interval of each operating year from 2015 (session 140)
+header_shape: 'Shape: series (docs/datastandard.md v0). Units: USD/MWh. ts_utc is interval start, UTC. Partition columns market,
+  year (ERCOT''s operating year, America/Chicago), as ercot_all_hub_prices_history has them.'
+read:
+  date: '2026-11-20'
+  rows: 2497536
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: ercot:<load zone>
+  type: text
+  values:
+    list:
+      ercot:LZ_AEN: 104064
+      ercot:LZ_CPS: 104064
+      ercot:LZ_HOUSTON: 520320
+      ercot:LZ_LCRA: 104064
+      ercot:LZ_NORTH: 520320
+      ercot:LZ_RAYBN: 104064
+      ercot:LZ_SOUTH: 520320
+      ercot:LZ_WEST: 520320
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2015-01-01T06:00:00Z'
+    latest: '2026-11-15T05:45:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -147.45
+    highest: 9349.19
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 2497536
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT15M: 1665024
+      PT1H: 832512
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 2497536
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: ercot_dam (hourly) or ercot_rtm (15-minute)
+  type: text
+  values:
+    list:
+      ercot_dam: 832512
+      ercot_rtm: 1665024
+  missing_cells: 0
+- name: node
+  shared: true
+  particular: 'ERCOT''s load zone: LZ_HOUSTON, LZ_NORTH, LZ_SOUTH, LZ_WEST (both markets) and LZ_AEN, LZ_CPS, LZ_LCRA, LZ_RAYBN
+    (day-ahead only)'
+  type: text
+  values:
+    list:
+      LZ_AEN: 104064
+      LZ_CPS: 104064
+      LZ_HOUSTON: 520320
+      LZ_LCRA: 104064
+      LZ_NORTH: 520320
+      LZ_RAYBN: 104064
+      LZ_SOUTH: 520320
+      LZ_WEST: 520320
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:NP4-180-ER: 832512
+      ercot:NP6-785-ER: 1665024
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1065468714: 70272
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1065471230: 140544
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1177667469: 70080
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1177737535: 140160
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1298953847: 61056
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1298966804: 122112
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=505281022: 70080
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=505283161: 140160
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=547013266: 70272
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=547016749: 140544
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=592990685: 70080
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=592992943: 140160
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=642564845: 70080
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=642564849: 140160
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=694281912: 70080
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=694284436: 140160
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=751351545: 70272
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=751356439: 140544
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=814918746: 70080
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=814922832: 140160
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=886627599: 70080
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=886632075: 140160
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=969803138: 70080
+      https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=969805139: 140160
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-07T09:15:51Z': 70080
+      '2026-10-07T09:16:03Z': 140160
+      '2026-10-07T09:17:32Z': 70272
+      '2026-10-07T09:17:38Z': 70080
+      '2026-10-07T09:17:44Z': 70080
+      '2026-10-07T09:17:50Z': 70080
+      '2026-10-07T09:17:56Z': 70272
+      '2026-10-07T09:18:02Z': 70080
+      '2026-10-07T09:18:08Z': 70080
+      '2026-10-07T09:18:15Z': 70080
+      '2026-10-07T09:18:21Z': 70272
+      '2026-10-07T09:18:27Z': 70080
+      '2026-10-07T09:18:44Z': 140544
+      '2026-10-07T09:18:51Z': 140160
+      '2026-10-07T09:18:58Z': 140160
+      '2026-10-07T09:19:06Z': 140160
+      '2026-10-07T09:19:12Z': 140544
+      '2026-10-07T09:19:19Z': 140160
+      '2026-10-07T09:19:26Z': 140160
+      '2026-10-07T09:19:32Z': 140160
+      '2026-10-07T09:19:39Z': 140544
+      '2026-10-07T09:19:45Z': 140160
+      '2026-11-15T18:09:45Z': 61056
+      '2026-11-15T18:09:58Z': 122112
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: ERCOT's publish time of the yearly workbook
+  type: utc time
+  values:
+    list:
+      '2016-01-01T14:03:08Z': 70080
+      '2016-01-01T14:21:39Z': 140160
+      '2017-01-01T14:03:36Z': 70272
+      '2017-01-01T14:33:00Z': 140544
+      '2018-01-01T14:02:53Z': 70080
+      '2018-01-01T14:24:25Z': 140160
+      '2019-01-01T14:02:39Z': 70080
+      '2019-01-01T14:25:24Z': 140160
+      '2020-01-01T14:03:19Z': 70080
+      '2020-01-01T14:25:15Z': 140160
+      '2021-01-01T14:08:09Z': 70272
+      '2021-01-01T14:41:25Z': 140544
+      '2022-01-01T14:13:33Z': 70080
+      '2022-01-01T14:38:17Z': 140160
+      '2023-01-01T14:11:13Z': 70080
+      '2023-01-01T14:34:04Z': 140160
+      '2024-01-01T14:10:11Z': 70080
+      '2024-01-01T14:19:08Z': 140160
+      '2025-01-01T14:07:33Z': 70272
+      '2025-01-01T14:18:28Z': 140544
+      '2026-01-01T14:44:09Z': 70080
+      '2026-01-01T19:25:58Z': 140160
+      '2026-11-15T14:01:47Z': 61056
+      '2026-11-15T14:38:34Z': 122112
+  missing_cells: 0
+- name: year
+  shared: true
+  particular: ERCOT's operating year in Central time
+  type: integer
+  values:
+    list:
+      '2015': 210240
+      '2016': 210816
+      '2017': 210240
+      '2018': 210240
+      '2019': 210240
+      '2020': 210816
+      '2021': 210240
+      '2022': 210240
+      '2023': 210240
+      '2024': 210816
+      '2025': 210240
+      '2026': 183168
+  missing_cells: 0
+variables:
+- name: spp_dam
+  label: ERCOT's day-ahead settlement point price at the load zone, hourly (spp here is ERCOT's 'settlement point price',
+    not the grid SPP)
+  unit: USD/MWh
+  rows: 832512
+  first: '2015-01-01T06:00:00Z'
+  last: '2026-11-15T05:00:00Z'
+- name: spp_rtm
+  label: ERCOT's real-time settlement point price at the load zone, 15-minute (spp here is ERCOT's 'settlement point price',
+    not the grid SPP)
+  unit: USD/MWh
+  rows: 1665024
+  first: '2015-01-01T06:00:00Z'
+  last: '2026-11-15T05:45:00Z'
+second_look: null

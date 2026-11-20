@@ -1,0 +1,642 @@
+# The codebook's metadata of table nrc_event_notifications (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: nrc_event_notifications
+family: nrc
+shape: events
+row: One unit named in one power reactor event report the NRC's Operations Center published (a report about two or three units
+  is a row a unit).
+time: event_date is the event's time in UTC, from the NRC's event date, time and zone (EDT, CDT; ET read with daylight saving);
+  x_event_local and x_event_tz keep the NRC's.
+vintage_rule: A snapshot, written whole by each run from the raw data file and every saved daily page; a report in both keeps
+  the daily page's row.
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: nrc:event_notification_reports U.S. Nuclear Regulatory Commission, Operations Center, Event Notification Reports
+  url: https://www.nrc.gov/documents-reports/document-collections/events-reports-associated-with/event-notification-reports
+cite: U.S. Nuclear Regulatory Commission (NRC). Event Notification Reports (power reactors). Via the Energy Research Warehouse
+  (ERW), table `nrc_event_notifications`.
+method: docs/methods/nrc_event_notifications.md
+header_title: 'U.S. Nuclear Regulatory Commission, Event Notification Reports, power reactors: each report and unit, with
+  the unit''s power before and after and the 10 CFR sections it was reported under (session 2043)'
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id nrc_en:<event number>:<unit>; event_date the event''s time
+  in UTC (the NRC''s date, time and zone; x_event_local and x_event_tz keep them); event_type reactor_scram (the unit''s scram
+  code not N: A/R automatic, M/R manual; or reported under 50.72(b)(2)(iv)(B)) or reactor_event; parties the licensee where
+  the report names one; x_initial_power_pct and x_current_power_pct the unit''s power in percent before and at the report.'
+read:
+  date: '2026-11-20'
+  rows: 25
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  particular: nrc_en:<event number>:<unit>, or nrc_en:<event number> where the report names no unit
+  type: text
+  values:
+    list:
+      nrc_en:57790:1: 1
+      nrc_en:57793:3: 1
+      nrc_en:57794:2: 1
+      nrc_en:57800:1: 1
+      nrc_en:57800:2: 1
+      nrc_en:57804:2: 1
+      nrc_en:57810:2: 1
+      nrc_en:57813:1: 1
+      nrc_en:57816:1: 1
+      nrc_en:57820:1: 1
+      nrc_en:57822:1: 1
+      nrc_en:57831:1: 1
+      nrc_en:57832:1: 1
+      nrc_en:57833:1: 1
+      nrc_en:57833:2: 1
+      nrc_en:57836:1: 1
+      nrc_en:57836:2: 1
+      nrc_en:57839:1: 1
+      nrc_en:57840:1: 1
+      nrc_en:57840:2: 1
+      nrc_en:57840:3: 1
+      nrc_en:58489:1: 1
+      nrc_en:58490:3: 1
+      nrc_en:58498:2: 1
+      nrc_en:58501:3: 1
+  missing_cells: 0
+- name: event_date
+  shared: true
+  particular: The event's time in UTC (YYYY-MM-DDTHH:MM:SSZ)
+  type: utc time
+  values:
+    list:
+      '2025-05-07T01:08:00Z': 1
+      '2025-05-30T05:00:00Z': 3
+      '2025-06-06T16:00:00Z': 2
+      '2025-06-30T21:41:00Z': 1
+      '2025-07-02T12:42:00Z': 1
+      '2025-07-03T00:22:00Z': 2
+      '2025-07-07T19:45:00Z': 1
+      '2025-07-13T18:18:00Z': 1
+      '2025-07-16T14:59:00Z': 1
+      '2025-07-17T15:00:00Z': 1
+      '2025-07-21T20:48:00Z': 1
+      '2025-07-22T19:10:00Z': 1
+      '2025-07-28T17:33:00Z': 2
+      '2025-07-29T01:58:00Z': 1
+      '2025-07-29T04:29:00Z': 1
+      '2025-07-30T17:30:00Z': 1
+      '2026-10-10T20:14:00Z': 1
+      '2026-10-12T12:24:00Z': 1
+      '2026-10-15T17:05:00Z': 1
+      '2026-10-17T03:45:00Z': 1
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: reactor_scram where the unit's scram code is not N or the report cites 50.72(b)(2)(iv)(B), else reactor_event
+  type: text
+  values:
+    list:
+      reactor_event: 18
+      reactor_scram: 7
+  missing_cells: 0
+- name: parties
+  shared: true
+  particular: The licensee; empty in the rows read from the daily pages, which name none
+  type: text
+  values:
+    list:
+      Constellation Nuclear: 1
+      Detroit Edison Co.: 1
+      Dominion Generation: 2
+      Entergy Nuclear: 2
+      Exelon Nuclear Co.: 1
+      Indiana/Michigan Power Co.: 2
+      Nebraska Public Power District: 1
+      Nuclear Management Company: 2
+      Ppl Susquehanna Llc: 1
+      Southern Nuclear Operating Company: 2
+      Tennessee Valley Authority: 6
+  missing_cells: 4
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25
+- name: status
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      nrc:event_notification_reports: 25
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://www.nrc.gov/documents-reports/document-collections/events-reports-associated-with/event-notification-reports/2026/20261013en
+      : 2
+      ? https://www.nrc.gov/documents-reports/document-collections/events-reports-associated-with/event-notification-reports/2026/20261016en
+      : 1
+      ? https://www.nrc.gov/documents-reports/document-collections/events-reports-associated-with/event-notification-reports/2026/20261019en
+      : 1
+      ? https://www.nrc.gov/sites/default/files/doc_library/reading-rm/doc-collections/event-status/event/event-notification-rpt-lastmonth.txt
+      : 21
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T18:35:06Z': 21
+      '2026-10-23T18:38:04Z': 1
+      '2026-10-23T18:38:05Z': 1
+      '2026-10-23T18:38:07Z': 2
+  missing_cells: 0
+- name: x_en_number
+  label: The NRC's event notification number of the report
+  unit: none
+  type: integer
+  values:
+    list:
+      '57790': 1
+      '57793': 1
+      '57794': 1
+      '57800': 2
+      '57804': 1
+      '57810': 1
+      '57813': 1
+      '57816': 1
+      '57820': 1
+      '57822': 1
+      '57831': 1
+      '57832': 1
+      '57833': 2
+      '57836': 2
+      '57839': 1
+      '57840': 3
+      '58489': 1
+      '58490': 1
+      '58498': 1
+      '58501': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Event Num
+  documented_by: header; connector nrc_event_reports.py
+- name: x_facility
+  label: The site (plant) as the NRC names it
+  unit: none
+  type: text
+  values:
+    list:
+      Braidwood: 1
+      Browns Ferry: 3
+      Calvert Cliffs: 1
+      Cook: 2
+      Cooper: 1
+      Farley: 2
+      Fermi: 1
+      Grand Gulf: 1
+      Hatch: 1
+      Millstone: 1
+      Monticello: 1
+      North Anna: 1
+      Prairie Island: 1
+      River Bend: 1
+      Robinson: 1
+      Susquehanna: 1
+      Waterford: 2
+      Watts Bar: 3
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Site Name
+  documented_by: connector nrc_event_reports.py
+- name: x_unit
+  label: The unit number at the site the row is about
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 13
+      '2': 8
+      '3': 4
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector nrc_event_reports.py
+- name: x_region
+  label: The NRC region (1 to 4) of the site
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 3
+      '2': 11
+      '3': 6
+      '4': 5
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Region No
+  documented_by: connector nrc_event_reports.py
+- name: x_state
+  label: The site's state, two-letter postal code
+  unit: none
+  type: text
+  values:
+    list:
+      AL: 5
+      CT: 1
+      GA: 1
+      IL: 1
+      LA: 3
+      MD: 1
+      MI: 3
+      MN: 2
+      MS: 1
+      NE: 1
+      PA: 1
+      SC: 1
+      TN: 3
+      VA: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: State Cd
+  documented_by: connector nrc_event_reports.py
+- name: x_county
+  label: The site's county as the NRC writes it
+  unit: none
+  type: text
+  values:
+    list:
+      Berrien: 2
+      Calvert: 1
+      Claiborne: 1
+      Goodhue: 1
+      Houston: 2
+      Limestone: 3
+      Louisa: 1
+      Luzerne: 1
+      Monroe: 1
+      Nemaha: 1
+      New London: 1
+      Rhea: 3
+      West Feliciana: 1
+      Will: 1
+      Wright: 1
+  missing_cells: 4
+  missing_meaning: The report gives no county
+  source_name: County Name
+  documented_by: connector nrc_event_reports.py
+- name: x_docket
+  label: The NRC docket number of the site's license, as printed (05000...)
+  unit: none
+  type: integer
+  values:
+    list:
+      05000259: 3
+      '05000263': 1
+      05000282: 1
+      05000298: 1
+      '05000315': 2
+      05000338: 1
+      '05000341': 1
+      05000348: 2
+      05000387: 1
+      05000390: 2
+      '05000416': 1
+      '05000456': 1
+      05000458: 1
+  missing_cells: 7
+  missing_meaning: The report gives no docket
+  source_name: Docket No
+  documented_by: connector nrc_event_reports.py
+- name: x_reactor_type
+  label: The NRC's reactor type field for the site's units, each unit's type after its number in brackets ([1] GE-4,[2] GE-4),
+    as printed
+  unit: none
+  type: text
+  values:
+    list:
+      '[1] CE,[2] CE': 1
+      '[1] GE-3': 1
+      '[1] GE-3,[2] CE,[3] W-4-LP': 1
+      '[1] GE-4': 1
+      '[1] GE-4,[2] GE-4': 2
+      '[1] GE-4,[2] GE-4,[3] GE-4': 3
+      '[1] GE-6': 2
+      '[1] W-2-LP,[2] W-2-LP': 1
+      '[1] W-3-LP,[2] W-3-LP': 2
+      '[1] W-3-LP,[2] W-3-LP,[3] M-4-LP': 1
+      '[1] W-4-LP,[2] W-4-LP': 6
+      '[2] GE-4': 1
+      '[2] W-3-LP': 1
+      '[3] CE': 2
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Reactor Type
+  documented_by: connector nrc_event_reports.py; data
+- name: x_notification_et
+  label: The time the licensee notified the NRC, in Eastern time as the NRC gives it (no zone)
+  unit: none
+  type: text
+  values:
+    list:
+      '2025-06-30T20:35:00': 1
+      '2025-07-02T11:38:00': 1
+      '2025-07-02T12:11:00': 1
+      '2025-07-03T17:27:00': 2
+      '2025-07-07T22:36:00': 1
+      '2025-07-13T17:10:00': 1
+      '2025-07-16T13:57:00': 1
+      '2025-07-17T11:38:00': 1
+      '2025-07-21T22:51:00': 1
+      '2025-07-22T17:22:00': 1
+      '2025-07-29T03:44:00': 1
+      '2025-07-29T03:45:00': 1
+      '2025-07-29T09:19:00': 2
+      '2025-07-29T13:00:00': 2
+      '2025-07-30T17:20:00': 1
+      '2025-07-30T23:19:00': 3
+      '2026-10-10T19:22:00': 1
+      '2026-10-12T14:37:00': 1
+      '2026-10-15T16:56:00': 1
+      '2026-10-17T03:00:00': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Notification Dt and Notification Time
+  documented_by: connector nrc_event_reports.py
+- name: x_notification_utc
+  label: The time the licensee notified the NRC, in UTC
+  unit: none
+  type: utc time
+  values:
+    list:
+      '2025-07-01T00:35:00Z': 1
+      '2025-07-02T15:38:00Z': 1
+      '2025-07-02T16:11:00Z': 1
+      '2025-07-03T21:27:00Z': 2
+      '2025-07-08T02:36:00Z': 1
+      '2025-07-13T21:10:00Z': 1
+      '2025-07-16T17:57:00Z': 1
+      '2025-07-17T15:38:00Z': 1
+      '2025-07-22T02:51:00Z': 1
+      '2025-07-22T21:22:00Z': 1
+      '2025-07-29T07:44:00Z': 1
+      '2025-07-29T07:45:00Z': 1
+      '2025-07-29T13:19:00Z': 2
+      '2025-07-29T17:00:00Z': 2
+      '2025-07-30T21:20:00Z': 1
+      '2025-07-31T03:19:00Z': 3
+      '2026-10-10T23:22:00Z': 1
+      '2026-10-12T18:37:00Z': 1
+      '2026-10-15T20:56:00Z': 1
+      '2026-10-17T07:00:00Z': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector nrc_event_reports.py
+- name: x_event_local
+  label: The event's local date and time as the NRC gives it (no zone)
+  unit: none
+  type: text
+  values:
+    list:
+      '2025-05-06T21:08:00': 1
+      '2025-05-30T00:00:00': 3
+      '2025-06-06T12:00:00': 2
+      '2025-06-30T16:41:00': 1
+      '2025-07-02T08:42:00': 1
+      '2025-07-02T19:22:00': 2
+      '2025-07-07T15:45:00': 1
+      '2025-07-13T14:18:00': 1
+      '2025-07-16T09:59:00': 1
+      '2025-07-17T11:00:00': 1
+      '2025-07-21T15:48:00': 1
+      '2025-07-22T15:10:00': 1
+      '2025-07-28T13:33:00': 2
+      '2025-07-28T20:58:00': 1
+      '2025-07-28T23:29:00': 1
+      '2025-07-30T12:30:00': 1
+      '2026-10-10T16:14:00': 1
+      '2026-10-12T07:24:00': 1
+      '2026-10-15T13:05:00': 1
+      '2026-10-16T22:45:00': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Event Dt and Event Time
+  documented_by: header; method nrc_event_notifications.md
+- name: x_event_tz
+  label: The time zone the NRC names for the event time (EDT, CDT)
+  unit: none
+  type: text
+  values:
+    list:
+      CDT: 13
+      EDT: 12
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Time Zone
+  documented_by: header; method nrc_event_notifications.md
+- name: x_last_update
+  label: The date of the report's last update
+  unit: none
+  type: date
+  values:
+    list:
+      '2025-07-02': 2
+      '2025-07-09': 1
+      '2025-07-13': 1
+      '2025-07-16': 1
+      '2025-07-17': 3
+      '2025-07-21': 1
+      '2025-07-22': 2
+      '2025-07-29': 5
+      '2025-07-30': 5
+      '2026-10-10': 1
+      '2026-10-12': 1
+      '2026-10-15': 1
+      '2026-10-17': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Last Updated Dt
+  documented_by: method nrc_event_notifications.md; connector nrc_event_reports.py
+- name: x_emergency_class
+  label: The emergency class of the report (all Non Emergency)
+  unit: none
+  type: text
+  values:
+    list:
+      Non Emergency: 25
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Emergency Class
+  documented_by: method nrc_event_notifications.md
+- name: x_cfr
+  label: Every section of 10 CFR (federal regulations) the report was made under, joined by '; '
+  unit: none
+  type: text
+  values:
+    list:
+      21.21(d)(3)(i): 2
+      '26.719': 3
+      50.72(b)(2)(iv)(A); 50.72(b)(2)(iv)(B); 50.72(b)(3)(iv)(A): 1
+      50.72(b)(2)(iv)(B): 2
+      50.72(b)(2)(iv)(B); 50.72(b)(3)(iv)(A): 3
+      50.72(b)(2)(iv)(B); 50.72(b)(3)(v)(C); 50.72(b)(3)(v)(D): 1
+      50.72(b)(2)(xi): 1
+      50.72(b)(3)(ii)(A): 1
+      50.72(b)(3)(iv)(A): 1
+      50.72(b)(3)(v)(C): 1
+      50.72(b)(3)(v)(D): 2
+      50.72(b)(3)(xiii): 3
+      50.73(a)(1): 4
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method nrc_event_notifications.md; connector nrc_event_reports.py
+- name: x_cfr_words
+  label: The NRC's short words for each of those sections (RPS Actuation, Fitness For Duty and the others), joined by '; '
+  unit: none
+  type: text
+  values:
+    list:
+      Accident Mitigation: 2
+      Defects And Noncompliance: 2
+      Degraded Condition: 1
+      ECCS Injection; RPS Actuation - Critical; Valid Specif Sys Actuation: 1
+      Fitness For Duty: 3
+      Invalid Specif System Actuation: 4
+      Loss Comm/Asmt/Response: 3
+      Offsite Notification: 1
+      Pot Uncntrl Rad Rel: 1
+      RPS Actuation - Critical: 1
+      RPS Actuation - Critical 50.72(b)(3)(iv)(A) - Valid Specif Sys Actuation: 1
+      RPS Actuation - Critical; Pot Uncntrl Rad Rel; Accident Mitigation: 1
+      RPS Actuation - Critical; Valid Specif Sys Actuation: 3
+      Valid Specif Sys Actuation: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method nrc_event_notifications.md; data
+- name: x_scram_code
+  label: 'The unit''s scram (rapid shutdown) code: A/R automatic, M/R manual, N none'
+  unit: none
+  type: text
+  values:
+    list:
+      A/R: 5
+      M/R: 1
+      N: 19
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Scram Code
+  documented_by: header; connector nrc_event_reports.py
+- name: x_rx_crit
+  label: 'Whether the reactor was critical (sustaining a chain reaction): Y or N'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 1
+      Y: 24
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: RX CRIT
+  documented_by: connector nrc_event_reports.py
+- name: x_initial_power_pct
+  label: The unit's power before the event, percent of its licensed power
+  unit: pct
+  type: integer
+  values:
+    list:
+      '0': 3
+      '100': 19
+      '75': 1
+      '91': 1
+      '96': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Initial PWR
+  documented_by: header; method nrc_event_notifications.md
+- name: x_initial_mode
+  label: The unit's operating mode before the event (Power Operation, Hot Shutdown, Cold Shutdown, Defueled)
+  unit: none
+  type: text
+  values:
+    list:
+      Cold Shutdown: 1
+      Defueled: 1
+      Hot Shutdown: 1
+      Power Operation: 22
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Initial RX Mode
+  documented_by: method nrc_event_notifications.md; data
+- name: x_current_power_pct
+  label: The unit's power at the time of the report, percent of its licensed power
+  unit: pct
+  type: integer
+  values:
+    list:
+      '0': 8
+      '100': 16
+      '91': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Current PWR
+  documented_by: header; method nrc_event_notifications.md
+- name: x_current_mode
+  label: The unit's operating mode at the time of the report (Power Operation, Hot Standby, Hot Shutdown, Defueled)
+  unit: none
+  type: text
+  values:
+    list:
+      Defueled: 1
+      Hot Shutdown: 3
+      Hot Standby: 4
+      Power Operation: 17
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Current RX Mode
+  documented_by: method nrc_event_notifications.md; data
+- name: x_read_from
+  label: 'Which NRC publication the row was read from: raw_file (the data file) or daily_page'
+  unit: none
+  type: text
+  values:
+    list:
+      daily_page: 4
+      raw_file: 21
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector nrc_event_reports.py
+second_look: null

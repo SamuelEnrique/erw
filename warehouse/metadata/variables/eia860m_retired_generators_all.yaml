@@ -1,0 +1,518 @@
+# The codebook's metadata of table eia860m_retired_generators_all (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia860m_retired_generators_all
+family: eia860m
+shape: entities
+row: One generator EIA lists as retired in its monthly inventory, Form EIA-860M (sheets Retired and Retired_PR), whatever
+  its retirement year, for one vintage month.
+time: No time column; vintage is EIA's month (YYYY-MM). retirement_date and status_date are the first day of EIA's retirement
+  month; EIA gives months, not days.
+vintage_rule: A snapshot of one vintage; a new vintage replaces the rows, but only when someone runs the connector (no schedule
+  runs it).
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: eia:860m:retired EIA-860M Monthly Update to the Annual Electric Generator Report, sheets Retired, Retired_PR (Inventory
+    of Retired Generators as of August 2026; Inventory of Retired Generators as of August 2026 - Puerto Rico)
+  url: https://www.eia.gov/electricity/data/eia860m/xls/august_generator2026.xlsx
+cite: 'U.S. Energy Information Administration (EIA). Form EIA-860M, Monthly Update to the Annual Electric Generator Report:
+  the Retired sheets, every year. Via the Energy Research Warehouse (ERW), table `eia860m_retired_generators_all`.'
+method: docs/methods/eia860m_retired_generators_all.md
+header_title: EIA-860M, every retired generator EIA lists, vintage 2026-08 (session 133)
+header_shape: 'Shape: entities (docs/datastandard.md v0). One row per generator; entity_id eia860:<plant id>:<generator id>;
+  capacity_mw is EIA nameplate capacity (MW); status_date and retirement_date are the first day of EIA''s retirement month.
+  The columns of eia860m_retired_generators, which holds only the last two years'' retirements.'
+read:
+  date: '2026-11-20'
+  rows: 7334
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  particular: eia860:<plant id>:<generator id>
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - eia860:10002:GEN1
+    - eia860:10003:VBPT
+    - eia860:10004:TG1
+    - eia860:10008:CG-1
+    - eia860:10008:CG-3
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  particular: Always generator
+  type: text
+  values:
+    list:
+      generator: 7334
+  missing_cells: 0
+- name: name
+  shared: true
+  particular: EIA's plant name
+  type: text
+  values:
+    distinct: 2654
+    examples:
+    - '1420 Coil Av #C'
+    - 1515 S Caron Road
+    - 2 AC Station
+    - 3 MW LLC
+    - 5 in 1 Dam Hydroelectric
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<plant state>
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: number
+  values:
+    distinct: 2603
+    lowest: 18.003
+    highest: 71.292
+  missing_cells: 44
+- name: lon
+  shared: true
+  type: number
+  values:
+    distinct: 2598
+    lowest: -171.7124
+    highest: -65.6952
+  missing_cells: 44
+- name: capacity_mw
+  shared: true
+  particular: EIA's nameplate capacity, equal to nameplate_mw in every row
+  type: number
+  values:
+    distinct: 776
+    lowest: 0.1
+    highest: 1425.6
+  missing_cells: 0
+- name: status
+  shared: true
+  particular: Always retired
+  type: text
+  values:
+    list:
+      retired: 7334
+  missing_cells: 0
+- name: status_date
+  shared: true
+  particular: The first day of EIA's retirement month (equal to retirement_date in every row)
+  type: date
+  values:
+    distinct: 309
+    earliest: '1972-11-01'
+    latest: '2026-08-01'
+  missing_cells: 0
+- name: operator
+  shared: true
+  particular: EIA's Entity Name, the utility that operated the generator
+  type: text
+  values:
+    distinct: 1721
+    examples:
+    - 3 MW LLC
+    - 31st Street Energy LLC
+    - 5 Research Parkway Wallingford LLC
+    - 8309 Tujunga Avenue Corp
+    - A & N Electric Coop
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:860m:retired: 7334
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia860m/xls/august_generator2026.xlsx: 7334
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-06T09:55:47Z': 7334
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: EIA's inventory month, YYYY-MM
+  type: text
+  values:
+    list:
+      2026-08: 7334
+  missing_cells: 0
+- name: plant_id
+  label: EIA's plant identifier
+  unit: none
+  type: integer
+  values:
+    distinct: 2662
+    lowest: 1
+    highest: 69979
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Plant ID
+  documented_by: method eia860m_retired_generators_all.md; connector eia860.py
+- name: generator_id
+  label: EIA's generator identifier within the plant
+  unit: none
+  type: text
+  values:
+    distinct: 1743
+    examples:
+    - '00001'
+    - '0001'
+    - '0002'
+    - '0003'
+    - '001'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Generator ID
+  documented_by: method eia860m_retired_generators_all.md; connector eia860.py
+- name: utility_id
+  label: EIA's identifier of the operating utility (its Entity ID)
+  unit: none
+  type: integer
+  values:
+    distinct: 1728
+    lowest: 25
+    highest: 67826
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Entity ID
+  documented_by: method eia860m_retired_generators_all.md; connector eia860.py
+- name: state
+  label: The plant's state, two-letter postal code (the 50 states, DC and PR)
+  unit: none
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Plant State
+  documented_by: method eia860m_retired_generators_all.md; connector eia860.py
+- name: county
+  label: The plant's county, as EIA names it
+  unit: none
+  type: text
+  values:
+    distinct: 927
+    examples:
+    - ANOKA
+    - Ada
+    - Adair
+    - Adams
+    - Addison
+  missing_cells: 2
+  missing_meaning: EIA gives no county (2 rows)
+  source_name: County
+  documented_by: method eia860m_retired_generators_all.md; connector eia860.py
+- name: balancing_authority
+  label: The balancing authority (the grid operator of the area) the plant was in, EIA's code
+  unit: none
+  type: text
+  values:
+    distinct: 58
+    examples:
+    - AECI
+    - AVA
+    - AZPS
+    - BANC
+    - BPAT
+  missing_cells: 1425
+  missing_meaning: EIA gives none (1,425 generators, most retired before 2010)
+  source_name: Balancing Authority Code
+  documented_by: method eia860m_retired_generators_all.md; connector eia860.py
+- name: sector
+  label: 'EIA''s sector of the plant: Electric Utility, IPP (independent power producer), Commercial or Industrial, each CHP
+    (combined heat and power) or Non-CHP'
+  unit: none
+  type: text
+  values:
+    list:
+      Commercial CHP: 264
+      Commercial Non-CHP: 225
+      Electric Utility: 3285
+      IPP CHP: 283
+      IPP Non-CHP: 2217
+      Industrial CHP: 780
+      Industrial Non-CHP: 276
+  missing_cells: 4
+  missing_meaning: EIA gives no sector (4 rows)
+  source_name: Sector
+  documented_by: connector eia860.py; data
+- name: technology
+  label: EIA's technology text for the generator (23 values)
+  unit: none
+  type: text
+  values:
+    list:
+      All Other: 32
+      Batteries: 50
+      Conventional Hydroelectric: 346
+      Conventional Steam Coal: 908
+      Flywheels: 2
+      Geothermal: 158
+      Hydroelectric Pumped Storage: 2
+      Landfill Gas: 733
+      Municipal Solid Waste: 37
+      Natural Gas Fired Combined Cycle: 275
+      Natural Gas Fired Combustion Turbine: 750
+      Natural Gas Internal Combustion Engine: 534
+      Natural Gas Steam Turbine: 688
+      Nuclear: 27
+      Onshore Wind Turbine: 163
+      Other Gases: 56
+      Other Natural Gas: 62
+      Other Waste Biomass: 112
+      Petroleum Coke: 11
+      Petroleum Liquids: 1998
+      Solar Photovoltaic: 168
+      Solar Thermal without Energy Storage: 12
+      Wood/Wood Waste Biomass: 210
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Technology
+  documented_by: method eia860m_retired_generators_all.md; connector eia860.py
+- name: technology_group
+  label: An ERW grouping of EIA's technology text for maps and filters (coal, natural_gas, storage and the others)
+  unit: none
+  type: text
+  values:
+    list:
+      biomass: 1092
+      coal: 908
+      geothermal: 158
+      hydro: 346
+      natural_gas: 2309
+      nuclear: 27
+      other: 88
+      petroleum: 2009
+      solar: 180
+      storage: 54
+      wind: 163
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia860m_retired_generators_all.md; connector eia860.py
+- name: prime_mover
+  label: 'EIA''s prime mover code: the kind of engine or turbine (GT gas turbine, IC internal combustion, BA battery and the
+    others)'
+  unit: none
+  type: text
+  values:
+    list:
+      BA: 50
+      BT: 51
+      CA: 136
+      CS: 9
+      CT: 151
+      FC: 62
+      FW: 2
+      GT: 1076
+      HY: 346
+      IC: 2861
+      OT: 16
+      PS: 2
+      PV: 168
+      ST: 2241
+      WT: 163
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Prime Mover Code
+  documented_by: connector eia860.py; data
+- name: prime_mover_label
+  label: The prime mover code's meaning, from the EIA-860 instructions
+  unit: none
+  type: text
+  values:
+    list:
+      Combined cycle combustion turbine part: 151
+      Combined cycle single shaft: 9
+      Combined cycle steam part: 136
+      Combustion (gas) turbine: 1076
+      Energy storage, battery: 50
+      Energy storage, flywheel: 2
+      Energy storage, reversible hydraulic turbine (pumped storage): 2
+      Fuel cell: 62
+      Hydraulic turbine (conventional hydro): 346
+      Internal combustion engine: 2861
+      Other: 16
+      Photovoltaic: 168
+      Steam turbine: 2241
+      Turbines used in a binary cycle (geothermal): 51
+      Wind turbine, onshore: 163
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia860m_retired_generators_all.md; connector eia860.py
+- name: energy_source
+  label: 'EIA''s energy source code: the generator''s main fuel or energy (BIT bituminous coal, DFO distillate fuel oil and
+    the others)'
+  unit: none
+  type: text
+  values:
+    distinct: 34
+    examples:
+    - AB
+    - BFG
+    - BIT
+    - BLQ
+    - DFO
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Energy Source Code
+  documented_by: connector eia860.py; data
+- name: energy_source_label
+  label: The energy source code's meaning, from the EIA-860 instructions
+  unit: none
+  type: text
+  values:
+    distinct: 34
+    examples:
+    - Agricultural by-products
+    - Bituminous coal
+    - Black liquor
+    - Blast furnace gas
+    - Distillate fuel oil
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia860m_retired_generators_all.md; connector eia860.py
+- name: nameplate_mw
+  label: 'EIA''s nameplate capacity: the generator''s rated output'
+  unit: MW
+  type: number
+  values:
+    distinct: 776
+    lowest: 0.1
+    highest: 1425.6
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Nameplate Capacity (MW)
+  documented_by: method eia860m_retired_generators_all.md; connector eia860.py
+- name: net_summer_mw
+  label: 'EIA''s net summer capacity: the output the generator could deliver in summer, net of its own use'
+  unit: MW
+  type: number
+  values:
+    distinct: 804
+    lowest: 0.0
+    highest: 1305.0
+  missing_cells: 56
+  missing_meaning: EIA gives none (56 rows)
+  source_name: Net Summer Capacity (MW)
+  documented_by: method eia860m_retired_generators_all.md; connector eia860.py
+- name: net_winter_mw
+  label: 'EIA''s net winter capacity: the output the generator could deliver in winter, net of its own use'
+  unit: MW
+  type: number
+  values:
+    distinct: 806
+    lowest: 0.0
+    highest: 1333.0
+  missing_cells: 57
+  missing_meaning: EIA gives none (57 rows)
+  source_name: Net Winter Capacity (MW)
+  documented_by: method eia860m_retired_generators_all.md; connector eia860.py
+- name: eia_status
+  label: 'EIA''s status code: always RE, retired'
+  unit: none
+  type: text
+  values:
+    list:
+      RE: 7334
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Status
+  documented_by: method eia860m_retired_generators_all.md; data
+- name: eia_status_label
+  label: The status code's words as EIA prints them (always Retired)
+  unit: none
+  type: text
+  values:
+    list:
+      Retired: 7334
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Status
+  documented_by: method eia860m_retired_generators_all.md; data
+- name: retirement_date
+  label: The first day of the month the generator retired, as EIA gives it
+  unit: none
+  type: date
+  values:
+    distinct: 309
+    earliest: '1972-11-01'
+    latest: '2026-08-01'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Retirement Year and Month
+  documented_by: header; method eia860m_retired_generators_all.md
+- name: operating_year
+  label: The year the generator began commercial operation, as EIA gives it
+  unit: none
+  type: integer
+  values:
+    distinct: 124
+    lowest: 1898
+    highest: 2024
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Operating Year
+  documented_by: method eia860m_retired_generators_all.md; connector eia860.py
+- name: operating_month
+  label: The month (1 to 12) the generator began commercial operation, as EIA gives it; 0 in 44 rows
+  unit: none
+  type: integer
+  values:
+    list:
+      '0': 44
+      '1': 1154
+      '10': 429
+      '11': 472
+      '12': 779
+      '2': 359
+      '3': 333
+      '4': 435
+      '5': 572
+      '6': 984
+      '7': 611
+      '8': 580
+      '88': 150
+      '9': 422
+      '99': 10
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Operating Month
+  documented_by: method eia860m_retired_generators_all.md; connector eia860.py; data
+second_look:
+- 'operating_month: 44 rows hold 0, which no document read here explains (not a month 1 to 12).'

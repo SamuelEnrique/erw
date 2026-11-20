@@ -1,0 +1,172 @@
+# The codebook's metadata of table ercot_rtm_node_prices (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_rtm_node_prices
+family: ercot
+shape: series
+row: ERCOT's real-time settlement point price at one settlement point (a storage resource's node, a hub, a load zone or a
+  DC tie) for one 15-minute interval.
+time: ts_utc is the interval's start in UTC, read from the file's DeliveryDate, DeliveryHour and DeliveryInterval in Central
+  time.
+vintage_rule: Merged by (entity, variable, ts_utc); each run with a new file reads every saved zip again, and the table keeps
+  intervals ERCOT's seven-day list has dropped. An interval posted twice with different prices is left out. vintage is not
+  filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT15M
+source:
+- name: ercot:NP6-905-CD ERCOT, Settlement Point Prices at Resource Nodes, Hubs and Load Zones (report type 12301)
+  url: https://www.ercot.com/mp/data-products/data-product-details?id=NP6-905-CD
+cite: Electric Reliability Council of Texas (ERCOT). Settlement Point Prices at Resource Nodes, Hubs and Load Zones. Via the
+  Energy Research Warehouse (ERW), table `ercot_rtm_node_prices`.
+method: docs/methods/ercot_rtm_node_prices.md
+header_title: ERCOT real-time Settlement Point Prices at the storage resources' settlement points, the hubs and the Load Zones,
+  by 15-minute interval (session 120)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity ercot:<settlement point>; variable spp_rtm, USD/MWh, as ERCOT
+  prints it; ts_utc the interval''s start; x_point_type ERCOT''s SettlementPointType.'
+read:
+  date: '2026-11-20'
+  rows: 1570608
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: ercot:<settlement point>
+  type: text
+  values:
+    distinct: 312
+    examples:
+    - ercot:ABINDUST_RN
+    - ercot:ADL_RN
+    - ercot:AE_RN
+    - ercot:ALAMO_ST_RN
+    - ercot:ALP_BESS_RN
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2026-09-28T04:45:00Z'
+    latest: '2026-11-19T17:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -251.0
+    highest: 3522.5
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 1570608
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT15M: 1570608
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 1570608
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
+  type: text
+  values:
+    list:
+      ercot_rtm: 1570608
+  missing_cells: 0
+- name: node
+  shared: true
+  particular: The settlement point's name
+  type: text
+  values:
+    distinct: 312
+    examples:
+    - ABINDUST_RN
+    - ADL_RN
+    - AE_RN
+    - ALAMO_ST_RN
+    - ALP_BESS_RN
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:NP6-905-CD: 1570608
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1279835460
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1279839306
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1279843107
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1279847447
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1279851570
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2026-10-05T09:23:38Z'
+    latest: '2026-11-19T17:28:49Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1570608
+- name: x_point_type
+  label: 'ERCOT''s type of the settlement point: RN resource node, LZ load zone, HU hub, LZ_DC DC tie, SH HB_BUSAVG, AH HB_HUBAVG'
+  unit: none
+  type: text
+  values:
+    list:
+      AH: 5034
+      HU: 25170
+      LZ: 40272
+      LZ_DC: 20136
+      RN: 1474962
+      SH: 5034
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: SettlementPointType
+  documented_by: header; connector ercot_rt_spp.py; method ercot_rtm_node_prices.md
+variables:
+- name: spp_rtm
+  label: ERCOT's real-time settlement point price at the point, 15-minute, as ERCOT prints it (spp here is ERCOT's 'settlement
+    point price', not the grid SPP)
+  unit: USD/MWh
+  rows: 1570608
+  first: '2026-09-28T04:45:00Z'
+  last: '2026-11-19T17:00:00Z'
+second_look: null

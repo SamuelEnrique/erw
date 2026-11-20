@@ -1,0 +1,102 @@
+# The codebook's metadata of table noaa_region_station_hourly_2026 (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: noaa_region_station_hourly_2026
+family: noaa
+shape: series
+row: The temperature at one station chosen for EIA's regions' weather in one UTC hour of 2026.
+time: ts_utc is the hour in UTC; the reading is the Local Climatological Data v2 report put on ISD-Lite's hour rule (from
+  ten minutes before the hour up to it, the closest to it), its local standard time moved to UTC.
+vintage_rule: A snapshot written whole by each run of the connector (one table a UTC year); not in the daily run, so the year
+  grows only when the connector is run. No vintage column.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: noaa:isd_lite ISD-Lite (Integrated Surface Database, hourly)
+  url: https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database
+- name: noaa:lcd_v2 Local Climatological Data v2 (NCEI Access Data Service)
+  url: https://www.ncei.noaa.gov/products/land-based-station/local-climatological-data
+cite: NOAA National Centers for Environmental Information. Local Climatological Data v2. Via the Energy Research Warehouse
+  (ERW), table `noaa_region_station_hourly_2026`.
+method: docs/methods/region_weather.md
+header_title: hourly temperature at the stations of EIA's regions, the hours of 2026 (UTC) (session 7803)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity noaa:<USAF-WBAN>, temperature_f; ISD-Lite before 2025-08-01,
+  Local Climatological Data v2 from it on ISD-Lite''s hour rule (source); runs of at most three missing hours interpolated.
+  One table a UTC year. Method: docs/methods/region_weather.md.'
+read:
+  date: '2026-11-20'
+  rows: 1577028
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: noaa:<USAF-WBAN>, the station (the node of noaa_region_stations)
+  type: text
+  values:
+    distinct: 215
+    examples:
+    - noaa:720306-53879
+    - noaa:720307-63804
+    - noaa:720308-04992
+    - noaa:720598-00191
+    - noaa:720714-00252
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2026-01-01T00:00:00Z'
+    latest: '2026-11-07T14:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 2053
+    lowest: -20.92
+    highest: 165.2
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      degF: 1577028
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 1577028
+  missing_cells: 0
+- name: source
+  shared: true
+  particular: noaa:lcd_v2 (Local Climatological Data v2) in every row
+  type: text
+  values:
+    list:
+      noaa:lcd_v2: 1577028
+  missing_cells: 0
+variables:
+- name: temperature_f
+  label: The station's temperature in the hour, degrees F; runs of at most three missing hours between two measured hours
+    are interpolated on a straight line
+  unit: degF
+  rows: 1577028
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-11-07T14:00:00Z'
+second_look: null

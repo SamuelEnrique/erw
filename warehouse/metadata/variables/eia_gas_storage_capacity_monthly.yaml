@@ -1,0 +1,166 @@
+# The codebook's metadata of table eia_gas_storage_capacity_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_gas_storage_capacity_monthly
+family: eia
+shape: series
+row: One month's underground natural gas storage capacity (total or working gas) or number of storage fields, for a state,
+  region, the lower 48 or the U.S.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:natural-gas/stor/cap U.S. Energy Information Administration, Natural Gas Monthly, underground storage capacity
+    (API v2, route natural-gas/stor/cap)
+  url: https://www.eia.gov/dnav/ng/ng_stor_cap_dcu_nus_m.htm
+cite: U.S. Energy Information Administration (EIA). Natural Gas Monthly, underground storage capacity (API v2). Via the Energy
+  Research Warehouse (ERW), table `eia_gas_storage_capacity_monthly`.
+method: docs/methods/eia_gas_storage_capacity_monthly.md
+header_title: 'EIA, underground natural gas storage capacity: total and working gas capacity and the number of fields, by
+  state, region and the U.S., a month (session 626)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_gas_storage_capacity:<series>; variable total_capacity
+  or working_capacity (MMcf) or storage_fields (count); ts_utc the month''s first day; freq P1M; node EIA''s series name.
+  The states are parts of the lower 48 and the U.S., and so are EIA''s regions: a sum takes one level.'
+read:
+  date: '2026-11-20'
+  rows: 23980
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia_gas_storage_capacity:<EIA series id>
+  type: text
+  values:
+    distinct: 123
+    examples:
+    - eia_gas_storage_capacity:N5290832
+    - eia_gas_storage_capacity:N5290842
+    - eia_gas_storage_capacity:N5290852
+    - eia_gas_storage_capacity:N5290862
+    - eia_gas_storage_capacity:N5290872
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 451
+    earliest: '1989-01-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 2960
+    lowest: 1.0
+    highest: 9371003.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MMcf: 17752
+      count: 6228
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 23980
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 32
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-CA
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 23980
+- name: node
+  shared: true
+  particular: EIA's series name
+  type: text
+  values:
+    distinct: 123
+    examples:
+    - AGA Eastern Consuming Region Natural Gas Count of Underground Storage Capacity (Count)
+    - AGA Eastern Consuming Region Natural Gas Total Underground Storage Capacity (MMcf)
+    - AGA Eastern Consuming Region Natural Gas Working Underground Storage Capacity (MMcf)
+    - AGA Producing Region Natural Gas Count of Underground Storage Capacity (Count)
+    - AGA Producing Region Natural Gas Total Underground Storage Capacity (MMcf)
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:natural-gas/stor/cap: 23980
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/natural-gas/stor/cap/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bprocess%5D%5B%5D=SAC&facets%5Bprocess%5D%5B%5D=SACW0&facets%5Bprocess%5D%5B%5D=SAD&start=1989-01
+      : 23980
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-22T03:59:30Z': 23980
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 23980
+variables:
+- name: storage_fields
+  label: Number of underground storage fields (SAD)
+  unit: count
+  rows: 6228
+  first: '2013-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: total_capacity
+  label: Total underground storage capacity (SAC), million cubic feet
+  unit: MMcf
+  rows: 11150
+  first: '1989-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: working_capacity
+  label: Working gas storage capacity, the gas that can be withdrawn (SACW0), million cubic feet
+  unit: MMcf
+  rows: 6602
+  first: '2012-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

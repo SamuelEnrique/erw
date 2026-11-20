@@ -1,0 +1,390 @@
+# The codebook's metadata of table ercot_dam_esr_awards (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_dam_esr_awards
+family: ercot
+shape: series
+row: One ERCOT Energy Storage Resource (a battery) in one hour of the day-ahead market, its High Sustained Limit with its
+  awards and limits as ERCOT's 60-day disclosure prints them.
+time: ts_utc is the start of the hour in UTC (ERCOT gives the Delivery Date and the Hour Ending in Central prevailing time).
+vintage_rule: One operating day appended at a time after the last held; a day is never rewritten once held. vintage is ERCOT's
+  publication time of the day's zip (the operating day plus 60 days).
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: ercot:NP3-966-ER ERCOT, 60-Day DAM Disclosure Reports, https://www.ercot.com/mp/data-products/data-product-details?id=NP3-966-ER;
+    document list
+  url: https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=13051
+cite: 'Electric Reliability Council of Texas (ERCOT). 60-Day DAM Disclosure Reports (the file 60d_DAM_ESR_Data: Energy Storage
+  Resources). Via the Energy Research Warehouse (ERW), table `ercot_dam_esr_awards`.'
+method: docs/methods/ercot_dam_esr_awards.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261115T160738Z-github
+  (2026-11-15T16:07:38Z); that run's own header of the table follows
+header_shape: 'Shape: series (docs/datastandard.md v0, Decision 40), one row per resource and hour: entity ercot:<Resource
+  Name>, variable hsl_mw, value the resource''s High Sustained Limit that hour (MW), ts_utc the hour''s start (ERCOT gives
+  the hour ending in Central prevailing time), node its settlement point. The awards are the x_ columns, as ERCOT prints them:
+  x_energy_award_mw (Awarded Quantity; negative is a purchase, charging) and x_energy_price_usd_per_mwh (Energy Settlement
+  Point Price, at the resource''s own settlement point); for each Ancillary Service its award (MW) and its MCPC (USD per MW
+  per hour): regup, regdn, rrs (three kinds of award, PFR, FFR and UFR, one price), ecrs, nonspin; x_lsl_mw (the Low Sustained
+  Limit, negative: charging), x_resource_status, x_qse (the scheduling entity) and x_dme. A blank award is no award and stays
+  blank. The offer curve columns of ERCOT''s file are left out.'
+read:
+  date: '2026-11-20'
+  rows: 2042277
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: ercot:<Resource Name>, the storage resource
+  type: text
+  values:
+    distinct: 339
+    examples:
+    - ercot:ABINDUST_ESR1
+    - ercot:ADL_ESR1
+    - ercot:AE_ESR1
+    - ercot:ALAMO_ST_ESR1
+    - ercot:ALP_BESS_ESR1
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2025-12-06T06:00:00Z'
+    latest: '2026-09-01T04:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1141
+    lowest: -9.9
+    highest: 240.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 2042277
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 2042277
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 2042277
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
+  type: text
+  values:
+    list:
+      ercot_dam: 2042277
+  missing_cells: 0
+- name: node
+  shared: true
+  particular: The resource's settlement point
+  type: text
+  values:
+    distinct: 295
+    examples:
+    - ABINDUST_RN
+    - ADL_RN
+    - AE_RN
+    - ALAMO_ST_RN
+    - ALP_BESS_RN
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ercot:NP3-966-ER: 2042277
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 269
+    examples:
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1190045004
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1190315373
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1190560109
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1190917187
+    - https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1191269207
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 269
+    earliest: '2026-10-04T21:33:39Z'
+    latest: '2026-11-15T15:54:05Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: ERCOT's publication time of the day's zip; its Central date is the operating day plus 60 days
+  type: utc time
+  values:
+    distinct: 269
+    earliest: '2026-02-04T22:53:33Z'
+    latest: '2026-10-30T12:41:46Z'
+  missing_cells: 0
+- name: x_qse
+  label: The scheduling entity (QSE) of the resource, ERCOT's code
+  unit: none
+  type: text
+  values:
+    distinct: 120
+    examples:
+    - QAETE1
+    - QAETEL
+    - QAMA1
+    - QBEEP1
+    - QBEEP2
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: QSE
+  documented_by: header; connector ercot_dam_esr.py; method ercot_dam_esr_awards.md
+- name: x_dme
+  label: not documented by the source
+  unit: none
+  type: text
+  values:
+    distinct: 185
+    examples:
+    - Y2WPER
+    - YAETEL
+    - YAGPC2
+    - YAGPC5
+    - YAGPC7
+  missing_cells: 1895
+  missing_meaning: ERCOT's cell is blank
+  source_name: DME
+  documented_by: connector ercot_dam_esr.py; method ercot_dam_esr_awards.md
+- name: x_resource_status
+  label: ERCOT's status of the resource for the hour, as printed (ON, OUT, ONTEST, ONOS)
+  unit: none
+  type: text
+  values:
+    list:
+      'ON': 1653555
+      ONOS: 1
+      ONTEST: 125031
+      OUT: 263690
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Resource Status
+  documented_by: connector ercot_dam_esr.py; method ercot_dam_esr_awards.md
+- name: x_lsl_mw
+  label: 'The resource''s Low Sustained Limit for the hour (negative: charging)'
+  unit: MW
+  type: number
+  values:
+    distinct: 376
+    lowest: -240.0
+    highest: 156.0
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: LSL
+  documented_by: header; method ercot_dam_esr_awards.md
+- name: x_energy_award_mw
+  label: The day-ahead energy award (negative is a purchase, charging)
+  unit: MW
+  type: number
+  values:
+    distinct: 2982
+    lowest: -240.0
+    highest: 216.0
+  missing_cells: 1046971
+  missing_meaning: No award (a blank award stays blank, not zero)
+  source_name: Awarded Quantity
+  documented_by: header; method ercot_dam_esr_awards.md
+- name: x_energy_price_usd_per_mwh
+  label: The day-ahead energy price at the resource's own settlement point
+  unit: USD/MWh
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -205.72
+    highest: 22618.19
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Energy Settlement Point Price
+  documented_by: header; method ercot_dam_esr_awards.md
+- name: x_regup_award_mw
+  label: The day-ahead award of Regulation Up
+  unit: MW
+  type: number
+  values:
+    distinct: 1708
+    lowest: 0.0
+    highest: 350.0
+  missing_cells: 848995
+  missing_meaning: No award
+  source_name: RegUp Awarded
+  documented_by: header; method ercot_dam_esr_awards.md
+- name: x_regup_mcpc
+  label: The day-ahead market clearing price for capacity (MCPC) of Regulation Up
+  unit: USD per MW per hour
+  type: number
+  values:
+    distinct: 776
+    lowest: 0.0
+    highest: 896.96
+  missing_cells: 848995
+  missing_meaning: Blank on the same rows as the award columns (no ancillary service award printed)
+  source_name: RegUp MCPC
+  documented_by: header; method ercot_dam_esr_awards.md
+- name: x_regdn_award_mw
+  label: The day-ahead award of Regulation Down
+  unit: MW
+  type: number
+  values:
+    distinct: 1633
+    lowest: 0.0
+    highest: 308.9
+  missing_cells: 848995
+  missing_meaning: No award
+  source_name: RegDown Awarded
+  documented_by: header; method ercot_dam_esr_awards.md
+- name: x_regdn_mcpc
+  label: The day-ahead market clearing price for capacity (MCPC) of Regulation Down
+  unit: USD per MW per hour
+  type: number
+  values:
+    distinct: 560
+    lowest: 0.0
+    highest: 26.71
+  missing_cells: 848995
+  missing_meaning: Blank on the same rows as the award columns (no ancillary service award printed)
+  source_name: RegDown MCPC
+  documented_by: header; method ercot_dam_esr_awards.md
+- name: x_rrspfr_award_mw
+  label: The day-ahead award of Responsive Reserve, its PFR kind
+  unit: MW
+  type: number
+  values:
+    distinct: 1560
+    lowest: 0.0
+    highest: 157.0
+  missing_cells: 848995
+  missing_meaning: No award
+  source_name: RRSPFR Awarded
+  documented_by: header; method ercot_dam_esr_awards.md
+- name: x_rrsffr_award_mw
+  label: The day-ahead award of Responsive Reserve, its FFR kind
+  unit: MW
+  type: number
+  values:
+    distinct: 340
+    lowest: 0.0
+    highest: 62.5
+  missing_cells: 848995
+  missing_meaning: No award
+  source_name: RRSFFR Awarded
+  documented_by: header; method ercot_dam_esr_awards.md
+- name: x_rrsufr_award_mw
+  label: The day-ahead award of Responsive Reserve, its UFR kind
+  unit: MW
+  type: integer
+  values:
+    list:
+      '0': 1193282
+  missing_cells: 848995
+  missing_meaning: No award
+  source_name: RRSUFR Awarded
+  documented_by: header; method ercot_dam_esr_awards.md
+- name: x_rrs_mcpc
+  label: The day-ahead market clearing price for capacity (MCPC) of Responsive Reserve, one price for its three kinds
+  unit: USD per MW per hour
+  type: number
+  values:
+    distinct: 602
+    lowest: 0.05
+    highest: 999.02
+  missing_cells: 848995
+  missing_meaning: Blank on the same rows as the award columns (no ancillary service award printed)
+  source_name: RRS MCPC
+  documented_by: header; method ercot_dam_esr_awards.md
+- name: x_ecrs_award_mw
+  label: The day-ahead award of ERCOT Contingency Reserve Service (ECRS)
+  unit: MW
+  type: number
+  values:
+    distinct: 1747
+    lowest: 0.0
+    highest: 240.0
+  missing_cells: 848995
+  missing_meaning: No award
+  source_name: ECRSSD Awarded
+  documented_by: header; method ercot_dam_esr_awards.md
+- name: x_ecrs_mcpc
+  label: The day-ahead market clearing price for capacity (MCPC) of ECRS
+  unit: USD per MW per hour
+  type: number
+  values:
+    distinct: 669
+    lowest: 0.01
+    highest: 1000.65
+  missing_cells: 848995
+  missing_meaning: Blank on the same rows as the award columns (no ancillary service award printed)
+  source_name: ECRS MCPC
+  documented_by: header; method ercot_dam_esr_awards.md
+- name: x_nonspin_award_mw
+  label: The day-ahead award of Non-Spinning Reserve (Non-Spin)
+  unit: MW
+  type: number
+  values:
+    distinct: 1369
+    lowest: 0.0
+    highest: 302.0
+  missing_cells: 848995
+  missing_meaning: No award
+  source_name: NonSpin Awarded
+  documented_by: header; method ercot_dam_esr_awards.md
+- name: x_nonspin_mcpc
+  label: The day-ahead market clearing price for capacity (MCPC) of Non-Spin
+  unit: USD per MW per hour
+  type: number
+  values:
+    distinct: 975
+    lowest: 0.25
+    highest: 432.13
+  missing_cells: 848995
+  missing_meaning: Blank on the same rows as the award columns (no ancillary service award printed)
+  source_name: NonSpin MCPC
+  documented_by: header; method ercot_dam_esr_awards.md
+variables:
+- name: hsl_mw
+  label: The resource's High Sustained Limit (HSL) for the hour, the most it can sustain, MW, as ERCOT prints it
+  unit: MW
+  rows: 2042277
+  first: '2025-12-06T06:00:00Z'
+  last: '2026-09-01T04:00:00Z'
+second_look:
+- 'x_dme: the meaning of ERCOT''s DME column is not written in the header, the connector or the method note.'
+- 'x_resource_status: ERCOT''s codes ON, OUT, ONTEST and ONOS are kept as printed and not spelled out in the repository''s
+  documents.'

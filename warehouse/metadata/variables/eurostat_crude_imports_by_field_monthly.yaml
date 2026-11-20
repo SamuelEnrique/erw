@@ -1,0 +1,220 @@
+# The codebook's metadata of table eurostat_crude_imports_by_field_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_crude_imports_by_field_monthly
+family: eurostat
+shape: series
+row: The EU's crude oil imports of one stream (field of production), or of all streams together, in one month, one measure
+  (volume, value, price, API gravity or sulphur).
+time: ts_utc is the month's first day at 00:00:00Z (freq P1M).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised month replaces the old figure on a later run, no earlier
+  version is kept; vintage is not filled.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eurostat:nrg_ti_coifpm_eu Eurostat, Crude oil imports by field of production - monthly data (nrg_ti_coifpm), the EU
+    (EU_V)
+  url: https://ec.europa.eu/eurostat/databrowser/view/nrg_ti_coifpm/default/table
+cite: Eurostat (Statistical Office of the European Union). Crude oil imports by field of production - monthly data (nrg_ti_coifpm),
+  the EU. Via the Energy Research Warehouse (ERW), table `eurostat_crude_imports_by_field_monthly`.
+method: docs/methods/eurostat_crude_imports_by_field_monthly.md
+header_title: 'Eurostat, crude oil imports by field of production - monthly data (nrg_ti_coifpm), the EU, 2016-01 to 2026-09:
+  volume, value, price, API gravity and sulphur by crude stream (session 2427)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_crude_field:EU:<Eurostat crude oil code> (TOTAL every
+  stream together); variable volume (kbbl), value (USD, Eurostat''s thousand USD times 1,000), price (USD/bbl), api_gravity
+  (degAPI), sulphur (pct by weight); ts_utc the month''s first day; freq P1M; geo blank (the EU, Eurostat''s EU_V: the member
+  states of the month); node the stream''s name as Eurostat gives it; x_crudeoil, x_indic_nrg, x_flag Eurostat''s codes and
+  the observation''s status.'
+read:
+  date: '2026-11-20'
+  rows: 51718
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eurostat_crude_field:EU:<Eurostat crude oil code>; TOTAL is every stream together
+  type: text
+  values:
+    distinct: 819
+    examples:
+    - eurostat_crude_field:EU:AE_RAK_CNDS
+    - eurostat_crude_field:EU:AE_RKT_MSC
+    - eurostat_crude_field:EU:AFR_OTH
+    - eurostat_crude_field:EU:AFR_S_SLDB
+    - eurostat_crude_field:EU:AG_CDS
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 124
+    earliest: '2016-01-01T00:00:00Z'
+    latest: '2026-09-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 38679118314.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD: 2660
+      USD/bbl: 2660
+      degAPI: 7991
+      kbbl: 30394
+      pct: 8013
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 51718
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: 'Empty on every row: the EU (Eurostat''s EU_V, the member states of the month)'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 51718
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 51718
+- name: node
+  shared: true
+  particular: The stream's name as Eurostat gives it, not a pricing node
+  type: text
+  values:
+    distinct: 819
+    examples:
+    - Abu Dhabi - Abu Al Bu Khoosh
+    - Abu Dhabi - Al Bunduq
+    - Abu Dhabi - Arzanah
+    - Abu Dhabi - Miscellaneous
+    - Abu Dhabi - Mubarraz
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:nrg_ti_coifpm_eu: 51718
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nrg_ti_coifpm?format=JSON&lang=EN&geo=EU_V&sinceTimePeriod=2016-01
+      : 51718
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T11:31:26Z': 51718
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 51718
+- name: x_crudeoil
+  label: Eurostat's code of the crude oil stream (TOTAL every stream)
+  unit: none
+  type: text
+  values:
+    distinct: 819
+    examples:
+    - AE_RAK_CNDS
+    - AE_RKT_MSC
+    - AFR_OTH
+    - AFR_S_SLDB
+    - AG_CDS
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector eurostat_crude_by_field.py
+- name: x_indic_nrg
+  label: 'Eurostat''s indicator code of the measure: VOL_THS_BBL volume, VAL_THS_USD value, AVGPRC_USD_BBL price, API_DEG
+    API gravity, SULPH_PC sulphur'
+  unit: none
+  type: text
+  values:
+    list:
+      API_DEG: 7991
+      AVGPRC_USD_BBL: 2660
+      SULPH_PC: 8013
+      VAL_THS_USD: 2660
+      VOL_THS_BBL: 30394
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; data
+- name: x_flag
+  label: 'Eurostat''s status of the observation: b break in series'
+  unit: none
+  type: text
+  values:
+    list:
+      b: 3
+  missing_cells: 51715
+  missing_meaning: No flag on the observation
+  source_name: null
+  documented_by: header; method eurostat_crude_imports_by_field_monthly.md
+variables:
+- name: api_gravity
+  label: API gravity of the stream, degrees API (kept as published, some above any crude oil's)
+  unit: degAPI
+  rows: 7991
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: price
+  label: Average price, USD a barrel (a price of 0 is not taken)
+  unit: USD/bbl
+  rows: 2660
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: sulphur
+  label: Sulphur content, percent by weight
+  unit: pct
+  rows: 8013
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: value
+  label: Value of the imports, USD (Eurostat's thousand USD times 1,000)
+  unit: USD
+  rows: 2660
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: volume
+  label: Volume imported, thousand barrels
+  unit: kbbl
+  rows: 30394
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,266 @@
+# The codebook's metadata of table ine_es_dwellings_electricity_2021 (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ine_es_dwellings_electricity_2021
+family: other_sources
+shape: series
+row: One Spanish area's (nation, autonomous community, province or municipality) count of dwellings in one electricity use
+  band, or its median annual consumption, from INE's 2021 census.
+time: ts_utc is 2021-01-01T00:00:00Z, the 2021 census; freq P1Y.
+vintage_rule: Rewritten whole as one snapshot by each run from INE's CSV; vintage is the file's Last-Modified.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: ine_es:jaxi_tpx_59531 Instituto Nacional de Estadistica (INE), Censo de Poblacion y Viviendas 2021, Viviendas segun
+    su intensidad de uso (viviendas por intensidad de uso a partir del consumo electrico), data updated 22 November 2024
+  url: ''
+cite: 'Instituto Nacional de Estadistica (INE), Spain. Censo de Poblacion y Viviendas 2021: Viviendas segun su intensidad
+  de uso. Via the Energy Research Warehouse (ERW), table `ine_es_dwellings_electricity_2021`.'
+method: docs/methods/ine_es_dwellings_electricity_2021.md
+header_title: INE, Censo de Poblacion y Viviendas 2021, dwellings by intensity of use from their electricity consumption (JAXI
+  tpx 59531), for Spain, its autonomous communities, provinces and municipalities (session 2765)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity ine_viv:es, ine_viv:ccaa_<code>, ine_viv:prov_<code> or ine_viv:mun_<code>;
+  variable dwellings_total, dwellings_empty, dwellings_low_consumption, dwellings_occasional_use and its two bands, the consumption
+  bands from 751 kWh (unit count), median_annual_consumption (MWh per dwelling, INE''s kWh / 1,000); ts_utc 2021-01-01, the
+  2021 census; freq P1Y; geo ES; x_level the area''s level.'
+read:
+  date: '2026-11-20'
+  rows: 58626
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: ine_viv:es, ine_viv:ccaa_<code>, ine_viv:prov_<code> or ine_viv:mun_<code>, INE's codes
+  type: text
+  values:
+    distinct: 3257
+    examples:
+    - ine_viv:ccaa_01
+    - ine_viv:ccaa_02
+    - ine_viv:ccaa_03
+    - ine_viv:ccaa_04
+    - ine_viv:ccaa_05
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2021-01-01T00:00:00Z': 58626
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 26623708.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 3257
+      count: 55369
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 58626
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: ES on every row, whatever the area
+  type: text
+  values:
+    list:
+      ES: 58626
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 58626
+- name: node
+  shared: true
+  particular: INE's area code and name with the measure in Spanish, not a pricing node
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - '01 Andalucía: Mediana consumo anual'
+    - '01 Andalucía: Viviendas con bajo consumo'
+    - '01 Andalucía: Viviendas con consumo entre 1.001 y 2.000 kwh'
+    - '01 Andalucía: Viviendas con consumo entre 2.001 y 3.000 kwh'
+    - '01 Andalucía: Viviendas con consumo entre 3.001 y 4.000 kwh'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ine_es:jaxi_tpx_59531: 58626
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.ine.es/jaxi/files/tpx/es/csv_bdsc/59531.csv: 58626
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T23:46:30Z': 58626
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The CSV's Last-Modified (UTC)
+  type: utc time
+  values:
+    list:
+      '2026-03-02T13:17:24Z': 58626
+  missing_cells: 0
+- name: x_level
+  label: 'The area''s level: nation, ccaa (autonomous community or city), province or municipality'
+  unit: none
+  type: text
+  values:
+    list:
+      ccaa: 342
+      municipality: 57330
+      nation: 18
+      province: 936
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector ine_es_dwellings_electricity.py; method ine_es_dwellings_electricity_2021.md
+variables:
+- name: dwellings_1001_2000_kwh
+  label: Dwellings consuming 1,001 to 2,000 kWh a year
+  unit: count
+  rows: 3257
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: dwellings_2001_3000_kwh
+  label: Dwellings consuming 2,001 to 3,000 kWh a year
+  unit: count
+  rows: 3257
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: dwellings_3001_4000_kwh
+  label: Dwellings consuming 3,001 to 4,000 kWh a year
+  unit: count
+  rows: 3257
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: dwellings_4001_5000_kwh
+  label: Dwellings consuming 4,001 to 5,000 kWh a year
+  unit: count
+  rows: 3257
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: dwellings_5001_6000_kwh
+  label: Dwellings consuming 5,001 to 6,000 kWh a year
+  unit: count
+  rows: 3257
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: dwellings_6001_7000_kwh
+  label: Dwellings consuming 6,001 to 7,000 kWh a year
+  unit: count
+  rows: 3257
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: dwellings_7001_8000_kwh
+  label: Dwellings consuming 7,001 to 8,000 kWh a year
+  unit: count
+  rows: 3257
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: dwellings_751_1000_kwh
+  label: Dwellings consuming 751 to 1,000 kWh a year
+  unit: count
+  rows: 3257
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: dwellings_8001_9000_kwh
+  label: Dwellings consuming 8,001 to 9,000 kWh a year
+  unit: count
+  rows: 3257
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: dwellings_9001_10000_kwh
+  label: Dwellings consuming 9,001 to 10,000 kWh a year
+  unit: count
+  rows: 3257
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: dwellings_empty
+  label: Dwellings classed empty by their electricity consumption
+  unit: count
+  rows: 3257
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: dwellings_low_consumption
+  label: Dwellings of low electricity consumption
+  unit: count
+  rows: 3257
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: dwellings_occasional_251_500_kwh
+  label: Dwellings of occasional use, 251 to 500 kWh a year
+  unit: count
+  rows: 3257
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: dwellings_occasional_501_750_kwh
+  label: Dwellings of occasional use, 501 to 750 kWh a year
+  unit: count
+  rows: 3257
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: dwellings_occasional_use
+  label: Dwellings of occasional use, both bands
+  unit: count
+  rows: 3257
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: dwellings_over_10000_kwh
+  label: Dwellings consuming over 10,000 kWh a year
+  unit: count
+  rows: 3257
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: dwellings_total
+  label: Dwellings, total
+  unit: count
+  rows: 3257
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: median_annual_consumption
+  label: Median annual electricity consumption per dwelling (INE's kWh / 1,000)
+  unit: MWh
+  rows: 3257
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+second_look: null

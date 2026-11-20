@@ -1,0 +1,201 @@
+# The codebook's metadata of table eia_world_oil_gas_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_world_oil_gas_annual
+family: eia
+shape: series
+row: One country's or region's yearly petroleum or natural gas figure (production, consumption, trade, bunkers or stocks)
+  for one product, from EIA's International Energy Statistics bulk file.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot); vintage is the bulk file's last-modified time.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:international_bulk U.S. Energy Information Administration, International Energy Statistics (bulk download)
+  url: https://www.eia.gov/international/data/world
+cite: U.S. Energy Information Administration (EIA). International Energy Statistics (bulk download). Via the Energy Research
+  Warehouse (ERW), table `eia_world_oil_gas_annual`.
+method: docs/methods/eia_world_oil_gas.md
+header_title: EIA, International Energy Statistics, petroleum and natural gas of every country and region, a year, from EIA's
+  bulk file (session 923)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_intl:<EIA country or region code>:<EIA product id: 57 crude
+  oil including lease condensate, 53 total petroleum and other liquids, 5 petroleum and other liquids (consumption, stocks),
+  54 refined petroleum products and 62 to 68 each product, 79 to 81 biofuels, 13 and 6798 to 8499 LPG and ethane, 26 dry natural
+  gas, 3 gross natural gas, 43 vented and flared, 48 reinjected, as node names them>; variables production, consumption, imports,
+  exports, bunker_consumption (kbbl/d for liquids, EIA''s thousand barrels a day; bcf for gas, EIA''s billion cubic feet a
+  year) and stocks (kbbl, EIA''s million barrels times 1,000); a product''s parts overlap (55 holds 57, 58 and 59; 53 holds
+  55 and 56): a sum takes one level; ts_utc the year''s 1 January; freq P1Y; geo empty (no ISO code is guessed from EIA''s);
+  x_area country, former, part or region, as in eia_world_electricity_annual: a sum over countries takes country and former
+  only.'
+read:
+  date: '2026-11-20'
+  rows: 448267
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia_intl:<EIA country or region code>:<EIA product id>; a product's parts overlap
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - eia_intl:ABW:13
+    - eia_intl:ABW:26
+    - eia_intl:ABW:3
+    - eia_intl:ABW:43
+    - eia_intl:ABW:48
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 53
+    earliest: '1973-01-01T00:00:00Z'
+    latest: '2025-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -145.83096779310273
+    highest: 4597943.7403
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      bcf: 61847
+      kbbl: 1256
+      kbbl/d: 385164
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 448267
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: 'Not filled: no ISO code is guessed from EIA''s area codes'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 448267
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 448267
+- name: node
+  shared: true
+  particular: <area>, <product> in EIA's names
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - Afghanistan, Biodiesel
+    - Afghanistan, Biofuels
+    - Afghanistan, Crude oil including lease condensate
+    - Afghanistan, Crude oil, NGPL, and other liquids
+    - Afghanistan, Distillate fuel oil
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:international_bulk: 448267
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/opendata/bulk/INTL.zip: 448267
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T07:54:07Z': 448267
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The bulk file's last-modified time from EIA's server
+  type: utc time
+  values:
+    list:
+      '2026-10-19T19:55:35Z': 448267
+  missing_cells: 0
+- name: x_area
+  label: 'The kind of area: country, former (a country that no longer exists), part (EIA''s offshore and trade-zone parts)
+    or region (the world, continents, groups); a sum over countries takes country and former only'
+  unit: none
+  type: text
+  values:
+    list:
+      country: 382997
+      former: 4311
+      part: 1858
+      region: 59101
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector eia_intl_bulk.py; method eia_world_electricity_annual.md
+variables:
+- name: bunker_consumption
+  label: Bunker consumption of the product, as EIA gives it, thousand barrels a day
+  unit: kbbl/d
+  rows: 19237
+  first: '1980-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: consumption
+  label: 'Consumption of the product: thousand barrels a day for liquids, billion cubic feet a year for gas'
+  unit: bcf; kbbl/d
+  rows: 156524
+  first: '1973-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: exports
+  label: 'Exports of the product: thousand barrels a day for liquids, billion cubic feet a year for gas'
+  unit: bcf; kbbl/d
+  rows: 37887
+  first: '1980-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: imports
+  label: 'Imports of the product: thousand barrels a day for liquids, billion cubic feet a year for gas'
+  unit: bcf; kbbl/d
+  rows: 37451
+  first: '1980-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: production
+  label: 'Production of the product: thousand barrels a day for liquids, billion cubic feet a year for gas (the unit column
+    says which)'
+  unit: bcf; kbbl/d
+  rows: 195912
+  first: '1973-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: stocks
+  label: Stocks of petroleum and other liquids, thousand barrels (EIA's million barrels times 1,000)
+  unit: kbbl
+  rows: 1256
+  first: '1973-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

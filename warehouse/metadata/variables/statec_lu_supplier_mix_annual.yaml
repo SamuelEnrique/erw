@@ -1,0 +1,177 @@
+# The codebook's metadata of table statec_lu_supplier_mix_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: statec_lu_supplier_mix_annual
+family: statec
+shape: series
+row: The share of one energy source (or group of sources) in the national mix of electricity supplied to Luxembourg's end
+  users in one year, 2009 to 2024, from LUSTAT table DF_A4209; the suppliers' disclosed mix, not generation in Luxembourg.
+time: ts_utc is the year's first day at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot of STATEC's file); STATEC adds a year each year and may revise earlier
+  ones. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: statec:lustat_df_a4209 STATEC, LUSTAT, DF_A4209 National mix of electricity provided to the end-users (in %)
+  url: ''
+cite: STATEC (Luxembourg). LUSTAT DF_A4209 National mix of electricity provided to the end-users (in %). Via the Energy Research
+  Warehouse (ERW), table `statec_lu_supplier_mix_annual`.
+method: docs/methods/statec_lu_power_capacity_annual.md
+header_title: 'STATEC, LUSTAT DF_A4209: the national mix of the electricity provided to Luxembourg''s end users by energy
+  source, in per cent, 2009 to 2024 (session 2785); the suppliers'' disclosed mix, not the generation in Luxembourg'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity statec_mix:lu:<STATEC''s code, lower-cased>; variable supply_mix_share;
+  unit pct; ts_utc the year''s first day; freq P1Y; geo LU; node the code and STATEC''s label. l01 fossil = sl01..sl04; l03
+  renewable = sl05..sl09; l01..l04 make 100.'
+read:
+  date: '2026-11-20'
+  rows: 196
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: 'statec_mix:lu:<STATEC''s code, lower-cased>: l01 fossil, l02 nuclear, l03 renewable, l04 other and unidentified,
+    sl.. their parts'
+  type: text
+  values:
+    list:
+      statec_mix:lu:l01: 16
+      statec_mix:lu:l02: 16
+      statec_mix:lu:l03: 16
+      statec_mix:lu:l04: 16
+      statec_mix:lu:sl01: 16
+      statec_mix:lu:sl02: 16
+      statec_mix:lu:sl03: 16
+      statec_mix:lu:sl04: 16
+      statec_mix:lu:sl05: 16
+      statec_mix:lu:sl06: 16
+      statec_mix:lu:sl07: 16
+      statec_mix:lu:sl08: 16
+      statec_mix:lu:sl09: 4
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2009-01-01T00:00:00Z': 13
+      '2010-01-01T00:00:00Z': 13
+      '2011-01-01T00:00:00Z': 12
+      '2012-01-01T00:00:00Z': 12
+      '2013-01-01T00:00:00Z': 13
+      '2014-01-01T00:00:00Z': 13
+      '2015-01-01T00:00:00Z': 12
+      '2016-01-01T00:00:00Z': 12
+      '2017-01-01T00:00:00Z': 12
+      '2018-01-01T00:00:00Z': 12
+      '2019-01-01T00:00:00Z': 12
+      '2020-01-01T00:00:00Z': 12
+      '2021-01-01T00:00:00Z': 12
+      '2022-01-01T00:00:00Z': 12
+      '2023-01-01T00:00:00Z': 12
+      '2024-01-01T00:00:00Z': 12
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 131
+    lowest: 0.1
+    highest: 68.1
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      pct: 196
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 196
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: Always LU (Luxembourg)
+  type: text
+  values:
+    list:
+      LU: 196
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 196
+- name: node
+  shared: true
+  particular: STATEC's code and label (L03 Renewable energy), not a pricing node
+  type: text
+  values:
+    list:
+      L01 Fossil energy: 16
+      L02 Nuclear energy: 16
+      L03 Renewable energy: 16
+      L04 Other sources and unidentified sources: 16
+      SL01 Hard coal: 16
+      SL02 Brown coal: 16
+      SL03 Naturel gas: 16
+      SL04 Other fossil energies (oil, others): 16
+      SL05 Biomass and biogas: 16
+      SL06 Wind energy: 16
+      SL07 Hydroelectricity: 16
+      SL08 Solar energy: 16
+      SL09 Other sources of renewable energy: 4
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      statec:lustat_df_a4209: 196
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://lustat.statec.lu/rest/data/LU1,DF_A4209,1.0/all?format=csvfilewithlabels: 196
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-26T01:59:35Z': 196
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 196
+variables:
+- name: supply_mix_share
+  label: The source's share of the electricity supplied to end users in the year, percent (l01 to l04 make 100)
+  unit: pct
+  rows: 196
+  first: '2009-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,149 @@
+# The codebook's metadata of table aedg_alaska_generation_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: aedg_alaska_generation_monthly
+family: other_sources
+shape: series
+row: One Alaska service area's electricity generation from one fuel in one month, from the Alaska Energy Data Gateway.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; 2001 to 2021.
+vintage_rule: Rewritten whole as one snapshot by each run from the Gateway's one JSON answer; vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: aedg_ak:public_monthly_generation_v3 Alaska Center for Energy and Power (ACEP) at the University of Alaska Fairbanks
+    (UAF). Monthly Electrical Generation By Community. Version v3.0. Alaska Energy Data Gateway, 2026
+  url: ''
+cite: Alaska Energy Data Gateway (ACEP, University of Alaska Fairbanks). Monthly Electrical Generation By Community, v3.0.
+  Via the Energy Research Warehouse (ERW), table `aedg_alaska_generation_monthly`.
+method: docs/methods/aedg_alaska_generation_monthly.md
+header_title: 'Alaska Energy Data Gateway (ACEP, University of Alaska Fairbanks), Monthly Electrical Generation By Community
+  v3.0: Alaska''s generation a month by service area and fuel, 2001 to 2021, from AEA''s PCE reports and plants'' reports
+  to EIA (session 2665)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity aedg:ak:<service area>:<fuel>; variable generation; unit MWh;
+  ts_utc the month''s first day; freq P1M; geo US-AK; node the service area''s first community and how many others share its
+  grid.'
+read:
+  date: '2026-11-20'
+  rows: 51061
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: aedg:ak:<service area id>:<fuel>, the Gateway's service_area_geom_id and its fuel type as a slug
+  type: text
+  values:
+    distinct: 271
+    examples:
+    - aedg:ak:100_1:distillate_oil
+    - aedg:ak:100_1:hydro
+    - aedg:ak:103_1:distillate_oil
+    - aedg:ak:103_1:hydro
+    - aedg:ak:106_1:distillate_oil
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 252
+    earliest: '2001-01-01T00:00:00Z'
+    latest: '2021-12-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -418.0
+    highest: 280929.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 51061
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 51061
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-AK on every row
+  type: text
+  values:
+    list:
+      US-AK: 51061
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 51061
+- name: node
+  shared: true
+  particular: The service area's first community in alphabetical order and how many others share its grid, not a pricing node
+  type: text
+  values:
+    distinct: 175
+    examples:
+    - Adak
+    - Akhiok
+    - Akiachak
+    - Akiak
+    - Akutan
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      aedg_ak:public_monthly_generation_v3: 51061
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://akenergygateway.alaska.edu/explore/data/public_monthly_generation/datasets/public_monthly_generation: 51061
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T10:36:35Z': 51061
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 51061
+variables:
+- name: generation
+  label: 'The service area''s electricity generation from the fuel in the month, as published (negatives kept: net generation,
+    storage''s own use)'
+  unit: MWh
+  rows: 51061
+  first: '2001-01-01T00:00:00Z'
+  last: '2021-12-01T00:00:00Z'
+second_look: null

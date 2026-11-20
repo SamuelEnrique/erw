@@ -1,0 +1,344 @@
+# The codebook's metadata of table ntd_transit_energy_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ntd_transit_energy_annual
+family: other_sources
+shape: series
+row: One transit agency's fuel or energy used by one mode and type of service in one report year, from the National Transit
+  Database.
+time: ts_utc is the report year's first day at 00:00:00Z; freq P1Y; 2022 to 2025.
+vintage_rule: Rewritten whole as one snapshot by each run from the FTA's CSV; vintage is the file's Last-Modified.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: fta:ntd_fuel_energy Federal Transit Administration, 2022 - 2025 NTD Annual Data - Fuel and Energy (DOT DataHub 8ehq-7his)
+  url: https://data.transportation.gov/d/8ehq-7his
+cite: U.S. Department of Transportation, Federal Transit Administration (FTA). 2022 - 2025 NTD Annual Data - Fuel and Energy.
+  Via the Energy Research Warehouse (ERW), table `ntd_transit_energy_annual`.
+method: docs/methods/ntd_transit_energy_annual.md
+header_title: Federal Transit Administration, National Transit Database, fuel and energy used by each agency, mode and type
+  of service, report years 2022 to 2025, 553 agencies (session 2182)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity ntd_mode:<NTD ID>:<mode>:<type of service>; variable diesel,
+  gasoline, biodiesel, other_fuel (gal), lpg_gal_equivalent, cng_gal_equivalent (gal equivalents as the FTA reports them),
+  hydrogen (t: the FTA''s kg / 1,000), electric_propulsion, electric_battery (MWh: the FTA''s kWh / 1,000); freq P1Y; ts_utc
+  the report year''s first day; geo US-<state of the agency''s headquarters>; x_ columns the agency, city, mode, type of service,
+  urbanized area, vehicles in maximum service, reporter type and x_questionable yes where the FTA marks the figure Questionable.'
+read:
+  date: '2026-11-20'
+  rows: 10161
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: ntd_mode:<NTD ID>:<mode>:<type of service>
+  type: text
+  values:
+    distinct: 1425
+    examples:
+    - ntd_mode:00001:DR:PT
+    - ntd_mode:00001:DR:TX
+    - ntd_mode:00001:FB:DO
+    - ntd_mode:00001:MB:DO
+    - ntd_mode:00001:MB:PT
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2022-01-01T00:00:00Z': 2919
+      '2023-01-01T00:00:00Z': 2942
+      '2024-01-01T00:00:00Z': 2128
+      '2025-01-01T00:00:00Z': 2172
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 28389998.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 3359
+      gal: 6759
+      t: 43
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 10161
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state of the agency's headquarters>
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 10161
+- name: node
+  shared: true
+  particular: The agency, mode and type of service as the FTA names them, not a pricing node
+  type: text
+  values:
+    distinct: 1751
+    examples:
+    - 'Academy Lines, Inc., dba: Academy: Commuter Bus (DO)'
+    - 'Academy Lines, Inc.: Commuter Bus (DO)'
+    - 'Access Services: Demand Response (PT)'
+    - 'Access Services: Demand Response (TX)'
+    - 'Ada County Highway District, dba: ACHD Commuteride: Vanpool (DO)'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      fta:ntd_fuel_energy: 10161
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://data.transportation.gov/api/views/8ehq-7his/rows.csv?accessType=DOWNLOAD: 10161
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T01:54:08Z': 10161
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The file's Last-Modified (UTC)
+  type: utc time
+  values:
+    list:
+      '2026-10-14T15:08:39Z': 10161
+  missing_cells: 0
+- name: x_ntd_id
+  label: The agency's NTD ID
+  unit: none
+  type: integer
+  values:
+    distinct: 553
+    lowest: 1
+    highest: 99425
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: NTD ID
+  documented_by: connector ntd_transit_energy.py; method ntd_transit_energy_annual.md
+- name: x_agency
+  label: The agency's name in the report year (it can differ between years)
+  unit: none
+  type: text
+  values:
+    distinct: 696
+    examples:
+    - Academy Lines, Inc.
+    - 'Academy Lines, Inc., dba: Academy'
+    - Access Services
+    - 'Ada County Highway District, dba: ACHD Commuteride'
+    - Adirondack Transit Lines, Inc,
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Agency
+  documented_by: connector ntd_transit_energy.py; method ntd_transit_energy_annual.md
+- name: x_city
+  label: The agency's city
+  unit: none
+  type: text
+  values:
+    distinct: 425
+    examples:
+    - Akron
+    - Albany
+    - Albuquerque
+    - Alexandria
+    - Allentown
+  missing_cells: 16
+  missing_meaning: The FTA gives no city (four agencies)
+  source_name: City
+  documented_by: connector ntd_transit_energy.py; method ntd_transit_energy_annual.md
+- name: x_mode
+  label: The FTA's mode code (MB, DR, CB, VP and others; the mode's name is in node)
+  unit: none
+  type: text
+  values:
+    list:
+      AR: 6
+      CB: 587
+      CC: 6
+      CR: 206
+      DR: 3542
+      FB: 209
+      HR: 94
+      IP: 18
+      LR: 138
+      MB: 4445
+      MG: 36
+      PB: 6
+      RB: 105
+      SR: 151
+      TB: 26
+      TR: 6
+      VP: 543
+      YR: 37
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Mode
+  documented_by: connector ntd_transit_energy.py; method ntd_transit_energy_annual.md; data
+- name: x_tos
+  label: 'The type of service: DO directly operated, PT purchased transportation, and the FTA''s other codes'
+  unit: none
+  type: text
+  values:
+    list:
+      DO: 5771
+      PT: 4325
+      TN: 11
+      TX: 54
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: TOS
+  documented_by: connector ntd_transit_energy.py; method ntd_transit_energy_annual.md
+- name: x_uza
+  label: The urbanized area
+  unit: none
+  type: text
+  values:
+    distinct: 302
+    examples:
+    - Akron, OH
+    - Albany, GA
+    - Albany--Schenectady, NY
+    - Albuquerque, NM
+    - Allentown--Bethlehem, PA--NJ
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: UZA Name
+  documented_by: connector ntd_transit_energy.py; method ntd_transit_energy_annual.md
+- name: x_mode_voms
+  label: Vehicles operated in maximum service in the mode
+  unit: count
+  type: integer
+  values:
+    distinct: 466
+    lowest: 0
+    highest: 5489
+  missing_cells: 7
+  missing_meaning: The FTA leaves it blank
+  source_name: Mode VOMS
+  documented_by: connector ntd_transit_energy.py; method ntd_transit_energy_annual.md
+- name: x_reporter_type
+  label: 'The agency''s reporter type: Full Reporter or Reduced Reporter'
+  unit: none
+  type: text
+  values:
+    list:
+      Full Reporter: 10152
+      Reduced Reporter: 9
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Reporter Type
+  documented_by: connector ntd_transit_energy.py; method ntd_transit_energy_annual.md
+- name: x_questionable
+  label: yes where the FTA marks the figure Questionable
+  unit: none
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 10161
+  missing_meaning: Not marked Questionable (no row is marked in this run)
+  source_name: null
+  documented_by: header; connector ntd_transit_energy.py; method ntd_transit_energy_annual.md
+variables:
+- name: biodiesel
+  label: Biodiesel used in the year
+  unit: gal
+  rows: 571
+  first: '2022-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: cng_gal_equivalent
+  label: Compressed natural gas used, gallon equivalents as the FTA reports them
+  unit: gal
+  rows: 832
+  first: '2022-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: diesel
+  label: Diesel used in the year
+  unit: gal
+  rows: 2236
+  first: '2022-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: electric_battery
+  label: Electric battery energy used (the FTA's kWh / 1,000)
+  unit: MWh
+  rows: 3000
+  first: '2022-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: electric_propulsion
+  label: Electric propulsion energy used (the FTA's kWh / 1,000)
+  unit: MWh
+  rows: 359
+  first: '2022-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: gasoline
+  label: Gasoline used in the year
+  unit: gal
+  rows: 2862
+  first: '2022-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: hydrogen
+  label: Hydrogen used (the FTA's kg / 1,000)
+  unit: t
+  rows: 43
+  first: '2022-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: lpg_gal_equivalent
+  label: Liquefied petroleum gas used, gallon equivalents as the FTA reports them
+  unit: gal
+  rows: 222
+  first: '2022-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_fuel
+  label: Other fuel used in the year
+  unit: gal
+  rows: 36
+  first: '2022-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look:
+- 'x_tos: the type-of-service codes TN and TX are not defined in the connector or the method note (DO and PT are).'

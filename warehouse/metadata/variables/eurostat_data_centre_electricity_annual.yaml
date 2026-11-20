@@ -1,0 +1,188 @@
+# The codebook's metadata of table eurostat_data_centre_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_data_centre_electricity_annual
+family: eurostat
+shape: series
+row: One European country's data centres' electricity consumption in one year.
+time: ts_utc is the year's 1 January at 00:00:00Z, a label for the calendar year (freq P1Y).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised figure replaces the old; vintage is not filled.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eurostat:isoc_env_ict_nrg Eurostat, Data centres' electricity consumption (isoc_env_ict_nrg)
+  url: https://ec.europa.eu/eurostat/databrowser/view/isoc_env_ict_nrg/default/table
+cite: Eurostat (Statistical Office of the European Union). Data centres' electricity consumption (isoc_env_ict_nrg). Via the
+  Energy Research Warehouse (ERW), table `eurostat_data_centre_electricity_annual`.
+method: docs/methods/eurostat_data_centre_electricity_annual.md
+header_title: Eurostat, data centres' electricity consumption, annual (isoc_env_ict_nrg, E7000, NACE DATAC), 2020 to 2024
+  (session 2799)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_data_centres:<geo>; variable electricity_consumption;
+  unit MWh (Eurostat''s GWh times 1,000); ts_utc the year''s 1 January; freq P1Y; geo ISO alpha-2 (EL is GR).'
+read:
+  date: '2026-11-20'
+  rows: 85
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eurostat_data_centres:<geo>
+  type: text
+  values:
+    distinct: 32
+    examples:
+    - eurostat_data_centres:AL
+    - eurostat_data_centres:AT
+    - eurostat_data_centres:BE
+    - eurostat_data_centres:BG
+    - eurostat_data_centres:CY
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2020-01-01T00:00:00Z': 5
+      '2021-01-01T00:00:00Z': 6
+      '2022-01-01T00:00:00Z': 21
+      '2023-01-01T00:00:00Z': 26
+      '2024-01-01T00:00:00Z': 27
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 58
+    lowest: 0.0
+    highest: 20000000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 85
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 85
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2
+  type: text
+  values:
+    distinct: 32
+    examples:
+    - AL
+    - AT
+    - BE
+    - BG
+    - CY
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 85
+- name: node
+  shared: true
+  particular: <geo> data centres' electricity consumption, not a pricing node
+  type: text
+  values:
+    distinct: 32
+    examples:
+    - AL data centres' electricity consumption
+    - AT data centres' electricity consumption
+    - BE data centres' electricity consumption
+    - BG data centres' electricity consumption
+    - CY data centres' electricity consumption
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:isoc_env_ict_nrg: 85
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/isoc_env_ict_nrg?format=SDMX-CSV&compressed=false: 85
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-26T03:25:03Z': 85
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 85
+- name: x_geo_code
+  label: Eurostat's geo code of the country
+  unit: none
+  type: text
+  values:
+    distinct: 32
+    examples:
+    - AL
+    - AT
+    - BE
+    - BG
+    - CY
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eurostat_data_centre_electricity_annual.md
+- name: x_flag
+  label: 'Eurostat''s flag of the observation: e estimated'
+  unit: none
+  type: text
+  values:
+    list:
+      e: 5
+  missing_cells: 80
+  missing_meaning: No flag on the observation
+  source_name: null
+  documented_by: method eurostat_data_centre_electricity_annual.md; method eurostat_electricity_monthly.md
+- name: x_conf_status
+  label: Eurostat's confidentiality status of the observation
+  unit: none
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 85
+  missing_meaning: 'Not filled: no cell holds a value (confidential observations have no row)'
+  source_name: null
+  documented_by: header; connector eurostat_data_centres.py
+variables:
+- name: electricity_consumption
+  label: Electricity consumed by data centres (NACE DATAC), MWh (Eurostat's GWh times 1,000); zeros kept as printed
+  unit: MWh
+  rows: 85
+  first: '2020-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

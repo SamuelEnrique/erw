@@ -1,0 +1,265 @@
+# The codebook's metadata of table energy_charts_italy_power (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: energy_charts_italy_power
+family: energy
+shape: series
+row: One interval's mean power of one of Italy's public net production types, its load or its cross-border trading, as Energy-Charts'
+  API gives it.
+time: ts_utc is the start of the interval, UTC; freq PT1H to the end of 2025, PT15M from 2025-12-31T23:00:00Z.
+vintage_rule: Merged by (entity, variable, ts_utc), a changed value replacing the old; an interval later given as null writes
+  no row, so the earlier value stays. vintage is blank.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT15M;PT1H
+source:
+- name: energy_charts:public_power_it Energy-Charts.info (Fraunhofer ISE), API, public_power, country it
+  url: https://api.energy-charts.info/
+cite: Energy-Charts.info (Fraunhofer ISE). Energy-Charts API, public_power, Italy. Via the Energy Research Warehouse (ERW),
+  table `energy_charts_italy_power`.
+method: docs/methods/energy_charts_italy_power.md
+header_title: Energy-Charts (Fraunhofer ISE), Italy's public net electricity production by type, load and cross-border trading,
+  2019-12-31 to 2026-10-22 (session 2281)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity energy_charts:IT; variable the API''s production type in snake
+  case (load and cross_border_electricity_trading among them; consumption and exports negative); unit MW; ts_utc the interval''s
+  start; freq PT1H to 2025, PT15M in 2026; geo IT. Residual load and the renewable shares, derived by the API, are not taken.'
+read:
+  date: '2026-11-20'
+  rows: 1329375
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: Always energy_charts:IT
+  type: text
+  values:
+    list:
+      energy_charts:IT: 1329375
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2019-12-31T23:00:00Z'
+    latest: '2026-10-22T21:45:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -4779.0
+    highest: 52503.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 1329375
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT15M: 449238
+      PT1H: 880137
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: Always IT (an ISO 3166-1 country code)
+  type: text
+  values:
+    list:
+      IT: 1329375
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1329375
+- name: node
+  shared: true
+  particular: Always Italy, not a pricing node
+  type: text
+  values:
+    list:
+      Italy: 1329375
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      energy_charts:public_power_it: 1329375
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://api.energy-charts.info/public_power?country=it&start=2020-01-01&end=2020-12-31: 140544
+      https://api.energy-charts.info/public_power?country=it&start=2021-01-01&end=2021-12-31: 140136
+      https://api.energy-charts.info/public_power?country=it&start=2022-01-01&end=2022-12-31: 145297
+      https://api.energy-charts.info/public_power?country=it&start=2023-01-01&end=2023-12-31: 148920
+      https://api.energy-charts.info/public_power?country=it&start=2024-01-01&end=2024-12-31: 147838
+      https://api.energy-charts.info/public_power?country=it&start=2025-01-01&end=2025-12-31: 157402
+      https://api.energy-charts.info/public_power?country=it&start=2026-01-01&end=2026-10-22: 449238
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T04:58:12Z': 140544
+      '2026-10-24T04:58:47Z': 140136
+      '2026-10-24T04:59:21Z': 145297
+      '2026-10-24T04:59:55Z': 148920
+      '2026-10-24T05:00:30Z': 147838
+      '2026-10-24T05:01:04Z': 157402
+      '2026-10-24T05:01:39Z': 449238
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: the answers carry no Last-Modified'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1329375
+variables:
+- name: battery
+  label: Public net production from batteries (discharge), MW
+  unit: MW
+  rows: 20354
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-22T21:15:00Z'
+- name: battery_consumption
+  label: Power drawn by batteries to charge, MW, 0 or negative
+  unit: MW
+  rows: 20353
+  first: '2024-12-31T23:00:00Z'
+  last: '2026-10-22T21:15:00Z'
+- name: biomass
+  label: Public net production from biomass, MW
+  unit: MW
+  rows: 80924
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-10-22T21:45:00Z'
+- name: cross_border_electricity_trading
+  label: Net cross-border trading, MW; positive is a net import
+  unit: MW
+  rows: 80924
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-10-22T21:45:00Z'
+- name: fossil_coal_derived_gas
+  label: Public net production from coal-derived gas, MW
+  unit: MW
+  rows: 78182
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-09-25T07:30:00Z'
+- name: fossil_gas
+  label: Public net production from natural gas, MW
+  unit: MW
+  rows: 80924
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-10-22T21:45:00Z'
+- name: fossil_hard_coal
+  label: Public net production from hard coal, MW
+  unit: MW
+  rows: 78575
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-10-20T12:00:00Z'
+- name: fossil_oil
+  label: Public net production from oil, MW
+  unit: MW
+  rows: 79691
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-10-22T21:45:00Z'
+- name: geothermal
+  label: Public net production from geothermal plants, MW
+  unit: MW
+  rows: 70185
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-10-22T21:45:00Z'
+- name: hydro_pumped_storage
+  label: Public net production from pumped storage hydro plants, MW
+  unit: MW
+  rows: 62671
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-10-22T19:00:00Z'
+- name: hydro_pumped_storage_consumption
+  label: Power drawn by pumped storage plants' pumps, MW, 0 or negative
+  unit: MW
+  rows: 62671
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-10-22T19:00:00Z'
+- name: hydro_run_of_river
+  label: Public net production from run-of-river hydro, MW
+  unit: MW
+  rows: 80924
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-10-22T21:45:00Z'
+- name: hydro_water_reservoir
+  label: Public net production from reservoir hydro, MW
+  unit: MW
+  rows: 80900
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-10-22T21:45:00Z'
+- name: load
+  label: Load (electricity demand), MW
+  unit: MW
+  rows: 80924
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-10-22T21:45:00Z'
+- name: other_renewables
+  label: Public net production from other renewables, MW
+  unit: MW
+  rows: 4060
+  first: '2024-12-31T23:00:00Z'
+  last: '2025-07-08T23:00:00Z'
+- name: others
+  label: Public net production from other sources (Energy-Charts' Others), MW
+  unit: MW
+  rows: 80924
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-10-22T21:45:00Z'
+- name: solar
+  label: Public net production from solar, MW
+  unit: MW
+  rows: 80922
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-10-22T21:45:00Z'
+- name: waste
+  label: Public net production from waste, MW
+  unit: MW
+  rows: 64597
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-05-06T14:00:00Z'
+- name: wind_offshore
+  label: Public net production from offshore wind, MW
+  unit: MW
+  rows: 59757
+  first: '2022-05-31T22:00:00Z'
+  last: '2026-10-22T21:45:00Z'
+- name: wind_onshore
+  label: Public net production from onshore wind, MW
+  unit: MW
+  rows: 80913
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-10-22T21:45:00Z'
+second_look: null

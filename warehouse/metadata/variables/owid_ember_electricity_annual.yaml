@@ -1,0 +1,185 @@
+# The codebook's metadata of table owid_ember_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: owid_ember_electricity_annual
+family: other_sources
+shape: series
+row: One country's or region's electricity demand or power sector greenhouse gas emissions in one year, the Ember columns
+  of Our World in Data's energy dataset.
+time: ts_utc is the year's 1 January at 00:00:00Z; freq P1Y.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s years replace the same keys and older ones are kept; vintage
+  is the file''s Last-Modified.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: owid:energy Our World in Data, energy dataset (based on Ember's Yearly Electricity Data and Yearly Electricity Data
+    Europe, 2026)
+  url: https://ourworldindata.org/energy
+cite: Ember; Our World in Data. Energy dataset (owid_energy), Ember's electricity demand and emissions columns; Yearly Electricity
+  Data and Yearly Electricity Data Europe (through Our World in Data). Via the Energy Research Warehouse (ERW), table `owid_ember_electricity_annual`.
+method: docs/methods/owid_ember_electricity_annual.md
+header_title: 'Our World in Data, energy dataset, the columns from Ember alone: electricity demand and the power sector''s
+  greenhouse gas emissions by country and region, a year (session 2126)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity owid_energy:<ISO alpha-3>, or owid_energy:<region in snake
+  case>; variable electricity_demand (MWh, Our World in Data''s TWh times 1,000,000) or electricity_emissions (tCO2e, its
+  million tonnes of CO2 equivalent times 1,000,000); ts_utc the year''s 1 January; freq P1Y; geo blank; node the country or
+  region''s name.'
+read:
+  date: '2026-11-20'
+  rows: 12406
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: owid_energy:<ISO alpha-3>, or owid_energy:<region or income group in snake case>
+  type: text
+  values:
+    distinct: 239
+    examples:
+    - owid_energy:ABW
+    - owid_energy:AFG
+    - owid_energy:AGO
+    - owid_energy:ALB
+    - owid_energy:ARE
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 36
+    earliest: '1990-01-01T00:00:00Z'
+    latest: '2025-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 31772350000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 6378
+      tCO2e: 6028
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 12406
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 12406
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 12406
+- name: node
+  shared: true
+  particular: The country's or region's name, not a pricing node
+  type: text
+  values:
+    distinct: 239
+    examples:
+    - ASEAN (Ember)
+    - Afghanistan
+    - Africa
+    - Africa (Ember)
+    - Albania
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      owid:energy: 12406
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://catalog.ourworldindata.org/energy/owid_energy/owid_energy.csv: 12406
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T23:07:14Z': 12406
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The file's Last-Modified (UTC)
+  type: utc time
+  values:
+    list:
+      '2026-09-30T14:42:02Z': 12406
+  missing_cells: 0
+- name: x_iso_code
+  label: The country's ISO alpha-3 code
+  unit: none
+  type: text
+  values:
+    distinct: 214
+    examples:
+    - ABW
+    - AFG
+    - AGO
+    - ALB
+    - ARE
+  missing_cells: 1302
+  missing_meaning: Empty on regions and income groups
+  source_name: null
+  documented_by: connector owid_energy.py; method owid_ember_electricity_annual.md
+- name: x_owid_column
+  label: Our World in Data's column the value is read from (electricity_demand_twh, electricity_emissions_mtco2eq)
+  unit: none
+  type: text
+  values:
+    list:
+      electricity_demand_twh: 6378
+      electricity_emissions_mtco2eq: 6028
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector owid_energy.py; data
+variables:
+- name: electricity_demand
+  label: Electricity demand in the year (Ember via Our World in Data; TWh times 1,000,000)
+  unit: MWh
+  rows: 6378
+  first: '1990-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: electricity_emissions
+  label: The power sector's greenhouse gas emissions in the year, CO2 equivalent (million tonnes times 1,000,000)
+  unit: tCO2e
+  rows: 6028
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

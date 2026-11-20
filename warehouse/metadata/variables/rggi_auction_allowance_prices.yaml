@@ -1,0 +1,142 @@
+# The codebook's metadata of table rggi_auction_allowance_prices (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: rggi_auction_allowance_prices
+family: other_sources
+shape: series
+row: One RGGI CO2 allowance auction's value of one result, for its current-vintage or future-vintage allowances.
+time: ts_utc is the auction date at 00:00:00Z; freq P3M.
+vintage_rule: 'Merged by (entity, variable, ts_utc) (ip.write_csv): each run reads the whole page; a value RGGI changes replaces
+  the old row, and a row RGGI no longer shows stays in the file; vintage is not filled.'
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P3M
+source:
+- name: rggi:prices-volumes Regional Greenhouse Gas Initiative (RGGI, Inc.), Allowance Prices and Volumes
+  url: https://www.rggi.org/auctions/auction-results/prices-volumes
+cite: Regional Greenhouse Gas Initiative (RGGI, Inc.). Allowance Prices and Volumes. Via the Energy Research Warehouse (ERW),
+  table `rggi_auction_allowance_prices`.
+method: docs/methods/rggi_auction_allowance_prices.md
+header_title: RGGI CO2 allowance auction results
+header_shape: 'Shape: series (docs/datastandard.md v0). freq P3M: ts_utc is the auction date at 00:00:00Z. node names the
+  auction as RGGI does. ''--'' cells are omitted.'
+read:
+  date: '2026-11-20'
+  rows: 304
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: 'rggi:<current or future>_auction: the auction''s current-vintage or future-vintage allowances'
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: The country's code (US) on every row
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 304
+- name: node
+  shared: true
+  particular: The auction as RGGI names it, not a pricing node
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 304
+variables:
+- name: allowances_offered
+  label: Allowances offered (one allowance is one short ton of CO2); RGGI's offered quantity does not count the Cost Containment
+    Reserve
+  unit: count
+  rows: 85
+  first: '2008-09-25T00:00:00Z'
+  last: '2026-09-09T00:00:00Z'
+- name: allowances_sold
+  label: Allowances sold
+  unit: count
+  rows: 85
+  first: '2008-09-25T00:00:00Z'
+  last: '2026-09-09T00:00:00Z'
+- name: ccr_allowances_sold
+  label: Cost Containment Reserve (CCR) allowances sold
+  unit: count
+  rows: 51
+  first: '2014-03-05T00:00:00Z'
+  last: '2026-09-09T00:00:00Z'
+- name: clearing_price
+  label: The auction's clearing price, USD per short ton of CO2
+  unit: USD/short_ton
+  rows: 83
+  first: '2008-09-25T00:00:00Z'
+  last: '2026-09-09T00:00:00Z'
+second_look: null

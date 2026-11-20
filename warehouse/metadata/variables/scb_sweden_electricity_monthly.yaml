@@ -1,0 +1,229 @@
+# The codebook's metadata of table scb_sweden_electricity_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: scb_sweden_electricity_monthly
+family: other_sources
+shape: series
+row: One month's electricity supply in Sweden from one type of production (or imports, or the sum), from Statistics Sweden's
+  table TAB1011 (the Swedish Energy Agency's statistics).
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; from 1974-01.
+vintage_rule: Rewritten whole as one snapshot by each run from SCB's JSON-stat answer; vintage is SCB's updated time.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: scb:TAB1011 Swedish Energy Agency, via Statistics Sweden, table TAB1011
+  url: https://www.statistikdatabasen.scb.se/pxweb/en/ssd/START__EN__EN0108/
+cite: 'Statistics Sweden (SCB). Table TAB1011: Electricity supply in Sweden by type of production, monthly. Via the Energy
+  Research Warehouse (ERW), table `scb_sweden_electricity_monthly`.'
+method: docs/methods/scb_sweden_electricity_monthly.md
+header_title: Statistics Sweden (SCB), table TAB1011, Electricity supply in Sweden by type of production (the Swedish Energy
+  Agency's statistics), a month, 1974-01 to 2026-08 (session 2236)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity scb:se; variable the type of production in snake case (sum_of_supply,
+  hydro_power, wind, nuclear_power, solar_power, conventional_thermal_power and its kinds, import); unit MWh (the table''s
+  GWh times 1,000); ts_utc the month''s first day; freq P1M; geo SE; node SCB''s label; x_code SCB''s code.'
+read:
+  date: '2026-11-20'
+  rows: 6059
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: scb:se on every row
+  type: text
+  values:
+    list:
+      scb:se: 6059
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 632
+    earliest: '1974-01-01T00:00:00Z'
+    latest: '2026-08-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 3074
+    lowest: 0.0
+    highest: 18923000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 6059
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 6059
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: SE on every row
+  type: text
+  values:
+    list:
+      SE: 6059
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 6059
+- name: node
+  shared: true
+  particular: SCB's label as written, not a pricing node
+  type: text
+  values:
+    list:
+      '- of which back pressure, industrial': 608
+      '- of which back-pressure, district heating work': 608
+      '- of which condensation': 630
+      '- of which gas turbine etc.': 610
+      conventional thermal power, net: 632
+      hydro power (including pump power), net: 632
+      import: 630
+      nuclear power (condensation), net: 629
+      solar power (on-grid): 92
+      sum of supply: 632
+      wind: 356
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      scb:TAB1011: 6059
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://statistikdatabasen.scb.se/api/v2/tables/TAB1011: 6059
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T03:00:52Z': 6059
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: SCB's updated time of the table (UTC)
+  type: utc time
+  values:
+    list:
+      '2026-10-09T06:00:00Z': 6059
+  missing_cells: 0
+- name: x_code
+  label: SCB's code of the type of production (Tot, Vatten, Vind, Karn and others)
+  unit: none
+  type: text
+  values:
+    list:
+      Gast: 610
+      Imp: 630
+      Karn: 629
+      Kondens: 630
+      Mottri: 608
+      Mottrk: 608
+      Solkraft: 92
+      SumVarmeKraft: 632
+      Tot: 632
+      Vatten: 632
+      Vind: 356
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Prodslag
+  documented_by: header; connector scb_electricity.py; method scb_sweden_electricity_monthly.md
+variables:
+- name: conventional_thermal_power
+  label: Conventional thermal power, net (SumVarmeKraft)
+  unit: MWh
+  rows: 632
+  first: '1974-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: hydro_power
+  label: Hydro power including pump power, net (Vatten)
+  unit: MWh
+  rows: 632
+  first: '1974-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: import
+  label: Imports, including transit through Sweden from abroad (Imp)
+  unit: MWh
+  rows: 630
+  first: '1974-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: nuclear_power
+  label: Nuclear power (condensation), net (Karn)
+  unit: MWh
+  rows: 629
+  first: '1974-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: of_which_back_pressure_district_heating_work
+  label: Of which back pressure, district heating (Mottrk)
+  unit: MWh
+  rows: 608
+  first: '1976-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: of_which_back_pressure_industrial
+  label: Of which back pressure, industrial (Mottri)
+  unit: MWh
+  rows: 608
+  first: '1976-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: of_which_condensation
+  label: Of which condensation (Kondens)
+  unit: MWh
+  rows: 630
+  first: '1974-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: of_which_gas_turbine_etc
+  label: Of which gas turbine and others (Gast)
+  unit: MWh
+  rows: 610
+  first: '1974-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: solar_power
+  label: Solar power (Solkraft)
+  unit: MWh
+  rows: 92
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: sum_of_supply
+  label: Sum of supply (Tot)
+  unit: MWh
+  rows: 632
+  first: '1974-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: wind
+  label: Wind power (Vind)
+  unit: MWh
+  rows: 356
+  first: '1997-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

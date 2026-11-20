@@ -1,0 +1,720 @@
+# The codebook's metadata of table datacenter_projects (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: datacenter_projects
+family: datacenter
+shape: entities
+row: One datacenter facility that scored news stories name (a named site, or a named operator or developer at a stated place),
+  extracted by a model and checked against the stories' words.
+time: No time column; first_story_at is the UTC time of the first story, extracted_at the UTC time of the first extraction.
+vintage_rule: The whole table is rewritten each run from the facilities already extracted and the new stories; vintage is
+  not filled.
+keys:
+- entity_id
+license: public
+tier: model_extracted
+interval: snapshot
+source: []
+cite: Bloomberg; Bloomberg.com; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Energy-Storage.news; Financial
+  Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; U.S.
+  Census Bureau; Utility Dive; WSJ. Gazetteer Files, counties (2025), county internal points; news stories; news stories via
+  feed 'Bloomberg energy (via Google News)'; news stories via feed 'Data Center Frontier'; news stories via feed 'Data Center
+  Knowledge'; news stories via feed 'Energy-Storage.news'; news stories via feed 'FT energy (via Google News)'; news stories
+  via feed 'Hart Energy'; news stories via feed 'Latitude Media'; news stories via feed 'Natural Gas Intelligence'; news stories
+  via feed 'POWER Magazine'; news stories via feed 'Reuters energy (via Google News)'; news stories via feed 'Utility Dive';
+  news stories via feed 'WSJ energy (via Google News)'. Via the Energy Research Warehouse (ERW), table `datacenter_projects`.
+method: docs/methods/datacenter_projects.md
+header_title: Datacenter facilities extracted from scored news stories (the datacenter power tracker, platform tool 4)
+header_shape: 'Shape: entities (docs/datastandard.md), entity_type datacenter; the whole table is rewritten each run from
+  the facilities already extracted and the new stories. capacity_mw = mw, as stated.'
+read:
+  date: '2026-11-20'
+  rows: 193
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  particular: datacenter:<16 hex>
+  type: text
+  values:
+    distinct: 193
+    examples:
+    - datacenter:0403e02384dfcae9
+    - datacenter:04a5a4836e54f365
+    - datacenter:05e72e9231b9523b
+    - datacenter:079c16b85e73e417
+    - datacenter:0819e443d8f14717
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  particular: Always datacenter
+  type: text
+  values:
+    list:
+      datacenter: 193
+  missing_cells: 0
+- name: name
+  shared: true
+  particular: A model's extraction, checked against the story
+  type: text
+  values:
+    distinct: 34
+    examples:
+    - AI Gigafactory
+    - BCN1
+    - Barber Lake
+    - Colossus 2
+    - Delta Forge 2
+  missing_cells: 159
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 28
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-CA
+    - US-GA
+  missing_cells: 126
+- name: lat
+  shared: true
+  type: number
+  values:
+    distinct: 32
+    lowest: 26.481861
+    highest: 46.004354
+  missing_cells: 160
+- name: lon
+  shared: true
+  type: number
+  values:
+    distinct: 32
+    lowest: -122.935395
+    highest: -75.976053
+  missing_cells: 160
+- name: capacity_mw
+  shared: true
+  particular: mw, as a story states it
+  type: number
+  values:
+    distinct: 44
+    lowest: 1.0
+    highest: 10400.0
+  missing_cells: 138
+- name: status
+  shared: true
+  particular: 'The extractor''s word mapped to the entities vocabulary: announced, applied and permitted to planned, cancelled
+    to withdrawn'
+  type: text
+  values:
+    list:
+      operating: 6
+      planned: 78
+      under_construction: 14
+      withdrawn: 8
+  missing_cells: 87
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 193
+- name: operator
+  shared: true
+  particular: The company that will run or use the datacenter, as a story names it; a model's extraction, checked against
+    the story
+  type: text
+  values:
+    distinct: 74
+    examples:
+    - 5C Data Centers
+    - AWS
+    - AirTrunk
+    - Amazon
+    - Amazon Web Services
+  missing_cells: 59
+- name: source
+  shared: true
+  particular: The outlet of the first story
+  type: text
+  values:
+    list:
+      Bloomberg: 1
+      Bloomberg.com: 17
+      Data Center Dynamics: 105
+      Data Center Frontier: 4
+      Data Center Knowledge: 3
+      Energy-Storage.news: 1
+      Financial Times: 2
+      Hart Energy: 4
+      Heatmap News: 4
+      Latitude Media: 1
+      Natural Gas Intelligence: 1
+      OilPrice.com: 1
+      POWER Magazine: 1
+      Reuters: 38
+      Utility Dive: 2
+      WSJ: 8
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 191
+    examples:
+    - https://heatmap.news/plus/the-fight/hotspots/arevia-idaho-solar-data-center
+    - https://heatmap.news/plus/the-fight/spotlight/data-centers-ocean
+    - https://heatmap.news/plus/the-fight/spotlight/the-most-important-data-center-election-youve-never-heard-of
+    - https://naturalgasintel.com/news/google-data-center-anchors-550000-dthd-ngpl-natural-gas-expansion-in-texas/
+    - https://news.google.com/rss/articles/CBMi0AFBVV95cUxNaDNpQmc0SlhGM0F0cjVrUU1PUVBoWGlFeWNjTU12RFlLWGQwN2xnM3JjNGktZ1V4Qi1OWmR6czVEM09TOHdCOFBfeG9OM083MFdwRFFkOEFDckUzTnNYVlJDaExGT09ERzdfR0NKSzkwUXJrbDByZk4tQjV1VFNBSTd6SFJ6TUI4dDdDa0d6OGNIMVJSNnY3QjlYSEJ2UGdlMHkzYXFoNmFLdU5nX2NpR1Nwck9NRDVRRFRfN1NibjhMMjVVWHdINGIwVG5MbFBk?oc=5
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-09-27T04:31:06Z': 3
+      '2026-09-27T09:18:19Z': 8
+      '2026-09-28T06:02:33Z': 20
+      '2026-09-28T21:02:35Z': 32
+      '2026-09-30T19:57:49Z': 7
+      '2026-10-02T00:10:33Z': 3
+      '2026-10-03T14:45:35Z': 9
+      '2026-10-05T15:07:56Z': 5
+      '2026-10-06T14:44:47Z': 5
+      '2026-10-07T14:44:14Z': 3
+      '2026-10-08T15:01:50Z': 2
+      '2026-10-09T14:55:04Z': 6
+      '2026-10-13T15:00:43Z': 12
+      '2026-10-14T15:35:43Z': 9
+      '2026-10-15T15:43:54Z': 5
+      '2026-10-19T16:23:27Z': 9
+      '2026-10-20T01:01:28Z': 5
+      '2026-10-21T15:09:05Z': 2
+      '2026-10-22T15:02:51Z': 5
+      '2026-10-23T15:01:58Z': 4
+      '2026-10-24T15:01:45Z': 2
+      '2026-10-25T14:53:41Z': 1
+      '2026-11-05T23:44:06Z': 6
+      '2026-11-12T11:03:30Z': 26
+      '2026-11-12T22:09:20Z': 4
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 193
+- name: kind
+  label: Always datacenter
+  unit: none
+  type: text
+  values:
+    list:
+      datacenter: 193
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector extract.py
+- name: developer
+  label: The company building or owning the site, as named, if not the operator; written by the model (claude-sonnet), the
+    name checked in the story
+  unit: none
+  type: text
+  values:
+    distinct: 69
+    examples:
+    - AEP
+    - AIB Data Centers
+    - AdaniConneX
+    - Aether Infrastructure
+    - Amazon
+  missing_cells: 114
+  missing_meaning: The stories name no developer, or the name failed the check
+  source_name: null
+  documented_by: connector extract.py; method datacenter_projects.md
+- name: site_name
+  label: The site or campus name; written by the model, checked in the story
+  unit: none
+  type: text
+  values:
+    distinct: 37
+    examples:
+    - AI Gigafactory
+    - BCN1
+    - Barber Lake
+    - Colossus 2
+    - Delta Forge 2
+  missing_cells: 156
+  missing_meaning: No site name stated
+  source_name: null
+  documented_by: connector extract.py; method datacenter_projects.md
+- name: state
+  label: The state; written by the model, its span checked in the story
+  unit: none
+  type: text
+  values:
+    distinct: 28
+    examples:
+    - AK
+    - AL
+    - AR
+    - CA
+    - GA
+  missing_cells: 126
+  missing_meaning: No state stated, or its span failed the check
+  source_name: null
+  documented_by: connector extract.py; method datacenter_projects.md
+- name: county
+  label: The county; written by the model, its span checked in the story
+  unit: none
+  type: text
+  values:
+    list:
+      Ada County: 1
+      Effingham County: 1
+      Indiana County: 1
+      Licking County: 1
+      Lowndes County: 1
+      Luzerne County: 1
+      Mason County: 1
+      McCracken County: 1
+      Montgomery County: 1
+      Posey County: 1
+      Roanoke County: 1
+      Willacy: 1
+  missing_cells: 181
+  missing_meaning: No county stated, or its span failed the check
+  source_name: null
+  documented_by: connector extract.py; method datacenter_projects.md
+- name: city
+  label: The city; written by the model, its span checked in the story
+  unit: none
+  type: text
+  values:
+    distinct: 73
+    examples:
+    - Amarillo
+    - Ansan
+    - Ashburn
+    - Atlanta
+    - Bhubaneswar
+  missing_cells: 115
+  missing_meaning: No city stated, or its span failed the check
+  source_name: null
+  documented_by: connector extract.py; method datacenter_projects.md
+- name: mw
+  shared: true
+  type: number
+  values:
+    distinct: 44
+    lowest: 1.0
+    highest: 10400.0
+  missing_cells: 138
+- name: phase
+  label: The phase or building as stated ('phase one', 'first 200 MW'); written by the model
+  unit: none
+  type: text
+  values:
+    list:
+      First: 1
+      First building: 1
+      First phase: 2
+      First project: 1
+      Second building: 1
+      first 222MW: 1
+      first data center: 1
+      first phase: 2
+      fourth data center: 1
+      second 500MW phase: 1
+      second building: 1
+      second data center: 1
+      third facility: 1
+  missing_cells: 178
+  missing_meaning: No phase stated
+  source_name: null
+  documented_by: connector extract.py
+- name: project_status
+  label: The extractor's own status word (announced, applied, permitted, under_construction, operating, cancelled); written
+    by the model, its span checked in the story
+  unit: none
+  type: text
+  values:
+    list:
+      announced: 61
+      applied: 11
+      cancelled: 8
+      operating: 6
+      permitted: 6
+      under_construction: 14
+  missing_cells: 87
+  missing_meaning: No status stated, or its span failed the check
+  source_name: null
+  documented_by: header; method datacenter_projects.md
+- name: planned_year
+  label: The year the facility or phase is planned to start, as stated; written by the model, its span checked in the story
+  unit: none
+  type: integer
+  values:
+    list:
+      '2026': 1
+      '2028': 5
+      '2029': 2
+      '2030': 1
+  missing_cells: 184
+  missing_meaning: No year stated
+  source_name: null
+  documented_by: connector extract.py; method datacenter_projects.md
+- name: power_source
+  label: How it will be powered, as stated (gas turbines, nuclear, solar and storage, grid); written by the model, checked
+    in the story
+  unit: none
+  type: text
+  values:
+    list:
+      SMR: 1
+      behind-the-meter: 1
+      combined cycle turbines: 1
+      distributed virtual power plant: 1
+      fuel cell: 1
+      fuel cells: 2
+      gas: 2
+      gas plants: 1
+      gas power plant: 1
+      gas turbines: 1
+      gas-fired: 2
+      gas-powered: 1
+      gas-powered fuel cells: 1
+      geothermal: 1
+      multi-gigawatt centralized natural gas generation: 1
+      natural gas: 2
+      off-grid: 1
+      solar panels: 1
+      tidal energy: 2
+  missing_cells: 169
+  missing_meaning: No power source stated
+  source_name: null
+  documented_by: connector extract.py; method datacenter_projects.md
+- name: utility
+  label: The utility or power supplier as named; written by the model, checked in the story
+  unit: none
+  type: text
+  values:
+    list:
+      AEP: 1
+      American Electric Power: 1
+      Blue Whale Energy: 1
+      Entergy Arkansas: 1
+      FirstEnergy: 1
+      NiSource: 1
+      OGE Energy: 1
+      WEC Energy: 1
+  missing_cells: 185
+  missing_meaning: No utility named
+  source_name: null
+  documented_by: connector extract.py; method datacenter_projects.md
+- name: ai_power
+  label: 'True on every row: the table is the platform''s AI and datacenter power subset'
+  unit: none
+  type: boolean
+  values:
+    list:
+      'True': 3
+      'true': 190
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method datacenter_projects.md
+- name: confidence
+  label: The model's confidence, 0 to 1, that this is a real, specific facility and its fields are right
+  unit: none
+  type: number
+  values:
+    list:
+      '0.3': 8
+      '0.4': 15
+      '0.5': 41
+      '0.55': 2
+      '0.6': 52
+      '0.65': 3
+      '0.7': 18
+      '0.75': 8
+      '0.8': 30
+      '0.85': 12
+      '0.88': 2
+      '0.9': 2
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector extract.py
+- name: geo_precision
+  label: 'How lat and lon were placed by code: county or place (the Census gazetteer''s internal point of the stated county
+    or city), or none'
+  unit: none
+  type: text
+  values:
+    list:
+      county: 12
+      none: 160
+      place: 21
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method datacenter_projects.md
+- name: geo_note
+  label: Why the row was placed as it was, or not placed
+  unit: none
+  type: text
+  values:
+    distinct: 35
+    examples:
+    - city 'Swansea' not a unique place in the gazetteer for MA
+    - county Ada County (2025_Gaz_counties_national.txt)
+    - county Effingham County (2025_Gaz_counties_national.txt)
+    - county Indiana County (2025_Gaz_counties_national.txt)
+    - county Licking County (2025_Gaz_counties_national.txt)
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector extract.py; data
+- name: first_story_at
+  label: The time of the first story naming the facility, UTC
+  unit: none
+  type: utc time
+  values:
+    distinct: 185
+    earliest: '2025-01-07T08:00:00Z'
+    latest: '2026-11-12T17:10:30Z'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector extract.py
+- name: n_stories
+  label: The stories that name the facility
+  unit: count
+  type: integer
+  values:
+    list:
+      '1': 152
+      '2': 28
+      '3': 6
+      '4': 6
+      '6': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector extract.py
+- name: story_ids
+  label: The event_ids of those stories in news_stories, joined by ';'
+  unit: none
+  type: text
+  values:
+    distinct: 191
+    examples:
+    - news:002bc7ebc5774cab
+    - news:015878c3647dbba9;news:28fe08f50e09de14
+    - news:015eda2d18115a8b
+    - news:01dfe7ddeb9d97c6
+    - news:04d1153e9860924e
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector extract.py
+- name: story_urls
+  label: The addresses of those stories, joined by ';'
+  unit: none
+  type: text
+  values:
+    distinct: 191
+    examples:
+    - https://heatmap.news/plus/the-fight/hotspots/arevia-idaho-solar-data-center
+    - https://heatmap.news/plus/the-fight/spotlight/data-centers-ocean
+    - https://heatmap.news/plus/the-fight/spotlight/the-most-important-data-center-election-youve-never-heard-of
+    - https://naturalgasintel.com/news/google-data-center-anchors-550000-dthd-ngpl-natural-gas-expansion-in-texas/
+    - https://news.google.com/rss/articles/CBMi0AFBVV95cUxNaDNpQmc0SlhGM0F0cjVrUU1PUVBoWGlFeWNjTU12RFlLWGQwN2xnM3JjNGktZ1V4Qi1OWmR6czVEM09TOHdCOFBfeG9OM083MFdwRFFkOEFDckUzTnNYVlJDaExGT09ERzdfR0NKSzkwUXJrbDByZk4tQjV1VFNBSTd6SFJ6TUI4dDdDa0d6OGNIMVJSNnY3QjlYSEJ2UGdlMHkzYXFoNmFLdU5nX2NpR1Nwck9NRDVRRFRfN1NibjhMMjVVWHdINGIwVG5MbFBk?oc=5;https://www.datacenterdynamics.com/en/news/ntt-to-build-63bn-data-center-for-anthropic-in-japan-report/
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector extract.py
+- name: model_id
+  label: The model of the facility's first extraction
+  unit: none
+  type: text
+  values:
+    list:
+      claude-sonnet-5: 31
+      claude-sonnet-5-5: 162
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method datacenter_projects.md
+- name: extracted_at
+  label: When the facility was first extracted, UTC
+  unit: none
+  type: utc time
+  values:
+    list:
+      '2026-09-27T04:31:06Z': 3
+      '2026-09-27T09:18:19Z': 8
+      '2026-09-28T06:02:33Z': 20
+      '2026-09-28T21:02:35Z': 32
+      '2026-09-30T19:57:49Z': 7
+      '2026-10-02T00:10:33Z': 3
+      '2026-10-03T14:45:35Z': 9
+      '2026-10-05T15:07:56Z': 5
+      '2026-10-06T14:44:47Z': 5
+      '2026-10-07T14:44:14Z': 3
+      '2026-10-08T15:01:50Z': 2
+      '2026-10-09T14:55:04Z': 6
+      '2026-10-13T15:00:43Z': 12
+      '2026-10-14T15:35:43Z': 9
+      '2026-10-15T15:43:54Z': 5
+      '2026-10-19T16:23:27Z': 9
+      '2026-10-20T01:01:28Z': 5
+      '2026-10-21T15:09:05Z': 2
+      '2026-10-22T15:02:51Z': 5
+      '2026-10-23T15:01:58Z': 4
+      '2026-10-24T15:01:45Z': 2
+      '2026-10-25T14:53:41Z': 1
+      '2026-11-05T23:44:06Z': 6
+      '2026-11-12T11:03:30Z': 26
+      '2026-11-12T22:09:20Z': 4
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector extract.py
+- name: mw_basis
+  label: 'What the stated MW measures: it (IT or critical load), total, tenant, phase or unstated; given by the model with
+    the words that say it, else unstated'
+  unit: none
+  type: text
+  values:
+    list:
+      tenant: 2
+      total: 2
+      unstated: 51
+  missing_cells: 138
+  missing_meaning: No MW stated
+  source_name: null
+  documented_by: header; method datacenter_projects.md
+- name: power_kind
+  label: 'How the facility is powered, read by code from power_source: behind_the_meter_gas, nuclear, renewables_storage,
+    gas, behind_the_meter, grid or other'
+  unit: none
+  type: text
+  values:
+    list:
+      behind_the_meter: 2
+      behind_the_meter_gas: 1
+      gas: 12
+      nuclear: 1
+      other: 7
+      renewables_storage: 1
+  missing_cells: 169
+  missing_meaning: No power source stated
+  source_name: null
+  documented_by: method datacenter_projects.md
+- name: grid
+  label: A US grid operator the stories name, else the grid that serves most of the facility's state (set by code)
+  unit: none
+  type: text
+  values:
+    list:
+      CAISO: 2
+      ERCOT: 13
+      ISO-NE: 2
+      MISO: 5
+      NYISO: 1
+      PJM: 13
+      SPP: 2
+  missing_cells: 155
+  missing_meaning: No grid named and no state, or a state split between grids
+  source_name: null
+  documented_by: method datacenter_projects.md
+- name: grid_basis
+  label: 'How grid was set: named (in a story) or state (the state''s main grid)'
+  unit: none
+  type: text
+  values:
+    list:
+      state: 38
+  missing_cells: 155
+  missing_meaning: No grid set
+  source_name: null
+  documented_by: method datacenter_projects.md
+- name: utility_eia861
+  label: The one EIA-861 utility that serves the stated county
+  unit: none
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 193
+  missing_meaning: 'Not filled: no cell holds a value'
+  source_name: null
+  documented_by: method datacenter_projects.md
+- name: utility_eia861_number
+  label: That utility's EIA-861 utility number
+  unit: none
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 193
+  missing_meaning: 'Not filled: no cell holds a value'
+  source_name: null
+  documented_by: method datacenter_projects.md
+- name: utilities_in_county
+  label: The number of EIA-861 utilities that serve the stated county
+  unit: count
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 193
+  missing_meaning: 'Not filled: no cell holds a value'
+  source_name: null
+  documented_by: method datacenter_projects.md
+- name: energized_year
+  label: The year the facility or its first phase is to be energized or come online, as stated; written by the model
+  unit: none
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 193
+  missing_meaning: 'Not filled: no cell holds a value'
+  source_name: null
+  documented_by: method datacenter_projects.md
+- name: country
+  label: The country where the facility is, as the story names it; written by the model, its span checked
+  unit: none
+  type: text
+  values:
+    list:
+      Australia: 4
+      Denmark: 1
+      Finland: 1
+      Germany: 1
+      India: 2
+      Singapore: 1
+      South Korea: 1
+      UK: 2
+  missing_cells: 180
+  missing_meaning: The story names no country, or its span failed the check
+  source_name: null
+  documented_by: connector extract.py; method datacenter_projects.md
+- name: fields_version
+  label: 2236, or upgraded for a row extracted before session 2236's fields (its power_kind, grid and utility read from its
+    own values)
+  unit: none
+  type: text
+  values:
+    list:
+      '2236': 30
+      upgraded: 163
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method datacenter_projects.md
+second_look: null

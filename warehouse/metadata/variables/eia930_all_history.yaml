@@ -1,0 +1,166 @@
+# The codebook's metadata of table eia930_all_history (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia930_all_history
+family: eia930
+shape: series
+row: One ISO balancing authority's hourly demand or net generation in one hour of the first half of 2018, from EIA's six-month
+  file.
+time: ts_utc is the hour's start (the file's UTC Time at End of Hour minus one hour).
+vintage_rule: Merged by key (entity, variable, ts_utc); vintage is the file's Last-Modified time, the same in every row of
+  the one run.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: eia:gridmonitor/sixMonthFiles EIA-930 six-month files (Hourly Electric Grid Monitor)
+  url: https://www.eia.gov/electricity/gridmonitor/about
+cite: U.S. Energy Information Administration (EIA). EIA-930 six-month files (Hourly Electric Grid Monitor). Via the Energy
+  Research Warehouse (ERW), table `eia930_all_history`.
+method: docs/methods/eia930_all_history.md
+header_title: EIA-930 hourly demand and net generation from EIA's six-month files, the seven ISO balancing authorities (session
+  49)
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column ba. demand_mw and net_generation_mw, MW (EIA''s MWh
+  per hour): the file''s Adjusted columns, EIA''s published series. ts_utc is the hour''s start (the file''s UTC Time at End
+  of Hour minus one hour).'
+read:
+  date: '2026-11-20'
+  rows: 60084
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia930:<BA>, the seven ISO balancing authorities
+  type: text
+  values:
+    list:
+      eia930:CISO: 8686
+      eia930:ERCO: 8686
+      eia930:ISNE: 8686
+      eia930:MISO: 8688
+      eia930:NYIS: 8686
+      eia930:PJM: 8686
+      eia930:SWPP: 7966
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 4346
+    earliest: '2018-01-01T05:00:00Z'
+    latest: '2018-07-01T06:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 6877
+    highest: 150320
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 60084
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 60084
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 7966
+      US-AR,US-IL,US-IN,US-IA,US-KY,US-LA,US-MI,US-MN,US-MS,US-MO,US-MT,US-ND,US-SD,US-TX,US-WI: 8688
+      US-CA: 8686
+      US-CT,US-MA,US-ME,US-NH,US-RI,US-VT: 8686
+      US-DE,US-DC,US-IL,US-IN,US-KY,US-MD,US-MI,US-NJ,US-NC,US-OH,US-PA,US-TN,US-VA,US-WV: 8686
+      US-NY: 8686
+      US-TX: 8686
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 60084
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 60084
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:gridmonitor/sixMonthFiles: 60084
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/EIA930_BALANCE_2018_Jan_Jun.csv: 60084
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-01T03:48:41Z': 60084
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The six-month file's Last-Modified time
+  type: utc time
+  values:
+    list:
+      '2026-09-30T14:39:43Z': 60084
+  missing_cells: 0
+- name: ba
+  shared: true
+  type: text
+  values:
+    list:
+      ciso: 8686
+      erco: 8686
+      isne: 8686
+      miso: 8688
+      nyis: 8686
+      pjm: 8686
+      swpp: 7966
+  missing_cells: 0
+variables:
+- name: demand_mw
+  label: Hourly demand, the file's Adjusted column (EIA's published series), EIA's MWh per hour
+  unit: MW
+  rows: 30402
+  first: '2018-01-01T05:00:00Z'
+  last: '2018-07-01T06:00:00Z'
+- name: net_generation_mw
+  label: Hourly net generation, the file's Adjusted column (EIA's published series), EIA's MWh per hour
+  unit: MW
+  rows: 29682
+  first: '2018-01-01T05:00:00Z'
+  last: '2018-07-01T06:00:00Z'
+second_look: null

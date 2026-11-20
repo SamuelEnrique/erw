@@ -1,0 +1,409 @@
+# The codebook's metadata of table ornl_npd_potential (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ornl_npd_potential
+family: ornl
+shape: entities
+row: One existing U.S. dam without power whose estimated hydropower potential is above 1 MW, from ORNL's 2012 national assessment
+  of non-powered dams.
+time: No time column; the data were created in April 2012; vintage is the workbook's last-modified time (UTC).
+vintage_rule: A snapshot of the one edition, replaced whole by each run.
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: ornl:npd_potential Oak Ridge National Laboratory, HydroSource, U.S. Hydropower Potential from Existing Non-powered
+    Dams (greater than 1MW), NHAAP_NPD_FY11_1MW (B. Hadjerioua, Y. Wei and S.-C. Kao, 2012, DOE/EE-0711)
+  url: https://hydrosource.ornl.gov/data/datasets/us-hydropower-potential-existing-non-powered-dams-greater-1mw/
+cite: Oak Ridge National Laboratory (ORNL), HydroSource. U.S. Hydropower Potential from Existing Non-powered Dams (greater
+  than 1MW). Via the Energy Research Warehouse (ERW), table `ornl_npd_potential`.
+method: docs/methods/ornl_hydropower.md
+header_title: Oak Ridge National Laboratory, U.S. hydropower potential at existing non-powered dams greater than 1 MW (the
+  2012 national assessment) (session 938)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id ornl_npd:<NID id>; entity_type project (a potential site
+  at a dam); geo US-<state> (empty for a dam on a border: its states, as ORNL writes them, IL/KY, are in state); capacity_mw
+  ORNL''s potential capacity (the potential annual energy over a regional capacity factor); status empty (a potential, not
+  a plan); operator the dam''s owner; head_ft, flow_cfs (annual mean), potential_mwh_year, capacity_factor_pct, storage_acre_ft
+  as ORNL estimates them.'
+read:
+  date: '2026-11-20'
+  rows: 597
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  particular: ornl_npd:<National Inventory of Dams id>
+  type: text
+  values:
+    distinct: 597
+    examples:
+    - ornl_npd:AL00017
+    - ornl_npd:AL00977
+    - ornl_npd:AL01137
+    - ornl_npd:AL01256
+    - ornl_npd:AL01429
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  particular: 'Always project: a potential site at a dam, not a plan'
+  type: text
+  values:
+    list:
+      project: 597
+  missing_cells: 0
+- name: name
+  shared: true
+  particular: The dam's name
+  type: text
+  values:
+    distinct: 597
+    examples:
+    - A.I.SELDEN
+    - ABERDEEN LK/DM (TENN-TOM, AL & MS)
+    - ADAM T. BOWER MEMORIAL
+    - ADEL MILLDAM
+    - ALAMO DAM
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state>; empty for a dam on a state border, whose pair (IL/KY) is in state
+  type: text
+  values:
+    distinct: 44
+    examples:
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+    - US-CO
+  missing_cells: 36
+- name: lat
+  shared: true
+  type: number
+  values:
+    distinct: 597
+    lowest: 26.78863
+    highest: 48.950757
+  missing_cells: 0
+- name: lon
+  shared: true
+  type: number
+  values:
+    distinct: 597
+    lowest: -123.8
+    highest: -71.453535
+  missing_cells: 0
+- name: capacity_mw
+  shared: true
+  particular: 'ORNL''s potential capacity: the potential annual energy over a regional capacity factor, an estimate'
+  type: number
+  values:
+    distinct: 597
+    lowest: 1.022157
+    highest: 496.049783
+  missing_cells: 0
+- name: status
+  shared: true
+  particular: 'Not filled: a potential, not a plan'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 597
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 597
+- name: operator
+  shared: true
+  particular: The dam's owner
+  type: text
+  values:
+    distinct: 238
+    examples:
+    - AMERGEN ENERGY CO.
+    - ANGELINA NACOGDOCHES COUNTIES WCID 1
+    - ATLANTIC RICHFIELD CO
+    - Anderson Cottonwood Id
+    - Arkansas College
+  missing_cells: 22
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ornl:npd_potential: 597
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://hydrosource.s3.us-east-2.amazonaws.com/files/data/datasets/us-hydropower-potential-existing-non-powered-dams-greater-1mw/NHAAP_NPD_FY11_1MW.XLS
+      : 597
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T11:05:59Z': 597
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The workbook's last-modified time, UTC
+  type: utc time
+  values:
+    list:
+      '2024-08-29T14:41:15Z': 597
+  missing_cells: 0
+- name: nid_id
+  label: The dam's National Inventory of Dams identifier
+  unit: none
+  type: text
+  values:
+    distinct: 597
+    examples:
+    - AL00017
+    - AL00977
+    - AL01137
+    - AL01256
+    - AL01429
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: nid_id1
+  documented_by: connector ornl_npd.py
+- name: state
+  label: The dam's state, two-letter postal code, or a pair for a dam on a border (IL/KY)
+  unit: none
+  type: text
+  values:
+    distinct: 56
+    examples:
+    - AL
+    - AL/GA
+    - AR
+    - AZ
+    - AZ/CA
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: state
+  documented_by: header; connector ornl_npd.py
+- name: county
+  label: The dam's county as ORNL writes it
+  unit: none
+  type: text
+  values:
+    distinct: 376
+    examples:
+    - ADAMS
+    - ALFALFA
+    - ALLEGHANY
+    - ALLEGHENY
+    - ANDERSON
+  missing_cells: 4
+  missing_meaning: ORNL gives no county
+  source_name: county
+  documented_by: connector ornl_npd.py
+- name: city
+  label: The nearest city as ORNL writes it
+  unit: none
+  type: text
+  values:
+    distinct: 462
+    examples:
+    - .
+    - ABERDEEN,MS
+    - ADEL
+    - AGUA CALIENTE
+    - ALDER
+  missing_cells: 45
+  missing_meaning: ORNL gives no city
+  source_name: city
+  documented_by: connector ornl_npd.py
+- name: river
+  label: The river the dam is on
+  unit: none
+  type: text
+  values:
+    distinct: 402
+    examples:
+    - ALABAMA RIVER
+    - ALLEGHENY RIVER
+    - ALUM CREEK OF BIG WALNUT CRK.
+    - APPLEGATE RIVER
+    - ARKANSAS
+  missing_cells: 5
+  missing_meaning: ORNL gives no river
+  source_name: water
+  documented_by: connector ornl_npd.py
+- name: year_built
+  label: The year the dam was built (0 for 21 dams, as ORNL writes it)
+  unit: none
+  type: integer
+  values:
+    distinct: 120
+    lowest: 0
+    highest: 2006
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: btyear
+  documented_by: method ornl_hydropower.md; connector ornl_npd.py
+- name: storage_acre_ft
+  label: The dam's storage, in acre-feet
+  unit: acre-ft
+  type: integer
+  values:
+    distinct: 503
+    lowest: 0
+    highest: 11100000
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: stor
+  documented_by: header; connector ornl_npd.py
+- name: federal_regulator
+  label: The dam's federal regulator as ORNL writes it (CE the Corps of Engineers, DOI BR the Bureau of Reclamation, FERC,
+    TVA and others)
+  unit: none
+  type: text
+  values:
+    list:
+      CE: 233
+      CE; FERC: 1
+      CE; USDA FS: 1
+      DOD USAF: 1
+      DOI BIA: 2
+      DOI BR: 22
+      FERC: 3
+      IBWC: 3
+      TVA: 6
+      USDA FS,DOI BR: 1
+      USDA FS; DOI BR: 3
+  missing_cells: 321
+  missing_meaning: ORNL names no federal regulator
+  source_name: fedreg
+  documented_by: method ornl_hydropower.md; connector ornl_npd.py; data
+- name: head_ft
+  label: The estimated head (the height the water would fall), in feet
+  unit: ft
+  type: integer
+  values:
+    distinct: 142
+    lowest: 4
+    highest: 320
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: esth
+  documented_by: header; connector ornl_npd.py
+- name: head_source
+  label: How the head was estimated (from the National Inventory of Dams, a lock's lift from USACE, pool elevations, Reclamation's
+    assessment)
+  unit: none
+  type: text
+  values:
+    list:
+      Head estimated by upstream/downstream pool elevation: 60
+      Head estimated from NID: 447
+      Head from Reclamation Resource Assessment: 3
+      Lock/Dam lift from USACE: 87
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: esthfr
+  documented_by: connector ornl_npd.py; data
+- name: huc02
+  label: The 2-digit hydrologic region of the dam
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 19
+      '10': 22
+      '11': 55
+      '12': 50
+      '13': 10
+      '14': 9
+      '15': 8
+      '16': 6
+      '17': 27
+      '18': 20
+      '2': 65
+      '3': 61
+      '4': 22
+      '5': 129
+      '6': 9
+      '7': 61
+      '8': 17
+      '9': 7
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: huc02
+  documented_by: connector ornl_npd.py
+- name: flow_cfs
+  label: The estimated annual mean flow, in cubic feet per second
+  unit: cfs
+  type: number
+  values:
+    distinct: 595
+    lowest: 38.445518
+    highest: 276989.9288
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: qyr
+  documented_by: header; connector ornl_npd.py
+- name: potential_mwh_year
+  label: The estimated potential annual energy
+  unit: MWh
+  type: number
+  values:
+    distinct: 597
+    lowest: 2200.334619
+    highest: 2084906.651
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: mwhyr
+  documented_by: header; connector ornl_npd.py
+- name: capacity_factor_pct
+  label: The regional capacity factor ORNL applies to turn the potential energy into capacity, percent
+  unit: pct
+  type: number
+  values:
+    list:
+      '24.573493': 50
+      '26.661058': 61
+      '28.26325': 10
+      '31.091212': 6
+      '31.247569': 9
+      '34.013302': 8
+      '35.843137': 55
+      '38.316111': 22
+      '42.601335': 9
+      '42.753157': 20
+      '43.076382': 17
+      '44.163864': 27
+      '46.912745': 7
+      '47.572699': 65
+      '47.979668': 129
+      '52.226725': 19
+      '55.990009': 61
+      '66.299637': 22
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: cf
+  documented_by: header; connector ornl_npd.py
+- name: coordinates_from
+  label: 'The source of the dam''s coordinates: NHD or NID (the National Inventory of Dams)'
+  unit: none
+  type: text
+  values:
+    list:
+      NHD: 518
+      NID: 79
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: cordfrom
+  documented_by: connector ornl_npd.py; data
+second_look: null

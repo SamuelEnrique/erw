@@ -1,0 +1,192 @@
+# The codebook's metadata of table onrr_production_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: onrr_production_monthly
+family: onrr
+shape: series
+row: Oil, gas or coal produced on federal or Native American lands, onshore or offshore, in one month, nationally, from ONRR's
+  Natural Resources Revenue Data.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M.
+vintage_rule: A snapshot; each run replaces the table whole. vintage is the file's last-modified time. ONRR revises recent
+  months.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: onrr:revenue_data U.S. Department of the Interior, Office of Natural Resources Revenue, Natural Resources Revenue
+    Data, downloads
+  url: https://revenuedata.doi.gov/downloads/
+cite: U.S. Department of the Interior, Office of Natural Resources Revenue (ONRR). Natural Resources Revenue Data (production
+  and revenue downloads). Via the Energy Research Warehouse (ERW), table `onrr_production_monthly`.
+method: docs/methods/onrr.md
+header_title: Office of Natural Resources Revenue (ONRR), oil, gas and coal produced on federal and Native American lands,
+  a month, nationally (session 951)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity onrr_production:<federal|native_american>:<onshore|offshore>:<oil|gas|coal>;
+  variable production; unit bbl, Mcf or short_ton (ONRR''s tons); freq P1M; geo US; x_* ONRR''s own fields.'
+read:
+  date: '2026-11-20'
+  rows: 2264
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: onrr_production:<federal|native_american>:<onshore|offshore>:<oil|gas|coal>
+  type: text
+  values:
+    list:
+      onrr_production:federal:offshore:gas: 283
+      onrr_production:federal:offshore:oil: 283
+      onrr_production:federal:onshore:coal: 283
+      onrr_production:federal:onshore:gas: 283
+      onrr_production:federal:onshore:oil: 283
+      onrr_production:native_american:onshore:coal: 283
+      onrr_production:native_american:onshore:gas: 283
+      onrr_production:native_american:onshore:oil: 283
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 283
+    earliest: '2003-01-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 2264
+    lowest: 92760.0
+    highest: 403639747.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      Mcf: 849
+      bbl: 849
+      short_ton: 566
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 2264
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: Always US
+  type: text
+  values:
+    list:
+      US: 2264
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2264
+- name: node
+  shared: true
+  particular: Land class and category, product (Federal Offshore, gas), not a pricing node
+  type: text
+  values:
+    list:
+      Federal Offshore, gas: 283
+      Federal Offshore, oil: 283
+      Federal Onshore, coal: 283
+      Federal Onshore, gas: 283
+      Federal Onshore, oil: 283
+      Native American Onshore, coal: 283
+      Native American Onshore, gas: 283
+      Native American Onshore, oil: 283
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      onrr:revenue_data: 2264
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://revenuedata.onrr.gov/downloads/monthly_production.csv: 2264
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T12:11:09Z': 2264
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The file's last-modified time, one value
+  type: utc time
+  values:
+    list:
+      '2026-10-21T17:11:27Z': 2264
+  missing_cells: 0
+- name: x_land_class
+  label: 'ONRR''s land class: Federal or Native American'
+  unit: none
+  type: text
+  values:
+    list:
+      Federal: 1415
+      Native American: 849
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Land Class
+  documented_by: method onrr.md; connector onrr.py; data
+- name: x_land_category
+  label: 'ONRR''s land category: Onshore or Offshore'
+  unit: none
+  type: text
+  values:
+    list:
+      Offshore: 566
+      Onshore: 1698
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Land Category
+  documented_by: method onrr.md; connector onrr.py; data
+- name: x_commodity
+  label: ONRR's commodity with its unit (Oil Prod Vol (bbl), Gas Prod Vol (mcf), Coal Prod Vol (tons))
+  unit: none
+  type: text
+  values:
+    list:
+      Coal Prod Vol (tons): 566
+      Gas Prod Vol (mcf): 849
+      Oil Prod Vol (bbl): 849
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Commodity
+  documented_by: connector onrr.py; data
+variables:
+- name: production
+  label: The oil, gas or coal produced in the month, bbl, Mcf or short_ton (ONRR's tons) as the row's unit says
+  unit: Mcf; bbl; short_ton
+  rows: 2264
+  first: '2003-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

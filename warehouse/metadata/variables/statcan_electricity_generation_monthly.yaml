@@ -1,0 +1,239 @@
+# The codebook's metadata of table statcan_electricity_generation_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: statcan_electricity_generation_monthly
+family: statcan
+shape: series
+row: One area's (Canada, a province or a territory) electricity generation by one class of producer and one type of generation
+  in one month, from Statistics Canada table 25-10-0015-01.
+time: ts_utc is the month's first day at 00:00:00Z (a month, not an instant); freq P1M.
+vintage_rule: Each run writes the whole table again (a snapshot), since StatCan revises the table at the same address; vintage
+  is the zip's Last-Modified time, the same in every row.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: statcan:25-10-0015-01 Statistics Canada, Table 25-10-0015-01, Electric power generation, monthly generation by type
+    of electricity
+  url: https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2510001501
+cite: Statistics Canada. Table 25-10-0015-01, Electric power generation, monthly generation by type of electricity. Via the
+  Energy Research Warehouse (ERW), table `statcan_electricity_generation_monthly`.
+method: docs/methods/statcan_electricity_generation_monthly.md
+header_title: Statistics Canada, table 25-10-0015-01, electric power generation, monthly generation by province, class of
+  producer and type of generation, 2008-01 to 2026-07 (session 2176)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity statcan_gen:<area>:<class>:<type>; variable generation (MWh);
+  freq P1M; ts_utc the month''s first day; geo CA or CA-<province>; node the area, class and type as StatCan names them; x_class
+  (all, utilities, industries); x_type; x_total yes for StatCan''s totals (never summed with their parts); x_vector; x_revised
+  r where revised.'
+read:
+  date: '2026-11-20'
+  rows: 58361
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: statcan_gen:<area>:<class>:<type>, the area ca or the province's or territory's postal code in lower case
+  type: text
+  values:
+    distinct: 458
+    examples:
+    - statcan_gen:ab:all:combustion_turbine
+    - statcan_gen:ab:all:conventional_steam_turbine
+    - statcan_gen:ab:all:hydraulic_turbine
+    - statcan_gen:ab:all:internal_combustion_turbine
+    - statcan_gen:ab:all:other_types_of_electricity_generation
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 223
+    earliest: '2008-01-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -155428.0
+    highest: 66771096.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 58361
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 58361
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: CA for Canada, CA-<province> for a province or territory
+  type: text
+  values:
+    list:
+      CA: 5615
+      CA-AB: 4280
+      CA-BC: 4493
+      CA-MB: 4010
+      CA-NB: 4834
+      CA-NL: 4494
+      CA-NS: 4418
+      CA-NT: 3369
+      CA-NU: 2534
+      CA-ON: 4944
+      CA-PE: 3910
+      CA-QC: 4383
+      CA-SK: 4085
+      CA-YT: 2992
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 58361
+- name: node
+  shared: true
+  particular: The area, class and type as StatCan names them, not a pricing node
+  type: text
+  values:
+    distinct: 458
+    examples:
+    - 'Alberta: Electricity producers, electric utilities: Combustion turbine'
+    - 'Alberta: Electricity producers, electric utilities: Conventional steam turbine'
+    - 'Alberta: Electricity producers, electric utilities: Hydraulic turbine'
+    - 'Alberta: Electricity producers, electric utilities: Internal combustion turbine'
+    - 'Alberta: Electricity producers, electric utilities: Other types of electricity generation'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      statcan:25-10-0015-01: 58361
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www150.statcan.gc.ca/n1/tbl/csv/25100015-eng.zip: 58361
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T00:49:55Z': 58361
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The Last-Modified time of StatCan's zip
+  type: utc time
+  values:
+    list:
+      '2026-09-29T12:30:43Z': 58361
+  missing_cells: 0
+- name: x_class
+  label: 'The class of electricity producer: all (StatCan''s total of all classes), utilities (electric utilities) or industries'
+  unit: none
+  type: text
+  values:
+    list:
+      all: 21493
+      industries: 15465
+      utilities: 21403
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Class of electricity producer
+  documented_by: header; connector statcan_electricity.py
+- name: x_type
+  label: The type of electricity generation, StatCan's name as a slug (hydraulic_turbine, solar, total_all_types_of_electricity_generation
+    and the others)
+  unit: none
+  type: text
+  values:
+    list:
+      combustion_turbine: 2855
+      conventional_steam_turbine: 3006
+      hydraulic_turbine: 7405
+      internal_combustion_turbine: 3124
+      nuclear_steam_turbine: 1482
+      other_types_of_electricity_generation: 4507
+      solar: 5435
+      tidal_power_turbine: 2660
+      total_all_types_of_electricity_generation: 8989
+      total_electricity_production_from_biomass: 3257
+      total_electricity_production_from_combustible_fuels: 5167
+      total_electricity_production_from_non_renewable_combustible_fuels: 3257
+      wind_power_turbine: 7217
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Type of electricity generation
+  documented_by: header; connector statcan_electricity.py; method statcan_electricity_generation_monthly.md
+- name: x_total
+  label: yes where the class or the type is one of StatCan's totals, never to be summed with its parts
+  unit: none
+  type: text
+  values:
+    list:
+      'yes': 35051
+  missing_cells: 23310
+  missing_meaning: Neither the class nor the type is a total
+  source_name: null
+  documented_by: header; connector statcan_electricity.py
+- name: x_vector
+  label: StatCan's vector identifier of the series
+  unit: none
+  type: text
+  values:
+    distinct: 458
+    examples:
+    - v105899358
+    - v105899359
+    - v1059484806
+    - v1059484807
+    - v1059484808
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: VECTOR
+  documented_by: header; connector statcan_electricity.py
+- name: x_revised
+  label: r where StatCan marks the figure revised
+  unit: none
+  type: text
+  values:
+    list:
+      r: 698
+  missing_cells: 57663
+  missing_meaning: StatCan gives no revision mark
+  source_name: SYMBOL
+  documented_by: header; connector statcan_electricity.py; method statcan_electricity_generation_monthly.md
+variables:
+- name: generation
+  label: Electricity generated in the month by the class and type of the row, MWh
+  unit: MWh
+  rows: 58361
+  first: '2008-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

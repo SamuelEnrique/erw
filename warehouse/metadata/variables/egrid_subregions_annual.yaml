@@ -1,0 +1,265 @@
+# The codebook's metadata of table egrid_subregions_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: egrid_subregions_annual
+family: other_sources
+shape: series
+row: One eGRID2023 subregion's value of one measure (capacity, net generation, CO2 emissions and rates, resource mix) for
+  data year 2023.
+time: ts_utc is 2023-01-01T00:00:00Z on every row; freq P1Y.
+vintage_rule: Rewritten whole as one snapshot by each run from EPA's eGRID workbook; vintage is the workbook's Last-Modified.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: epa:egrid_subregions U.S. Environmental Protection Agency, Emissions & Generation Resource Integrated Database (eGRID2023),
+    subregion sheet SRL23
+  url: https://www.epa.gov/egrid/download-data
+cite: U.S. Environmental Protection Agency (EPA). eGRID2023 (subregion sheet). Via the Energy Research Warehouse (ERW), table
+  `egrid_subregions_annual`.
+method: docs/methods/egrid_subregions_annual.md
+header_title: 'EPA, eGRID2023 subregions: nameplate capacity, net generation, CO2 and CO2e emissions, output emission rates
+  and resource mix (session 985)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity egrid:<subregion>; variables nameplate_capacity (MW), net_generation
+  (MWh), co2_emissions and co2e_emissions (tCO2: eGRID''s short tons times 0.90718474), co2_rate, co2e_rate, co2_rate_nonbaseload
+  (kgCO2/MWh: lb/MWh times 0.45359237), share_<fuel> (ratio: the resource mix); ts_utc 2023-01-01; freq P1Y; geo empty.'
+read:
+  date: '2026-11-20'
+  rows: 540
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: egrid:<eGRID subregion acronym>
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - egrid:AKGD
+    - egrid:AKMS
+    - egrid:AZNM
+    - egrid:CAMX
+    - egrid:ERCT
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2023-01-01T00:00:00Z': 540
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 353
+    lowest: 0.0
+    highest: 524352082.167
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 27
+      MWh: 27
+      kgCO2/MWh: 81
+      ratio: 351
+      tCO2: 54
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 540
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: 'Not filled: a subregion crosses states'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 540
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 540
+- name: node
+  shared: true
+  particular: The subregion's name, not a pricing node
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - ASCC Alaska Grid
+    - ASCC Miscellaneous
+    - ERCOT All
+    - FRCC All
+    - HICC Miscellaneous
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      epa:egrid_subregions: 540
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.epa.gov/system/files/documents/2025-06/egrid2023_data_rev2.xlsx: 540
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T16:59:48Z': 540
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The workbook's Last-Modified (UTC)
+  type: utc time
+  values:
+    list:
+      '2025-06-16T15:33:55Z': 540
+  missing_cells: 0
+variables:
+- name: co2_emissions
+  label: Annual CO2 emissions, metric tons (eGRID's short tons times 0.90718474)
+  unit: tCO2
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: co2_rate
+  label: CO2 output emission rate, kg per MWh (eGRID's lb/MWh times 0.45359237)
+  unit: kgCO2/MWh
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: co2_rate_nonbaseload
+  label: CO2 non-baseload output emission rate, kg per MWh
+  unit: kgCO2/MWh
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: co2e_emissions
+  label: Annual CO2 equivalent emissions, metric tons (eGRID's short tons times 0.90718474)
+  unit: tCO2
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: co2e_rate
+  label: CO2 equivalent output emission rate, kg per MWh
+  unit: kgCO2/MWh
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: nameplate_capacity
+  label: The subregion's nameplate capacity
+  unit: MW
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: net_generation
+  label: The subregion's annual net generation
+  unit: MWh
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: share_biomass
+  label: Share of net generation from biomass (resource mix)
+  unit: ratio
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: share_coal
+  label: Share of net generation from coal (resource mix)
+  unit: ratio
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: share_gas
+  label: Share of net generation from gas (resource mix)
+  unit: ratio
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: share_geothermal
+  label: Share of net generation from geothermal (resource mix)
+  unit: ratio
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: share_hydro
+  label: Share of net generation from hydro (resource mix)
+  unit: ratio
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: share_nonrenewables
+  label: Share of net generation from non-renewables (resource mix)
+  unit: ratio
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: share_nuclear
+  label: Share of net generation from nuclear (resource mix)
+  unit: ratio
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: share_oil
+  label: Share of net generation from oil (resource mix)
+  unit: ratio
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: share_other_fossil
+  label: Share of net generation from other fossil fuels (resource mix)
+  unit: ratio
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: share_other_unknown
+  label: Share of net generation from other, unknown or purchased fuel (resource mix)
+  unit: ratio
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: share_renewables
+  label: Share of net generation from renewables (resource mix)
+  unit: ratio
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: share_solar
+  label: Share of net generation from solar (resource mix)
+  unit: ratio
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: share_wind
+  label: Share of net generation from wind (resource mix)
+  unit: ratio
+  rows: 27
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+second_look: null

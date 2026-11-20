@@ -1,0 +1,250 @@
+# The codebook's metadata of table bfe_switzerland_electricity_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: bfe_switzerland_electricity_monthly
+family: other_sources
+shape: series
+row: One month's value of one item of Switzerland's electricity balance, from the Swiss Federal Office of Energy's monthly
+  values.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; from 2000-01.
+vintage_rule: Rewritten whole as one snapshot by each run from the saved file; vintage is the file's Last-Modified; provisional
+  months carry x_final 0.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: 'bfe:ogd35 Swiss Federal Office of Energy, ENSTAT: Elektrizitaetsbilanz der Schweiz - Monatswerte-CSV'
+  url: https://opendata.swiss/en/dataset/enstat-elektrizitatsbilanz-der-schweiz-monatswerte-csv
+cite: 'Swiss Federal Office of Energy (SFOE). ENSTAT: Electricity balance of Switzerland, monthly values (CSV). Via the Energy
+  Research Warehouse (ERW), table `bfe_switzerland_electricity_monthly`.'
+method: docs/methods/bfe_switzerland_electricity_monthly.md
+header_title: Swiss Federal Office of Energy (SFOE), ENSTAT electricity balance of Switzerland, a month, 2000-01 to 2026-08
+  (session 2343)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity bfe:ch; variable one a column of SFOE''s (generation by kind,
+  national_generation, pumped_storage_consumption, net_generation, imports, exports, national_consumption, losses, final_consumption);
+  unit MWh (the file''s GWh times 1,000); ts_utc the month''s first day; freq P1M; geo CH; node SFOE''s column; x_final SFOE''s
+  Definitiv (1 final, 0 provisional).'
+read:
+  date: '2026-11-20'
+  rows: 4000
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: bfe:ch on every row
+  type: text
+  values:
+    list:
+      bfe:ch: 4000
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 320
+    earliest: '2000-01-01T00:00:00Z'
+    latest: '2026-08-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 2619
+    lowest: 7000.0
+    highest: 9323000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 4000
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 4000
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: CH on every row
+  type: text
+  values:
+    list:
+      CH: 4000
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 4000
+- name: node
+  shared: true
+  particular: SFOE's column name in German, not a pricing node
+  type: text
+  values:
+    list:
+      Ausfuhr_GWh: 320
+      Einfuhr_GWh: 320
+      Endverbrauch_GWh: 320
+      Erzeugung_Kernkraftwerk_GWh: 320
+      Erzeugung_Laufwerk_GWh: 320
+      Erzeugung_Photovoltaik_GWh: 80
+      Erzeugung_Speicherwerk_GWh: 320
+      Erzeugung_Thermische_GWh: 80
+      Erzeugung_Windkraft_GWh: 80
+      Erzeugung_andere_GWh: 240
+      Erzeugung_netto_GWh: 320
+      Landeserzeugung_GWh: 320
+      Landesverbrauch_GWh: 320
+      Verbrauch_Speicherpumpen_GWh: 320
+      Verluste_GWh: 320
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      bfe:ogd35: 4000
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.bfe-ogd.ch/ogd35/ogd35_schweizerische_elektrizitaetsbilanz_monatswerte.csv: 4000
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T07:53:13Z': 4000
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The file's Last-Modified (UTC)
+  type: utc time
+  values:
+    list:
+      '2026-10-07T07:18:58Z': 4000
+  missing_cells: 0
+- name: x_final
+  label: 'SFOE''s Definitiv: 1 for a final month, 0 for a provisional one'
+  unit: none
+  type: integer
+  values:
+    list:
+      '0': 112
+      '1': 3888
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Definitiv
+  documented_by: header; connector bfe_switzerland_electricity.py; method bfe_switzerland_electricity_monthly.md
+variables:
+- name: exports
+  label: Exports (Ausfuhr)
+  unit: MWh
+  rows: 320
+  first: '2000-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: final_consumption
+  label: Final consumption (Endverbrauch)
+  unit: MWh
+  rows: 320
+  first: '2000-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: imports
+  label: Imports (Einfuhr)
+  unit: MWh
+  rows: 320
+  first: '2000-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: losses
+  label: Losses (Verluste)
+  unit: MWh
+  rows: 320
+  first: '2000-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: national_consumption
+  label: National consumption (Landesverbrauch)
+  unit: MWh
+  rows: 320
+  first: '2000-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: national_generation
+  label: National generation (Landeserzeugung)
+  unit: MWh
+  rows: 320
+  first: '2000-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: net_generation
+  label: Net generation (Erzeugung_netto)
+  unit: MWh
+  rows: 320
+  first: '2000-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: nuclear_generation
+  label: Nuclear generation (Erzeugung_Kernkraftwerk)
+  unit: MWh
+  rows: 320
+  first: '2000-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: other_generation
+  label: Other generation (Erzeugung_andere)
+  unit: MWh
+  rows: 240
+  first: '2000-01-01T00:00:00Z'
+  last: '2019-12-01T00:00:00Z'
+- name: pumped_storage_consumption
+  label: Electricity used by the storage pumps (Verbrauch_Speicherpumpen)
+  unit: MWh
+  rows: 320
+  first: '2000-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: run_of_river_generation
+  label: Run-of-river hydro generation (Erzeugung_Laufwerk)
+  unit: MWh
+  rows: 320
+  first: '2000-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: solar_generation
+  label: Photovoltaic generation (Erzeugung_Photovoltaik)
+  unit: MWh
+  rows: 80
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: storage_hydro_generation
+  label: Storage hydro generation (Erzeugung_Speicherwerk)
+  unit: MWh
+  rows: 320
+  first: '2000-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: thermal_generation
+  label: Thermal generation (Erzeugung_Thermische)
+  unit: MWh
+  rows: 80
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: wind_generation
+  label: Wind generation (Erzeugung_Windkraft)
+  unit: MWh
+  rows: 80
+  first: '2020-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

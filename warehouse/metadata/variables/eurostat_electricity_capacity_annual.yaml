@@ -1,0 +1,278 @@
+# The codebook's metadata of table eurostat_electricity_capacity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_electricity_capacity_annual
+family: eurostat
+shape: series
+row: One European country's (or EU aggregate's) net electricity production capacity, or capacity commissioned or decommissioned,
+  for one fuel group and operator type in one year.
+time: ts_utc is the year's 1 January at 00:00:00Z, a label for the calendar year (freq P1Y).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised figure replaces the old; vintage is not filled.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eurostat:nrg_inf_epc Eurostat, Electricity production capacities by main fuel groups and operator (nrg_inf_epc)
+  url: https://ec.europa.eu/eurostat/databrowser/view/nrg_inf_epc/default/table
+cite: Eurostat (Statistical Office of the European Union). Electricity production capacities by main fuel groups and operator
+  (nrg_inf_epc). Via the Energy Research Warehouse (ERW), table `eurostat_electricity_capacity_annual`.
+method: docs/methods/eurostat_electricity_capacity_annual.md
+header_title: Eurostat, electricity production capacities by main fuel groups and operator (nrg_inf_epc), 1990 to 2024, 38
+  European countries and the EU aggregates (session 2356)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_epc:<Eurostat geo code>:<SIEC code>; variable net_capacity,
+  net_capacity_commissioned or net_capacity_decommissioned, each _total, _main_producers or _autoproducers; unit MW; ts_utc
+  the year''s 1 January; freq P1Y; geo ISO alpha-2 (Eurostat''s EL is GR), blank for Eurostat''s own aggregates EU27_2020
+  and EA21; node the SIEC code''s English name.'
+read:
+  date: '2026-11-20'
+  rows: 159060
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eurostat_epc:<Eurostat geo code>:<SIEC code>; fuel groups overlap, so a sum double counts
+  type: text
+  values:
+    distinct: 1072
+    examples:
+    - eurostat_epc:AL:C0000
+    - eurostat_epc:AL:CF
+    - eurostat_epc:AL:G3000
+    - eurostat_epc:AL:HYD
+    - eurostat_epc:AL:LF_G3000
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 35
+    earliest: '1990-01-01T00:00:00Z'
+    latest: '2024-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 1169867.024
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 159060
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 159060
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020 and EA21
+  type: text
+  values:
+    distinct: 38
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 12450
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 159060
+- name: node
+  shared: true
+  particular: The SIEC code's English name (the fuel group), not a pricing node
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - Biofuels and waste
+    - Coal and manufactured gases
+    - Combustible fuels
+    - Geothermal
+    - Hydro
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:nrg_inf_epc: 159060
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nrg_inf_epc?format=SDMX-CSV&compressed=false: 159060
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T07:17:31Z': 159060
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 159060
+- name: x_geo_code
+  label: Eurostat's geo code of the country or aggregate
+  unit: none
+  type: text
+  values:
+    distinct: 40
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector eurostat_capacity.py
+- name: x_siec
+  label: Eurostat's SIEC code of the fuel group
+  unit: none
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - C0000
+    - CF
+    - G3000
+    - HYD
+    - LF_G3000
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector eurostat_capacity.py
+- name: x_plant_tec
+  label: 'Eurostat''s capacity code: CAP_NET_ELC net capacity, CAP_NET_ELC_C commissioned, CAP_NET_ELC_DCM decommissioned'
+  unit: none
+  type: text
+  values:
+    list:
+      CAP_NET_ELC: 91350
+      CAP_NET_ELC_C: 33852
+      CAP_NET_ELC_DCM: 33858
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector eurostat_capacity.py; data
+- name: x_operator
+  label: 'Eurostat''s operator code: TOTAL, PRR_MAIN main activity producers, PRR_AUTO autoproducers'
+  unit: none
+  type: text
+  values:
+    list:
+      PRR_AUTO: 53020
+      PRR_MAIN: 53016
+      TOTAL: 53024
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector eurostat_capacity.py; data
+- name: x_flag
+  label: 'Eurostat''s flag of the observation: p provisional'
+  unit: none
+  type: text
+  values:
+    list:
+      p: 1
+  missing_cells: 159059
+  missing_meaning: No flag on the observation
+  source_name: null
+  documented_by: connector eurostat_capacity.py
+- name: x_conf_status
+  label: Eurostat's confidentiality status of the observation
+  unit: none
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 159060
+  missing_meaning: 'Not filled: no cell holds a value'
+  source_name: null
+  documented_by: connector eurostat_capacity.py
+variables:
+- name: net_capacity_autoproducers
+  label: Net capacity of autoproducers (producing mainly for their own use)
+  unit: MW
+  rows: 30450
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: net_capacity_commissioned_autoproducers
+  label: Net capacity commissioned in the year, autoproducers
+  unit: MW
+  rows: 11285
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: net_capacity_commissioned_main_producers
+  label: Net capacity commissioned in the year, main activity producers
+  unit: MW
+  rows: 11280
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: net_capacity_commissioned_total
+  label: Net capacity commissioned in the year, all operators
+  unit: MW
+  rows: 11287
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: net_capacity_decommissioned_autoproducers
+  label: Net capacity decommissioned in the year, autoproducers
+  unit: MW
+  rows: 11285
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: net_capacity_decommissioned_main_producers
+  label: Net capacity decommissioned in the year, main activity producers
+  unit: MW
+  rows: 11286
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: net_capacity_decommissioned_total
+  label: Net capacity decommissioned in the year, all operators
+  unit: MW
+  rows: 11287
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: net_capacity_main_producers
+  label: Net capacity of main activity producers
+  unit: MW
+  rows: 30450
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: net_capacity_total
+  label: Net maximum electrical capacity, all operators
+  unit: MW
+  rows: 30450
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

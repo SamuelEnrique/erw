@@ -1,0 +1,174 @@
+# The codebook's metadata of table dst_dk_electricity_supply_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: dst_dk_electricity_supply_annual
+family: other_sources
+shape: series
+row: One year's value of Denmark's electricity supply, production or imports, or its wind, hydro or solar power supply, from
+  Statistics Denmark's Energy Account table ENE1HT.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y; 1966 to 2025.
+vintage_rule: Rewritten whole as one snapshot by each run from the StatBank answer; vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: dst:statbank_ene1ht Statistics Denmark, StatBank table ENE1HT, Energy Account in specific units (detailed table),
+    supply
+  url: ''
+cite: Statistics Denmark (Danmarks Statistik). StatBank ENE1HT, Energy Account in specific units (detailed table), supply.
+  Via the Energy Research Warehouse (ERW), table `dst_dk_electricity_supply_annual`.
+method: docs/methods/dst_dk_electricity_supply_annual.md
+header_title: 'Statistics Denmark, StatBank ENE1HT, Energy Account in specific units: Denmark''s electricity supply, production
+  and imports, and its wind, hydro and solar power, 1966 to 2025 (session 2756)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity dst_ene:dk; variable electricity_total_supply, electricity_imports,
+  electricity_production, wind_power_supply, hydro_power_supply or solar_power_supply; unit MWh (GWh times 1,000); ts_utc
+  the year''s first day; freq P1Y; geo DK; node the StatBank codes and texts.'
+read:
+  date: '2026-11-20'
+  rows: 360
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: dst_ene:dk on every row
+  type: text
+  values:
+    list:
+      dst_ene:dk: 360
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 60
+    earliest: '1966-01-01T00:00:00Z'
+    latest: '2025-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 263
+    lowest: 0.0
+    highest: 59287000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 360
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 360
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: DK on every row
+  type: text
+  values:
+    list:
+      DK: 360
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 360
+- name: node
+  shared: true
+  particular: The StatBank codes and texts of the supply item and energy kind, not a pricing node
+  type: text
+  values:
+    list:
+      EIMPORT Imports; EMEL Electricity (GWh): 60
+      EPRODI Total production; EMEL Electricity (GWh): 60
+      ETIL Total supply; EMEL Electricity (GWh): 60
+      ETILVE Supply of renewable energy; EMSOLK Solar power (GWh): 60
+      ETILVE Supply of renewable energy; EMVAND Hydro power (GWh): 60
+      ETILVE Supply of renewable energy; EMVIND Wind power (GWh): 60
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      dst:statbank_ene1ht: 360
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.statbank.dk/v1/data/ENE1HT/CSV?lang=en&delimiter=Semicolon&valuePresentation=CodeAndValue&TILGANG=ETIL,EIMPORT,ETILVE,EPRODI&ENERGI1=EMEL,EMVIND,EMVAND,EMSOLK&Tid=*
+      : 360
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T22:15:24Z': 360
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 360
+variables:
+- name: electricity_imports
+  label: Imports of electricity (EIMPORT, EMEL)
+  unit: MWh
+  rows: 60
+  first: '1966-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: electricity_production
+  label: Total production of electricity (EPRODI, EMEL)
+  unit: MWh
+  rows: 60
+  first: '1966-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: electricity_total_supply
+  label: Total supply of electricity (ETIL, EMEL)
+  unit: MWh
+  rows: 60
+  first: '1966-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: hydro_power_supply
+  label: Supply of renewable energy from hydro power (ETILVE, EMVAND)
+  unit: MWh
+  rows: 60
+  first: '1966-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: solar_power_supply
+  label: Supply of renewable energy from solar power (ETILVE, EMSOLK)
+  unit: MWh
+  rows: 60
+  first: '1966-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_power_supply
+  label: Supply of renewable energy from wind power (ETILVE, EMVIND)
+  unit: MWh
+  rows: 60
+  first: '1966-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

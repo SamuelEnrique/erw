@@ -1,0 +1,302 @@
+# The codebook's metadata of table eia861_short_form (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia861_short_form
+family: eia861
+shape: series
+row: One small utility's total revenue, sales or customers in one state and balancing authority, for one year, as it reported
+  them on Form EIA-861S (the short form).
+time: ts_utc is the data year's 1 January at 00:00:00Z (a year, not an instant); freq P1Y. EIA gives no short-form file for
+  2019.
+vintage_rule: A run reads the years given with --years and writes the table whole; vintage is not filled. EIA's aggregates
+  88888 and 99999 left out; a '.' cell has no row.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:eia861:short_form U.S. Energy Information Administration, Form EIA-861 Annual Electric Power Industry Report (Short_Form_<year>.xlsx,
+    Form EIA-861S)
+  url: https://www.eia.gov/electricity/data/eia861/
+cite: U.S. Energy Information Administration (EIA). Form EIA-861 Annual Electric Power Industry Report, short form (EIA-861S).
+  Via the Energy Research Warehouse (ERW), table `eia861_short_form`.
+method: docs/methods/eia861_short_form.md
+header_title: 'EIA-861 short form: small utilities'' revenue, sales and customers, by state and year, as each reported them
+  (session 876)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia861_sf:<utility>:<state>:<balancing authority>; variables
+  total_revenue (USD, EIA''s thousand dollars times 1,000), total_sales (MWh), total_customers (count); ts_utc the data year''s
+  1 January; freq P1Y; node the utility''s name; x_* EIA''s fields and the programs the utility marks (Y, N or empty).'
+read:
+  date: '2026-11-20'
+  rows: 44170
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia861_sf:<utility number>:<state>:<balancing authority>; ends in a colon where EIA gives no balancing authority
+  type: text
+  values:
+    distinct: 1780
+    examples:
+    - eia861_sf:1000:AR:MISO
+    - eia861_sf:10025:LA:MISO
+    - eia861_sf:1002:IA:MISO
+    - eia861_sf:10037:MN:MISO
+    - eia861_sf:10040:MN:MISO
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2015-01-01T00:00:00Z': 3339
+      '2016-01-01T00:00:00Z': 3348
+      '2017-01-01T00:00:00Z': 3293
+      '2018-01-01T00:00:00Z': 3310
+      '2020-01-01T00:00:00Z': 5160
+      '2021-01-01T00:00:00Z': 5169
+      '2022-01-01T00:00:00Z': 5166
+      '2023-01-01T00:00:00Z': 5139
+      '2024-01-01T00:00:00Z': 5137
+      '2025-01-01T00:00:00Z': 5109
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 1.0
+    highest: 52481100.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 14722
+      USD: 14723
+      count: 14725
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 44170
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state>
+  type: text
+  values:
+    distinct: 47
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 44170
+- name: node
+  shared: true
+  particular: The utility's name, not a pricing node
+  type: text
+  values:
+    distinct: 1777
+    examples:
+    - 4 Rivers Electric Cooperative, Inc.
+    - Adams Electric Coop
+    - Adams Rural Electric Coop, Inc
+    - Adrian Public Utilities Comm
+    - Aguila Irrigation District
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia861:short_form: 44170
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612015.zip: 3339
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612016.zip: 3348
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612017.zip: 3293
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612018.zip: 3310
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612020.zip: 5160
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612021.zip: 5169
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612022.zip: 5166
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612023.zip: 5139
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612024.zip: 5137
+      https://www.eia.gov/electricity/data/eia861/zip/f8612025.zip: 5109
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T16:56:34Z': 5109
+      '2026-10-21T17:48:28Z': 5137
+      '2026-10-21T17:48:31Z': 5139
+      '2026-10-21T17:48:34Z': 5166
+      '2026-10-21T17:48:37Z': 5169
+      '2026-10-21T17:48:40Z': 5160
+      '2026-10-21T17:48:48Z': 3310
+      '2026-10-21T17:48:52Z': 3293
+      '2026-10-21T17:48:57Z': 3348
+      '2026-10-21T17:49:02Z': 3339
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 44170
+- name: x_utility_number
+  label: EIA's utility identifier
+  unit: none
+  type: integer
+  values:
+    distinct: 1721
+    lowest: 34
+    highest: 66062
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia861_short_form.md
+- name: x_state
+  label: The state, two-letter postal code
+  unit: none
+  type: text
+  values:
+    distinct: 47
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia861_short_form.md
+- name: x_ownership
+  label: EIA's ownership class (Municipal, Cooperative, Political Subdivision, Investor Owned, Federal, State)
+  unit: none
+  type: text
+  values:
+    list:
+      Cooperative: 6033
+      Federal: 66
+      Investor Owned: 327
+      Municipal: 36538
+      Political Subdivision: 1197
+      State: 9
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia861_short_form.md
+- name: x_ba_code
+  label: The balancing authority (the grid operator of the area) code EIA gives for the row
+  unit: none
+  type: text
+  values:
+    distinct: 41
+    examples:
+    - AEC
+    - AECI
+    - AMPL
+    - AVA
+    - AZPS
+  missing_cells: 1476
+  missing_meaning: EIA gives no balancing authority
+  source_name: BA_Code or BA Code
+  documented_by: method eia861_short_form.md
+- name: x_water_heater
+  label: EIA's Water Heater program mark; holds no Y or N, only EIA's '.'
+  unit: none
+  type: text
+  values:
+    list:
+      .: 40831
+  missing_cells: 3339
+  missing_meaning: EIA's cell is empty
+  source_name: Water Heater or W_Heater
+  documented_by: method eia861_short_form.md
+- name: x_net_metering
+  label: Whether the utility marks a net metering program, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 29590
+      Y: 14580
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Net Metering
+  documented_by: method eia861_short_form.md; connector eia861_short_form.py
+- name: x_demand_side_management
+  label: Whether the utility marks a demand side management program, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 38659
+      Y: 5511
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Demand Side Management
+  documented_by: method eia861_short_form.md; connector eia861_short_form.py
+- name: x_time_based_programs
+  label: Whether the utility marks time based programs, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 41695
+      Y: 2475
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Time Based Programs
+  documented_by: method eia861_short_form.md; connector eia861_short_form.py
+variables:
+- name: total_customers
+  label: The utility's total customers, count
+  unit: count
+  rows: 14725
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_revenue
+  label: The utility's total revenue in the year, USD (EIA's thousand dollars times 1,000)
+  unit: USD
+  rows: 14723
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_sales
+  label: The utility's total retail sales in the year, MWh
+  unit: MWh
+  rows: 14722
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

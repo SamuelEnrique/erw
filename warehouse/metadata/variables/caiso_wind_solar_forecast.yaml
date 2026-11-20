@@ -1,0 +1,163 @@
+# The codebook's metadata of table caiso_wind_solar_forecast (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: caiso_wind_solar_forecast
+family: caiso
+shape: series
+row: CAISO's wind or solar output at one trading hub for one hour, the day-ahead forecast or the actual.
+time: ts_utc is the hour's start in UTC.
+vintage_rule: Merged by (entity, variable, ts_utc); every span asked is asked of CAISO again, so a revised hour replaces the
+  one held, and hours no longer asked are kept. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: caiso:SLD_REN_FCST California ISO, OASIS, Wind and Solar Forecast (SLD_REN_FCST)
+  url: https://oasis.caiso.com/mrioasis/logon.do
+cite: 'California ISO (CAISO). OASIS: Wind and Solar Forecast (SLD_REN_FCST), day-ahead forecast and actual generation. Via
+  the Energy Research Warehouse (ERW), table `caiso_wind_solar_forecast`.'
+method: docs/methods/caiso_wind_solar_forecast.md
+header_title: CAISO wind and solar, the day-ahead forecast and the actual output, hourly, by trading hub (session 133)
+header_shape: 'Shape: series (docs/datastandard.md v0). freq PT1H; ts_utc is the hour''s start. Variables: wind_forecast_dam_mw
+  and solar_forecast_dam_mw (CAISO''s day-ahead forecast, market run DAM), wind_actual_mw and solar_actual_mw (actual generation,
+  market run ACTUAL), MW, as CAISO publishes them. Entities are CAISO''s trading hubs NP15, SP15 and ZP26.'
+read:
+  date: '2026-11-20'
+  rows: 352393
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: 'caiso:<trading hub>: NP15, SP15 or ZP26'
+  type: text
+  values:
+    list:
+      caiso:NP15: 121495
+      caiso:SP15: 121496
+      caiso:ZP26: 109402
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2023-06-01T07:00:00Z'
+    latest: '2026-11-19T06:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -307.9097
+    highest: 14948.67
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 352393
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 352393
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 352393
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 352393
+- name: node
+  shared: true
+  particular: 'CAISO''s trading hub: NP15, SP15 or ZP26'
+  type: text
+  values:
+    list:
+      NP15: 121495
+      SP15: 121496
+      ZP26: 109402
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:SLD_REN_FCST: 352393
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 156
+    examples:
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=SLD_REN_FCST&version=1&market_run_id=ACTUAL&startdatetime=20230531T07:00-0000&enddatetime=20230630T07:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=SLD_REN_FCST&version=1&market_run_id=ACTUAL&startdatetime=20230630T07:00-0000&enddatetime=20230730T07:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=SLD_REN_FCST&version=1&market_run_id=ACTUAL&startdatetime=20230730T07:00-0000&enddatetime=20230829T07:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=SLD_REN_FCST&version=1&market_run_id=ACTUAL&startdatetime=20230829T07:00-0000&enddatetime=20230928T07:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=SLD_REN_FCST&version=1&market_run_id=ACTUAL&startdatetime=20230928T07:00-0000&enddatetime=20231028T07:00-0000
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 156
+    earliest: '2026-10-06T09:35:39Z'
+    latest: '2026-11-19T17:40:04Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 352393
+variables:
+- name: solar_actual_mw
+  label: Actual solar generation (market run ACTUAL) for the hub and hour, MW
+  unit: MW
+  rows: 91021
+  first: '2023-06-01T07:00:00Z'
+  last: '2026-11-19T06:00:00Z'
+- name: solar_forecast_dam_mw
+  label: CAISO's day-ahead forecast of solar output (market run DAM) for the hub and hour, MW
+  unit: MW
+  rows: 91224
+  first: '2023-06-01T07:00:00Z'
+  last: '2026-11-19T06:00:00Z'
+- name: wind_actual_mw
+  label: Actual wind generation (market run ACTUAL) for the hub and hour, MW
+  unit: MW
+  rows: 84973
+  first: '2023-06-01T07:00:00Z'
+  last: '2026-11-19T06:00:00Z'
+- name: wind_forecast_dam_mw
+  label: CAISO's day-ahead forecast of wind output (market run DAM) for the hub and hour, MW (OASIS SLD_REN_FCST)
+  unit: MW
+  rows: 85175
+  first: '2023-06-01T07:00:00Z'
+  last: '2026-11-19T06:00:00Z'
+second_look: null

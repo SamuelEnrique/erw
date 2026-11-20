@@ -1,0 +1,312 @@
+# The codebook's metadata of table ercot_node_wires_utilities (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_node_wires_utilities
+family: ercot
+shape: entities
+row: One placed ERCOT resource node with the wires utilities EIA-861 lists as serving its county, Texas's delivery-only companies
+  named apart.
+time: No time column; a snapshot computed from the tables held when the builder ran. vintage names the EIA-861 year.
+vintage_rule: Rewritten whole by each run of the builder from ercot_node_places, utility_service_territories, eia861_delivery_only
+  and eia861_utility_data; no request is made.
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: eia:eia861_territory and eia:eia861 U.S. Energy Information Administration, Form EIA-861 (service territories, delivery
+    companies, utility data); ercot:cdr ERCOT, Capacity, Demand and Reserves Report (the nodes' counties, through ercot_node_places)
+  url: ''
+cite: Energy Research Warehouse (ERW), derived. The wires utilities in a placed ERCOT node's county (docs/methods/ercot_node_wires_utilities.md).
+  Via the Energy Research Warehouse (ERW), table `ercot_node_wires_utilities`.
+method: docs/methods/ercot_node_wires_utilities.md
+header_title: the wires utilities in each placed ERCOT resource node's county, from EIA-861's service territories, with Texas's
+  delivery-only companies named apart (session 945)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id ercot_node:<settlement point> (as ercot_node_places);
+  entity_type generator; x_county, x_zone ercot_node_places''; x_utilities the utilities EIA-861 lists in the county (''<name>
+  (<number>)'', ''; ''); x_delivery_only the delivery-only companies among them; x_outside_tre those whose EIA-861 utility
+  data names a NERC region but not Texas RE; x_short_form_n those filing the short form.'
+read:
+  date: '2026-11-20'
+  rows: 569
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  particular: ercot_node:<settlement point>, the same ids as ercot_node_places
+  type: text
+  values:
+    distinct: 569
+    examples:
+    - ercot_node:7RNCHSLR_ALL
+    - ercot_node:A4_DGR1_RN
+    - ercot_node:A4_DGR2_RN
+    - ercot_node:ADL_RN
+    - ercot_node:AEEC
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  particular: generator in every row
+  type: text
+  values:
+    list:
+      generator: 569
+  missing_cells: 0
+- name: name
+  shared: true
+  particular: The settlement point
+  type: text
+  values:
+    distinct: 569
+    examples:
+    - 7RNCHSLR_ALL
+    - A4_DGR1_RN
+    - A4_DGR2_RN
+    - ADL_RN
+    - AEEC
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-TX in every row
+  type: text
+  values:
+    list:
+      US-TX: 569
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 569
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 569
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 569
+- name: status
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 569
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 569
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 569
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:ercot_node_wires_utilities: 569
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_node_wires_utilities.md: 569
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T11:28:45Z': 569
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The text 'EIA-861 <year>' (EIA-861 2025 in every row), the data year read, not a publication time
+  type: text
+  values:
+    list:
+      EIA-861 2025: 569
+  missing_cells: 0
+- name: x_county
+  label: The node's county, as ercot_node_places gives it
+  unit: none
+  type: text
+  values:
+    distinct: 148
+    examples:
+    - ANDREWS
+    - ANGELINA
+    - ARCHER
+    - ARMSTRONG
+    - ATASCOSA
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method ercot_node_wires_utilities.md
+- name: x_zone
+  label: The node's load zone, as ercot_node_places gives it (COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST)
+  unit: none
+  type: text
+  values:
+    list:
+      COASTAL: 58
+      HOUSTON: 53
+      NORTH: 138
+      PANHANDLE: 27
+      SOUTH: 138
+      WEST: 155
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method ercot_node_wires_utilities.md
+- name: x_utilities_n
+  label: The number of utilities EIA-861 lists as serving the node's county (state TX)
+  unit: count
+  type: integer
+  values:
+    list:
+      '1': 21
+      '2': 66
+      '3': 179
+      '4': 135
+      '5': 106
+      '6': 46
+      '7': 14
+      '8': 2
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector ercot_node_wires_utilities.py; method ercot_node_wires_utilities.md
+- name: x_utilities
+  label: Those utilities, each '<name> (<EIA utility number>)', sorted, joined by '; '
+  unit: none
+  type: text
+  values:
+    distinct: 139
+    examples:
+    - AEP Texas Central Company (3278); Bandera Electric Coop, Inc (1175); Medina Electric Coop, Inc (12268); Rio Grande Electric
+      Coop, Inc (16057)
+    - AEP Texas Central Company (3278); Bluebonnet Electric Coop, Inc (1892); CenterPoint Energy (8901); City of Weimar -
+      (TX) (20331); Fayette Electric Coop, Inc (6183); San Bernard Electric Coop, Inc (16638); Wharton County Elec Coop, Inc
+      (20472)
+    - AEP Texas Central Company (3278); Bluebonnet Electric Coop, Inc (1892); City of Lockhart - (TX) (11119); City of Luling
+      - (TX) (11316); Guadalupe Valley Elec Coop Inc (7752); Pedernales Electric Coop, Inc (14626)
+    - AEP Texas Central Company (3278); Bluebonnet Electric Coop, Inc (1892); City of New Braunfels - (TX) (13418); City of
+      San Antonio - (TX) (16604); City of Seguin - (TX) (16900); Guadalupe Valley Elec Coop Inc (7752); Pedernales Electric
+      Coop, Inc (14626)
+    - AEP Texas Central Company (3278); Brownsville Public Utilities Board (2409); Magic Valley Electric Coop Inc (11501)
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method ercot_node_wires_utilities.md
+- name: x_delivery_only_n
+  label: The number of delivery-only companies (wires companies that sell no power, as eia861_delivery_only holds them for
+    Texas) among those utilities
+  unit: count
+  type: integer
+  values:
+    list:
+      '0': 52
+      '1': 287
+      '2': 191
+      '3': 39
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector ercot_node_wires_utilities.py; method ercot_node_wires_utilities.md
+- name: x_delivery_only
+  label: Those delivery-only companies, each '<name> (<EIA utility number>)', joined by '; '
+  unit: none
+  type: text
+  values:
+    list:
+      AEP Texas Central Company (3278): 78
+      AEP Texas Central Company (3278); CenterPoint Energy (8901): 13
+      AEP Texas Central Company (3278); CenterPoint Energy (8901); Texas-New Mexico Power Co (40051): 7
+      AEP Texas Central Company (3278); Nueces Electric Cooperative (13830): 14
+      AEP Texas Central Company (3278); Oncor Electric Delivery Company LLC (44372): 18
+      AEP Texas North Company (20404): 29
+      AEP Texas North Company (20404); Oncor Electric Delivery Company LLC (44372): 35
+      AEP Texas North Company (20404); Oncor Electric Delivery Company LLC (44372); Texas-New Mexico Power Co (40051): 32
+      AEP Texas North Company (20404); Texas-New Mexico Power Co (40051): 6
+      CenterPoint Energy (8901): 48
+      CenterPoint Energy (8901); Texas-New Mexico Power Co (40051): 26
+      Oncor Electric Delivery Company LLC (44372): 126
+      Oncor Electric Delivery Company LLC (44372); Texas-New Mexico Power Co (40051): 79
+      Texas-New Mexico Power Co (40051): 6
+  missing_cells: 52
+  missing_meaning: No delivery-only company serves the county
+  source_name: null
+  documented_by: header; method ercot_node_wires_utilities.md; data
+- name: x_outside_tre_n
+  label: The number of those utilities whose EIA-861 utility data names a NERC region but not Texas RE (so part of the county
+    is outside ERCOT's reliability region)
+  unit: count
+  type: integer
+  values:
+    list:
+      '0': 441
+      '1': 112
+      '2': 12
+      '3': 3
+      '4': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector ercot_node_wires_utilities.py; method ercot_node_wires_utilities.md
+- name: x_outside_tre
+  label: Those utilities outside Texas RE, each '<name> (<EIA utility number>)', joined by '; '
+  unit: none
+  type: text
+  values:
+    list:
+      ? Bailey County Elec Coop Assn (1169); Deaf Smith Electric Coop, Inc (4939); Lamb County Electric Coop, Inc (10625);
+        Southwestern Public Service Co (17718)
+      : 1
+      Bailey County Elec Coop Assn (1169); Deaf Smith Electric Coop, Inc (4939); Southwestern Public Service Co (17718): 1
+      Deaf Smith Electric Coop, Inc (4939); Rita Blanca Electric Coop, Inc (16063); Southwestern Public Service Co (17718): 1
+      Deaf Smith Electric Coop, Inc (4939); Southwestern Public Service Co (17718): 1
+      El Paso Electric Co (5701): 3
+      Entergy Texas Inc. (55937): 61
+      Greenbelt Electric Coop, Inc (7561): 2
+      Greenbelt Electric Coop, Inc (7561); North Plains Electric Coop Inc (13757); Southwestern Public Service Co (17718): 1
+      Greenbelt Electric Coop, Inc (7561); Southwestern Public Service Co (17718): 2
+      Jasper-Newton Elec Coop, Inc (9668); Sam Houston Electric Coop Inc (16613): 3
+      Lamb County Electric Coop, Inc (10625); Southwestern Public Service Co (17718): 2
+      Rusk County Electric Coop, Inc (16461): 1
+      Rusk County Electric Coop, Inc (16461); Upshur Rural Elec Coop Corp (19579): 4
+      Southwestern Public Service Co (17718): 38
+      Wood County Electric Coop, Inc (20927): 7
+  missing_cells: 441
+  missing_meaning: No utility of the county is outside Texas RE
+  source_name: null
+  documented_by: header; method ercot_node_wires_utilities.md; data
+- name: x_short_form_n
+  label: The number of those utilities filing EIA's short form, whose utility data gives no region
+  unit: count
+  type: integer
+  values:
+    list:
+      '0': 461
+      '1': 87
+      '2': 17
+      '3': 4
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method ercot_node_wires_utilities.md
+second_look: null

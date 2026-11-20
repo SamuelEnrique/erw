@@ -1,0 +1,140 @@
+# The codebook's metadata of table policy_reads_evidence (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: policy_reads_evidence
+family: policy
+shape: events
+row: One quoted span of a regulator's source text that supports one kept field of one model read in policy_reads.
+time: event_date is the date of the policy action the read is of.
+vintage_rule: Merged by event_id (<read id>#<field>#<n>); a read done again replaces its old evidence, span ids and all. No
+  vintage column.
+keys:
+- event_id
+license: internal
+tier: model_extracted
+interval: event
+source:
+- name: erw:policy_reads.
+  url: ''
+cite: Energy Research Warehouse (ERW). Impact reads of policy actions (warehouse/policy/reads.py). Via the Energy Research
+  Warehouse (ERW), table `policy_reads_evidence`.
+method: docs/methods/policy_monitor.md
+header_title: the evidence spans of each kept field of policy_reads
+header_shape: 'Shape: events (docs/datastandard.md v0), event_type policy_read_evidence; one row per span.'
+read:
+  date: '2026-11-20'
+  rows: 3592
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  particular: <read id>#<field>#<n>
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: policy_read_evidence on every row
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 3592
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 3592
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 3592
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 3592
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 3592
+- name: status
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 3592
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  particular: The regulator's document the read is of
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: read_id
+  label: The read of policy_reads the span supports (its event_id)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector reads.py
+- name: field
+  label: 'The kept field the span supports: what changes, who is affected, the direction, the timeline or the plain read'
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector reads.py; method policy_monitor.md
+- name: span
+  label: The exact span of the stored source text, found word for word (whitespace and quote marks normalized)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector reads.py
+- name: source_text_file
+  label: The stored source text the span was found in, a path in the repository's tree
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector reads.py
+second_look: null

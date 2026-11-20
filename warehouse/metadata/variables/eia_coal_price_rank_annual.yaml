@@ -1,0 +1,187 @@
+# The codebook's metadata of table eia_coal_price_rank_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_coal_price_rank_annual
+family: eia
+shape: series
+row: One state's, region's or the nation's yearly average sales price of coal of one rank, from EIA's Annual Coal Report.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:coal/price-by-rank U.S. Energy Information Administration, Annual Coal Report, average sales price by rank (API
+    v2, route coal/price-by-rank)
+  url: https://www.eia.gov/coal/annual/
+cite: U.S. Energy Information Administration (EIA). Annual Coal Report, average sales price by rank (API v2). Via the Energy
+  Research Warehouse (ERW), table `eia_coal_price_rank_annual`.
+method: docs/methods/eia_coal_prices.md
+header_title: EIA, the average sales price of coal by state or region and rank, a year (session 572)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_coal_price_rank:<stateRegionId>:<coalRankId>; variable
+  price (USD/short_ton); ts_utc the year''s 1 January; freq P1Y; geo US-<state> for a state, US for a region or the U.S.;
+  node EIA''s area and market names.'
+read:
+  date: '2026-11-20'
+  rows: 2843
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia_coal_price_rank:<stateRegionId>:<coalRankId>
+  type: text
+  values:
+    distinct: 128
+    examples:
+    - eia_coal_price_rank:AL:BIT
+    - eia_coal_price_rank:AL:TOT
+    - eia_coal_price_rank:APC:BIT
+    - eia_coal_price_rank:APC:TOT
+    - eia_coal_price_rank:APN:ANT
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2001-01-01T00:00:00Z': 121
+      '2002-01-01T00:00:00Z': 119
+      '2003-01-01T00:00:00Z': 119
+      '2004-01-01T00:00:00Z': 119
+      '2005-01-01T00:00:00Z': 121
+      '2006-01-01T00:00:00Z': 121
+      '2007-01-01T00:00:00Z': 120
+      '2008-01-01T00:00:00Z': 120
+      '2009-01-01T00:00:00Z': 120
+      '2010-01-01T00:00:00Z': 122
+      '2011-01-01T00:00:00Z': 123
+      '2012-01-01T00:00:00Z': 121
+      '2013-01-01T00:00:00Z': 121
+      '2014-01-01T00:00:00Z': 121
+      '2015-01-01T00:00:00Z': 119
+      '2016-01-01T00:00:00Z': 119
+      '2017-01-01T00:00:00Z': 119
+      '2018-01-01T00:00:00Z': 117
+      '2019-01-01T00:00:00Z': 115
+      '2020-01-01T00:00:00Z': 114
+      '2021-01-01T00:00:00Z': 115
+      '2022-01-01T00:00:00Z': 110
+      '2023-01-01T00:00:00Z': 114
+      '2024-01-01T00:00:00Z': 113
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1521
+    lowest: 5.68
+    highest: 269.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/short_ton: 2843
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 2843
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state> for a state; US for a region or the U.S.
+  type: text
+  values:
+    list:
+      US: 2067
+      US-AL: 48
+      US-CO: 28
+      US-IL: 48
+      US-IN: 48
+      US-KY: 48
+      US-MD: 48
+      US-MT: 35
+      US-ND: 48
+      US-NM: 25
+      US-OH: 48
+      US-OK: 32
+      US-PA: 72
+      US-TN: 34
+      US-TX: 38
+      US-UT: 48
+      US-VA: 48
+      US-WA: 1
+      US-WV: 48
+      US-WY: 31
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2843
+- name: node
+  shared: true
+  particular: EIA's area and rank names
+  type: text
+  values:
+    distinct: 128
+    examples:
+    - Alabama, All
+    - Alabama, Bituminous
+    - Appalachia Central, All
+    - Appalachia Central, Bituminous
+    - Appalachia Northern, All
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:coal/price-by-rank: 2843
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://api.eia.gov/v2/coal/price-by-rank/data/?api_key=REDACTED&frequency=annual&data%5B%5D=price&start=2001: 2843
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T23:48:37Z': 2843
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2843
+variables:
+- name: price
+  label: Average sales price of the coal, USD per short ton
+  unit: USD/short_ton
+  rows: 2843
+  first: '2001-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

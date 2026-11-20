@@ -1,0 +1,174 @@
+# The codebook's metadata of table desnz_regional_renewables_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: desnz_regional_renewables_annual
+family: desnz
+shape: series
+row: One UK region's renewable electricity generation from one technology in one year, 2003 to 2025.
+time: ts_utc is the year's first day at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run (DESNZ republishes the whole series each year); vintage is the workbook's last-modified
+  time.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: 'desnz:regional_renewable_generation_2003_2025 Department for Energy Security and Net Zero, Regional Renewable Statistics:
+    Regional generation GWh 2003-2025'
+  url: ''
+cite: 'UK Department for Energy Security and Net Zero (DESNZ). Regional Renewable Statistics: Regional generation GWh 2003-2025.
+  Via the Energy Research Warehouse (ERW), table `desnz_regional_renewables_annual`.'
+method: docs/methods/desnz_regional_renewables_annual.md
+header_title: 'DESNZ, Regional Renewable Statistics: renewable electricity generation a year by UK region and technology,
+  2003 to 2025 (session 2684)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity desnz_re:<region>:<technology>; variable generation; unit MWh
+  (the workbook''s GWh times 1,000); ts_utc the year''s first day; freq P1Y; geo GB, GB-SCT, GB-WLS, GB-NIR or GB-ENG (England
+  and its regions); node the region and the column.'
+read:
+  date: '2026-11-20'
+  rows: 3002
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: desnz_re:<region>:<technology>
+  type: text
+  values:
+    distinct: 194
+    examples:
+    - desnz_re:east_midlands:anaerobic_digestion
+    - desnz_re:east_midlands:biomass_waste
+    - desnz_re:east_midlands:hydro
+    - desnz_re:east_midlands:landfill_gas
+    - desnz_re:east_midlands:offshore_wind
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2003-01-01T00:00:00Z': 83
+      '2004-01-01T00:00:00Z': 82
+      '2005-01-01T00:00:00Z': 84
+      '2006-01-01T00:00:00Z': 85
+      '2007-01-01T00:00:00Z': 88
+      '2008-01-01T00:00:00Z': 135
+      '2009-01-01T00:00:00Z': 135
+      '2010-01-01T00:00:00Z': 135
+      '2011-01-01T00:00:00Z': 135
+      '2012-01-01T00:00:00Z': 135
+      '2013-01-01T00:00:00Z': 135
+      '2014-01-01T00:00:00Z': 135
+      '2015-01-01T00:00:00Z': 135
+      '2016-01-01T00:00:00Z': 150
+      '2017-01-01T00:00:00Z': 150
+      '2018-01-01T00:00:00Z': 150
+      '2019-01-01T00:00:00Z': 150
+      '2020-01-01T00:00:00Z': 150
+      '2021-01-01T00:00:00Z': 150
+      '2022-01-01T00:00:00Z': 150
+      '2023-01-01T00:00:00Z': 150
+      '2024-01-01T00:00:00Z': 150
+      '2025-01-01T00:00:00Z': 150
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 2472
+    lowest: 0.0
+    highest: 152909011.524
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 3002
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 3002
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: GB for the UK and the other sites, GB-SCT, GB-WLS, GB-NIR, or GB-ENG for England and its regions
+  type: text
+  values:
+    list:
+      GB: 414
+      GB-ENG: 1987
+      GB-NIR: 197
+      GB-SCT: 202
+      GB-WLS: 202
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3002
+- name: node
+  shared: true
+  particular: The region and the workbook's column, not a pricing node
+  type: text
+  values:
+    distinct: 194
+    examples:
+    - 'East Midlands: AD'
+    - 'East Midlands: Biomass and waste'
+    - 'East Midlands: Hydro'
+    - 'East Midlands: Landfill gas'
+    - 'East Midlands: Offshore Wind'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      desnz:regional_renewable_generation_2003_2025: 3002
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://assets.publishing.service.gov.uk/media/6aba6ef6fe72ed1e2b02f152/Regional_generation_GWh_2003-2025.xlsx: 3002
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T12:00:30Z': 3002
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The workbook's last-modified time
+  type: utc time
+  values:
+    list:
+      '2026-09-28T13:43:18Z': 3002
+  missing_cells: 0
+variables:
+- name: generation
+  label: Renewable electricity generated in the year, MWh (the workbook's GWh times 1,000)
+  unit: MWh
+  rows: 3002
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

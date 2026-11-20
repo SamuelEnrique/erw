@@ -1,0 +1,147 @@
+# The codebook's metadata of table lbnl_wind_turbine_orders (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: lbnl_wind_turbine_orders
+family: lbnl
+shape: events
+row: One reported US wind turbine order and its price, from the 'Wind Turbine Prices' sheet of Berkeley Lab's Land-Based Wind
+  Energy Technology Data Update, 2026 Edition; LBNL names no buyer, maker or size.
+time: No time column; event_date is the order date.
+vintage_rule: Rewritten whole by each run from the data file lbnl_ppa_prices.py saves; one edition, no vintage column.
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: lbnl:wind_costs Lawrence Berkeley National Laboratory, Land-Based Wind Energy Technology Data Update, 2026 Edition
+    (August 2026)
+  url: https://eta-publications.lbl.gov/publications/land-based-wind-energy-technology-0
+cite: Lawrence Berkeley National Laboratory (Berkeley Lab). Land-Based Wind Energy Technology Data Update (turbine prices,
+  CapEx, LCOE). Via the Energy Research Warehouse (ERW), table `lbnl_wind_turbine_orders`.
+method: docs/methods/lbnl_projects.md
+header_title: Berkeley Lab, reported U.S. wind turbine orders and their prices, real 2025 dollars (Land-Based Wind Energy
+  Technology Data Update, 2026 Edition, sheet 'Wind Turbine Prices') (session 952)
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id lbnl_turbine_order:<12 hex of the date and price>; event_date
+  the order date; event_type turbine_order; price USD/kW (real 2025); currency USD; LBNL names no buyer, maker or size.'
+read:
+  date: '2026-11-20'
+  rows: 122
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  particular: lbnl_turbine_order:<12 hex of the date and price>
+  type: text
+  values:
+    distinct: 122
+    examples:
+    - lbnl_turbine_order:0121b0cee60b
+    - lbnl_turbine_order:062d49ea1b06
+    - lbnl_turbine_order:070a511dac68
+    - lbnl_turbine_order:0b4aa2e60ebe
+    - lbnl_turbine_order:0edb465742d6
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    distinct: 93
+    earliest: '1997-02-01'
+    latest: '2016-07-01'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: Always turbine_order
+  type: text
+  values:
+    list:
+      turbine_order: 122
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 122
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 122
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 122
+- name: price
+  shared: true
+  particular: USD per kW (real 2025 dollars), not per MWh
+  type: number
+  values:
+    distinct: 121
+    lowest: 843.3067
+    highest: 2947.8718
+  missing_cells: 0
+- name: currency
+  shared: true
+  type: text
+  values:
+    list:
+      USD: 122
+  missing_cells: 0
+- name: status
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 122
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      lbnl:wind_costs: 122
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://eta-publications.lbl.gov/sites/default/files/2026-08/data_file_land-based_wind_energy_technology_update_2026_edition_public_0.xlsx
+      : 122
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T08:30:19Z': 122
+  missing_cells: 0
+- name: x_price_unit
+  label: 'The price''s unit in words: USD/kW, real 2025 dollars'
+  unit: none
+  type: text
+  values:
+    list:
+      USD/kW, real 2025 dollars: 122
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector lbnl_wind_costs.py
+- name: x_dollar_year
+  label: The year of the real dollars the price is in
+  unit: none
+  type: integer
+  values:
+    list:
+      '2025': 122
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector lbnl_wind_costs.py
+second_look: null

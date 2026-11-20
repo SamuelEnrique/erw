@@ -1,0 +1,342 @@
+# The codebook's metadata of table eia860_generator_owners (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia860_generator_owners
+family: eia860
+shape: entities
+row: One owner's share of one jointly owned generator, from Form EIA-860's owner schedule (schedule 4), data year 2025.
+time: No time column; vintage is the data year (2025). status_date is empty.
+vintage_rule: A snapshot; each run replaces the table whole with the newest final year EIA's page links, so an earlier year
+  is not kept.
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: eia:eia860:owner U.S. Energy Information Administration, Form EIA-860 Annual Electric Generator Report, 4___Owner_Y2025.xlsx
+  url: https://www.eia.gov/electricity/data/eia860/
+cite: U.S. Energy Information Administration (EIA). Form EIA-860 Annual Electric Generator Report, the owners of jointly owned
+  generators. Via the Energy Research Warehouse (ERW), table `eia860_generator_owners`.
+method: docs/methods/eia860_schedules.md
+header_title: EIA-860, the owners of jointly owned generators, data year 2025 (session 885)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id eia860_owner:<plant code>:<generator id>:<ownership id>;
+  entity_type company (an owner''s share of one generator); name the owner''s name; operator the reporting utility''s name;
+  geo US-<plant state>; x_percent_owned EIA''s fraction (0.6 is 60 percent); status the generator''s, from EIA''s code. x_*
+  every other column of EIA''s sheet, its heading as a name; x_sheet the sheet.'
+read:
+  date: '2026-11-20'
+  rows: 5680
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  particular: eia860_owner:<plant code>:<generator id>:<ownership id>
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - eia860_owner:10013:GEN1:60055
+    - eia860_owner:10018:GEN1:2129
+    - eia860_owner:10018:GEN2:54852
+    - eia860_owner:10018:OEC2:54852
+    - eia860_owner:10025:12TG:56569
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  particular: 'Always company: an owner''s share of one generator'
+  type: text
+  values:
+    list:
+      company: 5680
+  missing_cells: 0
+- name: name
+  shared: true
+  particular: The owner's name
+  type: text
+  values:
+    distinct: 2038
+    examples:
+    - 126 Grove Solar LLC
+    - 174 Power Global Corp.
+    - 1951 Hamburg Turnpike, LLC
+    - 226HC 8me, LLC
+    - 31st Street Energy LLC
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<plant state>
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5680
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5680
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5680
+- name: status
+  shared: true
+  particular: The generator's status, from EIA's code in x_eia_status
+  type: text
+  values:
+    list:
+      operating: 4983
+      planned: 80
+      retired: 415
+      suspended: 21
+      under_construction: 109
+      withdrawn: 72
+  missing_cells: 0
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5680
+- name: operator
+  shared: true
+  particular: The reporting utility's name (EIA's Utility Name)
+  type: text
+  values:
+    distinct: 827
+    examples:
+    - 1001 Ebenezer Church Solar, LLC
+    - 1008 Matthews Solar, LLC
+    - 1009 Yadkin Solar, LLC
+    - 1034 Catherine Lake Solar, LLC
+    - 1045 Tomlin Mill Solar, LLC
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia860:owner: 5680
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia860/xls/eia8602025.zip: 5680
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T03:33:49Z': 5680
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The data year
+  type: integer
+  values:
+    list:
+      '2025': 5680
+  missing_cells: 0
+- name: x_plant_code
+  label: EIA's plant code
+  unit: none
+  type: integer
+  values:
+    distinct: 2534
+    lowest: 10
+    highest: 70444
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Plant Code
+  documented_by: method eia860_schedules.md
+- name: x_generator_id
+  label: EIA's generator identifier within the plant
+  unit: none
+  type: text
+  values:
+    distinct: 2032
+    examples:
+    - 0000B
+    - 0000G
+    - 0000H
+    - 0000I
+    - '0001'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia860_schedules.md
+- name: x_state
+  label: The plant's state, two-letter postal code
+  unit: none
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia860_schedules.md
+- name: x_eia_status
+  label: EIA's status code of the generator (OP, SB, OA, OS operating; P, L, T planned; U, V, TS under construction; RE retired;
+    CN canceled; IP indefinitely postponed)
+  unit: none
+  type: text
+  values:
+    list:
+      CN: 72
+      IP: 21
+      L: 26
+      OA: 15
+      OP: 4819
+      OS: 56
+      P: 32
+      RE: 415
+      SB: 93
+      T: 22
+      TS: 20
+      U: 55
+      V: 34
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia860_schedules.md
+- name: x_sheet
+  label: The sheet of EIA's workbook the row came from (Ownership)
+  unit: none
+  type: text
+  values:
+    list:
+      Ownership: 5680
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method eia860_schedules.md
+- name: x_utility_id
+  label: EIA's identifier of the reporting utility
+  unit: none
+  type: integer
+  values:
+    distinct: 827
+    lowest: 195
+    highest: 68031
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia860_schedules.md
+- name: x_owner_street_address
+  label: The owner's street address as EIA gives it
+  unit: none
+  type: text
+  values:
+    distinct: 1077
+    examples:
+    - 1 Ashburton Place 15th Flr
+    - 1 Energy Plaza
+    - 1 Franklin Parkway
+    - 1 N. Pack Square
+    - 1 New Orchard Road
+  missing_cells: 68
+  missing_meaning: EIA gives none
+  source_name: null
+  documented_by: method eia860_schedules.md
+- name: x_owner_city
+  label: The owner's city as EIA gives it
+  unit: none
+  type: text
+  values:
+    distinct: 542
+    examples:
+    - ALPAUGH
+    - Akron
+    - Albany
+    - Albuquerque
+    - Alexandria
+  missing_cells: 69
+  missing_meaning: EIA gives none
+  source_name: null
+  documented_by: method eia860_schedules.md
+- name: x_owner_state
+  label: The owner's state (or province) as EIA gives it
+  unit: none
+  type: text
+  values:
+    distinct: 54
+    examples:
+    - AB
+    - AK
+    - AL
+    - AR
+    - AZ
+  missing_cells: 103
+  missing_meaning: EIA gives none
+  source_name: null
+  documented_by: method eia860_schedules.md; data
+- name: x_owner_zip
+  label: The owner's ZIP code as read (a ZIP beginning with 0 has lost its first digit)
+  unit: none
+  type: text
+  values:
+    distinct: 755
+    examples:
+    - '10001'
+    - '10004'
+    - '10007'
+    - '10009'
+    - '10012'
+  missing_cells: 96
+  missing_meaning: EIA gives none
+  source_name: null
+  documented_by: method eia860_schedules.md
+- name: x_percent_owned
+  label: The owner's share of the generator, EIA's fraction (0.6 is 60 percent)
+  unit: ratio
+  type: number
+  values:
+    distinct: 421
+    lowest: 0.0001
+    highest: 1.0
+  missing_cells: 1
+  missing_meaning: EIA gives none (1 row)
+  source_name: null
+  documented_by: header; method eia860_schedules.md
+- name: x_plant_name
+  label: The plant's name
+  unit: none
+  type: text
+  values:
+    distinct: 2534
+    examples:
+    - 100 Brook Hill Drive Solar
+    - 1001 Ebenezer Church Solar
+    - 1008 Matthews Solar
+    - 1009 Yadkin Solar
+    - 1034 Catherine Lake Solar, LLC
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia860_schedules.md
+second_look: null

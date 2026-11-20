@@ -1,0 +1,510 @@
+# The codebook's metadata of table ai_energy_published (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ai_energy_published
+family: other_sources
+shape: events
+row: One energy figure for AI (per query, per token, of a training run or of a fleet) as a model maker, a cloud operator or
+  a peer-reviewed paper printed it.
+time: event_date is the publication's date; x_retrieved_at is when its copy was saved.
+vintage_rule: Rewritten whole as one snapshot by each build from the session-read rows file; nothing converted, summed or
+  averaged.
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: 'erw:ai_energy_published the publications named per row (source_url), saved at warehouse/raw/ai_energy_published/
+    with their sha256: https://arxiv.org/abs/1906.02243; https://arxiv.org/abs/2104.10350; https://arxiv.org/abs/2204.05149;
+    https://arxiv.org/abs/2211.02001; https://arxiv.org/abs/2311.16863; https://arxiv.org/abs/2508.15734; https://blog.samaltman.com/the-gentle-singularity;
+    https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/msc/documents/presentations/CSR/2026-Microsoft-Environmental-Data-Fact-Sheet-PDF.pdf'
+  url: https://sustainability.atmeta.com/asset/2025-environmental-data-index
+cite: Energy Research Warehouse (ERW), from published figures. Energy per AI query, as published (docs/methods/ai_energy_published.md).
+  Via the Energy Research Warehouse (ERW), table `ai_energy_published`.
+method: docs/methods/ai_energy_published.md
+header_title: 'energy per AI query, as published: each figure a model maker, a cloud operator or a peer-reviewed paper printed
+  for the energy of a query, a token, a training run or a fleet (session 8005, chain 501)'
+header_shape: 'Shape: events (docs/datastandard.md v0), event_type publication. One row a printed figure: x_printed the publication''s
+  own words, cut from its saved copy; x_value the number in them, in x_unit; x_measures what it measures; x_subject what it
+  is of; x_page; event_date the publication''s date. Nothing is converted, summed or averaged across publishers; the ERW adds
+  no figure of its own. Method: docs/methods/ai_energy_published.md.'
+read:
+  date: '2026-11-20'
+  rows: 23
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  particular: ai_energy:<publication>_<n>
+  type: text
+  values:
+    list:
+      ai_energy:bloom_2022_1: 1
+      ai_energy:bloom_2022_2: 1
+      ai_energy:bloom_2022_3: 1
+      ai_energy:google_2025_1: 1
+      ai_energy:google_2025_2: 1
+      ai_energy:google_2025_3: 1
+      ai_energy:luccioni_2024_1: 1
+      ai_energy:luccioni_2024_2: 1
+      ai_energy:luccioni_2024_3: 1
+      ai_energy:meta_2025_1: 1
+      ai_energy:microsoft_2026_1: 1
+      ai_energy:openai_2025_1: 1
+      ai_energy:patterson_2021_1: 1
+      ai_energy:patterson_2021_2: 1
+      ai_energy:patterson_2021_3: 1
+      ai_energy:patterson_2021_4: 1
+      ai_energy:patterson_2021_5: 1
+      ai_energy:patterson_2021_6: 1
+      ai_energy:patterson_2022_1: 1
+      ai_energy:patterson_2022_2: 1
+      ai_energy:patterson_2022_3: 1
+      ai_energy:strubell_2019_1: 1
+      ai_energy:strubell_2019_2: 1
+  missing_cells: 0
+- name: event_date
+  shared: true
+  particular: The publication's date
+  type: date
+  values:
+    list:
+      '2019-06-05': 2
+      '2021-04-21': 6
+      '2022-04-11': 3
+      '2022-11-03': 3
+      '2024-06-03': 3
+      '2025-06-10': 1
+      '2025-08-21': 3
+      '2025-09-12': 1
+      '2026-07-09': 1
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: publication on every row
+  type: text
+  values:
+    list:
+      publication: 23
+  missing_cells: 0
+- name: parties
+  shared: true
+  particular: The publisher (the company, or the authors' institution)
+  type: text
+  values:
+    list:
+      Google: 3
+      Google and the University of California at Berkeley: 9
+      Hugging Face (BigScience) with Graphcore and LISN: 3
+      Hugging Face and Carnegie Mellon University: 3
+      Meta: 1
+      Microsoft: 1
+      OpenAI (Sam Altman's blog): 1
+      University of Massachusetts Amherst: 2
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 23
+- name: mw
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 23
+- name: price
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 23
+- name: currency
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 23
+- name: status
+  shared: true
+  particular: published on every row
+  type: text
+  values:
+    list:
+      published: 23
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:ai_energy_published: 23
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://arxiv.org/abs/1906.02243: 2
+      https://arxiv.org/abs/2104.10350: 6
+      https://arxiv.org/abs/2204.05149: 3
+      https://arxiv.org/abs/2211.02001: 3
+      https://arxiv.org/abs/2311.16863: 3
+      https://arxiv.org/abs/2508.15734: 3
+      https://blog.samaltman.com/the-gentle-singularity: 1
+      ? https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/msc/documents/presentations/CSR/2026-Microsoft-Environmental-Data-Fact-Sheet-PDF.pdf
+      : 1
+      https://sustainability.atmeta.com/asset/2025-environmental-data-index: 1
+  missing_cells: 0
+- name: x_publisher_kind
+  label: 'Who printed the figure: model maker, cloud operator, data center operator (or several), or peer-reviewed paper'
+  unit: none
+  type: text
+  values:
+    list:
+      model maker: 4
+      model maker and cloud operator: 13
+      model maker and data center operator: 1
+      peer-reviewed paper: 5
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: publisher_kind
+  documented_by: method ai_energy_published.md; connector ai_energy_published.py
+- name: x_peer_reviewed
+  label: yes, with the venue, only where the page read names it; otherwise no, with the kind of publication (preprint, company
+    report, blog post)
+  unit: none
+  type: text
+  values:
+    list:
+      no (a blog post by the company's chief executive): 1
+      no (a company report): 2
+      no (preprint as read; the arXiv page names no journal): 3
+      no (preprint by the model maker): 3
+      no (preprint): 9
+      yes (ACL 2019): 2
+      yes (ACM FAccT '24): 3
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: peer_reviewed
+  documented_by: method ai_energy_published.md; data
+- name: x_title
+  label: The publication's title
+  unit: none
+  type: text
+  values:
+    list:
+      2025 Environmental Data Index (2025 Sustainability Report): 1
+      2026 Environmental Sustainability Report Data Fact Sheet: 1
+      Carbon Emissions and Large Neural Network Training: 6
+      Energy and Policy Considerations for Deep Learning in NLP: 2
+      Estimating the Carbon Footprint of BLOOM, a 176B Parameter Language Model: 3
+      Measuring the environmental impact of delivering AI at Google Scale: 3
+      'Power Hungry Processing: Watts Driving the Cost of AI Deployment?': 3
+      The Carbon Footprint of Machine Learning Training Will Plateau, Then Shrink: 3
+      The Gentle Singularity: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: title
+  documented_by: connector ai_energy_published.py
+- name: x_authors
+  label: The publication's authors
+  unit: none
+  type: text
+  values:
+    list:
+      Alexandra Sasha Luccioni, Sylvain Viguier, Anne-Laure Ligozat: 3
+      Alexandra Sasha Luccioni, Yacine Jernite, Emma Strubell: 3
+      ? Cooper Elsworth, Keguo Huang, David Patterson, Ian Schneider, Robert Sedivy, Savannah Goodman, Ben Townsend, Parthasarathy
+        Ranganathan, Jeff Dean, Amin Vahdat, Ben Gomes, James Manyika
+      : 3
+      ? David Patterson, Joseph Gonzalez, Quoc Le, Chen Liang, Lluis-Miquel Munguia, Daniel Rothchild, David So, Maud Texier,
+        Jeff Dean
+      : 6
+      ? David Patterson, Joseph Gonzalez, Urs Hölzle, Quoc Le, Chen Liang, Lluis-Miquel Munguia, Daniel Rothchild, David So,
+        Maud Texier, Jeff Dean
+      : 3
+      Emma Strubell, Ananya Ganesh, Andrew McCallum: 2
+      Meta Platforms: 1
+      Microsoft: 1
+      Sam Altman: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: authors
+  documented_by: connector ai_energy_published.py
+- name: x_page
+  label: The page of the publication the figure is printed on
+  unit: none
+  type: text
+  values:
+    list:
+      '1': 1
+      '12': 1
+      '2': 1
+      '4': 2
+      '5': 1
+      5 to 6: 1
+      '6': 10
+      '7': 4
+      '8': 1
+      the post (one page): 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: page
+  documented_by: header; connector ai_energy_published.py
+- name: x_printed
+  label: The publication's own words holding the figure, cut from its saved copy
+  unit: none
+  type: text
+  values:
+    list:
+      '% of Google 2019 total energy consumption (12.2 TWh': 1
+      (0.047 vs. 2.9 kWh): 1
+      10.8 TWh for Microsoft: 1
+      BERT V100x64 12,041.51 79 1507: 1
+      Data centers total 6,966,000 9,117,122 11,167,416 14,975,435 18,061,781: 1
+      Electricity 10,770,714 13,621,517 18,153,454 23,567,502 29,829,540 37,026,353: 1
+      NAS P100x8 1515.43 274,120 656,347: 1
+      The NAS producing Evolved Transformer used 7.5 MWh: 1
+      The largest size has 11B parameters, and training used 86 MWh: 1
+      Total energy used 433,196 kWh: 1
+      Training GShard-600B used 24 MWh: 1
+      Training Meena used [...] 232 MWh: 1
+      We estimated it used 179 MWh: 1
+      image generation, whose mean consumption is 2.9 kWh: 1
+      its energy consumption is 1287 MWh: 1
+      the annual energy consumption in 2020 was 15.4 TWh for Google: 1
+      the average query uses about 0.34 watt-hours: 1
+      the calculated energy consumption is only 0.10 Wh per prompt: 1
+      the instance used for the BLOOM model API consumed 914 kWh of electricity: 1
+      the primary energy draw originates from the active AI Accelerator power (0.14 Wh, 58% of total): 1
+      to 1.0×10−4 kWh for the biggest one: 1
+      we find the median Gemini Apps text prompt consumes 0.24 Wh of energy: 1
+      which represents an electrical consumption of 1,163,032 kWh: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: printed
+  documented_by: header; method ai_energy_published.md
+- name: x_value
+  label: The number in the printed words, in x_unit
+  unit: the row's x_unit
+  type: number
+  values:
+    list:
+      '0.0001': 1
+      '0.047': 1
+      '0.1': 1
+      '0.14': 1
+      '0.24': 1
+      '0.34': 1
+      '10.8': 1
+      '1163032.0': 1
+      '12.2': 1
+      '1287.0': 1
+      '15.4': 1
+      '1507.0': 1
+      '179.0': 1
+      '18061781.0': 1
+      '2.9': 1
+      '232.0': 1
+      '24.0': 1
+      '37026353.0': 1
+      '433196.0': 1
+      '656347.0': 1
+      '7.5': 1
+      '86.0': 1
+      '914.0': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method ai_energy_published.md
+- name: x_unit
+  label: The unit of x_value, the publication's own (Wh, kWh, MWh, TWh)
+  unit: none
+  type: text
+  values:
+    list:
+      MWh: 8
+      TWh: 3
+      Wh: 4
+      kWh: 8
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: unit
+  documented_by: header; method ai_energy_published.md
+- name: x_measures
+  label: What the figure measures, in words (energy per prompt, per query, per 1,000 inferences, of a training run, of a fleet
+    in a year)
+  unit: none
+  type: text
+  values:
+    list:
+      energy of a deployment: 1
+      energy of a fleet in a year: 3
+      energy of a fleet in a year (electricity consumed within the organization): 1
+      energy of a fleet in a year (electricity consumed): 1
+      energy of a training run: 7
+      energy of a training run (kWh times PUE): 2
+      energy of all the experiments of a project: 1
+      energy per 1,000 inferences (the mean of the image generation task): 1
+      energy per 1,000 inferences (the mean of the text generation task): 1
+      energy per inference: 1
+      energy per prompt: 2
+      energy per prompt (one part of it): 1
+      energy per query: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: measures
+  documented_by: header; method ai_energy_published.md
+- name: x_subject
+  label: What the figure is of (a model, a fleet, a company)
+  unit: none
+  type: text
+  values:
+    list:
+      BERT base on 64 V100 GPUs: 1
+      BLOOM (176 billion parameters): 1
+      BLOOMz-7B: 1
+      GPT-3 (175 billion parameters; OpenAI's model): 1
+      GShard-600B (600 billion parameters): 1
+      Google's annual energy consumption: 1
+      Google's total energy consumption: 1
+      Meena (2.6 billion parameters): 1
+      Meta's data centers: 1
+      Microsoft (its datacenters and offices together, as the fact sheet counts them): 1
+      Microsoft's annual energy consumption: 1
+      Switch Transformer (1500 billion parameters): 1
+      T5 (11 billion parameters): 1
+      image generation (the models of the study): 1
+      neural architecture search for the Evolved Transformer (So et al.) on 8 P100 GPUs: 1
+      text generation (the models of the study): 1
+      the BLOOM model's API instance: 1
+      the BigScience workshop's experiments (3.46 million GPU hours, BLOOM's training among them): 1
+      the average ChatGPT query: 1
+      the median Gemini Apps text prompt: 3
+      the neural architecture search that produced Evolved Transformer: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: subject
+  documented_by: header; method ai_energy_published.md
+- name: x_period
+  label: The period the figure covers, as the publication states it, or not stated
+  unit: none
+  type: text
+  values:
+    list:
+      '2019': 1
+      '2020': 2
+      2024 (the index reports the fiscal year 2024; the table runs 2020 to 2024): 1
+      May 2025: 2
+      May 2025 (page 7): 1
+      fiscal year 2025 (ended 30 June 2025; the table runs FY20 to FY25): 1
+      not stated: 9
+      the BigScience project: 1
+      the paper's deployment study: 1
+      the study's experiments: 3
+      the training, 118 days: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: period
+  documented_by: method ai_energy_published.md
+- name: x_basis
+  label: The boundary the publication states for the figure, or not stated
+  unit: none
+  type: text
+  values:
+    list:
+      Google's own report as the paper cites it ([Goo20]), the denominator of its Table 4: 1
+      'a narrower boundary, as the paper describes it: a methodology aligned with a more narrow, existing approach (its Figure 1)': 1
+      as the paper measures it for Google's own models: 3
+      as the paper states it: 1
+      not stated: 1
+      the active AI accelerators only: 1
+      ? the fact sheet's Table 5, Energy consumption within the organization (MWh); the date is that of Microsoft's post accompanying
+        the report, as its address on blogs.microsoft.com gives it (2026/07/09); the fact sheet prints no date of its own
+      : 1
+      the hyperscaler's sustainability report, as the paper cites it: 2
+      ? the index's table Electricity Consumption by Facility, in MWh; the date is the report's launch as Meta's news page
+        dates it (12 September 2025)
+      : 1
+      the mean over the study's models for the task, on its hardware: 2
+      the paper's Table 1: 1
+      ? 'the paper''s comprehensive boundary: active AI accelerators, host CPU and DRAM, idle machines provisioned, data center
+        overhead (PUE)'
+      : 1
+      the paper's estimate: 2
+      ? the paper's estimate ("Its estimated carbon emissions due to training are 552 tCO2e and its energy consumption is
+        1287 MWh")
+      : 1
+      the paper's estimate (its Table 3, column kWh·PUE): 2
+      the paper's measurement: 1
+      the study's measurement: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: basis
+  documented_by: method ai_energy_published.md
+- name: x_saved_as
+  label: The path of the publication's saved copy in the warehouse's raw files
+  unit: none
+  type: text
+  values:
+    list:
+      warehouse/raw/ai_energy_published/20261119T1230Z/altman_2025.html: 1
+      warehouse/raw/ai_energy_published/20261119T1230Z/bloom_2022.pdf: 3
+      warehouse/raw/ai_energy_published/20261119T1230Z/google_2025.pdf: 3
+      warehouse/raw/ai_energy_published/20261119T1230Z/luccioni_2024.pdf: 3
+      warehouse/raw/ai_energy_published/20261119T1230Z/meta_2025_data_index.pdf: 1
+      warehouse/raw/ai_energy_published/20261119T1230Z/microsoft_2026_fact_sheet.pdf: 1
+      warehouse/raw/ai_energy_published/20261119T1230Z/patterson_2021.pdf: 6
+      warehouse/raw/ai_energy_published/20261119T1230Z/patterson_2022.pdf: 3
+      warehouse/raw/ai_energy_published/20261119T1230Z/strubell_2019.pdf: 2
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector ai_energy_published.py
+- name: x_sha256
+  label: The SHA-256 of the saved copy
+  unit: none
+  type: text
+  values:
+    list:
+      0af70b6db33650b01829bd3a59c1f3659f45e301300ec711f264e48735e5e8b7: 2
+      0fd180837df00b3427c3eae484a492224b8f18c381e82a2aed98b04553a197f6: 1
+      348b58c832076258e1792a710fab3f0ac60f02001857532a7136771b52b30339: 3
+      89b7f0b905caffc9d43f2dcbdd08c517bcfc02ab963417f7e9facf8b35b876b3: 6
+      997025051680fd262e80da571ddb74d2af4e8f023baea9b6d4bd7539d163ab33: 3
+      99baa6948df14609dcbbc078cbef024bebb2fd62e842c027cb8859e5f5814701: 3
+      a23ccf280f496629a81a6117faa8ded7ade5f292e3dc5ce36203b2a979679f63: 1
+      cd8c3732e179f9a71a8dd42efabf7ffe7ee2bfc6c4ce4d63cfe799609b58dd12: 3
+      d7527cd23308869105b404b486117603bb3f5ee10e30499367f8698110afb66d: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector ai_energy_published.py
+- name: x_retrieved_at
+  label: When the publication's copy was saved, UTC
+  unit: none
+  type: utc time
+  values:
+    list:
+      '2026-11-19T12:24:38Z': 3
+      '2026-11-19T12:24:40Z': 1
+      '2026-11-19T12:24:58Z': 6
+      '2026-11-19T12:25:20Z': 3
+      '2026-11-19T12:25:37Z': 3
+      '2026-11-19T12:25:54Z': 2
+      '2026-11-19T12:26:27Z': 3
+      '2026-11-19T13:19:34Z': 1
+      '2026-11-19T13:53:18Z': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector ai_energy_published.py
+second_look: null

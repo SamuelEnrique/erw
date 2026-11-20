@@ -1,0 +1,390 @@
+# The codebook's metadata of table eia_uranium_marketing_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_uranium_marketing_annual
+family: eia
+shape: series
+row: One year's figure of EIA's Uranium Marketing Annual Report summary tables for the U.S. (uranium bought by reactor owners
+  and operators and its price, feed, enrichment, loadings, foreign trade or inventories).
+time: ts_utc is 1 January of the delivery year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:uranium_marketing_annual U.S. Energy Information Administration, Uranium Marketing Annual Report (Form EIA-858),
+    tables S1a to S3b
+  url: https://www.eia.gov/uranium/marketing/
+cite: U.S. Energy Information Administration (EIA). Uranium Marketing Annual Report (Form EIA-858), summary tables. Via the
+  Energy Research Warehouse (ERW), table `eia_uranium_marketing_annual`.
+method: docs/methods/eia_uranium_marketing_annual.md
+header_title: 'EIA, Uranium Marketing Annual Report, the summary tables: uranium bought by U.S. reactor owners and operators,
+  its price, feed, enrichment, loadings, foreign trade and inventories (session 904)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_uranium:us; variable the column''s meaning (purchased_<seller
+  or origin or contract>, price_purchased_<...>, feed_deliveries, uranium_loaded, enrichment_<origin or total>, enrichment_price,
+  foreign_purchases_<...>, foreign_sales, broker_purchases_from_foreign, inventories_<...>, price_<...>); unit lb (pounds
+  of U3O8 equivalent: EIA''s million pounds times 1,000,000), USD/lb, SWU (million SWU times 1,000,000), USD/SWU (Decision
+  55); ts_utc the delivery year''s 1 January; freq P1Y; geo US; node EIA''s heading.'
+read:
+  date: '2026-11-20'
+  rows: 763
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia_uranium:us
+  type: text
+  values:
+    list:
+      eia_uranium:us: 763
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2003-01-01T00:00:00Z': 36
+      '2004-01-01T00:00:00Z': 35
+      '2005-01-01T00:00:00Z': 32
+      '2006-01-01T00:00:00Z': 35
+      '2007-01-01T00:00:00Z': 35
+      '2008-01-01T00:00:00Z': 36
+      '2009-01-01T00:00:00Z': 33
+      '2010-01-01T00:00:00Z': 37
+      '2011-01-01T00:00:00Z': 37
+      '2012-01-01T00:00:00Z': 33
+      '2013-01-01T00:00:00Z': 31
+      '2014-01-01T00:00:00Z': 31
+      '2015-01-01T00:00:00Z': 34
+      '2016-01-01T00:00:00Z': 34
+      '2017-01-01T00:00:00Z': 35
+      '2018-01-01T00:00:00Z': 34
+      '2019-01-01T00:00:00Z': 29
+      '2020-01-01T00:00:00Z': 29
+      '2021-01-01T00:00:00Z': 35
+      '2022-01-01T00:00:00Z': 29
+      '2023-01-01T00:00:00Z': 31
+      '2024-01-01T00:00:00Z': 31
+      '2025-01-01T00:00:00Z': 31
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 707
+    lowest: 0.0
+    highest: 170000000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      SWU: 69
+      USD/SWU: 20
+      USD/lb: 278
+      lb: 396
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 763
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US on every row
+  type: text
+  values:
+    list:
+      US: 763
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 763
+- name: node
+  shared: true
+  particular: EIA's heading
+  type: text
+  values:
+    distinct: 31
+    examples:
+    - Average price (US$ per SWU)
+    - Feed deliveries by owners and operators of U.S. civilian nuclear power reactors
+    - Foreign purchases by U.S. suppliers
+    - Foreign purchases by owners and operators of U.S. civilian nuclear power reactors
+    - Foreign sales
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:uranium_marketing_annual: 763
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/uranium/marketing/xls/umartableS1afigureS1.xlsx: 168
+      https://www.eia.gov/uranium/marketing/xls/umartableS1bfigureS2.xlsx: 165
+      https://www.eia.gov/uranium/marketing/xls/umartableS2figuresS3n4.xlsx: 135
+      https://www.eia.gov/uranium/marketing/xls/umartableS3afigureS5.xlsx: 182
+      https://www.eia.gov/uranium/marketing/xls/umartableS3bfigureS6.xlsx: 113
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T06:59:52Z': 333
+      '2026-10-23T06:59:53Z': 430
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 763
+variables:
+- name: broker_purchases_from_foreign
+  label: U.S. broker and trader purchases from foreign suppliers, pounds U3O8 equivalent (S3a)
+  unit: lb
+  rows: 21
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: enrichment_foreign_origin
+  label: Enrichment services purchased, of foreign origin, separative work units (S2)
+  unit: SWU
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: enrichment_price
+  label: Average price of enrichment services, USD per separative work unit (S2)
+  unit: USD/SWU
+  rows: 20
+  first: '2006-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: enrichment_total
+  label: Enrichment services purchased, in all, separative work units (S2)
+  unit: SWU
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: enrichment_us_origin
+  label: Enrichment services purchased, of U.S. origin, separative work units (S2; EIA's million SWU times 1,000,000)
+  unit: SWU
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: feed_deliveries
+  label: Feed deliveries by the owners and operators (uranium delivered for enrichment), pounds U3O8 equivalent (S2)
+  unit: lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: foreign_purchases_owners
+  label: Foreign purchases by owners and operators, pounds U3O8 equivalent (S3a)
+  unit: lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: foreign_purchases_total
+  label: Foreign purchases in all, pounds U3O8 equivalent (S3a)
+  unit: lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: foreign_purchases_us_suppliers
+  label: Foreign purchases by U.S. suppliers, pounds U3O8 equivalent (S3a)
+  unit: lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: foreign_sales
+  label: Foreign sales, pounds U3O8 equivalent (S3a)
+  unit: lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: inventories_owners
+  label: Uranium inventories owned by owners and operators, pounds U3O8 equivalent (S3a)
+  unit: lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: inventories_total
+  label: Total commercial uranium inventories, pounds U3O8 equivalent (S3a)
+  unit: lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: inventories_us_suppliers
+  label: Uranium inventories owned by U.S. suppliers, pounds U3O8 equivalent (S3a)
+  unit: lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: price_broker_purchases_from_foreign
+  label: Weighted-average price of U.S. broker and trader purchases from foreign suppliers, USD per pound (S3b)
+  unit: USD/lb
+  rows: 21
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: price_foreign_purchases_owners
+  label: Weighted-average price of foreign purchases by owners and operators, USD per pound (S3b)
+  unit: USD/lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: price_foreign_purchases_total
+  label: Weighted-average price of foreign purchases in all, USD per pound (S3b)
+  unit: USD/lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: price_foreign_purchases_us_suppliers
+  label: Weighted-average price of foreign purchases by U.S. suppliers, USD per pound (S3b)
+  unit: USD/lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: price_foreign_sales
+  label: Weighted-average price of foreign sales, USD per pound (S3b)
+  unit: USD/lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: price_purchased_foreign_origin
+  label: Weighted-average price of uranium of foreign origin, USD per pound (S1b)
+  unit: USD/lb
+  rows: 20
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: price_purchased_from_foreign_suppliers
+  label: Weighted-average price of uranium bought from foreign suppliers, USD per pound (S1b)
+  unit: USD/lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: price_purchased_from_other_owners_suppliers
+  label: Weighted-average price of uranium bought from other owners and operators and suppliers, USD per pound (S1b)
+  unit: USD/lb
+  rows: 7
+  first: '2003-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: price_purchased_from_us_brokers_traders
+  label: Weighted-average price of uranium bought from U.S. brokers and traders, USD per pound (S1b)
+  unit: USD/lb
+  rows: 18
+  first: '2003-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: price_purchased_from_us_producers
+  label: Weighted-average price of uranium bought from U.S. producers, USD per pound (S1b)
+  unit: USD/lb
+  rows: 8
+  first: '2003-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: price_purchased_long_term
+  label: Weighted-average price of uranium bought under long-term contracts, USD per pound (S1b)
+  unit: USD/lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: price_purchased_spot
+  label: Weighted-average price of uranium bought under spot contracts, USD per pound (S1b)
+  unit: USD/lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: price_purchased_total
+  label: Weighted-average price of uranium bought, in all, USD per pound U3O8 equivalent (S1b)
+  unit: USD/lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: price_purchased_us_origin
+  label: Weighted-average price of uranium of U.S. origin, USD per pound (S1b)
+  unit: USD/lb
+  rows: 20
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: purchased_foreign_origin
+  label: Uranium bought by the owners and operators, of foreign origin, pounds U3O8 equivalent (S1a)
+  unit: lb
+  rows: 20
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: purchased_from_foreign_suppliers
+  label: Uranium the owners and operators bought from foreign suppliers, pounds U3O8 equivalent (S1a)
+  unit: lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: purchased_from_other_owners_suppliers
+  label: Uranium the owners and operators bought from other owners and operators and suppliers, pounds U3O8 equivalent (S1a)
+  unit: lb
+  rows: 9
+  first: '2003-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: purchased_from_us_brokers_traders
+  label: Uranium the owners and operators bought from U.S. brokers and traders, pounds U3O8 equivalent (S1a)
+  unit: lb
+  rows: 19
+  first: '2003-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: purchased_from_us_producers
+  label: Uranium the owners and operators bought from U.S. producers, pounds U3O8 equivalent (S1a)
+  unit: lb
+  rows: 8
+  first: '2003-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: purchased_long_term
+  label: Uranium bought by the owners and operators under long-term contracts, pounds U3O8 equivalent (S1a)
+  unit: lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: purchased_spot
+  label: Uranium bought by the owners and operators under spot contracts, pounds U3O8 equivalent (S1a)
+  unit: lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: purchased_total
+  label: Uranium bought by owners and operators of U.S. civilian nuclear power reactors, in all, pounds U3O8 equivalent (S1a)
+  unit: lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: purchased_us_origin
+  label: Uranium bought by the owners and operators, of U.S. origin, pounds U3O8 equivalent (S1a)
+  unit: lb
+  rows: 20
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: uranium_loaded
+  label: Uranium in fuel assemblies loaded into U.S. civilian nuclear power reactors, pounds U3O8 equivalent (S2)
+  unit: lb
+  rows: 23
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

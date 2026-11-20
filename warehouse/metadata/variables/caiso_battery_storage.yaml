@@ -1,0 +1,153 @@
+# The codebook's metadata of table caiso_battery_storage (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: caiso_battery_storage
+family: caiso
+shape: series
+row: The output of the batteries on CAISO's grid (all, standalone or hybrid) over one 5-minute interval, from CAISO's Today's
+  Outlook.
+time: ts_utc is the start of the 5-minute interval in UTC; days are Pacific days.
+vintage_rule: Merged by (entity, variable, ts_utc); each run asks again for the last 30 complete Pacific days, so an interval
+  read again replaces the held one and older intervals are kept. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT5M
+source:
+- name: caiso:todays_outlook_storage California ISO, Today's Outlook, storage history files (
+  url: https://www.caiso.com/outlook/history/YYYYMMDD/storage.csv
+cite: 'California ISO (CAISO). Today''s Outlook: batteries trend (storage.csv history). Via the Energy Research Warehouse
+  (ERW), table `caiso_battery_storage`.'
+method: docs/methods/caiso_battery_storage.md
+header_title: CAISO battery storage output, 5-minute (Today's Outlook)
+header_shape: 'Shape: series (docs/datastandard.md v0). freq PT5M; ts_utc is the interval start. MW; positive is discharge
+  to the grid, negative is charging. batteries_mw is CAISO''s Total batteries column; standalone_batteries_mw and hybrid_batteries_mw
+  are its two parts as CAISO publishes them.'
+read:
+  date: '2026-11-20'
+  rows: 386172
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: 'caiso:ISO in every row: CAISO''s whole system'
+  type: text
+  values:
+    list:
+      caiso:ISO: 386172
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2025-08-24T07:00:00Z'
+    latest: '2026-11-16T07:55:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -11838.0
+    highest: 13441.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 386172
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT5M: 386172
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 386172
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 386172
+- name: node
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 386172
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:todays_outlook_storage: 386172
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 447
+    examples:
+    - https://www.caiso.com/outlook/history/20250824/storage.csv
+    - https://www.caiso.com/outlook/history/20250825/storage.csv
+    - https://www.caiso.com/outlook/history/20250826/storage.csv
+    - https://www.caiso.com/outlook/history/20250827/storage.csv
+    - https://www.caiso.com/outlook/history/20250828/storage.csv
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 120
+    earliest: '2026-09-28T08:35:35Z'
+    latest: '2026-11-16T13:55:46Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 386172
+variables:
+- name: batteries_mw
+  label: 'Output of all batteries (CAISO''s Total batteries), MW: positive is discharge to the grid, negative is charging'
+  unit: MW
+  rows: 128724
+  first: '2025-08-24T07:00:00Z'
+  last: '2026-11-16T07:55:00Z'
+- name: hybrid_batteries_mw
+  label: Output of hybrid batteries, the other part of the total as CAISO publishes them, MW (positive discharge)
+  unit: MW
+  rows: 128724
+  first: '2025-08-24T07:00:00Z'
+  last: '2026-11-16T07:55:00Z'
+- name: standalone_batteries_mw
+  label: Output of standalone batteries, one of the two parts of the total as CAISO publishes them, MW (positive discharge)
+  unit: MW
+  rows: 128724
+  first: '2025-08-24T07:00:00Z'
+  last: '2026-11-16T07:55:00Z'
+second_look: null

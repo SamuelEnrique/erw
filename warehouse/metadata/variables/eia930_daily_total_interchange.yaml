@@ -1,0 +1,169 @@
+# The codebook's metadata of table eia930_daily_total_interchange (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia930_daily_total_interchange
+family: eia930
+shape: series
+row: One EIA-930 respondent's total interchange (its own reported net flow with all its neighbours) over one Eastern day,
+  from 2019.
+time: ts_utc is the day at 00:00:00Z, a label for EIA's Eastern day (x_timezone), not a UTC day.
+vintage_rule: Rebuilt from saved month checkpoints and the current month asked again; a revision EIA makes to an earlier month
+  after its checkpoint was saved does not reach the table. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1D
+source:
+- name: eia930:daily_total_interchange U.S. Energy Information Administration, Form EIA-930, daily total interchange by balancing
+    authority (API route electricity/rto/daily-region-data, type TI)
+  url: https://www.eia.gov/electricity/gridmonitor/
+cite: U.S. Energy Information Administration; U.S. Energy Information Administration (EIA). EIA-930 six-month files (Hourly
+  Electric Grid Monitor); Form EIA-930, daily total interchange by balancing authority (electricity/rto/daily-region-data,
+  type TI). Via the Energy Research Warehouse (ERW), table `eia930_daily_total_interchange`.
+method: docs/methods/eia930_daily_total_interchange.md
+header_title: total interchange of every balancing authority, EIA-930, daily, from 2019 (session 68)
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column ba; entity eia930:<BA>; total_interchange_mwh, MWh
+  over the day, the balancing authority''s own reported net flow with all its neighbours (EIA type TI), positive when it exports;
+  ts_utc the day at 00:00:00Z (Decision 11); EIA''s Eastern day (x_timezone). Nothing filled: a day EIA does not report is
+  absent.'
+read:
+  date: '2026-11-20'
+  rows: 217166
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: 'eia930:<respondent>: balancing authorities and EIA''s regional sums'
+  type: text
+  values:
+    distinct: 83
+    examples:
+    - eia930:AEC
+    - eia930:AECI
+    - eia930:AVA
+    - eia930:AVRN
+    - eia930:AZPS
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 2879
+    earliest: '2019-01-01T00:00:00Z'
+    latest: '2026-11-18T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -365982.0
+    highest: 324750.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 217166
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 217166
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 217166
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 217166
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 217166
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia930:daily_total_interchange: 214387
+      eia:gridmonitor/sixMonthFiles: 2779
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 96
+    examples:
+    - https://api.eia.gov/v2/electricity/rto/daily-region-data/data/?api_key=REDACTED&frequency=daily&data%5B0%5D=value&facets%5Btimezone%5D%5B%5D=Eastern&facets%5Btype%5D%5B%5D=TI&start=2019-01-01&end=2019-01-31&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000
+    - https://api.eia.gov/v2/electricity/rto/daily-region-data/data/?api_key=REDACTED&frequency=daily&data%5B0%5D=value&facets%5Btimezone%5D%5B%5D=Eastern&facets%5Btype%5D%5B%5D=TI&start=2019-02-01&end=2019-02-28&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000
+    - https://api.eia.gov/v2/electricity/rto/daily-region-data/data/?api_key=REDACTED&frequency=daily&data%5B0%5D=value&facets%5Btimezone%5D%5B%5D=Eastern&facets%5Btype%5D%5B%5D=TI&start=2019-03-01&end=2019-03-31&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000
+    - https://api.eia.gov/v2/electricity/rto/daily-region-data/data/?api_key=REDACTED&frequency=daily&data%5B0%5D=value&facets%5Btimezone%5D%5B%5D=Eastern&facets%5Btype%5D%5B%5D=TI&start=2019-04-01&end=2019-04-30&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000
+    - https://api.eia.gov/v2/electricity/rto/daily-region-data/data/?api_key=REDACTED&frequency=daily&data%5B0%5D=value&facets%5Btimezone%5D%5B%5D=Eastern&facets%5Btype%5D%5B%5D=TI&start=2019-05-01&end=2019-05-31&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 96
+    earliest: '2026-10-13T03:04:09Z'
+    latest: '2026-11-19T17:38:45Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 217166
+- name: ba
+  shared: true
+  type: text
+  values:
+    distinct: 83
+    examples:
+    - aec
+    - aeci
+    - ava
+    - avrn
+    - azps
+  missing_cells: 0
+- name: x_timezone
+  label: 'The time zone of EIA''s day: Eastern in every row'
+  unit: none
+  type: text
+  values:
+    list:
+      Eastern: 217166
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method eia930_daily_total_interchange.md
+variables:
+- name: total_interchange_mwh
+  label: Total interchange over the day (EIA type TI), positive when the respondent exports
+  unit: MWh
+  rows: 217166
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-11-18T00:00:00Z'
+second_look: null

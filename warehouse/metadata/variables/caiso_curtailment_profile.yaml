@@ -1,0 +1,833 @@
+# The codebook's metadata of table caiso_curtailment_profile (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: caiso_curtailment_profile
+family: caiso
+shape: series
+row: One figure of CAISO's wind and solar curtailment for one Pacific month (in all, by reason, by category, by local hour)
+  or, where battery output is held, of curtailment against battery charging.
+time: ts_utc is the first day of the Pacific month at 00:00:00Z; a month is written when at least 90 percent of its days are
+  held, its figures summed over the days held, never scaled up.
+vintage_rule: Rebuilt whole from caiso_curtailment_intervals and caiso_battery_storage by each run of the builder; vintage
+  is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1M
+source:
+- name: erw:caiso_curtailment_profile from California ISO, Production and curtailments data and the Daily Renewable Report
+    (curtailment), and Today's Outlook (batteries)
+  url: ''
+cite: Energy Research Warehouse (ERW), derived. CAISO curtailment by hour, month and reason, against battery charging (docs/methods/caiso_curtailment_intervals.md).
+  Via the Energy Research Warehouse (ERW), table `caiso_curtailment_profile`.
+method: docs/methods/caiso_curtailment_intervals.md
+header_title: CAISO wind and solar curtailment by hour of the day, by month and by reason, against battery charging (session
+  98)
+header_shape: 'Shape: series (docs/datastandard.md v0). Entity caiso:ISO; freq P1M; ts_utc the first day of the Pacific month.
+  curtailed_<fuel>_mwh; by CAISO''s reason (_local_, _system_, _unspecified_); from 2026 by its category (_econ_, _ss_, _oi_);
+  by local hour (_mwh_hHH); and, where CAISO''s battery output is held, the average day of curtailment and of battery charging
+  (avg_curtailed_mw_hHH, avg_battery_charging_mw_hHH) and the share of curtailment in hours the batteries were charging. Definitions:
+  docs/methods/caiso_curtailment_intervals.md.'
+read:
+  date: '2026-11-20'
+  rows: 6240
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: 'caiso:ISO in every row: one figure for CAISO''s whole system'
+  type: text
+  values:
+    list:
+      caiso:ISO: 6240
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 94
+    earliest: '2019-01-01T00:00:00Z'
+    latest: '2026-10-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 3528
+    lowest: 0.0
+    highest: 1729843.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 672
+      MWh: 5352
+      count: 202
+      pct: 14
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 6240
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 6240
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 6240
+- name: node
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 6240
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:caiso_curtailment_profile: 6240
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/caiso_curtailment_intervals.md: 6240
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T18:25:58Z': 6240
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 6240
+variables:
+- name: avg_battery_charging_mw_h00
+  label: Battery charging (as a positive number) on the average battery day, local hour 00, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h01
+  label: Battery charging (as a positive number) on the average battery day, local hour 01, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h02
+  label: Battery charging (as a positive number) on the average battery day, local hour 02, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h03
+  label: Battery charging (as a positive number) on the average battery day, local hour 03, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h04
+  label: Battery charging (as a positive number) on the average battery day, local hour 04, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h05
+  label: Battery charging (as a positive number) on the average battery day, local hour 05, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h06
+  label: Battery charging (as a positive number) on the average battery day, local hour 06, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h07
+  label: Battery charging (as a positive number) on the average battery day, local hour 07, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h08
+  label: Battery charging (as a positive number) on the average battery day, local hour 08, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h09
+  label: Battery charging (as a positive number) on the average battery day, local hour 09, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h10
+  label: Battery charging (as a positive number) on the average battery day, local hour 10, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h11
+  label: Battery charging (as a positive number) on the average battery day, local hour 11, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h12
+  label: Battery charging (as a positive number) on the average battery day, local hour 12, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h13
+  label: Battery charging (as a positive number) on the average battery day, local hour 13, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h14
+  label: Battery charging (as a positive number) on the average battery day, local hour 14, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h15
+  label: Battery charging (as a positive number) on the average battery day, local hour 15, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h16
+  label: Battery charging (as a positive number) on the average battery day, local hour 16, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h17
+  label: Battery charging (as a positive number) on the average battery day, local hour 17, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h18
+  label: Battery charging (as a positive number) on the average battery day, local hour 18, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h19
+  label: Battery charging (as a positive number) on the average battery day, local hour 19, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h20
+  label: Battery charging (as a positive number) on the average battery day, local hour 20, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h21
+  label: Battery charging (as a positive number) on the average battery day, local hour 21, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h22
+  label: Battery charging (as a positive number) on the average battery day, local hour 22, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_battery_charging_mw_h23
+  label: Battery charging (as a positive number) on the average battery day, local hour 23, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h00
+  label: Wind and solar curtailed on the average battery day, local hour 00, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h01
+  label: Wind and solar curtailed on the average battery day, local hour 01, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h02
+  label: Wind and solar curtailed on the average battery day, local hour 02, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h03
+  label: Wind and solar curtailed on the average battery day, local hour 03, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h04
+  label: Wind and solar curtailed on the average battery day, local hour 04, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h05
+  label: Wind and solar curtailed on the average battery day, local hour 05, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h06
+  label: Wind and solar curtailed on the average battery day, local hour 06, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h07
+  label: Wind and solar curtailed on the average battery day, local hour 07, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h08
+  label: Wind and solar curtailed on the average battery day, local hour 08, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h09
+  label: Wind and solar curtailed on the average battery day, local hour 09, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h10
+  label: Wind and solar curtailed on the average battery day, local hour 10, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h11
+  label: Wind and solar curtailed on the average battery day, local hour 11, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h12
+  label: Wind and solar curtailed on the average battery day, local hour 12, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h13
+  label: Wind and solar curtailed on the average battery day, local hour 13, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h14
+  label: Wind and solar curtailed on the average battery day, local hour 14, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h15
+  label: Wind and solar curtailed on the average battery day, local hour 15, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h16
+  label: Wind and solar curtailed on the average battery day, local hour 16, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h17
+  label: Wind and solar curtailed on the average battery day, local hour 17, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h18
+  label: Wind and solar curtailed on the average battery day, local hour 18, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h19
+  label: Wind and solar curtailed on the average battery day, local hour 19, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h20
+  label: Wind and solar curtailed on the average battery day, local hour 20, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h21
+  label: Wind and solar curtailed on the average battery day, local hour 21, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h22
+  label: Wind and solar curtailed on the average battery day, local hour 22, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: avg_curtailed_mw_h23
+  label: Wind and solar curtailed on the average battery day, local hour 23, MW
+  unit: MW
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: battery_charging_mwh
+  label: What the batteries took in (charging, as a positive number) over the battery days, MWh
+  unit: MWh
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: battery_days_held
+  label: The days both the curtailment input and caiso_battery_storage hold
+  unit: count
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_mwh_battery_days
+  label: Wind and solar curtailed over the battery days, MWh
+  unit: MWh
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_econ_mwh
+  label: Solar curtailed by market dispatch of economic bids (CAISO's category Economic, from 2026), MWh
+  unit: MWh
+  rows: 10
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_local_mwh
+  label: Solar curtailed for local congestion (CAISO's reason Local), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh
+  label: Solar energy curtailed over the days held, MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h00
+  label: Solar curtailed in the month in local hour 00 (00:00 to 01:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h01
+  label: Solar curtailed in the month in local hour 01 (01:00 to 02:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h02
+  label: Solar curtailed in the month in local hour 02 (02:00 to 03:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h03
+  label: Solar curtailed in the month in local hour 03 (03:00 to 04:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h04
+  label: Solar curtailed in the month in local hour 04 (04:00 to 05:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h05
+  label: Solar curtailed in the month in local hour 05 (05:00 to 06:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h06
+  label: Solar curtailed in the month in local hour 06 (06:00 to 07:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h07
+  label: Solar curtailed in the month in local hour 07 (07:00 to 08:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h08
+  label: Solar curtailed in the month in local hour 08 (08:00 to 09:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h09
+  label: Solar curtailed in the month in local hour 09 (09:00 to 10:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h10
+  label: Solar curtailed in the month in local hour 10 (10:00 to 11:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h11
+  label: Solar curtailed in the month in local hour 11 (11:00 to 12:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h12
+  label: Solar curtailed in the month in local hour 12 (12:00 to 13:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h13
+  label: Solar curtailed in the month in local hour 13 (13:00 to 14:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h14
+  label: Solar curtailed in the month in local hour 14 (14:00 to 15:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h15
+  label: Solar curtailed in the month in local hour 15 (15:00 to 16:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h16
+  label: Solar curtailed in the month in local hour 16 (16:00 to 17:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h17
+  label: Solar curtailed in the month in local hour 17 (17:00 to 18:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h18
+  label: Solar curtailed in the month in local hour 18 (18:00 to 19:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h19
+  label: Solar curtailed in the month in local hour 19 (19:00 to 20:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h20
+  label: Solar curtailed in the month in local hour 20 (20:00 to 21:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h21
+  label: Solar curtailed in the month in local hour 21 (21:00 to 22:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h22
+  label: Solar curtailed in the month in local hour 22 (22:00 to 23:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_mwh_h23
+  label: Solar curtailed in the month in local hour 23 (23:00 to 24:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_oi_mwh
+  label: Solar curtailed by operator instruction (CAISO's category Operator Instruction, from 2026), MWh
+  unit: MWh
+  rows: 10
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_ss_mwh
+  label: Solar curtailed by market dispatch of self-schedules (CAISO's category SelfSchCut, from 2026), MWh
+  unit: MWh
+  rows: 10
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_system_mwh
+  label: Solar curtailed for system-wide oversupply (CAISO's reason System), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_solar_unspecified_mwh
+  label: Solar curtailed where CAISO published no reason, MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_while_charging_share_pct
+  label: The share of the curtailed MWh in hours in which the batteries were charging on balance, percent
+  unit: pct
+  rows: 14
+  first: '2025-09-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_econ_mwh
+  label: Wind curtailed by market dispatch of economic bids (CAISO's category Economic, from 2026), MWh
+  unit: MWh
+  rows: 10
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_local_mwh
+  label: Wind curtailed for local congestion (CAISO's reason Local), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh
+  label: Wind energy curtailed over the days held, MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h00
+  label: Wind curtailed in the month in local hour 00 (00:00 to 01:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h01
+  label: Wind curtailed in the month in local hour 01 (01:00 to 02:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h02
+  label: Wind curtailed in the month in local hour 02 (02:00 to 03:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h03
+  label: Wind curtailed in the month in local hour 03 (03:00 to 04:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h04
+  label: Wind curtailed in the month in local hour 04 (04:00 to 05:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h05
+  label: Wind curtailed in the month in local hour 05 (05:00 to 06:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h06
+  label: Wind curtailed in the month in local hour 06 (06:00 to 07:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h07
+  label: Wind curtailed in the month in local hour 07 (07:00 to 08:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h08
+  label: Wind curtailed in the month in local hour 08 (08:00 to 09:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h09
+  label: Wind curtailed in the month in local hour 09 (09:00 to 10:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h10
+  label: Wind curtailed in the month in local hour 10 (10:00 to 11:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h11
+  label: Wind curtailed in the month in local hour 11 (11:00 to 12:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h12
+  label: Wind curtailed in the month in local hour 12 (12:00 to 13:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h13
+  label: Wind curtailed in the month in local hour 13 (13:00 to 14:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h14
+  label: Wind curtailed in the month in local hour 14 (14:00 to 15:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h15
+  label: Wind curtailed in the month in local hour 15 (15:00 to 16:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h16
+  label: Wind curtailed in the month in local hour 16 (16:00 to 17:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h17
+  label: Wind curtailed in the month in local hour 17 (17:00 to 18:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h18
+  label: Wind curtailed in the month in local hour 18 (18:00 to 19:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h19
+  label: Wind curtailed in the month in local hour 19 (19:00 to 20:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h20
+  label: Wind curtailed in the month in local hour 20 (20:00 to 21:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h21
+  label: Wind curtailed in the month in local hour 21 (21:00 to 22:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h22
+  label: Wind curtailed in the month in local hour 22 (22:00 to 23:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_mwh_h23
+  label: Wind curtailed in the month in local hour 23 (23:00 to 24:00), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_oi_mwh
+  label: Wind curtailed by operator instruction (CAISO's category Operator Instruction, from 2026), MWh
+  unit: MWh
+  rows: 10
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_ss_mwh
+  label: Wind curtailed by market dispatch of self-schedules (CAISO's category SelfSchCut, from 2026), MWh
+  unit: MWh
+  rows: 10
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_system_mwh
+  label: Wind curtailed for system-wide oversupply (CAISO's reason System), MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: curtailed_wind_unspecified_mwh
+  label: Wind curtailed where CAISO published no reason, MWh
+  unit: MWh
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: days_held
+  label: The days of the month the curtailment input holds
+  unit: count
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: days_in_month
+  label: The days of the month
+  unit: count
+  rows: 94
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+second_look: null

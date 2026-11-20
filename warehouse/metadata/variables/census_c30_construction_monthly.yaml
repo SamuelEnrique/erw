@@ -1,0 +1,192 @@
+# The codebook's metadata of table census_c30_construction_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: census_c30_construction_monthly
+family: census
+shape: series
+row: The value of construction put in place in one month for one owner (private, public, state and local, federal) and type
+  of construction, US.
+time: ts_utc is the month's first day at 00:00:00Z (freq P1M).
+vintage_rule: A snapshot, rewritten whole by each run (the Bureau revises recent months at each release); vintage is the workbook's
+  Last-Modified time, and x_status marks the release's preliminary and revised months.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: census:c30_construction_spending U.S. Census Bureau, Construction Spending, monthly time series (privsatime, privtime,
+    pubsatime, pubtime)
+  url: https://www.census.gov/construction/c30/historical_data.html
+cite: U.S. Census Bureau. Construction Spending (C30), monthly time series by type. Via the Energy Research Warehouse (ERW),
+  table `census_c30_construction_monthly`.
+method: docs/methods/census_c30_construction_monthly.md
+header_title: U.S. Census Bureau, Construction Spending (C30), the value of construction put in place by type and owner, a
+  month, 1993-01 to 2026-08 (session 2258)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity census_c30:<owner>:<type> (private, public, state_local, federal);
+  variable value_put_in_place (not seasonally adjusted) or value_put_in_place_saar (seasonally adjusted annual rate); unit
+  USD (millions times 1,000,000); freq P1M; ts_utc the month''s first day; geo US; x_column the Census Bureau''s column; x_status
+  p preliminary, r revised.'
+read:
+  date: '2026-11-20'
+  rows: 82760
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: census_c30:<owner>:<type>
+  type: text
+  values:
+    distinct: 110
+    examples:
+    - census_c30:federal:amusement_and_recreation
+    - census_c30:federal:commercial
+    - census_c30:federal:conservation_and_development
+    - census_c30:federal:educational
+    - census_c30:federal:health_care
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 404
+    earliest: '1993-01-01T00:00:00Z'
+    latest: '2026-08-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 1745310000000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD: 82760
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 82760
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US on every row
+  type: text
+  values:
+    list:
+      US: 82760
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 82760
+- name: node
+  shared: true
+  particular: The column as the Census Bureau names it (the same as x_column), not a pricing node
+  type: text
+  values:
+    distinct: 110
+    examples:
+    - Air
+    - Amusement and Recreation
+    - Automotive
+    - Auxiliary building
+    - Building supply store
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      census:c30_construction_spending: 82760
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.census.gov/construction/c30/xlsx/privsatime.xlsx: 26816
+      https://www.census.gov/construction/c30/xlsx/privtime.xlsx: 26816
+      https://www.census.gov/construction/c30/xlsx/pubsatime.xlsx: 14564
+      https://www.census.gov/construction/c30/xlsx/pubtime.xlsx: 14564
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T04:17:06Z': 26816
+      '2026-10-24T04:17:09Z': 26816
+      '2026-10-24T04:17:14Z': 14564
+      '2026-10-24T04:17:38Z': 14564
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-01T14:00:31Z': 14564
+      '2026-10-01T14:01:56Z': 26816
+      '2026-10-01T14:02:13Z': 26816
+      '2026-10-01T15:28:41Z': 14564
+  missing_cells: 0
+- name: x_column
+  label: The Census Bureau's column name of the construction type
+  unit: none
+  type: text
+  values:
+    distinct: 110
+    examples:
+    - Air
+    - Amusement and Recreation
+    - Automotive
+    - Auxiliary building
+    - Building supply store
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method census_c30_construction_monthly.md
+- name: x_status
+  label: 'The release''s mark: p preliminary, r revised'
+  unit: none
+  type: text
+  values:
+    list:
+      p: 220
+      r: 440
+  missing_cells: 82100
+  missing_meaning: No mark in the release (the months before the newest three)
+  source_name: null
+  documented_by: header; method census_c30_construction_monthly.md
+variables:
+- name: value_put_in_place
+  label: Value of construction put in place in the month, not seasonally adjusted, USD (millions times 1,000,000)
+  unit: USD
+  rows: 41380
+  first: '1993-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: value_put_in_place_saar
+  label: Value of construction put in place, seasonally adjusted annual rate, USD (millions times 1,000,000)
+  unit: USD
+  rows: 41380
+  first: '1993-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

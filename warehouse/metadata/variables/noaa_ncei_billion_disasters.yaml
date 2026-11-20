@@ -1,0 +1,217 @@
+# The codebook's metadata of table noaa_ncei_billion_disasters (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: noaa_ncei_billion_disasters
+family: noaa
+shape: events
+row: One U.S. weather or climate disaster of 1980 to 2024 whose cost reached a billion dollars, from NOAA NCEI's Billion-Dollar
+  Weather and Climate Disasters (the product retired in 2025).
+time: event_date is the disaster's begin date; x_end_date its end.
+vintage_rule: A snapshot written whole each run; the file is reused from the raw files once saved, as the retired record no
+  longer changes. No vintage column.
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: 'noaa:billion_dollar_disasters NOAA National Centers for Environmental Information (NCEI) U.S. Billion-Dollar Weather
+    and Climate Disasters (2025), https://www.ncei.noaa.gov/access/billions/, DOI: 10.25921/stkw-7w73'
+  url: https://www.ncei.noaa.gov/access/billions/
+cite: NOAA National Centers for Environmental Information (NCEI). U.S. Billion-Dollar Weather and Climate Disasters, events
+  1980 to 2024 (retired 2025). Via the Energy Research Warehouse (ERW), table `noaa_ncei_billion_disasters`.
+method: docs/methods/noaa_ncei_billion_disasters.md
+header_title: NOAA NCEI, U.S. Billion-Dollar Weather and Climate Disasters, 1980 to 2024 (the product retired in 2025) (session
+  2073)
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id noaa_billion:<begin date>:<12 hex of the SHA-1 of the name>;
+  event_date the begin date; event_type NCEI''s disaster type in snake case; x_cost_cpi_adjusted_usd and x_cost_unadjusted_usd
+  NCEI''s millions written as dollars; x_deaths as published.'
+read:
+  date: '2026-11-20'
+  rows: 403
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  particular: noaa_billion:<begin date>:<12 hex of the SHA-1 of the name>, the ERW's own (NCEI gives none)
+  type: text
+  values:
+    distinct: 403
+    examples:
+    - noaa_billion:1980-04-10:c84bdae69481
+    - noaa_billion:1980-06-01:976696562e71
+    - noaa_billion:1980-08-07:16808a4cc470
+    - noaa_billion:1981-01-12:5a8cb3e434b2
+    - noaa_billion:1981-05-05:0d51df985f44
+  missing_cells: 0
+- name: event_date
+  shared: true
+  particular: The disaster's begin date
+  type: date
+  values:
+    distinct: 400
+    earliest: '1980-04-10'
+    latest: '2024-10-09'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: 'NCEI''s disaster type in snake case: severe_storm, tropical_cyclone, flooding, drought, winter_storm, wildfire,
+    freeze'
+  type: text
+  values:
+    list:
+      drought: 32
+      flooding: 45
+      freeze: 9
+      severe_storm: 203
+      tropical_cyclone: 67
+      wildfire: 23
+      winter_storm: 24
+  missing_cells: 0
+- name: parties
+  shared: true
+  particular: Empty in every row
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 403
+- name: entity_ids
+  shared: true
+  particular: Empty in every row
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 403
+- name: mw
+  shared: true
+  particular: Empty in every row
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 403
+- name: price
+  shared: true
+  particular: Empty in every row
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 403
+- name: currency
+  shared: true
+  particular: Empty in every row
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 403
+- name: status
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 403
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      noaa:billion_dollar_disasters: 403
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.ncei.noaa.gov/access/billions/events-US-1980-2024.csv: 403
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T20:19:06Z': 403
+  missing_cells: 0
+- name: x_name
+  label: NCEI's name of the disaster
+  unit: none
+  type: text
+  values:
+    distinct: 400
+    examples:
+    - Arizona Flooding (October 1983)
+    - Arizona Severe Weather (October 2010)
+    - Arkansas River Flooding (June 2019)
+    - Blizzard/Floods (January 1996)
+    - California Flooding (December 2022 - March 2023)
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Name
+  documented_by: connector noaa_billion_disasters.py; method noaa_ncei_billion_disasters.md
+- name: x_disaster
+  label: NCEI's disaster type in its own words (Severe Storm, Tropical Cyclone, Flooding, Drought, Winter Storm, Wildfire,
+    Freeze)
+  unit: none
+  type: text
+  values:
+    list:
+      Drought: 32
+      Flooding: 45
+      Freeze: 9
+      Severe Storm: 203
+      Tropical Cyclone: 67
+      Wildfire: 23
+      Winter Storm: 24
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Disaster
+  documented_by: connector noaa_billion_disasters.py; method noaa_ncei_billion_disasters.md
+- name: x_end_date
+  label: The disaster's end date
+  unit: none
+  type: date
+  values:
+    distinct: 395
+    earliest: '1980-04-17'
+    latest: '2024-12-31'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: End Date
+  documented_by: connector noaa_billion_disasters.py
+- name: x_cost_cpi_adjusted_usd
+  label: NCEI's cost of the disaster adjusted by the consumer price index, its millions written as dollars
+  unit: USD
+  type: integer
+  values:
+    distinct: 399
+    lowest: 1063800000
+    highest: 201297500000
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: CPI-Adjusted Cost
+  documented_by: header; method noaa_ncei_billion_disasters.md
+- name: x_cost_unadjusted_usd
+  label: NCEI's cost of the disaster not adjusted for inflation, its millions written as dollars
+  unit: USD
+  type: integer
+  values:
+    distinct: 388
+    lowest: 400000000
+    highest: 125029500000
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Unadjusted Cost
+  documented_by: header; method noaa_ncei_billion_disasters.md
+- name: x_deaths
+  label: The deaths NCEI counts for the disaster, as published
+  unit: count
+  type: integer
+  values:
+    distinct: 92
+    lowest: 0
+    highest: 2981
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Deaths
+  documented_by: header; method noaa_ncei_billion_disasters.md
+second_look: null

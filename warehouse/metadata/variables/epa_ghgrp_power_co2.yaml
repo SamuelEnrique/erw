@@ -1,0 +1,250 @@
+# The codebook's metadata of table epa_ghgrp_power_co2 (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: epa_ghgrp_power_co2
+family: epa
+shape: series
+row: One power plant's (a GHGRP facility reporting under subpart D, electricity generation) reported CO2 of one kind in one
+  reporting year, 2010 to 2023.
+time: ts_utc is the reporting year's 1 January (UTC), naming the year; freq P1Y.
+vintage_rule: Rewritten whole by each run from the newest summary zip, so EPA's revisions replace earlier figures; vintage
+  is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: epa:ghgrp U.S. Environmental Protection Agency, Greenhouse Gas Reporting Program, data summary spreadsheets (2023)
+  url: https://www.epa.gov/ghgreporting/data-sets
+cite: U.S. Environmental Protection Agency (EPA). Greenhouse Gas Reporting Program, data summary spreadsheets. Via the Energy
+  Research Warehouse (ERW), table `epa_ghgrp_power_co2`.
+method: docs/methods/epa_ghgrp_power_co2.md
+header_title: EPA Greenhouse Gas Reporting Program, power plants' (subpart D) reported CO2, 2010 to 2023 (session 492)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity ghgrp:<facility id>; variables co2_non_biogenic and co2_biogenic
+  in metric tons of CO2 (tCO2), as reported; ts_utc the reporting year''s 1 January; freq P1Y; x_oris the ORIS codes from
+  EPA''s crosswalk.'
+read:
+  date: '2026-11-20'
+  rows: 17035
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: ghgrp:<GHGRP facility id>
+  type: text
+  values:
+    distinct: 1443
+    examples:
+    - ghgrp:1000001
+    - ghgrp:1000049
+    - ghgrp:1000050
+    - ghgrp:1000051
+    - ghgrp:1000052
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2010-01-01T00:00:00Z': 1321
+      '2011-01-01T00:00:00Z': 1334
+      '2012-01-01T00:00:00Z': 1344
+      '2013-01-01T00:00:00Z': 1333
+      '2014-01-01T00:00:00Z': 1297
+      '2015-01-01T00:00:00Z': 1248
+      '2016-01-01T00:00:00Z': 1191
+      '2017-01-01T00:00:00Z': 1162
+      '2018-01-01T00:00:00Z': 1173
+      '2019-01-01T00:00:00Z': 1148
+      '2020-01-01T00:00:00Z': 1127
+      '2021-01-01T00:00:00Z': 1121
+      '2022-01-01T00:00:00Z': 1121
+      '2023-01-01T00:00:00Z': 1115
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 22800874.9
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      tCO2: 17035
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 17035
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state> of the facility
+  type: text
+  values:
+    distinct: 49
+    examples:
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+    - US-CO
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 17035
+- name: node
+  shared: true
+  particular: The facility's name, not a pricing node
+  type: text
+  values:
+    distinct: 1509
+    examples:
+    - 23rd and 3rd
+    - 48th Street Peaking Station
+    - A B Brown Generating Station
+    - A B Paterson
+    - AES Alamitos
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      epa:ghgrp: 17035
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.epa.gov/system/files/other-files/2024-10/2023_data_summary_spreadsheets.zip: 17035
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T17:42:37Z': 17035
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 17035
+- name: x_frs_id
+  label: The facility's id in EPA's Facility Registry Service (FRS)
+  unit: none
+  type: integer
+  values:
+    distinct: 1790
+    lowest: 110000308444
+    highest: 110071542884
+  missing_cells: 72
+  missing_meaning: EPA gives no FRS id
+  source_name: FRS Id
+  documented_by: connector ghgrp_power.py; method epa_ghgrp_power_co2.md
+- name: x_oris
+  label: The plant's ORIS codes from EPA's GHGRP-to-ORIS power plant crosswalk, joined with ';'
+  unit: none
+  type: text
+  values:
+    distinct: 1418
+    examples:
+    - '10'
+    - '1001'
+    - '10030'
+    - '10034'
+    - '1004'
+  missing_cells: 49
+  missing_meaning: The facility has no ORIS code in EPA's crosswalk (21 facilities)
+  source_name: null
+  documented_by: header; connector ghgrp_power.py; method epa_ghgrp_power_co2.md
+- name: x_subparts
+  label: The facility's industry type that year, as the GHGRP subpart letters it reported under (D is electricity generation)
+  unit: none
+  type: text
+  values:
+    distinct: 35
+    examples:
+    - C,D
+    - C,D,DD
+    - C,D,DD,MM-REF,P,Y
+    - C,D,DD,MM-REF,Y
+    - C,D,DD,X
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Industry Type (subparts)
+  documented_by: connector ghgrp_power.py; method epa_ghgrp_power_co2.md
+- name: x_naics
+  label: The facility's primary NAICS (industry classification) code
+  unit: none
+  type: integer
+  values:
+    distinct: 33
+    lowest: 211112
+    highest: 926130
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Primary NAICS Code
+  documented_by: connector ghgrp_power.py; method epa_ghgrp_power_co2.md
+- name: x_reporting_year
+  label: The reporting year of the workbook the row was read from
+  unit: none
+  type: integer
+  values:
+    list:
+      '2010': 1321
+      '2011': 1334
+      '2012': 1344
+      '2013': 1333
+      '2014': 1297
+      '2015': 1248
+      '2016': 1191
+      '2017': 1162
+      '2018': 1173
+      '2019': 1148
+      '2020': 1127
+      '2021': 1121
+      '2022': 1121
+      '2023': 1115
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector ghgrp_power.py; method epa_ghgrp_power_co2.md
+variables:
+- name: co2_biogenic
+  label: The facility's reported biogenic CO2 emissions
+  unit: tCO2
+  rows: 500
+  first: '2010-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: co2_non_biogenic
+  label: The facility's reported CO2 emissions, non-biogenic (from fossil and other non-biological carbon)
+  unit: tCO2
+  rows: 16535
+  first: '2010-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+second_look: null

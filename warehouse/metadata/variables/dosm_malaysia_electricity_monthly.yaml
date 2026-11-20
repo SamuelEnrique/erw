@@ -1,0 +1,210 @@
+# The codebook's metadata of table dosm_malaysia_electricity_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: dosm_malaysia_electricity_monthly
+family: other_sources
+shape: series
+row: One month's value of Malaysia's electricity supply or consumption by sector, from the Department of Statistics Malaysia.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; the latest six months provisional.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s months replace the same months and older ones are kept; vintage
+  is each file''s Last-Modified.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: dosm:electricity_supply_consumption Department of Statistics Malaysia, Monthly Electricity Supply and Monthly Electricity
+    Consumption (compiled from TNB, SESB, Sarawak Energy and the Energy Commission)
+  url: https://data.gov.my/data-catalogue/electricity_supply
+cite: Department of Statistics Malaysia (DOSM). Monthly Electricity Supply and Monthly Electricity Consumption, by sector
+  (data.gov.my catalogue). Via the Energy Research Warehouse (ERW), table `dosm_malaysia_electricity_monthly`.
+method: docs/methods/dosm_malaysia_electricity_monthly.md
+header_title: Department of Statistics Malaysia (data.gov.my), Malaysia's electricity supply and consumption a month by sector,
+  2018-01 to 2026-06 (session 2322)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity dosm:MY; variable the file and its sector (supply_total, supply_local,
+  supply_local_public, supply_local_private, supply_imports, supply_distribution; consumption_total, consumption_local, consumption_local_commercial,
+  consumption_local_domestic, consumption_exports, consumption_losses); unit MWh (DOSM''s million kWh times 1,000); ts_utc
+  the month''s first day; freq P1M; geo MY. Commercial includes industry and mining; domestic includes public lighting. The
+  latest six months are provisional (DOSM).'
+read:
+  date: '2026-11-20'
+  rows: 1224
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: dosm:MY on every row
+  type: text
+  values:
+    list:
+      dosm:MY: 1224
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 102
+    earliest: '2018-01-01T00:00:00Z'
+    latest: '2026-06-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 970
+    lowest: 0.0
+    highest: 17563330.992741447
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 1224
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 1224
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: MY on every row
+  type: text
+  values:
+    list:
+      MY: 1224
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1224
+- name: node
+  shared: true
+  particular: Malaysia on every row, not a pricing node
+  type: text
+  values:
+    list:
+      Malaysia: 1224
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      dosm:electricity_supply_consumption: 1224
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://storage.data.gov.my/energy/electricity_consumption.csv: 612
+      https://storage.data.gov.my/energy/electricity_supply.csv: 612
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T06:31:10Z': 612
+      '2026-10-24T06:31:11Z': 612
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'The file''s Last-Modified (UTC): the supply file or the consumption file'
+  type: utc time
+  values:
+    list:
+      '2026-10-07T16:10:05Z': 612
+      '2026-10-07T16:10:06Z': 612
+  missing_cells: 0
+variables:
+- name: consumption_exports
+  label: Electricity consumption, exports
+  unit: MWh
+  rows: 102
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: consumption_local
+  label: Electricity consumption, local
+  unit: MWh
+  rows: 102
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: consumption_local_commercial
+  label: Electricity consumption, local commercial (includes industry and mining)
+  unit: MWh
+  rows: 102
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: consumption_local_domestic
+  label: Electricity consumption, local domestic (includes public lighting)
+  unit: MWh
+  rows: 102
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: consumption_losses
+  label: Electricity consumption, losses
+  unit: MWh
+  rows: 102
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: consumption_total
+  label: Electricity consumption, total
+  unit: MWh
+  rows: 102
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: supply_distribution
+  label: 'DOSM''s distribution sector of supply (equal to the total every month: never add it to the other sectors)'
+  unit: MWh
+  rows: 102
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: supply_imports
+  label: Electricity supply, imports
+  unit: MWh
+  rows: 102
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: supply_local
+  label: Electricity supply, local
+  unit: MWh
+  rows: 102
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: supply_local_private
+  label: Electricity supply, local private
+  unit: MWh
+  rows: 102
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: supply_local_public
+  label: Electricity supply, local public
+  unit: MWh
+  rows: 102
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: supply_total
+  label: Electricity supply, total
+  unit: MWh
+  rows: 102
+  first: '2018-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+second_look: null

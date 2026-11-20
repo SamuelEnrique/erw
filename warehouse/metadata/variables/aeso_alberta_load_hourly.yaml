@@ -1,0 +1,141 @@
+# The codebook's metadata of table aeso_alberta_load_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: aeso_alberta_load_hourly
+family: other_sources
+shape: series
+row: Alberta's internal load in one hour, from the Alberta Electric System Operator's Historical Pool Price report.
+time: ts_utc is the hour's start in UTC (AESO's hour ending in Alberta local time, read through America/Edmonton); freq PT1H.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s hours replace the same hours and older ones are kept; vintage
+  is not filled (the report states no publication time).'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: aeso:historical_pool_price Alberta Electric System Operator, Historical Pool Price report (Energy Trading System)
+  url: http://ets.aeso.ca/ets_web/ip/Market/Reports/HistoricalPoolPriceReportServlet
+cite: Alberta Electric System Operator (AESO), Canada. Historical Pool Price report, Alberta internal load. Via the Energy
+  Research Warehouse (ERW), table `aeso_alberta_load_hourly`.
+method: docs/methods/aeso_alberta_load_hourly.md
+header_title: Alberta Electric System Operator (AESO), Historical Pool Price report, Alberta internal load, 2025 to 2026-10-23
+  (session 2071)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity aeso:alberta; variable ail_demand (Alberta internal load),
+  MW; ts_utc the hour''s start in UTC (the AESO''s hour ending in Alberta''s local time, read through America/Edmonton; the
+  autumn''s repeated hour "02*" is the standard time one); freq PT1H.'
+read:
+  date: '2026-11-20'
+  rows: 15853
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: aeso:alberta on every row
+  type: text
+  values:
+    list:
+      aeso:alberta: 15853
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2025-01-01T07:00:00Z'
+    latest: '2026-10-23T19:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 3436
+    lowest: 8295.0
+    highest: 12785.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 15853
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 15853
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: CA-AB on every row
+  type: text
+  values:
+    list:
+      CA-AB: 15853
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 15853
+- name: node
+  shared: true
+  particular: Alberta on every row, not a pricing node
+  type: text
+  values:
+    list:
+      Alberta: 15853
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      aeso:historical_pool_price: 15853
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? http://ets.aeso.ca/ets_web/ip/Market/Reports/HistoricalPoolPriceReportServlet?beginDate=01012025&endDate=12312025&contentType=csv
+      : 8736
+      ? http://ets.aeso.ca/ets_web/ip/Market/Reports/HistoricalPoolPriceReportServlet?beginDate=12312025&endDate=10242026&contentType=csv
+      : 7117
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T20:08:46Z': 8736
+      '2026-10-23T20:09:04Z': 7117
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: the report states no publication time'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 15853
+variables:
+- name: ail_demand
+  label: Alberta internal load (AIL), the hour's demand
+  unit: MW
+  rows: 15853
+  first: '2025-01-01T07:00:00Z'
+  last: '2026-10-23T19:00:00Z'
+second_look: null

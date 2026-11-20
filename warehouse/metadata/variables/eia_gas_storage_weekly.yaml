@@ -1,0 +1,155 @@
+# The codebook's metadata of table eia_gas_storage_weekly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_gas_storage_weekly
+family: eia
+shape: series
+row: One region's (or the Lower 48's) working gas in underground storage at the end of one report week, from EIA's Weekly
+  Natural Gas Storage Report.
+time: ts_utc is the Friday the report week ends, at 00:00:00Z (freq P1W).
+vintage_rule: Rewritten whole by each run (the file is deleted and the history from 2010 written again), so EIA's revisions
+  are taken. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1W
+source:
+- name: eia:natural-gas/stor/wkly EIA, Weekly Natural Gas Storage Report
+  url: https://ir.eia.gov/ngs/ngs.html
+cite: U.S. Energy Information Administration (EIA). Weekly Natural Gas Storage Report. Via the Energy Research Warehouse (ERW),
+  table `eia_gas_storage_weekly`.
+method: docs/methods/eia_gas_storage_weekly.md
+header_title: EIA weekly working gas in underground storage, the Lower 48 and its regions, from 2010 (session 134)
+header_shape: 'Shape: series (docs/datastandard.md v0). freq P1W; ts_utc is EIA''s date at 00:00:00Z (a weekly value''s is
+  the date the report week ends, a monthly value''s the first day of the month). node is EIA''s name of the series. Variables:
+  working_gas. Units per row.'
+read:
+  date: '2026-11-20'
+  rows: 7040
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia:<EIA series id>
+  type: text
+  values:
+    list:
+      eia:NW2_EPG0_SNO_R33_BCF: 880
+      eia:NW2_EPG0_SSO_R33_BCF: 880
+      eia:NW2_EPG0_SWO_R31_BCF: 880
+      eia:NW2_EPG0_SWO_R32_BCF: 880
+      eia:NW2_EPG0_SWO_R33_BCF: 880
+      eia:NW2_EPG0_SWO_R34_BCF: 880
+      eia:NW2_EPG0_SWO_R35_BCF: 880
+      eia:NW2_EPG0_SWO_R48_BCF: 880
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 880
+    earliest: '2010-01-01T00:00:00Z'
+    latest: '2026-11-06T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1925
+    lowest: 54.0
+    highest: 4047.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      bcf: 7040
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1W: 7040
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US on every row, the regions included
+  type: text
+  values:
+    list:
+      US: 7040
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 7040
+- name: node
+  shared: true
+  particular: EIA's name of the series (the region)
+  type: text
+  values:
+    list:
+      Weekly East Region Natural Gas Working Underground Storage: 880
+      Weekly Lower 48 States Natural Gas Working Underground Storage: 880
+      Weekly Midwest Region Natural Gas Working Underground Storage: 880
+      Weekly Mountain Region Natural Gas Working Underground Storage: 880
+      Weekly Nonsalt Region Natural Gas Working Underground Storage: 880
+      Weekly Pacific Region Natural Gas Working Underground Storage: 880
+      Weekly Salt Region Natural Gas Working Underground Storage: 880
+      Weekly South Central Region Natural Gas Working Underground Storage: 880
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:natural-gas/stor/wkly: 7040
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/natural-gas/stor/wkly/data/?frequency=weekly&data%5B0%5D=value&start=2010-01-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000
+      : 5000
+      ? https://api.eia.gov/v2/natural-gas/stor/wkly/data/?frequency=weekly&data%5B0%5D=value&start=2010-01-01&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=series&sort%5B1%5D%5Bdirection%5D=asc&offset=5000&length=5000
+      : 2040
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T11:47:33Z': 5000
+      '2026-11-16T11:47:34Z': 2040
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 7040
+variables:
+- name: working_gas
+  label: Working gas in underground storage (gas available to withdraw), billion cubic feet, as EIA publishes it
+  unit: bcf
+  rows: 7040
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-11-06T00:00:00Z'
+second_look: null

@@ -1,0 +1,290 @@
+# The codebook's metadata of table ba_supply_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ba_supply_monthly
+family: ba
+shape: series
+row: One balancing authority's (or one of its ties to a neighbour's) value of one supply measure for one month, from 2019.
+time: ts_utc is the first day of the month at 00:00:00Z; a month's days are EIA's Eastern days.
+vintage_rule: Rewritten whole by each run of the builder (run by hand); vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1M
+source:
+- name: erw:ba_supply ERW derived table, who supplies a grid (docs/methods/grid_network.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/grid_network.md
+cite: 'Energy Research Warehouse (ERW), derived. Who supplies a grid: net imports by neighbour and month (docs/methods/grid_network.md).
+  Via the Energy Research Warehouse (ERW), table `ba_supply_monthly`.'
+method: docs/methods/ba_supply_monthly.md
+header_title: 'who supplies a grid: each balancing authority''s net imports from each neighbour by month, from 2019, and three
+  measures of its total net imports (derived, session 68)'
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column ba; freq P1M, ts_utc the first day of the month at
+  00:00:00Z; a month''s days are EIA''s Eastern days. Positive means the neighbour supplied the balancing authority (a net
+  import). Pair rows (entity eia930:<BA>-<NEIGHBOUR>, x_to_ba the neighbour): net_import_mwh, net_import_share_pct, neighbor_report_mwh,
+  neighbor_report_days. Balancing authority rows (entity eia930:<BA>): net_import_pairs_mwh, net_import_total_interchange_mwh,
+  net_import_balance_mwh (the balance on the share days) and each one''s _share_pct of demand over the share days (held days
+  whose demand is held; share_days); total_interchange_all_days_mwh, total_interchange_days, balance_all_days_mwh, demand_all_days_mwh,
+  balance_days; demand_mwh; days_held, days_left_out, days_in_month, thin_month.'
+read:
+  date: '2026-11-20'
+  rows: 158503
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia930:<BA> for a balancing authority's rows, eia930:<BA>-<NEIGHBOUR> for a tie's rows
+  type: text
+  values:
+    distinct: 473
+    examples:
+    - eia930:AEC
+    - eia930:AEC-MISO
+    - eia930:AEC-SOCO
+    - eia930:AECI
+    - eia930:AECI-MISO
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 93
+    earliest: '2019-01-01T00:00:00Z'
+    latest: '2026-09-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -10805407.0
+    highest: 4165722983.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 84537
+      count: 67769
+      pct: 6197
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 158503
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 158503
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 158503
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 158503
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:ba_supply: 158503
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/grid_network.md: 158503
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-02T23:03:48Z': 158503
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 158503
+- name: ba
+  shared: true
+  particular: The balancing authority whose supply the row measures
+  type: text
+  values:
+    distinct: 83
+    examples:
+    - aec
+    - aeci
+    - ava
+    - avrn
+    - azps
+  missing_cells: 0
+- name: x_to_ba
+  label: The neighbour on the other side of the tie, EIA-930 code in lowercase
+  unit: none
+  type: text
+  values:
+    distinct: 93
+    examples:
+    - aec
+    - aeci
+    - aeso
+    - ava
+    - avrn
+  missing_cells: 63502
+  missing_meaning: Empty on a balancing authority's own rows (not a tie)
+  source_name: null
+  documented_by: header; method ba_supply_monthly.md
+variables:
+- name: balance_all_days_mwh
+  label: Demand less net generation over every day both are held
+  unit: MWh
+  rows: 651
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: balance_days
+  label: The days demand and net generation are both held
+  unit: count
+  rows: 651
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: days_held
+  label: 'Days counted: every regular neighbour reported and no pair-day was screened out'
+  unit: count
+  rows: 7455
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: days_in_month
+  label: The days of the month
+  unit: count
+  rows: 7455
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: days_left_out
+  label: Days not counted (a neighbour missing or a pair-day screened out, or nothing reported)
+  unit: count
+  rows: 7455
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: demand_all_days_mwh
+  label: Demand over every day it is held
+  unit: MWh
+  rows: 651
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: demand_mwh
+  label: Demand over the share days
+  unit: MWh
+  rows: 648
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: neighbor_report_days
+  label: The days the neighbour reported the tie
+  unit: count
+  rows: 29544
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: neighbor_report_mwh
+  label: The same tie's flow by the neighbour's own report
+  unit: MWh
+  rows: 29544
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: net_import_balance_mwh
+  label: Net imports as demand less net generation, over the share days (the seven ISOs only)
+  unit: MWh
+  rows: 648
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: net_import_balance_share_pct
+  label: net_import_balance_mwh as a percent of demand over the share days
+  unit: pct
+  rows: 648
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: net_import_mwh
+  label: 'Net imports over the tie in the month: positive when the neighbour supplied the authority (EIA''s sign flipped)'
+  unit: MWh
+  rows: 31620
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: net_import_pairs_mwh
+  label: Net imports as the sum of the authority's reported ties (the headline measure)
+  unit: MWh
+  rows: 7067
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: net_import_pairs_share_pct
+  label: net_import_pairs_mwh as a percent of demand over the share days
+  unit: pct
+  rows: 648
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: net_import_share_pct
+  label: The tie's net imports as a percent of the authority's demand over the share days
+  unit: pct
+  rows: 4293
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: net_import_total_interchange_mwh
+  label: Net imports as EIA's total interchange of the authority, sign turned
+  unit: MWh
+  rows: 6602
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: net_import_total_interchange_share_pct
+  label: net_import_total_interchange_mwh as a percent of demand over the share days
+  unit: pct
+  rows: 608
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: share_days
+  label: 'Held days whose demand is held: the days every share is taken over'
+  unit: count
+  rows: 648
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: thin_month
+  label: 1 when fewer than two thirds of the month's days are held, else 0
+  unit: count
+  rows: 7455
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: total_interchange_all_days_mwh
+  label: EIA's total interchange, sign turned, over every day it covers
+  unit: MWh
+  rows: 7106
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+- name: total_interchange_days
+  label: The days EIA's total interchange covers
+  unit: count
+  rows: 7106
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-09-01T00:00:00Z'
+second_look: null

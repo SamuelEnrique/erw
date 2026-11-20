@@ -1,0 +1,308 @@
+# The codebook's metadata of table singstat_singapore_electricity (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: singstat_singapore_electricity
+family: other_sources
+shape: series
+row: Singapore's monthly electricity generation (table M890831), or one row of its annual generation and consumption by sector
+  (table M890841), from SingStat's Table Builder.
+time: ts_utc is the month's or the year's first day at 00:00:00Z; freq P1M (M890831) or P1Y (M890841).
+vintage_rule: Rewritten whole as one snapshot by each run from SingStat's two tables; vintage is each table's dataLastUpdated.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M;P1Y
+source:
+- name: singstat:M890831_M890841 Singapore Department of Statistics, SingStat Table Builder
+  url: https://tablebuilder.singstat.gov.sg/table/TS/M890831
+cite: 'Singapore Department of Statistics (SingStat). Table Builder M890831 and M890841: electricity generation, monthly;
+  generation and consumption, annual. Via the Energy Research Warehouse (ERW), table `singstat_singapore_electricity`.'
+method: docs/methods/singstat_singapore_electricity.md
+header_title: Singapore Department of Statistics, SingStat Table Builder M890831 (Electricity Generation, Monthly) and M890841
+  (Electricity Generation And Consumption, Annual), 1975-01 to 2026-06 (session 2308)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity singstat:sg; variable <table>_<row in snake case>; unit MWh
+  (the tables'' GWh times 1,000); ts_utc the month''s or year''s first day; freq P1M (M890831) or P1Y (M890841); geo SG; node
+  the row as SingStat writes it; x_table the table; x_series SingStat''s series number.'
+read:
+  date: '2026-11-20'
+  rows: 1009
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: singstat:sg on every row
+  type: text
+  values:
+    list:
+      singstat:sg: 1009
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 618
+    earliest: '1975-01-01T00:00:00Z'
+    latest: '2026-06-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 999
+    lowest: 25900.0
+    highest: 60410400.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 1009
+  missing_cells: 0
+- name: freq
+  shared: true
+  particular: P1M for table M890831, P1Y for table M890841
+  type: text
+  values:
+    list:
+      P1M: 618
+      P1Y: 391
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: SG on every row
+  type: text
+  values:
+    list:
+      SG: 1009
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1009
+- name: node
+  shared: true
+  particular: The row as SingStat writes it, not a pricing node
+  type: text
+  values:
+    list:
+      Accommodation And Food Services: 20
+      Commerce And Service-Related: 20
+      Construction: 20
+      Electricity Consumption: 20
+      Electricity Generation: 669
+      Financial And Insurance Activities: 20
+      Households: 20
+      Industrial-Related: 20
+      Information And Communications: 20
+      Manufacturing: 20
+      Other Commerce And Service-Related: 20
+      Other Industrial-Related: 20
+      Others: 20
+      Professional, Scientific & Technical, Administration & Support Activities: 20
+      Real Estate Activities: 20
+      Transport-Related: 20
+      Utilities: 20
+      Wholesale And Retail Trade: 20
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      singstat:M890831_M890841: 1009
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://tablebuilder.singstat.gov.sg/api/table/tabledata/M890831: 618
+      https://tablebuilder.singstat.gov.sg/api/table/tabledata/M890841: 391
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T06:06:34Z': 618
+      '2026-10-24T06:06:37Z': 391
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The table's dataLastUpdated, as a date at 00:00Z
+  type: utc time
+  values:
+    list:
+      '2026-06-23T00:00:00Z': 391
+      '2026-10-14T00:00:00Z': 618
+  missing_cells: 0
+- name: x_table
+  label: 'SingStat''s table: M890831 (generation, monthly) or M890841 (generation and consumption, annual)'
+  unit: none
+  type: text
+  values:
+    list:
+      M890831: 618
+      M890841: 391
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector singstat_electricity.py; method singstat_singapore_electricity.md
+- name: x_series
+  label: 'SingStat''s series number of the row (1, 2, 2.1, 2.1.1 and so on: its place in the table''s hierarchy)'
+  unit: none
+  type: text
+  values:
+    list:
+      '1': 669
+      '2': 20
+      '2.1': 20
+      2.1.1: 20
+      2.1.2: 20
+      2.1.3: 20
+      2.1.4: 20
+      '2.2': 20
+      2.2.1: 20
+      2.2.2: 20
+      2.2.3: 20
+      2.2.4: 20
+      2.2.5: 20
+      2.2.6: 20
+      2.2.7: 20
+      '2.3': 20
+      '2.4': 20
+      '2.5': 20
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: seriesNo
+  documented_by: connector singstat_electricity.py; method singstat_singapore_electricity.md
+variables:
+- name: m890831_electricity_generation
+  label: Electricity generation in the month (table M890831)
+  unit: MWh
+  rows: 618
+  first: '1975-01-01T00:00:00Z'
+  last: '2026-06-01T00:00:00Z'
+- name: m890841_accommodation_and_food_services
+  label: Annual electricity consumption, accommodation and food services
+  unit: MWh
+  rows: 20
+  first: '2005-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: m890841_commerce_and_service_related
+  label: Annual electricity consumption, commerce and service-related
+  unit: MWh
+  rows: 20
+  first: '2005-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: m890841_construction
+  label: Annual electricity consumption, construction
+  unit: MWh
+  rows: 20
+  first: '2005-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: m890841_electricity_consumption
+  label: Electricity consumption in the year, total (table M890841)
+  unit: MWh
+  rows: 20
+  first: '2005-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: m890841_electricity_generation
+  label: Electricity generation in the year (table M890841)
+  unit: MWh
+  rows: 51
+  first: '1975-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: m890841_financial_and_insurance_activities
+  label: Annual electricity consumption, financial and insurance activities
+  unit: MWh
+  rows: 20
+  first: '2005-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: m890841_households
+  label: Annual electricity consumption, households
+  unit: MWh
+  rows: 20
+  first: '2005-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: m890841_industrial_related
+  label: Annual electricity consumption, industrial-related
+  unit: MWh
+  rows: 20
+  first: '2005-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: m890841_information_and_communications
+  label: Annual electricity consumption, information and communications
+  unit: MWh
+  rows: 20
+  first: '2005-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: m890841_manufacturing
+  label: Annual electricity consumption, manufacturing
+  unit: MWh
+  rows: 20
+  first: '2005-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: m890841_other_commerce_and_service_related
+  label: Annual electricity consumption, other commerce and service-related
+  unit: MWh
+  rows: 20
+  first: '2005-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: m890841_other_industrial_related
+  label: Annual electricity consumption, other industrial-related
+  unit: MWh
+  rows: 20
+  first: '2005-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: m890841_others
+  label: Annual electricity consumption, others
+  unit: MWh
+  rows: 20
+  first: '2005-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: m890841_professional_scientific_technical_administration_support_activities
+  label: Annual electricity consumption, professional, scientific, technical, administration and support activities
+  unit: MWh
+  rows: 20
+  first: '2005-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: m890841_real_estate_activities
+  label: Annual electricity consumption, real estate activities
+  unit: MWh
+  rows: 20
+  first: '2005-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: m890841_transport_related
+  label: Annual electricity consumption, transport-related
+  unit: MWh
+  rows: 20
+  first: '2005-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: m890841_utilities
+  label: Annual electricity consumption, utilities
+  unit: MWh
+  rows: 20
+  first: '2005-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: m890841_wholesale_and_retail_trade
+  label: Annual electricity consumption, wholesale and retail trade
+  unit: MWh
+  rows: 20
+  first: '2005-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

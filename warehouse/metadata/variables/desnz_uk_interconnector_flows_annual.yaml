@@ -1,0 +1,199 @@
+# The codebook's metadata of table desnz_uk_interconnector_flows_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: desnz_uk_interconnector_flows_annual
+family: desnz
+shape: series
+row: The UK's electricity imports, exports, net imports or utilisation over one interconnector border in one year, or the
+  transfers between Scotland and England or Northern Ireland, 1998 to 2025 (DUKES table 5.13).
+time: ts_utc is the year's first day at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot of the DUKES edition read, here 2026); vintage is the workbook's last-modified
+  time.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: desnz:dukes_5_13_interconnectors Department for Energy Security and Net Zero, Digest of UK Energy Statistics (DUKES)
+    2026, table 5.13, Net imports and utilisation of interconnectors
+  url: ''
+cite: UK Department for Energy Security and Net Zero (DESNZ). Digest of UK Energy Statistics (DUKES) 2026, table 5.13, Net
+  imports and utilisation of interconnectors. Via the Energy Research Warehouse (ERW), table `desnz_uk_interconnector_flows_annual`.
+method: docs/methods/desnz_uk_interconnector_flows_annual.md
+header_title: 'DESNZ, Digest of UK Energy Statistics (DUKES) 2026, table 5.13: the UK''s electricity imports, exports and
+  net imports over each interconnector and their utilisation, 1998 to 2025, and the transfers between Scotland and England
+  and Northern Ireland (session 2715)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity desnz_ic:<pair>; variable imports, exports, net_imports, utilisation,
+  or for the two transfers within the UK transfers_to_<place> and net_transfers; unit MWh (the sheet''s GWh times 1,000) or
+  ratio (utilisation); ts_utc the year''s first day; freq P1Y; geo GB; node the sheet''s heading.'
+read:
+  date: '2026-11-20'
+  rows: 642
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: 'desnz_ic:<pair>: seven interconnector borders, uk_total, and the transfers scotland_england and scotland_northern_ireland
+    (Moyle)'
+  type: text
+  values:
+    list:
+      desnz_ic:belgium: 36
+      desnz_ic:denmark: 12
+      desnz_ic:france: 112
+      desnz_ic:ireland_northern_ireland: 112
+      desnz_ic:ireland_wales: 56
+      desnz_ic:netherlands: 60
+      desnz_ic:norway: 20
+      desnz_ic:scotland_england: 78
+      desnz_ic:scotland_northern_ireland: 72
+      desnz_ic:uk_total: 84
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 28
+    earliest: '1998-01-01T00:00:00Z'
+    latest: '2025-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 621
+    lowest: -9983570.5
+    highest: 43929487.9
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 540
+      ratio: 102
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 642
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: Always GB, standing for the UK
+  type: text
+  values:
+    list:
+      GB: 642
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 642
+- name: node
+  shared: true
+  particular: The sheet's heading, not a pricing node
+  type: text
+  values:
+    distinct: 37
+    examples:
+    - Exports (Northern Ireland to Ireland)
+    - Exports (UK to Belgium)
+    - Exports (UK to Denmark)
+    - Exports (UK to France)
+    - Exports (UK to Netherlands)
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      desnz:dukes_5_13_interconnectors: 642
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://assets.publishing.service.gov.uk/media/6a6a3675bf4a7aca8f8976c3/DUKES_5.13.xlsx: 642
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T17:13:14Z': 642
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The workbook's last-modified time
+  type: utc time
+  values:
+    list:
+      '2026-07-29T17:20:53Z': 642
+  missing_cells: 0
+variables:
+- name: exports
+  label: Electricity exported over the border in the year, MWh
+  unit: MWh
+  rows: 130
+  first: '1998-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: imports
+  label: Electricity imported over the border in the year, MWh (the sheet's GWh times 1,000)
+  unit: MWh
+  rows: 130
+  first: '1998-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: net_imports
+  label: Imports less exports, MWh (negative a net export)
+  unit: MWh
+  rows: 130
+  first: '1998-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: net_transfers
+  label: Net transfer between the two parts of the UK in the year, MWh
+  unit: MWh
+  rows: 50
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: transfers_to_england
+  label: Electricity sent from Scotland to England in the year, MWh
+  unit: MWh
+  rows: 26
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: transfers_to_northern_ireland
+  label: Electricity sent from Scotland to Northern Ireland in the year, MWh
+  unit: MWh
+  rows: 24
+  first: '2002-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: transfers_to_scotland
+  label: Electricity sent to Scotland (from England or Northern Ireland) in the year, MWh
+  unit: MWh
+  rows: 50
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: utilisation
+  label: The year's imports and exports over the possible flow at the interconnector's capacity (table 5.13A), ratio
+  unit: ratio
+  rows: 102
+  first: '1998-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

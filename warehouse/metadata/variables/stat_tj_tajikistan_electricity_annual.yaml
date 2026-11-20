@@ -1,0 +1,195 @@
+# The codebook's metadata of table stat_tj_tajikistan_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: stat_tj_tajikistan_electricity_annual
+family: other_sources
+shape: series
+row: One year's value of Tajikistan's electricity output by plant type, trade, losses or consumption by sector, from the Agency
+  on Statistics' analytical table 11.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y; 1991 to 2025.
+vintage_rule: Rewritten whole as one snapshot by each run from the saved workbook; vintage is the workbook's Last-Modified.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: 'stat_tj:analytical_table_11 Agency on Statistics under the President of the Republic of Tajikistan, analytical table:
+    Electricity output, trade and consumption, 1991-2025 (www.stat.tj)'
+  url: ''
+cite: 'Agency on Statistics under the President of the Republic of Tajikistan. Analytical table: Electricity output, trade
+  and consumption, 1991-2025. Via the Energy Research Warehouse (ERW), table `stat_tj_tajikistan_electricity_annual`.'
+method: docs/methods/stat_tj_tajikistan_electricity_annual.md
+header_title: Agency on Statistics under the President of the Republic of Tajikistan, Tajikistan's electricity output, trade
+  and consumption, 1991 to 2025 (session 2659)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity tajstat:tj:<item>; variable generation, imports, exports, consumption,
+  distribution_losses or statistical_difference; unit MWh (the table''s billion kWh times 1,000,000); ts_utc the year''s first
+  day; freq P1Y; geo TJ; node the row''s label.'
+read:
+  date: '2026-11-20'
+  rows: 475
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: tajstat:tj:<item>
+  type: text
+  values:
+    list:
+      tajstat:tj:agriculture: 35
+      tajstat:tj:construction: 35
+      tajstat:tj:consumption: 35
+      tajstat:tj:discrepancy: 21
+      tajstat:tj:exports: 35
+      tajstat:tj:households: 35
+      tajstat:tj:hydro: 35
+      tajstat:tj:imports: 35
+      tajstat:tj:industry: 35
+      tajstat:tj:losses: 35
+      tajstat:tj:other_sectors: 35
+      tajstat:tj:output: 35
+      tajstat:tj:thermal: 34
+      tajstat:tj:transport: 35
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 35
+    earliest: '1991-01-01T00:00:00Z'
+    latest: '2025-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 149
+    lowest: -1000000.0
+    highest: 24000000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 475
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 475
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: TJ on every row
+  type: text
+  values:
+    list:
+      TJ: 475
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 475
+- name: node
+  shared: true
+  particular: The row's label, not a pricing node
+  type: text
+  values:
+    list:
+      Agriculture: 35
+      Construction: 35
+      Discrepancy: 21
+      Exports: 35
+      Households: 35
+      Hydropower: 35
+      Imports: 35
+      Industry: 35
+      Losses: 35
+      Other sectors: 35
+      Output: 35
+      Thermal power: 34
+      Total internal consumption (by sector): 35
+      Transport: 35
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      stat_tj:analytical_table_11: 475
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.stat.tj/wp-content/uploads/2026/09/table_11-1.xlsx: 475
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T10:07:12Z': 475
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The workbook's Last-Modified (UTC)
+  type: utc time
+  values:
+    list:
+      '2026-09-26T05:32:16Z': 475
+  missing_cells: 0
+variables:
+- name: consumption
+  label: Consumption, total or by sector
+  unit: MWh
+  rows: 245
+  first: '1991-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: distribution_losses
+  label: Distribution losses
+  unit: MWh
+  rows: 35
+  first: '1991-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: exports
+  label: Exports
+  unit: MWh
+  rows: 35
+  first: '1991-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation
+  label: Electricity output, total or by plant type (hydropower, thermal power)
+  unit: MWh
+  rows: 104
+  first: '1991-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: imports
+  label: Imports
+  unit: MWh
+  rows: 35
+  first: '1991-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: statistical_difference
+  label: Discrepancy, as the table names it
+  unit: MWh
+  rows: 21
+  first: '1991-01-01T00:00:00Z'
+  last: '2014-01-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,170 @@
+# The codebook's metadata of table eia_gas_plant_processing_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_gas_plant_processing_annual
+family: eia
+shape: series
+row: One year's natural gas plant processing figure (gas processed, extraction loss or liquids extracted) for the U.S., a
+  state or one of EIA's processing areas.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:natural-gas/prod/pp U.S. Energy Information Administration, Natural Gas Annual, natural gas plant processing (API
+    v2, route natural-gas/prod/pp)
+  url: https://api.eia.gov/v2/natural-gas/prod/pp/
+cite: U.S. Energy Information Administration (EIA). Natural Gas Annual, natural gas plant processing (API v2). Via the Energy
+  Research Warehouse (ERW), table `eia_gas_plant_processing_annual`.
+method: docs/methods/eia_gas_plant_processing_annual.md
+header_title: EIA, natural gas plant processing (gas processed, extraction loss, liquids extracted), the U.S., the states
+  and EIA's processing areas, a year (session 2287)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_gas_plant_processing:<series>; variable gas_processed and
+  extraction_loss (MMcf) or liquids_extracted (kbbl); ts_utc the year''s 1 January; freq P1Y; geo US (the U.S., the federal
+  offshore) or US-<state> (a state, its onshore or offshore part, or a pair''s producing area); node EIA''s description. The
+  U.S., a state and its parts and pairs overlap: a sum takes one level.'
+read:
+  date: '2026-11-20'
+  rows: 5829
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia_gas_plant_processing:<EIA series id>
+  type: text
+  values:
+    distinct: 276
+    examples:
+    - eia_gas_plant_processing:N9060US2
+    - eia_gas_plant_processing:NA1150_SAK_2
+    - eia_gas_plant_processing:NA1150_SAL_2
+    - eia_gas_plant_processing:NA1150_SAR_2
+    - eia_gas_plant_processing:NA1150_SCA_2
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 59
+    earliest: '1967-01-01T00:00:00Z'
+    latest: '2025-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 4563
+    lowest: 0.0
+    highest: 27088079.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MMcf: 4105
+      kbbl: 1724
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 5829
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US (the U.S., the federal offshore) or US-<state> (a state, its onshore or offshore part, or a pair's producing
+    area)
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-CA
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5829
+- name: node
+  shared: true
+  particular: EIA's description
+  type: text
+  values:
+    distinct: 275
+    examples:
+    - Alabama Natural Gas Plant Liquids Production (Million Cubic Feet)
+    - Alabama Natural Gas Processed (Million Cubic Feet)
+    - Alabama Natural Gas Total Liquids Extracted (Thousand Barrels)
+    - Alabama Offshore Natural Gas Plant Liquids Production Extracted in Alabama (Million Cubic Feet)
+    - Alabama Offshore Natural Gas Processed in Alabama (Million Cubic Feet)
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:natural-gas/prod/pp: 5829
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/natural-gas/prod/pp/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5Bprocess%5D%5B%5D=YGP&facets%5Bprocess%5D%5B%5D=VG9&facets%5Bprocess%5D%5B%5D=YGT&start=1967
+      : 5829
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T05:25:04Z': 4993
+      '2026-10-24T05:25:08Z': 836
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5829
+variables:
+- name: extraction_loss
+  label: Volume lost from the gas as liquids are extracted (VG9), million cubic feet
+  unit: MMcf
+  rows: 2030
+  first: '1967-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: gas_processed
+  label: Natural gas processed at plants (YGP), million cubic feet
+  unit: MMcf
+  rows: 2075
+  first: '1967-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: liquids_extracted
+  label: Natural gas plant liquids extracted (YGT), thousand barrels
+  unit: kbbl
+  rows: 1724
+  first: '1983-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

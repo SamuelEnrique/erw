@@ -1,0 +1,436 @@
+# The codebook's metadata of table ferc_eqr_contracts (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ferc_eqr_contracts
+family: ferc
+shape: events
+row: One product of one agreement in force (or terminated), as the seller filed it in its FERC Electric Quarterly Report for
+  the newest quarter held.
+time: event_date is the contract's execution date (a date, as filed); x_quarter names the quarter filed for.
+vintage_rule: Written by event_id, which carries the quarter, the filer's company identifier, FERC's contract id and the row's
+  place among that id's rows; the table holds one quarter, the newest (earlier quarters go to ferc_eqr_contracts_history).
+  No vintage column.
+keys:
+- event_id
+license: internal
+tier: source
+interval: event
+source:
+- name: ferc:eqr Federal Energy Regulatory Commission, Electric Quarterly Reports, quarterly filings of all companies, CSV_2026_Q2.zip,
+    https://eqrreportviewer.ferc.gov/DownloadRepositoryProd/<key from the viewer's Downloads tab>/BulkNew/CSV/CSV_2026_Q2.zip
+  url: https://eqrreportviewer.ferc.gov/DownloadRepositoryProd/<key
+cite: 'Federal Energy Regulatory Commission (FERC). Electric Quarterly Reports (EQR): contracts, quarterly filings of all
+  companies. Via the Energy Research Warehouse (ERW), table `ferc_eqr_contracts`.'
+method: docs/methods/ferc_eqr_contracts.md
+header_title: FERC Electric Quarterly Reports, the contracts in force as filed for 2026 Q2
+header_shape: 'Shape: events (docs/datastandard.md v0). One row per product of an agreement, as the seller filed it. event_date:
+  the contract''s execution date. event_type contract. parties: seller;buyer. mw: the quantity when its units are MW; price:
+  the rate when its units are $/MWH (currency USD). status: terminated when an actual termination date is filed, else in_force.
+  x_<column>: FERC''s own contract columns, as filed; x_company_id FERC''s company identifier of the filer; x_filing the filing''s
+  zip; x_quarter the quarter.'
+read:
+  date: '2026-11-20'
+  rows: 186873
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  particular: ferc_eqr:<quarter>:<company identifier>:<FERC contract id>:<n>, n the row's place among the rows of that contract
+    id in the filing
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_date
+  shared: true
+  particular: The contract's execution date (FERC's contract_execution_date)
+  type: date
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: contract on every row
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: parties
+  shared: true
+  particular: Seller, then buyer, as filed
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 186873
+- name: mw
+  shared: true
+  particular: The quantity, only when its units are MW
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 174704
+- name: price
+  shared: true
+  particular: The rate, only when its units are $/MWH, in USD
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 149968
+- name: currency
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 149968
+- name: status
+  shared: true
+  particular: terminated when an actual termination date is filed, else in_force
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: x_contract_unique_id
+  label: FERC's contract identifier as the filer gives it; it repeats across the products of one contract
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: contract_unique_id
+  documented_by: method ferc_eqr_contracts.md; connector ferc_eqr_contracts.py
+- name: x_seller_company_name
+  label: The seller's name, as filed
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: seller_company_name
+  documented_by: method ferc_eqr_contracts.md; connector ferc_eqr_contracts.py
+- name: x_customer_company_name
+  label: The buyer's (customer's) name, as filed
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: customer_company_name
+  documented_by: method ferc_eqr_contracts.md; connector ferc_eqr_contracts.py
+- name: x_contract_affiliate
+  label: Whether seller and buyer are affiliates (Y when they are), as filed
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: contract_affiliate
+  documented_by: method contracts.md; source FERC contract file (session 81 report)
+- name: x_ferc_tariff_reference
+  label: The FERC tariff the agreement is filed under, as the filer names it
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: ferc_tariff_reference
+  documented_by: method contracts.md; source FERC contract file (session 81 report)
+- name: x_contract_service_agreement_id
+  label: The filer's identifier of the agreement (joins a contract to its transactions in FERC's files)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: contract_service_agreement_id
+  documented_by: method contracts.md; source FERC contract file (session 81 report)
+- name: x_commencement_date_of_contract_term
+  label: The date the contract's term begins, eight digits YYYYMMDD as filed
+  unit: none
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: commencement_date_of_contract_term
+  documented_by: method contracts.md; source FERC contract file (session 81 report)
+- name: x_contract_termination_date
+  label: The date the contract's term ends, eight digits YYYYMMDD as filed
+  unit: none
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 115832
+  missing_meaning: The filer gave no termination date
+  source_name: contract_termination_date
+  documented_by: method contracts.md; source FERC contract file (session 81 report)
+- name: x_actual_termination_date
+  label: The date the contract actually terminated, eight digits YYYYMMDD as filed; a row with one has status terminated
+  unit: none
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 178842
+  missing_meaning: The contract is in force (no actual termination date filed)
+  source_name: actual_termination_date
+  documented_by: header; method contracts.md; connector ferc_eqr_contracts.py
+- name: x_extension_provision_description
+  label: The filer's description of any provision to extend the contract (a term field)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: extension_provision_description
+  documented_by: source FERC contract file (session 81 report)
+- name: x_class_name
+  label: The class of service, as FERC codes it (F firm, NF non-firm, UP unit power)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: class_name
+  documented_by: source FERC contract file (session 81 report)
+- name: x_term_name
+  label: The length of term, as FERC codes it (LT long term, ST short term)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: term_name
+  documented_by: source FERC contract file (session 81 report)
+- name: x_increment_name
+  label: FERC's increment field of the product, as filed (one of the product fields the tags read); its codes not documented
+    by the source
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: increment_name
+  documented_by: source FERC contract file (session 81 report); method contracts.md
+- name: x_increment_peaking_name
+  label: FERC's increment peaking field of the product, as filed; its codes not documented by the source
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: increment_peaking_name
+  documented_by: source FERC contract file (session 81 report)
+- name: x_product_type_name
+  label: The product type, as FERC codes it (MB market-based, CB cost-based, T transmission)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: product_type_name
+  documented_by: source FERC contract file (session 81 report)
+- name: x_product_name
+  label: The product sold (energy, capacity, tolling energy, a reserve, a transmission or interconnection service and others),
+    in FERC's names as filed
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: product_name
+  documented_by: method ferc_eqr_contracts.md; source FERC contract file (session 81 report)
+- name: x_quantity
+  label: The quantity the contract row states, in the units of x_units
+  unit: x_units
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 128154
+  missing_meaning: The filer stated no quantity
+  source_name: quantity
+  documented_by: method contracts.md; connector ferc_eqr_contracts.py
+- name: x_units
+  label: The units of x_quantity, as filed (MW and others)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 103197
+  missing_meaning: The filer gave no units
+  source_name: units
+  documented_by: method contracts.md; connector ferc_eqr_contracts.py
+- name: x_rate
+  label: The rate filed as a number, in the units of x_rate_units
+  unit: x_rate_units
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 105155
+  missing_meaning: No rate filed as a number (the price may be in words in x_rate_description)
+  source_name: rate
+  documented_by: method ferc_eqr_contracts.md; connector ferc_eqr_contracts.py
+- name: x_rate_minimum
+  label: The lowest rate filed, as a number, in the units of x_rate_units
+  unit: x_rate_units
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 143750
+  missing_meaning: The filer gave no minimum rate
+  source_name: rate_minimum
+  documented_by: source FERC contract file (session 81 report)
+- name: x_rate_maximum
+  label: The highest rate filed, as a number, in the units of x_rate_units
+  unit: x_rate_units
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 142682
+  missing_meaning: The filer gave no maximum rate
+  source_name: rate_maximum
+  documented_by: source FERC contract file (session 81 report)
+- name: x_rate_description
+  label: The rate or price described in words, as filed (about half the rows give their price only this way)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 5618
+  missing_meaning: The filer gave no description of the rate
+  source_name: rate_description
+  documented_by: header; method ferc_eqr_contracts.md
+- name: x_rate_units
+  label: The units of the rate, in FERC's spelling ($/MWH, $/KW-MO and others)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 107311
+  missing_meaning: The filer gave no rate units
+  source_name: rate_units
+  documented_by: method ferc_eqr_contracts.md; method eqr_terms.md
+- name: x_point_of_receipt_balancing_authority
+  label: The balancing authority (grid operator area) where the power is received, as filed
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 164744
+  missing_meaning: The filer named none
+  source_name: point_of_receipt_balancing_authority
+  documented_by: source FERC contract file (session 81 report)
+- name: x_point_of_receipt_specific_location
+  label: The specific place where the power is received (a substation or hub), as filed
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 172073
+  missing_meaning: The filer named none
+  source_name: point_of_receipt_specific_location
+  documented_by: source FERC contract file (session 81 report)
+- name: x_point_of_delivery_balancing_authority
+  label: The balancing authority (grid operator area) where the power is delivered, as filed
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 140728
+  missing_meaning: The filer named none
+  source_name: point_of_delivery_balancing_authority
+  documented_by: method contracts.md; method ferc_eqr_contracts.md
+- name: x_point_of_delivery_specific_location
+  label: The specific place where the power is delivered (a substation or hub), as filed
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 149318
+  missing_meaning: The filer named none
+  source_name: point_of_delivery_specific_location
+  documented_by: method contracts.md
+- name: x_begin_date
+  label: not documented by the source
+  unit: none
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 141397
+  missing_meaning: Empty as filed
+  source_name: begin_date
+  documented_by: connector ferc_eqr_contracts.py
+- name: x_end_date
+  label: not documented by the source
+  unit: none
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 144813
+  missing_meaning: Empty as filed
+  source_name: end_date
+  documented_by: connector ferc_eqr_contracts.py
+- name: x_company_id
+  label: FERC's company identifier of the filer, from the filing's identification file
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: company_identifier
+  documented_by: header; connector ferc_eqr_contracts.py
+- name: x_filing
+  label: The name of the filing's zip within FERC's quarterly file
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector ferc_eqr_contracts.py
+- name: x_quarter
+  label: The quarter the filing is for, written YYYY_Qn
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector ferc_eqr_contracts.py
+second_look:
+- 'x_increment_name and x_increment_peaking_name: FERC''s codes for these product fields are not documented in the repository
+  (FERC''s data dictionary answered HTTP 403)'
+- 'x_begin_date and x_end_date: FERC''s meaning of these two fields is not documented in the repository'

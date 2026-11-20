@@ -1,0 +1,168 @@
+# The codebook's metadata of table nyiso_dam_cleared_energy (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: nyiso_dam_cleared_energy
+family: nyiso
+shape: series
+row: The load scheduled in NYISO's day-ahead market for one hour, system-wide.
+time: ts_utc is the hour's start in UTC; operating days are America/New_York days.
+vintage_rule: Merged by (entity, variable, ts_utc); an hour read again replaces the one held, and the table keeps months NYISO's
+  window no longer covers. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: nyiso:damenergy New York ISO (NYISO), P-30, Day-Ahead Market Daily Energy Report
+  url: http://mis.nyiso.com/public/P-30list.htm
+cite: New York ISO (NYISO). P-30, Day-Ahead Market Daily Energy Report. Via the Energy Research Warehouse (ERW), table `nyiso_dam_cleared_energy`.
+method: docs/methods/nyiso_dam_cleared_energy.md
+header_title: NYISO, load scheduled in the day-ahead market by hour, system-wide (P-30, Day-Ahead Market Daily Energy Report,
+  Total Load Scheduled) (session 136)
+header_shape: 'Shape: series (docs/datastandard.md v0). variable dam_cleared_energy: the operator''s own figure for the hour,
+  in the unit it gives; freq PT1H, ts_utc the hour''s start. An hour the operator does not give is not written; nothing is
+  filled or estimated. The table is merged into the one held, so it grows past the window the operator keeps.'
+read:
+  date: '2026-11-20'
+  rows: 10441
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: 'nyiso:system in every row: NYISO''s whole system'
+  type: text
+  values:
+    list:
+      nyiso:system: 10441
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2025-09-01T04:00:00Z'
+    latest: '2026-11-17T04:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 31245.5
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 10441
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 10441
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-NY: 10441
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'nyiso_dam in every row: NYISO''s day-ahead market'
+  type: text
+  values:
+    list:
+      nyiso_dam: 10441
+  missing_cells: 0
+- name: node
+  shared: true
+  particular: 'Total Load Scheduled in every row: NYISO''s column read, not a place'
+  type: text
+  values:
+    list:
+      Total Load Scheduled: 10441
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      nyiso:damenergy: 10441
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      http://mis.nyiso.com/public/csv/damenergy/20250901DAM_energy_rep_csv.zip: 720
+      http://mis.nyiso.com/public/csv/damenergy/20251001DAM_energy_rep_csv.zip: 744
+      http://mis.nyiso.com/public/csv/damenergy/20251101DAM_energy_rep_csv.zip: 721
+      http://mis.nyiso.com/public/csv/damenergy/20251201DAM_energy_rep_csv.zip: 744
+      http://mis.nyiso.com/public/csv/damenergy/20260101DAM_energy_rep_csv.zip: 744
+      http://mis.nyiso.com/public/csv/damenergy/20260201DAM_energy_rep_csv.zip: 672
+      http://mis.nyiso.com/public/csv/damenergy/20260301DAM_energy_rep_csv.zip: 743
+      http://mis.nyiso.com/public/csv/damenergy/20260401DAM_energy_rep_csv.zip: 720
+      http://mis.nyiso.com/public/csv/damenergy/20260501DAM_energy_rep_csv.zip: 744
+      http://mis.nyiso.com/public/csv/damenergy/20260601DAM_energy_rep_csv.zip: 720
+      http://mis.nyiso.com/public/csv/damenergy/20260701DAM_energy_rep_csv.zip: 744
+      http://mis.nyiso.com/public/csv/damenergy/20260801DAM_energy_rep_csv.zip: 744
+      http://mis.nyiso.com/public/csv/damenergy/20260901DAM_energy_rep_csv.zip: 720
+      http://mis.nyiso.com/public/csv/damenergy/20261001DAM_energy_rep_csv.zip: 600
+      http://mis.nyiso.com/public/csv/damenergy/20261101DAM_energy_rep_csv.zip: 361
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-06T20:22:03Z': 744
+      '2026-10-06T20:22:06Z': 744
+      '2026-10-06T20:22:09Z': 720
+      '2026-10-06T20:22:12Z': 744
+      '2026-10-06T20:22:14Z': 720
+      '2026-10-06T20:22:17Z': 743
+      '2026-10-06T20:22:20Z': 672
+      '2026-10-06T20:22:23Z': 744
+      '2026-10-06T20:22:25Z': 744
+      '2026-10-06T20:22:28Z': 721
+      '2026-10-06T20:22:31Z': 744
+      '2026-10-06T20:22:34Z': 720
+      '2026-10-06T20:38:25Z': 168
+      '2026-10-06T20:38:28Z': 720
+      '2026-10-09T07:22:05Z': 48
+      '2026-10-10T15:00:05Z': 48
+      '2026-10-24T15:04:13Z': 336
+      '2026-11-16T11:49:30Z': 361
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 10441
+variables:
+- name: dam_cleared_energy
+  label: NYISO's column Total Load Scheduled for the hour, MW over the hour (P-30, Day-Ahead Market Daily Energy Report);
+    the file's daily Total line is not written
+  unit: MW
+  rows: 10441
+  first: '2025-09-01T04:00:00Z'
+  last: '2026-11-17T04:00:00Z'
+second_look: null

@@ -1,0 +1,225 @@
+# The codebook's metadata of table eurostat_hard_coal_imports_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_hard_coal_imports_annual
+family: eurostat
+shape: series
+row: One European country's (or EU aggregate's) hard coal imports from one partner in one year.
+time: ts_utc is the year's 1 January at 00:00:00Z, a label for the calendar year (freq P1Y).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised figure replaces the old; vintage is not filled.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eurostat:nrg_ti_sff_c0100 Eurostat, Solid fossil fuels imports (nrg_ti_sff), hard coal (C0100)
+  url: https://ec.europa.eu/eurostat/databrowser/view/nrg_ti_sff/default/table
+cite: Eurostat (Statistical Office of the European Union). Solid fossil fuels imports (nrg_ti_sff), hard coal by partner.
+  Via the Energy Research Warehouse (ERW), table `eurostat_hard_coal_imports_annual`.
+method: docs/methods/eurostat_hard_coal_imports_annual.md
+header_title: Eurostat, solid fossil fuels imports (nrg_ti_sff), hard coal by partner, 2010 to 2024, 39 European countries
+  and the EU aggregates (session 2426)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_coal_imp:<Eurostat geo code>:<partner code>; variable
+  imports; unit t (Eurostat''s thousand tonnes times 1,000); ts_utc the year''s 1 January; freq P1Y; geo the importing country''s
+  ISO alpha-2 (Eurostat''s EL is GR), blank for EU27_2020 and EA21; node the partner''s name; x_partner and x_partner_name
+  Eurostat''s partner code and name; x_flag the observation''s status. Hard coal is Eurostat''s SIEC C0100 (anthracite, coking
+  coal, other bituminous and sub-bituminous coal).'
+read:
+  date: '2026-11-20'
+  rows: 99288
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eurostat_coal_imp:<Eurostat geo code>:<partner code>
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - eurostat_coal_imp:AL:AD
+    - eurostat_coal_imp:AL:AE
+    - eurostat_coal_imp:AL:AFR_OTH
+    - eurostat_coal_imp:AL:AL
+    - eurostat_coal_imp:AL:AM
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2010-01-01T00:00:00Z': 6282
+      '2011-01-01T00:00:00Z': 6282
+      '2012-01-01T00:00:00Z': 6282
+      '2013-01-01T00:00:00Z': 6447
+      '2014-01-01T00:00:00Z': 6777
+      '2015-01-01T00:00:00Z': 6777
+      '2016-01-01T00:00:00Z': 6779
+      '2017-01-01T00:00:00Z': 6779
+      '2018-01-01T00:00:00Z': 6777
+      '2019-01-01T00:00:00Z': 6777
+      '2020-01-01T00:00:00Z': 6779
+      '2021-01-01T00:00:00Z': 6618
+      '2022-01-01T00:00:00Z': 6624
+      '2023-01-01T00:00:00Z': 6628
+      '2024-01-01T00:00:00Z': 6680
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 3994
+    lowest: 0.0
+    highest: 175699086.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      t: 99288
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 99288
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: The importing country's ISO alpha-2 code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020 and
+    EA21
+  type: text
+  values:
+    distinct: 39
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 5010
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 99288
+- name: node
+  shared: true
+  particular: Hard coal imports from <partner>, not a pricing node
+  type: text
+  values:
+    distinct: 167
+    examples:
+    - Hard coal imports from Albania
+    - Hard coal imports from Algeria
+    - Hard coal imports from Andorra
+    - Hard coal imports from Angola
+    - Hard coal imports from Argentina
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:nrg_ti_sff_c0100: 99288
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nrg_ti_sff?format=JSON&lang=EN&siec=C0100&sinceTimePeriod=2010
+      : 99288
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T11:22:52Z': 99288
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 99288
+- name: x_geo_code
+  label: Eurostat's geo code of the importing country or aggregate
+  unit: none
+  type: text
+  values:
+    distinct: 41
+    examples:
+    - AL
+    - AT
+    - BA
+    - BE
+    - BG
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector eurostat_coal_imports.py
+- name: x_partner
+  label: 'Eurostat''s partner code (a country, or an aggregate: TOTAL every partner, NSP not specified, _OTH groups; NA is
+    Namibia)'
+  unit: none
+  type: text
+  values:
+    distinct: 167
+    examples:
+    - AD
+    - AE
+    - AFR_OTH
+    - AL
+    - AM
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector eurostat_coal_imports.py
+- name: x_partner_name
+  label: Eurostat's name of the partner
+  unit: none
+  type: text
+  values:
+    distinct: 167
+    examples:
+    - Albania
+    - Algeria
+    - Andorra
+    - Angola
+    - Argentina
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header
+- name: x_flag
+  label: Eurostat's status of the observation
+  unit: none
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 99288
+  missing_meaning: 'Not filled: no cell holds a value'
+  source_name: null
+  documented_by: header
+variables:
+- name: imports
+  label: Hard coal (SIEC C0100) imported from the partner, tonnes (Eurostat's thousand tonnes times 1,000)
+  unit: t
+  rows: 99288
+  first: '2010-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

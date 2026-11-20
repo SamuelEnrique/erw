@@ -1,0 +1,4195 @@
+# The codebook's metadata of table flex_alert_model (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: flex_alert_model
+family: erw_derived
+shape: series
+row: 'One figure of the Flex Alert scorecard''s demand model for CAISO: a pooled estimate, an out-of-sample check, a specification
+  compared, a model setting, an hourly coefficient, or one held-out hot day''s error.'
+time: 'The model''s figures are dated 2018-07-01T00:00:00Z, the sample''s first day (freq blank: not a time series); held-out
+  day rows (freq P1D) at the Pacific day at 00:00:00Z.'
+vintage_rule: Rewritten whole by each run of the scorecard builder (the old file removed first); vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: ;P1D
+source:
+- name: erw:flex_alert_scorecard ERW derived table, Flex Alert scorecard method (docs/methods/flex_alert_scorecard.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/flex_alert_scorecard.md
+cite: Energy Research Warehouse (ERW), derived. Flex Alert scorecard (warehouse/derived/flex_alert_scorecard.py). Via the
+  Energy Research Warehouse (ERW), table `flex_alert_model`.
+method: docs/methods/flex_alert_scorecard.md
+header_title: the Flex Alert scorecard's model, CAISO (derived, session 60)
+header_shape: 'Shape: series (docs/datastandard.md v0), entity erw:flex_alert_model. Rows at ts_utc 2018-07-01T00:00:00Z (freq
+  blank): pooled_<measure> (every alert hour of every alert day), oos_<metric> (the held-out hottest tenth of non-alert days,
+  hours 16:00 to 21:00, five folds, each predicted by the model fitted on every other non-alert day: bias = mean of actual
+  less predicted), pooled_reduction_mw_net_of_bias (the pooled reduction plus that bias), variant_<name>_<measure> (the five
+  specifications compared: minimal, the prompt''s CDH, CDH squared and the calendar; base, plus the 24 hours before and the
+  dew point; base_prev24sq; base_cdh_dew; chosen, every term; robustness rows with 200 replicates), insample_<metric>, train_days,
+  heldout_threshold_temp_f, alert_days_hotter_than_threshold, bootstrap_replicates, station_weight_<station>, coef_h<hour>_<term>
+  (MW per unit of the term; the hour model''s coefficients fitted on every non-alert day). P1D rows: heldout_error_mw (a held-out
+  day''s mean error in hours 16 to 20, actual less predicted), heldout_temp_max_f, heldout_price_usd_mwh.'
+read:
+  date: '2026-11-20'
+  rows: 881
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: erw:flex_alert_model on every row
+  type: text
+  values:
+    list:
+      erw:flex_alert_model: 881
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 129
+    earliest: '2018-07-01T00:00:00Z'
+    latest: '2025-08-24T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 841
+    lowest: -8043179.4743
+    highest: 50464.9058
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 689
+      MWh: 3
+      USD: 3
+      USD/MWh: 42
+      count: 9
+      degF: 129
+      pct: 3
+      ratio: 3
+  missing_cells: 0
+- name: freq
+  shared: true
+  particular: Empty on the model's figures (a parameter, not a time series); P1D on the held-out days' rows
+  type: text
+  values:
+    list:
+      P1D: 297
+  missing_cells: 584
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 881
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 881
+- name: node
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 881
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:flex_alert_scorecard: 881
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/flex_alert_scorecard.md: 881
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-17T07:24:23Z': 881
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 881
+variables:
+- name: alert_days_hotter_than_threshold
+  label: Alert days at least as hot as the held-out threshold temperature
+  unit: count
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: bootstrap_replicates
+  label: Replicates behind the 90 percent intervals
+  unit: count
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_cdh
+  label: 'Demand model for local hour 00: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_cdh2
+  label: 'Demand model for local hour 00: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_cdh_prev24
+  label: 'Demand model for local hour 00: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_cdh_prev24_2
+  label: 'Demand model for local hour 00: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_cdh_x_dew
+  label: 'Demand model for local hour 00: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_dew_point
+  label: 'Demand model for local hour 00: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_holiday
+  label: 'Demand model for local hour 00: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_intercept
+  label: 'Demand model for local hour 00: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_month10
+  label: 'Demand model for local hour 00: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_month6
+  label: 'Demand model for local hour 00: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_month7
+  label: 'Demand model for local hour 00: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_month8
+  label: 'Demand model for local hour 00: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_month9
+  label: 'Demand model for local hour 00: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_saturday
+  label: 'Demand model for local hour 00: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_sunday
+  label: 'Demand model for local hour 00: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_year2019
+  label: 'Demand model for local hour 00: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_year2020
+  label: 'Demand model for local hour 00: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_year2021
+  label: 'Demand model for local hour 00: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_year2022
+  label: 'Demand model for local hour 00: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_year2023
+  label: 'Demand model for local hour 00: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_year2024
+  label: 'Demand model for local hour 00: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h00_year2025
+  label: 'Demand model for local hour 00: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_cdh
+  label: 'Demand model for local hour 01: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_cdh2
+  label: 'Demand model for local hour 01: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_cdh_prev24
+  label: 'Demand model for local hour 01: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_cdh_prev24_2
+  label: 'Demand model for local hour 01: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_cdh_x_dew
+  label: 'Demand model for local hour 01: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_dew_point
+  label: 'Demand model for local hour 01: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_holiday
+  label: 'Demand model for local hour 01: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_intercept
+  label: 'Demand model for local hour 01: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_month10
+  label: 'Demand model for local hour 01: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_month6
+  label: 'Demand model for local hour 01: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_month7
+  label: 'Demand model for local hour 01: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_month8
+  label: 'Demand model for local hour 01: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_month9
+  label: 'Demand model for local hour 01: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_saturday
+  label: 'Demand model for local hour 01: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_sunday
+  label: 'Demand model for local hour 01: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_year2019
+  label: 'Demand model for local hour 01: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_year2020
+  label: 'Demand model for local hour 01: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_year2021
+  label: 'Demand model for local hour 01: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_year2022
+  label: 'Demand model for local hour 01: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_year2023
+  label: 'Demand model for local hour 01: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_year2024
+  label: 'Demand model for local hour 01: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h01_year2025
+  label: 'Demand model for local hour 01: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_cdh
+  label: 'Demand model for local hour 02: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_cdh2
+  label: 'Demand model for local hour 02: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_cdh_prev24
+  label: 'Demand model for local hour 02: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_cdh_prev24_2
+  label: 'Demand model for local hour 02: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_cdh_x_dew
+  label: 'Demand model for local hour 02: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_dew_point
+  label: 'Demand model for local hour 02: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_holiday
+  label: 'Demand model for local hour 02: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_intercept
+  label: 'Demand model for local hour 02: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_month10
+  label: 'Demand model for local hour 02: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_month6
+  label: 'Demand model for local hour 02: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_month7
+  label: 'Demand model for local hour 02: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_month8
+  label: 'Demand model for local hour 02: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_month9
+  label: 'Demand model for local hour 02: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_saturday
+  label: 'Demand model for local hour 02: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_sunday
+  label: 'Demand model for local hour 02: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_year2019
+  label: 'Demand model for local hour 02: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_year2020
+  label: 'Demand model for local hour 02: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_year2021
+  label: 'Demand model for local hour 02: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_year2022
+  label: 'Demand model for local hour 02: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_year2023
+  label: 'Demand model for local hour 02: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_year2024
+  label: 'Demand model for local hour 02: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h02_year2025
+  label: 'Demand model for local hour 02: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_cdh
+  label: 'Demand model for local hour 03: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_cdh2
+  label: 'Demand model for local hour 03: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_cdh_prev24
+  label: 'Demand model for local hour 03: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_cdh_prev24_2
+  label: 'Demand model for local hour 03: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_cdh_x_dew
+  label: 'Demand model for local hour 03: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_dew_point
+  label: 'Demand model for local hour 03: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_holiday
+  label: 'Demand model for local hour 03: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_intercept
+  label: 'Demand model for local hour 03: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_month10
+  label: 'Demand model for local hour 03: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_month6
+  label: 'Demand model for local hour 03: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_month7
+  label: 'Demand model for local hour 03: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_month8
+  label: 'Demand model for local hour 03: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_month9
+  label: 'Demand model for local hour 03: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_saturday
+  label: 'Demand model for local hour 03: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_sunday
+  label: 'Demand model for local hour 03: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_year2019
+  label: 'Demand model for local hour 03: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_year2020
+  label: 'Demand model for local hour 03: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_year2021
+  label: 'Demand model for local hour 03: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_year2022
+  label: 'Demand model for local hour 03: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_year2023
+  label: 'Demand model for local hour 03: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_year2024
+  label: 'Demand model for local hour 03: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h03_year2025
+  label: 'Demand model for local hour 03: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_cdh
+  label: 'Demand model for local hour 04: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_cdh2
+  label: 'Demand model for local hour 04: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_cdh_prev24
+  label: 'Demand model for local hour 04: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_cdh_prev24_2
+  label: 'Demand model for local hour 04: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_cdh_x_dew
+  label: 'Demand model for local hour 04: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_dew_point
+  label: 'Demand model for local hour 04: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_holiday
+  label: 'Demand model for local hour 04: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_intercept
+  label: 'Demand model for local hour 04: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_month10
+  label: 'Demand model for local hour 04: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_month6
+  label: 'Demand model for local hour 04: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_month7
+  label: 'Demand model for local hour 04: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_month8
+  label: 'Demand model for local hour 04: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_month9
+  label: 'Demand model for local hour 04: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_saturday
+  label: 'Demand model for local hour 04: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_sunday
+  label: 'Demand model for local hour 04: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_year2019
+  label: 'Demand model for local hour 04: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_year2020
+  label: 'Demand model for local hour 04: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_year2021
+  label: 'Demand model for local hour 04: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_year2022
+  label: 'Demand model for local hour 04: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_year2023
+  label: 'Demand model for local hour 04: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_year2024
+  label: 'Demand model for local hour 04: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h04_year2025
+  label: 'Demand model for local hour 04: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_cdh
+  label: 'Demand model for local hour 05: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_cdh2
+  label: 'Demand model for local hour 05: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_cdh_prev24
+  label: 'Demand model for local hour 05: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_cdh_prev24_2
+  label: 'Demand model for local hour 05: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_cdh_x_dew
+  label: 'Demand model for local hour 05: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_dew_point
+  label: 'Demand model for local hour 05: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_holiday
+  label: 'Demand model for local hour 05: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_intercept
+  label: 'Demand model for local hour 05: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_month10
+  label: 'Demand model for local hour 05: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_month6
+  label: 'Demand model for local hour 05: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_month7
+  label: 'Demand model for local hour 05: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_month8
+  label: 'Demand model for local hour 05: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_month9
+  label: 'Demand model for local hour 05: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_saturday
+  label: 'Demand model for local hour 05: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_sunday
+  label: 'Demand model for local hour 05: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_year2019
+  label: 'Demand model for local hour 05: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_year2020
+  label: 'Demand model for local hour 05: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_year2021
+  label: 'Demand model for local hour 05: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_year2022
+  label: 'Demand model for local hour 05: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_year2023
+  label: 'Demand model for local hour 05: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_year2024
+  label: 'Demand model for local hour 05: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h05_year2025
+  label: 'Demand model for local hour 05: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_cdh
+  label: 'Demand model for local hour 06: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_cdh2
+  label: 'Demand model for local hour 06: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_cdh_prev24
+  label: 'Demand model for local hour 06: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_cdh_prev24_2
+  label: 'Demand model for local hour 06: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_cdh_x_dew
+  label: 'Demand model for local hour 06: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_dew_point
+  label: 'Demand model for local hour 06: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_holiday
+  label: 'Demand model for local hour 06: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_intercept
+  label: 'Demand model for local hour 06: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_month10
+  label: 'Demand model for local hour 06: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_month6
+  label: 'Demand model for local hour 06: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_month7
+  label: 'Demand model for local hour 06: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_month8
+  label: 'Demand model for local hour 06: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_month9
+  label: 'Demand model for local hour 06: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_saturday
+  label: 'Demand model for local hour 06: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_sunday
+  label: 'Demand model for local hour 06: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_year2019
+  label: 'Demand model for local hour 06: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_year2020
+  label: 'Demand model for local hour 06: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_year2021
+  label: 'Demand model for local hour 06: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_year2022
+  label: 'Demand model for local hour 06: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_year2023
+  label: 'Demand model for local hour 06: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_year2024
+  label: 'Demand model for local hour 06: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h06_year2025
+  label: 'Demand model for local hour 06: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_cdh
+  label: 'Demand model for local hour 07: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_cdh2
+  label: 'Demand model for local hour 07: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_cdh_prev24
+  label: 'Demand model for local hour 07: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_cdh_prev24_2
+  label: 'Demand model for local hour 07: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_cdh_x_dew
+  label: 'Demand model for local hour 07: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_dew_point
+  label: 'Demand model for local hour 07: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_holiday
+  label: 'Demand model for local hour 07: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_intercept
+  label: 'Demand model for local hour 07: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_month10
+  label: 'Demand model for local hour 07: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_month6
+  label: 'Demand model for local hour 07: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_month7
+  label: 'Demand model for local hour 07: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_month8
+  label: 'Demand model for local hour 07: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_month9
+  label: 'Demand model for local hour 07: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_saturday
+  label: 'Demand model for local hour 07: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_sunday
+  label: 'Demand model for local hour 07: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_year2019
+  label: 'Demand model for local hour 07: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_year2020
+  label: 'Demand model for local hour 07: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_year2021
+  label: 'Demand model for local hour 07: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_year2022
+  label: 'Demand model for local hour 07: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_year2023
+  label: 'Demand model for local hour 07: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_year2024
+  label: 'Demand model for local hour 07: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h07_year2025
+  label: 'Demand model for local hour 07: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_cdh
+  label: 'Demand model for local hour 08: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_cdh2
+  label: 'Demand model for local hour 08: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_cdh_prev24
+  label: 'Demand model for local hour 08: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_cdh_prev24_2
+  label: 'Demand model for local hour 08: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_cdh_x_dew
+  label: 'Demand model for local hour 08: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_dew_point
+  label: 'Demand model for local hour 08: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_holiday
+  label: 'Demand model for local hour 08: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_intercept
+  label: 'Demand model for local hour 08: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_month10
+  label: 'Demand model for local hour 08: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_month6
+  label: 'Demand model for local hour 08: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_month7
+  label: 'Demand model for local hour 08: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_month8
+  label: 'Demand model for local hour 08: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_month9
+  label: 'Demand model for local hour 08: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_saturday
+  label: 'Demand model for local hour 08: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_sunday
+  label: 'Demand model for local hour 08: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_year2019
+  label: 'Demand model for local hour 08: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_year2020
+  label: 'Demand model for local hour 08: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_year2021
+  label: 'Demand model for local hour 08: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_year2022
+  label: 'Demand model for local hour 08: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_year2023
+  label: 'Demand model for local hour 08: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_year2024
+  label: 'Demand model for local hour 08: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h08_year2025
+  label: 'Demand model for local hour 08: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_cdh
+  label: 'Demand model for local hour 09: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_cdh2
+  label: 'Demand model for local hour 09: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_cdh_prev24
+  label: 'Demand model for local hour 09: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_cdh_prev24_2
+  label: 'Demand model for local hour 09: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_cdh_x_dew
+  label: 'Demand model for local hour 09: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_dew_point
+  label: 'Demand model for local hour 09: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_holiday
+  label: 'Demand model for local hour 09: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_intercept
+  label: 'Demand model for local hour 09: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_month10
+  label: 'Demand model for local hour 09: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_month6
+  label: 'Demand model for local hour 09: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_month7
+  label: 'Demand model for local hour 09: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_month8
+  label: 'Demand model for local hour 09: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_month9
+  label: 'Demand model for local hour 09: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_saturday
+  label: 'Demand model for local hour 09: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_sunday
+  label: 'Demand model for local hour 09: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_year2019
+  label: 'Demand model for local hour 09: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_year2020
+  label: 'Demand model for local hour 09: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_year2021
+  label: 'Demand model for local hour 09: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_year2022
+  label: 'Demand model for local hour 09: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_year2023
+  label: 'Demand model for local hour 09: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_year2024
+  label: 'Demand model for local hour 09: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h09_year2025
+  label: 'Demand model for local hour 09: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_cdh
+  label: 'Demand model for local hour 10: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_cdh2
+  label: 'Demand model for local hour 10: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_cdh_prev24
+  label: 'Demand model for local hour 10: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_cdh_prev24_2
+  label: 'Demand model for local hour 10: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_cdh_x_dew
+  label: 'Demand model for local hour 10: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_dew_point
+  label: 'Demand model for local hour 10: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_holiday
+  label: 'Demand model for local hour 10: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_intercept
+  label: 'Demand model for local hour 10: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_month10
+  label: 'Demand model for local hour 10: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_month6
+  label: 'Demand model for local hour 10: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_month7
+  label: 'Demand model for local hour 10: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_month8
+  label: 'Demand model for local hour 10: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_month9
+  label: 'Demand model for local hour 10: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_saturday
+  label: 'Demand model for local hour 10: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_sunday
+  label: 'Demand model for local hour 10: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_year2019
+  label: 'Demand model for local hour 10: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_year2020
+  label: 'Demand model for local hour 10: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_year2021
+  label: 'Demand model for local hour 10: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_year2022
+  label: 'Demand model for local hour 10: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_year2023
+  label: 'Demand model for local hour 10: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_year2024
+  label: 'Demand model for local hour 10: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h10_year2025
+  label: 'Demand model for local hour 10: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_cdh
+  label: 'Demand model for local hour 11: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_cdh2
+  label: 'Demand model for local hour 11: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_cdh_prev24
+  label: 'Demand model for local hour 11: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_cdh_prev24_2
+  label: 'Demand model for local hour 11: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_cdh_x_dew
+  label: 'Demand model for local hour 11: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_dew_point
+  label: 'Demand model for local hour 11: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_holiday
+  label: 'Demand model for local hour 11: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_intercept
+  label: 'Demand model for local hour 11: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_month10
+  label: 'Demand model for local hour 11: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_month6
+  label: 'Demand model for local hour 11: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_month7
+  label: 'Demand model for local hour 11: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_month8
+  label: 'Demand model for local hour 11: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_month9
+  label: 'Demand model for local hour 11: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_saturday
+  label: 'Demand model for local hour 11: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_sunday
+  label: 'Demand model for local hour 11: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_year2019
+  label: 'Demand model for local hour 11: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_year2020
+  label: 'Demand model for local hour 11: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_year2021
+  label: 'Demand model for local hour 11: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_year2022
+  label: 'Demand model for local hour 11: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_year2023
+  label: 'Demand model for local hour 11: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_year2024
+  label: 'Demand model for local hour 11: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h11_year2025
+  label: 'Demand model for local hour 11: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_cdh
+  label: 'Demand model for local hour 12: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_cdh2
+  label: 'Demand model for local hour 12: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_cdh_prev24
+  label: 'Demand model for local hour 12: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_cdh_prev24_2
+  label: 'Demand model for local hour 12: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_cdh_x_dew
+  label: 'Demand model for local hour 12: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_dew_point
+  label: 'Demand model for local hour 12: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_holiday
+  label: 'Demand model for local hour 12: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_intercept
+  label: 'Demand model for local hour 12: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_month10
+  label: 'Demand model for local hour 12: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_month6
+  label: 'Demand model for local hour 12: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_month7
+  label: 'Demand model for local hour 12: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_month8
+  label: 'Demand model for local hour 12: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_month9
+  label: 'Demand model for local hour 12: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_saturday
+  label: 'Demand model for local hour 12: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_sunday
+  label: 'Demand model for local hour 12: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_year2019
+  label: 'Demand model for local hour 12: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_year2020
+  label: 'Demand model for local hour 12: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_year2021
+  label: 'Demand model for local hour 12: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_year2022
+  label: 'Demand model for local hour 12: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_year2023
+  label: 'Demand model for local hour 12: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_year2024
+  label: 'Demand model for local hour 12: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h12_year2025
+  label: 'Demand model for local hour 12: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_cdh
+  label: 'Demand model for local hour 13: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_cdh2
+  label: 'Demand model for local hour 13: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_cdh_prev24
+  label: 'Demand model for local hour 13: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_cdh_prev24_2
+  label: 'Demand model for local hour 13: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_cdh_x_dew
+  label: 'Demand model for local hour 13: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_dew_point
+  label: 'Demand model for local hour 13: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_holiday
+  label: 'Demand model for local hour 13: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_intercept
+  label: 'Demand model for local hour 13: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_month10
+  label: 'Demand model for local hour 13: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_month6
+  label: 'Demand model for local hour 13: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_month7
+  label: 'Demand model for local hour 13: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_month8
+  label: 'Demand model for local hour 13: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_month9
+  label: 'Demand model for local hour 13: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_saturday
+  label: 'Demand model for local hour 13: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_sunday
+  label: 'Demand model for local hour 13: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_year2019
+  label: 'Demand model for local hour 13: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_year2020
+  label: 'Demand model for local hour 13: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_year2021
+  label: 'Demand model for local hour 13: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_year2022
+  label: 'Demand model for local hour 13: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_year2023
+  label: 'Demand model for local hour 13: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_year2024
+  label: 'Demand model for local hour 13: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h13_year2025
+  label: 'Demand model for local hour 13: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_cdh
+  label: 'Demand model for local hour 14: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_cdh2
+  label: 'Demand model for local hour 14: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_cdh_prev24
+  label: 'Demand model for local hour 14: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_cdh_prev24_2
+  label: 'Demand model for local hour 14: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_cdh_x_dew
+  label: 'Demand model for local hour 14: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_dew_point
+  label: 'Demand model for local hour 14: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_holiday
+  label: 'Demand model for local hour 14: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_intercept
+  label: 'Demand model for local hour 14: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_month10
+  label: 'Demand model for local hour 14: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_month6
+  label: 'Demand model for local hour 14: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_month7
+  label: 'Demand model for local hour 14: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_month8
+  label: 'Demand model for local hour 14: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_month9
+  label: 'Demand model for local hour 14: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_saturday
+  label: 'Demand model for local hour 14: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_sunday
+  label: 'Demand model for local hour 14: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_year2019
+  label: 'Demand model for local hour 14: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_year2020
+  label: 'Demand model for local hour 14: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_year2021
+  label: 'Demand model for local hour 14: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_year2022
+  label: 'Demand model for local hour 14: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_year2023
+  label: 'Demand model for local hour 14: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_year2024
+  label: 'Demand model for local hour 14: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h14_year2025
+  label: 'Demand model for local hour 14: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_cdh
+  label: 'Demand model for local hour 15: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_cdh2
+  label: 'Demand model for local hour 15: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_cdh_prev24
+  label: 'Demand model for local hour 15: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_cdh_prev24_2
+  label: 'Demand model for local hour 15: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_cdh_x_dew
+  label: 'Demand model for local hour 15: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_dew_point
+  label: 'Demand model for local hour 15: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_holiday
+  label: 'Demand model for local hour 15: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_intercept
+  label: 'Demand model for local hour 15: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_month10
+  label: 'Demand model for local hour 15: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_month6
+  label: 'Demand model for local hour 15: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_month7
+  label: 'Demand model for local hour 15: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_month8
+  label: 'Demand model for local hour 15: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_month9
+  label: 'Demand model for local hour 15: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_saturday
+  label: 'Demand model for local hour 15: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_sunday
+  label: 'Demand model for local hour 15: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_year2019
+  label: 'Demand model for local hour 15: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_year2020
+  label: 'Demand model for local hour 15: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_year2021
+  label: 'Demand model for local hour 15: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_year2022
+  label: 'Demand model for local hour 15: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_year2023
+  label: 'Demand model for local hour 15: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_year2024
+  label: 'Demand model for local hour 15: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h15_year2025
+  label: 'Demand model for local hour 15: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_cdh
+  label: 'Demand model for local hour 16: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_cdh2
+  label: 'Demand model for local hour 16: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_cdh_prev24
+  label: 'Demand model for local hour 16: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_cdh_prev24_2
+  label: 'Demand model for local hour 16: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_cdh_x_dew
+  label: 'Demand model for local hour 16: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_dew_point
+  label: 'Demand model for local hour 16: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_holiday
+  label: 'Demand model for local hour 16: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_intercept
+  label: 'Demand model for local hour 16: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_month10
+  label: 'Demand model for local hour 16: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_month6
+  label: 'Demand model for local hour 16: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_month7
+  label: 'Demand model for local hour 16: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_month8
+  label: 'Demand model for local hour 16: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_month9
+  label: 'Demand model for local hour 16: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_saturday
+  label: 'Demand model for local hour 16: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_sunday
+  label: 'Demand model for local hour 16: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_year2019
+  label: 'Demand model for local hour 16: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_year2020
+  label: 'Demand model for local hour 16: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_year2021
+  label: 'Demand model for local hour 16: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_year2022
+  label: 'Demand model for local hour 16: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_year2023
+  label: 'Demand model for local hour 16: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_year2024
+  label: 'Demand model for local hour 16: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h16_year2025
+  label: 'Demand model for local hour 16: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_cdh
+  label: 'Demand model for local hour 17: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_cdh2
+  label: 'Demand model for local hour 17: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_cdh_prev24
+  label: 'Demand model for local hour 17: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_cdh_prev24_2
+  label: 'Demand model for local hour 17: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_cdh_x_dew
+  label: 'Demand model for local hour 17: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_dew_point
+  label: 'Demand model for local hour 17: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_holiday
+  label: 'Demand model for local hour 17: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_intercept
+  label: 'Demand model for local hour 17: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_month10
+  label: 'Demand model for local hour 17: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_month6
+  label: 'Demand model for local hour 17: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_month7
+  label: 'Demand model for local hour 17: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_month8
+  label: 'Demand model for local hour 17: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_month9
+  label: 'Demand model for local hour 17: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_saturday
+  label: 'Demand model for local hour 17: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_sunday
+  label: 'Demand model for local hour 17: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_year2019
+  label: 'Demand model for local hour 17: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_year2020
+  label: 'Demand model for local hour 17: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_year2021
+  label: 'Demand model for local hour 17: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_year2022
+  label: 'Demand model for local hour 17: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_year2023
+  label: 'Demand model for local hour 17: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_year2024
+  label: 'Demand model for local hour 17: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h17_year2025
+  label: 'Demand model for local hour 17: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_cdh
+  label: 'Demand model for local hour 18: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_cdh2
+  label: 'Demand model for local hour 18: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_cdh_prev24
+  label: 'Demand model for local hour 18: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_cdh_prev24_2
+  label: 'Demand model for local hour 18: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_cdh_x_dew
+  label: 'Demand model for local hour 18: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_dew_point
+  label: 'Demand model for local hour 18: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_holiday
+  label: 'Demand model for local hour 18: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_intercept
+  label: 'Demand model for local hour 18: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_month10
+  label: 'Demand model for local hour 18: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_month6
+  label: 'Demand model for local hour 18: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_month7
+  label: 'Demand model for local hour 18: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_month8
+  label: 'Demand model for local hour 18: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_month9
+  label: 'Demand model for local hour 18: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_saturday
+  label: 'Demand model for local hour 18: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_sunday
+  label: 'Demand model for local hour 18: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_year2019
+  label: 'Demand model for local hour 18: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_year2020
+  label: 'Demand model for local hour 18: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_year2021
+  label: 'Demand model for local hour 18: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_year2022
+  label: 'Demand model for local hour 18: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_year2023
+  label: 'Demand model for local hour 18: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_year2024
+  label: 'Demand model for local hour 18: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h18_year2025
+  label: 'Demand model for local hour 18: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_cdh
+  label: 'Demand model for local hour 19: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_cdh2
+  label: 'Demand model for local hour 19: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_cdh_prev24
+  label: 'Demand model for local hour 19: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_cdh_prev24_2
+  label: 'Demand model for local hour 19: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_cdh_x_dew
+  label: 'Demand model for local hour 19: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_dew_point
+  label: 'Demand model for local hour 19: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_holiday
+  label: 'Demand model for local hour 19: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_intercept
+  label: 'Demand model for local hour 19: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_month10
+  label: 'Demand model for local hour 19: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_month6
+  label: 'Demand model for local hour 19: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_month7
+  label: 'Demand model for local hour 19: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_month8
+  label: 'Demand model for local hour 19: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_month9
+  label: 'Demand model for local hour 19: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_saturday
+  label: 'Demand model for local hour 19: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_sunday
+  label: 'Demand model for local hour 19: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_year2019
+  label: 'Demand model for local hour 19: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_year2020
+  label: 'Demand model for local hour 19: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_year2021
+  label: 'Demand model for local hour 19: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_year2022
+  label: 'Demand model for local hour 19: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_year2023
+  label: 'Demand model for local hour 19: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_year2024
+  label: 'Demand model for local hour 19: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h19_year2025
+  label: 'Demand model for local hour 19: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_cdh
+  label: 'Demand model for local hour 20: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_cdh2
+  label: 'Demand model for local hour 20: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_cdh_prev24
+  label: 'Demand model for local hour 20: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_cdh_prev24_2
+  label: 'Demand model for local hour 20: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_cdh_x_dew
+  label: 'Demand model for local hour 20: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_dew_point
+  label: 'Demand model for local hour 20: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_holiday
+  label: 'Demand model for local hour 20: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_intercept
+  label: 'Demand model for local hour 20: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_month10
+  label: 'Demand model for local hour 20: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_month6
+  label: 'Demand model for local hour 20: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_month7
+  label: 'Demand model for local hour 20: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_month8
+  label: 'Demand model for local hour 20: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_month9
+  label: 'Demand model for local hour 20: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_saturday
+  label: 'Demand model for local hour 20: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_sunday
+  label: 'Demand model for local hour 20: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_year2019
+  label: 'Demand model for local hour 20: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_year2020
+  label: 'Demand model for local hour 20: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_year2021
+  label: 'Demand model for local hour 20: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_year2022
+  label: 'Demand model for local hour 20: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_year2023
+  label: 'Demand model for local hour 20: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_year2024
+  label: 'Demand model for local hour 20: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h20_year2025
+  label: 'Demand model for local hour 20: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_cdh
+  label: 'Demand model for local hour 21: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_cdh2
+  label: 'Demand model for local hour 21: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_cdh_prev24
+  label: 'Demand model for local hour 21: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_cdh_prev24_2
+  label: 'Demand model for local hour 21: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_cdh_x_dew
+  label: 'Demand model for local hour 21: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_dew_point
+  label: 'Demand model for local hour 21: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_holiday
+  label: 'Demand model for local hour 21: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_intercept
+  label: 'Demand model for local hour 21: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_month10
+  label: 'Demand model for local hour 21: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_month6
+  label: 'Demand model for local hour 21: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_month7
+  label: 'Demand model for local hour 21: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_month8
+  label: 'Demand model for local hour 21: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_month9
+  label: 'Demand model for local hour 21: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_saturday
+  label: 'Demand model for local hour 21: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_sunday
+  label: 'Demand model for local hour 21: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_year2019
+  label: 'Demand model for local hour 21: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_year2020
+  label: 'Demand model for local hour 21: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_year2021
+  label: 'Demand model for local hour 21: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_year2022
+  label: 'Demand model for local hour 21: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_year2023
+  label: 'Demand model for local hour 21: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_year2024
+  label: 'Demand model for local hour 21: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h21_year2025
+  label: 'Demand model for local hour 21: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_cdh
+  label: 'Demand model for local hour 22: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_cdh2
+  label: 'Demand model for local hour 22: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_cdh_prev24
+  label: 'Demand model for local hour 22: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_cdh_prev24_2
+  label: 'Demand model for local hour 22: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_cdh_x_dew
+  label: 'Demand model for local hour 22: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_dew_point
+  label: 'Demand model for local hour 22: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_holiday
+  label: 'Demand model for local hour 22: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_intercept
+  label: 'Demand model for local hour 22: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_month10
+  label: 'Demand model for local hour 22: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_month6
+  label: 'Demand model for local hour 22: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_month7
+  label: 'Demand model for local hour 22: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_month8
+  label: 'Demand model for local hour 22: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_month9
+  label: 'Demand model for local hour 22: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_saturday
+  label: 'Demand model for local hour 22: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_sunday
+  label: 'Demand model for local hour 22: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_year2019
+  label: 'Demand model for local hour 22: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_year2020
+  label: 'Demand model for local hour 22: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_year2021
+  label: 'Demand model for local hour 22: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_year2022
+  label: 'Demand model for local hour 22: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_year2023
+  label: 'Demand model for local hour 22: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_year2024
+  label: 'Demand model for local hour 22: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h22_year2025
+  label: 'Demand model for local hour 22: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_cdh
+  label: 'Demand model for local hour 23: coefficient of the cooling degree hour, max(T - 65 F, 0) of the weighted temperature
+    in the hour (MW per unit of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_cdh2
+  label: 'Demand model for local hour 23: coefficient of the cooling degree hour squared (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_cdh_prev24
+  label: 'Demand model for local hour 23: coefficient of the mean cooling degree hour over the 24 hours before (MW per unit
+    of the term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_cdh_prev24_2
+  label: 'Demand model for local hour 23: coefficient of the 24-hour mean cooling degree hour squared (MW per unit of the
+    term; fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_cdh_x_dew
+  label: 'Demand model for local hour 23: coefficient of the cooling degree hour times the dew point (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_dew_point
+  label: 'Demand model for local hour 23: coefficient of the weighted dew point (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_holiday
+  label: 'Demand model for local hour 23: coefficient of a US federal holiday (1, else 0) (MW per unit of the term; fitted
+    on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_intercept
+  label: 'Demand model for local hour 23: coefficient of the constant term (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_month10
+  label: 'Demand model for local hour 23: coefficient of the month October, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_month6
+  label: 'Demand model for local hour 23: coefficient of the month June, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_month7
+  label: 'Demand model for local hour 23: coefficient of the month July, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_month8
+  label: 'Demand model for local hour 23: coefficient of the month August, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_month9
+  label: 'Demand model for local hour 23: coefficient of the month September, against May (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_saturday
+  label: 'Demand model for local hour 23: coefficient of a Saturday (1, else 0) (MW per unit of the term; fitted on every
+    non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_sunday
+  label: 'Demand model for local hour 23: coefficient of a Sunday (1, else 0) (MW per unit of the term; fitted on every non-alert
+    day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_year2019
+  label: 'Demand model for local hour 23: coefficient of the year 2019, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_year2020
+  label: 'Demand model for local hour 23: coefficient of the year 2020, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_year2021
+  label: 'Demand model for local hour 23: coefficient of the year 2021, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_year2022
+  label: 'Demand model for local hour 23: coefficient of the year 2022, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_year2023
+  label: 'Demand model for local hour 23: coefficient of the year 2023, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_year2024
+  label: 'Demand model for local hour 23: coefficient of the year 2024, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: coef_h23_year2025
+  label: 'Demand model for local hour 23: coefficient of the year 2025, against 2018 (the base) (MW per unit of the term;
+    fitted on every non-alert day)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: heldout_error_mw
+  label: A held-out hot day's mean error in hours 16 to 20, actual less predicted
+  unit: MW
+  rows: 128
+  first: '2018-07-06T00:00:00Z'
+  last: '2025-08-24T00:00:00Z'
+- name: heldout_price_mean_usd_mwh
+  label: Mean evening day-ahead price of the hottest non-alert days with a price
+  unit: USD/MWh
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: heldout_price_usd_mwh
+  label: A held-out day's mean day-ahead price over local hours 16 to 20 (mean of SP15 and NP15)
+  unit: USD/MWh
+  rows: 41
+  first: '2023-07-14T00:00:00Z'
+  last: '2025-08-24T00:00:00Z'
+- name: heldout_temp_max_f
+  label: A held-out day's highest population-weighted temperature
+  unit: degF
+  rows: 128
+  first: '2018-07-06T00:00:00Z'
+  last: '2025-08-24T00:00:00Z'
+- name: heldout_threshold_temp_f
+  label: The population-weighted daily high from which a non-alert day is in the hottest tenth held out
+  unit: degF
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: insample_mape_pct
+  label: The chosen model's mean absolute percentage error in sample, over the same evening hours of every training day
+  unit: pct
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: insample_rmse_mw
+  label: The chosen model's root mean square error in sample, over the same evening hours of every training day
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: oos_bias_mw
+  label: 'Mean error on the held-out hottest tenth of non-alert days, hours 16:00 to 21:00, actual less predicted (negative:
+    the model over-predicts)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: oos_days
+  label: Held-out hot days in the out-of-sample check
+  unit: count
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: oos_folds
+  label: Folds of the out-of-sample check
+  unit: count
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: oos_hours
+  label: Held-out hours in the out-of-sample check
+  unit: count
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: oos_mae_mw
+  label: Mean absolute error on the held-out hot days, evening hours
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: oos_mape_pct
+  label: Mean absolute percentage error on the held-out hot days, evening hours
+  unit: pct
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: oos_rmse_mw
+  label: Root mean square error on the held-out hot days, evening hours
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: pooled_days
+  label: Alert days pooled
+  unit: count
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: pooled_hours
+  label: Alert hours pooled
+  unit: count
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: pooled_reduction_mw
+  label: 'Pooled cut: mean over every alert hour of every alert day of predicted less actual demand (positive: a cut)'
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: pooled_reduction_mw_hi
+  label: Upper end of the 90 percent interval of the pooled cut
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: pooled_reduction_mw_lo
+  label: Lower end of the 90 percent interval of the pooled cut
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: pooled_reduction_mw_net_of_bias
+  label: The pooled cut plus the model's out-of-sample bias on hot days
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: pooled_reduction_mwh
+  label: The pooled cut summed over every alert hour
+  unit: MWh
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: pooled_reduction_mwh_hi
+  label: Upper end of the 90 percent interval of the pooled MWh
+  unit: MWh
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: pooled_reduction_mwh_lo
+  label: Lower end of the 90 percent interval of the pooled MWh
+  unit: MWh
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: pooled_reduction_pct
+  label: The pooled cut as a percent of predicted demand in the alert hours
+  unit: pct
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: pooled_value_hours
+  label: Alert hours with a day-ahead price
+  unit: count
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: pooled_value_usd
+  label: Value of the cut at the day-ahead price over the alert hours with a price (a wholesale lower bound)
+  unit: USD
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: pooled_value_usd_hi
+  label: Upper end of the 90 percent interval of the pooled value
+  unit: USD
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: pooled_value_usd_lo
+  label: Lower end of the 90 percent interval of the pooled value
+  unit: USD
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: station_weight_FAT
+  label: Weight of Fresno airport (FAT) in the population-weighted weather
+  unit: ratio
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: station_weight_LAX
+  label: Weight of Los Angeles airport (LAX) in the population-weighted weather
+  unit: ratio
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: station_weight_SAC
+  label: Weight of Sacramento airport (SAC) in the population-weighted weather
+  unit: ratio
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: train_days
+  label: 'Training days: the complete non-alert days the model is fitted on'
+  unit: count
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_base_cdh_dew_oos_bias_mw
+  label: Out-of-sample bias on hot days of the specification base_cdh_dew (base plus CDH times dew point)
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_base_cdh_dew_oos_rmse_mw
+  label: Out-of-sample root mean square error on hot days of the specification base_cdh_dew
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_base_cdh_dew_pooled_reduction_mw
+  label: Pooled cut under the specification base_cdh_dew
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_base_cdh_dew_pooled_reduction_mw_hi
+  label: Upper end of the 90 percent interval of the pooled cut under base_cdh_dew
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_base_cdh_dew_pooled_reduction_mw_lo
+  label: Lower end of the 90 percent interval of the pooled cut under base_cdh_dew
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_base_oos_bias_mw
+  label: Out-of-sample bias on hot days of the specification base (minimal plus the 24-hour cooling degree mean and the dew
+    point)
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_base_oos_rmse_mw
+  label: Out-of-sample root mean square error on hot days of the specification base
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_base_pooled_reduction_mw
+  label: Pooled cut under the specification base
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_base_pooled_reduction_mw_hi
+  label: Upper end of the 90 percent interval of the pooled cut under base
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_base_pooled_reduction_mw_lo
+  label: Lower end of the 90 percent interval of the pooled cut under base
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_base_prev24sq_oos_bias_mw
+  label: Out-of-sample bias on hot days of the specification base_prev24sq (base plus the 24-hour cooling degree mean squared)
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_base_prev24sq_oos_rmse_mw
+  label: Out-of-sample root mean square error on hot days of the specification base_prev24sq
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_base_prev24sq_pooled_reduction_mw
+  label: Pooled cut under the specification base_prev24sq
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_base_prev24sq_pooled_reduction_mw_hi
+  label: Upper end of the 90 percent interval of the pooled cut under base_prev24sq
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_base_prev24sq_pooled_reduction_mw_lo
+  label: Lower end of the 90 percent interval of the pooled cut under base_prev24sq
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_chosen_oos_bias_mw
+  label: Out-of-sample bias on hot days of the chosen specification (every term)
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_chosen_oos_rmse_mw
+  label: Out-of-sample root mean square error on hot days of the chosen specification
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_chosen_pooled_reduction_mw
+  label: Pooled cut under the chosen specification
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_chosen_pooled_reduction_mw_hi
+  label: Upper end of the 90 percent interval of the pooled cut under the chosen specification
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_chosen_pooled_reduction_mw_lo
+  label: Lower end of the 90 percent interval of the pooled cut under the chosen specification
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_minimal_oos_bias_mw
+  label: Out-of-sample bias on hot days of the specification minimal (cooling degree hours, their square and the calendar)
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_minimal_oos_rmse_mw
+  label: Out-of-sample root mean square error on hot days of the specification minimal
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_minimal_pooled_reduction_mw
+  label: Pooled cut under the specification minimal
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_minimal_pooled_reduction_mw_hi
+  label: Upper end of the 90 percent interval of the pooled cut under minimal
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: variant_minimal_pooled_reduction_mw_lo
+  label: Lower end of the 90 percent interval of the pooled cut under minimal
+  unit: MW
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+second_look: null

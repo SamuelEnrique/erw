@@ -1,0 +1,237 @@
+# The codebook's metadata of table eia_coal_distribution_quarterly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_coal_distribution_quarterly
+family: eia
+shape: series
+row: One quarter's domestic coal shipments of 2024 along one flow (origin, destination state, consuming sector, transport
+  mode), from EIA's Annual Coal Distribution Report.
+time: ts_utc is the first day of the quarter at 00:00:00Z (freq P3M).
+vintage_rule: Rewritten whole by each run (write_snapshot); vintage is the workbook's last-modified time.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P3M
+source:
+- name: eia:coal_distribution U.S. Energy Information Administration, Annual Coal Distribution Report (domestic distribution
+    by origin and by destination state)
+  url: https://www.eia.gov/coal/distribution/annual/
+cite: U.S. Energy Information Administration (EIA). Annual Coal Distribution Report (domestic distribution by origin and destination
+  state). Via the Energy Research Warehouse (ERW), table `eia_coal_distribution_quarterly`.
+method: docs/methods/eia_coal_distribution_quarterly.md
+header_title: EIA, Annual Coal Distribution Report, U.S. domestic coal shipments by origin, destination state, consuming sector
+  and mode, a quarter, 2024 (session 957)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_coal_flow:<origin>:<destination>:<consumer type>:<mode>;
+  variable shipments; unit short_ton; ts_utc the quarter''s first day; freq P3M; geo US-<destination state> (US for EIA''s
+  U.S. rows); x_* EIA''s words. The origin is EIA''s coal-origin state or region; ''U.S. (All States)'' is EIA''s total level:
+  a sum takes one level.'
+read:
+  date: '2026-11-20'
+  rows: 1207
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia_coal_flow:<origin>:<destination>:<consumer type>:<mode>
+  type: text
+  values:
+    distinct: 351
+    examples:
+    - eia_coal_flow:alabama:alabama:coke_plant:truck
+    - eia_coal_flow:alabama:alabama:electric_power_sector:railroad
+    - eia_coal_flow:alabama:alabama:industrial_plants_excluding_coke:railroad
+    - eia_coal_flow:alabama:alabama:industrial_plants_excluding_coke:truck
+    - eia_coal_flow:alabama:south_carolina:industrial_plants_excluding_coke:railroad
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2024-01-01T00:00:00Z': 317
+      '2024-04-01T00:00:00Z': 302
+      '2024-07-01T00:00:00Z': 295
+      '2024-10-01T00:00:00Z': 293
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1185
+    lowest: 1.0
+    highest: 70447035.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      short_ton: 1207
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P3M: 1207
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<destination state>, US for EIA's U.S. rows
+  type: text
+  values:
+    distinct: 42
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1207
+- name: node
+  shared: true
+  particular: <origin> to <destination>, consumer type, mode, in EIA's words
+  type: text
+  values:
+    distinct: 351
+    examples:
+    - Alabama to Alabama, Coke Plant, Truck
+    - Alabama to Alabama, Electric Power Sector, Railroad
+    - Alabama to Alabama, Industrial Plants Excluding Coke, Railroad
+    - Alabama to Alabama, Industrial Plants Excluding Coke, Truck
+    - Alabama to South Carolina, Industrial Plants Excluding Coke, Railroad
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:coal_distribution: 1207
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/coal/distribution/annual/xls/o_24state.xlsx: 1207
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T12:47:50Z': 1207
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The workbook's last-modified time from EIA's server
+  type: utc time
+  values:
+    list:
+      '2025-10-30T13:23:20Z': 1207
+  missing_cells: 0
+- name: x_origin
+  label: The coal-origin state or region as EIA writes it (U.S. (All States) is EIA's total level)
+  unit: none
+  type: text
+  values:
+    list:
+      Alabama: 19
+      Alaska: 13
+      Colorado: 89
+      Illinois: 114
+      Indiana: 46
+      Kentucky (East): 139
+      Kentucky (West): 54
+      Louisiana: 4
+      Maryland: 14
+      Mississippi: 4
+      Missouri: 8
+      Montana: 76
+      New Mexico: 8
+      North Dakota: 16
+      Ohio: 24
+      Pennsylvania (Anthracite): 13
+      Pennsylvania (Bituminous): 98
+      Texas: 8
+      U.S. (All States): 59
+      Utah: 28
+      Virginia: 60
+      West Virginia (Northern): 60
+      West Virginia (Southern): 87
+      Wyoming: 166
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Origin State
+  documented_by: header; connector eia_coal_distribution.py
+- name: x_destination
+  label: The destination state as EIA writes it
+  unit: none
+  type: text
+  values:
+    distinct: 42
+    examples:
+    - Alabama
+    - Alaska
+    - Arizona
+    - Arkansas
+    - California
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector eia_coal_distribution.py
+- name: x_consumer_type
+  label: The consuming sector as EIA writes it (electric power, industrial plants excluding coke, coke plant, commercial and
+    institutional)
+  unit: none
+  type: text
+  values:
+    list:
+      Coke Plant: 108
+      Commercial/Institutional: 58
+      Electric Power Sector: 548
+      Industrial Plants Excluding Coke: 493
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Consumer Type
+  documented_by: connector eia_coal_distribution.py
+- name: x_mode
+  label: The transport mode as EIA writes it (railroad, river, truck and the others)
+  unit: none
+  type: text
+  values:
+    list:
+      Railroad: 612
+      River: 211
+      Tidewater Piers: 8
+      Tramway and Conveyor: 32
+      Truck: 344
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Transportation Mode
+  documented_by: connector eia_coal_distribution.py
+variables:
+- name: shipments
+  label: Coal shipped along the flow in the quarter, short tons
+  unit: short_ton
+  rows: 1207
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-10-01T00:00:00Z'
+second_look: null

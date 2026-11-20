@@ -1,0 +1,129 @@
+# The codebook's metadata of table eia_all_futures_prices (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_all_futures_prices
+family: eia
+shape: series
+row: One trading day's official NYMEX closing price of one futures contract (contract 1 to 4) of crude oil, heating oil, RBOB
+  gasoline or natural gas, as EIA published it, 2019 to 5 April 2024.
+time: ts_utc is the trading date at 00:00:00Z (freq P1D), a date.
+vintage_rule: A closed history, rebuilt whole by each run (the file is deleted, then written); EIA's series end on 5 April
+  2024. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1D
+source:
+- name: eia:nymex_futures_petroleum EIA, NYMEX Futures Prices, crude oil and petroleum products, daily (ends 5 April 2024)
+  url: https://www.eia.gov/dnav/pet/pet_pri_fut_s1_d.htm
+- name: eia:nymex_futures_natural_gas EIA, Natural Gas Futures Prices (NYMEX), daily (ends 5 April 2024)
+  url: https://www.eia.gov/dnav/ng/ng_pri_fut_s1_d.htm
+cite: U.S. Energy Information Administration (EIA). NYMEX Futures Prices, crude oil and petroleum products, daily (ends 5
+  April 2024); Natural Gas Futures Prices (NYMEX), daily (ends 5 April 2024). Via the Energy Research Warehouse (ERW), table
+  `eia_all_futures_prices`.
+method: docs/methods/eia_all_futures_prices.md
+header_title: EIA's daily NYMEX futures prices, contracts 1 to 4 of crude oil, heating oil, RBOB gasoline and natural gas,
+  2019 to the day EIA stopped publishing them (session 127)
+header_shape: 'Shape: series (docs/datastandard.md v0). futures_price: the official daily closing price of the New York Mercantile
+  Exchange as EIA published it, per contract (node 1 to 4: 1 is the earliest delivery month) and trading day; ts_utc is the
+  trading date at 00:00:00Z; freq P1D. USD/bbl (crude oil), USD/gal (heating oil, gasoline), USD/MMBtu (natural gas).'
+read:
+  date: '2026-11-20'
+  rows: 21240
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia:<EIA series id>
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: nymex on every row
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: node
+  shared: true
+  particular: The contract number, 1 to 4 (1 the earliest delivery month)
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 21240
+variables:
+- name: futures_price
+  label: 'Official daily NYMEX closing price of the contract: USD per barrel for crude oil, USD per gallon for heating oil
+    and gasoline, USD per MMBtu for natural gas (the unit column says which)'
+  unit: USD/MMBtu; USD/bbl; USD/gal
+  rows: 21240
+  first: '2019-01-01T00:00:00Z'
+  last: '2024-04-05T00:00:00Z'
+second_look: null

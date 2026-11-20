@@ -1,0 +1,212 @@
+# The codebook's metadata of table destatis_de_electricity_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: destatis_de_electricity_monthly
+family: other_sources
+shape: series
+row: One month's electricity or heat generation of Germany's general supply plants from one energy source (or in total), from
+  Destatis' monthly report.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; provisional figures.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s month replaces the same keys and older months are kept; vintage
+  is the page''s Last-Modified.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: destatis:monatsbericht_elektrizitaet_waerme Statistisches Bundesamt (Destatis), Elektrizitaets- und Waermeerzeugung
+    nach Energietraegern (Monatsbericht)
+  url: https://www.destatis.de/DE/Themen/Branchen-Unternehmen/Energie/Erzeugung/Tabellen/elekrizitaet-waermeerzeugung-energietraeger-monatsbericht.html
+cite: Statistisches Bundesamt (Destatis). Elektrizitaets- und Waermeerzeugung nach Energietraegern (Monatsbericht). Via the
+  Energy Research Warehouse (ERW), table `destatis_de_electricity_monthly`.
+method: docs/methods/destatis_de_electricity_monthly.md
+header_title: 'Destatis, Monatsbericht ueber die Elektrizitaets- und Waermeerzeugung der Stromerzeugungsanlagen fuer die allgemeine
+  Versorgung: Germany''s general supply plants by energy source, 2026-07 (provisional; Stand 7. Oktober 2026) (session 2807)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity destatis:de (Insgesamt) or destatis:de:<the energy source''s
+  slug>; variable gross_generation, net_generation, net_generation_chp, net_heat_generation or net_heat_generation_chp; unit
+  MWh; ts_utc the month''s first day; freq P1M; geo DE; x_label and x_cell the page''s label and cell. Plants for general
+  supply only: wind and solar are not in this survey, nor industrial plants.'
+read:
+  date: '2026-11-20'
+  rows: 123
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: destatis:de (Insgesamt, the total) or destatis:de:<energy source slug>
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - destatis:de
+    - destatis:de:abfall_hausmuell_siedlungsabfaelle
+    - destatis:de:andere_mineraloelprodukte
+    - destatis:de:biogas
+    - destatis:de:biomethan_bioerdgas
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-07-01T00:00:00Z': 123
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 62
+    lowest: 0.0
+    highest: 11973315.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 123
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 123
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: DE on every row
+  type: text
+  values:
+    list:
+      DE: 123
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 123
+- name: node
+  shared: true
+  particular: Destatis general supply, <label>, <measure>, not a pricing node
+  type: text
+  values:
+    distinct: 123
+    examples:
+    - Destatis general supply, Abfall (Hausmüll, Siedlungsabfälle), gross electricity generation
+    - Destatis general supply, Abfall (Hausmüll, Siedlungsabfälle), net electricity generation
+    - Destatis general supply, Abfall (Hausmüll, Siedlungsabfälle), net electricity generation in CHP
+    - Destatis general supply, Abfall (Hausmüll, Siedlungsabfälle), net heat generation
+    - Destatis general supply, Abfall (Hausmüll, Siedlungsabfälle), net heat generation in CHP
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      destatis:monatsbericht_elektrizitaet_waerme: 123
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://www.destatis.de/DE/Themen/Branchen-Unternehmen/Energie/Erzeugung/Tabellen/elekrizitaet-waermeerzeugung-energietraeger-monatsbericht.html
+      : 123
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-26T04:45:04Z': 123
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The page's Last-Modified (UTC)
+  type: utc time
+  values:
+    list:
+      '2026-10-26T04:45:04Z': 123
+  missing_cells: 0
+- name: x_label
+  label: The page's label of the energy source, in German, as printed
+  unit: none
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - Abfall (Hausmüll, Siedlungsabfälle)
+    - Andere Mineralölprodukte
+    - Biogas
+    - Biomethan (Bioerdgas)
+    - Braunkohlen insgesamt
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method destatis_de_electricity_monthly.md
+- name: x_cell
+  label: The page's cell as printed ('-' is zero)
+  unit: none
+  type: text
+  values:
+    distinct: 63
+    examples:
+    - '-'
+    - '- -'
+    - 1 029 403
+    - 1 241
+    - 1 525 691
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method destatis_de_electricity_monthly.md
+variables:
+- name: gross_generation
+  label: Gross electricity generation of general supply plants in the month
+  unit: MWh
+  rows: 24
+  first: '2026-07-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+  source_label: Abfall (Hausmüll, Siedlungsabfälle); Biogas; Insgesamt
+- name: net_generation
+  label: Net electricity generation of general supply plants in the month
+  unit: MWh
+  rows: 24
+  first: '2026-07-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+  source_label: Abfall (Hausmüll, Siedlungsabfälle); Biogas; Insgesamt
+- name: net_generation_chp
+  label: Net electricity generation in combined heat and power in the month
+  unit: MWh
+  rows: 24
+  first: '2026-07-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+  source_label: Abfall (Hausmüll, Siedlungsabfälle); Andere Mineralölprodukte; Insgesamt
+- name: net_heat_generation
+  label: Net heat generation in the month
+  unit: MWh
+  rows: 26
+  first: '2026-07-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+  source_label: Abfall (Hausmüll, Siedlungsabfälle); Andere Mineralölprodukte; Insgesamt
+- name: net_heat_generation_chp
+  label: Net heat generation in combined heat and power in the month
+  unit: MWh
+  rows: 25
+  first: '2026-07-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+  source_label: Abfall (Hausmüll, Siedlungsabfälle); Andere Mineralölprodukte; Insgesamt
+second_look: null

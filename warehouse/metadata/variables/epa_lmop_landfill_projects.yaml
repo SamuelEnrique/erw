@@ -1,0 +1,1104 @@
+# The codebook's metadata of table epa_lmop_landfill_projects (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: epa_lmop_landfill_projects
+family: epa
+shape: entities
+row: One landfill and one landfill gas energy project at it (or the landfill alone, with a project id of its own) in EPA's
+  LMOP database as of September 2024.
+time: No time column; status_date is blank; project_start_date and project_shutdown_date keep EPA's dates. vintage is the
+  file's last-modified time.
+vintage_rule: A snapshot, rewritten whole by each run; no schedule runs it.
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: epa:lmop U.S. Environmental Protection Agency, Landfill Methane Outreach Program (LMOP) Database, composite data file
+  url: https://www.epa.gov/lmop/lmop-landfill-and-project-database
+cite: U.S. Environmental Protection Agency (EPA). Landfill Methane Outreach Program (LMOP) Database, composite data file.
+  Via the Energy Research Warehouse (ERW), table `epa_lmop_landfill_projects`.
+method: docs/methods/epa_lmop_landfill_projects.md
+header_title: 'U.S. EPA, Landfill Methane Outreach Program (LMOP) Database, composite data file: every landfill the program
+  tracks and its landfill gas energy projects (session 2127)'
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id lmop:<Landfill ID>:<Project ID>, one row a landfill and
+  project as EPA lists them; entity_type project; capacity_mw EPA''s rated MW capacity, repeated on each landfill''s row of
+  a project fed by several landfills, so never summed over rows (one row a project id counts it once); status operating, under_construction,
+  planned or retired, blank for a landfill without a project (lmop_status keeps EPA''s word).'
+read:
+  date: '2026-11-20'
+  rows: 3399
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  particular: lmop:<Landfill ID>:<Project ID>
+  type: text
+  values:
+    distinct: 3399
+    examples:
+    - lmop:1000:1072-0
+    - lmop:1001:1073-0
+    - lmop:1002:1074-0
+    - lmop:1003:1075-0
+    - lmop:1005:1077-0
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  particular: Always project, landfills without a project included
+  type: text
+  values:
+    list:
+      project: 3399
+  missing_cells: 0
+- name: name
+  shared: true
+  particular: 'The landfill''s name, then '': '' and the project''s name where it has one'
+  type: text
+  values:
+    distinct: 3361
+    examples:
+    - 130 Environmental Park (130EP) Landfill
+    - 27th Avenue Landfill
+    - '31st Street Landfill: Project #1'
+    - 3M Company Nevada Missouri Plant SLF
+    - 58th Street Landfill
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state> of the landfill (Guam, Puerto Rico and the Virgin Islands among them)
+  type: text
+  values:
+    distinct: 53
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: lat
+  shared: true
+  particular: EPA's latitude of the landfill; blank on 321 rows
+  type: number
+  values:
+    distinct: 2302
+    lowest: 13.429707
+    highest: 64.80476
+  missing_cells: 321
+- name: lon
+  shared: true
+  particular: EPA's longitude of the landfill; blank on 321 rows
+  type: number
+  values:
+    distinct: 2307
+    lowest: -166.50657
+    highest: 144.750611
+  missing_cells: 321
+- name: capacity_mw
+  shared: true
+  particular: 'EPA''s Rated MW Capacity of the project, repeated on each landfill row of a project fed by several landfills:
+    never sum over rows'
+  type: number
+  values:
+    distinct: 197
+    lowest: 0.0
+    highest: 50.0
+  missing_cells: 2615
+- name: status
+  shared: true
+  particular: operating (Operational), under_construction (Construction), planned (Planned), retired (Shutdown); blank for
+    Candidate, Future Potential, Low Potential and Unknown
+  type: text
+  values:
+    list:
+      operating: 669
+      planned: 100
+      retired: 712
+      under_construction: 33
+  missing_cells: 1885
+- name: status_date
+  shared: true
+  particular: 'Not filled: blank in every row'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3399
+- name: operator
+  shared: true
+  particular: The project's owner(s), EPA's Project Owner(s)
+  type: text
+  values:
+    distinct: 186
+    examples:
+    - AC Landfill Energy, LLC (ACLE (JV of DCO Energy & South Jersey Industries))
+    - APTIM
+    - ARC Technologies Corporation
+    - Adrian Energy Associates; Energy Power Partners
+    - Air Liquide Biogas
+  missing_cells: 2671
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      epa:lmop: 3399
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.epa.gov/system/files/documents/2024-09/lmopcompositedata.xlsx: 3399
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T23:11:19Z': 3399
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The file's last-modified time (2024-09-20)
+  type: utc time
+  values:
+    list:
+      '2024-09-20T16:32:56Z': 3399
+  missing_cells: 0
+- name: ghgrp_id
+  label: The landfill's 7-digit facility id in EPA's Greenhouse Gas Reporting Program
+  unit: none
+  type: integer
+  values:
+    distinct: 1331
+    lowest: 1000010
+    highest: 1014715
+  missing_cells: 1348
+  missing_meaning: EPA's cell is blank (the landfill has no GHGRP id)
+  source_name: GHGRP ID
+  documented_by: source LMOP Field Descriptions sheet; connector epa_lmop.py
+- name: landfill_id
+  label: EPA's unique number of the landfill
+  unit: none
+  type: integer
+  values:
+    distinct: 2641
+    lowest: 1
+    highest: 21409
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Landfill ID
+  documented_by: source LMOP Field Descriptions sheet
+- name: landfill_name
+  label: The landfill's name
+  unit: none
+  type: text
+  values:
+    distinct: 2594
+    examples:
+    - 130 Environmental Park (130EP) Landfill
+    - 27th Avenue Landfill
+    - 31st Street Landfill
+    - 3M Company Nevada Missouri Plant SLF
+    - 58th Street Landfill
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Landfill Name
+  documented_by: source LMOP Field Descriptions sheet
+- name: landfill_alias
+  label: Another name of the landfill
+  unit: none
+  type: text
+  values:
+    distinct: 885
+    examples:
+    - '"Mount Trashmore"'
+    - (Sheala) SLF
+    - 10800 County Road 21 NW
+    - 138th Street Landfill
+    - 2111 N 52nd Street
+  missing_cells: 2064
+  missing_meaning: EPA's cell is blank
+  source_name: Landfill Alias
+  documented_by: source LMOP Field Descriptions sheet
+- name: state
+  label: The state the landfill is in, two-letter code
+  unit: none
+  type: text
+  values:
+    distinct: 53
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: State
+  documented_by: source LMOP Field Descriptions sheet; data
+- name: physical_address
+  label: The landfill's physical address
+  unit: none
+  type: text
+  values:
+    distinct: 2162
+    examples:
+    - '#1 Industry Hills Parkway'
+    - .5 miles north of FM 2641
+    - 1 Bob Foeller Drive
+    - 1 Bozoo Road
+    - 1 Dump Road
+  missing_cells: 462
+  missing_meaning: EPA's cell is blank
+  source_name: Physical Address
+  documented_by: source LMOP Field Descriptions sheet
+- name: city
+  label: The city the landfill is in or near
+  unit: none
+  type: text
+  values:
+    distinct: 1912
+    examples:
+    - Abbeville
+    - Aberdeen
+    - Abernathy
+    - Abilene
+    - Acushnet
+  missing_cells: 173
+  missing_meaning: EPA's cell is blank
+  source_name: City
+  documented_by: source LMOP Field Descriptions sheet
+- name: county
+  label: The county the landfill is in
+  unit: none
+  type: text
+  values:
+    distinct: 1083
+    examples:
+    - Abbeville
+    - Acadia
+    - Accomack
+    - Ada
+    - Adair
+  missing_cells: 5
+  missing_meaning: EPA's cell is blank
+  source_name: County
+  documented_by: source LMOP Field Descriptions sheet
+- name: zip_code
+  label: The landfill's ZIP code
+  unit: none
+  type: text
+  values:
+    distinct: 2124
+    examples:
+    - '00605'
+    - '00610'
+    - '00612'
+    - '00623'
+    - '00624'
+  missing_cells: 366
+  missing_meaning: EPA's cell is blank
+  source_name: Zip Code
+  documented_by: source LMOP Field Descriptions sheet
+- name: military_landfill
+  label: Yes when a federal or state military branch owns the landfill
+  unit: none
+  type: text
+  values:
+    list:
+      'No': 3354
+      'Yes': 45
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Military Landfill?
+  documented_by: source LMOP Field Descriptions sheet
+- name: on_tribal_land
+  label: Yes when the landfill is on tribal land
+  unit: none
+  type: text
+  values:
+    list:
+      'No': 3354
+      'Yes': 45
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: On Tribal Land?
+  documented_by: source LMOP Field Descriptions sheet
+- name: anaerobic_digester
+  label: Yes when an anaerobic digester is co-located with the landfill (perhaps under another owner)
+  unit: none
+  type: text
+  values:
+    list:
+      'No': 3370
+      'Yes': 29
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Anaerobic Digester?
+  documented_by: source LMOP Field Descriptions sheet
+- name: composting
+  label: Yes when composting operations exist within 1 mile of the landfill
+  unit: none
+  type: text
+  values:
+    list:
+      'No': 2953
+      'Yes': 446
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Composting?
+  documented_by: source LMOP Field Descriptions sheet
+- name: solar_project
+  label: Yes when a solar project is at the landfill site
+  unit: none
+  type: text
+  values:
+    list:
+      'No': 3279
+      'Yes': 120
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Solar Project?
+  documented_by: source LMOP Field Descriptions sheet
+- name: wind_project
+  label: Yes when a wind project is at the landfill site
+  unit: none
+  type: text
+  values:
+    list:
+      'No': 3392
+      'Yes': 7
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Wind Project?
+  documented_by: source LMOP Field Descriptions sheet
+- name: ownership_type
+  label: Whether the landfill is publicly owned, privately owned or co-owned (Public, Private, Public/Private, Unknown)
+  unit: none
+  type: text
+  values:
+    list:
+      Private: 1244
+      Public: 2058
+      Public/Private: 5
+      Unknown: 92
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Ownership Type
+  documented_by: source LMOP Field Descriptions sheet; data
+- name: landfill_owner_organization_s
+  label: The organization(s) that own the landfill
+  unit: none
+  type: text
+  values:
+    distinct: 1585
+    examples:
+    - 3M Company
+    - 600 Land, Inc.
+    - A. Capuano Brothers, Inc.
+    - A.M. Kennedy, Inc.
+    - Abbeville County, SC
+  missing_cells: 149
+  missing_meaning: EPA's cell is blank
+  source_name: Landfill Owner Organization(s)
+  documented_by: source LMOP Field Descriptions sheet
+- name: landfill_operator_organization
+  label: The organization that operates the landfill
+  unit: none
+  type: text
+  values:
+    distinct: 1152
+    examples:
+    - 3M Company
+    - A & M Quarries, Inc.
+    - A-9 Trucking Enterprise
+    - A.M. Kennedy, Inc.
+    - Absolute Waste Solutions, Inc.
+  missing_cells: 666
+  missing_meaning: EPA's cell is blank
+  source_name: Landfill Operator Organization
+  documented_by: source LMOP Field Descriptions sheet
+- name: year_landfill_opened
+  label: The year the landfill opened or began accepting waste
+  unit: none
+  type: integer
+  values:
+    distinct: 101
+    lowest: 1900
+    highest: 2025
+  missing_cells: 376
+  missing_meaning: EPA's cell is blank
+  source_name: Year Landfill Opened
+  documented_by: source LMOP Field Descriptions sheet
+- name: landfill_closure_year
+  label: The year the landfill stopped (or is expected to stop) accepting waste, or closed or is expected to close; one value
+    is 2945 as EPA gives it
+  unit: none
+  type: integer
+  values:
+    distinct: 216
+    lowest: 1960
+    highest: 2945
+  missing_cells: 280
+  missing_meaning: EPA's cell is blank
+  source_name: Landfill Closure Year
+  documented_by: source LMOP Field Descriptions sheet; data
+- name: current_landfill_status
+  label: Whether the landfill is Open or Closed (or Unknown)
+  unit: none
+  type: text
+  values:
+    list:
+      Closed: 1563
+      Open: 1808
+      Unknown: 28
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Current Landfill Status
+  documented_by: source LMOP Field Descriptions sheet; data
+- name: design_landfill_area_acres
+  label: The landfill's design waste mass area
+  unit: acre
+  type: number
+  values:
+    distinct: 436
+    lowest: 1.0
+    highest: 1388.0
+  missing_cells: 1688
+  missing_meaning: EPA's cell is blank
+  source_name: Design Landfill Area (acres)
+  documented_by: source LMOP Field Descriptions sheet
+- name: current_landfill_area_acres
+  label: The landfill's current waste mass area
+  unit: acre
+  type: number
+  values:
+    distinct: 765
+    lowest: 1.0
+    highest: 1620.0
+  missing_cells: 1301
+  missing_meaning: EPA's cell is blank
+  source_name: Current Landfill Area (acres)
+  documented_by: source LMOP Field Descriptions sheet
+- name: design_landfill_depth_feet
+  label: The landfill's design waste mass depth (maximum or average)
+  unit: foot
+  type: number
+  values:
+    distinct: 104
+    lowest: 2.0
+    highest: 540.0
+  missing_cells: 2511
+  missing_meaning: EPA's cell is blank
+  source_name: Design Landfill Depth (feet)
+  documented_by: source LMOP Field Descriptions sheet
+- name: current_landfill_depth_feet
+  label: The landfill's current waste mass depth (maximum or average)
+  unit: foot
+  type: number
+  values:
+    distinct: 129
+    lowest: 10.0
+    highest: 500.0
+  missing_cells: 2601
+  missing_meaning: EPA's cell is blank
+  source_name: Current Landfill Depth (feet)
+  documented_by: source LMOP Field Descriptions sheet
+- name: landfill_design_capacity_tons
+  label: The landfill's waste design capacity, in short tons
+  unit: short ton
+  type: integer
+  values:
+    distinct: 1316
+    lowest: 12560
+    highest: 994920296
+  missing_cells: 1410
+  missing_meaning: EPA's cell is blank
+  source_name: Landfill Design Capacity (tons)
+  documented_by: source LMOP Field Descriptions sheet
+- name: waste_in_place_tons
+  label: The waste in place at the landfill, in short tons
+  unit: short ton
+  type: number
+  values:
+    distinct: 1978
+    lowest: 187.0
+    highest: 142250454.0
+  missing_cells: 469
+  missing_meaning: EPA's cell is blank
+  source_name: Waste in Place (tons)
+  documented_by: source LMOP Field Descriptions sheet
+- name: waste_in_place_year
+  label: The year the waste in place figure refers to
+  unit: none
+  type: integer
+  values:
+    distinct: 46
+    lowest: 1965
+    highest: 2022
+  missing_cells: 1233
+  missing_meaning: EPA's cell is blank
+  source_name: Waste in Place Year
+  documented_by: source LMOP Field Descriptions sheet
+- name: annual_waste_acceptance_rate_tons_per_year
+  label: The waste the landfill accepts a year, in short tons
+  unit: short ton/year
+  type: number
+  values:
+    distinct: 2049
+    lowest: 0.0
+    highest: 3953108.0
+  missing_cells: 439
+  missing_meaning: EPA's cell is blank
+  source_name: Annual Waste Acceptance Rate (tons per year)
+  documented_by: source LMOP Field Descriptions sheet
+- name: annual_waste_acceptance_year
+  label: The year the waste acceptance rate refers to
+  unit: none
+  type: integer
+  values:
+    distinct: 45
+    lowest: 1965
+    highest: 2022
+  missing_cells: 1001
+  missing_meaning: EPA's cell is blank
+  source_name: Annual Waste Acceptance Year
+  documented_by: source LMOP Field Descriptions sheet
+- name: does_lf_recirculate_leachate
+  label: 'Whether the landfill recirculated leachate (liquid drained from the waste) in the past year: Yes, No or Unknown'
+  unit: none
+  type: text
+  values:
+    list:
+      'No': 1451
+      Unknown: 1577
+      'Yes': 371
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Does LF Recirculate Leachate?
+  documented_by: source LMOP Field Descriptions sheet; data
+- name: leachate_recirc_frequency_past_10_yrs
+  label: How often the landfill recirculated leachate over the past 10 years
+  unit: none
+  type: text
+  values:
+    list:
+      At least once per year: 14
+      Not used: 2910
+      Occasionally but not every year: 261
+      Several times per year: 213
+  missing_cells: 1
+  missing_meaning: EPA's cell is blank (one row)
+  source_name: Leachate Recirc Frequency (Past 10 Yrs)
+  documented_by: source LMOP Field Descriptions sheet; data
+- name: permitted_as_rd_d_lf
+  label: Whether the landfill is permitted under the Research, Development and Demonstration (RD&D) Permits Rule for municipal
+    solid waste landfills
+  unit: none
+  type: text
+  values:
+    list:
+      'No': 3345
+      'Yes': 54
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Permitted as RD&D LF?
+  documented_by: source LMOP Field Descriptions sheet
+- name: lfg_generated_mmscfd
+  label: Estimated landfill gas generated, in million standard cubic feet a day
+  unit: MMscfd
+  type: number
+  values:
+    distinct: 919
+    lowest: 0.036
+    highest: 31.405
+  missing_cells: 1649
+  missing_meaning: EPA's cell is blank
+  source_name: LFG Generated (mmscfd)
+  documented_by: source LMOP Field Descriptions sheet
+- name: lfg_collection_system_in_place
+  label: Whether an active gas collection and control system is in place (No also for passive venting or flaring, or perimeter
+    wells only; Shutdown, Unknown)
+  unit: none
+  type: text
+  values:
+    list:
+      'No': 1210
+      Shutdown: 33
+      Unknown: 158
+      'Yes': 1998
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: LFG Collection System In Place?
+  documented_by: source LMOP Field Descriptions sheet; data
+- name: lfg_collected_mmscfd
+  label: Landfill gas collected, in million standard cubic feet a day
+  unit: MMscfd
+  type: number
+  values:
+    distinct: 943
+    lowest: 0.0
+    highest: 24.951
+  missing_cells: 1502
+  missing_meaning: EPA's cell is blank
+  source_name: LFG Collected (mmscfd)
+  documented_by: source LMOP Field Descriptions sheet
+- name: lfg_collected_year
+  label: The year the landfill gas collected figure refers to
+  unit: none
+  type: integer
+  values:
+    list:
+      '1998': 1
+      '2003': 2
+      '2009': 3
+      '2010': 8
+      '2011': 4
+      '2012': 151
+      '2013': 7
+      '2014': 14
+      '2015': 4
+      '2016': 24
+      '2017': 4
+      '2018': 26
+      '2019': 14
+      '2020': 18
+      '2021': 14
+      '2022': 1469
+      '2023': 6
+      '2024': 3
+  missing_cells: 1627
+  missing_meaning: EPA's cell is blank
+  source_name: LFG Collected Year
+  documented_by: source LMOP Field Descriptions sheet
+- name: percent_methane
+  label: The percent of the landfill gas that is methane
+  unit: pct
+  type: number
+  values:
+    distinct: 308
+    lowest: 20.0
+    highest: 70.0
+  missing_cells: 1494
+  missing_meaning: EPA's cell is blank
+  source_name: Percent Methane
+  documented_by: source LMOP Field Descriptions sheet
+- name: flares_in_place
+  label: Whether one or more flares are in place at the landfill (Yes, No, Shutdown, Unknown)
+  unit: none
+  type: text
+  values:
+    list:
+      'No': 1236
+      Shutdown: 13
+      Unknown: 218
+      'Yes': 1932
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Flares in Place?
+  documented_by: source LMOP Field Descriptions sheet; data
+- name: number_of_flares
+  label: The number of flares in place
+  unit: count
+  type: integer
+  values:
+    list:
+      '1': 674
+      '12': 2
+      '2': 344
+      '26': 5
+      '3': 152
+      '4': 23
+      '5': 23
+      '6': 17
+      '7': 8
+      '9': 2
+  missing_cells: 2149
+  missing_meaning: EPA's cell is blank
+  source_name: Number of Flares
+  documented_by: source LMOP Field Descriptions sheet
+- name: lfg_flared_mmscfd
+  label: Landfill gas flared (in back-up flares when a project operates), in million standard cubic feet a day
+  unit: MMscfd
+  type: number
+  values:
+    distinct: 754
+    lowest: 0.0
+    highest: 15.136
+  missing_cells: 1742
+  missing_meaning: EPA's cell is blank
+  source_name: LFG Flared (mmscfd)
+  documented_by: source LMOP Field Descriptions sheet
+- name: lfg_flared_year
+  label: The year the landfill gas flared figure refers to
+  unit: none
+  type: integer
+  values:
+    list:
+      '2008': 1
+      '2010': 5
+      '2011': 4
+      '2012': 62
+      '2013': 7
+      '2014': 11
+      '2015': 2
+      '2016': 7
+      '2017': 4
+      '2018': 20
+      '2019': 12
+      '2020': 11
+      '2021': 150
+      '2022': 1273
+      '2023': 5
+      '2024': 3
+  missing_cells: 1822
+  missing_meaning: EPA's cell is blank
+  source_name: LFG Flared Year
+  documented_by: source LMOP Field Descriptions sheet
+- name: number_of_wells
+  label: The number of active landfill gas extraction wells
+  unit: count
+  type: integer
+  values:
+    distinct: 301
+    lowest: 1
+    highest: 2000
+  missing_cells: 1593
+  missing_meaning: EPA's cell is blank
+  source_name: Number of Wells
+  documented_by: source LMOP Field Descriptions sheet
+- name: gccs_capacity_cfm
+  label: The capacity of the gas collection and control system, in cubic feet a minute
+  unit: cfm
+  type: integer
+  values:
+    distinct: 315
+    lowest: 80
+    highest: 45000
+  missing_cells: 1652
+  missing_meaning: EPA's cell is blank
+  source_name: GCCS Capacity (cfm)
+  documented_by: source LMOP Field Descriptions sheet
+- name: passive_venting_flaring
+  label: Yes when the landfill passively vents or flares landfill gas
+  unit: none
+  type: text
+  values:
+    list:
+      'No': 1700
+      Unknown: 1306
+      'Yes': 393
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Passive Venting/Flaring?
+  documented_by: source LMOP Field Descriptions sheet
+- name: projected_direct_reductions_mmtco2e_yr_mw
+  label: Projected direct methane reductions a year if an electricity project is developed, in million metric tons CO2 equivalent
+    (global warming potential 28)
+  unit: MMTCO2e/year
+  type: number
+  values:
+    distinct: 387
+    lowest: 0.002
+    highest: 1.3786
+  missing_cells: 2955
+  missing_meaning: EPA's cell is blank
+  source_name: Projected Direct Reductions (MMTCO2e/yr) - MW
+  documented_by: source LMOP Field Descriptions sheet
+- name: projected_avoided_reductions_mmtco2e_yr_mw
+  label: Projected avoided carbon dioxide reductions a year if an electricity project is developed, in million metric tons
+    CO2 equivalent
+  unit: MMTCO2e/year
+  type: number
+  values:
+    distinct: 174
+    lowest: 0.0002
+    highest: 0.1315
+  missing_cells: 2955
+  missing_meaning: EPA's cell is blank
+  source_name: Projected Avoided Reductions (MMTCO2e/yr) - MW
+  documented_by: source LMOP Field Descriptions sheet
+- name: project_id
+  label: 'EPA''s project id: the parent project number, a hyphen and the expansion number'
+  unit: none
+  type: text
+  values:
+    distinct: 3365
+    examples:
+    - 0-0
+    - 100-0
+    - 100-1
+    - 1000-0
+    - 1001-0
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Project ID
+  documented_by: source LMOP Field Descriptions sheet; method epa_lmop_landfill_projects.md
+- name: lmop_status
+  label: 'EPA''s current project status: Operational, Construction, Planned, Shutdown, Candidate, Future Potential, Low Potential
+    or Unknown'
+  unit: none
+  type: text
+  values:
+    list:
+      Candidate: 444
+      Construction: 33
+      Future Potential: 158
+      Low Potential: 967
+      Operational: 669
+      Planned: 100
+      Shutdown: 712
+      Unknown: 316
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Current Project Status
+  documented_by: source LMOP Field Descriptions sheet; connector epa_lmop.py
+- name: project_name
+  label: The project's name, where it has one
+  unit: none
+  type: text
+  values:
+    distinct: 107
+    examples:
+    - Combination Project
+    - 'Combination Project #1'
+    - 'Combination Project #1 (MBC Cogen)'
+    - 'Combination Project #1, Expansion #1 (MP2)'
+    - Combination Project - Engines
+  missing_cells: 1865
+  missing_meaning: No project name (mostly landfills without a project)
+  source_name: Project Name
+  documented_by: source LMOP Field Descriptions sheet
+- name: project_start_date
+  label: The date the project or expansion became operational (future dates for planned projects)
+  unit: none
+  type: date
+  values:
+    distinct: 709
+    earliest: '1974-04-01'
+    latest: '2027-12-31'
+  missing_cells: 1889
+  missing_meaning: EPA's cell is blank
+  source_name: Project Start Date
+  documented_by: source LMOP Field Descriptions sheet; method epa_lmop_landfill_projects.md
+- name: project_shutdown_date
+  label: The date the project or expansion shut down
+  unit: none
+  type: date
+  values:
+    distinct: 272
+    earliest: '1975-02-01'
+    latest: '2024-01-01'
+  missing_cells: 2683
+  missing_meaning: Not shut down, or no date given (5 Shutdown rows)
+  source_name: Project Shutdown Date
+  documented_by: source LMOP Field Descriptions sheet; method epa_lmop_landfill_projects.md
+- name: project_type_category
+  label: 'The category of landfill gas energy project: Electricity, Direct (use), Renewable Natural Gas or Unknown'
+  unit: none
+  type: text
+  values:
+    list:
+      Direct: 281
+      Electricity: 973
+      Renewable Natural Gas: 264
+      Unknown: 1881
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Project Type Category
+  documented_by: source LMOP Field Descriptions sheet; data
+- name: lfg_energy_project_type
+  label: The project's specific technology (Reciprocating Engine, Boiler, Gas Turbine and the others)
+  unit: none
+  type: text
+  values:
+    list:
+      Boiler: 101
+      Cogeneration: 79
+      Combined Cycle: 13
+      Condensate Evaporation: 1
+      Direct Thermal: 108
+      Electricity: 7
+      Fuel Cell: 2
+      Gas Turbine: 57
+      Greenhouse: 9
+      Hydrogen: 1
+      Industrial: 3
+      Leachate Evaporation: 57
+      Linear Generator: 2
+      Medium Btu: 5
+      Microturbine: 29
+      Organic Rankine Cycle: 2
+      Other: 94
+      Reciprocating Engine: 750
+      Steam Turbine: 33
+      Stirling Cycle Engine: 6
+      Unknown: 1881
+      Vehicle Fuel: 159
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: LFG Energy Project Type
+  documented_by: source LMOP Field Descriptions sheet; data
+- name: rng_delivery_method
+  label: 'How the renewable natural gas is delivered: Pipeline Injection, Local Use or Unknown'
+  unit: none
+  type: text
+  values:
+    list:
+      Local Use: 32
+      Pipeline Injection: 215
+      Unknown: 20
+  missing_cells: 3132
+  missing_meaning: Not a renewable natural gas project, or not given
+  source_name: RNG Delivery Method
+  documented_by: source LMOP Field Descriptions sheet
+- name: lfg_use_details
+  label: Details of how the project uses the landfill gas (free text)
+  unit: none
+  type: text
+  values:
+    distinct: 1078
+    examples:
+    - (1) 1,600 kW Caterpillar 3520 reciprocating engine
+    - (1) 1-MW GE-Jenbacher engine
+    - (1) 1-MW GE-Jenbacher engine & (1) 1.4-MW GE-Jenbacher engine; electricity will power college and Energy Innovation
+      Center (EIC)
+    - (1) 1.06 MW Jenbacher engine
+    - (1) 1.2 MW engine and (1) 0.8 MW engine
+  missing_cells: 2110
+  missing_meaning: EPA's cell is blank
+  source_name: LFG Use Details
+  documented_by: source LMOP Field Descriptions sheet
+- name: actual_mw_generation
+  label: Actual or estimated electric generation of an electricity project
+  unit: MW
+  type: number
+  values:
+    distinct: 398
+    lowest: 0.0
+    highest: 23.4
+  missing_cells: 2451
+  missing_meaning: Not an electricity project, or not given
+  source_name: Actual MW Generation
+  documented_by: source LMOP Field Descriptions sheet
+- name: lfg_flow_to_project_mmscfd
+  label: Landfill gas flowing (or to flow, once operational) to the project, in million standard cubic feet a day
+  unit: MMscfd
+  type: number
+  values:
+    distinct: 588
+    lowest: 0.0
+    highest: 19.42
+  missing_cells: 2282
+  missing_meaning: EPA's cell is blank
+  source_name: LFG Flow to Project (mmscfd)
+  documented_by: source LMOP Field Descriptions sheet
+- name: potential_end_users
+  label: Potential end users of the gas, for projects under construction or planned
+  unit: none
+  type: text
+  values:
+    distinct: 68
+    examples:
+    - 5 LNG industrial clients
+    - AL power plant (~3 mi.)
+    - Atmos Energy
+    - Avista Utilities
+    - Avista Utilities; Kern River Gas; Dominion Energy
+  missing_cells: 3321
+  missing_meaning: EPA's cell is blank
+  source_name: Potential End Users
+  documented_by: source LMOP Field Descriptions sheet
+- name: end_user_s
+  label: The end user organization(s) of the gas or power
+  unit: none
+  type: text
+  values:
+    distinct: 544
+    examples:
+    - AES Indiana
+    - ANR Pipeline Company; Kwik Trip
+    - Abengoa Bioenergy Corporation
+    - Acme Brick
+    - Adams Electric Cooperative
+  missing_cells: 2116
+  missing_meaning: EPA's cell is blank
+  source_name: End User(s)
+  documented_by: source LMOP Field Descriptions sheet
+- name: project_developer_s
+  label: The project developer organization(s)
+  unit: none
+  type: text
+  values:
+    distinct: 429
+    examples:
+    - AES Indiana; Granger Energy
+    - APTIM
+    - APTIM; DTE Vantage
+    - APTIM; Energy 2001, Inc.
+    - APTIM; Liquid Solutions, LLC
+  missing_cells: 2026
+  missing_meaning: EPA's cell is blank
+  source_name: Project Developer(s)
+  documented_by: source LMOP Field Descriptions sheet
+- name: product_supplier_s
+  label: The product supplier organization(s), such as engine makers
+  unit: none
+  type: text
+  values:
+    distinct: 130
+    examples:
+    - 2G Energy, Inc.
+    - 2G Energy, Inc.; Caterpillar, Inc.
+    - 2G Energy, Inc.; MWM of America
+    - 2G Energy, Inc.; Product Recovery Management
+    - ABUTEC LLC; GE Energy - Jenbacher Gas Engines; Unison Solutions, Inc.
+  missing_cells: 2509
+  missing_meaning: EPA's cell is blank
+  source_name: Product Supplier(s)
+  documented_by: source LMOP Field Descriptions sheet; data
+- name: self_developed
+  label: Yes when no third-party developer built the project (the landfill owner or end user did)
+  unit: none
+  type: text
+  values:
+    list:
+      'No': 2573
+      Unknown: 462
+      'Yes': 364
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Self-Developed
+  documented_by: source LMOP Field Descriptions sheet
+- name: current_year_emission_reductions_mmtco2e_yr_direct
+  label: The project's direct methane reductions in the current year, in million metric tons CO2 equivalent (global warming
+    potential 28)
+  unit: MMTCO2e/year
+  type: number
+  values:
+    distinct: 461
+    lowest: 0.0
+    highest: 1.3001
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Current Year Emission Reductions (MMTCO2e/yr) - Direct
+  documented_by: source LMOP Field Descriptions sheet
+- name: current_year_emission_reductions_mmtco2e_yr_avoided
+  label: The project's avoided carbon dioxide reductions in the current year, in million metric tons CO2 equivalent
+  unit: MMTCO2e/year
+  type: number
+  values:
+    distinct: 454
+    lowest: 0.0
+    highest: 0.11294
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Current Year Emission Reductions (MMTCO2e/yr) - Avoided
+  documented_by: source LMOP Field Descriptions sheet
+second_look:
+- The labels come from the workbook's own 'Field Descriptions' sheet, read from the saved copy under the data machine's warehouse/raw/epa_lmop/
+  (not in git); no method note restates them.

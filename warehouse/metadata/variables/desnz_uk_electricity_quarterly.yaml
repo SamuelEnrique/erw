@@ -1,0 +1,211 @@
+# The codebook's metadata of table desnz_uk_electricity_quarterly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: desnz_uk_electricity_quarterly
+family: desnz
+shape: series
+row: The UK's electricity generated or supplied by one kind of generator (major power producers, other generators, all) from
+  one fuel in one quarter, 1998 to 2026 (Energy Trends table 5.1).
+time: ts_utc is the quarter's first day at 00:00:00Z; freq P3M.
+vintage_rule: Merged by (entity, variable, ts_utc), a later issue replacing the rows it revises and keeping the rest; vintage
+  is the workbook's last-modified time; a quarter DESNZ marks provisional carries x_provisional yes.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P3M
+source:
+- name: 'desnz:energy_trends_5_1 UK Department for Energy Security and Net Zero, Energy Trends section 5: electricity, table
+    ET 5.1'
+  url: https://www.gov.uk/government/statistics/electricity-section-5-energy-trends
+cite: 'UK Department for Energy Security and Net Zero (DESNZ). Energy Trends section 5: electricity, table ET 5.1 (fuel used
+  in generation and electricity supplied). Via the Energy Research Warehouse (ERW), table `desnz_uk_electricity_quarterly`.'
+method: docs/methods/desnz_uk_electricity_quarterly.md
+header_title: UK Department for Energy Security and Net Zero (DESNZ), Energy Trends table 5.1, electricity generated and supplied
+  by fuel, a quarter, 1998-01 to 2026-04 (session 2168)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity desnz_et51:<generator type>:<fuel>; variable generated (table
+  5.1b) or supplied (5.1c); unit MWh (DESNZ''s TWh times 1,000,000); ts_utc the quarter''s first day; freq P3M; geo GB. Totals
+  are DESNZ''s own rows: a sum over the fuels must leave them out, and total_wind with its parts.'
+read:
+  date: '2026-11-20'
+  rows: 7862
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: desnz_et51:<generator type>:<fuel>
+  type: text
+  values:
+    distinct: 43
+    examples:
+    - desnz_et51:all_generating_companies:battery_storage
+    - desnz_et51:all_generating_companies:bioenergy
+    - desnz_et51:all_generating_companies:coal
+    - desnz_et51:all_generating_companies:gas
+    - desnz_et51:all_generating_companies:hydro
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 114
+    earliest: '1998-01-01T00:00:00Z'
+    latest: '2026-04-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -4853100.0
+    highest: 112158100.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 7862
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P3M: 7862
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: Always GB, standing for the UK
+  type: text
+  values:
+    list:
+      GB: 7862
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 7862
+- name: node
+  shared: true
+  particular: The generator type and fuel in DESNZ's words, not a pricing node
+  type: text
+  values:
+    distinct: 45
+    examples:
+    - All generating companies, Battery storage
+    - All generating companies, Bioenergy
+    - All generating companies, Coal
+    - All generating companies, Gas
+    - All generating companies, Hydro (natural flow)
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      desnz:energy_trends_5_1: 7862
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://assets.publishing.service.gov.uk/media/6aba6dd9a9c3d267bcccefb0/ET_5.1_SEP_26.xlsx: 7862
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T00:35:36Z': 7862
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The workbook's last-modified time
+  type: utc time
+  values:
+    list:
+      '2026-09-28T13:38:33Z': 7862
+  missing_cells: 0
+- name: x_generator_type
+  label: 'The kind of generating company: Major power producers, Other generators or All generating companies'
+  unit: none
+  type: text
+  values:
+    list:
+      All generating companies: 2966
+      Major power producers: 2626
+      Other generators: 2270
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method desnz_uk_electricity_quarterly.md; connector desnz_energy_trends.py
+- name: x_fuel
+  label: The fuel or source as DESNZ writes it (Coal, Gas, Nuclear, Offshore wind, Net imports and the others, totals included)
+  unit: none
+  type: text
+  values:
+    list:
+      Battery storage: 152
+      Bioenergy: 684
+      Coal: 684
+      Gas: 684
+      Hydro (natural flow): 684
+      Net imports: 228
+      Nuclear: 456
+      Offshore wind: 346
+      Oil: 684
+      Onshore wind: 372
+      Other fuels: 564
+      Pumped storage: 228
+      Pumped storage (net supply): 228
+      Shoreline wave / tidal: 240
+      Solar: 332
+      Total all generating companies: 228
+      Total major power producers: 228
+      Total other generators: 228
+      Total wind: 612
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method desnz_uk_electricity_quarterly.md; connector desnz_energy_trends.py
+- name: x_provisional
+  label: yes for a quarter DESNZ marks provisional (revised in a later issue), else no
+  unit: none
+  type: text
+  values:
+    list:
+      'no': 7778
+      'yes': 84
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method desnz_uk_electricity_quarterly.md; connector desnz_energy_trends.py
+variables:
+- name: generated
+  label: Electricity generated in the quarter (table 5.1b), MWh (DESNZ's TWh times 1,000,000)
+  unit: MWh
+  rows: 3829
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: supplied
+  label: Electricity supplied in the quarter (table 5.1c), MWh; pumped storage's is its net supply and net imports appear
+    only here
+  unit: MWh
+  rows: 4033
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,291 @@
+# The codebook's metadata of table ercot_storage_rt_offers_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_storage_rt_offers_monthly
+family: ercot
+shape: series
+row: What ERCOT's storage fleet offered to sell in real-time dispatch (SCED), by price limit, summed over one local month.
+time: ts_utc is the first day of the local (Central) month at 00:00:00Z; months from February 2026.
+vintage_rule: Merged by (entity, variable, ts_utc); each run recomputes every month from the 60-day SCED zips held on the
+  data machine. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: ercot:NP3-965-ER ERCOT, 60-Day SCED Disclosure Reports (60d_ESR_Data_in_SCED)
+  url: https://www.ercot.com/mp/data-products/data-product-details?id=NP3-965-ER
+cite: Energy Research Warehouse (ERW), derived. ERCOT storage fleet's real-time energy offers to sell by price band, by month,
+  from ERCOT's 60-Day SCED Disclosure Reports (60d_ESR_Data_in_SCED, NP3-965-ER). Via the Energy Research Warehouse (ERW),
+  table `ercot_storage_rt_offers_monthly`.
+method: docs/methods/ercot_storage_realtime.md
+header_title: what ERCOT's storage fleet offered to sell in real time, by price, by local month (derived, session 7019)
+header_shape: 'Shape: series (docs/datastandard.md v0); entity ercot:esr_fleet, freq P1M, ts_utc the first day of the local
+  (Central) month at 00:00:00Z. Variables: offered_sell_le_<P>_mwh for P of 0, 25, 50, 100, 250 and 1,000 USD/MWh, offered_sell_any_mwh;
+  each as _share_pct of the any-price MWh and as _mwh_per_mw_day over the fleet''s mw and the days held; mw (each resource''s
+  highest HSL of the month, added up); days_held, days_in_month, resources, runs (count).'
+read:
+  date: '2026-11-20'
+  rows: 175
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: 'ercot:esr_fleet in every row: every storage resource'
+  type: text
+  values:
+    list:
+      ercot:esr_fleet: 175
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-02-01T00:00:00Z': 25
+      '2026-03-01T00:00:00Z': 25
+      '2026-04-01T00:00:00Z': 25
+      '2026-05-01T00:00:00Z': 25
+      '2026-06-01T00:00:00Z': 25
+      '2026-07-01T00:00:00Z': 25
+      '2026-08-01T00:00:00Z': 25
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 164
+    lowest: 0.0249
+    highest: 14114469.608
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 7
+      MWh: 49
+      MWh/MW-day: 49
+      count: 28
+      pct: 42
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 175
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 175
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
+  type: text
+  values:
+    list:
+      ercot_rtm: 175
+  missing_cells: 0
+- name: node
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 175
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:ercot_storage_rt_offers: 175
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_storage_realtime.md: 175
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T21:12:53Z': 175
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 175
+variables:
+- name: days_held
+  label: Operating days of the month held
+  unit: count
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: days_in_month
+  label: The days of the month
+  unit: count
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: mw
+  label: 'The fleet''s MW: each resource''s highest High Sustained Limit (HSL) of the month, added up'
+  unit: MW
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_any_mwh
+  label: Energy offered to sell at any price (each curve's highest MW), summed over the month, MWh
+  unit: MWh
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_any_mwh_per_mw_day
+  label: offered_sell_any_mwh over the fleet's mw and the days held, MWh per MW per day
+  unit: MWh/MW-day
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_le_0_mwh
+  label: 'Energy offered to sell at a price of 0 USD/MWh or less: each SCED run''s curve MW at that price (clipped at zero)
+    held until the next run, summed over the month, MWh'
+  unit: MWh
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_le_0_mwh_per_mw_day
+  label: offered_sell_le_0_mwh over the fleet's mw and the days held, MWh per MW per day
+  unit: MWh/MW-day
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_le_0_share_pct
+  label: offered_sell_le_0_mwh as a percent of offered_sell_any_mwh
+  unit: pct
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_le_1000_mwh
+  label: Energy offered to sell at 1,000 USD/MWh or less, summed over the month, MWh
+  unit: MWh
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_le_1000_mwh_per_mw_day
+  label: offered_sell_le_1000_mwh over the fleet's mw and the days held, MWh per MW per day
+  unit: MWh/MW-day
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_le_1000_share_pct
+  label: offered_sell_le_1000_mwh as a percent of offered_sell_any_mwh
+  unit: pct
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_le_100_mwh
+  label: Energy offered to sell at 100 USD/MWh or less, summed over the month, MWh
+  unit: MWh
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_le_100_mwh_per_mw_day
+  label: offered_sell_le_100_mwh over the fleet's mw and the days held, MWh per MW per day
+  unit: MWh/MW-day
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_le_100_share_pct
+  label: offered_sell_le_100_mwh as a percent of offered_sell_any_mwh
+  unit: pct
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_le_250_mwh
+  label: Energy offered to sell at 250 USD/MWh or less, summed over the month, MWh
+  unit: MWh
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_le_250_mwh_per_mw_day
+  label: offered_sell_le_250_mwh over the fleet's mw and the days held, MWh per MW per day
+  unit: MWh/MW-day
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_le_250_share_pct
+  label: offered_sell_le_250_mwh as a percent of offered_sell_any_mwh
+  unit: pct
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_le_25_mwh
+  label: Energy offered to sell at 25 USD/MWh or less, summed over the month, MWh
+  unit: MWh
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_le_25_mwh_per_mw_day
+  label: offered_sell_le_25_mwh over the fleet's mw and the days held, MWh per MW per day
+  unit: MWh/MW-day
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_le_25_share_pct
+  label: offered_sell_le_25_mwh as a percent of offered_sell_any_mwh
+  unit: pct
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_le_50_mwh
+  label: Energy offered to sell at 50 USD/MWh or less, summed over the month, MWh
+  unit: MWh
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_le_50_mwh_per_mw_day
+  label: offered_sell_le_50_mwh over the fleet's mw and the days held, MWh per MW per day
+  unit: MWh/MW-day
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: offered_sell_le_50_share_pct
+  label: offered_sell_le_50_mwh as a percent of offered_sell_any_mwh
+  unit: pct
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: resources
+  label: Storage resources in the month
+  unit: count
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: runs
+  label: 'Resource-runs of the month: each SCED run counted once for each resource it holds'
+  unit: count
+  rows: 7
+  first: '2026-02-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

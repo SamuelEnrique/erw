@@ -1,0 +1,269 @@
+# The codebook's metadata of table rte_eco2mix_france_halfhourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: rte_eco2mix_france_halfhourly
+family: other_sources
+shape: series
+row: France's consumption, production from one source or net physical exchanges in one half hour, from RTE's eco2mix national
+  files.
+time: ts_utc is the half hour's start in UTC, from RTE's date and hour in French local time; freq PT30M.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s half hours replace the same keys and older ones are kept;
+  vintage is each file''s Last-Modified; x_nature says definitive or consolidated.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT30M
+source:
+- name: rte:eco2mix_national RTE (Reseau de Transport d'Electricite), eco2mix, national definitive and consolidated files
+  url: https://www.rte-france.com/eco2mix/telecharger-les-indicateurs
+cite: RTE (Reseau de Transport d'Electricite). eco2mix, national definitive and consolidated files (France, every half hour).
+  Via the Energy Research Warehouse (ERW), table `rte_eco2mix_france_halfhourly`.
+method: docs/methods/rte_eco2mix_france_halfhourly.md
+header_title: RTE, eco2mix, France's consumption, production by source and net physical exchanges every half hour, 2019-12-31
+  to 2026-08-31 (session 2238)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity rte_eco2mix:FR; variable consumption, oil, coal, gas, nuclear,
+  wind, solar, hydro, pumping (negative), bioenergy, physical_exchanges (net), wind_onshore, wind_offshore; unit MW; ts_utc
+  the half hour''s start in UTC from French local time; freq PT30M; geo FR; x_nature RTE''s definitive or consolidated.'
+read:
+  date: '2026-11-20'
+  rows: 1448927
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: rte_eco2mix:FR on every row
+  type: text
+  values:
+    list:
+      rte_eco2mix:FR: 1448927
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2019-12-31T23:00:00Z'
+    latest: '2026-08-31T21:30:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -21063.0
+    highest: 90236.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 1448927
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT30M: 1448927
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: FR on every row
+  type: text
+  values:
+    list:
+      FR: 1448927
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1448927
+- name: node
+  shared: true
+  particular: France on every row, not a pricing node
+  type: text
+  values:
+    list:
+      France: 1448927
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      rte:eco2mix_national: 1448927
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://eco2mix.rte-france.com/download/eco2mix/eCO2mix_RTE_Annuel-Definitif_2020.zip: 193204
+      https://eco2mix.rte-france.com/download/eco2mix/eCO2mix_RTE_Annuel-Definitif_2021.zip: 192676
+      https://eco2mix.rte-france.com/download/eco2mix/eCO2mix_RTE_Annuel-Definitif_2022.zip: 227706
+      https://eco2mix.rte-france.com/download/eco2mix/eCO2mix_RTE_Annuel-Definitif_2023.zip: 227708
+      https://eco2mix.rte-france.com/download/eco2mix/eCO2mix_RTE_Annuel-Definitif_2024.zip: 228332
+      https://eco2mix.rte-france.com/download/eco2mix/eCO2mix_RTE_Annuel-Definitif_2025.zip: 227708
+      https://eco2mix.rte-france.com/download/eco2mix/eCO2mix_RTE_En-cours-Consolide.zip: 151593
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T03:06:36Z': 193204
+      '2026-10-24T03:06:38Z': 192676
+      '2026-10-24T03:06:39Z': 227706
+      '2026-10-24T03:06:41Z': 227708
+      '2026-10-24T03:06:43Z': 228332
+      '2026-10-24T03:06:45Z': 227708
+      '2026-10-24T03:06:47Z': 151593
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The file's Last-Modified (UTC)
+  type: utc time
+  values:
+    list:
+      '2023-02-09T13:08:49Z': 193204
+      '2024-05-16T15:29:17Z': 192676
+      '2025-06-25T11:26:58Z': 227706
+      '2025-06-25T13:41:41Z': 227708
+      '2026-03-19T04:07:52Z': 228332
+      '2026-10-06T10:02:08Z': 151593
+      '2026-10-06T10:02:20Z': 227708
+  missing_cells: 0
+- name: x_nature
+  label: 'RTE''s nature of the data: Donnees definitives (definitive) or Donnees consolidees (consolidated)'
+  unit: none
+  type: text
+  values:
+    list:
+      Données consolidées: 151593
+      Données définitives: 1297334
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method rte_eco2mix_france_halfhourly.md
+- name: x_local_date
+  label: RTE's date in French local time
+  unit: none
+  type: date
+  values:
+    distinct: 2435
+    earliest: '2020-01-01'
+    latest: '2026-08-31'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method rte_eco2mix_france_halfhourly.md
+- name: x_local_hour
+  label: RTE's hour in French local time (HH:MM)
+  unit: none
+  type: text
+  values:
+    distinct: 48
+    examples:
+    - 00:00
+    - 00:30
+    - 01:00
+    - 01:30
+    - 02:00
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method rte_eco2mix_france_halfhourly.md
+variables:
+- name: bioenergy
+  label: Production from bioenergy
+  unit: MW
+  rows: 116853
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-08-31T21:30:00Z'
+- name: coal
+  label: Production from coal
+  unit: MW
+  rows: 116853
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-08-31T21:30:00Z'
+- name: consumption
+  label: Consumption
+  unit: MW
+  rows: 116853
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-08-31T21:30:00Z'
+- name: gas
+  label: Production from gas
+  unit: MW
+  rows: 116853
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-08-31T21:30:00Z'
+- name: hydro
+  label: Production from hydro
+  unit: MW
+  rows: 116853
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-08-31T21:30:00Z'
+- name: nuclear
+  label: Production from nuclear
+  unit: MW
+  rows: 116853
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-08-31T21:30:00Z'
+- name: oil
+  label: Production from oil
+  unit: MW
+  rows: 116853
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-08-31T21:30:00Z'
+- name: physical_exchanges
+  label: Net physical exchanges
+  unit: MW
+  rows: 116853
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-08-31T21:30:00Z'
+- name: pumping
+  label: Pumping (negative)
+  unit: MW
+  rows: 116853
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-08-31T21:30:00Z'
+- name: solar
+  label: Production from solar
+  unit: MW
+  rows: 116853
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-08-31T21:30:00Z'
+- name: wind
+  label: Production from wind
+  unit: MW
+  rows: 116853
+  first: '2019-12-31T23:00:00Z'
+  last: '2026-08-31T21:30:00Z'
+- name: wind_offshore
+  label: Production from offshore wind (from 2022)
+  unit: MW
+  rows: 81772
+  first: '2021-12-31T23:30:00Z'
+  last: '2026-08-31T21:30:00Z'
+- name: wind_onshore
+  label: Production from onshore wind (from 2022)
+  unit: MW
+  rows: 81772
+  first: '2021-12-31T23:30:00Z'
+  last: '2026-08-31T21:30:00Z'
+second_look: null

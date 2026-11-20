@@ -1,0 +1,155 @@
+# The codebook's metadata of table eia_drilling_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_drilling_monthly
+family: eia
+shape: series
+row: One month's count of rotary rigs (crude oil, natural gas or both; U.S., onshore or offshore) or active well service rigs
+  in operation.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:petroleum/crd/drill U.S. Energy Information Administration, crude oil and natural gas drilling activity (API v2,
+    route petroleum/crd/drill)
+  url: https://www.eia.gov/dnav/pet/pet_crd_drill_s1_m.htm
+cite: U.S. Energy Information Administration (EIA). Crude oil and natural gas drilling activity (API v2). Via the Energy Research
+  Warehouse (ERW), table `eia_drilling_monthly`.
+method: docs/methods/eia_drilling_monthly.md
+header_title: 'EIA, drilling activity: rotary rigs and well service rigs in operation, the U.S. onshore and offshore, a month
+  (session 603)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_drilling:<series>; variable rotary_rigs or service_rigs
+  (count); ts_utc the month''s first day; freq P1M; node EIA''s series name. Areas NUS, RUSON (onshore) and RUSOF (offshore):
+  a sum takes one level.'
+read:
+  date: '2026-11-20'
+  rows: 3431
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia_drilling:<EIA series id>
+  type: text
+  values:
+    list:
+      eia_drilling:E_ERTRR0_XR0_NUS_C: 638
+      eia_drilling:E_ERTRR0_XR0_RUSOF_C: 638
+      eia_drilling:E_ERTRR0_XR0_RUSON_C: 638
+      eia_drilling:E_ERTRRG_XR0_NUS_C: 463
+      eia_drilling:E_ERTRRO_XR0_NUS_C: 463
+      eia_drilling:E_ERTS0_XRS_NUS_C: 591
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 638
+    earliest: '1973-01-01T00:00:00Z'
+    latest: '2026-02-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1838
+    lowest: 6.0
+    highest: 5367.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      count: 3431
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 3431
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US on every row
+  type: text
+  values:
+    list:
+      US: 3431
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3431
+- name: node
+  shared: true
+  particular: EIA's series name
+  type: text
+  values:
+    list:
+      U.S. Crude Oil Rotary Rigs in Operation (Count): 463
+      U.S. Crude Oil and Natural Gas Active Well Service Rigs in operation (Count): 591
+      U.S. Crude Oil and Natural Gas Rotary Rigs in Operation (Count): 638
+      U.S. Natural Gas Rotary Rigs in Operation (Count): 463
+      U.S. Offshore Crude Oil and Natural Gas Rotary Rigs in Operation (Count): 638
+      U.S. Onshore Crude Oil and Natural Gas Rotary Rigs in Operation (Count): 638
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:petroleum/crd/drill: 3431
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/petroleum/crd/drill/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bprocess%5D%5B%5D=XR0&facets%5Bprocess%5D%5B%5D=XRS&start=1973-01
+      : 3431
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-22T00:37:00Z': 3431
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3431
+variables:
+- name: rotary_rigs
+  label: Rotary rigs in operation (the rigs that drill wells), count
+  unit: count
+  rows: 2840
+  first: '1973-01-01T00:00:00Z'
+  last: '2026-02-01T00:00:00Z'
+- name: service_rigs
+  label: Active well service rigs in operation, count
+  unit: count
+  rows: 591
+  first: '1973-01-01T00:00:00Z'
+  last: '2022-03-01T00:00:00Z'
+second_look: null

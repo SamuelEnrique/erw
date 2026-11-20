@@ -1,0 +1,197 @@
+# The codebook's metadata of table msha_coal_production_quarterly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: msha_coal_production_quarterly
+family: other_sources
+shape: series
+row: One coal mine's production, employee hours or average employees in one calendar quarter, its subunits summed, from MSHA's
+  Quarterly Mine Employment and Production.
+time: ts_utc is the calendar quarter's first day at 00:00:00Z; freq P3M; from 2010.
+vintage_rule: Rewritten whole as one snapshot by each run from MSHA's file (the newest quarters grow as operators report);
+  vintage is the file's Last-Modified.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P3M
+source:
+- name: msha:open_government_data Mine Safety and Health Administration (MSHA), U.S. Department of Labor, Open Government
+    Data
+  url: https://arlweb.msha.gov/OpenGovernmentData/OGIMSHA.asp
+cite: 'U.S. Department of Labor, Mine Safety and Health Administration (MSHA). Open Government Data: Mines; Quarterly Mine
+  Employment and Production. Via the Energy Research Warehouse (ERW), table `msha_coal_production_quarterly`.'
+method: docs/methods/msha_coal_mines.md
+header_title: 'Mine Safety and Health Administration (MSHA), Open Government Data, Quarterly Mine Employment and Production:
+  each coal mine''s quarter from 2010, its subunits summed (session 2034)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity msha_mine:<MINE_ID>; variables coal_production (short_ton:
+  MSHA''s tons), employee_hours (count: the hours the operator reports its employees worked) and average_employees (count:
+  the subunits'' average employees, summed); ts_utc the calendar quarter''s first day; freq P3M; geo US-<state>; node the
+  mine''s name; x_subunits the subunits reported; x_production_blank those whose production MSHA leaves empty.'
+read:
+  date: '2026-11-20'
+  rows: 294323
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: msha_mine:<MINE_ID>
+  type: text
+  values:
+    distinct: 3378
+    examples:
+    - msha_mine:0100328
+    - msha_mine:0100329
+    - msha_mine:0100347
+    - msha_mine:0100515
+    - msha_mine:0100563
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 66
+    earliest: '2010-01-01T00:00:00Z'
+    latest: '2026-04-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 0
+    highest: 31354008
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      count: 196216
+      short_ton: 98107
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P3M: 294323
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state>
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CO
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 294323
+- name: node
+  shared: true
+  particular: The mine's name (the last a quarter's rows give), not a pricing node
+  type: text
+  values:
+    distinct: 3130
+    examples:
+    - '# 1 Refuse'
+    - '# 2'
+    - '# 4'
+    - '# 5'
+    - '#1'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      msha:open_government_data: 294323
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://arlweb.msha.gov/OpenGovernmentData/DataSets/MinesProdQuarterly.zip: 294323
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T19:29:38Z': 294323
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The file's Last-Modified (UTC)
+  type: utc time
+  values:
+    list:
+      '2026-10-23T11:58:32Z': 294323
+  missing_cells: 0
+- name: x_subunits
+  label: The mine's subunits reported in the quarter and summed
+  unit: count
+  type: integer
+  values:
+    list:
+      '1': 118941
+      '2': 111023
+      '3': 48966
+      '4': 15393
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector msha_mines.py; method msha_coal_mines.md
+- name: x_production_blank
+  label: The subunits whose production MSHA leaves empty in the quarter (the others are summed)
+  unit: count
+  type: integer
+  values:
+    list:
+      '0': 294210
+      '1': 54
+      '2': 38
+      '3': 21
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector msha_mines.py; method msha_coal_mines.md
+variables:
+- name: average_employees
+  label: The subunits' average employees in the quarter, summed
+  unit: count
+  rows: 98108
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: coal_production
+  label: Coal produced in the quarter (MSHA's tons, short tons)
+  unit: short_ton
+  rows: 98107
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: employee_hours
+  label: The hours the operator reports its employees worked in the quarter
+  unit: count
+  rows: 98108
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+second_look: null

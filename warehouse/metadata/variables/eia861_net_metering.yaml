@@ -1,0 +1,1244 @@
+# The codebook's metadata of table eia861_net_metering (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia861_net_metering
+family: eia861
+shape: series
+row: One utility's figure for its net-metered generators (capacity, customers or installations, energy sold back, or storage)
+  by technology, in one state, balancing authority and customer sector, for one year, from Form EIA-861's net metering file.
+time: ts_utc is the data year's 1 January at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: A run reads the years given with --years and writes the table whole; vintage is not filled. EIA's aggregates
+  88888 and 99999 left out; a '.' cell has no row.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:eia861:net_metering U.S. Energy Information Administration, Form EIA-861 Annual Electric Power Industry Report
+    (Net_Metering_<year>.xlsx)
+  url: https://www.eia.gov/electricity/data/eia861/
+cite: U.S. Energy Information Administration (EIA). Form EIA-861 Annual Electric Power Industry Report, net metering. Via
+  the Energy Research Warehouse (ERW), table `eia861_net_metering`.
+method: docs/methods/eia861_meters_netmetering.md
+header_title: EIA-861 net metering, each utility by state and sector, a year (session 869)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia861_nm:<utility>:<state>:<balancing authority>; variable
+  EIA''s headings joined (group and sector); unit MW, MWh or count as the heading names it; ts_utc the data year''s 1 January;
+  freq P1Y; node the utility''s name; x_* EIA''s fields.'
+read:
+  date: '2026-11-20'
+  rows: 507206
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia861_nm:<utility number>:<state>:<balancing authority>; ends in a colon where EIA gives no balancing authority
+    (every row of 2015 and 2016)
+  type: text
+  values:
+    distinct: 2507
+    examples:
+    - 'eia861_nm:10000:KS:'
+    - eia861_nm:10000:KS:SWPP
+    - 'eia861_nm:10000:MO:'
+    - eia861_nm:10000:MO:SWPP
+    - 'eia861_nm:10005:KS:'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2015-01-01T00:00:00Z': 35396
+      '2016-01-01T00:00:00Z': 40524
+      '2017-01-01T00:00:00Z': 41732
+      '2018-01-01T00:00:00Z': 42932
+      '2019-01-01T00:00:00Z': 104960
+      '2020-01-01T00:00:00Z': 32504
+      '2021-01-01T00:00:00Z': 35084
+      '2022-01-01T00:00:00Z': 35865
+      '2023-01-01T00:00:00Z': 45903
+      '2024-01-01T00:00:00Z': 46071
+      '2025-01-01T00:00:00Z': 46235
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 1377849.4
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 185843
+      MWh: 135664
+      count: 185699
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 507206
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state>, territories included
+  type: text
+  values:
+    distinct: 56
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AS
+    - US-AZ
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 507206
+- name: node
+  shared: true
+  particular: The utility's name, not a pricing node
+  type: text
+  values:
+    distinct: 1443
+    examples:
+    - A & N Electric Coop
+    - AES Indiana
+    - ALLETE, Inc.
+    - Adams Electric Coop
+    - Adams Electric Cooperative Inc
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia861:net_metering: 507206
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612015.zip: 35396
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612016.zip: 40524
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612017.zip: 41732
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612018.zip: 42932
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612019.zip: 104960
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612020.zip: 32504
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612021.zip: 35084
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612022.zip: 35865
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612023.zip: 45903
+      https://www.eia.gov/electricity/data/eia861/archive/zip/f8612024.zip: 46071
+      https://www.eia.gov/electricity/data/eia861/zip/f8612025.zip: 46235
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T16:56:34Z': 46235
+      '2026-10-21T17:48:28Z': 46071
+      '2026-10-21T17:48:31Z': 45903
+      '2026-10-21T17:48:34Z': 35865
+      '2026-10-21T17:48:37Z': 35084
+      '2026-10-21T17:48:40Z': 32504
+      '2026-10-21T17:48:44Z': 104960
+      '2026-10-21T17:48:48Z': 42932
+      '2026-10-21T17:48:52Z': 41732
+      '2026-10-21T17:48:57Z': 40524
+      '2026-10-21T17:49:02Z': 35396
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 507206
+- name: x_utility_number
+  label: EIA's utility identifier
+  unit: none
+  type: integer
+  values:
+    distinct: 1336
+    lowest: 59
+    highest: 66867
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia861_meters_netmetering.md
+- name: x_state
+  label: The state or territory, two-letter postal code
+  unit: none
+  type: text
+  values:
+    distinct: 56
+    examples:
+    - AK
+    - AL
+    - AR
+    - AS
+    - AZ
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia861_meters_netmetering.md
+- name: x_ba_code
+  label: The balancing authority (the grid operator of the area) code EIA gives for the row
+  unit: none
+  type: text
+  values:
+    distinct: 58
+    examples:
+    - AEC
+    - AECI
+    - AMPL
+    - AVA
+    - AZPS
+  missing_cells: 81306
+  missing_meaning: EIA gives no balancing authority (every row of 2015 and 2016)
+  source_name: null
+  documented_by: method eia861_meters_netmetering.md
+variables:
+- name: all_technologies_capacity_mw_commercial
+  label: Net-metered capacity of all technologies, commercial sector, MW (from 2016)
+  unit: MW
+  rows: 10209
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: all_technologies_capacity_mw_industrial
+  label: Net-metered capacity of all technologies, industrial sector, MW (from 2016)
+  unit: MW
+  rows: 10209
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: all_technologies_capacity_mw_residential
+  label: Net-metered capacity of all technologies, residential sector, MW (from 2016)
+  unit: MW
+  rows: 10209
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: all_technologies_capacity_mw_total
+  label: Net-metered capacity of all technologies, all sectors, MW (from 2016)
+  unit: MW
+  rows: 10209
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: all_technologies_capacity_mw_transportation
+  label: Net-metered capacity of all technologies, transportation sector, MW (from 2016)
+  unit: MW
+  rows: 10209
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: all_technologies_customers_commercial
+  label: Net-metered customers of all technologies, commercial sector, count (2016 to 2020)
+  unit: count
+  rows: 5606
+  first: '2016-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: all_technologies_customers_industrial
+  label: Net-metered customers of all technologies, industrial sector, count (2016 to 2020)
+  unit: count
+  rows: 5606
+  first: '2016-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: all_technologies_customers_residential
+  label: Net-metered customers of all technologies, residential sector, count (2016 to 2020)
+  unit: count
+  rows: 5606
+  first: '2016-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: all_technologies_customers_total
+  label: Net-metered customers of all technologies, all sectors, count (2016 to 2020)
+  unit: count
+  rows: 5606
+  first: '2016-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: all_technologies_customers_transportation
+  label: Net-metered customers of all technologies, transportation sector, count (2016 to 2020)
+  unit: count
+  rows: 5606
+  first: '2016-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: all_technologies_energy_sold_back_mwh_commercial
+  label: Energy sold back by net-metered customers of all technologies, commercial sector, MWh (from 2016)
+  unit: MWh
+  rows: 10209
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: all_technologies_energy_sold_back_mwh_industrial
+  label: Energy sold back by net-metered customers of all technologies, industrial sector, MWh (from 2016)
+  unit: MWh
+  rows: 10209
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: all_technologies_energy_sold_back_mwh_residential
+  label: Energy sold back by net-metered customers of all technologies, residential sector, MWh (from 2016)
+  unit: MWh
+  rows: 10209
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: all_technologies_energy_sold_back_mwh_total
+  label: Energy sold back by net-metered customers of all technologies, all sectors, MWh (from 2016)
+  unit: MWh
+  rows: 10209
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: all_technologies_energy_sold_back_mwh_transportation
+  label: Energy sold back by net-metered customers of all technologies, transportation sector, MWh (from 2016)
+  unit: MWh
+  rows: 10209
+  first: '2016-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: all_technologies_installations_commercial
+  label: Net-metered installations of all technologies, commercial sector, count (from 2021)
+  unit: count
+  rows: 4603
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: all_technologies_installations_industrial
+  label: Net-metered installations of all technologies, industrial sector, count (from 2021)
+  unit: count
+  rows: 4603
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: all_technologies_installations_residential
+  label: Net-metered installations of all technologies, residential sector, count (from 2021)
+  unit: count
+  rows: 4603
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: all_technologies_installations_total
+  label: Net-metered installations of all technologies, all sectors, count (from 2021)
+  unit: count
+  rows: 4603
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: all_technologies_installations_transportation
+  label: Net-metered installations of all technologies, transportation sector, count (from 2021)
+  unit: count
+  rows: 4603
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_not_pv_paired_battery_capacity_mw_commercial
+  label: Net-metered batteries not paired with solar photovoltaics, power capacity, commercial sector, MW (2023 to 2025)
+  unit: MW
+  rows: 225
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_not_pv_paired_battery_capacity_mw_industrial
+  label: Net-metered batteries not paired with solar photovoltaics, power capacity, industrial sector, MW (2023 to 2025)
+  unit: MW
+  rows: 189
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_not_pv_paired_battery_capacity_mw_residential
+  label: Net-metered batteries not paired with solar photovoltaics, power capacity, residential sector, MW (2023 to 2025)
+  unit: MW
+  rows: 246
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_not_pv_paired_battery_capacity_mw_total
+  label: Net-metered batteries not paired with solar photovoltaics, power capacity, all sectors, MW (2023 to 2025)
+  unit: MW
+  rows: 2790
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_not_pv_paired_battery_capacity_mw_transportation
+  label: Net-metered batteries not paired with solar photovoltaics, power capacity, transportation sector, MW (2023 to 2025)
+  unit: MW
+  rows: 181
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_not_pv_paired_energy_capacity_mwh_commercial
+  label: Net-metered batteries not paired with solar photovoltaics, energy capacity, commercial sector, MWh (2023 to 2025)
+  unit: MWh
+  rows: 209
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_not_pv_paired_energy_capacity_mwh_industrial
+  label: Net-metered batteries not paired with solar photovoltaics, energy capacity, industrial sector, MWh (2023 to 2025)
+  unit: MWh
+  rows: 183
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_not_pv_paired_energy_capacity_mwh_residential
+  label: Net-metered batteries not paired with solar photovoltaics, energy capacity, residential sector, MWh (2023 to 2025)
+  unit: MWh
+  rows: 222
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_not_pv_paired_energy_capacity_mwh_total
+  label: Net-metered batteries not paired with solar photovoltaics, energy capacity, all sectors, MWh (2023 to 2025)
+  unit: MWh
+  rows: 2790
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_not_pv_paired_energy_capacity_mwh_transportation
+  label: Net-metered batteries not paired with solar photovoltaics, energy capacity, transportation sector, MWh (2023 to 2025)
+  unit: MWh
+  rows: 179
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_not_pv_paired_installations_commercial
+  label: Net-metered batteries not paired with solar photovoltaics, installations, commercial sector, count (2023 to 2025)
+  unit: count
+  rows: 225
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_not_pv_paired_installations_industrial
+  label: Net-metered batteries not paired with solar photovoltaics, installations, industrial sector, count (2023 to 2025)
+  unit: count
+  rows: 188
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_not_pv_paired_installations_residential
+  label: Net-metered batteries not paired with solar photovoltaics, installations, residential sector, count (2023 to 2025)
+  unit: count
+  rows: 244
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_not_pv_paired_installations_total
+  label: Net-metered batteries not paired with solar photovoltaics, installations, all sectors, count (2023 to 2025)
+  unit: count
+  rows: 2790
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_not_pv_paired_installations_transportation
+  label: Net-metered batteries not paired with solar photovoltaics, installations, transportation sector, count (2023 to 2025)
+  unit: count
+  rows: 179
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_pv_paired_battery_capacity_mw_commercial
+  label: Net-metered batteries paired with solar photovoltaics, power capacity, commercial sector, MW (2023 to 2025)
+  unit: MW
+  rows: 439
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_pv_paired_battery_capacity_mw_industrial
+  label: Net-metered batteries paired with solar photovoltaics, power capacity, industrial sector, MW (2023 to 2025)
+  unit: MW
+  rows: 252
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_pv_paired_battery_capacity_mw_residential
+  label: Net-metered batteries paired with solar photovoltaics, power capacity, residential sector, MW (2023 to 2025)
+  unit: MW
+  rows: 719
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_pv_paired_battery_capacity_mw_total
+  label: Net-metered batteries paired with solar photovoltaics, power capacity, all sectors, MW (2023 to 2025)
+  unit: MW
+  rows: 2790
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_pv_paired_battery_capacity_mw_transportation
+  label: Net-metered batteries paired with solar photovoltaics, power capacity, transportation sector, MW (2023 to 2025)
+  unit: MW
+  rows: 207
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_pv_paired_energy_capacity_mwh_commercial
+  label: Net-metered batteries paired with solar photovoltaics, energy capacity, commercial sector, MWh (2023 to 2025)
+  unit: MWh
+  rows: 329
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_pv_paired_energy_capacity_mwh_industrial
+  label: Net-metered batteries paired with solar photovoltaics, energy capacity, industrial sector, MWh (2023 to 2025)
+  unit: MWh
+  rows: 230
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_pv_paired_energy_capacity_mwh_residential
+  label: Net-metered batteries paired with solar photovoltaics, energy capacity, residential sector, MWh (2023 to 2025)
+  unit: MWh
+  rows: 455
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_pv_paired_energy_capacity_mwh_total
+  label: Net-metered batteries paired with solar photovoltaics, energy capacity, all sectors, MWh (2023 to 2025)
+  unit: MWh
+  rows: 2790
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_pv_paired_energy_capacity_mwh_transportation
+  label: Net-metered batteries paired with solar photovoltaics, energy capacity, transportation sector, MWh (2023 to 2025)
+  unit: MWh
+  rows: 199
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_pv_paired_installations_commercial
+  label: Net-metered batteries paired with solar photovoltaics, installations, commercial sector, count (2023 to 2025)
+  unit: count
+  rows: 435
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_pv_paired_installations_industrial
+  label: Net-metered batteries paired with solar photovoltaics, installations, industrial sector, count (2023 to 2025)
+  unit: count
+  rows: 252
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_pv_paired_installations_residential
+  label: Net-metered batteries paired with solar photovoltaics, installations, residential sector, count (2023 to 2025)
+  unit: count
+  rows: 718
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_pv_paired_installations_total
+  label: Net-metered batteries paired with solar photovoltaics, installations, all sectors, count (2023 to 2025)
+  unit: count
+  rows: 2790
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_pv_paired_installations_transportation
+  label: Net-metered batteries paired with solar photovoltaics, installations, transportation sector, count (2023 to 2025)
+  unit: count
+  rows: 204
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_capacity_mw_commercial
+  label: Net-metered capacity of other technologies, commercial sector, MW
+  unit: MW
+  rows: 3300
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_capacity_mw_industrial
+  label: Net-metered capacity of other technologies, industrial sector, MW
+  unit: MW
+  rows: 2795
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_capacity_mw_residential
+  label: Net-metered capacity of other technologies, residential sector, MW
+  unit: MW
+  rows: 3233
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_capacity_mw_total
+  label: Net-metered capacity of other technologies, all sectors, MW
+  unit: MW
+  rows: 11264
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_capacity_mw_transportation
+  label: Net-metered capacity of other technologies, transportation sector, MW
+  unit: MW
+  rows: 2535
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_customers_commercial
+  label: Net-metered customers with other technologies, commercial sector, count (2015 to 2020)
+  unit: count
+  rows: 2307
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: other_customers_industrial
+  label: Net-metered customers with other technologies, industrial sector, count (2015 to 2020)
+  unit: count
+  rows: 2035
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: other_customers_residential
+  label: Net-metered customers with other technologies, residential sector, count (2015 to 2020)
+  unit: count
+  rows: 2251
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: other_customers_total
+  label: Net-metered customers with other technologies, all sectors, count (2015 to 2020)
+  unit: count
+  rows: 6661
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: other_customers_transportation
+  label: Net-metered customers with other technologies, transportation sector, count (2015 to 2020)
+  unit: count
+  rows: 1915
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: other_energy_sold_back_mwh_commercial
+  label: Energy sold back by net-metered customers with other technologies, commercial sector, MWh
+  unit: MWh
+  rows: 2576
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_energy_sold_back_mwh_industrial
+  label: Energy sold back by net-metered customers with other technologies, industrial sector, MWh
+  unit: MWh
+  rows: 2457
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_energy_sold_back_mwh_residential
+  label: Energy sold back by net-metered customers with other technologies, residential sector, MWh
+  unit: MWh
+  rows: 2667
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_energy_sold_back_mwh_total
+  label: Energy sold back by net-metered customers with other technologies, all sectors, MWh
+  unit: MWh
+  rows: 11264
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_energy_sold_back_mwh_transportation
+  label: Energy sold back by net-metered customers with other technologies, transportation sector, MWh
+  unit: MWh
+  rows: 2348
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_installations_commercial
+  label: Net-metered installations of other technologies, commercial sector, count (from 2021)
+  unit: count
+  rows: 988
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_installations_industrial
+  label: Net-metered installations of other technologies, industrial sector, count (from 2021)
+  unit: count
+  rows: 756
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_installations_residential
+  label: Net-metered installations of other technologies, residential sector, count (from 2021)
+  unit: count
+  rows: 974
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_installations_total
+  label: Net-metered installations of other technologies, all sectors, count (from 2021)
+  unit: count
+  rows: 4603
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_installations_transportation
+  label: Net-metered installations of other technologies, transportation sector, count (from 2021)
+  unit: count
+  rows: 616
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_capacity_mw_commercial
+  label: Net-metered solar photovoltaic capacity, commercial sector, MW
+  unit: MW
+  rows: 8498
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_capacity_mw_industrial
+  label: Net-metered solar photovoltaic capacity, industrial sector, MW
+  unit: MW
+  rows: 4297
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_capacity_mw_residential
+  label: Net-metered solar photovoltaic capacity, residential sector, MW
+  unit: MW
+  rows: 10848
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_capacity_mw_total
+  label: Net-metered solar photovoltaic capacity, all sectors, MW
+  unit: MW
+  rows: 11264
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_capacity_mw_transportation
+  label: Net-metered solar photovoltaic capacity, transportation sector, MW
+  unit: MW
+  rows: 3148
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_customers_commercial
+  label: Net-metered solar photovoltaic customers, commercial sector, count (2015 to 2020)
+  unit: count
+  rows: 4859
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: photovoltaic_customers_industrial
+  label: Net-metered solar photovoltaic customers, industrial sector, count (2015 to 2020)
+  unit: count
+  rows: 2682
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: photovoltaic_customers_residential
+  label: Net-metered solar photovoltaic customers, residential sector, count (2015 to 2020)
+  unit: count
+  rows: 6312
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: photovoltaic_customers_total
+  label: Net-metered solar photovoltaic customers, all sectors, count (2015 to 2020)
+  unit: count
+  rows: 6661
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: photovoltaic_customers_transportation
+  label: Net-metered solar photovoltaic customers, transportation sector, count (2015 to 2020)
+  unit: count
+  rows: 2173
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: photovoltaic_energy_sold_back_mwh_commercial
+  label: Energy sold back by net-metered solar photovoltaic customers, commercial sector, MWh
+  unit: MWh
+  rows: 4572
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_energy_sold_back_mwh_industrial
+  label: Energy sold back by net-metered solar photovoltaic customers, industrial sector, MWh
+  unit: MWh
+  rows: 2944
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_energy_sold_back_mwh_residential
+  label: Energy sold back by net-metered solar photovoltaic customers, residential sector, MWh
+  unit: MWh
+  rows: 5928
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_energy_sold_back_mwh_total
+  label: Energy sold back by net-metered solar photovoltaic customers, all sectors, MWh
+  unit: MWh
+  rows: 11264
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_energy_sold_back_mwh_transportation
+  label: Energy sold back by net-metered solar photovoltaic customers, transportation sector, MWh
+  unit: MWh
+  rows: 2599
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_installations_commercial
+  label: Net-metered solar photovoltaic installations, commercial sector, count (from 2021)
+  unit: count
+  rows: 3638
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_installations_industrial
+  label: Net-metered solar photovoltaic installations, industrial sector, count (from 2021)
+  unit: count
+  rows: 1590
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_installations_residential
+  label: Net-metered solar photovoltaic installations, residential sector, count (EIA's word from 2021 for the customers count)
+  unit: count
+  rows: 4537
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_installations_total
+  label: Net-metered solar photovoltaic installations, all sectors, count (from 2021)
+  unit: count
+  rows: 4603
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_installations_transportation
+  label: Net-metered solar photovoltaic installations, transportation sector, count (from 2021)
+  unit: count
+  rows: 949
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_storage_capacity_mw_commercial
+  label: Net-metered storage paired with solar photovoltaics, capacity, commercial sector, MW (2016 to 2022)
+  unit: MW
+  rows: 2185
+  first: '2016-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_storage_capacity_mw_industrial
+  label: Net-metered storage paired with solar photovoltaics, capacity, industrial sector, MW (2016 to 2022)
+  unit: MW
+  rows: 2058
+  first: '2016-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_storage_capacity_mw_residential
+  label: Net-metered storage paired with solar photovoltaics, capacity, residential sector, MW (2016 to 2022)
+  unit: MW
+  rows: 2455
+  first: '2016-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_storage_capacity_mw_total
+  label: Net-metered storage paired with solar photovoltaics, capacity, all sectors, MW (2016 to 2022)
+  unit: MW
+  rows: 2996
+  first: '2016-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_storage_capacity_mw_transportation
+  label: Net-metered storage paired with solar photovoltaics, capacity, transportation sector, MW (2016 to 2022)
+  unit: MW
+  rows: 2017
+  first: '2016-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_storage_customers_commercial
+  label: Net-metered customers with storage paired with solar photovoltaics, commercial sector, count (2016 to 2020)
+  unit: count
+  rows: 1844
+  first: '2016-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: photovoltaic_storage_customers_industrial
+  label: Net-metered customers with storage paired with solar photovoltaics, industrial sector, count (2016 to 2020)
+  unit: count
+  rows: 1784
+  first: '2016-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: photovoltaic_storage_customers_residential
+  label: Net-metered customers with storage paired with solar photovoltaics, residential sector, count (2016 to 2020)
+  unit: count
+  rows: 1991
+  first: '2016-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: photovoltaic_storage_customers_total
+  label: Net-metered customers with storage paired with solar photovoltaics, all sectors, count (2016 to 2020)
+  unit: count
+  rows: 2429
+  first: '2016-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: photovoltaic_storage_customers_transportation
+  label: Net-metered customers with storage paired with solar photovoltaics, transportation sector, count (2016 to 2020)
+  unit: count
+  rows: 1755
+  first: '2016-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: photovoltaic_storage_installations_commercial
+  label: Net-metered installations of storage paired with solar photovoltaics, commercial sector, count (2021 to 2022)
+  unit: count
+  rows: 332
+  first: '2021-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_storage_installations_industrial
+  label: Net-metered installations of storage paired with solar photovoltaics, industrial sector, count (2021 to 2022)
+  unit: count
+  rows: 277
+  first: '2021-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_storage_installations_residential
+  label: Net-metered installations of storage paired with solar photovoltaics, residential sector, count (2021 to 2022)
+  unit: count
+  rows: 452
+  first: '2021-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_storage_installations_total
+  label: Net-metered installations of storage paired with solar photovoltaics, all sectors, count (2021 to 2022)
+  unit: count
+  rows: 567
+  first: '2021-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_storage_installations_transportation
+  label: Net-metered installations of storage paired with solar photovoltaics, transportation sector, count (2021 to 2022)
+  unit: count
+  rows: 262
+  first: '2021-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_virtual_capacity_1_mw_and_over_mw_commercial
+  label: Virtual net-metered solar photovoltaic capacity of systems of 1 MW and over, commercial sector, MW (2023 to 2025)
+  unit: MW
+  rows: 446
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_capacity_1_mw_and_over_mw_industrial
+  label: Virtual net-metered solar photovoltaic capacity of systems of 1 MW and over, industrial sector, MW (2023 to 2025)
+  unit: MW
+  rows: 368
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_capacity_1_mw_and_over_mw_residential
+  label: Virtual net-metered solar photovoltaic capacity of systems of 1 MW and over, residential sector, MW (2023 to 2025)
+  unit: MW
+  rows: 436
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_capacity_1_mw_and_over_mw_total
+  label: Virtual net-metered solar photovoltaic capacity of systems of 1 MW and over, all sectors, MW (2023 to 2025)
+  unit: MW
+  rows: 2790
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_capacity_1_mw_and_over_mw_transportation
+  label: Virtual net-metered solar photovoltaic capacity of systems of 1 MW and over, transportation sector, MW (2023 to 2025)
+  unit: MW
+  rows: 351
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_capacity_mw_commercial
+  label: Solar photovoltaic capacity under virtual net metering, commercial sector, MW (2016 to 2022)
+  unit: MW
+  rows: 2251
+  first: '2016-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_virtual_capacity_mw_industrial
+  label: Solar photovoltaic capacity under virtual net metering, industrial sector, MW (2016 to 2022)
+  unit: MW
+  rows: 2034
+  first: '2016-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_virtual_capacity_mw_residential
+  label: Solar photovoltaic capacity under virtual net metering, residential sector, MW (2016 to 2022)
+  unit: MW
+  rows: 2480
+  first: '2016-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_virtual_capacity_mw_total
+  label: Solar photovoltaic capacity under virtual net metering, all sectors, MW (2016 to 2022)
+  unit: MW
+  rows: 2996
+  first: '2016-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_virtual_capacity_mw_transportation
+  label: Solar photovoltaic capacity under virtual net metering, transportation sector, MW (2016 to 2022)
+  unit: MW
+  rows: 2000
+  first: '2016-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_virtual_capacity_under_1_mw_mw_commercial
+  label: Virtual net-metered solar photovoltaic capacity of systems under 1 MW, commercial sector, MW (2023 to 2025)
+  unit: MW
+  rows: 527
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_capacity_under_1_mw_mw_industrial
+  label: Virtual net-metered solar photovoltaic capacity of systems under 1 MW, industrial sector, MW (2023 to 2025)
+  unit: MW
+  rows: 387
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_capacity_under_1_mw_mw_residential
+  label: Virtual net-metered solar photovoltaic capacity of systems under 1 MW, residential sector, MW (2023 to 2025)
+  unit: MW
+  rows: 638
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_capacity_under_1_mw_mw_total
+  label: Virtual net-metered solar photovoltaic capacity of systems under 1 MW, all sectors, MW (2023 to 2025)
+  unit: MW
+  rows: 2790
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_capacity_under_1_mw_mw_transportation
+  label: Virtual net-metered solar photovoltaic capacity of systems under 1 MW, transportation sector, MW (2023 to 2025)
+  unit: MW
+  rows: 362
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_customers_1_mw_and_over_commercial
+  label: Virtual net-metered solar photovoltaic customers, systems of 1 MW and over, commercial sector, count (2023 to 2025)
+  unit: count
+  rows: 444
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_customers_1_mw_and_over_industrial
+  label: Virtual net-metered solar photovoltaic customers, systems of 1 MW and over, industrial sector, count (2023 to 2025)
+  unit: count
+  rows: 367
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_customers_1_mw_and_over_residential
+  label: Virtual net-metered solar photovoltaic customers, systems of 1 MW and over, residential sector, count (2023 to 2025)
+  unit: count
+  rows: 435
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_customers_1_mw_and_over_total
+  label: Virtual net-metered solar photovoltaic customers, systems of 1 MW and over, all sectors, count (2023 to 2025)
+  unit: count
+  rows: 2790
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_customers_1_mw_and_over_transportation
+  label: Virtual net-metered solar photovoltaic customers, systems of 1 MW and over, transportation sector, count (2023 to
+    2025)
+  unit: count
+  rows: 348
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_customers_commercial
+  label: Customers under virtual net metering of solar photovoltaics, commercial sector, count (2016 to 2022)
+  unit: count
+  rows: 2248
+  first: '2016-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_virtual_customers_industrial
+  label: Customers under virtual net metering of solar photovoltaics, industrial sector, count (2016 to 2022)
+  unit: count
+  rows: 2031
+  first: '2016-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_virtual_customers_residential
+  label: Customers under virtual net metering of solar photovoltaics, residential sector, count (2016 to 2022)
+  unit: count
+  rows: 2479
+  first: '2016-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_virtual_customers_total
+  label: Customers under virtual net metering of solar photovoltaics, all sectors, count (2016 to 2022)
+  unit: count
+  rows: 2996
+  first: '2016-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_virtual_customers_transportation
+  label: Customers under virtual net metering of solar photovoltaics, transportation sector, count (2016 to 2022)
+  unit: count
+  rows: 1996
+  first: '2016-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: photovoltaic_virtual_customers_under_1_mw_commercial
+  label: Virtual net-metered solar photovoltaic customers, systems under 1 MW, commercial sector, count (2023 to 2025)
+  unit: count
+  rows: 526
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_customers_under_1_mw_industrial
+  label: Virtual net-metered solar photovoltaic customers, systems under 1 MW, industrial sector, count (2023 to 2025)
+  unit: count
+  rows: 388
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_customers_under_1_mw_residential
+  label: Virtual net-metered solar photovoltaic customers, systems under 1 MW, residential sector, count (2023 to 2025)
+  unit: count
+  rows: 638
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_customers_under_1_mw_total
+  label: Virtual net-metered solar photovoltaic customers, systems under 1 MW, all sectors, count (2023 to 2025)
+  unit: count
+  rows: 2790
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: photovoltaic_virtual_customers_under_1_mw_transportation
+  label: Virtual net-metered solar photovoltaic customers, systems under 1 MW, transportation sector, count (2023 to 2025)
+  unit: count
+  rows: 362
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: total_capacity_mw_commercial
+  label: Net-metered capacity of all technologies, commercial sector, MW (2015 only)
+  unit: MW
+  rows: 1055
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: total_capacity_mw_industrial
+  label: Net-metered capacity of all technologies, industrial sector, MW (2015 only)
+  unit: MW
+  rows: 1055
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: total_capacity_mw_residential
+  label: Net-metered capacity of all technologies, residential sector, MW (2015 only; all_technologies from 2016)
+  unit: MW
+  rows: 1055
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: total_capacity_mw_total
+  label: Net-metered capacity of all technologies, all sectors, MW (2015 only)
+  unit: MW
+  rows: 1055
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: total_capacity_mw_transportation
+  label: Net-metered capacity of all technologies, transportation sector, MW (2015 only)
+  unit: MW
+  rows: 1055
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: total_customers_commercial
+  label: Net-metered customers of all technologies, commercial sector, count (2015 only)
+  unit: count
+  rows: 1055
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: total_customers_industrial
+  label: Net-metered customers of all technologies, industrial sector, count (2015 only)
+  unit: count
+  rows: 1055
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: total_customers_residential
+  label: Net-metered customers of all technologies, residential sector, count (2015 only)
+  unit: count
+  rows: 1055
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: total_customers_total
+  label: Net-metered customers of all technologies, all sectors, count (2015 only)
+  unit: count
+  rows: 1055
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: total_customers_transportation
+  label: Net-metered customers of all technologies, transportation sector, count (2015 only)
+  unit: count
+  rows: 1055
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: total_energy_sold_back_mwh_commercial
+  label: Energy sold back by net-metered customers of all technologies, commercial sector, MWh (2015 only)
+  unit: MWh
+  rows: 1055
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: total_energy_sold_back_mwh_industrial
+  label: Energy sold back by net-metered customers of all technologies, industrial sector, MWh (2015 only)
+  unit: MWh
+  rows: 1055
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: total_energy_sold_back_mwh_residential
+  label: Energy sold back by net-metered customers of all technologies, residential sector, MWh (2015 only)
+  unit: MWh
+  rows: 1055
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: total_energy_sold_back_mwh_total
+  label: Energy sold back by net-metered customers of all technologies, all sectors, MWh (2015 only)
+  unit: MWh
+  rows: 1055
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: total_energy_sold_back_mwh_transportation
+  label: Energy sold back by net-metered customers of all technologies, transportation sector, MWh (2015 only)
+  unit: MWh
+  rows: 1055
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: wind_capacity_mw_commercial
+  label: Net-metered wind capacity, commercial sector, MW
+  unit: MW
+  rows: 4501
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_capacity_mw_industrial
+  label: Net-metered wind capacity, industrial sector, MW
+  unit: MW
+  rows: 3031
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_capacity_mw_residential
+  label: Net-metered wind capacity, residential sector, MW
+  unit: MW
+  rows: 6235
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_capacity_mw_total
+  label: Net-metered wind capacity, all sectors, MW
+  unit: MW
+  rows: 11264
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_capacity_mw_transportation
+  label: Net-metered wind capacity, transportation sector, MW
+  unit: MW
+  rows: 2705
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_customers_commercial
+  label: Net-metered wind customers, commercial sector, count (2015 to 2020)
+  unit: count
+  rows: 2979
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: wind_customers_industrial
+  label: Net-metered wind customers, industrial sector, count (2015 to 2020)
+  unit: count
+  rows: 2166
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: wind_customers_residential
+  label: Net-metered wind customers, residential sector, count (2015 to 2020)
+  unit: count
+  rows: 3981
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: wind_customers_total
+  label: Net-metered wind customers, all sectors, count (2015 to 2020)
+  unit: count
+  rows: 6661
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: wind_customers_transportation
+  label: Net-metered wind customers, transportation sector, count (2015 to 2020)
+  unit: count
+  rows: 1988
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: wind_energy_sold_back_mwh_commercial
+  label: Energy sold back by net-metered wind customers, commercial sector, MWh
+  unit: MWh
+  rows: 3080
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_energy_sold_back_mwh_industrial
+  label: Energy sold back by net-metered wind customers, industrial sector, MWh
+  unit: MWh
+  rows: 2579
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_energy_sold_back_mwh_residential
+  label: Energy sold back by net-metered wind customers, residential sector, MWh
+  unit: MWh
+  rows: 3757
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_energy_sold_back_mwh_total
+  label: Energy sold back by net-metered wind customers, all sectors, MWh
+  unit: MWh
+  rows: 11264
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_energy_sold_back_mwh_transportation
+  label: Energy sold back by net-metered wind customers, transportation sector, MWh
+  unit: MWh
+  rows: 2459
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_installations_commercial
+  label: Net-metered wind installations, commercial sector, count (from 2021)
+  unit: count
+  rows: 1517
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_installations_industrial
+  label: Net-metered wind installations, industrial sector, count (from 2021)
+  unit: count
+  rows: 857
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_installations_residential
+  label: Net-metered wind installations, residential sector, count (from 2021)
+  unit: count
+  rows: 2249
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_installations_total
+  label: Net-metered wind installations, all sectors, count (from 2021)
+  unit: count
+  rows: 4603
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: wind_installations_transportation
+  label: Net-metered wind installations, transportation sector, count (from 2021)
+  unit: count
+  rows: 712
+  first: '2021-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

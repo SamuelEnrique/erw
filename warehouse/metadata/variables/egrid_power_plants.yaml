@@ -1,0 +1,758 @@
+# The codebook's metadata of table egrid_power_plants (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: egrid_power_plants
+family: other_sources
+shape: entities
+row: 'One US power plant of eGRID2023 (data year 2023): its capacity, generation, emissions and emission rates, as EPA publishes
+  them.'
+time: No time column; data_year 2023 and vintage eGRID2023 name the edition; the table is a snapshot as read on its retrieved_at.
+vintage_rule: 'Rewritten whole as one snapshot: a later run replaces the whole table when EPA publishes a new eGRID.'
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: epa:egrid U.S. Environmental Protection Agency, Emissions & Generation Resource Integrated Database (eGRID2023), plant
+    sheet PLNT23
+  url: https://www.epa.gov/egrid/download-data
+cite: U.S. Environmental Protection Agency (EPA). Emissions & Generation Resource Integrated Database (eGRID). Via the Energy
+  Research Warehouse (ERW), table `egrid_power_plants`.
+method: docs/methods/egrid_power_plants.md
+header_title: EPA eGRID2023, every US power plant's capacity, generation, emissions and emission rates (session 486)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id egrid:<ORISPL> (the DOE/EIA plant code); entity_type plant;
+  capacity_mw the nameplate capacity; status empty (eGRID gives none); operator the utility.'
+read:
+  date: '2026-11-20'
+  rows: 12612
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  particular: egrid:<ORISPL>, the DOE/EIA plant code
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - egrid:1
+    - egrid:10
+    - egrid:100
+    - egrid:10003
+    - egrid:10004
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      plant: 12612
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - (3K) 59 Hetcheltown Rd
+    - 0 Hammond St CSG
+    - 1 Commercial
+    - 10 Briggs Solar NG, LLC (East)
+    - 10 Finderne Avenue Solar, LLC
+  missing_cells: 1
+- name: geo
+  shared: true
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 17.947115
+    highest: 71.292
+  missing_cells: 0
+- name: lon
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -171.712439
+    highest: -65.27956
+  missing_cells: 0
+- name: capacity_mw
+  shared: true
+  particular: eGRID's plant nameplate capacity (NAMEPCAP)
+  type: number
+  values:
+    distinct: 2193
+    lowest: 0.3
+    highest: 6809.0
+  missing_cells: 1
+- name: status
+  shared: true
+  particular: 'Not filled: eGRID gives no status'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 12612
+- name: status_date
+  shared: true
+  particular: 'Not filled: eGRID gives no status'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 12612
+- name: operator
+  shared: true
+  particular: The utility's name (eGRID's UTLSRVNM)
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 0HAM WHAM8 Solar, LLC
+    - 1001 Ebenezer Church Solar, LLC
+    - 1008 Matthews Solar, LLC
+    - 1009 Yadkin Solar, LLC
+    - 1034 Catherine Lake Solar, LLC
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      epa:egrid: 12612
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.epa.gov/system/files/documents/2025-06/egrid2023_data_rev2.xlsx: 12612
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T16:59:48Z': 12612
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: eGRID2023, the edition's name (not a date)
+  type: text
+  values:
+    list:
+      eGRID2023: 12612
+  missing_cells: 0
+- name: data_year
+  label: eGRID's data year
+  unit: none
+  type: integer
+  values:
+    list:
+      '2023': 12612
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: YEAR
+  documented_by: header; source eGRID workbook long names
+- name: plant_id
+  label: The DOE/EIA ORIS plant or facility code
+  unit: none
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 1
+    highest: 70454
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: ORISPL
+  documented_by: header; source eGRID workbook long names
+- name: state
+  label: The plant's state, postal code
+  unit: none
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: PSTATABB
+  documented_by: header; source eGRID workbook long names
+- name: county
+  label: The plant's county name
+  unit: none
+  type: text
+  values:
+    distinct: 1456
+    examples:
+    - Abbeville
+    - Acadia
+    - Accomack
+    - Ada
+    - Adair
+  missing_cells: 26
+  missing_meaning: eGRID leaves the cell blank
+  source_name: CNTYNAME
+  documented_by: header; source eGRID workbook long names
+- name: fips_state
+  label: The plant's FIPS state code, zero-padded to 2 digits
+  unit: none
+  type: integer
+  values:
+    distinct: 52
+    lowest: 1
+    highest: 72
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: FIPSST
+  documented_by: header; method egrid_power_plants.md
+- name: fips_county
+  label: The plant's FIPS county code, zero-padded to 3 digits
+  unit: none
+  type: integer
+  values:
+    distinct: 243
+    lowest: 1
+    highest: 810
+  missing_cells: 142
+  missing_meaning: eGRID leaves the cell blank
+  source_name: FIPSCNTY
+  documented_by: header; method egrid_power_plants.md
+- name: transmission_owner
+  label: The name of the plant's transmission or distribution system owner
+  unit: none
+  type: text
+  values:
+    distinct: 1067
+    examples:
+    - 4 Rivers Electric Cooperative, Inc.
+    - 4-County Electric Power Assn
+    - A & N Electric Coop
+    - AEP Texas Central Company
+    - AEP Texas North Company
+  missing_cells: 62
+  missing_meaning: eGRID leaves the cell blank
+  source_name: OPRNAME
+  documented_by: header; source eGRID workbook long names
+- name: utility_id
+  label: The utility's ID
+  unit: none
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 7
+    highest: 66470
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: UTLSRVID
+  documented_by: header; source eGRID workbook long names
+- name: sector
+  label: eGRID's plant-level sector (Electric Utility, IPP, Industrial or Commercial, CHP or not)
+  unit: none
+  type: text
+  values:
+    list:
+      Commercial CHP: 218
+      Commercial Non-CHP: 495
+      Electric Utility: 3295
+      IPP CHP: 184
+      IPP Non-CHP: 7795
+      Industrial CHP: 429
+      Industrial Non-CHP: 196
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: SECTOR
+  documented_by: header; source eGRID workbook long names; data
+- name: balancing_authority
+  label: The balancing authority's code
+  unit: none
+  type: text
+  values:
+    distinct: 69
+    examples:
+    - AECI
+    - AVA
+    - AVRN
+    - AZPS
+    - BANC
+  missing_cells: 1
+  missing_meaning: eGRID leaves the cell blank
+  source_name: BACODE
+  documented_by: header; source eGRID workbook long names
+- name: balancing_authority_name
+  label: The balancing authority's name
+  unit: none
+  type: text
+  values:
+    distinct: 70
+    examples:
+    - Alcoa Power Generating, Inc. - Yadkin Division
+    - Arizona Public Service Company
+    - Arlington Valley, LLC - AVBA
+    - Associated Electric Cooperative, Inc.
+    - Avangrid Renewables LLC
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: BANAME
+  documented_by: header; source eGRID workbook long names
+- name: nerc_region
+  label: The NERC region's acronym
+  unit: none
+  type: text
+  values:
+    list:
+      AK: 152
+      HI: 69
+      MRO: 1926
+      NPCC: 2159
+      PR: 62
+      RFC: 1833
+      SERC: 2473
+      TRE: 746
+      WECC: 3192
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: NERC
+  documented_by: header; source eGRID workbook long names
+- name: egrid_subregion
+  label: The eGRID subregion's acronym
+  unit: none
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - AKGD
+    - AKMS
+    - AZNM
+    - CAMX
+    - ERCT
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: SUBRGN
+  documented_by: header; source eGRID workbook long names
+- name: iso_rto
+  label: The ISO or RTO territory the plant is associated with
+  unit: none
+  type: text
+  values:
+    list:
+      CAISO: 1484
+      ERCOT: 733
+      ISONE: 1267
+      MISO: 2115
+      NYISO: 861
+      PJM: 1726
+      SPP: 27
+  missing_cells: 4399
+  missing_meaning: eGRID leaves the cell blank (no ISO or RTO named)
+  source_name: ISORTO
+  documented_by: header; source eGRID workbook long names
+- name: units
+  label: The plant's number of units
+  unit: count
+  type: integer
+  values:
+    distinct: 35
+    lowest: 1
+    highest: 73
+  missing_cells: 1
+  missing_meaning: eGRID leaves the cell blank
+  source_name: NUMUNT
+  documented_by: header; source eGRID workbook long names
+- name: generators
+  label: The plant's number of generators
+  unit: count
+  type: integer
+  values:
+    distinct: 35
+    lowest: 1
+    highest: 73
+  missing_cells: 1
+  missing_meaning: eGRID leaves the cell blank
+  source_name: NUMGEN
+  documented_by: header; source eGRID workbook long names
+- name: primary_fuel
+  label: The plant's primary fuel, eGRID's code
+  unit: none
+  type: text
+  values:
+    distinct: 36
+    examples:
+    - AB
+    - BFG
+    - BIT
+    - BLQ
+    - COG
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: PLPRMFL
+  documented_by: header; source eGRID workbook long names
+- name: primary_fuel_category
+  label: The plant's primary fuel category (COAL, GAS, OIL, NUCLEAR, HYDRO, WIND, SOLAR, BIOMASS, GEOTHERMAL, OFSL, OTHF)
+  unit: none
+  type: text
+  values:
+    list:
+      BIOMASS: 628
+      COAL: 222
+      GAS: 1993
+      GEOTHERMAL: 67
+      HYDRO: 1459
+      NUCLEAR: 54
+      OFSL: 18
+      OIL: 878
+      OTHF: 301
+      SOLAR: 5658
+      WIND: 1334
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: PLFUELCT
+  documented_by: header; source eGRID workbook long names; data
+- name: coal_flag
+  label: Yes when the plant burned or generated any amount of coal
+  unit: none
+  type: text
+  values:
+    list:
+      'Yes': 103
+  missing_cells: 12509
+  missing_meaning: eGRID leaves the cell blank (only Yes is printed)
+  source_name: COALFLAG
+  documented_by: header; source eGRID workbook long names; data
+- name: chp_flag
+  label: Yes when eGRID applies its combined heat and power (CHP) plant adjustment
+  unit: none
+  type: text
+  values:
+    list:
+      'Yes': 930
+  missing_cells: 11682
+  missing_meaning: eGRID leaves the cell blank (only Yes is printed)
+  source_name: CHPFLAG
+  documented_by: header; source eGRID workbook long names; data
+- name: capacity_factor
+  label: The plant's capacity factor
+  unit: ratio
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 1.37976
+  missing_cells: 373
+  missing_meaning: eGRID leaves the cell blank
+  source_name: CAPFAC
+  documented_by: header; source eGRID workbook long names
+- name: heat_input_mmbtu
+  label: The plant's annual heat input from combustion
+  unit: MMBtu
+  type: number
+  values:
+    distinct: 3232
+    lowest: 0.0
+    highest: 172665705.425
+  missing_cells: 8964
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLHTIAN
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: net_generation_mwh
+  label: The plant's annual net generation
+  unit: MWh
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -1034280.0
+    highest: 31522590.0
+  missing_cells: 373
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLNGENAN
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: nox_tons
+  label: The plant's annual NOx emissions
+  unit: short ton
+  type: number
+  values:
+    distinct: 2848
+    lowest: 0.0
+    highest: 12604.704
+  missing_cells: 9209
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLNOXAN
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: so2_tons
+  label: The plant's annual SO2 emissions
+  unit: short ton
+  type: number
+  values:
+    distinct: 2142
+    lowest: 0.0
+    highest: 39245.681
+  missing_cells: 9208
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLSO2AN
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: co2_tons
+  label: The plant's annual CO2 emissions
+  unit: short ton
+  type: number
+  values:
+    distinct: 2851
+    lowest: 0.0
+    highest: 18109178.3
+  missing_cells: 9208
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLCO2AN
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: ch4_lbs
+  label: The plant's annual CH4 (methane) emissions
+  unit: lb
+  type: number
+  values:
+    distinct: 2957
+    lowest: 0.0
+    highest: 4148743.931
+  missing_cells: 9067
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLCH4AN
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: n2o_lbs
+  label: The plant's annual N2O (nitrous oxide) emissions
+  unit: lb
+  type: number
+  values:
+    distinct: 2913
+    lowest: 0.0
+    highest: 603513.812
+  missing_cells: 9067
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLN2OAN
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: co2e_tons
+  label: The plant's annual CO2 equivalent emissions
+  unit: short ton
+  type: number
+  values:
+    distinct: 3056
+    lowest: 0.0
+    highest: 18240458.877
+  missing_cells: 8991
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLCO2EQA
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: hg_lbs
+  label: The plant's annual mercury (Hg) emissions
+  unit: lb
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 12612
+  missing_meaning: eGRID leaves every cell blank in this edition (no cell holds a value)
+  source_name: PLHGAN
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names; data
+- name: nox_rate_lb_mwh
+  label: The plant's annual NOx emission rate per MWh of total output
+  unit: lb/MWh
+  type: number
+  values:
+    distinct: 2301
+    lowest: 0.0
+    highest: 8500.0
+  missing_cells: 9339
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLNOXRTA
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: so2_rate_lb_mwh
+  label: The plant's annual SO2 emission rate per MWh of total output
+  unit: lb/MWh
+  type: number
+  values:
+    distinct: 1182
+    lowest: 0.0
+    highest: 752.0
+  missing_cells: 9338
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLSO2RTA
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: co2_rate_lb_mwh
+  label: The plant's annual CO2 emission rate per MWh of total output
+  unit: lb/MWh
+  type: number
+  values:
+    distinct: 2770
+    lowest: 0.0
+    highest: 423504.0
+  missing_cells: 9338
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLCO2RTA
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: co2e_rate_lb_mwh
+  label: The plant's annual CO2 equivalent emission rate per MWh of total output
+  unit: lb/MWh
+  type: number
+  values:
+    distinct: 2941
+    lowest: 0.0
+    highest: 424893.132
+  missing_cells: 9305
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLC2ERTA
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: heat_rate_btu_kwh
+  label: The plant's nominal heat rate (fuel heat per kWh generated)
+  unit: Btu/kWh
+  type: number
+  values:
+    distinct: 3244
+    lowest: -3332000.0
+    highest: 2593000.0
+  missing_cells: 9314
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLHTRT
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: gen_coal_mwh
+  label: The plant's annual net generation from coal
+  unit: MWh
+  type: number
+  values:
+    distinct: 268
+    lowest: -7625.153
+    highest: 15767071.0
+  missing_cells: 372
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLGENACL
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: gen_oil_mwh
+  label: The plant's annual net generation from oil
+  unit: MWh
+  type: number
+  values:
+    distinct: 1194
+    lowest: -4977.0
+    highest: 2550227.0
+  missing_cells: 372
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLGENAOL
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: gen_gas_mwh
+  label: The plant's annual net generation from gas
+  unit: MWh
+  type: number
+  values:
+    distinct: 2218
+    lowest: -27603.0
+    highest: 19937352.0
+  missing_cells: 372
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLGENAGS
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: gen_nuclear_mwh
+  label: The plant's annual net generation from nuclear
+  unit: MWh
+  type: integer
+  values:
+    distinct: 55
+    lowest: 0
+    highest: 31522590
+  missing_cells: 372
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLGENANC
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: gen_hydro_mwh
+  label: The plant's annual net generation from hydro
+  unit: MWh
+  type: number
+  values:
+    distinct: 1366
+    lowest: -1034280.0
+    highest: 15749890.0
+  missing_cells: 372
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLGENAHY
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: gen_biomass_mwh
+  label: The plant's annual net generation from biomass
+  unit: MWh
+  type: number
+  values:
+    distinct: 615
+    lowest: -7400.806
+    highest: 506058.1
+  missing_cells: 372
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLGENABM
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: gen_wind_mwh
+  label: The plant's annual net generation from wind
+  unit: MWh
+  type: number
+  values:
+    distinct: 1297
+    lowest: -10328.0
+    highest: 3887512.0
+  missing_cells: 372
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLGENAWI
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: gen_solar_mwh
+  label: The plant's annual net generation from solar
+  unit: MWh
+  type: number
+  values:
+    distinct: 4514
+    lowest: -3151.0
+    highest: 1036774.0
+  missing_cells: 372
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLGENASO
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: gen_geothermal_mwh
+  label: The plant's annual net generation from geothermal
+  unit: MWh
+  type: integer
+  values:
+    distinct: 64
+    lowest: 0
+    highest: 4499612
+  missing_cells: 372
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLGENAGT
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: gen_other_fossil_mwh
+  label: The plant's annual net generation from other fossil fuels
+  unit: MWh
+  type: number
+  values:
+    distinct: 151
+    lowest: -9045.315
+    highest: 1376971.9
+  missing_cells: 372
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLGENAOF
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+- name: gen_other_purchased_mwh
+  label: The plant's annual net generation from other, unknown or purchased fuel
+  unit: MWh
+  type: number
+  values:
+    distinct: 344
+    lowest: -107414.0
+    highest: 481609.0
+  missing_cells: 372
+  missing_meaning: eGRID leaves the cell blank
+  source_name: PLGENAOP
+  documented_by: method egrid_power_plants.md; source eGRID workbook long names
+second_look: null

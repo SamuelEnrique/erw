@@ -1,0 +1,268 @@
+# The codebook's metadata of table irena_capacity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: irena_capacity_annual
+family: other_sources
+shape: series
+row: 'One country''s installed electricity capacity of one technology at one year''s end, from IRENASTAT''s electricity statistics
+  (grid connection: all).'
+time: ts_utc is the year's first day at 00:00:00Z and stands for the capacity at the year's end; freq P1Y.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1Y
+source:
+- name: irena:irenastat_elecstat International Renewable Energy Agency, IRENASTAT (PxWeb)
+  url: https://pxweb.irena.org/api/v1/en/IRENASTAT/Power%20Capacity%20and%20Generation/Country_ELECSTAT_2026_H2_PX.px
+cite: 'International Renewable Energy Agency (IRENA). IRENASTAT: Electricity statistics by Country/area, Technology, Data
+  Type, Grid connection and Year. Via the Energy Research Warehouse (ERW), table `irena_capacity_annual`.'
+method: docs/methods/irena_capacity_annual.md
+header_title: 'International Renewable Energy Agency (IRENA), IRENASTAT, Electricity statistics by Country/area, Technology,
+  Data Type, Grid connection and Year (2026 H2): installed electricity capacity, 2015 to 2025 (session 2085)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity irena:<country code as IRENA writes it, ISO alpha-3>; variable
+  capacity_<technology, as IRENA names it> (its totals, total_renewable and total_non_renewable, are IRENA''s own); unit MW;
+  ts_utc the year''s first day (the capacity at the year''s end); freq P1Y; geo empty; node the country''s name; x_technology_code
+  IRENA''s code. Grid connection: All.'
+read:
+  date: '2026-11-20'
+  rows: 20662
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: irena:<country code as IRENA writes it, ISO alpha-3>
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: 'Not filled: IRENA''s ISO alpha-3 codes are not the standard''s geo'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 20662
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 20662
+- name: node
+  shared: true
+  particular: The country's name, not a pricing node
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 20662
+- name: x_technology_code
+  label: IRENA's code of the technology
+  unit: none
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector irena_capacity.py; method irena_capacity_annual.md
+variables:
+- name: capacity_coal
+  label: Installed capacity, coal (IRENA's technology)
+  unit: MW
+  rows: 609
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_gas_biofuels
+  label: Installed capacity, gas biofuels
+  unit: MW
+  rows: 1153
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_geothermal_energy
+  label: Installed capacity, geothermal energy
+  unit: MW
+  rows: 325
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_liquid_biofuels
+  label: Installed capacity, liquid biofuels
+  unit: MW
+  rows: 244
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_marine_energy
+  label: Installed capacity, marine energy
+  unit: MW
+  rows: 178
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_mechanical_storage_pumped_hydro
+  label: 'Installed capacity, mechanical storage: pumped hydro'
+  unit: MW
+  rows: 413
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_mixed_hydropower
+  label: Installed capacity, mixed hydropower
+  unit: MW
+  rows: 226
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_natural_gas
+  label: Installed capacity, natural gas
+  unit: MW
+  rows: 898
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_non_renewable_waste
+  label: Installed capacity, non-renewable waste
+  unit: MW
+  rows: 251
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_nuclear_energy
+  label: Installed capacity, nuclear energy
+  unit: MW
+  rows: 353
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_offshore_wind_energy
+  label: Installed capacity, offshore wind energy
+  unit: MW
+  rows: 195
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_oil
+  label: Installed capacity, oil
+  unit: MW
+  rows: 1893
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_onshore_wind_energy
+  label: Installed capacity, onshore wind energy
+  unit: MW
+  rows: 1656
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_other_fossil_fuels
+  label: Installed capacity, other fossil fuels
+  unit: MW
+  rows: 710
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_other_non_renewable_energy
+  label: Installed capacity, other non-renewable energy
+  unit: MW
+  rows: 480
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_pure_hydropower
+  label: Installed capacity, pure hydropower
+  unit: MW
+  rows: 11
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_renewable_hydropower
+  label: Installed capacity, renewable hydropower
+  unit: MW
+  rows: 1785
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_renewable_waste
+  label: Installed capacity, renewable waste
+  unit: MW
+  rows: 518
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_solar_photovoltaic
+  label: Installed capacity, solar photovoltaic
+  unit: MW
+  rows: 2385
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_solar_thermal_energy
+  label: Installed capacity, solar thermal energy
+  unit: MW
+  rows: 205
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_solid_biofuels
+  label: Installed capacity, solid biofuels
+  unit: MW
+  rows: 1271
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_total_non_renewable
+  label: Installed capacity, IRENA's own total of non-renewable technologies
+  unit: MW
+  rows: 2463
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_total_renewable
+  label: Installed capacity, IRENA's own total of renewable technologies
+  unit: MW
+  rows: 2440
+  first: '2015-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

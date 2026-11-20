@@ -1,0 +1,198 @@
+# The codebook's metadata of table eia930_event_hourly_interchange (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia930_event_hourly_interchange
+family: eia930
+shape: series
+row: One directed pair's hourly interchange, or one balancing authority's hourly demand, in one hour of one of the two historical
+  events of /network (Winter Storm Uri 2021, the June 2025 heat).
+time: ts_utc is the hour's start, UTC (EIA's period is its end).
+vintage_rule: 'One pull (2 October 2026), not refreshed: it holds EIA''s figures as read that evening; the key holds event
+  (entity, variable, ts_utc, event). vintage is empty.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: eia:electricity/rto/interchange-data U.S. Energy Information Administration, Form EIA-930, hourly interchange between
+    balancing authorities
+  url: https://www.eia.gov/electricity/gridmonitor/
+- name: eia:electricity/rto/region-data U.S. Energy Information Administration, Form EIA-930, hourly demand by balancing authority
+    (type D)
+  url: https://www.eia.gov/electricity/gridmonitor/
+cite: 'U.S. Energy Information Administration (EIA). Form EIA-930, Hourly Electric Grid Monitor: hourly demand, day-ahead
+  demand forecast, net generation and interchange by balancing authority; Form EIA-930, Hourly Electric Grid Monitor: hourly
+  interchange between balancing authorities. Via the Energy Research Warehouse (ERW), table `eia930_event_hourly_interchange`.'
+method: docs/methods/eia930_event_hourly_interchange.md
+header_title: hourly interchange of every pair and hourly demand of every balancing authority, EIA-930, for the two historical
+  stories of /network (session 68)
+header_shape: 'Shape: series (docs/datastandard.md v0), partition columns ba and event (the key holds event, Decision 32).
+  interchange_mw: entity eia930:<FROM>-<TO>, the reporting balancing authority''s net flow with the neighbour (x_to_ba), MW,
+  positive when it exports; both directions as EIA publishes them. demand_mw: entity eia930:<BA>, MW. ts_utc is the start
+  of the hour, UTC (EIA''s period is its end). Nothing filled: an hour EIA does not report is absent.'
+read:
+  date: '2026-11-20'
+  rows: 266833
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia930:<FROM>-<TO> on interchange_mw rows; eia930:<respondent> on demand_mw rows
+  type: text
+  values:
+    distinct: 424
+    examples:
+    - eia930:AEC
+    - eia930:AEC-MISO
+    - eia930:AEC-SOCO
+    - eia930:AECI
+    - eia930:AECI-MISO
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 648
+    earliest: '2021-02-07T06:00:00Z'
+    latest: '2025-06-29T03:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: -9809
+    highest: 731196
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 266833
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 266833
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 266833
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 266833
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 266833
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:electricity/rto/interchange-data: 223176
+      eia:electricity/rto/region-data: 43657
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 55
+    examples:
+    - https://api.eia.gov/v2/electricity/rto/interchange-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2021-02-07T07&end=2021-02-25T06&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=fromba&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=toba&sort%5B2%5D%5Bdirection%5D=asc&offset=0&length=5000
+    - https://api.eia.gov/v2/electricity/rto/interchange-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2021-02-07T07&end=2021-02-25T06&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=fromba&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=toba&sort%5B2%5D%5Bdirection%5D=asc&offset=10000&length=5000
+    - https://api.eia.gov/v2/electricity/rto/interchange-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2021-02-07T07&end=2021-02-25T06&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=fromba&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=toba&sort%5B2%5D%5Bdirection%5D=asc&offset=100000&length=5000
+    - https://api.eia.gov/v2/electricity/rto/interchange-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2021-02-07T07&end=2021-02-25T06&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=fromba&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=toba&sort%5B2%5D%5Bdirection%5D=asc&offset=105000&length=5000
+    - https://api.eia.gov/v2/electricity/rto/interchange-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2021-02-07T07&end=2021-02-25T06&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=fromba&sort%5B1%5D%5Bdirection%5D=asc&sort%5B2%5D%5Bcolumn%5D=toba&sort%5B2%5D%5Bdirection%5D=asc&offset=110000&length=5000
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 55
+    earliest: '2026-10-02T22:56:24Z'
+    latest: '2026-10-02T22:58:40Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 266833
+- name: ba
+  shared: true
+  particular: FROM on interchange rows, the respondent on demand rows, lowercase
+  type: text
+  values:
+    distinct: 79
+    examples:
+    - aec
+    - aeci
+    - ava
+    - avrn
+    - azps
+  missing_cells: 0
+- name: x_to_ba
+  label: The neighbour (TO) of an interchange row, EIA-930 code in lowercase
+  unit: none
+  type: text
+  values:
+    distinct: 87
+    examples:
+    - aec
+    - aeci
+    - aeso
+    - ava
+    - avrn
+  missing_cells: 43657
+  missing_meaning: Empty on the demand_mw rows
+  source_name: null
+  documented_by: header; method eia930_event_hourly_interchange.md
+- name: event
+  label: 'The event window the hour belongs to: uri_2021 (Winter Storm Uri, 2021-02-07 to 2021-02-24, Central days) or east_heat_2025
+    (the June 2025 heat, 2025-06-20 to 2025-06-28, Eastern days)'
+  unit: none
+  type: text
+  values:
+    list:
+      east_heat_2025: 86464
+      uri_2021: 180369
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method eia930_event_hourly_interchange.md
+variables:
+- name: demand_mw
+  label: The authority's hourly demand (EIA type D)
+  unit: MW
+  rows: 43657
+  first: '2021-02-07T06:00:00Z'
+  last: '2025-06-29T03:00:00Z'
+- name: interchange_mw
+  label: The reporting authority's net flow with the neighbour, positive when it exports
+  unit: MW
+  rows: 223176
+  first: '2021-02-07T06:00:00Z'
+  last: '2025-06-29T03:00:00Z'
+second_look: null

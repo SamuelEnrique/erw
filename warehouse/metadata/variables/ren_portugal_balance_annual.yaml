@@ -1,0 +1,285 @@
+# The codebook's metadata of table ren_portugal_balance_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ren_portugal_balance_annual
+family: other_sources
+shape: series
+row: One year's value of one row of mainland Portugal's electricity balance (production by source, storage, the commercial
+  exchanges, consumption), from REN's Data Hub monthly balance, December's year to date.
+time: ts_utc is the year's 1 January at 00:00:00Z, a label for the calendar year; the value is REN's year to date at the end
+  of December; freq P1Y.
+vintage_rule: 'Merged by (entity, variable, ts_utc) (ip.write_csv): a run replaces the rows it reads again and keeps rows
+  from earlier runs; vintage is not filled.'
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1Y
+source:
+- name: ren:datahub_monthly_balance REN (Redes Energeticas Nacionais), Data Hub, monthly electricity balance (CSV export,
+    model 1550)
+  url: https://datahub.ren.pt/en/electricity/monthly-balance/
+cite: REN (Redes Energeticas Nacionais). Data Hub, monthly electricity balance (CSV export, model 1550), Decembers' year-to-date.
+  Via the Energy Research Warehouse (ERW), table `ren_portugal_balance_annual`.
+method: docs/methods/ren_portugal_balance_annual.md
+header_title: 'REN, Data Hub, Portugal''s electricity balance a year: production by source, storage, the commercial exchanges
+  and consumption, 2020 to 2025 (session 2280)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity ren:PT; variable REN''s rows in snake case, a parent''s children
+  named after it (production_total ... consumption; net_imports negative a net export); unit MWh (REN''s GWh times 1,000);
+  ts_utc the year''s 1 January; freq P1Y; geo PT, the balance of mainland Portugal. Each year is a December''s year-to-date
+  figure.'
+read:
+  date: '2026-11-20'
+  rows: 146
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: One entity, the country
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: 'The country''s two-letter ISO 3166-1 code on every row: the balance of mainland Portugal'
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 146
+- name: node
+  shared: true
+  particular: The country's name, not a pricing node
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 146
+variables:
+- name: battery_charging
+  label: Battery charging (Baterias)
+  unit: MWh
+  rows: 2
+  first: '2024-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_injection
+  label: Battery injection (Injecao de Baterias)
+  unit: MWh
+  rows: 2
+  first: '2024-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: biomass_cogeneration
+  label: Biomass production in cogeneration
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: biomass_other
+  label: Other biomass production
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: coal
+  label: Coal production (Carvao)
+  unit: MWh
+  rows: 2
+  first: '2020-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: consumption
+  label: Consumption (CONSUMO)
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: exports_commercial
+  label: Exports, commercial value (Exportacao (valor comercial))
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: imports_commercial
+  label: Imports, commercial value (Importacao (valor comercial))
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: natural_gas
+  label: Natural gas production (Gas Natural)
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: natural_gas_cogeneration
+  label: Natural gas production in cogeneration
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: natural_gas_combined_cycle
+  label: Natural gas production in combined cycle
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: net_imports
+  label: Net imports (SALDO IMPORTADOR), negative a net export
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: non_renewable
+  label: Non-renewable production (Producao nao Renovavel)
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_thermal
+  label: Other thermal production (Outra Termica)
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_thermal_cogeneration
+  label: Other thermal production in cogeneration
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: other_thermal_other
+  label: Other thermal production, other
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: production_total
+  label: Total production, storage production included (REN's PRODUCAO TOTAL)
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: pumped_storage_production
+  label: Production from pumped storage (Producao por Bombagem)
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: pumping_consumption
+  label: Consumption for pumping (Bombagem)
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: renewable
+  label: Renewable production (Producao Renovavel)
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: renewable_biomass
+  label: Biomass production (Biomassa)
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: renewable_hydro
+  label: Hydro production, natural inflow (Hidrica)
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: renewable_solar
+  label: Solar production (Solar)
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: renewable_wave
+  label: Wave production (Ondas)
+  unit: MWh
+  rows: 2
+  first: '2024-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: renewable_wind
+  label: Wind production (Eolica)
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: storage_consumption
+  label: Consumption for storage (CONSUMO PARA ARMAZENAMENTO)
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: storage_production
+  label: Production from storage (Producao por Armazenamento)
+  unit: MWh
+  rows: 6
+  first: '2020-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

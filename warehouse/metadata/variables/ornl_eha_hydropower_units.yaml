@@ -1,0 +1,410 @@
+# The codebook's metadata of table ornl_eha_hydropower_units (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ornl_eha_hydropower_units
+family: ornl
+shape: entities
+row: One U.S. hydropower or pumped storage generating unit, from ORNL's Existing Hydropower Assets (EHA) Unit Database, 2026.
+time: No time column; the table is a snapshot of the 2026 edition; vintage is the workbook's last-modified time (UTC).
+vintage_rule: A snapshot of one yearly edition, replaced whole by each run.
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: ornl:eha_unit M.M. Johnson, S.-C. Kao and R. Uria-Martinez, Existing Hydropower Assets (EHA) Unit Database, 2026,
+    HydroSource, Oak Ridge National Laboratory, Oak Ridge, Tennessee, DOI 10.21951/FY2026/3374522
+  url: https://hydrosource.ornl.gov/data/datasets/eha-unit-2026/
+cite: Oak Ridge National Laboratory (ORNL), HydroSource. Existing Hydropower Assets (EHA) Unit Database. Via the Energy Research
+  Warehouse (ERW), table `ornl_eha_hydropower_units`.
+method: docs/methods/ornl_hydropower.md
+header_title: 'Oak Ridge National Laboratory, Existing Hydropower Assets (EHA) Unit Database, 2026: every U.S. hydropower
+  and pumped storage unit (session 943)'
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id ornl_eha_unit:<EHA_PtGnID>; entity_type generator; name
+  ''<plant>, unit <EHA unit id>''; geo empty (the plant''s state is in ornl_eha_hydropower_plants, joined by eha_plant_id);
+  capacity_mw the unit''s; speed_rpm, head_ft, power_hp, min_load_mw as ORNL gives them; start_time as given (10M minutes,
+  2H hours).'
+read:
+  date: '2026-11-20'
+  rows: 5362
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  particular: ornl_eha_unit:<EHA_PtGnID>
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - ornl_eha_unit:hc0001_p01_1
+    - ornl_eha_unit:hc0001_p01_2
+    - ornl_eha_unit:hc0002_p01_1
+    - ornl_eha_unit:hc0002_p01_2
+    - ornl_eha_unit:hc0003_p01_1
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  particular: Always generator
+  type: text
+  values:
+    list:
+      generator: 5362
+  missing_cells: 0
+- name: name
+  shared: true
+  particular: '''<plant name>, unit <EHA unit id>'''
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 29 Mile Creek Diversion, unit 1
+    - 45 Mile Hydroelectric Project, unit 1
+    - 45 Mile Hydroelectric Project, unit 2
+    - 45 Mile Hydroelectric Project, unit 3
+    - 92nd Avenue Pressure Relief Valve Facility Project, unit 1
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: 'Not filled: the sheet gives no state; the plant''s state is in ornl_eha_hydropower_plants, joined by eha_plant_id'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5362
+- name: lat
+  shared: true
+  particular: The plant's
+  type: number
+  values:
+    distinct: 2184
+    lowest: 18.017
+    highest: 61.6
+  missing_cells: 0
+- name: lon
+  shared: true
+  particular: The plant's
+  type: number
+  values:
+    distinct: 2193
+    lowest: -174.197
+    highest: -65.794
+  missing_cells: 0
+- name: capacity_mw
+  shared: true
+  particular: The unit's capacity
+  type: number
+  values:
+    distinct: 680
+    lowest: 0.0
+    highest: 805.0
+  missing_cells: 0
+- name: status
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5362
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5362
+- name: operator
+  shared: true
+  particular: 'Not filled: the plant''s owner is in plant_owner'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5362
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ornl:eha_unit: 5362
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://hydrosource.s3.us-east-2.amazonaws.com/files/data/datasets/eha-unit-2026/ORNL_EHAHydroUnit_PublicFY2026.xlsx: 5362
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T11:18:37Z': 5362
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The workbook's last-modified time, UTC
+  type: utc time
+  values:
+    list:
+      '2026-06-24T16:53:31Z': 5362
+  missing_cells: 0
+- name: eha_plant_id
+  label: ORNL's EHA identifier of the unit's plant, the key to ornl_eha_hydropower_plants
+  unit: none
+  type: text
+  values:
+    distinct: 2258
+    examples:
+    - hc0001_p01
+    - hc0002_p01
+    - hc0003_p01
+    - hc0004_p01
+    - hc0005_p01
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: EHA_PtID
+  documented_by: header; source EHA Unit Field Descriptions sheet
+- name: plant_owner
+  label: The owner of the plant facility (where the plant is not in EIA's data, the original licensed or exempted owner, which
+    may be out of date)
+  unit: none
+  type: text
+  values:
+    distinct: 1049
+    examples:
+    - 2C Land & Cattle Company, LLC
+    - 5440 Hydro, Inc.
+    - 8 CHURCH LANE, LLC.
+    - A & D Hydro, Inc.
+    - A H Haley
+  missing_cells: 6
+  missing_meaning: ORNL names no owner
+  source_name: Pt_Own
+  documented_by: connector ornl_eha_units.py; source EHA Unit Field Descriptions sheet
+- name: unit_type
+  label: 'The type of unit: HY conventional hydro or PS pumped storage'
+  unit: none
+  type: text
+  values:
+    list:
+      HY: 5204
+      PS: 158
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Type
+  documented_by: method ornl_hydropower.md; source EHA Unit Field Descriptions sheet
+- name: eia_plant_id
+  label: EIA's plant identification code
+  unit: none
+  type: integer
+  values:
+    distinct: 1622
+    lowest: 2
+    highest: 69673
+  missing_cells: 937
+  missing_meaning: ORNL gives no EIA plant id
+  source_name: EIA_PtID
+  documented_by: connector ornl_eha_units.py; source EHA Unit Field Descriptions sheet
+- name: eia_generator_id
+  label: EIA's identification code of the unit (generator)
+  unit: none
+  type: text
+  values:
+    distinct: 673
+    examples:
+    - '1'
+    - '10'
+    - 10A
+    - '11'
+    - '1100'
+  missing_cells: 951
+  missing_meaning: ORNL gives no EIA generator id
+  source_name: EIA_GnID
+  documented_by: connector ornl_eha_units.py; source EHA Unit Field Descriptions sheet
+- name: eha_unit_id
+  label: ORNL's EHA identification code of the unit within its plant
+  unit: none
+  type: text
+  values:
+    distinct: 74
+    examples:
+    - '1'
+    - '10'
+    - '11'
+    - '12'
+    - '13'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: EHA_GnID
+  documented_by: connector ornl_eha_units.py; source EHA Unit Field Descriptions sheet
+- name: ferc_plant_id
+  label: FERC's plant identification code, as ORNL writes it
+  unit: none
+  type: text
+  values:
+    distinct: 1738
+    examples:
+    - 01 - 29 Mile Creek
+    - 01 - A J Allen
+    - 01 - A-Plant Powerhouse
+    - 01 - Abbeville
+    - 01 - Abbott's Mill
+  missing_cells: 1510
+  missing_meaning: ORNL gives no FERC plant id
+  source_name: FC_PtID
+  documented_by: connector ornl_eha_units.py; source EHA Unit Field Descriptions sheet
+- name: first_year
+  label: The year the unit came online
+  unit: none
+  type: integer
+  values:
+    distinct: 132
+    lowest: 1891
+    highest: 2025
+  missing_cells: 143
+  missing_meaning: ORNL gives no year
+  source_name: OpYear
+  documented_by: connector ornl_eha_units.py; source EHA Unit Field Descriptions sheet
+- name: refurbished_year
+  label: The year the unit was refurbished or rehabilitated, or Unknown as ORNL writes it (most units)
+  unit: none
+  type: text
+  values:
+    distinct: 49
+    examples:
+    - '1950'
+    - '1956'
+    - '1971'
+    - '1972'
+    - '1974'
+  missing_cells: 16
+  missing_meaning: ORNL's cell is blank (16 units)
+  source_name: RhYear
+  documented_by: connector ornl_eha_units.py; source EHA Unit Field Descriptions sheet; data
+- name: turbine_type
+  label: The original turbine type (Francis, Kaplan, Pelton, Pump, Unknown and others)
+  unit: none
+  type: text
+  values:
+    list:
+      10TR2: 1
+      5TR2: 1
+      Archimedes Screw: 2
+      Centrifugal: 1
+      Francis: 2347
+      Horizontal Impulse: 1
+      Horizontal Pump: 2
+      Kaplan: 1282
+      Pelton: 342
+      Pump: 168
+      Unknown: 1213
+      Vertical: 1
+  missing_cells: 1
+  missing_meaning: ORNL's cell is blank (1 unit)
+  source_name: TbType
+  documented_by: method ornl_hydropower.md; source EHA Unit Field Descriptions sheet
+- name: turbine_maker
+  label: The manufacturer of the turbine
+  unit: none
+  type: text
+  values:
+    distinct: 165
+    examples:
+    - A & D
+    - ABNER DOBLE COMPANY ENGINEERS
+    - ALSTH
+    - AMERICAN HYDRO
+    - AMP Hydro
+  missing_cells: 1823
+  missing_meaning: ORNL names no maker
+  source_name: Maker
+  documented_by: connector ornl_eha_units.py; source EHA Unit Field Descriptions sheet
+- name: speed_rpm
+  label: The turbine's speed, revolutions per minute
+  unit: rpm
+  type: number
+  values:
+    distinct: 50
+    lowest: 54.5
+    highest: 1730.0
+  missing_cells: 4903
+  missing_meaning: ORNL gives none
+  source_name: Speed_rpm
+  documented_by: connector ornl_eha_units.py; source EHA Unit Field Descriptions sheet
+- name: head_ft
+  label: The turbine's rated head (the height the water falls), in feet
+  unit: ft
+  type: number
+  values:
+    distinct: 628
+    lowest: 1.08
+    highest: 2558.0
+  missing_cells: 1530
+  missing_meaning: ORNL gives none
+  source_name: Head_ft
+  documented_by: connector ornl_eha_units.py; source EHA Unit Field Descriptions sheet
+- name: power_hp
+  label: The turbine's power, in horsepower
+  unit: hp
+  type: number
+  values:
+    distinct: 1104
+    lowest: 0.24
+    highest: 960000.0
+  missing_cells: 1695
+  missing_meaning: ORNL gives none
+  source_name: Power_hp
+  documented_by: connector ornl_eha_units.py; source EHA Unit Field Descriptions sheet
+- name: min_load_mw
+  label: The unit's minimum load
+  unit: MW
+  type: number
+  values:
+    distinct: 195
+    lowest: 0.0
+    highest: 320.0
+  missing_cells: 1241
+  missing_meaning: ORNL gives none
+  source_name: MinMW
+  documented_by: connector ornl_eha_units.py; source EHA Unit Field Descriptions sheet
+- name: start_time
+  label: 'The time from cold shutdown to full load as given: M minutes, H hours (10M, 1H, 12H)'
+  unit: none
+  type: text
+  values:
+    list:
+      '1': 2
+      10M: 2879
+      12H: 194
+      1H: 1037
+      OVER: 4
+  missing_cells: 1246
+  missing_meaning: ORNL gives none
+  source_name: StTime
+  documented_by: header; source EHA Unit Field Descriptions sheet
+- name: huc
+  label: The 12-digit hydrologic unit code (the watershed), as given
+  unit: none
+  type: number
+  values:
+    distinct: 1621
+    lowest: 10100040901.0
+    highest: 210100050202.0
+  missing_cells: 3
+  missing_meaning: ORNL gives none (3 units)
+  source_name: HUC12_All
+  documented_by: connector ornl_eha_units.py; source EHA Unit Field Descriptions sheet
+- name: county_fips
+  label: The county's FIPS (Federal Information Processing Standards) code
+  unit: none
+  type: integer
+  values:
+    distinct: 639
+    lowest: 1001
+    highest: 56039
+  missing_cells: 369
+  missing_meaning: ORNL gives no code
+  source_name: FIPS_Census
+  documented_by: connector ornl_eha_units.py; source EHA Unit Field Descriptions sheet
+second_look:
+- 'start_time: ORNL defines M (minutes) and H (hours); the values ''1'' (2 units) and ''OVER'' (4 units) are not explained.'

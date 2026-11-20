@@ -1,0 +1,188 @@
+# The codebook's metadata of table caiso_curtailment_daily (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: caiso_curtailment_daily
+family: caiso
+shape: series
+row: CAISO's wind or solar curtailment (all, or by reason) or wind or solar output for one Pacific day.
+time: ts_utc is the local (Pacific) operating day at 00:00:00Z.
+vintage_rule: Merged by (entity, variable, ts_utc); a daily run re-reads the reports of the last 14 days, so a day read again
+  replaces its rows and the rest is kept. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1D
+source:
+- name: caiso:production_curtailments Production and curtailments data (5-minute), https://www.caiso.com/library/production-curtailments-data
+    (days before 2026-01-01)
+  url: https://www.caiso.com/library/production-curtailments-data
+- name: caiso:daily_renewable_report Daily Renewable Report (curtailment and output), https://www.caiso.com/library/daily-renewable-reports
+    (days from 2026-01-01)
+  url: https://www.caiso.com/library/daily-renewable-reports
+cite: California ISO (CAISO). Daily Renewable Report (curtailment and output); Production and curtailments data (5-minute).
+  Via the Energy Research Warehouse (ERW), table `caiso_curtailment_daily`.
+method: docs/methods/caiso_curtailment_daily.md
+header_title: Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261116T155131Z-github
+  (2026-11-16T15:51:31Z); that run's own header of the table follows
+header_shape: 'Shape: series (docs/datastandard.md v0). freq P1D: ts_utc is the local (Pacific) operating day at 00:00:00Z
+  (Decision 11). Method and meaning: docs/methods/curtailment.md.'
+read:
+  date: '2026-11-20'
+  rows: 25308
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: 'caiso:ISO in every row: CAISO''s whole system'
+  type: text
+  values:
+    list:
+      caiso:ISO: 25308
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 4581
+    earliest: '2014-05-01T00:00:00Z'
+    latest: '2026-11-14T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 234439.18
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 25308
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 25308
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 25308
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25308
+- name: node
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25308
+- name: source
+  shared: true
+  particular: caiso:production_curtailments for days before 2026-01-01, caiso:daily_renewable_report from 2026-01-01
+  type: text
+  values:
+    list:
+      caiso:daily_renewable_report: 2416
+      caiso:production_curtailments: 22892
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 329
+    examples:
+    - https://www.caiso.com/documents/daily-renewable-report-apr-01-2026.html
+    - https://www.caiso.com/documents/daily-renewable-report-apr-02-2026.html
+    - https://www.caiso.com/documents/daily-renewable-report-apr-03-2026.html
+    - https://www.caiso.com/documents/daily-renewable-report-apr-04-2026.html
+    - https://www.caiso.com/documents/daily-renewable-report-apr-05-2026.html
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 33
+    earliest: '2026-09-27T09:23:46Z'
+    latest: '2026-11-16T14:49:48Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 25308
+variables:
+- name: curtailed_solar_local_mwh
+  label: Solar energy curtailed to relieve local congestion (CAISO's reason Local, published from 2022), MWh
+  unit: MWh
+  rows: 1779
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-11-14T00:00:00Z'
+- name: curtailed_solar_mwh
+  label: Solar energy CAISO curtailed in the day, all reasons, MWh
+  unit: MWh
+  rows: 4580
+  first: '2014-05-02T00:00:00Z'
+  last: '2026-11-14T00:00:00Z'
+- name: curtailed_solar_system_mwh
+  label: Solar energy curtailed for system-wide oversupply (CAISO's reason System, published from 2022), MWh
+  unit: MWh
+  rows: 1779
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-11-14T00:00:00Z'
+- name: curtailed_wind_local_mwh
+  label: Wind energy curtailed to relieve local congestion (CAISO's reason Local, published from 2022), MWh
+  unit: MWh
+  rows: 1779
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-11-14T00:00:00Z'
+- name: curtailed_wind_mwh
+  label: Wind energy CAISO curtailed in the day, all reasons, MWh
+  unit: MWh
+  rows: 4580
+  first: '2014-05-02T00:00:00Z'
+  last: '2026-11-14T00:00:00Z'
+- name: curtailed_wind_system_mwh
+  label: Wind energy curtailed for system-wide oversupply (CAISO's reason System, published from 2022), MWh
+  unit: MWh
+  rows: 1779
+  first: '2022-01-01T00:00:00Z'
+  last: '2026-11-14T00:00:00Z'
+- name: solar_generation_mwh
+  label: CAISO's solar output in the day, MWh; curtailed energy is not in it
+  unit: MWh
+  rows: 4516
+  first: '2014-05-01T00:00:00Z'
+  last: '2026-11-14T00:00:00Z'
+- name: wind_generation_mwh
+  label: CAISO's wind output in the day, MWh; curtailed energy is not in it
+  unit: MWh
+  rows: 4516
+  first: '2014-05-01T00:00:00Z'
+  last: '2026-11-14T00:00:00Z'
+second_look: null

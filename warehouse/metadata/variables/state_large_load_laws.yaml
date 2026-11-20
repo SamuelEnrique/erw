@@ -1,0 +1,679 @@
+# The codebook's metadata of table state_large_load_laws (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: state_large_load_laws
+family: erw_derived
+shape: events
+row: One US state law or bill of the 2025 and 2026 sessions that sets terms for large loads (data centers and others) or tells
+  the utilities or the commission to set them.
+time: event_date is the status date printed, else the day the document was read (x_date_kind says which).
+vintage_rule: Rewritten whole from the research file by each run (the old file removed first).
+keys:
+- event_id
+license: public
+tier: model_extracted
+interval: event
+source:
+- name: research:large_load_2026-11-13, docs/research/large_load/legislation_2026-11-13.csv (window P4 of the portable laptop,
+    sessions 5300 to 5304; method https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md); each
+    row's source_url is the document it was read in. No request is made by this connector.
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md
+cite: US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and
+  the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `state_large_load_laws`.
+method: docs/methods/large_load_research.md
+header_title: US states' large-load laws and bills of the 2025 and 2026 sessions, one row a law or bill (session 3937, chain
+  267)
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id lllaw:<law_id>; event_date the status date printed, else
+  the day read (x_date_kind); event_type large_load_law; status introduced, passed one chamber, passed, enacted, in effect,
+  vetoed or died; x_requirements the duties by topic, as printed. mw empty: the files print sizes as phrases (x_threshold_mw).'
+read:
+  date: '2026-11-20'
+  rows: 27
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  particular: lllaw:<law_id>
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - lllaw:laws_midwest_northeast-01
+    - lllaw:laws_midwest_northeast-02
+    - lllaw:laws_midwest_northeast-03
+    - lllaw:laws_midwest_northeast-05
+    - lllaw:laws_midwest_northeast-06
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    list:
+      '2025-03-25': 1
+      '2025-04-17': 1
+      '2025-04-24': 1
+      '2025-05-12': 1
+      '2025-05-20': 1
+      '2025-06-14': 1
+      '2025-06-16': 1
+      '2025-07-11': 1
+      '2025-08-28': 1
+      '2026-02-26': 1
+      '2026-03-19': 1
+      '2026-03-23': 1
+      '2026-03-24': 1
+      '2026-04-08': 1
+      '2026-04-10': 1
+      '2026-04-14': 1
+      '2026-05-07': 1
+      '2026-05-12': 1
+      '2026-05-29': 1
+      '2026-06-04': 1
+      '2026-07-07': 1
+      '2026-08-26': 1
+      '2026-11-13': 1
+      '2026-11-14': 4
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: large_load_law on every row
+  type: text
+  values:
+    list:
+      large_load_law: 27
+  missing_cells: 0
+- name: parties
+  shared: true
+  particular: The state's legislature
+  type: text
+  values:
+    list:
+      AL legislature: 1
+      CT legislature: 1
+      DE legislature: 1
+      FL legislature: 1
+      IA legislature: 1
+      ID legislature: 1
+      KS legislature: 1
+      MA legislature: 1
+      MD legislature: 2
+      MI legislature: 1
+      MN legislature: 1
+      MO legislature: 2
+      NE legislature: 1
+      NJ legislature: 1
+      NY legislature: 1
+      OH legislature: 1
+      OR legislature: 1
+      PA legislature: 1
+      SC legislature: 1
+      SD legislature: 1
+      UT legislature: 1
+      VA legislature: 1
+      VT legislature: 1
+      WI legislature: 1
+      WV legislature: 1
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 27
+- name: mw
+  shared: true
+  particular: 'Not filled: the files print sizes as phrases, kept in x_threshold_mw'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 27
+- name: price
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 27
+- name: currency
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 27
+- name: status
+  shared: true
+  particular: 'The bill''s status as printed: introduced, passed one chamber, passed, enacted, in effect, vetoed or died'
+  type: text
+  values:
+    list:
+      died: 1
+      enacted: 6
+      in effect: 10
+      introduced: 3
+      passed: 3
+      passed one chamber: 3
+      vetoed: 1
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      research:large_load_2026-11-13: 27
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2026RS/SB270-enr.pdf
+    - https://code.wvlegislature.gov/signed_bills/2025/2025-RS-HB2014-SUB%20ENR_signed.pdf
+    - https://docs.legis.wisconsin.gov/document/amends/2025/REG/AB840-ASA1.pdf
+    - https://law.lis.virginia.gov/vacode/title56/chapter23/section56-596.7/
+    - https://le.utah.gov/~2025/bills/sbillenr/SB0132.pdf
+  missing_cells: 0
+- name: x_law_id
+  label: The research file's id of the law
+  unit: none
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - laws_midwest_northeast-01
+    - laws_midwest_northeast-02
+    - laws_midwest_northeast-03
+    - laws_midwest_northeast-05
+    - laws_midwest_northeast-06
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: law_id
+  documented_by: header; connector large_load_research.py
+- name: x_group
+  label: The research group of states the law was read in
+  unit: none
+  type: text
+  values:
+    list:
+      laws_midwest_northeast: 20
+      laws_south_west: 7
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: group
+  documented_by: connector large_load_research.py; data
+- name: x_state
+  label: The state, two-letter code
+  unit: none
+  type: text
+  values:
+    list:
+      AL: 1
+      CT: 1
+      DE: 1
+      FL: 1
+      IA: 1
+      ID: 1
+      KS: 1
+      MA: 1
+      MD: 2
+      MI: 1
+      MN: 1
+      MO: 2
+      NE: 1
+      NJ: 1
+      NY: 1
+      OH: 1
+      OR: 1
+      PA: 1
+      SC: 1
+      SD: 1
+      UT: 1
+      VA: 1
+      VT: 1
+      WI: 1
+      WV: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: state
+  documented_by: connector large_load_research.py
+- name: x_bill
+  label: The bill or act as the legislature numbers it
+  unit: none
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - 2026 Acts of Assembly, chapters 377 and 378 (Code of Virginia 56-596.7)
+    - A. 11560 (same as S. 10642), Responsible Data Center Development Act
+    - A. 796 (Fourth Reprint), P.L. 2026, c.32 (Data Center Fair Share Act)
+    - A.B. 840 (as amended by Assembly Substitute Amendment 1)
+    - CS/CS/SB 484 (Chapter 2026-65, Laws of Florida)
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: bill
+  documented_by: connector large_load_research.py
+- name: x_session
+  label: The legislative session
+  unit: none
+  type: text
+  values:
+    list:
+      101st Legislative Session, 2026: 1
+      102nd Legislature, 2024 regular session: 1
+      103rd General Assembly, 2025 first regular session: 1
+      103rd General Assembly, 2026 second regular session: 1
+      109th Legislature, 2026 second session: 1
+      126th General Assembly, 2025: 1
+      136th General Assembly, 2025-2026: 1
+      153rd General Assembly (2025-2026): 1
+      194th General Court (2025-2026): 1
+      2025 General Session: 1
+      2025 Regular Session (83rd Legislative Assembly): 1
+      2025 regular session: 3
+      2025-2026 Legislature: 1
+      2025-2026 Regular Session: 1
+      2025-2026 legislative session: 2
+      2026 Regular Session: 3
+      2026 Regular Session (68th Legislature, second regular session): 1
+      2026 regular session: 1
+      2026-2027 session: 1
+      91st General Assembly, 2026 session: 1
+      94th Legislature, 2025 First Special Session: 1
+      February Session, 2026: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: session
+  documented_by: connector large_load_research.py
+- name: x_title
+  label: The bill's or act's own title
+  unit: none
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - AN ACT CONCERNING COLOCATED ELECTRIC SUPPLIERS AND LARGE ELECTRIC LOAD CUSTOMERS.
+    - AN ACT TO AMEND THE SOUTH CAROLINA CODE OF LAWS BY ENACTING THE "SOUTH CAROLINA ENERGY SECURITY ACT"
+    - AN ACT TO AMEND TITLE 26 OF THE DELAWARE CODE RELATING TO LARGE ENERGY USE FACILITIES.
+    - 'AN ACT to amend 1933 PA 167 (the general sales tax act): enterprise data center exemption'
+    - AN ACT to amend the environmental conservation law, the public service law, the public authorities law, the energy law
+      and the labor law, in relation to enacting the responsible data center development act
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: title
+  documented_by: connector large_load_research.py
+- name: x_status_date
+  label: The status date as printed
+  unit: none
+  type: text
+  values:
+    list:
+      '2025-03-25': 1
+      '2025-04-17': 1
+      '2025-04-24': 1
+      '2025-05-12': 1
+      '2025-05-20': 1
+      '2025-06-14': 1
+      '2025-06-16': 1
+      '2025-07-11': 1
+      '2025-08-28': 1
+      '2026-02-26': 1
+      '2026-03-19': 1
+      '2026-03-23': 1
+      '2026-03-24': 1
+      '2026-04-08': 1
+      '2026-04-10': 1
+      '2026-04-14': 1
+      '2026-05-07': 1
+      '2026-05-12': 1
+      '2026-05-29': 1
+      '2026-06-04': 1
+      '2026-07-07': 1
+      '2026-08-26': 1
+      not published: 5
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: status_date
+  documented_by: connector large_load_research.py
+- name: x_date_kind
+  label: 'Which date event_date is: stated date (printed in the document) or date read'
+  unit: none
+  type: text
+  values:
+    list:
+      date read: 5
+      stated date: 22
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_research.py; method large_load_research.md
+- name: x_effective_date
+  label: The law's effective date as printed, or not published
+  unit: none
+  type: text
+  values:
+    list:
+      '2025-04-17': 1
+      '2025-05-07': 1
+      '2025-05-12': 1
+      '2025-06-01': 1
+      '2025-06-16': 1
+      '2025-07-11': 1
+      '2025-08-28': 1
+      '2026-07-01': 2
+      '2026-07-07': 1
+      '2026-08-26': 1
+      '2026-10-01': 1
+      not published: 15
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: effective_date
+  documented_by: connector large_load_research.py; method large_load_research.md
+- name: x_status_cite
+  label: 'Where the status and dates are printed: the document''s address and the words'
+  unit: none
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - 'https://docs.legis.wisconsin.gov/2025/proposals/ab840 (read 2026-11-14) p. 1, History, 1/20/2026 Asm.: "Read a third
+      time and passed, Ayes 53, Noes 44, Paired 2" | https://docs.legis.wisconsin.gov/2025/proposals/ab840 (read 2026-11-14)
+      p. 1, History, 1/20/2026 Asm.: "Assembly Substitute Amendment 1 adopted" | https://docs.legis.wisconsin.gov/2025/proposals/ab840
+      (read 2026-11-14) p. 1, History, 3/23/2026 Sen.: "Failed to concur in pursuant to Senate Joint Resolution 1" | p. 1,
+      heading: "ASSEMBLY SUBSTITUTE AMENDMENT 1, TO ASSEMBLY BILL 840"'
+    - 'https://legis.delaware.gov/BillDetail/143381 (read 2026-11-14) p. 1, Status: "Signed 8/26/26" | https://legis.delaware.gov/BillDetail/143381
+      (read 2026-11-14) p. 1, Volume:Chapter: "85:440" | https://legis.delaware.gov/BillDetail/143381 (read 2026-11-14) p.
+      1, Effective Date: "8/26/26" | p. 14, Section 6: "Section 6. This Act takes effect upon enactment."'
+    - 'https://legislature.idaho.gov/sessioninfo/2026/legislation/H0911/ (read 2026-11-13) p. 1, bill history: "Reported Signed
+      by Governor on April 10, 2026" | https://legislature.idaho.gov/sessioninfo/2026/legislation/H0911/ (read 2026-11-13)
+      p. 1, bill history: "Session Law Chapter 335" | https://legislature.idaho.gov/sessioninfo/2026/legislation/H0911/ (read
+      2026-11-13) p. 1, bill history: "Effective: 07/01/2026" | p. 1, History: "[61-335, added 2026, ch. 335, sec. 1, p. 1315.]"'
+    - 'https://legislature.vermont.gov/bill/status/2026/H.727 (read 2026-11-14) p. 1, Last Recorded Action: "5/29/2026 - Veto
+      of the Governor sustained by a vote of Yeas = 83, Nays = 52" | https://legislature.vermont.gov/Documents/2026/Docs/BILLS/H-0727/H-0727%20Vetoed%20Bill%20Summary.pdf
+      (read 2026-11-14) p. 1, summary: "This summary is of a bill that was vetoed by the Governor" | p. 1, heading: "BILL
+      AS PASSED BY THE HOUSE AND SENATE 2026"'
+    - 'https://malegislature.gov/Bills/194/H5175 (read 2026-11-14) p. 1, Bill History, 2/26/2026 House: "Passed to be engrossed
+      - 128 YEAS to 27 NAYS (See YEA and NAY No. 141 )" | https://malegislature.gov/Bills/194/H5175 (read 2026-11-14) p. 1,
+      Bill History, 7/1/2026 Senate: "Amended by striking out all after the enacting clause and inserting in place thereof
+      the text of S3143" | https://malegislature.gov/Bills/194/H5175 (read 2026-11-14) p. 1, Bill History, 7/1/2026 Senate:
+      "Passed to be engrossed -- see Roll Call #205 (Yeas 32 to Nays 8)" | https://malegislature.gov/Bills/194/H5175 (read
+      2026-11-14) p. 1, Bill History, 7/16/2026 Senate: "Committee of conference appointed (Barrett-Creem-Tarr), in concurrence"'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: status_cite
+  documented_by: connector large_load_research.py
+- name: x_threshold_mw
+  label: The size of load the law applies to, as the text's phrase
+  unit: none
+  type: text
+  values:
+    list:
+      ? '100 MW: new service expected to reach a cumulative demand of 100 MW or more, or added service of 100 MW or more,
+        within five years of the requested start date'
+      : 1
+      ? 150 MW expected total peak demand at one or more contiguous parcels, for a data processing center under Section 40-9B-3
+        operating solely for data processing
+      : 1
+      '20 MW: a facility that uses or is able to use 20 MW or more and is primarily engaged in a service under NAICS code 518210': 1
+      ? 25 MW contracted or measured demand with an anticipated or measured average annual load factor of 75 percent or more
+        (contracted defense facilities excluded)
+      : 1
+      ? 50 MW anticipated monthly peak load (highest 15-minute average) at a single location; colocated customers at one location
+        count together; loads at multiple locations are not aggregated
+      : 1
+      ? 50 MW at one point of delivery for a 'transformational customer' (with 500 new employees, $100,000,000 investment
+        and a Department of Commerce designation); an existing customer above 20 MW contract demand signing a contract of
+        five years or more is a 'qualifying customer'
+      : 1
+      ? '50 MW: an increase of 50 MW or more in a service entrance''s cumulative power requirement in any consecutive 60-month
+        period, under a service contract entered into on or after July 1, 2026'
+      : 1
+      ? 'Senate committee version only: a data center requires peak demand capacity greater than 25 MW at a single building
+        or location; the self-supply duty applies to new data centers above 250 MW aggregate monthly maximum demand'
+      : 1
+      a commercial data center has a peak demand of 25 MW or greater: 1
+      a data center is a facility designed to have a load of not less than 20 MW: 1
+      a data center uses or is able to use 20 MW or more and provides data processing and hosting services (NAICS 518210): 1
+      a data center with a peak demand of 10 MW or greater: 1
+      a large data center has a peak demand of 20 MW or more (5 MW for the covered data center labor and reporting duties): 1
+      ? a large data center has an information-technology load above 20 GWh of consumption or 100 MW of demand (facilities
+        under common ownership aggregated)
+      : 1
+      a large electric load customer has a peak demand of not less than 50 MW: 1
+      ? a large energy use facility uses or is projected to use 75 MW or more of monthly maximum demand at a load factor of
+        85 percent or more, or 100 MW or more of monthly maximum instantaneous demand, or 30 MW or more if primarily a data
+        processing and hosting service (NAICS 518210); facilities may be aggregated; bulk petroleum facilities excluded
+      : 1
+      ? a retail load customer requesting a new or expanded interconnection where the total load at a single site would exceed
+        20 MW
+      : 1
+      ? customers reasonably projected to have an annual peak demand of 100 MW or more, for electrical corporations serving
+        more than 250,000 customers; 50 MW or more for those serving 250,000 or fewer customers as of 1 January 2025
+      : 1
+      ? 'large load customer (new Part III): aggregate monthly demand of at least 25 MW and a load factor above 60 percent,
+        excluding water and sewage companies, manufacturing, hospitals, district energy, agriculture; the 4-212 rate schedule
+        threshold lowered from 100 MW to 25 MW'
+      : 1
+      ? 'large load customer: aggregate monthly demand of at least 100 MW and a load factor over 80 percent; the specific
+        rate schedule covers more than 100 MW at a single location or more than 100 MW aggregated contract capacity (lowered
+        to 25 MW by Chapter 353 of 2026)'
+      : 1
+      ? 'no MW figure for the very large customer class: the Commission defines it for each utility by order by 15 December
+        2026; a data center is defined as a facility designed to have a load of 100 MW or more; the qualified large-scale
+        data center fee starts at 100 MW of peak demand'
+      : 1
+      ? no general size threshold for microgrid customers; the negotiation requirement does not apply to microgrid districts
+        producing 300 MW or more; a high impact data center (special property valuation) has an aggregate critical IT load
+        of 90 MW or more
+      : 1
+      not published: 3
+      set by the BPU for each utility at not greater than 50 MW, with related data centers aggregated: 1
+      ? would lower the 393.130.7 threshold for the larger electrical corporations from 100 MW to 50 MW of annual peak demand;
+        the emergency curtailment duty applies above 25 MW of peak demand
+      : 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: threshold_mw
+  documented_by: header; method large_load_research.md
+- name: x_threshold_mw_cite
+  label: 'Where the size is printed: page, section and words'
+  unit: none
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - 'p. 1, 56-596.7(A): "means a retail electric service customer that has a contracted or measured electric demand of 25
+      megawatts or greater and an anticipated or measured average annual electric load factor of 75 percent or greater"'
+    - 'p. 1, 61-335(1)(c): "Results in an increase in a cumulative power requirement of such service entrance of fifty (50)
+      megawatts or more in any consecutive sixty (60) month period" | p. 1, 61-335(1)(c)(ii): "Is subject to a service contract
+      with a public utility that was entered into on or after July 1, 2026."'
+    - 'p. 1, Sec. 2(1): "Large load customer means a retail load customer requesting a new or ... expanded interconnection
+      where the total load at a single site would exceed twenty megawatts;"'
+    - 'p. 1, Sec. 9, 216B.1622 subd. 1: "By December 15, 2026, the commission shall establish by order the definition and
+      appropriate characteristics of a very large customer class or subclass for each public utility providing electric service."
+      | p. 1, 216B.02, subd. 11: ""Data center" means a facility that is designed to have a load of 100 megawatts or more"
+      | p. 1, 216B.72(b): "(1) 100 to 250 MW"'
+    - 'p. 1, Section 1b(1): "minimum megawatt size designation, which shall not be greater than 50 megawatts." | p. 1, Section
+      1b(1): "the board shall aggregate the peak monthly"'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: threshold_mw_cite
+  documented_by: connector large_load_research.py
+- name: x_requirements
+  label: The duties the law sets, by topic (cost allocation, minimum term, collateral and others), as printed
+  unit: none
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - 'collateral: the Commission''s regulations must govern retail tariff terms that safeguard existing customers, including
+      deposits or other financial security from a commercial data center [p. 19, tariff terms: "STRANDED INVESTMENT AND COST
+      SHIFTING, INCLUDING ALL OF THE" | p. 19, tariff terms (i): "(I) DEPOSITS OR OTHER FINANCIAL SECURITY REQUIRED"] || minimum
+      term: minimum contract terms and minimum load obligations requiring a data center that ceases operations early or engages
+      in economic peak-shaving to take a minimum level of service for a minimum number of years, secured by a letter of credit
+      or comparable instrument [p. 19, tariff terms (iii): "(III) MINIMUM CONTRACT TERMS AND MINIMUM LOAD" | p. 19, tariff
+      terms (iii): "OF SERVICE FOR A MINIMUM NUMBER OF YEARS SUFFICIENT TO" | p. 19, tariff terms (iii): "THIS SUBPARAGRAPH
+      BY A LETTER OF CREDIT OR OTHER"] || exit fee: exit fees or early termination fees [p. 19, tariff terms (v): "(V) EXIT
+      FEES OR EARLY TERMINATION FEES."] || cost allocation: a prohibition on shifting to other customers costs caused in whole
+      or part by a commercial data center''s interconnection, service or load [p. 21, Section 4: "SECTION 4. PROHIBITION ON
+      COST SHIFTING AND RECOVERY OF COSTS."] || curtailment or backup generation: curtailment of a commercial data center''s
+      load under regional transmission organization curtailment programs, and curtailment standards [p. 20, regulations (2):
+      "(2) CURTAILMENT OF A COMMERCIAL DATA CENTER''S LOAD UNDER"]'
+    - 'commission rulemaking: A public utility serves a new large load only under a commission-approved service contract,
+      filed with a no harm test; the commission approves or denies it within 270 days [p. 1, 61-335(2): "A public utility
+      shall provide service to a new large load only pursuant to a commission-approved service contract." | p. 1, 61-335(3),
+      (4): "Such filing shall include a no harm test ... The commission shall review and approve or deny a new large load
+      service contract within two hundred seventy (270) days of receiving such filing by the public utility."] || cost allocation:
+      The new large load funds its full cost of service, including its share of generation, transmission, substation and distribution
+      investments needed only because of it; the commission reviews the contract''s rates in each general rate case [p. 1,
+      61-335(4)(b): "The new large load is responsible for funding its full cost of service, including its share of generation,
+      transmission, substation, and distribution infrastructure investments" | p. 1, 61-335(7)(a): "In each general rate case
+      filed by a public utility, the commission shall review the rates, charges, and cost recovery mechanisms applicable to
+      an approved service contract"] || collateral: Approval is conditioned on financial security, in a form and amount the
+      commission approves, reasonably sufficient to protect the utility and its other customers from stranded or unrecoverable
+      costs [p. 1, 61-335(6): "Approval of a service contract shall be conditioned on the new large load furnishing financial
+      security, in a form and amount approved by the commission"] || other: A new large load may not change its status by
+      artifice, such as splitting its load among service entrances [p. 1, 61-335(5): "A new large load shall not change its
+      status as such by means of artifice"]'
+    - 'commission rulemaking: each investor-owned electric company and electric cooperative must submit a specific rate schedule
+      for large load customers by 1 September 2026; the PSC must adopt regulations by 1 June 2026 on notice and deadlines
+      for load studies and contract terminations, forms of collateral, and study completion [p. 17, PUA 4-212(c)(1): "SHALL
+      SUBMIT TO THE COMMISSION FOR APPROVAL A SPECIFIC RATE SCHEDULE FOR LARGE LOAD CUSTOMERS." | p. 19, PUA 4-212(f)(1):
+      "ADOPT REGULATIONS TO CARRY OUT THIS SECTION." | p. 19, PUA 4-212(f)(2)(ii): "COMMON FORMS OF ACCEPTABLE COLLATERAL
+      TO SATISFY THE REQUIREMENTS OF"] || minimum bill: in approving a schedule the PSC must consider minimum billing demand
+      for distribution and transmission at a high percentage of contract capacity, long-term commitments and exit fees, guarantee
+      or collateral requirements, and penalties if a project is delayed or cancelled after buildout begins [p. 18, PUA 4-212(d)(2)(ii):
+      "AND TRANSMISSION SERVICE THAT IS A HIGH PERCENTAGE OF A LARGE LOAD" | p. 18, PUA 4-212(d)(2)(iii): "(III) LONG-TERM
+      CONTRACTUAL COMMITMENTS AND EXIT FEES;" | p. 18, PUA 4-212(d)(2)(iv): "(IV) GUARANTEE OR COLLATERAL REQUIREMENTS; AND"]
+      || cost allocation: the schedule should require the customer to cover the just and reasonable costs of transmission
+      or distribution buildout to interconnect or serve it, payable over multiple years of the contract not exceeding 5 years
+      [p. 18, PUA 4-212(e): "THE COSTS ASSOCIATED WITH ANY ELECTRIC TRANSMISSION OR DISTRIBUTION SYSTEM BUILDOUT REQUIRED
+      UNDER SUBSECTION (D)(1) OF THIS SECTION MAY BE PAID OVER MULTIPLE YEARS OF A LARGE LOAD CUSTOMER''S CONTRACT FOR SERVICE,
+      NOT TO EXCEED 5 YEARS."] || interconnection study: before signing a contract under the schedule the customer must request
+      a load study to set its contract capacity and pay its fees, designate a site, and own or control the land [p. 19, PUA
+      4-212: "NECESSARY CONTRACT CAPACITY FOR THE LARGE LOAD CUSTOMER AND PAY ANY" | p. 19, PUA 4-212: "APPLICABLE FEES ASSOCIATED
+      WITH THE STUDY;"]'
+    - 'commission rulemaking: the BPU must set standards by order for every electric public utility within 12 months; each
+      utility must then petition for a large data center rate class and tariff [p. 1, Section 1b: "No later than 12 months
+      after the effective date of this section, the Board of Public Utilities shall establish, by order for every electric
+      public utility, standards for the provision of electricity to large data center customers by electric public utilities."
+      | p. 1, Section 1c: "each electric public utility shall file a petition with the board for approval of a rate class
+      and tariff for the provision of electricity to large data center customers."] || minimum bill: adequate financial guarantees
+      to pay for at least 85 percent of the electricity supply requested, for 10 years from when service commences, unless
+      the BPU''s standards say otherwise [p. 1, Section 1d(1): "data center customer provides adequate financial guarantees
+      that it will pay for at least 85 percent of the ... it requests for a period of 10 years from when service commences
+      or as otherwise determined in the board"] || collateral: deposits, financial security or, for customers with sufficiently
+      high credit ratings, financial commitments, in forms the BPU approves, over the 10-year period [p. 1, Section 1d(2):
+      "provide for the posting of deposits, financial security, or, for ... center customers with sufficiently high credit
+      ratings, financial commitments, in respective forms approved by the board"] || exit fee: no exit fee printed; the BPU
+      may approve a stranded cost recovery mechanism applicable only to the large data center class [p. 1, Section 1d(2):
+      "authorize the board to approve a stranded cost recovery mechanism applicable exclusively to the large data center customer
+      class"] || interconnection study: new large data center customers pay the reasonable costs of interconnection, system
+      impact and facilities studies [p. 1, Section 1d(8): "require any new large data center customer to ... pay the reasonable
+      costs of any interconnection, system impact, and facilities"] || curtailment or backup generation: priority curtailment
+      of large data center customers before residential customers in system emergencies, as firm load shed; demand flexibility
+      commitments [p. 1, Section 1b(11): "ensure the priority curtailment of large data ... center customers before residential
+      customers, excluding designated critical" | p. 1, Section 1d(5): "(5) require demand flexibility commitments by large"]'
+    - 'commission rulemaking: the Commission must establish by order, by 15 December 2026, the definition and characteristics
+      of a very large customer class or subclass for each public utility, in a rate case or another proceeding; it may approve,
+      modify or reject a tariff or electric service agreement between a utility and a very large customer [p. 1, 216B.1622
+      subd. 1: "The commission may do this in a rate case under section 216B.16 for that utility or in another proceeding."
+      | p. 1, 216B.1622 subd. 2: "The commission may approve, modify or reject a tariff or electric service agreement proposed
+      between a public utility and a very large customer establishing the terms and conditions under which the utility will
+      provide electric service to the customer."] || cost allocation: the Commission must consider how best to achieve that
+      all costs attributable to very large customers not exempt are assigned to the very large customer class or subclass
+      [p. 1, 216B.1622 subd. 2(1): "(1) all costs attributable to the utility''s very large customers not exempt under subdivision
+      3 are assigned to the very large customer class or subclass determined by the commission under paragraph (a);"] || exit
+      fee: no exit fee printed: the tariff or agreement must contain protections so other customers are not placed at risk
+      for paying stranded costs of serving the very large customer [p. 1, 216B.1622 subd. 2(3): "(3) the tariff or agreement
+      contains protections necessary to ensure that other customers of the public utility are not placed at risk for paying
+      stranded costs associated with the utility serving the very large customer; and"] || other: the electricity provided
+      to a very large customer must achieve each benchmark of the state''s electricity standards (216B.1691), shown by a utility
+      plan to serve the load without asking to delay or modify the standards; existing, renewed or extended agreements and
+      very large customers taking service before 2020 are exempt [p. 1, 216B.1622 subd. 2(2): "(2) the electricity to be provided
+      by the utility to a very large customer achieves each quantitative benchmark of the state''s electricity standards under
+      section 216B.1691" | p. 1, 216B.1622 subd. 3: "This section shall not apply to existing, renewed, or extended electric
+      service agreements of public utility customers meeting the threshold of a very large customer, or to very large customers
+      that have been actively taking electric service from the public utility prior to 2020."] || other: an annual fee the
+      commissioner collects from each qualified large-scale data center, by the peak demand the utility arranges to serve:
+      2,000,000 dollars for 100 to 250 MW up to 5,000,000 dollars for 750 MW or more, paid into the energy and conservation
+      account [p. 1, 216B.72(a): "(a) The commissioner must collect an annual fee from the qualified large-scale data center,
+      on a schedule prescribed by the commissioner and deposited in the energy and conservation account established in section
+      216B.241, subdivision 2a." | p. 1, 216B.72(b)(1): "$2,000,000" | p. 1, 216B.72(b)(4): "(4) 750 MW or greater" | p. 1,
+      216B.72(b)(4): "$5,000,000"] || other: each public utility must offer an optional clean energy and capacity tariff for
+      commercial and industrial customers by special contract, with participants paying all proportional costs of the new
+      resources and no cost shifting either way [p. 1, Sec. 10, 216B.1623: "The commission shall require each public utility
+      to offer a clean energy and capacity tariff for commercial and industrial customers." | p. 1, 216B.1623(5): "(5) prohibit
+      cost shifting from the participating customers to other utility customers or vice versa; and"]'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: requirements
+  documented_by: header
+- name: x_source_title
+  label: The title of the document the law was read in
+  unit: none
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - '2025 Session Laws of Kansas, Chapter 124: Senate Bill 98, Kansas Secretary of State'
+    - Act No. 207, Public Acts of 2024 (Enrolled House Bill No. 4906), Michigan Legislature
+    - Assembly Bill A11560 (2025-2026), New York State Legislature (legislation.nysenate.gov)
+    - Assembly Substitute Amendment 1 to 2025 Assembly Bill 840 (LRBs0244/5), Wisconsin Legislature
+    - CS for CS for SB 484, 2nd Engrossed, Enrolled (2026 Legislature)
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: source_title
+  documented_by: connector large_load_research.py
+- name: x_date_read
+  label: The day the document was read
+  unit: none
+  type: date
+  values:
+    list:
+      '2026-11-13': 11
+      '2026-11-14': 16
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: date_read
+  documented_by: connector large_load_research.py
+- name: x_notes
+  label: The research's notes on the law
+  unit: none
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - A 2024-session act approved 17 January 2025 and in effect in 2025. It sets terms for data centers' electric service
+      as conditions of a sales and use tax exemption, not as a utility rule. The companion Act No. 208 of 2024 (Enrolled H.B.
+      5600, effective 2 April 2025) was opened but not read for terms. No 2025 or 2026 Michigan act on large loads was found
+      (one web search; a Michigan moratorium bill is a news lead only).
+    - 'Amends PUA 4-212 (from Chapter 625 of 2025) and adds Part III, 7-232 to 7-234; it keeps the 1 September 2026 rate schedule
+      filing date (4-212(c)(1)(i), p.34). Dataset row pjm_east-03 (proposed COMAR 20.96.01, RM 93) cites this chapter for
+      its threshold. Effective date: the chapter has several effective-date sections (July 1, 2026 for listed sections; the
+      rest from enactment as an emergency measure); which section carries these provisions was not traced, so not published
+      here. Existing large load customers whose load does not expand by more than 25 MW are outside the schedule (4-212(c)(2)(iii)).'
+    - 'Coordinator''s lead (a Governor''s release: HB 233 signed 26 August 2026) confirmed on the General Assembly''s bill
+      page: House Substitute 1 for HB 233, Signed 8/26/26, Volume:Chapter 85:440, Effective Date 8/26/26. The text read is
+      the engrossment of HS 1 as amended (House Amendments 1 and 3, Senate Amendment 2). The bill page''s synopsis says rate
+      applications are due within 180 days of the effective date; the engrossed Section 6 says within 180 days of the finalization
+      of the Commission''s regulations, and the engrossed text is quoted. No dataset statewide row exists for Delaware (Delmarva''s
+      tariff is Exelon''s, whose site terms bar automated access).'
+    - 'Found through the Code of Virginia''s 2026 Updates list for Title 56 (law.lis.virginia.gov/vacodeupdates/title56/).
+      The bill numbers behind chapters 377 and 378 and their approval dates were not read: the LIS bill pages (lis.virginia.gov)
+      are built by script and the legacy LIS has no 2026 session; the Code page prints the year only, so status_date is ''2026''
+      and the effective date is not printed. The prompt''s lead, S.B. 503 of 2026, was not confirmed. The 2026 uncodified
+      acts list names chapter 591 (HB 323, waste heat from data centers, a work group) and other utility items, none setting
+      large-load terms. Code of Virginia 56-585.1 as published carries no data center or large-load term and no 2025 or 2026
+      chapter in its history line, so no 2025 Virginia act is entered. The Virginia SCC host is paused and was not asked.
+      status_date as the reading group wrote it: ''2026''.'
+    - 'Introduced bill; only the introduced version is posted, with six House floor amendments filed (H-8203 to H-8214). The
+      bill history is not rendered in the page read, so no later action is stated; Iowa''s 2026 session has ended. Leads not
+      read: SF 2249 and HF 2261 (large energy use facilities of 20 MW or more), from trackers only.'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: notes
+  documented_by: connector large_load_research.py
+second_look: null

@@ -1,0 +1,216 @@
+# The codebook's metadata of table eurostat_ev_recharging_power_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_ev_recharging_power_annual
+family: eurostat
+shape: series
+row: One European country's recharging points for electric vehicles in one power category in one year.
+time: ts_utc is the year's 1 January at 00:00:00Z, a label for the calendar year (freq P1Y).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised figure replaces the old; vintage is not filled.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eurostat:road_if_rchevpow Eurostat, Recharging points for electric vehicles by power category (road_if_rchevpow)
+  url: https://ec.europa.eu/eurostat/databrowser/view/road_if_rchevpow/default/table
+cite: Eurostat (Statistical Office of the European Union). Recharging points for electric vehicles by power category (road_if_rchevpow).
+  Via the Energy Research Warehouse (ERW), table `eurostat_ev_recharging_power_annual`.
+method: docs/methods/eurostat_ev_recharging_power_annual.md
+header_title: Eurostat, recharging points for electric vehicles by power category, annual (road_if_rchevpow), 2019 to 2025
+  (session 2813)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_ev_power:<geo>:<POWER code> (TOTAL, AC, DC, AC_KW_LT7P4
+  below 7.4 kW, AC_KW_LE7P4-LE22 7.4 to 22 kW, AC_KW_GT22 above 22 kW, DC_KW_LT50 below 50 kW, DC_KW_LE50-LT150 50 to 150
+  kW, DC_KW_LE150-LT350 150 to 350 kW, DC_KW_GE350 350 kW and above); variable recharging_points; unit count; ts_utc the year''s
+  1 January; freq P1Y; geo ISO alpha-2 (EL is GR); x_power Eurostat''s code.'
+read:
+  date: '2026-11-20'
+  rows: 1171
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eurostat_ev_power:<geo>:<POWER code>
+  type: text
+  values:
+    distinct: 277
+    examples:
+    - eurostat_ev_power:AT:AC
+    - eurostat_ev_power:AT:AC_KW_GT22
+    - eurostat_ev_power:AT:AC_KW_LE7P4-LE22
+    - eurostat_ev_power:AT:AC_KW_LT7P4
+    - eurostat_ev_power:AT:DC
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2019-01-01T00:00:00Z': 60
+      '2020-01-01T00:00:00Z': 93
+      '2021-01-01T00:00:00Z': 127
+      '2022-01-01T00:00:00Z': 170
+      '2023-01-01T00:00:00Z': 225
+      '2024-01-01T00:00:00Z': 240
+      '2025-01-01T00:00:00Z': 256
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 851
+    lowest: 0.0
+    highest: 209513.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      count: 1171
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 1171
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2
+  type: text
+  values:
+    distinct: 33
+    examples:
+    - AT
+    - BE
+    - BG
+    - CH
+    - CY
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1171
+- name: node
+  shared: true
+  particular: <geo> recharging points, <the power category>, not a pricing node
+  type: text
+  values:
+    distinct: 277
+    examples:
+    - AT recharging points, AC 7.4 to 22 kW (medium-speed, three-phase)
+    - AT recharging points, AC above 22 kW (fast, three-phase)
+    - AT recharging points, AC below 7.4 kW (slow, single-phase)
+    - AT recharging points, DC 150 to 350 kW (ultra-fast, level 1)
+    - AT recharging points, DC 350 kW and above (ultra-fast, level 2)
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:road_if_rchevpow: 1171
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/road_if_rchevpow?format=SDMX-CSV&compressed=false: 1171
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-26T05:21:38Z': 1171
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1171
+- name: x_geo_code
+  label: Eurostat's geo code of the country
+  unit: none
+  type: text
+  values:
+    distinct: 33
+    examples:
+    - AT
+    - BE
+    - BG
+    - CH
+    - CY
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector eurostat_ev_recharging_power.py
+- name: x_power
+  label: 'Eurostat''s POWER code of the category: TOTAL, AC, DC, AC_KW_LT7P4 below 7.4 kW, AC_KW_LE7P4-LE22 7.4 to 22 kW,
+    AC_KW_GT22 above 22 kW, DC_KW_LT50 below 50 kW, DC_KW_LE50-LT150 50 to 150 kW, DC_KW_LE150-LT350 150 to 350 kW, DC_KW_GE350
+    350 kW and above'
+  unit: none
+  type: text
+  values:
+    list:
+      AC: 139
+      AC_KW_GT22: 97
+      AC_KW_LE7P4-LE22: 108
+      AC_KW_LT7P4: 96
+      DC: 139
+      DC_KW_GE350: 107
+      DC_KW_LE150-LT350: 114
+      DC_KW_LE50-LT150: 114
+      DC_KW_LT50: 100
+      TOTAL: 157
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header
+- name: x_flag
+  label: 'Eurostat''s flag of the observation: b break in series; i (see Eurostat''s metadata)'
+  unit: none
+  type: text
+  values:
+    list:
+      b: 1
+      i: 84
+  missing_cells: 1086
+  missing_meaning: No flag on the observation
+  source_name: null
+  documented_by: method eurostat_ev_recharging_power_annual.md; method eurostat_electricity_monthly.md
+- name: x_conf_status
+  label: Eurostat's confidentiality status of the observation
+  unit: none
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1171
+  missing_meaning: 'Not filled: no cell holds a value'
+  source_name: null
+  documented_by: method eurostat_ev_recharging_power_annual.md
+variables:
+- name: recharging_points
+  label: Recharging points for electric vehicles in the power category
+  unit: count
+  rows: 1171
+  first: '2019-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look:
+- 'x_flag: the meaning of Eurostat''s flag i is not written in the repository (the method note says to see Eurostat''s metadata)'

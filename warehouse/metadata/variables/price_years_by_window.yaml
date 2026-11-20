@@ -1,0 +1,3616 @@
+# The codebook's metadata of table price_years_by_window (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: price_years_by_window
+family: price
+shape: series
+row: One economics page's figure (a battery's or generator's revenue, or a datacenter's cost) for one grid, price point, configuration
+  and window of years held.
+time: ts_utc is the window's first month, the first day of the grid's local month at 00:00:00Z; freq P<n>M is the calendar
+  months from its first month to its last.
+vintage_rule: Rebuilt whole from its inputs by each run of the builder; vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P106M;P10M;P12M;P142M;P25M;P26M;P36M;P39M;P40M;P4M;P5M;P6M;P84M;P94M;P9M
+source:
+- name: erw:price_years ERW derived table, the price years (docs/methods/price_years.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/price_years.md
+cite: Energy Research Warehouse (ERW), derived. The price years, each economics page's figure under every window of years
+  held (warehouse/derived/price_years.py). Via the Energy Research Warehouse (ERW), table `price_years_by_window`.
+method: docs/methods/price_years.md
+header_title: the price years, each economics page's figure under every window of years held (derived, session 357)
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column market (the grid). variable <tool>_<config>_<window>,
+  also in x_tool, x_config and x_window; ts_utc the window''s first month (the first day of the local month at 00:00:00Z);
+  freq P<n>M, the calendar months the window spans; value USD/kW-year (battery: total revenue; generator: revenue, the peaker''s
+  margin over fuel and variable O&M) or USD/MWh (datacenter: what the load paid per MWh consumed). x_window_kind year, last_12,
+  avg_3y, avg_7y, all, all_less; x_left_out the stress events taken out; x_from and x_to the first and last month; x_months
+  the months counted by the page''s rule; x_complete false for a calendar year held in part.'
+read:
+  date: '2026-11-20'
+  rows: 2754
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: <grid>:<hub or region>, the price point the page reads
+  type: text
+  values:
+    list:
+      caiso:TH_NP15_GEN-APND: 136
+      caiso:TH_SP15_GEN-APND: 258
+      caiso:TH_ZP26_GEN-APND: 132
+      ercot:HB_BUSAVG: 160
+      ercot:HB_HOUSTON: 160
+      ercot:HB_HUBAVG: 330
+      ercot:HB_NORTH: 160
+      ercot:HB_SOUTH: 160
+      ercot:HB_WEST: 160
+      ercot:LZ_AEN: 80
+      ercot:LZ_CPS: 80
+      ercot:LZ_HOUSTON: 160
+      ercot:LZ_LCRA: 80
+      ercot:LZ_NORTH: 160
+      ercot:LZ_RAYBN: 80
+      ercot:LZ_SOUTH: 160
+      ercot:LZ_WEST: 160
+      spp:SPPNORTH_HUB: 90
+      spp:SPPSOUTH_HUB: 48
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2015-01-01T00:00:00Z': 576
+      '2016-01-01T00:00:00Z': 96
+      '2017-01-01T00:00:00Z': 96
+      '2018-01-01T00:00:00Z': 132
+      '2018-07-01T00:00:00Z': 4
+      '2019-01-01T00:00:00Z': 244
+      '2020-01-01T00:00:00Z': 110
+      '2021-01-01T00:00:00Z': 110
+      '2022-01-01T00:00:00Z': 110
+      '2023-01-01T00:00:00Z': 220
+      '2023-07-01T00:00:00Z': 52
+      '2023-08-01T00:00:00Z': 286
+      '2024-01-01T00:00:00Z': 136
+      '2024-09-01T00:00:00Z': 88
+      '2025-01-01T00:00:00Z': 170
+      '2025-10-01T00:00:00Z': 22
+      '2025-11-01T00:00:00Z': 140
+      '2026-01-01T00:00:00Z': 162
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 2718
+    lowest: 6.014534
+    highest: 3440.997279
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 2412
+      USD/kW-year: 342
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P106M: 30
+      P10M: 140
+      P12M: 1408
+      P142M: 480
+      P25M: 10
+      P26M: 52
+      P36M: 110
+      P39M: 264
+      P40M: 48
+      P4M: 26
+      P5M: 22
+      P6M: 8
+      P84M: 130
+      P94M: 4
+      P9M: 22
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 526
+      US-KS,US-NE,US-NM,US-OK,US-TX: 138
+      US-TX: 2090
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: The grid id (ercot, caiso, spp), the partition column
+  type: text
+  values:
+    list:
+      caiso: 526
+      ercot: 2090
+      spp: 138
+  missing_cells: 0
+- name: node
+  shared: true
+  particular: The hub or region name as the page writes it
+  type: text
+  values:
+    list:
+      HB_BUSAVG: 160
+      HB_HOUSTON: 160
+      HB_HUBAVG: 330
+      HB_NORTH: 160
+      HB_SOUTH: 160
+      HB_WEST: 160
+      LZ_AEN: 80
+      LZ_CPS: 80
+      LZ_HOUSTON: 160
+      LZ_LCRA: 80
+      LZ_NORTH: 160
+      LZ_RAYBN: 80
+      LZ_SOUTH: 160
+      LZ_WEST: 160
+      SPPNORTH_HUB: 90
+      SPPSOUTH_HUB: 48
+      TH_NP15_GEN-APND: 136
+      TH_SP15_GEN-APND: 258
+      TH_ZP26_GEN-APND: 132
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:price_years: 2754
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/price_years.md: 2754
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-14T10:07:37Z': 2754
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2754
+- name: x_tool
+  label: 'The page: battery (what a battery earns), generator (what a generator earns), datacenter (what a datacenter pays)'
+  unit: none
+  type: text
+  values:
+    list:
+      battery: 234
+      datacenter: 2412
+      generator: 108
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method price_years.md
+- name: x_grid
+  label: The grid id, as in market
+  unit: none
+  type: text
+  values:
+    list:
+      caiso: 526
+      ercot: 2090
+      spp: 138
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method price_years.md
+- name: x_config
+  label: The configuration priced (a battery's strategy and duration, a generator type, or a datacenter's load run and market)
+  unit: none
+  type: text
+  values:
+    list:
+      battery: 27
+      dayahead_2h: 39
+      dayahead_4h: 39
+      dayahead_8h: 39
+      flat_da: 348
+      flat_rt: 255
+      foresight_2h: 39
+      foresight_4h: 39
+      foresight_8h: 39
+      hours_da: 348
+      hours_rt: 255
+      peaker: 27
+      share_da: 348
+      share_rt: 255
+      shift_da: 348
+      shift_rt: 255
+      solar: 27
+      wind: 27
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method price_years.md
+- name: x_window
+  label: The window id (year_<YYYY>, last_12, avg_3y, avg_7y, all, all_less_<event>, all_less_events)
+  unit: none
+  type: text
+  values:
+    distinct: 30
+    examples:
+    - all
+    - all_less_caiso_notices_20230815
+    - all_less_caiso_notices_20230828
+    - all_less_caiso_notices_20240703
+    - all_less_caiso_notices_20240715
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method price_years.md
+- name: x_window_kind
+  label: 'The kind of window: year, last_12, avg_3y, avg_7y, all or all_less'
+  unit: none
+  type: text
+  values:
+    list:
+      all: 162
+      all_less: 754
+      avg_3y: 110
+      avg_7y: 110
+      last_12: 162
+      year: 1456
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method price_years.md
+- name: x_left_out
+  label: The stress events taken out, their ids joined by +, or none
+  unit: none
+  type: text
+  values:
+    list:
+      caiso_notices_20230815: 30
+      ? caiso_notices_20230815+caiso_notices_20230828+caiso_notices_20240703+caiso_notices_20240715+caiso_notices_20240724+caiso_notices_20240805+caiso_notices_20240904+caiso_notices_20250120+caiso_notices_20260909+caiso_notices_20261005
+      : 30
+      caiso_notices_20230828: 30
+      caiso_notices_20240703: 30
+      caiso_notices_20240715: 30
+      caiso_notices_20240724: 30
+      caiso_notices_20240805: 30
+      caiso_notices_20240904: 30
+      caiso_notices_20250120: 30
+      caiso_notices_20260909: 30
+      caiso_notices_20261005: 30
+      elliott_2022: 106
+      elliott_2022+ercot_heat_2023+uri_2021: 96
+      ercot_heat_2023: 106
+      none: 2000
+      uri_2021: 106
+      uri_2021+elliott_2022+ercot_heat_2023: 10
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method price_years.md
+- name: x_from
+  label: The window's first month (YYYY-MM)
+  unit: none
+  type: text
+  values:
+    list:
+      2015-01: 576
+      2016-01: 96
+      2017-01: 96
+      2018-01: 132
+      2018-07: 4
+      2019-01: 244
+      2020-01: 110
+      2021-01: 110
+      2022-01: 110
+      2023-01: 220
+      2023-07: 52
+      2023-08: 286
+      2024-01: 136
+      2024-09: 88
+      2025-01: 170
+      2025-10: 22
+      2025-11: 140
+      2026-01: 162
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method price_years.md
+- name: x_to
+  label: The window's last month (YYYY-MM)
+  unit: none
+  type: text
+  values:
+    list:
+      2015-12: 96
+      2016-12: 96
+      2017-12: 96
+      2018-12: 106
+      2019-12: 110
+      2020-12: 110
+      2021-12: 110
+      2022-12: 110
+      2023-12: 136
+      2024-12: 162
+      2025-12: 410
+      2026-09: 54
+      2026-10: 1158
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method price_years.md
+- name: x_months
+  label: The months counted by the page's own rule inside the window
+  unit: count
+  type: integer
+  values:
+    list:
+      '10': 140
+      '106': 30
+      '12': 1408
+      '142': 480
+      '25': 10
+      '26': 52
+      '36': 110
+      '39': 264
+      '4': 26
+      '40': 48
+      '5': 22
+      '6': 8
+      '84': 130
+      '9': 22
+      '94': 4
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method price_years.md
+- name: x_complete
+  label: true when the window is whole by the page's rule; false for a calendar year held in part
+  unit: none
+  type: boolean
+  values:
+    list:
+      'false': 218
+      'true': 2536
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method price_years.md
+variables:
+- name: battery_dayahead_2h_all
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    the whole span held
+  unit: USD/kW-year
+  rows: 3
+  first: '2018-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: battery_dayahead_2h_all_less_caiso_notices_20230815
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2023-08-15 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_2h_all_less_caiso_notices_20230828
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2023-08-28 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_2h_all_less_caiso_notices_20240703
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-07-03 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_2h_all_less_caiso_notices_20240715
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-07-15 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_2h_all_less_caiso_notices_20240724
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-07-24 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_2h_all_less_caiso_notices_20240805
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-08-05 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_2h_all_less_caiso_notices_20240904
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-09-04 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_2h_all_less_caiso_notices_20250120
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2025-01-20 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_2h_all_less_caiso_notices_20260909
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2026-09-09 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_2h_all_less_caiso_notices_20261005
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2026-10-05 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_2h_all_less_elliott_2022
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    the whole span held with Winter Storm Elliott 2022 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_dayahead_2h_all_less_ercot_heat_2023
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    the whole span held with the summer 2023 heat in ERCOT taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_dayahead_2h_all_less_events
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    the whole span held with every stress event of the grid taken out
+  unit: USD/kW-year
+  rows: 2
+  first: '2018-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_2h_all_less_uri_2021
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    the whole span held with Winter Storm Uri 2021 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_dayahead_2h_avg_3y
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    the last three full calendar years, averaged a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: battery_dayahead_2h_avg_7y
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    the last seven full calendar years, averaged a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: battery_dayahead_2h_last_12
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    the page's last twelve months
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-10-01T00:00:00Z'
+  last: '2025-11-01T00:00:00Z'
+- name: battery_dayahead_2h_year_2018
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    calendar year 2018
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_dayahead_2h_year_2019
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    calendar year 2019
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: battery_dayahead_2h_year_2020
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    calendar year 2020
+  unit: USD/kW-year
+  rows: 1
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: battery_dayahead_2h_year_2021
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    calendar year 2021
+  unit: USD/kW-year
+  rows: 1
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: battery_dayahead_2h_year_2022
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    calendar year 2022
+  unit: USD/kW-year
+  rows: 1
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: battery_dayahead_2h_year_2023
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    calendar year 2023
+  unit: USD/kW-year
+  rows: 2
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_2h_year_2024
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    calendar year 2024
+  unit: USD/kW-year
+  rows: 3
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: battery_dayahead_2h_year_2025
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    calendar year 2025
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_dayahead_2h_year_2026
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 2-hour battery, over
+    calendar year 2026
+  unit: USD/kW-year
+  rows: 3
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: battery_dayahead_4h_all
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    the whole span held
+  unit: USD/kW-year
+  rows: 3
+  first: '2018-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: battery_dayahead_4h_all_less_caiso_notices_20230815
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2023-08-15 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_4h_all_less_caiso_notices_20230828
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2023-08-28 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_4h_all_less_caiso_notices_20240703
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-07-03 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_4h_all_less_caiso_notices_20240715
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-07-15 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_4h_all_less_caiso_notices_20240724
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-07-24 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_4h_all_less_caiso_notices_20240805
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-08-05 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_4h_all_less_caiso_notices_20240904
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-09-04 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_4h_all_less_caiso_notices_20250120
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2025-01-20 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_4h_all_less_caiso_notices_20260909
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2026-09-09 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_4h_all_less_caiso_notices_20261005
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2026-10-05 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_4h_all_less_elliott_2022
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    the whole span held with Winter Storm Elliott 2022 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_dayahead_4h_all_less_ercot_heat_2023
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    the whole span held with the summer 2023 heat in ERCOT taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_dayahead_4h_all_less_events
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    the whole span held with every stress event of the grid taken out
+  unit: USD/kW-year
+  rows: 2
+  first: '2018-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_4h_all_less_uri_2021
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    the whole span held with Winter Storm Uri 2021 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_dayahead_4h_avg_3y
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    the last three full calendar years, averaged a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: battery_dayahead_4h_avg_7y
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    the last seven full calendar years, averaged a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: battery_dayahead_4h_last_12
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    the page's last twelve months
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-10-01T00:00:00Z'
+  last: '2025-11-01T00:00:00Z'
+- name: battery_dayahead_4h_year_2018
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    calendar year 2018
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_dayahead_4h_year_2019
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    calendar year 2019
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: battery_dayahead_4h_year_2020
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    calendar year 2020
+  unit: USD/kW-year
+  rows: 1
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: battery_dayahead_4h_year_2021
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    calendar year 2021
+  unit: USD/kW-year
+  rows: 1
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: battery_dayahead_4h_year_2022
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    calendar year 2022
+  unit: USD/kW-year
+  rows: 1
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: battery_dayahead_4h_year_2023
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    calendar year 2023
+  unit: USD/kW-year
+  rows: 2
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_4h_year_2024
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    calendar year 2024
+  unit: USD/kW-year
+  rows: 3
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: battery_dayahead_4h_year_2025
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    calendar year 2025
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_dayahead_4h_year_2026
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 4-hour battery, over
+    calendar year 2026
+  unit: USD/kW-year
+  rows: 3
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: battery_dayahead_8h_all
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    the whole span held
+  unit: USD/kW-year
+  rows: 3
+  first: '2018-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: battery_dayahead_8h_all_less_caiso_notices_20230815
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2023-08-15 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_8h_all_less_caiso_notices_20230828
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2023-08-28 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_8h_all_less_caiso_notices_20240703
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-07-03 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_8h_all_less_caiso_notices_20240715
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-07-15 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_8h_all_less_caiso_notices_20240724
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-07-24 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_8h_all_less_caiso_notices_20240805
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-08-05 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_8h_all_less_caiso_notices_20240904
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-09-04 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_8h_all_less_caiso_notices_20250120
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2025-01-20 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_8h_all_less_caiso_notices_20260909
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2026-09-09 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_8h_all_less_caiso_notices_20261005
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2026-10-05 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_8h_all_less_elliott_2022
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    the whole span held with Winter Storm Elliott 2022 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_dayahead_8h_all_less_ercot_heat_2023
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    the whole span held with the summer 2023 heat in ERCOT taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_dayahead_8h_all_less_events
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    the whole span held with every stress event of the grid taken out
+  unit: USD/kW-year
+  rows: 2
+  first: '2018-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_8h_all_less_uri_2021
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    the whole span held with Winter Storm Uri 2021 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_dayahead_8h_avg_3y
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    the last three full calendar years, averaged a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: battery_dayahead_8h_avg_7y
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    the last seven full calendar years, averaged a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: battery_dayahead_8h_last_12
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    the page's last twelve months
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-10-01T00:00:00Z'
+  last: '2025-11-01T00:00:00Z'
+- name: battery_dayahead_8h_year_2018
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    calendar year 2018
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_dayahead_8h_year_2019
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    calendar year 2019
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: battery_dayahead_8h_year_2020
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    calendar year 2020
+  unit: USD/kW-year
+  rows: 1
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: battery_dayahead_8h_year_2021
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    calendar year 2021
+  unit: USD/kW-year
+  rows: 1
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: battery_dayahead_8h_year_2022
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    calendar year 2022
+  unit: USD/kW-year
+  rows: 1
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: battery_dayahead_8h_year_2023
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    calendar year 2023
+  unit: USD/kW-year
+  rows: 2
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_dayahead_8h_year_2024
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    calendar year 2024
+  unit: USD/kW-year
+  rows: 3
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: battery_dayahead_8h_year_2025
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    calendar year 2025
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_dayahead_8h_year_2026
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, day-ahead schedule, 8-hour battery, over
+    calendar year 2026
+  unit: USD/kW-year
+  rows: 3
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: battery_foresight_2h_all
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    the whole span held
+  unit: USD/kW-year
+  rows: 3
+  first: '2018-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: battery_foresight_2h_all_less_caiso_notices_20230815
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2023-08-15 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_2h_all_less_caiso_notices_20230828
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2023-08-28 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_2h_all_less_caiso_notices_20240703
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-07-03 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_2h_all_less_caiso_notices_20240715
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-07-15 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_2h_all_less_caiso_notices_20240724
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-07-24 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_2h_all_less_caiso_notices_20240805
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-08-05 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_2h_all_less_caiso_notices_20240904
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-09-04 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_2h_all_less_caiso_notices_20250120
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2025-01-20 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_2h_all_less_caiso_notices_20260909
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2026-09-09 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_2h_all_less_caiso_notices_20261005
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2026-10-05 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_2h_all_less_elliott_2022
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    the whole span held with Winter Storm Elliott 2022 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_foresight_2h_all_less_ercot_heat_2023
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    the whole span held with the summer 2023 heat in ERCOT taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_foresight_2h_all_less_events
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    the whole span held with every stress event of the grid taken out
+  unit: USD/kW-year
+  rows: 2
+  first: '2018-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_2h_all_less_uri_2021
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    the whole span held with Winter Storm Uri 2021 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_foresight_2h_avg_3y
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    the last three full calendar years, averaged a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: battery_foresight_2h_avg_7y
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    the last seven full calendar years, averaged a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: battery_foresight_2h_last_12
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    the page's last twelve months
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-10-01T00:00:00Z'
+  last: '2025-11-01T00:00:00Z'
+- name: battery_foresight_2h_year_2018
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    calendar year 2018
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_foresight_2h_year_2019
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    calendar year 2019
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: battery_foresight_2h_year_2020
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    calendar year 2020
+  unit: USD/kW-year
+  rows: 1
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: battery_foresight_2h_year_2021
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    calendar year 2021
+  unit: USD/kW-year
+  rows: 1
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: battery_foresight_2h_year_2022
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    calendar year 2022
+  unit: USD/kW-year
+  rows: 1
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: battery_foresight_2h_year_2023
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    calendar year 2023
+  unit: USD/kW-year
+  rows: 2
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_2h_year_2024
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    calendar year 2024
+  unit: USD/kW-year
+  rows: 3
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: battery_foresight_2h_year_2025
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    calendar year 2025
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_foresight_2h_year_2026
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 2-hour battery, over
+    calendar year 2026
+  unit: USD/kW-year
+  rows: 3
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: battery_foresight_4h_all
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    the whole span held
+  unit: USD/kW-year
+  rows: 3
+  first: '2018-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: battery_foresight_4h_all_less_caiso_notices_20230815
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2023-08-15 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_4h_all_less_caiso_notices_20230828
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2023-08-28 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_4h_all_less_caiso_notices_20240703
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-07-03 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_4h_all_less_caiso_notices_20240715
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-07-15 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_4h_all_less_caiso_notices_20240724
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-07-24 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_4h_all_less_caiso_notices_20240805
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-08-05 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_4h_all_less_caiso_notices_20240904
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-09-04 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_4h_all_less_caiso_notices_20250120
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2025-01-20 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_4h_all_less_caiso_notices_20260909
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2026-09-09 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_4h_all_less_caiso_notices_20261005
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2026-10-05 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_4h_all_less_elliott_2022
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    the whole span held with Winter Storm Elliott 2022 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_foresight_4h_all_less_ercot_heat_2023
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    the whole span held with the summer 2023 heat in ERCOT taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_foresight_4h_all_less_events
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    the whole span held with every stress event of the grid taken out
+  unit: USD/kW-year
+  rows: 2
+  first: '2018-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_4h_all_less_uri_2021
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    the whole span held with Winter Storm Uri 2021 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_foresight_4h_avg_3y
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    the last three full calendar years, averaged a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: battery_foresight_4h_avg_7y
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    the last seven full calendar years, averaged a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: battery_foresight_4h_last_12
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    the page's last twelve months
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-10-01T00:00:00Z'
+  last: '2025-11-01T00:00:00Z'
+- name: battery_foresight_4h_year_2018
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    calendar year 2018
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_foresight_4h_year_2019
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    calendar year 2019
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: battery_foresight_4h_year_2020
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    calendar year 2020
+  unit: USD/kW-year
+  rows: 1
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: battery_foresight_4h_year_2021
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    calendar year 2021
+  unit: USD/kW-year
+  rows: 1
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: battery_foresight_4h_year_2022
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    calendar year 2022
+  unit: USD/kW-year
+  rows: 1
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: battery_foresight_4h_year_2023
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    calendar year 2023
+  unit: USD/kW-year
+  rows: 2
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_4h_year_2024
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    calendar year 2024
+  unit: USD/kW-year
+  rows: 3
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: battery_foresight_4h_year_2025
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    calendar year 2025
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_foresight_4h_year_2026
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 4-hour battery, over
+    calendar year 2026
+  unit: USD/kW-year
+  rows: 3
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: battery_foresight_8h_all
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    the whole span held
+  unit: USD/kW-year
+  rows: 3
+  first: '2018-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: battery_foresight_8h_all_less_caiso_notices_20230815
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2023-08-15 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_8h_all_less_caiso_notices_20230828
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2023-08-28 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_8h_all_less_caiso_notices_20240703
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-07-03 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_8h_all_less_caiso_notices_20240715
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-07-15 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_8h_all_less_caiso_notices_20240724
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-07-24 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_8h_all_less_caiso_notices_20240805
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-08-05 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_8h_all_less_caiso_notices_20240904
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2024-09-04 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_8h_all_less_caiso_notices_20250120
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2025-01-20 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_8h_all_less_caiso_notices_20260909
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2026-09-09 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_8h_all_less_caiso_notices_20261005
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    the whole span held with CAISO's system-wide notices event from 2026-10-05 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-08-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_8h_all_less_elliott_2022
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    the whole span held with Winter Storm Elliott 2022 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_foresight_8h_all_less_ercot_heat_2023
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    the whole span held with the summer 2023 heat in ERCOT taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_foresight_8h_all_less_events
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    the whole span held with every stress event of the grid taken out
+  unit: USD/kW-year
+  rows: 2
+  first: '2018-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_8h_all_less_uri_2021
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    the whole span held with Winter Storm Uri 2021 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_foresight_8h_avg_3y
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    the last three full calendar years, averaged a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: battery_foresight_8h_avg_7y
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    the last seven full calendar years, averaged a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: battery_foresight_8h_last_12
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    the page's last twelve months
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-10-01T00:00:00Z'
+  last: '2025-11-01T00:00:00Z'
+- name: battery_foresight_8h_year_2018
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    calendar year 2018
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: battery_foresight_8h_year_2019
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    calendar year 2019
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: battery_foresight_8h_year_2020
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    calendar year 2020
+  unit: USD/kW-year
+  rows: 1
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: battery_foresight_8h_year_2021
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    calendar year 2021
+  unit: USD/kW-year
+  rows: 1
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: battery_foresight_8h_year_2022
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    calendar year 2022
+  unit: USD/kW-year
+  rows: 1
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: battery_foresight_8h_year_2023
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    calendar year 2023
+  unit: USD/kW-year
+  rows: 2
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: battery_foresight_8h_year_2024
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    calendar year 2024
+  unit: USD/kW-year
+  rows: 3
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: battery_foresight_8h_year_2025
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    calendar year 2025
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: battery_foresight_8h_year_2026
+  label: Battery total revenue (energy and ancillary services), USD per kW a year, perfect foresight, 8-hour battery, over
+    calendar year 2026
+  unit: USD/kW-year
+  rows: 3
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: datacenter_flat_da_all
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over the whole span held
+  unit: USD/MWh
+  rows: 19
+  first: '2015-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_flat_da_all_less_caiso_notices_20230815
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over the whole span held with CAISO's
+    system-wide notices event from 2023-08-15 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_flat_da_all_less_caiso_notices_20230828
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over the whole span held with CAISO's
+    system-wide notices event from 2023-08-28 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_flat_da_all_less_caiso_notices_20240703
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over the whole span held with CAISO's
+    system-wide notices event from 2024-07-03 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_flat_da_all_less_caiso_notices_20240715
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over the whole span held with CAISO's
+    system-wide notices event from 2024-07-15 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_flat_da_all_less_caiso_notices_20240724
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over the whole span held with CAISO's
+    system-wide notices event from 2024-07-24 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_flat_da_all_less_caiso_notices_20240805
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over the whole span held with CAISO's
+    system-wide notices event from 2024-08-05 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_flat_da_all_less_caiso_notices_20240904
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over the whole span held with CAISO's
+    system-wide notices event from 2024-09-04 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_flat_da_all_less_caiso_notices_20250120
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over the whole span held with CAISO's
+    system-wide notices event from 2025-01-20 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_flat_da_all_less_caiso_notices_20260909
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over the whole span held with CAISO's
+    system-wide notices event from 2026-09-09 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_flat_da_all_less_caiso_notices_20261005
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over the whole span held with CAISO's
+    system-wide notices event from 2026-10-05 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_flat_da_all_less_elliott_2022
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over the whole span held with Winter
+    Storm Elliott 2022 taken out
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_flat_da_all_less_ercot_heat_2023
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over the whole span held with the
+    summer 2023 heat in ERCOT taken out
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_flat_da_all_less_events
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over the whole span held with every
+    stress event of the grid taken out
+  unit: USD/MWh
+  rows: 17
+  first: '2015-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_flat_da_all_less_uri_2021
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over the whole span held with Winter
+    Storm Uri 2021 taken out
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_flat_da_avg_3y
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over the last three full calendar
+    years, averaged a year
+  unit: USD/MWh
+  rows: 15
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: datacenter_flat_da_avg_7y
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over the last seven full calendar
+    years, averaged a year
+  unit: USD/MWh
+  rows: 15
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: datacenter_flat_da_last_12
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over the page's last twelve months
+  unit: USD/MWh
+  rows: 19
+  first: '2025-11-01T00:00:00Z'
+  last: '2025-11-01T00:00:00Z'
+- name: datacenter_flat_da_year_2015
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over calendar year 2015
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_flat_da_year_2016
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over calendar year 2016
+  unit: USD/MWh
+  rows: 14
+  first: '2016-01-01T00:00:00Z'
+  last: '2016-01-01T00:00:00Z'
+- name: datacenter_flat_da_year_2017
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over calendar year 2017
+  unit: USD/MWh
+  rows: 14
+  first: '2017-01-01T00:00:00Z'
+  last: '2017-01-01T00:00:00Z'
+- name: datacenter_flat_da_year_2018
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over calendar year 2018
+  unit: USD/MWh
+  rows: 14
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: datacenter_flat_da_year_2019
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over calendar year 2019
+  unit: USD/MWh
+  rows: 15
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: datacenter_flat_da_year_2020
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over calendar year 2020
+  unit: USD/MWh
+  rows: 15
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: datacenter_flat_da_year_2021
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over calendar year 2021
+  unit: USD/MWh
+  rows: 15
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: datacenter_flat_da_year_2022
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over calendar year 2022
+  unit: USD/MWh
+  rows: 15
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: datacenter_flat_da_year_2023
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over calendar year 2023
+  unit: USD/MWh
+  rows: 18
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_flat_da_year_2024
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over calendar year 2024
+  unit: USD/MWh
+  rows: 19
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_flat_da_year_2025
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over calendar year 2025
+  unit: USD/MWh
+  rows: 19
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: datacenter_flat_da_year_2026
+  label: What a datacenter's load paid per MWh consumed, a flat load at day-ahead prices, over calendar year 2026
+  unit: USD/MWh
+  rows: 19
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: datacenter_flat_rt_all
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over the whole span held
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_flat_rt_all_less_caiso_notices_20230815
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over the whole span held with CAISO's
+    system-wide notices event from 2023-08-15 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_flat_rt_all_less_caiso_notices_20230828
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over the whole span held with CAISO's
+    system-wide notices event from 2023-08-28 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_flat_rt_all_less_caiso_notices_20240703
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over the whole span held with CAISO's
+    system-wide notices event from 2024-07-03 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_flat_rt_all_less_caiso_notices_20240715
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over the whole span held with CAISO's
+    system-wide notices event from 2024-07-15 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_flat_rt_all_less_caiso_notices_20240724
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over the whole span held with CAISO's
+    system-wide notices event from 2024-07-24 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_flat_rt_all_less_caiso_notices_20240805
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over the whole span held with CAISO's
+    system-wide notices event from 2024-08-05 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_flat_rt_all_less_caiso_notices_20240904
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over the whole span held with CAISO's
+    system-wide notices event from 2024-09-04 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_flat_rt_all_less_caiso_notices_20250120
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over the whole span held with CAISO's
+    system-wide notices event from 2025-01-20 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_flat_rt_all_less_caiso_notices_20260909
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over the whole span held with CAISO's
+    system-wide notices event from 2026-09-09 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_flat_rt_all_less_caiso_notices_20261005
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over the whole span held with CAISO's
+    system-wide notices event from 2026-10-05 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_flat_rt_all_less_elliott_2022
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over the whole span held with Winter
+    Storm Elliott 2022 taken out
+  unit: USD/MWh
+  rows: 10
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_flat_rt_all_less_ercot_heat_2023
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over the whole span held with the
+    summer 2023 heat in ERCOT taken out
+  unit: USD/MWh
+  rows: 10
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_flat_rt_all_less_events
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over the whole span held with every
+    stress event of the grid taken out
+  unit: USD/MWh
+  rows: 13
+  first: '2015-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_flat_rt_all_less_uri_2021
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over the whole span held with Winter
+    Storm Uri 2021 taken out
+  unit: USD/MWh
+  rows: 10
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_flat_rt_avg_3y
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over the last three full calendar
+    years, averaged a year
+  unit: USD/MWh
+  rows: 10
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: datacenter_flat_rt_avg_7y
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over the last seven full calendar
+    years, averaged a year
+  unit: USD/MWh
+  rows: 10
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: datacenter_flat_rt_last_12
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over the page's last twelve months
+  unit: USD/MWh
+  rows: 14
+  first: '2025-10-01T00:00:00Z'
+  last: '2025-11-01T00:00:00Z'
+- name: datacenter_flat_rt_year_2015
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over calendar year 2015
+  unit: USD/MWh
+  rows: 10
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_flat_rt_year_2016
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over calendar year 2016
+  unit: USD/MWh
+  rows: 10
+  first: '2016-01-01T00:00:00Z'
+  last: '2016-01-01T00:00:00Z'
+- name: datacenter_flat_rt_year_2017
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over calendar year 2017
+  unit: USD/MWh
+  rows: 10
+  first: '2017-01-01T00:00:00Z'
+  last: '2017-01-01T00:00:00Z'
+- name: datacenter_flat_rt_year_2018
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over calendar year 2018
+  unit: USD/MWh
+  rows: 10
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: datacenter_flat_rt_year_2019
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over calendar year 2019
+  unit: USD/MWh
+  rows: 10
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: datacenter_flat_rt_year_2020
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over calendar year 2020
+  unit: USD/MWh
+  rows: 10
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: datacenter_flat_rt_year_2021
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over calendar year 2021
+  unit: USD/MWh
+  rows: 10
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: datacenter_flat_rt_year_2022
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over calendar year 2022
+  unit: USD/MWh
+  rows: 10
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: datacenter_flat_rt_year_2023
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over calendar year 2023
+  unit: USD/MWh
+  rows: 12
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_flat_rt_year_2024
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over calendar year 2024
+  unit: USD/MWh
+  rows: 14
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_flat_rt_year_2025
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over calendar year 2025
+  unit: USD/MWh
+  rows: 14
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: datacenter_flat_rt_year_2026
+  label: What a datacenter's load paid per MWh consumed, a flat load at real-time prices, over calendar year 2026
+  unit: USD/MWh
+  rows: 14
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: datacenter_hours_da_all
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over the whole
+    span held
+  unit: USD/MWh
+  rows: 19
+  first: '2015-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_hours_da_all_less_caiso_notices_20230815
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2023-08-15 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_hours_da_all_less_caiso_notices_20230828
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2023-08-28 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_hours_da_all_less_caiso_notices_20240703
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-07-03 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_hours_da_all_less_caiso_notices_20240715
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-07-15 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_hours_da_all_less_caiso_notices_20240724
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-07-24 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_hours_da_all_less_caiso_notices_20240805
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-08-05 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_hours_da_all_less_caiso_notices_20240904
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-09-04 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_hours_da_all_less_caiso_notices_20250120
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2025-01-20 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_hours_da_all_less_caiso_notices_20260909
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2026-09-09 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_hours_da_all_less_caiso_notices_20261005
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2026-10-05 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_hours_da_all_less_elliott_2022
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over the whole
+    span held with Winter Storm Elliott 2022 taken out
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_hours_da_all_less_ercot_heat_2023
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over the whole
+    span held with the summer 2023 heat in ERCOT taken out
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_hours_da_all_less_events
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over the whole
+    span held with every stress event of the grid taken out
+  unit: USD/MWh
+  rows: 17
+  first: '2015-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_hours_da_all_less_uri_2021
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over the whole
+    span held with Winter Storm Uri 2021 taken out
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_hours_da_avg_3y
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over the last
+    three full calendar years, averaged a year
+  unit: USD/MWh
+  rows: 15
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: datacenter_hours_da_avg_7y
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over the last
+    seven full calendar years, averaged a year
+  unit: USD/MWh
+  rows: 15
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: datacenter_hours_da_last_12
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over the page's
+    last twelve months
+  unit: USD/MWh
+  rows: 19
+  first: '2025-11-01T00:00:00Z'
+  last: '2025-11-01T00:00:00Z'
+- name: datacenter_hours_da_year_2015
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over calendar
+    year 2015
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_hours_da_year_2016
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over calendar
+    year 2016
+  unit: USD/MWh
+  rows: 14
+  first: '2016-01-01T00:00:00Z'
+  last: '2016-01-01T00:00:00Z'
+- name: datacenter_hours_da_year_2017
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over calendar
+    year 2017
+  unit: USD/MWh
+  rows: 14
+  first: '2017-01-01T00:00:00Z'
+  last: '2017-01-01T00:00:00Z'
+- name: datacenter_hours_da_year_2018
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over calendar
+    year 2018
+  unit: USD/MWh
+  rows: 14
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: datacenter_hours_da_year_2019
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over calendar
+    year 2019
+  unit: USD/MWh
+  rows: 15
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: datacenter_hours_da_year_2020
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over calendar
+    year 2020
+  unit: USD/MWh
+  rows: 15
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: datacenter_hours_da_year_2021
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over calendar
+    year 2021
+  unit: USD/MWh
+  rows: 15
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: datacenter_hours_da_year_2022
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over calendar
+    year 2022
+  unit: USD/MWh
+  rows: 15
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: datacenter_hours_da_year_2023
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over calendar
+    year 2023
+  unit: USD/MWh
+  rows: 18
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_hours_da_year_2024
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over calendar
+    year 2024
+  unit: USD/MWh
+  rows: 19
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_hours_da_year_2025
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over calendar
+    year 2025
+  unit: USD/MWh
+  rows: 19
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: datacenter_hours_da_year_2026
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at day-ahead prices, over calendar
+    year 2026
+  unit: USD/MWh
+  rows: 19
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: datacenter_hours_rt_all
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over the whole
+    span held
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_hours_rt_all_less_caiso_notices_20230815
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2023-08-15 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_hours_rt_all_less_caiso_notices_20230828
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2023-08-28 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_hours_rt_all_less_caiso_notices_20240703
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-07-03 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_hours_rt_all_less_caiso_notices_20240715
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-07-15 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_hours_rt_all_less_caiso_notices_20240724
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-07-24 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_hours_rt_all_less_caiso_notices_20240805
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-08-05 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_hours_rt_all_less_caiso_notices_20240904
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-09-04 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_hours_rt_all_less_caiso_notices_20250120
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2025-01-20 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_hours_rt_all_less_caiso_notices_20260909
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2026-09-09 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_hours_rt_all_less_caiso_notices_20261005
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2026-10-05 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_hours_rt_all_less_elliott_2022
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over the whole
+    span held with Winter Storm Elliott 2022 taken out
+  unit: USD/MWh
+  rows: 10
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_hours_rt_all_less_ercot_heat_2023
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over the whole
+    span held with the summer 2023 heat in ERCOT taken out
+  unit: USD/MWh
+  rows: 10
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_hours_rt_all_less_events
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over the whole
+    span held with every stress event of the grid taken out
+  unit: USD/MWh
+  rows: 13
+  first: '2015-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_hours_rt_all_less_uri_2021
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over the whole
+    span held with Winter Storm Uri 2021 taken out
+  unit: USD/MWh
+  rows: 10
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_hours_rt_avg_3y
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over the last
+    three full calendar years, averaged a year
+  unit: USD/MWh
+  rows: 10
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: datacenter_hours_rt_avg_7y
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over the last
+    seven full calendar years, averaged a year
+  unit: USD/MWh
+  rows: 10
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: datacenter_hours_rt_last_12
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over the page's
+    last twelve months
+  unit: USD/MWh
+  rows: 14
+  first: '2025-10-01T00:00:00Z'
+  last: '2025-11-01T00:00:00Z'
+- name: datacenter_hours_rt_year_2015
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over calendar
+    year 2015
+  unit: USD/MWh
+  rows: 10
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_hours_rt_year_2016
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over calendar
+    year 2016
+  unit: USD/MWh
+  rows: 10
+  first: '2016-01-01T00:00:00Z'
+  last: '2016-01-01T00:00:00Z'
+- name: datacenter_hours_rt_year_2017
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over calendar
+    year 2017
+  unit: USD/MWh
+  rows: 10
+  first: '2017-01-01T00:00:00Z'
+  last: '2017-01-01T00:00:00Z'
+- name: datacenter_hours_rt_year_2018
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over calendar
+    year 2018
+  unit: USD/MWh
+  rows: 10
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: datacenter_hours_rt_year_2019
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over calendar
+    year 2019
+  unit: USD/MWh
+  rows: 10
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: datacenter_hours_rt_year_2020
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over calendar
+    year 2020
+  unit: USD/MWh
+  rows: 10
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: datacenter_hours_rt_year_2021
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over calendar
+    year 2021
+  unit: USD/MWh
+  rows: 10
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: datacenter_hours_rt_year_2022
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over calendar
+    year 2022
+  unit: USD/MWh
+  rows: 10
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: datacenter_hours_rt_year_2023
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over calendar
+    year 2023
+  unit: USD/MWh
+  rows: 12
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_hours_rt_year_2024
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over calendar
+    year 2024
+  unit: USD/MWh
+  rows: 14
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_hours_rt_year_2025
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over calendar
+    year 2025
+  unit: USD/MWh
+  rows: 14
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: datacenter_hours_rt_year_2026
+  label: What a datacenter's load paid per MWh consumed, a load off in 100 hours a year at real-time prices, over calendar
+    year 2026
+  unit: USD/MWh
+  rows: 14
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: datacenter_share_da_all
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over the whole
+    span held
+  unit: USD/MWh
+  rows: 19
+  first: '2015-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_share_da_all_less_caiso_notices_20230815
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2023-08-15 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_share_da_all_less_caiso_notices_20230828
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2023-08-28 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_share_da_all_less_caiso_notices_20240703
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-07-03 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_share_da_all_less_caiso_notices_20240715
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-07-15 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_share_da_all_less_caiso_notices_20240724
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-07-24 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_share_da_all_less_caiso_notices_20240805
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-08-05 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_share_da_all_less_caiso_notices_20240904
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-09-04 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_share_da_all_less_caiso_notices_20250120
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2025-01-20 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_share_da_all_less_caiso_notices_20260909
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2026-09-09 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_share_da_all_less_caiso_notices_20261005
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over the whole
+    span held with CAISO's system-wide notices event from 2026-10-05 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_share_da_all_less_elliott_2022
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over the whole
+    span held with Winter Storm Elliott 2022 taken out
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_share_da_all_less_ercot_heat_2023
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over the whole
+    span held with the summer 2023 heat in ERCOT taken out
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_share_da_all_less_events
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over the whole
+    span held with every stress event of the grid taken out
+  unit: USD/MWh
+  rows: 17
+  first: '2015-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_share_da_all_less_uri_2021
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over the whole
+    span held with Winter Storm Uri 2021 taken out
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_share_da_avg_3y
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over the last
+    three full calendar years, averaged a year
+  unit: USD/MWh
+  rows: 15
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: datacenter_share_da_avg_7y
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over the last
+    seven full calendar years, averaged a year
+  unit: USD/MWh
+  rows: 15
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: datacenter_share_da_last_12
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over the page's
+    last twelve months
+  unit: USD/MWh
+  rows: 19
+  first: '2025-11-01T00:00:00Z'
+  last: '2025-11-01T00:00:00Z'
+- name: datacenter_share_da_year_2015
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over calendar
+    year 2015
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_share_da_year_2016
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over calendar
+    year 2016
+  unit: USD/MWh
+  rows: 14
+  first: '2016-01-01T00:00:00Z'
+  last: '2016-01-01T00:00:00Z'
+- name: datacenter_share_da_year_2017
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over calendar
+    year 2017
+  unit: USD/MWh
+  rows: 14
+  first: '2017-01-01T00:00:00Z'
+  last: '2017-01-01T00:00:00Z'
+- name: datacenter_share_da_year_2018
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over calendar
+    year 2018
+  unit: USD/MWh
+  rows: 14
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: datacenter_share_da_year_2019
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over calendar
+    year 2019
+  unit: USD/MWh
+  rows: 15
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: datacenter_share_da_year_2020
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over calendar
+    year 2020
+  unit: USD/MWh
+  rows: 15
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: datacenter_share_da_year_2021
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over calendar
+    year 2021
+  unit: USD/MWh
+  rows: 15
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: datacenter_share_da_year_2022
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over calendar
+    year 2022
+  unit: USD/MWh
+  rows: 15
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: datacenter_share_da_year_2023
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over calendar
+    year 2023
+  unit: USD/MWh
+  rows: 18
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_share_da_year_2024
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over calendar
+    year 2024
+  unit: USD/MWh
+  rows: 19
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_share_da_year_2025
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over calendar
+    year 2025
+  unit: USD/MWh
+  rows: 19
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: datacenter_share_da_year_2026
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at day-ahead prices, over calendar
+    year 2026
+  unit: USD/MWh
+  rows: 19
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: datacenter_share_rt_all
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over the whole
+    span held
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_share_rt_all_less_caiso_notices_20230815
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2023-08-15 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_share_rt_all_less_caiso_notices_20230828
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2023-08-28 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_share_rt_all_less_caiso_notices_20240703
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-07-03 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_share_rt_all_less_caiso_notices_20240715
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-07-15 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_share_rt_all_less_caiso_notices_20240724
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-07-24 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_share_rt_all_less_caiso_notices_20240805
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-08-05 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_share_rt_all_less_caiso_notices_20240904
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2024-09-04 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_share_rt_all_less_caiso_notices_20250120
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2025-01-20 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_share_rt_all_less_caiso_notices_20260909
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2026-09-09 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_share_rt_all_less_caiso_notices_20261005
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over the whole
+    span held with CAISO's system-wide notices event from 2026-10-05 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_share_rt_all_less_elliott_2022
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over the whole
+    span held with Winter Storm Elliott 2022 taken out
+  unit: USD/MWh
+  rows: 10
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_share_rt_all_less_ercot_heat_2023
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over the whole
+    span held with the summer 2023 heat in ERCOT taken out
+  unit: USD/MWh
+  rows: 10
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_share_rt_all_less_events
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over the whole
+    span held with every stress event of the grid taken out
+  unit: USD/MWh
+  rows: 13
+  first: '2015-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_share_rt_all_less_uri_2021
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over the whole
+    span held with Winter Storm Uri 2021 taken out
+  unit: USD/MWh
+  rows: 10
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_share_rt_avg_3y
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over the last
+    three full calendar years, averaged a year
+  unit: USD/MWh
+  rows: 10
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: datacenter_share_rt_avg_7y
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over the last
+    seven full calendar years, averaged a year
+  unit: USD/MWh
+  rows: 10
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: datacenter_share_rt_last_12
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over the page's
+    last twelve months
+  unit: USD/MWh
+  rows: 14
+  first: '2025-10-01T00:00:00Z'
+  last: '2025-11-01T00:00:00Z'
+- name: datacenter_share_rt_year_2015
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over calendar
+    year 2015
+  unit: USD/MWh
+  rows: 10
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_share_rt_year_2016
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over calendar
+    year 2016
+  unit: USD/MWh
+  rows: 10
+  first: '2016-01-01T00:00:00Z'
+  last: '2016-01-01T00:00:00Z'
+- name: datacenter_share_rt_year_2017
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over calendar
+    year 2017
+  unit: USD/MWh
+  rows: 10
+  first: '2017-01-01T00:00:00Z'
+  last: '2017-01-01T00:00:00Z'
+- name: datacenter_share_rt_year_2018
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over calendar
+    year 2018
+  unit: USD/MWh
+  rows: 10
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: datacenter_share_rt_year_2019
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over calendar
+    year 2019
+  unit: USD/MWh
+  rows: 10
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: datacenter_share_rt_year_2020
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over calendar
+    year 2020
+  unit: USD/MWh
+  rows: 10
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: datacenter_share_rt_year_2021
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over calendar
+    year 2021
+  unit: USD/MWh
+  rows: 10
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: datacenter_share_rt_year_2022
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over calendar
+    year 2022
+  unit: USD/MWh
+  rows: 10
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: datacenter_share_rt_year_2023
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over calendar
+    year 2023
+  unit: USD/MWh
+  rows: 12
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_share_rt_year_2024
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over calendar
+    year 2024
+  unit: USD/MWh
+  rows: 14
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_share_rt_year_2025
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over calendar
+    year 2025
+  unit: USD/MWh
+  rows: 14
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: datacenter_share_rt_year_2026
+  label: What a datacenter's load paid per MWh consumed, a load off in 5 percent of hours at real-time prices, over calendar
+    year 2026
+  unit: USD/MWh
+  rows: 14
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: datacenter_shift_da_all
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over the whole span held
+  unit: USD/MWh
+  rows: 19
+  first: '2015-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_shift_da_all_less_caiso_notices_20230815
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over the whole span held with CAISO's system-wide notices event from 2023-08-15 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_shift_da_all_less_caiso_notices_20230828
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over the whole span held with CAISO's system-wide notices event from 2023-08-28 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_shift_da_all_less_caiso_notices_20240703
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over the whole span held with CAISO's system-wide notices event from 2024-07-03 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_shift_da_all_less_caiso_notices_20240715
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over the whole span held with CAISO's system-wide notices event from 2024-07-15 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_shift_da_all_less_caiso_notices_20240724
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over the whole span held with CAISO's system-wide notices event from 2024-07-24 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_shift_da_all_less_caiso_notices_20240805
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over the whole span held with CAISO's system-wide notices event from 2024-08-05 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_shift_da_all_less_caiso_notices_20240904
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over the whole span held with CAISO's system-wide notices event from 2024-09-04 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_shift_da_all_less_caiso_notices_20250120
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over the whole span held with CAISO's system-wide notices event from 2025-01-20 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_shift_da_all_less_caiso_notices_20260909
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over the whole span held with CAISO's system-wide notices event from 2026-09-09 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_shift_da_all_less_caiso_notices_20261005
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over the whole span held with CAISO's system-wide notices event from 2026-10-05 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-07-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_shift_da_all_less_elliott_2022
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over the whole span held with Winter Storm Elliott 2022 taken out
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_shift_da_all_less_ercot_heat_2023
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over the whole span held with the summer 2023 heat in ERCOT taken out
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_shift_da_all_less_events
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over the whole span held with every stress event of the grid taken out
+  unit: USD/MWh
+  rows: 17
+  first: '2015-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_shift_da_all_less_uri_2021
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over the whole span held with Winter Storm Uri 2021 taken out
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_shift_da_avg_3y
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over the last three full calendar years, averaged a year
+  unit: USD/MWh
+  rows: 15
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: datacenter_shift_da_avg_7y
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over the last seven full calendar years, averaged a year
+  unit: USD/MWh
+  rows: 15
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: datacenter_shift_da_last_12
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over the page's last twelve months
+  unit: USD/MWh
+  rows: 19
+  first: '2025-11-01T00:00:00Z'
+  last: '2025-11-01T00:00:00Z'
+- name: datacenter_shift_da_year_2015
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over calendar year 2015
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_shift_da_year_2016
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over calendar year 2016
+  unit: USD/MWh
+  rows: 14
+  first: '2016-01-01T00:00:00Z'
+  last: '2016-01-01T00:00:00Z'
+- name: datacenter_shift_da_year_2017
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over calendar year 2017
+  unit: USD/MWh
+  rows: 14
+  first: '2017-01-01T00:00:00Z'
+  last: '2017-01-01T00:00:00Z'
+- name: datacenter_shift_da_year_2018
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over calendar year 2018
+  unit: USD/MWh
+  rows: 14
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: datacenter_shift_da_year_2019
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over calendar year 2019
+  unit: USD/MWh
+  rows: 15
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: datacenter_shift_da_year_2020
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over calendar year 2020
+  unit: USD/MWh
+  rows: 15
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: datacenter_shift_da_year_2021
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over calendar year 2021
+  unit: USD/MWh
+  rows: 15
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: datacenter_shift_da_year_2022
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over calendar year 2022
+  unit: USD/MWh
+  rows: 15
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: datacenter_shift_da_year_2023
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over calendar year 2023
+  unit: USD/MWh
+  rows: 18
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_shift_da_year_2024
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over calendar year 2024
+  unit: USD/MWh
+  rows: 19
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_shift_da_year_2025
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over calendar year 2025
+  unit: USD/MWh
+  rows: 19
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: datacenter_shift_da_year_2026
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at day-ahead prices,
+    over calendar year 2026
+  unit: USD/MWh
+  rows: 19
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: datacenter_shift_rt_all
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over the whole span held
+  unit: USD/MWh
+  rows: 14
+  first: '2015-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_shift_rt_all_less_caiso_notices_20230815
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over the whole span held with CAISO's system-wide notices event from 2023-08-15 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_shift_rt_all_less_caiso_notices_20230828
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over the whole span held with CAISO's system-wide notices event from 2023-08-28 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_shift_rt_all_less_caiso_notices_20240703
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over the whole span held with CAISO's system-wide notices event from 2024-07-03 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_shift_rt_all_less_caiso_notices_20240715
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over the whole span held with CAISO's system-wide notices event from 2024-07-15 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_shift_rt_all_less_caiso_notices_20240724
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over the whole span held with CAISO's system-wide notices event from 2024-07-24 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_shift_rt_all_less_caiso_notices_20240805
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over the whole span held with CAISO's system-wide notices event from 2024-08-05 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_shift_rt_all_less_caiso_notices_20240904
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over the whole span held with CAISO's system-wide notices event from 2024-09-04 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_shift_rt_all_less_caiso_notices_20250120
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over the whole span held with CAISO's system-wide notices event from 2025-01-20 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_shift_rt_all_less_caiso_notices_20260909
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over the whole span held with CAISO's system-wide notices event from 2026-09-09 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_shift_rt_all_less_caiso_notices_20261005
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over the whole span held with CAISO's system-wide notices event from 2026-10-05 taken out
+  unit: USD/MWh
+  rows: 3
+  first: '2023-08-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_shift_rt_all_less_elliott_2022
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over the whole span held with Winter Storm Elliott 2022 taken out
+  unit: USD/MWh
+  rows: 10
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_shift_rt_all_less_ercot_heat_2023
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over the whole span held with the summer 2023 heat in ERCOT taken out
+  unit: USD/MWh
+  rows: 10
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_shift_rt_all_less_events
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over the whole span held with every stress event of the grid taken out
+  unit: USD/MWh
+  rows: 13
+  first: '2015-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_shift_rt_all_less_uri_2021
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over the whole span held with Winter Storm Uri 2021 taken out
+  unit: USD/MWh
+  rows: 10
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_shift_rt_avg_3y
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over the last three full calendar years, averaged a year
+  unit: USD/MWh
+  rows: 10
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: datacenter_shift_rt_avg_7y
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over the last seven full calendar years, averaged a year
+  unit: USD/MWh
+  rows: 10
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: datacenter_shift_rt_last_12
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over the page's last twelve months
+  unit: USD/MWh
+  rows: 14
+  first: '2025-10-01T00:00:00Z'
+  last: '2025-11-01T00:00:00Z'
+- name: datacenter_shift_rt_year_2015
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over calendar year 2015
+  unit: USD/MWh
+  rows: 10
+  first: '2015-01-01T00:00:00Z'
+  last: '2015-01-01T00:00:00Z'
+- name: datacenter_shift_rt_year_2016
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over calendar year 2016
+  unit: USD/MWh
+  rows: 10
+  first: '2016-01-01T00:00:00Z'
+  last: '2016-01-01T00:00:00Z'
+- name: datacenter_shift_rt_year_2017
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over calendar year 2017
+  unit: USD/MWh
+  rows: 10
+  first: '2017-01-01T00:00:00Z'
+  last: '2017-01-01T00:00:00Z'
+- name: datacenter_shift_rt_year_2018
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over calendar year 2018
+  unit: USD/MWh
+  rows: 10
+  first: '2018-01-01T00:00:00Z'
+  last: '2018-01-01T00:00:00Z'
+- name: datacenter_shift_rt_year_2019
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over calendar year 2019
+  unit: USD/MWh
+  rows: 10
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: datacenter_shift_rt_year_2020
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over calendar year 2020
+  unit: USD/MWh
+  rows: 10
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: datacenter_shift_rt_year_2021
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over calendar year 2021
+  unit: USD/MWh
+  rows: 10
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: datacenter_shift_rt_year_2022
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over calendar year 2022
+  unit: USD/MWh
+  rows: 10
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: datacenter_shift_rt_year_2023
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over calendar year 2023
+  unit: USD/MWh
+  rows: 12
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-08-01T00:00:00Z'
+- name: datacenter_shift_rt_year_2024
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over calendar year 2024
+  unit: USD/MWh
+  rows: 14
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: datacenter_shift_rt_year_2025
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over calendar year 2025
+  unit: USD/MWh
+  rows: 14
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: datacenter_shift_rt_year_2026
+  label: What a datacenter's load paid per MWh consumed, a load shifting 20 percent of each day's energy at real-time prices,
+    over calendar year 2026
+  unit: USD/MWh
+  rows: 14
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: generator_battery_all
+  label: 4-hour battery energy-only revenue per kW a year (the generator page), over the whole span held
+  unit: USD/kW-year
+  rows: 3
+  first: '2019-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generator_battery_all_less_elliott_2022
+  label: 4-hour battery energy-only revenue per kW a year (the generator page), over the whole span held with Winter Storm
+    Elliott 2022 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_battery_all_less_ercot_heat_2023
+  label: 4-hour battery energy-only revenue per kW a year (the generator page), over the whole span held with the summer 2023
+    heat in ERCOT taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_battery_all_less_events
+  label: 4-hour battery energy-only revenue per kW a year (the generator page), over the whole span held with every stress
+    event of the grid taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_battery_all_less_uri_2021
+  label: 4-hour battery energy-only revenue per kW a year (the generator page), over the whole span held with Winter Storm
+    Uri 2021 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_battery_avg_3y
+  label: 4-hour battery energy-only revenue per kW a year (the generator page), over the last three full calendar years, averaged
+    a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: generator_battery_avg_7y
+  label: 4-hour battery energy-only revenue per kW a year (the generator page), over the last seven full calendar years, averaged
+    a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_battery_last_12
+  label: 4-hour battery energy-only revenue per kW a year (the generator page), over the page's last twelve months
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-10-01T00:00:00Z'
+  last: '2025-10-01T00:00:00Z'
+- name: generator_battery_year_2018
+  label: 4-hour battery energy-only revenue per kW a year (the generator page), over calendar year 2018
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: generator_battery_year_2019
+  label: 4-hour battery energy-only revenue per kW a year (the generator page), over calendar year 2019
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_battery_year_2020
+  label: 4-hour battery energy-only revenue per kW a year (the generator page), over calendar year 2020
+  unit: USD/kW-year
+  rows: 1
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: generator_battery_year_2021
+  label: 4-hour battery energy-only revenue per kW a year (the generator page), over calendar year 2021
+  unit: USD/kW-year
+  rows: 1
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: generator_battery_year_2022
+  label: 4-hour battery energy-only revenue per kW a year (the generator page), over calendar year 2022
+  unit: USD/kW-year
+  rows: 1
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: generator_battery_year_2023
+  label: 4-hour battery energy-only revenue per kW a year (the generator page), over calendar year 2023
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: generator_battery_year_2024
+  label: 4-hour battery energy-only revenue per kW a year (the generator page), over calendar year 2024
+  unit: USD/kW-year
+  rows: 3
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: generator_battery_year_2025
+  label: 4-hour battery energy-only revenue per kW a year (the generator page), over calendar year 2025
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generator_battery_year_2026
+  label: 4-hour battery energy-only revenue per kW a year (the generator page), over calendar year 2026
+  unit: USD/kW-year
+  rows: 3
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: generator_peaker_all
+  label: Peaker margin over fuel and variable O&M per kW a year, over the whole span held
+  unit: USD/kW-year
+  rows: 3
+  first: '2019-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generator_peaker_all_less_elliott_2022
+  label: Peaker margin over fuel and variable O&M per kW a year, over the whole span held with Winter Storm Elliott 2022 taken
+    out
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_peaker_all_less_ercot_heat_2023
+  label: Peaker margin over fuel and variable O&M per kW a year, over the whole span held with the summer 2023 heat in ERCOT
+    taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_peaker_all_less_events
+  label: Peaker margin over fuel and variable O&M per kW a year, over the whole span held with every stress event of the grid
+    taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_peaker_all_less_uri_2021
+  label: Peaker margin over fuel and variable O&M per kW a year, over the whole span held with Winter Storm Uri 2021 taken
+    out
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_peaker_avg_3y
+  label: Peaker margin over fuel and variable O&M per kW a year, over the last three full calendar years, averaged a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: generator_peaker_avg_7y
+  label: Peaker margin over fuel and variable O&M per kW a year, over the last seven full calendar years, averaged a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_peaker_last_12
+  label: Peaker margin over fuel and variable O&M per kW a year, over the page's last twelve months
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-10-01T00:00:00Z'
+  last: '2025-10-01T00:00:00Z'
+- name: generator_peaker_year_2018
+  label: Peaker margin over fuel and variable O&M per kW a year, over calendar year 2018
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: generator_peaker_year_2019
+  label: Peaker margin over fuel and variable O&M per kW a year, over calendar year 2019
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_peaker_year_2020
+  label: Peaker margin over fuel and variable O&M per kW a year, over calendar year 2020
+  unit: USD/kW-year
+  rows: 1
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: generator_peaker_year_2021
+  label: Peaker margin over fuel and variable O&M per kW a year, over calendar year 2021
+  unit: USD/kW-year
+  rows: 1
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: generator_peaker_year_2022
+  label: Peaker margin over fuel and variable O&M per kW a year, over calendar year 2022
+  unit: USD/kW-year
+  rows: 1
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: generator_peaker_year_2023
+  label: Peaker margin over fuel and variable O&M per kW a year, over calendar year 2023
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: generator_peaker_year_2024
+  label: Peaker margin over fuel and variable O&M per kW a year, over calendar year 2024
+  unit: USD/kW-year
+  rows: 3
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: generator_peaker_year_2025
+  label: Peaker margin over fuel and variable O&M per kW a year, over calendar year 2025
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generator_peaker_year_2026
+  label: Peaker margin over fuel and variable O&M per kW a year, over calendar year 2026
+  unit: USD/kW-year
+  rows: 3
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: generator_solar_all
+  label: Solar generator revenue per kW of nameplate a year, over the whole span held
+  unit: USD/kW-year
+  rows: 3
+  first: '2019-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generator_solar_all_less_elliott_2022
+  label: Solar generator revenue per kW of nameplate a year, over the whole span held with Winter Storm Elliott 2022 taken
+    out
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_solar_all_less_ercot_heat_2023
+  label: Solar generator revenue per kW of nameplate a year, over the whole span held with the summer 2023 heat in ERCOT taken
+    out
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_solar_all_less_events
+  label: Solar generator revenue per kW of nameplate a year, over the whole span held with every stress event of the grid
+    taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_solar_all_less_uri_2021
+  label: Solar generator revenue per kW of nameplate a year, over the whole span held with Winter Storm Uri 2021 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_solar_avg_3y
+  label: Solar generator revenue per kW of nameplate a year, over the last three full calendar years, averaged a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: generator_solar_avg_7y
+  label: Solar generator revenue per kW of nameplate a year, over the last seven full calendar years, averaged a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_solar_last_12
+  label: Solar generator revenue per kW of nameplate a year, over the page's last twelve months
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-10-01T00:00:00Z'
+  last: '2025-10-01T00:00:00Z'
+- name: generator_solar_year_2018
+  label: Solar generator revenue per kW of nameplate a year, over calendar year 2018
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: generator_solar_year_2019
+  label: Solar generator revenue per kW of nameplate a year, over calendar year 2019
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_solar_year_2020
+  label: Solar generator revenue per kW of nameplate a year, over calendar year 2020
+  unit: USD/kW-year
+  rows: 1
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: generator_solar_year_2021
+  label: Solar generator revenue per kW of nameplate a year, over calendar year 2021
+  unit: USD/kW-year
+  rows: 1
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: generator_solar_year_2022
+  label: Solar generator revenue per kW of nameplate a year, over calendar year 2022
+  unit: USD/kW-year
+  rows: 1
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: generator_solar_year_2023
+  label: Solar generator revenue per kW of nameplate a year, over calendar year 2023
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: generator_solar_year_2024
+  label: Solar generator revenue per kW of nameplate a year, over calendar year 2024
+  unit: USD/kW-year
+  rows: 3
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: generator_solar_year_2025
+  label: Solar generator revenue per kW of nameplate a year, over calendar year 2025
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generator_solar_year_2026
+  label: Solar generator revenue per kW of nameplate a year, over calendar year 2026
+  unit: USD/kW-year
+  rows: 3
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: generator_wind_all
+  label: Wind generator revenue per kW of nameplate a year, over the whole span held
+  unit: USD/kW-year
+  rows: 3
+  first: '2019-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generator_wind_all_less_elliott_2022
+  label: Wind generator revenue per kW of nameplate a year, over the whole span held with Winter Storm Elliott 2022 taken
+    out
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_wind_all_less_ercot_heat_2023
+  label: Wind generator revenue per kW of nameplate a year, over the whole span held with the summer 2023 heat in ERCOT taken
+    out
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_wind_all_less_events
+  label: Wind generator revenue per kW of nameplate a year, over the whole span held with every stress event of the grid taken
+    out
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_wind_all_less_uri_2021
+  label: Wind generator revenue per kW of nameplate a year, over the whole span held with Winter Storm Uri 2021 taken out
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_wind_avg_3y
+  label: Wind generator revenue per kW of nameplate a year, over the last three full calendar years, averaged a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: generator_wind_avg_7y
+  label: Wind generator revenue per kW of nameplate a year, over the last seven full calendar years, averaged a year
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_wind_last_12
+  label: Wind generator revenue per kW of nameplate a year, over the page's last twelve months
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-10-01T00:00:00Z'
+  last: '2025-10-01T00:00:00Z'
+- name: generator_wind_year_2018
+  label: Wind generator revenue per kW of nameplate a year, over calendar year 2018
+  unit: USD/kW-year
+  rows: 1
+  first: '2018-07-01T00:00:00Z'
+  last: '2018-07-01T00:00:00Z'
+- name: generator_wind_year_2019
+  label: Wind generator revenue per kW of nameplate a year, over calendar year 2019
+  unit: USD/kW-year
+  rows: 1
+  first: '2019-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generator_wind_year_2020
+  label: Wind generator revenue per kW of nameplate a year, over calendar year 2020
+  unit: USD/kW-year
+  rows: 1
+  first: '2020-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: generator_wind_year_2021
+  label: Wind generator revenue per kW of nameplate a year, over calendar year 2021
+  unit: USD/kW-year
+  rows: 1
+  first: '2021-01-01T00:00:00Z'
+  last: '2021-01-01T00:00:00Z'
+- name: generator_wind_year_2022
+  label: Wind generator revenue per kW of nameplate a year, over calendar year 2022
+  unit: USD/kW-year
+  rows: 1
+  first: '2022-01-01T00:00:00Z'
+  last: '2022-01-01T00:00:00Z'
+- name: generator_wind_year_2023
+  label: Wind generator revenue per kW of nameplate a year, over calendar year 2023
+  unit: USD/kW-year
+  rows: 1
+  first: '2023-01-01T00:00:00Z'
+  last: '2023-01-01T00:00:00Z'
+- name: generator_wind_year_2024
+  label: Wind generator revenue per kW of nameplate a year, over calendar year 2024
+  unit: USD/kW-year
+  rows: 3
+  first: '2024-01-01T00:00:00Z'
+  last: '2024-09-01T00:00:00Z'
+- name: generator_wind_year_2025
+  label: Wind generator revenue per kW of nameplate a year, over calendar year 2025
+  unit: USD/kW-year
+  rows: 3
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generator_wind_year_2026
+  label: Wind generator revenue per kW of nameplate a year, over calendar year 2026
+  unit: USD/kW-year
+  rows: 3
+  first: '2026-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+second_look: null

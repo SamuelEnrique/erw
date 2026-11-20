@@ -1,0 +1,713 @@
+# The codebook's metadata of table clean_energy_summary (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: clean_energy_summary
+family: erw_derived
+shape: series
+row: One ISO grid's value of one clean-energy measure for one local month (freq P1M) or one local year (freq P1Y).
+time: ts_utc is the first day of the grid's local month or local year at 00:00:00Z; freq says which.
+vintage_rule: Rewritten whole by each run of mix_clean.py (the old file removed first); vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1M;P1Y
+source:
+- name: erw:clean_energy EIA Form EIA-930 hourly net generation by energy source, the per-BA workbooks (https://www.eia.gov/electricity/gridmonitor/knownissues/xls/<BA>.xlsx);
+    California from 2025-12-16T08:00:00Z is CAISO's own supply by fuel (caiso_fuel_supply), the warehouse's one join (docs/methods/eia930_caiso_break.md);
+    read by this run from warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175834.883363Z_00002_CISO.xlsx; warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175850.712544Z_00004_ERCO.xlsx;
+    warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175904.395449Z_00006_ISNE.xlsx; warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175918.956497Z_00008_MISO.xlsx;
+    warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175934.677962Z_00010_NYIS.xlsx; warehouse/raw/eia930_emissions/20261116T175833Z/20261116T175949.986042Z_00012_PJM.xlsx;
+    warehouse/raw/eia930_emissions/20261116T175833Z/20261116T180008.741327Z_00014_SWPP.xlsx
+  url: https://www.eia.gov/electricity/gridmonitor/knownissues/xls/<BA>.xlsx
+cite: Energy Research Warehouse (ERW), derived. How clean each grid's generation is by hour, month and year; hourly against
+  annual matching; load moved into the cleanest hours (docs/methods/clean_energy.md). Via the Energy Research Warehouse (ERW),
+  table `clean_energy_summary`.
+method: docs/methods/clean_energy.md
+header_title: how clean each grid's generation is by month and year, what an annual clean purchase covers hour by hour, and
+  what moving load into the cleanest hours changes (derived, session 122)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity iso:<grid>. Monthly rows (freq P1M, ts_utc the local month''s
+  first day): carbon_free_share_pct, carbon_free_share_flat_pct, cf_share_pct_hHH (the average day), cleanest_hour_1 to 4,
+  days_held, days_in_month, flat_ and shift10_ and shift20_kgco2_per_mwh, shift10_ and shift20_carbon_change_pct, shift_days,
+  the same for cost (_cost_usd_per_mwh, _cost_change_pct, cost_days). Yearly rows (freq P1Y, ts_utc the local year''s first
+  day): the same names with the prefix year_, and year_months, year_months_due, year_days_held, year_hours_cf_ge50_pct, _ge75_pct,
+  _ge90_pct, year_match_<mix|solar|wind>_<50|100|150>_energy_pct and _hours_pct. Definitions: docs/methods/clean_energy.md.'
+read:
+  date: '2026-11-20'
+  rows: 27834
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: iso:<grid>, the seven ISO grids
+  type: text
+  values:
+    list:
+      iso:caiso: 3966
+      iso:ercot: 4497
+      iso:isone: 4104
+      iso:miso: 3930
+      iso:nyiso: 3672
+      iso:pjm: 3852
+      iso:spp: 3813
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 94
+    earliest: '2019-01-01T00:00:00Z'
+    latest: '2026-10-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -54.1977
+    highest: 1482.9822
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 672
+      count: 3024
+      hour: 2552
+      kgCO2/MWh: 2034
+      pct: 19552
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 26034
+      P1Y: 1800
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 15699
+      US-CA: 3966
+      US-NY: 3672
+      US-TX: 4497
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 27834
+- name: node
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 27834
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:clean_energy: 27834
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/clean_energy.md: 27834
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T18:00:39Z': 27834
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 27834
+variables:
+- name: carbon_free_share_flat_pct
+  label: 'Mean of the hours'' shares: the carbon-free share met by a load that draws the same power every hour'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: carbon_free_share_pct
+  label: Carbon-free MWh over generation MWh, over the complete days
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h00
+  label: 'The month''s average day: carbon-free share in local hour 00 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h01
+  label: 'The month''s average day: carbon-free share in local hour 01 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h02
+  label: 'The month''s average day: carbon-free share in local hour 02 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h03
+  label: 'The month''s average day: carbon-free share in local hour 03 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h04
+  label: 'The month''s average day: carbon-free share in local hour 04 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h05
+  label: 'The month''s average day: carbon-free share in local hour 05 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h06
+  label: 'The month''s average day: carbon-free share in local hour 06 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h07
+  label: 'The month''s average day: carbon-free share in local hour 07 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h08
+  label: 'The month''s average day: carbon-free share in local hour 08 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h09
+  label: 'The month''s average day: carbon-free share in local hour 09 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h10
+  label: 'The month''s average day: carbon-free share in local hour 10 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h11
+  label: 'The month''s average day: carbon-free share in local hour 11 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h12
+  label: 'The month''s average day: carbon-free share in local hour 12 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h13
+  label: 'The month''s average day: carbon-free share in local hour 13 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h14
+  label: 'The month''s average day: carbon-free share in local hour 14 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h15
+  label: 'The month''s average day: carbon-free share in local hour 15 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h16
+  label: 'The month''s average day: carbon-free share in local hour 16 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h17
+  label: 'The month''s average day: carbon-free share in local hour 17 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h18
+  label: 'The month''s average day: carbon-free share in local hour 18 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h19
+  label: 'The month''s average day: carbon-free share in local hour 19 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h20
+  label: 'The month''s average day: carbon-free share in local hour 20 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h21
+  label: 'The month''s average day: carbon-free share in local hour 21 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h22
+  label: 'The month''s average day: carbon-free share in local hour 22 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cf_share_pct_h23
+  label: 'The month''s average day: carbon-free share in local hour 23 (carbon-free MWh over generation MWh of that hour of
+    the complete days)'
+  unit: pct
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cleanest_hour_1
+  label: The local hour of the month's average day with the first highest carbon-free share
+  unit: hour
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cleanest_hour_2
+  label: The local hour of the month's average day with the second highest carbon-free share
+  unit: hour
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cleanest_hour_3
+  label: The local hour of the month's average day with the third highest carbon-free share
+  unit: hour
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cleanest_hour_4
+  label: The local hour of the month's average day with the fourth highest carbon-free share
+  unit: hour
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: cost_days
+  label: Days counted in the cost figures (every hour with a day-ahead hub price)
+  unit: count
+  rows: 204
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: days_held
+  label: The complete days (every local hour held) the figures are over
+  unit: count
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: days_in_month
+  label: The days of the month
+  unit: count
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: flat_cost_usd_per_mwh
+  label: Cost per MWh of a flat 1 MW load at the grid's day-ahead hub price
+  unit: USD/MWh
+  rows: 204
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: flat_kgco2_per_mwh
+  label: Carbon per MWh of a flat 1 MW load, each hour at the carbon intensity of generation (carbon_intensity_hourly)
+  unit: kgCO2/MWh
+  rows: 626
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: own_data
+  label: 1 when the month rests on CAISO's own supply by fuel (California from the join), else 0
+  unit: count
+  rows: 638
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: shift10_carbon_change_pct
+  label: Change in carbon per MWh from moving 10 percent of each day's energy into the four cleanest hours, percent of the
+    flat load's figure (below zero a fall)
+  unit: pct
+  rows: 626
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: shift10_cost_change_pct
+  label: Change in cost per MWh from moving 10 percent of each day's energy into the four cleanest hours, percent of the flat
+    load's figure (below zero a fall)
+  unit: pct
+  rows: 204
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: shift10_cost_usd_per_mwh
+  label: Cost per MWh at the day-ahead hub price of the flat load with 10 percent of each day's energy moved into the four
+    cleanest hours
+  unit: USD/MWh
+  rows: 204
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: shift10_kgco2_per_mwh
+  label: Carbon per MWh of the flat load with 10 percent of each day's energy moved into the four cleanest hours of the month's
+    average day
+  unit: kgCO2/MWh
+  rows: 626
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: shift20_carbon_change_pct
+  label: Change in carbon per MWh from moving 20 percent of each day's energy into the four cleanest hours, percent of the
+    flat load's figure (below zero a fall)
+  unit: pct
+  rows: 626
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: shift20_cost_change_pct
+  label: Change in cost per MWh from moving 20 percent of each day's energy into the four cleanest hours, percent of the flat
+    load's figure (below zero a fall)
+  unit: pct
+  rows: 204
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: shift20_cost_usd_per_mwh
+  label: Cost per MWh at the day-ahead hub price of the flat load with 20 percent of each day's energy moved into the four
+    cleanest hours
+  unit: USD/MWh
+  rows: 204
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: shift20_kgco2_per_mwh
+  label: Carbon per MWh of the flat load with 20 percent of each day's energy moved into the four cleanest hours of the month's
+    average day
+  unit: kgCO2/MWh
+  rows: 626
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: shift_days
+  label: Days counted in the carbon figures of the flat load and its shifts (every hour with a carbon intensity)
+  unit: count
+  rows: 626
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: year_carbon_free_share_flat_pct
+  label: 'Year: mean of the hours'' shares: the carbon-free share met by a load that draws the same power every hour'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_carbon_free_share_pct
+  label: 'Year: carbon-free MWh over generation MWh, over the complete days'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_cost_days
+  label: 'Year: days counted in the cost figures (every hour with a day-ahead hub price)'
+  unit: count
+  rows: 20
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_days_held
+  label: 'Year: the complete days of the months written, the days the yearly figures are over'
+  unit: count
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_flat_cost_usd_per_mwh
+  label: 'Year: cost per MWh of a flat 1 MW load at the grid''s day-ahead hub price'
+  unit: USD/MWh
+  rows: 20
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_flat_kgco2_per_mwh
+  label: 'Year: carbon per MWh of a flat 1 MW load, each hour at the carbon intensity of generation (carbon_intensity_hourly)'
+  unit: kgCO2/MWh
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_hours_cf_ge50_pct
+  label: 'Year: share of the held hours whose carbon-free share is at or above 50 percent'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_hours_cf_ge75_pct
+  label: 'Year: share of the held hours whose carbon-free share is at or above 75 percent'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_hours_cf_ge90_pct
+  label: 'Year: share of the held hours whose carbon-free share is at or above 90 percent'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_match_mix_100_energy_pct
+  label: 'Year: a flat load buys clean energy equal to 100 percent of its use, delivered in the shape of all the grid''s carbon-free
+    generation; share of the load''s energy met in the hour it is used'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_match_mix_100_hours_pct
+  label: 'Year: a flat load buys clean energy equal to 100 percent of its use, delivered in the shape of all the grid''s carbon-free
+    generation; share of hours in which the delivery covers the whole load'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_match_mix_150_energy_pct
+  label: 'Year: a flat load buys clean energy equal to 150 percent of its use, delivered in the shape of all the grid''s carbon-free
+    generation; share of the load''s energy met in the hour it is used'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_match_mix_150_hours_pct
+  label: 'Year: a flat load buys clean energy equal to 150 percent of its use, delivered in the shape of all the grid''s carbon-free
+    generation; share of hours in which the delivery covers the whole load'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_match_mix_50_energy_pct
+  label: 'Year: a flat load buys clean energy equal to 50 percent of its use, delivered in the shape of all the grid''s carbon-free
+    generation; share of the load''s energy met in the hour it is used'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_match_mix_50_hours_pct
+  label: 'Year: a flat load buys clean energy equal to 50 percent of its use, delivered in the shape of all the grid''s carbon-free
+    generation; share of hours in which the delivery covers the whole load'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_match_solar_100_energy_pct
+  label: 'Year: a flat load buys clean energy equal to 100 percent of its use, delivered in the shape of the grid''s solar
+    generation; share of the load''s energy met in the hour it is used'
+  unit: pct
+  rows: 46
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_match_solar_100_hours_pct
+  label: 'Year: a flat load buys clean energy equal to 100 percent of its use, delivered in the shape of the grid''s solar
+    generation; share of hours in which the delivery covers the whole load'
+  unit: pct
+  rows: 46
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_match_solar_150_energy_pct
+  label: 'Year: a flat load buys clean energy equal to 150 percent of its use, delivered in the shape of the grid''s solar
+    generation; share of the load''s energy met in the hour it is used'
+  unit: pct
+  rows: 46
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_match_solar_150_hours_pct
+  label: 'Year: a flat load buys clean energy equal to 150 percent of its use, delivered in the shape of the grid''s solar
+    generation; share of hours in which the delivery covers the whole load'
+  unit: pct
+  rows: 46
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_match_solar_50_energy_pct
+  label: 'Year: a flat load buys clean energy equal to 50 percent of its use, delivered in the shape of the grid''s solar
+    generation; share of the load''s energy met in the hour it is used'
+  unit: pct
+  rows: 46
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_match_solar_50_hours_pct
+  label: 'Year: a flat load buys clean energy equal to 50 percent of its use, delivered in the shape of the grid''s solar
+    generation; share of hours in which the delivery covers the whole load'
+  unit: pct
+  rows: 46
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_match_wind_100_energy_pct
+  label: 'Year: a flat load buys clean energy equal to 100 percent of its use, delivered in the shape of the grid''s wind
+    generation; share of the load''s energy met in the hour it is used'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_match_wind_100_hours_pct
+  label: 'Year: a flat load buys clean energy equal to 100 percent of its use, delivered in the shape of the grid''s wind
+    generation; share of hours in which the delivery covers the whole load'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_match_wind_150_energy_pct
+  label: 'Year: a flat load buys clean energy equal to 150 percent of its use, delivered in the shape of the grid''s wind
+    generation; share of the load''s energy met in the hour it is used'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_match_wind_150_hours_pct
+  label: 'Year: a flat load buys clean energy equal to 150 percent of its use, delivered in the shape of the grid''s wind
+    generation; share of hours in which the delivery covers the whole load'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_match_wind_50_energy_pct
+  label: 'Year: a flat load buys clean energy equal to 50 percent of its use, delivered in the shape of the grid''s wind generation;
+    share of the load''s energy met in the hour it is used'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_match_wind_50_hours_pct
+  label: 'Year: a flat load buys clean energy equal to 50 percent of its use, delivered in the shape of the grid''s wind generation;
+    share of hours in which the delivery covers the whole load'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_months
+  label: 'Year: months written (a year is written when at most one of its months due is missing)'
+  unit: count
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_months_due
+  label: 'Year: months due, up to the last month written'
+  unit: count
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_own_data_months
+  label: 'Year: months resting on CAISO''s own supply by fuel'
+  unit: count
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_shift10_carbon_change_pct
+  label: 'Year: change in carbon per MWh from moving 10 percent of each day''s energy into the four cleanest hours, percent
+    of the flat load''s figure (below zero a fall)'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_shift10_cost_change_pct
+  label: 'Year: change in cost per MWh from moving 10 percent of each day''s energy into the four cleanest hours, percent
+    of the flat load''s figure (below zero a fall)'
+  unit: pct
+  rows: 20
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_shift10_cost_usd_per_mwh
+  label: 'Year: cost per MWh at the day-ahead hub price of the flat load with 10 percent of each day''s energy moved into
+    the four cleanest hours'
+  unit: USD/MWh
+  rows: 20
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_shift10_kgco2_per_mwh
+  label: 'Year: carbon per MWh of the flat load with 10 percent of each day''s energy moved into the four cleanest hours of
+    the month''s average day'
+  unit: kgCO2/MWh
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_shift20_carbon_change_pct
+  label: 'Year: change in carbon per MWh from moving 20 percent of each day''s energy into the four cleanest hours, percent
+    of the flat load''s figure (below zero a fall)'
+  unit: pct
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_shift20_cost_change_pct
+  label: 'Year: change in cost per MWh from moving 20 percent of each day''s energy into the four cleanest hours, percent
+    of the flat load''s figure (below zero a fall)'
+  unit: pct
+  rows: 20
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_shift20_cost_usd_per_mwh
+  label: 'Year: cost per MWh at the day-ahead hub price of the flat load with 20 percent of each day''s energy moved into
+    the four cleanest hours'
+  unit: USD/MWh
+  rows: 20
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_shift20_kgco2_per_mwh
+  label: 'Year: carbon per MWh of the flat load with 20 percent of each day''s energy moved into the four cleanest hours of
+    the month''s average day'
+  unit: kgCO2/MWh
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+- name: year_shift_days
+  label: 'Year: days counted in the carbon figures of the flat load and its shifts (every hour with a carbon intensity)'
+  unit: count
+  rows: 52
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-01-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,258 @@
+# The codebook's metadata of table hub_price_comparison (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: hub_price_comparison
+family: erw_derived
+shape: series
+row: One public hub or zone's value of one price measure, day-ahead or real time, over the last twelve months (freq P1Y) or
+  the last whole month (P1M), or its grid's carbon intensity over the same window.
+time: ts_utc is the window's first day in the grid's local time; P1Y the twelve months from it, P1M its month.
+vintage_rule: Rewritten whole by each run (the windows move with the last whole month); vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1M;P1Y
+source:
+- name: erw:hub_price_comparison from each grid operator's public price reports (CAISO OASIS; ERCOT NP4-180-ER, NP4-190-CD,
+    NP6-785-ER, NP6-905-CD; ISO-NE hourly and five-minute LMPs; NYISO zonal LBMPs; SPP LMP by settlement location) and from
+    EIA-930 emissions
+  url: ''
+cite: 'Energy Research Warehouse (ERW), derived. Where power is cheap: hub and zone prices compared (docs/methods/hub_price_comparison.md).
+  Via the Energy Research Warehouse (ERW), table `hub_price_comparison`.'
+method: docs/methods/hub_price_comparison.md
+header_title: where power is cheap, every public hub and zone price held, compared over twelve months and over the last whole
+  month (session 96)
+header_shape: 'Shape: series (docs/datastandard.md v0). Entity <iso>:<node>. freq P1Y: the twelve months from ts_utc; freq
+  P1M: the month of ts_utc; both in the grid''s local time. Variables, for dam (day-ahead) and rtm (real-time): _avg_price,
+  _negative_hours_share_pct, _above_200_hours_share_pct, _day_spread_top4_bottom4, _hours_held, _hours_in_window; and grid_carbon_intensity,
+  grid_carbon_days_held. Definitions: docs/methods/hub_price_comparison.md.'
+read:
+  date: '2026-11-20'
+  rows: 880
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: <iso>:<node>, every public hub and zone price held (MISO and PJM not included)
+  type: text
+  values:
+    distinct: 39
+    examples:
+    - caiso:TH_NP15_GEN-APND
+    - caiso:TH_SP15_GEN-APND
+    - caiso:TH_ZP26_GEN-APND
+    - ercot:HB_BUSAVG
+    - ercot:HB_HOUSTON
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2025-11-01T00:00:00Z': 301
+      '2026-10-01T00:00:00Z': 579
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 375
+    lowest: 0.0
+    highest: 8760.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 288
+      count: 346
+      kgCO2/MWh: 54
+      pct: 192
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 579
+      P1Y: 301
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 37
+      US-CA: 87
+      US-CT,US-MA,US-ME,US-NH,US-RI,US-VT: 100
+      US-NY: 216
+      US-TX: 440
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: the market is in the variable''s prefix (dam or rtm)'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 880
+- name: node
+  shared: true
+  type: text
+  values:
+    distinct: 39
+    examples:
+    - .H.INTERNAL_HUB
+    - .Z.CONNECTICUT
+    - .Z.MAINE
+    - .Z.NEMASSBOST
+    - .Z.NEWHAMPSHIRE
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:hub_price_comparison: 880
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/hub_price_comparison.md: 880
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-17T07:41:45Z': 880
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 880
+variables:
+- name: dam_above_200_hours_share_pct
+  label: 'Day-ahead: share of the window''s hours with a price above USD 200 per MWh'
+  unit: pct
+  rows: 58
+  first: '2025-11-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: dam_avg_price
+  label: 'Day-ahead: mean of the window''s hourly prices'
+  unit: USD/MWh
+  rows: 58
+  first: '2025-11-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: dam_daily_spread_days
+  label: 'Day-ahead: the whole local days behind the mean daily spread'
+  unit: count
+  rows: 58
+  first: '2025-11-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: dam_daily_spread_mean_top4_bottom4
+  label: 'Day-ahead: mean over the window''s whole local days of each day''s four dearest hours less its four cheapest'
+  unit: USD/MWh
+  rows: 58
+  first: '2025-11-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: dam_day_spread_top4_bottom4
+  label: 'Day-ahead: on the window''s average day, the mean of its four dearest hours less the mean of its four cheapest'
+  unit: USD/MWh
+  rows: 58
+  first: '2025-11-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: dam_hours_held
+  label: 'Day-ahead: hours of the window with a price held'
+  unit: count
+  rows: 58
+  first: '2025-11-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: dam_hours_in_window
+  label: 'Day-ahead: hours in the window'
+  unit: count
+  rows: 58
+  first: '2025-11-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: dam_negative_hours_share_pct
+  label: 'Day-ahead: share of the window''s hours with a price below zero'
+  unit: pct
+  rows: 58
+  first: '2025-11-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: grid_carbon_days_held
+  label: Days of the window with the grid's daily carbon intensity held
+  unit: count
+  rows: 58
+  first: '2025-11-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: grid_carbon_intensity
+  label: Mean of the grid's daily carbon intensities of generation held in the window
+  unit: kgCO2/MWh
+  rows: 54
+  first: '2025-11-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: rtm_above_200_hours_share_pct
+  label: 'Real time: share of the window''s hours with a price above USD 200 per MWh'
+  unit: pct
+  rows: 38
+  first: '2025-11-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: rtm_avg_price
+  label: 'Real time: mean of the window''s hourly prices'
+  unit: USD/MWh
+  rows: 38
+  first: '2025-11-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: rtm_daily_spread_days
+  label: 'Real time: the whole local days behind the mean daily spread'
+  unit: count
+  rows: 38
+  first: '2025-11-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: rtm_daily_spread_mean_top4_bottom4
+  label: 'Real time: mean over the window''s whole local days of each day''s four dearest hours less its four cheapest'
+  unit: USD/MWh
+  rows: 38
+  first: '2025-11-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: rtm_day_spread_top4_bottom4
+  label: 'Real time: on the window''s average day, the mean of its four dearest hours less the mean of its four cheapest'
+  unit: USD/MWh
+  rows: 38
+  first: '2025-11-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: rtm_hours_held
+  label: 'Real time: hours of the window with a price held'
+  unit: count
+  rows: 38
+  first: '2025-11-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: rtm_hours_in_window
+  label: 'Real time: hours in the window'
+  unit: count
+  rows: 38
+  first: '2025-11-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+- name: rtm_negative_hours_share_pct
+  label: 'Real time: share of the window''s hours with a price below zero'
+  unit: pct
+  rows: 38
+  first: '2025-11-01T00:00:00Z'
+  last: '2026-10-01T00:00:00Z'
+second_look: null

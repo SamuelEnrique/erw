@@ -1,0 +1,128 @@
+# The codebook's metadata of table ferc714_area_demand_2012 (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ferc714_area_demand_2012
+family: ferc714
+shape: series
+row: One planning area's demand over one hour of the table's year, as its utility filed it on FERC Form 714 Part III Schedule
+  2a, read through PUDL's core table.
+time: ts_utc is the hour's start in UTC (PUDL's datetime_utc marks the hour's end, so the connector takes one hour off); freq
+  PT1H.
+vintage_rule: 'A snapshot: each run replaces the whole table for its year, so a later PUDL release replaces what was held.
+  vintage is the PUDL file''s Last-Modified time.'
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: PT1H
+source:
+- name: 'pudl:core_ferc714__hourly_planning_area_demand Catalyst Cooperative, PUDL: FERC Form 714 hourly planning area demand
+    (core table, stable release)'
+  url: https://docs.catalyst.coop/pudl/en/stable/data_sources/ferc714.html
+cite: Catalyst Cooperative (PUDL), from FERC Form 714. FERC Form 714 hourly planning area demand (PUDL core table, stable
+  release). Via the Energy Research Warehouse (ERW), table `ferc714_area_demand_2012`.
+method: docs/methods/ferc714_area_demand.md
+header_title: FERC Form 714 hourly demand by planning area, 2012 (session 484)
+header_shape: 'Shape: series (docs/datastandard.md v0). demand: the planning area''s demand over the hour in MW, as filed
+  on FERC Form 714 Part III Schedule 2a; ts_utc is the hour''s start (PUDL''s datetime_utc, the hour''s end, less one hour);
+  node is the respondent''s name; freq PT1H.'
+read:
+  date: '2026-11-20'
+  rows: 1062839
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: ferc714:<PUDL's respondent id>, the planning area's filer; the id links FERC's CSV ids (to 2020) and XBRL ids
+    (from 2021)
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1062839
+- name: node
+  shared: true
+  particular: The respondent's name from PUDL's respondent table, not a pricing node
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The Last-Modified time of PUDL's parquet file
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+variables:
+- name: demand
+  label: 'The planning area''s demand over the hour, as filed (PUDL''s demand_mwh: an hour''s MWh is its mean MW); negatives
+    kept as filed, missing hours absent, nothing imputed'
+  unit: MW
+  rows: 1062839
+  first: '2012-01-01T00:00:00Z'
+  last: '2012-12-31T23:00:00Z'
+second_look: null

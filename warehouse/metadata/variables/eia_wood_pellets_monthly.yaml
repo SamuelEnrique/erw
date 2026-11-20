@@ -1,0 +1,189 @@
+# The codebook's metadata of table eia_wood_pellets_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_wood_pellets_monthly
+family: eia
+shape: series
+row: One month's figure from EIA's Monthly Densified Biomass Fuel Report (wood pellets) for a region, the U.S. or a feedstock
+  type (a price, a feedstock cost, facilities or employees).
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:densified-biomass U.S. Energy Information Administration, Monthly Densified Biomass Fuel Report (API v2, routes
+    densified-biomass/sales-and-price-by-region, export-sales-and-price, capacity-by-region)
+  url: https://www.eia.gov/biofuels/biomass/
+cite: U.S. Energy Information Administration (EIA). Monthly Densified Biomass Fuel Report (API v2). Via the Energy Research
+  Warehouse (ERW), table `eia_wood_pellets_monthly`.
+method: docs/methods/eia_wood_pellets_monthly.md
+header_title: 'EIA, densified biomass (wood pellets): domestic and export prices, plants and employees, a month (session 558)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_wood_pellets:<sales|export|capacity>:<region>; variable
+  domestic_price or export_price (USD/short_ton), facilities or fte_employees (count), feedstock_cost (USD/short_ton, by fuel
+  type); ts_utc the month''s first day; freq P1M; node EIA''s region or fuel name. EIA''s tonnages are not taken.'
+read:
+  date: '2026-11-20'
+  rows: 2090
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia_wood_pellets:<sales|export|capacity|feedstocks>:<region or fuel type>
+  type: text
+  values:
+    list:
+      eia_wood_pellets:capacity:EAST: 250
+      eia_wood_pellets:capacity:SOUTH: 250
+      eia_wood_pellets:capacity:US-TOTAL: 250
+      eia_wood_pellets:capacity:WEST: 250
+      eia_wood_pellets:export:US: 113
+      eia_wood_pellets:feedstocks:OR: 105
+      eia_wood_pellets:feedstocks:RP: 124
+      eia_wood_pellets:feedstocks:SR: 124
+      eia_wood_pellets:feedstocks:WPMR: 124
+      eia_wood_pellets:sales:EAST: 125
+      eia_wood_pellets:sales:SOUTH: 125
+      eia_wood_pellets:sales:US-TOTAL: 125
+      eia_wood_pellets:sales:WEST: 125
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 125
+    earliest: '2016-01-01T00:00:00Z'
+    latest: '2026-05-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1370
+    lowest: 0.0
+    highest: 2610.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/short_ton: 1090
+      count: 1000
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 2090
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US on every row, the regions included
+  type: text
+  values:
+    list:
+      US: 2090
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2090
+- name: node
+  shared: true
+  particular: EIA's region or fuel type name
+  type: text
+  values:
+    list:
+      EAST: 375
+      Other Residuals: 105
+      Roundwood/Pulpwood: 124
+      SOUTH: 375
+      Sawmill Residuals: 124
+      US: 113
+      US-TOTAL: 375
+      WEST: 375
+      Wood Product Manufacturing Residuals: 124
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:densified-biomass: 2090
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/densified-biomass/capacity-by-region/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=number-of-facilities&data%5B%5D=number-of-fte-employees&start=2016-01
+      : 1000
+      ? https://api.eia.gov/v2/densified-biomass/export-sales-and-price/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=average-price&start=2016-01
+      : 113
+      ? https://api.eia.gov/v2/densified-biomass/feedstocks-and-cost/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=cost&start=2016-01
+      : 477
+      ? https://api.eia.gov/v2/densified-biomass/sales-and-price-by-region/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=average-price&start=2016-01
+      : 500
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T23:57:46Z': 2090
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2090
+variables:
+- name: domestic_price
+  label: Average price of domestic sales of densified biomass in the region, USD per short ton
+  unit: USD/short_ton
+  rows: 500
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-05-01T00:00:00Z'
+- name: export_price
+  label: Average price of densified biomass exports, USD per short ton
+  unit: USD/short_ton
+  rows: 113
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-05-01T00:00:00Z'
+- name: facilities
+  label: Number of densified biomass facilities in the region
+  unit: count
+  rows: 500
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-05-01T00:00:00Z'
+- name: feedstock_cost
+  label: Cost of the feedstock type, USD per short ton
+  unit: USD/short_ton
+  rows: 477
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-05-01T00:00:00Z'
+- name: fte_employees
+  label: Full-time equivalent employees of the region's facilities
+  unit: count
+  rows: 500
+  first: '2016-01-01T00:00:00Z'
+  last: '2026-05-01T00:00:00Z'
+second_look: null

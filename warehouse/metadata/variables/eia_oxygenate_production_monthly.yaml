@@ -1,0 +1,168 @@
+# The codebook's metadata of table eia_oxygenate_production_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_oxygenate_production_monthly
+family: eia
+shape: series
+row: One month's oxygenate plant production (fuel ethanol, MTBE and other oxygenates) or biofuels plant net production in
+  the U.S. or a PADD, in the month or per day.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:petroleum/pnp/oxy U.S. Energy Information Administration, Petroleum Supply Monthly, oxygenate plant production
+    (API v2, route petroleum/pnp/oxy)
+  url: https://www.eia.gov/dnav/pet/pet_pnp_oxy_dc_nus_mbbl_m.htm
+cite: U.S. Energy Information Administration (EIA). Petroleum Supply Monthly, oxygenate plant production (API v2). Via the
+  Energy Research Warehouse (ERW), table `eia_oxygenate_production_monthly`.
+method: docs/methods/eia_oxygenate_production_monthly.md
+header_title: EIA, oxygenate plant production (fuel ethanol, MTBE and other oxygenates), the U.S. and the PADDs, a month (session
+  631)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_oxygenate_production:<series>; variable oxygenate_plant_production
+  or biofuels_plant_net_production (kbbl), each with _per_day (kbbl/d); ts_utc the month''s first day; freq P1M; node EIA''s
+  series name (the product and area). The PADDs are parts of the U.S.: a sum takes one level.'
+read:
+  date: '2026-11-20'
+  rows: 6006
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia_oxygenate_production:<EIA series id>
+  type: text
+  values:
+    distinct: 30
+    examples:
+    - eia_oxygenate_production:M_EPOOXE_YOP_NUS_1
+    - eia_oxygenate_production:M_EPOOXE_YOP_NUS_2
+    - eia_oxygenate_production:M_EPOOXE_YOP_R10_1
+    - eia_oxygenate_production:M_EPOOXE_YOP_R10_2
+    - eia_oxygenate_production:M_EPOOXE_YOP_R20_1
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 547
+    earliest: '1981-01-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1940
+    lowest: 0.0
+    highest: 34934.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      kbbl: 3009
+      kbbl/d: 2997
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 6006
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US on every row, the PADDs included
+  type: text
+  values:
+    list:
+      US: 6006
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 6006
+- name: node
+  shared: true
+  particular: EIA's series name (the product and area)
+  type: text
+  values:
+    distinct: 30
+    examples:
+    - East Coast (PADD 1) Oxygenate Plant Production of Fuel Ethanol (Thousand Barrels per Day)
+    - East Coast (PADD 1) Oxygenate Plant Production of Fuel Ethanol (Thousand Barrels)
+    - East Coast (PADD 1) Oxygenate Plant Production of MTBE (Thousand Barrels per Day)
+    - East Coast (PADD 1) Oxygenate Plant Production of MTBE (Thousand Barrels)
+    - Gulf Coast (PADD 3) Biofuels Plant Net Production of Other Oxygenates (Thousand Barrels per Day)
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:petroleum/pnp/oxy: 6006
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/petroleum/pnp/oxy/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bprocess%5D%5B%5D=YOP&facets%5Bprocess%5D%5B%5D=YNP&start=1981-01
+      : 6006
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-22T05:07:00Z': 6006
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 6006
+variables:
+- name: biofuels_plant_net_production
+  label: Biofuels plant net production (YNP) in the month, thousand barrels
+  unit: kbbl
+  rows: 297
+  first: '2010-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: biofuels_plant_net_production_per_day
+  label: Biofuels plant net production (YNP), thousand barrels a day
+  unit: kbbl/d
+  rows: 297
+  first: '2010-01-01T00:00:00Z'
+  last: '2025-12-01T00:00:00Z'
+- name: oxygenate_plant_production
+  label: Oxygenate plant production (YOP) in the month, thousand barrels
+  unit: kbbl
+  rows: 2712
+  first: '1981-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: oxygenate_plant_production_per_day
+  label: Oxygenate plant production (YOP), thousand barrels a day
+  unit: kbbl/d
+  rows: 2700
+  first: '1981-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

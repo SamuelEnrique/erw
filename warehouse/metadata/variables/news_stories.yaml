@@ -1,0 +1,305 @@
+# The codebook's metadata of table news_stories (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: news_stories
+family: news
+shape: events
+row: One energy news story from the ERW's feeds (title, summary trimmed to 500 characters and link, never the article body),
+  with the scoring model's fields once scored.
+time: event_date is the story's publish time in UTC, as the feed gives it.
+vintage_rule: 'Merged by event_id (news:<16 hex of the canonical URL''s sha1>): a story already stored is never rewritten
+  by the ingest, so its scores stay; the scorer fills the score fields of unscored stories. No vintage column.'
+keys:
+- event_id
+license: internal
+tier: model_extracted
+interval: event
+source: []
+cite: 'ANS Nuclear Newswire; Africa Sustainable Futures Awards; Bloomberg; Bloomberg Media; Bloomberg Mercury; Bloomberg.com;
+  CTVC; California ISO; California Public Advocates Office (.gov); California Public Utilities Commission (.gov); California
+  State Portal | CA.gov; Canary Media; CivicPlus; DOE newsroom; Data Center Dynamics; Data Center Frontier; Data Center Knowledge;
+  EIA Today in Energy; EPA''s Central Data Exchange (CDX) (.gov); Electrek; Electric Reliability Council of Texas (ERCOT);
+  Energy-Storage.news; FT Channels; Federal Energy Regulatory Commission (.gov); Financial Times; Hart Energy; Heatmap News;
+  Hydrogen Insight; IEA - International Energy Agency; ISO-NE newsroom; JPT Homepage; LNG Prime; Latitude Media; MISO Help
+  Center; Midcontinent Independent System Operator; Midcontinent Independent System Operator (MISO); NYISO; Natural Gas Intelligence;
+  OPEC: Publications; OilPrice.com; Organization of the Petroleum Exporting Countries; PJM newsroom; POWER Magazine; PUC Interchange
+  (.gov); Public Utility Commission of Texas (.gov); Reuters; Rigzone; Southwest Power Pool; Southwest Power Pool (SPP); T&D
+  World; Texas.gov; U.S. Environmental Protection Agency (.gov); Utility Dive; WSJ; World Nuclear News; bloomberg.com; caiso.com;
+  careers.misoenergy.org; cdn.misoenergy.org; commodities-volatility-asia.live.ft.com; cpuc.ca.gov; ep.ft.com; ercot.com;
+  ft.com; hartenergy.com; hydrogeninsight.com; ia.cpuc.ca.gov; jpt.spe.org; lei.bloomberg.com; mercury.bloomberg.com; misoenergy.org;
+  nepis.epa.gov; nyiso mis; nyiso.com; partners.wsj.com; plus.reuters.com; pv magazine USA; rmb.reuters.com; wsj.com. news
+  stories; news stories [PAUSED 2026-10-04: MISO''s terms forbid automated access; pulls paused pending a review of MISO''s
+  terms by a person (docs/methods/miso_pause.md)]; news stories via feed ''Bloomberg energy (via Google News)''; news stories
+  via feed ''CAISO newsroom''; news stories via feed ''CPUC news''; news stories via feed ''CTVC''; news stories via feed
+  ''Canary Media''; news stories via feed ''DOE newsroom''; news stories via feed ''Data Center Frontier''; news stories via
+  feed ''Data Center Knowledge''; news stories via feed ''EIA Today in Energy''; news stories via feed ''EPA news''; news
+  stories via feed ''ERCOT newsroom''; news stories via feed ''Electrek''; news stories via feed ''Energy-Storage.news'';
+  news stories via feed ''FERC news''; news stories via feed ''FT energy (via Google News)''; news stories via feed ''Hart
+  Energy''; news stories via feed ''Hydrogen Insight''; news stories via feed ''IEA news''; news stories via feed ''ISO-NE
+  newsroom''; news stories via feed ''JPT (SPE)''; news stories via feed ''LNG Prime''; news stories via feed ''Latitude Media'';
+  news stories via feed ''NYISO newsroom''; news stories via feed ''Natural Gas Intelligence''; news stories via feed ''OPEC
+  press releases''; news stories via feed ''PJM newsroom''; news stories via feed ''POWER Magazine''; news stories via feed
+  ''Reuters energy (via Google News)''; news stories via feed ''Rigzone''; news stories via feed ''SPP newsroom''; news stories
+  via feed ''T&D World''; news stories via feed ''Texas PUC news''; news stories via feed ''Utility Dive''; news stories via
+  feed ''WSJ energy (via Google News)''; news stories via feed ''World Nuclear News''. Via the Energy Research Warehouse (ERW),
+  table `news_stories`.'
+method: docs/methods/news_index.md
+header_title: Energy news stories, titles, summaries and links
+header_shape: 'Shape: events (docs/datastandard.md v0), event_type news; news columns per Decision 15. event_date is the publish
+  time, UTC.'
+read:
+  date: '2026-11-20'
+  rows: 27419
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_date
+  shared: true
+  particular: The story's publish time, UTC
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: news on every row
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 14094
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 27419
+- name: mw
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 27083
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 27419
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 27419
+- name: status
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 27419
+- name: source
+  shared: true
+  particular: 'The outlet: the feed''s name, or for a Google News item the outlet in its source element'
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  particular: The story's link; the outlet's address where a Google News link was resolved
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: title
+  label: The story's title as the feed gives it (the outlet's text)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector ingest.py; method news_index.md
+- name: summary
+  label: The feed's summary of the story, trimmed to 500 characters (the outlet's text)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 2
+  missing_meaning: The feed gave no summary
+  source_name: null
+  documented_by: connector ingest.py
+- name: feed
+  label: The feed the story came from (with the backfill query that found it, for a backfilled story)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector ingest.py
+- name: feed_sector
+  label: The feed's own beat, from feeds.yaml
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector ingest.py
+- name: feed_region
+  label: The feed's region, from feeds.yaml
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector ingest.py
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: significance
+  label: The model's score, 0 to 10, of how much the story changes what an informed energy professional believes about where
+    the industry is going (the news rubric)
+  unit: none
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 6567
+  missing_meaning: The story is not scored yet
+  source_name: null
+  documented_by: source warehouse/news/rubric.md; connector score.py
+- name: ai_power_relevance
+  label: The model's score, 0 to 10, of how directly the story concerns power demand from AI and datacenters and what serves
+    it
+  unit: none
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 6567
+  missing_meaning: The story is not scored yet
+  source_name: null
+  documented_by: source warehouse/news/rubric.md; connector score.py
+- name: sector
+  label: The model's sector of the story (one of the scorer's sectors)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 6567
+  missing_meaning: The story is not scored yet
+  source_name: null
+  documented_by: connector score.py; method news_index.md
+- name: region
+  label: The model's region of the story (a US state, a country, or global)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 6567
+  missing_meaning: The story is not scored yet
+  source_name: null
+  documented_by: connector score.py
+- name: price_mentioned
+  label: The first price or dollar amount the title or summary states, verbatim (the model's copy)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 25303
+  missing_meaning: Not scored, or the title and summary state no price
+  source_name: null
+  documented_by: connector score.py
+- name: why
+  label: The model's one-line reason for its scores
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 6567
+  missing_meaning: The story is not scored yet
+  source_name: one_line_why
+  documented_by: connector score.py
+- name: cluster_id
+  label: 'Joins stories the model marks as one event (an is_duplicate_of chain), written as a news: id'
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 6567
+  missing_meaning: The story is not scored yet
+  source_name: null
+  documented_by: method news_index.md; connector score.py
+- name: model_id
+  label: The model that scored the story
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 6567
+  missing_meaning: The story is not scored yet
+  source_name: null
+  documented_by: connector score.py
+- name: scored_at
+  label: When the story was scored, UTC
+  unit: none
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 6567
+  missing_meaning: The story is not scored yet
+  source_name: null
+  documented_by: connector score.py
+- name: headline
+  label: The model's plain headline of the story, at most 14 words
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 7199
+  missing_meaning: Not scored, or scored before session 7, when the model wrote no headline
+  source_name: null
+  documented_by: connector score.py; connector index.py
+- name: google_news_url
+  label: The Google News link the story came through, moved here when the link was followed to the outlet
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 3585
+  missing_meaning: The story did not come through Google News, or its link has not been followed
+  source_name: null
+  documented_by: connector ingest.py
+- name: url_resolved
+  label: Whether the Google News link was followed to the outlet, or no and why
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 3585
+  missing_meaning: Not a Google News story, or not tried yet
+  source_name: null
+  documented_by: connector ingest.py
+second_look: null

@@ -1,0 +1,200 @@
+# The codebook's metadata of table usbr_crsp_reservoirs_daily (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: usbr_crsp_reservoirs_daily
+family: usbr
+shape: series
+row: One daily reading (pool elevation, storage, power release or total release) of one of the Colorado River Storage Project's
+  power reservoirs above Lake Powell (Flaming Gorge, Blue Mesa, Morrow Point, Crystal), from Reclamation's Upper Colorado
+  hydrodata.
+time: ts_utc is the day at 00:00:00Z; freq P1D. Reclamation calls all data provisional and subject to revision.
+vintage_rule: A later run merges by (entity, variable, ts_utc), a revised value replacing the old one; a day Reclamation later
+  blanks writes no row, so the earlier value stays. vintage is each file's Last-Modified time.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1D
+source:
+- name: usbr:hydrodata_crsp_reservoirs U.S. Bureau of Reclamation, Upper Colorado Basin Region, reservoir data (hydrodata)
+  url: https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html
+cite: 'U.S. Bureau of Reclamation (USBR). Upper Colorado region''s reservoir data (hydrodata): Flaming Gorge, Blue Mesa, Morrow
+  Point and Crystal. Via the Energy Research Warehouse (ERW), table `usbr_crsp_reservoirs_daily`.'
+method: docs/methods/usbr_crsp_reservoirs_daily.md
+header_title: Bureau of Reclamation, Upper Colorado region's hydrodata, the Colorado River Storage Project's power reservoirs
+  above Lake Powell (Flaming Gorge, Blue Mesa, Morrow Point, Crystal), pool elevation, storage, power release and total release,
+  a day (session 2221)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity usbr_hydrodata:<site> (917 Flaming Gorge, 913 Blue Mesa, 914
+  Morrow Point, 915 Crystal); variable pool_elevation (ft, feet above mean sea level, Decision 71), storage (acre-ft, Decision
+  72), power_release and total_release (ft3/s); ts_utc the day at 00:00:00Z; freq P1D; geo US-UT or US-CO. Reclamation: ''All
+  data considered provisional and subject to revision.'''
+read:
+  date: '2026-11-20'
+  rows: 330293
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: usbr_hydrodata:<Reclamation's site number> (917 Flaming Gorge, 913 Blue Mesa, 914 Morrow Point, 915 Crystal)
+  type: text
+  values:
+    list:
+      usbr_hydrodata:913: 85390
+      usbr_hydrodata:914: 81540
+      usbr_hydrodata:915: 72482
+      usbr_hydrodata:917: 90881
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '1962-11-01T00:00:00Z'
+    latest: '2026-10-22T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -119.60493
+    highest: 3913631.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      acre-ft: 83052
+      ft: 81571
+      ft3/s: 165670
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 330293
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-UT (Flaming Gorge) or US-CO
+  type: text
+  values:
+    list:
+      US-CO: 239412
+      US-UT: 90881
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 330293
+- name: node
+  shared: true
+  particular: The reservoir's name, not a pricing node
+  type: text
+  values:
+    list:
+      Blue Mesa Reservoir: 85390
+      Crystal Reservoir: 72482
+      Flaming Gorge Reservoir: 90881
+      Morrow Point Reservoir: 81540
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      usbr:hydrodata_crsp_reservoirs: 330293
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/913/csv/17.csv: 21180
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/913/csv/39.csv: 21206
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/913/csv/42.csv: 21145
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/913/csv/49.csv: 21859
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/914/csv/17.csv: 20415
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/914/csv/39.csv: 20265
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/914/csv/42.csv: 20414
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/914/csv/49.csv: 20446
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/915/csv/17.csv: 18121
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/915/csv/39.csv: 18120
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/915/csv/42.csv: 18120
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/915/csv/49.csv: 18121
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/917/csv/17.csv: 23336
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/917/csv/39.csv: 23033
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/917/csv/42.csv: 23367
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/917/csv/49.csv: 21145
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T02:09:29Z': 133920
+      '2026-10-24T02:09:30Z': 196373
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: Each data file's Last-Modified time
+  type: utc time
+  values:
+    list:
+      '2026-10-23T22:06:25Z': 21180
+      '2026-10-23T22:06:27Z': 20415
+      '2026-10-23T22:06:29Z': 18121
+      '2026-10-23T22:06:32Z': 23336
+      '2026-10-23T22:09:44Z': 21206
+      '2026-10-23T22:09:45Z': 20265
+      '2026-10-23T22:09:48Z': 18120
+      '2026-10-23T22:09:51Z': 23033
+      '2026-10-23T22:09:58Z': 21145
+      '2026-10-23T22:10:00Z': 20414
+      '2026-10-23T22:10:01Z': 18120
+      '2026-10-23T22:10:04Z': 23367
+      '2026-10-23T22:11:23Z': 21859
+      '2026-10-23T22:11:24Z': 20446
+      '2026-10-23T22:11:26Z': 18121
+      '2026-10-23T22:11:29Z': 21145
+  missing_cells: 0
+variables:
+- name: pool_elevation
+  label: The reservoir's water surface elevation, ft (feet above mean sea level)
+  unit: ft
+  rows: 81571
+  first: '1965-11-30T00:00:00Z'
+  last: '2026-10-22T00:00:00Z'
+- name: power_release
+  label: Water released through the power plant's turbines, ft3/s (cubic feet per second)
+  unit: ft3/s
+  rows: 82624
+  first: '1963-10-01T00:00:00Z'
+  last: '2026-10-22T00:00:00Z'
+- name: storage
+  label: The water held in the reservoir, acre-ft
+  unit: acre-ft
+  rows: 83052
+  first: '1962-12-02T00:00:00Z'
+  last: '2026-10-22T00:00:00Z'
+- name: total_release
+  label: All water released from the dam, ft3/s (cubic feet per second)
+  unit: ft3/s
+  rows: 83046
+  first: '1962-11-01T00:00:00Z'
+  last: '2026-10-22T00:00:00Z'
+second_look: null

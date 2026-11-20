@@ -1,0 +1,156 @@
+# The codebook's metadata of table hagstofa_iceland_power_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: hagstofa_iceland_power_annual
+family: other_sources
+shape: series
+row: Iceland's installed capacity or generation in public power plants in one year, from Statistics Iceland's table IDN02101.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y; 1976 to 2019; capacity at the year's end.
+vintage_rule: Rewritten whole as one snapshot by each run from one JSON-stat query; vintage is the answer's updated time.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: hagstofa:IDN02101 Statistics Iceland (Hagstofa Islands), from the National Energy Authority
+  url: https://px.hagstofa.is/pxen/pxweb/en/Umhverfi/Umhverfi__4_orkumal__2_framleidslaognotkun/
+cite: 'Statistics Iceland (Hagstofa Islands). Table IDN02101: installed capacity and generation in public power plants. Via
+  the Energy Research Warehouse (ERW), table `hagstofa_iceland_power_annual`.'
+method: docs/methods/hagstofa_iceland_power_annual.md
+header_title: Statistics Iceland, table IDN02101, installed capacity and generation in public power plants, 1976 to 2019 (session
+  2397)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity hagstofa:is; variable capacity (MW, at the year''s end) or
+  generation (MWh, the table''s GWh times 1,000); ts_utc the year''s first day; freq P1Y; geo IS; node the measure as Statistics
+  Iceland names it; x_table the table.'
+read:
+  date: '2026-11-20'
+  rows: 88
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: hagstofa:is on every row
+  type: text
+  values:
+    list:
+      hagstofa:is: 88
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 44
+    earliest: '1976-01-01T00:00:00Z'
+    latest: '2019-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 87
+    lowest: 502.7
+    highest: 19828868.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 44
+      MWh: 44
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 88
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: IS on every row
+  type: text
+  values:
+    list:
+      IS: 88
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 88
+- name: node
+  shared: true
+  particular: The measure as Statistics Iceland names it, not a pricing node
+  type: text
+  values:
+    list:
+      Annual generation of energy, GWh: 44
+      Installed capacity at end of period, MW: 44
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      hagstofa:IDN02101: 88
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://px.hagstofa.is/pxen/api/v1/en/Umhverfi/4_orkumal/2_framleidslaognotkun/IDN02101.px: 88
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T10:14:30Z': 88
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The JSON-stat answer's updated time (UTC)
+  type: utc time
+  values:
+    list:
+      '2015-12-10T10:41:00Z': 88
+  missing_cells: 0
+- name: x_table
+  label: Statistics Iceland's table code (IDN02101)
+  unit: none
+  type: text
+  values:
+    list:
+      IDN02101: 88
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector hagstofa_iceland_electricity.py; method hagstofa_iceland_power_annual.md
+variables:
+- name: capacity
+  label: Installed capacity of public power plants at the year's end
+  unit: MW
+  rows: 44
+  first: '1976-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+- name: generation
+  label: Annual generation of public power plants (the table's GWh times 1,000)
+  unit: MWh
+  rows: 44
+  first: '1976-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+second_look: null

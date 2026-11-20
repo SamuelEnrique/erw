@@ -1,0 +1,200 @@
+# The codebook's metadata of table large_load_wait_summary (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: large_load_wait_summary
+family: large
+shape: series
+row: One figure (a count of requests or a median wait) for one publisher's queue and one interval, summarised from large_load_waits
+  with no request named and no megawatts given.
+time: ts_utc is the publisher's latest dated copy (a date at 00:00:00Z); freq is not filled.
+vintage_rule: Written whole from large_load_waits by each run (the old file is removed first, then a snapshot is written);
+  vintage is not a column.
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: derived
+interval: ''
+source:
+- name: erw:large_load_wait_summary, the ERW's summary of large_load_waits (each publisher's dated copies in that table's
+    header)
+  url: ''
+cite: Energy Research Warehouse (ERW), derived. How long large loads waited, by publisher and interval (docs/methods/large_load_waits.md).
+  Via the Energy Research Warehouse (ERW), table `large_load_wait_summary`.
+method: docs/methods/large_load_waits.md
+header_title: how long large loads waited, by publisher and interval, from dated copies of their queues; no request named,
+  no megawatt given (session 7008, chain 301)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity llwaitsum:<publisher>:<interval>; variable requests, measured,
+  lower_bounds, upper_bounds (count) and, where five or more are measured, median_at_least and median_at_most (unit month,
+  30.4375 days, with the median in whole days in x_days: the median of the shorter and of the longer end of the measured ranges,
+  never a midpoint); ts_utc the publisher''s latest dated copy; x_license and x_terms each publisher''s verdict for derived
+  statistics and the words it rests on.'
+read:
+  date: '2026-11-20'
+  rows: 138
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: llwaitsum:<publisher>:<interval>
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 138
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: x_publisher
+  label: The publisher whose queue the figure summarises
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector large_load_wait_summary.py
+- name: x_interval
+  label: The interval summarised (request to energized, request to a stage, and the publisher's other intervals)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_wait_summary.py
+- name: x_days
+  label: On a median row, the median in whole days
+  unit: day
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 104
+  missing_meaning: A count row
+  source_name: null
+  documented_by: header; connector large_load_wait_summary.py
+- name: x_license
+  label: The publisher's license verdict for derived statistics (public only where its terms allow them)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method large_load_waits.md
+- name: x_terms
+  label: The words of the publisher's terms the verdict rests on
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method large_load_waits.md
+- name: x_note
+  label: On a median row, how the median was taken and over how many measured requests
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 104
+  missing_meaning: A count row
+  source_name: null
+  documented_by: connector large_load_wait_summary.py
+variables:
+- name: lower_bounds
+  label: The requests still waiting, or seen in two copies only (lower bounds, never in a median)
+  unit: count
+  rows: 26
+  first: '2026-07-30T00:00:00Z'
+  last: '2026-11-15T00:00:00Z'
+- name: measured
+  label: Of those, the ones labelled measured (both ends between dated copies)
+  unit: count
+  rows: 26
+  first: '2026-07-30T00:00:00Z'
+  last: '2026-11-15T00:00:00Z'
+- name: median_at_least
+  label: Over the measured requests, the median of the shorter end of each range, in months of 30.4375 days (written only
+    where five or more are measured)
+  unit: month
+  rows: 17
+  first: '2026-11-03T00:00:00Z'
+  last: '2026-11-15T00:00:00Z'
+- name: median_at_most
+  label: Over the measured requests, the median of the longer end of each range, in months of 30.4375 days (written only where
+    five or more are measured)
+  unit: month
+  rows: 17
+  first: '2026-11-03T00:00:00Z'
+  last: '2026-11-15T00:00:00Z'
+- name: requests
+  label: The requests with a row for the interval
+  unit: count
+  rows: 26
+  first: '2026-07-30T00:00:00Z'
+  last: '2026-11-15T00:00:00Z'
+- name: upper_bounds
+  label: The requests whose end had come by the first copy that holds them
+  unit: count
+  rows: 26
+  first: '2026-07-30T00:00:00Z'
+  last: '2026-11-15T00:00:00Z'
+second_look: null

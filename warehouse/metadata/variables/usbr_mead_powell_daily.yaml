@@ -1,0 +1,175 @@
+# The codebook's metadata of table usbr_mead_powell_daily (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: usbr_mead_powell_daily
+family: usbr
+shape: series
+row: One daily reading (pool elevation, storage, total release or inflow) of Lake Powell (Glen Canyon Dam) or Lake Mead (Hoover
+  Dam), from Reclamation's Upper Colorado hydrodata.
+time: ts_utc is the day at 00:00:00Z; freq P1D. A day not yet ended when its file was fetched is left out. Reclamation calls
+  all data provisional and subject to revision.
+vintage_rule: A later run merges by (entity, variable, ts_utc), a revised value replacing the old one; a day Reclamation later
+  blanks writes no row, so the earlier value stays. vintage is each file's Last-Modified time.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1D
+source:
+- name: usbr:hydrodata_reservoirs U.S. Bureau of Reclamation, Upper Colorado Basin Region, reservoir data (hydrodata)
+  url: https://www.usbr.gov/uc/water/hydrodata/reservoir_data/919/dashboard.html
+cite: 'U.S. Bureau of Reclamation (USBR). Upper Colorado region''s reservoir data (hydrodata): Lake Powell and Lake Mead.
+  Via the Energy Research Warehouse (ERW), table `usbr_mead_powell_daily`.'
+method: docs/methods/usbr_mead_powell_daily.md
+header_title: Bureau of Reclamation, Upper Colorado region's hydrodata, Lake Powell and Lake Mead, pool elevation, storage,
+  total release and inflow, a day (session 2211)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity usbr_hydrodata:<site> (919 Lake Powell, 921 Lake Mead); variable
+  pool_elevation (ft, feet above mean sea level, Decision 71), storage (acre-ft, Decision 72), total_release and inflow (ft3/s);
+  ts_utc the day at 00:00:00Z; freq P1D; geo US-AZ. Reclamation: ''All data considered provisional and subject to revision.'''
+read:
+  date: '2026-11-20'
+  rows: 192508
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: usbr_hydrodata:<Reclamation's site number> (919 Lake Powell, 921 Lake Mead)
+  type: text
+  values:
+    list:
+      usbr_hydrodata:919: 92544
+      usbr_hydrodata:921: 99964
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '1934-04-01T00:00:00Z'
+    latest: '2026-10-22T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 29904000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      acre-ft: 55783
+      ft: 56446
+      ft3/s: 80279
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 192508
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: Always US-AZ
+  type: text
+  values:
+    list:
+      US-AZ: 192508
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 192508
+- name: node
+  shared: true
+  particular: The lake and its dam, not a pricing node
+  type: text
+  values:
+    list:
+      Lake Mead (Hoover Dam): 99964
+      Lake Powell (Glen Canyon Dam): 92544
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      usbr:hydrodata_reservoirs: 192508
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/919/csv/17.csv: 23128
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/919/csv/29.csv: 23237
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/919/csv/42.csv: 23234
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/919/csv/49.csv: 22945
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/921/csv/17.csv: 32655
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/921/csv/42.csv: 33808
+      https://www.usbr.gov/uc/water/hydrodata/reservoir_data/921/csv/49.csv: 33501
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T01:35:11Z': 46073
+      '2026-10-24T01:35:12Z': 146435
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: Each data file's Last-Modified time
+  type: utc time
+  values:
+    list:
+      '2026-10-23T22:06:34Z': 23128
+      '2026-10-23T22:08:17Z': 23237
+      '2026-10-23T22:10:06Z': 23234
+      '2026-10-23T22:11:30Z': 22945
+      '2026-10-23T22:37:52Z': 32655
+      '2026-10-23T22:37:54Z': 33808
+      '2026-10-23T22:37:57Z': 33501
+  missing_cells: 0
+variables:
+- name: inflow
+  label: Water flowing into the lake, ft3/s (cubic feet per second; Lake Powell only)
+  unit: ft3/s
+  rows: 23237
+  first: '1963-03-11T00:00:00Z'
+  last: '2026-10-22T00:00:00Z'
+- name: pool_elevation
+  label: The lake's water surface elevation, ft (feet above mean sea level)
+  unit: ft
+  rows: 56446
+  first: '1935-02-02T00:00:00Z'
+  last: '2026-10-22T00:00:00Z'
+- name: storage
+  label: The water held in the lake, acre-ft
+  unit: acre-ft
+  rows: 55783
+  first: '1937-05-28T00:00:00Z'
+  last: '2026-10-22T00:00:00Z'
+- name: total_release
+  label: All water released from the dam, ft3/s (cubic feet per second)
+  unit: ft3/s
+  rows: 57042
+  first: '1934-04-01T00:00:00Z'
+  last: '2026-10-22T00:00:00Z'
+second_look: null

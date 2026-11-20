@@ -1,0 +1,149 @@
+# The codebook's metadata of table spp_dam_cleared_energy (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: spp_dam_cleared_energy
+family: spp
+shape: series
+row: The demand cleared in SPP's day-ahead market for one hour and one balancing authority area.
+time: ts_utc is the hour's start in UTC.
+vintage_rule: Merged by (entity, variable, ts_utc); an hour read again replaces the one held, and the table keeps days SPP's
+  window no longer covers. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: spp:DA-MC:cleared Southwest Power Pool (SPP), Marketplace portal, Market Clearing, day-ahead files (DA-MC), cleared
+    demand
+  url: https://portal.spp.org/pages/market-clearing
+cite: Southwest Power Pool (SPP). Marketplace portal, Market Clearing, day-ahead files (DA-MC), cleared demand. Via the Energy
+  Research Warehouse (ERW), table `spp_dam_cleared_energy`.
+method: docs/methods/spp_dam_cleared_energy.md
+header_title: SPP, demand cleared in the day-ahead market by hour and balancing authority area (Marketplace portal, Market
+  Clearing, DA-MC files, Total Demand) (session 136)
+header_shape: 'Shape: series (docs/datastandard.md v0). variable dam_cleared_energy: the operator''s own figure for the hour,
+  in the unit it gives; freq PT1H, ts_utc the hour''s start. An hour the operator does not give is not written; nothing is
+  filled or estimated. The table is merged into the one held, so it grows past the window the operator keeps.'
+read:
+  date: '2026-11-20'
+  rows: 16178
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: spp:SPP, or spp:SWPW from 1 April 2026 when the file names two areas; before it one row an hour, written as
+    spp:SPP
+  type: text
+  values:
+    list:
+      spp:SPP: 10633
+      spp:SWPW: 5545
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2025-09-01T05:00:00Z'
+    latest: '2026-11-18T05:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 1934.3
+    highest: 61332.1
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 16178
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 16178
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: The same list of fourteen states in every row (SPP's footprint), whatever the area
+  type: text
+  values:
+    list:
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 16178
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'spp_dam in every row: SPP''s day-ahead market'
+  type: text
+  values:
+    list:
+      spp_dam: 16178
+  missing_cells: 0
+- name: node
+  shared: true
+  particular: 'Total Demand in every row: SPP''s column read, not a place'
+  type: text
+  values:
+    list:
+      Total Demand: 16178
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      spp:DA-MC:cleared: 16178
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 443
+    examples:
+    - https://portal.spp.org/file-browser-api/download/market-clearing?path=/2025/09/DA-MC-202509010100.csv
+    - https://portal.spp.org/file-browser-api/download/market-clearing?path=/2025/09/DA-MC-202509020100.csv
+    - https://portal.spp.org/file-browser-api/download/market-clearing?path=/2025/09/DA-MC-202509030100.csv
+    - https://portal.spp.org/file-browser-api/download/market-clearing?path=/2025/09/DA-MC-202509040100.csv
+    - https://portal.spp.org/file-browser-api/download/market-clearing?path=/2025/09/DA-MC-202509050100.csv
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 442
+    earliest: '2026-10-04T11:40:59Z'
+    latest: '2026-11-17T08:40:15Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 16178
+variables:
+- name: dam_cleared_energy
+  label: SPP's column Total Demand for the hour and the balancing authority area, MW over the hour (Market Clearing, DA-MC
+    files)
+  unit: MW
+  rows: 16178
+  first: '2025-09-01T05:00:00Z'
+  last: '2026-11-18T05:00:00Z'
+second_look:
+- What SPP's area SWPW stands for is not stated in SPP's file and not documented.

@@ -1,0 +1,276 @@
+# The codebook's metadata of table nrc_license_actions (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: nrc_license_actions
+family: nrc
+shape: events
+row: One reactor license renewal the NRC completed (or one withdrawn application), or one power uprate the NRC approved.
+time: event_date is the renewed license's issue date, the uprate's approval date, or for the withdrawn application the date
+  received (a date).
+vintage_rule: A snapshot, written whole by each run from the two pages; a row the NRC removes leaves the table. vintage is
+  each page's last-modified time.
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: nrc:license_renewals_uprates U.S. Nuclear Regulatory Commission, Status of License Renewal Applications and Approved
+    Applications for Power Uprates
+  url: ''
+cite: U.S. Nuclear Regulatory Commission (NRC). Status of License Renewal Applications; Approved Applications for Power Uprates.
+  Via the Energy Research Warehouse (ERW), table `nrc_license_actions`.
+method: docs/methods/nrc_license_actions.md
+header_title: U.S. Nuclear Regulatory Commission, renewed reactor licenses and approved power uprates (session 2064)
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id nrc:renewal:<plant>:<received> or nrc:uprate:<NRC''s number>;
+  event_date the renewed license''s issue date or the uprate''s approval date; event_type license_renewal (initial renewals)
+  or power_uprate; parties NRC; status issued, withdrawn or approved; x_plant as the NRC writes it; x_uprate_mwt in MW thermal
+  (mw empty); x_uprate_type MU, S, E or E(1).'
+read:
+  date: '2026-11-20'
+  rows: 236
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  particular: nrc:renewal:<plant slug>:<YYYYMMDD received> or nrc:uprate:<the NRC's number>
+  type: text
+  values:
+    distinct: 236
+    examples:
+    - nrc:renewal:arkansas_nuclear_one_1:20000201
+    - nrc:renewal:arkansas_nuclear_one_2:20031015
+    - nrc:renewal:beaver_valley_1_2:20070828
+    - nrc:renewal:braidwood_1_2:20130529
+    - nrc:renewal:browns_ferry_1_2_3:20040102
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    distinct: 175
+    earliest: '1977-09-09'
+    latest: '2026-04-02'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: license_renewal (initial renewals) or power_uprate
+  type: text
+  values:
+    list:
+      license_renewal: 64
+      power_uprate: 172
+  missing_cells: 0
+- name: parties
+  shared: true
+  particular: Always NRC
+  type: text
+  values:
+    list:
+      NRC: 236
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 236
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 236
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 236
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 236
+- name: status
+  shared: true
+  particular: issued or withdrawn (renewals), approved (uprates)
+  type: text
+  values:
+    list:
+      approved: 172
+      issued: 63
+      withdrawn: 1
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      nrc:license_renewals_uprates: 236
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.nrc.gov/reactors/operating/licensing/power-uprates/status-power-apps/approved-applications.html: 172
+      https://www.nrc.gov/reactors/operating/licensing/renewal/applications.html: 64
+  missing_cells: 0
+- name: x_plant
+  label: The plant and units as the NRC writes them (Calvert Cliffs 1 & 2)
+  unit: none
+  type: text
+  values:
+    distinct: 156
+    examples:
+    - ANO-2
+    - Arkansas Nuclear One 1
+    - Arkansas Nuclear One 2
+    - Beaver Valley 1
+    - Beaver Valley 1 & 2
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method nrc_license_actions.md
+- name: x_application_received
+  label: 'Renewals: the date the NRC received the renewal application'
+  unit: none
+  type: date
+  values:
+    distinct: 59
+    earliest: '1998-04-10'
+    latest: '2024-02-14'
+  missing_cells: 172
+  missing_meaning: An uprate row
+  source_name: Application Received
+  documented_by: method nrc_license_actions.md
+- name: x_extended_operation
+  label: 'Renewals: the date each unit enters extended operation, as the NRC writes it (two-digit years kept)'
+  unit: none
+  type: text
+  values:
+    distinct: 61
+    examples:
+    - 01/16/27 (Unit 1) 02/09/29 (Unit 2)
+    - 01/18/14
+    - 01/29/16 (Unit 1) 05/27/27 (Unit 2)
+    - 02/06/13 (Unit 1) 10/06/13 (Unit 2) 07/19/14 (Unit 3)
+    - 02/08/30 (Unit 1) 02/02/33 (Unit 2)
+  missing_cells: 175
+  missing_meaning: An uprate row, or the NRC gives none (Crystal River 3, Kewaunee, Pilgrim 1)
+  source_name: Date Entering Extended Operation
+  documented_by: method nrc_license_actions.md
+- name: x_note
+  label: 'Renewals: the page''s notes for the row''s footnote marks (a shutdown, a withdrawal, an earlier application)'
+  unit: none
+  type: text
+  values:
+    list:
+      Fort Calhoun Station was permanently shut down on October 24, 2016.: 1
+      Kewaunee Power Station was permanently shut down on May 7, 2013.: 1
+      Oyster Creek Nuclear Generating Station was permanently shut down on September 7, 2018.: 1
+      Pilgrim 1 permanently shut down on May 31, 2019: 1
+      ? The Crystal River Nuclear Generating Plant, Unit 3 application was withdrawn by the licensee on February 6, 2013.
+        The facility was permanently shut down on February 20, 2013.
+      : 1
+      ? The previous Diablo Canyon 1 & 2 license renewal application was submitted on November 7, 2018 and withdrawn by the
+        licensee on March 7, 2018. On October 31, 2022, Pacific Gas and Electric sent in a letter to “Request to Resume Review
+        of the Diablo Canyon Power Plant License Renewal Application or, Alternatively, for an Exemption from 10 CFR 2.109(b),
+        Concerning a Timely Renewal Application. ” On March 2, 2023, the NRC granted the exemption.
+      : 1
+      Vermont Yankee Nuclear Power Station was permanently shut down on December 29, 2014.: 1
+  missing_cells: 229
+  missing_meaning: The row carries no footnote mark
+  source_name: null
+  documented_by: method nrc_license_actions.md
+- name: x_uprate_type
+  label: 'Uprates: MU (measurement uncertainty recapture), S (stretch), E or E(1) (extended), as the NRC writes them'
+  unit: none
+  type: text
+  values:
+    list:
+      E: 30
+      E(1): 4
+      MU: 73
+      S: 65
+  missing_cells: 64
+  missing_meaning: A renewal row
+  source_name: TYPE
+  documented_by: header; method nrc_license_actions.md
+- name: x_uprate_pct
+  label: 'Uprates: the increase as a percent of the unit''s thermal power'
+  unit: pct
+  type: number
+  values:
+    distinct: 45
+    lowest: 0.4
+    highest: 20.0
+  missing_cells: 64
+  missing_meaning: A renewal row
+  source_name: null
+  documented_by: method nrc_license_actions.md
+- name: x_uprate_mwt
+  label: 'Uprates: the increase in thermal megawatts (not electric)'
+  unit: MWt
+  type: number
+  values:
+    distinct: 81
+    lowest: 13.0
+    highest: 579.0
+  missing_cells: 64
+  missing_meaning: A renewal row
+  source_name: MWt
+  documented_by: header; method nrc_license_actions.md
+- name: x_accession
+  label: 'Uprates: the ADAMS (NRC document library) accession number as printed; 8 older numbers end in ''*'''
+  unit: none
+  type: text
+  values:
+    distinct: 119
+    examples:
+    - 7907180064*
+    - 7907240100*
+    - 8008280223*
+    - 9503070354*
+    - 9505090259*
+  missing_cells: 64
+  missing_meaning: A renewal row
+  source_name: null
+  documented_by: method nrc_license_actions.md
+- name: x_link
+  label: 'Renewals: the row''s NRC page'
+  unit: none
+  type: text
+  values:
+    distinct: 64
+    examples:
+    - https://www.nrc.gov/licensing-applications/power-reactor-licensing/arkansas-nuclear-one-unit-1--license-renewal-application
+    - https://www.nrc.gov/licensing-applications/power-reactor-licensing/arkansas-nuclear-one-unit-2---license-renewal-application
+    - https://www.nrc.gov/licensing-applications/power-reactor-licensing/beaver-valley-power-station---license-renewal-application
+    - https://www.nrc.gov/licensing-applications/power-reactor-licensing/braidwood-nuclear-stations-units-1-and-2---license-renewal-application
+    - https://www.nrc.gov/licensing-applications/power-reactor-licensing/browns-ferry-nuclear-plant---license-renewal-application
+  missing_cells: 172
+  missing_meaning: An uprate row
+  source_name: null
+  documented_by: method nrc_license_actions.md
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T20:36:10Z': 64
+      '2026-10-23T20:36:12Z': 172
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'The page''s last-modified time (UTC): one for the renewal page, one for the uprate page'
+  type: utc time
+  values:
+    list:
+      '2026-10-23T19:36:07Z': 64
+      '2026-10-23T19:51:29Z': 172
+  missing_cells: 0
+second_look: null

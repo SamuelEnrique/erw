@@ -1,0 +1,410 @@
+# The codebook's metadata of table policy_action_tags (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: policy_action_tags
+family: policy
+shape: events
+row: One tag (large_load, interconnection, transmission_cost or tax_credit) given to one policy action of policy_actions by
+  a written rule applied by code (no model reads a row).
+time: event_date is the action's own date (publication or release, a date).
+vintage_rule: A snapshot; a later rule version replaces the rows, rewritten whole by warehouse/derived/policy_action_tags.py.
+keys:
+- event_id
+license: public
+tier: model_extracted
+interval: event
+source:
+- name: 'erw:policy_action_tags. License: public (US and state government publications; the tags are the ERW''s own).'
+  url: ''
+cite: Energy Research Warehouse (ERW). Tags of the policy actions held, by a written rule (large loads, interconnection, transmission
+  cost, tax credits). Via the Energy Research Warehouse (ERW), table `policy_action_tags`.
+method: docs/methods/policy_action_tags.md
+header_title: 'tags of the policy actions held: large loads, interconnection, transmission cost, tax credits (session 154)'
+header_shape: 'Shape: events (docs/datastandard.md v0), event_type policy_tag; one row for each action and tag; a snapshot
+  (a later rule replaces the rows). event_date is the action''s. matched_term is the rule''s term that matched and matched_field
+  the field it matched in (title, abstract, first_paragraph: the first paragraph of the printed text, or docket: a docket
+  the rule lists by number); action_url is the action''s own document.'
+read:
+  date: '2026-11-20'
+  rows: 38
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    distinct: 38
+    examples:
+    - cpuc:d200cc71ca33#transmission_cost
+    - federalregister:2026-01329#transmission_cost
+    - federalregister:2026-02246#tax_credit
+    - federalregister:2026-03005#large_load
+    - federalregister:2026-03321#large_load
+  missing_cells: 0
+- name: event_date
+  shared: true
+  particular: The action's date
+  type: date
+  values:
+    list:
+      '2026-01-26': 1
+      '2026-02-04': 1
+      '2026-02-17': 1
+      '2026-02-20': 1
+      '2026-03-03': 1
+      '2026-03-24': 1
+      '2026-04-29': 1
+      '2026-05-08': 1
+      '2026-06-01': 1
+      '2026-06-09': 1
+      '2026-06-18': 1
+      '2026-07-21': 1
+      '2026-07-29': 1
+      '2026-08-04': 3
+      '2026-08-07': 21
+      '2026-09-04': 1
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: Always policy_tag
+  type: text
+  values:
+    list:
+      policy_tag: 38
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: text
+  values:
+    list:
+      CPUC: 1
+      Energy Department;Federal Energy Regulatory Commission: 30
+      Energy Department;Western Area Power Administration: 1
+      PUCT: 1
+      Treasury Department;Internal Revenue Service: 5
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 38
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 38
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 38
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 38
+- name: status
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 38
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:policy_action_tags: 38
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/policy_action_tags.md: 38
+  missing_cells: 0
+- name: action_event_id
+  label: The tagged action's event_id in policy_actions
+  unit: none
+  type: text
+  values:
+    list:
+      cpuc:d200cc71ca33: 1
+      federalregister:2026-01329: 1
+      federalregister:2026-02246: 1
+      federalregister:2026-03005: 1
+      federalregister:2026-03321: 1
+      federalregister:2026-05701: 1
+      federalregister:2026-08344: 1
+      federalregister:2026-09141: 1
+      federalregister:2026-10906: 1
+      federalregister:2026-11539: 1
+      federalregister:2026-14686: 1
+      federalregister:2026-15286: 1
+      federalregister:2026-15779: 3
+      federalregister:2026-16165: 3
+      federalregister:2026-16166: 3
+      federalregister:2026-16167: 3
+      federalregister:2026-16172: 3
+      federalregister:2026-16173: 3
+      federalregister:2026-16174: 3
+      federalregister:2026-16175: 3
+      federalregister:2026-18105: 1
+      puct:537c766a4c02: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector policy_action_tags.py
+- name: tag
+  label: 'The tag: large_load, interconnection, transmission_cost or tax_credit'
+  unit: none
+  type: text
+  values:
+    list:
+      interconnection: 8
+      large_load: 13
+      tax_credit: 5
+      transmission_cost: 12
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header
+- name: matched_term
+  label: The rule's term that matched (a phrase, or a docket number the rule lists)
+  unit: none
+  type: text
+  values:
+    list:
+      EL26-67: 6
+      EL26-68: 3
+      EL26-69: 3
+      EL26-70: 3
+      EL26-71: 6
+      EL26-72: 3
+      clean electricity production credit: 1
+      cost allocation: 1
+      data center: 3
+      data centers: 1
+      large loads: 1
+      section 45: 1
+      section 45z: 3
+      transmission: 1
+      transmission formula rate: 1
+      transmission service rate: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header
+- name: matched_field
+  label: 'The field the term matched in: title, abstract, first_paragraph (the first paragraph of the printed text) or docket'
+  unit: none
+  type: text
+  values:
+    list:
+      abstract: 1
+      docket: 24
+      first_paragraph: 3
+      title: 10
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header
+- name: agency
+  label: The action's agency, short name (FERC, DOE, IRS, CPUC, PUCT and the others)
+  unit: none
+  type: text
+  values:
+    list:
+      CPUC: 1
+      DOE: 1
+      FERC: 30
+      IRS: 5
+      PUCT: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector policy_sources.py; data
+- name: action_type
+  label: 'The action''s type: rule, proposed_rule, notice or press_release'
+  unit: none
+  type: text
+  values:
+    list:
+      notice: 33
+      press_release: 2
+      proposed_rule: 3
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector policy_sources.py
+- name: title
+  label: The action's title
+  unit: none
+  type: text
+  values:
+    list:
+      ? Building for the Future Through Electric Regional Transmission Planning and Cost Allocation; Notice of Motion for
+        Extension of Time To Comply
+      : 1
+      ? California Independent System, Operator Corporation, Citizen S-Line Transmission LLC, Citizens Sunrise Transmission
+        LLC, Citizens Sycamore-Penasquitos Transmission LLC, City of Anaheim, California, City of Azusa, California, City
+        of Banning, California, City of Colton, California, City of Pasadena, California, City of Riverside, California, DCR
+        Transmission, L.L.C., DesertLink, LLC, GridLiance West LLC, Horizon West Transmission, LLC, LS Power Grid California,
+        LLC, Morongo Transmission LLC, Pacific Gas and Electric Company, San Diego Gas & Electric Company, Southern California
+        Edison Company, Startrans IO, L.L.C., SunZia Transmission, LLC, Trans Bay Cable LLC, Valley Electric Association,
+        Inc., Viridon Path 15, LLC, Western Area Power Administration; Notice of Shortened Answer Period
+      : 3
+      ? California Independent System; Operator Corporation; Citizen S-Line Transmission LLC; Citizens Sunrise Transmission
+        LLC; Citizens Sycamore-Penasquitos Transmission LLC; City of Anaheim, California; City of Azusa, California; City
+        of Banning, California; City of Colton, California; City of Pasadena, California; City of Riverside, California; DCR
+        Transmission, L.L.C.; DesertLink, LLC; GridLiance West LLC; Horizon West Transmission, LLC; LS Power Grid California,
+        LLC; Morongo Transmission LLC; Pacific Gas and Electric Company; San Diego Gas & Electric Company; Southern California
+        Edison Company; Startrans IO, L.L.C.; SunZia Transmission, LLC; Trans Bay Cable LLC; Valley Electric Association,
+        Inc.; Viridon Path 15, LLC; Western Area Power Administration; Notice Establishing Answer Period
+      : 3
+      ? Credit for Renewable Electricity Production and Publication of Inflation Adjustment Factor and Reference Price for
+        Calendar Year 2026
+      : 1
+      ETC Tiger Pipeline, LLC; Notice of Application and Establishing Intervention Deadline: 1
+      ? ISO New England Inc.; Central Maine Power Company; The Connecticut Light and Power Company; Fitchburg Gas and Electric
+        Light Company; Green Mountain Power Corporation; Maine Electric Power Company; The Narragansett Electric Company;
+        New England Power Company; New Hampshire Transmission, LLC; NSTAR Electric Company; Public Service Company of New
+        Hampshire; The United Illuminating Company; Unitil Energy Systems, Inc.; Vermont Electric Power Company, Inc.; Vermont
+        Transco LLC; Versant Power; Notice Establishing Answer Period
+      : 3
+      ? Midcontinent Independent System Operator, Inc.; AEP Indiana Michigan Transmission Company, Inc.; ALLETE, Inc.; Ameren
+        Illinois Company; Ameren Transmission Company of Illinois; American Transmission Company, LLC; Cleco Power LLC; Duke
+        Energy Indiana, LLC; Entergy Arkansas, LLC; Entergy Louisiana, LLC; Entergy Mississippi, LLC; Entergy New Orleans,
+        LLC; Entergy Texas, Inc.; GridLiance Heartland LLC; Indianapolis Power & Light Company; International Transmission
+        Company; ITC Midwest LLC; Michigan Electric Transmission Company, LLC; MidAmerican Energy Company; Montana-Dakota
+        Utilities Company; Northern Indiana Public Service Company LLC; Northern States Power Company, a Minnesota; Corporation;
+        Northern States Power Company, a Wisconsin Corporation; Northwestern Wisconsin Electric Company; Otter Tail Power
+        Company; Pioneer Transmission, LLC; Republic Transmission, LLC; Southern Indiana Gas & Electric Company; Union Electric
+        Company; Wabash Valley Power Association, Inc.; Wolverine Power Supply Cooperative, Inc.; Notice Establishing Answer
+        Period
+      : 3
+      ? New York Independent System Operator, Inc.; Central Hudson Gas & Electric Corporation; Consolidated Edison Company
+        of New York, Inc.; LS Power Grid New York Corporation I; New York State Electric & Gas Corporation; New York Transco
+        LLC; NextEra Energy Transmission New York, Inc.; Niagara Mohawk Power Corp.; Orange and Rockland Utilities, Inc.;
+        Rochester Gas and Electric Corporation; Notice Establishing Answer Period
+      : 3
+      Notice of Staff Attendance at North American Electric Reliability Corporation Emerging Large Loads Technical Conference: 1
+      PJM Interconnection, L.L.C.: 3
+      ? PJM Interconnection, L.L.C., AEP Appalachian Transmission Company, Inc., AEP Indiana Michigan Transmission Company,
+        Inc., AEP Kentucky Transmission Company, Inc., AEP Ohio Transmission Company, Inc., AEP West Virginia Transmission
+        Company, Inc., Allegheny Electric Cooperative, Inc., American Transmission Systems, Incorporated, Appalachian Power
+        Company, Atlantic City Electric Company, Baltimore Gas and Electric Company, Commonwealth Edison Company, Commonwealth
+        Edison Company of Indiana, Inc., Dayton Power and Light Company, Delmarva Power & Light Company, Duke Energy Kentucky,
+        Inc., Duke Energy Ohio, Inc., Duquesne Light Company, Essential Power Rock Springs, LLC, Hudson Transmission Partners,
+        LLC, Indiana Michigan Power Company, Jersey Central Power & Light Company, Kentucky Power Company, Keystone Appalachian
+        Transmission Company, Kingsport Power Company, Linden VFT, LLC, Mid-Atlantic Interstate Transmission, LLC, Monongahela
+        Power Company, Neptune Regional Transmission System, LLC, NextEra Energy Transmission MidAtlantic Indiana, Inc., Ohio
+        Power Company, Ohio Valley Electric Corporation, Old Dominion Electric Cooperative, PECO Energy Company, PPL Electric
+        Utilities Corporation, The Potomac Edison Company, Potomac Electric Power Company, Public Service Electric and Gas
+        Company, Rockland Electric Company, Silver Run Electric, LLC, Trans-Allegheny Interstate Line Company, Transource
+        West Virginia, LLC, UGI Utilities, Inc., Virginia Electric and Power Company, Wabash Valley Power Association, Inc.,
+        Wheeling Power Company; Notice Establishing Answer Period
+      : 3
+      PUCT Approves New ERCOT Process to Manage Electricity Requests from Data Centers, Large Power Users: 1
+      Pacific Alternating Current Intertie Point-to-Point Transmission Service-Rate Order No. WAPA-211: 1
+      Protecting California Electricity Customers - CPUC Transmission Advocacy at FERC: 1
+      ? Publication of Inflation Adjustment Factor and Applicable Amounts for Clean Electricity Production Credit for Calendar
+        Year 2026
+      : 1
+      Section 45Z Clean Fuel Production Credit: 1
+      Section 45Z Clean Fuel Production Credit; Hearing: 2
+      ? Southwest Power Pool, Inc.; AEP Oklahoma Transmission Company, Inc.; AEP Southwestern Transmission Company, Inc.;
+        Deseret Generation & Transmission Co-Operative, Inc.; Empire District Electric Company; Evergy Kansas Central, Inc.;
+        Evergy Kansas South, Inc.; Evergy Metro, Inc.; Evergy Missouri West, Inc.; GridLiance High Plains LLC; ITC Great Plains,
+        LLC; Mountrail-Williams Electric Cooperative; NextEra Energy Transmission Southwest, LLC; NorthWestern Energy Public
+        Service Corporation; Oklahoma Gas and Electric Company; Prairie Wind Transmission, LLC; Public Service Company of
+        Oklahoma; Southwestern Electric Power Company; Southwestern Public Service Company; Transource Missouri, LLC; Transource
+        Oklahoma, LLC; Tri-State Generation and Transmission Association, Inc.; Upper Missouri G. & T. Electric Cooperative,
+        Inc.; Notice Establishing Answer Period
+      : 3
+      Transmission Formula Rate Processes; Notice of Staff-Led Workshop: 1
+      ? Transwestern Pipeline Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and
+        Protest Deadline
+      : 1
+      ? Transwestern Pipeline Company, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the
+        Green Chile Project
+      : 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector policy_sources.py
+- name: action_url
+  label: The action's own document
+  unit: none
+  type: text
+  values:
+    list:
+      ? https://ftp.puc.texas.gov/public/puct-info/agency/resources/pubs/news/2026/PUCT-Approves-New-ERCOT-Process-to-Manage-Electricity-Requests-from-Data-Centers-Large-Power-Users.pdf
+      : 1
+      ? https://www.cpuc.ca.gov/news-and-updates/all-news/protecting-california-electricity-customers---cpuc-transmission-advocacy-at-ferc
+      : 1
+      ? https://www.federalregister.gov/documents/2026/01/26/2026-01329/pacific-alternating-current-intertie-point-to-point-transmission-service-rate-order-no-wapa-211
+      : 1
+      https://www.federalregister.gov/documents/2026/02/04/2026-02246/section-45z-clean-fuel-production-credit: 1
+      ? https://www.federalregister.gov/documents/2026/02/17/2026-03005/transwestern-pipeline-company-llc-notice-of-request-under-blanket-authorization-and-establishing
+      : 1
+      ? https://www.federalregister.gov/documents/2026/02/20/2026-03321/notice-of-staff-attendance-at-north-american-electric-reliability-corporation-emerging-large-loads
+      : 1
+      ? https://www.federalregister.gov/documents/2026/03/24/2026-05701/transmission-formula-rate-processes-notice-of-staff-led-workshop
+      : 1
+      https://www.federalregister.gov/documents/2026/04/29/2026-08344/section-45z-clean-fuel-production-credit-hearing: 1
+      https://www.federalregister.gov/documents/2026/05/08/2026-09141/section-45z-clean-fuel-production-credit-hearing: 1
+      ? https://www.federalregister.gov/documents/2026/06/01/2026-10906/credit-for-renewable-electricity-production-and-publication-of-inflation-adjustment-factor-and
+      : 1
+      ? https://www.federalregister.gov/documents/2026/06/09/2026-11539/building-for-the-future-through-electric-regional-transmission-planning-and-cost-allocation-notice
+      : 1
+      ? https://www.federalregister.gov/documents/2026/07/21/2026-14686/etc-tiger-pipeline-llc-notice-of-application-and-establishing-intervention-deadline
+      : 1
+      ? https://www.federalregister.gov/documents/2026/07/29/2026-15286/transwestern-pipeline-company-llc-notice-of-schedule-for-the-preparation-of-an-environmental
+      : 1
+      https://www.federalregister.gov/documents/2026/08/04/2026-15779/pjm-interconnection-llc: 3
+      ? https://www.federalregister.gov/documents/2026/08/07/2026-16165/california-independent-system-operator-corporation-citizen-s-line-transmission-llc-citizens-sunrise
+      : 3
+      ? https://www.federalregister.gov/documents/2026/08/07/2026-16166/california-independent-system-operator-corporation-citizen-s-line-transmission-llc-citizens-sunrise
+      : 3
+      ? https://www.federalregister.gov/documents/2026/08/07/2026-16167/midcontinent-independent-system-operator-inc-aep-indiana-michigan-transmission-company-inc-allete
+      : 3
+      ? https://www.federalregister.gov/documents/2026/08/07/2026-16172/iso-new-england-inc-central-maine-power-company-the-connecticut-light-and-power-company-fitchburg
+      : 3
+      ? https://www.federalregister.gov/documents/2026/08/07/2026-16173/new-york-independent-system-operator-inc-central-hudson-gas-and-electric-corporation-consolidated
+      : 3
+      ? https://www.federalregister.gov/documents/2026/08/07/2026-16174/southwest-power-pool-inc-aep-oklahoma-transmission-company-inc-aep-southwestern-transmission-company
+      : 3
+      ? https://www.federalregister.gov/documents/2026/08/07/2026-16175/pjm-interconnection-llc-aep-appalachian-transmission-company-inc-aep-indiana-michigan-transmission
+      : 3
+      ? https://www.federalregister.gov/documents/2026/09/04/2026-18105/publication-of-inflation-adjustment-factor-and-applicable-amounts-for-clean-electricity-production
+      : 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header
+- name: rule_version
+  label: The version of the tag rules (warehouse/config/policy_tag_rules.json) that gave the tag
+  unit: none
+  type: integer
+  values:
+    list:
+      '3': 38
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-08T10:18:10Z': 38
+  missing_cells: 0
+second_look: null

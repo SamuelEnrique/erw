@@ -1,0 +1,229 @@
+# The codebook's metadata of table eia923_plant_fuel_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia923_plant_fuel_annual
+family: eia923
+shape: series
+row: One power plant's net generation or fuel consumed for one fuel (or the plant's own total over fuels) in one year, 2001
+  to 2024, from Form EIA-923 through EIA's API.
+time: ts_utc is the year's 1 January at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run (write_snapshot) with the years it read; vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:electricity/facility-fuel U.S. Energy Information Administration, Form EIA-923 (API v2, route electricity/facility-fuel)
+  url: https://www.eia.gov/electricity/data/eia923/
+cite: U.S. Energy Information Administration (EIA). Form EIA-923, facility fuel (API v2, annual). Via the Energy Research
+  Warehouse (ERW), table `eia923_plant_fuel_annual`.
+method: docs/methods/eia923_plant_fuel_annual.md
+header_title: Form EIA-923, each power plant's net generation and fuel consumed, by fuel, a year (session 510)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia923:<plantCode>:<fuel2002>:<fuelType> (fuel2002 ALL with
+  fuelType ALL is the plant''s own total: leave it out of a sum over fuels); variable net_generation (MWh) or fuel_consumed
+  (TBtu, EIA''s MMBtu times 0.000001); ts_utc the year''s 1 January; freq P1Y; node the plant''s name and the fuel.'
+read:
+  date: '2026-11-20'
+  rows: 872492
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia923:<plantCode>:<fuel2002>:<fuelType>; eia923:<plantCode>:ALL:ALL is the plant's own total, to be left out
+    of a sum over fuels
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - eia923:10002:ALL:ALL
+    - eia923:10002:BIT:COL
+    - eia923:10002:NG:NG
+    - eia923:10002:PC:PC
+    - eia923:10003:ALL:ALL
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2001-01-01T00:00:00Z': 23490
+      '2002-01-01T00:00:00Z': 25788
+      '2003-01-01T00:00:00Z': 25204
+      '2004-01-01T00:00:00Z': 26470
+      '2005-01-01T00:00:00Z': 26336
+      '2006-01-01T00:00:00Z': 26848
+      '2007-01-01T00:00:00Z': 27404
+      '2008-01-01T00:00:00Z': 28248
+      '2009-01-01T00:00:00Z': 28558
+      '2010-01-01T00:00:00Z': 29102
+      '2011-01-01T00:00:00Z': 30050
+      '2012-01-01T00:00:00Z': 31890
+      '2013-01-01T00:00:00Z': 33560
+      '2014-01-01T00:00:00Z': 35254
+      '2015-01-01T00:00:00Z': 36538
+      '2016-01-01T00:00:00Z': 39162
+      '2017-01-01T00:00:00Z': 41214
+      '2018-01-01T00:00:00Z': 43310
+      '2019-01-01T00:00:00Z': 45722
+      '2020-01-01T00:00:00Z': 48276
+      '2021-01-01T00:00:00Z': 50942
+      '2022-01-01T00:00:00Z': 53662
+      '2023-01-01T00:00:00Z': 55942
+      '2024-01-01T00:00:00Z': 59522
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -1615830.0
+    highest: 50729292.26
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 436246
+      TBtu: 436246
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 872492
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state>, or US where EIA gives no state
+  type: text
+  values:
+    distinct: 53
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 872492
+- name: node
+  shared: true
+  particular: '<plant name>: <fuel type description>, not a pricing node'
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - ' A G Wishon: Hydroelectric Conventional'
+    - ' A G Wishon: Total'
+    - ' DSM Pharmecueticals Inc: Distillate Fuel Oil'
+    - ' DSM Pharmecueticals Inc: Natural Gas'
+    - ' DSM Pharmecueticals Inc: Total'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:electricity/facility-fuel: 872492
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2001&end=2001
+      : 23490
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2002&end=2002
+      : 25788
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2003&end=2003
+      : 25204
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2004&end=2004
+      : 26470
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2005&end=2005
+      : 26336
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2006&end=2006
+      : 26848
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2007&end=2007
+      : 27404
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2008&end=2008
+      : 28248
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2009&end=2009
+      : 28558
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2010&end=2010
+      : 29102
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2011&end=2011
+      : 30050
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2012&end=2012
+      : 31890
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2013&end=2013
+      : 33560
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2014&end=2014
+      : 35254
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2015&end=2015
+      : 36538
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2016&end=2016
+      : 39162
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2017&end=2017
+      : 41214
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2018&end=2018
+      : 43310
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2019&end=2019
+      : 45722
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2020&end=2020
+      : 48276
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2021&end=2021
+      : 50942
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2022&end=2022
+      : 53662
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2023&end=2023
+      : 55942
+      ? https://api.eia.gov/v2/electricity/facility-fuel/data/?api_key=REDACTED&frequency=annual&data%5B%5D=generation&data%5B%5D=total-consumption-btu&facets%5BprimeMover%5D%5B%5D=ALL&start=2024&end=2024
+      : 59522
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T21:13:02Z': 872492
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 872492
+variables:
+- name: fuel_consumed
+  label: The fuel the plant consumed in the year, TBtu (EIA's total-consumption-btu in MMBtu times 0.000001)
+  unit: TBtu
+  rows: 436246
+  first: '2001-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+- name: net_generation
+  label: The plant's net generation from the fuel in the year, MWh (below zero where the plant used more than it made, as
+    pumped storage)
+  unit: MWh
+  rows: 436246
+  first: '2001-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

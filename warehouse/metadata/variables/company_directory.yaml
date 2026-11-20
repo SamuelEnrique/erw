@@ -1,0 +1,901 @@
+# The codebook's metadata of table company_directory (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: company_directory
+family: company
+shape: entities
+row: One company named in any of 13 ERW tables (platform tool 10), with its kind, main segment, parent, states, grids, first
+  and last dates, and its footprint of deals, plants, plans, queue positions, facilities and reactors.
+time: No time column; the table is a snapshot of the ERW's tables as built (vintage reads 20261116 on every row). status_date
+  is the latest date its rows state.
+vintage_rule: Rewritten whole by each run of the builder (warehouse/derived/companies.py) from the tables held.
+keys:
+- entity_id
+license: public
+tier: model_extracted
+interval: snapshot
+source:
+- name: erw:companies, the ERW's resolution of the names in its own tables (each input's source in its own header).
+  url: ''
+cite: 'Energy Research Warehouse (ERW), derived. The company database: every company named in the warehouse''s tables, its
+  names and its rows (docs/methods/companies.md). Via the Energy Research Warehouse (ERW), table `company_directory`.'
+method: docs/methods/companies.md
+header_title: the company database (platform tool 10), every company named in 13 held tables, one row a company (session 3302)
+header_shape: 'Shape: entities (docs/datastandard.md v0), entity_type company. entity_id company:eia-<EIA utility id> where
+  the company has one (company:eia-<id>-860 for the EIA-860 rows of a number EIA-861 lists as another firm''s power marketer,
+  session 7001), else company:<normalized name>; kind one of regulator, lab or hyperscaler, OEM, utility, IPP, lender or investor,
+  developer, operator, power marketer, other (the first its rows show, kind_basis says which row); segment the fuel or line
+  with the most MW (segment_basis); parent a second field from the NRC and the reviewed aliases only; hq_state from EIA-860''s
+  owner address only; first_seen and last_seen the earliest and latest date its rows state; MW are nameplate (EIA-860M), as
+  stated (deals, facilities, queue); owned_mw nameplate times the percent owned; footprint_mw the sum of plants_mw, owned_mw,
+  planned_mw, queue_mw, facilities_mw and deals_mw, a sort key only (a plant both operated and owned counts twice).'
+read:
+  date: '2026-11-20'
+  rows: 14033
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  particular: company:eia-<EIA utility id> where the company has one (company:eia-<id>-860 for EIA-860 rows of an id EIA-861
+    lists as another firm's power marketer), else company:<normalized name>
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - company:174-power-global-properties
+    - company:180-wind
+    - company:1komma5grad
+    - company:1st-rochdale-cooperative-group
+    - company:212-solar-development
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  particular: Always company
+  type: text
+  values:
+    list:
+      company: 14033
+  missing_cells: 0
+- name: name
+  shared: true
+  particular: The reviewed aliases' canonical name, else EIA-861's newest name, else the NRC's parent field's, else the spelling
+    its rows use most
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 0HAM WHAM8 Solar, LLC
+    - 1000 Mile Solar, LLC
+    - 1001 Ebenezer Church Solar, LLC
+    - 1008 Matthews Solar, LLC
+    - 1009 Yadkin Solar, LLC
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: Always US
+  type: text
+  values:
+    list:
+      US: 14033
+  missing_cells: 0
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 14033
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 14033
+- name: capacity_mw
+  shared: true
+  particular: 'plants_mw: nameplate of the operating generators it operates (EIA-860M); empty where it operates none'
+  type: number
+  values:
+    distinct: 1665
+    lowest: 0.1
+    highest: 40818.1
+  missing_cells: 7973
+- name: status
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 14033
+- name: status_date
+  shared: true
+  particular: The latest date its rows state (as last_seen)
+  type: date
+  values:
+    distinct: 1691
+    earliest: '1906-11-01'
+    latest: '2039-12-01'
+  missing_cells: 1787
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 14033
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:companies: 14033
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/companies.md: 14033
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T09:04:07Z': 14033
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: integer
+  values:
+    list:
+      '20261116': 14033
+  missing_cells: 0
+- name: kind
+  label: 'What kind of company it is: the first of regulator, lab or hyperscaler, OEM, utility, IPP (independent power producer),
+    lender or investor, developer, operator, power marketer, other that its rows show'
+  unit: none
+  type: text
+  values:
+    list:
+      IPP: 5164
+      OEM: 24
+      developer: 1937
+      lab or hyperscaler: 11
+      lender or investor: 68
+      operator: 65
+      other: 3047
+      power marketer: 433
+      regulator: 59
+      utility: 3225
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method companies.md
+- name: kind_basis
+  label: The row or rule that gave the kind (for example 'EIA-860 sector Electric Utility')
+  unit: none
+  type: text
+  values:
+    distinct: 28
+    examples:
+    - EIA-860 sector Electric Utility
+    - EIA-860 sector IPP CHP
+    - EIA-860 sector IPP Non-CHP
+    - EIA-861 ownership Cooperative
+    - EIA-861 ownership Federal
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method companies.md
+- name: segment
+  label: The fuel or line with the most MW across the company's plants, plans, queue positions, facilities and deals, else
+    with the most deals, else utility or government by kind
+  unit: none
+  type: text
+  values:
+    list:
+      coal: 98
+      datacenters: 79
+      fusion: 4
+      gas: 1329
+      geothermal: 33
+      government: 58
+      hydro: 374
+      nuclear: 68
+      oil: 551
+      solar: 3300
+      storage: 990
+      utility: 2398
+      wind: 773
+  missing_cells: 3978
+  missing_meaning: No segment could be set from its rows
+  source_name: null
+  documented_by: method companies.md
+- name: segment_basis
+  label: 'How the segment was set: most MW, most rows, or kind'
+  unit: none
+  type: text
+  values:
+    list:
+      kind: 2456
+      most MW: 7339
+      most rows: 260
+  missing_cells: 3978
+  missing_meaning: No segment set
+  source_name: null
+  documented_by: method companies.md; data
+- name: parent
+  label: The parent company, from the NRC's parent company field, a deal party written "X's Y", or the reviewed aliases only
+  unit: none
+  type: text
+  values:
+    list:
+      ADNOC: 1
+      Amazon: 1
+      AmerenUE: 1
+      BlackRock: 1
+      Blackstone: 1
+      Constellation Energy Corporation: 2
+      Dominion Generation: 3
+      Duke Energy: 2
+      EIG: 1
+      Energy Department: 3
+      Energy Harbor Corp.: 1
+      Entergy Nuclear Operations, Inc.: 1
+      Interior Department: 2
+      MAIRE: 1
+      NextEra Energy, Inc.: 3
+      Talen Energy Corporation: 1
+      Xcel Energy: 1
+  missing_cells: 14007
+  missing_meaning: None of those three places names a parent
+  source_name: null
+  documented_by: header; method companies.md
+- name: parent_id
+  label: The parent's company_id where the parent is itself a company of the directory
+  unit: none
+  type: text
+  values:
+    list:
+      company:adnoc: 1
+      company:amazon: 1
+      company:blackstone: 1
+      company:dominion-generation: 3
+      company:duke-energy: 2
+      company:eia-61975: 1
+      company:eia-6458: 1
+      company:eig: 1
+      company:energy-department: 3
+      company:entergy-nuclear-operations: 1
+      company:interior-department: 2
+      company:talen-energy: 1
+  missing_cells: 14015
+  missing_meaning: No parent, or the parent is not a company of the directory
+  source_name: null
+  documented_by: connector companies.py
+- name: parent_basis
+  label: The input table and row that names the parent, with its words
+  unit: none
+  type: text
+  values:
+    list:
+      'energy_deals deal:030d9f3fabcf14ab: Blackstone''s QTS': 1
+      'energy_deals deal:0dc43aeddcb3c631: BlackRock''s GIP': 1
+      'energy_deals deal:0fd206cfe66ac078: MAIRE''s Tecnimont': 1
+      'energy_deals deal:aaf126f54d7ddf2c: EIG''s MidOcean': 1
+      'energy_deals deal:bfc0c4fa85e4b697: ADNOC''s XRG': 1
+      nrc_power_reactors nrc_reactor:05000237: 1
+      nrc_power_reactors nrc_reactor:05000244: 1
+      nrc_power_reactors nrc_reactor:05000250: 1
+      nrc_power_reactors nrc_reactor:05000261: 1
+      nrc_power_reactors nrc_reactor:05000263: 1
+      nrc_power_reactors nrc_reactor:05000266: 1
+      nrc_power_reactors nrc_reactor:05000269: 1
+      nrc_power_reactors nrc_reactor:05000280: 1
+      nrc_power_reactors nrc_reactor:05000313: 1
+      nrc_power_reactors nrc_reactor:05000334: 1
+      nrc_power_reactors nrc_reactor:05000336: 1
+      nrc_power_reactors nrc_reactor:05000387: 1
+      nrc_power_reactors nrc_reactor:05000395: 1
+      nrc_power_reactors nrc_reactor:05000443: 1
+      nrc_power_reactors nrc_reactor:05000483: 1
+      reviewed_aliases.csv: 6
+  missing_cells: 14007
+  missing_meaning: No parent
+  source_name: null
+  documented_by: connector companies.py; data
+- name: eia_utility_id
+  label: The company's EIA utility id (EIA-861 utility number, EIA-860 operator or owner id)
+  unit: none
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 7
+    highest: 99999
+  missing_cells: 2432
+  missing_meaning: The company has no EIA utility id (matched by name)
+  source_name: null
+  documented_by: method companies.md
+- name: hq_state
+  label: The state of the owner's address in EIA-860's owner schedule (the one held table that states an address)
+  unit: none
+  type: text
+  values:
+    distinct: 54
+    examples:
+    - AB
+    - AK
+    - AL
+    - AR
+    - AZ
+  missing_cells: 12002
+  missing_meaning: The company owns no jointly owned generator, so no address is held
+  source_name: null
+  documented_by: header; method companies.md
+- name: hq_basis
+  label: 'Where hq_state comes from: always ''EIA-860 owner address'' where filled'
+  unit: none
+  type: text
+  values:
+    list:
+      EIA-860 owner address: 2031
+  missing_cells: 12002
+  missing_meaning: No hq_state
+  source_name: null
+  documented_by: connector companies.py
+- name: states
+  label: The states its rows name, most first, joined by ';'
+  unit: none
+  type: text
+  values:
+    distinct: 621
+    examples:
+    - AK
+    - AK;ME
+    - AK;WA
+    - AL
+    - AL;CA
+  missing_cells: 571
+  missing_meaning: No row names a two-letter state
+  source_name: null
+  documented_by: method companies.md
+- name: grids
+  label: The grids (ERCOT, CAISO, PJM, MISO, NYISO, ISO-NE, SPP) its plants' balancing authorities, its queue positions and
+    EIA-861's RTO flags name, joined by ';'
+  unit: none
+  type: text
+  values:
+    distinct: 76
+    examples:
+    - CAISO
+    - CAISO;ERCOT
+    - CAISO;ERCOT;ISO-NE
+    - CAISO;ERCOT;ISO-NE;MISO
+    - CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM
+  missing_cells: 5496
+  missing_meaning: No row names one of the seven grids
+  source_name: null
+  documented_by: method companies.md
+- name: first_seen
+  label: The earliest date its rows state (an operating month, a planned month, a queue date, a deal's or policy action's
+    date, a facility's first story, an EIA-861 year, a reactor's commercial operation)
+  unit: none
+  type: date
+  values:
+    distinct: 2071
+    earliest: '1891-01-01'
+    latest: '2039-12-01'
+  missing_cells: 1787
+  missing_meaning: No row states a date
+  source_name: null
+  documented_by: header; method companies.md
+- name: last_seen
+  label: The latest date its rows state, from the same dates as first_seen
+  unit: none
+  type: date
+  values:
+    distinct: 1691
+    earliest: '1906-11-01'
+    latest: '2039-12-01'
+  missing_cells: 1787
+  missing_meaning: No row states a date
+  source_name: null
+  documented_by: header; method companies.md
+- name: n_deals
+  label: Deals in energy_deals naming the company, each deal once
+  unit: count
+  type: integer
+  values:
+    list:
+      '0': 13494
+      '1': 403
+      '11': 1
+      '13': 2
+      '14': 1
+      '16': 2
+      '17': 2
+      '19': 1
+      '2': 70
+      '27': 1
+      '3': 27
+      '4': 10
+      '5': 2
+      '6': 6
+      '7': 4
+      '8': 6
+      '9': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: deals_mw
+  label: The MW of those deals, summed, each deal once
+  unit: MW
+  type: number
+  values:
+    distinct: 36
+    lowest: 0.0
+    highest: 6000.0
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: deals_usd
+  label: The dollars of those deals, summed, each deal once
+  unit: USD
+  type: integer
+  values:
+    distinct: 164
+    lowest: 0
+    highest: 1281250000000
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: n_plants
+  label: EIA plant ids of the operating generators it operates (EIA-860M)
+  unit: count
+  type: integer
+  values:
+    distinct: 75
+    lowest: 0
+    highest: 243
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: n_generators
+  label: Operating generators it operates (EIA-860M)
+  unit: count
+  type: integer
+  values:
+    distinct: 114
+    lowest: 0
+    highest: 329
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: plants_mw
+  label: Nameplate MW of the operating generators it operates (EIA-860M)
+  unit: MW
+  type: number
+  values:
+    distinct: 1666
+    lowest: 0.0
+    highest: 40818.1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: mw_solar
+  label: Nameplate MW of its operating solar generators (EIA-860M, by EIA's energy source code)
+  unit: MW
+  type: number
+  values:
+    distinct: 528
+    lowest: 0.0
+    highest: 8828.8
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: mw_wind
+  label: Nameplate MW of its operating wind generators (EIA-860M)
+  unit: MW
+  type: number
+  values:
+    distinct: 432
+    lowest: 0.0
+    highest: 7972.8
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: mw_gas
+  label: Nameplate MW of its operating gas generators (EIA-860M)
+  unit: MW
+  type: number
+  values:
+    distinct: 858
+    lowest: 0.0
+    highest: 26891.4
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: mw_coal
+  label: Nameplate MW of its operating coal generators (EIA-860M)
+  unit: MW
+  type: number
+  values:
+    distinct: 147
+    lowest: 0.0
+    highest: 7130.2
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: mw_nuclear
+  label: Nameplate MW of its operating nuclear generators (EIA-860M)
+  unit: MW
+  type: number
+  values:
+    distinct: 31
+    lowest: 0.0
+    highest: 23798.1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: mw_hydro
+  label: Nameplate MW of its operating hydro generators (EIA-860M)
+  unit: MW
+  type: number
+  values:
+    distinct: 257
+    lowest: 0.0
+    highest: 14698.1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: mw_storage
+  label: Nameplate MW of its operating storage (EIA-860M)
+  unit: MW
+  type: number
+  values:
+    distinct: 232
+    lowest: 0.0
+    highest: 1988.5
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: mw_oil
+  label: Nameplate MW of its operating oil generators (EIA-860M)
+  unit: MW
+  type: number
+  values:
+    distinct: 302
+    lowest: 0.0
+    highest: 3958.2
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: mw_geothermal
+  label: Nameplate MW of its operating geothermal generators (EIA-860M)
+  unit: MW
+  type: number
+  values:
+    distinct: 29
+    lowest: 0.0
+    highest: 1515.4
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: mw_other
+  label: Nameplate MW of its operating generators of other or unmapped fuels (EIA-860M)
+  unit: MW
+  type: number
+  values:
+    distinct: 254
+    lowest: 0.0
+    highest: 447.0
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md; connector companies.py
+- name: n_owned_generators
+  label: Jointly owned generators it owns a share of (EIA-860 owner schedule)
+  unit: count
+  type: integer
+  values:
+    distinct: 36
+    lowest: 0
+    highest: 49
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: owned_mw
+  label: Nameplate MW times the percent owned, summed over those generators
+  unit: MW
+  type: number
+  values:
+    distinct: 719
+    lowest: 0.0
+    highest: 6228.3
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method companies.md
+- name: n_planned_plants
+  label: Plants of the planned generators it operates (EIA-860M)
+  unit: count
+  type: integer
+  values:
+    list:
+      '0': 13033
+      '1': 879
+      '11': 2
+      '12': 2
+      '13': 2
+      '15': 2
+      '16': 2
+      '18': 2
+      '19': 2
+      '2': 39
+      '20': 1
+      '26': 1
+      '3': 22
+      '31': 1
+      '34': 1
+      '35': 1
+      '4': 16
+      '5': 8
+      '6': 5
+      '7': 4
+      '8': 1
+      '9': 7
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md; connector companies.py
+- name: planned_mw
+  label: Nameplate MW of the planned generators it operates (EIA-860M)
+  unit: MW
+  type: number
+  values:
+    distinct: 443
+    lowest: 0.0
+    highest: 11679.3
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: n_facilities
+  label: Datacenter facilities it operates or develops (datacenter_facilities)
+  unit: count
+  type: integer
+  values:
+    list:
+      '0': 13905
+      '1': 102
+      '11': 1
+      '2': 8
+      '3': 4
+      '32': 1
+      '36': 1
+      '4': 3
+      '5': 4
+      '62': 1
+      '76': 2
+      '8': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: facilities_mw
+  label: The MW of those datacenter facilities, as stated
+  unit: MW
+  type: number
+  values:
+    distinct: 40
+    lowest: 0.0
+    highest: 10400.0
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method companies.md
+- name: n_queue
+  label: Its interconnection queue positions (ERCOT, NYISO) neither withdrawn nor completed
+  unit: count
+  type: integer
+  values:
+    list:
+      '0': 13189
+      '1': 642
+      '2': 150
+      '24': 1
+      '3': 26
+      '4': 11
+      '5': 5
+      '6': 8
+      '8': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: queue_mw
+  label: The MW of those queue positions, as stated (a negative figure is a position's own stated MW)
+  unit: MW
+  type: number
+  values:
+    distinct: 585
+    lowest: -53.3
+    highest: 6017.6
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md; data
+- name: n_reactors
+  label: NRC power reactors it is licensee or operator of
+  unit: count
+  type: integer
+  values:
+    list:
+      '0': 13997
+      '1': 11
+      '2': 11
+      '21': 1
+      '3': 3
+      '4': 4
+      '5': 2
+      '6': 1
+      '7': 2
+      '8': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md; connector companies.py
+- name: reactors_mw
+  label: The MW of those reactors (nrc_power_reactors capacity_mw)
+  unit: MW
+  type: number
+  values:
+    distinct: 34
+    lowest: 0.0
+    highest: 21425.0
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md; connector companies.py
+- name: n_policy_actions
+  label: Policy actions (policy_actions) naming it as agency
+  unit: count
+  type: integer
+  values:
+    list:
+      '0': 13965
+      '1': 43
+      '1153': 1
+      '141': 1
+      '16': 1
+      '17': 1
+      '184': 1
+      '2': 5
+      '36': 1
+      '37': 1
+      '38': 1
+      '4': 3
+      '5': 1
+      '506': 1
+      '52': 1
+      '7': 1
+      '8': 3
+      '9': 1
+      '959': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: n_links
+  label: 'Its links: rows of input tables naming it, by role (company_links)'
+  unit: count
+  type: integer
+  values:
+    distinct: 178
+    lowest: 1
+    highest: 1160
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: n_public_links
+  label: Its links from inputs whose license is public
+  unit: count
+  type: integer
+  values:
+    distinct: 176
+    lowest: 0
+    highest: 513
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md; connector companies.py
+- name: n_names
+  label: The distinct names its rows write it as
+  unit: count
+  type: integer
+  values:
+    list:
+      '1': 13502
+      '2': 479
+      '3': 41
+      '4': 9
+      '5': 2
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector companies.py
+- name: tables
+  label: The input tables that name it, joined by ';'
+  unit: none
+  type: text
+  values:
+    distinct: 101
+    examples:
+    - datacenter_facilities
+    - datacenter_facilities;datacenter_projects
+    - datacenter_facilities;datacenter_projects;eia860_generator_owners;eia860_plants_annual;eia860m_operating_generators;eia860m_planned_generators;eia861_utility_data;utility_service_territories
+    - datacenter_facilities;datacenter_projects;eia860_generator_owners;energy_deals
+    - datacenter_facilities;datacenter_projects;eia860_plants_annual;eia860m_operating_generators;energy_deals
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector companies.py
+- name: footprint_mw
+  label: 'plants_mw, owned_mw, planned_mw, queue_mw, facilities_mw and deals_mw summed: a sort key only (a plant both operated
+    and owned counts twice)'
+  unit: MW
+  type: number
+  values:
+    distinct: 2442
+    lowest: 0.0
+    highest: 42934.1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method companies.md
+- name: min_confidence
+  label: The confidence of its weakest link (1.0 an EIA id down to 0.7 a company word added)
+  unit: none
+  type: number
+  values:
+    list:
+      '0.7': 12
+      '0.85': 2418
+      '0.9': 319
+      '0.95': 10
+      '1.0': 11274
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+- name: license
+  label: public, internal or mixed, by the licenses of its links
+  unit: none
+  type: text
+  values:
+    list:
+      internal: 1309
+      mixed: 139
+      public: 12585
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method companies.md
+second_look: null

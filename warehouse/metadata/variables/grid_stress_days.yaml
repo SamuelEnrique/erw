@@ -1,0 +1,261 @@
+# The codebook's metadata of table grid_stress_days (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: grid_stress_days
+family: grid
+shape: series
+row: One grid's stress day by one rule (the day's real-time price above the trailing 98th percentile, or an operator's emergency
+  notice), with the day's mean real-time price at its main hub.
+time: ts_utc is the grid's local day at 00:00:00Z (freq P1D).
+vintage_rule: A snapshot, replaced whole by each run of the builder; vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1D
+source:
+- name: erw:grid_stress_days ERW derived stress days of six grids by one rule (docs/methods/stress_days.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/stress_days.md
+cite: Energy Research Warehouse (ERW), derived. ERW derived stress days of six grids by one rule (session 306). Via the Energy
+  Research Warehouse (ERW), table `grid_stress_days`.
+method: docs/methods/stress_days.md
+header_title: stress days of the grids by one rule (session 306); docs/methods/stress_days.md; the rule docs/methods/battery_stress_days.md
+header_shape: 'Shape: series (docs/datastandard.md v0). One row per grid and stress day: value the day''s mean real-time price
+  (USD/MWh); ts_utc the local day at 00:00Z; x_reason price, notice, or price and notice; x_event the event (days at most
+  three apart; ERCOT''s named events keep their names); x_trailing_p98 and x_trailing_days the threshold and the days it is
+  taken over; x_notices CAISO''s or ERCOT''s notice kinds'
+read:
+  date: '2026-11-20'
+  rows: 282
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: <iso>:<main hub>
+  type: text
+  values:
+    list:
+      caiso:TH_SP15_GEN-APND: 58
+      ercot:HB_HUBAVG: 169
+      isone:.H.INTERNAL_HUB: 12
+      miso:INDIANA.HUB: 16
+      nyiso:N.Y.C.: 10
+      spp:SPPNORTH_HUB: 17
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 241
+    earliest: '2015-07-30T00:00:00Z'
+    latest: '2026-10-08T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 282
+    lowest: 7.3653
+    highest: 9002.0444
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 282
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 282
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 45
+      US-CA: 58
+      US-NY: 10
+      US-TX: 169
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: '<iso>_rtm: the real-time price'
+  type: text
+  values:
+    list:
+      caiso_rtm: 58
+      ercot_rtm: 169
+      isone_rtm: 12
+      miso_rtm: 16
+      nyiso_rtm: 10
+      spp_rtm: 17
+  missing_cells: 0
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      .H.INTERNAL_HUB: 12
+      HB_HUBAVG: 169
+      INDIANA.HUB: 16
+      N.Y.C.: 10
+      SPPNORTH_HUB: 17
+      TH_SP15_GEN-APND: 58
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:PRC_INTVL_LMP: 58
+      erw:ercot_hub_prices_daily: 169
+      isone:rt_lmp_5min: 12
+      miso:rt_lmp_final: 16
+      nyiso:realtime: 10
+      spp:RTBM-LMP-SL: 17
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      http://mis.nyiso.com/public/csv/realtime/20240901realtime_zone_csv.zip: 10
+      https://docs.misoenergy.org/marketreports/20240901_rt_lmp_final.csv: 16
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_hub_prices_daily.md: 169
+      ? https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND&startdatetime=20230706T07:00-0000&enddatetime=20230707T07:00-0000
+      : 58
+      https://portal.spp.org/pages/rtbm-lmp-by-location: 17
+      https://www.iso-ne.com/isoexpress/web/reports/pricing/-/tree/lmps-rt-five-min-final: 12
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-19T22:57:38Z': 282
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 282
+- name: x_reason
+  label: 'Why the day is a stress day: price, notice, or price and notice'
+  unit: none
+  type: text
+  values:
+    list:
+      notice: 90
+      price: 167
+      price and notice: 25
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method stress_days.md
+- name: x_event
+  label: 'The event: stress days at most three days apart, named <grid>_stress_<first day>, or a named event''s id when it
+    holds a day of that event''s window'
+  unit: none
+  type: text
+  values:
+    distinct: 120
+    examples:
+    - caiso_stress_20230720
+    - caiso_stress_20230725
+    - caiso_stress_20230815
+    - caiso_stress_20230828
+    - caiso_stress_20240703
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method stress_days.md
+- name: x_trailing_p98
+  label: 'The threshold: the 98th percentile of the daily mean prices of the 365 days before the day'
+  unit: USD/MWh
+  type: number
+  values:
+    distinct: 178
+    lowest: 41.0236
+    highest: 442.1772
+  missing_cells: 11
+  missing_meaning: Fewer of the 365 days before were held than the rule needs (329), so no threshold was taken (a notice day)
+  source_name: null
+  documented_by: header; connector stress_days.py
+- name: x_trailing_days
+  label: The days held among the 365 before, over which the threshold is taken
+  unit: count
+  type: integer
+  values:
+    list:
+      '14': 1
+      '19': 1
+      '20': 1
+      '210': 1
+      '224': 1
+      '329': 1
+      '330': 1
+      '331': 3
+      '332': 4
+      '333': 6
+      '334': 1
+      '345': 8
+      '350': 2
+      '351': 1
+      '352': 1
+      '363': 1
+      '364': 1
+      '365': 241
+      '40': 1
+      '41': 1
+      '42': 1
+      '53': 1
+      '54': 1
+      '55': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector stress_days.py
+- name: x_notices
+  label: The kinds of CAISO's or ERCOT's notices issued that day, joined by semicolons
+  unit: none
+  type: text
+  values:
+    list:
+      conservation_appeal: 18
+      conservation_appeal;eea2;update;weather_watch: 1
+      conservation_appeal;rotating_outages: 1
+      conservation_appeal;weather_watch: 7
+      eea1: 1
+      eea_watch: 3
+      ocn_weather: 11
+      rmo: 32
+      update: 1
+      voluntary_conservation: 4
+      weather_watch: 36
+  missing_cells: 167
+  missing_meaning: No notice that day (a stress day by price only)
+  source_name: null
+  documented_by: header; method stress_days.md
+variables:
+- name: stress_day
+  label: The stress day's mean real-time price at the grid's main hub
+  unit: USD/MWh
+  rows: 282
+  first: '2015-07-30T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+second_look: null

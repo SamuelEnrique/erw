@@ -1,0 +1,514 @@
+# The codebook's metadata of table uswtdb_wind_turbines (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: uswtdb_wind_turbines
+family: other_sources
+shape: entities
+row: One utility-scale land-based or offshore wind turbine in the USGS U.S. Wind Turbine Database.
+time: No time column; project_year is the project's year, not the turbine's; image_date the date of the image it was located
+  on.
+vintage_rule: Rewritten whole as one snapshot by each run from the database's API; vintage is not filled.
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: usgs:uswtdb U.S. Geological Survey, Lawrence Berkeley National Laboratory and American Clean Power Association, U.S.
+    Wind Turbine Database (API v1)
+  url: https://energywind.usgs.gov/uswtdb/
+cite: U.S. Geological Survey (USGS), with LBNL and ACP. U.S. Wind Turbine Database (API v1). Via the Energy Research Warehouse
+  (ERW), table `uswtdb_wind_turbines`.
+method: docs/methods/uswtdb_wind_turbines.md
+header_title: USGS U.S. Wind Turbine Database, every utility-scale land-based and offshore wind turbine (session 496)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id uswtdb:<case_id>; entity_type generator; capacity_mw the
+  turbine''s rated capacity; status empty (the database lists installed turbines); the database''s own fields after, renamed
+  with their units.'
+read:
+  date: '2026-11-20'
+  rows: 77839
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  particular: uswtdb:<case_id>
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - uswtdb:3000001
+    - uswtdb:3000003
+    - uswtdb:3000008
+    - uswtdb:3000020
+    - uswtdb:3000026
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  particular: generator on every row (a turbine)
+  type: text
+  values:
+    list:
+      generator: 77839
+  missing_cells: 0
+- name: name
+  shared: true
+  particular: The project's name (p_name) and turbine <case_id>
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 25 Mile Creek turbine 3118873
+    - 25 Mile Creek turbine 3119095
+    - 25 Mile Creek turbine 3119490
+    - 25 Mile Creek turbine 3119588
+    - 25 Mile Creek turbine 3119868
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state>
+  type: text
+  values:
+    distinct: 48
+    examples:
+    - US-AK
+    - US-AR
+    - US-AZ
+    - US-CA
+    - US-CO
+  missing_cells: 0
+- name: lat
+  shared: true
+  particular: The turbine's position (ylat)
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 13.38938
+    highest: 70.20971
+  missing_cells: 0
+- name: lon
+  shared: true
+  particular: The turbine's position (xlong)
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -171.71307
+    highest: 144.72266
+  missing_cells: 0
+- name: capacity_mw
+  shared: true
+  particular: The turbine's rated capacity
+  type: number
+  values:
+    distinct: 109
+    lowest: 0.05
+    highest: 14.0
+  missing_cells: 5056
+- name: status
+  shared: true
+  particular: 'Not filled: the database lists installed turbines'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 77839
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 77839
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 77839
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      usgs:uswtdb: 77839
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://energy.usgs.gov/api/uswtdb/v1/turbines: 77839
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T18:33:12Z': 77839
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 77839
+- name: case_id
+  label: The database's id of the turbine
+  unit: none
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 3000001
+    highest: 3154451
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: case_id
+  documented_by: connector uswtdb.py; method uswtdb_wind_turbines.md
+- name: eia_plant_id
+  label: EIA's plant id
+  unit: none
+  type: integer
+  values:
+    distinct: 1348
+    lowest: 90
+    highest: 69327
+  missing_cells: 5051
+  missing_meaning: No EIA plant id given
+  source_name: eia_id
+  documented_by: method uswtdb_wind_turbines.md
+- name: project_name
+  label: The project's name
+  unit: none
+  type: text
+  values:
+    distinct: 1805
+    examples:
+    - 25 Mile Creek
+    - 251 Wind
+    - 30 MW Iowa DG Portfolio
+    - 6th Space Warning Squadron
+    - AFCEE MMR Turbines
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: p_name
+  documented_by: method uswtdb_wind_turbines.md
+- name: project_year
+  label: The project's year (not the turbine's)
+  unit: none
+  type: integer
+  values:
+    distinct: 42
+    lowest: 1982
+    highest: 2026
+  missing_cells: 842
+  missing_meaning: USGS leaves it blank
+  source_name: p_year
+  documented_by: method uswtdb_wind_turbines.md
+- name: project_turbines
+  label: The number of turbines in the project
+  unit: count
+  type: integer
+  values:
+    distinct: 190
+    lowest: 1
+    highest: 664
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: p_tnum
+  documented_by: method uswtdb_wind_turbines.md
+- name: project_capacity_mw
+  label: The project's capacity
+  unit: MW
+  type: number
+  values:
+    distinct: 845
+    lowest: 0.05
+    highest: 1055.6
+  missing_cells: 3857
+  missing_meaning: USGS leaves it blank
+  source_name: p_cap
+  documented_by: method uswtdb_wind_turbines.md
+- name: state
+  label: The turbine's state, postal code
+  unit: none
+  type: text
+  values:
+    distinct: 48
+    examples:
+    - AK
+    - AR
+    - AZ
+    - CA
+    - CO
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: t_state
+  documented_by: connector uswtdb.py
+- name: county
+  label: The turbine's county
+  unit: none
+  type: text
+  values:
+    distinct: 587
+    examples:
+    - Adair County
+    - Adams County
+    - Addison County
+    - Alameda County
+    - Albany County
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: t_county
+  documented_by: connector uswtdb.py
+- name: fips_county
+  label: The county's five-digit FIPS code
+  unit: none
+  type: text
+  values:
+    distinct: 722
+    examples:
+    - '02013'
+    - '02016'
+    - '02020'
+    - '02050'
+    - 02068
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: t_fips
+  documented_by: connector uswtdb.py; data
+- name: manufacturer
+  label: The turbine's manufacturer
+  unit: none
+  type: text
+  values:
+    distinct: 62
+    examples:
+    - AAER
+    - AOC
+    - AWE
+    - Acciona
+    - Aeronautica
+  missing_cells: 4866
+  missing_meaning: USGS gives no maker
+  source_name: t_manu
+  documented_by: method uswtdb_wind_turbines.md
+- name: model
+  label: The turbine's model
+  unit: none
+  type: text
+  values:
+    distinct: 329
+    examples:
+    - 1.5-70.5
+    - 1.5-77
+    - '1.5_74'
+    - '108'
+    - '120'
+  missing_cells: 4909
+  missing_meaning: USGS gives no model
+  source_name: t_model
+  documented_by: method uswtdb_wind_turbines.md
+- name: turbine_capacity_kw
+  label: The turbine's rated capacity
+  unit: kW
+  type: integer
+  values:
+    distinct: 109
+    lowest: 50
+    highest: 14000
+  missing_cells: 5056
+  missing_meaning: USGS gives no rated capacity
+  source_name: t_cap
+  documented_by: method uswtdb_wind_turbines.md
+- name: hub_height_m
+  label: The turbine's hub height
+  unit: m
+  type: number
+  values:
+    distinct: 104
+    lowest: 19.0
+    highest: 140.0
+  missing_cells: 5450
+  missing_meaning: USGS leaves it blank
+  source_name: t_hh
+  documented_by: method uswtdb_wind_turbines.md
+- name: rotor_diameter_m
+  label: The rotor diameter
+  unit: m
+  type: number
+  values:
+    distinct: 108
+    lowest: 13.4
+    highest: 222.0
+  missing_cells: 5140
+  missing_meaning: USGS leaves it blank
+  source_name: t_rd
+  documented_by: method uswtdb_wind_turbines.md
+- name: rotor_swept_area_m2
+  label: The rotor's swept area
+  unit: m2
+  type: number
+  values:
+    distinct: 108
+    lowest: 141.03
+    highest: 38707.56
+  missing_cells: 5140
+  missing_meaning: USGS leaves it blank
+  source_name: t_rsa
+  documented_by: method uswtdb_wind_turbines.md
+- name: total_height_m
+  label: The turbine's total height
+  unit: m
+  type: number
+  values:
+    distinct: 226
+    lowest: 30.5
+    highest: 247.5
+  missing_cells: 5500
+  missing_meaning: USGS leaves it blank
+  source_name: t_ttlh
+  documented_by: method uswtdb_wind_turbines.md
+- name: confidence_attributes
+  label: USGS's confidence flag for the turbine's attributes (1 to 3), as published
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 5660
+      '2': 4469
+      '3': 67710
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: t_conf_atr
+  documented_by: connector uswtdb.py; method uswtdb_wind_turbines.md
+- name: confidence_location
+  label: USGS's confidence flag for the turbine's location (1 to 3), as published
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 625
+      '2': 90
+      '3': 77124
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: t_conf_loc
+  documented_by: connector uswtdb.py; method uswtdb_wind_turbines.md
+- name: image_date
+  label: The date of the image the turbine was located on (rewritten from M/D/YYYY to YYYY-MM-DD)
+  unit: none
+  type: date
+  values:
+    distinct: 1597
+    earliest: '2010-01-01'
+    latest: '2026-08-21'
+  missing_cells: 6467
+  missing_meaning: USGS leaves it blank
+  source_name: t_img_date
+  documented_by: method uswtdb_wind_turbines.md
+- name: image_source
+  label: The image's source (Vantor, Planet, NAIP, Bing Maps Aerial, Google Earth)
+  unit: none
+  type: text
+  values:
+    list:
+      Bing Maps Aerial: 6346
+      Google Earth: 861
+      NAIP: 5234
+      Planet: 5559
+      Vantor: 59839
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: t_img_src
+  documented_by: method uswtdb_wind_turbines.md; data
+- name: retrofit
+  label: 1 where the turbine was retrofitted, else 0
+  unit: none
+  type: integer
+  values:
+    list:
+      '0': 69130
+      '1': 8709
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: t_retrofit
+  documented_by: method uswtdb_wind_turbines.md; data
+- name: retrofit_year
+  label: The year of the retrofit
+  unit: none
+  type: integer
+  values:
+    list:
+      '2015': 9
+      '2017': 1317
+      '2018': 1124
+      '2019': 1893
+      '2020': 1744
+      '2021': 736
+      '2022': 833
+      '2023': 460
+      '2024': 364
+      '2025': 229
+  missing_cells: 69130
+  missing_meaning: Not retrofitted
+  source_name: t_retro_yr
+  documented_by: method uswtdb_wind_turbines.md
+- name: offshore
+  label: 1 for an offshore turbine, else 0
+  unit: none
+  type: integer
+  values:
+    list:
+      '0': 77710
+      '1': 129
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: t_offshore
+  documented_by: header; connector uswtdb.py
+- name: faa_ors
+  label: not documented by the source
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 02-000669
+    - 02-020007
+    - 02-020012
+    - 02-020037
+    - 02-020038
+  missing_cells: 3349
+  missing_meaning: USGS leaves it blank
+  source_name: faa_ors
+  documented_by: connector uswtdb.py; data
+- name: faa_asn
+  label: not documented by the source
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 1987-AGL-900-OE
+    - 1997-ACE-1545-OE
+    - 1997-ACE-1546-OE
+    - 1997-ANM-1463-OE
+    - 1998-ACE-1575-OE
+  missing_cells: 3556
+  missing_meaning: USGS leaves it blank
+  source_name: faa_asn
+  documented_by: connector uswtdb.py; data
+- name: usgs_project_id
+  label: USGS's project id, as published
+  unit: none
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 1
+    highest: 49135
+  missing_cells: 41912
+  missing_meaning: USGS leaves it blank
+  source_name: usgs_pr_id
+  documented_by: connector uswtdb.py
+second_look:
+- 'confidence_attributes and confidence_location (1 to 3): the meaning of each level is not written in the connector, the
+  method note or the header.'
+- 'faa_ors and faa_asn: what the two FAA identifiers are is not written in the connector, the method note or the header.'

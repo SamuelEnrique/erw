@@ -1,0 +1,508 @@
+# The codebook's metadata of table large_load_waits (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: large_load_waits
+family: large
+shape: events
+row: One followed load request in a public queue and one interval of its stages (from request to a stage, or a time in a stage),
+  measured between successive dated copies of the queue.
+time: event_date is the later bound of the interval's end, or the last copy that holds the request where the end has not come;
+  a copy is dated by its publisher, never by the archive's capture day.
+vintage_rule: A snapshot, rewritten whole by each write from the copies saved; no vintage column.
+keys:
+- event_id
+license: internal
+tier: derived
+interval: event
+source:
+- name: 'the Internet Archive''s Wayback Machine (web.archive.org) and the publishers'' own sites for the current copies.
+    nyiso:interconnection_queue_dated_copies: NYISO Interconnection Queue workbook, the sheet Load Projects and the rows of
+    type L of the other sheets. grantpud:interconnection_queue_dated_copies: Grant PUD Interconnection Queue (PDF), the rows
+    of type Load. ERCOT''s large load status reports list no request (system totals by stage): no row comes from them.'
+  url: ''
+cite: 'Alberta Electric System Operator (AESO), Canada; Bonneville Power Administration (BPA); New York Independent System
+  Operator (NYISO); Public Utility District No. 2 of Grant County, Washington (Grant PUD). Bonneville Power Administration
+  Interconnection Request Queue workbook (InterconnectionQueueOutput), its line and load interconnection requests (Connection
+  Type LL) in each dated copy the Internet Archive holds and the current copy (session 165: followed across copies for large_load_waits)
+  [the publisher''s site states no terms of use for its documents; its one legal page is a privacy policy: "When you visit
+  our website to read pages or download information, we automatically collect and store the following information only:" (https://www.bpa.gov/about/who-we-are/privacy);
+  held internal until a person rules]; CANADA. Alberta Electric System Operator monthly connection project list, its load
+  projects (MW Type Load, Data Load, Distribution Load, Industrial Load) in one dated copy a month the Internet Archive holds
+  and the current copy (session 165: followed across copies for large_load_waits) [terms: "The material may be used and copied
+  for non-commercial, personal or educational purposes, provided that the material is not modified and that copyright notices
+  are not deleted." "Any other use of this material without the AESO''s written permission is prohibited." (https://www.aeso.ca/legal/);
+  held internal]; Grant PUD Interconnection Queue (PDF), its load requests in each dated copy the Internet Archive holds and
+  the current copy (session 155: followed across copies for large_load_waits) [the publisher''s site states no terms of use
+  for its documents; held internal until a person rules]; NYISO Interconnection Queue workbook, its load requests in each
+  dated copy the Internet Archive holds and the current copy (session 155: followed across copies for large_load_waits) [terms:
+  "Access to this Web site does not confer any license or ownership interest in either the form or content of the Web site"
+  (https://www.nyiso.com/legal-notice); held internal]. Via the Energy Research Warehouse (ERW), table `large_load_waits`.'
+method: docs/methods/large_load_waits.md
+header_title: how long large loads waited, measured from successive dated copies of public queues (session 155)
+header_shape: 'Shape: events (docs/datastandard.md v0), event_type large_load_wait. One row a request and stage interval:
+  the entity, the request''s identifier, megawatts as written in the last copy that holds it, the stage in the publisher''s
+  words (status, stage_as_worded) and its class beside them, the two bounds of the start and the two of the end (a copy''s
+  date and address, or the queue date the copies print), and the duration''s range in days.'
+read:
+  date: '2026-11-20'
+  rows: 2745
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: large_load_wait on every row
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: parties
+  shared: true
+  particular: The publisher whose queue holds the request
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 2745
+- name: mw
+  shared: true
+  particular: The request's megawatts as written in the last copy that holds a number
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 209
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 2745
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 2745
+- name: status
+  shared: true
+  particular: The stage in the publisher's words, or its status in the last copy
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  particular: The copy that bounds the interval's end (or the last copy)
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: entity
+  shared: true
+  particular: The publisher whose queue holds the request
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: entity_group
+  label: The group the publisher is counted under (the publisher itself)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: request_id
+  label: The identifier the request is followed by, from the publisher's own (a queue position with leading zeros aside, or
+    a queue position with its queue date)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: request_id_as_printed
+  label: The request's identifier as the last copy prints it
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: followed_by
+  label: The name of the publisher's field the request is followed by
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: request_name
+  label: The request's name in the last copy
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: request_names_seen
+  label: How many different names the request carries across the copies
+  unit: count
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: mw_first
+  label: The request's megawatts as written in the first copy that gives them
+  unit: MW
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 209
+  missing_meaning: No copy gives megawatts
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: mw_last
+  label: The request's megawatts as written in the last copy that gives them
+  unit: MW
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 209
+  missing_meaning: No copy gives megawatts
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: mw_as_written_changes
+  label: Each change of the megawatts as written, as copy date and figure, joined by '; '
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 2136
+  missing_meaning: The megawatts never changed
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: size_class
+  label: 'The request''s size by its last megawatts: under 20 MW, 20 to under 100 MW, 100 to under 300 MW, 300 MW and over,
+    or megawatts not a number'
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: queue_date_printed
+  label: The queue date the copies print for the request
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector large_load_waits.py
+- name: interval
+  label: 'The interval measured: from request to a milestone (study, agreement, energized, withdrawal) or a time in one stage'
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector large_load_waits.py
+- name: stage_as_worded
+  label: For a time in a stage, the stage in the publisher's words
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1602
+  missing_meaning: A request-to-milestone interval
+  source_name: null
+  documented_by: header; connector large_load_waits.py
+- name: stage_code
+  label: The publisher's status code for that stage, as printed
+  unit: none
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 2159
+  missing_meaning: The publisher prints no code, or a request-to-milestone interval
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: stage_class
+  label: The stage's class beside the publisher's words, by the connector's rules, or not classed
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1602
+  missing_meaning: A request-to-milestone interval
+  source_name: null
+  documented_by: header; connector large_load_waits.py
+- name: stage_class_basis
+  label: The rule that placed the stage in its class
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 2085
+  missing_meaning: No rule placed it, or no stage
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: end_as_worded
+  label: The publisher's words in the first copy that shows the interval's end
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1189
+  missing_meaning: The end has not come
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: start_earlier_date
+  label: 'The earlier bound of the interval''s start: a copy''s date or the queue date the copies print'
+  unit: none
+  type: date
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector large_load_waits.py
+- name: start_earlier_basis
+  label: 'What the earlier start bound is: a copy, or the queue date the copies print'
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: start_earlier_url
+  label: The address of the copy that gives the earlier start bound
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: start_later_date
+  label: The later bound of the interval's start
+  unit: none
+  type: date
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector large_load_waits.py
+- name: start_later_basis
+  label: 'What the later start bound is: a copy, or the queue date the copies print'
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: start_later_url
+  label: The address of the copy that gives the later start bound
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: end_earlier_date
+  label: 'The earlier bound of the interval''s end: the last copy that does not show the end'
+  unit: none
+  type: date
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1525
+  missing_meaning: The end is not bounded on that side (not come, or before the first copy)
+  source_name: null
+  documented_by: header; connector large_load_waits.py
+- name: end_earlier_basis
+  label: What the earlier end bound is
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1525
+  missing_meaning: The end is not bounded on that side
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: end_earlier_url
+  label: The address of the copy that gives the earlier end bound
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1525
+  missing_meaning: The end is not bounded on that side
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: end_later_date
+  label: 'The later bound of the interval''s end: the first copy that shows the end'
+  unit: none
+  type: date
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1189
+  missing_meaning: The end has not come
+  source_name: null
+  documented_by: header; connector large_load_waits.py
+- name: end_later_basis
+  label: What the later end bound is
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1189
+  missing_meaning: The end has not come
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: end_later_url
+  label: The address of the copy that gives the later end bound
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1189
+  missing_meaning: The end has not come
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: days_at_least
+  label: 'The shortest the interval can have lasted: the later start bound to the earlier end bound'
+  unit: day
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 336
+  missing_meaning: An upper bound only (the end had come before the first copy)
+  source_name: null
+  documented_by: header; connector large_load_waits.py
+- name: days_at_most
+  label: 'The longest the interval can have lasted: the earlier start bound to the later end bound'
+  unit: day
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1218
+  missing_meaning: A lower bound only (the end has not come, a side is not bounded, or two copies only)
+  source_name: null
+  documented_by: header; connector large_load_waits.py
+- name: label
+  label: 'What the range is: measured, lower bound, two copies only, or upper bound'
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector large_load_waits.py
+- name: copies_seen
+  label: How many dated copies hold the request
+  unit: count
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: first_copy_date
+  label: The date of the first copy that holds the request
+  unit: none
+  type: date
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: last_copy_date
+  label: The date of the last copy that holds the request
+  unit: none
+  type: date
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: status_in_last_copy
+  label: The request's status in the publisher's words in the last copy
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector large_load_waits.py
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: notes
+  label: A note on the row, such as a request no longer in the publisher's newest copy
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 2651
+  missing_meaning: No note
+  source_name: null
+  documented_by: connector large_load_waits.py
+second_look: null

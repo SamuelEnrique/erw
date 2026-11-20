@@ -1,0 +1,193 @@
+# The codebook's metadata of table eia_net_imports_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_net_imports_monthly
+family: eia
+shape: series
+row: One month's U.S. net imports (imports less exports) of crude oil, petroleum products or both with one partner country,
+  group or the world.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:petroleum/move/neti U.S. Energy Information Administration, Petroleum Supply Monthly, U.S. net imports by country
+    (API v2, route petroleum/move/neti)
+  url: https://www.eia.gov/dnav/pet/pet_move_neti_a_ep00_imn_mbblpd_m.htm
+cite: U.S. Energy Information Administration (EIA). Petroleum Supply Monthly, U.S. net imports by country (API v2). Via the
+  Energy Research Warehouse (ERW), table `eia_net_imports_monthly`.
+method: docs/methods/eia_net_imports_monthly.md
+header_title: EIA, U.S. net imports of crude oil and petroleum products by country, a month (session 2412)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_net_imports:<series>; variable net_imports_crude_and_products,
+  net_imports_crude, net_imports_products (kbbl/d, imports less exports: a negative value is a net export to that partner);
+  ts_utc the month''s first day; freq P1M; geo US; node EIA''s series description; x_partner the partner''s ISO 3166 alpha-3
+  code as EIA gives it, or EIA''s area code for the world (NUS-Z00), the groups (NUS-ME0 OPEC, NUS-MN0 non-OPEC, NUS-MP0 Persian
+  Gulf), which overlap the countries, and 23 countries and territories EIA gives no three-letter code. Puerto Rico and the
+  U.S. Virgin Islands are partners, so the importer is the U.S. without them.'
+read:
+  date: '2026-11-20'
+  rows: 65501
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia_net_imports:<EIA series id>
+  type: text
+  values:
+    distinct: 530
+    examples:
+    - eia_net_imports:ESM_EP00_IMN_NUS-NSS_MBBLD
+    - eia_net_imports:ESM_EPC0_IMN_NUS-NSS_MBBLD
+    - eia_net_imports:ESM_EPP0_IMN_NUS-NSS_MBBLD
+    - eia_net_imports:MCRNTUS2
+    - eia_net_imports:MCRNTUSAG2
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 199
+    earliest: '2010-01-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 3640
+    lowest: -6844.0
+    highest: 10159.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      kbbl/d: 65501
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 65501
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US on every row (the importer)
+  type: text
+  values:
+    list:
+      US: 65501
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 65501
+- name: node
+  shared: true
+  particular: EIA's series description
+  type: text
+  values:
+    distinct: 530
+    examples:
+    - U.S. Net Imports from Afghanistan of Crude Oil and Petroleum Products (Thousand Barrels per Day)
+    - U.S. Net Imports from Afghanistan of Total Petroleum Products (Thousand Barrels per Day)
+    - U.S. Net Imports from Albania of Crude Oil (Thousand Barrels per Day)
+    - U.S. Net Imports from Albania of Crude Oil and Petroleum Products (Thousand Barrels per Day)
+    - U.S. Net Imports from Albania of Total Petroleum Products (Thousand Barrels per Day)
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:petroleum/move/neti: 65501
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/petroleum/move/neti/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bproduct%5D%5B%5D=EP00&facets%5Bproduct%5D%5B%5D=EPC0&facets%5Bproduct%5D%5B%5D=EPP0&start=2010-01
+      : 65501
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T10:42:54Z': 5000
+      '2026-10-24T10:42:58Z': 5000
+      '2026-10-24T10:43:02Z': 5000
+      '2026-10-24T10:43:06Z': 5000
+      '2026-10-24T10:43:11Z': 5000
+      '2026-10-24T10:43:15Z': 5000
+      '2026-10-24T10:43:20Z': 5000
+      '2026-10-24T10:43:24Z': 5000
+      '2026-10-24T10:43:28Z': 5000
+      '2026-10-24T10:43:33Z': 5000
+      '2026-10-24T10:43:37Z': 5000
+      '2026-10-24T10:43:41Z': 5000
+      '2026-10-24T10:43:46Z': 5000
+      '2026-10-24T10:43:50Z': 501
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 65501
+- name: x_partner
+  label: 'The trading partner: its ISO 3166 three-letter code as EIA gives it, or EIA''s area code for the world (NUS-Z00),
+    a group (OPEC, non-OPEC, Persian Gulf) or a country EIA gives no three-letter code'
+  unit: none
+  type: text
+  values:
+    distinct: 208
+    examples:
+    - ABW
+    - AFG
+    - AGO
+    - AIA
+    - ALB
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: duoarea
+  documented_by: header; connector eia_net_imports.py; method eia_net_imports_monthly.md
+variables:
+- name: net_imports_crude
+  label: Net imports of crude oil from the partner, thousand barrels a day (negative a net export)
+  unit: kbbl/d
+  rows: 8061
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: net_imports_crude_and_products
+  label: Net imports of crude oil and petroleum products from the partner, thousand barrels a day (negative a net export)
+  unit: kbbl/d
+  rows: 28828
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: net_imports_products
+  label: Net imports of petroleum products from the partner, thousand barrels a day (negative a net export)
+  unit: kbbl/d
+  rows: 28612
+  first: '2010-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

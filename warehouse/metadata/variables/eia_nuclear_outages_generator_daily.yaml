@@ -1,0 +1,181 @@
+# The codebook's metadata of table eia_nuclear_outages_generator_daily (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_nuclear_outages_generator_daily
+family: eia
+shape: series
+row: One nuclear reactor's day of capacity, capacity on outage, or share on outage, EIA's estimate from the NRC's daily power
+  reactor status reports.
+time: ts_utc is the day at 00:00:00Z (freq P1D), a date.
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1D
+source:
+- name: eia:nuclear-outages/generator-nuclear-outages U.S. Energy Information Administration, Status of U.S. Nuclear Outages
+    (API v2)
+  url: https://www.eia.gov/nuclear/outages/
+cite: U.S. Energy Information Administration (EIA). Status of U.S. Nuclear Outages, by reactor (API v2, daily). Via the Energy
+  Research Warehouse (ERW), table `eia_nuclear_outages_generator_daily`.
+method: docs/methods/eia_nuclear_outages.md
+header_title: EIA, status of U.S. nuclear outages, each reactor's capacity and outages, a day (sessions 548 and 549)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_nuclear_outages_gen:<facility>:<generator> (EIA''s plant
+  and reactor ids), node the plant''s name and the reactor; variable capacity (MW), outage (MW) or outage_share (ratio, EIA''s
+  percent divided by 100); ts_utc the day; freq P1D.'
+read:
+  date: '2026-11-20'
+  rows: 2149671
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia_nuclear_outages_gen:<facility>:<generator>, EIA's plant and reactor ids
+  type: text
+  values:
+    distinct: 107
+    examples:
+    - eia_nuclear_outages_gen:1060:1
+    - eia_nuclear_outages_gen:1590:1
+    - eia_nuclear_outages_gen:1715:1
+    - eia_nuclear_outages_gen:1729:2
+    - eia_nuclear_outages_gen:1922:1
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2007-01-01T00:00:00Z'
+    latest: '2026-11-19T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.0
+    highest: 1463.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 1433114
+      ratio: 716557
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 2149671
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US on every row
+  type: text
+  values:
+    list:
+      US: 2149671
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2149671
+- name: node
+  shared: true
+  particular: The plant's name and the reactor
+  type: text
+  values:
+    distinct: 107
+    examples:
+    - Arkansas Nuclear One, reactor 1
+    - Arkansas Nuclear One, reactor 2
+    - Beaver Valley, reactor 1
+    - Beaver Valley, reactor 2
+    - Braidwood Generation Station, reactor 1
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:nuclear-outages/generator-nuclear-outages: 2149671
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/nuclear-outages/generator-nuclear-outages/data/?api_key=REDACTED&frequency=daily&data%5B%5D=capacity&data%5B%5D=outage&data%5B%5D=percentOutage&start=2007-01-01&end=2014-12-31
+      : 902289
+      ? https://api.eia.gov/v2/nuclear-outages/generator-nuclear-outages/data/?api_key=REDACTED&frequency=daily&data%5B%5D=capacity&data%5B%5D=outage&data%5B%5D=percentOutage&start=2015-01-01
+      : 1239117
+      ? https://api.eia.gov/v2/nuclear-outages/generator-nuclear-outages/data/?api_key=REDACTED&frequency=daily&data%5B%5D=capacity&data%5B%5D=outage&data%5B%5D=percentOutage&start=2026-10-22
+      : 6270
+      ? https://api.eia.gov/v2/nuclear-outages/generator-nuclear-outages/data/?api_key=REDACTED&frequency=daily&data%5B%5D=capacity&data%5B%5D=outage&data%5B%5D=percentOutage&start=2026-11-13
+      : 285
+      ? https://api.eia.gov/v2/nuclear-outages/generator-nuclear-outages/data/?api_key=REDACTED&frequency=daily&data%5B%5D=capacity&data%5B%5D=outage&data%5B%5D=percentOutage&start=2026-11-14
+      : 855
+      ? https://api.eia.gov/v2/nuclear-outages/generator-nuclear-outages/data/?api_key=REDACTED&frequency=daily&data%5B%5D=capacity&data%5B%5D=outage&data%5B%5D=percentOutage&start=2026-11-17
+      : 285
+      ? https://api.eia.gov/v2/nuclear-outages/generator-nuclear-outages/data/?api_key=REDACTED&frequency=daily&data%5B%5D=capacity&data%5B%5D=outage&data%5B%5D=percentOutage&start=2026-11-18
+      : 285
+      ? https://api.eia.gov/v2/nuclear-outages/generator-nuclear-outages/data/?api_key=REDACTED&frequency=daily&data%5B%5D=capacity&data%5B%5D=outage&data%5B%5D=percentOutage&start=2026-11-19
+      : 285
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T22:33:55Z': 2141406
+      '2026-11-12T16:41:37Z': 6270
+      '2026-11-13T18:16:36Z': 285
+      '2026-11-16T18:52:20Z': 855
+      '2026-11-17T17:43:12Z': 285
+      '2026-11-18T17:50:44Z': 285
+      '2026-11-19T17:51:46Z': 285
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2149671
+variables:
+- name: capacity
+  label: The reactor's generating capacity, MW
+  unit: MW
+  rows: 716557
+  first: '2007-01-01T00:00:00Z'
+  last: '2026-11-19T00:00:00Z'
+- name: outage
+  label: The reactor's capacity on outage that day, MW
+  unit: MW
+  rows: 716557
+  first: '2007-01-01T00:00:00Z'
+  last: '2026-11-19T00:00:00Z'
+- name: outage_share
+  label: Share of the reactor's capacity on outage, a ratio (EIA's percent divided by 100)
+  unit: ratio
+  rows: 716557
+  first: '2007-01-01T00:00:00Z'
+  last: '2026-11-19T00:00:00Z'
+second_look: null

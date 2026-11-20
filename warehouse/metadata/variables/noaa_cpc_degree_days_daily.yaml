@@ -1,0 +1,200 @@
+# The codebook's metadata of table noaa_cpc_degree_days_daily (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: noaa_cpc_degree_days_daily
+family: noaa
+shape: series
+row: The population-weighted heating or cooling degree days of one day for one of the 48 contiguous states, one census division
+  or the contiguous U.S., as NOAA's Climate Prediction Center computes them.
+time: ts_utc is the day CPC labels, at 00:00:00Z.
+vintage_rule: Merged by (entity, variable, ts_utc); the current year's files grow each day and are fetched again on each run,
+  earlier years' are kept. vintage is the Last-Modified of the file the row came from.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1D
+source:
+- name: noaa:cpc_degree_days NOAA Climate Prediction Center, Degree Days Statistics
+  url: https://ftp.cpc.ncep.noaa.gov/htdocs/degree_days/weighted/daily_data/
+cite: 'NOAA National Weather Service, Climate Prediction Center. Degree Days Statistics: population-weighted daily heating
+  and cooling degree days. Via the Energy Research Warehouse (ERW), table `noaa_cpc_degree_days_daily`.'
+method: docs/methods/noaa_cpc_degree_days_daily.md
+header_title: NOAA, National Weather Service, Climate Prediction Center, population-weighted heating and cooling degree days,
+  a day, for the 48 contiguous states and for CPC's population regions (session 2006)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity cpc_dd:<state>, cpc_dd:division_<n> (a census division as CPC
+  numbers it, 1 to 9) or cpc_dd:conus; variables hdd and cdd; unit degF-day (degree days at 65 F, weighted by population as
+  CPC computes them); freq P1D; ts_utc the day CPC labels; geo US-<state>, US for CONUS, empty for a census division; x_regions
+  StatesCONUS or Population.'
+read:
+  date: '2026-11-20'
+  rows: 118900
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: cpc_dd:<state> (the 48 contiguous states), cpc_dd:division_<n> (a census division as CPC numbers it, 1 to 9)
+    or cpc_dd:conus
+  type: text
+  values:
+    distinct: 58
+    examples:
+    - cpc_dd:AL
+    - cpc_dd:AR
+    - cpc_dd:AZ
+    - cpc_dd:CA
+    - cpc_dd:CO
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 1025
+    earliest: '2024-01-01T00:00:00Z'
+    latest: '2026-10-21T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 84
+    lowest: 0.0
+    highest: 84.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      degF-day: 118900
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 118900
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state>, US for the contiguous U.S., empty for a census division
+  type: text
+  values:
+    distinct: 49
+    examples:
+    - US
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 18450
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 118900
+- name: node
+  shared: true
+  particular: The region as CPC's file writes it (a state code, a division number), not a pricing node
+  type: text
+  values:
+    distinct: 58
+    examples:
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      noaa:cpc_degree_days: 118900
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://ftp.cpc.ncep.noaa.gov/htdocs/degree_days/weighted/daily_data/2024/Population.Cooling.txt: 3660
+      https://ftp.cpc.ncep.noaa.gov/htdocs/degree_days/weighted/daily_data/2024/Population.Heating.txt: 3660
+      https://ftp.cpc.ncep.noaa.gov/htdocs/degree_days/weighted/daily_data/2024/StatesCONUS.Cooling.txt: 17568
+      https://ftp.cpc.ncep.noaa.gov/htdocs/degree_days/weighted/daily_data/2024/StatesCONUS.Heating.txt: 17568
+      https://ftp.cpc.ncep.noaa.gov/htdocs/degree_days/weighted/daily_data/2025/Population.Cooling.txt: 3650
+      https://ftp.cpc.ncep.noaa.gov/htdocs/degree_days/weighted/daily_data/2025/Population.Heating.txt: 3650
+      https://ftp.cpc.ncep.noaa.gov/htdocs/degree_days/weighted/daily_data/2025/StatesCONUS.Cooling.txt: 17520
+      https://ftp.cpc.ncep.noaa.gov/htdocs/degree_days/weighted/daily_data/2025/StatesCONUS.Heating.txt: 17520
+      https://ftp.cpc.ncep.noaa.gov/htdocs/degree_days/weighted/daily_data/2026/Population.Cooling.txt: 2940
+      https://ftp.cpc.ncep.noaa.gov/htdocs/degree_days/weighted/daily_data/2026/Population.Heating.txt: 2940
+      https://ftp.cpc.ncep.noaa.gov/htdocs/degree_days/weighted/daily_data/2026/StatesCONUS.Cooling.txt: 14112
+      https://ftp.cpc.ncep.noaa.gov/htdocs/degree_days/weighted/daily_data/2026/StatesCONUS.Heating.txt: 14112
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T15:21:37Z': 17568
+      '2026-10-23T15:21:39Z': 17568
+      '2026-10-23T15:21:40Z': 3660
+      '2026-10-23T15:21:53Z': 3660
+      '2026-10-23T15:21:54Z': 17520
+      '2026-10-23T15:21:56Z': 17520
+      '2026-10-23T15:21:57Z': 3650
+      '2026-10-23T15:21:58Z': 3650
+      '2026-10-23T15:22:00Z': 14112
+      '2026-10-23T15:22:01Z': 14112
+      '2026-10-23T15:22:02Z': 2940
+      '2026-10-23T15:22:04Z': 2940
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The Last-Modified of CPC's yearly file the row came from
+  type: utc time
+  values:
+    list:
+      '2025-01-02T08:12:21Z': 24888
+      '2025-01-02T08:12:22Z': 17568
+      '2026-01-02T08:09:54Z': 42340
+      '2026-10-23T08:07:00Z': 34104
+  missing_cells: 0
+- name: x_regions
+  label: 'CPC''s set of regions the row comes from: StatesCONUS (the states) or Population (the census divisions and the contiguous
+    U.S.)'
+  unit: none
+  type: text
+  values:
+    list:
+      Population: 20500
+      StatesCONUS: 98400
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector noaa_cpc_degree_days.py
+variables:
+- name: cdd
+  label: Cooling degree days of the day at a base of 65 F, weighted by population as CPC computes them, degF-day
+  unit: degF-day
+  rows: 59450
+  first: '2024-01-01T00:00:00Z'
+  last: '2026-10-21T00:00:00Z'
+- name: hdd
+  label: Heating degree days of the day at a base of 65 F, weighted by population as CPC computes them, degF-day
+  unit: degF-day
+  rows: 59450
+  first: '2024-01-01T00:00:00Z'
+  last: '2026-10-21T00:00:00Z'
+second_look: null

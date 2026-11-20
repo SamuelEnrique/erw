@@ -1,0 +1,379 @@
+# The codebook's metadata of table nlr_atb_electricity_costs (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: nlr_atb_electricity_costs
+family: other_sources
+shape: series
+row: One technology case's value of one cost or performance measure (capital cost, O&M, fuel, capacity factor, LCOE) for one
+  projection year, from the 2025 Electricity Annual Technology Baseline of the National Laboratory of the Rockies (formerly
+  NREL).
+time: ts_utc is the projection year's 1 January at 00:00:00Z; freq P1Y; 2023 to 2060.
+vintage_rule: Rewritten whole as one snapshot by each run from the ATB's parquet file; vintage is the file's Last-Modified.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: nlr:atb_electricity National Laboratory of the Rockies (NLR, formerly NREL), 2025 Electricity Annual Technology Baseline
+    (ATB) v1.0.0
+  url: https://atb.nrel.gov/electricity/
+cite: National Laboratory of the Rockies (NLR, formerly NREL). Electricity Annual Technology Baseline (ATB), flat file. Via
+  the Energy Research Warehouse (ERW), table `nlr_atb_electricity_costs`.
+method: docs/methods/nlr_atb_electricity_costs.md
+header_title: NLR (formerly NREL) 2025 Electricity Annual Technology Baseline, projected costs by technology and year (session
+  487)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity nlr_atb_2025:<technology>:<detail>:<scenario>; variables capex
+  and occ (USD/kW), fixed_om (USD/kW-year), variable_om, fuel and lcoe (USD/MWh), capacity_factor (ratio); ts_utc the projection
+  year''s 1 January; freq P1Y; node the ATB''s display name.'
+read:
+  date: '2026-11-20'
+  rows: 95000
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: nlr_atb_2025:<technology>:<detail>:<scenario>, lower case
+  type: text
+  values:
+    distinct: 547
+    examples:
+    - nlr_atb_2025:biopower:dedicated:biopower:utility:advanced
+    - nlr_atb_2025:biopower:dedicated:biopower:utility:conservative
+    - nlr_atb_2025:biopower:dedicated:biopower:utility:moderate
+    - nlr_atb_2025:coal_fe:coal_95_ccs:95_ccs:coal:utility:advanced
+    - nlr_atb_2025:coal_fe:coal_95_ccs:95_ccs:coal:utility:conservative
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 38
+    earliest: '2023-01-01T00:00:00Z'
+    latest: '2060-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: 0.1169815322192364
+    highest: 24600.93062840958
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 20288
+      USD/kW: 39688
+      USD/kW-year: 20528
+      ratio: 14496
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 95000
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US on every row
+  type: text
+  values:
+    list:
+      US: 95000
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 95000
+- name: node
+  shared: true
+  particular: The ATB's display name, not a pricing node
+  type: text
+  values:
+    distinct: 183
+    examples:
+    - Biopower - Dedicated
+    - CSP - Class 2
+    - CSP - Class 3
+    - CSP - Class 8
+    - Coal integrated retrofit 90%-CCS
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      nlr:atb_electricity: 95000
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://oedi-data-lake.s3.amazonaws.com/ATB/electricity/parquet/2025/v1.0.0/ATBe.parquet: 95000
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T17:03:29Z': 95000
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The parquet file's Last-Modified (UTC)
+  type: utc time
+  values:
+    list:
+      '2026-09-01T22:22:25Z': 95000
+  missing_cells: 0
+- name: x_technology
+  label: The ATB's technology (UtilityPV, LandbasedWind, NaturalGas_FE, Utility-Scale Battery Storage and others)
+  unit: none
+  type: text
+  values:
+    list:
+      Biopower: 798
+      CSP: 2052
+      Coal_FE: 2280
+      Coal_Retrofits: 456
+      CommPV: 5700
+      Commercial Battery Storage: 1710
+      DistributedWind: 22800
+      Geothermal: 3420
+      Hydropower: 6840
+      LandbasedWind: 5700
+      NaturalGas_FE: 4976
+      NaturalGas_Retrofits: 912
+      Nuclear: 1953
+      OffShoreWind: 7245
+      Pumped Storage Hydropower: 8664
+      ResPV: 5700
+      Residential Battery Storage: 684
+      Utility-Scale Battery Storage: 1710
+      Utility-Scale PV-Plus-Battery: 5700
+      UtilityPV: 5700
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: technology
+  documented_by: connector nlr_atb_costs.py; method nlr_atb_electricity_costs.md
+- name: x_techdetail
+  label: The ATB's technology detail (a class, a duration, a configuration)
+  unit: none
+  type: text
+  values:
+    distinct: 124
+    examples:
+    - 10Hr Battery Storage
+    - 1Hr Battery Storage
+    - 2Hr Battery Storage
+    - 4Hr Battery Storage
+    - 5kW/20kWh Battery Storage
+  missing_cells: 456
+  missing_meaning: The ATB gives no detail
+  source_name: techdetail
+  documented_by: connector nlr_atb_costs.py; method nlr_atb_electricity_costs.md
+- name: x_techdetail2
+  label: The ATB's second technology detail (a carbon capture share, a technology name)
+  unit: none
+  type: text
+  values:
+    distinct: 59
+    examples:
+    - 90%-CCS
+    - 95%-CCS
+    - 99%-CCS
+    - Biopower
+    - CSP
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: techdetail2
+  documented_by: connector nlr_atb_costs.py; method nlr_atb_electricity_costs.md
+- name: x_resourcedetail
+  label: The ATB's resource detail (a resource class)
+  unit: none
+  type: text
+  values:
+    distinct: 39
+    examples:
+    - Class1
+    - Class10
+    - Class11
+    - Class12
+    - Class13
+  missing_cells: 4104
+  missing_meaning: The ATB gives no resource detail
+  source_name: resourcedetail
+  documented_by: connector nlr_atb_costs.py; method nlr_atb_electricity_costs.md
+- name: x_scale
+  label: 'The ATB''s scale: Utility, Commercial or Residential'
+  unit: none
+  type: text
+  values:
+    list:
+      Commercial: 13110
+      Residential: 12084
+      Utility: 69806
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: scale
+  documented_by: connector nlr_atb_costs.py; data
+- name: x_scenario
+  label: 'The ATB''s scenario: Advanced, Moderate or Conservative'
+  unit: none
+  type: text
+  values:
+    list:
+      Advanced: 31736
+      Conservative: 31528
+      Moderate: 31736
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: scenario
+  documented_by: connector nlr_atb_costs.py; method nlr_atb_electricity_costs.md
+- name: x_display_name
+  label: The ATB's display name of the technology case
+  unit: none
+  type: text
+  values:
+    distinct: 183
+    examples:
+    - Biopower - Dedicated
+    - CSP - Class 2
+    - CSP - Class 3
+    - CSP - Class 8
+    - Coal integrated retrofit 90%-CCS
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: display_name
+  documented_by: connector nlr_atb_costs.py; method nlr_atb_electricity_costs.md
+- name: x_default
+  label: The ATB's default field, as published (1 or 0)
+  unit: none
+  type: integer
+  values:
+    list:
+      '0': 81344
+      '1': 13656
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: default
+  documented_by: connector nlr_atb_costs.py; data
+- name: x_maturity
+  label: The ATB's maturity field, as published (Y or N)
+  unit: none
+  type: text
+  values:
+    list:
+      N: 10445
+      Y: 84555
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: maturity
+  documented_by: connector nlr_atb_costs.py; data
+- name: x_case
+  label: 'The ATB''s cost case: R&D (no tax credits), the default view'
+  unit: none
+  type: text
+  values:
+    list:
+      R&D: 95000
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method nlr_atb_electricity_costs.md
+- name: x_crp_years
+  label: The cost recovery period, years (30, the default view)
+  unit: year
+  type: integer
+  values:
+    list:
+      '30': 95000
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method nlr_atb_electricity_costs.md
+- name: x_dollar_year
+  label: The dollar year of the costs (2023)
+  unit: none
+  type: integer
+  values:
+    list:
+      '2023': 95000
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method nlr_atb_electricity_costs.md
+- name: x_atb_version
+  label: The ATB edition and version (2025 v1.0.0)
+  unit: none
+  type: text
+  values:
+    list:
+      2025 v1.0.0: 95000
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method nlr_atb_electricity_costs.md
+variables:
+- name: capacity_factor
+  label: Capacity factor
+  unit: ratio
+  rows: 14496
+  first: '2023-01-01T00:00:00Z'
+  last: '2060-01-01T00:00:00Z'
+- name: capex
+  label: Capital expenditure, USD per kW (2023 dollars)
+  unit: USD/kW
+  rows: 19844
+  first: '2023-01-01T00:00:00Z'
+  last: '2060-01-01T00:00:00Z'
+- name: fixed_om
+  label: Fixed operation and maintenance cost, USD per kW-year
+  unit: USD/kW-year
+  rows: 20528
+  first: '2023-01-01T00:00:00Z'
+  last: '2060-01-01T00:00:00Z'
+- name: fuel
+  label: Fuel cost, USD per MWh
+  unit: USD/MWh
+  rows: 393
+  first: '2023-01-01T00:00:00Z'
+  last: '2060-01-01T00:00:00Z'
+- name: lcoe
+  label: Levelized cost of energy, USD per MWh (R&D case, 30-year cost recovery period)
+  unit: USD/MWh
+  rows: 14496
+  first: '2023-01-01T00:00:00Z'
+  last: '2060-01-01T00:00:00Z'
+- name: occ
+  label: Overnight capital cost, USD per kW
+  unit: USD/kW
+  rows: 19844
+  first: '2023-01-01T00:00:00Z'
+  last: '2060-01-01T00:00:00Z'
+- name: variable_om
+  label: Variable operation and maintenance cost, USD per MWh
+  unit: USD/MWh
+  rows: 5399
+  first: '2023-01-01T00:00:00Z'
+  last: '2060-01-01T00:00:00Z'
+second_look:
+- 'x_default (the ATB''s default field, 1 or 0) and x_maturity (the ATB''s maturity field, Y or N): what each marks is not
+  written in the connector, the method note or the header.'

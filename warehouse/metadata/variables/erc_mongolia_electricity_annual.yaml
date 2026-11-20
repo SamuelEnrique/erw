@@ -1,0 +1,212 @@
+# The codebook's metadata of table erc_mongolia_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: erc_mongolia_electricity_annual
+family: other_sources
+shape: series
+row: One year's value of one measure of Mongolia's electricity (generation by type, imports, installed capacity by type, or
+  sales by class), for the country or one grid, from ERC's Statistics on Energy Performance.
+time: ts_utc is the year's 1 January at 00:00:00Z; freq P1Y.
+vintage_rule: 'Merged by (entity, variable, ts_utc) (ip.write_csv): a run replaces the rows it reads again and keeps rows
+  from earlier runs; vintage is the document''s Last-Modified time.'
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1Y
+source:
+- name: erc_mn:statistics_on_energy_performance Energy Regulatory Commission of Mongolia, Statistics on Energy Performance
+    (English), the electricity generation, installed capacity and electricity sales volume tables
+  url: https://erc.gov.mn/mn/statistic
+cite: Energy Regulatory Commission of Mongolia (ERC). Statistics on Energy Performance, English edition of 2020 (generation,
+  imports, installed capacity, sales by grid). Via the Energy Research Warehouse (ERW), table `erc_mongolia_electricity_annual`.
+method: docs/methods/erc_mongolia_electricity_annual.md
+header_title: 'Energy Regulatory Commission of Mongolia (ERC), Statistics on Energy Performance (English, 2020 edition): generation
+  by type and imports, installed capacity, and sales by grid and class, 2015 to 2020 (session 2422)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity erc_mn:MN (the country) or erc_mn:<grid> (cripg, wripg, eripg,
+  auipg, srpdg); variable generation_<chp|diesel|solar|hydro|wind|total> and imports (MWh, ERC''s GWh times 1,000), capacity_<chp|renewable|diesel|total>
+  (MW), sales_<entity_industry|apartment|ger_district|total> (MWh; ERC''s E&I, Ap and GD: entity and industry, apartment,
+  ger district); ts_utc the year''s 1 January; freq P1Y; geo MN.'
+read:
+  date: '2026-11-20'
+  rows: 210
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: erc_mn:<country code> for the country, or erc_mn:<grid>
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: The country's two-letter ISO 3166-1 code on every row, whatever the grid
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 210
+- name: node
+  shared: true
+  particular: ERC's label of the country or grid, not a pricing node
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The document's Last-Modified time as the server sent it
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+variables:
+- name: capacity_chp
+  label: Installed capacity of combined heat and power plants
+  unit: MW
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: capacity_diesel
+  label: Installed capacity of diesel plants
+  unit: MW
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: capacity_renewable
+  label: Installed capacity of renewable plants
+  unit: MW
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: capacity_total
+  label: Total installed capacity
+  unit: MW
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: generation_chp
+  label: Generation of combined heat and power plants
+  unit: MWh
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: generation_diesel
+  label: Generation of diesel plants
+  unit: MWh
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: generation_hydro
+  label: Generation from hydro
+  unit: MWh
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: generation_solar
+  label: Generation from solar
+  unit: MWh
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: generation_total
+  label: Total generation
+  unit: MWh
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: generation_wind
+  label: Generation from wind
+  unit: MWh
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: imports
+  label: Electricity imported
+  unit: MWh
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: sales_apartment
+  label: Sales to apartments (ERC's Ap)
+  unit: MWh
+  rows: 36
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: sales_entity_industry
+  label: Sales to entities and industry (ERC's E&I)
+  unit: MWh
+  rows: 36
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: sales_ger_district
+  label: Sales to ger districts (ERC's GD)
+  unit: MWh
+  rows: 36
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: sales_total
+  label: Total sales
+  unit: MWh
+  rows: 36
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+second_look: null

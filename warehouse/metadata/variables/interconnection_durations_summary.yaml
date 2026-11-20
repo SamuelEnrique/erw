@@ -1,0 +1,191 @@
+# The codebook's metadata of table interconnection_durations_summary (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: interconnection_durations_summary
+family: interconnection
+shape: series
+row: One grid's (or the whole US's) measure of how long the interconnection requests that began operating in one year took
+  from request to operation, from Berkeley Lab and GridTracker's Queued Up, 2026 edition (through 2025).
+time: ts_utc is 1 January of the year the projects began operating (a year, not an instant); freq P1Y.
+vintage_rule: Rebuilt whole from lbnl_interconnection_queue by each run of the builder; one edition; vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1Y
+source:
+- name: lbnl:queued_up Lawrence Berkeley National Laboratory and GridTracker, Queued Up data file
+  url: https://eta-publications.lbl.gov/publications/queued-2026-edition-characteristics
+cite: Energy Research Warehouse (ERW), derived. Interconnection request to operation, completed projects, from Berkeley Lab's
+  Queued Up file (docs/methods/interconnection_durations.md). Via the Energy Research Warehouse (ERW), table `interconnection_durations_summary`.
+method: docs/methods/interconnection_durations.md
+header_title: interconnection request to operation by grid and year of operation, 2026 edition (through 2025) (session 671)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity lbnl_durations:<grid> (the seven ISOs, west, southeast, us);
+  variables median_months, p25_months, p75_months (unit month: 30.4375 days), projects (count), mw (MW), median_months_5y
+  and projects_5y (the five years ending ts_utc''s year); ts_utc 1 January of the year the projects began operating; freq
+  P1Y.'
+read:
+  date: '2026-11-20'
+  rows: 1365
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: 'lbnl_durations:<grid>: the seven ISOs'' codes as held, west, southeast, or us for every counted project'
+  type: text
+  values:
+    list:
+      lbnl_durations:caiso: 140
+      lbnl_durations:ercot: 98
+      lbnl_durations:miso: 168
+      lbnl_durations:nyiso: 126
+      lbnl_durations:pjm: 182
+      lbnl_durations:southeast: 147
+      lbnl_durations:spp: 161
+      lbnl_durations:us: 189
+      lbnl_durations:west: 154
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 27
+    earliest: '1999-01-01T00:00:00Z'
+    latest: '2025-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 879
+    lowest: 1.0
+    highest: 33634.54
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 195
+      count: 390
+      month: 780
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 1365
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: Always US, also for a single grid's rows
+  type: text
+  values:
+    list:
+      US: 1365
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1365
+- name: node
+  shared: true
+  particular: Berkeley Lab's region name (CAISO, West, Southeast and the others) or US, not a pricing node
+  type: text
+  values:
+    list:
+      CAISO: 140
+      ERCOT: 98
+      MISO: 168
+      NYISO: 126
+      PJM: 182
+      SPP: 161
+      Southeast: 147
+      US: 189
+      West: 154
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:interconnection_durations: 1365
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://eta-publications.lbl.gov/sites/default/files/2026-05/lbnl_ix_queue_data_file_thru2025.xlsx: 1365
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-02T09:16:25Z': 1365
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1365
+variables:
+- name: median_months
+  label: The median time from request to operation of the year's projects, months of 30.4375 days
+  unit: month
+  rows: 195
+  first: '1999-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: median_months_5y
+  label: The median time from request to operation over the five years ending in the row's year, months
+  unit: month
+  rows: 195
+  first: '1999-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: mw
+  label: The capacity of the projects that began operating in the year, MW
+  unit: MW
+  rows: 195
+  first: '1999-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: p25_months
+  label: The 25th percentile of the year's projects' time from request to operation, months
+  unit: month
+  rows: 195
+  first: '1999-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: p75_months
+  label: The 75th percentile of the year's projects' time from request to operation, months
+  unit: month
+  rows: 195
+  first: '1999-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: projects
+  label: The number of projects that began operating in the year
+  unit: count
+  rows: 195
+  first: '1999-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: projects_5y
+  label: The number of projects that began operating in the five years ending in the row's year
+  unit: count
+  rows: 195
+  first: '1999-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

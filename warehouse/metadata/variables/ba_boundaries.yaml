@@ -1,0 +1,335 @@
+# The codebook's metadata of table ba_boundaries (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ba_boundaries
+family: ba
+shape: entities
+row: One balancing authority area of the United States (and its Canadian neighbours) as a polygon of HIFLD's Control Areas
+  layer, keyed to its EIA-930 code.
+time: No time column. vintage is HIFLD's SOURCEDATE of the polygon (a date); the table is a snapshot as read on its retrieved_at.
+vintage_rule: One row a polygon, rewritten whole by each run; vintage holds HIFLD's source date, so a redrawn polygon replaces
+  the old.
+keys:
+- entity_id
+license: public
+tier: derived
+interval: snapshot
+source:
+- name: 'hifld:control_areas Homeland Infrastructure Foundation-Level Data (HIFLD), Control Areas (ORNL, LANL, INL, NGA HSIP),
+    as served by Penn State''s PASDA: https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/26/query
+    in batches (sha256 7baf60e617f9d3364c9e49dea9f3bc8a1d4dc32c6bc0cf206cac1613145ec57d, saved at warehouse/raw/hifld_control_areas/20261119T103755Z/control_areas.geojson);
+    EIA-861 Balancing_Authority files (warehouse/raw/eia861); EIA-930 reference tables (warehouse/raw/eia930_reference/20261116T152148Z/EIA930_Reference_Tables.xlsx)'
+  url: https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/26/query
+cite: Homeland Infrastructure Foundation-Level Data (HIFLD), served by Penn State PASDA. Control Areas (balancing authority
+  areas), HIFLD open data layer, PASDA map service HIFLD_FEMA layer 26. Via the Energy Research Warehouse (ERW), table `ba_boundaries`.
+method: docs/methods/ba_boundaries.md
+header_title: the balancing authority areas of the United States, HIFLD's Control Areas layer, each polygon keyed to its EIA-930
+  code (session 8000, chain 501)
+header_shape: 'Shape: entities (docs/datastandard.md v0), entity_type balancing_authority (Decision 80). entity_id eia930:<code>,
+  or hifld:control_area:<HIFLD ID> where EIA-861 pairs the ID with no EIA-930 code. lat and lon: the polygon''s centroid;
+  geo: the authority''s address state; x_area_km2: the polygon''s area on a sphere. The polygons themselves are in the saved
+  raw file and, simplified, in site/data/regions/ba_boundaries.json. Method: docs/methods/ba_boundaries.md.'
+read:
+  date: '2026-11-20'
+  rows: 71
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  particular: eia930:<code>, or hifld:control_area:<HIFLD ID> where EIA-861 pairs the ID with no EIA-930 code (4 polygons)
+  type: text
+  values:
+    distinct: 71
+    examples:
+    - eia930:AEC
+    - eia930:AECI
+    - eia930:AVA
+    - eia930:AVRN
+    - eia930:AZPS
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    list:
+      balancing_authority: 71
+  missing_cells: 0
+- name: name
+  shared: true
+  type: text
+  values:
+    distinct: 71
+    examples:
+    - ALCOA POWER GENERATING, INC. - YADKIN DIVISION
+    - ARIZONA PUBLIC SERVICE COMPANY
+    - ARLINGTON VALLEY, LLC - AVBA
+    - ASSOCIATED ELECTRIC COOPERATIVE, INC.
+    - AVANGRID RENEWABLES LLC
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: The ISO 3166-2 code of the authority's address state (HIFLD's STATE), not its whole area
+  type: text
+  values:
+    distinct: 29
+    examples:
+    - CA-NB
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+- name: lat
+  shared: true
+  particular: The polygon's centroid
+  type: number
+  values:
+    distinct: 71
+    lowest: 21.4547
+    highest: 60.30734
+  missing_cells: 0
+- name: lon
+  shared: true
+  particular: The polygon's centroid
+  type: number
+  values:
+    distinct: 71
+    lowest: -157.96851
+    highest: -68.34041
+  missing_cells: 0
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 71
+- name: status
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 71
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 71
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 71
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      hifld:control_areas: 71
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/26: 71
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-19T10:37:55Z': 71
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: HIFLD's SOURCEDATE, a date (YYYY-MM-DD)
+  type: date
+  values:
+    list:
+      '2018-10-12': 1
+      '2019-06-20': 2
+      '2021-06-21': 68
+  missing_cells: 0
+- name: x_hifld_id
+  label: HIFLD's ID of the control area, which is EIA's entity identifier of the authority
+  unit: none
+  type: integer
+  values:
+    distinct: 71
+    lowest: 1
+    highest: 59504
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: ID
+  documented_by: header; connector hifld_control_areas.py
+- name: x_eia930_code
+  label: The authority's EIA-930 code, paired with HIFLD's ID through EIA-861's Balancing_Authority files
+  unit: none
+  type: text
+  values:
+    distinct: 70
+    examples:
+    - AEC
+    - AECI
+    - AVA
+    - AVRN
+    - AZPS
+  missing_cells: 1
+  missing_meaning: No EIA-930 code pairs with the ID (nothing is matched by name)
+  source_name: BA Code (EIA-930 reference tables)
+  documented_by: header; connector hifld_control_areas.py
+- name: x_eia930_name
+  label: The authority's name in EIA-930's reference tables
+  unit: none
+  type: text
+  values:
+    distinct: 67
+    examples:
+    - Alcoa Power Generating, Inc. - Yadkin Division
+    - Arizona Public Service Company
+    - Arlington Valley, LLC
+    - Associated Electric Cooperative, Inc.
+    - Avangrid Renewables, LLC
+  missing_cells: 4
+  missing_meaning: No EIA-930 code pairs with the ID
+  source_name: BA Name
+  documented_by: connector hifld_control_areas.py
+- name: x_region
+  label: EIA-930's region of the authority (CAL, TEX, MIDW and the others)
+  unit: none
+  type: text
+  values:
+    list:
+      CAL: 5
+      CAN: 1
+      CAR: 6
+      CENT: 2
+      FLA: 10
+      MIDA: 2
+      MIDW: 4
+      NE: 1
+      NW: 21
+      NY: 1
+      SE: 3
+      SW: 9
+      TEN: 1
+      TEX: 1
+  missing_cells: 4
+  missing_meaning: No EIA-930 code pairs with the ID
+  source_name: Region/Country Code
+  documented_by: connector hifld_control_areas.py
+- name: x_area_km2
+  label: The polygon's area on a sphere of radius 6,371.0088 km, before simplification
+  unit: km2
+  type: number
+  values:
+    distinct: 71
+    lowest: 8.0
+    highest: 1677182.9
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector hifld_control_areas.py
+- name: x_parts
+  label: The number of parts of the polygon
+  unit: count
+  type: integer
+  values:
+    distinct: 37
+    lowest: 1
+    highest: 1326
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector hifld_control_areas.py
+- name: x_vertices
+  label: The number of vertices of the polygon as HIFLD serves it
+  unit: count
+  type: integer
+  values:
+    distinct: 71
+    lowest: 4
+    highest: 305771
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector hifld_control_areas.py
+- name: x_source_date
+  label: HIFLD's source date of the polygon
+  unit: none
+  type: date
+  values:
+    list:
+      '2018-10-12': 1
+      '2019-06-20': 2
+      '2021-06-21': 68
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: SOURCEDATE
+  documented_by: connector hifld_control_areas.py
+- name: x_val_date
+  label: HIFLD's validation date of the polygon
+  unit: none
+  type: date
+  values:
+    list:
+      '2019-05-01': 1
+      '2020-05-15': 2
+      '2022-06-03': 68
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: VAL_DATE
+  documented_by: connector hifld_control_areas.py
+- name: x_year
+  label: The year of HIFLD's load figures
+  unit: none
+  type: integer
+  values:
+    list:
+      '2017': 1
+      '2018': 2
+      '2020': 63
+  missing_cells: 5
+  missing_meaning: HIFLD's YEAR is not a year
+  source_name: YEAR
+  documented_by: connector hifld_control_areas.py
+- name: x_peak_load_mw
+  label: The authority's peak load as HIFLD prints it
+  unit: MW
+  type: number
+  values:
+    distinct: 58
+    lowest: 0.0
+    highest: 144530.0
+  missing_cells: 6
+  missing_meaning: HIFLD printed -999 or nothing
+  source_name: PEAK_LOAD
+  documented_by: connector hifld_control_areas.py
+- name: x_total_cap_mw
+  label: The authority's total capacity as HIFLD prints it
+  unit: MW
+  type: number
+  values:
+    distinct: 59
+    lowest: 0.0
+    highest: 163030.0
+  missing_cells: 7
+  missing_meaning: HIFLD printed -999 or nothing
+  source_name: TOTAL_CAP
+  documented_by: connector hifld_control_areas.py
+- name: x_raw_sha256
+  label: The SHA-256 of the raw GeoJSON file the row was read from
+  unit: none
+  type: text
+  values:
+    list:
+      7baf60e617f9d3364c9e49dea9f3bc8a1d4dc32c6bc0cf206cac1613145ec57d: 71
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector hifld_control_areas.py
+second_look: null

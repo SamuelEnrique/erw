@@ -1,0 +1,156 @@
+# The codebook's metadata of table eia_crude_tank_farm_stocks_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_crude_tank_farm_stocks_monthly
+family: eia
+shape: series
+row: One month's end crude oil stocks at tank farms and pipelines in the U.S. or one PADD, or ending stocks at Cushing, Oklahoma.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M); a month-end stock.
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: eia:petroleum/stoc/cu U.S. Energy Information Administration, Petroleum Supply Monthly, crude oil stocks at tank farms
+    and pipelines (API v2, route petroleum/stoc/cu)
+  url: https://api.eia.gov/v2/petroleum/stoc/cu/
+cite: U.S. Energy Information Administration (EIA). Petroleum Supply Monthly, crude oil stocks at tank farms and pipelines
+  (API v2). Via the Energy Research Warehouse (ERW), table `eia_crude_tank_farm_stocks_monthly`.
+method: docs/methods/eia_crude_tank_farm_stocks_monthly.md
+header_title: EIA, crude oil stocks at tank farms and pipelines, the U.S., the PADDs and Cushing, a month (session 2286)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_crude_tank_farm_stocks:<series>; variable tank_farm_pipeline_stocks
+  or ending_stocks (kbbl, month-end); ts_utc the month''s first day; freq P1M; geo US, or US-OK for Cushing. Cushing is part
+  of PADD 2 and the PADDs parts of the U.S.: a sum takes one level.'
+read:
+  date: '2026-11-20'
+  rows: 3553
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia_crude_tank_farm_stocks:<EIA series id>
+  type: text
+  values:
+    list:
+      eia_crude_tank_farm_stocks:MCRSFP11: 547
+      eia_crude_tank_farm_stocks:MCRSFP21: 547
+      eia_crude_tank_farm_stocks:MCRSFP31: 547
+      eia_crude_tank_farm_stocks:MCRSFP41: 547
+      eia_crude_tank_farm_stocks:MCRSFP51: 547
+      eia_crude_tank_farm_stocks:MCRSFUS1: 547
+      eia_crude_tank_farm_stocks:MCRST_YCUOK_1: 271
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 547
+    earliest: '1981-01-01T00:00:00Z'
+    latest: '2026-07-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 3426
+    lowest: 533.0
+    highest: 432034.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      kbbl: 3553
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 3553
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-OK for Cushing, US otherwise (the PADDs included)
+  type: text
+  values:
+    list:
+      US: 3282
+      US-OK: 271
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3553
+- name: node
+  shared: true
+  particular: EIA's series description
+  type: text
+  values:
+    list:
+      Cushing, OK Ending Stocks of Crude Oil (Thousand Barrels): 271
+      East Coast (PADD 1) Crude Oil Stocks at Tank Farms and Pipelines (Thousand Barrels): 547
+      Gulf Coast (PADD 3) Crude Oil Stocks at Tank Farms and Pipelines (Thousand Barrels): 547
+      Midwest (PADD 2) Crude Oil Stocks at Tank Farms and Pipelines (Thousand Barrels): 547
+      Rocky Mountain (PADD 4) Crude Oil Stocks at Tank Farms and Pipelines (Thousand Barrels): 547
+      U.S. Crude Oil Stocks at Tank Farms and Pipelines (Thousand Barrels): 547
+      West Coast (PADD 5) Crude Oil Stocks at Tank Farms and Pipelines (Thousand Barrels): 547
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:petroleum/stoc/cu: 3553
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/petroleum/stoc/cu/data/?api_key=REDACTED&frequency=monthly&data%5B%5D=value&facets%5Bprocess%5D%5B%5D=STT&facets%5Bprocess%5D%5B%5D=SAE&start=1981-01
+      : 3553
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T05:21:28Z': 3553
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3553
+variables:
+- name: ending_stocks
+  label: Cushing, Oklahoma ending stocks of crude oil at the month's end, thousand barrels
+  unit: kbbl
+  rows: 271
+  first: '2004-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: tank_farm_pipeline_stocks
+  label: Crude oil stocks at tank farms and pipelines at the month's end, thousand barrels
+  unit: kbbl
+  rows: 3282
+  first: '1981-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

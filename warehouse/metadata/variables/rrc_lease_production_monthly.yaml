@@ -1,0 +1,335 @@
+# The codebook's metadata of table rrc_lease_production_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: rrc_lease_production_monthly
+family: other_sources
+shape: series
+row: One Texas Railroad Commission lease's reported production of oil, casinghead gas, gas or condensate in Martin County
+  in one month.
+time: ts_utc is the production month's first day at 00:00:00Z; freq P1M.
+vintage_rule: 'Replaced whole by each run: a snapshot of the dump''s latest 24 months, as the dump revises; vintage is the
+  dump''s oil extract date.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: rrc:pdq_dump RRC Production Data Query dump (PDQ_DSV.zip)
+  url: https://mft.rrc.texas.gov/link/1f5ddb8d-329a-4459-b7f8-177b4f5ee60d
+cite: Railroad Commission of Texas (RRC). Production Data Query dump (PDQ_DSV.zip). Via the Energy Research Warehouse (ERW),
+  table `rrc_lease_production_monthly`.
+method: docs/methods/rrc_lease_production_monthly.md
+header_title: Texas Railroad Commission monthly oil and gas production by lease, Martin County, 2024-08 to 2026-07 (session
+  49, internal)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity rrc:<oil or gas code>-<district no>-<lease no> (the RRC''s
+  lease id; a gas lease is one gas well). Oil leases (O): oil_bbl and casinghead_gas_mcf; gas leases (G): gas_mcf and condensate_bbl.
+  The lease''s production in this county (OG_COUNTY_LEASE_CYCLE). ts_utc is the production month''s first day. x_wells: the
+  wells the RRC lists on the lease in OG_WELL_COMPLETION (any status; 0 where it lists none).'
+read:
+  date: '2026-11-20'
+  rows: 212252
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: rrc:<oil or gas code>-<district no>-<lease no>, the RRC's lease id (a gas lease is one gas well)
+  type: text
+  values:
+    distinct: 4828
+    examples:
+    - rrc:G-10-149593
+    - rrc:G-10-295113
+    - rrc:G-10-299615
+    - rrc:G-10-299616
+    - rrc:G-10-299626
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2024-08-01T00:00:00Z': 8264
+      '2024-09-01T00:00:00Z': 8294
+      '2024-10-01T00:00:00Z': 8308
+      '2024-11-01T00:00:00Z': 8370
+      '2024-12-01T00:00:00Z': 8476
+      '2025-01-01T00:00:00Z': 8558
+      '2025-02-01T00:00:00Z': 8604
+      '2025-03-01T00:00:00Z': 8694
+      '2025-04-01T00:00:00Z': 8706
+      '2025-05-01T00:00:00Z': 8782
+      '2025-06-01T00:00:00Z': 8844
+      '2025-07-01T00:00:00Z': 8860
+      '2025-08-01T00:00:00Z': 8880
+      '2025-09-01T00:00:00Z': 8976
+      '2025-10-01T00:00:00Z': 9046
+      '2025-11-01T00:00:00Z': 9090
+      '2025-12-01T00:00:00Z': 9156
+      '2026-01-01T00:00:00Z': 9190
+      '2026-02-01T00:00:00Z': 9214
+      '2026-03-01T00:00:00Z': 9230
+      '2026-04-01T00:00:00Z': 9228
+      '2026-05-01T00:00:00Z': 9294
+      '2026-06-01T00:00:00Z': 9298
+      '2026-07-01T00:00:00Z': 8890
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 0
+    highest: 872591
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      Mcf: 106126
+      bbl: 106126
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 212252
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 212252
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 212252
+- name: node
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 212252
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      rrc:pdq_dump: 212252
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://mft.rrc.texas.gov/link/1f5ddb8d-329a-4459-b7f8-177b4f5ee60d: 212252
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-01T04:38:43Z': 212252
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The dump's oil extract date (2026-09-18)
+  type: utc time
+  values:
+    list:
+      '2026-09-18T00:00:00Z': 212252
+  missing_cells: 0
+- name: x_county
+  label: The county (MARTIN)
+  unit: none
+  type: text
+  values:
+    list:
+      MARTIN: 212252
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: COUNTY_NAME
+  documented_by: method rrc_lease_production_monthly.md; connector rrc_production.py
+- name: x_district
+  label: The RRC district's name (08, 7C, 8A); the entity carries the district number
+  unit: none
+  type: text
+  values:
+    list:
+      08: 209998
+      7C: 12
+      8A: 2242
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: DISTRICT_NAME (from DISTRICT_NO)
+  documented_by: method rrc_lease_production_monthly.md; connector rrc_production.py
+- name: x_oil_gas_code
+  label: O for an oil lease, G for a gas lease
+  unit: none
+  type: text
+  values:
+    list:
+      G: 382
+      O: 211870
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: OIL_GAS_CODE
+  documented_by: method rrc_lease_production_monthly.md
+- name: x_lease_no
+  label: The lease's number
+  unit: none
+  type: integer
+  values:
+    distinct: 4822
+    lowest: 388
+    highest: 299975
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: LEASE_NO
+  documented_by: method rrc_lease_production_monthly.md
+- name: x_lease_name
+  label: The lease's name
+  unit: none
+  type: text
+  values:
+    distinct: 4715
+    examples:
+    - A LLOYD 48
+    - ABRAXAS "20"
+    - ABRAXAS "27"
+    - ABRAXAS "27A"
+    - ABRAXAS "28"
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: LEASE_NAME
+  documented_by: method rrc_lease_production_monthly.md
+- name: x_operator_no
+  label: The number of the operator that reported the month
+  unit: none
+  type: integer
+  values:
+    distinct: 71
+    lowest: 27200
+    highest: 950523
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: OPERATOR_NO
+  documented_by: method rrc_lease_production_monthly.md
+- name: x_operator_name
+  label: The name of the operator that reported the month
+  unit: none
+  type: text
+  values:
+    distinct: 71
+    examples:
+    - ALAMAR VENTURES, INC.
+    - APACHE CORPORATION
+    - ARYA RESOURCES, LLC
+    - AVID ENERGY ASSETS LLC
+    - BEACH EXPLORATION, INC.
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: OPERATOR_NAME
+  documented_by: method rrc_lease_production_monthly.md
+- name: x_field_no
+  label: The field's number
+  unit: none
+  type: integer
+  values:
+    distinct: 51
+    lowest: 448200
+    highest: 90557500
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: FIELD_NO
+  documented_by: method rrc_lease_production_monthly.md
+- name: x_field_name
+  label: The field's name
+  unit: none
+  type: text
+  values:
+    distinct: 50
+    examples:
+    - ACKERLY (DEAN SAND)
+    - BETTY SUE (DEVONIAN)
+    - BLOCK 7 (DEVONIAN)
+    - BREEDLOVE
+    - BREEDLOVE "B" (CLEARFORK)
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: FIELD_NAME
+  documented_by: method rrc_lease_production_monthly.md
+- name: x_gas_well_no
+  label: The gas well number, gas leases only
+  unit: none
+  type: text
+  values:
+    list:
+      '124': 14
+      1A: 48
+      1H: 48
+      '2': 48
+      2H: 48
+      3H: 48
+      4H: 48
+      '5': 32
+      6H: 48
+  missing_cells: 211870
+  missing_meaning: Empty on oil leases
+  source_name: GAS_WELL_NO
+  documented_by: method rrc_lease_production_monthly.md
+- name: x_wells
+  label: The wells the RRC lists on the lease in OG_WELL_COMPLETION (any status, any county; 0 where it lists none)
+  unit: count
+  type: integer
+  values:
+    distinct: 46
+    lowest: 1
+    highest: 919
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method rrc_lease_production_monthly.md
+variables:
+- name: casinghead_gas_mcf
+  label: Casinghead gas produced by an oil lease in the county in the month, as reported by the operator
+  unit: Mcf
+  rows: 105935
+  first: '2024-08-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: condensate_bbl
+  label: Condensate produced by a gas lease in the county in the month, as reported by the operator
+  unit: bbl
+  rows: 191
+  first: '2024-08-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: gas_mcf
+  label: Gas produced by a gas lease in the county in the month, as reported by the operator
+  unit: Mcf
+  rows: 191
+  first: '2024-08-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: oil_bbl
+  label: Oil produced by an oil lease in the county in the month, as reported by the operator
+  unit: bbl
+  rows: 105935
+  first: '2024-08-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

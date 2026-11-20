@@ -1,0 +1,198 @@
+# The codebook's metadata of table statbank_moldova_electricity_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: statbank_moldova_electricity_monthly
+family: other_sources
+shape: series
+row: One month's value of one electricity indicator of Moldova's stocks, inputs and consumption, from the National Bureau
+  of Statistics' StatBank table ENE010100.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; from 2015-01.
+vintage_rule: Rewritten whole as one snapshot by each run from one JSON-stat query; vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1M
+source:
+- name: statbank_md:ENE010100 National Bureau of Statistics of the Republic of Moldova, StatBank, Energy resources, monthly
+    series
+  url: https://statbank.statistica.md/PxWeb/pxweb/en/40%20Statistica%20economica/40%20Statistica%20economica__15%20ENE__serii%20lunare/ENE010100.px/
+cite: 'National Bureau of Statistics of the Republic of Moldova (StatBank). StatBank table ENE010100: Stocks, inputs and electricity
+  consumption, monthly. Via the Energy Research Warehouse (ERW), table `statbank_moldova_electricity_monthly`.'
+method: docs/methods/statbank_moldova_electricity_monthly.md
+header_title: National Bureau of Statistics of the Republic of Moldova, StatBank table ENE010100, Stocks, inputs and electricity
+  consumption, a month, 2015-01 to 2026-08 (session 2358; written again offline in sessions 2362 and 2366)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity statbank_md:md; variable production, imports, acquired_from_other_sources,
+  stock_change, exports, gross_inland_consumption, residential_consumption; unit MWh (StatBank''s thousand kWh: no unit in
+  the API, its exports equal Eurostat''s for Moldova, session 2358); ts_utc the month''s first day; freq P1M; geo MD; node
+  the indicator as StatBank writes it; x_code its code.'
+read:
+  date: '2026-11-20'
+  rows: 980
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: statbank_md:md on every row
+  type: text
+  values:
+    list:
+      statbank_md:md: 980
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 140
+    earliest: '2015-01-01T00:00:00Z'
+    latest: '2026-08-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 743
+    lowest: 0.0
+    highest: 583245.2
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 980
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1M: 980
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: MD on every row
+  type: text
+  values:
+    list:
+      MD: 980
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 980
+- name: node
+  shared: true
+  particular: The indicator as StatBank writes it, not a pricing node
+  type: text
+  values:
+    list:
+      Acquired from other sources: 140
+      Export: 140
+      Gross inland consumption: 140
+      Import: 140
+      Production: 140
+      Stock change: 140
+      'of which: consumed in the residential sector': 140
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      statbank_md:ENE010100: 980
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://statbank.statistica.md/PxWeb/api/v1/en/40%20Statistica%20economica/15%20ENE/serii%20lunare/ENE010100.px: 980
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T08:30:00Z': 980
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 980
+- name: x_code
+  label: StatBank's code of the indicator (1 to 7)
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 140
+      '2': 140
+      '3': 140
+      '4': 140
+      '5': 140
+      '6': 140
+      '7': 140
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector statbank_moldova.py; method statbank_moldova_electricity_monthly.md
+variables:
+- name: acquired_from_other_sources
+  label: Acquired from other sources
+  unit: MWh
+  rows: 140
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: exports
+  label: Exports
+  unit: MWh
+  rows: 140
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: gross_inland_consumption
+  label: Gross inland consumption
+  unit: MWh
+  rows: 140
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: imports
+  label: Imports
+  unit: MWh
+  rows: 140
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: production
+  label: Production (not called gross or net by the bureau)
+  unit: MWh
+  rows: 140
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: residential_consumption
+  label: Of which consumed in the residential sector
+  unit: MWh
+  rows: 140
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+- name: stock_change
+  label: Stock change
+  unit: MWh
+  rows: 140
+  first: '2015-01-01T00:00:00Z'
+  last: '2026-08-01T00:00:00Z'
+second_look: null

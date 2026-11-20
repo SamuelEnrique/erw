@@ -1,0 +1,158 @@
+# The codebook's metadata of table iso_hub_prices_history_2018 (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: iso_hub_prices_history_2018
+family: iso
+shape: series
+row: The day-ahead or real-time price at SPP's main hub (SPPNORTH_HUB) for one interval from 2018-07-01 to 2023-07-05, the
+  years before iso_hub_prices_history begins.
+time: ts_utc is the start of the interval in UTC; day-ahead rows are hourly, real-time rows 15-minute means of 5-minute prices.
+vintage_rule: Written once from hub_history.py's backfill under the data lock; the span is closed and the table is not in
+  the daily run. A day is written only when every interval of every hub is there. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT15M;PT1H
+source:
+- name: spp:DA-LMP-SL Day-Ahead LMP by Settlement Location
+  url: https://portal.spp.org/pages/da-lmp-by-location
+- name: spp:RTBM-LMP-SL RTBM LMP by Settlement Location, 5-minute
+  url: https://portal.spp.org/pages/rtbm-lmp-by-location
+cite: Southwest Power Pool (SPP). Day-Ahead LMP by Settlement Location; RTBM LMP by Settlement Location, 5-minute. Via the
+  Energy Research Warehouse (ERW), table `iso_hub_prices_history_2018`.
+method: docs/methods/hub_prices_history_2018.md
+header_title: 'main-hub day-ahead and real-time prices from 2018-07-01 to 2023-07-05, before iso_hub_prices_history begins
+  (session 7803, chain 401 part C, table 8), from hub_history.py''s backfill; Energy Research Warehouse (ERW): main-hub day-ahead
+  and real-time prices, history from 2018-07-01 (session 49 from 2025-09-01; session 64 the year before, from 2024-09-01):
+  CAISO SP15 and NP15, MISO Indiana Hub, NYISO N.Y.C., ISO-NE .H.INTERNAL_HUB, SPP SPPNORTH_HUB'
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column market. Units: USD/MWh. ts_utc is interval start,
+  UTC. lmp_dam hourly; real-time lmp_rtm_15m_mean (15-minute means of 5-minute prices; NYISO time-weighted) or MISO''s hourly
+  lmp_rtm.'
+read:
+  date: '2026-11-20'
+  rows: 219720
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: 'spp:SPPNORTH_HUB in every row: only SPP''s hub is held'
+  type: text
+  values:
+    list:
+      spp:SPPNORTH_HUB: 219720
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2018-07-01T05:00:00Z'
+    latest: '2023-07-06T04:45:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -215.3081
+    highest: 4556.3291
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 219720
+  missing_cells: 0
+- name: freq
+  shared: true
+  particular: PT1H for the day-ahead rows, PT15M for the real-time rows
+  type: text
+  values:
+    list:
+      PT15M: 175776
+      PT1H: 43944
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: The same list of fourteen states in every row (SPP's footprint)
+  type: text
+  values:
+    list:
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 219720
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: spp_dam (day-ahead, hourly) or spp_rtm (real-time, 15-minute)
+  type: text
+  values:
+    list:
+      spp_dam: 43944
+      spp_rtm: 175776
+  missing_cells: 0
+- name: node
+  shared: true
+  particular: SPPNORTH_HUB in every row
+  type: text
+  values:
+    list:
+      SPPNORTH_HUB: 219720
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      spp:DA-LMP-SL: 43944
+      spp:RTBM-LMP-SL: 175776
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2020/02/By_Day/RTBM-LMP-DAILY-SL-20200220.csv: 96
+      https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2020/03/By_Day/RTBM-LMP-DAILY-SL-20200302.csv: 96
+      https://portal.spp.org/pages/da-lmp-by-location: 43944
+      https://portal.spp.org/pages/rtbm-lmp-by-location: 175584
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 2011
+    earliest: '2026-11-18T01:26:04Z'
+    latest: '2026-11-18T03:19:21Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 219720
+variables:
+- name: lmp_dam
+  label: Day-ahead locational marginal price at the hub, hourly (SPP's Day-Ahead LMP by Settlement Location), USD/MWh
+  unit: USD/MWh
+  rows: 43944
+  first: '2018-07-01T05:00:00Z'
+  last: '2023-07-06T04:00:00Z'
+- name: lmp_rtm_15m_mean
+  label: Real-time locational marginal price at the hub, the mean of exactly three 5-minute prices of the quarter hour (SPP's
+    RTBM LMP by Settlement Location), rounded to 4 decimals, USD/MWh
+  unit: USD/MWh
+  rows: 175776
+  first: '2018-07-01T05:00:00Z'
+  last: '2023-07-06T04:45:00Z'
+second_look: null

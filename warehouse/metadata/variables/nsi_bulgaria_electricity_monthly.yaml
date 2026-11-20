@@ -1,0 +1,160 @@
+# The codebook's metadata of table nsi_bulgaria_electricity_monthly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: nsi_bulgaria_electricity_monthly
+family: other_sources
+shape: series
+row: One month's value of one item of Bulgaria's electricity (gross or net production, net production by source, imports,
+  exports, net consumption), from NSI's Production and deliveries of electricity workbook.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; x_period keeps the month. The workbook holds only some years,
+  so months between are absent.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is the workbook's Last-Modified time.
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1M
+source:
+- name: nsi_bg:energy_1_4_electricity National Statistical Institute, Bulgaria (NSI), Production and deliveries of electricity
+    (Energy-1.4.Electricity_en.xlsx)
+  url: ''
+cite: National Statistical Institute, Bulgaria (NSI). Production and deliveries of electricity (time series workbook Energy-1.4).
+  Via the Energy Research Warehouse (ERW), table `nsi_bulgaria_electricity_monthly`.
+method: docs/methods/nsi_bulgaria_electricity_monthly.md
+header_title: National Statistical Institute, Bulgaria (NSI), Production and deliveries of electricity, a month (session 2539)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity nsi:bg:<item> (total, or a source of net production); variable
+  gross_production, net_production, imports, exports, net_consumption; unit MWh (NSI''s GWh times 1,000); ts_utc the month''s
+  first day; freq P1M; geo BG; node NSI''s row label; x_period the month.'
+read:
+  date: '2026-11-20'
+  rows: 157
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: 'nsi:bg:<item>: the total, or a source of net production'
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 157
+- name: node
+  shared: true
+  particular: NSI's row label, not a pricing node
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The workbook's Last-Modified time as the server sent it
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: x_period
+  label: The month, YYYY-MM
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector nsi_bulgaria_electricity.py; method nsi_bulgaria_electricity_monthly.md
+variables:
+- name: exports
+  label: Electricity exported
+  unit: MWh
+  rows: 19
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: gross_production
+  label: Gross electricity production
+  unit: MWh
+  rows: 19
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: imports
+  label: Electricity imported
+  unit: MWh
+  rows: 19
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: net_consumption
+  label: Net electricity consumption
+  unit: MWh
+  rows: 19
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+- name: net_production
+  label: Net electricity production, in total or by source
+  unit: MWh
+  rows: 81
+  first: '2019-01-01T00:00:00Z'
+  last: '2026-07-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,254 @@
+# The codebook's metadata of table grid_peak_vs_capacity (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: grid_peak_vs_capacity
+family: grid
+shape: series
+row: One ISO grid's value of one measure setting its peak demand of the last whole year against the net summer capacity of
+  its balancing authority's generators.
+time: ts_utc is 1 January of the peak's year at 00:00:00Z (freq P1Y); x_at is the peak hour's start, UTC.
+vintage_rule: Rewritten whole by each run of the builder (a snapshot); vintage is not filled, and x_vintage holds the month
+  of the EIA-860M list read.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1Y
+source:
+- name: eia:930 and eia:860m U.S. Energy Information Administration, Form EIA-930 Hourly Electric Grid Monitor and Form EIA-860M
+    Monthly Update to the Annual Electric Generator Report
+  url: ''
+cite: Energy Research Warehouse (ERW), derived. Each grid's peak demand against its balancing authority's generators' net
+  summer capacity (docs/methods/grid_peak_vs_capacity.md). Via the Energy Research Warehouse (ERW), table `grid_peak_vs_capacity`.
+method: docs/methods/grid_peak_vs_capacity.md
+header_title: each grid's peak demand in 2025 against the net summer capacity of its balancing authority's generators (session
+  672)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity grid_peak_vs_capacity:<grid>; variables peak_demand_mw (x_at
+  the hour), capacity_mw (online by the end of the year), capacity_mw_listed, capacity_solar_mw, capacity_wind_mw, capacity_storage_mw
+  (MW), peak_to_capacity (ratio), capacity_over_peak_pct (pct); x_states the states of the grid''s generators, x_split_states
+  those with more than 1% of their capacity in another balancing authority.'
+read:
+  date: '2026-11-20'
+  rows: 56
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: grid_peak_vs_capacity:<grid> (caiso, ercot, isone, miso, nyiso, pjm, spp)
+  type: text
+  values:
+    list:
+      grid_peak_vs_capacity:caiso: 8
+      grid_peak_vs_capacity:ercot: 8
+      grid_peak_vs_capacity:isone: 8
+      grid_peak_vs_capacity:miso: 8
+      grid_peak_vs_capacity:nyiso: 8
+      grid_peak_vs_capacity:pjm: 8
+      grid_peak_vs_capacity:spp: 8
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2025-01-01T00:00:00Z': 56
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 56
+    lowest: 0.4857
+    highest: 213259.4
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 42
+      pct: 7
+      ratio: 7
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 56
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US on every row
+  type: text
+  values:
+    list:
+      US: 56
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 56
+- name: node
+  shared: true
+  particular: The grid's name in capitals (CAISO, ERCOT, ISONE, MISO, NYISO, PJM, SPP), not a pricing node
+  type: text
+  values:
+    list:
+      CAISO: 8
+      ERCOT: 8
+      ISONE: 8
+      MISO: 8
+      NYISO: 8
+      PJM: 8
+      SPP: 8
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:grid_peak_vs_capacity: 56
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/grid_peak_vs_capacity.md: 56
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T08:07:02Z': 56
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 56
+- name: x_at
+  label: The start of the peak hour, UTC
+  unit: none
+  type: utc time
+  values:
+    list:
+      '2025-06-23T21:00:00Z': 1
+      '2025-06-24T22:00:00Z': 2
+      '2025-07-24T20:00:00Z': 1
+      '2025-07-29T21:00:00Z': 1
+      '2025-08-18T22:00:00Z': 1
+      '2025-08-22T01:00:00Z': 1
+  missing_cells: 49
+  missing_meaning: Empty on every row but peak_demand_mw
+  source_name: null
+  documented_by: header; connector grid_peak_vs_capacity.py; method grid_peak_vs_capacity.md
+- name: x_vintage
+  label: The month of the EIA-860M generator list read (YYYY-MM)
+  unit: none
+  type: text
+  values:
+    list:
+      2026-08: 56
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector grid_peak_vs_capacity.py; method grid_peak_vs_capacity.md
+- name: x_states
+  label: The states the grid's generators stand in, two-letter codes joined by semicolons
+  unit: none
+  type: text
+  values:
+    list:
+      AR;CO;IA;KS;LA;MN;MO;MT;ND;NE;NM;OK;SD;TX: 8
+      AR;IA;IL;IN;KY;LA;MI;MN;MO;MS;MT;ND;SD;TX;WI: 8
+      AZ;CA;NM;NV: 8
+      CT;MA;ME;NH;NY;RI;VT: 8
+      DC;DE;IL;IN;KY;MD;MI;MN;NC;NJ;OH;PA;TN;VA;WV: 8
+      NJ;NY: 8
+      OK;TX: 8
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method grid_peak_vs_capacity.md
+- name: x_split_states
+  label: The states with more than 1 percent of their capacity in another balancing authority, joined by semicolons
+  unit: none
+  type: text
+  values:
+    list:
+      AR;CO;IA;LA;MN;MO;MT;ND;NM;OK;SD;TX: 8
+      AR;IA;IL;IN;KY;LA;MI;MO;MS;MT;ND;SD;TX: 8
+      AZ;CA;NM;NV: 8
+      IL;IN;KY;MI;MN;NC;NJ;TN: 8
+      ME;NY: 8
+      NJ: 8
+      OK;TX: 8
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method grid_peak_vs_capacity.md
+variables:
+- name: capacity_mw
+  label: Net summer capacity of the generators in the EIA-860M list that began operating by the end of the peak's year
+  unit: MW
+  rows: 7
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_mw_listed
+  label: Net summer capacity of every operating generator in the list (its month in x_vintage)
+  unit: MW
+  rows: 7
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_over_peak_pct
+  label: capacity_mw less peak_demand_mw, as a percent of peak_demand_mw
+  unit: pct
+  rows: 7
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_solar_mw
+  label: The solar part of capacity_mw (energy source SUN)
+  unit: MW
+  rows: 7
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_storage_mw
+  label: The storage part of capacity_mw (energy source MWH)
+  unit: MW
+  rows: 7
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: capacity_wind_mw
+  label: The wind part of capacity_mw (energy source WND)
+  unit: MW
+  rows: 7
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: peak_demand_mw
+  label: The year's peak hour of demand, from eia930_demand_growth (x_at its start)
+  unit: MW
+  rows: 7
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: peak_to_capacity
+  label: peak_demand_mw over capacity_mw, a ratio (not a planner's reserve margin)
+  unit: ratio
+  rows: 7
+  first: '2025-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,186 @@
+# The codebook's metadata of table eles_slovenia_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eles_slovenia_hourly
+family: other_sources
+shape: series
+row: One hour's value of one measure of production or take-over on Slovenia's transmission network (forecast and actual, Krsko
+  nuclear, thermal and hydro), from ELES's Prevzem in proizvodnja page.
+time: ts_utc is the hour's start in UTC; the file's label Hn is the local clock hour from n-1 o'clock (Europe/Ljubljana);
+  freq PT1H.
+vintage_rule: 'Merged by (entity, variable, ts_utc) (ip.write_csv): a run replaces the rows it reads again and keeps rows
+  from earlier runs; vintage is the export''s Last-Modified time.'
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: PT1H
+source:
+- name: eles:prevzem_in_proizvodnja ELES, d.o.o., Prevzem in proizvodnja (production and take-over on the transmission network),
+    https://www.eles.si/prevzem-in-proizvodnja, its CSV export
+  url: https://www.eles.si/prevzem-in-proizvodnja
+cite: ELES (the Slovenian transmission system operator). Prevzem in proizvodnja (production and take-over on the transmission
+  network), CSV export. Via the Energy Research Warehouse (ERW), table `eles_slovenia_hourly`.
+method: docs/methods/eles_slovenia_hourly.md
+header_title: ELES, production and take-over on Slovenia's transmission network (Prevzem in proizvodnja, the page's CSV export),
+  an hour, 2020-12-31 to 2026-10-25 (session 2822)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eles:si; variable forecast_generation, generation, forecast_takeover,
+  takeover, nuclear_krsko, thermal or hydro; unit MW (the hour''s mean; the page states no unit, the figures are MW by their
+  size); ts_utc the hour''s start in UTC (Hn is the local clock hour from n-1 o''clock; the autumn change day''s one 02:00
+  hour read as summer time); freq PT1H; geo SI; x_date and x_hour the file''s own. Producers connected to the transmission
+  network only (the pumped storage plant Avce included); Krsko''s whole production, half of it Croatia''s.'
+read:
+  date: '2026-11-20'
+  rows: 356789
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: One entity, Slovenia's transmission network
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 356789
+- name: node
+  shared: true
+  particular: The transmission network and the file's column, not a pricing node
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The export's Last-Modified time as the server sent it
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: x_date
+  label: The file's own date of the row (local)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: datum
+  documented_by: header; connector eles_slovenia_hourly.py; method eles_slovenia_hourly.md
+- name: x_hour
+  label: The file's own hour label (Hn, the local clock hour from n-1 o'clock)
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: ura
+  documented_by: header; connector eles_slovenia_hourly.py
+variables:
+- name: forecast_generation
+  label: Forecast production of producers connected to the transmission network, the hour's mean (predvidena_proizvodnja)
+  unit: MW
+  rows: 50970
+  first: '2020-12-31T23:00:00Z'
+  last: '2026-10-25T22:00:00Z'
+- name: forecast_takeover
+  label: Forecast take-over from the transmission network, the hour's mean (predviden_prevzem)
+  unit: MW
+  rows: 50970
+  first: '2020-12-31T23:00:00Z'
+  last: '2026-10-25T22:00:00Z'
+- name: generation
+  label: Actual production of producers connected to the transmission network, the hour's mean (dejanska_proizvodnja)
+  unit: MW
+  rows: 50969
+  first: '2020-12-31T23:00:00Z'
+  last: '2026-10-25T21:00:00Z'
+- name: hydro
+  label: Hydro plants' production on the transmission network, pumped storage included (hidro)
+  unit: MW
+  rows: 50970
+  first: '2020-12-31T23:00:00Z'
+  last: '2026-10-25T22:00:00Z'
+- name: nuclear_krsko
+  label: The Krsko nuclear plant's whole output, half of it Croatia's by treaty (nek)
+  unit: MW
+  rows: 50970
+  first: '2020-12-31T23:00:00Z'
+  last: '2026-10-25T22:00:00Z'
+- name: takeover
+  label: Actual take-over from the transmission network, the hour's mean (dejanski_prevzem)
+  unit: MW
+  rows: 50970
+  first: '2020-12-31T23:00:00Z'
+  last: '2026-10-25T22:00:00Z'
+- name: thermal
+  label: Thermal plants' production on the transmission network (termo)
+  unit: MW
+  rows: 50970
+  first: '2020-12-31T23:00:00Z'
+  last: '2026-10-25T22:00:00Z'
+second_look: null

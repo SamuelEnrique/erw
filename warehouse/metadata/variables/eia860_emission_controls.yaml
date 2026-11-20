@@ -1,0 +1,456 @@
+# The codebook's metadata of table eia860_emission_controls (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia860_emission_controls
+family: eia860
+shape: entities
+row: One piece of emissions control equipment at a power plant (a scrubber, baghouse, precipitator, catalytic reduction unit
+  and the like) in Form EIA-860's environmental schedules for data year 2025.
+time: No time column; vintage is the data year (2025). status_date is the first day of the month in service (operating) or
+  of retirement (retired), else empty.
+vintage_rule: A snapshot; each run replaces the table whole with the newest final year EIA's page links, so an earlier year
+  is not kept.
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: eia:eia860:emission_controls U.S. Energy Information Administration, Form EIA-860 Annual Electric Generator Report,
+    environmental schedules
+  url: https://www.eia.gov/electricity/data/eia860/
+cite: U.S. Energy Information Administration (EIA). Form EIA-860 Annual Electric Generator Report, emissions control equipment.
+  Via the Energy Research Warehouse (ERW), table `eia860_emission_controls`.
+method: docs/methods/eia860_environment.md
+header_title: EIA-860, emissions control equipment, data year 2025 (session 896)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_type equipment (Decision 54); entity_id eia860_boiler:<plant>:<boiler>,
+  eia860_cooling:<plant>:<cooling id> or eia860_control:<plant>:<equipment type>:<control ids>; name the plant''s name and
+  the part; status from EIA''s code (x_eia_status); status_date the month in service (operating) or retired; x_* EIA''s columns,
+  headings as names.'
+read:
+  date: '2026-11-20'
+  rows: 5375
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  particular: eia860_control:<plant code>:<equipment type>:<control ids>, each id written <kind>_<id> and joined with '+';
+    ends in ':' for the 24 controls with no id
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - eia860_control:10003:BP:particulate_matter_BLR3+mercury_BLR3
+    - eia860_control:10003:BP:particulate_matter_BVLR5+mercury_BVLR5
+    - eia860_control:10003:OT:particulate_matter_BLR4+mercury_BLR4
+    - eia860_control:10013:ACI:mercury_1
+    - eia860_control:10013:ACI:mercury_2
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  particular: Always equipment (Decision 54)
+  type: text
+  values:
+    list:
+      equipment: 5375
+  missing_cells: 0
+- name: name
+  shared: true
+  particular: The plant's name and the equipment type
+  type: text
+  values:
+    distinct: 2615
+    examples:
+    - ' ACI'
+    - ' BP'
+    - ' BR'
+    - ' CD'
+    - ' EK'
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<plant state>, or US for the 27 controls at plants no boiler, standards or cooling sheet names
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+- name: lat
+  shared: true
+  particular: Not filled
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5375
+- name: lon
+  shared: true
+  particular: Not filled
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5375
+- name: capacity_mw
+  shared: true
+  particular: Not filled
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 5375
+- name: status
+  shared: true
+  particular: 'EIA''s equipment status code (x_eia_status) as the standard''s word: OP, SB, OS, SC, OZ operating; PL planned;
+    CO, TS under_construction; RE retired; CN withdrawn; empty for the one row with no code'
+  type: text
+  values:
+    list:
+      operating: 3712
+      planned: 6
+      retired: 1629
+      under_construction: 8
+      withdrawn: 19
+  missing_cells: 1
+- name: status_date
+  shared: true
+  particular: The first day of the month in service (operating) or of retirement (retired); empty for 72 retired controls
+    with no retirement date and the others
+  type: date
+  values:
+    distinct: 633
+    earliest: '1950-06-01'
+    latest: '2026-12-01'
+  missing_cells: 106
+- name: operator
+  shared: true
+  particular: EIA's Utility Name; empty for the 27 controls at plants no other sheet names
+  type: text
+  values:
+    distinct: 692
+    examples:
+    - AES Alamitos LLC
+    - AES Huntington Beach LLC
+    - AES Indiana
+    - AG Energy LP
+    - AGC Division of APGI Inc
+  missing_cells: 27
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia860:emission_controls: 5375
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia860/xls/eia8602025.zip: 5375
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T03:33:49Z': 5375
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The data year, 2025
+  type: integer
+  values:
+    list:
+      '2025': 5375
+  missing_cells: 0
+- name: x_plant_code
+  label: EIA's plant code
+  unit: none
+  type: integer
+  values:
+    distinct: 1101
+    lowest: 3
+    highest: 68493
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Plant Code
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
+- name: x_state
+  label: The plant's state, two-letter postal code, taken from the plant's rows in the boiler, standards and cooling sheets
+  unit: none
+  type: text
+  values:
+    distinct: 50
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 27
+  missing_meaning: The plant is in none of those sheets (27 controls)
+  source_name: null
+  documented_by: method eia860_environment.md
+- name: x_eia_status
+  label: 'EIA''s status code of the equipment, kept as given: OP operating, SB standby, OS out of service, SC cold standby,
+    OZ operated only in the ozone season, PL planned, CO under construction, TS operating under test, RE retired, CN canceled'
+  unit: none
+  type: text
+  values:
+    list:
+      CN: 19
+      CO: 6
+      OP: 3575
+      OS: 80
+      OZ: 3
+      PL: 6
+      RE: 1629
+      SB: 45
+      SC: 9
+      TS: 2
+  missing_cells: 1
+  missing_meaning: EIA gives none (1 row)
+  source_name: Status
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
+- name: x_utility_id
+  label: EIA's identifier of the utility that operates the plant
+  unit: none
+  type: integer
+  values:
+    distinct: 697
+    lowest: 7
+    highest: 67826
+  missing_cells: 27
+  missing_meaning: The plant is in none of the boiler, standards or cooling sheets (27 controls)
+  source_name: Utility ID
+  documented_by: method eia860_environment.md; data
+- name: x_plant_name
+  label: The plant's name
+  unit: none
+  type: text
+  values:
+    distinct: 1094
+    examples:
+    - A B Brown
+    - AES Alamitos LLC
+    - AES Huntington Beach LLC
+    - AES Petersburg
+    - Acadia Energy Center
+  missing_cells: 27
+  missing_meaning: The plant is in none of the boiler, standards or cooling sheets (27 controls)
+  source_name: Plant Name
+  documented_by: method eia860_environment.md
+- name: x_equipment_type
+  label: The type of emissions control equipment, EIA's code (SR selective catalytic reduction, SN selective noncatalytic
+    reduction, EK and the other E codes electrostatic precipitators, BP, BR, BS baghouses, ACI activated carbon injection,
+    DSI dry sorbent injection, wet scrubbers JB, MA, PA, SP, TR, VE and the others of EIA's Table 7)
+  unit: none
+  type: text
+  values:
+    distinct: 26
+    examples:
+    - ACI
+    - BP
+    - BR
+    - BS
+    - CD
+  missing_cells: 1
+  missing_meaning: EIA gives none (1 row)
+  source_name: Equipment Type
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
+- name: x_particulate_matter_control_id
+  label: EIA's particulate matter control id of the equipment
+  unit: none
+  type: text
+  values:
+    distinct: 712
+    examples:
+    - '0001'
+    - '01'
+    - '0100'
+    - '02'
+    - '041'
+  missing_cells: 2956
+  missing_meaning: The equipment carries no particulate control id
+  source_name: Particulate Matter Control ID
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
+- name: x_so2_control_id
+  label: EIA's sulfur dioxide control id of the equipment
+  unit: none
+  type: text
+  values:
+    distinct: 296
+    examples:
+    - '0001'
+    - '01'
+    - '02'
+    - '031'
+    - '1'
+  missing_cells: 4515
+  missing_meaning: The equipment carries no sulfur dioxide control id
+  source_name: SO2 Control ID
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
+- name: x_nox_control_id
+  label: EIA's nitrogen oxides control id of the equipment
+  unit: none
+  type: text
+  values:
+    distinct: 494
+    examples:
+    - '#1NOX'
+    - '#2NOX'
+    - '#3NOX'
+    - '001'
+    - '002'
+  missing_cells: 3758
+  missing_meaning: The equipment carries no nitrogen oxides control id
+  source_name: NOx Control ID
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
+- name: x_mercury_control_id
+  label: EIA's mercury control id of the equipment
+  unit: none
+  type: text
+  values:
+    distinct: 382
+    examples:
+    - '#1CARB'
+    - '#2CARB'
+    - '#3CARB'
+    - '01'
+    - '02'
+  missing_cells: 3506
+  missing_meaning: The equipment carries no mercury control id
+  source_name: Mercury Control ID
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
+- name: x_acid_gas_control
+  label: Y when the equipment controls acid (HCl) gas
+  unit: none
+  type: text
+  values:
+    list:
+      Y: 448
+  missing_cells: 4927
+  missing_meaning: EIA's cell is empty (no N is given)
+  source_name: Acid Gas Control?
+  documented_by: source EIA-860 LayoutY2025.xlsx; data
+- name: x_status
+  label: EIA's equipment status code as EIA gives it (the same code as x_eia_status)
+  unit: none
+  type: text
+  values:
+    list:
+      CN: 19
+      CO: 6
+      OP: 3575
+      OS: 80
+      OZ: 3
+      PL: 6
+      RE: 1629
+      SB: 45
+      SC: 9
+      TS: 2
+  missing_cells: 1
+  missing_meaning: EIA gives none (1 row)
+  source_name: Status
+  documented_by: source EIA-860 LayoutY2025.xlsx; data
+- name: x_inservice_month
+  label: The month the equipment began commercial operation
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 513
+      '10': 298
+      '11': 323
+      '12': 524
+      '2': 290
+      '3': 306
+      '4': 561
+      '5': 594
+      '6': 1098
+      '7': 354
+      '8': 257
+      '9': 213
+  missing_cells: 44
+  missing_meaning: EIA gives none
+  source_name: Inservice Month
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_inservice_year
+  label: The year the equipment began commercial operation
+  unit: none
+  type: integer
+  values:
+    distinct: 84
+    lowest: 1937
+    highest: 2028
+  missing_cells: 44
+  missing_meaning: EIA gives none
+  source_name: Inservice Year
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_retirement_month
+  label: The month the equipment retired
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 130
+      '10': 129
+      '11': 103
+      '12': 355
+      '2': 55
+      '3': 127
+      '4': 164
+      '5': 112
+      '6': 200
+      '7': 76
+      '8': 50
+      '9': 107
+  missing_cells: 3767
+  missing_meaning: Not retired, or no retirement month given (72 retired controls)
+  source_name: Retirement Month
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
+- name: x_retirement_year
+  label: The year the equipment retired
+  unit: none
+  type: integer
+  values:
+    distinct: 40
+    lowest: 1991
+    highest: 2067
+  missing_cells: 3767
+  missing_meaning: Not retired, or no retirement year given
+  source_name: Retirement Year
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
+- name: x_total_cost_thousand_dollars
+  label: The nominal installed cost of existing equipment, or the expected cost to bring planned equipment into service
+  unit: thousand USD
+  type: integer
+  values:
+    distinct: 2095
+    lowest: 0
+    highest: 709100
+  missing_cells: 702
+  missing_meaning: EIA gives none
+  source_name: Total Cost (Thousand Dollars)
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
+- name: x_steam_plant_type
+  label: 'EIA''s steam plant type of the plant: 1 combustible-fueled steam capacity of 100 MW or more, 2 of 10 to 100 MW,
+    3 nuclear, combined cycle without duct firing or solar thermal steam of 100 MW or more, 4 the others (wind, PV, turbines,
+    engines)'
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 2819
+      '2': 1556
+      '3': 178
+      '4': 795
+  missing_cells: 27
+  missing_meaning: The plant is in none of the boiler, standards or cooling sheets (27 controls)
+  source_name: Steam Plant Type
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
+second_look: null

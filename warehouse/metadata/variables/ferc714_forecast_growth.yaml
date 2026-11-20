@@ -1,0 +1,261 @@
+# The codebook's metadata of table ferc714_forecast_growth (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ferc714_forecast_growth
+family: ferc714
+shape: series
+row: One planning area's revision of one forecast figure (summer peak, winter peak or net energy) for one forecast year, from
+  one FERC-714 filing against the filing one or two years before.
+time: ts_utc is the forecast year's first instant (freq P1Y); vintage is the later filing's due date.
+vintage_rule: 'Every revision kept, one row per vintage: the key is (entity, variable, ts_utc, vintage). Rebuilt whole by
+  each run from the whole input.'
+keys:
+- entity
+- variable
+- ts_utc
+- vintage
+license: public
+tier: derived
+interval: P1Y
+source:
+- name: erw:ferc714_forecast_growth Energy Research Warehouse (ERW), derived from ferc714_planning_area_forecasts (Catalyst
+    Cooperative's PUDL, from FERC Form 714, Part 3, Schedule 2)
+  url: ''
+cite: Energy Research Warehouse (ERW), derived. FERC-714 forecast revisions by planning area, filing and forecast year (docs/methods/ferc714_forecast_growth.md).
+  Via the Energy Research Warehouse (ERW), table `ferc714_forecast_growth`.
+method: docs/methods/ferc714_forecast_growth.md
+header_title: how each planning area's FERC-714 forecast of a year moved from one filing to the next, summer peak, winter
+  peak and net energy (session 3758)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity ferc714:<PUDL''s respondent id>; ts_utc the forecast year''s
+  first instant (freq P1Y); <summer_peak|winter_peak>_revision_<1y|2y>_mw and net_energy_revision_<1y|2y>_mwh: this filing''s
+  figure less the figure for the same year in the filing one or two years before; _pct: that change in percent of the earlier
+  figure (written only where it is above zero).'
+read:
+  date: '2026-11-20'
+  rows: 198354
+  key_duplicates: 160022
+  key_duplicates_with_vintage: 0
+columns:
+- name: entity
+  shared: true
+  particular: ferc714:<PUDL's respondent id>, a planning area
+  type: text
+  values:
+    distinct: 168
+    examples:
+    - ferc714:1
+    - ferc714:10
+    - ferc714:100
+    - ferc714:101
+    - ferc714:102
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 40
+    earliest: '2008-01-01T00:00:00Z'
+    latest: '2047-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -5783711498.0
+    highest: 5909938928.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 66630
+      MWh: 33315
+      pct: 98409
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 198354
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US on every row
+  type: text
+  values:
+    list:
+      US: 198354
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 198354
+- name: node
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 198354
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:ferc714_forecast_growth: 198354
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ferc714_forecast_growth.md: 198354
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-12T11:29:00Z': 198354
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The later filing's due date, 1 June of the year after its report year (PUDL gives no submission time); part
+    of the key
+  type: utc time
+  values:
+    list:
+      '2008-06-01T00:00:00Z': 8175
+      '2009-06-01T00:00:00Z': 15216
+      '2010-06-01T00:00:00Z': 12588
+      '2011-06-01T00:00:00Z': 12590
+      '2012-06-01T00:00:00Z': 12087
+      '2013-06-01T00:00:00Z': 12126
+      '2014-06-01T00:00:00Z': 12004
+      '2015-06-01T00:00:00Z': 9985
+      '2016-06-01T00:00:00Z': 9913
+      '2017-06-01T00:00:00Z': 9982
+      '2018-06-01T00:00:00Z': 9787
+      '2019-06-01T00:00:00Z': 9658
+      '2020-06-01T00:00:00Z': 9565
+      '2021-06-01T00:00:00Z': 9541
+      '2022-06-01T00:00:00Z': 8803
+      '2023-06-01T00:00:00Z': 8926
+      '2024-06-01T00:00:00Z': 9118
+      '2025-06-01T00:00:00Z': 9154
+      '2026-06-01T00:00:00Z': 9136
+  missing_cells: 0
+- name: x_report_year
+  label: The report year of the later filing
+  unit: none
+  type: integer
+  values:
+    list:
+      '2007': 8175
+      '2008': 15216
+      '2009': 12588
+      '2010': 12590
+      '2011': 12087
+      '2012': 12126
+      '2013': 12004
+      '2014': 9985
+      '2015': 9913
+      '2016': 9982
+      '2017': 9787
+      '2018': 9658
+      '2019': 9565
+      '2020': 9541
+      '2021': 8803
+      '2022': 8926
+      '2023': 9118
+      '2024': 9154
+      '2025': 9136
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method ferc714_forecast_growth.md
+variables:
+- name: net_energy_revision_1y_mwh
+  label: This filing's net energy forecast for the year less the figure for the same year in the filing one year before
+  unit: MWh
+  rows: 18335
+  first: '2008-01-01T00:00:00Z'
+  last: '2047-01-01T00:00:00Z'
+- name: net_energy_revision_1y_pct
+  label: net_energy_revision_1y_mwh as a percent of the earlier figure (written only where that figure is above zero)
+  unit: pct
+  rows: 18091
+  first: '2008-01-01T00:00:00Z'
+  last: '2047-01-01T00:00:00Z'
+- name: net_energy_revision_2y_mwh
+  label: This filing's net energy forecast for the year less the figure for the same year in the filing two years before
+  unit: MWh
+  rows: 14980
+  first: '2009-01-01T00:00:00Z'
+  last: '2045-01-01T00:00:00Z'
+- name: net_energy_revision_2y_pct
+  label: net_energy_revision_2y_mwh as a percent of the earlier figure (written only where that figure is above zero)
+  unit: pct
+  rows: 14788
+  first: '2009-01-01T00:00:00Z'
+  last: '2045-01-01T00:00:00Z'
+- name: summer_peak_revision_1y_mw
+  label: This filing's summer peak forecast for the year less the figure for the same year in the filing one year before
+  unit: MW
+  rows: 18335
+  first: '2008-01-01T00:00:00Z'
+  last: '2047-01-01T00:00:00Z'
+- name: summer_peak_revision_1y_pct
+  label: summer_peak_revision_1y_mw as a percent of the earlier figure (written only where that figure is above zero)
+  unit: pct
+  rows: 18091
+  first: '2008-01-01T00:00:00Z'
+  last: '2047-01-01T00:00:00Z'
+- name: summer_peak_revision_2y_mw
+  label: This filing's summer peak forecast for the year less the figure for the same year in the filing two years before
+  unit: MW
+  rows: 14980
+  first: '2009-01-01T00:00:00Z'
+  last: '2045-01-01T00:00:00Z'
+- name: summer_peak_revision_2y_pct
+  label: summer_peak_revision_2y_mw as a percent of the earlier figure (written only where that figure is above zero)
+  unit: pct
+  rows: 14789
+  first: '2009-01-01T00:00:00Z'
+  last: '2045-01-01T00:00:00Z'
+- name: winter_peak_revision_1y_mw
+  label: This filing's winter peak forecast for the year less the figure for the same year in the filing one year before
+  unit: MW
+  rows: 18335
+  first: '2008-01-01T00:00:00Z'
+  last: '2047-01-01T00:00:00Z'
+- name: winter_peak_revision_1y_pct
+  label: winter_peak_revision_1y_mw as a percent of the earlier figure (written only where that figure is above zero)
+  unit: pct
+  rows: 17966
+  first: '2008-01-01T00:00:00Z'
+  last: '2047-01-01T00:00:00Z'
+- name: winter_peak_revision_2y_mw
+  label: This filing's winter peak forecast for the year less the figure for the same year in the filing two years before
+  unit: MW
+  rows: 14980
+  first: '2009-01-01T00:00:00Z'
+  last: '2045-01-01T00:00:00Z'
+- name: winter_peak_revision_2y_pct
+  label: winter_peak_revision_2y_mw as a percent of the earlier figure (written only where that figure is above zero)
+  unit: pct
+  rows: 14684
+  first: '2009-01-01T00:00:00Z'
+  last: '2045-01-01T00:00:00Z'
+second_look: null

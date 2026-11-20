@@ -1,0 +1,167 @@
+# The codebook's metadata of table desnz_uk_mpp_capacity_countries_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: desnz_uk_mpp_capacity_countries_annual
+family: desnz
+shape: series
+row: The major power producers' de-rated capacity of one fuel or thermal plant type in England and Wales, Scotland or Northern
+  Ireland, or the country's share of their capacity, in one year, 1999 to 2025 (DUKES table 5.8).
+time: ts_utc is the year's first day at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot of the DUKES edition read, here 2026); vintage is the workbook's last-modified
+  time.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: desnz:dukes_5_8_mpp_capacity_countries Department for Energy Security and Net Zero, Digest of UK Energy Statistics
+    (DUKES) 2026, table 5.8, Major power producers plant capacity, England and Wales, Scotland, and Northern Ireland
+  url: ''
+cite: UK Department for Energy Security and Net Zero (DESNZ). Digest of UK Energy Statistics (DUKES) 2026, table 5.8, Major
+  power producers plant capacity by country. Via the Energy Research Warehouse (ERW), table `desnz_uk_mpp_capacity_countries_annual`.
+method: docs/methods/desnz_uk_mpp_capacity_countries_annual.md
+header_title: 'DESNZ, Digest of UK Energy Statistics (DUKES) 2026, table 5.8: the major power producers'' de-rated capacity
+  in England and Wales, Scotland and Northern Ireland by fuel and thermal plant type, and each country''s share, 1999 to 2025
+  (session 2743)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity desnz_mppr:<country>:<item>; variable derated_capacity or thermal_capacity
+  (MW) or capacity_share (ratio); ts_utc the year''s first day; freq P1Y; geo GB-ENG,GB-WLS, GB-SCT or GB-NIR; node the sheet''s
+  labels.'
+read:
+  date: '2026-11-20'
+  rows: 1539
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: desnz_mppr:<country>:<item> (england_wales, scotland, northern_ireland)
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - desnz_mppr:england_wales:bioenergy_and_waste
+    - desnz_mppr:england_wales:ccgt_stations
+    - desnz_mppr:england_wales:coal_fired
+    - desnz_mppr:england_wales:conventional_steam_stations
+    - desnz_mppr:england_wales:gas_fired
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 27
+    earliest: '1999-01-01T00:00:00Z'
+    latest: '2025-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 651
+    lowest: 0.0
+    highest: 70668.5042
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 1458
+      ratio: 81
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 1539
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: GB-ENG,GB-WLS for England and Wales, GB-SCT or GB-NIR
+  type: text
+  values:
+    list:
+      GB-ENG,GB-WLS: 513
+      GB-NIR: 513
+      GB-SCT: 513
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1539
+- name: node
+  shared: true
+  particular: The sheet's labels, not a pricing node
+  type: text
+  values:
+    distinct: 54
+    examples:
+    - 'England and Wales: Bioenergy and waste'
+    - 'England and Wales: CCGT stations'
+    - 'England and Wales: Coal fired'
+    - 'England and Wales: Conventional steam stations'
+    - 'England and Wales: Gas fired'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      desnz:dukes_5_8_mpp_capacity_countries: 1539
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://assets.publishing.service.gov.uk/media/6a6a3631862aaf18d9c629ec/DUKES_5.8.xlsx: 1539
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T20:58:43Z': 1539
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The workbook's last-modified time
+  type: utc time
+  values:
+    list:
+      '2026-07-29T17:19:45Z': 1539
+  missing_cells: 0
+variables:
+- name: capacity_share
+  label: The country's share of the major power producers' capacity (table 5.8.B), ratio (the sheet's heading says per cent,
+    its cells hold fractions)
+  unit: ratio
+  rows: 81
+  first: '1999-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: derated_capacity
+  label: The major power producers' de-rated capacity by fuel (table 5.8.A), MW
+  unit: MW
+  rows: 972
+  first: '1999-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: thermal_capacity
+  label: The major power producers' capacity by thermal plant type (table 5.8.C), MW
+  unit: MW
+  rows: 486
+  first: '1999-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

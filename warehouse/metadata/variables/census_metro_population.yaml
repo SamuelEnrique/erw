@@ -1,0 +1,193 @@
+# The codebook's metadata of table census_metro_population (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: census_metro_population
+family: census
+shape: series
+row: One metropolitan statistical area's population, whole or its part in one state, at the 2020 estimates base or the estimate
+  of 1 July 2025.
+time: ts_utc is 2020-04-01 for population_base_2020 and 2025-07-01 for population_2025, at 00:00:00Z; freq empty.
+vintage_rule: Merged by key (entity, variable, ts_utc); vintage is the Bureau's vintage, 2025.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: ''
+source:
+- name: census:popest_cbsa U.S. Census Bureau, Population Estimates Program, Metropolitan and Micropolitan Statistical Areas
+    Totals, vintage 2025
+  url: https://www.census.gov/data/tables/time-series/demo/popest/2020s-total-metro-and-micro-statistical-areas.html
+cite: U.S. Census Bureau. Population Estimates Program, Metropolitan and Micropolitan Statistical Areas Totals (vintage 2025).
+  Via the Energy Research Warehouse (ERW), table `census_metro_population`.
+method: docs/methods/census_metro_population.md
+header_title: the Census Bureau's population of metropolitan statistical areas, whole and by state part, the estimates base
+  of 1 April 2020 and the estimate of 1 July 2025 (session 129)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity census:cbsa:<code> is a whole area; census:cbsa:<code>:<state
+  FIPS> is its part in one state, the sum of the area''s x_counties counties there as the file lists them. population_base_2020
+  (ts_utc 2020-04-01) and population_2025 (ts_utc 2025-07-01), unit count; node is the Bureau''s name for the area; vintage
+  2025.'
+read:
+  date: '2026-11-20'
+  rows: 1650
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: census:cbsa:<code> for a whole area; census:cbsa:<code>:<state FIPS> for its part in one state
+  type: text
+  values:
+    distinct: 825
+    examples:
+    - census:cbsa:10180
+    - census:cbsa:10180:48
+    - census:cbsa:10420
+    - census:cbsa:10420:39
+    - census:cbsa:10500
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2020-04-01T00:00:00Z': 825
+      '2025-07-01T00:00:00Z': 825
+  missing_cells: 0
+- name: value
+  shared: true
+  type: integer
+  values:
+    distinct: 960
+    lowest: 4570
+    highest: 20112448
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      count: 1650
+  missing_cells: 0
+- name: freq
+  shared: true
+  particular: Empty on every row (two single dates)
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1650
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US: 1650
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1650
+- name: node
+  shared: true
+  particular: The Bureau's name for the area, not a pricing node
+  type: text
+  values:
+    distinct: 387
+    examples:
+    - Abilene, TX
+    - Akron, OH
+    - Albany, GA
+    - Albany, OR
+    - Albany-Schenectady-Troy, NY
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      census:popest_cbsa: 1650
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/metro/totals/cbsa-est2025-alldata.csv: 1650
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-06T00:36:54Z': 1650
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The Population Estimates vintage, 2025 (a year, not a UTC time)
+  type: integer
+  values:
+    list:
+      '2025': 1650
+  missing_cells: 0
+- name: x_state
+  label: The state's FIPS code of a part by state
+  unit: none
+  type: integer
+  values:
+    distinct: 51
+    lowest: 1
+    highest: 56
+  missing_cells: 774
+  missing_meaning: Empty on a whole area's rows
+  source_name: null
+  documented_by: connector census_metro_population.py; method census_metro_population.md
+- name: x_counties
+  label: How many of the area's counties lie in that state, as the file lists them (summed for the part)
+  unit: count
+  type: integer
+  values:
+    list:
+      '1': 370
+      '10': 10
+      '11': 4
+      '12': 2
+      '13': 2
+      '14': 2
+      '15': 2
+      '17': 4
+      '2': 184
+      '29': 2
+      '3': 126
+      '4': 68
+      '5': 50
+      '6': 18
+      '7': 14
+      '8': 12
+      '9': 6
+  missing_cells: 774
+  missing_meaning: Empty on a whole area's rows
+  source_name: null
+  documented_by: header; connector census_metro_population.py
+variables:
+- name: population_2025
+  label: The Bureau's population estimate, 1 July 2025
+  unit: count
+  rows: 825
+  first: '2025-07-01T00:00:00Z'
+  last: '2025-07-01T00:00:00Z'
+- name: population_base_2020
+  label: The Bureau's estimates base population, 1 April 2020
+  unit: count
+  rows: 825
+  first: '2020-04-01T00:00:00Z'
+  last: '2020-04-01T00:00:00Z'
+second_look: null

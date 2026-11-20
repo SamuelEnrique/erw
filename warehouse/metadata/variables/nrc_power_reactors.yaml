@@ -1,0 +1,592 @@
+# The codebook's metadata of table nrc_power_reactors (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: nrc_power_reactors
+family: nrc
+shape: entities
+row: One US power reactor unit, operating (on the NRC's List of Power Reactor Units) or in decommissioning (the NRC's decommissioning
+  dataset), with the NRC datasets' licensing dates and capacity.
+time: No time column; status_date is the shutdown date for a retired unit. vintage is when the NRC's list or dataset was published
+  or modified (UTC).
+vintage_rule: A snapshot; each run replaces the table whole, asking for the list again and reusing the saved datasets.
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: nrc:power_reactors U.S. Nuclear Regulatory Commission, List of Power Reactor Units and the operating and decommissioning
+    reactors datasets
+  url: https://www.nrc.gov/reactors/operating/list-power-reactor-units.html
+cite: U.S. Nuclear Regulatory Commission (NRC). List of Power Reactor Units; operating and decommissioning reactors datasets.
+  Via the Energy Research Warehouse (ERW), table `nrc_power_reactors`.
+method: docs/methods/nrc_power_reactors.md
+header_title: the NRC's power reactor units, operating (the NRC's list) and in decommissioning (the NRC's dataset), with the
+  operating reactors dataset's licensing dates and capacity (session 925)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id nrc_reactor:<docket number>; entity_type generator (a
+  reactor unit); geo US-<state>; capacity_mw the operating dataset''s Capacity MWe; status operating (on the list) or retired
+  (in decommissioning, status_date its shutdown); operator the list''s owner and operator; x_* the list''s and the datasets''
+  fields, x_dataset_year the datasets'' Year of Update.'
+read:
+  date: '2026-11-20'
+  rows: 130
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  particular: nrc_reactor:<docket number>
+  type: text
+  values:
+    distinct: 130
+    examples:
+    - nrc_reactor:00500010
+    - nrc_reactor:05000003
+    - nrc_reactor:05000016
+    - nrc_reactor:05000018
+    - nrc_reactor:050000289
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  particular: Always generator (a reactor unit)
+  type: text
+  values:
+    list:
+      generator: 130
+  missing_cells: 0
+- name: name
+  shared: true
+  particular: The list's name (the dataset's for a retired unit)
+  type: text
+  values:
+    distinct: 130
+    examples:
+    - Arkansas Nuclear 1
+    - Arkansas Nuclear 2
+    - Beaver Valley 1
+    - Beaver Valley 2
+    - Big Rock Point
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state> from the location's last two letters; empty where none is read
+  type: text
+  values:
+    distinct: 36
+    examples:
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+    - US-CO
+  missing_cells: 2
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 130
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 130
+- name: capacity_mw
+  shared: true
+  particular: The operating dataset's Capacity MWe
+  type: number
+  values:
+    distinct: 84
+    lowest: 519.0
+    highest: 1401.0
+  missing_cells: 37
+- name: status
+  shared: true
+  particular: operating (on the list) or retired (in decommissioning)
+  type: text
+  values:
+    list:
+      operating: 95
+      retired: 35
+  missing_cells: 0
+- name: status_date
+  shared: true
+  particular: A retired unit's shutdown date
+  type: date
+  values:
+    distinct: 33
+    earliest: '1963-12-19'
+    latest: '2021-04-30'
+  missing_cells: 95
+- name: operator
+  shared: true
+  particular: The list's owner and operator
+  type: text
+  values:
+    distinct: 29
+    examples:
+    - Ameren UE
+    - Arizona Public Service Co.
+    - Constellation Energy Generation, LLC
+    - DTE Electric Company
+    - Dominion Generation
+  missing_cells: 35
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      nrc:power_reactors: 130
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.nrc.gov/reactors/operating/list-power-reactor-units.html: 95
+      ? https://www.nrc.gov/sites/default/files/doc_library/cdn/legacy/reading-rm/doc-collections/datasets/reactors-decommissioning.xlsx
+      : 35
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T09:52:20Z': 35
+      '2026-10-23T09:53:52Z': 95
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2025-09-02T06:28:09Z': 35
+      '2026-10-22T21:29:39Z': 95
+  missing_cells: 0
+- name: x_docket
+  label: The NRC docket number of the unit
+  unit: none
+  type: integer
+  values:
+    distinct: 130
+    lowest: 500010
+    highest: 50000289
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector nrc_reactors.py
+- name: x_license_number
+  label: The unit's NRC license number, from the list
+  unit: none
+  type: text
+  values:
+    distinct: 95
+    examples:
+    - DPR-18
+    - DPR-19
+    - DPR-20
+    - DPR-22
+    - DPR-23
+  missing_cells: 35
+  missing_meaning: A unit in decommissioning (not on the list)
+  source_name: License Number
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_reactor_type
+  label: The reactor type (PWR, BWR and others), from the list or the dataset
+  unit: none
+  type: text
+  values:
+    list:
+      BWR: 41
+      BWR-MARK 1: 1
+      Experimental Superheat Reactor: 1
+      HTG: 2
+      PWR: 82
+      PWR CE: 2
+      SCF: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Reactor Type
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_location
+  label: The unit's location in the NRC's words (for example '11 miles SE of Ottawa, IL')
+  unit: none
+  type: text
+  values:
+    distinct: 82
+    examples:
+    - 10 miles SE of Ft. Pierce, FL
+    - 11 miles SE of Ottawa, IL
+    - 12 miles WSW of San Luis Obispo, CA
+    - 13 miles NNW of Manitowoc, WI
+    - 13 miles S of Benton Harbor, MI
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Location
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_nrc_region
+  label: The NRC region (1 to 4), from the list
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 20
+      '2': 35
+      '3': 22
+      '4': 18
+  missing_cells: 35
+  missing_meaning: A unit in decommissioning
+  source_name: NRC Region
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_dataset_year
+  label: The datasets' Year of Update
+  unit: none
+  type: integer
+  values:
+    list:
+      '2022': 128
+  missing_cells: 2
+  missing_meaning: On the list but not in the dataset (2 units)
+  source_name: Year of Update
+  documented_by: header; connector nrc_reactors.py
+- name: x_architect_engineer
+  label: The unit's architect-engineer, as the operating dataset abbreviates it
+  unit: none
+  type: text
+  values:
+    list:
+      AEP: 2
+      B&R: 2
+      BECH: 29
+      DBDB: 3
+      DUKE: 4
+      EBSO: 5
+      FLUR: 2
+      G&H: 1
+      GIL: 3
+      NIAG: 1
+      PG&E: 2
+      PSEG: 2
+      S&L: 12
+      S&W: 10
+      SBEC: 2
+      SSI: 2
+      TVA: 7
+      UE&C: 3
+      Westinghouse: 1
+  missing_cells: 37
+  missing_meaning: A unit in decommissioning, or not in the dataset
+  source_name: Architect-Engineer
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_closure_estimate
+  label: The estimated closure year of a unit in decommissioning
+  unit: none
+  type: integer
+  values:
+    list:
+      '2019': 1
+      '2020': 3
+      '2025': 2
+      '2030': 4
+      '2031': 1
+      '2032': 1
+      '2034': 1
+      '2036': 2
+      '2053': 1
+      '2056': 1
+      '2073': 1
+      '2074': 1
+      '2076': 1
+      '2078': 1
+      '2079': 1
+      '2080': 1
+  missing_cells: 107
+  missing_meaning: An operating unit, or no estimate given
+  source_name: Closure Date Est.
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_commercial_operation
+  label: The date the unit began commercial operation
+  unit: none
+  type: date
+  values:
+    distinct: 91
+    earliest: '1969-12-01'
+    latest: '2016-10-19'
+  missing_cells: 38
+  missing_meaning: A unit in decommissioning, or not in the dataset
+  source_name: Commercial Operation
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_construction_permit
+  label: The date the construction permit was issued
+  unit: none
+  type: date
+  values:
+    distinct: 63
+    earliest: '1965-04-12'
+    latest: '1978-01-27'
+  missing_cells: 38
+  missing_meaning: A unit in decommissioning, or not in the dataset
+  source_name: Construction Permit Issued
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_constructor
+  label: The unit's constructor, as the operating dataset abbreviates it
+  unit: none
+  type: text
+  values:
+    list:
+      AEP: 2
+      B&R: 1
+      B&W: 1
+      BALD: 1
+      BECH: 24
+      BRRT: 4
+      CWE: 6
+      DANI: 6
+      DUKE: 7
+      EBSO: 6
+      GPC: 4
+      KAIS: 1
+      NSP: 2
+      PG&E: 2
+      S&W: 11
+      SNC: 1
+      TVA: 7
+      UE&C: 7
+  missing_cells: 37
+  missing_meaning: A unit in decommissioning, or not in the dataset
+  source_name: Constructor Name
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_containment_type
+  label: The reactor and containment type
+  unit: none
+  type: text
+  values:
+    list:
+      BWR-MARK 1: 19
+      BWR-MARK 2: 8
+      BWR-MARK 3: 4
+      PWR - Freestanding steel vessel with shield building: 1
+      PWR-DRYAMB: 46
+      PWR-DRYSUB: 5
+      PWR-ICECND: 10
+  missing_cells: 37
+  missing_meaning: A unit in decommissioning, or not in the dataset
+  source_name: Reactor and Containment Type
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_dataset_name
+  label: The unit's name in the NRC dataset
+  unit: none
+  type: text
+  values:
+    distinct: 128
+    examples:
+    - Arkansas Nuclear One, Unit 1
+    - Arkansas Nuclear One, Unit 2
+    - Beaver Valley Power Station, Unit 1
+    - Beaver Valley Power Station, Unit 2
+    - Big Rock Point
+  missing_cells: 2
+  missing_meaning: On the list but not in the dataset (2 units)
+  source_name: Plant Name, Unit Number (operating); Unit (decommissioning)
+  documented_by: connector nrc_reactors.py
+- name: x_decommissioning_alternative
+  label: The decommissioning alternative selected (DECON or SAFSTOR)
+  unit: none
+  type: text
+  values:
+    list:
+      DECON: 23
+      SAFSTOR: 12
+  missing_cells: 95
+  missing_meaning: An operating unit
+  source_name: Decommissioning Alternative Selected
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_license_expires
+  label: The date the operating license expires
+  unit: none
+  type: date
+  values:
+    distinct: 90
+    earliest: '2024-11-02'
+    latest: '2062-08-03'
+  missing_cells: 37
+  missing_meaning: A unit in decommissioning, or not in the dataset
+  source_name: Operating License Expires
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_license_status
+  label: The current license status of a unit in decommissioning (DECON Completed, DECON In Progress, SAFSTOR)
+  unit: none
+  type: text
+  values:
+    list:
+      DECON Completed: 10
+      DECON In Progress: 13
+      SAFSTOR: 11
+  missing_cells: 96
+  missing_meaning: An operating unit, or none given
+  source_name: Current License Status
+  documented_by: connector nrc_reactors.py; data
+- name: x_license_terminated
+  label: The date the operating license was terminated (a unit in decommissioning)
+  unit: none
+  type: date
+  values:
+    list:
+      '1995-04-11': 1
+      '1997-08-05': 1
+      '2005-05-23': 1
+      '2005-09-30': 1
+      '2005-11-07': 1
+      '2007-01-08': 1
+      '2007-07-27': 1
+      '2007-08-10': 1
+      '2007-11-26': 1
+      '2009-09-25': 1
+  missing_cells: 120
+  missing_meaning: An operating unit, or the license not terminated
+  source_name: Operating License (OL) Terminated
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_licensed_mwt
+  label: The licensed thermal power of the reactor
+  unit: MWt
+  type: number
+  values:
+    distinct: 79
+    lowest: 12.5
+    highest: 4408.0
+  missing_cells: 2
+  missing_meaning: On the list but not in the dataset (2 units)
+  source_name: Licensed MWt (operating); MWt (decommissioning)
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_licensee
+  label: The licensee
+  unit: none
+  type: text
+  values:
+    distinct: 30
+    examples:
+    - Arizona Public Service Company
+    - Calvert Cliffs Nuclear Power Plant, LLC – Owner<br> Constellation Energy Generation, LLC – Operator
+    - Comanche Peak Power Company LLC – Owner<br>Vistra Operations Company LLC – Operator
+    - Constellation Energy Generation, LLC
+    - DTE Electric Company
+  missing_cells: 37
+  missing_meaning: A unit in decommissioning, or not in the dataset
+  source_name: Licensee
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_nsss
+  label: The nuclear steam system supplier and design type (the vendor, as the dataset abbreviates it)
+  unit: none
+  type: text
+  values:
+    list:
+      AC: 2
+      B&W: 4
+      B&W LLP: 5
+      B&W RLP: 1
+      CE: 11
+      CE80-2L: 3
+      COMB CE: 1
+      GA: 2
+      GE: 8
+      GE 2: 1
+      GE 3: 5
+      GE 4: 19
+      GE 5: 4
+      GE 6: 4
+      WEST 2LP: 6
+      WEST 3LP: 13
+      WEST 4LP: 28
+      West: 7
+      West 2LP: 1
+      Westinghouse: 3
+  missing_cells: 2
+  missing_meaning: On the list but not in the dataset (2 units)
+  source_name: Nuclear Steam System Supplier and Design Type (operating); NSSS Vendor (decommissioning)
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_operating_license
+  label: The date the operating license was issued
+  unit: none
+  type: date
+  values:
+    distinct: 123
+    earliest: '1957-08-31'
+    latest: '2022-08-03'
+  missing_cells: 2
+  missing_meaning: On the list but not in the dataset (2 units)
+  source_name: Operating License Issued
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_parent_company
+  label: The parent company, as the dataset names it (its Parent Company Utility Name)
+  unit: none
+  type: text
+  values:
+    list:
+      AmerenUE: 1
+      Arizona Public Service Company: 3
+      Constellation Energy Corporation: 21
+      DTE Electric Company (DTE): 1
+      Dominion Generation: 7
+      Duke Energy: 11
+      Energy Harbor Corp.: 4
+      Energy Northwest: 1
+      Entergy Nuclear Operations, Inc.: 5
+      Indiana Michigan Power Company: 2
+      Nebraska Public Power District: 1
+      NextEra Energy, Inc. with principal subsidiaries Florida Power & Light Co. and NextEra Energy Resources, LLC: 7
+      Northern States Power Company Minnesota doing business as Xcel Energy: 3
+      PSEG Nuclear, LLC: 3
+      Pacific Gas & Electric Company: 2
+      STP Nuclear Operating Company: 2
+      Southern Nuclear Operating Company: 7
+      Talen Energy Corporation: 2
+      Tennessee Valley Authority: 7
+      Vistra Energy Corp.: 2
+      Wolf Creek Nuclear Operating Corporation: 1
+  missing_cells: 37
+  missing_meaning: A unit in decommissioning, or not in the dataset
+  source_name: Parent Company Utility Name
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_renewed_license
+  label: The date the renewed operating license was issued, or words where the dataset holds words (Application Withdrawn)
+  unit: none
+  type: text
+  values:
+    distinct: 49
+    examples:
+    - '2000-03-23'
+    - '2000-05-23'
+    - '2001-06-20'
+    - '2002-01-15'
+    - '2002-06-06'
+  missing_cells: 44
+  missing_meaning: A unit in decommissioning, not in the dataset, or no renewal
+  source_name: Renewed Operating License Issued
+  documented_by: header; connector nrc_reactors.py
+- name: x_shut_down
+  label: The date a unit in decommissioning shut down
+  unit: none
+  type: date
+  values:
+    distinct: 33
+    earliest: '1963-12-19'
+    latest: '2021-04-30'
+  missing_cells: 95
+  missing_meaning: An operating unit
+  source_name: Shut Down
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+- name: x_subsequent_renewal
+  label: The date the subsequent renewed operating license was issued
+  unit: none
+  type: date
+  values:
+    list:
+      '2019-12-04': 2
+      '2020-03-05': 2
+      '2021-05-04': 2
+  missing_cells: 124
+  missing_meaning: No subsequent renewal issued
+  source_name: Subsequent Renewed Operating License Issued
+  documented_by: connector nrc_reactors.py; method nrc_power_reactors.md
+second_look: null

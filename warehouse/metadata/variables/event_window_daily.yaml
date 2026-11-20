@@ -1,0 +1,363 @@
+# The codebook's metadata of table event_window_daily (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: event_window_daily
+family: erw_derived
+shape: series
+row: One event's daily (or, for COVID-19, weekly) value of one figure for one grid, hub or weather station, on a day of the
+  event window or a baseline day of earlier years.
+time: ts_utc is the local operating day at 00:00:00Z (America/Chicago for ERCOT, each BA's own zone for the others); weekly
+  rows (freq P1W) at the week's first day.
+vintage_rule: Rewritten whole by each run; key (entity, variable, ts_utc, event), so a day may stand once for each event it
+  belongs to; vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1D;P1W
+source:
+- name: erw:event_window ERW derived table, events method (docs/methods/events.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/events.md
+cite: Energy Research Warehouse (ERW), derived. Event windows, daily figures around an event and its baseline (docs/methods/events.md).
+  Via the Energy Research Warehouse (ERW), table `event_window_daily`.
+method: docs/methods/events.md
+header_title: event windows, daily figures around an event and the same calendar days of earlier years (Historical Event Analyzer
+  v0, derived, session 36B)
+header_shape: 'Shape: series (docs/datastandard.md v0), partition columns ba and event (decision 31); freq P1D, ts_utc the
+  local operating day at 00:00:00Z (America/Chicago for ERCOT, each BA''s own zone for the others; weekly rows freq P1W at
+  the week''s first day). A day is written only when every interval is present. Key (entity, variable, ts_utc, event), decision
+  32.'
+read:
+  date: '2026-11-20'
+  rows: 29953
+  key_duplicates: 216
+  key_duplicates_with_vintage: 216
+columns:
+- name: entity
+  shared: true
+  particular: eia930:<BA> for demand, generation and intensity; ercot:HB_HUBAVG and <iso>:<hub> for prices; noaa:<station>
+    for weather
+  type: text
+  values:
+    list:
+      eia930:CISO: 1591
+      eia930:ERCO: 2726
+      eia930:ISNE: 1870
+      eia930:MISO: 1850
+      eia930:NYIS: 1872
+      eia930:PJM: 1866
+      eia930:SWPP: 1601
+      eia930:US48: 946
+      ercot:HB_HUBAVG: 1644
+      isone:.H.INTERNAL_HUB: 158
+      miso:INDIANA.HUB: 164
+      noaa:BOS: 1545
+      noaa:DFW: 2430
+      noaa:IAH: 435
+      noaa:JFK: 1545
+      noaa:LAX: 865
+      noaa:MSP: 1545
+      noaa:OKC: 1545
+      noaa:ORD: 165
+      noaa:PHL: 1545
+      noaa:SAC: 1755
+      nyiso:N.Y.C.: 162
+      spp:SPPNORTH_HUB: 128
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 625
+    earliest: '2018-03-04T00:00:00Z'
+    latest: '2026-02-02T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -9334580.0
+    highest: 12200004.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 6374
+      MWh: 4289
+      USD/MWh: 2256
+      degF: 8025
+      degF-day: 5350
+      kgCO2/MWh: 2249
+      pct: 1410
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 29751
+      P1W: 202
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: Empty on the weather station rows (noaa:<station>)
+  type: text
+  values:
+    list:
+      US: 946
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 1729
+      US-AR,US-IL,US-IN,US-IA,US-KY,US-LA,US-MI,US-MN,US-MS,US-MO,US-MT,US-ND,US-SD,US-TX,US-WI: 2014
+      US-CA: 1591
+      US-CT,US-MA,US-ME,US-NH,US-RI,US-VT: 2028
+      US-DE,US-DC,US-IL,US-IN,US-KY,US-MD,US-MI,US-NJ,US-NC,US-OH,US-PA,US-TN,US-VA,US-WV: 1866
+      US-NY: 2034
+      US-TX: 4370
+  missing_cells: 13375
+- name: market
+  shared: true
+  particular: 'Filled on the hub price rows only: <iso>_dam or <iso>_rtm'
+  type: text
+  values:
+    list:
+      ercot_dam: 822
+      ercot_rtm: 822
+      isone_dam: 82
+      isone_rtm: 76
+      miso_dam: 82
+      miso_rtm: 82
+      nyiso_dam: 82
+      nyiso_rtm: 80
+      spp_dam: 64
+      spp_rtm: 64
+  missing_cells: 27697
+- name: node
+  shared: true
+  particular: The NOAA ISD station id on the weather rows; empty on the others
+  type: integer
+  values:
+    list:
+      '72243012960': 435
+      '72259003927': 2430
+      '72295023174': 865
+      '72353013967': 1545
+      '72408013739': 1545
+      '72483023232': 1755
+      '72509014739': 1545
+      '72530094846': 165
+      '72658014922': 1545
+      '74486094789': 1545
+  missing_cells: 16578
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:event_window: 29953
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/events.md: 29953
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-19T09:43:29Z': 29953
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 29953
+- name: ba
+  shared: true
+  type: text
+  values:
+    list:
+      ciso: 4211
+      erco: 7235
+      isne: 3573
+      miso: 3559
+      nyis: 3579
+      pjm: 3576
+      swpp: 3274
+      us48: 946
+  missing_cells: 0
+- name: event
+  label: The event the row belongs to, a partition column (uri_2021, covid_2020, caiso_heat_2020, caiso_heat_2022, elliott_2022,
+    ercot_heat_2023, cold_2025, cold_2026, east_heat_2025)
+  unit: none
+  type: text
+  values:
+    list:
+      caiso_heat_2020: 666
+      caiso_heat_2022: 460
+      cold_2025: 1239
+      cold_2026: 1515
+      covid_2020: 20060
+      east_heat_2025: 669
+      elliott_2022: 2487
+      ercot_heat_2023: 1761
+      uri_2021: 1096
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method events.md
+variables:
+- name: cdd_65f
+  label: The station's cooling degree days at 65 F for the local day, from (max + min) / 2
+  unit: degF-day
+  rows: 2675
+  first: '2018-03-04T00:00:00Z'
+  last: '2023-09-10T00:00:00Z'
+- name: da_max
+  label: The day's highest hourly day-ahead hub price
+  unit: USD/MWh
+  rows: 428
+  first: '2019-02-07T00:00:00Z'
+  last: '2026-02-02T00:00:00Z'
+- name: da_mean
+  label: The day's mean hourly day-ahead hub price
+  unit: USD/MWh
+  rows: 704
+  first: '2018-03-04T00:00:00Z'
+  last: '2026-02-02T00:00:00Z'
+- name: demand_max_mw
+  label: The day's highest hour of demand
+  unit: MW
+  rows: 3043
+  first: '2018-03-04T00:00:00Z'
+  last: '2026-02-02T00:00:00Z'
+- name: demand_max_mw_vs_baseline
+  label: The day's highest hour of demand less the mean of the baseline days' highest hours
+  unit: MW
+  rows: 288
+  first: '2020-08-12T00:00:00Z'
+  last: '2026-02-02T00:00:00Z'
+- name: demand_max_pct_vs_baseline
+  label: The day's highest hour of demand against the mean of the baseline days' highest hours, percent
+  unit: pct
+  rows: 288
+  first: '2020-08-12T00:00:00Z'
+  last: '2026-02-02T00:00:00Z'
+- name: demand_min_mw
+  label: The day's lowest hour of demand
+  unit: MW
+  rows: 3043
+  first: '2018-03-04T00:00:00Z'
+  last: '2026-02-02T00:00:00Z'
+- name: demand_mwh
+  label: EIA's hourly demand summed over the day's hours
+  unit: MWh
+  rows: 3043
+  first: '2018-03-04T00:00:00Z'
+  last: '2026-02-02T00:00:00Z'
+- name: demand_mwh_day_change
+  label: 'Event days only: the day''s demand less the previous day of the window'
+  unit: MWh
+  rows: 17
+  first: '2021-02-08T00:00:00Z'
+  last: '2021-02-24T00:00:00Z'
+- name: demand_mwh_vs_baseline
+  label: 'Event days only: the day''s demand less the mean of its baseline days'
+  unit: MWh
+  rows: 1039
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-02-02T00:00:00Z'
+- name: demand_mwh_vs_baseline_week
+  label: The week's demand less the mean of its baseline weeks (COVID-19, freq P1W)
+  unit: MWh
+  rows: 101
+  first: '2020-03-01T00:00:00Z'
+  last: '2020-05-24T00:00:00Z'
+- name: demand_pct_vs_baseline
+  label: 'Event days only: (the day''s demand over the mean of its baseline days, minus 1) times 100'
+  unit: pct
+  rows: 1021
+  first: '2020-03-01T00:00:00Z'
+  last: '2026-02-02T00:00:00Z'
+- name: demand_pct_vs_baseline_week
+  label: The same over the week's seven days (COVID-19, freq P1W)
+  unit: pct
+  rows: 101
+  first: '2020-03-01T00:00:00Z'
+  last: '2020-05-24T00:00:00Z'
+- name: hdd_65f
+  label: The station's heating degree days at 65 F for the local day, from (max + min) / 2
+  unit: degF-day
+  rows: 2675
+  first: '2018-03-04T00:00:00Z'
+  last: '2023-09-10T00:00:00Z'
+- name: intensity_generation
+  label: The day's CO2 generated times 1,000 over its net generation (carbon intensity of generation)
+  unit: kgCO2/MWh
+  rows: 2249
+  first: '2018-08-13T00:00:00Z'
+  last: '2026-02-02T00:00:00Z'
+- name: net_generation_mwh
+  label: EIA's hourly net generation summed over the day
+  unit: MWh
+  rows: 54
+  first: '2019-02-07T00:00:00Z'
+  last: '2021-02-24T00:00:00Z'
+- name: net_generation_mwh_day_change
+  label: 'Event days only: the day''s net generation less the previous day of the window'
+  unit: MWh
+  rows: 17
+  first: '2021-02-08T00:00:00Z'
+  last: '2021-02-24T00:00:00Z'
+- name: net_generation_mwh_vs_baseline
+  label: 'Event days only: the day''s net generation less the baseline mean of its calendar day'
+  unit: MWh
+  rows: 18
+  first: '2021-02-07T00:00:00Z'
+  last: '2021-02-24T00:00:00Z'
+- name: rt_max
+  label: The day's highest 15-minute real-time hub price (MISO's hourly real-time price)
+  unit: USD/MWh
+  rows: 424
+  first: '2019-02-07T00:00:00Z'
+  last: '2026-02-02T00:00:00Z'
+- name: rt_mean
+  label: The day's mean real-time hub price
+  unit: USD/MWh
+  rows: 700
+  first: '2018-03-04T00:00:00Z'
+  last: '2026-02-02T00:00:00Z'
+- name: temp_max_f
+  label: The station's highest temperature of the local day
+  unit: degF
+  rows: 2675
+  first: '2018-03-04T00:00:00Z'
+  last: '2023-09-10T00:00:00Z'
+- name: temp_mean_f
+  label: The station's mean temperature of the local day (the mean of the clock hours' means)
+  unit: degF
+  rows: 2675
+  first: '2018-03-04T00:00:00Z'
+  last: '2023-09-10T00:00:00Z'
+- name: temp_min_f
+  label: The station's lowest temperature of the local day
+  unit: degF
+  rows: 2675
+  first: '2018-03-04T00:00:00Z'
+  last: '2023-09-10T00:00:00Z'
+second_look: null

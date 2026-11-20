@@ -1,0 +1,145 @@
+# The codebook's metadata of table caiso_dam_alert_day_hub_prices (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: caiso_dam_alert_day_hub_prices
+family: caiso
+shape: series
+row: CAISO's day-ahead locational marginal price at the NP15 or SP15 trading hub for one hour of an alert or emergency day,
+  or of a comparison day of the Flex Alert scorecard.
+time: ts_utc is the start of the hour in UTC; the days are Pacific days, scattered, not a window.
+vintage_rule: Merged by (entity, variable, ts_utc); a day once written is not asked again. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: caiso:PRC_LMP OASIS Locational Marginal Prices, day-ahead market (DAM)
+  url: https://oasis.caiso.com/mrioasis/logon.do
+cite: California Independent System Operator (CAISO). OASIS Locational Marginal Prices, day-ahead market (DAM). Via the Energy
+  Research Warehouse (ERW), table `caiso_dam_alert_day_hub_prices`.
+method: docs/methods/caiso_dam_alert_day_hub_prices.md
+header_title: CAISO day-ahead LMPs at the SP15 and NP15 hubs on alert and emergency days and the Flex Alert scorecard's comparison
+  days (session 60)
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column market (caiso_dam). lmp_dam, USD/MWh, hourly; ts_utc
+  the interval start, UTC. Days: the Pacific days warehouse/derived/flex_alert_scorecard.py --days lists (every CAISO notice
+  day since 2018-07, and the held-out hottest tenth of non-alert days); scattered days, not a window.'
+read:
+  date: '2026-11-20'
+  rows: 3024
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: caiso:<node>, the hub's CAISO name
+  type: text
+  values:
+    list:
+      caiso:TH_NP15_GEN-APND: 1512
+      caiso:TH_SP15_GEN-APND: 1512
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 1512
+    earliest: '2023-07-14T07:00:00Z'
+    latest: '2025-08-25T06:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 3001
+    lowest: -45.0
+    highest: 1247.6335
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 3024
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 3024
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 3024
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'caiso_dam in every row: CAISO''s day-ahead market'
+  type: text
+  values:
+    list:
+      caiso_dam: 3024
+  missing_cells: 0
+- name: node
+  shared: true
+  particular: 'CAISO''s name of the trading hub price node: TH_NP15_GEN-APND (NP15) or TH_SP15_GEN-APND (SP15)'
+  type: text
+  values:
+    list:
+      TH_NP15_GEN-APND: 1512
+      TH_SP15_GEN-APND: 1512
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:PRC_LMP: 3024
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 63
+    examples:
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND&startdatetime=20230714T07:00-0000&enddatetime=20230715T07:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND&startdatetime=20230716T07:00-0000&enddatetime=20230717T07:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND&startdatetime=20230717T07:00-0000&enddatetime=20230718T07:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND&startdatetime=20230720T07:00-0000&enddatetime=20230721T07:00-0000
+    - https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND&startdatetime=20230722T07:00-0000&enddatetime=20230723T07:00-0000
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 63
+    earliest: '2026-10-02T04:57:02Z'
+    latest: '2026-10-02T05:04:36Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3024
+variables:
+- name: lmp_dam
+  label: Day-ahead locational marginal price (the price of energy at the hub in the day-ahead market), from CAISO's OASIS
+  unit: USD/MWh
+  rows: 3024
+  first: '2023-07-14T07:00:00Z'
+  last: '2025-08-25T06:00:00Z'
+second_look: null

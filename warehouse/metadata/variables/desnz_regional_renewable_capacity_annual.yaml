@@ -1,0 +1,174 @@
+# The codebook's metadata of table desnz_regional_renewable_capacity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: desnz_regional_renewable_capacity_annual
+family: desnz
+shape: series
+row: One UK region's installed renewable electricity capacity of one technology at the end of one year, 2003 to 2025.
+time: ts_utc is the year's first day at 00:00:00Z; the capacity is as at 31 December of that year; freq P1Y.
+vintage_rule: Rewritten whole by each run (DESNZ republishes the whole series each year); vintage is the workbook's last-modified
+  time.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: 'desnz:regional_renewable_capacity_2003_2025 Department for Energy Security and Net Zero, Regional Renewable Statistics:
+    Regional installed capacity MW 2003-2025'
+  url: ''
+cite: 'UK Department for Energy Security and Net Zero (DESNZ). Regional Renewable Statistics: Regional installed capacity
+  MW 2003-2025. Via the Energy Research Warehouse (ERW), table `desnz_regional_renewable_capacity_annual`.'
+method: docs/methods/desnz_regional_renewable_capacity_annual.md
+header_title: 'DESNZ, Regional Renewable Statistics: installed renewable capacity at year end by UK region and technology,
+  2003 to 2025 (session 2692)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity desnz_rc:<region>:<technology>; variable capacity; unit MW
+  (at 31 December); ts_utc the year''s first day; freq P1Y; geo GB, GB-SCT, GB-WLS, GB-NIR or GB-ENG (England and its regions);
+  node the region and the column.'
+read:
+  date: '2026-11-20'
+  rows: 3157
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: desnz_rc:<region>:<technology>
+  type: text
+  values:
+    distinct: 197
+    examples:
+    - desnz_rc:co_firing:biomass_waste
+    - desnz_rc:co_firing:other_bioenergy
+    - desnz_rc:co_firing:other_bioenergy_incl_sewage
+    - desnz_rc:co_firing:total
+    - desnz_rc:east_midlands:anaerobic_digestion
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2003-01-01T00:00:00Z': 83
+      '2004-01-01T00:00:00Z': 82
+      '2005-01-01T00:00:00Z': 84
+      '2006-01-01T00:00:00Z': 85
+      '2007-01-01T00:00:00Z': 105
+      '2008-01-01T00:00:00Z': 151
+      '2009-01-01T00:00:00Z': 151
+      '2010-01-01T00:00:00Z': 151
+      '2011-01-01T00:00:00Z': 151
+      '2012-01-01T00:00:00Z': 151
+      '2013-01-01T00:00:00Z': 151
+      '2014-01-01T00:00:00Z': 151
+      '2015-01-01T00:00:00Z': 151
+      '2016-01-01T00:00:00Z': 151
+      '2017-01-01T00:00:00Z': 151
+      '2018-01-01T00:00:00Z': 151
+      '2019-01-01T00:00:00Z': 151
+      '2020-01-01T00:00:00Z': 151
+      '2021-01-01T00:00:00Z': 151
+      '2022-01-01T00:00:00Z': 151
+      '2023-01-01T00:00:00Z': 151
+      '2024-01-01T00:00:00Z': 151
+      '2025-01-01T00:00:00Z': 151
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 2030
+    lowest: 0.0
+    highest: 65271.17
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 3157
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 3157
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: GB for the UK and the other sites, GB-SCT, GB-WLS, GB-NIR, or GB-ENG for England and its regions
+  type: text
+  values:
+    list:
+      GB: 464
+      GB-ENG: 2065
+      GB-NIR: 206
+      GB-SCT: 211
+      GB-WLS: 211
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 3157
+- name: node
+  shared: true
+  particular: The region and the workbook's column, not a pricing node
+  type: text
+  values:
+    distinct: 197
+    examples:
+    - 'Co-firing: Biomass and waste'
+    - 'Co-firing: Other bioenergy'
+    - 'Co-firing: Other bioenergy (incl Sewage gas'
+    - 'Co-firing: Total'
+    - 'East Midlands: AD'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      desnz:regional_renewable_capacity_2003_2025: 3157
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://assets.publishing.service.gov.uk/media/6aba6ee6997a4b2950ccefec/Regional_installed_capacity_MW_2003-2025.xlsx: 3157
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-25T12:56:48Z': 3157
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The workbook's last-modified time
+  type: utc time
+  values:
+    list:
+      '2026-09-28T13:43:02Z': 3157
+  missing_cells: 0
+variables:
+- name: capacity
+  label: Installed renewable capacity at 31 December, MW
+  unit: MW
+  rows: 3157
+  first: '2003-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

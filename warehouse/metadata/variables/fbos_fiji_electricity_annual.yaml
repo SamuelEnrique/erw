@@ -1,0 +1,186 @@
+# The codebook's metadata of table fbos_fiji_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: fbos_fiji_electricity_annual
+family: other_sources
+shape: series
+row: Energy Fiji Limited's units produced or sold (in total or to one consumer class) in one year, from the Fiji Bureau of
+  Statistics.
+time: ts_utc is the year's 1 January at 00:00:00Z; freq P1Y; 2011 to 2024.
+vintage_rule: Rewritten whole as one snapshot by each run from the two saved PDFs; vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: 'fbos:electricity Fiji Bureau of Statistics, Key Statistics table 3.7[A] and Economic Surveys: Electricity 2024, Appendix
+    III (source: Energy Fiji Ltd)'
+  url: ''
+cite: Fiji Bureau of Statistics (FBoS). Key Statistics table 3.7[A] and Electricity 2024 Appendix III (Energy Fiji Ltd's production
+  and sales). Via the Energy Research Warehouse (ERW), table `fbos_fiji_electricity_annual`.
+method: docs/methods/fbos_fiji_electricity_annual.md
+header_title: Fiji Bureau of Statistics (FBoS), Key Statistics table 3.7[A] and Electricity 2024 Appendix III, Energy Fiji
+  Limited's units produced and sold, 2011 to 2024 (session 2492)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity fbos:fj:efl (units produced and sold) or fbos:fj:<consumer>
+  (industrial, commercial, domestic, others: units sold); variable generation or sales; unit MWh; ts_utc the year''s 1 January;
+  freq P1Y; geo FJ; node FBoS''s row label. Appendix III''s heading reads kwh (000''s); its totals equal 3.7[A]''s units sold
+  in GWh (checked a year), so its figures are read as GWh.'
+read:
+  date: '2026-11-20'
+  rows: 83
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: fbos:fj:efl (units produced and sold) or fbos:fj:<consumer class> (units sold)
+  type: text
+  values:
+    list:
+      fbos:fj:commercial: 14
+      fbos:fj:domestic: 14
+      fbos:fj:efl: 28
+      fbos:fj:industrial: 14
+      fbos:fj:others: 13
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2011-01-01T00:00:00Z': 5
+      '2012-01-01T00:00:00Z': 6
+      '2013-01-01T00:00:00Z': 6
+      '2014-01-01T00:00:00Z': 6
+      '2015-01-01T00:00:00Z': 6
+      '2016-01-01T00:00:00Z': 6
+      '2017-01-01T00:00:00Z': 6
+      '2018-01-01T00:00:00Z': 6
+      '2019-01-01T00:00:00Z': 6
+      '2020-01-01T00:00:00Z': 6
+      '2021-01-01T00:00:00Z': 6
+      '2022-01-01T00:00:00Z': 6
+      '2023-01-01T00:00:00Z': 6
+      '2024-01-01T00:00:00Z': 6
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 81
+    lowest: 11800.0
+    highest: 1218906.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 83
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 83
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: FJ on every row
+  type: text
+  values:
+    list:
+      FJ: 83
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 83
+- name: node
+  shared: true
+  particular: FBoS's row label, not a pricing node
+  type: text
+  values:
+    list:
+      Commercial Sales, Units Sold (GWh): 14
+      Domestic Sales, Units Sold (GWh): 14
+      Industrial Sales, Units Sold (GWh): 14
+      Others Sales, Units Sold (GWh): 13
+      Units Produced (kwh): 14
+      Units Sold (kwh): 14
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      fbos:electricity: 83
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.statsfiji.gov.fj/download/138/table-3/827/3-7a_electricity.pdf: 28
+      https://www.statsfiji.gov.fj/download/271/electricity/5954/2024-electricity.pdf: 55
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T15:00:20Z': 28
+      '2026-10-24T15:00:42Z': 55
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 83
+- name: x_label
+  label: FBoS's row label as printed (the same as node)
+  unit: none
+  type: text
+  values:
+    list:
+      Commercial Sales, Units Sold (GWh): 14
+      Domestic Sales, Units Sold (GWh): 14
+      Industrial Sales, Units Sold (GWh): 14
+      Others Sales, Units Sold (GWh): 13
+      Units Produced (kwh): 14
+      Units Sold (kwh): 14
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector fbos_fiji_electricity.py; method fbos_fiji_electricity_annual.md
+variables:
+- name: generation
+  label: Units produced by Energy Fiji Limited in the year
+  unit: MWh
+  rows: 14
+  first: '2011-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+  source_label: Units Produced (kwh)
+- name: sales
+  label: Units sold in the year, in total or to the consumer class (industrial, commercial, domestic, others)
+  unit: MWh
+  rows: 69
+  first: '2011-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+  source_label: Commercial Sales, Units Sold (GWh); Domestic Sales, Units Sold (GWh); Units Sold (kwh)
+second_look: null

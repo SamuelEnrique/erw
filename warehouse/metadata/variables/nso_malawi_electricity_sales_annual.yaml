@@ -1,0 +1,136 @@
+# The codebook's metadata of table nso_malawi_electricity_sales_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: nso_malawi_electricity_sales_annual
+family: other_sources
+shape: series
+row: One year's electricity units sold in Malawi to one type of user (or in total), from the NSO's Statistical Year Book table
+  10.1, ESCOM's figures.
+time: ts_utc is the year's 1 January at 00:00:00Z; freq P1Y.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is the yearbook's Last-Modified time.
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1Y
+source:
+- name: 'nso_malawi:statistical_yearbook NSO Malawi, Statistical Year Book 2023, 10.1 Number of Electricity Consumers and
+    Units Sold by Type of User, 1992-2019 (source: ESCOM)'
+  url: ''
+cite: National Statistical Office of Malawi (NSO). Statistical Year Book 2023, table 10.1 (ESCOM's units sold by type of user).
+  Via the Energy Research Warehouse (ERW), table `nso_malawi_electricity_sales_annual`.
+method: docs/methods/nso_malawi_electricity_sales_annual.md
+header_title: 'National Statistical Office of Malawi (NSO), Statistical Year Book 2023, table 10.1 (source: ESCOM), Malawi''s
+  electricity units sold by type of user, 1992 to 2019 (session 2493)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity nso:mw:<class> (total, power, general, domestic, exports);
+  variable sales; unit MWh (the table''s millions of kWh times 1,000); ts_utc the year''s 1 January; freq P1Y; geo MW; node
+  NSO''s column label. Figures as printed.'
+read:
+  date: '2026-11-20'
+  rows: 140
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: 'nso:mw:<class>: a type of user, exports, or the total'
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 140
+- name: node
+  shared: true
+  particular: NSO's column label, not a pricing node (the same as x_label)
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The yearbook's Last-Modified time as the server sent it
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: x_label
+  label: NSO's column label of the type of user
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector nso_malawi_electricity.py; method nso_malawi_electricity_sales_annual.md
+variables:
+- name: sales
+  label: Electricity units sold to the type of user, or in total, as printed
+  unit: MWh
+  rows: 140
+  first: '1992-01-01T00:00:00Z'
+  last: '2019-01-01T00:00:00Z'
+second_look: null

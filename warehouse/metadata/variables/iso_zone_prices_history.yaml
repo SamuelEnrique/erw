@@ -1,0 +1,210 @@
+# The codebook's metadata of table iso_zone_prices_history (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: iso_zone_prices_history
+family: iso
+shape: series
+row: The day-ahead or real-time price of one NYISO load zone, CAISO's ZP26 hub or SPP's South hub for one interval, a history
+  from 2019.
+time: ts_utc is the start of the interval in UTC; day-ahead and NYISO's real-time are hourly, CAISO's real-time 15-minute.
+vintage_rule: Merged by (entity, variable, ts_utc); a month refetched after it ended replaces its rows. An interval the publisher's
+  file does not hold is not written. vintage is the file's Last-Modified for NYISO, empty for CAISO and SPP.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT15M;PT1H
+source:
+- name: caiso:PRC_INTVL_LMP OASIS Interval Locational Marginal Prices, real-time dispatch (RTD, 5-minute)
+  url: https://oasis.caiso.com/mrioasis/logon.do
+- name: caiso:PRC_LMP OASIS Locational Marginal Prices, day-ahead market (DAM)
+  url: https://oasis.caiso.com/mrioasis/logon.do
+- name: nyiso:damlbmp Day-Ahead Market LBMP, zonal (P-2A)
+  url: http://mis.nyiso.com/public/P-2Alist.htm
+- name: nyiso:rtlbmp Time-Weighted/Integrated Real-Time LBMP, zonal, hourly (P-4A)
+  url: http://mis.nyiso.com/public/P-4Alist.htm
+- name: spp:DA-LMP-SL Day-Ahead LMP by Settlement Location
+  url: https://portal.spp.org/pages/da-lmp-by-location
+cite: 'California Independent System Operator (CAISO); New York Independent System Operator (NYISO); Southwest Power Pool
+  (SPP). Day-Ahead LMP by Settlement Location; Day-Ahead Market LBMP, zonal (P-2A); OASIS Interval Locational Marginal Prices,
+  real-time dispatch (RTD, 5-minute); OASIS Locational Marginal Prices, day-ahead market (DAM); Time-Weighted/Integrated Real-Time
+  LBMP, zonal, hourly (P-4A) [terms: "Access to this Web site does not confer any license or ownership interest in either
+  the form or content of the Web site"; the notice forbids republishing "any image or video on this website as a stand-alone
+  file", not data (https://www.nyiso.com/legal-notice, read 6 October 2026)]. Via the Energy Research Warehouse (ERW), table
+  `iso_zone_prices_history`.'
+method: docs/methods/iso_zone_prices_history.md
+header_title: 'zone and hub prices, history from 2019 (session 140): NYISO''s eleven load zones, CAISO ZP26 (TH_ZP26_GEN-APND)
+  and SPP South (SPPSOUTH_HUB), day-ahead and real-time. ISO-NE''s eight load zones are in isone_zone_prices_history: the
+  same columns, internal (ISO-NE''s notice); no ISO-NE row is in this table'
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column market. Units: USD/MWh. ts_utc is interval start,
+  UTC. lmp_dam hourly; real time lmp_rtm hourly (NYISO''s own time-weighted integrated hourly LBMP, P-4A) or lmp_rtm_15m_mean
+  (CAISO: 15-minute means of the 5-minute RTD prices, a quarter hour only when its three prices are held).'
+read:
+  date: '2026-11-20'
+  rows: 1677533
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: '<iso>:<node>: nyiso:<zone> for NYISO''s eleven load zones, caiso:TH_ZP26_GEN-APND, spp:SPPSOUTH_HUB'
+  type: text
+  values:
+    list:
+      caiso:TH_ZP26_GEN-APND: 107141
+      nyiso:CAPITL: 136547
+      nyiso:CENTRL: 136547
+      nyiso:DUNWOD: 136547
+      nyiso:GENESE: 136547
+      nyiso:HUD VL: 136547
+      nyiso:LONGIL: 136547
+      nyiso:MHK VL: 136547
+      nyiso:MILLWD: 136547
+      nyiso:N.Y.C.: 136547
+      nyiso:NORTH: 136547
+      nyiso:WEST: 136547
+      spp:SPPSOUTH_HUB: 68375
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2019-01-01T05:00:00Z'
+    latest: '2026-11-17T07:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -1300.74
+    highest: 4630.5689
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 1677533
+  missing_cells: 0
+- name: freq
+  shared: true
+  particular: PT1H, or PT15M for CAISO's real-time rows
+  type: text
+  values:
+    list:
+      PT15M: 77380
+      PT1H: 1600153
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 68375
+      US-CA: 107141
+      US-NY: 1502017
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'caiso_dam, caiso_rtm, nyiso_dam, nyiso_rtm or spp_dam: the grid''s day-ahead or real-time market'
+  type: text
+  values:
+    list:
+      caiso_dam: 29761
+      caiso_rtm: 77380
+      nyiso_dam: 753720
+      nyiso_rtm: 748297
+      spp_dam: 68375
+  missing_cells: 0
+- name: node
+  shared: true
+  particular: NYISO's eleven load zones (CAPITL, CENTRL, DUNWOD, GENESE, HUD VL, LONGIL, MHK VL, MILLWD, N.Y.C., NORTH, WEST),
+    CAISO's ZP26 hub TH_ZP26_GEN-APND, SPP's South hub SPPSOUTH_HUB; no ISO-NE row
+  type: text
+  values:
+    list:
+      CAPITL: 136547
+      CENTRL: 136547
+      DUNWOD: 136547
+      GENESE: 136547
+      HUD VL: 136547
+      LONGIL: 136547
+      MHK VL: 136547
+      MILLWD: 136547
+      N.Y.C.: 136547
+      NORTH: 136547
+      SPPSOUTH_HUB: 68375
+      TH_ZP26_GEN-APND: 107141
+      WEST: 136547
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:PRC_INTVL_LMP: 77380
+      caiso:PRC_LMP: 29761
+      nyiso:damlbmp: 753720
+      nyiso:rtlbmp: 748297
+      spp:DA-LMP-SL: 68375
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 934
+    examples:
+    - http://mis.nyiso.com/public/csv/damlbmp/20190101damlbmp_zone_csv.zip
+    - http://mis.nyiso.com/public/csv/damlbmp/20190201damlbmp_zone_csv.zip
+    - http://mis.nyiso.com/public/csv/damlbmp/20190301damlbmp_zone_csv.zip
+    - http://mis.nyiso.com/public/csv/damlbmp/20190401damlbmp_zone_csv.zip
+    - http://mis.nyiso.com/public/csv/damlbmp/20190501damlbmp_zone_csv.zip
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 3098
+    earliest: '2026-10-07T09:18:36Z'
+    latest: '2026-11-16T11:54:07Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: NYISO's file Last-Modified; empty on CAISO's and SPP's rows
+  type: utc time
+  values:
+    distinct: 190
+    earliest: '2019-01-30T14:34:03Z'
+    latest: '2026-11-16T11:07:14Z'
+  missing_cells: 175516
+variables:
+- name: lmp_dam
+  label: Day-ahead locational marginal price (NYISO's zonal LBMP), hourly
+  unit: USD/MWh
+  rows: 851856
+  first: '2019-01-01T05:00:00Z'
+  last: '2026-11-17T07:00:00Z'
+- name: lmp_rtm
+  label: NYISO's own time-weighted integrated hourly real-time LBMP (report P-4A)
+  unit: USD/MWh
+  rows: 748297
+  first: '2019-01-01T05:00:00Z'
+  last: '2026-11-16T11:00:00Z'
+- name: lmp_rtm_15m_mean
+  label: 'CAISO: real-time locational marginal price, the 15-minute mean of the 5-minute RTD prices, a quarter hour only when
+    its three prices are held'
+  unit: USD/MWh
+  rows: 77380
+  first: '2024-09-01T07:00:00Z'
+  last: '2026-11-16T07:45:00Z'
+second_look: null

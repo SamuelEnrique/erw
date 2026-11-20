@@ -1,0 +1,158 @@
+# The codebook's metadata of table eia_seds_state_energy (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia_seds_state_energy
+family: eia
+shape: series
+row: One state's (or the nation's) yearly figure of one SEDS series (consumption by source or sector, an electricity or gas
+  price, or expenditures).
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot), so EIA's revisions replace the earlier figures. vintage is not
+  filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eia:seds U.S. Energy Information Administration, State Energy Data System (API v2, route seds)
+  url: https://www.eia.gov/state/seds/
+cite: U.S. Energy Information Administration (EIA). State Energy Data System (API v2). Via the Energy Research Warehouse (ERW),
+  table `eia_seds_state_energy`.
+method: docs/methods/eia_seds_state_energy.md
+header_title: EIA State Energy Data System, each state's consumption by source, electricity prices by sector and expenditures,
+  a year (session 507)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eia_seds:<seriesId>:<state>; variable value; ts_utc the year''s
+  1 January; freq P1Y; node the series'' name. Series: TETCB, ESTCB, NGTCB, CLTCB, PATCB, RETCB, NUETB, ESRCD, ESCCD, ESICD,
+  ESTCD, ESTCV, TETCV, ESRCB, ESCCB, ESICB, ESACB, NGRCB, NGCCB, NGICB, NGEIB, NGACB, NGRCD, NGCCD, NGICD, NGEID, NGTCD. Billion
+  Btu as TBtu, dollars per million Btu as USD/MMBtu, million dollars as USD.'
+read:
+  date: '2026-11-20'
+  rows: 49140
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eia_seds:<seriesId>:<state>; the series id says what the row measures
+  type: text
+  values:
+    distinct: 1404
+    examples:
+    - eia_seds:CLTCB:AK
+    - eia_seds:CLTCB:AL
+    - eia_seds:CLTCB:AR
+    - eia_seds:CLTCB:AZ
+    - eia_seds:CLTCB:CA
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 35
+    earliest: '1990-01-01T00:00:00Z'
+    latest: '2024-01-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -1.309
+    highest: 1719511200000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      TBtu: 29120
+      USD: 3640
+      USD/MMBtu: 16380
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 49140
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<state>, or US for the nation
+  type: text
+  values:
+    distinct: 52
+    examples:
+    - US
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 49140
+- name: node
+  shared: true
+  particular: EIA's name of the series
+  type: text
+  values:
+    distinct: 27
+    examples:
+    - All petroleum products total consumption
+    - Coal total consumption
+    - Electricity average price, all sectors
+    - Electricity consumed by (sales to ultimate customers in) the commercial sector
+    - Electricity consumed by (sales to ultimate customers in) the industrial sector
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:seds: 49140
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://api.eia.gov/v2/seds/data/?api_key=REDACTED&frequency=annual&data%5B%5D=value&facets%5BseriesId%5D%5B%5D=TETCB&facets%5BseriesId%5D%5B%5D=ESTCB&facets%5BseriesId%5D%5B%5D=NGTCB&facets%5BseriesId%5D%5B%5D=CLTCB&facets%5BseriesId%5D%5B%5D=PATCB&facets%5BseriesId%5D%5B%5D=RETCB&facets%5BseriesId%5D%5B%5D=NUETB&facets%5BseriesId%5D%5B%5D=ESRCD&facets%5BseriesId%5D%5B%5D=ESCCD&facets%5BseriesId%5D%5B%5D=ESICD&facets%5BseriesId%5D%5B%5D=ESTCD&facets%5BseriesId%5D%5B%5D=ESTCV&facets%5BseriesId%5D%5B%5D=TETCV&facets%5BseriesId%5D%5B%5D=ESRCB&facets%5BseriesId%5D%5B%5D=ESCCB&facets%5BseriesId%5D%5B%5D=ESICB&facets%5BseriesId%5D%5B%5D=ESACB&facets%5BseriesId%5D%5B%5D=NGRCB&facets%5BseriesId%5D%5B%5D=NGCCB&facets%5BseriesId%5D%5B%5D=NGICB&facets%5BseriesId%5D%5B%5D=NGEIB&facets%5BseriesId%5D%5B%5D=NGACB&facets%5BseriesId%5D%5B%5D=NGRCD&facets%5BseriesId%5D%5B%5D=NGCCD&facets%5BseriesId%5D%5B%5D=NGICD&facets%5BseriesId%5D%5B%5D=NGEID&facets%5BseriesId%5D%5B%5D=NGTCD&start=1990&length=5000
+      : 49140
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-21T21:54:13Z': 49140
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 49140
+variables:
+- name: value
+  label: The SEDS series the entity names (consumption in trillion Btu, a price in USD per million Btu, or expenditures in
+    USD); the unit column says which
+  unit: TBtu; USD; USD/MMBtu
+  rows: 49140
+  first: '1990-01-01T00:00:00Z'
+  last: '2024-01-01T00:00:00Z'
+second_look: null

@@ -1,0 +1,485 @@
+# The codebook's metadata of table ornl_hydropower_relicensing (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ornl_hydropower_relicensing
+family: ornl
+shape: events
+row: One hydropower project in FERC relicensing or license surrender on 31 December 2025, from ORNL's U.S. Hydropower Relicensing
+  and License Surrender data, 2026 (sheets Relicenses and Surrenders).
+time: event_date is FERC's issuance date where given, else the application's date, else the notice of intent's (x_date_kind
+  says which); a date.
+vintage_rule: A snapshot of one yearly edition, replaced whole by each run.
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: ornl:hydro_relicensing M.M. Johnson and R. Uria-Martinez, U.S. Hydropower Relicensing and License Surrender Data and
+    Metadata, 2026, HydroSource, Oak Ridge National Laboratory, Oak Ridge, Tennessee, DOI 10.21951/HMR_RelicenseSurrender/3031244
+  url: https://hydrosource.ornl.gov/data/datasets/us-hydropower-relicensing-and-license-surrender-data-2026/
+cite: Oak Ridge National Laboratory (ORNL), HydroSource. U.S. Hydropower Relicensing and License Surrender Data. Via the Energy
+  Research Warehouse (ERW), table `ornl_hydropower_relicensing`.
+method: docs/methods/ornl_hydropower.md
+header_title: 'Oak Ridge National Laboratory, U.S. Hydropower Relicensing and License Surrender data, 2026: every project
+  in FERC relicensing or surrender on 31 December 2025 (session 930)'
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id ornl_relicense:<FERC docket>:<relicense|surrender>; event_date
+  FERC''s issuance, else the application''s date, else the notice of intent''s (x_date_kind); event_type hydro_relicense or
+  hydro_license_surrender; parties the licensee; entity_ids ornl_eha:<EHA_PtID> where given; mw the new license''s capacity
+  (relicense) or the surrendered project''s (surrender); status ORNL''s own.'
+read:
+  date: '2026-11-20'
+  rows: 559
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  particular: ornl_relicense:<FERC docket>:<relicense|surrender>, with -2 for a docket a sheet gives twice
+  type: text
+  values:
+    distinct: 559
+    examples:
+    - ornl_relicense:P-1005:relicense
+    - ornl_relicense:P-10198:relicense
+    - ornl_relicense:P-10200:surrender
+    - ornl_relicense:P-10253:relicense
+    - ornl_relicense:P-10254:relicense
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    distinct: 439
+    earliest: '2001-08-30'
+    latest: '2025-12-23'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: hydro_relicense or hydro_license_surrender
+  type: text
+  values:
+    list:
+      hydro_license_surrender: 152
+      hydro_relicense: 407
+  missing_cells: 0
+- name: parties
+  shared: true
+  particular: The project's current licensee
+  type: text
+  values:
+    distinct: 430
+    examples:
+    - ALABAMA POWER CO
+    - ALABAMA POWER COMPANY
+    - ALASKA POWER & TELEPHONE CO
+    - ALBANY ENGINEERING CORP
+    - ALICE FALLS HYDRO, LLC
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  particular: ornl_eha:<EHA_PtID>, the plant in ornl_eha_hydropower_plants, where ORNL gives one
+  type: text
+  values:
+    distinct: 546
+    examples:
+    - ornl_eha:hc0124_p02
+    - ornl_eha:hc0125_p01
+    - ornl_eha:hc0126_p01
+    - ornl_eha:hc0149_p02
+    - ornl_eha:hc0151_p01
+  missing_cells: 11
+- name: mw
+  shared: true
+  particular: The new license's capacity (relicense) or the surrendered project's capacity (surrender)
+  type: number
+  values:
+    distinct: 403
+    lowest: 0.0
+    highest: 2755.5
+  missing_cells: 0
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 559
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 559
+- name: status
+  shared: true
+  particular: ORNL's own status on 31 December 2025 (Issued Relicense, Pending Relicense, Issued Surrender and the others)
+  type: text
+  values:
+    list:
+      Converted to Exemption: 9
+      Issued Exemption Termination: 15
+      Issued License Termination: 15
+      Issued Relicense: 198
+      Issued Surrender: 82
+      Pending Relicense: 160
+      Pending Surrender: 31
+      Submitted NOI to Relicense: 40
+      Submitted NOI to Surrender: 9
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      ornl:hydro_relicensing: 559
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      ? https://hydrosource.s3.us-east-2.amazonaws.com/files/data/datasets/us-hydropower-relicensing-and-license-surrender-data-2026/ORNL_US_Hydropower_Relicensing_and_License_Surrender_2026.xlsx
+      : 559
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T10:14:02Z': 559
+  missing_cells: 0
+- name: x_record
+  label: 'Which of ORNL''s sheets the row is from: relicense or surrender'
+  unit: none
+  type: text
+  values:
+    list:
+      relicense: 407
+      surrender: 152
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector ornl_hydro_relicensing.py
+- name: x_date_kind
+  label: 'Which date event_date is: ferc_issued, application or notice_of_intent'
+  unit: none
+  type: text
+  values:
+    list:
+      application: 194
+      ferc_issued: 313
+      notice_of_intent: 52
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method ornl_hydropower.md
+- name: x_ferc_docket
+  label: The project's FERC docket number (P- a project seeking a FERC license)
+  unit: none
+  type: text
+  values:
+    distinct: 558
+    examples:
+    - P-1005
+    - P-10198
+    - P-10200
+    - P-1025
+    - P-10253
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: FERC_docket
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet
+- name: x_eha_plant_id
+  label: ORNL's EHA identifier of the plant, the key to ornl_eha_hydropower_plants
+  unit: none
+  type: text
+  values:
+    distinct: 546
+    examples:
+    - hc0124_p02
+    - hc0125_p01
+    - hc0126_p01
+    - hc0149_p02
+    - hc0151_p01
+  missing_cells: 11
+  missing_meaning: ORNL gives no EHA plant
+  source_name: EHA_PtID
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet
+- name: x_project_name
+  label: The hydropower project's name
+  unit: none
+  type: text
+  values:
+    distinct: 558
+    examples:
+    - 5 in 1 Dame hydropower facility
+    - ALICE FALLS
+    - AMES
+    - AZISCHOHOS
+    - Ace Ranch Hydroelectric Project
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Project_name
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet
+- name: x_licensee_type
+  label: The type of licensee (Private Non-utility, Investor-Owned Utility, Publicly Owned Utility and the others), as ORNL
+    writes it
+  unit: none
+  type: text
+  values:
+    list:
+      Cooperative: 11
+      Industrial: 15
+      Investor-Owned Utility: 136
+      Municipality: 20
+      Political subdivision: 2
+      Private Non-utility: 173
+      Private non-utility: 28
+      Publicly Owned Utility: 106
+      State: 15
+      Wholesale Power Marketer: 52
+      private non-utility: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Licensee_type
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet; data
+- name: x_waterway
+  label: The water source where the project is located
+  unit: none
+  type: text
+  values:
+    distinct: 340
+    examples:
+    - Allegheny River
+    - Androscoggin River
+    - Angels Creek
+    - Apalachee River
+    - Apple River
+  missing_cells: 52
+  missing_meaning: ORNL gives none
+  source_name: Waterway
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet
+- name: x_project_type
+  label: HY hydropower, PS pumped storage, or HY/PS both
+  unit: none
+  type: text
+  values:
+    list:
+      HY: 538
+      HY/PS: 8
+      PS: 13
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Project_type
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet; data
+- name: x_lat
+  label: The project's latitude, decimal degrees
+  unit: degree
+  type: number
+  values:
+    distinct: 539
+    lowest: 29.13
+    highest: 61.09
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Latitude
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet
+- name: x_lon
+  label: The project's longitude, decimal degrees (west negative)
+  unit: degree
+  type: number
+  values:
+    distinct: 544
+    lowest: -153.046
+    highest: -67.734
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Longitude
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet
+- name: x_state
+  label: The project's state, two-letter postal code
+  unit: none
+  type: text
+  values:
+    distinct: 41
+    examples:
+    - AK
+    - AL
+    - AZ
+    - CA
+    - CO
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: State
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet
+- name: x_noi_date
+  label: The date the licensee filed its notice of intent to seek a relicense or to surrender
+  unit: none
+  type: date
+  values:
+    distinct: 363
+    earliest: '1989-03-07'
+    latest: '2025-12-17'
+  missing_cells: 121
+  missing_meaning: ORNL gives no notice date
+  source_name: NOI_date
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet
+- name: x_application_date
+  label: The date the licensee filed its relicense or surrender application
+  unit: none
+  type: date
+  values:
+    distinct: 364
+    earliest: '1991-12-10'
+    latest: '2025-12-23'
+  missing_cells: 81
+  missing_meaning: No application date given (not yet filed, or not given)
+  source_name: Application_date
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet
+- name: x_process
+  label: 'The type of licensing process: ALP, TLP or ILP'
+  unit: none
+  type: text
+  values:
+    list:
+      ALP: 22
+      ILP: 157
+      TLP: 219
+  missing_cells: 161
+  missing_meaning: ORNL gives none (surrender rows and some relicenses)
+  source_name: Proc_type
+  documented_by: method ornl_hydropower.md; source Relicensing Field Descriptions sheet
+- name: x_ferc_issued
+  label: The date FERC issued the relicense or surrender (covers those issued since 2007)
+  unit: none
+  type: date
+  values:
+    distinct: 274
+    earliest: '2007-01-19'
+    latest: '2025-12-18'
+  missing_cells: 246
+  missing_meaning: Not issued, or issued before 2007
+  source_name: FcIssue
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet
+- name: x_ferc_expires
+  label: The date the relicense FERC issued expires
+  unit: none
+  type: date
+  values:
+    distinct: 132
+    earliest: '2037-08-29'
+    latest: '2074-08-31'
+  missing_cells: 361
+  missing_meaning: No relicense issued, or ORNL gives none
+  source_name: FcExpire
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet
+- name: x_mode_new
+  label: The operating mode under the newest relicense, as ORNL writes it
+  unit: none
+  type: text
+  values:
+    list:
+      Run-of-river: 4
+      canal/conduit: 6
+      flow-based_regime_target discharges: 1
+      intermediate peaking: 2
+      peaking: 36
+      peaking/reregulating: 2
+      peaking/run-of-river: 9
+      reregulating: 4
+      run-of-release: 4
+      run-of-river: 68
+      run-of-river/peaking: 5
+  missing_cells: 418
+  missing_meaning: A surrender row, or ORNL gives none
+  source_name: Mode_new
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet
+- name: x_settlement
+  label: 1 if a settlement agreement was submitted to FERC in the relicensing, 0 if not
+  unit: none
+  type: integer
+  values:
+    list:
+      '0': 350
+      '1': 57
+  missing_cells: 152
+  missing_meaning: A surrender row
+  source_name: Settlement
+  documented_by: method ornl_hydropower.md; source Relicensing Field Descriptions sheet
+- name: x_construction
+  label: 1 if construction is planned as part of the relicense, 0 if not
+  unit: none
+  type: integer
+  values:
+    list:
+      '0': 325
+      '1': 82
+  missing_cells: 152
+  missing_meaning: A surrender row
+  source_name: Construction
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet
+- name: x_turbine_generator_investment
+  label: 1 if investment in turbines or generators is planned as part of the relicense, 0 if not
+  unit: none
+  type: integer
+  values:
+    list:
+      '0': 384
+      '1': 23
+  missing_cells: 152
+  missing_meaning: A surrender row
+  source_name: T_G_investment
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet
+- name: x_capacity_new_mw
+  label: The project's total hydro turbine-generator capacity under the new license (equal to mw on relicense rows)
+  unit: MW
+  type: number
+  values:
+    distinct: 335
+    lowest: 0.0
+    highest: 2755.5
+  missing_cells: 152
+  missing_meaning: A surrender row
+  source_name: Capacity_new_MW
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet
+- name: x_capacity_old_mw
+  label: The surrendered project's total hydro turbine-generator capacity (equal to mw on surrender rows)
+  unit: MW
+  type: number
+  values:
+    distinct: 103
+    lowest: 0.0
+    highest: 168.973
+  missing_cells: 407
+  missing_meaning: A relicense row
+  source_name: Capacity_old_MW
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet
+- name: x_dam_removal
+  label: 'Whether a dam was removed as part of the surrender: Yes or No'
+  unit: none
+  type: text
+  values:
+    list:
+      'No': 124
+      'Yes': 28
+  missing_cells: 407
+  missing_meaning: A relicense row
+  source_name: Dam_removal
+  documented_by: method ornl_hydropower.md; source Relicensing Field Descriptions sheet
+- name: x_reason
+  label: Why the owner decided to surrender the project, as ORNL writes it
+  unit: none
+  type: text
+  values:
+    distinct: 90
+    examples:
+    - Abandoned
+    - Aboonded project and no replies
+    - Aquatic ecosystem restoration project
+    - Aquatic restoration
+    - Battle Creek Restoration Project
+  missing_cells: 408
+  missing_meaning: A relicense row, or ORNL gives no reason (1 surrender)
+  source_name: Reason_category
+  documented_by: connector ornl_hydro_relicensing.py; source Relicensing Field Descriptions sheet
+second_look: null

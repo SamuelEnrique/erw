@@ -1,0 +1,224 @@
+# The codebook's metadata of table iso_hub_prices_history (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: iso_hub_prices_history
+family: iso
+shape: series
+row: The day-ahead or real-time price at the main hub of CAISO, MISO, NYISO, ISO-NE or SPP for one interval, a history from
+  2023-07-06 (CAISO) or 2024-09-01.
+time: ts_utc is the start of the interval in UTC; day-ahead and MISO's real-time are hourly, the other real-time prices 15-minute
+  means of 5-minute prices.
+vintage_rule: The daily run merges the live tables' rows of these hubs into this table by (entity, variable, ts_utc); never
+  trimmed. A day is written only when every interval of every hub is there.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT15M;PT1H
+source:
+- name: caiso:PRC_INTVL_LMP OASIS Interval Locational Marginal Prices, real-time dispatch (RTD, 5-minute)
+  url: https://oasis.caiso.com/mrioasis/logon.do
+- name: caiso:PRC_LMP OASIS Locational Marginal Prices, day-ahead market (DAM)
+  url: https://oasis.caiso.com/mrioasis/logon.do
+- name: isone:da_lmp_hourly Day-Ahead Energy Market Hourly LMPs
+  url: https://www.iso-ne.com/isoexpress/web/reports/pricing/-/tree/lmps-da-hourly
+- name: isone:rt_lmp_5min Real-Time Energy Market Five-Minute LMPs
+  url: https://www.iso-ne.com/isoexpress/web/reports/pricing/-/tree/lmps-rt-five-min-final
+- name: miso:da_expost_lmp Day-Ahead Ex-Post LMP (daily csv)
+  url: https://www.misoenergy.org/markets-and-operations/real-time--market-data/market-reports/
+- name: miso:rt_lmp_final Real-Time Final Market LMP, hourly (daily csv)
+  url: https://www.misoenergy.org/markets-and-operations/real-time--market-data/market-reports/
+- name: miso:rt_lmp_prelim Real-Time Preliminary Ex-Post LMP, hourly (daily csv)
+  url: https://www.misoenergy.org/markets-and-operations/real-time--market-data/market-reports/
+- name: nyiso:damlbmp Day-Ahead Market LBMP, zonal (P-2A)
+  url: http://mis.nyiso.com/public/P-2Alist.htm
+- name: nyiso:realtime Real-Time Market LBMP, zonal, RTD 5-minute (P-24A)
+  url: http://mis.nyiso.com/public/P-24Alist.htm
+- name: spp:DA-LMP-SL Day-Ahead LMP by Settlement Location
+  url: https://portal.spp.org/pages/da-lmp-by-location
+- name: spp:RTBM-LMP-SL RTBM LMP by Settlement Location, 5-minute
+  url: https://portal.spp.org/pages/rtbm-lmp-by-location
+cite: 'California Independent System Operator (CAISO); ISO New England (ISO-NE); Midcontinent Independent System Operator
+  (MISO); New York Independent System Operator (NYISO); Southwest Power Pool (SPP). Day-Ahead Energy Market Hourly LMPs; Day-Ahead
+  Ex-Post LMP (daily csv) [PAUSED 2026-10-04: MISO''s terms forbid automated access; pulls paused pending a review of MISO''s
+  terms by a person (docs/methods/miso_pause.md)]; Day-Ahead LMP by Settlement Location; Day-Ahead Market LBMP, zonal (P-2A);
+  OASIS Interval Locational Marginal Prices, real-time dispatch (RTD, 5-minute); OASIS Locational Marginal Prices, day-ahead
+  market (DAM); RTBM LMP by Settlement Location, 5-minute; Real-Time Energy Market Five-Minute LMPs; Real-Time Final Market
+  LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO''s terms forbid automated access; pulls paused pending a review of MISO''s
+  terms by a person (docs/methods/miso_pause.md)]; Real-Time Market LBMP, zonal, RTD 5-minute (P-24A); Real-Time Preliminary
+  Ex-Post LMP, hourly (daily csv) [PAUSED 2026-10-04: MISO''s terms forbid automated access; pulls paused pending a review
+  of MISO''s terms by a person (docs/methods/miso_pause.md)]. Via the Energy Research Warehouse (ERW), table `iso_hub_prices_history`.'
+method: docs/methods/automated_analysis_findings.md
+header_title: 'main-hub day-ahead and real-time prices, history from 2023-07-06 (session 49 from 2025-09-01; session 64 the
+  year before, from 2024-09-01): CAISO SP15 and NP15, MISO Indiana Hub, NYISO N.Y.C., ISO-NE .H.INTERNAL_HUB, SPP SPPNORTH_HUB'
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column market. Units: USD/MWh. ts_utc is interval start,
+  UTC. lmp_dam hourly; real-time lmp_rtm_15m_mean (15-minute means of 5-minute prices; NYISO time-weighted) or MISO''s hourly
+  lmp_rtm.'
+read:
+  date: '2026-11-20'
+  rows: 610677
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: <iso>:<hub>, the operator's hub or zone name
+  type: text
+  values:
+    list:
+      caiso:TH_NP15_GEN-APND: 147509
+      caiso:TH_SP15_GEN-APND: 147509
+      isone:.H.INTERNAL_HUB: 90269
+      miso:INDIANA.HUB: 36600
+      nyiso:N.Y.C.: 93053
+      spp:SPPNORTH_HUB: 95737
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2023-07-06T07:00:00Z'
+    latest: '2026-11-17T07:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -241.5333
+    highest: 7627.01
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 610677
+  missing_cells: 0
+- name: freq
+  shared: true
+  particular: PT1H for day-ahead and MISO's real-time rows, PT15M for the other real-time rows
+  type: text
+  values:
+    list:
+      PT15M: 457072
+      PT1H: 153605
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 95737
+      US-AR,US-IL,US-IN,US-IA,US-KY,US-LA,US-MI,US-MN,US-MS,US-MO,US-MT,US-ND,US-SD,US-TX,US-WI: 36600
+      US-CA: 295018
+      US-CT,US-MA,US-ME,US-NH,US-RI,US-VT: 90269
+      US-NY: 93053
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: '<iso>_dam or <iso>_rtm for caiso, isone, miso, nyiso and spp: the grid''s day-ahead or real-time market'
+  type: text
+  values:
+    list:
+      caiso_dam: 59042
+      caiso_rtm: 235976
+      isone_dam: 19321
+      isone_rtm: 70948
+      miso_dam: 18312
+      miso_rtm: 18288
+      nyiso_dam: 19321
+      nyiso_rtm: 73732
+      spp_dam: 19321
+      spp_rtm: 76416
+  missing_cells: 0
+- name: node
+  shared: true
+  particular: 'Each grid''s main hub: CAISO TH_SP15_GEN-APND and TH_NP15_GEN-APND, MISO INDIANA.HUB, NYISO the N.Y.C. zone,
+    ISO-NE .H.INTERNAL_HUB, SPP SPPNORTH_HUB'
+  type: text
+  values:
+    list:
+      .H.INTERNAL_HUB: 90269
+      INDIANA.HUB: 36600
+      N.Y.C.: 93053
+      SPPNORTH_HUB: 95737
+      TH_NP15_GEN-APND: 147509
+      TH_SP15_GEN-APND: 147509
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:PRC_INTVL_LMP: 235976
+      caiso:PRC_LMP: 59042
+      isone:da_lmp_hourly: 19321
+      isone:rt_lmp_5min: 70948
+      miso:da_expost_lmp: 18312
+      miso:rt_lmp_final: 18072
+      miso:rt_lmp_prelim: 216
+      nyiso:damlbmp: 19321
+      nyiso:realtime: 73732
+      spp:DA-LMP-SL: 19321
+      spp:RTBM-LMP-SL: 76416
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - http://mis.nyiso.com/public/csv/damlbmp/20240901damlbmp_zone_csv.zip
+    - http://mis.nyiso.com/public/csv/damlbmp/20241001damlbmp_zone_csv.zip
+    - http://mis.nyiso.com/public/csv/damlbmp/20241101damlbmp_zone_csv.zip
+    - http://mis.nyiso.com/public/csv/damlbmp/20241201damlbmp_zone_csv.zip
+    - http://mis.nyiso.com/public/csv/damlbmp/20250101damlbmp_zone_csv.zip
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2026-09-25T07:12:46Z'
+    latest: '2026-11-17T05:03:58Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The file's publish time where the source gives one; empty on most rows
+  type: utc time
+  values:
+    distinct: 2398
+    earliest: '2024-08-31T16:32:46Z'
+    latest: '2026-11-16T04:57:07Z'
+  missing_cells: 461703
+variables:
+- name: lmp_dam
+  label: Day-ahead locational marginal price (NYISO's LBMP), hourly
+  unit: USD/MWh
+  rows: 135317
+  first: '2023-07-06T07:00:00Z'
+  last: '2026-11-17T07:00:00Z'
+- name: lmp_rtm
+  label: MISO's hourly real-time locational marginal price (final, or preliminary ex-post until final)
+  unit: USD/MWh
+  rows: 18288
+  first: '2024-09-01T05:00:00Z'
+  last: '2026-10-03T04:00:00Z'
+- name: lmp_rtm_15m_mean
+  label: Real-time locational marginal price as a 15-minute mean of the 5-minute prices (the mean of exactly three; NYISO's
+    time-weighted), rounded to 4 decimals
+  unit: USD/MWh
+  rows: 457072
+  first: '2023-07-06T07:00:00Z'
+  last: '2026-11-16T07:45:00Z'
+second_look: null

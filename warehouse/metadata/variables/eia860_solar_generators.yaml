@@ -1,0 +1,726 @@
+# The codebook's metadata of table eia860_solar_generators (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia860_solar_generators
+family: eia860
+shape: entities
+row: One solar generator from Form EIA-860's solar schedule (3_3) for data year 2025, sheets Operable, Retired and Canceled,
+  with its tracking, panel materials, angles, DC capacity and net metering.
+time: No time column; vintage is the data year (2025). status_date is the first day of the month of operation (operable) or
+  of retirement (retired), empty for the canceled and the indefinitely postponed.
+vintage_rule: A snapshot; each run replaces the table whole with the newest final year EIA's page links, so an earlier year
+  is not kept.
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: eia:eia860:solar U.S. Energy Information Administration, Form EIA-860 Annual Electric Generator Report, 3_3_Solar_Y2025.xlsx
+  url: https://www.eia.gov/electricity/data/eia860/
+cite: U.S. Energy Information Administration (EIA). Form EIA-860 Annual Electric Generator Report, solar generators' details.
+  Via the Energy Research Warehouse (ERW), table `eia860_solar_generators`.
+method: docs/methods/eia860_schedules.md
+header_title: EIA-860, solar generators' details, data year 2025 (session 885)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id eia860_solar:<plant code>:<generator id> (EIA-860M''s
+  tables name the same generator eia860:<plant code>:<generator id>); entity_type generator; name the plant''s name; capacity_mw
+  nameplate; status from EIA''s code (x_eia_status); status_date the month of operation (operable) or of retirement (retired),
+  empty for proposed and canceled. x_* every other column of EIA''s sheet, its heading as a name; x_sheet the sheet.'
+read:
+  date: '2026-11-20'
+  rows: 8520
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  particular: eia860_solar:<plant code>:<generator id>; EIA-860M's tables name the same generator eia860:<plant code>:<generator
+    id>
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - eia860_solar:10029:PV
+    - eia860_solar:1016:10
+    - eia860_solar:10224:SOLAR
+    - eia860_solar:10287:BWSOL
+    - eia860_solar:10334:PV1
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  particular: Always generator
+  type: text
+  values:
+    list:
+      generator: 8520
+  missing_cells: 0
+- name: name
+  shared: true
+  particular: The plant's name
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - (3K) 59 Hetcheltown Rd
+    - 0 Hammond St CSG
+    - 0 Middle
+    - 1 Commercial
+    - 10 Briggs Solar NG, LLC (East)
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<plant state>
+  type: text
+  values:
+    distinct: 50
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: lat
+  shared: true
+  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8520
+- name: lon
+  shared: true
+  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 8520
+- name: capacity_mw
+  shared: true
+  particular: EIA's nameplate capacity (AC)
+  type: number
+  values:
+    distinct: 552
+    lowest: 0.1
+    highest: 2250.0
+  missing_cells: 0
+- name: status
+  shared: true
+  particular: 'EIA''s code (x_eia_status) as the standard''s word: OP, OA, OS operating; RE retired; CN withdrawn; IP suspended
+    (the solar file has no Proposed sheet)'
+  type: text
+  values:
+    list:
+      operating: 8011
+      retired: 160
+      suspended: 36
+      withdrawn: 313
+  missing_cells: 0
+- name: status_date
+  shared: true
+  particular: The first day of the month of operation (operable) or of retirement (retired); empty for the canceled and postponed
+  type: date
+  values:
+    distinct: 223
+    earliest: '2001-05-01'
+    latest: '2025-12-01'
+  missing_cells: 349
+- name: operator
+  shared: true
+  particular: The reporting utility's name (EIA's Utility Name)
+  type: text
+  values:
+    distinct: 2703
+    examples:
+    - 0HAM WHAM8 Solar, LLC
+    - 1001 Ebenezer Church Solar, LLC
+    - 1008 Matthews Solar, LLC
+    - 1009 Yadkin Solar, LLC
+    - 1034 Catherine Lake Solar, LLC
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia860:solar: 8520
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia860/xls/eia8602025.zip: 8520
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T03:33:49Z': 8520
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The data year, 2025
+  type: integer
+  values:
+    list:
+      '2025': 8520
+  missing_cells: 0
+- name: x_plant_code
+  label: EIA's plant code
+  unit: none
+  type: integer
+  values:
+    distinct: more than 5000
+    lowest: 116
+    highest: 70438
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Plant Code
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_generator_id
+  label: EIA's generator identifier within the plant
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - 0000A
+    - 0000B
+    - 0000D
+    - 0000F
+    - 0000G
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Generator ID
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_state
+  label: The plant's state, two-letter postal code
+  unit: none
+  type: text
+  values:
+    distinct: 50
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: State
+  documented_by: method eia860_schedules.md
+- name: x_eia_status
+  label: EIA's status code of the generator, kept as given (OP, SB, OA, OS operating or standby; P, L, T planned; U, V, TS
+    under construction; RE retired; CN canceled; IP indefinitely postponed)
+  unit: none
+  type: text
+  values:
+    list:
+      CN: 313
+      IP: 36
+      OA: 15
+      OP: 7990
+      OS: 6
+      RE: 160
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Status
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_sheet
+  label: The sheet of EIA's workbook the row came from (Operable, or Retired and Canceled)
+  unit: none
+  type: text
+  values:
+    list:
+      Operable: 8011
+      Retired and Canceled: 509
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method eia860_schedules.md
+- name: x_utility_id
+  label: EIA's identifier of the reporting utility, the one responsible for the generator's day-to-day operation
+  unit: none
+  type: integer
+  values:
+    distinct: 2705
+    lowest: 195
+    highest: 68026
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Utility ID
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_county
+  label: The plant's county as EIA gives it
+  unit: none
+  type: text
+  values:
+    distinct: 950
+    examples:
+    - Accomack
+    - Ada
+    - Adair
+    - Adams
+    - Addison
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: County
+  documented_by: method eia860_schedules.md
+- name: x_technology
+  label: EIA's high-level description of the technology the generator uses
+  unit: none
+  type: text
+  values:
+    list:
+      Solar Photovoltaic: 8504
+      Solar Thermal with Energy Storage: 3
+      Solar Thermal without Energy Storage: 13
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Technology
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_prime_mover
+  label: 'EIA''s prime mover code: PV photovoltaic, ST steam turbine (solar thermal), CP concentrated solar power storage,
+    OT other'
+  unit: none
+  type: text
+  values:
+    list:
+      CP: 3
+      OT: 2
+      PV: 8504
+      ST: 11
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Prime Mover
+  documented_by: source EIA-860 LayoutY2025.xlsx; connector eia860.py
+- name: x_sector_name
+  label: 'EIA''s sector of the plant: Electric Utility, IPP (independent power producer), Commercial or Industrial, each CHP
+    (combined heat and power) or Non-CHP'
+  unit: none
+  type: text
+  values:
+    list:
+      Commercial CHP: 20
+      Commercial Non-CHP: 229
+      Electric Utility: 1048
+      IPP CHP: 6
+      IPP Non-CHP: 7090
+      Industrial CHP: 10
+      Industrial Non-CHP: 117
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia860_schedules.md; data
+- name: x_sector
+  label: EIA's sector number of the plant (1 electric utility, 2 and 3 IPP non-CHP and CHP, 4 and 5 commercial, 6 and 7 industrial;
+    x_sector_name gives its words)
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 1048
+      '2': 7090
+      '3': 6
+      '4': 229
+      '5': 20
+      '6': 117
+      '7': 10
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_summer_capacity_mw
+  label: EIA's net summer capacity of the generator
+  unit: MW
+  type: number
+  values:
+    distinct: 593
+    lowest: 0.06
+    highest: 2250.0
+  missing_cells: 1
+  missing_meaning: EIA gives none (1 row)
+  source_name: Summer Capacity (MW)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_winter_capacity_mw
+  label: EIA's net winter capacity of the generator
+  unit: MW
+  type: number
+  values:
+    distinct: 605
+    lowest: 0.06
+    highest: 2250.0
+  missing_cells: 5
+  missing_meaning: EIA gives none (5 rows)
+  source_name: Winter Capacity (MW)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_operating_month
+  label: The month the generator began commercial operation
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 562
+      '10': 584
+      '11': 744
+      '12': 2246
+      '2': 410
+      '3': 543
+      '4': 480
+      '5': 477
+      '6': 579
+      '7': 507
+      '8': 487
+      '9': 552
+  missing_cells: 349
+  missing_meaning: Never operated (canceled or postponed)
+  source_name: Operating Month
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_operating_year
+  label: The year the generator began commercial operation
+  unit: none
+  type: integer
+  values:
+    distinct: 32
+    lowest: 1984
+    highest: 2025
+  missing_cells: 349
+  missing_meaning: Never operated (canceled or postponed)
+  source_name: Operating Year
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_lenses_mirrors
+  label: Whether lenses or mirrors are used at this solar unit, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 48
+      Y: 16
+  missing_cells: 8456
+  missing_meaning: EIA's cell is empty
+  source_name: Lenses / Mirrors?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_single_axis_tracking
+  label: Whether single-axis tracking (panels turning on one axis to follow the sun) is used, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 223
+      Y: 3762
+  missing_cells: 4535
+  missing_meaning: EIA's cell is empty
+  source_name: Single-Axis Tracking?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_dual_axis_tracking
+  label: Whether dual-axis tracking is used, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 75
+      Y: 78
+  missing_cells: 8367
+  missing_meaning: EIA's cell is empty
+  source_name: Dual-Axis Tracking?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_fixed_tilt
+  label: Whether fixed tilt (panels that do not move) is used, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 221
+      Y: 4367
+  missing_cells: 3932
+  missing_meaning: EIA's cell is empty
+  source_name: Fixed Tilt?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_bifacial
+  label: Whether bifacial panels (taking light on both faces) are used, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 20
+      Y: 483
+  missing_cells: 8017
+  missing_meaning: EIA's cell is empty
+  source_name: Bifacial
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_east_west_fixed_tilt
+  label: Whether east-west fixed tilt is used, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 92
+      Y: 54
+  missing_cells: 8374
+  missing_meaning: EIA's cell is empty
+  source_name: East West Fixed Tilt?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_parabolic_trough
+  label: Whether parabolic trough (solar thermal) technology is used, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 20
+      Y: 8
+  missing_cells: 8492
+  missing_meaning: EIA's cell is empty
+  source_name: Parabolic Trough?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_linear_fresnel
+  label: Whether linear Fresnel (solar thermal) technology is used, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 6
+  missing_cells: 8514
+  missing_meaning: EIA's cell is empty
+  source_name: Linear Fresnel?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_power_tower
+  label: Whether a power tower (solar thermal) is used, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 8
+      Y: 4
+  missing_cells: 8508
+  missing_meaning: EIA's cell is empty
+  source_name: Power Tower?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_dish_engine
+  label: Whether dish engines are used, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 5
+  missing_cells: 8515
+  missing_meaning: EIA's cell is empty
+  source_name: Dish Engine?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_other_solar_technology
+  label: Whether another solar technology is used, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 107
+      Y: 27
+  missing_cells: 8386
+  missing_meaning: EIA's cell is empty
+  source_name: Other Solar Technology?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_azimuth_angle
+  label: The azimuth angle (compass direction faced) of a fixed tilt or single-axis unit
+  unit: degree
+  type: number
+  values:
+    distinct: 264
+    lowest: -90.0
+    highest: 360.0
+  missing_cells: 505
+  missing_meaning: EIA gives none
+  source_name: Azimuth Angle
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_tilt_angle
+  label: The tilt angle of a fixed tilt or single-axis unit
+  unit: degree
+  type: number
+  values:
+    distinct: 106
+    lowest: -60.0
+    highest: 90.0
+  missing_cells: 2331
+  missing_meaning: EIA gives none
+  source_name: Tilt Angle
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_dc_net_capacity_mw
+  label: The net capacity of this photovoltaic generator in direct current under standard test conditions (1000 W/m2, 25 C)
+  unit: MW
+  type: number
+  values:
+    distinct: 1312
+    lowest: 0.1
+    highest: 966.8
+  missing_cells: 362
+  missing_meaning: EIA gives none
+  source_name: DC Net Capacity (MW)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_crystalline_silicon
+  label: Whether any panels are crystalline silicon, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 44
+      Y: 7270
+  missing_cells: 1206
+  missing_meaning: EIA's cell is empty
+  source_name: Crystalline Silicon?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_thin_film_cdte
+  label: Whether any panels are thin-film cadmium telluride (CdTe), Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 45
+      Y: 785
+  missing_cells: 7690
+  missing_meaning: EIA's cell is empty
+  source_name: Thin-Film (CdTe)?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_thin_film_a_si
+  label: Whether any panels are thin-film amorphous silicon (A-Si), Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 9
+      Y: 18
+  missing_cells: 8493
+  missing_meaning: EIA's cell is empty
+  source_name: Thin-Film (A-Si)?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_thin_film_cigs
+  label: Whether any panels are thin-film CIGS, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 5
+      Y: 49
+  missing_cells: 8466
+  missing_meaning: EIA's cell is empty
+  source_name: Thin-Film (CIGS)?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_thin_film_other
+  label: Whether any panels are of another thin-film material, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 20
+      Y: 34
+  missing_cells: 8466
+  missing_meaning: EIA's cell is empty
+  source_name: Thin-Film (Other)?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_other_materials
+  label: Whether any panels are of other materials, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 88
+      Y: 54
+  missing_cells: 8378
+  missing_meaning: EIA's cell is empty
+  source_name: Other Materials?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_net_metering_agreement
+  label: 'Whether the generator''s output is part of a net metering agreement: Y, N, or X as EIA gives it'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 6988
+      X: 39
+      Y: 1157
+  missing_cells: 336
+  missing_meaning: EIA gives none
+  source_name: Net Metering Agreement?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_net_metering_dc_capacity_mw
+  label: The DC capacity that is part of a net metering agreement
+  unit: MW
+  type: number
+  values:
+    distinct: 115
+    lowest: 0.1
+    highest: 250.0
+  missing_cells: 7363
+  missing_meaning: No net metering capacity given
+  source_name: Net Metering DC Capacity (MW)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_virtual_net_metering_agreement
+  label: 'Whether the output is part of a virtual net metering agreement: Y, N, or X as EIA gives it'
+  unit: none
+  type: text
+  values:
+    list:
+      N: 6615
+      X: 10
+      Y: 1549
+  missing_cells: 346
+  missing_meaning: EIA gives none
+  source_name: Virtual Net Metering Agreement?
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_virtual_net_metering_dc_capacity_mw
+  label: The DC capacity that is part of a virtual net metering agreement
+  unit: MW
+  type: number
+  values:
+    distinct: 104
+    lowest: 0.1
+    highest: 231.7
+  missing_cells: 6971
+  missing_meaning: No virtual net metering capacity given
+  source_name: Virtual Net Metering DC Capacity (MW)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_retirement_month
+  label: The month the generator retired
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 2
+      '10': 3
+      '11': 5
+      '12': 115
+      '3': 1
+      '4': 6
+      '5': 2
+      '6': 2
+      '7': 20
+      '8': 1
+      '9': 3
+  missing_cells: 8360
+  missing_meaning: Not retired
+  source_name: Retirement Month
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_retirement_year
+  label: The year the generator retired
+  unit: none
+  type: integer
+  values:
+    list:
+      '2001': 1
+      '2011': 4
+      '2013': 3
+      '2014': 3
+      '2015': 6
+      '2016': 2
+      '2018': 2
+      '2019': 16
+      '2021': 2
+      '2022': 1
+      '2023': 112
+      '2024': 1
+      '2025': 7
+  missing_cells: 8360
+  missing_meaning: Not retired
+  source_name: Retirement Year
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+second_look:
+- 'x_net_metering_agreement and x_virtual_net_metering_agreement: the X flag (39 and 10 rows) is kept as EIA gives it; EIA''s
+  layout lists only Yes and No.'

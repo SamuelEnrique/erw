@@ -1,0 +1,249 @@
+# The codebook's metadata of table ercot_storage_node_basis (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ercot_storage_node_basis
+family: ercot
+shape: series
+row: For one storage resource's settlement point (or all of them summed up), its real-time price against the hub average HB_HUBAVG
+  over the days of node prices held.
+time: ts_utc is the first day held at 00:00:00Z; freq P1W, though the span is every day of ercot_rtm_node_prices.
+vintage_rule: Rewritten whole by each run of the builder from ercot_rtm_node_prices and ercot_dam_esr_awards; vintage is not
+  filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1W
+source:
+- name: erw:ercot_storage_realtime ERW derived table (docs/methods/ercot_storage_realtime.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_storage_realtime.md
+cite: Energy Research Warehouse (ERW), derived. ERCOT storage in real time beside its day-ahead awards, by month, and the
+  storage nodes' prices against the hub (docs/methods/ercot_storage_realtime.md). Via the Energy Research Warehouse (ERW),
+  table `ercot_storage_node_basis`.
+method: docs/methods/ercot_storage_realtime.md
+header_title: the real-time price at each storage resource's settlement point against the hub average, over the days of node
+  prices held (derived, session 120)
+header_shape: 'Shape: series (docs/datastandard.md v0), entity ercot:<settlement point>, ts_utc the first day held. Variables:
+  intervals (15-minute intervals both prices hold); mean_node, mean_hub (USD/MWh; the hub is HB_HUBAVG); mean_abs_difference
+  (the mean of the absolute difference, USD/MWh); spread_node, spread_hub (a day''s 16 dearest intervals less its 16 cheapest,
+  averaged over whole_days: what moving four hours a day could capture, before losses). The entity ercot:esr_nodes sums the
+  points up, each counted once: nodes, nodes_with_spread, whole_days, spread_hub, spread_node_median, _mean, _p10, _p90, nodes_spread_above_hub,
+  mean_node_median, mean_hub, mean_abs_difference_median, intervals_median.'
+read:
+  date: '2026-11-20'
+  rows: 2064
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: ercot:<settlement point> of a storage resource, or ercot:esr_nodes for the rows that sum the points up
+  type: text
+  values:
+    distinct: 294
+    examples:
+    - ercot:ABINDUST_RN
+    - ercot:ADL_RN
+    - ercot:AE_RN
+    - ercot:ALAMO_ST_RN
+    - ercot:ALP_BESS_RN
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-09-28T00:00:00Z': 2064
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 767
+    lowest: 4.9614
+    highest: 4746.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MWh: 1473
+      count: 591
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1W: 2064
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-TX: 2064
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
+  type: text
+  values:
+    list:
+      ercot_rtm: 2064
+  missing_cells: 0
+- name: node
+  shared: true
+  particular: The settlement point's name; empty on the ercot:esr_nodes summary rows
+  type: text
+  values:
+    distinct: 293
+    examples:
+    - ABINDUST_RN
+    - ADL_RN
+    - AE_RN
+    - ALAMO_ST_RN
+    - ALP_BESS_RN
+  missing_cells: 13
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:ercot_storage_realtime: 2064
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_storage_realtime.md: 2064
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-11-16T19:55:40Z': 2064
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2064
+variables:
+- name: intervals
+  label: 15-minute intervals both the node's and the hub's prices hold
+  unit: count
+  rows: 293
+  first: '2026-09-28T00:00:00Z'
+  last: '2026-09-28T00:00:00Z'
+- name: intervals_median
+  label: 'ercot:esr_nodes: median of the points'' interval counts'
+  unit: count
+  rows: 1
+  first: '2026-09-28T00:00:00Z'
+  last: '2026-09-28T00:00:00Z'
+- name: mean_abs_difference
+  label: Mean of the absolute difference between node and hub price, USD/MWh
+  unit: USD/MWh
+  rows: 293
+  first: '2026-09-28T00:00:00Z'
+  last: '2026-09-28T00:00:00Z'
+- name: mean_abs_difference_median
+  label: 'ercot:esr_nodes: median of the points'' mean absolute differences from the hub, USD/MWh'
+  unit: USD/MWh
+  rows: 1
+  first: '2026-09-28T00:00:00Z'
+  last: '2026-09-28T00:00:00Z'
+- name: mean_hub
+  label: Mean real-time price at HB_HUBAVG over the same intervals, USD/MWh (on ercot:esr_nodes, the median over the points)
+  unit: USD/MWh
+  rows: 294
+  first: '2026-09-28T00:00:00Z'
+  last: '2026-09-28T00:00:00Z'
+- name: mean_node
+  label: Mean real-time price at the node over those intervals, USD/MWh
+  unit: USD/MWh
+  rows: 293
+  first: '2026-09-28T00:00:00Z'
+  last: '2026-09-28T00:00:00Z'
+- name: mean_node_median
+  label: 'ercot:esr_nodes: median of the points'' mean prices, USD/MWh'
+  unit: USD/MWh
+  rows: 1
+  first: '2026-09-28T00:00:00Z'
+  last: '2026-09-28T00:00:00Z'
+- name: nodes
+  label: 'ercot:esr_nodes: the settlement points summed up, each counted once'
+  unit: count
+  rows: 1
+  first: '2026-09-28T00:00:00Z'
+  last: '2026-09-28T00:00:00Z'
+- name: nodes_spread_above_hub
+  label: 'ercot:esr_nodes: points whose spread is wider than the hub''s'
+  unit: count
+  rows: 1
+  first: '2026-09-28T00:00:00Z'
+  last: '2026-09-28T00:00:00Z'
+- name: nodes_with_spread
+  label: 'ercot:esr_nodes: points with every whole day the hub has, which enter the spread figures'
+  unit: count
+  rows: 1
+  first: '2026-09-28T00:00:00Z'
+  last: '2026-09-28T00:00:00Z'
+- name: spread_hub
+  label: The same spread at HB_HUBAVG, USD/MWh
+  unit: USD/MWh
+  rows: 294
+  first: '2026-09-28T00:00:00Z'
+  last: '2026-09-28T00:00:00Z'
+- name: spread_node
+  label: 'At the node, a day''s 16 dearest intervals less its 16 cheapest, averaged over the whole days: what moving four
+    hours a day could capture, before losses, USD/MWh'
+  unit: USD/MWh
+  rows: 293
+  first: '2026-09-28T00:00:00Z'
+  last: '2026-09-28T00:00:00Z'
+- name: spread_node_mean
+  label: 'ercot:esr_nodes: mean of the points'' spreads, USD/MWh'
+  unit: USD/MWh
+  rows: 1
+  first: '2026-09-28T00:00:00Z'
+  last: '2026-09-28T00:00:00Z'
+- name: spread_node_median
+  label: 'ercot:esr_nodes: median of the points'' spreads, USD/MWh'
+  unit: USD/MWh
+  rows: 1
+  first: '2026-09-28T00:00:00Z'
+  last: '2026-09-28T00:00:00Z'
+- name: spread_node_p10
+  label: 'ercot:esr_nodes: 10th percentile of the points'' spreads, USD/MWh'
+  unit: USD/MWh
+  rows: 1
+  first: '2026-09-28T00:00:00Z'
+  last: '2026-09-28T00:00:00Z'
+- name: spread_node_p90
+  label: 'ercot:esr_nodes: 90th percentile of the points'' spreads, USD/MWh'
+  unit: USD/MWh
+  rows: 1
+  first: '2026-09-28T00:00:00Z'
+  last: '2026-09-28T00:00:00Z'
+- name: whole_days
+  label: The whole days the spreads are averaged over
+  unit: count
+  rows: 294
+  first: '2026-09-28T00:00:00Z'
+  last: '2026-09-28T00:00:00Z'
+second_look: null

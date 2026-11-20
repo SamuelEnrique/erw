@@ -1,0 +1,294 @@
+# The codebook's metadata of table desnz_uk_gas_quarterly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: desnz_uk_gas_quarterly
+family: desnz
+shape: series
+row: One line of the UK's natural gas balance (supply, demand and the consuming sectors) in one quarter, 1998 to 2026 (Energy
+  Trends table 4.1).
+time: ts_utc is the quarter's first day at 00:00:00Z; freq P3M.
+vintage_rule: Merged by (entity, variable, ts_utc), a row of the new issue replacing the same row and a row the new issue
+  no longer gives kept; vintage is the workbook's last-modified time; a quarter DESNZ marks provisional carries x_provisional
+  yes.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P3M
+source:
+- name: desnz:energy_trends_4_1 DESNZ, Energy Trends section 4 (gas)
+  url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+cite: 'UK Department for Energy Security and Net Zero (DESNZ). Energy Trends section 4: gas (table ET 4.1, natural gas supply
+  and consumption). Via the Energy Research Warehouse (ERW), table `desnz_uk_gas_quarterly`.'
+method: docs/methods/desnz_uk_gas_quarterly.md
+header_title: UK Department for Energy Security and Net Zero (DESNZ), Energy Trends table 4.1, natural gas supply and consumption,
+  a quarter, 1998-01 to 2026-04 (session 2226)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity desnz_et41:uk; variable the balance''s line in snake case (indigenous_production,
+  imports, imports_of_liquefied_natural_gas, exports, stock_change, transfers, total_supply, statistical_difference, total_demand,
+  transformation, electricity_generation, heat_generation, energy_industry_use, losses, final_consumption and its sectors);
+  unit MWh (DESNZ''s GWh times 1,000); ts_utc the quarter''s first day; freq P3M; geo GB; node the line as DESNZ writes it;
+  x_provisional.'
+read:
+  date: '2026-11-20'
+  rows: 2394
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: Always desnz_et41:uk
+  type: text
+  values:
+    list:
+      desnz_et41:uk: 2394
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 114
+    earliest: '1998-01-01T00:00:00Z'
+    latest: '2026-04-01T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 2263
+    lowest: -24960040.0
+    highest: 376669000.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MWh: 2394
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P3M: 2394
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: Always GB, standing for the UK
+  type: text
+  values:
+    list:
+      GB: 2394
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 2394
+- name: node
+  shared: true
+  particular: The balance line as DESNZ writes it, notes included, not a pricing node
+  type: text
+  values:
+    list:
+      Domestic: 114
+      Electricity generation: 114
+      Energy industry use: 114
+      Exports [note 2]: 114
+      Final Consumption: 114
+      Heat generation [note 7]: 114
+      Imports [note 2]: 114
+      Imports of Liquefied Natural Gas [note 3]: 114
+      Indigenous production: 114
+      Iron & steel: 114
+      Losses [note 8]: 114
+      Non energy use: 114
+      Other final users: 114
+      Other industries: 114
+      Statistical difference: 114
+      Stock change [note 4] [note 5]: 114
+      Total demand: 114
+      Total supply: 114
+      Transfers [note 6]: 114
+      Transformation: 114
+      Transport: 114
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      desnz:energy_trends_4_1: 2394
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://assets.publishing.service.gov.uk/media/6aba6b15fceb6fb3a65012ba/ET_4.1_SEP_26.xlsx: 2394
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T02:17:00Z': 2394
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The workbook's last-modified time
+  type: utc time
+  values:
+    list:
+      '2026-09-28T13:26:45Z': 2394
+  missing_cells: 0
+- name: x_provisional
+  label: yes for a quarter DESNZ marks provisional (revised in a later issue), else no
+  unit: none
+  type: text
+  values:
+    list:
+      'no': 2373
+      'yes': 21
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method desnz_uk_gas_quarterly.md; connector desnz_gas.py
+variables:
+- name: domestic
+  label: Final consumption by households (domestic), MWh
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: electricity_generation
+  label: Gas used for electricity generation, MWh
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: energy_industry_use
+  label: Gas used by the energy industries themselves, MWh
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: exports
+  label: Gas exports, MWh (positive, subtracted in the balance)
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: final_consumption
+  label: Final consumption of gas, MWh
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: heat_generation
+  label: Gas used for heat generation, MWh (the latest year estimated from the previous year's, note 7)
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: imports
+  label: Gas imports, MWh (physical flows from 2000, DESNZ's note 2)
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: imports_of_liquefied_natural_gas
+  label: Imports of liquefied natural gas (LNG), part of imports, MWh (cargoes counted from 2016, note 3)
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: indigenous_production
+  label: Gas produced in the UK in the quarter, MWh (DESNZ's GWh times 1,000)
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: iron_steel
+  label: Final consumption by iron and steel, MWh
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: losses
+  label: Gas losses, MWh (revised from 2013, note 8)
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: non_energy_use
+  label: Gas used for non-energy purposes, MWh
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: other_final_users
+  label: Final consumption by other final users, MWh
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: other_industries
+  label: Final consumption by other industries, MWh
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: statistical_difference
+  label: Statistical difference between supply and demand, DESNZ's line, MWh
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: stock_change
+  label: 'Stock change, MWh: positive a draw from stocks, negative a build (DESNZ''s note 4)'
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: total_demand
+  label: Total gas demand, DESNZ's line, MWh
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: total_supply
+  label: Total gas supply, DESNZ's line, MWh
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: transfers
+  label: Transfers, MWh (biomethane transfers may be estimated, note 6)
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: transformation
+  label: Gas used in transformation (to make electricity and heat), MWh
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+- name: transport
+  label: Final consumption by transport, MWh
+  unit: MWh
+  rows: 114
+  first: '1998-01-01T00:00:00Z'
+  last: '2026-04-01T00:00:00Z'
+second_look: null

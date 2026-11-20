@@ -1,0 +1,159 @@
+# The codebook's metadata of table caiso_area_load_hourly (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: caiso_area_load_hourly
+family: caiso
+shape: series
+row: CAISO's actual load in one of its TAC areas (transmission access charge areas), or the ISO's own total, for one hour.
+time: ts_utc is the hour's start in UTC; the interval's start and end are CAISO's, in GMT.
+vintage_rule: Merged by (entity, variable, ts_utc); a 30-day window ending in the last 35 days is asked of CAISO again each
+  run and replaces the hours held, an earlier window is read from the raw file kept, and hours no longer asked are kept. vintage
+  is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: PT1H
+source:
+- name: caiso:SLD_FCST California ISO (CAISO), OASIS SLD_FCST, CAISO Demand Forecast, the actual run (Total Actual Hourly
+    Integrated Load), by TAC area
+  url: https://oasis.caiso.com/mrioasis/logon.do
+cite: 'California ISO (CAISO). OASIS SLD_FCST, CAISO Demand Forecast, the actual run (Total Actual Hourly Integrated Load),
+  by TAC area [terms: materials "may be used by you provided that you keep intact all copyright, trademark and other proprietary
+  notices and that you credit the California ISO when using such materials and/or information." (https://www.caiso.com/privacy-terms-of-use,
+  read 6 October 2026)]. Via the Energy Research Warehouse (ERW), table `caiso_area_load_hourly`.'
+method: docs/methods/caiso_area_load_hourly.md
+header_title: CAISO, hourly actual load by TAC area and the ISO's total (OASIS SLD_FCST, the actual run, data item SYS_FCST_ACT_MW)
+  (session 138)
+header_shape: 'Shape: series (docs/datastandard.md v0). variable load: the operator''s own figure for the zone (or area) and
+  hour, MW over the hour; freq PT1H, ts_utc the hour''s start in UTC. An hour the operator does not give is not written; nothing
+  is filled, summed across zones or estimated. The table is merged into the one held.'
+read:
+  date: '2026-11-20'
+  rows: 271644
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: caiso:<TAC area> under CAISO's own names (PGE-TAC, SCE-TAC, SDGE-TAC, VEA-TAC, MWD-TAC), or caiso:system for
+    the area CAISO names CA ISO-TAC, its own total
+  type: text
+  values:
+    list:
+      caiso:MWD-TAC: 45274
+      caiso:PGE-TAC: 45274
+      caiso:SCE-TAC: 45274
+      caiso:SDGE-TAC: 45274
+      caiso:VEA-TAC: 45274
+      caiso:system: 45274
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: more than 5000
+    earliest: '2021-09-17T00:00:00Z'
+    latest: '2026-11-16T10:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: more than 5000
+    lowest: -80.0
+    highest: 51292.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 271644
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      PT1H: 271644
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 271644
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: caiso_load in every row
+  type: text
+  values:
+    list:
+      caiso_load: 271644
+  missing_cells: 0
+- name: node
+  shared: true
+  particular: The TAC area as CAISO names it (CA ISO-TAC for the total); a TAC area is not a trading hub (NP15, SP15, ZP26)
+  type: text
+  values:
+    list:
+      CA ISO-TAC: 45274
+      MWD-TAC: 45274
+      PGE-TAC: 45274
+      SCE-TAC: 45274
+      SDGE-TAC: 45274
+      VEA-TAC: 45274
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      caiso:SLD_FCST: 271644
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    distinct: 63
+    examples:
+    - https://oasis.caiso.com/oasisapi/SingleZip?queryname=SLD_FCST&market_run_id=ACTUAL&tac_area_name=CA%20ISO-TAC,PGE-TAC,SCE-TAC,SDGE-TAC,VEA-TAC,MWD-TAC&startdatetime=20210917T00:00-0000&enddatetime=20211017T00:00-0000&version=1&resultformat=6
+    - https://oasis.caiso.com/oasisapi/SingleZip?queryname=SLD_FCST&market_run_id=ACTUAL&tac_area_name=CA%20ISO-TAC,PGE-TAC,SCE-TAC,SDGE-TAC,VEA-TAC,MWD-TAC&startdatetime=20211017T00:00-0000&enddatetime=20211116T00:00-0000&version=1&resultformat=6
+    - https://oasis.caiso.com/oasisapi/SingleZip?queryname=SLD_FCST&market_run_id=ACTUAL&tac_area_name=CA%20ISO-TAC,PGE-TAC,SCE-TAC,SDGE-TAC,VEA-TAC,MWD-TAC&startdatetime=20211116T00:00-0000&enddatetime=20211216T00:00-0000&version=1&resultformat=6
+    - https://oasis.caiso.com/oasisapi/SingleZip?queryname=SLD_FCST&market_run_id=ACTUAL&tac_area_name=CA%20ISO-TAC,PGE-TAC,SCE-TAC,SDGE-TAC,VEA-TAC,MWD-TAC&startdatetime=20211216T00:00-0000&enddatetime=20220115T00:00-0000&version=1&resultformat=6
+    - https://oasis.caiso.com/oasisapi/SingleZip?queryname=SLD_FCST&market_run_id=ACTUAL&tac_area_name=CA%20ISO-TAC,PGE-TAC,SCE-TAC,SDGE-TAC,VEA-TAC,MWD-TAC&startdatetime=20220115T00:00-0000&enddatetime=20220214T00:00-0000&version=1&resultformat=6
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    distinct: 63
+    earliest: '2026-10-07T01:43:01Z'
+    latest: '2026-11-16T11:51:28Z'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: 'Not filled: no cell holds a value'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 271644
+variables:
+- name: load
+  label: CAISO's SYS_FCST_ACT_MW, Total Actual Hourly Integrated Load, for the area and hour, MW over the hour (OASIS SLD_FCST,
+    the actual run)
+  unit: MW
+  rows: 271644
+  first: '2021-09-17T00:00:00Z'
+  last: '2026-11-16T10:00:00Z'
+second_look: null

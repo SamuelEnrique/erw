@@ -1,0 +1,309 @@
+# The codebook's metadata of table battery_stack_stress_daily (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: battery_stack_stress_daily
+family: battery
+shape: series
+row: One modelled battery's revenue by stream on one local day inside a stress event's window, for one hub, strategy and duration,
+  per MW of rated power.
+time: ts_utc is the market's local day at 00:00:00Z (freq P1D).
+vintage_rule: Rebuilt by each run of the builder, except that a (hub, strategy, duration, day) held in the earlier file and
+  not reached by the run's inputs keeps its earlier rows; vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: derived
+interval: P1D
+source:
+- name: erw:battery_stack ERW derived table, the battery revenue stack (docs/methods/battery_stack.md)
+  url: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/battery_stack.md
+cite: 'Energy Research Warehouse (ERW), derived. The battery revenue stack: energy and ancillary services co-optimized, per
+  MW (docs/methods/battery_stack.md). Via the Energy Research Warehouse (ERW), table `battery_stack_stress_daily`.'
+method: docs/methods/battery_stack.md
+header_title: 'the battery revenue stack on stress days, per MW and local day: ERCOT''s (Winter Storm Uri 2021, Winter Storm
+  Elliott 2022, the summer 2023 heat) and, since session 246, CAISO''s (the days of CAISO''s own system-wide notices inside
+  the held prices), by duration and strategy (derived, session 67)'
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column market; freq P1D, ts_utc the local day at 00:00:00Z.
+  Variables <strategy>_<N>h_<metric>: revenue_energy_usd_per_mw, revenue_ancillary_usd_per_mw, revenue_total_usd_per_mw (USD/MW);
+  event the event whose window holds the day (event_window.py: uri_2021 2021-02-07 to 2021-02-24; elliott_2022 2022-12-19
+  to 2022-12-29; ercot_heat_2023 2023-08-01 to 2023-09-10; a CAISO event is caiso_notices_<its first day>).'
+read:
+  date: '2026-11-20'
+  rows: 1890
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: <market>:<hub> (ercot:HB_HUBAVG, caiso:TH_SP15_GEN-APND)
+  type: text
+  values:
+    list:
+      caiso:TH_SP15_GEN-APND: 630
+      ercot:HB_HUBAVG: 1260
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    distinct: 99
+    earliest: '2021-02-07T00:00:00Z'
+    latest: '2026-10-08T00:00:00Z'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 1668
+    lowest: -10466.5448
+    highest: 685719.0643
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      USD/MW: 1890
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1D: 1890
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    list:
+      US-CA: 630
+      US-TX: 1260
+  missing_cells: 0
+- name: market
+  shared: true
+  particular: The grid (ercot, caiso), the partition column
+  type: text
+  values:
+    list:
+      caiso: 630
+      ercot: 1260
+  missing_cells: 0
+- name: node
+  shared: true
+  type: text
+  values:
+    list:
+      HB_HUBAVG: 1260
+      TH_SP15_GEN-APND: 630
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      erw:battery_stack: 1890
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://github.com/SamuelEnrique/erw/blob/main/docs/methods/battery_stack.md: 1890
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-02T21:00:50Z': 1260
+      '2026-10-13T07:20:11Z': 144
+      '2026-10-13T08:10:28Z': 108
+      '2026-10-14T12:07:36Z': 378
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1890
+- name: x_strategy
+  label: 'The strategy: foresight (perfect foresight, the upper bound) or dayahead (the day-ahead schedule, no real-time trading)'
+  unit: none
+  type: text
+  values:
+    list:
+      dayahead: 945
+      foresight: 945
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector battery_stack.py
+- name: x_duration_hours
+  label: 'The battery''s duration: hours of discharge at full power (2, 4 or 8)'
+  unit: hour
+  type: integer
+  values:
+    list:
+      '2': 630
+      '4': 630
+      '8': 630
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector battery_stack.py
+- name: x_metric
+  label: The measure, the part of the variable after <strategy>_<N>h_
+  unit: none
+  type: text
+  values:
+    list:
+      revenue_ancillary_usd_per_mw: 630
+      revenue_energy_usd_per_mw: 630
+      revenue_total_usd_per_mw: 630
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector battery_stack.py
+- name: event
+  label: 'The stress event whose window holds the day: uri_2021 (Winter Storm Uri), elliott_2022 (Winter Storm Elliott), ercot_heat_2023
+    (the summer 2023 heat), or caiso_notices_<first day> (a run of CAISO''s own system-wide notices)'
+  unit: none
+  type: text
+  values:
+    list:
+      caiso_notices_20230815: 54
+      caiso_notices_20230828: 54
+      caiso_notices_20240703: 162
+      caiso_notices_20240715: 18
+      caiso_notices_20240724: 36
+      caiso_notices_20240805: 54
+      caiso_notices_20240904: 108
+      caiso_notices_20250120: 36
+      caiso_notices_20260909: 36
+      caiso_notices_20261005: 72
+      elliott_2022: 198
+      ercot_heat_2023: 738
+      uri_2021: 324
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method battery_stack.md
+variables:
+- name: dayahead_2h_revenue_ancillary_usd_per_mw
+  label: '2-hour battery, day-ahead schedule: ancillary services revenue (the products summed), USD per MW'
+  unit: USD/MW
+  rows: 105
+  first: '2021-02-07T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+- name: dayahead_2h_revenue_energy_usd_per_mw
+  label: '2-hour battery, day-ahead schedule: energy revenue, USD per MW'
+  unit: USD/MW
+  rows: 105
+  first: '2021-02-07T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+- name: dayahead_2h_revenue_total_usd_per_mw
+  label: '2-hour battery, day-ahead schedule: total revenue, energy plus ancillary,, USD per MW'
+  unit: USD/MW
+  rows: 105
+  first: '2021-02-07T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+- name: dayahead_4h_revenue_ancillary_usd_per_mw
+  label: '4-hour battery, day-ahead schedule: ancillary services revenue (the products summed), USD per MW'
+  unit: USD/MW
+  rows: 105
+  first: '2021-02-07T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+- name: dayahead_4h_revenue_energy_usd_per_mw
+  label: '4-hour battery, day-ahead schedule: energy revenue, USD per MW'
+  unit: USD/MW
+  rows: 105
+  first: '2021-02-07T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+- name: dayahead_4h_revenue_total_usd_per_mw
+  label: '4-hour battery, day-ahead schedule: total revenue, energy plus ancillary,, USD per MW'
+  unit: USD/MW
+  rows: 105
+  first: '2021-02-07T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+- name: dayahead_8h_revenue_ancillary_usd_per_mw
+  label: '8-hour battery, day-ahead schedule: ancillary services revenue (the products summed), USD per MW'
+  unit: USD/MW
+  rows: 105
+  first: '2021-02-07T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+- name: dayahead_8h_revenue_energy_usd_per_mw
+  label: '8-hour battery, day-ahead schedule: energy revenue, USD per MW'
+  unit: USD/MW
+  rows: 105
+  first: '2021-02-07T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+- name: dayahead_8h_revenue_total_usd_per_mw
+  label: '8-hour battery, day-ahead schedule: total revenue, energy plus ancillary,, USD per MW'
+  unit: USD/MW
+  rows: 105
+  first: '2021-02-07T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+- name: foresight_2h_revenue_ancillary_usd_per_mw
+  label: '2-hour battery, perfect foresight: ancillary services revenue (the products summed), USD per MW'
+  unit: USD/MW
+  rows: 105
+  first: '2021-02-07T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+- name: foresight_2h_revenue_energy_usd_per_mw
+  label: '2-hour battery, perfect foresight: energy revenue, USD per MW'
+  unit: USD/MW
+  rows: 105
+  first: '2021-02-07T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+- name: foresight_2h_revenue_total_usd_per_mw
+  label: '2-hour battery, perfect foresight: total revenue, energy plus ancillary,, USD per MW'
+  unit: USD/MW
+  rows: 105
+  first: '2021-02-07T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+- name: foresight_4h_revenue_ancillary_usd_per_mw
+  label: '4-hour battery, perfect foresight: ancillary services revenue (the products summed), USD per MW'
+  unit: USD/MW
+  rows: 105
+  first: '2021-02-07T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+- name: foresight_4h_revenue_energy_usd_per_mw
+  label: '4-hour battery, perfect foresight: energy revenue, USD per MW'
+  unit: USD/MW
+  rows: 105
+  first: '2021-02-07T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+- name: foresight_4h_revenue_total_usd_per_mw
+  label: '4-hour battery, perfect foresight: total revenue, energy plus ancillary,, USD per MW'
+  unit: USD/MW
+  rows: 105
+  first: '2021-02-07T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+- name: foresight_8h_revenue_ancillary_usd_per_mw
+  label: '8-hour battery, perfect foresight: ancillary services revenue (the products summed), USD per MW'
+  unit: USD/MW
+  rows: 105
+  first: '2021-02-07T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+- name: foresight_8h_revenue_energy_usd_per_mw
+  label: '8-hour battery, perfect foresight: energy revenue, USD per MW'
+  unit: USD/MW
+  rows: 105
+  first: '2021-02-07T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+- name: foresight_8h_revenue_total_usd_per_mw
+  label: '8-hour battery, perfect foresight: total revenue, energy plus ancillary,, USD per MW'
+  unit: USD/MW
+  rows: 105
+  first: '2021-02-07T00:00:00Z'
+  last: '2026-10-08T00:00:00Z'
+second_look: null

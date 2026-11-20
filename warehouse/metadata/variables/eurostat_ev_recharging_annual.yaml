@@ -1,0 +1,252 @@
+# The codebook's metadata of table eurostat_ev_recharging_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eurostat_ev_recharging_annual
+family: eurostat
+shape: series
+row: One European country's count or power output of electric vehicle recharging infrastructure of one kind in one year.
+time: ts_utc is the year's 1 January at 00:00:00Z, a label for the calendar year (freq P1Y).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised figure replaces the old; vintage is not filled.'
+keys:
+- entity
+- variable
+- ts_utc
+license: public
+tier: source
+interval: P1Y
+source:
+- name: eurostat:road_if_rchev Eurostat, Electric vehicle recharging pools, stations and points and their power output (road_if_rchev)
+  url: https://ec.europa.eu/eurostat/databrowser/view/road_if_rchev/default/table
+cite: Eurostat (Statistical Office of the European Union). Electric vehicle recharging pools, stations and points and their
+  power output (road_if_rchev). Via the Energy Research Warehouse (ERW), table `eurostat_ev_recharging_annual`.
+method: docs/methods/eurostat_ev_recharging_annual.md
+header_title: Eurostat, electric vehicle recharging pools, stations and points and their power output, annual (road_if_rchev),
+  2019 to 2025 (session 2804)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eurostat_ev_recharging:<geo>; variable recharging_points, recharging_stations,
+  recharging_pools, heavy_duty_pools (unit count, Eurostat''s NR), recharging_pools_power, heavy_duty_pools_power (unit MW,
+  Eurostat''s kW divided by 1,000); ts_utc the year''s 1 January; freq P1Y; geo ISO alpha-2 (EL is GR); x_tra_infr and x_unit
+  Eurostat''s codes.'
+read:
+  date: '2026-11-20'
+  rows: 465
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  particular: eurostat_ev_recharging:<geo>
+  type: text
+  values:
+    distinct: 33
+    examples:
+    - eurostat_ev_recharging:AT
+    - eurostat_ev_recharging:BE
+    - eurostat_ev_recharging:BG
+    - eurostat_ev_recharging:CH
+    - eurostat_ev_recharging:CY
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2019-01-01T00:00:00Z': 28
+      '2020-01-01T00:00:00Z': 40
+      '2021-01-01T00:00:00Z': 53
+      '2022-01-01T00:00:00Z': 67
+      '2023-01-01T00:00:00Z': 86
+      '2024-01-01T00:00:00Z': 87
+      '2025-01-01T00:00:00Z': 104
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    distinct: 411
+    lowest: 0.0
+    highest: 209513.0
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    list:
+      MW: 109
+      count: 356
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    list:
+      P1Y: 465
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2
+  type: text
+  values:
+    distinct: 33
+    examples:
+    - AT
+    - BE
+    - BG
+    - CH
+    - CY
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 465
+- name: node
+  shared: true
+  particular: <geo> <the infrastructure's name>, <number or power output>, not a pricing node
+  type: text
+  values:
+    distinct: 119
+    examples:
+    - AT Recharging point, number
+    - AT Recharging pool, power output
+    - AT Recharging station, number
+    - BE Recharging point, number
+    - BE Recharging pool, number
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eurostat:road_if_rchev: 465
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/road_if_rchev?format=SDMX-CSV&compressed=false: 465
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-26T03:30:12Z': 465
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 465
+- name: x_geo_code
+  label: Eurostat's geo code of the country
+  unit: none
+  type: text
+  values:
+    distinct: 33
+    examples:
+    - AT
+    - BE
+    - BG
+    - CH
+    - CY
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eurostat_ev_recharging_annual.md
+- name: x_tra_infr
+  label: 'Eurostat''s TRA_INFR code: RCHRG_PNT recharging point, RCHRG_STN station, RCHRG_POOL pool, RCHRG_POOL_HVY heavy-duty
+    pool'
+  unit: none
+  type: text
+  values:
+    list:
+      RCHRG_PNT: 157
+      RCHRG_POOL: 161
+      RCHRG_POOL_HVY: 56
+      RCHRG_STN: 91
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; data
+- name: x_unit
+  label: 'Eurostat''s unit code of the figure: NR a number, KW power output'
+  unit: none
+  type: text
+  values:
+    list:
+      KW: 109
+      NR: 356
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; data
+- name: x_flag
+  label: 'Eurostat''s flag of the observation: b break in series; i (see Eurostat''s metadata)'
+  unit: none
+  type: text
+  values:
+    list:
+      b: 1
+      i: 36
+  missing_cells: 428
+  missing_meaning: No flag on the observation
+  source_name: null
+  documented_by: method eurostat_ev_recharging_annual.md; method eurostat_electricity_monthly.md
+- name: x_conf_status
+  label: Eurostat's confidentiality status of the observation
+  unit: none
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 465
+  missing_meaning: 'Not filled: no cell holds a value'
+  source_name: null
+  documented_by: method eurostat_ev_recharging_annual.md
+variables:
+- name: heavy_duty_pools
+  label: Recharging pools for heavy-duty vehicles
+  unit: count
+  rows: 27
+  first: '2019-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: heavy_duty_pools_power
+  label: Power output of the heavy-duty recharging pools, MW (Eurostat's kW divided by 1,000)
+  unit: MW
+  rows: 29
+  first: '2019-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: recharging_points
+  label: Recharging points for electric vehicles
+  unit: count
+  rows: 157
+  first: '2019-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: recharging_pools
+  label: Recharging pools
+  unit: count
+  rows: 81
+  first: '2019-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: recharging_pools_power
+  label: Power output of the recharging pools, MW (Eurostat's kW divided by 1,000)
+  unit: MW
+  rows: 80
+  first: '2019-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: recharging_stations
+  label: Recharging stations
+  unit: count
+  rows: 91
+  first: '2019-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look:
+- 'x_flag: the meaning of Eurostat''s flag i is not written in the repository (the method note says to see Eurostat''s metadata)'

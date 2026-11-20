@@ -1,0 +1,1621 @@
+# The codebook's metadata of table eia860_boilers (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia860_boilers
+family: eia860
+shape: entities
+row: One boiler at a power plant in Form EIA-860's environmental schedules for data year 2025, with its design, the emission
+  standards it operates under, its compliance strategies and the generators, cooling systems, controls and stacks associated
+  with it.
+time: No time column; vintage is the data year (2025). status_date is the first day of the month in service (an operating
+  boiler) or of retirement (a retired one), else empty.
+vintage_rule: A snapshot; each run replaces the table whole with the newest final year EIA's page links, so an earlier year
+  is not kept.
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: eia:eia860:boilers U.S. Energy Information Administration, Form EIA-860 Annual Electric Generator Report, environmental
+    schedules
+  url: https://www.eia.gov/electricity/data/eia860/
+cite: U.S. Energy Information Administration (EIA). Form EIA-860 Annual Electric Generator Report, boilers, what they serve
+  and what controls them. Via the Energy Research Warehouse (ERW), table `eia860_boilers`.
+method: docs/methods/eia860_environment.md
+header_title: EIA-860, boilers, what they serve and what controls them, data year 2025 (session 896)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_type equipment (Decision 54); entity_id eia860_boiler:<plant>:<boiler>,
+  eia860_cooling:<plant>:<cooling id> or eia860_control:<plant>:<equipment type>:<control ids>; name the plant''s name and
+  the part; status from EIA''s code (x_eia_status); status_date the month in service (operating) or retired; x_* EIA''s columns,
+  headings as names; the boiler''s generators, cooling systems, controls and stacks as lists joined with '';'' (x_generator_ids
+  and the rest).'
+read:
+  date: '2026-11-20'
+  rows: 4384
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  particular: eia860_boiler:<plant code>:<boiler id>
+  type: text
+  values:
+    distinct: 4384
+    examples:
+    - eia860_boiler:10003:BLR1
+    - eia860_boiler:10003:BLR2
+    - eia860_boiler:10003:BLR3
+    - eia860_boiler:10003:BLR4
+    - eia860_boiler:10003:BLR5
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  particular: 'Always equipment (Decision 54: a part of a plant that is neither a generator nor the plant)'
+  type: text
+  values:
+    list:
+      equipment: 4384
+  missing_cells: 0
+- name: name
+  shared: true
+  particular: The plant's name, the word boiler and the boiler id
+  type: text
+  values:
+    distinct: 4384
+    examples:
+    - 2 AC Station boiler 211
+    - 2 AC Station boiler 212
+    - 2 AC Station boiler 213
+    - A B Brown boiler 1
+    - A B Brown boiler 2
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<plant state>
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: lat
+  shared: true
+  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 4384
+- name: lon
+  shared: true
+  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 4384
+- name: capacity_mw
+  shared: true
+  particular: Not filled
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 4384
+- name: status
+  shared: true
+  particular: 'EIA''s boiler status code (x_eia_status) as the standard''s word, read in capitals: OP, SB, OA, OS, SC, OZ
+    operating; PL planned; CO, TS under_construction; RE retired; CN withdrawn'
+  type: text
+  values:
+    list:
+      operating: 3034
+      planned: 8
+      retired: 1313
+      under_construction: 11
+      withdrawn: 18
+  missing_cells: 0
+- name: status_date
+  shared: true
+  particular: The first day of the month in service (operating) or of retirement (retired); empty for 233 operating boilers
+    with no in-service month or year, 54 retired with no retirement date, and the others
+  type: date
+  values:
+    distinct: 785
+    earliest: '1926-06-01'
+    latest: '2050-12-01'
+  missing_cells: 324
+- name: operator
+  shared: true
+  particular: EIA's Utility Name
+  type: text
+  values:
+    distinct: 894
+    examples:
+    - AES Alamitos Energy, LLC
+    - AES Alamitos LLC
+    - AES Huntington Beach Energy, LLC
+    - AES Huntington Beach LLC
+    - AES Indiana
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia860:boilers: 4384
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia860/xls/eia8602025.zip: 4384
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T03:33:49Z': 4384
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The data year, 2025
+  type: integer
+  values:
+    list:
+      '2025': 4384
+  missing_cells: 0
+- name: x_plant_code
+  label: EIA's plant code
+  unit: none
+  type: integer
+  values:
+    distinct: 1538
+    lowest: 3
+    highest: 68635
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Plant Code
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
+- name: x_state
+  label: The plant's state, two-letter postal code
+  unit: none
+  type: text
+  values:
+    distinct: 51
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: State
+  documented_by: method eia860_environment.md
+- name: x_eia_status
+  label: 'EIA''s status code of the boiler, kept as given (some in lower case): OP operating, SB standby, OA and OS out of
+    service, SC cold standby, PL planned, CO under construction, TS operating under test, RE retired, CN canceled'
+  unit: none
+  type: text
+  values:
+    list:
+      CN: 18
+      CO: 9
+      OA: 1
+      OP: 2931
+      OS: 58
+      PL: 8
+      RE: 1312
+      SB: 30
+      SC: 7
+      TS: 2
+      op: 6
+      os: 1
+      re: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Boiler Status
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
+- name: x_utility_id
+  label: EIA's identifier of the utility that operates the plant
+  unit: none
+  type: integer
+  values:
+    distinct: 901
+    lowest: 7
+    highest: 67826
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Utility ID
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
+- name: x_plant_name
+  label: The plant's name
+  unit: none
+  type: text
+  values:
+    distinct: 1538
+    examples:
+    - 2 AC Station
+    - A B Brown
+    - A B Paterson
+    - AES Alamitos Energy Center
+    - AES Alamitos LLC
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Plant Name
+  documented_by: method eia860_environment.md
+- name: x_boiler_id
+  label: EIA's boiler identifier within the plant
+  unit: none
+  type: text
+  values:
+    distinct: 1052
+    examples:
+    - '0001'
+    - '0002'
+    - '001'
+    - '01'
+    - 01-SGS
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Boiler ID
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
+- name: x_hrsg
+  label: Whether the boiler is a heat recovery steam generator (the boiler of a combined cycle that takes a turbine's exhaust
+    heat), Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 2367
+      Y: 1277
+  missing_cells: 740
+  missing_meaning: EIA gives none
+  source_name: Heat Recovery Steam Generator
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_boiler_status
+  label: EIA's boiler status code as EIA gives it (the same code as x_eia_status)
+  unit: none
+  type: text
+  values:
+    list:
+      CN: 18
+      CO: 9
+      OA: 1
+      OP: 2931
+      OS: 58
+      PL: 8
+      RE: 1312
+      SB: 30
+      SC: 7
+      TS: 2
+      op: 6
+      os: 1
+      re: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Boiler Status
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_type_of_boiler
+  label: 'The federal emission standards the boiler operates under (40 CFR): D, Da, Db fossil-fuel steam boilers begun after
+    1971, 1978, 1984; Dc small industrial-commercial-institutional units; N not covered by New Source Performance Standards'
+  unit: none
+  type: text
+  values:
+    list:
+      D: 292
+      Da: 392
+      Db: 670
+      Dc: 56
+      N: 2281
+  missing_cells: 693
+  missing_meaning: EIA gives none
+  source_name: Type of Boiler
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_inservice_month
+  label: The actual or projected month the boiler entered service
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 335
+      '10': 213
+      '11': 183
+      '12': 368
+      '2': 141
+      '24': 5
+      '3': 224
+      '4': 269
+      '5': 420
+      '6': 1052
+      '7': 304
+      '8': 195
+      '9': 181
+  missing_cells: 494
+  missing_meaning: EIA gives none
+  source_name: Inservice Month
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_inservice_year
+  label: The actual or projected year the boiler entered service
+  unit: none
+  type: integer
+  values:
+    distinct: 96
+    lowest: 1926
+    highest: 2028
+  missing_cells: 488
+  missing_meaning: EIA gives none
+  source_name: Inservice Year
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_retirement_month
+  label: The actual or projected month of the boiler's retirement
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 136
+      '10': 111
+      '11': 86
+      '12': 409
+      '2': 67
+      '3': 134
+      '4': 128
+      '5': 109
+      '6': 298
+      '7': 72
+      '8': 59
+      '9': 108
+  missing_cells: 2667
+  missing_meaning: No retirement reported
+  source_name: Retirement Month
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_retirement_year
+  label: The actual or projected year of the boiler's retirement
+  unit: none
+  type: integer
+  values:
+    distinct: 79
+    lowest: 1966
+    highest: 2100
+  missing_cells: 2670
+  missing_meaning: No retirement reported
+  source_name: Retirement Year
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_firing_type_1
+  label: The boiler's firing type, EIA's code (CB cell burner, CY cyclone, DB duct burner, FB fluidized bed, SS stoker, TF
+    tangential, VF vertical, WF wall fired, OT other)
+  unit: none
+  type: text
+  values:
+    list:
+      CB: 7
+      CY: 76
+      DB: 726
+      FB: 60
+      OT: 119
+      SS: 40
+      TF: 579
+      VF: 39
+      WF: 846
+  missing_cells: 1892
+  missing_meaning: EIA gives none
+  source_name: Firing Type 1
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_firing_type_2
+  label: A second firing type of the boiler, EIA's code (as x_firing_type_1)
+  unit: none
+  type: text
+  values:
+    list:
+      DB: 18
+      OT: 24
+      SS: 5
+      TF: 20
+      VF: 1
+      WF: 18
+  missing_cells: 4298
+  missing_meaning: No second firing type
+  source_name: Firing Type 2
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_firing_type_3
+  label: A third firing type of the boiler, EIA's code (as x_firing_type_1)
+  unit: none
+  type: text
+  values:
+    list:
+      FB: 2
+      OT: 1
+      WF: 8
+  missing_cells: 4373
+  missing_meaning: No third firing type
+  source_name: Firing Type 3
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_max_steam_flow_thousand_pounds_per_hour
+  label: Maximum continuous steam flow at 100 percent load
+  unit: thousand lb/h
+  type: number
+  values:
+    distinct: 782
+    lowest: 60.0
+    highest: 13000.0
+  missing_cells: 1904
+  missing_meaning: EIA gives none
+  source_name: Max Steam Flow (Thousand Pounds per Hour)
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_firing_rate_using_coal_0_1_tons_per_hour
+  label: Design firing rate for coal at maximum continuous steam flow (to the nearest 0.1 ton an hour)
+  unit: ton/h
+  type: number
+  values:
+    distinct: 538
+    lowest: 0.0
+    highest: 773.4
+  missing_cells: 2787
+  missing_meaning: EIA gives none (no coal design rate)
+  source_name: Firing Rate Using Coal (0.1 Tons per Hour)
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_firing_rate_using_petroleum_0_1_barrels_per_hour
+  label: Design firing rate for petroleum at maximum continuous steam flow (to the nearest 0.1 barrel an hour)
+  unit: barrel/h
+  type: number
+  values:
+    distinct: 343
+    lowest: 0.0
+    highest: 1512.0
+  missing_cells: 2546
+  missing_meaning: EIA gives none (no petroleum design rate)
+  source_name: Firing Rate Using Petroleum (0.1 Barrels per Hour)
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_firing_rate_using_gas_0_1_mcf_per_hour
+  label: Design firing rate for gas at maximum continuous steam flow, in the heading's thousand cubic feet an hour (EIA's
+    description says cubic feet)
+  unit: Mcf/h
+  type: number
+  values:
+    distinct: 766
+    lowest: 0.0
+    highest: 9676.0
+  missing_cells: 1991
+  missing_meaning: EIA gives none (no gas design rate)
+  source_name: Firing Rate Using Gas (0.1 MCF per Hour)
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_firing_rate_using_other_fuels
+  label: Design firing rate at maximum continuous steam flow for energy sources other than coal, petroleum or natural gas
+  unit: not documented by the source
+  type: integer
+  values:
+    distinct: 108
+    lowest: 0
+    highest: 450000
+  missing_cells: 2536
+  missing_meaning: EIA gives none
+  source_name: Firing Rate Using Other Fuels
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_waste_heat_input_million_btu_per_hour
+  label: Design waste-heat input rate at maximum continuous steam flow (for a boiler fed by the exhaust of a separate process)
+  unit: MMBtu/h
+  type: number
+  values:
+    distinct: 343
+    lowest: 0.0
+    highest: 2578684.0
+  missing_cells: 3457
+  missing_meaning: EIA gives none
+  source_name: Waste Heat Input (Million BTU per Hour)
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_primary_fuel_1
+  label: The boiler's most predominant primary fuel, EIA's energy source code (BIT bituminous coal, NG natural gas and the
+    others)
+  unit: none
+  type: text
+  values:
+    list:
+      AB: 3
+      BFG: 23
+      BIT: 494
+      BLQ: 49
+      DFO: 19
+      LIG: 24
+      MSW: 10
+      NG: 1404
+      OBS: 1
+      OG: 42
+      OTH: 5
+      PC: 6
+      RC: 10
+      RFO: 70
+      SGC: 2
+      SGP: 1
+      SLW: 2
+      SUB: 344
+      WC: 4
+      WDL: 2
+      WDS: 31
+      WH: 1
+  missing_cells: 1837
+  missing_meaning: EIA gives none
+  source_name: Primary Fuel 1
+  documented_by: source EIA-860 LayoutY2025.xlsx; connector eia860.py
+- name: x_primary_fuel_2
+  label: The boiler's second primary fuel in order of predominance, EIA's energy source code
+  unit: none
+  type: text
+  values:
+    list:
+      BIT: 94
+      BLQ: 1
+      DFO: 250
+      LFG: 5
+      LIG: 2
+      NG: 278
+      OBG: 2
+      OBS: 3
+      OG: 41
+      OTH: 1
+      PC: 10
+      PG: 6
+      RC: 10
+      RFO: 109
+      SGC: 1
+      SLW: 7
+      SUB: 51
+      TDF: 5
+      WC: 5
+      WDS: 21
+      WO: 9
+  missing_cells: 3473
+  missing_meaning: No second fuel
+  source_name: Primary Fuel 2
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_primary_fuel_3
+  label: The boiler's third primary fuel in order of predominance, EIA's energy source code
+  unit: none
+  type: text
+  values:
+    list:
+      BIT: 14
+      DFO: 47
+      LFG: 1
+      LIG: 4
+      NG: 38
+      OBG: 1
+      OBS: 2
+      OG: 15
+      OTH: 2
+      PC: 5
+      PG: 1
+      RC: 2
+      RFO: 18
+      SLW: 2
+      SUB: 8
+      TDF: 9
+      WDS: 12
+      WO: 8
+  missing_cells: 4195
+  missing_meaning: No third fuel
+  source_name: Primary Fuel 3
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_primary_fuel_4
+  label: The boiler's fourth primary fuel in order of predominance, EIA's energy source code
+  unit: none
+  type: text
+  values:
+    list:
+      BFG: 2
+      DFO: 6
+      NG: 3
+      OTH: 2
+      PC: 5
+      RC: 1
+      RFO: 9
+      SLW: 3
+      SUB: 5
+      TDF: 5
+      WDS: 2
+      WO: 4
+  missing_cells: 4337
+  missing_meaning: No fourth fuel
+  source_name: Primary Fuel 4
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_turndown_ratio
+  label: The boiler's turndown ratio (its highest firing rate over its lowest stable one)
+  unit: ratio
+  type: number
+  values:
+    distinct: 187
+    lowest: 0.0
+    highest: 2026.0
+  missing_cells: 2159
+  missing_meaning: EIA gives none
+  source_name: Turndown Ratio
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_efficiency_100_load
+  label: Boiler efficiency at 100 percent load, as a fraction (0.85 is 85 percent)
+  unit: ratio
+  type: number
+  values:
+    distinct: 244
+    lowest: 0.264
+    highest: 0.995
+  missing_cells: 1932
+  missing_meaning: EIA gives none
+  source_name: Efficiency 100% Load
+  documented_by: source EIA-860 LayoutY2025.xlsx; data
+- name: x_efficiency_50_load
+  label: Boiler efficiency at 50 percent load, as a fraction
+  unit: ratio
+  type: number
+  values:
+    distinct: 244
+    lowest: 0.25
+    highest: 0.995
+  missing_cells: 1983
+  missing_meaning: EIA gives none
+  source_name: Efficiency 50% Load
+  documented_by: source EIA-860 LayoutY2025.xlsx; data
+- name: x_air_flow_100_load_cubic_feet_per_minute
+  label: Total air flow, excess air included, at 100 percent load, at 68 F and one atmosphere
+  unit: ft3/min
+  type: number
+  values:
+    distinct: 1303
+    lowest: 75.0
+    highest: 8961832.0
+  missing_cells: 1920
+  missing_meaning: EIA gives none
+  source_name: Air Flow 100% Load (Cubic Feet per Minute)
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_wet_dry_bottom
+  label: W wet bottom (slag tanks at the furnace throat hold molten ash) or D dry bottom (no slag tanks)
+  unit: none
+  type: text
+  values:
+    list:
+      D: 1162
+      W: 166
+  missing_cells: 3056
+  missing_meaning: EIA gives none
+  source_name: Wet Dry Bottom
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_fly_ash_reinjection
+  label: Whether the boiler can re-inject fly ash, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 2241
+      Y: 116
+  missing_cells: 2027
+  missing_meaning: EIA gives none
+  source_name: Fly Ash Reinjection
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_steam_plant_type
+  label: 'EIA''s steam plant type of the plant: 1 combustible-fueled steam capacity of 100 MW or more, 2 of 10 to 100 MW,
+    3 nuclear, combined cycle without duct firing or solar thermal steam of 100 MW or more, 4 the others (wind, PV, turbines,
+    engines)'
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 1890
+      '2': 1186
+      '3': 378
+      '4': 930
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Steam Plant Type
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
+- name: x_new_source_review
+  label: Whether the boiler is subject to New Source Review (a Clean Air Act permit for new or modified sources), Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 2233
+      Y: 907
+  missing_cells: 1244
+  missing_meaning: EIA gives none
+  source_name: New Source Review
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_new_source_review_permit
+  label: The New Source Review permit number
+  unit: none
+  type: text
+  values:
+    distinct: 482
+    examples:
+    - '#1-B-08-015'
+    - 0-2886
+    - 0040-00105-V6
+    - 0063-M9
+    - 00OPMR224
+  missing_cells: 3450
+  missing_meaning: No permit number given
+  source_name: New Source Review Permit
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_new_source_review_month
+  label: The month the New Source Review permit was issued
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 72
+      '10': 63
+      '11': 46
+      '12': 106
+      '2': 89
+      '3': 112
+      '4': 65
+      '5': 63
+      '6': 89
+      '7': 75
+      '8': 57
+      '9': 93
+  missing_cells: 3454
+  missing_meaning: No permit date given
+  source_name: New Source Review Month
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_new_source_review_year
+  label: The year the New Source Review permit was issued
+  unit: none
+  type: integer
+  values:
+    distinct: 49
+    lowest: 1974
+    highest: 2026
+  missing_cells: 3454
+  missing_meaning: No permit date given
+  source_name: New Source Review Year
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_regulation_sulfur
+  label: 'The most stringent level of regulation of the boiler''s sulfur dioxide: FD federal, ST state, LO local; XX as EIA
+    gives it'
+  unit: none
+  type: text
+  values:
+    list:
+      FD: 731
+      LO: 173
+      ST: 1861
+      XX: 677
+  missing_cells: 942
+  missing_meaning: EIA gives none
+  source_name: Regulation Sulfur
+  documented_by: source EIA-860 LayoutY2025.xlsx; data
+- name: x_standard_sulfur_rate
+  label: The sulfur dioxide limit of the most stringent regulation, in the unit x_unit_sulfur names
+  unit: the unit in x_unit_sulfur
+  type: number
+  values:
+    distinct: 539
+    lowest: 0.0
+    highest: 87253.0
+  missing_cells: 1966
+  missing_meaning: EIA gives none
+  source_name: Standard Sulfur Rate
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_standard_sulfur_percent_scrubbed
+  label: The share of sulfur dioxide the most stringent regulation requires scrubbed, as a fraction (0.9 is 90 percent)
+  unit: ratio
+  type: number
+  values:
+    distinct: 33
+    lowest: 0.0
+    highest: 0.99
+  missing_cells: 3084
+  missing_meaning: EIA gives none
+  source_name: Standard Sulfur Percent Scrubbed
+  documented_by: source EIA-860 LayoutY2025.xlsx; data
+- name: x_unit_sulfur
+  label: The unit of the sulfur dioxide limit, EIA's code (DP pounds per million Btu, DH pounds an hour, DM ppm in stack gas,
+    SU percent sulfur in fuel and the others of EIA's Table 10)
+  unit: none
+  type: text
+  values:
+    list:
+      DC: 50
+      DH: 609
+      DL: 4
+      DM: 306
+      DP: 1308
+      OT: 152
+      SB: 88
+      SR: 28
+      SU: 188
+  missing_cells: 1651
+  missing_meaning: EIA gives none
+  source_name: Unit Sulfur
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_period_sulfur
+  label: The time period of the limit, EIA's code (NV never to exceed, OH 1 hour, DA 24 hours, MO 30 days, PS periodic stack
+    testing, NS not specified and the others of EIA's Table 11)
+  unit: none
+  type: text
+  values:
+    list:
+      DA: 510
+      DT: 32
+      FM: 1
+      FT: 4
+      MO: 445
+      ND: 3
+      NS: 96
+      NV: 355
+      OH: 471
+      OT: 115
+      PS: 62
+      SM: 1
+      TH: 431
+      WA: 2
+      WO: 28
+      YR: 177
+  missing_cells: 1651
+  missing_meaning: EIA gives none
+  source_name: Period Sulfur
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_compliance_year_sulfur
+  label: The year the boiler was or is expected to be in compliance with sulfur dioxide regulations
+  unit: none
+  type: integer
+  values:
+    distinct: 78
+    lowest: 1949
+    highest: 2027
+  missing_cells: 1606
+  missing_meaning: EIA gives none
+  source_name: Compliance Year Sulfur
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_sulfur_dioxide_control_existing_strategy_1
+  label: An existing strategy to meet the sulfur dioxide regulation, EIA's code (IF desulfurization or other SO2 control,
+    SS lower-sulfur fuel, WA emission allowances, CF fluidized bed, ND not determined, NP no plans, OT other)
+  unit: none
+  type: text
+  values:
+    list:
+      CF: 88
+      IF: 554
+      ND: 108
+      NP: 218
+      OT: 311
+      SS: 554
+      WA: 183
+  missing_cells: 2368
+  missing_meaning: No strategy given
+  source_name: Sulfur Dioxide Control Existing Strategy 1
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_sulfur_dioxide_control_existing_strategy_2
+  label: A second existing sulfur dioxide strategy, EIA's code (as strategy 1)
+  unit: none
+  type: text
+  values:
+    list:
+      CF: 5
+      IF: 109
+      ND: 9
+      NP: 7
+      OT: 26
+      SS: 53
+      WA: 55
+  missing_cells: 4120
+  missing_meaning: No second strategy
+  source_name: Sulfur Dioxide Control Existing Strategy 2
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_sulfur_dioxide_control_existing_strategy_3
+  label: A third existing sulfur dioxide strategy, EIA's code (as strategy 1)
+  unit: none
+  type: text
+  values:
+    list:
+      IF: 4
+      ND: 9
+      NP: 5
+      OT: 8
+      SS: 14
+      WA: 7
+  missing_cells: 4337
+  missing_meaning: No third strategy
+  source_name: Sulfur Dioxide Control Existing Strategy 3
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_sulfur_dioxide_control_proposed_strategy_1
+  label: A proposed strategy to meet the sulfur dioxide regulation, EIA's code (as the existing strategies; SE seeking revision
+    of the regulation)
+  unit: none
+  type: text
+  values:
+    list:
+      CF: 77
+      IF: 435
+      ND: 192
+      NP: 318
+      OT: 284
+      SE: 1
+      SS: 371
+      WA: 163
+  missing_cells: 2543
+  missing_meaning: No strategy given
+  source_name: Sulfur Dioxide Control Proposed Strategy 1
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_sulfur_dioxide_control_proposed_strategy_2
+  label: A second proposed sulfur dioxide strategy, EIA's code
+  unit: none
+  type: text
+  values:
+    list:
+      CF: 2
+      IF: 60
+      ND: 10
+      NP: 13
+      OT: 21
+      SS: 38
+      WA: 48
+  missing_cells: 4192
+  missing_meaning: No second strategy
+  source_name: Sulfur Dioxide Control Proposed Strategy 2
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_sulfur_dioxide_control_proposed_strategy_3
+  label: A third proposed sulfur dioxide strategy, EIA's code
+  unit: none
+  type: text
+  values:
+    list:
+      IF: 4
+      ND: 8
+      NP: 11
+      OT: 8
+      SS: 3
+      WA: 7
+  missing_cells: 4343
+  missing_meaning: No third strategy
+  source_name: Sulfur Dioxide Control Proposed Strategy 3
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_regulation_nitrogen
+  label: 'The most stringent level of regulation of the boiler''s nitrogen oxides: FD federal, ST state, LO local; XX as EIA
+    gives it'
+  unit: none
+  type: text
+  values:
+    list:
+      FD: 1068
+      LO: 194
+      ST: 1814
+      XX: 208
+  missing_cells: 1100
+  missing_meaning: EIA gives none
+  source_name: Regulation Nitrogen
+  documented_by: source EIA-860 LayoutY2025.xlsx; data
+- name: x_standard_nitrogen_rate
+  label: The nitrogen oxides limit of the most stringent regulation, in the unit x_unit_nitrogen names
+  unit: the unit in x_unit_nitrogen
+  type: number
+  values:
+    distinct: 538
+    lowest: 0.0
+    highest: 220000.0
+  missing_cells: 1520
+  missing_meaning: EIA gives none
+  source_name: Standard Nitrogen Rate
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_unit_nitrogen
+  label: The unit of the nitrogen oxides limit, EIA's code (NP pounds per million Btu, NH pounds an hour, NM ppm in stack
+    gas, NO ambient ppm, NL below a previous year's level, OT other)
+  unit: none
+  type: text
+  values:
+    list:
+      NH: 544
+      NL: 3
+      NM: 712
+      'NO': 7
+      NP: 1561
+      OT: 226
+  missing_cells: 1331
+  missing_meaning: EIA gives none
+  source_name: Unit Nitrogen
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_period_nitrogen
+  label: The time period of the nitrogen oxides limit, EIA's code (as x_period_sulfur)
+  unit: none
+  type: text
+  values:
+    list:
+      DA: 416
+      DT: 11
+      EH: 8
+      FM: 1
+      FT: 14
+      MO: 690
+      ND: 5
+      NS: 46
+      NV: 127
+      OH: 590
+      OT: 127
+      PS: 75
+      TH: 358
+      WA: 4
+      WO: 4
+      YR: 572
+  missing_cells: 1336
+  missing_meaning: EIA gives none
+  source_name: Period Nitrogen
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_compliance_year_nitrogen
+  label: The year the boiler was or is expected to be in compliance with nitrogen oxides regulations (0 in some rows, as EIA
+    gives it)
+  unit: none
+  type: integer
+  values:
+    distinct: 77
+    lowest: 0
+    highest: 2027
+  missing_cells: 1329
+  missing_meaning: EIA gives none
+  source_name: Compliance Year Nitrogen
+  documented_by: source EIA-860 LayoutY2025.xlsx; data
+- name: x_nitrogen_oxide_control_existing_strategy_1
+  label: An existing strategy to meet the nitrogen oxides regulation, EIA's code (LN low NOx burner, SR selective catalytic
+    reduction, NH3 ammonia injection, FR flue gas recirculation, OV overfire air and the others of EIA's Table 14)
+  unit: none
+  type: text
+  values:
+    list:
+      AA: 46
+      BF: 13
+      BO: 10
+      CF: 65
+      FR: 118
+      FU: 7
+      H20: 24
+      LA: 71
+      LN: 1010
+      ND: 37
+      NH3: 146
+      NP: 95
+      OT: 107
+      OV: 229
+      RP: 1
+      SN: 195
+      SR: 566
+      STM: 63
+      UE: 18
+  missing_cells: 1563
+  missing_meaning: No strategy given
+  source_name: Nitrogen Oxide Control Existing Strategy 1
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_nitrogen_oxide_control_existing_strategy_2
+  label: A second existing nitrogen oxides strategy, EIA's code (as strategy 1)
+  unit: none
+  type: text
+  values:
+    list:
+      AA: 36
+      BF: 2
+      BO: 3
+      CF: 12
+      FR: 87
+      FU: 4
+      H20: 23
+      LA: 47
+      LN: 274
+      ND: 9
+      NH3: 161
+      NP: 6
+      OT: 9
+      OV: 263
+      SN: 97
+      SR: 347
+      STM: 13
+      UE: 4
+  missing_cells: 2987
+  missing_meaning: No second strategy
+  source_name: Nitrogen Oxide Control Existing Strategy 2
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_nitrogen_oxide_control_existing_strategy_3
+  label: A third existing nitrogen oxides strategy, EIA's code (as strategy 1)
+  unit: none
+  type: text
+  values:
+    list:
+      AA: 7
+      BF: 3
+      BO: 1
+      CF: 2
+      FR: 6
+      FU: 3
+      H20: 21
+      LA: 25
+      LN: 47
+      ND: 6
+      NH3: 77
+      NP: 1
+      OT: 24
+      OV: 68
+      SN: 66
+      SR: 176
+      STM: 2
+      UE: 2
+  missing_cells: 3847
+  missing_meaning: No third strategy
+  source_name: Nitrogen Oxide Control Existing Strategy 3
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_nitrogen_oxide_control_proposed_strategy_1
+  label: A proposed strategy to meet the nitrogen oxides regulation, EIA's code (as the existing strategies)
+  unit: none
+  type: text
+  values:
+    list:
+      AA: 42
+      BF: 6
+      BO: 18
+      CF: 43
+      FR: 91
+      FU: 4
+      H20: 21
+      LA: 45
+      LN: 671
+      ND: 117
+      NH3: 132
+      NP: 193
+      OT: 129
+      OV: 147
+      RP: 1
+      SN: 177
+      SR: 485
+      STM: 44
+      UE: 18
+  missing_cells: 2000
+  missing_meaning: No strategy given
+  source_name: Nitrogen Oxide Control Proposed Strategy 1
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_nitrogen_oxide_control_proposed_strategy_2
+  label: A second proposed nitrogen oxides strategy, EIA's code
+  unit: none
+  type: text
+  values:
+    list:
+      AA: 27
+      BF: 2
+      BO: 2
+      CF: 6
+      FR: 59
+      H20: 9
+      LA: 38
+      LN: 176
+      ND: 11
+      NH3: 109
+      NP: 7
+      OT: 9
+      OV: 165
+      SN: 63
+      SR: 209
+      STM: 9
+      UE: 9
+  missing_cells: 3474
+  missing_meaning: No second strategy
+  source_name: Nitrogen Oxide Control Proposed Strategy 2
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_nitrogen_oxide_control_proposed_strategy_3
+  label: A third proposed nitrogen oxides strategy, EIA's code
+  unit: none
+  type: text
+  values:
+    list:
+      AA: 4
+      BF: 1
+      BO: 1
+      CF: 1
+      FR: 7
+      FU: 1
+      H20: 20
+      LA: 17
+      LN: 23
+      ND: 6
+      NH3: 64
+      NP: 1
+      OT: 15
+      OV: 45
+      SN: 44
+      SR: 105
+      STM: 2
+      UE: 1
+  missing_cells: 4026
+  missing_meaning: No third strategy
+  source_name: Nitrogen Oxide Control Proposed Strategy 3
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_regulation_particulate
+  label: 'The most stringent level of regulation of the boiler''s particulate matter: FD federal, ST state, LO local; XX as
+    EIA gives it'
+  unit: none
+  type: text
+  values:
+    list:
+      FD: 774
+      LO: 191
+      ST: 1919
+      XX: 311
+  missing_cells: 1189
+  missing_meaning: EIA gives none
+  source_name: Regulation Particulate
+  documented_by: source EIA-860 LayoutY2025.xlsx; data
+- name: x_standard_particulate_rate
+  label: The particulate matter limit of the most stringent regulation, in the unit x_unit_particulate names
+  unit: the unit in x_unit_particulate
+  type: number
+  values:
+    distinct: 469
+    lowest: 0.0
+    highest: 2500.0
+  missing_cells: 1606
+  missing_meaning: EIA gives none
+  source_name: Standard Particulate Rate
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_unit_particulate
+  label: The unit of the particulate limit, EIA's code (PB pounds per million Btu, PH pounds an hour, OP percent opacity,
+    PC grains per standard cubic foot, PG pounds per thousand pounds of stack gas, UG micrograms per cubic metre, OT other)
+  unit: none
+  type: text
+  values:
+    list:
+      OP: 249
+      OT: 69
+      PB: 1640
+      PC: 158
+      PG: 33
+      PH: 625
+      UG: 18
+  missing_cells: 1592
+  missing_meaning: EIA gives none
+  source_name: Unit Particulate
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_period_particulate
+  label: The time period of the particulate limit, EIA's code (as x_period_sulfur)
+  unit: none
+  type: text
+  values:
+    list:
+      DA: 87
+      DT: 117
+      EH: 5
+      FM: 1
+      FT: 21
+      MO: 112
+      NS: 136
+      NV: 342
+      OH: 588
+      OT: 63
+      PS: 609
+      SM: 201
+      TH: 252
+      WA: 6
+      WO: 32
+      YR: 103
+  missing_cells: 1709
+  missing_meaning: EIA gives none
+  source_name: Period Particulate
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_compliance_year_particulate
+  label: The year the boiler was or is expected to be in compliance with particulate matter regulations
+  unit: none
+  type: integer
+  values:
+    distinct: 81
+    lowest: 1934
+    highest: 2027
+  missing_cells: 1555
+  missing_meaning: EIA gives none
+  source_name: Compliance Year Particulate
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_regulation_mercury
+  label: 'The most stringent level of regulation of the boiler''s mercury: FD federal, ST state, LO local; XX as EIA gives
+    it'
+  unit: none
+  type: text
+  values:
+    list:
+      FD: 928
+      LO: 19
+      ST: 434
+      XX: 739
+  missing_cells: 2264
+  missing_meaning: EIA gives none
+  source_name: Regulation Mercury
+  documented_by: source EIA-860 LayoutY2025.xlsx; data
+- name: x_compliance_year_mercury
+  label: The year the boiler was or is expected to be in compliance with mercury regulations (0 in some rows, as EIA gives
+    it)
+  unit: none
+  type: integer
+  values:
+    distinct: 59
+    lowest: 0
+    highest: 2034
+  missing_cells: 2908
+  missing_meaning: EIA gives none
+  source_name: Compliance Year Mercury
+  documented_by: source EIA-860 LayoutY2025.xlsx; data
+- name: x_mercury_control_existing_strategy_1
+  label: An existing strategy to meet the mercury regulation, EIA's code (ACI activated carbon injection, baghouses BP, BR,
+    BS, precipitators EC, EH, EK, EW, scrubbers, DSI dry sorbent injection and the others of EIA's Table 16)
+  unit: none
+  type: text
+  values:
+    list:
+      ACI: 315
+      BP: 163
+      BR: 71
+      BS: 3
+      CD: 3
+      DSI: 7
+      EC: 34
+      EK: 119
+      EW: 32
+      JB: 16
+      LIJ: 3
+      ND: 49
+      NP: 29
+      OT: 109
+      SD: 21
+      SP: 70
+      TR: 21
+      VE: 12
+  missing_cells: 3307
+  missing_meaning: No strategy given
+  source_name: Mercury Control Existing Strategy 1
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_mercury_control_existing_strategy_2
+  label: A second existing mercury strategy, EIA's code (as strategy 1)
+  unit: none
+  type: text
+  values:
+    list:
+      ACI: 66
+      BP: 74
+      BR: 15
+      BS: 3
+      CD: 6
+      DSI: 29
+      EC: 22
+      EK: 70
+      EW: 4
+      JB: 2
+      LIJ: 12
+      ND: 3
+      NP: 3
+      OT: 63
+      SD: 53
+      SP: 89
+      TR: 12
+      VE: 6
+  missing_cells: 3852
+  missing_meaning: No second strategy
+  source_name: Mercury Control Existing Strategy 2
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_mercury_control_existing_strategy_3
+  label: A third existing mercury strategy, EIA's code (as strategy 1)
+  unit: none
+  type: text
+  values:
+    list:
+      ACI: 64
+      BP: 9
+      BR: 7
+      CD: 8
+      DSI: 15
+      EH: 1
+      EK: 26
+      EW: 3
+      JB: 6
+      LIJ: 1
+      MC: 2
+      ND: 3
+      OT: 63
+      SD: 27
+      SP: 30
+      TR: 3
+  missing_cells: 4116
+  missing_meaning: No third strategy
+  source_name: Mercury Control Existing Strategy 3
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_mercury_control_proposed_strategy_1
+  label: A proposed strategy to meet the mercury regulation, EIA's code (as the existing strategies)
+  unit: none
+  type: text
+  values:
+    list:
+      ACI: 262
+      BP: 124
+      BR: 58
+      BS: 3
+      CD: 1
+      DSI: 10
+      EC: 28
+      EK: 75
+      EW: 21
+      JB: 16
+      LIJ: 3
+      ND: 72
+      NP: 32
+      OT: 115
+      SD: 15
+      SP: 59
+      TR: 15
+      VE: 12
+  missing_cells: 3463
+  missing_meaning: No strategy given
+  source_name: Mercury Control Proposed Strategy 1
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_mercury_control_proposed_strategy_2
+  label: A second proposed mercury strategy, EIA's code
+  unit: none
+  type: text
+  values:
+    list:
+      ACI: 52
+      BP: 50
+      BR: 14
+      BS: 3
+      CD: 4
+      DSI: 28
+      EC: 10
+      EK: 51
+      EW: 7
+      LIJ: 11
+      ND: 3
+      NP: 3
+      OT: 54
+      SD: 32
+      SP: 59
+      TR: 10
+      VE: 6
+  missing_cells: 3987
+  missing_meaning: No second strategy
+  source_name: Mercury Control Proposed Strategy 2
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_mercury_control_proposed_strategy_3
+  label: A third proposed mercury strategy, EIA's code
+  unit: none
+  type: text
+  values:
+    list:
+      ACI: 35
+      BP: 5
+      BR: 4
+      CD: 8
+      DSI: 9
+      EK: 28
+      EW: 4
+      LIJ: 1
+      MC: 2
+      ND: 3
+      OT: 47
+      SD: 22
+      SP: 20
+      TR: 4
+  missing_cells: 4192
+  missing_meaning: No third strategy
+  source_name: Mercury Control Proposed Strategy 3
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_generator_ids
+  label: The generator ids at the plant the boiler serves, from EIA's Boiler Generator sheet, joined with ';'
+  unit: none
+  type: text
+  values:
+    distinct: 520
+    examples:
+    - '0001'
+    - 0001;0002;0003;0004
+    - 0001;0002;0003;0004;0005
+    - '0002'
+    - '0003'
+  missing_cells: 5
+  missing_meaning: The boiler names no generator (5 boilers)
+  source_name: null
+  documented_by: method eia860_environment.md
+- name: x_cooling_ids
+  label: The cooling system ids associated with the boiler, from EIA's Boiler Cooling sheet, joined with ';'
+  unit: none
+  type: text
+  values:
+    distinct: 498
+    examples:
+    - '0'
+    - '001'
+    - '002'
+    - '003'
+    - '004'
+  missing_cells: 1715
+  missing_meaning: No cooling system associated
+  source_name: null
+  documented_by: method eia860_environment.md
+- name: x_pm_control_ids
+  label: The particulate matter control ids associated with the boiler, joined with ';'
+  unit: none
+  type: text
+  values:
+    distinct: 721
+    examples:
+    - '0001'
+    - '01'
+    - '02'
+    - '041'
+    - 061P
+  missing_cells: 2442
+  missing_meaning: No particulate control associated
+  source_name: null
+  documented_by: method eia860_environment.md
+- name: x_so2_control_ids
+  label: The sulfur dioxide control ids associated with the boiler, joined with ';'
+  unit: none
+  type: text
+  values:
+    distinct: 304
+    examples:
+    - '0001'
+    - '01'
+    - '02'
+    - '031'
+    - '1'
+  missing_cells: 3537
+  missing_meaning: No sulfur dioxide control associated
+  source_name: null
+  documented_by: method eia860_environment.md
+- name: x_nox_control_ids
+  label: The nitrogen oxides control ids associated with the boiler, joined with ';'
+  unit: none
+  type: text
+  values:
+    distinct: 501
+    examples:
+    - '#1NOX'
+    - '#2NOX'
+    - '#3NOX'
+    - '001'
+    - '002'
+  missing_cells: 2717
+  missing_meaning: No nitrogen oxides control associated
+  source_name: null
+  documented_by: method eia860_environment.md
+- name: x_mercury_control_ids
+  label: The mercury control ids associated with the boiler, joined with ';'
+  unit: none
+  type: text
+  values:
+    distinct: 393
+    examples:
+    - '#1CARB'
+    - '#2CARB'
+    - '#3CARB'
+    - '01'
+    - '02'
+  missing_cells: 3309
+  missing_meaning: No mercury control associated
+  source_name: null
+  documented_by: method eia860_environment.md
+- name: x_stack_flue_ids
+  label: The stack or flue ids associated with the boiler, joined with ';' (the stacks themselves are not taken)
+  unit: none
+  type: text
+  values:
+    distinct: 717
+    examples:
+    - '#1FLUE'
+    - '#2FLUE'
+    - '#3FLUE'
+    - '0'
+    - '00001'
+  missing_cells: 1831
+  missing_meaning: No stack associated
+  source_name: null
+  documented_by: method eia860_environment.md
+second_look:
+- 'x_firing_rate_using_other_fuels: EIA''s layout gives no unit for the design rate with other fuels.'
+- 'x_regulation_sulfur, x_regulation_nitrogen, x_regulation_particulate, x_regulation_mercury: the code XX is in the data
+  but not in EIA''s layout, which lists NA for unavailable or unknown.'
+- 'x_inservice_month: 5 rows hold 24, not a month; x_compliance_year_nitrogen and x_compliance_year_mercury hold 0 in some
+  rows. Kept as EIA gives them; no document explains them.'
+- 'x_nitrogen_oxide_control_*: the data writes H20 where EIA''s Table 14 writes H2O (water injection).'
+- 'x_firing_rate_using_gas_0_1_mcf_per_hour: the heading says MCF (thousand cubic feet) an hour, EIA''s description says cubic
+  feet an hour; the heading''s unit is used.'

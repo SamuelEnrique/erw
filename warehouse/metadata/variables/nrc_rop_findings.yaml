@@ -1,0 +1,443 @@
+# The codebook's metadata of table nrc_rop_findings (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: nrc_rop_findings
+family: nrc
+shape: events
+row: One inspection finding or violation the NRC issued at an operating reactor site under its Reactor Oversight Process.
+time: event_date is the issue date (a date).
+vintage_rule: A snapshot, written whole by each run from the NRC's workbook (updated at the same address).
+keys:
+- event_id
+license: public
+tier: source
+interval: event
+source:
+- name: 'nrc:rop_findings_violations U.S. Nuclear Regulatory Commission, NRC Data, Reactor Oversight Process: Findings and
+    Violations'
+  url: https://www.nrc.gov/documents-reports/nrc-data
+cite: 'U.S. Nuclear Regulatory Commission (NRC). NRC Data: Reactor Oversight Process findings and violations. Via the Energy
+  Research Warehouse (ERW), table `nrc_rop_findings`.'
+method: docs/methods/nrc_rop_findings.md
+header_title: U.S. Nuclear Regulatory Commission, Reactor Oversight Process findings and violations, 18,240 findings at 66
+  sites, issued 1999-07-29 to 2025-05-12 (session 2178)
+header_shape: 'Shape: events (docs/datastandard.md v0). event_id nrc_rop:<hash of the key fields>; event_date the issue date;
+  event_type the NRC''s type (ncv, fin, vio, nov, ncviv, noviv, av); parties the site; entity_ids nrc_reactor:<docket>; status
+  the significance color; x_ columns the NRC''s procedure, report, cornerstone, title, site code, cross-cutting aspect and
+  area, identified by, region, accession, traditional enforcement, severity, cornerstone attribute, year, quarter and link.'
+read:
+  date: '2026-11-20'
+  rows: 18240
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  particular: nrc_rop:<first 14 hex digits of a SHA-1 hash of docket, report number, issue date, procedure, title, type and
+    cornerstone attribute>
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - nrc_rop:000222b5adbf9c
+    - nrc_rop:0003eb1212b4b0
+    - nrc_rop:0005c1f6beeec2
+    - nrc_rop:0006d2c6f89b70
+    - nrc_rop:00098cbffd73ed
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    distinct: 3630
+    earliest: '1999-07-29'
+    latest: '2025-05-12'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  particular: 'The NRC''s type in lower case: ncv (non-cited violation), fin (finding), vio (violation), nov (notice of violation),
+    ncviv and noviv (the same at severity IV), av (apparent violation)'
+  type: text
+  values:
+    list:
+      av: 49
+      fin: 2320
+      ncv: 14779
+      ncviv: 107
+      nov: 128
+      noviv: 2
+      vio: 855
+  missing_cells: 0
+- name: parties
+  shared: true
+  particular: The site as the NRC names it
+  type: text
+  values:
+    distinct: 66
+    examples:
+    - Arkansas Nuclear One
+    - Beaver Valley
+    - Braidwood
+    - Browns Ferry
+    - Brunswick
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  particular: nrc_reactor:<docket>
+  type: text
+  values:
+    distinct: 108
+    examples:
+    - nrc_reactor:05000206
+    - nrc_reactor:05000219
+    - nrc_reactor:05000220
+    - nrc_reactor:05000237
+    - nrc_reactor:05000244
+  missing_cells: 0
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 18240
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 18240
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 18240
+- name: status
+  shared: true
+  particular: 'The significance color in lower case: green, white, yellow, red, greater than green'
+  type: text
+  values:
+    list:
+      greater than green: 186
+      green: 17357
+      red: 15
+      white: 609
+      yellow: 73
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      nrc:rop_findings_violations: 18240
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.nrc.gov/sites/default/files/doc_library/cdn/data/reactors/operating/dataset/findings-violations.xlsx: 18240
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-24T01:29:36Z': 18240
+  missing_cells: 0
+- name: x_procedure
+  label: The NRC inspection procedure the finding came from
+  unit: none
+  type: text
+  values:
+    distinct: 148
+    examples:
+    - 2201/004
+    - 2515/140
+    - 2515/148
+    - 2515/152
+    - 2515/153
+  missing_cells: 1
+  missing_meaning: The NRC gives none (1 row)
+  source_name: Procedure
+  documented_by: method nrc_rop_findings.md; connector nrc_rop_findings.py
+- name: x_report_number
+  label: The inspection report number
+  unit: none
+  type: integer
+  values:
+    distinct: 613
+    lowest: 1999003
+    highest: 2025420
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Report Number
+  documented_by: connector nrc_rop_findings.py
+- name: x_cornerstone
+  label: The Reactor Oversight Process cornerstone the finding falls under (Mitigating Systems, Initiating Events, Security,
+    Barrier Integrity and the others)
+  unit: none
+  type: text
+  values:
+    list:
+      Barrier Integrity: 1711
+      Emergency Preparedness: 547
+      Initiating Events: 2780
+      Misc: 135
+      Mitigating Systems: 10104
+      Occupational Radiation Safety: 849
+      Public Radiation Safety: 305
+      Security: 1809
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Cornerstone
+  documented_by: method nrc_rop_findings.md
+- name: x_cornerstone_code
+  label: The cornerstone's code (MS, IE, SEC, BI, ORS, EP, PRS, Misc)
+  unit: none
+  type: text
+  values:
+    list:
+      BI: 1711
+      EP: 547
+      IE: 2780
+      MS: 10104
+      Misc: 135
+      ORS: 849
+      PRS: 305
+      SEC: 1809
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: CornerstoneCode
+  documented_by: method nrc_rop_findings.md; data
+- name: x_title
+  label: The finding's title
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - '"1A" PSW Pump High Vibration Failure'
+    - '"A" CONTROL ROOM VENTILATION (CRV) TRIPPED DUE TO DIFFERENTIAL PRESSURE SWITCH SETPOINT DRIFT.'
+    - '"A" ESW Pump Power Supply Cables Submerged in Water'
+    - '"A" Emergency Diesel Generator Fuel Oil Transfer Pump Power Supply Cable Subjected to Continuous<br>Submersion in Water
+      Design Deficiency'
+    - '"A" MDAFW Pump Motor Outboard Bearing Damaged <br>'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Title
+  documented_by: connector nrc_rop_findings.py
+- name: x_site_code
+  label: The NRC's code of the site
+  unit: none
+  type: text
+  values:
+    distinct: 66
+    examples:
+    - ANO
+    - BF
+    - BRAI
+    - BRU
+    - BV
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Site Code
+  documented_by: connector nrc_rop_findings.py
+- name: x_cross_cutting_aspect
+  label: The cross-cutting aspect the NRC assigns, code and words (H.1 - Resources and the like); None or N where none
+  unit: none
+  type: text
+  values:
+    list:
+      H.1 - Resources: 197
+      H.10 - Bases for Decisions: 10
+      H.11 - Challenge the Unknown: 153
+      H.12 - Avoid Complacency: 350
+      H.13 - Consistent Process: 128
+      H.14 - Conservative Bias: 206
+      H.2 - Field Presence: 65
+      H.3 - Change Management: 131
+      H.4 - Teamwork: 89
+      H.5 - Work Management: 231
+      H.6 - Design Margins: 83
+      H.7 - Documentation: 90
+      H.8 - Procedure Adherence: 196
+      H.9 - Training: 70
+      N: 674
+      None: 15024
+      P.1 - Identification: 78
+      P.2 - Evaluation: 207
+      P.3 - Resolution: 146
+      P.4 - Trending: 16
+      P.5 - Operating Experience: 70
+      P.6 - Self-Assessment: 22
+      S.1 - SCWE Policy: 1
+      U: 2
+      X.12 - Accountability for Decisions: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: CrossCuttingAspect
+  documented_by: method nrc_rop_findings.md; data
+- name: x_cross_cutting_area
+  label: The cross-cutting area code as the NRC prints it (H, P, N, U, S, X)
+  unit: none
+  type: text
+  values:
+    list:
+      H: 1999
+      N: 15698
+      P: 539
+      S: 1
+      U: 2
+      X: 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: CrossCutting Area
+  documented_by: method nrc_rop_findings.md; data
+- name: x_identified_by
+  label: 'Who identified the finding: NRC - Identified or Self - Revealed'
+  unit: none
+  type: text
+  values:
+    list:
+      NRC - Identified: 14067
+      Self - Revealed: 4169
+  missing_cells: 4
+  missing_meaning: The NRC gives none (4 rows)
+  source_name: Idby
+  documented_by: method nrc_rop_findings.md
+- name: x_region
+  label: The NRC region (1 to 4) of the site
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 4233
+      '2': 3525
+      '3': 4985
+      '4': 5497
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Region
+  documented_by: method nrc_rop_findings.md
+- name: x_accession
+  label: The ADAMS (NRC document library) accession number of the report, as printed; some hold a note instead
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - M22217A111
+    - ML000000000
+    - ML003690419
+    - ML003690666
+    - ML003693106
+  missing_cells: 234
+  missing_meaning: The NRC gives none
+  source_name: Accession Number
+  documented_by: method nrc_rop_findings.md
+- name: x_traditional_enforcement
+  label: Whether the item is handled under traditional enforcement (True or False)
+  unit: none
+  type: boolean
+  values:
+    list:
+      'False': 18071
+      'True': 169
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: IsTraditionalEnforcement
+  documented_by: method nrc_rop_findings.md; connector nrc_rop_findings.py
+- name: x_severity
+  label: The item's severity level (III, IV, V), or None
+  unit: none
+  type: text
+  values:
+    list:
+      III: 10
+      IV: 143
+      None: 18074
+      V: 13
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Item Severity Type Code
+  documented_by: method nrc_rop_findings.md; connector nrc_rop_findings.py
+- name: x_cornerstone_attribute
+  label: The cornerstone attribute (Equipment Performance, Design Control, Human Performance and the others), or None
+  unit: none
+  type: text
+  values:
+    list:
+      Access Authorization: 22
+      Access Control: 59
+      Cladding Performance: 2
+      Configuration Control: 99
+      Cyber Security: 133
+      Design Control: 245
+      ERO Performance: 21
+      ERO Readiness: 3
+      Equipment Performance: 541
+      Facilities and Equipment: 19
+      Human Performance: 201
+      Material Control and Accounting: 4
+      None: 16126
+      Offsite EP: 7
+      Physical Protection System: 60
+      Plant Facilities/Equipment and Instrumentation: 14
+      Procedure Quality: 217
+      Program & Process: 91
+      Protection Against External Factors: 190
+      Protection of Safeguards Information: 7
+      RCS Equipment and Barrier Performance: 19
+      Response to Contingency Events: 97
+      SSC Performance: 8
+      SSC and Barrier Performance: 55
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Cornerstone Attribute Type
+  documented_by: method nrc_rop_findings.md; data
+- name: x_year
+  label: The NRC's year of the finding (the year of event_date in every row)
+  unit: none
+  type: integer
+  values:
+    distinct: 27
+    lowest: 1999
+    highest: 2025
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Year
+  documented_by: method nrc_rop_findings.md
+- name: x_quarter
+  label: The NRC's quarter of the finding (1 to 4)
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 4407
+      '2': 4440
+      '3': 4844
+      '4': 4549
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Quarter
+  documented_by: method nrc_rop_findings.md
+- name: x_link
+  label: The NRC's link to the report (https://www.nrc.gov/docs/ and the accession), as printed; some hold a space or tab
+  unit: none
+  type: text
+  values:
+    distinct: more than 5000
+    examples:
+    - https://www.nrc.gov/docs/
+    - "https://www.nrc.gov/docs/\t ML24093A260"
+    - https://www.nrc.gov/docs/ ML22286A160
+    - https://www.nrc.gov/docs/ ML25079A182
+    - https://www.nrc.gov/docs/ ML25101A146
+  missing_cells: 0
+  missing_meaning: never empty (bare https://www.nrc.gov/docs/ where no accession is given)
+  source_name: Link
+  documented_by: method nrc_rop_findings.md
+second_look:
+- 'x_cross_cutting_area: the letters (H, P, N, U, S, X) are not explained in any note or connector; the NRC''s data dictionary
+  is read but not held in the repository.'

@@ -1,0 +1,944 @@
+# The codebook's metadata of table eia860_storage_generators (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eia860_storage_generators
+family: eia860
+shape: entities
+row: One energy storage generator from Form EIA-860's energy storage schedule (3_4) for data year 2025, sheets Operable, Proposed,
+  Retired and Canceled, with its energy capacity, charge rates, chemistry, uses, coupling and the units it supports.
+time: No time column; vintage is the data year (2025). status_date is the first day of the month of operation (operable) or
+  of retirement (retired), empty for the proposed, the canceled and the indefinitely postponed; a proposed generator's planned
+  month is in x_current_month and x_current_year.
+vintage_rule: A snapshot; each run replaces the table whole with the newest final year EIA's page links, so an earlier year
+  is not kept.
+keys:
+- entity_id
+license: public
+tier: source
+interval: snapshot
+source:
+- name: eia:eia860:energy_storage U.S. Energy Information Administration, Form EIA-860 Annual Electric Generator Report, 3_4_Energy_Storage_Y2025.xlsx
+  url: https://www.eia.gov/electricity/data/eia860/
+cite: U.S. Energy Information Administration (EIA). Form EIA-860 Annual Electric Generator Report, energy storage generators'
+  details. Via the Energy Research Warehouse (ERW), table `eia860_storage_generators`.
+method: docs/methods/eia860_schedules.md
+header_title: EIA-860, energy storage generators' details, data year 2025 (session 885)
+header_shape: 'Shape: entities (docs/datastandard.md v0). entity_id eia860_storage:<plant code>:<generator id> (EIA-860M''s
+  tables name the same generator eia860:<plant code>:<generator id>); entity_type generator; name the plant''s name; capacity_mw
+  nameplate; status from EIA''s code (x_eia_status); status_date the month of operation (operable) or of retirement (retired),
+  empty for proposed and canceled. x_* every other column of EIA''s sheet, its heading as a name; x_sheet the sheet.'
+read:
+  date: '2026-11-20'
+  rows: 1782
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  particular: eia860_storage:<plant code>:<generator id>; EIA-860M's tables name the same generator eia860:<plant code>:<generator
+    id>
+  type: text
+  values:
+    distinct: 1782
+    examples:
+    - eia860_storage:10156:BESS1
+    - eia860_storage:1016:11
+    - eia860_storage:10444:LHC1
+    - eia860_storage:10493:BES1
+    - eia860_storage:1355:BESS
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  particular: Always generator
+  type: text
+  values:
+    list:
+      generator: 1782
+  missing_cells: 0
+- name: name
+  shared: true
+  particular: The plant's name
+  type: text
+  values:
+    distinct: 1691
+    examples:
+    - 0 Hammond St CSG
+    - 0 Middle
+    - 1 Commercial
+    - 15 Lincoln
+    - 160 Tihonet Rd Hybrid(CSG)
+  missing_cells: 0
+- name: geo
+  shared: true
+  particular: US-<plant state>
+  type: text
+  values:
+    distinct: 50
+    examples:
+    - US-AK
+    - US-AL
+    - US-AR
+    - US-AZ
+    - US-CA
+  missing_cells: 0
+- name: lat
+  shared: true
+  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1782
+- name: lon
+  shared: true
+  particular: 'Not filled: the plant''s coordinates are in eia860_plants_annual'
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1782
+- name: capacity_mw
+  shared: true
+  particular: EIA's nameplate capacity
+  type: number
+  values:
+    distinct: 362
+    lowest: 0.1
+    highest: 1200.0
+  missing_cells: 0
+- name: status
+  shared: true
+  particular: 'EIA''s code (x_eia_status) as the standard''s word: OP, SB, OA, OS operating; P, L, T planned; U, V, TS under_construction;
+    RE retired; CN withdrawn; IP suspended'
+  type: text
+  values:
+    list:
+      operating: 1012
+      planned: 291
+      retired: 35
+      suspended: 31
+      under_construction: 316
+      withdrawn: 97
+  missing_cells: 0
+- name: status_date
+  shared: true
+  particular: The first day of the month of operation (operable) or of retirement (retired); empty for the proposed, canceled
+    and postponed
+  type: date
+  values:
+    distinct: 134
+    earliest: '1991-06-01'
+    latest: '2025-12-01'
+  missing_cells: 735
+- name: operator
+  shared: true
+  particular: The reporting utility's name (EIA's Utility Name)
+  type: text
+  values:
+    distinct: 993
+    examples:
+    - 0HAM WHAM8 Solar, LLC
+    - 147 Williamsville Solar 1, LLC
+    - 160TIH WHAM8 Solar, LLC
+    - 174 Power Global Corp.
+    - 196TRE WHAM8 Solar, LLC
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    list:
+      eia:eia860:energy_storage: 1782
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    list:
+      https://www.eia.gov/electricity/data/eia860/xls/eia8602025.zip: 1782
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    list:
+      '2026-10-23T03:33:49Z': 1782
+  missing_cells: 0
+- name: vintage
+  shared: true
+  particular: The data year, 2025
+  type: integer
+  values:
+    list:
+      '2025': 1782
+  missing_cells: 0
+- name: x_plant_code
+  label: EIA's plant code
+  unit: none
+  type: integer
+  values:
+    distinct: 1691
+    lowest: 141
+    highest: 70450
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Plant Code
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_generator_id
+  label: EIA's generator identifier within the plant
+  unit: none
+  type: text
+  values:
+    distinct: 1415
+    examples:
+    - 013A
+    - 013B
+    - 09170
+    - 09751
+    - '1'
+  missing_cells: 1
+  missing_meaning: EIA gives none (1 row)
+  source_name: Generator ID
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_state
+  label: The plant's state, two-letter postal code
+  unit: none
+  type: text
+  values:
+    distinct: 50
+    examples:
+    - AK
+    - AL
+    - AR
+    - AZ
+    - CA
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: State
+  documented_by: method eia860_schedules.md
+- name: x_eia_status
+  label: EIA's status code of the generator, kept as given (OP, SB, OA, OS operating or standby; P, L, T planned; U, V, TS
+    under construction; RE retired; CN canceled; IP indefinitely postponed)
+  unit: none
+  type: text
+  values:
+    list:
+      CN: 97
+      IP: 31
+      L: 90
+      OA: 10
+      OP: 988
+      OS: 10
+      P: 141
+      RE: 35
+      SB: 4
+      T: 60
+      TS: 53
+      U: 157
+      V: 106
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Status
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_sheet
+  label: The sheet of EIA's workbook the row came from (Operable, Proposed, or Retired and Canceled)
+  unit: none
+  type: text
+  values:
+    list:
+      Operable: 1012
+      Proposed: 607
+      Retired and Canceled: 163
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method eia860_schedules.md
+- name: x_utility_id
+  label: EIA's identifier of the reporting utility, the one responsible for the generator's day-to-day operation
+  unit: none
+  type: integer
+  values:
+    distinct: 993
+    lowest: 189
+    highest: 68038
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Utility ID
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_county
+  label: The plant's county as EIA gives it
+  unit: none
+  type: text
+  values:
+    distinct: 474
+    examples:
+    - Ada
+    - Adams
+    - Addison
+    - Alachua
+    - Alameda
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: County
+  documented_by: method eia860_schedules.md
+- name: x_technology
+  label: EIA's high-level description of the technology the generator uses
+  unit: none
+  type: text
+  values:
+    list:
+      Batteries: 1773
+      Flywheels: 5
+      Natural Gas with Compressed Air Storage: 1
+      Solar Thermal with Energy Storage: 3
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Technology
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_prime_mover
+  label: 'EIA''s prime mover code: BA battery, FW flywheel, CE compressed air, CP concentrated solar power storage'
+  unit: none
+  type: text
+  values:
+    list:
+      BA: 1773
+      CE: 1
+      CP: 3
+      FW: 5
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Prime Mover
+  documented_by: source EIA-860 LayoutY2025.xlsx; connector eia860.py
+- name: x_sector_name
+  label: 'EIA''s sector of the plant: Electric Utility, IPP (independent power producer), Commercial or Industrial, each CHP
+    (combined heat and power) or Non-CHP'
+  unit: none
+  type: text
+  values:
+    list:
+      Commercial CHP: 7
+      Commercial Non-CHP: 29
+      Electric Utility: 297
+      IPP CHP: 3
+      IPP Non-CHP: 1434
+      Industrial CHP: 1
+      Industrial Non-CHP: 11
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia860_schedules.md; data
+- name: x_sector
+  label: EIA's sector number of the plant (1 electric utility, 2 and 3 IPP non-CHP and CHP, 4 and 5 commercial, 6 and 7 industrial;
+    x_sector_name gives its words)
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 297
+      '2': 1434
+      '3': 3
+      '4': 29
+      '5': 7
+      '6': 11
+      '7': 1
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_summer_capacity_mw
+  label: EIA's net summer capacity of the generator
+  unit: MW
+  type: number
+  values:
+    distinct: 350
+    lowest: 0.1
+    highest: 1200.0
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Summer Capacity (MW)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_winter_capacity_mw
+  label: EIA's net winter capacity of the generator
+  unit: MW
+  type: number
+  values:
+    distinct: 348
+    lowest: 0.1
+    highest: 1200.0
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: Winter Capacity (MW)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_operating_month
+  label: The month the generator began commercial operation
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 59
+      '10': 78
+      '11': 77
+      '12': 204
+      '2': 37
+      '3': 103
+      '4': 64
+      '5': 83
+      '6': 100
+      '7': 80
+      '8': 79
+      '9': 83
+  missing_cells: 735
+  missing_meaning: Not yet operating (proposed), or never operated (canceled or postponed)
+  source_name: Operating Month
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_operating_year
+  label: The year the generator began commercial operation
+  unit: none
+  type: integer
+  values:
+    list:
+      '1991': 1
+      '2003': 1
+      '2009': 2
+      '2011': 4
+      '2012': 13
+      '2013': 8
+      '2014': 5
+      '2015': 17
+      '2016': 24
+      '2017': 24
+      '2018': 34
+      '2019': 49
+      '2020': 65
+      '2021': 130
+      '2022': 129
+      '2023': 138
+      '2024': 202
+      '2025': 201
+  missing_cells: 735
+  missing_meaning: Not yet operating (proposed), or never operated (canceled or postponed)
+  source_name: Operating Year
+  documented_by: source EIA-860 LayoutY2025.xlsx
+- name: x_nameplate_energy_capacity_mwh
+  label: 'The nameplate energy capacity: the energy the storage unit holds'
+  unit: MWh
+  type: number
+  values:
+    distinct: 450
+    lowest: 0.2
+    highest: 4800.0
+  missing_cells: 55
+  missing_meaning: EIA gives none
+  source_name: Nameplate Energy Capacity (MWh)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_maximum_charge_rate_mw
+  label: The maximum rate at which the unit charges
+  unit: MW
+  type: number
+  values:
+    distinct: 328
+    lowest: 0.1
+    highest: 2034.2
+  missing_cells: 58
+  missing_meaning: EIA gives none
+  source_name: Maximum Charge Rate (MW)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_maximum_discharge_rate_mw
+  label: The maximum rate at which the unit discharges
+  unit: MW
+  type: number
+  values:
+    distinct: 327
+    lowest: 0.1
+    highest: 1200.0
+  missing_cells: 58
+  missing_meaning: EIA gives none
+  source_name: Maximum Discharge Rate (MW)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_storage_technology_1
+  label: 'The electro-chemical storage technology, EIA''s code: LIB lithium-ion, FLB flow battery, NAB sodium based, NIB nickel
+    based, PBB lead-acid, MAB metal air, ECC electro-chemical capacitor, OTH other'
+  unit: none
+  type: text
+  values:
+    list:
+      ECC: 3
+      FLB: 18
+      LIB: 1647
+      MAB: 5
+      NAB: 8
+      NIB: 10
+      OTH: 26
+      PBB: 5
+  missing_cells: 60
+  missing_meaning: EIA gives none (mostly not a battery)
+  source_name: Storage Technology 1
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_storage_technology_2
+  label: A second storage technology of the unit, EIA's code (as x_storage_technology_1)
+  unit: none
+  type: text
+  values:
+    list:
+      FLB: 4
+      NIB: 2
+      PBB: 1
+  missing_cells: 1775
+  missing_meaning: No second technology
+  source_name: Storage Technology 2
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_storage_technology_3
+  label: A third storage technology of the unit, EIA's code (as x_storage_technology_1)
+  unit: none
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1782
+  missing_meaning: 'Always empty: no unit has a third technology'
+  source_name: Storage Technology 3
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_storage_technology_4
+  label: A fourth storage technology of the unit, EIA's code (as x_storage_technology_1)
+  unit: none
+  type: empty
+  values:
+    note: no cell holds a value
+  missing_cells: 1782
+  missing_meaning: 'Always empty: no unit has a fourth technology'
+  source_name: Storage Technology 4
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_nameplate_reactive_power_rating
+  label: The nameplate reactive power rating of the storage device (reactive power supports grid voltage)
+  unit: MVAR
+  type: number
+  values:
+    distinct: 467
+    lowest: 0.0
+    highest: 1320.0
+  missing_cells: 89
+  missing_meaning: EIA gives none
+  source_name: Nameplate Reactive Power Rating (MVAR)
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_storage_enclosure_type
+  label: 'Where the unit is housed, EIA''s code: CS containerized stationary, CT containerized transportable, BL building,
+    OT other'
+  unit: none
+  type: text
+  values:
+    list:
+      BL: 58
+      CS: 1540
+      CT: 102
+      OT: 19
+  missing_cells: 63
+  missing_meaning: EIA gives none
+  source_name: Storage Enclosure Type
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_arbitrage
+  label: 'Whether the device served arbitrage (charging when power is cheap, discharging when dear) in the year: Y, or PR
+    its primary use'
+  unit: none
+  type: text
+  values:
+    list:
+      PR: 679
+      Y: 390
+  missing_cells: 713
+  missing_meaning: EIA's cell is empty (not marked; no N is given)
+  source_name: Arbitrage
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_frequency_regulation
+  label: 'Whether the device served frequency regulation in the year: Y, or PR its primary use'
+  unit: none
+  type: text
+  values:
+    list:
+      PR: 196
+      Y: 707
+  missing_cells: 879
+  missing_meaning: EIA's cell is empty (not marked; no N is given)
+  source_name: Frequency Regulation
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_load_following
+  label: 'Whether the device served load following in the year: Y, or PR its primary use'
+  unit: none
+  type: text
+  values:
+    list:
+      PR: 57
+      Y: 164
+  missing_cells: 1561
+  missing_meaning: EIA's cell is empty (not marked; no N is given)
+  source_name: Load Following
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_ramping_spinning_reserve
+  label: 'Whether the device served ramping or spinning reserve in the year: Y, or PR its primary use'
+  unit: none
+  type: text
+  values:
+    list:
+      PR: 17
+      Y: 507
+  missing_cells: 1258
+  missing_meaning: EIA's cell is empty (not marked; no N is given)
+  source_name: Ramping / Spinning Reserve
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_co_located_renewable_firming
+  label: 'Whether the device served co-located renewable firming in the year: Y, or PR its primary use'
+  unit: none
+  type: text
+  values:
+    list:
+      PR: 65
+      Y: 193
+  missing_cells: 1524
+  missing_meaning: EIA's cell is empty (not marked; no N is given)
+  source_name: Co-Located Renewable Firming
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_transmission_and_distribution_deferral
+  label: 'Whether the device served transmission and distribution deferral in the year: Y, or PR its primary use'
+  unit: none
+  type: text
+  values:
+    list:
+      PR: 9
+      Y: 99
+  missing_cells: 1674
+  missing_meaning: EIA's cell is empty (not marked; no N is given)
+  source_name: Transmission and Distribution Deferral
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_system_peak_shaving
+  label: 'Whether the device served system peak shaving in the year: Y, or PR its primary use'
+  unit: none
+  type: text
+  values:
+    list:
+      PR: 282
+      Y: 353
+  missing_cells: 1147
+  missing_meaning: EIA's cell is empty (not marked; no N is given)
+  source_name: System Peak Shaving
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_load_management
+  label: 'Whether the device served end-user load management in the year: Y, or PR its primary use'
+  unit: none
+  type: text
+  values:
+    list:
+      PR: 102
+      Y: 130
+  missing_cells: 1550
+  missing_meaning: EIA's cell is empty (not marked; no N is given)
+  source_name: Load Management
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_voltage_or_reactive_power_support
+  label: 'Whether the device served voltage or reactive power support in the year: Y, or PR its primary use'
+  unit: none
+  type: text
+  values:
+    list:
+      PR: 21
+      Y: 419
+  missing_cells: 1342
+  missing_meaning: EIA's cell is empty (not marked; no N is given)
+  source_name: Voltage or Reactive Power Support
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_backup_power
+  label: 'Whether the device served backup power (or black start) in the year: Y, or PR its primary use'
+  unit: none
+  type: text
+  values:
+    list:
+      PR: 22
+      Y: 147
+  missing_cells: 1613
+  missing_meaning: EIA's cell is empty (not marked; no N is given)
+  source_name: Backup Power
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_excess_wind_and_solar_generation
+  label: 'Whether the device stored excess wind or solar generation in the year: Y, or PR its primary use'
+  unit: none
+  type: text
+  values:
+    list:
+      PR: 251
+      Y: 379
+  missing_cells: 1152
+  missing_meaning: EIA's cell is empty (not marked; no N is given)
+  source_name: Excess Wind and Solar Generation
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_ac_coupled
+  label: Whether the device is AC-coupled (the storage and the solar system on different sides of an inverter), Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 3
+      Y: 459
+  missing_cells: 1320
+  missing_meaning: EIA's cell is empty
+  source_name: AC Coupled
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_dc_coupled
+  label: Whether the device is DC-coupled (the storage and the solar system on the same side of an inverter, the battery able
+    to charge from the grid), Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 3
+      Y: 160
+  missing_cells: 1619
+  missing_meaning: EIA's cell is empty
+  source_name: DC Coupled
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_dc_tightly_coupled
+  label: Y when the device is DC tightly coupled (on the same side of an inverter as the solar system and unable to charge
+    from the grid)
+  unit: none
+  type: text
+  values:
+    list:
+      Y: 54
+  missing_cells: 1728
+  missing_meaning: EIA's cell is empty (no N is given)
+  source_name: DC Tightly Coupled
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx; data
+- name: x_independent
+  label: Whether the device is independent (not coupled with another generator), Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 12
+      Y: 34
+  missing_cells: 1736
+  missing_meaning: EIA's cell is empty
+  source_name: Independent
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_direct_support_of_another_unit
+  label: Whether the device is meant to firm or store the output of particular other units, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 1097
+      Y: 605
+  missing_cells: 80
+  missing_meaning: EIA gives none
+  source_name: Direct Support of Another Unit
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_direct_support_plant_id_1
+  label: The plant code of the first unit whose output the device is meant to firm or store
+  unit: none
+  type: integer
+  values:
+    distinct: 617
+    lowest: 1
+    highest: 70450
+  missing_cells: 1146
+  missing_meaning: No supported unit given
+  source_name: Direct Support Plant ID 1
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_direct_support_gen_id_1
+  label: The generator id of the first supported unit
+  unit: none
+  type: text
+  values:
+    distinct: 516
+    examples:
+    - 0HAMP
+    - '1'
+    - '10604'
+    - '10892'
+    - '10894'
+  missing_cells: 1142
+  missing_meaning: No supported unit given
+  source_name: Direct Support Gen ID 1
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_direct_support_plant_id_2
+  label: The plant code of a second supported unit
+  unit: none
+  type: integer
+  values:
+    list:
+      '55369': 1
+      '56951': 1
+      '57187': 1
+      '57991': 1
+      '58462': 1
+      '59817': 1
+      '60092': 1
+      '61956': 1
+      '6304': 1
+      '64481': 1
+      '64851': 1
+      '64980': 1
+      '65568': 1
+      '6579': 1
+      '67275': 1
+      '67277': 1
+      '67278': 1
+      '67743': 1
+      '68524': 1
+      '68525': 1
+      '68776': 1
+      '69706': 1
+      '69708': 1
+      '69710': 1
+  missing_cells: 1758
+  missing_meaning: No second supported unit
+  source_name: Direct Support Plant ID 2
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_direct_support_gen_id_2
+  label: The generator id of a second supported unit
+  unit: none
+  type: text
+  values:
+    list:
+      '2': 1
+      4057R: 1
+      4072G: 1
+      4147R: 1
+      4148R: 1
+      4149R: 1
+      4150R: 1
+      4654R: 1
+      4656R: 1
+      4657R: 1
+      AEC2: 1
+      BLCK5: 1
+      BLK2: 1
+      CARPT: 1
+      CAT9: 1
+      CT2: 1
+      GEN03: 1
+      GMSP2: 1
+      PV2: 1
+      PV8: 1
+      SHS02: 1
+      SOL2: 1
+      VESTA: 1
+  missing_cells: 1759
+  missing_meaning: No second supported unit
+  source_name: Direct Support Gen ID 2
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_direct_support_plant_id_3
+  label: The plant code of a third supported unit
+  unit: none
+  type: integer
+  values:
+    list:
+      '55369': 1
+      '58462': 1
+      '60092': 1
+      '6304': 1
+      '68777': 1
+  missing_cells: 1777
+  missing_meaning: No third supported unit
+  source_name: Direct Support Plant ID 3
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_direct_support_gen_id_3
+  label: The generator id of a third supported unit
+  unit: none
+  type: text
+  values:
+    list:
+      BLCK6: 1
+      BLK3: 1
+      PV17: 1
+      SHS03: 1
+      ST1: 1
+  missing_cells: 1777
+  missing_meaning: No third supported unit
+  source_name: Direct Support Gen ID 3
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_support_t_d_asset
+  label: Whether the device is meant to support a particular substation, transmission or distribution asset, Y or N
+  unit: none
+  type: text
+  values:
+    list:
+      N: 1312
+      Y: 389
+  missing_cells: 81
+  missing_meaning: EIA gives none
+  source_name: Support T&D Asset
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_current_month
+  label: A proposed generator's most recently updated planned month of starting operation
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 25
+      '10': 40
+      '11': 44
+      '12': 125
+      '2': 27
+      '3': 54
+      '4': 55
+      '5': 34
+      '6': 54
+      '7': 59
+      '8': 28
+      '9': 62
+  missing_cells: 1175
+  missing_meaning: Not a proposed generator, or EIA gives none
+  source_name: Current Month
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_current_year
+  label: A proposed generator's most recently updated planned year of starting operation
+  unit: none
+  type: integer
+  values:
+    list:
+      '2026': 274
+      '2027': 190
+      '2028': 84
+      '2029': 38
+      '2030': 14
+      '2031': 7
+  missing_cells: 1175
+  missing_meaning: Not a proposed generator, or EIA gives none
+  source_name: Current Year
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_retirement_month
+  label: The month the generator retired
+  unit: none
+  type: integer
+  values:
+    list:
+      '1': 2
+      '11': 4
+      '12': 8
+      '2': 2
+      '3': 1
+      '4': 3
+      '5': 1
+      '6': 1
+      '7': 4
+      '8': 4
+      '9': 5
+  missing_cells: 1747
+  missing_meaning: Not retired
+  source_name: Retirement Month
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+- name: x_retirement_year
+  label: The year the generator retired
+  unit: none
+  type: integer
+  values:
+    list:
+      '2013': 1
+      '2018': 2
+      '2019': 4
+      '2020': 2
+      '2021': 5
+      '2022': 5
+      '2023': 4
+      '2024': 5
+      '2025': 7
+  missing_cells: 1747
+  missing_meaning: Not retired
+  source_name: Retirement Year
+  documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
+second_look: null
