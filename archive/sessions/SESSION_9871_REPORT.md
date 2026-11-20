@@ -10,7 +10,7 @@ Energy Research Warehouse (ERW). 20 November 2026, 20:41 to 20:50 UTC. The deskt
 
 ## Noted, not changed
 
-- The drawing prints React's warning that a list's children lack a unique key on one of the five pages; a reader sees nothing of it. Left for a session that builds.
+- The drawing prints React's warning that a list's children lack a unique key. It comes from the drawing, not the pages: the resolver of async components (`scripts/events-pages.mjs` `resolveAsync`) hands a tag's separate children back as one list, and React asks keys of a list. Nothing for a page to change.
 
 ## Needs the key
 
