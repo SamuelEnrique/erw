@@ -36,5 +36,22 @@ class TheCongestionPageIsTraced(unittest.TestCase):
         self.assertIn('const whole = (v: number) => Math.round(v).toLocaleString("en-US");', page)
 
 
+class TheConditionsPageIsTraced(unittest.TestCase):
+    """/conditions draws charts; its window at a glance (the day of each strip's highest figure) is the part
+    check-values reads, each figure a pf| key into the operator's page file."""
+
+    def test_the_glance_figures_carry_page_file_keys(self):
+        s = src("site", "app", "conditions", "page.tsx")
+        self.assertIn('<Num check={pfKey(`conditions/${f.op}.json`, ["daily", x.i, x.j])} raw={x.v}', s)
+        self.assertIn("{Math.round(x.v).toLocaleString(\"en-US\")}</Num>", s)
+        for c in ["demand_peak", "out_max", "cons_hours", "adder_hours"]:
+            self.assertIn(f'{{ c: "{c}",', s, c)
+        self.assertIn("<Glance f={f} w={w} k={tag} />", s)
+
+    def test_check_values_reads_three_views_of_it(self):
+        cv = src("site", "scripts", "check-values.mjs")
+        self.assertIn('"/conditions", "/conditions?a=spp&event=uri_2021", "/conditions?a=caiso&event=caiso_heat_2022&b=spp",', cv)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { AutoSubmitSelect } from "@/components/AutoSubmit";
 import { Hint } from "@/components/demand/Hint";
+import { Num } from "@/components/Num";
+import { pfKey } from "@/lib/pagefile";
 import { LineChart, type Line } from "@/components/LineChart";
 import { TimeChart, type TimeSeries } from "@/components/TimeChart";
 import { ChartFrame, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
@@ -49,6 +51,37 @@ function NoneHeld({ title, f, c, w, k }: { title: string; f: OperatorFile; c: st
   );
 }
 
+// Session 9001 (part H): the window at a glance, the day of each strip's highest figure, each figure a pf| key into the
+// operator's page file (lib/pagefile.ts) so scripts/check-values.mjs reads it again from the file on its own.
+const GLANCE: { c: string; words: string; unit: string }[] = [
+  { c: "demand_peak", words: "Highest peak demand", unit: "MW" },
+  { c: "out_max", words: "Most megawatts out of service in an hour", unit: "MW" },
+  { c: "cons_hours", words: "Most constraint-hours in a day", unit: "" },
+  { c: "adder_hours", words: "Most hours with the adder above zero in a day", unit: "" },
+];
+
+function Glance({ f, w, k }: { f: OperatorFile; w: { start: string; end: string }; k: string }) {
+  const items = GLANCE.map((g) => {
+    const j = col(f.daily_columns, g.c);
+    let best = -1;
+    f.daily.forEach((r, i) => {
+      if (r[0] < w.start || r[0] > w.end || r[j] === null) return;
+      if (best < 0 || (r[j] as number) > (f.daily[best][j] as number)) best = i;
+    });
+    return best < 0 ? null : { ...g, i: best, j, v: f.daily[best][j] as number, day: f.daily[best][0] as string };
+  }).filter((x): x is NonNullable<typeof x> => x !== null && (x.c !== "adder_hours" || x.v > 0));
+  if (!items.length) return null;
+  return (
+    <ul className="mb-3 list-none p-0 text-sm" data-glance={k}>
+      {items.map((x) => (
+        <li key={x.c}>
+          {x.words}: <Num check={pfKey(`conditions/${f.op}.json`, ["daily", x.i, x.j])} raw={x.v} source={`${f.strips[x.c.startsWith("demand") ? "demand" : x.c.startsWith("out") ? "out" : x.c.startsWith("cons") ? "constraints" : "scarcity"]?.source ?? ""}. The day's figure in the page file, ${x.day}.`}>{Math.round(x.v).toLocaleString("en-US")}</Num>{x.unit ? ` ${x.unit}` : ""}, on {x.day}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function hourlyLines(f: OperatorFile, rows: (string | number | null)[][], names: { c: string; label: string; color: string }[]): Line[] {
   return names.map((n) => {
     const i = col(f.hourly_columns, n.c);
@@ -87,6 +120,7 @@ function Operator({ f, event, day, tag }: { f: OperatorFile; event?: string; day
     <div data-operator={f.op} data-tag={tag}>
       <h3 className="mb-1 font-serif text-xl text-accent">{f.name}</h3>
       <p className="mb-2 text-xs text-muted">{w.title}, {w.start} to {w.end}; days and hours in {f.time}. {hourly.length ? `Hour by hour (${hourly.length} hours), then day by day.` : "Day by day (no hourly figures are kept for this window: they are kept for the newest days and the nine events)."}</p>
+      <Glance f={f} w={w} k={tag} />
       {hourly.length ? (
         <>
           {hDemand.length ? (
