@@ -1,0 +1,50 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate wog_oil_use, region wog_ind (India)
+# Computed 2026-11-19T13:25:09Z by warehouse/analysis/findings/deep/oil_products_world.py (wog_oil_use); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the country's petroleum and other liquids consumption (thousand barrels a day), the observations it rests on, and whether the year is full
+# Tables: eia_world_oil_gas_annual
+region,year,value,n_observations,full_year
+wog_ind,1980,642.999999999,1.0,1
+wog_ind,1981,729.0,1.0,1
+wog_ind,1982,737.0,1.0,1
+wog_ind,1983,773.000000001,1.0,1
+wog_ind,1984,823.999999999,1.0,1
+wog_ind,1985,895.0,1.0,1
+wog_ind,1986,947.0,1.0,1
+wog_ind,1987,989.0,1.0,1
+wog_ind,1988,1084.0,1.0,1
+wog_ind,1989,1150.0,1.0,1
+wog_ind,1990,1169.0,1.0,1
+wog_ind,1991,1192.0,1.0,1
+wog_ind,1992,1274.0,1.0,1
+wog_ind,1993,1312.0,1.0,1
+wog_ind,1994,1414.0,1.0,1
+wog_ind,1995,1574.0,1.0,1
+wog_ind,1996,1681.0,1.0,1
+wog_ind,1997,1766.0,1.0,1
+wog_ind,1998,1758.0,1.0,1
+wog_ind,1999,1960.0,1.0,1
+wog_ind,2000,2178.3368032786884,1.0,1
+wog_ind,2001,2171.9955342465764,1.0,1
+wog_ind,2002,2256.1779726027394,1.0,1
+wog_ind,2003,2355.914821917808,1.0,1
+wog_ind,2004,2476.343469945356,1.0,1
+wog_ind,2005,2465.435232876712,1.0,1
+wog_ind,2006,2654.0014520547948,1.0,1
+wog_ind,2007,2853.348986301369,1.0,1
+wog_ind,2008,2949.9810382513656,1.0,1
+wog_ind,2009,3019.285671232877,1.0,1
+wog_ind,2010,3141.96739726027,1.0,1
+wog_ind,2011,3221.0,1.0,1
+wog_ind,2012,3398.0,1.0,1
+wog_ind,2013,3423.0,1.0,1
+wog_ind,2014,3550.0,1.0,1
+wog_ind,2015,3848.0,1.0,1
+wog_ind,2016,4233.0,1.0,1
+wog_ind,2017,4531.196682564837,1.0,1
+wog_ind,2018,4765.461549299717,1.0,1
+wog_ind,2019,4920.122051051392,1.0,1
+wog_ind,2020,4556.203655026059,1.0,1
+wog_ind,2021,4726.163977150685,1.0,1
+wog_ind,2022,5131.33207589,1.0,1
+wog_ind,2023,5383.85324565,1.0,1
+wog_ind,2024,5598.89,1.0,1

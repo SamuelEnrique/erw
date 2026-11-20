@@ -1,0 +1,50 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate wog_gas, region wog_usa (the United States)
+# Computed 2026-11-19T13:25:07Z by warehouse/analysis/findings/deep/gas.py (wog_gas); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the country's dry natural gas production (billion cubic feet), the observations it rests on, and whether the year is full
+# Tables: eia_world_oil_gas_annual
+region,year,value,n_observations,full_year
+wog_usa,1980,19403.119,1.0,1
+wog_usa,1981,19181.261,1.0,1
+wog_usa,1982,17820.057,1.0,1
+wog_usa,1983,16094.463,1.0,1
+wog_usa,1984,17466.477,1.0,1
+wog_usa,1985,16453.853,1.0,1
+wog_usa,1986,16059.03,1.0,1
+wog_usa,1987,16620.581,1.0,1
+wog_usa,1988,17102.621,1.0,1
+wog_usa,1989,17310.645,1.0,1
+wog_usa,1990,17809.674,1.0,1
+wog_usa,1991,17697.802393,1.0,1
+wog_usa,1992,17839.903111,1.0,1
+wog_usa,1993,18095.459626,1.0,1
+wog_usa,1994,18821.024575,1.0,1
+wog_usa,1995,18598.679287,1.0,1
+wog_usa,1996,18854.062558,1.0,1
+wog_usa,1997,18902.38863,1.0,1
+wog_usa,1998,19023.564289,1.0,1
+wog_usa,1999,18832.232368,1.0,1
+wog_usa,2000,19181.979898,1.0,1
+wog_usa,2001,19616.310558,1.0,1
+wog_usa,2002,18927.788245,1.0,1
+wog_usa,2003,19098.544465,1.0,1
+wog_usa,2004,18590.890546,1.0,1
+wog_usa,2005,18050.597772,1.0,1
+wog_usa,2006,18503.604765,1.0,1
+wog_usa,2007,19266.025802,1.0,1
+wog_usa,2008,20158.601648,1.0,1
+wog_usa,2009,20623.854028,1.0,1
+wog_usa,2010,21315.506819,1.0,1
+wog_usa,2011,22901.878595,1.0,1
+wog_usa,2012,24033.266236,1.0,1
+wog_usa,2013,24205.52329,1.0,1
+wog_usa,2014,25889.605162,1.0,1
+wog_usa,2015,27065.459891,1.0,1
+wog_usa,2016,26592.11501,1.0,1
+wog_usa,2017,27340.583495,1.0,1
+wog_usa,2018,30774.274153,1.0,1
+wog_usa,2019,33899.020594,1.0,1
+wog_usa,2020,33811.129105,1.0,1
+wog_usa,2021,34529.276007,1.0,1
+wog_usa,2022,36254.942471,1.0,1
+wog_usa,2023,37803.268298,1.0,1
+wog_usa,2024,37766.605374,1.0,1
