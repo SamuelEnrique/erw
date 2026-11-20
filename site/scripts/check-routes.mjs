@@ -125,6 +125,7 @@ const PAGES = [
   "/curtailment/where-when", "/curtailment/where-when?a=spp&b=caiso&year=all&fuel=wind", "/curtailment/where-when?a=ercot%3AHB_WEST&b=caiso%3ATH_SP15_GEN-APND&year=2025",  // session 8014 (chain 581, part C): where and when power is spare (in review)
   "/states", "/states?a=CA&b=WV", "/states?a=DC&b=US&from=2020", "/states?a=zz",  // session 8014 (chain 581, part B): every state on one page (in review)
   "/congestion", "/congestion?op=caiso&year=all", "/congestion?op=spp&a=spp%3ASPPSOUTH_HUB&b=caiso%3ATH_SP15_GEN-APND", "/congestion?op=zz&c=zz&a=zz",  // session 9000 (chain 601, part C): congestion (in review)
+  "/conditions", "/conditions?a=spp&b=caiso", "/conditions?a=ercot&event=uri_2021", "/conditions?a=caiso&day=2020-08-14", "/conditions?a=zz&event=zz&day=zz",  // session 9000 (chain 601, part G): grid conditions (in review)
   "/industry", "/ai-energy",  // session 8013 (chain 505, part B): energy use by industry, and energy per AI query as published (in review)
   "/policy?view=week", "/policy?view=week&days=30", "/policy?view=week&days=30&agency=ferc&topic=large_load&grid=pjm&large=1", "/policy?view=week&grid=miso", "/data/methods/policy_monitor",  // session 157: "What changed this week", the second view of the policy monitor (in review; scripts/check-policy.mjs opens it in a real browser)
 ];

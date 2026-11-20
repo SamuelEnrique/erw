@@ -25,3 +25,18 @@ Builder: `warehouse/derived/congestion_page.py`. Method: `docs/methods/grid_cong
 | `places.<op>[].hod_month_congestion_mean.<year>` | USD/MWh | twelve rows of 24 means of the congestion part, `null` for a cell with no hour held |
 
 A real sample follows when the file is first built from the warehouse.
+
+## 2. `site/data/conditions/<operator>.json` and `index.json` (part G, the page `/conditions`)
+
+Builder: `warehouse/derived/conditions_page.py`. Method: `docs/methods/grid_conditions.md`. One file for each of `caiso`, `ercot`, `spp`, `miso`, `pjm`, `nyiso`, `isone`, and `index.json`.
+
+| Key | Unit | What |
+|---|---|---|
+| `built`, `method`, `license`, `op`, `name`, `ba`, `time` | | when written, the method note, `public`, the grid's id, name and EIA-930 code, its clock |
+| `strips.<demand, out, constraints, scarcity, alerts, reserves>` | | `status` (`shown`, `license needed`, `source needed`, `paused`, `not published`, `not read`), `source` when shown, `why` when not, `note` |
+| `first_day`, `last_day` | | the first and last local day held |
+| `daily_columns`, `daily[]` | MW, count, USD/MWh, hours | `[day, demand_peak, demand_min, forecast_peak, out_mean, out_max, cons_hours, cons_max, adder_hours, adder_max, alerts]`, one row a local day from 2018-07-01; `null` where a strip is not held that day |
+| `windows[]` | | `id` (`recent` or an event id), `title`, `start`, `end` (local days, both included) |
+| `hourly_columns`, `hourly.<window id>[]` | MW, count, USD/MWh | `[ts_utc, demand, forecast, out_total, out_planned, out_forced, cons_n, cons_max, adder]`, one row an hour of the window |
+| `alert_columns`, `alerts[]` | | `[date, kind, start, end, source_url]`, CAISO and ERCOT |
+| `index.json` | | `built`, `method`, `contract`, `license`, `recent_days` (35), `events[]` (`id`, `title`, `start`, `end`, from `site/data/regions/events/`), `operators[]` (`op`, `name`, `ba`, `strips` status by strip, `first_day`, `last_day`) |
