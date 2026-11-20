@@ -5,9 +5,10 @@
 table: eia_crude_quality_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's average API gravity or sulfur content of the crude oil run at refineries in the U.S., one PADD or one refining
+  district.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +45,7 @@ columns:
     - eia_crude_quality:MCRAP3A2
     - eia_crude_quality:MCRAP3B2
   missing_cells: 0
+  particular: eia_crude_quality:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -88,12 +90,14 @@ columns:
     list:
       US: 15968
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 15968
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -106,6 +110,7 @@ columns:
     - East Coast (PADD 1) Sulfur Content (Weighted Average) of Crude Oil Input to Refineries (Percent)
     - East Coast Refinery District API Gravity (Weighted Average) of Crude Oil Input to Refineries (Degrees)
   missing_cells: 0
+  particular: EIA's series description (the area)
 - name: source
   shared: true
   type: text
@@ -137,15 +142,17 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 15968
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: api_gravity
-  label: null
+  label: Weighted average API gravity of crude input (a measure of how light the crude is, higher is lighter), degrees API;
+    not additive across areas
   unit: degAPI
   rows: 7984
   first: '1985-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: sulfur_content
-  label: null
+  label: Weighted average sulfur content of crude input, percent by weight; not additive across areas
   unit: pct
   rows: 7984
   first: '1985-01-01T00:00:00Z'

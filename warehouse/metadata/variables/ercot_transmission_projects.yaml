@@ -5,9 +5,11 @@
 table: ercot_transmission_projects
 family: ercot
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One phase of a transmission project the transmission owners report to ERCOT's Transmission Project and Information Tracking
+  (TPIT) workbook, future, planned, completed or cancelled.
+time: event_date is the actual in-service date where ERCOT gives one, else the projected one (x_date_kind says which).
+vintage_rule: A snapshot replaced whole by each run with the workbook ERCOT's planning page names; earlier editions are not
+  kept.
 keys:
 - event_id
 license: public
@@ -41,6 +43,7 @@ columns:
     - ercot_tpit:100025:100026
     - ercot_tpit:100030:100031
   missing_cells: 0
+  particular: ercot_tpit:<ERCOT project number>:<phase number>
 - name: event_date
   shared: true
   type: date
@@ -49,6 +52,7 @@ columns:
     earliest: '2023-05-25'
     latest: '2033-12-15'
   missing_cells: 0
+  particular: The actual in-service date, else the projected one; ERCOT's 9999-01-01 is no date
 - name: event_type
   shared: true
   type: text
@@ -56,6 +60,7 @@ columns:
     list:
       transmission_project: 2203
   missing_cells: 0
+  particular: transmission_project in every row
 - name: parties
   shared: true
   type: text
@@ -68,6 +73,7 @@ columns:
     - AEP TCC/AEP TCC/SLU
     - AEP TCC/AEP TNC
   missing_cells: 0
+  particular: The transmission owner as ERCOT names it
 - name: entity_ids
   shared: true
   type: empty
@@ -102,6 +108,7 @@ columns:
       future: 1508
       planned: 277
   missing_cells: 0
+  particular: 'The sheet the project is on: future, planned, completed, cancelled'
 - name: source
   shared: true
   type: text
@@ -117,8 +124,8 @@ columns:
       https://www.ercot.com/files/docs/2022/03/02/ERCOT-October-TPIT-No-Cost-100126.xlsx: 2203
   missing_cells: 0
 - name: x_project_number
-  label: null
-  unit: null
+  label: ERCOT's project number
+  unit: none
   type: text
   values:
     distinct: 2203
@@ -129,24 +136,24 @@ columns:
     - '100025'
     - '100030'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: ERCOT Project Number
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_phase
-  label: null
-  unit: null
+  label: ERCOT's phase number
+  unit: none
   type: integer
   values:
     distinct: 2203
     lowest: 8143
     highest: 116033
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Phase Number
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_title
-  label: null
-  unit: null
+  label: The project's title, ERCOT's text
+  unit: none
   type: text
   values:
     distinct: 1803
@@ -157,12 +164,12 @@ columns:
     - '23RPG028: STEC Rio Medina Project: New 138kV Legend Falls Substation'
     - '23RPG028: STEC Rio Medina Project: New transmission line between Tally and Ranchtown'
   missing_cells: 41
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives no title
+  source_name: Project Title
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_description
-  label: null
-  unit: null
+  label: The project's description, ERCOT's text
+  unit: none
   type: text
   values:
     distinct: 1794
@@ -181,12 +188,12 @@ columns:
       1563 MVA - Upgrade the 345kV line from Howard to Av Rosenburg to 1453 MVA - Upgrade the 138kV line from Lytle to Lytle4A
       to 354 MVA - Upgrade Hill Country 345/138 autos 3, 4 to 740 MVA
   missing_cells: 345
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives no description
+  source_name: Project Description
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_comment
-  label: null
-  unit: null
+  label: ERCOT's comments or reasons for the project
+  unit: none
   type: text
   values:
     distinct: 83
@@ -197,12 +204,12 @@ columns:
     - AEP is looking at another location to serve the load.
     - Add New Load and Sub
   missing_cells: 1821
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives no comment
+  source_name: Comments/Reasons
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_from
-  label: null
-  unit: null
+  label: The terminal the line or facility runs from, as ERCOT gives it
+  unit: none
   type: text
   values:
     distinct: 1275
@@ -213,12 +220,12 @@ columns:
     - '250'
     - '32852'
   missing_cells: 255
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives none
+  source_name: Terminal "From"
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_to
-  label: null
-  unit: null
+  label: The terminal the line or facility runs to, as ERCOT gives it
+  unit: none
   type: text
   values:
     distinct: 1086
@@ -229,12 +236,12 @@ columns:
     - '171073'
     - '171082'
   missing_cells: 797
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives none
+  source_name: Terminal "To"
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_ercot_status
-  label: null
-  unit: null
+  label: ERCOT's own status text (Conceptual, Planned, Under Construction, In-Service)
+  unit: none
   type: text
   values:
     list:
@@ -243,12 +250,12 @@ columns:
       Planned: 1556
       Under Construction: 71
   missing_cells: 31
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives none
+  source_name: Transmission Status
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_owner
-  label: null
-  unit: null
+  label: The transmission owner (same as parties)
+  unit: none
   type: text
   values:
     distinct: 55
@@ -259,36 +266,36 @@ columns:
     - AEP TCC/AEP TCC/SLU
     - AEP TCC/AEP TNC
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Transmission Owner (Text)
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_projected_in_service
-  label: null
-  unit: null
+  label: The projected in-service date, as given
+  unit: none
   type: date
   values:
     distinct: 448
     earliest: '2022-11-30'
     latest: '2033-12-15'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Projected In-Service
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_actual_in_service
-  label: null
-  unit: null
+  label: The actual in-service date, as given (9999-01-01 is ERCOT's no date)
+  unit: none
   type: date
   values:
     distinct: 175
     earliest: '2023-05-25'
     latest: '9999-01-01'
   missing_cells: 1852
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not in service or no date given
+  source_name: Actual In-Service
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_kv
-  label: null
-  unit: null
+  label: The service level (voltage)
+  unit: kV
   type: integer
   values:
     list:
@@ -298,48 +305,48 @@ columns:
       '69': 195
       '765': 44
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives none (one row)
+  source_name: Service Level kV
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_new_circuit_miles
-  label: null
-  unit: null
+  label: New transmission circuit miles
+  unit: miles
   type: number
   values:
     distinct: 183
     lowest: 0.0
     highest: 257.45
   missing_cells: 6
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives none
+  source_name: Trans Circuit Miles New
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_upgraded_circuit_miles
-  label: null
-  unit: null
+  label: Rebuilt or upgraded transmission circuit miles
+  unit: miles
   type: number
   values:
     distinct: 436
     lowest: 0.0
     highest: 292.8
   missing_cells: 10
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives none
+  source_name: Trans Circuit Miles Rebuilt
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_autotransformer_mva
-  label: null
-  unit: null
+  label: Autotransformer capacity
+  unit: MVA
   type: integer
   values:
     distinct: 35
     lowest: -536
     highest: 8316
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives none (one row)
+  source_name: Autotransformer Capacity
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_reactive_mvar
-  label: null
-  unit: null
+  label: Reactive capability, ERCOT's cell kept as text (some cells hold two figures, such as 0,28.8)
+  unit: Mvar
   type: text
   values:
     distinct: 90
@@ -350,12 +357,12 @@ columns:
     - '-175350'
     - -225,0
   missing_cells: 2005
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives none
+  source_name: Reactive Capability
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_county_start
-  label: null
-  unit: null
+  label: The county of the substation or the start of the line
+  unit: none
   type: text
   values:
     distinct: 185
@@ -366,12 +373,12 @@ columns:
     - Archer
     - Atascosa
   missing_cells: 193
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives none
+  source_name: County Location for Substation
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_county_end
-  label: null
-  unit: null
+  label: The county of the end of the line
+  unit: none
   type: text
   values:
     distinct: 175
@@ -382,12 +389,12 @@ columns:
     - Archer
     - Atascosa
   missing_cells: 769
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives none
+  source_name: County Location for Ending
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_tier
-  label: null
-  unit: null
+  label: ERCOT's planning charter tier (Tier 1 to Tier 4)
+  unit: none
   type: text
   values:
     list:
@@ -396,12 +403,12 @@ columns:
       Tier 3: 274
       Tier 4: 1472
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Planning Charter Tier
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_rpg_number
-  label: null
-  unit: null
+  label: ERCOT's RPG project number
+  unit: none
   type: text
   values:
     distinct: 166
@@ -412,12 +419,12 @@ columns:
     - 19RPG019
     - 19RPG021
   missing_cells: 1663
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives none
+  source_name: RPG Number
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_rtp_number
-  label: null
-  unit: null
+  label: ERCOT's RTP project number
+  unit: none
   type: text
   values:
     distinct: 65
@@ -428,24 +435,24 @@ columns:
     - 2013-R50
     - 2013-R90
   missing_cells: 2086
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives none
+  source_name: RTP Project Number
+  documented_by: connector ercot_tpit.py; method ercot_transmission_projects.md
 - name: x_date_kind
-  label: null
-  unit: null
+  label: 'Which date event_date is: actual or projected'
+  unit: none
   type: text
   values:
     list:
       actual: 334
       projected: 1869
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_transmission_projects.md
 - name: x_sheet
-  label: null
-  unit: null
+  label: The workbook sheet the row is on (Future, Planned, Completed, Cancelled)
+  unit: none
   type: text
   values:
     list:
@@ -454,7 +461,7 @@ columns:
       Future: 1508
       Planned: 277
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_transmission_projects.md
 second_look: null

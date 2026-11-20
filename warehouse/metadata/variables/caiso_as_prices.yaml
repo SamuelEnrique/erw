@@ -5,9 +5,11 @@
 table: caiso_as_prices
 family: caiso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: CAISO's day-ahead clearing price of one ancillary service (regulation or a reserve) in one of its two system regions
+  for one trading hour.
+time: ts_utc is the start of the trading hour in UTC; operating days are Pacific days.
+vintage_rule: Merged by (entity, variable, ts_utc); a day already saved in the raw files is never asked again, so a later
+  revision by CAISO of a saved day is not taken. vintage is not filled.
 keys:
 - entity
 - variable
@@ -38,6 +40,7 @@ columns:
       caiso:AS_CAISO: 117028
       caiso:AS_CAISO_EXP: 117028
   missing_cells: 0
+  particular: caiso:AS_CAISO or caiso:AS_CAISO_EXP, the ancillary service region
 - name: variable
   shared: true
   type: text
@@ -88,6 +91,7 @@ columns:
     list:
       caiso_dam: 234056
   missing_cells: 0
+  particular: 'caiso_dam in every row: CAISO''s day-ahead market'
 - name: node
   shared: true
   type: text
@@ -96,6 +100,8 @@ columns:
       AS_CAISO: 117028
       AS_CAISO_EXP: 117028
   missing_cells: 0
+  particular: 'The ancillary service region: AS_CAISO the CAISO system, AS_CAISO_EXP the system with the interties; the sub-regions
+    are not pulled'
 - name: source
   shared: true
   type: text
@@ -129,27 +135,28 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 234056
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: as_price_dam_nr
-  label: null
+  label: Day-ahead clearing price of non-spinning reserve (CAISO's Non-Spinning Reserve), USD per MW held for one hour
   unit: USD/MW-hour
   rows: 58514
   first: '2023-07-14T07:00:00Z'
   last: '2026-11-17T07:00:00Z'
 - name: as_price_dam_rd
-  label: null
+  label: Day-ahead clearing price of regulation down (CAISO's Regulation Down), USD per MW held for one hour
   unit: USD/MW-hour
   rows: 58514
   first: '2023-07-14T07:00:00Z'
   last: '2026-11-17T07:00:00Z'
 - name: as_price_dam_ru
-  label: null
+  label: Day-ahead clearing price of regulation up (CAISO's Regulation Up), USD per MW held for one hour
   unit: USD/MW-hour
   rows: 58514
   first: '2023-07-14T07:00:00Z'
   last: '2026-11-17T07:00:00Z'
 - name: as_price_dam_sr
-  label: null
+  label: Day-ahead clearing price of spinning reserve (CAISO's Spinning Reserve), USD per MW held for one hour
   unit: USD/MW-hour
   rows: 58514
   first: '2023-07-14T07:00:00Z'

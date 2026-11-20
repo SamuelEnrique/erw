@@ -5,9 +5,10 @@
 table: eia_gas_production_state_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's, offshore area's or the nation's monthly natural gas production figure (gross withdrawals, marketed or dry
+  production, vented and flared, shale gas), from EIA's Natural Gas Monthly.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +45,7 @@ columns:
     - eia_gas_production:NUS:N9070US
     - eia_gas_production:NUS:NGM_EPG0_FGS_NUS_MMC
   missing_cells: 0
+  particular: eia_gas_production:<area>:<series stem>
 - name: variable
   shared: true
   type: text
@@ -98,6 +100,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 47805
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -110,6 +113,7 @@ columns:
     - Alabama Natural Gas Marketed Production (MMcf)
     - Alabama Natural Gas Vented and Flared (MMcf)
   missing_cells: 0
+  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -138,33 +142,34 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 47805
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: dry_production
-  label: null
+  label: Dry natural gas production (FPD), million cubic feet in the month
   unit: MMcf
   rows: 8227
   first: '2001-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: gross_withdrawals
-  label: null
+  label: Gross withdrawals of natural gas (FGW), million cubic feet in the month
   unit: MMcf
   rows: 10773
   first: '2001-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: marketed_production
-  label: null
+  label: Marketed natural gas production (VGM), million cubic feet in the month
   unit: MMcf
   rows: 10773
   first: '2001-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: shale_withdrawals
-  label: null
+  label: Gross withdrawals from shale gas wells (FGS), within gross withdrawals, million cubic feet in the month
   unit: MMcf
   rows: 7620
   first: '2007-01-01T00:00:00Z'
   last: '2024-12-01T00:00:00Z'
 - name: vented_flared
-  label: null
+  label: Natural gas vented and flared (VGV), million cubic feet in the month
   unit: MMcf
   rows: 10412
   first: '2001-01-01T00:00:00Z'

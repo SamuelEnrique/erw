@@ -5,9 +5,10 @@
 table: eia_biofuel_plants
 family: eia
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One fuel ethanol, biodiesel or renewable diesel plant's production capacity as of 1 January of one year (Form EIA-819);
+  a plant appears once a year.
+time: No time column. status_date is the 1 January the capacity is as of; x_year names that year.
+vintage_rule: Rewritten whole by each run (write_snapshot); vintage is each workbook's last-modified time.
 keys:
 - entity_id
 license: public
@@ -44,6 +45,7 @@ columns:
     - eia_biofuel:2025:biodiesel:ca:2
     - eia_biofuel:2025:biodiesel:ca:3
   missing_cells: 0
+  particular: eia_biofuel:<year>:<fuel>:<state>:<n>, n the plant's place among its year, fuel and state in EIA's workbook
 - name: entity_type
   shared: true
   type: text
@@ -51,6 +53,7 @@ columns:
     list:
       plant: 511
   missing_cells: 0
+  particular: plant on every row
 - name: name
   shared: true
   type: text
@@ -63,6 +66,7 @@ columns:
     - ADRIAN
     - ALBERT CITY
   missing_cells: 0
+  particular: The facility (2026); the city for 2025, whose sheets name no facility
 - name: geo
   shared: true
   type: text
@@ -75,6 +79,7 @@ columns:
     - US-CO
     - US-CT
   missing_cells: 0
+  particular: US-<state> of the plant
 - name: lat
   shared: true
   type: empty
@@ -93,6 +98,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 511
+  particular: 'Not filled: the capacities are in gallons and barrels, in x_ columns'
 - name: status
   shared: true
   type: text
@@ -100,6 +106,7 @@ columns:
     list:
       active: 511
   missing_cells: 0
+  particular: active on every row
 - name: status_date
   shared: true
   type: date
@@ -108,6 +115,7 @@ columns:
       '2025-01-01': 258
       '2026-01-01': 253
   missing_cells: 0
+  particular: The 1 January the capacity is as of
 - name: operator
   shared: true
   type: text
@@ -120,6 +128,7 @@ columns:
     - ADM
     - ADM CEDAR RAPIDS IA WET MILL
   missing_cells: 0
+  particular: The entity or respondent as EIA writes it
 - name: source
   shared: true
   type: text
@@ -157,21 +166,22 @@ columns:
       '2025-09-22T16:47:13Z': 19
       '2026-09-09T21:16:23Z': 253
   missing_cells: 0
+  particular: The workbook's last-modified time from EIA's server
 - name: x_year
-  label: null
-  unit: null
+  label: The year whose 1 January the capacity is as of
+  unit: none
   type: integer
   values:
     list:
       '2025': 258
       '2026': 253
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_biofuels_capacity.py
 - name: x_fuel
-  label: null
-  unit: null
+  label: 'The fuel: ethanol, biodiesel, or renewable diesel and other biofuels'
+  unit: none
   type: text
   values:
     list:
@@ -179,12 +189,12 @@ columns:
       ethanol: 380
       renewable_diesel_and_other: 38
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eia_biofuels_capacity.py; method eia_biofuel_plants.md
 - name: x_facility_type
-  label: null
-  unit: null
+  label: EIA's facility type (2026); for 2025 the workbook's fuel in the combined report's words
+  unit: none
   type: text
   values:
     list:
@@ -192,12 +202,12 @@ columns:
       Ethanol: 380
       Renewable Diesel Fuel and Other Biofuels: 38
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Facility type
+  documented_by: connector eia_biofuels_capacity.py; method eia_biofuel_plants.md
 - name: x_padd
-  label: null
-  unit: null
+  label: The Petroleum Administration for Defense District (PADD, EIA's fuel-supply region) of the plant
+  unit: none
   type: text
   values:
     list:
@@ -207,12 +217,12 @@ columns:
       PADD 4: 14
       PADD 5: 32
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: PADD
+  documented_by: connector eia_biofuels_capacity.py
 - name: x_city
-  label: null
-  unit: null
+  label: The plant's city as the 2025 workbooks print it
+  unit: none
   type: text
   values:
     distinct: 231
@@ -223,12 +233,12 @@ columns:
     - Albert City
     - Albert Lea
   missing_cells: 253
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: A 2026 row (the 2026 workbook names the facility, not the city)
+  source_name: City
+  documented_by: connector eia_biofuels_capacity.py
 - name: x_capacity_mmgal_per_year
-  label: null
-  unit: null
+  label: What the plant can make in a year, million gallons, as published ((s) is less than 0.5)
+  unit: million gallons per year
   type: text
   values:
     distinct: 142
@@ -239,12 +249,12 @@ columns:
     - '100'
     - '101'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Capacity (MMgal/yr)
+  documented_by: header; connector eia_biofuels_capacity.py; method eia_biofuel_plants.md
 - name: x_capacity_kbbl_per_day
-  label: null
-  unit: null
+  label: What the plant can make in a day, thousand barrels, as published ((s) is less than 0.5)
+  unit: kbbl/d
   type: text
   values:
     distinct: 29
@@ -255,18 +265,18 @@ columns:
     - '1.304631441617743'
     - '10'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Capacity (Mb/d)
+  documented_by: header; connector eia_biofuels_capacity.py; method eia_biofuel_plants.md
 - name: x_coprocessing
-  label: null
-  unit: null
+  label: yes where EIA's footnote marks a refinery co-processing renewable feedstock with petroleum
+  unit: none
   type: text
   values:
     list:
       'yes': 4
   missing_cells: 507
-  missing_meaning: null
+  missing_meaning: EIA marks no co-processing
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_biofuels_capacity.py; method eia_biofuel_plants.md
 second_look: null

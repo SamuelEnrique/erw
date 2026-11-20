@@ -5,9 +5,12 @@
 table: caiso_curtailment_intervals
 family: caiso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: CAISO's wind or solar curtailment at the finest interval CAISO publishes (5 minutes to 2025, an hour from 2026), by reason
+  where published, or the day's total.
+time: ts_utc is the interval's start in UTC; a day row's ts_utc is the Pacific day at 00:00:00Z. Only intervals with a curtailment
+  above zero are written; every day covered has a day row, zero included.
+vintage_rule: Merged by (entity, variable, ts_utc); a run that asks no workbook keeps the rows of 2019 to 2025 the table holds.
+  vintage is the yearly workbook's last-modified time; empty on the rows from the daily reports.
 keys:
 - entity
 - variable
@@ -41,6 +44,7 @@ columns:
     list:
       caiso:ISO: 486469
   missing_cells: 0
+  particular: 'caiso:ISO in every row: CAISO''s whole system; the data does not locate a curtailment'
 - name: variable
   shared: true
   type: text
@@ -80,6 +84,8 @@ columns:
       PT1H: 17579
       PT5M: 463166
   missing_cells: 0
+  particular: PT5M for the 5-minute rows (MW, to 2025-12-31), PT1H for the hourly rows (MWh, from 2026-01-01), P1D for the
+    day totals
 - name: geo
   shared: true
   type: text
@@ -93,12 +99,14 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 486469
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 486469
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -107,6 +115,7 @@ columns:
       caiso:daily_renewable_report: 18189
       caiso:production_curtailments: 468280
   missing_cells: 0
+  particular: caiso:production_curtailments (yearly workbooks, to 2025) or caiso:daily_renewable_report (from 2026)
 - name: source_url
   shared: true
   type: text
@@ -141,123 +150,136 @@ columns:
       '2026-01-07T18:50:30Z': 37387
       '2026-02-13T23:52:51Z': 41401
   missing_cells: 18189
+  particular: The workbook's last-modified time (UTC); empty on the rows from the Daily Renewable Report
 variables:
 - name: curtailed_solar_day_mwh
-  label: null
+  label: Solar curtailed in the Pacific day, MWh; one row for every day covered, zero included
   unit: MWh
   rows: 2862
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: curtailed_solar_econ_local_mwh
-  label: null
+  label: Solar curtailed in the hour by market dispatch of economic bids to relieve local congestion (CAISO's Economic - Local),
+    MWh
   unit: MWh
   rows: 3939
   first: '2026-01-01T15:00:00Z'
   last: '2026-11-02T00:00:00Z'
 - name: curtailed_solar_econ_system_mwh
-  label: null
+  label: Solar curtailed in the hour by market dispatch of economic bids for system-wide oversupply (CAISO's Economic - System),
+    MWh
   unit: MWh
   rows: 4109
   first: '2026-01-01T14:00:00Z'
   last: '2026-11-02T00:00:00Z'
 - name: curtailed_solar_local_mw
-  label: null
+  label: Solar curtailed in the 5-minute interval for local congestion (CAISO's reason Local), MW
   unit: MW
   rows: 145884
   first: '2022-04-01T14:15:00Z'
   last: '2025-12-31T23:45:00Z'
 - name: curtailed_solar_mw
-  label: null
+  label: Solar curtailed in the 5-minute interval, no reason published, MW (the interval's average)
   unit: MW
   rows: 132082
   first: '2019-01-01T16:45:00Z'
   last: '2022-04-01T01:15:00Z'
 - name: curtailed_solar_oi_local_mwh
-  label: null
+  label: Solar curtailed in the hour by operator instruction to relieve local congestion (CAISO's Operator Instruction - Local),
+    MWh
   unit: MWh
   rows: 396
   first: '2026-01-26T21:00:00Z'
   last: '2026-10-23T23:00:00Z'
 - name: curtailed_solar_oi_system_mwh
-  label: null
+  label: Solar curtailed in the hour by operator instruction for system-wide oversupply (CAISO's Operator Instruction - System),
+    MWh
   unit: MWh
   rows: 70
   first: '2026-01-26T21:00:00Z'
   last: '2026-10-22T22:00:00Z'
 - name: curtailed_solar_ss_local_mwh
-  label: null
+  label: Solar curtailed in the hour by market dispatch of self-schedules to relieve local congestion (CAISO's SelfSchCut
+    - Local), MWh
   unit: MWh
   rows: 1562
   first: '2026-01-01T23:00:00Z'
   last: '2026-11-01T23:00:00Z'
 - name: curtailed_solar_ss_system_mwh
-  label: null
+  label: Solar curtailed in the hour by market dispatch of self-schedules for system-wide oversupply (CAISO's SelfSchCut -
+    System), MWh
   unit: MWh
   rows: 221
   first: '2026-01-02T22:00:00Z'
   last: '2026-11-01T23:00:00Z'
 - name: curtailed_solar_system_mw
-  label: null
+  label: Solar curtailed in the 5-minute interval for system-wide oversupply (CAISO's reason System), MW
   unit: MW
   rows: 38753
   first: '2022-04-01T15:00:00Z'
   last: '2026-01-01T00:15:00Z'
 - name: curtailed_wind_day_mwh
-  label: null
+  label: Wind curtailed in the Pacific day, MWh; one row for every day covered, zero included
   unit: MWh
   rows: 2862
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: curtailed_wind_econ_local_mwh
-  label: null
+  label: Wind curtailed in the hour by market dispatch of economic bids to relieve local congestion (CAISO's Economic - Local),
+    MWh
   unit: MWh
   rows: 3842
   first: '2026-01-01T08:00:00Z'
   last: '2026-11-02T07:00:00Z'
 - name: curtailed_wind_econ_system_mwh
-  label: null
+  label: Wind curtailed in the hour by market dispatch of economic bids for system-wide oversupply (CAISO's Economic - System),
+    MWh
   unit: MWh
   rows: 3241
   first: '2026-01-01T08:00:00Z'
   last: '2026-11-02T07:00:00Z'
 - name: curtailed_wind_local_mw
-  label: null
+  label: Wind curtailed in the 5-minute interval for local congestion (CAISO's reason Local), MW
   unit: MW
   rows: 79412
   first: '2022-04-01T15:35:00Z'
   last: '2025-12-31T23:05:00Z'
 - name: curtailed_wind_mw
-  label: null
+  label: Wind curtailed in the 5-minute interval, no reason published, MW (the interval's average)
   unit: MW
   rows: 46655
   first: '2019-01-01T16:45:00Z'
   last: '2022-04-01T00:05:00Z'
 - name: curtailed_wind_oi_local_mwh
-  label: null
+  label: Wind curtailed in the hour by operator instruction to relieve local congestion (CAISO's Operator Instruction - Local),
+    MWh
   unit: MWh
   rows: 97
   first: '2026-01-10T02:00:00Z'
   last: '2026-10-22T22:00:00Z'
 - name: curtailed_wind_oi_system_mwh
-  label: null
+  label: Wind curtailed in the hour by operator instruction for system-wide oversupply (CAISO's Operator Instruction - System),
+    MWh
   unit: MWh
   rows: 14
   first: '2026-03-01T22:00:00Z'
   last: '2026-10-22T22:00:00Z'
 - name: curtailed_wind_ss_local_mwh
-  label: null
+  label: Wind curtailed in the hour by market dispatch of self-schedules to relieve local congestion (CAISO's SelfSchCut -
+    Local), MWh
   unit: MWh
   rows: 69
   first: '2026-02-25T20:00:00Z'
   last: '2026-10-20T05:00:00Z'
 - name: curtailed_wind_ss_system_mwh
-  label: null
+  label: Wind curtailed in the hour by market dispatch of self-schedules for system-wide oversupply (CAISO's SelfSchCut -
+    System), MWh
   unit: MWh
   rows: 19
   first: '2026-03-06T17:00:00Z'
   last: '2026-08-15T13:00:00Z'
 - name: curtailed_wind_system_mw
-  label: null
+  label: Wind curtailed in the 5-minute interval for system-wide oversupply (CAISO's reason System), MW
   unit: MW
   rows: 20380
   first: '2022-04-01T20:45:00Z'

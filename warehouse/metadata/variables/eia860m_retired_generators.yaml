@@ -5,9 +5,11 @@
 table: eia860m_retired_generators
 family: eia860m
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One generator retired in the vintage year or the year before, from EIA's monthly inventory, Form EIA-860M, for one vintage
+  month.
+time: No time column; vintage is EIA's month (YYYY-MM). retirement_date and status_date are the first day of EIA's retirement
+  month.
+vintage_rule: A snapshot of one vintage; a new vintage replaces its rows. Earlier vintages are in the raw files and the archive.
 keys:
 - entity_id
 license: public
@@ -41,6 +43,7 @@ columns:
     - eia860:113:3
     - eia860:1157:3
   missing_cells: 0
+  particular: eia860:<plant id>:<generator id>
 - name: entity_type
   shared: true
   type: text
@@ -48,6 +51,7 @@ columns:
     list:
       generator: 260
   missing_cells: 0
+  particular: Always generator
 - name: name
   shared: true
   type: text
@@ -60,6 +64,7 @@ columns:
     - Anchor Wind, LLC
     - Androscoggin Energy Center
   missing_cells: 0
+  particular: EIA's plant name
 - name: geo
   shared: true
   type: text
@@ -72,6 +77,7 @@ columns:
     - US-CO
     - US-CT
   missing_cells: 0
+  particular: US-<plant state>
 - name: lat
   shared: true
   type: number
@@ -96,6 +102,7 @@ columns:
     lowest: 0.1
     highest: 820.0
   missing_cells: 0
+  particular: EIA's nameplate capacity, the same as nameplate_mw
 - name: status
   shared: true
   type: text
@@ -103,6 +110,7 @@ columns:
     list:
       retired: 260
   missing_cells: 0
+  particular: Always retired
 - name: status_date
   shared: true
   type: date
@@ -129,6 +137,7 @@ columns:
       '2026-08-01': 13
       '2026-09-01': 3
   missing_cells: 0
+  particular: The first day of EIA's retirement month (the same as retirement_date)
 - name: operator
   shared: true
   type: text
@@ -141,6 +150,7 @@ columns:
     - Alaska Village Elec Coop, Inc
     - Ameresco Federal Solutions
   missing_cells: 0
+  particular: EIA's Entity Name, the utility that operated the generator
 - name: source
   shared: true
   type: text
@@ -169,21 +179,22 @@ columns:
     list:
       2026-09: 260
   missing_cells: 0
+  particular: EIA's inventory month, YYYY-MM
 - name: plant_id
-  label: null
-  unit: null
+  label: EIA's plant identifier
+  unit: none
   type: integer
   values:
     distinct: 117
     lowest: 113
     highest: 69979
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Plant ID
+  documented_by: method eia860m_operating_generators.md; connector eia860.py
 - name: generator_id
-  label: null
-  unit: null
+  label: EIA's generator identifier within the plant
+  unit: none
   type: text
   values:
     distinct: 140
@@ -194,24 +205,24 @@ columns:
     - 0386
     - '1'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Generator ID
+  documented_by: connector eia860.py
 - name: utility_id
-  label: null
-  unit: null
+  label: EIA's identifier of the operating utility (its Entity ID)
+  unit: none
   type: integer
   values:
     distinct: 110
     lowest: 221
     highest: 67818
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Entity ID
+  documented_by: connector eia860.py
 - name: state
-  label: null
-  unit: null
+  label: The plant's state, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 40
@@ -222,12 +233,12 @@ columns:
     - CO
     - CT
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Plant State
+  documented_by: connector eia860.py
 - name: county
-  label: null
-  unit: null
+  label: The plant's county, as EIA names it
+  unit: none
   type: text
   values:
     distinct: 99
@@ -238,12 +249,12 @@ columns:
     - Atlantic
     - Austin
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: County
+  documented_by: connector eia860.py
 - name: balancing_authority
-  label: null
-  unit: null
+  label: The balancing authority (the grid operator of the area) the plant was in, EIA's code
+  unit: none
   type: text
   values:
     distinct: 30
@@ -254,12 +265,13 @@ columns:
     - CISO
     - CPLE
   missing_cells: 17
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none, or writes NA
+  source_name: Balancing Authority Code
+  documented_by: connector eia860.py
 - name: sector
-  label: null
-  unit: null
+  label: 'EIA''s sector of the plant: Electric Utility, IPP (independent power producer), Commercial or Industrial, each CHP
+    (combined heat and power) or Non-CHP'
+  unit: none
   type: text
   values:
     list:
@@ -271,12 +283,12 @@ columns:
       Industrial CHP: 31
       Industrial Non-CHP: 15
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Sector
+  documented_by: connector eia860.py; data
 - name: technology
-  label: null
-  unit: null
+  label: EIA's technology text for the generator
+  unit: none
   type: text
   values:
     list:
@@ -297,12 +309,12 @@ columns:
       Solar Photovoltaic: 9
       Wood/Wood Waste Biomass: 13
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Technology
+  documented_by: connector eia860.py
 - name: technology_group
-  label: null
-  unit: null
+  label: An ERW grouping of EIA's technology text for maps and filters (solar, wind, natural_gas, storage and the others)
+  unit: none
   type: text
   values:
     list:
@@ -317,12 +329,12 @@ columns:
       storage: 8
       wind: 20
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia860.py
 - name: prime_mover
-  label: null
-  unit: null
+  label: 'EIA''s prime mover code: the kind of engine or turbine (GT gas turbine, PV photovoltaic, BA battery and the others)'
+  unit: none
   type: text
   values:
     list:
@@ -337,12 +349,12 @@ columns:
       ST: 35
       WT: 20
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Prime Mover Code
+  documented_by: connector eia860.py
 - name: prime_mover_label
-  label: null
-  unit: null
+  label: The prime mover code's meaning, from the EIA-860 instructions
+  unit: none
   type: text
   values:
     list:
@@ -357,12 +369,13 @@ columns:
       Turbines used in a binary cycle (geothermal): 2
       Wind turbine, onshore: 20
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: energy_source
-  label: null
-  unit: null
+  label: 'EIA''s energy source code: the generator''s main fuel or energy (NG natural gas, SUN solar, MWH electricity stored
+    and the others)'
+  unit: none
   type: text
   values:
     list:
@@ -382,12 +395,12 @@ columns:
       WH: 2
       WND: 20
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Energy Source Code
+  documented_by: connector eia860.py
 - name: energy_source_label
-  label: null
-  unit: null
+  label: The energy source code's meaning, from the EIA-860 instructions
+  unit: none
   type: text
   values:
     list:
@@ -407,70 +420,70 @@ columns:
       Wind: 20
       Wood/wood waste solids: 4
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: nameplate_mw
-  label: null
-  unit: null
+  label: 'EIA''s nameplate capacity: the generator''s rated output'
+  unit: MW
   type: number
   values:
     distinct: 79
     lowest: 0.1
     highest: 820.0
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Nameplate Capacity (MW)
+  documented_by: connector eia860.py; method eia860m_operating_generators.md
 - name: net_summer_mw
-  label: null
-  unit: null
+  label: 'EIA''s net summer capacity: the output the generator could deliver in summer, net of its own use'
+  unit: MW
   type: number
   values:
     distinct: 87
     lowest: 0.0
     highest: 900.0
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Net Summer Capacity (MW)
+  documented_by: connector eia860.py
 - name: net_winter_mw
-  label: null
-  unit: null
+  label: 'EIA''s net winter capacity: the output the generator could deliver in winter, net of its own use'
+  unit: MW
   type: number
   values:
     distinct: 89
     lowest: 0.0
     highest: 900.0
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Net Winter Capacity (MW)
+  documented_by: connector eia860.py
 - name: eia_status
-  label: null
-  unit: null
+  label: 'EIA''s status code: always RE, retired'
+  unit: none
   type: text
   values:
     list:
       RE: 260
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Status
+  documented_by: connector eia860.py; data
 - name: eia_status_label
-  label: null
-  unit: null
+  label: The status code's words as EIA prints them
+  unit: none
   type: text
   values:
     list:
       Retired: 260
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Status
+  documented_by: connector eia860.py; data
 - name: retirement_date
-  label: null
-  unit: null
+  label: The first day of the month the generator retired, as EIA gives it
+  unit: none
   type: date
   values:
     list:
@@ -495,24 +508,24 @@ columns:
       '2026-08-01': 13
       '2026-09-01': 3
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Retirement Year and Month
+  documented_by: connector eia860.py; method eia860m_retired_generators.md
 - name: operating_year
-  label: null
-  unit: null
+  label: The year the generator began commercial operation, as EIA gives it
+  unit: none
   type: integer
   values:
     distinct: 67
     lowest: 1908
     highest: 2024
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Operating Year
+  documented_by: connector eia860.py
 - name: operating_month
-  label: null
-  unit: null
+  label: The month (1 to 12) the generator began commercial operation, as EIA gives it
+  unit: none
   type: integer
   values:
     list:
@@ -529,12 +542,12 @@ columns:
       '8': 11
       '9': 22
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Operating Month
+  documented_by: connector eia860.py
 - name: energy_capacity_mwh
-  label: null
-  unit: null
+  label: 'EIA''s nameplate energy capacity: the energy a storage unit held'
+  unit: MWh
   type: number
   values:
     list:
@@ -546,7 +559,7 @@ columns:
       '5': 1
       '8': 1
   missing_cells: 252
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none (not a storage unit, mostly)
+  source_name: Nameplate Energy Capacity (MWh)
+  documented_by: header; method eia860m_retired_generators.md
 second_look: null

@@ -5,9 +5,11 @@
 table: iso_zone_prices_history
 family: iso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The day-ahead or real-time price of one NYISO load zone, CAISO's ZP26 hub or SPP's South hub for one interval, a history
+  from 2019.
+time: ts_utc is the start of the interval in UTC; day-ahead and NYISO's real-time are hourly, CAISO's real-time 15-minute.
+vintage_rule: Merged by (entity, variable, ts_utc); a month refetched after it ended replaces its rows. An interval the publisher's
+  file does not hold is not written. vintage is the file's Last-Modified for NYISO, empty for CAISO and SPP.
 keys:
 - entity
 - variable
@@ -64,6 +66,7 @@ columns:
       nyiso:WEST: 136547
       spp:SPPSOUTH_HUB: 68375
   missing_cells: 0
+  particular: '<iso>:<node>: nyiso:<zone> for NYISO''s eleven load zones, caiso:TH_ZP26_GEN-APND, spp:SPPSOUTH_HUB'
 - name: variable
   shared: true
   type: text
@@ -101,6 +104,7 @@ columns:
       PT15M: 77380
       PT1H: 1600153
   missing_cells: 0
+  particular: PT1H, or PT15M for CAISO's real-time rows
 - name: geo
   shared: true
   type: text
@@ -121,6 +125,7 @@ columns:
       nyiso_rtm: 748297
       spp_dam: 68375
   missing_cells: 0
+  particular: 'caiso_dam, caiso_rtm, nyiso_dam, nyiso_rtm or spp_dam: the grid''s day-ahead or real-time market'
 - name: node
   shared: true
   type: text
@@ -140,6 +145,8 @@ columns:
       TH_ZP26_GEN-APND: 107141
       WEST: 136547
   missing_cells: 0
+  particular: NYISO's eleven load zones (CAPITL, CENTRL, DUNWOD, GENESE, HUD VL, LONGIL, MHK VL, MILLWD, N.Y.C., NORTH, WEST),
+    CAISO's ZP26 hub TH_ZP26_GEN-APND, SPP's South hub SPPSOUTH_HUB; no ISO-NE row
 - name: source
   shared: true
   type: text
@@ -179,21 +186,23 @@ columns:
     earliest: '2019-01-30T14:34:03Z'
     latest: '2026-11-16T11:07:14Z'
   missing_cells: 175516
+  particular: NYISO's file Last-Modified; empty on CAISO's and SPP's rows
 variables:
 - name: lmp_dam
-  label: null
+  label: Day-ahead locational marginal price (NYISO's zonal LBMP), hourly
   unit: USD/MWh
   rows: 851856
   first: '2019-01-01T05:00:00Z'
   last: '2026-11-17T07:00:00Z'
 - name: lmp_rtm
-  label: null
+  label: NYISO's own time-weighted integrated hourly real-time LBMP (report P-4A)
   unit: USD/MWh
   rows: 748297
   first: '2019-01-01T05:00:00Z'
   last: '2026-11-16T11:00:00Z'
 - name: lmp_rtm_15m_mean
-  label: null
+  label: 'CAISO: real-time locational marginal price, the 15-minute mean of the 5-minute RTD prices, a quarter hour only when
+    its three prices are held'
   unit: USD/MWh
   rows: 77380
   first: '2024-09-01T07:00:00Z'

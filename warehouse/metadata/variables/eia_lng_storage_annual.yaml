@@ -5,9 +5,10 @@
 table: eia_lng_storage_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's LNG additions to or withdrawals from storage (peak-shaving tanks, not export terminals) in the U.S. or one
+  state.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +45,7 @@ columns:
     - eia_lng_storage:NA1330_SAR_2
     - eia_lng_storage:NA1330_SCA_2
   missing_cells: 0
+  particular: eia_lng_storage:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -92,12 +94,14 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
+  particular: US-<state>, or US for the nation
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3074
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -110,6 +114,7 @@ columns:
     - Alaska Natural Gas LNG Storage Additions (MMcf)
     - Arizona Natural Gas LNG Storage Additions (Million Cubic Feet)
   missing_cells: 0
+  particular: EIA's description
 - name: source
   shared: true
   type: text
@@ -138,15 +143,16 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 3074
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: additions
-  label: null
+  label: LNG added to storage (SLI), million cubic feet
   unit: MMcf
   rows: 1502
   first: '1969-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: withdrawals
-  label: null
+  label: LNG withdrawn from storage (SLW), million cubic feet
   unit: MMcf
   rows: 1572
   first: '1980-01-01T00:00:00Z'

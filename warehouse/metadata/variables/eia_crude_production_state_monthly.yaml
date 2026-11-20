@@ -5,9 +5,9 @@
 table: eia_crude_production_state_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's crude oil field production of one state, region or federal offshore area, in the month or per day.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +44,7 @@ columns:
     - eia_crude_production:R30:MCRFPP3
     - eia_crude_production:R3FM:MCRFP3FM
   missing_cells: 0
+  particular: eia_crude_production:<area>:<series stem>; regions R10 to R50 are sums of states and offshore areas
 - name: variable
   shared: true
   type: text
@@ -93,12 +94,14 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
+  particular: US-<state> for a state; US for the U.S., the regions and the offshore areas
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 25644
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -111,6 +114,7 @@ columns:
     - Alaska Field Production of Crude Oil (Thousand Barrels)
     - Alaska North Slope Crude Oil Production (Thousand Barrels per Day)
   missing_cells: 0
+  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -139,15 +143,16 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 25644
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: field_production
-  label: null
+  label: Crude oil field production in the month, thousand barrels
   unit: kbbl
   rows: 12822
   first: '2001-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: field_production_per_day
-  label: null
+  label: Crude oil field production, thousand barrels a day
   unit: kbbl/d
   rows: 12822
   first: '2001-01-01T00:00:00Z'

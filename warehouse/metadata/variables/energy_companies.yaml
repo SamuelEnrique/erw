@@ -5,9 +5,12 @@
 table: energy_companies
 family: energy
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One energy company of the Thesis Builder (tool 27, researched by a model from public web sources it cites) or a party
+  of the deal tracker's deals (energy_deals), merged on normalized name plus website domain.
+time: No time column; first_seen is the date the company was first found (a researched row's run date, or its first deal's
+  date). vintage is the run id (YYYYMMDDTHHMMSSZ) of the row's writing.
+vintage_rule: Merged on normalized name plus website domain. A company found again keeps its first_seen and the fields of
+  the higher-confidence finding, gaining the new niche tags and sources; deal-only rows are rebuilt each run of warehouse/companies/seed_from_deals.py.
 keys:
 - entity_id
 license: public
@@ -51,6 +54,7 @@ columns:
     list:
       company: 562
   missing_cells: 0
+  particular: Always company
 - name: name
   shared: true
   type: text
@@ -63,12 +67,14 @@ columns:
     - AD Ports
     - ADIA
   missing_cells: 0
+  particular: A researched row's name is written by the Thesis Builder's model; a deal row's is the deal party's name
 - name: geo
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 562
+  particular: 'Not filled: no cell holds a value'
 - name: lat
   shared: true
   type: empty
@@ -93,6 +99,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 562
+  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -149,9 +156,10 @@ columns:
       20260930T050541Z: 8
       20261115T152221Z: 541
   missing_cells: 0
+  particular: The run id that wrote the row, YYYYMMDDTHHMMSSZ
 - name: description
-  label: null
-  unit: null
+  label: A one-line description of the company, written by the Thesis Builder's model from the sources it cites
+  unit: none
   type: text
   values:
     list:
@@ -199,12 +207,13 @@ columns:
         power market strategies for storage owners.
       : 1
   missing_cells: 541
-  missing_meaning: null
+  missing_meaning: A deal-only row, not yet researched
   source_name: null
-  documented_by: null
+  documented_by: header; method thesis_builder.md
 - name: sector
-  label: null
-  unit: null
+  label: 'The company''s sector: ''energy technology'' for a researched row; for a deal row, the news scorer''s sectors of
+    the stories its deals came from, joined by '';'''
+  unit: none
   type: text
   values:
     distinct: 55
@@ -215,12 +224,13 @@ columns:
     - capital;datacenter_power;deal;gas;generation;oil
     - capital;datacenter_power;deal;nuclear
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector build.py; connector seed_from_deals.py
 - name: niche_tags
-  label: null
-  unit: null
+  label: 'Tags of where the company was found: the niche the Thesis Builder researched, and deal:<deal_type> and tech:<technology>
+    for each of its deals, joined by '';'''
+  unit: none
   type: text
   values:
     distinct: 186
@@ -231,12 +241,13 @@ columns:
     - deal:behind_the_meter;deal:ppa;tech:fuel cell;tech:fuel cells
     - deal:behind_the_meter;tech:gas
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector build.py; connector seed_from_deals.py
 - name: stage
-  label: null
-  unit: null
+  label: The company's funding stage as the model read it in the sources (a phrase; 'not confirmed' where no cited source
+    confirmed it)
+  unit: none
   type: text
   values:
     list:
@@ -254,12 +265,12 @@ columns:
       'public, NYSE: STEM': 1
       'public, Nasdaq: FLNC': 1
   missing_cells: 541
-  missing_meaning: null
+  missing_meaning: A deal-only row, not yet researched
   source_name: null
-  documented_by: null
+  documented_by: header; connector build.py
 - name: raised
-  label: null
-  unit: null
+  label: The money the company has raised as the model read it in the sources (a phrase; blank for a public company)
+  unit: none
   type: text
   values:
     list:
@@ -289,12 +300,13 @@ columns:
       not disclosed (acquisition price undisclosed in both transactions): 1
       not disclosed; backed by EnCap Energy Transition Fund III (amount not disclosed): 1
   missing_cells: 544
-  missing_meaning: null
+  missing_meaning: A deal-only row, or a public company
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: location
-  label: null
-  unit: null
+  label: Where the company is, as the model read it (researched rows); for a deal row, the places its deals state (where the
+    deal is, not necessarily the company), joined by '; '
+  unit: none
   type: text
   values:
     distinct: 93
@@ -305,12 +317,12 @@ columns:
     - Angola; TX; United States; Venezuela
     - Angola; United States
   missing_cells: 346
-  missing_meaning: null
+  missing_meaning: No source or deal states a place
   source_name: null
-  documented_by: null
+  documented_by: header; connector seed_from_deals.py
 - name: founders
-  label: null
-  unit: null
+  label: The founders or leaders as the model read them in the sources
+  unit: none
   type: text
   values:
     list:
@@ -330,12 +342,12 @@ columns:
       not disclosed (Jamie Beard is executive director): 1
       not disclosed, founded 2009: 1
   missing_cells: 541
-  missing_meaning: null
+  missing_meaning: A deal-only row, not yet researched
   source_name: null
-  documented_by: null
+  documented_by: header; connector build.py
 - name: website
-  label: null
-  unit: null
+  label: The company's website domain, as the model read it ('not disclosed' where the sources give none)
+  unit: none
   type: text
   values:
     list:
@@ -358,12 +370,12 @@ columns:
       xgsenergy.com: 1
       zanskar.com: 1
   missing_cells: 541
-  missing_meaning: null
+  missing_meaning: A deal-only row
   source_name: null
-  documented_by: null
+  documented_by: connector build.py; connector seed_from_deals.py
 - name: sources
-  label: null
-  unit: null
+  label: 'The links the row rests on: the model''s cited sources, or the deals'' story links'
+  unit: none
   type: text
   values:
     distinct: 462
@@ -374,12 +386,13 @@ columns:
     - https://en.wikipedia.org/wiki/Fervo_Energy;https://www.esgdive.com/news/bill-gates-backed-geothermal-developer-fervo-raises-189b-in-ipo/820131/;https://enkiai.com/geothermal/fervo-energy-data-center-ppa/;https://fervoenergy.com/fervo-energy-raises-462-million-series-e-to-accelerate-geothermal-development-and-meet-surging-energy-demand-with-clean-firm-power/;https://energynewsbeat.co/geothermal-2/fervo-energy-from-startup-to-geothermal-leader/;https://fervoenergy.com/fervo-energy-and-google-sign-396-mw-ppa/;https://techcrunch.com/2026/09/02/enhanced-geothermal-notches-another-win-as-google-buys-400-mw-from-fervo/;https://www.energyconnects.com/news/renewables/2026/september/fervo-shares-surge-on-geothermal-power-deal-with-google/;https://news.google.com/rss/articles/CBMihAFBVV95cUxPTlBGQzJxblZ6dDdfakEyc3lpMURCRnRaZ1dHZFFZOERPTTZPdHg3OTEzY1ctR29mdlpDZzdkNzhsNkFwVkFyQWVjTE5CeWFQX2E1Qm1HR3FnNFFuY2M5M2FLekwwbGY3bzFidHl1NlFNdnZXY3UwQXdCQjI4b2pOcC04aG4?oc=5;https://news.google.com/rss/articles/CBMiqAFBVV95cUxPR2xYR0ZEdDFIOHlnNlQ1SHhGaE5ETE12a0JIWVd5aHlNSFJZYjFsdW45NEJJUzlobEU0RDUxX0NtaWhDTW4xdVU4cEp2ZkJ6XzZ1b2taV05WLVdDQWpGMlpHMjJaSzhVc3ZEalRCdGxyVkUxQ2p1QVY5bF9mVTVZX1Fpam9hdXhMWkNiRUcxS091X0VNcUphZEVuZFZIZ0JDSU5GdFdvT20?oc=5
     - https://finance.yahoo.com/energy/articles/baker-hughes-unlocks-geothermal-opportunity-133000195.html;https://investors.bakerhughes.com/news/press-releases/news-details/2026/Baker-Hughes-and-Mantle-Reach-Power-an-EnCap-Energy-Transition-Company-Announce-Strategic-Agreement-to-Accelerate-Large-scale-Geothermal-Across-North-America/default.aspx;https://www.thinkgeoenergy.com/baker-hughes-to-back-large-scale-geothermal-plans-of-mantle-reach-power/;https://mantlereach.com/
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector seed_from_deals.py
 - name: confidence
-  label: null
-  unit: null
+  label: 'A confidence score 0 to 100 by the Thesis Builder''s rule: 20 per independent source up to 3, plus 20 or 10 for
+    recency, plus 10 each when a primary source confirms the stage and the amount raised'
+  unit: none
   type: integer
   values:
     list:
@@ -390,12 +403,12 @@ columns:
       '80': 54
       '90': 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method thesis_builder.md; connector seed_from_deals.py
 - name: confidence_note
-  label: null
-  unit: null
+  label: One plain line naming the evidence behind the score; deal-only rows start 'from deals; not yet researched'
+  unit: none
   type: text
   values:
     distinct: 57
@@ -406,19 +419,19 @@ columns:
     - 3 independent sources, latest 2023; stage confirmed and raised not confirmed by a primary source
     - 3 independent sources, latest 2024; stage confirmed and raised confirmed by a primary source
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method thesis_builder.md
 - name: first_seen
-  label: null
-  unit: null
+  label: 'The date the company was first found: the Thesis Builder run''s date, or the date of its first deal'
+  unit: none
   type: date
   values:
     distinct: 165
     earliest: '2025-01-05'
     latest: '2026-11-12'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector build.py; connector seed_from_deals.py
 second_look: null

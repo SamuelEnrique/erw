@@ -5,9 +5,10 @@
 table: eia_crude_reserves_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's, area's or the nation's crude oil proved reserves at a year's end, or one of the changes that take one year's
+  reserves to the next.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y); reserves are as of the year's end.
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +45,7 @@ columns:
     - eia_crude_reserves:R01:R48
     - eia_crude_reserves:R01:R5F
   missing_cells: 0
+  particular: eia_crude_reserves:<process>:<area>; parts of states and the Lower 48 repeat states and the U.S.
 - name: variable
   shared: true
   type: text
@@ -111,12 +113,14 @@ columns:
       US-WV: 275
       US-WY: 275
   missing_cells: 0
+  particular: US-<state> for a state, US otherwise
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 13931
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -129,6 +133,7 @@ columns:
     - Alabama Crude Oil Reserves Adjustments (Million Barrels)
     - Alabama Crude Oil Reserves Divestitures (Million Barrels)
   missing_cells: 0
+  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -157,51 +162,52 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 13931
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: acquisitions
-  label: null
+  label: Proved reserves acquired (R06), thousand barrels
   unit: kbbl
   rows: 1131
   first: '2000-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: adjustments
-  label: null
+  label: Adjustments to proved reserves (R02), thousand barrels
   unit: kbbl
   rows: 2274
   first: '1977-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: extensions_and_discoveries
-  label: null
+  label: Extensions and discoveries of proved reserves (R07A), thousand barrels
   unit: kbbl
   rows: 299
   first: '2016-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: production
-  label: null
+  label: Estimated production from reserves in the year (R10), thousand barrels
   unit: kbbl
   rows: 2274
   first: '1977-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: proved_reserves
-  label: null
+  label: Crude oil proved reserves at the year's end (R01), thousand barrels (EIA's million barrels times 1,000)
   unit: kbbl
   rows: 2274
   first: '1977-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: revision_decreases
-  label: null
+  label: Revision decreases of proved reserves (R04), thousand barrels
   unit: kbbl
   rows: 2274
   first: '1977-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: revision_increases
-  label: null
+  label: Revision increases of proved reserves (R03), thousand barrels
   unit: kbbl
   rows: 2274
   first: '1977-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: sales
-  label: null
+  label: Proved reserves sold (R05), thousand barrels
   unit: kbbl
   rows: 1131
   first: '2000-01-01T00:00:00Z'

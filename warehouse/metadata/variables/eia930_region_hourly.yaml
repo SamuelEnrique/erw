@@ -5,9 +5,11 @@
 table: eia930_region_hourly
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One of EIA's regions of the lower 48 and one hour, its demand, demand forecast, net generation or total interchange,
+  the sum of its balancing authorities, July 2018 on.
+time: ts_utc is the hour's start (the file's UTC Time at End of Hour minus one hour).
+vintage_rule: Rebuilt whole by each run from the newest saved copies of EIA's six-month files; no vintage column, x_file names
+  each row's file.
 keys:
 - entity
 - variable
@@ -52,6 +54,7 @@ columns:
       eia930:TEN: 293960
       eia930:TEX: 293656
   missing_cells: 0
+  particular: eia930:<region> (CAL, CAR, CENT, FLA, MIDA, MIDW, NE, NW, NY, SE, SW, TEN)
 - name: variable
   shared: true
   type: text
@@ -114,45 +117,47 @@ columns:
       ten: 293960
       tex: 293656
   missing_cells: 0
+  particular: The region's code, lowercase
 - name: x_basis
-  label: null
-  unit: null
+  label: adjusted when every summed value was EIA's adjusted value; reported for the forecast, which has only the reported
+    column
+  unit: none
   type: text
   values:
     list:
       adjusted: 2464394
       reported: 601464
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_region_hourly.md; data
 - name: x_value_reported
-  label: null
-  unit: null
+  label: The sum of the authorities' reported values, where every authority has that column
+  unit: MW
   type: integer
   values:
     distinct: more than 5000
     lowest: -429455278
     highest: 2147480000
   missing_cells: 11780
-  missing_meaning: null
+  missing_meaning: An authority of the region has no reported value for the hour
   source_name: null
-  documented_by: null
+  documented_by: method eia930_region_hourly.md
 - name: x_value_adjusted
-  label: null
-  unit: null
+  label: The sum of the authorities' adjusted values, where every authority has that column
+  unit: MW
   type: integer
   values:
     distinct: more than 5000
     lowest: -17109
     highest: 224345
   missing_cells: 601464
-  missing_meaning: null
+  missing_meaning: 'No adjusted column: every demand_forecast_mw row'
   source_name: null
-  documented_by: null
+  documented_by: method eia930_region_hourly.md
 - name: x_bas
-  label: null
-  unit: null
+  label: How many balancing authorities were summed
+  unit: count
   type: integer
   values:
     list:
@@ -169,12 +174,12 @@ columns:
       '8': 27479
       '9': 323792
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_region_hourly.md
 - name: x_file
-  label: null
-  unit: null
+  label: The six-month BALANCE file the row was read from (<year>_<Jan_Jun or Jul_Dec>)
+  unit: none
   type: text
   values:
     list:
@@ -196,30 +201,30 @@ columns:
       2026_Jan_Jun: 177888
       2026_Jul_Dec: 141306
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method eia930_region_hourly.md
 variables:
 - name: demand_forecast_mw
-  label: null
+  label: The region's day-ahead demand forecast, the sum of its authorities'
   unit: MW
   rows: 601464
   first: '2018-07-01T04:00:00Z'
   last: '2026-11-20T07:00:00Z'
 - name: demand_mw
-  label: null
+  label: The region's hourly demand, the sum of its authorities'
   unit: MW
   rows: 608824
   first: '2018-07-01T04:00:00Z'
   last: '2026-11-19T07:00:00Z'
 - name: net_generation_mw
-  label: null
+  label: The region's hourly net generation, the sum of its authorities'
   unit: MW
   rows: 931696
   first: '2018-07-01T04:00:00Z'
   last: '2026-11-19T07:00:00Z'
 - name: total_interchange_mw
-  label: null
+  label: The region's total interchange, the sum of its authorities' totals
   unit: MW
   rows: 923874
   first: '2018-07-01T04:00:00Z'

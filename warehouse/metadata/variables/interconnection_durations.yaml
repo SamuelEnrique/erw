@@ -5,9 +5,11 @@
 table: interconnection_durations
 family: interconnection
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One interconnection request that reached operation and gives both a request date and an operation date, with the months
+  between them, from Berkeley Lab's Queued Up file (2026 edition, through 2025).
+time: No time column; status_date is the operation date. vintage is the edition ('2026 edition (through 2025)').
+vintage_rule: Rewritten whole by each run of the builder (warehouse/derived/interconnection_durations.py) from lbnl_interconnection_queue,
+  one edition.
 keys:
 - entity_id
 license: public
@@ -41,6 +43,7 @@ columns:
     - lbnl:CAISO:1005
     - lbnl:CAISO:1010
   missing_cells: 0
+  particular: The queue table's (lbnl_interconnection_queue's) own entity_id
 - name: entity_type
   shared: true
   type: text
@@ -48,6 +51,7 @@ columns:
     list:
       project: 3098
   missing_cells: 0
+  particular: Always project
 - name: name
   shared: true
   type: text
@@ -99,6 +103,7 @@ columns:
     list:
       operating: 3098
   missing_cells: 0
+  particular: Always operating
 - name: status_date
   shared: true
   type: date
@@ -107,6 +112,7 @@ columns:
     earliest: '1999-06-30'
     latest: '2025-12-31'
   missing_cells: 0
+  particular: The operation date
 - name: operator
   shared: true
   type: text
@@ -147,9 +153,10 @@ columns:
     list:
       2026 edition (through 2025): 3098
   missing_cells: 0
+  particular: The Queued Up edition, as text
 - name: queue_id
-  label: null
-  unit: null
+  label: The request's queue identifier as Berkeley Lab's file gives it
+  unit: none
   type: text
   values:
     distinct: 2964
@@ -160,12 +167,12 @@ columns:
     - 0209A
     - 0224A
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: q_id
+  documented_by: connector interconnection_durations.py
 - name: grid
-  label: null
-  unit: null
+  label: 'Berkeley Lab''s region: the seven ISOs, West and Southeast'
+  unit: none
   type: text
   values:
     list:
@@ -178,12 +185,12 @@ columns:
       Southeast: 215
       West: 176
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: region
+  documented_by: header; connector interconnection_durations.py
 - name: state
-  label: null
-  unit: null
+  label: The state as the file gives it
+  unit: none
   type: text
   values:
     distinct: 43
@@ -194,12 +201,12 @@ columns:
     - CA
     - CO
   missing_cells: 177
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The file gives no state
+  source_name: state
+  documented_by: connector interconnection_durations.py
 - name: county
-  label: null
-  unit: null
+  label: The county as the file gives it
+  unit: none
   type: text
   values:
     distinct: 714
@@ -210,12 +217,12 @@ columns:
     - Adams
     - Alachua
   missing_cells: 197
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The file gives no county
+  source_name: county
+  documented_by: connector interconnection_durations.py
 - name: utility
-  label: null
-  unit: null
+  label: The file's own utility field
+  unit: none
   type: text
   values:
     distinct: 95
@@ -226,12 +233,12 @@ columns:
     - AMEREN TRANSMISSION COMPANY OF ILLINOIS
     - APS
   missing_cells: 888
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The file names no utility
+  source_name: utility
+  documented_by: method interconnection_durations.md
 - name: transmission_provider
-  label: null
-  unit: null
+  label: 'The transmission provider: Berkeley Lab''s entity field'
+  unit: none
   type: text
   values:
     list:
@@ -259,12 +266,12 @@ columns:
       TEC: 3
       TSGT: 13
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: entity
+  documented_by: method interconnection_durations.md
 - name: fuel
-  label: null
-  unit: null
+  label: Berkeley Lab's clean type of the request (Solar, Battery, Gas, Wind, Solar+Battery and the others)
+  unit: none
   type: text
   values:
     list:
@@ -288,67 +295,67 @@ columns:
       Wind: 783
       Wind+Battery: 7
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: type_clean
+  documented_by: method interconnection_durations.md
 - name: request_date
-  label: null
-  unit: null
+  label: The date the request entered the queue
+  unit: none
   type: date
   values:
     distinct: 1771
     earliest: '1997-04-01'
     latest: '2025-06-06'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: q_date
+  documented_by: connector interconnection_durations.py
 - name: operation_date
-  label: null
-  unit: null
+  label: The date the project began operating
+  unit: none
   type: date
   values:
     distinct: 1734
     earliest: '1999-06-30'
     latest: '2025-12-31'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: on_date
+  documented_by: connector interconnection_durations.py
 - name: months_to_operation
-  label: null
-  unit: null
+  label: Days from request_date to operation_date divided by 30.4375 (the mean month), one decimal
+  unit: month
   type: number
   values:
     distinct: 1009
     lowest: 0.0
     highest: 217.8
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method interconnection_durations.md
 - name: request_year
-  label: null
-  unit: null
+  label: The year of request_date
+  unit: none
   type: integer
   values:
     distinct: 29
     lowest: 1997
     highest: 2025
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector interconnection_durations.py
 - name: operation_year
-  label: null
-  unit: null
+  label: The year of operation_date
+  unit: none
   type: integer
   values:
     distinct: 27
     lowest: 1999
     highest: 2025
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector interconnection_durations.py
 second_look: null

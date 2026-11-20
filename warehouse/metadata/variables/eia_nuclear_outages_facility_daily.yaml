@@ -5,9 +5,10 @@
 table: eia_nuclear_outages_facility_daily
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One nuclear plant's day of capacity, capacity on outage, or share on outage, EIA's estimate from the NRC's daily power
+  reactor status reports.
+time: ts_utc is the day at 00:00:00Z (freq P1D), a date.
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -43,6 +44,7 @@ columns:
     - eia_nuclear_outages:1729
     - eia_nuclear_outages:1922
   missing_cells: 0
+  particular: eia_nuclear_outages:<facility>, EIA's plant id
 - name: variable
   shared: true
   type: text
@@ -87,12 +89,14 @@ columns:
     list:
       US: 1312872
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1312872
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -105,6 +109,7 @@ columns:
     - Browns Ferry
     - Brunswick
   missing_cells: 0
+  particular: The plant's name
 - name: source
   shared: true
   type: text
@@ -135,21 +140,22 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 1312872
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: capacity
-  label: null
+  label: The plant's nuclear generating capacity, MW
   unit: MW
   rows: 437624
   first: '2007-01-01T00:00:00Z'
   last: '2026-10-21T00:00:00Z'
 - name: outage
-  label: null
+  label: The plant's capacity on outage that day, MW
   unit: MW
   rows: 437624
   first: '2007-01-01T00:00:00Z'
   last: '2026-10-21T00:00:00Z'
 - name: outage_share
-  label: null
+  label: Share of the plant's capacity on outage, a ratio (EIA's percent divided by 100)
   unit: ratio
   rows: 437624
   first: '2007-01-01T00:00:00Z'

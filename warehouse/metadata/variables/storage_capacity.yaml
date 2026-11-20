@@ -5,9 +5,10 @@
 table: storage_capacity
 family: storage
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One battery generator (EIA prime mover BA) of the US, operating, planned or retired, from the EIA-860M tables.
+time: No time column; vintage is the month of the EIA-860M inventory read (YYYY-MM), and the table is that inventory as read
+  on its retrieved_at.
+vintage_rule: A snapshot, replaced whole by each run, so a unit EIA drops leaves the table.
 keys:
 - entity_id
 license: public
@@ -40,6 +41,7 @@ columns:
     - eia860:10493:BES1
     - eia860:1355:BESS
   missing_cells: 0
+  particular: eia860:<plant id>:<generator id>
 - name: entity_type
   shared: true
   type: text
@@ -95,6 +97,7 @@ columns:
     lowest: 0.1
     highest: 1200.0
   missing_cells: 0
+  particular: EIA's nameplate MW
 - name: status
   shared: true
   type: text
@@ -113,6 +116,7 @@ columns:
     earliest: '2003-12-01'
     latest: '2026-09-01'
   missing_cells: 484
+  particular: As carried from the EIA-860M tables; empty on every planned unit (484 rows)
 - name: operator
   shared: true
   type: text
@@ -153,21 +157,22 @@ columns:
     list:
       2026-09: 1648
   missing_cells: 0
+  particular: The EIA-860M inventory month (YYYY-MM), not a UTC time
 - name: plant_id
-  label: null
-  unit: null
+  label: EIA's plant code
+  unit: none
   type: integer
   values:
     distinct: 1571
     lowest: 141
     highest: 70584
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector storage_capacity.py
 - name: generator_id
-  label: null
-  unit: null
+  label: EIA's generator code within the plant
+  unit: none
   type: text
   values:
     distinct: 1296
@@ -178,12 +183,12 @@ columns:
     - 09751
     - '1'
   missing_cells: 1
-  missing_meaning: null
+  missing_meaning: Not given for one unit
   source_name: null
-  documented_by: null
+  documented_by: connector storage_capacity.py
 - name: state
-  label: null
-  unit: null
+  label: The plant's state, two-letter code
+  unit: none
   type: text
   values:
     distinct: 51
@@ -194,12 +199,12 @@ columns:
     - AZ
     - CA
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector storage_capacity.py
 - name: county
-  label: null
-  unit: null
+  label: The plant's county as EIA writes it
+  unit: none
   type: text
   values:
     distinct: 456
@@ -210,12 +215,12 @@ columns:
     - Aguadilla
     - Aibonito
   missing_cells: 1
-  missing_meaning: null
+  missing_meaning: Not given for one unit
   source_name: null
-  documented_by: null
+  documented_by: connector storage_capacity.py
 - name: balancing_authority
-  label: null
-  unit: null
+  label: The unit's balancing authority, EIA's code as written
+  unit: none
   type: text
   values:
     distinct: 43
@@ -226,12 +231,13 @@ columns:
     - BPAT
     - CEA
   missing_cells: 25
-  missing_meaning: null
+  missing_meaning: EIA gives no balancing authority code for the unit
   source_name: null
-  documented_by: null
+  documented_by: connector storage_capacity.py; method storage.md
 - name: iso
-  label: null
-  unit: null
+  label: The ISO of the unit's balancing authority where it is one of the seven (CISO CAISO, ERCO ERCOT, ISNE ISO-NE, MISO,
+    NYIS NYISO, PJM, SWPP SPP)
+  unit: none
   type: text
   values:
     list:
@@ -243,24 +249,24 @@ columns:
       PJM: 77
       SPP: 31
   missing_cells: 381
-  missing_meaning: null
+  missing_meaning: The balancing authority is not one of the seven ISOs, or is not given
   source_name: null
-  documented_by: null
+  documented_by: header; connector storage_capacity.py; method storage.md
 - name: net_summer_mw
-  label: null
-  unit: null
+  label: EIA's net summer capacity of the unit
+  unit: MW
   type: number
   values:
     distinct: 328
     lowest: 0.1
     highest: 1200.0
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector storage_capacity.py
 - name: eia_status
-  label: null
-  unit: null
+  label: EIA's own status code of the unit (OP, SB, OS, OA, P, L, T, U, V, TS, RE)
+  unit: none
   type: text
   values:
     list:
@@ -276,12 +282,12 @@ columns:
       U: 108
       V: 103
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector storage_capacity.py; method storage.md
 - name: operating_year
-  label: null
-  unit: null
+  label: EIA's operating year (operating and retired units)
+  unit: none
   type: integer
   values:
     list:
@@ -303,12 +309,12 @@ columns:
       '2025': 201
       '2026': 145
   missing_cells: 484
-  missing_meaning: null
+  missing_meaning: A planned unit
   source_name: null
-  documented_by: null
+  documented_by: connector storage_capacity.py; method storage.md
 - name: planned_year
-  label: null
-  unit: null
+  label: The year of EIA's planned operation date (planned units)
+  unit: none
   type: integer
   values:
     list:
@@ -319,12 +325,12 @@ columns:
       '2030': 14
       '2031': 7
   missing_cells: 1164
-  missing_meaning: null
+  missing_meaning: An operating or retired unit
   source_name: null
-  documented_by: null
+  documented_by: connector storage_capacity.py; method storage.md
 - name: retirement_date
-  label: null
-  unit: null
+  label: EIA's retirement date of the unit
+  unit: none
   type: date
   values:
     list:
@@ -335,12 +341,12 @@ columns:
       '2025-09-01': 2
       '2026-02-01': 1
   missing_cells: 1640
-  missing_meaning: null
+  missing_meaning: The unit is not retired
   source_name: null
-  documented_by: null
+  documented_by: connector storage_capacity.py
 - name: source_table
-  label: null
-  unit: null
+  label: The ERW table the row was read from (eia860m_operating_generators, eia860m_planned_generators or eia860m_retired_generators)
+  unit: none
   type: text
   values:
     list:
@@ -348,30 +354,30 @@ columns:
       eia860m_planned_generators: 484
       eia860m_retired_generators: 8
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector storage_capacity.py
 - name: input_source_url
-  label: null
-  unit: null
+  label: The address of the EIA-860M workbook the input table was read from
+  unit: none
   type: text
   values:
     list:
       https://www.eia.gov/electricity/data/eia860m/xls/september_generator2026.xlsx: 1648
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector storage_capacity.py
 - name: energy_capacity_mwh
-  label: null
-  unit: null
+  label: EIA's Nameplate Energy Capacity of the unit, never estimated from MW
+  unit: MWh
   type: number
   values:
     distinct: 316
     lowest: 0.2
     highest: 2000.0
   missing_cells: 485
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: A planned unit (EIA's Planned sheet has no energy column), or an operating unit EIA gives no energy for
+  source_name: Nameplate Energy Capacity (MWh)
+  documented_by: header; connector storage_capacity.py; method storage.md
 second_look: null

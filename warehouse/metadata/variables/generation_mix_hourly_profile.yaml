@@ -5,9 +5,10 @@
 table: generation_mix_hourly_profile
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: 'One ISO grid''s value of one energy-mix measure for one local month: an hour of the month''s average day, a source''s
+  MWh or share, or a count of days.'
+time: ts_utc is the first day of the grid's local month at 00:00:00Z; freq P1M; an hour HH is a local hour.
+vintage_rule: Rewritten whole by each run of mix_profile.py (the old file removed first); vintage is not filled.
 keys:
 - entity
 - variable
@@ -50,6 +51,7 @@ columns:
       iso:pjm: 23828
       iso:spp: 23051
   missing_cells: 0
+  particular: iso:<grid>, the seven ISO grids
 - name: variable
   shared: true
   type: text
@@ -105,12 +107,14 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 167573
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 167573
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -139,1557 +143,1558 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 167573
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: avg_coal_mw_h00
-  label: null
+  label: 'The month''s average day: mean coal in local hour 00 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h01
-  label: null
+  label: 'The month''s average day: mean coal in local hour 01 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h02
-  label: null
+  label: 'The month''s average day: mean coal in local hour 02 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h03
-  label: null
+  label: 'The month''s average day: mean coal in local hour 03 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h04
-  label: null
+  label: 'The month''s average day: mean coal in local hour 04 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h05
-  label: null
+  label: 'The month''s average day: mean coal in local hour 05 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h06
-  label: null
+  label: 'The month''s average day: mean coal in local hour 06 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h07
-  label: null
+  label: 'The month''s average day: mean coal in local hour 07 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h08
-  label: null
+  label: 'The month''s average day: mean coal in local hour 08 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h09
-  label: null
+  label: 'The month''s average day: mean coal in local hour 09 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h10
-  label: null
+  label: 'The month''s average day: mean coal in local hour 10 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h11
-  label: null
+  label: 'The month''s average day: mean coal in local hour 11 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h12
-  label: null
+  label: 'The month''s average day: mean coal in local hour 12 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h13
-  label: null
+  label: 'The month''s average day: mean coal in local hour 13 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h14
-  label: null
+  label: 'The month''s average day: mean coal in local hour 14 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h15
-  label: null
+  label: 'The month''s average day: mean coal in local hour 15 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h16
-  label: null
+  label: 'The month''s average day: mean coal in local hour 16 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h17
-  label: null
+  label: 'The month''s average day: mean coal in local hour 17 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h18
-  label: null
+  label: 'The month''s average day: mean coal in local hour 18 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h19
-  label: null
+  label: 'The month''s average day: mean coal in local hour 19 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h20
-  label: null
+  label: 'The month''s average day: mean coal in local hour 20 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h21
-  label: null
+  label: 'The month''s average day: mean coal in local hour 21 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h22
-  label: null
+  label: 'The month''s average day: mean coal in local hour 22 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_coal_mw_h23
-  label: null
+  label: 'The month''s average day: mean coal in local hour 23 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h00
-  label: null
+  label: 'The month''s average day: mean demand in local hour 00 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h01
-  label: null
+  label: 'The month''s average day: mean demand in local hour 01 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h02
-  label: null
+  label: 'The month''s average day: mean demand in local hour 02 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h03
-  label: null
+  label: 'The month''s average day: mean demand in local hour 03 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h04
-  label: null
+  label: 'The month''s average day: mean demand in local hour 04 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h05
-  label: null
+  label: 'The month''s average day: mean demand in local hour 05 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h06
-  label: null
+  label: 'The month''s average day: mean demand in local hour 06 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h07
-  label: null
+  label: 'The month''s average day: mean demand in local hour 07 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h08
-  label: null
+  label: 'The month''s average day: mean demand in local hour 08 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h09
-  label: null
+  label: 'The month''s average day: mean demand in local hour 09 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h10
-  label: null
+  label: 'The month''s average day: mean demand in local hour 10 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h11
-  label: null
+  label: 'The month''s average day: mean demand in local hour 11 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h12
-  label: null
+  label: 'The month''s average day: mean demand in local hour 12 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h13
-  label: null
+  label: 'The month''s average day: mean demand in local hour 13 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h14
-  label: null
+  label: 'The month''s average day: mean demand in local hour 14 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h15
-  label: null
+  label: 'The month''s average day: mean demand in local hour 15 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h16
-  label: null
+  label: 'The month''s average day: mean demand in local hour 16 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h17
-  label: null
+  label: 'The month''s average day: mean demand in local hour 17 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h18
-  label: null
+  label: 'The month''s average day: mean demand in local hour 18 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h19
-  label: null
+  label: 'The month''s average day: mean demand in local hour 19 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h20
-  label: null
+  label: 'The month''s average day: mean demand in local hour 20 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h21
-  label: null
+  label: 'The month''s average day: mean demand in local hour 21 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h22
-  label: null
+  label: 'The month''s average day: mean demand in local hour 22 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_demand_mw_h23
-  label: null
+  label: 'The month''s average day: mean demand in local hour 23 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h00
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 00 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h01
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 01 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h02
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 02 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h03
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 03 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h04
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 04 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h05
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 05 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h06
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 06 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h07
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 07 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h08
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 08 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h09
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 09 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h10
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 10 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h11
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 11 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h12
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 12 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h13
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 13 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h14
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 14 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h15
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 15 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h16
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 16 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h17
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 17 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h18
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 18 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h19
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 19 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h20
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 20 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h21
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 21 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h22
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 22 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_hydro_mw_h23
-  label: null
+  label: 'The month''s average day: mean hydro in local hour 23 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h00
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 00 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h01
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 01 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h02
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 02 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h03
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 03 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h04
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 04 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h05
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 05 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h06
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 06 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h07
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 07 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h08
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 08 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h09
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 09 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h10
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 10 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h11
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 11 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h12
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 12 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h13
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 13 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h14
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 14 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h15
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 15 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h16
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 16 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h17
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 17 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h18
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 18 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h19
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 19 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h20
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 20 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h21
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 21 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h22
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 22 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_natural_gas_mw_h23
-  label: null
+  label: 'The month''s average day: mean natural gas in local hour 23 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h00
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 00 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h01
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 01 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h02
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 02 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h03
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 03 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h04
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 04 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h05
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 05 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h06
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 06 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h07
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 07 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h08
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 08 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h09
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 09 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h10
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 10 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h11
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 11 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h12
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 12 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h13
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 13 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h14
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 14 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h15
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 15 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h16
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 16 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h17
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 17 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h18
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 18 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h19
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 19 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h20
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 20 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h21
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 21 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h22
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 22 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_net_generation_mw_h23
-  label: null
+  label: 'The month''s average day: mean net generation in local hour 23 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h00
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 00 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h01
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 01 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h02
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 02 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h03
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 03 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h04
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 04 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h05
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 05 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h06
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 06 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h07
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 07 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h08
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 08 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h09
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 09 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h10
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 10 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h11
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 11 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h12
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 12 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h13
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 13 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h14
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 14 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h15
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 15 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h16
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 16 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h17
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 17 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h18
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 18 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h19
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 19 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h20
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 20 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h21
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 21 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h22
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 22 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_nuclear_mw_h23
-  label: null
+  label: 'The month''s average day: mean nuclear in local hour 23 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h00
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 00 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h01
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 01 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h02
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 02 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h03
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 03 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h04
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 04 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h05
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 05 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h06
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 06 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h07
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 07 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h08
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 08 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h09
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 09 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h10
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 10 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h11
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 11 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h12
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 12 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h13
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 13 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h14
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 14 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h15
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 15 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h16
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 16 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h17
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 17 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h18
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 18 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h19
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 19 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h20
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 20 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h21
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 21 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h22
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 22 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_other_mw_h23
-  label: null
+  label: 'The month''s average day: mean other sources (oil, geothermal and unnamed) in local hour 23 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h00
-  label: null
+  label: 'The month''s average day: mean solar in local hour 00 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h01
-  label: null
+  label: 'The month''s average day: mean solar in local hour 01 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h02
-  label: null
+  label: 'The month''s average day: mean solar in local hour 02 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h03
-  label: null
+  label: 'The month''s average day: mean solar in local hour 03 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h04
-  label: null
+  label: 'The month''s average day: mean solar in local hour 04 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h05
-  label: null
+  label: 'The month''s average day: mean solar in local hour 05 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h06
-  label: null
+  label: 'The month''s average day: mean solar in local hour 06 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h07
-  label: null
+  label: 'The month''s average day: mean solar in local hour 07 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h08
-  label: null
+  label: 'The month''s average day: mean solar in local hour 08 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h09
-  label: null
+  label: 'The month''s average day: mean solar in local hour 09 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h10
-  label: null
+  label: 'The month''s average day: mean solar in local hour 10 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h11
-  label: null
+  label: 'The month''s average day: mean solar in local hour 11 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h12
-  label: null
+  label: 'The month''s average day: mean solar in local hour 12 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h13
-  label: null
+  label: 'The month''s average day: mean solar in local hour 13 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h14
-  label: null
+  label: 'The month''s average day: mean solar in local hour 14 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h15
-  label: null
+  label: 'The month''s average day: mean solar in local hour 15 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h16
-  label: null
+  label: 'The month''s average day: mean solar in local hour 16 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h17
-  label: null
+  label: 'The month''s average day: mean solar in local hour 17 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h18
-  label: null
+  label: 'The month''s average day: mean solar in local hour 18 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h19
-  label: null
+  label: 'The month''s average day: mean solar in local hour 19 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h20
-  label: null
+  label: 'The month''s average day: mean solar in local hour 20 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h21
-  label: null
+  label: 'The month''s average day: mean solar in local hour 21 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h22
-  label: null
+  label: 'The month''s average day: mean solar in local hour 22 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_solar_mw_h23
-  label: null
+  label: 'The month''s average day: mean solar in local hour 23 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h00
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 00 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h01
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 01 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h02
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 02 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h03
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 03 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h04
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 04 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h05
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 05 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h06
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 06 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h07
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 07 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h08
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 08 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h09
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 09 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h10
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 10 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h11
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 11 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h12
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 12 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h13
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 13 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h14
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 14 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h15
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 15 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h16
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 16 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h17
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 17 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h18
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 18 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h19
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 19 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h20
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 20 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h21
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 21 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h22
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 22 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_storage_mw_h23
-  label: null
+  label: 'The month''s average day: mean storage (negative when charging) in local hour 23 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h00
-  label: null
+  label: 'The month''s average day: mean wind in local hour 00 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h01
-  label: null
+  label: 'The month''s average day: mean wind in local hour 01 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h02
-  label: null
+  label: 'The month''s average day: mean wind in local hour 02 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h03
-  label: null
+  label: 'The month''s average day: mean wind in local hour 03 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h04
-  label: null
+  label: 'The month''s average day: mean wind in local hour 04 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h05
-  label: null
+  label: 'The month''s average day: mean wind in local hour 05 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h06
-  label: null
+  label: 'The month''s average day: mean wind in local hour 06 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h07
-  label: null
+  label: 'The month''s average day: mean wind in local hour 07 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h08
-  label: null
+  label: 'The month''s average day: mean wind in local hour 08 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h09
-  label: null
+  label: 'The month''s average day: mean wind in local hour 09 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h10
-  label: null
+  label: 'The month''s average day: mean wind in local hour 10 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h11
-  label: null
+  label: 'The month''s average day: mean wind in local hour 11 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h12
-  label: null
+  label: 'The month''s average day: mean wind in local hour 12 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h13
-  label: null
+  label: 'The month''s average day: mean wind in local hour 13 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h14
-  label: null
+  label: 'The month''s average day: mean wind in local hour 14 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h15
-  label: null
+  label: 'The month''s average day: mean wind in local hour 15 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h16
-  label: null
+  label: 'The month''s average day: mean wind in local hour 16 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h17
-  label: null
+  label: 'The month''s average day: mean wind in local hour 17 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h18
-  label: null
+  label: 'The month''s average day: mean wind in local hour 18 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h19
-  label: null
+  label: 'The month''s average day: mean wind in local hour 19 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h20
-  label: null
+  label: 'The month''s average day: mean wind in local hour 20 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h21
-  label: null
+  label: 'The month''s average day: mean wind in local hour 21 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h22
-  label: null
+  label: 'The month''s average day: mean wind in local hour 22 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: avg_wind_mw_h23
-  label: null
+  label: 'The month''s average day: mean wind in local hour 23 over the complete days'
   unit: MW
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: coal_mwh
-  label: null
+  label: Output of coal over the month's complete days
   unit: MWh
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: coal_share_pct
-  label: null
+  label: Share of coal in the sum of the sources over the month's complete days
   unit: pct
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: days_held
-  label: null
+  label: The month's complete days (every hour of the local day held), the days every figure is over
   unit: count
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: days_in_month
-  label: null
+  label: The days of the month
   unit: count
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: hydro_mwh
-  label: null
+  label: Output of hydro over the month's complete days
   unit: MWh
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: hydro_share_pct
-  label: null
+  label: Share of hydro in the sum of the sources over the month's complete days
   unit: pct
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: natural_gas_mwh
-  label: null
+  label: Output of natural gas over the month's complete days
   unit: MWh
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: natural_gas_share_pct
-  label: null
+  label: Share of natural gas in the sum of the sources over the month's complete days
   unit: pct
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: net_generation_mwh
-  label: null
+  label: Net generation over the month's complete days
   unit: MWh
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: nuclear_mwh
-  label: null
+  label: Output of nuclear over the month's complete days
   unit: MWh
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: nuclear_share_pct
-  label: null
+  label: Share of nuclear in the sum of the sources over the month's complete days
   unit: pct
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: other_mwh
-  label: null
+  label: Output of other sources (oil, geothermal and unnamed) over the month's complete days
   unit: MWh
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: other_share_pct
-  label: null
+  label: Share of other sources (oil, geothermal and unnamed) in the sum of the sources over the month's complete days
   unit: pct
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: solar_mwh
-  label: null
+  label: Output of solar over the month's complete days
   unit: MWh
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: solar_share_pct
-  label: null
+  label: Share of solar in the sum of the sources over the month's complete days
   unit: pct
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: storage_mwh
-  label: null
+  label: Output of storage (negative when charging) over the month's complete days
   unit: MWh
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: storage_share_pct
-  label: null
+  label: Share of storage (negative when charging) in the sum of the sources over the month's complete days
   unit: pct
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: wind_mwh
-  label: null
+  label: Output of wind over the month's complete days
   unit: MWh
   rows: 647
   first: '2019-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: wind_share_pct
-  label: null
+  label: Share of wind in the sum of the sources over the month's complete days
   unit: pct
   rows: 647
   first: '2019-01-01T00:00:00Z'

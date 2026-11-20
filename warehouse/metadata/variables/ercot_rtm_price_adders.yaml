@@ -5,9 +5,12 @@
 table: ercot_rtm_price_adders
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One of ERCOT's real-time reserve price adders (added to the real-time energy price) over one hour, its time-weighted
+  mean or its highest interval value.
+time: ts_utc is the start of the hour in UTC (ERCOT publishes a row per SCED interval, stamped in Central time); an hour is
+  written only when all of its seconds are covered.
+vintage_rule: Merged by (entity, variable, ts_utc); ERCOT republishes the current year's workbook weekly, and a run that finds
+  it rereads it and replaces that year's rows. vintage is the document's publish time.
 keys:
 - entity
 - variable
@@ -37,6 +40,7 @@ columns:
     list:
       ercot:system: 603156
   missing_cells: 0
+  particular: 'ercot:system in every row: ERCOT''s whole system'
 - name: variable
   shared: true
   type: text
@@ -87,6 +91,7 @@ columns:
     list:
       ercot_rtm: 603156
   missing_cells: 0
+  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
 - name: node
   shared: true
   type: text
@@ -97,6 +102,7 @@ columns:
       RTORPA: 201756
       RTRDPA: 16550
   missing_cells: 0
+  particular: The adder as ERCOT names it (RTORPA, RTOFFPA, RTORDPA, RTRDPA), not a place
 - name: source
   shared: true
   type: text
@@ -163,51 +169,54 @@ columns:
       '2026-01-08T23:58:14Z': 1294
       '2026-11-15T16:12:49Z': 15256
   missing_cells: 0
+  particular: The publish time of ERCOT's yearly workbook the row came from
 variables:
 - name: rtoffpa_max
-  label: null
+  label: Off-line reserve price adder (RTOFFPA), the largest value an interval of the hour carried, USD/MWh
   unit: USD/MWh
   rows: 100878
   first: '2014-06-01T06:00:00Z'
   last: '2025-12-05T05:00:00Z'
 - name: rtoffpa_mean
-  label: null
+  label: Off-line reserve price adder (RTOFFPA), the hour's time-weighted mean, USD/MWh (1 June 2014 to 4 December 2025)
   unit: USD/MWh
   rows: 100878
   first: '2014-06-01T06:00:00Z'
   last: '2025-12-05T05:00:00Z'
 - name: rtordpa_max
-  label: null
+  label: On-line reliability deployment price adder (RTORDPA), the largest value an interval of the hour carried, USD/MWh
   unit: USD/MWh
   rows: 91547
   first: '2015-06-25T06:00:00Z'
   last: '2025-12-05T05:00:00Z'
 - name: rtordpa_mean
-  label: null
+  label: On-line reliability deployment price adder (RTORDPA), the hour's time-weighted mean, USD/MWh (June 2015 to 4 December
+    2025)
   unit: USD/MWh
   rows: 91547
   first: '2015-06-25T06:00:00Z'
   last: '2025-12-05T05:00:00Z'
 - name: rtorpa_max
-  label: null
+  label: On-line reserve price adder (RTORPA), the largest value an interval of the hour carried, USD/MWh
   unit: USD/MWh
   rows: 100878
   first: '2014-06-01T06:00:00Z'
   last: '2025-12-05T05:00:00Z'
 - name: rtorpa_mean
-  label: null
+  label: On-line reserve price adder (RTORPA), the hour's time-weighted mean over the SCED intervals, USD/MWh (1 June 2014
+    to 4 December 2025)
   unit: USD/MWh
   rows: 100878
   first: '2014-06-01T06:00:00Z'
   last: '2025-12-05T05:00:00Z'
 - name: rtrdpa_max
-  label: null
+  label: Reliability deployment price adder for energy (RTRDPA), the largest value an interval of the hour carried, USD/MWh
   unit: USD/MWh
   rows: 8275
   first: '2025-12-05T07:00:00Z'
   last: '2026-11-15T04:00:00Z'
 - name: rtrdpa_mean
-  label: null
+  label: Reliability deployment price adder for energy (RTRDPA), the hour's time-weighted mean, USD/MWh (from 5 December 2025)
   unit: USD/MWh
   rows: 8275
   first: '2025-12-05T07:00:00Z'

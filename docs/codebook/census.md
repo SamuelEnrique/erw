@@ -2,12 +2,12 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 6 public tables (6 series; tiers: 6 source); 0 documented in full.
+**What the family holds.** 6 public tables (6 series; tiers: 6 source); 1 documented in full.
 
 - [`census_bps_state_annual`](#census_bps_state_annual): U.S. Census Bureau, Building Permits Survey, new housing units, buildings and value authorized by building permits by state and structure type, 2015 to 2025, a year (session 2154)
 - [`census_c30_construction_monthly`](#census_c30_construction_monthly): U.S. Census Bureau, Construction Spending (C30), the value of construction put in place by type and owner, a month, 1993-01 to 2026-08 (session 2258)
 - [`census_cbp_hosting_annual`](#census_cbp_hosting_annual): U.S. Census Bureau, County Business Patterns, NAICS 518210 (data processing, hosting and related services; from 2022 computing infrastructure providers, data processing, web hosting, and related services), by state, 2012 to 2023 (session 2160)
-- [`census_county_population`](#census_county_population): county population, the 2020 census count and the Census Bureau's estimates of 1 July 2018 to 2025 (session 7802)
+- [`census_county_population`](#census_county_population): One county's population, the 2020 census count or the Census Bureau's estimate of 1 July of one year.
 - [`census_metro_population`](#census_metro_population): the Census Bureau's population of metropolitan statistical areas, whole and by state part, the estimates base of 1 April 2020 and the estimate of 1 July 2025 (session 129)
 - [`census_qss_utilities_hosting_quarterly`](#census_qss_utilities_hosting_quarterly): U.S. Census Bureau, Quarterly Services Survey, 2024 benchmark dataset, the revenue and expenses of the utilities (NAICS 22, 2211, 2212, 2213) and of data processing and hosting (518), 2003-10 to 2024-10 (session 2264)
 
@@ -130,10 +130,12 @@ Variables (3):
 
 ### `census_county_population`
 
-What a row is: not yet written.
+One county's population, the 2020 census count or the Census Bureau's estimate of 1 July of one year.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 28293.
 
+- **Time:** ts_utc is 2020-04-01 for population_census_2020 (freq empty) and 1 July of each year, 2018 to 2025, for population_estimate (freq P1Y), at 00:00:00Z.
+- **Revisions:** Merged by key (entity, variable, ts_utc), a run's rows replacing earlier rows with the same key; vintage is not filled, and x_product names the Bureau's product.
 - **Source:** census:popest/intercensal_county_2010_2020 2010-2020 Intercensal County Population Estimates (by age group and sex) (https://www.census.gov/data/datasets/time-series/demo/popest/intercensal-2010-2020-counties.html)
 - **Source:** census:popest/co-est2025-alldata County Population Totals, Vintage 2025 (co-est2025-alldata.csv) (https://www.census.gov/data/datasets/time-series/demo/popest/2020s-counties-total.html)
 - **Method note:** [`docs/methods/county_population_and_regions.md`](../methods/county_population_and_regions.md)
@@ -141,28 +143,28 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example census:county:01001, census:county:01003, census:county:01005; 3152 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: census:county:<five-digit state and county FIPS>; Connecticut's planning regions and former counties each under their own code | none | text | for example census:county:01001, census:county:01003, census:county:01005; 3152 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2018-07-01T00:00:00Z, 2019-07-01T00:00:00Z, 2020-04-01T00:00:00Z, 2020-07-01T00:00:00Z, 2021-07-01T00:00:00Z, 2022-07-01T00:00:00Z, 2023-07-01T00:00:00Z, 2024-07-01T00:00:00Z, 2025-07-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | integer | 46 to 10098683; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | count | 0 |
-| `freq` | How long the interval of the row is | none | text | P1Y | 3143 |
+| `freq` | How long the interval of the row is. Here: Empty on the population_census_2020 rows (a single count, not an interval) | none | text | P1Y | 3143 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US-AK, US-AL, US-AR; 51 distinct | 0 |
 | `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 28293 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Abbeville County, Acadia Parish, Accomack County; 1887 distinct | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The Bureau's county name (CTYNAME), not a pricing node | none | text | for example Abbeville County, Acadia Parish, Accomack County; 1887 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | census:popest/co-est2025-alldata, census:popest/intercensal_county_2010_2020 | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/intercensal/county/asrh/cc-est2020int-agesex-01.csv, https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/intercensal/county/asrh/cc-est2020int-agesex-02.csv, https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/intercensal/county/asrh/cc-est2020int-agesex-04.csv; 52 distinct | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-18T01:26:49Z | 0 |
 | `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 28293 |
-| `x_state` | not yet written |  | text | for example Alabama, Alaska, Arizona; 51 distinct | 0 |
-| `x_product` | not yet written |  | text | intercensal 2010-2020, vintage 2025 | 0 |
+| `x_state` | The state's name as the Bureau writes it (the source's name: STNAME) | none | text | for example Alabama, Alaska, Arizona; 51 distinct | 0 |
+| `x_product` | The Bureau's file the row came from: intercensal 2010-2020 (2018, 2019 and the 2020 count) or vintage 2025 (2020 to 2025) | none | text | intercensal 2010-2020, vintage 2025 | 0 |
 
 Variables (2):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `population_census_2020` |  | count | 3143 | 2020-04-01T00:00:00Z | 2020-04-01T00:00:00Z |
-| `population_estimate` |  | count | 25150 | 2018-07-01T00:00:00Z | 2025-07-01T00:00:00Z |
+| `population_census_2020` | The county's 2020 census count of 1 April 2020 (the Modified Age and Race Census file as the intercensal files print it) | count | 3143 | 2020-04-01T00:00:00Z | 2020-04-01T00:00:00Z |
+| `population_estimate` | The Census Bureau's estimate of the county's population on 1 July of the year | count | 25150 | 2018-07-01T00:00:00Z | 2025-07-01T00:00:00Z |
 
 ### `census_metro_population`
 

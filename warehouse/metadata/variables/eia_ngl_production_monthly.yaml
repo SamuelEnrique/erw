@@ -5,9 +5,10 @@
 table: eia_ngl_production_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's natural gas plant field production of one natural gas liquid in the U.S., a PADD or a refining district,
+  in the month or per day.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +45,7 @@ columns:
     - eia_ngl_production:MLPFP2B2
     - eia_ngl_production:MLPFP2C1
   missing_cells: 0
+  particular: eia_ngl_production:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -88,12 +90,14 @@ columns:
     list:
       US: 110896
   missing_cells: 0
+  particular: US on every row, the PADDs and districts included
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 110896
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -106,6 +110,7 @@ columns:
     - East Coast (PADD 1) Field Production of Ethane (Thousand Barrels)
     - East Coast (PADD 1) Field Production of Isobutane (Thousand Barrels per Day)
   missing_cells: 0
+  particular: EIA's series name (the product and area)
 - name: source
   shared: true
   type: text
@@ -136,15 +141,16 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 110896
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: field_production
-  label: null
+  label: Natural gas plant field production of the liquid in the month, thousand barrels
   unit: kbbl
   rows: 55400
   first: '1981-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: field_production_per_day
-  label: null
+  label: Natural gas plant field production of the liquid, thousand barrels a day
   unit: kbbl/d
   rows: 55496
   first: '1973-01-01T00:00:00Z'

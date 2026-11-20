@@ -5,9 +5,11 @@
 table: eia_gas_pipeline_projects
 family: eia
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One natural gas pipeline project on EIA's tracker (current or historical sheet), as of the tracker of August 2026.
+time: event_date is EIA's completed date where it gives one, else 1 January of the year in service, else the date EIA last
+  updated the record (x_date_basis says which).
+vintage_rule: Rewritten whole by each run from the newest tracker; there is no vintage column. Ids EIA gives twice with two
+  rows are left out.
 keys:
 - event_id
 license: public
@@ -41,6 +43,7 @@ columns:
     - eia_gas_pipeline:2015_elko_area_expansion_project:2015
     - eia_gas_pipeline:2018_paiute_expansion_project:2018
   missing_cells: 0
+  particular: eia_gas_pipeline:<project name slug>:<year in service slug>
 - name: event_date
   shared: true
   type: date
@@ -49,6 +52,7 @@ columns:
     earliest: '1903-11-05'
     latest: '2031-01-01'
   missing_cells: 0
+  particular: Completed date, else the year in service's 1 January, else EIA's last update (x_date_basis)
 - name: event_type
   shared: true
   type: text
@@ -56,6 +60,7 @@ columns:
     list:
       pipeline_project: 1334
   missing_cells: 0
+  particular: pipeline_project on every row
 - name: parties
   shared: true
   type: text
@@ -68,30 +73,35 @@ columns:
     - ANR Pipeline Company (subsidiary of TC Energy)
     - Adelphia
   missing_cells: 0
+  particular: The pipeline operator
 - name: entity_ids
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1334
+  particular: Not filled
 - name: mw
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1334
+  particular: Not filled
 - name: price
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1334
+  particular: Not filled
 - name: currency
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1334
+  particular: Not filled
 - name: status
   shared: true
   type: text
@@ -110,6 +120,7 @@ columns:
       pre-applied: 10
       proposed: 2
   missing_cells: 0
+  particular: EIA's status in lower case (completed, construction, approved, cancelled and the others)
 - name: source
   shared: true
   type: text
@@ -132,8 +143,8 @@ columns:
       '2026-10-23T06:35:49Z': 1334
   missing_cells: 0
 - name: x_project_name
-  label: null
-  unit: null
+  label: The project's name as EIA writes it
+  unit: none
   type: text
   values:
     distinct: 1325
@@ -144,12 +155,12 @@ columns:
     - 2011 system expansion
     - 2015 Elko Area Expansion Project
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Project Name
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_project_type
-  label: null
-  unit: null
+  label: The project type (Expansion, Lateral, New Pipeline, Reversal, Upgrade, Conversion, Abandonment)
+  unit: none
   type: text
   values:
     list:
@@ -161,24 +172,24 @@ columns:
       Reversal: 42
       Upgrade: 24
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives no type
+  source_name: Project Type
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_completed_date
-  label: null
-  unit: null
+  label: The date the project was completed, as EIA gives it
+  unit: none
   type: date
   values:
     distinct: 734
     earliest: '1903-11-05'
     latest: '2026-05-26'
   missing_cells: 207
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives no completed date
+  source_name: Completed Date
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_year_in_service
-  label: null
-  unit: null
+  label: The year the project entered or is to enter service, as EIA writes it
+  unit: none
   type: text
   values:
     distinct: 38
@@ -189,12 +200,12 @@ columns:
     - '1999'
     - '2000'
   missing_cells: 29
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives no year in service
+  source_name: Year In Service Date
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_states
-  label: null
-  unit: null
+  label: EIA's list of the states (and provinces) the project is in
+  unit: none
   type: text
   values:
     distinct: 294
@@ -205,12 +216,12 @@ columns:
     - AL,FL
     - AL,GA
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: State(s)
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_beg_state
-  label: null
-  unit: null
+  label: The state where the project begins
+  unit: none
   type: text
   values:
     distinct: 58
@@ -221,12 +232,12 @@ columns:
     - AR
     - AZ
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Beg_State
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_end_state
-  label: null
-  unit: null
+  label: The state where the project ends
+  unit: none
   type: text
   values:
     distinct: 58
@@ -237,12 +248,12 @@ columns:
     - AZ
     - BC
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: End_State
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_regions
-  label: null
-  unit: null
+  label: EIA's list of the regions the project is in
+  unit: none
   type: text
   values:
     distinct: 49
@@ -253,12 +264,12 @@ columns:
     - Canada, Mountain, Midwest
     - Canada, Mountain, Pacific
   missing_cells: 2
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives no region
+  source_name: Region(s)
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_beg_region
-  label: null
-  unit: null
+  label: The region where the project begins
+  unit: none
   type: text
   values:
     list:
@@ -273,12 +284,12 @@ columns:
       South Central: 430
       Southeast: 58
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives no region
+  source_name: Beg_Region
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_end_region
-  label: null
-  unit: null
+  label: The region where the project ends
+  unit: none
   type: text
   values:
     list:
@@ -293,12 +304,12 @@ columns:
       South Central: 407
       Southeast: 95
   missing_cells: 2
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives no region
+  source_name: End_Region
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_thru_region
-  label: null
-  unit: null
+  label: The regions the project passes through
+  unit: none
   type: text
   values:
     list:
@@ -310,12 +321,12 @@ columns:
       South Central: 6
       Southeast: 7
   missing_cells: 1294
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA names no region passed through
+  source_name: Thru_Region
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_cost_million_usd
-  label: null
-  unit: null
+  label: The project's cost as EIA writes it, a range kept as a range
+  unit: million USD
   type: text
   values:
     distinct: 693
@@ -326,12 +337,12 @@ columns:
     - '0.11'
     - '0.12'
   missing_cells: 215
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives no cost
+  source_name: Cost (millions)
+  documented_by: header; connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_miles
-  label: null
-  unit: null
+  label: The project's length
+  unit: miles
   type: text
   values:
     distinct: 496
@@ -342,12 +353,12 @@ columns:
     - '0.01'
     - '0.0128788'
   missing_cells: 315
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives no length
+  source_name: Miles
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_capacity_mmcfd
-  label: null
-  unit: null
+  label: The capacity the project adds
+  unit: MMcf/d
   type: text
   values:
     distinct: 480
@@ -358,12 +369,12 @@ columns:
     - '-487'
     - '0'
   missing_cells: 62
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives no added capacity
+  source_name: Additional Capacity
+  documented_by: header; connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_diameter_inches
-  label: null
-  unit: null
+  label: The pipeline's diameter (several where EIA lists several)
+  unit: inches
   type: text
   values:
     distinct: 110
@@ -374,12 +385,12 @@ columns:
     - 10,16,24
     - 10,20
   missing_cells: 374
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives no diameter
+  source_name: Pipeline Diameter
+  documented_by: header; connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_pipeline_type
-  label: null
-  unit: null
+  label: The pipeline type (Interstate, Intrastate, Foreign, Cross-border)
+  unit: none
   type: text
   values:
     list:
@@ -388,12 +399,12 @@ columns:
       Interstate: 1055
       Intrastate: 272
   missing_cells: 3
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives no type
+  source_name: Pipeline Type
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_authority
-  label: null
-  unit: null
+  label: The authority that regulates the project (FERC, a state commission and the others)
+  unit: none
   type: text
   values:
     distinct: 26
@@ -404,12 +415,12 @@ columns:
     - Coast Guard
     - DOE/Presidential Permit
   missing_cells: 49
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA names no authority
+  source_name: Authority
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_docket
-  label: null
-  unit: null
+  label: The authority's docket number for the project
+  unit: none
   type: text
   values:
     distinct: 953
@@ -420,24 +431,24 @@ columns:
     - CP00-06
     - CP00-06-014
   missing_cells: 105
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives no docket
+  source_name: Docket
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_crosses_state_border
-  label: null
-  unit: null
+  label: 'Yes or No: whether the project crosses a state border'
+  unit: none
   type: text
   values:
     list:
       'No': 321
       'Yes': 229
   missing_cells: 784
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA does not say
+  source_name: Crosses State Border
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_notes
-  label: null
-  unit: null
+  label: EIA's notes on the project
+  unit: none
   type: text
   values:
     distinct: 419
@@ -460,12 +471,12 @@ columns:
       Miami Fort coal-to-gas conversion (1,020-MW plant, June 2028 commercial operation). Vistra/Dynegy committed to full
       265,000 Dth/d under 13-year contract. FERC authorization requested by March 19, 2027. Filed May 29, 2026.
   missing_cells: 907
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives no note
+  source_name: Notes or Project Notes
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_demand_served
-  label: null
-  unit: null
+  label: The demand the project serves, as EIA gives it (Electric, LDC, Data Center and the others)
+  unit: none
   type: text
   values:
     distinct: 48
@@ -476,12 +487,12 @@ columns:
     - Electric, Industrial, LNG
     - Electric/LNG
   missing_cells: 1128
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA does not say
+  source_name: Demand Served
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_website
-  label: null
-  unit: null
+  label: The website or document EIA cites for the project, as EIA gives it
+  unit: none
   type: text
   values:
     distinct: 156
@@ -492,36 +503,36 @@ columns:
     - Commissioning release
     - Company presentation,Q4 2025
   missing_cells: 1067
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA cites none
+  source_name: Website
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_last_updated
-  label: null
-  unit: null
+  label: When EIA last updated the record
+  unit: none
   type: date
   values:
     distinct: 304
     earliest: '2009-06-26'
     latest: '2026-11-14'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Last Updated Date
+  documented_by: connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_sheet
-  label: null
-  unit: null
+  label: 'The tracker''s sheet the project is on: current or historical'
+  unit: none
   type: text
   values:
     list:
       current: 137
       historical: 1197
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 - name: x_date_basis
-  label: null
-  unit: null
+  label: 'Which date event_date is: completed, year_in_service or last_updated'
+  unit: none
   type: text
   values:
     list:
@@ -529,7 +540,7 @@ columns:
       last_updated: 68
       year_in_service: 139
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_gas_pipeline_projects.py; method eia_gas_pipeline_projects.md
 second_look: null

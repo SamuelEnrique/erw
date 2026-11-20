@@ -5,9 +5,11 @@
 table: generation_mix_records
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One ISO grid's record of the energy mix (highest solar or wind share of an hour, cleanest or dirtiest hour) over the
+  whole history or one local year.
+time: ts_utc is the hour of the record (its start, UTC); freq PT1H; x_period says whether the record is of the whole history
+  or of a local year.
+vintage_rule: Rewritten whole by each run of mix_profile.py; key (entity, variable, x_period); vintage is not filled.
 keys:
 - entity
 - variable
@@ -52,6 +54,7 @@ columns:
       iso:pjm: 45
       iso:spp: 45
   missing_cells: 0
+  particular: iso:<grid>, the seven ISO grids
 - name: variable
   shared: true
   type: text
@@ -105,12 +108,14 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 306
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 306
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -139,9 +144,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 306
+  particular: 'Not filled: no cell holds a value'
 - name: x_period
-  label: null
-  unit: null
+  label: 'The span the record is over: all (the whole history from 2019) or a local year'
+  unit: none
   type: text
   values:
     list:
@@ -155,78 +161,79 @@ columns:
       '2026': 34
       all: 34
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method generation_mix_hourly.md
 - name: x_side
-  label: null
-  unit: null
+  label: 'The source of the record''s hour: eia930 (EIA-930) or caiso (CAISO''s own supply by fuel)'
+  unit: none
   type: text
   values:
     list:
       caiso: 12
       eia930: 294
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method generation_mix_hourly.md
 variables:
 - name: cleanest_hour_kgco2_per_mwh
-  label: null
+  label: The lowest carbon intensity of generation of any held hour (carbon_intensity_hourly's intensity_generation), whole
+    history
   unit: kgCO2/MWh
   rows: 7
   first: '2019-05-07T05:00:00Z'
   last: '2026-10-18T16:00:00Z'
 - name: dirtiest_hour_kgco2_per_mwh
-  label: null
+  label: The highest carbon intensity of generation of any held hour, whole history
   unit: kgCO2/MWh
   rows: 7
   first: '2019-01-17T04:00:00Z'
   last: '2026-01-26T02:00:00Z'
 - name: solar_share_max_pct
-  label: null
+  label: The highest share of an hour's generation from solar, whole history
   unit: pct
   rows: 6
   first: '2026-04-26T18:00:00Z'
   last: '2026-10-17T20:00:00Z'
 - name: wind_share_max_pct
-  label: null
+  label: The highest share of an hour's generation from wind, whole history
   unit: pct
   rows: 7
   first: '2021-05-08T09:00:00Z'
   last: '2026-10-31T06:00:00Z'
 - name: wind_solar_share_max_pct
-  label: null
+  label: The highest share of an hour's generation from wind and solar together, whole history
   unit: pct
   rows: 7
   first: '2021-05-08T09:00:00Z'
   last: '2026-10-18T15:00:00Z'
 - name: year_cleanest_hour_kgco2_per_mwh
-  label: null
+  label: The lowest carbon intensity of generation of any held hour of the local year
   unit: kgCO2/MWh
   rows: 56
   first: '2019-05-07T05:00:00Z'
   last: '2026-10-18T18:00:00Z'
 - name: year_dirtiest_hour_kgco2_per_mwh
-  label: null
+  label: The highest carbon intensity of generation of any held hour of the local year
   unit: kgCO2/MWh
   rows: 56
   first: '2019-01-14T05:00:00Z'
   last: '2026-10-04T07:00:00Z'
 - name: year_solar_share_max_pct
-  label: null
+  label: The highest share of an hour's generation from solar in the local year
   unit: pct
   rows: 48
   first: '2019-04-14T21:00:00Z'
   last: '2026-10-17T20:00:00Z'
 - name: year_wind_share_max_pct
-  label: null
+  label: The highest share of an hour's generation from wind in the local year
   unit: pct
   rows: 56
   first: '2019-03-15T06:00:00Z'
   last: '2026-10-31T06:00:00Z'
 - name: year_wind_solar_share_max_pct
-  label: null
+  label: The highest share of an hour's generation from wind and solar together in the local year
   unit: pct
   rows: 56
   first: '2019-03-15T06:00:00Z'

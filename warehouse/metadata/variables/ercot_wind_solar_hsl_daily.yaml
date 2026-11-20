@@ -5,9 +5,11 @@
 table: ercot_wind_solar_hsl_daily
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: ERCOT's system-wide wind or solar output, High Sustained Limit (HSL), or output below the HSL, summed over one operating
+  day.
+time: ts_utc is the ERCOT operating day (Central) at 00:00:00Z; a day is written only with every hour's output and HSL.
+vintage_rule: Merged by (entity, variable, ts_utc); a daily run reads the last postings of the last three publish days, and
+  a day read again replaces the one held. vintage is not filled.
 keys:
 - entity
 - variable
@@ -37,6 +39,7 @@ columns:
     list:
       ercot:system: 300
   missing_cells: 0
+  particular: 'ercot:system in every row: ERCOT''s whole system'
 - name: variable
   shared: true
   type: text
@@ -86,12 +89,14 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 300
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 300
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -125,39 +130,43 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 300
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: solar_below_hsl_mwh
-  label: null
+  label: 'Solar output below the HSL: the sum over hours of HSL less GEN where positive, MWh; the ERW''s estimate of curtailment,
+    not ERCOT''s figure'
   unit: MWh
   rows: 50
   first: '2026-09-19T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: solar_generation_mwh
-  label: null
+  label: 'Solar output in the day: the sum of ERCOT''s hourly system-wide GEN, MWh'
   unit: MWh
   rows: 50
   first: '2026-09-19T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: solar_hsl_mwh
-  label: null
+  label: The sum of the hourly system-wide High Sustained Limit of solar, MWh
   unit: MWh
   rows: 50
   first: '2026-09-19T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: wind_below_hsl_mwh
-  label: null
+  label: 'Wind output below the HSL: the sum over hours of HSL less GEN where positive, MWh; the ERW''s estimate of curtailment,
+    not ERCOT''s figure'
   unit: MWh
   rows: 50
   first: '2026-09-19T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: wind_generation_mwh
-  label: null
+  label: 'Wind output in the day: the sum of ERCOT''s hourly system-wide GEN, MWh'
   unit: MWh
   rows: 50
   first: '2026-09-19T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: wind_hsl_mwh
-  label: null
+  label: The sum of the hourly system-wide High Sustained Limit of wind (the output the resources report they could sustain),
+    MWh
   unit: MWh
   rows: 50
   first: '2026-09-19T00:00:00Z'

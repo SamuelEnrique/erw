@@ -5,9 +5,11 @@
 table: ercot_hub_prices_daily
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One daily statistic of ERCOT's day-ahead or real-time price at one of its six trading hubs, for one complete local operating
+  day from 2015.
+time: ts_utc is the local (America/Chicago) operating day at 00:00:00Z.
+vintage_rule: Rebuilt whole by each run from the hub price tables; days the inputs on the machine hold no interval of are
+  carried from the last run's table. vintage is not filled.
 keys:
 - entity
 - variable
@@ -42,6 +44,7 @@ columns:
       ercot:HB_SOUTH: 58070
       ercot:HB_WEST: 58070
   missing_cells: 0
+  particular: ercot:<hub>
 - name: variable
   shared: true
   type: text
@@ -94,6 +97,7 @@ columns:
       ercot_dam: 174294
       ercot_rtm: 174126
   missing_cells: 0
+  particular: ercot_dam for the da_ statistics, ercot_rtm for the rt_ statistics
 - name: node
   shared: true
   type: text
@@ -106,6 +110,8 @@ columns:
       HB_SOUTH: 58070
       HB_WEST: 58070
   missing_cells: 0
+  particular: 'ERCOT''s trading hub: HB_HOUSTON, HB_NORTH, HB_SOUTH, HB_WEST, HB_HUBAVG (average of the four) and HB_BUSAVG
+    (average over the hubs'' buses)'
 - name: source
   shared: true
   type: text
@@ -134,87 +140,90 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 348420
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: da_hours_above_200
-  label: null
+  label: Hours of the day whose day-ahead price was above 200 USD/MWh
   unit: count
   rows: 26016
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-16T00:00:00Z'
 - name: da_hours_below_zero
-  label: null
+  label: Hours of the day whose day-ahead price was below 0
   unit: count
   rows: 26016
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-16T00:00:00Z'
 - name: da_max
-  label: null
+  label: Highest day-ahead hourly price of the day, USD/MWh
   unit: USD/MWh
   rows: 26016
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-16T00:00:00Z'
 - name: da_mean
-  label: null
+  label: Mean of the day's hourly day-ahead prices, USD/MWh
   unit: USD/MWh
   rows: 26016
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-16T00:00:00Z'
 - name: da_min
-  label: null
+  label: Lowest day-ahead hourly price of the day, USD/MWh
   unit: USD/MWh
   rows: 26016
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-16T00:00:00Z'
 - name: da_offpeak_mean
-  label: null
+  label: Mean day-ahead price over the off-peak hours, USD/MWh
   unit: USD/MWh
   rows: 26016
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-16T00:00:00Z'
 - name: da_peak_mean
-  label: null
+  label: Mean day-ahead price over peak hours (hours ending 7 to 22 local, Monday to Friday, NERC holidays off-peak), USD/MWh;
+    no row for a day with no peak hour
   unit: USD/MWh
   rows: 18198
   first: '2015-01-02T00:00:00Z'
   last: '2026-11-16T00:00:00Z'
 - name: rt_hours_above_200
-  label: null
+  label: Hours of the day priced above 200 USD/MWh in real time, a 15-minute interval counting 0.25
   unit: count
   rows: 25992
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: rt_hours_below_zero
-  label: null
+  label: Hours of the day priced below 0 in real time, a 15-minute interval counting 0.25
   unit: count
   rows: 25992
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: rt_max
-  label: null
+  label: Highest 15-minute real-time price of the day, USD/MWh
   unit: USD/MWh
   rows: 25992
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: rt_mean
-  label: null
+  label: Mean of the day's 15-minute real-time prices, USD/MWh
   unit: USD/MWh
   rows: 25992
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: rt_min
-  label: null
+  label: Lowest 15-minute real-time price of the day, USD/MWh
   unit: USD/MWh
   rows: 25992
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: rt_offpeak_mean
-  label: null
+  label: Mean real-time price over the off-peak hours, USD/MWh
   unit: USD/MWh
   rows: 25992
   first: '2015-01-01T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: rt_peak_mean
-  label: null
+  label: Mean real-time price over peak hours (hours ending 7 to 22 local, Monday to Friday, NERC holidays off-peak), USD/MWh;
+    no row for a day with no peak hour
   unit: USD/MWh
   rows: 18174
   first: '2015-01-02T00:00:00Z'

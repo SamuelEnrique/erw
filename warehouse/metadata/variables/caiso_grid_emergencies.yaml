@@ -5,9 +5,12 @@
 table: caiso_grid_emergencies
 family: caiso
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One CAISO grid emergency notice (Flex Alert, Restricted Maintenance Operations, Energy Emergency Alert, stage emergency,
+  transmission emergency and others) for one region, time frame and local day it covered.
+time: event_date is the local (Pacific) day the notice covered; a notice of several days is one row a day, because CAISO counts
+  days.
+vintage_rule: Rewritten whole by each run from the report's current revision, so CAISO's changes to past years are taken.
+  The table has no retrieved_at column; the header names the run and the report's revision date.
 keys:
 - event_id
 license: public
@@ -42,6 +45,8 @@ columns:
     - caiso_awe:1998-07-27:rmo:ec6686dcce
     - caiso_awe:1998-07-27:stage1:a0672fa625
   missing_cells: 0
+  particular: caiso_awe:<day>:<type>:<key>, the key the first 10 hex characters of a SHA-1 of the day, type, region (lower
+    case) and time frame
 - name: event_date
   shared: true
   type: date
@@ -70,6 +75,9 @@ columns:
       vlrp: 8
       warning: 320
   missing_cells: 0
+  particular: 'CAISO''s notice type, lower case: flex_alert (also Power Watch), rmo (Restricted Maintenance Operations, also
+    No Touch), transmission_emergency, eea_watch, eea1 to eea3 (Energy Emergency Alerts, May 2022 on), alert, warning, stage1
+    to stage3, vlrp (Voluntary Load Reduction Program), load_interruption (1-Hour Probable Load Interruptions)'
 - name: parties
   shared: true
   type: text
@@ -77,6 +85,7 @@ columns:
     list:
       California ISO: 1906
   missing_cells: 0
+  particular: California ISO on every row
 - name: entity_ids
   shared: true
   type: empty
@@ -108,6 +117,7 @@ columns:
     list:
       declared: 1906
   missing_cells: 0
+  particular: declared on every row
 - name: source
   shared: true
   type: text
@@ -123,8 +133,8 @@ columns:
       https://www.caiso.com/documents/grid-emergencies-history-report-1998-to-present.pdf: 1906
   missing_cells: 0
 - name: x_label
-  label: null
-  unit: null
+  label: The notice's name as printed in CAISO's report (Power Watch, No Touch, RMO*, EEA1 and others)
+  unit: none
   type: text
   values:
     list:
@@ -148,12 +158,12 @@ columns:
       VLRP: 8
       Warning: 320
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector caiso_emergencies.py; method caiso_grid_emergencies.md
 - name: x_region
-  label: null
-  unit: null
+  label: The region the notice covered, as printed (ISO, Southern CA, Northern CA, CAISO Grid and other spellings)
+  unit: none
   type: text
   values:
     list:
@@ -165,12 +175,12 @@ columns:
       Southern CA: 214
       Southern CA Region: 3
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector caiso_emergencies.py; method caiso_grid_emergencies.md
 - name: x_time_frame
-  label: null
-  unit: null
+  label: The notice's time frame as printed (hours such as 0000-2359, or dates and times)
+  unit: none
   type: text
   values:
     distinct: 515
@@ -181,12 +191,12 @@ columns:
     - 0000-2359
     - 0001-0900
   missing_cells: 878
-  missing_meaning: null
+  missing_meaning: The report gives no time frame (the day lists of 1998 to 2004)
   source_name: null
-  documented_by: null
+  documented_by: connector caiso_emergencies.py; method caiso_grid_emergencies.md
 - name: x_start
-  label: null
-  unit: null
+  label: The notice's start as printed (date and 24-hour time)
+  unit: none
   type: text
   values:
     distinct: 307
@@ -197,12 +207,12 @@ columns:
     - 2011-09-07 0904
     - 2011-09-07 1147
   missing_cells: 1347
-  missing_meaning: null
+  missing_meaning: The report's table gives no start
   source_name: null
-  documented_by: null
+  documented_by: connector caiso_emergencies.py; method caiso_grid_emergencies.md
 - name: x_end
-  label: null
-  unit: null
+  label: The notice's end as printed (date and 24-hour time)
+  unit: none
   type: text
   values:
     distinct: 281
@@ -213,12 +223,12 @@ columns:
     - 2011-09-07 2200
     - 2011-09-08 2359
   missing_cells: 1347
-  missing_meaning: null
+  missing_meaning: The report's table gives no end
   source_name: null
-  documented_by: null
+  documented_by: connector caiso_emergencies.py; method caiso_grid_emergencies.md
 - name: x_notice
-  label: null
-  unit: null
+  label: CAISO's notice number
+  unit: none
   type: text
   values:
     distinct: 82
@@ -229,12 +239,12 @@ columns:
     - '202002424'
     - '202002433'
   missing_cells: 1755
-  missing_meaning: null
+  missing_meaning: The page gives none, or its table has more than one row
   source_name: null
-  documented_by: null
+  documented_by: connector caiso_emergencies.py; method caiso_grid_emergencies.md
 - name: x_issued_at
-  label: null
-  unit: null
+  label: The time the notice was issued, as printed
+  unit: none
   type: text
   values:
     distinct: 73
@@ -245,12 +255,12 @@ columns:
     - 02/14/2021 14:44
     - 02/18/2021 14:59
   missing_cells: 1768
-  missing_meaning: null
+  missing_meaning: The page gives none, or its table has more than one row
   source_name: null
-  documented_by: null
+  documented_by: connector caiso_emergencies.py; method caiso_grid_emergencies.md
 - name: x_reason
-  label: null
-  unit: null
+  label: The reason for the notice as printed, cut to 300 characters
+  unit: none
   type: text
   values:
     distinct: 261
@@ -264,12 +274,12 @@ columns:
     - Anticipation of high loads and high temperatures across the CAISO Grid.
     - Anticipation of high loads and temperatures across CAISO Grid.
   missing_cells: 1330
-  missing_meaning: null
+  missing_meaning: The report gives no reason (layouts before 2011)
   source_name: null
-  documented_by: null
+  documented_by: connector caiso_emergencies.py; method caiso_grid_emergencies.md
 - name: x_layout
-  label: null
-  unit: null
+  label: Which of the report's table layouts the row was read from (records, stages, day_lists; matrix in no row)
+  unit: none
   type: text
   values:
     list:
@@ -277,19 +287,19 @@ columns:
       records: 576
       stages: 452
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector caiso_emergencies.py; method caiso_grid_emergencies.md
 - name: x_page
-  label: null
-  unit: null
+  label: The page of the report's PDF the row was read from
+  unit: none
   type: integer
   values:
     distinct: 189
     lowest: 6
     highest: 196
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method caiso_grid_emergencies.md
 second_look: null

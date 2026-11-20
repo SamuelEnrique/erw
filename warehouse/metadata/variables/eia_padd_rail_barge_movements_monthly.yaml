@@ -5,9 +5,9 @@
 table: eia_padd_rail_barge_movements_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's movement of crude oil or a petroleum product into one PADD from another, by rail or by tanker and barge.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -48,6 +48,7 @@ columns:
     - eia_padd_movements:ESM_EPC0_RAIL_R20-R10_MBBL
     - eia_padd_movements:ESM_EPC0_RAIL_R20-R30_MBBL
   missing_cells: 0
+  particular: eia_padd_movements:<EIA series id>; EIA's area pair is <receiving>-<origin>
 - name: variable
   shared: true
   type: text
@@ -91,12 +92,14 @@ columns:
     list:
       US: 120742
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 120742
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -111,6 +114,7 @@ columns:
     - Central Atlantic (PADD 1B) Receipts by Tanker and Barge from Gulf Coast (PADD 3) of Aviation Gasoline (Thousand Barrels)
     - Central Atlantic (PADD 1B) Receipts by Tanker and Barge from Gulf Coast (PADD 3) of Biodiesel (Thousand Barrels)
   missing_cells: 0
+  particular: EIA's series name (receiving area, area of origin, product)
 - name: source
   shared: true
   type: text
@@ -142,15 +146,16 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 120742
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: rail_receipts
-  label: null
+  label: Receipts by rail in the receiving area from the area of origin, thousand barrels in the month
   unit: kbbl
   rows: 20406
   first: '2010-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: tanker_barge_receipts
-  label: null
+  label: Movements by tanker and barge into the receiving area from the area of origin, thousand barrels in the month
   unit: kbbl
   rows: 100336
   first: '1986-01-01T00:00:00Z'

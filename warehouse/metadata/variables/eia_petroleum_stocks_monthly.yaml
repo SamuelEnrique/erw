@@ -5,9 +5,10 @@
 table: eia_petroleum_stocks_monthly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's end stocks of one petroleum product (gasoline, distillate and its grades, propane, residual fuel) in the
+  U.S., a PADD or a PADD 1 sub-district.
+time: ts_utc is the first day of the month at 00:00:00Z (freq P1M); a month-end stock.
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +45,7 @@ columns:
     - eia_petroleum_stocks:ESM_EPDM10_SAE_R1X_MBBL
     - eia_petroleum_stocks:ESM_EPDM10_SAE_R1Y_MBBL
   missing_cells: 0
+  particular: eia_petroleum_stocks:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -87,12 +89,14 @@ columns:
     list:
       US: 18247
   missing_cells: 0
+  particular: US on every row, the PADDs included
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 18247
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -105,6 +109,7 @@ columns:
     - Central Atlantic (PADD 1B) Ending Stocks of Distillate Fuel Oil, Greater than 15 to 500 ppm Sulfur (Thousand Barrels)
     - Central Atlantic (PADD 1B) Ending Stocks of Propane and Propylene (Thousand Barrels)
   missing_cells: 0
+  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -133,9 +138,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 18247
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: ending_stocks
-  label: null
+  label: Ending stocks of the product at the month's end, thousand barrels
   unit: kbbl
   rows: 18247
   first: '2001-01-01T00:00:00Z'

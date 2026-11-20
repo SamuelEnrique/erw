@@ -5,9 +5,11 @@
 table: eia930_all_demand
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One balancing authority's (or the Lower 48's) hourly demand or day-ahead demand forecast in one hour, from EIA's API,
+  the seven ISO authorities and US48.
+time: ts_utc is the hour's start, UTC (EIA's hourly period is the hour's end; one hour is subtracted).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): the latest retrieval replaces earlier rows, older rows are kept.
+  vintage is empty: EIA publishes no release time per value and revises EIA-930 values.'
 keys:
 - entity
 - variable
@@ -45,6 +47,7 @@ columns:
       eia930:SWPP: 3744
       eia930:US48: 3936
   missing_cells: 0
+  particular: eia930:<respondent> (CISO, ERCO, ISNE, MISO, NYIS, PJM, SWPP, US48)
 - name: variable
   shared: true
   type: text
@@ -95,6 +98,7 @@ columns:
       US-NY: 3792
       US-TX: 3696
   missing_cells: 0
+  particular: The respondent's states, comma-separated; US for US48
 - name: market
   shared: true
   type: empty
@@ -216,13 +220,13 @@ columns:
   missing_cells: 0
 variables:
 - name: demand_forecast_mw
-  label: null
+  label: The authority's day-ahead demand forecast for the hour (EIA type DF)
   unit: MW
   rows: 15264
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T23:00:00Z'
 - name: demand_mw
-  label: null
+  label: Hourly demand of the balancing authority (EIA type D)
   unit: MW
   rows: 15264
   first: '2026-08-26T00:00:00Z'

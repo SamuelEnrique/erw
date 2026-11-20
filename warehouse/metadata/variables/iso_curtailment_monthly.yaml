@@ -5,9 +5,12 @@
 table: iso_curtailment_monthly
 family: iso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's wind or solar curtailment figure (in all, or by reason) or wind and solar output, or one part of the month's
+  curtailment share, for CAISO or SPP.
+time: ts_utc is the first of the month at 00:00:00Z; the month is the daily tables' local operating days. A month is written
+  only when every day of it is present; the month in progress is never written.
+vintage_rule: Merged by (entity, variable, ts_utc); each run writes the months it can complete and the merge writer keeps
+  the earlier months. vintage is not filled.
 keys:
 - entity
 - variable
@@ -37,6 +40,7 @@ columns:
       caiso:ISO: 1558
       spp:SPP: 1698
   missing_cells: 0
+  particular: caiso:ISO (CAISO's whole system) or spp:SPP (SPP's balancing authority area)
 - name: variable
   shared: true
   type: text
@@ -82,18 +86,21 @@ columns:
     list:
       US-CA: 1558
   missing_cells: 1698
+  particular: US-CA on CAISO's rows; empty on SPP's rows
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3256
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3256
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -121,117 +128,119 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 3256
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: curtailed_solar_economic_mwh
-  label: null
+  label: 'SPP: solar ''curtailed for energy'' (economic dispatch), MWh'
   unit: MWh
   rows: 151
   first: '2014-03-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: curtailed_solar_local_mwh
-  label: null
+  label: 'CAISO: solar curtailed for local congestion (CAISO''s reason Local), MWh'
   unit: MWh
   rows: 58
   first: '2022-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: curtailed_solar_manual_mwh
-  label: null
+  label: 'SPP: solar curtailed by manual operator instruction, MWh'
   unit: MWh
   rows: 151
   first: '2014-03-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: curtailed_solar_mwh
-  label: null
+  label: Solar energy curtailed in the month, the exact sum of the daily values, MWh
   unit: MWh
   rows: 300
   first: '2014-03-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: curtailed_solar_redispatch_mwh
-  label: null
+  label: 'SPP: solar curtailed by redispatch (congestion), MWh'
   unit: MWh
   rows: 151
   first: '2014-03-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: curtailed_solar_system_mwh
-  label: null
+  label: 'CAISO: solar curtailed for system-wide oversupply (CAISO''s reason System), MWh'
   unit: MWh
   rows: 58
   first: '2022-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: curtailed_wind_economic_mwh
-  label: null
+  label: 'SPP: wind ''curtailed for energy'' (economic dispatch), MWh'
   unit: MWh
   rows: 151
   first: '2014-03-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: curtailed_wind_local_mwh
-  label: null
+  label: 'CAISO: wind curtailed for local congestion (CAISO''s reason Local), MWh'
   unit: MWh
   rows: 58
   first: '2022-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: curtailed_wind_manual_mwh
-  label: null
+  label: 'SPP: wind curtailed by manual operator instruction, MWh'
   unit: MWh
   rows: 151
   first: '2014-03-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: curtailed_wind_mwh
-  label: null
+  label: Wind energy curtailed in the month, the exact sum of the daily values, MWh
   unit: MWh
   rows: 300
   first: '2014-03-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: curtailed_wind_redispatch_mwh
-  label: null
+  label: 'SPP: wind curtailed by redispatch (congestion), MWh'
   unit: MWh
   rows: 151
   first: '2014-03-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: curtailed_wind_system_mwh
-  label: null
+  label: 'CAISO: wind curtailed for system-wide oversupply (CAISO''s reason System), MWh'
   unit: MWh
   rows: 58
   first: '2022-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: share_curtailed_mwh
-  label: null
+  label: The curtailed MWh of the share, cut to the days both are held
   unit: MWh
   rows: 248
   first: '2014-05-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: share_curtailed_pct
-  label: null
+  label: Curtailed MWh over curtailed plus wind and solar output MWh, over the days both are held, percent (CAISO's output
+    its own; SPP's EIA-930's hourly net generation)
   unit: pct
   rows: 248
   first: '2014-05-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: share_hours_held
-  label: null
+  label: The hours of the month both curtailment and output are held
   unit: count
   rows: 248
   first: '2014-05-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: share_hours_in_month
-  label: null
+  label: The hours of the month
   unit: count
   rows: 248
   first: '2014-05-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: share_output_mwh
-  label: null
+  label: The wind and solar output MWh of the share, over the same days
   unit: MWh
   rows: 248
   first: '2014-05-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: solar_generation_mwh
-  label: null
+  label: 'CAISO: its solar output in the month, curtailment not included, MWh'
   unit: MWh
   rows: 139
   first: '2014-05-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: wind_generation_mwh
-  label: null
+  label: 'CAISO: its wind output in the month, curtailment not included, MWh'
   unit: MWh
   rows: 139
   first: '2014-05-01T00:00:00Z'

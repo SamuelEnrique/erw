@@ -5,9 +5,10 @@
 table: scarcity_hours_by_grid
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: 'One grid''s (ERCOT''s or CAISO''s) value of one scarcity measure in one hour: the USD 1,000 price counts and the grid''s
+  own scarcity signal.'
+time: ts_utc is the hour's start, UTC; freq PT1H. An hour without a row is not held, not a zero.
+vintage_rule: Rewritten whole by each run (the window moves with the month); vintage is not filled.
 keys:
 - entity
 - variable
@@ -40,6 +41,7 @@ columns:
       iso:caiso: 104608
       iso:ercot: 97265
   missing_cells: 0
+  particular: iso:ercot or iso:caiso
 - name: variable
   shared: true
   type: text
@@ -97,6 +99,7 @@ columns:
       ercot_dam: 26304
       ercot_rtm: 52608
   missing_cells: 44097
+  particular: <iso>_rtm or <iso>_dam on the price rows; empty on the own_signal rows
 - name: node
   shared: true
   type: text
@@ -105,6 +108,7 @@ columns:
       HB_HUBAVG: 78912
       TH_SP15_GEN-APND: 78864
   missing_cells: 44097
+  particular: The hub priced (HB_HUBAVG, TH_SP15_GEN-APND) on the price rows; empty on the own_signal rows
 - name: source
   shared: true
   type: text
@@ -134,9 +138,11 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 201873
+  particular: 'Not filled: no cell holds a value'
 - name: x_detail
-  label: null
-  unit: null
+  label: 'Detail of the row: held=<intervals held> on rt_intervals_ge_1000; on own_signal, ERCOT''s hourly mean adder (rtorpa_mean=<USD/MWh>)
+    or CAISO''s notices in force as type@region'
+  unit: none
   type: text
   values:
     distinct: 351
@@ -147,30 +153,32 @@ columns:
     - rmo@CAISO Grid;transmission_emergency@Northern CA
     - rmo@CAISO Grid;transmission_emergency@Southern CA Region
   missing_cells: 130312
-  missing_meaning: null
+  missing_meaning: Empty on the rt_hour_ge_1000 and da_hour_ge_1000 rows, and on CAISO's own_signal hours with no notice in
+    force
   source_name: null
-  documented_by: null
+  documented_by: header; method scarcity_hours_by_grid.md; data
 variables:
 - name: da_hour_ge_1000
-  label: null
+  label: 1 when the day-ahead hour's price is at or above USD 1,000 per MWh, else 0
   unit: count
   rows: 52608
   first: '2023-11-01T06:00:00Z'
   last: '2026-11-01T07:00:00Z'
 - name: own_signal
-  label: null
+  label: '1 when the grid''s own scarcity signal is in force in the hour (ERCOT: the real-time reserve price adder''s hourly
+    mean above zero; CAISO: an EEA or an alert in any part of the hour), else 0'
   unit: count
   rows: 44097
   first: '2023-11-01T06:00:00Z'
   last: '2026-10-08T23:00:00Z'
 - name: rt_hour_ge_1000
-  label: null
+  label: 1 when the mean of the hour's held real-time intervals is at or above USD 1,000 per MWh, else 0
   unit: count
   rows: 52584
   first: '2023-11-01T06:00:00Z'
   last: '2026-11-01T07:00:00Z'
 - name: rt_intervals_ge_1000
-  label: null
+  label: The hour's 15-minute real-time intervals at or above USD 1,000 per MWh
   unit: count
   rows: 52584
   first: '2023-11-01T06:00:00Z'

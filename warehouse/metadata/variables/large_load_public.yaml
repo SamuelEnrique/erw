@@ -5,9 +5,10 @@
 table: large_load_public
 family: large
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One figure (megawatts or a duration) that a public document (a regulatory filing, an SEC filing, or an ERCOT or CAISO
+  document) states about large loads for one entity, as a fact with a link and no quoted text.
+time: event_date is the document's date (event_date_basis 'document').
+vintage_rule: Rewritten whole by each run of the builder (warehouse/derived/large_load_public.py) from large_load_statements.
 keys:
 - event_id
 license: public
@@ -59,6 +60,7 @@ columns:
     list:
       large_load_statement: 341
   missing_cells: 0
+  particular: Always large_load_statement
 - name: parties
   shared: true
   type: text
@@ -71,6 +73,7 @@ columns:
     - American Electric Power
     - Appalachian Power (AEP)
   missing_cells: 0
+  particular: The entity, as the statements table names it
 - name: entity_ids
   shared: true
   type: empty
@@ -85,6 +88,7 @@ columns:
     lowest: 5.32039
     highest: 474000.0
   missing_cells: 101
+  particular: Megawatts on a row_kind mw row
 - name: price
   shared: true
   type: empty
@@ -109,6 +113,7 @@ columns:
       5 under construction or energized: 34
       not classed: 177
   missing_cells: 0
+  particular: The stage as one of the ERW's five classes, or not classed; not the document's words
 - name: source
   shared: true
   type: text
@@ -128,9 +133,10 @@ columns:
     - https://docs.cpuc.ca.gov/PublishedDocs/Efile/G000/M556/K897/556897173.PDF
     - https://docs.cpuc.ca.gov/PublishedDocs/Efile/G000/M604/K023/604023792.PDF
   missing_cells: 0
+  particular: The regulator's, the SEC's or the publisher's own copy of the document
 - name: entity_group
-  label: null
-  unit: null
+  label: The group the entity is counted under (67 entities in 55 groups), as the builder names it
+  unit: none
   type: text
   values:
     distinct: 55
@@ -141,9 +147,9 @@ columns:
     - Ameren
     - American Electric Power
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method large_load_public.md
 - name: entity_type
   shared: true
   type: text
@@ -165,20 +171,20 @@ columns:
       utility group: 2
   missing_cells: 0
 - name: row_kind
-  label: null
-  unit: null
+  label: 'What the row states: mw (megawatts) or wait (a duration)'
+  unit: none
   type: text
   values:
     list:
       mw: 250
       wait: 91
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method large_load_public.md
 - name: mw_low
-  label: null
-  unit: null
+  label: The low end of a megawatt range the document states
+  unit: MW
   type: number
   values:
     list:
@@ -193,12 +199,12 @@ columns:
       '800.0': 1
       '860.0': 1
   missing_cells: 331
-  missing_meaning: null
+  missing_meaning: Not a range (or not a megawatt row)
   source_name: null
-  documented_by: null
+  documented_by: header; method large_load_public.md
 - name: mw_high
-  label: null
-  unit: null
+  label: The high end of a megawatt range the document states
+  unit: MW
   type: number
   values:
     list:
@@ -213,12 +219,12 @@ columns:
       '6250.0': 1
       '700.0': 1
   missing_cells: 331
-  missing_meaning: null
+  missing_meaning: Not a range (or not a megawatt row)
   source_name: null
-  documented_by: null
+  documented_by: header; method large_load_public.md
 - name: duration_as_stated
-  label: null
-  unit: null
+  label: 'A duration as written: a number and its unit with its bound (''up to'', ''at least'', ''approximately'')'
+  unit: none
   type: text
   values:
     distinct: 80
@@ -229,12 +235,12 @@ columns:
     - 12 months
     - 12-13 months
   missing_cells: 250
-  missing_meaning: null
+  missing_meaning: A megawatt row
   source_name: null
-  documented_by: null
+  documented_by: header; method large_load_public.md
 - name: wait_basis
-  label: null
-  unit: null
+  label: 'The ERW''s reading of a duration: measured, expected, a general statement, or what happened with no duration written'
+  unit: none
   type: text
   values:
     list:
@@ -243,12 +249,12 @@ columns:
       measured: 11
       what happened, no duration written: 3
   missing_cells: 250
-  missing_meaning: null
+  missing_meaning: A megawatt row
   source_name: null
-  documented_by: null
+  documented_by: method large_load_public.md; data
 - name: wait_counted
-  label: null
-  unit: null
+  label: 'Whether the duration is a large load''s wait at all: yes, or no with the reason'
+  unit: none
   type: text
   values:
     list:
@@ -257,24 +263,25 @@ columns:
       'no: a regulator''s approval time': 13
       'yes': 74
   missing_cells: 250
-  missing_meaning: null
+  missing_meaning: A megawatt row
   source_name: null
-  documented_by: null
+  documented_by: header; method large_load_public.md
 - name: load_scope
-  label: null
-  unit: null
+  label: 'What a duration covers: large loads, or every distribution project'
+  unit: none
   type: text
   values:
     list:
       all distribution projects, not large loads: 10
       'large loads (or every load at transmission voltage: the notes say which)': 81
   missing_cells: 250
-  missing_meaning: null
+  missing_meaning: A megawatt row
   source_name: null
-  documented_by: null
+  documented_by: header; method large_load_public.md
 - name: stage_class
-  label: null
-  unit: null
+  label: The stage as one of the ERW's five classes (request or inquiry, study or engineering, financial commitment, signed
+    service agreement, under construction or energized), 'none' or 'not classed'; not the document's words
+  unit: none
   type: text
   values:
     list:
@@ -286,12 +293,12 @@ columns:
       none: 124
       not classed: 53
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method large_load_public.md; data
 - name: document_title
-  label: null
-  unit: null
+  label: The document's title
+  unit: none
   type: text
   values:
     distinct: 128
@@ -304,12 +311,13 @@ columns:
     - AES Indiana 2025 Integrated Resource Plan, Volume I
     - Alliant Energy Corporation Form 10-Q for the quarter ended June 30, 2026 (filed July 31, 2026)
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method large_load_public.md
 - name: document_type
-  label: null
-  unit: null
+  label: The document's type as the statements table holds it (commission filing, SEC filing, earnings presentation and the
+    others)
+  unit: none
   type: text
   values:
     list:
@@ -324,35 +332,35 @@ columns:
       rate case testimony: 16
       sec filing: 4
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method large_load_public.md; data
 - name: page
-  label: null
-  unit: null
+  label: The page of the document the figure stands on
+  unit: none
   type: integer
   values:
     distinct: 53
     lowest: 1
     highest: 132
   missing_cells: 104
-  missing_meaning: null
+  missing_meaning: The statements table gives no page
   source_name: null
-  documented_by: null
+  documented_by: header; method large_load_public.md
 - name: event_date_basis
-  label: null
-  unit: null
+  label: 'What event_date is: always document (the document''s date)'
+  unit: none
   type: text
   values:
     list:
       document: 341
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method large_load_public.md
 - name: document_class
-  label: null
-  unit: null
+  label: 'How the document was classed for its license: SEC filing, regulatory filing, or read publisher''s document'
+  unit: none
   type: text
   values:
     list:
@@ -360,12 +368,12 @@ columns:
       read publisher's document: 31
       regulatory filing: 239
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method large_load_public.md
 - name: public_basis
-  label: null
-  unit: null
+  label: 'Why the row is public: SEC filing, public regulatory filing, or publisher''s terms read in session 205'
+  unit: none
   type: text
   values:
     list:
@@ -373,12 +381,12 @@ columns:
       public regulatory filing: 239
       publisher's terms read in session 205: 31
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method large_load_public.md
 - name: regulator
-  label: null
-  unit: null
+  label: The regulator whose docket holds the document
+  unit: none
   type: text
   values:
     list:
@@ -404,12 +412,13 @@ columns:
       South Dakota Public Utilities Commission: 1
       Virginia State Corporation Commission: 26
   missing_cells: 102
-  missing_meaning: null
+  missing_meaning: Not a regulatory filing (an SEC filing or an operator's document)
   source_name: null
-  documented_by: null
+  documented_by: method large_load_public.md
 - name: state
-  label: null
-  unit: null
+  label: The regulator's state for a regulatory filing; else the states the entity serves, written by hand in the code from
+    its service territory
+  unit: none
   type: text
   values:
     distinct: 26
@@ -420,12 +429,12 @@ columns:
     - CA
     - CO
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method large_load_public.md
 - name: grid
-  label: null
-  unit: null
+  label: The grid of the page the entity is in (caiso, ercot, miso, nyiso, pjm, spp, more than one, none of the seven)
+  unit: none
   type: text
   values:
     list:
@@ -438,12 +447,12 @@ columns:
       pjm: 72
       spp: 19
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method large_load_public.md; data
 - name: source_flag
-  label: null
-  unit: null
+  label: The statements table's flag where the document speaks of another entity
+  unit: none
   type: text
   values:
     list:
@@ -451,12 +460,12 @@ columns:
       'a statement about another entity: New York ISO': 2
       'a statement about another entity: Pacific Gas and Electric': 2
   missing_cells: 329
-  missing_meaning: null
+  missing_meaning: The document speaks of its own entity
   source_name: null
-  documented_by: null
+  documented_by: method large_load_public.md
 - name: statement_id
-  label: null
-  unit: null
+  label: The row of large_load_statements the figure comes from
+  unit: none
   type: text
   values:
     distinct: 341
@@ -467,9 +476,9 @@ columns:
     - llstmt:0470dd02c2c3c88a
     - llstmt:047deb4cc7872817
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method large_load_public.md
 - name: retrieved_at
   shared: true
   type: utc time
@@ -477,4 +486,6 @@ columns:
     list:
       '2026-10-14T09:42:52Z': 341
   missing_cells: 0
-second_look: null
+second_look:
+- 'stage_class: the values ''none'' (124 rows) and ''not classed'' (53 rows) are told apart in the table, but the method note
+  names only ''not classed''; what ''none'' means beside it is not documented.'

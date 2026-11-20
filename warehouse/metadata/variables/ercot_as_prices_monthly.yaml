@@ -5,9 +5,10 @@
 table: ercot_as_prices_monthly
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One monthly summary of ERCOT's hourly day-ahead clearing prices for capacity of one ancillary service, for one local
+  month.
+time: ts_utc is the first day of the local (America/Chicago) month at 00:00:00Z.
+vintage_rule: Rebuilt from ercot_as_prices by each run of the builder; vintage is not filled.
 keys:
 - entity
 - variable
@@ -41,6 +42,7 @@ columns:
       ercot:REGUP: 530
       ercot:RRS: 530
   missing_cells: 0
+  particular: ercot:<service>, the ancillary service (ECRS, NSPIN, REGDN, REGUP, RRS)
 - name: variable
   shared: true
   type: text
@@ -92,6 +94,7 @@ columns:
     list:
       ercot_dam: 2325
   missing_cells: 0
+  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
 - name: node
   shared: true
   type: text
@@ -103,6 +106,7 @@ columns:
       REGUP: 530
       RRS: 530
   missing_cells: 0
+  particular: The ancillary service, not a place
 - name: source
   shared: true
   type: text
@@ -134,33 +138,34 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 2325
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: mcpc_dam_hours
-  label: null
+  label: The hours of the month held
   unit: count
   rows: 465
   first: '2018-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: mcpc_dam_hours_in_month
-  label: null
+  label: The hours the local month has
   unit: count
   rows: 465
   first: '2018-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: mcpc_dam_max
-  label: null
+  label: Highest hourly clearing price of the month, as published, USD per MW held for one hour
   unit: USD/MW-hour
   rows: 465
   first: '2018-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: mcpc_dam_mean
-  label: null
+  label: Mean of the month's hourly clearing prices held, four decimals, USD per MW held for one hour
   unit: USD/MW-hour
   rows: 465
   first: '2018-01-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: mcpc_dam_min
-  label: null
+  label: Lowest hourly clearing price of the month, as published, USD per MW held for one hour
   unit: USD/MW-hour
   rows: 465
   first: '2018-01-01T00:00:00Z'

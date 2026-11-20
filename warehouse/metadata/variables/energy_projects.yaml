@@ -5,9 +5,11 @@
 table: energy_projects
 family: energy
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One energy project for the project map (platform tool 3), one row per input row, either an EIA-860M generator (operating
+  or planned) or an ISO interconnection queue position.
+time: No time column; date is the operating year, the planned operation date or the queue date (date_kind says which). vintage
+  is the input row's own vintage.
+vintage_rule: A snapshot; each run replaces the table from its input tables.
 keys:
 - entity_id
 license: public
@@ -41,6 +43,7 @@ columns:
     - caiso_queue:1001
     - caiso_queue:1002
   missing_cells: 0
+  particular: The input row's entity_id
 - name: entity_type
   shared: true
   type: text
@@ -73,6 +76,7 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
+  particular: US-<state>, or US where the source states no state
 - name: lat
   shared: true
   type: number
@@ -97,6 +101,8 @@ columns:
     lowest: -53.3
     highest: 4000.0
   missing_cells: 278
+  particular: 'As the source states it: EIA''s nameplate, or the queue''s requested MW (a queue may state a negative repowering
+    request)'
 - name: status
   shared: true
   type: text
@@ -110,6 +116,7 @@ columns:
       under_construction: 1032
       withdrawn: 8761
   missing_cells: 34
+  particular: The input row's status; empty where the source gives none
 - name: status_date
   shared: true
   type: date
@@ -130,6 +137,7 @@ columns:
     - 1008 Matthews Solar, LLC
     - 1009 Yadkin Solar, LLC
   missing_cells: 11199
+  particular: EIA's operator, or the queue's interconnection customer (operator_role)
 - name: source
   shared: true
   type: text
@@ -167,9 +175,10 @@ columns:
       '2026-09-30T00:00:00Z': 3881
       '2026-11-05': 8844
   missing_cells: 0
+  particular: 'The input row''s vintage: EIA''s month (YYYY-MM) or the queue''s'
 - name: project_id
-  label: null
-  unit: null
+  label: The project's id, the same as entity_id
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -180,12 +189,12 @@ columns:
     - caiso_queue:1001
     - caiso_queue:1002
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: kind
-  label: null
-  unit: null
+  label: operating (eia860m_operating_generators), planned (eia860m_planned_generators) or queue (an ISO interconnection queue)
+  unit: none
   type: text
   values:
     list:
@@ -193,12 +202,13 @@ columns:
       planned: 2361
       queue: 14539
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: technology_group
-  label: null
-  unit: null
+  label: A group of the source's technology text (solar, wind, storage, natural_gas and the others; queues add hybrid and
+    transmission); unknown where none is given
+  unit: none
   type: text
   values:
     list:
@@ -217,9 +227,9 @@ columns:
       unknown: 818
       wind: 4343
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method energy_projects.md
 - name: mw
   shared: true
   type: number
@@ -228,9 +238,10 @@ columns:
     lowest: -53.3
     highest: 4000.0
   missing_cells: 278
+  particular: capacity_mw as the source states it
 - name: state
-  label: null
-  unit: null
+  label: The state as the source states it, reduced to its postal code
+  unit: none
   type: text
   values:
     distinct: 52
@@ -241,12 +252,12 @@ columns:
     - AZ
     - CA
   missing_cells: 297
-  missing_meaning: null
+  missing_meaning: The source states no state
   source_name: null
-  documented_by: null
+  documented_by: method energy_projects.md
 - name: county
-  label: null
-  unit: null
+  label: The county as the source states it (queues' words unchanged)
+  unit: none
   type: text
   values:
     distinct: 2868
@@ -257,12 +268,13 @@ columns:
     - AMADOR
     - Abbeville
   missing_cells: 488
-  missing_meaning: null
+  missing_meaning: The source states no county
   source_name: null
-  documented_by: null
+  documented_by: method energy_projects.md
 - name: geo_precision
-  label: null
-  unit: null
+  label: 'How lat and lon were placed: point (EIA''s plant coordinates), county (the county''s internal point), place (a place''s
+    or town''s internal point from the county words), none'
+  unit: none
   type: text
   values:
     list:
@@ -271,12 +283,12 @@ columns:
       place: 393
       point: 31073
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method energy_projects.md
 - name: geo_note
-  label: null
-  unit: null
+  label: 'For a county, place or none row: which county or place and gazetteer file, or why it was not placed'
+  unit: none
   type: text
   values:
     distinct: 1578
@@ -287,24 +299,24 @@ columns:
     - county 'Allagany' not found in the gazetteer for NY
     - county 'Alleghany' not found in the gazetteer for NY
   missing_cells: 31073
-  missing_meaning: null
+  missing_meaning: A point row (EIA's coordinates)
   source_name: null
-  documented_by: null
+  documented_by: header; method energy_projects.md
 - name: operator_role
-  label: null
-  unit: null
+  label: 'What operator is: operator (EIA''s operator) or developer (the queue''s interconnection customer)'
+  unit: none
   type: text
   values:
     list:
       developer: 3340
       operator: 31073
   missing_cells: 11199
-  missing_meaning: null
+  missing_meaning: The source names no operator or customer
   source_name: null
-  documented_by: null
+  documented_by: header; connector energy_projects.py
 - name: date
-  label: null
-  unit: null
+  label: The operating year, the planned operation date or the queue date, as date_kind says
+  unit: none
   type: text
   values:
     distinct: 3543
@@ -315,12 +327,12 @@ columns:
     - '1898'
     - '1899'
   missing_cells: 65
-  missing_meaning: null
+  missing_meaning: The source gives no such date
   source_name: null
-  documented_by: null
+  documented_by: header; method energy_projects.md
 - name: date_kind
-  label: null
-  unit: null
+  label: 'What date is: operating_year, planned_operation_date or queue_date'
+  unit: none
   type: text
   values:
     list:
@@ -328,12 +340,12 @@ columns:
       planned_operation_date: 2361
       queue_date: 14474
   missing_cells: 65
-  missing_meaning: null
+  missing_meaning: No date
   source_name: null
-  documented_by: null
+  documented_by: header; method energy_projects.md
 - name: technology
-  label: null
-  unit: null
+  label: The source's own technology text
+  unit: none
   type: text
   values:
     distinct: 178
@@ -344,12 +356,12 @@ columns:
     - BAT
     - BIT
   missing_cells: 818
-  missing_meaning: null
+  missing_meaning: The source gives no technology
   source_name: null
-  documented_by: null
+  documented_by: method energy_projects.md
 - name: source_status
-  label: null
-  unit: null
+  label: The source's own status label (EIA's status words, or the queue's status)
+  unit: none
   type: text
   values:
     distinct: 29
@@ -360,12 +372,12 @@ columns:
     - Completed
     - Construction complete, but not yet in commercial operation
   missing_cells: 34
-  missing_meaning: null
+  missing_meaning: The source gives no status
   source_name: null
-  documented_by: null
+  documented_by: method energy_projects.md; connector energy_projects.py
 - name: source_table
-  label: null
-  unit: null
+  label: The ERW table the row is from
+  unit: none
   type: text
   values:
     list:
@@ -378,19 +390,20 @@ columns:
       nyiso_interconnection_queue: 1814
       spp_interconnection_queue: 3079
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector energy_projects.py
 - name: proposed_date
-  label: null
-  unit: null
+  label: 'A queue position''s proposed in-service date as the grid operator''s report states it: the developer''s stated plan,
+    not a forecast'
+  unit: none
   type: date
   values:
     distinct: 1989
     earliest: '1990-12-03'
     latest: '2036-05-05'
   missing_cells: 37537
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: An EIA row, or the report gives none
+  source_name: proposed_in_service_date
+  documented_by: method energy_projects.md
 second_look: null

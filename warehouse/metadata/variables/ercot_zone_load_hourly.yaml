@@ -5,9 +5,11 @@
 table: ercot_zone_load_hourly
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: ERCOT's native load in one weather zone, or ERCOT's total, for one hour, from its Hourly Load Data Archives.
+time: ts_utc is the hour's start in UTC (ERCOT gives the hour's end, Central; the repeated autumn hour is in the file twice,
+  the second marked DST).
+vintage_rule: Merged by (entity, variable, ts_utc) into the table held; ERCOT extends the current year's file month by month.
+  vintage is the yearly file's publish time.
 keys:
 - entity
 - variable
@@ -47,6 +49,8 @@ columns:
       ercot:WEST: 103726
       ercot:system: 103726
   missing_cells: 0
+  particular: ercot:<weather zone> (COAST, EAST, FWEST, NCENT, NORTH, SCENT, SOUTH, WEST) or ercot:system (ERCOT's own total
+    column, never a sum made here); weather zones are not load zones
 - name: variable
   shared: true
   type: text
@@ -97,6 +101,7 @@ columns:
     list:
       ercot_load: 933534
   missing_cells: 0
+  particular: ercot_load in every row
 - name: node
   shared: true
   type: text
@@ -116,6 +121,8 @@ columns:
       SOUTH_C: 17543
       WEST: 103726
   missing_cells: 0
+  particular: The zone's column name in ERCOT's file; older files' FAR_WEST, NORTH_C, SOUTHERN and SOUTH_C are FWEST, NCENT,
+    SOUTH and SCENT; ERCOT for the total
 - name: source
   shared: true
   type: text
@@ -177,9 +184,10 @@ columns:
       '2026-02-04T22:35:00Z': 78840
       '2026-11-06T19:50:00Z': 65655
   missing_cells: 0
+  particular: The publish time of ERCOT's yearly file
 variables:
 - name: load
-  label: null
+  label: ERCOT's native load for the weather zone (or the system) and hour, MW over the hour
   unit: MW
   rows: 933534
   first: '2015-01-01T06:00:00Z'

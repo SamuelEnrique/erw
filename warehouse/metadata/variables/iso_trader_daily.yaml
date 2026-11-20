@@ -5,9 +5,11 @@
 table: iso_trader_daily
 family: iso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One daily trading metric (day-ahead mean, real-time spread, implied heat rate and others) for one hub or zone of one
+  ISO.
+time: ts_utc is the ISO's local operating day at 00:00:00Z.
+vintage_rule: Each daily run computes every day the price tables hold again and merges it by (entity, variable, ts_utc); a
+  row whose value has not moved keeps the retrieved_at of the run that first wrote it. vintage is not filled.
 keys:
 - entity
 - variable
@@ -43,6 +45,7 @@ columns:
     - ercot:HB_BUSAVG
     - ercot:HB_HOUSTON
   missing_cells: 0
+  particular: The price table's own entity, <iso>:<node>
 - name: variable
   shared: true
   type: text
@@ -87,6 +90,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 21879
+  particular: 'Not filled: no cell holds a value'
 - name: market
   shared: true
   type: text
@@ -99,6 +103,7 @@ columns:
       nyiso: 7117
       spp: 648
   missing_cells: 0
+  particular: The ISO the row belongs to (caiso, ercot, isone, miso, nyiso, spp), not a market code
 - name: node
   shared: true
   type: text
@@ -111,6 +116,7 @@ columns:
     - .Z.NEMASSBOST
     - .Z.NEWHAMPSHIRE
   missing_cells: 0
+  particular: The hub or zone, the part of entity after the colon
 - name: source
   shared: true
   type: text
@@ -139,57 +145,59 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 21879
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: da_mean_usd
-  label: null
+  label: Mean of the day's day-ahead hourly prices (every hour required), USD/MWh
   unit: USD/MWh
   rows: 2831
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-16T00:00:00Z'
 - name: da_offpeak_mean_usd
-  label: null
+  label: Mean of the day-ahead prices over every other hour of the day (the whole day on weekends and holidays), USD/MWh
   unit: USD/MWh
   rows: 2831
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-16T00:00:00Z'
 - name: da_onpeak_mean_usd
-  label: null
+  label: Mean of the day-ahead prices over on-peak hours (hours starting 06:00 to 21:00 local on weekdays that are not NERC
+    holidays), USD/MWh
   unit: USD/MWh
   rows: 2012
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-16T00:00:00Z'
 - name: da_rt_spread_max_usd
-  label: null
+  label: The largest hourly real-time minus day-ahead of the day, USD/MWh
   unit: USD/MWh
   rows: 2503
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: da_rt_spread_mean_usd
-  label: null
+  label: Mean over the day's hours of real-time minus day-ahead, USD/MWh
   unit: USD/MWh
   rows: 2503
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: da_volatility_30d_usd
-  label: null
+  label: Sample standard deviation of the 30 day-over-day changes in da_mean_usd over the 31 days ending on the day, USD/MWh
   unit: USD/MWh
   rows: 1393
   first: '2026-09-25T00:00:00Z'
   last: '2026-11-16T00:00:00Z'
 - name: hours_rt_over_da_50
-  label: null
+  label: Hours in which real-time exceeded day-ahead by more than 50 USD/MWh
   unit: count
   rows: 2503
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: implied_heat_rate
-  label: null
+  label: 'da_mean_usd over the Henry Hub gas spot price: how many MMBtu of gas a MWh sells for, MMBtu/MWh'
   unit: MMBtu/MWh
   rows: 2800
   first: '2026-08-26T00:00:00Z'
   last: '2026-11-15T00:00:00Z'
 - name: rt_mean_usd
-  label: null
+  label: Mean of the day's hourly real-time prices, USD/MWh
   unit: USD/MWh
   rows: 2503
   first: '2026-08-26T00:00:00Z'

@@ -5,9 +5,9 @@
 table: eia_co2_state_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or the nation's) energy-related carbon dioxide emissions of one sector and one fuel for one year.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -43,6 +43,7 @@ columns:
     - eia_co2:AK:CC:TO
     - eia_co2:AK:EC:CO
   missing_cells: 0
+  particular: eia_co2:<state>:<sectorId>:<fuelId>; sectors CC, EC, IC, RC, TC and TT (all); fuels CO, NG, PE and TO (all)
 - name: variable
   shared: true
   type: text
@@ -91,12 +92,14 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
+  particular: US-<state>, or US for the nation
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 66144
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -109,6 +112,7 @@ columns:
     - Alabama, Commercial carbon dioxide emissions, Petroleum
     - Alabama, Electric Power carbon dioxide emissions, All Fuels
   missing_cells: 0
+  particular: EIA's names (state, sector, fuel)
 - name: source
   shared: true
   type: text
@@ -137,9 +141,11 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 66144
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: co2
-  label: null
+  label: Energy-related carbon dioxide emissions of the sector and fuel, tonnes of CO2 (EIA's million metric tons times 1,000,000);
+    a sum takes one level and leaves TT and TO out
   unit: tCO2
   rows: 66144
   first: '1970-01-01T00:00:00Z'

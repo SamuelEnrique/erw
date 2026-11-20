@@ -5,9 +5,10 @@
 table: eia_gas_plant_processing_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's natural gas plant processing figure (gas processed, extraction loss or liquids extracted) for the U.S., a
+  state or one of EIA's processing areas.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -45,6 +46,7 @@ columns:
     - eia_gas_plant_processing:NA1150_SAR_2
     - eia_gas_plant_processing:NA1150_SCA_2
   missing_cells: 0
+  particular: eia_gas_plant_processing:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -94,12 +96,15 @@ columns:
     - US-AR
     - US-CA
   missing_cells: 0
+  particular: US (the U.S., the federal offshore) or US-<state> (a state, its onshore or offshore part, or a pair's producing
+    area)
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5829
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -112,6 +117,7 @@ columns:
     - Alabama Offshore Natural Gas Plant Liquids Production Extracted in Alabama (Million Cubic Feet)
     - Alabama Offshore Natural Gas Processed in Alabama (Million Cubic Feet)
   missing_cells: 0
+  particular: EIA's description
 - name: source
   shared: true
   type: text
@@ -141,21 +147,22 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 5829
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: extraction_loss
-  label: null
+  label: Volume lost from the gas as liquids are extracted (VG9), million cubic feet
   unit: MMcf
   rows: 2030
   first: '1967-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: gas_processed
-  label: null
+  label: Natural gas processed at plants (YGP), million cubic feet
   unit: MMcf
   rows: 2075
   first: '1967-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: liquids_extracted
-  label: null
+  label: Natural gas plant liquids extracted (YGT), thousand barrels
   unit: kbbl
   rows: 1724
   first: '1983-01-01T00:00:00Z'

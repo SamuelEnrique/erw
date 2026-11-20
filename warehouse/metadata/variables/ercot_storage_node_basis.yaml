@@ -5,9 +5,11 @@
 table: ercot_storage_node_basis
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: For one storage resource's settlement point (or all of them summed up), its real-time price against the hub average HB_HUBAVG
+  over the days of node prices held.
+time: ts_utc is the first day held at 00:00:00Z; freq P1W, though the span is every day of ercot_rtm_node_prices.
+vintage_rule: Rewritten whole by each run of the builder from ercot_rtm_node_prices and ercot_dam_esr_awards; vintage is not
+  filled.
 keys:
 - entity
 - variable
@@ -47,6 +49,7 @@ columns:
     - ercot:ALAMO_ST_RN
     - ercot:ALP_BESS_RN
   missing_cells: 0
+  particular: ercot:<settlement point> of a storage resource, or ercot:esr_nodes for the rows that sum the points up
 - name: variable
   shared: true
   type: text
@@ -97,6 +100,7 @@ columns:
     list:
       ercot_rtm: 2064
   missing_cells: 0
+  particular: 'ercot_rtm in every row: ERCOT''s real-time market'
 - name: node
   shared: true
   type: text
@@ -109,6 +113,7 @@ columns:
     - ALAMO_ST_RN
     - ALP_BESS_RN
   missing_cells: 13
+  particular: The settlement point's name; empty on the ercot:esr_nodes summary rows
 - name: source
   shared: true
   type: text
@@ -136,105 +141,107 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 2064
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: intervals
-  label: null
+  label: 15-minute intervals both the node's and the hub's prices hold
   unit: count
   rows: 293
   first: '2026-09-28T00:00:00Z'
   last: '2026-09-28T00:00:00Z'
 - name: intervals_median
-  label: null
+  label: 'ercot:esr_nodes: median of the points'' interval counts'
   unit: count
   rows: 1
   first: '2026-09-28T00:00:00Z'
   last: '2026-09-28T00:00:00Z'
 - name: mean_abs_difference
-  label: null
+  label: Mean of the absolute difference between node and hub price, USD/MWh
   unit: USD/MWh
   rows: 293
   first: '2026-09-28T00:00:00Z'
   last: '2026-09-28T00:00:00Z'
 - name: mean_abs_difference_median
-  label: null
+  label: 'ercot:esr_nodes: median of the points'' mean absolute differences from the hub, USD/MWh'
   unit: USD/MWh
   rows: 1
   first: '2026-09-28T00:00:00Z'
   last: '2026-09-28T00:00:00Z'
 - name: mean_hub
-  label: null
+  label: Mean real-time price at HB_HUBAVG over the same intervals, USD/MWh (on ercot:esr_nodes, the median over the points)
   unit: USD/MWh
   rows: 294
   first: '2026-09-28T00:00:00Z'
   last: '2026-09-28T00:00:00Z'
 - name: mean_node
-  label: null
+  label: Mean real-time price at the node over those intervals, USD/MWh
   unit: USD/MWh
   rows: 293
   first: '2026-09-28T00:00:00Z'
   last: '2026-09-28T00:00:00Z'
 - name: mean_node_median
-  label: null
+  label: 'ercot:esr_nodes: median of the points'' mean prices, USD/MWh'
   unit: USD/MWh
   rows: 1
   first: '2026-09-28T00:00:00Z'
   last: '2026-09-28T00:00:00Z'
 - name: nodes
-  label: null
+  label: 'ercot:esr_nodes: the settlement points summed up, each counted once'
   unit: count
   rows: 1
   first: '2026-09-28T00:00:00Z'
   last: '2026-09-28T00:00:00Z'
 - name: nodes_spread_above_hub
-  label: null
+  label: 'ercot:esr_nodes: points whose spread is wider than the hub''s'
   unit: count
   rows: 1
   first: '2026-09-28T00:00:00Z'
   last: '2026-09-28T00:00:00Z'
 - name: nodes_with_spread
-  label: null
+  label: 'ercot:esr_nodes: points with every whole day the hub has, which enter the spread figures'
   unit: count
   rows: 1
   first: '2026-09-28T00:00:00Z'
   last: '2026-09-28T00:00:00Z'
 - name: spread_hub
-  label: null
+  label: The same spread at HB_HUBAVG, USD/MWh
   unit: USD/MWh
   rows: 294
   first: '2026-09-28T00:00:00Z'
   last: '2026-09-28T00:00:00Z'
 - name: spread_node
-  label: null
+  label: 'At the node, a day''s 16 dearest intervals less its 16 cheapest, averaged over the whole days: what moving four
+    hours a day could capture, before losses, USD/MWh'
   unit: USD/MWh
   rows: 293
   first: '2026-09-28T00:00:00Z'
   last: '2026-09-28T00:00:00Z'
 - name: spread_node_mean
-  label: null
+  label: 'ercot:esr_nodes: mean of the points'' spreads, USD/MWh'
   unit: USD/MWh
   rows: 1
   first: '2026-09-28T00:00:00Z'
   last: '2026-09-28T00:00:00Z'
 - name: spread_node_median
-  label: null
+  label: 'ercot:esr_nodes: median of the points'' spreads, USD/MWh'
   unit: USD/MWh
   rows: 1
   first: '2026-09-28T00:00:00Z'
   last: '2026-09-28T00:00:00Z'
 - name: spread_node_p10
-  label: null
+  label: 'ercot:esr_nodes: 10th percentile of the points'' spreads, USD/MWh'
   unit: USD/MWh
   rows: 1
   first: '2026-09-28T00:00:00Z'
   last: '2026-09-28T00:00:00Z'
 - name: spread_node_p90
-  label: null
+  label: 'ercot:esr_nodes: 90th percentile of the points'' spreads, USD/MWh'
   unit: USD/MWh
   rows: 1
   first: '2026-09-28T00:00:00Z'
   last: '2026-09-28T00:00:00Z'
 - name: whole_days
-  label: null
+  label: The whole days the spreads are averaged over
   unit: count
   rows: 294
   first: '2026-09-28T00:00:00Z'

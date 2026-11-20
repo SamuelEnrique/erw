@@ -5,9 +5,13 @@
 table: large_load_rules
 family: large
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One proceeding (a docket) or one order in it on large-load interconnection, large-load tariffs, transmission cost allocation
+  or interconnection reform, at a state commission whose terms allow its text to be shown, with the exact sentence that states
+  what it does.
+time: event_date is the date on the document (a date, no time zone).
+vintage_rule: Written from the rows of three research passes (each an AI research agent, 8 October 2026), each proved again
+  by the connector's code; the daily refresh (policy_monitor_refresh.py) adds new rows from each regulator's open list. Rebuilt
+  from the ERW archive in session 305.
 keys:
 - event_id
 license: public
@@ -65,6 +69,7 @@ columns:
     earliest: '2024-01-25'
     latest: '2026-10-28'
   missing_cells: 0
+  particular: The date on the document
 - name: event_type
   shared: true
   type: text
@@ -73,6 +78,7 @@ columns:
       regulatory_order: 29
       regulatory_proceeding: 15
   missing_cells: 0
+  particular: regulatory_proceeding (the docket itself) or regulatory_order (an order, rule or decision in it)
 - name: parties
   shared: true
   type: text
@@ -117,6 +123,7 @@ columns:
       not stated: 4
       open: 17
   missing_cells: 0
+  particular: The status class (open, decided, closed, not stated), the same as status_class
 - name: source
   shared: true
   type: text
@@ -140,9 +147,10 @@ columns:
     - https://apps.puc.state.or.us/orders/2025ords/25-091.pdf
     - https://apps.puc.state.or.us/orders/2025ords/25-516.pdf
   missing_cells: 0
+  particular: The regulator's own document
 - name: regulator
-  label: null
-  unit: null
+  label: The regulator whose docket it is
+  unit: none
   type: text
   values:
     list:
@@ -152,23 +160,23 @@ columns:
       Oregon Public Utility Commission: 7
       Pennsylvania Public Utility Commission: 10
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: jurisdiction
-  label: null
-  unit: null
+  label: The regulator's jurisdiction; always state in this table
+  unit: none
   type: text
   values:
     list:
       state: 44
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py; data
 - name: state
-  label: null
-  unit: null
+  label: The regulator's state, two-letter postal code
+  unit: none
   type: text
   values:
     list:
@@ -178,24 +186,24 @@ columns:
       OR: 7
       PA: 10
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py; data
 - name: grids
-  label: null
-  unit: null
+  label: The grid operators the row names, joined by ';'
+  unit: none
   type: text
   values:
     list:
       CAISO: 1
       PJM: 5
   missing_cells: 38
-  missing_meaning: null
+  missing_meaning: The row names no grid
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: docket_number
-  label: null
-  unit: null
+  label: The docket number
+  unit: none
   type: text
   values:
     list:
@@ -224,12 +232,12 @@ columns:
       UE 463: 2
       UM 2377: 4
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: proceeding_title
-  label: null
-  unit: null
+  label: The proceeding's title
+  unit: none
   type: text
   values:
     list:
@@ -263,24 +271,25 @@ columns:
       Revisions to Interconnection Rules: 2
       Technical Conference on Large Computational Load Cost Allocation: 2
   missing_cells: 5
-  missing_meaning: null
+  missing_meaning: The pass recorded no title
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: row_kind
-  label: null
-  unit: null
+  label: proceeding (the docket itself) or order (an order in it)
+  unit: none
   type: text
   values:
     list:
       order: 29
       proceeding: 15
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: topic
-  label: null
-  unit: null
+  label: The topics of the four (large-load interconnection, large-load tariff, transmission cost allocation, interconnection
+    reform), joined by ';'; the collecting pass's reading
+  unit: none
   type: text
   values:
     list:
@@ -294,12 +303,12 @@ columns:
       large-load tariff;transmission cost allocation: 6
       transmission cost allocation: 2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_rules.py
 - name: document_title
-  label: null
-  unit: null
+  label: The document's title
+  unit: none
   type: text
   values:
     distinct: 44
@@ -311,12 +320,12 @@ columns:
     - Administrative Law Judge's Ruling Seeking Comments on Proceeding Status
     - Deadline Extension, as recorded in the August 19, 2026 - Regular Open Meeting Minutes (item E-12)
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: status_as_worded
-  label: null
-  unit: null
+  label: The regulator's own wording of the status where its page or the document states one
+  unit: none
   type: text
   values:
     distinct: 26
@@ -327,12 +336,12 @@ columns:
     - Active
     - Compliance Due
   missing_cells: 9
-  missing_meaning: null
+  missing_meaning: Neither the page nor the document states one
   source_name: null
-  documented_by: null
+  documented_by: header; method datacenter_cost.md
 - name: status_class
-  label: null
-  unit: null
+  label: 'The status class: open, decided, closed or not stated; the collecting pass''s reading of the regulator''s words'
+  unit: none
   type: text
   values:
     list:
@@ -340,12 +349,12 @@ columns:
       not stated: 4
       open: 17
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method datacenter_cost.md
 - name: docket_url
-  label: null
-  unit: null
+  label: The docket's own page, where one answers a plain request
+  unit: none
   type: text
   values:
     list:
@@ -361,12 +370,12 @@ columns:
       https://www.puc.pa.gov/docket/M-2026-3065062: 2
       https://www.puc.pa.gov/docket/R-2025-3057164: 1
   missing_cells: 16
-  missing_meaning: null
+  missing_meaning: No docket page answers a plain request
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: page
-  label: null
-  unit: null
+  label: The PDF page that holds the sentence, found by the connector (or the pass's page where the text has no page breaks)
+  unit: none
   type: integer
   values:
     list:
@@ -383,12 +392,12 @@ columns:
       '9': 1
       '98': 1
   missing_cells: 13
-  missing_meaning: null
+  missing_meaning: The document is not a paged PDF
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_rules.py
 - name: sentence
-  label: null
-  unit: null
+  label: The exact sentence that states what the document does, a literal substring of the saved document's text
+  unit: none
   type: text
   values:
     distinct: 44
@@ -404,12 +413,13 @@ columns:
     - Approves, with modification, an agreement to facilitate the energization of a new 49 megawatt (MW) data center and computing
       lab for customer Menlo Equities.
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector large_load_rules.py
 - name: sentence_from
-  label: null
-  unit: null
+  label: What the sentence is cut from (order text, docket page, meeting minutes, agenda, news release, draft resolution and
+    others)
+  unit: none
   type: text
   values:
     list:
@@ -425,12 +435,13 @@ columns:
       notice or letter: 3
       order text: 17
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method datacenter_cost.md
 - name: sentence_kind
-  label: null
-  unit: null
+  label: document (the document's own text), record (the regulator's own summary or record of it) or docket list (the list's
+    own title line)
+  unit: none
   type: text
   values:
     list:
@@ -438,12 +449,13 @@ columns:
       document: 26
       record: 17
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: row_flag
-  label: null
-  unit: null
+  label: 'Flags: a docket number not in the row''s own document, a single-customer contract, a draft, a row cut from the docket
+    list'
+  unit: none
   type: text
   values:
     list:
@@ -452,12 +464,12 @@ columns:
       single-customer contract or agreement, not a rule for others: 2
       'single-customer contract or agreement, not a rule for others; draft as posted for the agenda: no adopted text was read': 4
   missing_cells: 33
-  missing_meaning: null
+  missing_meaning: No flag
   source_name: null
-  documented_by: null
+  documented_by: header; method datacenter_cost.md
 - name: text_file
-  label: null
-  unit: null
+  label: The saved text of the document the sentence was proved in, a path under warehouse/raw/ (not in git)
+  unit: none
   type: text
   values:
     distinct: 42
@@ -468,12 +480,12 @@ columns:
     - warehouse/raw/large_load_rules/B/text/il_minutes__m12.pdf.clean.txt
     - warehouse/raw/large_load_rules/B/text/il_minutes__m13.pdf.clean.txt
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: text_sha256
-  label: null
-  unit: null
+  label: The SHA-256 of that saved text
+  unit: none
   type: text
   values:
     distinct: 42
@@ -484,12 +496,12 @@ columns:
     - 0aa7afc918d700843d14348035ee74a6270ee4d18550e41fae87fbc4c3c71f47
     - 0f7ca28f83e01465f49aeac329622e7dbd360923076279df64645f022ad5d61d
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: proved_how
-  label: null
-  unit: null
+  label: How the sentence was proved in the saved text, and where the page came from
+  unit: none
   type: text
   values:
     list:
@@ -498,12 +510,12 @@ columns:
       the saved text holds the sentence; page found here: 14
       the saved text holds the sentence; the text has no page breaks, so the pass's page is kept: 17
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py; data
 - name: collected_in
-  label: null
-  unit: null
+  label: Which research pass (B or C) or the daily refresh collected the row
+  unit: none
   type: text
   values:
     list:
@@ -511,12 +523,12 @@ columns:
       pass B: 18
       pass C: 25
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py; data
 - name: notes
-  label: null
-  unit: null
+  label: The collecting pass's notes on the row
+  unit: none
   type: text
   values:
     distinct: 43
@@ -535,12 +547,12 @@ columns:
     - 'Comments: within 30 days of the date of publication in the Pennsylvania Bulletin, as written. [date proved in the document;
       status wording proved in this document; docket number in the document]'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: terms_url
-  label: null
-  unit: null
+  label: The address of the regulator's terms that allow the text to be shown
+  unit: none
   type: text
   values:
     list:
@@ -550,9 +562,9 @@ columns:
       https://www.oregon.gov/pages/terms-and-conditions.aspx: 7
       https://www.puc.pa.gov/filing-resources/issues-laws-regulations/right-to-know-policies-and-procedures/: 10
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector large_load_rules.py
 - name: retrieved_at
   shared: true
   type: utc time

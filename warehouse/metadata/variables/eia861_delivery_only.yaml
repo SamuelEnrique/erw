@@ -5,9 +5,11 @@
 table: eia861_delivery_only
 family: eia861
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One Texas delivery-only company's (a transmission and distribution utility's) delivery revenue, energy delivered or customers
+  in one customer sector for one year, from Form EIA-861.
+time: ts_utc is the data year's 1 January at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: A run writes the years it is given as a snapshot; vintage is not filled. Observed rows only; a '.' cell has
+  no row.
 keys:
 - entity
 - variable
@@ -45,6 +47,7 @@ columns:
       eia861:44372:TX:C:ERCO: 90
       eia861:8901:TX:C:ERCO: 90
   missing_cells: 0
+  particular: eia861:<utility number>:TX:C:ERCO, the same form as eia861_utility_sales
 - name: variable
   shared: true
   type: text
@@ -94,12 +97,14 @@ columns:
     list:
       US-TX: 546
   missing_cells: 0
+  particular: Always US-TX
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 546
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -113,6 +118,7 @@ columns:
       Oncor Electric Delivery Company LLC: 90
       Texas-New Mexico Power Co: 72
   missing_cells: 0
+  particular: The company's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -150,9 +156,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 546
+  particular: 'Not filled: no cell holds a value'
 - name: x_utility_number
-  label: null
-  unit: null
+  label: EIA's utility identifier
+  unit: none
   type: integer
   values:
     list:
@@ -164,45 +171,45 @@ columns:
       '44372': 90
       '8901': 90
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_delivery_only.md
 - name: x_state
-  label: null
-  unit: null
+  label: The state, always TX
+  unit: none
   type: text
   values:
     list:
       TX: 546
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_delivery_only.md
 - name: x_part
-  label: null
-  unit: null
+  label: The part of Form EIA-861, always C (delivery only)
+  unit: none
   type: text
   values:
     list:
       C: 546
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_delivery_only.md; method eia861_utility_sales.md
 - name: x_service_type
-  label: null
-  unit: null
+  label: EIA's service type, always Delivery
+  unit: none
   type: text
   values:
     list:
       Delivery: 546
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_delivery_only.md
 - name: x_ownership
-  label: null
-  unit: null
+  label: EIA's ownership class of the company (Investor Owned, Cooperative, Municipal)
+  unit: none
   type: text
   values:
     list:
@@ -210,118 +217,118 @@ columns:
       Investor Owned: 429
       Municipal: 27
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_delivery_only.md
 - name: x_ba_code
-  label: null
-  unit: null
+  label: The balancing authority code EIA gives, always ERCO (ERCOT)
+  unit: none
   type: text
   values:
     list:
       ERCO: 546
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_delivery_only.md
 - name: x_data_type
-  label: null
-  unit: null
+  label: EIA's data type, always O (observed, not imputed)
+  unit: none
   type: text
   values:
     list:
       O: 546
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_delivery_only.md
 variables:
 - name: commercial_customers
-  label: null
+  label: Commercial customers, count
   unit: count
   rows: 38
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: commercial_revenue
-  label: null
+  label: Delivery revenue from commercial customers in the year, USD
   unit: USD
   rows: 38
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: commercial_sales
-  label: null
+  label: Energy delivered to commercial customers in the year, MWh
   unit: MWh
   rows: 38
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: industrial_customers
-  label: null
+  label: Industrial customers, count
   unit: count
   rows: 38
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: industrial_revenue
-  label: null
+  label: Delivery revenue from industrial customers in the year, USD
   unit: USD
   rows: 38
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: industrial_sales
-  label: null
+  label: Energy delivered to industrial customers in the year, MWh
   unit: MWh
   rows: 38
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: residential_customers
-  label: null
+  label: Residential customers, count
   unit: count
   rows: 38
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: residential_revenue
-  label: null
+  label: Delivery revenue from residential customers in the year, USD (EIA's thousand dollars times 1,000)
   unit: USD
   rows: 38
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: residential_sales
-  label: null
+  label: Energy delivered to residential customers in the year, MWh
   unit: MWh
   rows: 38
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_customers
-  label: null
+  label: All customers, count
   unit: count
   rows: 38
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_revenue
-  label: null
+  label: Delivery revenue from all customers in the year, USD
   unit: USD
   rows: 38
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_sales
-  label: null
+  label: Energy delivered to all customers in the year, MWh
   unit: MWh
   rows: 38
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: transportation_customers
-  label: null
+  label: Transportation customers, count
   unit: count
   rows: 30
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: transportation_revenue
-  label: null
+  label: Delivery revenue from transportation customers in the year, USD
   unit: USD
   rows: 30
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: transportation_sales
-  label: null
+  label: Energy delivered to transportation customers in the year, MWh
   unit: MWh
   rows: 30
   first: '2020-01-01T00:00:00Z'

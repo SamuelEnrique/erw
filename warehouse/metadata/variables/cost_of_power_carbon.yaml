@@ -5,9 +5,11 @@
 table: cost_of_power_carbon
 family: cost
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One ISO hub's load-weighted real-time price, or its balancing authority's carbon intensity, over one local month.
+time: 'ts_utc is the first day of the ISO''s local month at 00:00:00Z (freq P1M): ERCOT and SPP America/Chicago, CAISO America/Los_Angeles,
+  NYISO and ISO-NE America/New_York, MISO EST.'
+vintage_rule: Rebuilt by each run of the builder; months the rolling input tables no longer reach are carried over from the
+  previous file (header). vintage is not filled.
 keys:
 - entity
 - variable
@@ -46,6 +48,7 @@ columns:
       nyiso:N.Y.C.: 72
       spp:SPPNORTH_HUB: 70
   missing_cells: 0
+  particular: <iso>:<hub or zone> (the price board's main hubs, with CAISO NP15 and ERCOT's LZ_HOUSTON and LZ_NORTH)
 - name: variable
   shared: true
   type: text
@@ -107,6 +110,7 @@ columns:
       nyiso_rtm: 72
       spp_rtm: 70
   missing_cells: 0
+  particular: '<iso>_rtm: every figure is over the real-time hours'
 - name: node
   shared: true
   type: text
@@ -163,19 +167,21 @@ columns:
   missing_cells: 0
 variables:
 - name: intensity_demand
-  label: null
+  label: 'kg of CO2 per MWh of demand: EIA''s CO2 emissions consumed times 1000 over demand, over the month''s real-time hours'
   unit: kgCO2/MWh
   rows: 421
   first: '2018-07-01T00:00:00Z'
   last: '2026-10-01T00:00:00Z'
 - name: intensity_generation
-  label: null
+  label: 'kg of CO2 per MWh generated: EIA''s CO2 emissions generated times 1000 over net generation, over the month''s real-time
+    hours'
   unit: kgCO2/MWh
   rows: 480
   first: '2018-07-01T00:00:00Z'
   last: '2026-11-01T00:00:00Z'
 - name: rt_load_weighted
-  label: null
+  label: 'Real-time price weighted by the balancing authority''s demand: the sum of each hour''s price times demand over the
+    sum of demand'
   unit: USD/MWh
   rows: 492
   first: '2018-07-01T00:00:00Z'

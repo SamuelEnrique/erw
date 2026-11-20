@@ -5,9 +5,10 @@
 table: eia_net_metering_state_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or the nation's) yearly net-metered capacity or customers (customers who generate their own power and are
+  credited for what they send to the grid) of one technology in one sector.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +45,8 @@ columns:
     - eia_net_metering:AK:all_technologies:TOT
     - eia_net_metering:AK:all_technologies:TRN
   missing_cells: 0
+  particular: eia_net_metering:<state>:<technology slug>:<sector>; technologies all_technologies, and for 2013 to 2019 photovoltaic,
+    wind, other_technologies; sectors RES, COM, IND, TRN, TOT
 - name: variable
   shared: true
   type: text
@@ -103,12 +106,14 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
+  particular: US-<state>, or US for the nation
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 16226
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -121,6 +126,7 @@ columns:
     - Alabama, All Technologies, residential
     - Alabama, All Technologies, transportation
   missing_cells: 0
+  particular: EIA's names of state, technology and sector
 - name: source
   shared: true
   type: text
@@ -149,15 +155,16 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 16226
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: capacity
-  label: null
+  label: Net-metered generating capacity, MW
   unit: MW
   rows: 8118
   first: '2013-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: customers
-  label: null
+  label: Number of net-metered customers
   unit: count
   rows: 8108
   first: '2013-01-01T00:00:00Z'

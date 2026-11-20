@@ -5,9 +5,11 @@
 table: ferc714_forecast_growth
 family: ferc714
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One planning area's revision of one forecast figure (summer peak, winter peak or net energy) for one forecast year, from
+  one FERC-714 filing against the filing one or two years before.
+time: ts_utc is the forecast year's first instant (freq P1Y); vintage is the later filing's due date.
+vintage_rule: 'Every revision kept, one row per vintage: the key is (entity, variable, ts_utc, vintage). Rebuilt whole by
+  each run from the whole input.'
 keys:
 - entity
 - variable
@@ -47,6 +49,7 @@ columns:
     - ferc714:101
     - ferc714:102
   missing_cells: 0
+  particular: ferc714:<PUDL's respondent id>, a planning area
 - name: variable
   shared: true
   type: text
@@ -92,6 +95,7 @@ columns:
     list:
       US: 198354
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
@@ -150,9 +154,11 @@ columns:
       '2025-06-01T00:00:00Z': 9154
       '2026-06-01T00:00:00Z': 9136
   missing_cells: 0
+  particular: The later filing's due date, 1 June of the year after its report year (PUDL gives no submission time); part
+    of the key
 - name: x_report_year
-  label: null
-  unit: null
+  label: The report year of the later filing
+  unit: none
   type: integer
   values:
     list:
@@ -176,78 +182,78 @@ columns:
       '2024': 9154
       '2025': 9136
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ferc714_forecast_growth.md
 variables:
 - name: net_energy_revision_1y_mwh
-  label: null
+  label: This filing's net energy forecast for the year less the figure for the same year in the filing one year before
   unit: MWh
   rows: 18335
   first: '2008-01-01T00:00:00Z'
   last: '2047-01-01T00:00:00Z'
 - name: net_energy_revision_1y_pct
-  label: null
+  label: net_energy_revision_1y_mwh as a percent of the earlier figure (written only where that figure is above zero)
   unit: pct
   rows: 18091
   first: '2008-01-01T00:00:00Z'
   last: '2047-01-01T00:00:00Z'
 - name: net_energy_revision_2y_mwh
-  label: null
+  label: This filing's net energy forecast for the year less the figure for the same year in the filing two years before
   unit: MWh
   rows: 14980
   first: '2009-01-01T00:00:00Z'
   last: '2045-01-01T00:00:00Z'
 - name: net_energy_revision_2y_pct
-  label: null
+  label: net_energy_revision_2y_mwh as a percent of the earlier figure (written only where that figure is above zero)
   unit: pct
   rows: 14788
   first: '2009-01-01T00:00:00Z'
   last: '2045-01-01T00:00:00Z'
 - name: summer_peak_revision_1y_mw
-  label: null
+  label: This filing's summer peak forecast for the year less the figure for the same year in the filing one year before
   unit: MW
   rows: 18335
   first: '2008-01-01T00:00:00Z'
   last: '2047-01-01T00:00:00Z'
 - name: summer_peak_revision_1y_pct
-  label: null
+  label: summer_peak_revision_1y_mw as a percent of the earlier figure (written only where that figure is above zero)
   unit: pct
   rows: 18091
   first: '2008-01-01T00:00:00Z'
   last: '2047-01-01T00:00:00Z'
 - name: summer_peak_revision_2y_mw
-  label: null
+  label: This filing's summer peak forecast for the year less the figure for the same year in the filing two years before
   unit: MW
   rows: 14980
   first: '2009-01-01T00:00:00Z'
   last: '2045-01-01T00:00:00Z'
 - name: summer_peak_revision_2y_pct
-  label: null
+  label: summer_peak_revision_2y_mw as a percent of the earlier figure (written only where that figure is above zero)
   unit: pct
   rows: 14789
   first: '2009-01-01T00:00:00Z'
   last: '2045-01-01T00:00:00Z'
 - name: winter_peak_revision_1y_mw
-  label: null
+  label: This filing's winter peak forecast for the year less the figure for the same year in the filing one year before
   unit: MW
   rows: 18335
   first: '2008-01-01T00:00:00Z'
   last: '2047-01-01T00:00:00Z'
 - name: winter_peak_revision_1y_pct
-  label: null
+  label: winter_peak_revision_1y_mw as a percent of the earlier figure (written only where that figure is above zero)
   unit: pct
   rows: 17966
   first: '2008-01-01T00:00:00Z'
   last: '2047-01-01T00:00:00Z'
 - name: winter_peak_revision_2y_mw
-  label: null
+  label: This filing's winter peak forecast for the year less the figure for the same year in the filing two years before
   unit: MW
   rows: 14980
   first: '2009-01-01T00:00:00Z'
   last: '2045-01-01T00:00:00Z'
 - name: winter_peak_revision_2y_pct
-  label: null
+  label: winter_peak_revision_2y_mw as a percent of the earlier figure (written only where that figure is above zero)
   unit: pct
   rows: 14684
   first: '2009-01-01T00:00:00Z'
