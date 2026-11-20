@@ -5,9 +5,12 @@
 table: noaa_grid_weather_hourly
 family: noaa
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One grid's weighted temperature, dew point, heating degrees or cooling degrees for one hour, from five NOAA airport stations
+  a grid weighted by their metropolitan populations, 2019 to now.
+time: ts_utc is the hour in UTC; the reading is the one taken in the ten minutes up to it (Local Climatological Data's local
+  standard times moved to UTC). freq PT1H.
+vintage_rule: Each run deletes the table and writes it whole; with --refresh the later answer's hours replace the held ones
+  from its first hour on. vintage is not filled.
 keys:
 - entity
 - variable
@@ -48,6 +51,7 @@ columns:
       iso:pjm: 274780
       iso:spp: 274656
   missing_cells: 0
+  particular: iso:<grid>
 - name: variable
   shared: true
   type: text
@@ -97,12 +101,14 @@ columns:
       US-NY: 274788
       US-TX: 274497
   missing_cells: 0
+  particular: The states of the grid, comma-separated
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1921373
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -116,6 +122,7 @@ columns:
       PJM: 274780
       SPP: 274656
   missing_cells: 0
+  particular: The grid's name (CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP), not a pricing node
 - name: source
   shared: true
   type: text
@@ -151,6 +158,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 1921373
+  particular: 'Not filled: no cell holds a value'
 - name: ba
   shared: true
   type: text
@@ -164,9 +172,10 @@ columns:
       pjm: 274780
       swpp: 274656
   missing_cells: 0
+  particular: The grid's EIA-930 code, to join eia930 tables
 - name: x_interpolated
-  label: null
-  unit: null
+  label: How many of the five stations' temperatures in the hour are interpolated (across at most 3 hours)
+  unit: count
   type: integer
   values:
     list:
@@ -177,30 +186,30 @@ columns:
       '4': 224
       '5': 892
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 variables:
 - name: cooling_degrees_f
-  label: null
+  label: The weighted mean over the stations of max(T - 65, 0), degrees F
   unit: degF
   rows: 480361
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-07T14:00:00Z'
 - name: dew_point_f
-  label: null
+  label: The weighted mean of the stations' dew points, degrees F
   unit: degF
   rows: 480290
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-07T14:00:00Z'
 - name: heating_degrees_f
-  label: null
+  label: The weighted mean over the stations of max(65 - T, 0), degrees F
   unit: degF
   rows: 480361
   first: '2019-01-01T00:00:00Z'
   last: '2026-11-07T14:00:00Z'
 - name: temperature_f
-  label: null
+  label: The weighted mean of the stations' temperatures, degrees F (NOAA's tenths of a degree C times 9/5 plus 32)
   unit: degF
   rows: 480361
   first: '2019-01-01T00:00:00Z'

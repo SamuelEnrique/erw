@@ -1,0 +1,401 @@
+# The codebook's metadata of table texas_transmission_matrix (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: texas_transmission_matrix
+family: erw_derived
+shape: events
+row: null
+time: null
+vintage_rule: null
+keys:
+- event_id
+license: internal
+tier: model_extracted
+interval: event
+source:
+- name: 'Docket No. 57491, Commission Staff''s Petition to Set 2025 Wholesale Transmission Service Charges for the Electric
+    Reliability Council of Texas, Inc., item 51: Commission Staff''s Final Transmission Charge Matrix, Attachments A to F
+    (https://interchange.puc.texas.gov/Documents/57491_51_1481445.ZIP, file ''Attach A-F.pdf'' of the ZIP, retrieved 2026-10-07T09:11:39Z);
+    Docket No. 59080, Commission Staff''s Petition to Set 2026 Wholesale Transmission Service Charges for the Electric Reliability
+    Council of Texas, Inc., item 50: Commission Staff''s Final Transmission Charge Matrices, Attachment A - 2026 Final Matrix
+    A (https://interchange.puc.texas.gov/Documents/59080_50_1603607.ZIP, file ''Attachment A - 2026 Final Matrix A.pdf'' of
+    the ZIP, retrieved 2026-10-07T09:11:40Z); Docket No. 59080, Commission Staff''s Petition to Set 2026 Wholesale Transmission
+    Service Charges for the Electric Reliability Council of Texas, Inc., item 50: Commission Staff''s Final Transmission Charge
+    Matrices, Attachment B - 2026 Final Matrix B (https://interchange.puc.texas.gov/Documents/59080_50_1603607.ZIP, file ''Attachment
+    B - 2026 Final Matrix B.pdf'' of the ZIP, retrieved 2026-10-07T09:11:40Z); Docket No. 57491, Commission Staff''s Petition
+    to Set 2025 Wholesale Transmission Service Charges for the Electric Reliability Council of Texas, Inc., item 58: Order
+    (https://interchange.puc.texas.gov/Documents/57491_58_1505349.PDF, retrieved 2026-10-07T09:10:18Z)'
+  url: https://interchange.puc.texas.gov/Documents/57491_58_1505349.PDF
+cite: 'Public Utility Commission of Texas. Commission Staff''s Final Transmission Charge Matrix, Docket No. 57491 item 51
+  (2025 charges, filed 2025-03-20, approved by the Order of item 58 filed 2025-06-05) and Commission Staff''s Final Transmission
+  Charge Matrices A and B, Docket No. 59080 item 50 (2026 charges, filed 2026-03-16, not approved as of 2026-10-07). Reuse,
+  as read 2026-10-07: "Documents that are filed in Central Records, such as docketed cases and ongoing agency projects, are
+  available for downloading through the PUCT Interchange." (https://www.puc.texas.gov/agency/about/contact/pia/) "Although
+  the content of PUCT web sites is available to the public, certain information on the PUCT web sites may be trademarked,
+  service marked, or otherwise protected as the PUCT''s intellectual property, and all PUCT content is protected by federal
+  copyright laws. Use of protected intellectual property must be in accordance with federal and state law and must reflect
+  the copyright, trademark, service mark or other intellectual property ownership of the PUCT." (https://www.puc.texas.gov/agency/about/policies/LinkPolicy/)
+  "Site owners should contact the PUCT to request permission to use or copy content from the PUCT''s website." (https://www.puc.texas.gov/agency/about/policies/LinkPolicy/).
+  Via the Energy Research Warehouse (ERW), table `texas_transmission_matrix`.'
+method: docs/methods/datacenter_cost.md
+header_title: 'the Public Utility Commission of Texas''s wholesale transmission charge matrices for ERCOT, 2025 (Docket No.
+  57491) and 2026 (Docket No. 59080): each transmission service provider''s transmission cost of service, its access fee and
+  average 4CP, and the statewide totals, as the documents print them (session 140)'
+header_shape: 'Shape: events (docs/datastandard.md v0), event_type wholesale_transmission_charge; one row per figure. event_date:
+  the day the document was filed with the Commission. status: approved (the 2025 matrix, by the Order filed 2025-06-05) or
+  filed (the 2026 matrices A and B: no signed order; docket_status says where the docket stands).'
+read:
+  date: '2026-11-20'
+  rows: 855
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 807
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 855
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 855
+- name: currency
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: status
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: year
+  shared: true
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: matrix
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 283
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: docket
+  label: null
+  unit: null
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: item
+  label: null
+  unit: null
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: date_filed
+  label: null
+  unit: null
+  type: date
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: document_title
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: sheet_caption_as_written
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: member_file
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: page
+  label: null
+  unit: null
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: entity_name
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 321
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: entity_code
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 19
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: quantity
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: amount
+  label: null
+  unit: null
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: value_as_written
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: unit_as_written
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 465
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: column_header_as_written
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: column_checked
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: column_check
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: sentence
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: checks
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: figures_in_sentence
+  label: null
+  unit: null
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: digits_spaced_in_text
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: scan_url
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: scan_page
+  label: null
+  unit: null
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: docket_status
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: model_id
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: read_run_id
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: request_id
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

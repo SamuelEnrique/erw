@@ -5,9 +5,11 @@
 table: impact_tax_rules
 family: other_sources
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One tax rule the economic impact tool holds (a state's severance tax, fee or option on oil and gas, or a property tax
+  rule for a generating project), or a record that no rule is held, each with its citation.
+time: event_date is the effective date the citation gives where it gives one date, else the day the rule or statute was read
+  or the repository searched (x_date_kind says which).
+vintage_rule: Rewritten whole as one snapshot by each run from the two record files; no page is read again.
 keys:
 - event_id
 license: public
@@ -46,6 +48,7 @@ columns:
     - erw_tax:az:az_renewable_valuation
     - erw_tax:ca:ca_prop13
   missing_cells: 0
+  particular: erw_tax:<state>:<rule>
 - name: event_date
   shared: true
   type: date
@@ -69,6 +72,7 @@ columns:
       severance_option: 24
       severance_tax: 16
   missing_cells: 0
+  particular: severance_tax, severance_fee, severance_option or property_tax_rule
 - name: parties
   shared: true
   type: text
@@ -81,30 +85,35 @@ columns:
     - Arkansas
     - California
   missing_cells: 7
+  particular: The citation's publisher, or the state on the forecast's property rules; empty on the no-rule rows
 - name: entity_ids
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 130
+  particular: 'Not filled: no cell holds a value'
 - name: mw
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 130
+  particular: 'Not filled: no cell holds a value'
 - name: price
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 130
+  particular: 'Not filled: no cell holds a value'
 - name: currency
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 130
+  particular: 'Not filled: no cell holds a value'
 - name: status
   shared: true
   type: text
@@ -113,6 +122,7 @@ columns:
       held: 123
       no_rule_held: 7
   missing_cells: 0
+  particular: held, or no_rule_held where the ERW holds no statute
 - name: source
   shared: true
   type: text
@@ -143,8 +153,8 @@ columns:
     - https://comptroller.texas.gov/taxes/natural-gas/low-producing-wells.php
   missing_cells: 0
 - name: x_state
-  label: null
-  unit: null
+  label: The state, two-letter code
+  unit: none
   type: text
   values:
     distinct: 51
@@ -155,24 +165,25 @@ columns:
     - AZ
     - CA
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method impact_tax_rules.md
 - name: x_tax
-  label: null
-  unit: null
+  label: 'The tax: severance or property'
+  unit: none
   type: text
   values:
     list:
       property: 88
       severance: 42
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method impact_tax_rules.md
 - name: x_product
-  label: null
-  unit: null
+  label: 'What the rule taxes: oil, gas or condensate (severance), a generating project (no-rule rows), or the technologies
+    a property rule applies to, joined by ;'
+  unit: none
   type: text
   values:
     list:
@@ -195,12 +206,12 @@ columns:
       utility_pv;land_based_wind;geothermal: 4
       utility_pv;natural_gas;geothermal: 6
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method impact_tax_rules.md; connector impact_tax_rules.py
 - name: x_rule
-  label: null
-  unit: null
+  label: The rule's id in its record file
+  unit: none
   type: text
   values:
     distinct: 130
@@ -211,12 +222,12 @@ columns:
     - az_renewable_valuation
     - ca_prop13
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: id
+  documented_by: connector impact_tax_rules.py
 - name: x_rule_name
-  label: null
-  unit: null
+  label: The rule's name (severance), or the title of the statute or page it cites (property)
+  unit: none
   type: text
   values:
     distinct: 105
@@ -227,12 +238,13 @@ columns:
     - 'Arkansas: no official source read (code published through LexisNexis; Department of Finance manuals unreadable)'
     - California State Board of Equalization, Annual Report 2024-25 (Publication 306)
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector impact_tax_rules.py
 - name: x_kind
-  label: null
-  unit: null
+  label: 'The kind of rule as its record names it (severance: base, fee, variant and option kinds such as credit_tier and
+    per_unit; property: capacity, exempt_pct, own_exempt, note and others; no_rule_held)'
+  unit: none
   type: text
   values:
     list:
@@ -254,12 +266,12 @@ columns:
       valuation: 24
       variant: 2
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: kind
+  documented_by: connector impact_tax_rules.py; data
 - name: x_basis
-  label: null
-  unit: null
+  label: 'What the rate applies to: pct_value (a fraction of value), per_unit, or the basis a property rule names'
+  unit: none
   type: text
   values:
     list:
@@ -267,12 +279,13 @@ columns:
       pct_value: 15
       per_unit: 1
   missing_cells: 113
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The record gives no basis
+  source_name: basis
+  documented_by: method impact_tax_rules.md; data
 - name: x_rate
-  label: null
-  unit: null
+  label: 'The rate: a fraction of value (0.046 for Texas oil), or with x_basis per_unit an amount a unit; variant or district
+    where the rate is given elsewhere'
+  unit: ratio, or USD per x_unit where x_basis is per_unit
   type: text
   values:
     list:
@@ -298,36 +311,36 @@ columns:
       district: 2
       variant: 1
   missing_cells: 99
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The rule has no single rate (a property rule, a note, a no-rule row)
+  source_name: rate
+  documented_by: method impact_tax_rules.md
 - name: x_per_unit
-  label: null
-  unit: null
+  label: A fee per unit (Texas oil 0.00625 a bbl, gas 0.000667 a Mcf)
+  unit: USD per x_unit
   type: number
   values:
     list:
       '0.000667': 1
       '0.00625': 1
   missing_cells: 128
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The rule has no per-unit amount
+  source_name: per_unit
+  documented_by: method impact_tax_rules.md
 - name: x_unit
-  label: null
-  unit: null
+  label: The unit of the per-unit amount or rate (bbl, Mcf)
+  unit: none
   type: text
   values:
     list:
       Mcf: 2
       bbl: 1
   missing_cells: 127
-  missing_meaning: null
+  missing_meaning: The rule has no per-unit amount
   source_name: null
-  documented_by: null
+  documented_by: connector impact_tax_rules.py; data
 - name: x_effective_text
-  label: null
-  unit: null
+  label: The citation's own words on when the rule is effective
+  unit: none
   type: text
   values:
     list:
@@ -340,12 +353,13 @@ columns:
       2026-07-01 to 2027-06-30: 1
       report periods September 2015 and later: 1
   missing_cells: 116
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The record gives no effective date
+  source_name: effective
+  documented_by: method impact_tax_rules.md
 - name: x_date_kind
-  label: null
-  unit: null
+  label: 'Which date event_date is: the effective date the citation gives, the day the rule or statute was read, or the day
+    the ERW recorded that it holds no rule'
+  unit: none
   type: text
   values:
     list:
@@ -355,12 +369,12 @@ columns:
       the day the statute or agency page was read: 81
       the effective date the citation gives: 3
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector impact_tax_rules.py
 - name: x_who
-  label: null
-  unit: null
+  label: Who or what the rule applies to, in words
+  unit: none
   type: text
   values:
     list:
@@ -405,12 +419,12 @@ columns:
         workover, plugback), certified
       : 1
   missing_cells: 106
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The record says nothing of it
+  source_name: who
+  documented_by: method impact_tax_rules.md; connector impact_tax_rules.py
 - name: x_what
-  label: null
-  unit: null
+  label: What the rule gives, in words (the rate, or a property rule's explanation)
+  unit: none
   type: text
   values:
     distinct: 99
@@ -422,12 +436,12 @@ columns:
       above $7)
     - '12.5 percent of the gas rate: 1.8925 cents per Mcf for July 1, 2026 to June 30, 2027'
   missing_cells: 25
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The record says nothing of it
+  source_name: what (severance); tip (property)
+  documented_by: method impact_tax_rules.md; connector impact_tax_rules.py
 - name: x_how_long
-  label: null
-  unit: null
+  label: How long the rule lasts, in words
+  unit: none
   type: text
   values:
     list:
@@ -459,12 +473,12 @@ columns:
       Until the well averages more than 10 barrels per day for an entire calendar month: 1
       While certified (by the 25th day of the second month after production): 1
   missing_cells: 108
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The record says nothing of it
+  source_name: how_long
+  documented_by: method impact_tax_rules.md; connector impact_tax_rules.py
 - name: x_quote
-  label: null
-  unit: null
+  label: The cited page's own words stating the rule
+  unit: none
   type: text
   values:
     distinct: 91
@@ -494,12 +508,12 @@ columns:
       per megawatt-hour. (b) A solar energy generating system with a capacity of one megawatt alternating current or less
       is exempt from the tax imposed under this section.
   missing_cells: 31
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No quote recorded for the row
+  source_name: quote
+  documented_by: method impact_tax_rules.md
 - name: x_quote2
-  label: null
-  unit: null
+  label: A second quote from the cited page
+  unit: none
   type: text
   values:
     distinct: 31
@@ -520,12 +534,12 @@ columns:
       board of equalization
     - 08-27-1953 to date 4.6% of value
   missing_cells: 96
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No second quote recorded
+  source_name: quote2
+  documented_by: method impact_tax_rules.md
 - name: x_code_section
-  label: null
-  unit: null
+  label: 'The statute section cited (property rules: the cited statute''s or page''s title)'
+  unit: none
   type: text
   values:
     distinct: 75
@@ -536,12 +550,12 @@ columns:
     - 'Arkansas: no official source read (code published through LexisNexis; Department of Finance manuals unreadable)'
     - California State Board of Equalization, Annual Report 2024-25 (Publication 306)
   missing_cells: 36
-  missing_meaning: null
+  missing_meaning: No statute recorded for the row
   source_name: null
-  documented_by: null
+  documented_by: method impact_tax_rules.md; connector impact_tax_rules.py
 - name: x_code_quote
-  label: null
-  unit: null
+  label: The statute's own words
+  unit: none
   type: text
   values:
     list:
@@ -604,12 +618,12 @@ columns:
         the restimulation costs described by Subsection (j); or (B) $750,000.'
       : 1
   missing_cells: 113
-  missing_meaning: null
+  missing_meaning: No statute words recorded for the row
   source_name: null
-  documented_by: null
+  documented_by: method impact_tax_rules.md; connector impact_tax_rules.py
 - name: x_code_url
-  label: null
-  unit: null
+  label: 'The statute''s address (property rules: the further addresses cited)'
+  unit: none
   type: text
   values:
     list:
@@ -634,12 +648,12 @@ columns:
       https://www.tax.newmexico.gov/businesses/wp-content/uploads/sites/4/2021/02/210-240-Electric.pdf: 3
       https://www.tn.gov/content/dam/tn/attorneygeneral/documents/ops/2013/op13-028.pdf: 1
   missing_cells: 98
-  missing_meaning: null
+  missing_meaning: No statute address recorded for the row
   source_name: null
-  documented_by: null
+  documented_by: method impact_tax_rules.md; connector impact_tax_rules.py
 - name: x_detail
-  label: null
-  unit: null
+  label: Other fields of the rule's record, as JSON (tiers, bounds, district rates, exempt shares and others)
+  unit: none
   type: text
   values:
     distinct: 71
@@ -651,12 +665,13 @@ columns:
     - '{"adds_to_property": true, "min_mw": 0.05, "usd_per_mw_year": 4000}'
     - '{"adds_to_property": true, "min_mw": 1, "usd_per_mwh": 3.0}'
   missing_cells: 43
-  missing_meaning: null
+  missing_meaning: The record holds no other field
   source_name: null
-  documented_by: null
+  documented_by: method impact_tax_rules.md; connector impact_tax_rules.py
 - name: x_applies_to
-  label: null
-  unit: null
+  label: 'Which of the economic impact tool''s technologies the rule applies to (severance rows: oil and gas production, which
+    none of them produces)'
+  unit: none
   type: text
   values:
     list:
@@ -677,12 +692,12 @@ columns:
       utility_pv;land_based_wind;geothermal: 4
       utility_pv;natural_gas;geothermal: 6
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method impact_tax_rules.md; connector impact_tax_rules.py
 - name: x_note
-  label: null
-  unit: null
+  label: 'Where the row was read from: the record file and its version, the day read, and what the forecast does not model'
+  unit: none
   type: text
   values:
     distinct: 55
@@ -710,7 +725,7 @@ columns:
       of small community solar systems (subsection (c), 5 MW AC or less with conditions) is not modeled.'
     - As site/data/forecast/property_rules.json holds it (version 2026-11-13); read 2026-11-13, request 112
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector impact_tax_rules.py
 second_look: null

@@ -1,0 +1,152 @@
+# The codebook's metadata of table eehc_egypt_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: eehc_egypt_electricity_annual
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1Y
+source:
+- name: eehc:annual_report Egyptian Electricity Holding Company, annual reports
+  url: https://www.eehc.gov.eg/CMSEehc/en/company-info/annual-report-2023-2024/
+cite: Egyptian Electricity Holding Company (EEHC). Annual reports, the table 'Electricity in <year>'. Via the Energy Research
+  Warehouse (ERW), table `eehc_egypt_electricity_annual`.
+method: docs/methods/eehc_egypt_electricity_annual.md
+header_title: Egyptian Electricity Holding Company (EEHC), annual reports' table 'Electricity in <year>', fiscal years 2014/2015
+  to 2023/2024 (session 2435)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity eehc:eg:<kind> (total, hydro, thermal, fast_track, renewable,
+  private_boot, ipp_purchased, isolated, industrial_surplus) or eehc:eg (peak load); variable capacity (MW), generation (MWh,
+  GWh times 1,000) or peak_load (MW); ts_utc the fiscal year''s first day (1 July); freq P1Y; geo EG; node the report''s label;
+  x_report the report; x_fiscal_year as EEHC writes it. Totals and parts are EEHC''s.'
+read:
+  date: '2026-11-20'
+  rows: 105
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 105
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: x_report
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_fiscal_year
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: capacity
+  label: null
+  unit: MW
+  rows: 41
+  first: '2014-07-01T00:00:00Z'
+  last: '2023-07-01T00:00:00Z'
+- name: generation
+  label: null
+  unit: MWh
+  rows: 56
+  first: '2014-07-01T00:00:00Z'
+  last: '2023-07-01T00:00:00Z'
+- name: peak_load
+  label: null
+  unit: MW
+  rows: 8
+  first: '2014-07-01T00:00:00Z'
+  last: '2023-07-01T00:00:00Z'
+second_look: null

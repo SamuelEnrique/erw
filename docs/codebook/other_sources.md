@@ -2,12 +2,12 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 94 public tables (9 entities, 6 events, 79 series; tiers: 94 source); 0 documented in full.
+**What the family holds.** 94 public tables (9 entities, 6 events, 79 series; tiers: 94 source); 12 documented in full.
 
 - [`abs_suriname_electricity_annual`](#abs_suriname_electricity_annual): Algemeen Bureau voor de Statistiek (ABS), Suriname, Milieustatistieken / Environment Statistics Publication (December 2024), tables 7.1, 7.4, 7.8 and 7.9: EBS's demand, generation and capacity, Staatsolie's generation (session 2563)
 - [`aedg_alaska_generation_monthly`](#aedg_alaska_generation_monthly): Alaska Energy Data Gateway (ACEP, University of Alaska Fairbanks), Monthly Electrical Generation By Community v3.0: Alaska's generation a month by service area and fuel, 2001 to 2021, from AEA's PCE reports and plants' reports to EIA (session 2665)
 - [`aeso_alberta_load_hourly`](#aeso_alberta_load_hourly): Alberta Electric System Operator (AESO), Historical Pool Price report, Alberta internal load, 2025 to 2026-10-23 (session 2071)
-- [`ai_energy_published`](#ai_energy_published): energy per AI query, as published: each figure a model maker, a cloud operator or a peer-reviewed paper printed for the energy of a query, a token, a training run or a fleet (session 8005, chain 501)
+- [`ai_energy_published`](#ai_energy_published): One energy figure for AI (per query, per token, of a training run or of a fleet) as a model maker, a cloud operator or a peer-reviewed paper printed it.
 - [`aneel_siga_plants`](#aneel_siga_plants): ANEEL (Agencia Nacional de Energia Eletrica), SIGA, Brazil's generation plants as of 2026-10-01 (session 2324)
 - [`asli_liechtenstein_electricity_annual`](#asli_liechtenstein_electricity_annual): Amt fuer Statistik Liechtenstein, Energie 2025, Tabelle 5: Liechtenstein's electricity production, imports, exports and consumption a year since 1985 (session 2622)
 - [`asub_aland_electricity_annual`](#asub_aland_electricity_annual): Statistics and Research Aland (ASUB), table MI009: Aland's electricity supply by origin (imports from Sweden and Finland; oil, wind, bioenergy and solar production), 1994 to 2025 (session 2651)
@@ -20,13 +20,13 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 - [`blm_oil_gas_statistics_annual`](#blm_oil_gas_statistics_annual): Bureau of Land Management, Oil and Gas Statistics, federal onshore leases, acreage, drilling permits approved, wells spud and producible wells by state, fiscal years 2001 to 2025 (session 2106)
 - [`bpa_ba_hourly`](#bpa_ba_hourly): Bonneville Power Administration, the BPA balancing authority's load and wind, solar, hydro, thermal and nuclear generation and net interchange, five-minute values averaged to the hour, 2020-01-01 to 2026-10-23 (session 2148)
 - [`bsee_offshore_incidents`](#bsee_offshore_incidents): Bureau of Safety and Environmental Enforcement, offshore incidents for public use, calendar years 2018, 2020, 2021, 2022, 2023, 2024: 4,818 incidents (session 2177)
-- [`carb_auction_allowance_prices`](#carb_auction_allowance_prices): California cap-and-trade (CARB, joint with Quebec) auction results
-- [`carb_lcfs_credit_prices`](#carb_lcfs_credit_prices): California's Low Carbon Fuel Standard credit price, weekly from 2019, as the Air Resources Board publishes it (session 132)
+- [`carb_auction_allowance_prices`](#carb_auction_allowance_prices): One cap-and-trade auction's (California, joint with Quebec) value of one result for its current-vintage or advance-vintage allowances.
+- [`carb_lcfs_credit_prices`](#carb_lcfs_credit_prices): One week's value of one Low Carbon Fuel Standard credit measure, as the California Air Resources Board publishes it.
 - [`cbs_curacao_electricity_annual`](#cbs_curacao_electricity_annual): Central Bureau of Statistics Curacao (CBS), Manufacturing: Curacao's electricity production a year, from Aqualectra (session 2591)
 - [`cbs_netherlands_electricity_monthly`](#cbs_netherlands_electricity_monthly): Statistics Netherlands (CBS), table 84575NED, Elektriciteitsbalans; aanbod en verbruik (the electricity balance), a month, 1976-01 to 2026-07 (session 2231)
 - [`cec_total_system_generation_annual`](#cec_total_system_generation_annual): California Energy Commission, Total System Electric Generation, California's in-state generation and its imports from the Northwest and the Southwest by fuel, and the total system power, 2009 to 2025 (session 2109)
 - [`censtatd_hk_electricity`](#censtatd_hk_electricity): Census and Statistics Department (C&SD), Hong Kong Energy Statistics, electricity: consumption by type of user a month 1979-01 to 2026-08; generation, imports, exports, own use and losses a quarter (session 2323)
-- [`cftc_cot_positions`](#cftc_cot_positions): CFTC Commitments of Traders, managed money positions in WTI, Brent Last Day, Henry Hub and RBOB futures (NYMEX), weekly from 2015 (session 134)
+- [`cftc_cot_positions`](#cftc_cot_positions): One NYMEX futures contract's value of one Commitments of Traders measure for one report week.
 - [`cso_ireland_electricity_monthly`](#cso_ireland_electricity_monthly): Central Statistics Office, Ireland, PxStat table MSM01, Electricity Output, a month, 1975-01 to 2026-08 (session 2320)
 - [`czso_cz_regional_electricity_annual`](#czso_cz_regional_electricity_annual): Czech Statistical Office (CZSO), Comparison of Regions in the Czech Republic 2025, tables 14.101 and 14.103: each region's installed capacity and gross electricity production by type of plant, and its net consumption by activity, 2024 (the Energy Regulatory Office's data) (session 2809)
 - [`destatis_de_electricity_monthly`](#destatis_de_electricity_monthly): Destatis, Monatsbericht ueber die Elektrizitaets- und Waermeerzeugung der Stromerzeugungsanlagen fuer die allgemeine Versorgung: Germany's general supply plants by energy source, 2026-07 (provisional; Stand 7. Oktober 2026) (session 2807)
@@ -34,9 +34,9 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 - [`dosm_malaysia_electricity_monthly`](#dosm_malaysia_electricity_monthly): Department of Statistics Malaysia (data.gov.my), Malaysia's electricity supply and consumption a month by sector, 2018-01 to 2026-06 (session 2322)
 - [`dst_dk_electricity_supply_annual`](#dst_dk_electricity_supply_annual): Statistics Denmark, StatBank ENE1HT, Energy Account in specific units: Denmark's electricity supply, production and imports, and its wind, hydro and solar power, 1966 to 2025 (session 2756)
 - [`edf_sei_islands_electricity_annual`](#edf_sei_islands_electricity_annual): EDF Systemes Energetiques Insulaires (EDF SEI), the French island grids' net electricity production by source, 2018 to 2024 (session 2656)
-- [`egrid_power_plants`](#egrid_power_plants): EPA eGRID2023, every US power plant's capacity, generation, emissions and emission rates (session 486)
+- [`egrid_power_plants`](#egrid_power_plants): One US power plant of eGRID2023 (data year 2023): its capacity, generation, emissions and emission rates, as EPA publishes them.
 - [`egrid_subregions_annual`](#egrid_subregions_annual): EPA, eGRID2023 subregions: nameplate capacity, net generation, CO2 and CO2e emissions, output emission rates and resource mix (session 985)
-- [`eia411_capacity_margins_annual`](#eia411_capacity_margins_annual): EIA-411, peak load, net internal demand, capacity resources and capacity margins by NERC assessment area, summer and winter (session 895)
+- [`eia411_capacity_margins_annual`](#eia411_capacity_margins_annual): One NERC assessment area's value of one supply and demand measure (peak load, net internal demand, capacity resources, capacity margin) for one summer or winter season, actual or projected.
 - [`eia861m_utility_sales_monthly`](#eia861m_utility_sales_monthly): Form EIA-861M, each sampled utility's retail sales, revenue and customers by state and sector, a month (session 511)
 - [`elexon_gb_demand_daily`](#elexon_gb_demand_daily): Elexon BMRS, Great Britain's Initial National Demand Outturn per day (INDOD), 2021-04-27 to 2026-10-23 (session 2162)
 - [`emi_nz_generation_demand_monthly`](#emi_nz_generation_demand_monthly): the Electricity Authority's EMI, New Zealand's grid generation and demand a month, nationally and by island, 2015-01 to 2026-09 (session 2254)
@@ -46,17 +46,17 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 - [`fbos_fiji_electricity_annual`](#fbos_fiji_electricity_annual): Fiji Bureau of Statistics (FBoS), Key Statistics table 3.7[A] and Electricity 2024 Appendix III, Energy Fiji Limited's units produced and sold, 2011 to 2024 (session 2492)
 - [`fema_disaster_declarations`](#fema_disaster_declarations): FEMA, OpenFEMA Disaster Declarations Summaries (v2): each declaration and designated area, declared on or after 2015-01-01 (session 2056)
 - [`fhwa_motor_fuel_monthly`](#fhwa_motor_fuel_monthly): Federal Highway Administration (FHWA), Office of Highway Policy Information, Monthly Motor Fuel: the gallons of gasoline and of special fuels each state reports taxed a month, from DOT's DataHub (session 2035)
-- [`frb_treasury_yields`](#frb_treasury_yields): Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261115T160738Z-github (2026-11-15T16:07:38Z); that run's own header of the table follows
+- [`frb_treasury_yields`](#frb_treasury_yields): One US Treasury maturity's market yield at constant maturity for one business day.
 - [`frb_utility_output_monthly`](#frb_utility_output_monthly): the Federal Reserve's G.17, industrial production and capacity utilization of electric and gas utilities, a month (session 889)
 - [`gfz_kp_index_3h`](#gfz_kp_index_3h): GFZ Helmholtz Centre for Geosciences, the planetary geomagnetic index Kp, every three hours from 1932 (session 2135)
 - [`hagstofa_iceland_power_annual`](#hagstofa_iceland_power_annual): Statistics Iceland, table IDN02101, installed capacity and generation in public power plants, 1976 to 2019 (session 2397)
 - [`hagstova_faroe_electricity_annual`](#hagstova_faroe_electricity_annual): Statistics Faroe Islands (Hagstova Foroya), tables UO03020 and UO03030, SEV's electricity production by source and sales by consumer group, 1990 to 2025 (session 2502)
-- [`hifld_transmission_lines`](#hifld_transmission_lines): electric transmission lines of 230 kV and above, HIFLD's Electric Power Transmission Lines layer (session 8014, chain 581 part D)
+- [`hifld_transmission_lines`](#hifld_transmission_lines): One electric transmission line of 230 kV and above in HIFLD's Electric Power Transmission Lines layer.
 - [`ieso_generation_fuel_hourly`](#ieso_generation_fuel_hourly): Independent Electricity System Operator (IESO), Ontario, Generator Output by Fuel Type Hourly Report: Ontario's generation by fuel, an hour, 2020 to 2026 (session 2224)
 - [`ieso_ontario_demand_hourly`](#ieso_ontario_demand_hourly): Independent Electricity System Operator (IESO), Hourly Demand Report, Ontario, 2025 to 2026-10-23 (session 2070)
 - [`ilr_luxembourg_electricity`](#ilr_luxembourg_electricity): ILR (Institut Luxembourgeois de Regulation), Luxembourg's electricity sector statistics, 2017 to 2026-06 (session 2392)
-- [`imf_commodity_prices`](#imf_commodity_prices): IMF primary commodity prices, monthly averages from 2019: uranium, lithium, cobalt, nickel, copper (session 132)
-- [`impact_tax_rules`](#impact_tax_rules): the tax rules of the economic impact tool, one row per rule, each with its citation (session 346)
+- [`imf_commodity_prices`](#imf_commodity_prices): One commodity's average price for one month, from the IMF's Primary Commodity Price System.
+- [`impact_tax_rules`](#impact_tax_rules): One tax rule the economic impact tool holds (a state's severance tax, fee or option on oil and gas, or a property tax rule for a generating project), or a record that no rule is held, each with its citation.
 - [`ine_es_dwellings_electricity_2021`](#ine_es_dwellings_electricity_2021): INE, Censo de Poblacion y Viviendas 2021, dwellings by intensity of use from their electricity consumption (JAXI tpx 59531), for Spain, its autonomous communities, provinces and municipalities (session 2765)
 - [`irs_soi_energy_credits_annual`](#irs_soi_energy_credits_annual): Internal Revenue Service, Statistics of Income, Historic Table 2 (individual income and tax data by state): the residential energy credits claimed, tax years 2015 to 2023, all incomes (session 2087)
 - [`miso_interconnection_queue`](#miso_interconnection_queue): Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261004T023527Z-local (2026-10-04T02:35:27Z); that run's own header of the table follows
@@ -70,7 +70,7 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 - [`ons_brazil_balance_hourly`](#ons_brazil_balance_hourly): ONS (Operador Nacional do Sistema Eletrico), Balanco de Energia nos Subsistemas, Brazil's generation by source, load and net interchange an hour by subsystem, 2020-01-01 to 2026-10-23 (session 2240)
 - [`owid_ember_electricity_annual`](#owid_ember_electricity_annual): Our World in Data, energy dataset, the columns from Ember alone: electricity demand and the power sector's greenhouse gas emissions by country and region, a year (session 2126)
 - [`ree_spain_balance_monthly`](#ree_spain_balance_monthly): Red Electrica (REE), REData, Spain's electrical energy balance a month: generation by technology, storage, exchanges and demand at busbars, 2020-01 to 2026-09 (session 2239)
-- [`rrc_lease_production_monthly`](#rrc_lease_production_monthly): Texas Railroad Commission monthly oil and gas production by lease, Martin County, 2024-08 to 2026-07 (session 49, internal)
+- [`rrc_lease_production_monthly`](#rrc_lease_production_monthly): One Texas Railroad Commission lease's reported production of oil, casinghead gas, gas or condensate in Martin County in one month.
 - [`rte_eco2mix_france_halfhourly`](#rte_eco2mix_france_halfhourly): RTE, eco2mix, France's consumption, production by source and net physical exchanges every half hour, 2019-12-31 to 2026-08-31 (session 2238)
 - [`scb_sweden_electricity_monthly`](#scb_sweden_electricity_monthly): Statistics Sweden (SCB), table TAB1011, Electricity supply in Sweden by type of production (the Swedish Energy Agency's statistics), a month, 1974-01 to 2026-08 (session 2236)
 - [`scripps_co2_mlo_monthly`](#scripps_co2_mlo_monthly): the Scripps CO2 Program (Scripps Institution of Oceanography, UC San Diego), atmospheric CO2 at Mauna Loa Observatory, Hawaii, from in situ air measurements, a month from 1958 (session 2137)
@@ -96,7 +96,7 @@ Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`
 - [`uswtdb_wind_turbines`](#uswtdb_wind_turbines): USGS U.S. Wind Turbine Database, every utility-scale land-based and offshore wind turbine (session 496)
 - [`wapa_energy_sales_annual`](#wapa_energy_sales_annual): Western Area Power Administration (WAPA), Rates and Sales Data FY 2008-2025: energy sold and power rate by project, each federal fiscal year (October to September) from FY 2008 to FY 2025 (session 2751)
 - [`weather_forecast_hourly`](#weather_forecast_hourly): Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261116T155131Z-github (2026-11-16T15:51:31Z); that run's own header of the table follows
-- [`weather_obs_hourly`](#weather_obs_hourly): Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261116T155131Z-github (2026-11-16T15:51:31Z); that run's own header of the table follows
+- [`weather_obs_hourly`](#weather_obs_hourly): One airport's mean observed temperature or wind speed in one hour, from the National Weather Service API.
 - [`wfigs_wildfires`](#wfigs_wildfires): National Interagency Fire Center (NIFC), Wildland Fire Interagency Geospatial Services (WFIGS), Incident Locations: every wildfire of 1,000 acres or more discovered from 2015 (session 2134)
 
 ### `abs_suriname_electricity_annual`
@@ -203,42 +203,44 @@ Variables (1):
 
 ### `ai_energy_published`
 
-What a row is: not yet written.
+One energy figure for AI (per query, per token, of a training run or of a fleet) as a model maker, a cloud operator or a peer-reviewed paper printed it.
 
 Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 2026-11-20: 23.
 
+- **Time:** event_date is the publication's date; x_retrieved_at is when its copy was saved.
+- **Revisions:** Rewritten whole as one snapshot by each build from the session-read rows file; nothing converted, summed or averaged.
 - **Source:** erw:ai_energy_published the publications named per row (source_url), saved at warehouse/raw/ai_energy_published/ with their sha256: (https://sustainability.atmeta.com/asset/2025-environmental-data-index)
 - **Method note:** [`docs/methods/ai_energy_published.md`](../methods/ai_energy_published.md)
 - **Cite as:** Energy Research Warehouse (ERW), from published figures. Energy per AI query, as published (docs/methods/ai_energy_published.md). Via the Energy Research Warehouse (ERW), table `ai_energy_published`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents | none | text | ai_energy:bloom_2022_1, ai_energy:bloom_2022_2, ai_energy:bloom_2022_3, ai_energy:google_2025_1, ai_energy:google_2025_2, ai_energy:google_2025_3, ai_energy:luccioni_2024_1, ai_energy:luccioni_2024_2, ai_energy:luccioni_2024_3, ai_energy:meta_2025_1, ai_energy:microsoft_2026_1, ai_energy:openai_2025_1, ai_energy:patterson_2021_1, ai_energy:patterson_2021_2, ai_energy:patterson_2021_3, ai_energy:patterson_2021_4, ai_energy:patterson_2021_5, ai_energy:patterson_2021_6, ai_energy:patterson_2022_1, ai_energy:patterson_2022_2, ai_energy:patterson_2022_3, ai_energy:strubell_2019_1, ai_energy:strubell_2019_2 | 0 |
-| `event_date` | The date the event happened or was announced (each table's file says which) | none | date | 2019-06-05, 2021-04-21, 2022-04-11, 2022-11-03, 2024-06-03, 2025-06-10, 2025-08-21, 2025-09-12, 2026-07-09 | 0 |
-| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others) | none | text | publication | 0 |
-| `parties` | The parties to the event, as the publisher names them, separated by semicolons | none | text | Google, Google and the University of California at Berkeley, Hugging Face (BigScience) with Graphcore and LISN, Hugging Face and Carnegie Mellon University, Meta, Microsoft, OpenAI (Sam Altman's blog), University of Massachusetts Amherst | 0 |
-| `entity_ids` | The entity_id values of the things involved, separated by semicolons | none | empty | no cell holds a value | 23 |
-| `mw` | The capacity involved, in megawatts | MW | empty | no cell holds a value | 23 |
-| `price` | The price, in the row's currency per MWh unless the table's file says otherwise | the row's currency per MWh, unless the table's file says otherwise | empty | no cell holds a value | 23 |
-| `currency` | The currency of the price, as an ISO 4217 code (USD) | none | empty | no cell holds a value | 23 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | text | published | 0 |
+| `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents. Here: ai_energy:<publication>_<n> | none | text | ai_energy:bloom_2022_1, ai_energy:bloom_2022_2, ai_energy:bloom_2022_3, ai_energy:google_2025_1, ai_energy:google_2025_2, ai_energy:google_2025_3, ai_energy:luccioni_2024_1, ai_energy:luccioni_2024_2, ai_energy:luccioni_2024_3, ai_energy:meta_2025_1, ai_energy:microsoft_2026_1, ai_energy:openai_2025_1, ai_energy:patterson_2021_1, ai_energy:patterson_2021_2, ai_energy:patterson_2021_3, ai_energy:patterson_2021_4, ai_energy:patterson_2021_5, ai_energy:patterson_2021_6, ai_energy:patterson_2022_1, ai_energy:patterson_2022_2, ai_energy:patterson_2022_3, ai_energy:strubell_2019_1, ai_energy:strubell_2019_2 | 0 |
+| `event_date` | The date the event happened or was announced (each table's file says which). Here: The publication's date | none | date | 2019-06-05, 2021-04-21, 2022-04-11, 2022-11-03, 2024-06-03, 2025-06-10, 2025-08-21, 2025-09-12, 2026-07-09 | 0 |
+| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others). Here: publication on every row | none | text | publication | 0 |
+| `parties` | The parties to the event, as the publisher names them, separated by semicolons. Here: The publisher (the company, or the authors' institution) | none | text | Google, Google and the University of California at Berkeley, Hugging Face (BigScience) with Graphcore and LISN, Hugging Face and Carnegie Mellon University, Meta, Microsoft, OpenAI (Sam Altman's blog), University of Massachusetts Amherst | 0 |
+| `entity_ids` | The entity_id values of the things involved, separated by semicolons. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 23 |
+| `mw` | The capacity involved, in megawatts. Here: Not filled: no cell holds a value | MW | empty | no cell holds a value | 23 |
+| `price` | The price, in the row's currency per MWh unless the table's file says otherwise. Here: Not filled: no cell holds a value | the row's currency per MWh, unless the table's file says otherwise | empty | no cell holds a value | 23 |
+| `currency` | The currency of the price, as an ISO 4217 code (USD). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 23 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: published on every row | none | text | published | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:ai_energy_published | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://arxiv.org/abs/1906.02243, https://arxiv.org/abs/2104.10350, https://arxiv.org/abs/2204.05149, https://arxiv.org/abs/2211.02001, https://arxiv.org/abs/2311.16863, https://arxiv.org/abs/2508.15734, https://blog.samaltman.com/the-gentle-singularity, https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/msc/documents/presentations/CSR/2026-Microsoft-Environmental-Data-Fact-Sheet-PDF.pdf, https://sustainability.atmeta.com/asset/2025-environmental-data-index | 0 |
-| `x_publisher_kind` | not yet written |  | text | model maker, model maker and cloud operator, model maker and data center operator, peer-reviewed paper | 0 |
-| `x_peer_reviewed` | not yet written |  | text | no (a blog post by the company's chief executive), no (a company report), no (preprint as read; the arXiv page names no journal), no (preprint by the model maker), no (preprint), yes (ACL 2019), yes (ACM FAccT '24) | 0 |
-| `x_title` | not yet written |  | text | 2025 Environmental Data Index (2025 Sustainability Report), 2026 Environmental Sustainability Report Data Fact Sheet, Carbon Emissions and Large Neural Network Training, Energy and Policy Considerations for Deep Learning in NLP, Estimating the Carbon Footprint of BLOOM, a 176B Parameter Language Model, Measuring the environmental impact of delivering AI at Google Scale, Power Hungry Processing: Watts Driving the Cost of AI Deployment?, The Carbon Footprint of Machine Learning Training Will Plateau, Then Shrink, The Gentle Singularity | 0 |
-| `x_authors` | not yet written |  | text | Alexandra Sasha Luccioni, Sylvain Viguier, Anne-Laure Ligozat, Alexandra Sasha Luccioni, Yacine Jernite, Emma Strubell, Cooper Elsworth, Keguo Huang, David Patterson, Ian Schneider, Robert Sedivy, Savannah Goodman, Ben Townsend, Parthasarathy Ranganathan, Jeff Dean, Amin Vahdat, Ben Gomes, James Manyika, David Patterson, Joseph Gonzalez, Quoc Le, Chen Liang, Lluis-Miquel Munguia, Daniel Rothchild, David So, Maud Texier, Jeff Dean, David Patterson, Joseph Gonzalez, Urs Hölzle, Quoc Le, Chen Liang, Lluis-Miquel Munguia, Daniel Rothchild, David So, Maud Texier, Jeff Dean, Emma Strubell, Ananya Ganesh, Andrew McCallum, Meta Platforms, Microsoft, Sam Altman | 0 |
-| `x_page` | not yet written |  | text | 1, 12, 2, 4, 5, 5 to 6, 6, 7, 8, the post (one page) | 0 |
-| `x_printed` | not yet written |  | text | % of Google 2019 total energy consumption (12.2 TWh, (0.047 vs. 2.9 kWh), 10.8 TWh for Microsoft, BERT V100x64 12,041.51 79 1507, Data centers total 6,966,000 9,117,122 11,167,416 14,975,435 18,061,781, Electricity 10,770,714 13,621,517 18,153,454 23,567,502 29,829,540 37,026,353, NAS P100x8 1515.43 274,120 656,347, The NAS producing Evolved Transformer used 7.5 MWh, The largest size has 11B parameters, and training used 86 MWh, Total energy used 433,196 kWh, Training GShard-600B used 24 MWh, Training Meena used [...] 232 MWh, We estimated it used 179 MWh, image generation, whose mean consumption is 2.9 kWh, its energy consumption is 1287 MWh, the annual energy consumption in 2020 was 15.4 TWh for Google, the average query uses about 0.34 watt-hours, the calculated energy consumption is only 0.10 Wh per prompt, the instance used for the BLOOM model API consumed 914 kWh of electricity, the primary energy draw originates from the active AI Accelerator power (0.14 Wh, 58% of total), to 1.0×10−4 kWh for the biggest one, we find the median Gemini Apps text prompt consumes 0.24 Wh of energy, which represents an electrical consumption of 1,163,032 kWh | 0 |
-| `x_value` | not yet written |  | number | 0.0001, 0.047, 0.1, 0.14, 0.24, 0.34, 10.8, 1163032.0, 12.2, 1287.0, 15.4, 1507.0, 179.0, 18061781.0, 2.9, 232.0, 24.0, 37026353.0, 433196.0, 656347.0, 7.5, 86.0, 914.0 | 0 |
-| `x_unit` | not yet written |  | text | MWh, TWh, Wh, kWh | 0 |
-| `x_measures` | not yet written |  | text | energy of a deployment, energy of a fleet in a year, energy of a fleet in a year (electricity consumed within the organization), energy of a fleet in a year (electricity consumed), energy of a training run, energy of a training run (kWh times PUE), energy of all the experiments of a project, energy per 1,000 inferences (the mean of the image generation task), energy per 1,000 inferences (the mean of the text generation task), energy per inference, energy per prompt, energy per prompt (one part of it), energy per query | 0 |
-| `x_subject` | not yet written |  | text | BERT base on 64 V100 GPUs, BLOOM (176 billion parameters), BLOOMz-7B, GPT-3 (175 billion parameters; OpenAI's model), GShard-600B (600 billion parameters), Google's annual energy consumption, Google's total energy consumption, Meena (2.6 billion parameters), Meta's data centers, Microsoft (its datacenters and offices together, as the fact sheet counts them), Microsoft's annual energy consumption, Switch Transformer (1500 billion parameters), T5 (11 billion parameters), image generation (the models of the study), neural architecture search for the Evolved Transformer (So et al.) on 8 P100 GPUs, text generation (the models of the study), the BLOOM model's API instance, the BigScience workshop's experiments (3.46 million GPU hours, BLOOM's training among them), the average ChatGPT query, the median Gemini Apps text prompt, the neural architecture search that produced Evolved Transformer | 0 |
-| `x_period` | not yet written |  | text | 2019, 2020, 2024 (the index reports the fiscal year 2024; the table runs 2020 to 2024), May 2025, May 2025 (page 7), fiscal year 2025 (ended 30 June 2025; the table runs FY20 to FY25), not stated, the BigScience project, the paper's deployment study, the study's experiments, the training, 118 days | 0 |
-| `x_basis` | not yet written |  | text | Google's own report as the paper cites it ([Goo20]), the denominator of its Table 4, a narrower boundary, as the paper describes it: a methodology aligned with a more narrow, existing approach (its Figure 1), as the paper measures it for Google's own models, as the paper states it, not stated, the active AI accelerators only, the fact sheet's Table 5, Energy consumption within the organization (MWh); the date is that of Microsoft's post accompanying the report, as its address on blogs.microsoft.com gives it (2026/07/09); the fact sheet prints no date of its own, the hyperscaler's sustainability report, as the paper cites it, the index's table Electricity Consumption by Facility, in MWh; the date is the report's launch as Meta's news page dates it (12 September 2025), the mean over the study's models for the task, on its hardware, the paper's Table 1, the paper's comprehensive boundary: active AI accelerators, host CPU and DRAM, idle machines provisioned, data center overhead (PUE), the paper's estimate, the paper's estimate ("Its estimated carbon emissions due to training are 552 tCO2e and its energy consumption is 1287 MWh"), the paper's estimate (its Table 3, column kWh·PUE), the paper's measurement, the study's measurement | 0 |
-| `x_saved_as` | not yet written |  | text | warehouse/raw/ai_energy_published/20261119T1230Z/altman_2025.html, warehouse/raw/ai_energy_published/20261119T1230Z/bloom_2022.pdf, warehouse/raw/ai_energy_published/20261119T1230Z/google_2025.pdf, warehouse/raw/ai_energy_published/20261119T1230Z/luccioni_2024.pdf, warehouse/raw/ai_energy_published/20261119T1230Z/meta_2025_data_index.pdf, warehouse/raw/ai_energy_published/20261119T1230Z/microsoft_2026_fact_sheet.pdf, warehouse/raw/ai_energy_published/20261119T1230Z/patterson_2021.pdf, warehouse/raw/ai_energy_published/20261119T1230Z/patterson_2022.pdf, warehouse/raw/ai_energy_published/20261119T1230Z/strubell_2019.pdf | 0 |
-| `x_sha256` | not yet written |  | text | 0af70b6db33650b01829bd3a59c1f3659f45e301300ec711f264e48735e5e8b7, 0fd180837df00b3427c3eae484a492224b8f18c381e82a2aed98b04553a197f6, 348b58c832076258e1792a710fab3f0ac60f02001857532a7136771b52b30339, 89b7f0b905caffc9d43f2dcbdd08c517bcfc02ab963417f7e9facf8b35b876b3, 997025051680fd262e80da571ddb74d2af4e8f023baea9b6d4bd7539d163ab33, 99baa6948df14609dcbbc078cbef024bebb2fd62e842c027cb8859e5f5814701, a23ccf280f496629a81a6117faa8ded7ade5f292e3dc5ce36203b2a979679f63, cd8c3732e179f9a71a8dd42efabf7ffe7ee2bfc6c4ce4d63cfe799609b58dd12, d7527cd23308869105b404b486117603bb3f5ee10e30499367f8698110afb66d | 0 |
-| `x_retrieved_at` | not yet written |  | utc time | 2026-11-19T12:24:38Z, 2026-11-19T12:24:40Z, 2026-11-19T12:24:58Z, 2026-11-19T12:25:20Z, 2026-11-19T12:25:37Z, 2026-11-19T12:25:54Z, 2026-11-19T12:26:27Z, 2026-11-19T13:19:34Z, 2026-11-19T13:53:18Z | 0 |
+| `x_publisher_kind` | Who printed the figure: model maker, cloud operator, data center operator (or several), or peer-reviewed paper (the source's name: publisher_kind) | none | text | model maker, model maker and cloud operator, model maker and data center operator, peer-reviewed paper | 0 |
+| `x_peer_reviewed` | yes, with the venue, only where the page read names it; otherwise no, with the kind of publication (preprint, company report, blog post) (the source's name: peer_reviewed) | none | text | no (a blog post by the company's chief executive), no (a company report), no (preprint as read; the arXiv page names no journal), no (preprint by the model maker), no (preprint), yes (ACL 2019), yes (ACM FAccT '24) | 0 |
+| `x_title` | The publication's title (the source's name: title) | none | text | 2025 Environmental Data Index (2025 Sustainability Report), 2026 Environmental Sustainability Report Data Fact Sheet, Carbon Emissions and Large Neural Network Training, Energy and Policy Considerations for Deep Learning in NLP, Estimating the Carbon Footprint of BLOOM, a 176B Parameter Language Model, Measuring the environmental impact of delivering AI at Google Scale, Power Hungry Processing: Watts Driving the Cost of AI Deployment?, The Carbon Footprint of Machine Learning Training Will Plateau, Then Shrink, The Gentle Singularity | 0 |
+| `x_authors` | The publication's authors (the source's name: authors) | none | text | Alexandra Sasha Luccioni, Sylvain Viguier, Anne-Laure Ligozat, Alexandra Sasha Luccioni, Yacine Jernite, Emma Strubell, Cooper Elsworth, Keguo Huang, David Patterson, Ian Schneider, Robert Sedivy, Savannah Goodman, Ben Townsend, Parthasarathy Ranganathan, Jeff Dean, Amin Vahdat, Ben Gomes, James Manyika, David Patterson, Joseph Gonzalez, Quoc Le, Chen Liang, Lluis-Miquel Munguia, Daniel Rothchild, David So, Maud Texier, Jeff Dean, David Patterson, Joseph Gonzalez, Urs Hölzle, Quoc Le, Chen Liang, Lluis-Miquel Munguia, Daniel Rothchild, David So, Maud Texier, Jeff Dean, Emma Strubell, Ananya Ganesh, Andrew McCallum, Meta Platforms, Microsoft, Sam Altman | 0 |
+| `x_page` | The page of the publication the figure is printed on (the source's name: page) | none | text | 1, 12, 2, 4, 5, 5 to 6, 6, 7, 8, the post (one page) | 0 |
+| `x_printed` | The publication's own words holding the figure, cut from its saved copy (the source's name: printed) | none | text | % of Google 2019 total energy consumption (12.2 TWh, (0.047 vs. 2.9 kWh), 10.8 TWh for Microsoft, BERT V100x64 12,041.51 79 1507, Data centers total 6,966,000 9,117,122 11,167,416 14,975,435 18,061,781, Electricity 10,770,714 13,621,517 18,153,454 23,567,502 29,829,540 37,026,353, NAS P100x8 1515.43 274,120 656,347, The NAS producing Evolved Transformer used 7.5 MWh, The largest size has 11B parameters, and training used 86 MWh, Total energy used 433,196 kWh, Training GShard-600B used 24 MWh, Training Meena used [...] 232 MWh, We estimated it used 179 MWh, image generation, whose mean consumption is 2.9 kWh, its energy consumption is 1287 MWh, the annual energy consumption in 2020 was 15.4 TWh for Google, the average query uses about 0.34 watt-hours, the calculated energy consumption is only 0.10 Wh per prompt, the instance used for the BLOOM model API consumed 914 kWh of electricity, the primary energy draw originates from the active AI Accelerator power (0.14 Wh, 58% of total), to 1.0×10−4 kWh for the biggest one, we find the median Gemini Apps text prompt consumes 0.24 Wh of energy, which represents an electrical consumption of 1,163,032 kWh | 0 |
+| `x_value` | The number in the printed words, in x_unit | the row's x_unit | number | 0.0001, 0.047, 0.1, 0.14, 0.24, 0.34, 10.8, 1163032.0, 12.2, 1287.0, 15.4, 1507.0, 179.0, 18061781.0, 2.9, 232.0, 24.0, 37026353.0, 433196.0, 656347.0, 7.5, 86.0, 914.0 | 0 |
+| `x_unit` | The unit of x_value, the publication's own (Wh, kWh, MWh, TWh) (the source's name: unit) | none | text | MWh, TWh, Wh, kWh | 0 |
+| `x_measures` | What the figure measures, in words (energy per prompt, per query, per 1,000 inferences, of a training run, of a fleet in a year) (the source's name: measures) | none | text | energy of a deployment, energy of a fleet in a year, energy of a fleet in a year (electricity consumed within the organization), energy of a fleet in a year (electricity consumed), energy of a training run, energy of a training run (kWh times PUE), energy of all the experiments of a project, energy per 1,000 inferences (the mean of the image generation task), energy per 1,000 inferences (the mean of the text generation task), energy per inference, energy per prompt, energy per prompt (one part of it), energy per query | 0 |
+| `x_subject` | What the figure is of (a model, a fleet, a company) (the source's name: subject) | none | text | BERT base on 64 V100 GPUs, BLOOM (176 billion parameters), BLOOMz-7B, GPT-3 (175 billion parameters; OpenAI's model), GShard-600B (600 billion parameters), Google's annual energy consumption, Google's total energy consumption, Meena (2.6 billion parameters), Meta's data centers, Microsoft (its datacenters and offices together, as the fact sheet counts them), Microsoft's annual energy consumption, Switch Transformer (1500 billion parameters), T5 (11 billion parameters), image generation (the models of the study), neural architecture search for the Evolved Transformer (So et al.) on 8 P100 GPUs, text generation (the models of the study), the BLOOM model's API instance, the BigScience workshop's experiments (3.46 million GPU hours, BLOOM's training among them), the average ChatGPT query, the median Gemini Apps text prompt, the neural architecture search that produced Evolved Transformer | 0 |
+| `x_period` | The period the figure covers, as the publication states it, or not stated (the source's name: period) | none | text | 2019, 2020, 2024 (the index reports the fiscal year 2024; the table runs 2020 to 2024), May 2025, May 2025 (page 7), fiscal year 2025 (ended 30 June 2025; the table runs FY20 to FY25), not stated, the BigScience project, the paper's deployment study, the study's experiments, the training, 118 days | 0 |
+| `x_basis` | The boundary the publication states for the figure, or not stated (the source's name: basis) | none | text | Google's own report as the paper cites it ([Goo20]), the denominator of its Table 4, a narrower boundary, as the paper describes it: a methodology aligned with a more narrow, existing approach (its Figure 1), as the paper measures it for Google's own models, as the paper states it, not stated, the active AI accelerators only, the fact sheet's Table 5, Energy consumption within the organization (MWh); the date is that of Microsoft's post accompanying the report, as its address on blogs.microsoft.com gives it (2026/07/09); the fact sheet prints no date of its own, the hyperscaler's sustainability report, as the paper cites it, the index's table Electricity Consumption by Facility, in MWh; the date is the report's launch as Meta's news page dates it (12 September 2025), the mean over the study's models for the task, on its hardware, the paper's Table 1, the paper's comprehensive boundary: active AI accelerators, host CPU and DRAM, idle machines provisioned, data center overhead (PUE), the paper's estimate, the paper's estimate ("Its estimated carbon emissions due to training are 552 tCO2e and its energy consumption is 1287 MWh"), the paper's estimate (its Table 3, column kWh·PUE), the paper's measurement, the study's measurement | 0 |
+| `x_saved_as` | The path of the publication's saved copy in the warehouse's raw files | none | text | warehouse/raw/ai_energy_published/20261119T1230Z/altman_2025.html, warehouse/raw/ai_energy_published/20261119T1230Z/bloom_2022.pdf, warehouse/raw/ai_energy_published/20261119T1230Z/google_2025.pdf, warehouse/raw/ai_energy_published/20261119T1230Z/luccioni_2024.pdf, warehouse/raw/ai_energy_published/20261119T1230Z/meta_2025_data_index.pdf, warehouse/raw/ai_energy_published/20261119T1230Z/microsoft_2026_fact_sheet.pdf, warehouse/raw/ai_energy_published/20261119T1230Z/patterson_2021.pdf, warehouse/raw/ai_energy_published/20261119T1230Z/patterson_2022.pdf, warehouse/raw/ai_energy_published/20261119T1230Z/strubell_2019.pdf | 0 |
+| `x_sha256` | The SHA-256 of the saved copy | none | text | 0af70b6db33650b01829bd3a59c1f3659f45e301300ec711f264e48735e5e8b7, 0fd180837df00b3427c3eae484a492224b8f18c381e82a2aed98b04553a197f6, 348b58c832076258e1792a710fab3f0ac60f02001857532a7136771b52b30339, 89b7f0b905caffc9d43f2dcbdd08c517bcfc02ab963417f7e9facf8b35b876b3, 997025051680fd262e80da571ddb74d2af4e8f023baea9b6d4bd7539d163ab33, 99baa6948df14609dcbbc078cbef024bebb2fd62e842c027cb8859e5f5814701, a23ccf280f496629a81a6117faa8ded7ade5f292e3dc5ce36203b2a979679f63, cd8c3732e179f9a71a8dd42efabf7ffe7ee2bfc6c4ce4d63cfe799609b58dd12, d7527cd23308869105b404b486117603bb3f5ee10e30499367f8698110afb66d | 0 |
+| `x_retrieved_at` | When the publication's copy was saved, UTC | none | utc time | 2026-11-19T12:24:38Z, 2026-11-19T12:24:40Z, 2026-11-19T12:24:58Z, 2026-11-19T12:25:20Z, 2026-11-19T12:25:37Z, 2026-11-19T12:25:54Z, 2026-11-19T12:26:27Z, 2026-11-19T13:19:34Z, 2026-11-19T13:53:18Z | 0 |
 
 ### `aneel_siga_plants`
 
@@ -720,71 +722,75 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 
 ### `carb_auction_allowance_prices`
 
-What a row is: not yet written.
+One cap-and-trade auction's (California, joint with Quebec) value of one result for its current-vintage or advance-vintage allowances.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 336.
 
+- **Time:** ts_utc is the first day of the auction month at 00:00:00Z (the summary gives no day); freq P3M.
+- **Revisions:** Merged by (entity, variable, ts_utc); each run reads the whole summary and replaces every row; vintage is not filled.
 - **Source:** carb:auction-results-summary California Air Resources Board, Summary of Joint Auction Settlement Prices and Results (PDF, Last updated August 2026; linked from (https://ww2.arb.ca.gov/sites/default/files/2020-08/results_summary.pdf)
 - **Method note:** [`docs/methods/carb_auction_allowance_prices.md`](../methods/carb_auction_allowance_prices.md)
 - **Cite as:** California Air Resources Board (CARB). Summary of California and Joint Auction Settlement Prices and Results. Via the Energy Research Warehouse (ERW), table `carb_auction_allowance_prices`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | carb:advance_auction, carb:current_auction | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: carb:current_auction (the current-vintage allowances sold at the auction) or carb:advance_auction (the advance-vintage allowances) | none | text | carb:advance_auction, carb:current_auction | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2012-11-01T00:00:00Z to 2026-08-01T00:00:00Z; 56 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 10.0 to 98215920.0; 189 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | USD/tCO2, count | 0 |
 | `freq` | How long the interval of the row is | none | text | P3M | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-CA | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 336 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Auction #1, Auction #2, Auction #3; 56 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 336 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The auction as CARB numbers it (Auction #1 to #8, Joint Auction #1 to #48), not a pricing node | none | text | for example Auction #1, Auction #2, Auction #3; 56 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | carb:auction-results-summary | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://ww2.arb.ca.gov/sites/default/files/2020-08/results_summary.pdf | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-19T17:37:37Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 336 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 336 |
 
 Variables (3):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `allowances_offered` |  | count | 112 | 2012-11-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `allowances_sold` |  | count | 112 | 2012-11-01T00:00:00Z | 2026-08-01T00:00:00Z |
-| `settlement_price` |  | USD/tCO2 | 112 | 2012-11-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `allowances_offered` | Allowances offered at the auction (one allowance is one metric ton of CO2 equivalent) | count | 112 | 2012-11-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `allowances_sold` | Allowances sold at the auction | count | 112 | 2012-11-01T00:00:00Z | 2026-08-01T00:00:00Z |
+| `settlement_price` | The auction's settlement price, USD per metric ton of CO2 equivalent | USD/tCO2 | 112 | 2012-11-01T00:00:00Z | 2026-08-01T00:00:00Z |
 
 ### `carb_lcfs_credit_prices`
 
-What a row is: not yet written.
+One week's value of one Low Carbon Fuel Standard credit measure, as the California Air Resources Board publishes it.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1145.
 
+- **Time:** ts_utc is the Monday of the week (Monday to Sunday) at 00:00:00Z; freq P1W.
+- **Revisions:** Rewritten whole by each run (the whole history from 2019 is read each run, so revisions are picked up); vintage is not filled.
 - **Source:** carb:lcfs_weekly_credit_price California Air Resources Board, Weekly LCFS Credit Transfer Activity Report, weekly average credit price (https://ww2.arb.ca.gov/resources/documents/weekly-lcfs-credit-transfer-activity-reports)
 - **Method note:** [`docs/methods/carb_lcfs_credit_prices.md`](../methods/carb_lcfs_credit_prices.md)
 - **Cite as:** California Air Resources Board (CARB). Weekly LCFS Credit Transfer Activity Report, weekly average credit price. Via the Energy Research Warehouse (ERW), table `carb_lcfs_credit_prices`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | carb:lcfs_credit | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: carb:lcfs_credit on every row | none | text | carb:lcfs_credit | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2019-01-07T00:00:00Z to 2026-11-02T00:00:00Z; 409 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 41.29 to 6039846.0; 1105 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | USD/tCO2, tCO2 | 0 |
 | `freq` | How long the interval of the row is | none | text | P1W | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-CA | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 1145 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | LCFS credit | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1145 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: LCFS credit on every row, not a pricing node | none | text | LCFS credit | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | carb:lcfs_weekly_credit_price | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://ww2.arb.ca.gov/sites/default/files/2026-11/Weekly%20LCFS%20Credit%20Activity%20%28upto%208%20Nov%2C%202026%29.xlsx | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-15T17:49:36Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 1145 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1145 |
 
 Variables (3):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `credit_price_type1_weekly_avg` |  | USD/tCO2 | 368 | 2019-10-21T00:00:00Z | 2026-11-02T00:00:00Z |
-| `credit_price_weekly_avg` |  | USD/tCO2 | 409 | 2019-01-07T00:00:00Z | 2026-11-02T00:00:00Z |
-| `credit_volume` |  | tCO2 | 368 | 2019-10-21T00:00:00Z | 2026-11-02T00:00:00Z |
+| `credit_price_type1_weekly_avg` | Volume-weighted average price of the week's non-zero Type 1 credit transfers (executed within 10 days of the agreement), USD per credit (one metric ton of CO2 equivalent) | USD/tCO2 | 368 | 2019-10-21T00:00:00Z | 2026-11-02T00:00:00Z |
+| `credit_price_weekly_avg` | Volume-weighted average price of all the week's non-zero credit transfers, USD per credit (one metric ton of CO2 equivalent) | USD/tCO2 | 409 | 2019-01-07T00:00:00Z | 2026-11-02T00:00:00Z |
+| `credit_volume` | Credits transferred in the week | tCO2 | 368 | 2019-10-21T00:00:00Z | 2026-11-02T00:00:00Z |
 
 ### `cbs_curacao_electricity_annual`
 
@@ -960,38 +966,40 @@ Variables (10):
 
 ### `cftc_cot_positions`
 
-What a row is: not yet written.
+One NYMEX futures contract's value of one Commitments of Traders measure for one report week.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 9888.
 
+- **Time:** ts_utc is the report's as-of date (a Tuesday, or the Monday the CFTC gives in a holiday week) at 00:00:00Z; the CFTC publishes it the Friday after; freq P1W.
+- **Revisions:** Rewritten whole by each run (the old file removed first); vintage is not filled.
 - **Source:** cftc:disaggregated_cot_futures Commodity Futures Trading Commission, Commitments of Traders, Disaggregated report, futures only (https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm)
 - **Method note:** [`docs/methods/cftc_cot_positions.md`](../methods/cftc_cot_positions.md)
 - **Cite as:** Commodity Futures Trading Commission (CFTC). Commitments of Traders, Disaggregated report, futures only. Via the Energy Research Warehouse (ERW), table `cftc_cot_positions`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | cftc:023651, cftc:067651, cftc:06765T, cftc:111659 | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: cftc:<CFTC contract market code>: 067651 WTI crude oil, 06765T Brent Last Day, 023651 Henry Hub natural gas, 111659 RBOB gasoline | none | text | cftc:023651, cftc:067651, cftc:06765T, cftc:111659 | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2015-01-06T00:00:00Z to 2026-11-03T00:00:00Z; 618 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -331548.0 to 2706454.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | count | 0 |
 | `freq` | How long the interval of the row is | none | text | P1W | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | nymex | 0 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | BRENT CRUDE OIL LAST DAY - NEW YORK MERCANTILE EXCHANGE, BRENT LAST DAY - NEW YORK MERCANTILE EXCHANGE, CRUDE OIL, LIGHT SWEET - NEW YORK MERCANTILE EXCHANGE, GASOLINE BLENDSTOCK (RBOB)  - NEW YORK MERCANTILE EXCHANGE, GASOLINE BLENDSTOCK (RBOB) - NEW YORK MERCANTILE EXCHANGE, GASOLINE RBOB - NEW YORK MERCANTILE EXCHANGE, NAT GAS NYME - NEW YORK MERCANTILE EXCHANGE, NATURAL GAS - NEW YORK MERCANTILE EXCHANGE, WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: nymex on every row | none | text | nymex | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The CFTC's market name as printed (its wording changes over the years) | none | text | BRENT CRUDE OIL LAST DAY - NEW YORK MERCANTILE EXCHANGE, BRENT LAST DAY - NEW YORK MERCANTILE EXCHANGE, CRUDE OIL, LIGHT SWEET - NEW YORK MERCANTILE EXCHANGE, GASOLINE BLENDSTOCK (RBOB)  - NEW YORK MERCANTILE EXCHANGE, GASOLINE BLENDSTOCK (RBOB) - NEW YORK MERCANTILE EXCHANGE, GASOLINE RBOB - NEW YORK MERCANTILE EXCHANGE, NAT GAS NYME - NEW YORK MERCANTILE EXCHANGE, NATURAL GAS - NEW YORK MERCANTILE EXCHANGE, WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | cftc:disaggregated_cot_futures | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://publicreporting.cftc.gov/resource/72hh-3qpy.json?cftc_contract_market_code=023651&%24where=report_date_as_yyyy_mm_dd+%3E%3D+%272015-01-01T00%3A00%3A00%27&%24order=report_date_as_yyyy_mm_dd+ASC&%24limit=5000, https://publicreporting.cftc.gov/resource/72hh-3qpy.json?cftc_contract_market_code=067651&%24where=report_date_as_yyyy_mm_dd+%3E%3D+%272015-01-01T00%3A00%3A00%27&%24order=report_date_as_yyyy_mm_dd+ASC&%24limit=5000, https://publicreporting.cftc.gov/resource/72hh-3qpy.json?cftc_contract_market_code=06765T&%24where=report_date_as_yyyy_mm_dd+%3E%3D+%272015-01-01T00%3A00%3A00%27&%24order=report_date_as_yyyy_mm_dd+ASC&%24limit=5000, https://publicreporting.cftc.gov/resource/72hh-3qpy.json?cftc_contract_market_code=111659&%24where=report_date_as_yyyy_mm_dd+%3E%3D+%272015-01-01T00%3A00%3A00%27&%24order=report_date_as_yyyy_mm_dd+ASC&%24limit=5000 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-16T11:48:10Z, 2026-11-16T11:48:20Z, 2026-11-16T11:48:25Z, 2026-11-16T11:48:30Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 9888 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 9888 |
 
 Variables (4):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `managed_money_long` |  | count | 2472 | 2015-01-06T00:00:00Z | 2026-11-03T00:00:00Z |
-| `managed_money_net` |  | count | 2472 | 2015-01-06T00:00:00Z | 2026-11-03T00:00:00Z |
-| `managed_money_short` |  | count | 2472 | 2015-01-06T00:00:00Z | 2026-11-03T00:00:00Z |
-| `open_interest` |  | count | 2472 | 2015-01-06T00:00:00Z | 2026-11-03T00:00:00Z |
+| `managed_money_long` | Managed money long positions, futures only (the CFTC's m_money_positions_long_all), contracts | count | 2472 | 2015-01-06T00:00:00Z | 2026-11-03T00:00:00Z |
+| `managed_money_net` | Managed money long less short, computed by the ERW, contracts | count | 2472 | 2015-01-06T00:00:00Z | 2026-11-03T00:00:00Z |
+| `managed_money_short` | Managed money short positions, futures only (the CFTC's m_money_positions_short_all), contracts | count | 2472 | 2015-01-06T00:00:00Z | 2026-11-03T00:00:00Z |
+| `open_interest` | Open interest, futures only (the CFTC's open_interest_all), contracts | count | 2472 | 2015-01-06T00:00:00Z | 2026-11-03T00:00:00Z |
 
 ### `cso_ireland_electricity_monthly`
 
@@ -1255,76 +1263,78 @@ Variables (3):
 
 ### `egrid_power_plants`
 
-What a row is: not yet written.
+One US power plant of eGRID2023 (data year 2023): its capacity, generation, emissions and emission rates, as EPA publishes them.
 
 Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 2026-11-20: 12612.
 
+- **Time:** No time column; data_year 2023 and vintage eGRID2023 name the edition; the table is a snapshot as read on its retrieved_at.
+- **Revisions:** Rewritten whole as one snapshot: a later run replaces the whole table when EPA publishes a new eGRID.
 - **Source:** epa:egrid U.S. Environmental Protection Agency, Emissions & Generation Resource Integrated Database (eGRID2023), plant sheet PLNT23 (https://www.epa.gov/egrid/download-data)
 - **Method note:** [`docs/methods/egrid_power_plants.md`](../methods/egrid_power_plants.md)
 - **Cite as:** U.S. Environmental Protection Agency (EPA). Emissions & Generation Resource Integrated Database (eGRID). Via the Energy Research Warehouse (ERW), table `egrid_power_plants`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity_id` | The identifier of the thing, as namespace:native_id | none | text | for example egrid:1, egrid:10, egrid:100; more than 5000 distinct | 0 |
+| `entity_id` | The identifier of the thing, as namespace:native_id. Here: egrid:<ORISPL>, the DOE/EIA plant code | none | text | for example egrid:1, egrid:10, egrid:100; more than 5000 distinct | 0 |
 | `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists) | none | text | plant | 0 |
 | `name` | The thing's name, as the publisher writes it | none | text | for example (3K) 59 Hetcheltown Rd, 0 Hammond St CSG, 1 Commercial; more than 5000 distinct | 1 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US-AK, US-AL, US-AR; 52 distinct | 0 |
 | `lat` | Latitude, in decimal degrees (WGS84) | degree | number | 17.947115 to 71.292; more than 5000 distinct | 0 |
 | `lon` | Longitude, in decimal degrees (WGS84) | degree | number | -171.712439 to -65.27956; more than 5000 distinct | 0 |
-| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it | MW | number | 0.3 to 6809.0; 2193 distinct | 1 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | empty | no cell holds a value | 12612 |
-| `status_date` | The date the status took effect, or was reported where the effective date is unknown | none | empty | no cell holds a value | 12612 |
-| `operator` | The operator or owner, as the publisher writes it | none | text | for example 0HAM WHAM8 Solar, LLC, 1001 Ebenezer Church Solar, LLC, 1008 Matthews Solar, LLC; more than 5000 distinct | 0 |
+| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it. Here: eGRID's plant nameplate capacity (NAMEPCAP) | MW | number | 0.3 to 6809.0; 2193 distinct | 1 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: Not filled: eGRID gives no status | none | empty | no cell holds a value | 12612 |
+| `status_date` | The date the status took effect, or was reported where the effective date is unknown. Here: Not filled: eGRID gives no status | none | empty | no cell holds a value | 12612 |
+| `operator` | The operator or owner, as the publisher writes it. Here: The utility's name (eGRID's UTLSRVNM) | none | text | for example 0HAM WHAM8 Solar, LLC, 1001 Ebenezer Church Solar, LLC, 1008 Matthews Solar, LLC; more than 5000 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | epa:egrid | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.epa.gov/system/files/documents/2025-06/egrid2023_data_rev2.xlsx | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-21T16:59:48Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | text | eGRID2023 | 0 |
-| `data_year` | not yet written |  | integer | 2023 | 0 |
-| `plant_id` | not yet written |  | integer | 1 to 70454; more than 5000 distinct | 0 |
-| `state` | not yet written |  | text | for example AK, AL, AR; 52 distinct | 0 |
-| `county` | not yet written |  | text | for example Abbeville, Acadia, Accomack; 1456 distinct | 26 |
-| `fips_state` | not yet written |  | integer | 1 to 72; 52 distinct | 0 |
-| `fips_county` | not yet written |  | integer | 1 to 810; 243 distinct | 142 |
-| `transmission_owner` | not yet written |  | text | for example 4 Rivers Electric Cooperative, Inc., 4-County Electric Power Assn, A & N Electric Coop; 1067 distinct | 62 |
-| `utility_id` | not yet written |  | integer | 7 to 66470; more than 5000 distinct | 0 |
-| `sector` | not yet written |  | text | Commercial CHP, Commercial Non-CHP, Electric Utility, IPP CHP, IPP Non-CHP, Industrial CHP, Industrial Non-CHP | 0 |
-| `balancing_authority` | not yet written |  | text | for example AECI, AVA, AVRN; 69 distinct | 1 |
-| `balancing_authority_name` | not yet written |  | text | for example Alcoa Power Generating, Inc. - Yadkin Division, Arizona Public Service Company, Arlington Valley, LLC - AVBA; 70 distinct | 0 |
-| `nerc_region` | not yet written |  | text | AK, HI, MRO, NPCC, PR, RFC, SERC, TRE, WECC | 0 |
-| `egrid_subregion` | not yet written |  | text | for example AKGD, AKMS, AZNM; 27 distinct | 0 |
-| `iso_rto` | not yet written |  | text | CAISO, ERCOT, ISONE, MISO, NYISO, PJM, SPP | 4399 |
-| `units` | not yet written |  | integer | 1 to 73; 35 distinct | 1 |
-| `generators` | not yet written |  | integer | 1 to 73; 35 distinct | 1 |
-| `primary_fuel` | not yet written |  | text | for example AB, BFG, BIT; 36 distinct | 0 |
-| `primary_fuel_category` | not yet written |  | text | BIOMASS, COAL, GAS, GEOTHERMAL, HYDRO, NUCLEAR, OFSL, OIL, OTHF, SOLAR, WIND | 0 |
-| `coal_flag` | not yet written |  | text | Yes | 12509 |
-| `chp_flag` | not yet written |  | text | Yes | 11682 |
-| `capacity_factor` | not yet written |  | number | 0.0 to 1.37976; more than 5000 distinct | 373 |
-| `heat_input_mmbtu` | not yet written |  | number | 0.0 to 172665705.425; 3232 distinct | 8964 |
-| `net_generation_mwh` | not yet written |  | number | -1034280.0 to 31522590.0; more than 5000 distinct | 373 |
-| `nox_tons` | not yet written |  | number | 0.0 to 12604.704; 2848 distinct | 9209 |
-| `so2_tons` | not yet written |  | number | 0.0 to 39245.681; 2142 distinct | 9208 |
-| `co2_tons` | not yet written |  | number | 0.0 to 18109178.3; 2851 distinct | 9208 |
-| `ch4_lbs` | not yet written |  | number | 0.0 to 4148743.931; 2957 distinct | 9067 |
-| `n2o_lbs` | not yet written |  | number | 0.0 to 603513.812; 2913 distinct | 9067 |
-| `co2e_tons` | not yet written |  | number | 0.0 to 18240458.877; 3056 distinct | 8991 |
-| `hg_lbs` | not yet written |  | empty | no cell holds a value | 12612 |
-| `nox_rate_lb_mwh` | not yet written |  | number | 0.0 to 8500.0; 2301 distinct | 9339 |
-| `so2_rate_lb_mwh` | not yet written |  | number | 0.0 to 752.0; 1182 distinct | 9338 |
-| `co2_rate_lb_mwh` | not yet written |  | number | 0.0 to 423504.0; 2770 distinct | 9338 |
-| `co2e_rate_lb_mwh` | not yet written |  | number | 0.0 to 424893.132; 2941 distinct | 9305 |
-| `heat_rate_btu_kwh` | not yet written |  | number | -3332000.0 to 2593000.0; 3244 distinct | 9314 |
-| `gen_coal_mwh` | not yet written |  | number | -7625.153 to 15767071.0; 268 distinct | 372 |
-| `gen_oil_mwh` | not yet written |  | number | -4977.0 to 2550227.0; 1194 distinct | 372 |
-| `gen_gas_mwh` | not yet written |  | number | -27603.0 to 19937352.0; 2218 distinct | 372 |
-| `gen_nuclear_mwh` | not yet written |  | integer | 0 to 31522590; 55 distinct | 372 |
-| `gen_hydro_mwh` | not yet written |  | number | -1034280.0 to 15749890.0; 1366 distinct | 372 |
-| `gen_biomass_mwh` | not yet written |  | number | -7400.806 to 506058.1; 615 distinct | 372 |
-| `gen_wind_mwh` | not yet written |  | number | -10328.0 to 3887512.0; 1297 distinct | 372 |
-| `gen_solar_mwh` | not yet written |  | number | -3151.0 to 1036774.0; 4514 distinct | 372 |
-| `gen_geothermal_mwh` | not yet written |  | integer | 0 to 4499612; 64 distinct | 372 |
-| `gen_other_fossil_mwh` | not yet written |  | number | -9045.315 to 1376971.9; 151 distinct | 372 |
-| `gen_other_purchased_mwh` | not yet written |  | number | -107414.0 to 481609.0; 344 distinct | 372 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: eGRID2023, the edition's name (not a date) | none | text | eGRID2023 | 0 |
+| `data_year` | eGRID's data year (the source's name: YEAR) | none | integer | 2023 | 0 |
+| `plant_id` | The DOE/EIA ORIS plant or facility code (the source's name: ORISPL) | none | integer | 1 to 70454; more than 5000 distinct | 0 |
+| `state` | The plant's state, postal code (the source's name: PSTATABB) | none | text | for example AK, AL, AR; 52 distinct | 0 |
+| `county` | The plant's county name (the source's name: CNTYNAME) | none | text | for example Abbeville, Acadia, Accomack; 1456 distinct | 26: eGRID leaves the cell blank |
+| `fips_state` | The plant's FIPS state code, zero-padded to 2 digits (the source's name: FIPSST) | none | integer | 1 to 72; 52 distinct | 0 |
+| `fips_county` | The plant's FIPS county code, zero-padded to 3 digits (the source's name: FIPSCNTY) | none | integer | 1 to 810; 243 distinct | 142: eGRID leaves the cell blank |
+| `transmission_owner` | The name of the plant's transmission or distribution system owner (the source's name: OPRNAME) | none | text | for example 4 Rivers Electric Cooperative, Inc., 4-County Electric Power Assn, A & N Electric Coop; 1067 distinct | 62: eGRID leaves the cell blank |
+| `utility_id` | The utility's ID (the source's name: UTLSRVID) | none | integer | 7 to 66470; more than 5000 distinct | 0 |
+| `sector` | eGRID's plant-level sector (Electric Utility, IPP, Industrial or Commercial, CHP or not) (the source's name: SECTOR) | none | text | Commercial CHP, Commercial Non-CHP, Electric Utility, IPP CHP, IPP Non-CHP, Industrial CHP, Industrial Non-CHP | 0 |
+| `balancing_authority` | The balancing authority's code (the source's name: BACODE) | none | text | for example AECI, AVA, AVRN; 69 distinct | 1: eGRID leaves the cell blank |
+| `balancing_authority_name` | The balancing authority's name (the source's name: BANAME) | none | text | for example Alcoa Power Generating, Inc. - Yadkin Division, Arizona Public Service Company, Arlington Valley, LLC - AVBA; 70 distinct | 0 |
+| `nerc_region` | The NERC region's acronym (the source's name: NERC) | none | text | AK, HI, MRO, NPCC, PR, RFC, SERC, TRE, WECC | 0 |
+| `egrid_subregion` | The eGRID subregion's acronym (the source's name: SUBRGN) | none | text | for example AKGD, AKMS, AZNM; 27 distinct | 0 |
+| `iso_rto` | The ISO or RTO territory the plant is associated with (the source's name: ISORTO) | none | text | CAISO, ERCOT, ISONE, MISO, NYISO, PJM, SPP | 4399: eGRID leaves the cell blank (no ISO or RTO named) |
+| `units` | The plant's number of units (the source's name: NUMUNT) | count | integer | 1 to 73; 35 distinct | 1: eGRID leaves the cell blank |
+| `generators` | The plant's number of generators (the source's name: NUMGEN) | count | integer | 1 to 73; 35 distinct | 1: eGRID leaves the cell blank |
+| `primary_fuel` | The plant's primary fuel, eGRID's code (the source's name: PLPRMFL) | none | text | for example AB, BFG, BIT; 36 distinct | 0 |
+| `primary_fuel_category` | The plant's primary fuel category (COAL, GAS, OIL, NUCLEAR, HYDRO, WIND, SOLAR, BIOMASS, GEOTHERMAL, OFSL, OTHF) (the source's name: PLFUELCT) | none | text | BIOMASS, COAL, GAS, GEOTHERMAL, HYDRO, NUCLEAR, OFSL, OIL, OTHF, SOLAR, WIND | 0 |
+| `coal_flag` | Yes when the plant burned or generated any amount of coal (the source's name: COALFLAG) | none | text | Yes | 12509: eGRID leaves the cell blank (only Yes is printed) |
+| `chp_flag` | Yes when eGRID applies its combined heat and power (CHP) plant adjustment (the source's name: CHPFLAG) | none | text | Yes | 11682: eGRID leaves the cell blank (only Yes is printed) |
+| `capacity_factor` | The plant's capacity factor (the source's name: CAPFAC) | ratio | number | 0.0 to 1.37976; more than 5000 distinct | 373: eGRID leaves the cell blank |
+| `heat_input_mmbtu` | The plant's annual heat input from combustion (the source's name: PLHTIAN) | MMBtu | number | 0.0 to 172665705.425; 3232 distinct | 8964: eGRID leaves the cell blank |
+| `net_generation_mwh` | The plant's annual net generation (the source's name: PLNGENAN) | MWh | number | -1034280.0 to 31522590.0; more than 5000 distinct | 373: eGRID leaves the cell blank |
+| `nox_tons` | The plant's annual NOx emissions (the source's name: PLNOXAN) | short ton | number | 0.0 to 12604.704; 2848 distinct | 9209: eGRID leaves the cell blank |
+| `so2_tons` | The plant's annual SO2 emissions (the source's name: PLSO2AN) | short ton | number | 0.0 to 39245.681; 2142 distinct | 9208: eGRID leaves the cell blank |
+| `co2_tons` | The plant's annual CO2 emissions (the source's name: PLCO2AN) | short ton | number | 0.0 to 18109178.3; 2851 distinct | 9208: eGRID leaves the cell blank |
+| `ch4_lbs` | The plant's annual CH4 (methane) emissions (the source's name: PLCH4AN) | lb | number | 0.0 to 4148743.931; 2957 distinct | 9067: eGRID leaves the cell blank |
+| `n2o_lbs` | The plant's annual N2O (nitrous oxide) emissions (the source's name: PLN2OAN) | lb | number | 0.0 to 603513.812; 2913 distinct | 9067: eGRID leaves the cell blank |
+| `co2e_tons` | The plant's annual CO2 equivalent emissions (the source's name: PLCO2EQA) | short ton | number | 0.0 to 18240458.877; 3056 distinct | 8991: eGRID leaves the cell blank |
+| `hg_lbs` | The plant's annual mercury (Hg) emissions (the source's name: PLHGAN) | lb | empty | no cell holds a value | 12612: eGRID leaves every cell blank in this edition (no cell holds a value) |
+| `nox_rate_lb_mwh` | The plant's annual NOx emission rate per MWh of total output (the source's name: PLNOXRTA) | lb/MWh | number | 0.0 to 8500.0; 2301 distinct | 9339: eGRID leaves the cell blank |
+| `so2_rate_lb_mwh` | The plant's annual SO2 emission rate per MWh of total output (the source's name: PLSO2RTA) | lb/MWh | number | 0.0 to 752.0; 1182 distinct | 9338: eGRID leaves the cell blank |
+| `co2_rate_lb_mwh` | The plant's annual CO2 emission rate per MWh of total output (the source's name: PLCO2RTA) | lb/MWh | number | 0.0 to 423504.0; 2770 distinct | 9338: eGRID leaves the cell blank |
+| `co2e_rate_lb_mwh` | The plant's annual CO2 equivalent emission rate per MWh of total output (the source's name: PLC2ERTA) | lb/MWh | number | 0.0 to 424893.132; 2941 distinct | 9305: eGRID leaves the cell blank |
+| `heat_rate_btu_kwh` | The plant's nominal heat rate (fuel heat per kWh generated) (the source's name: PLHTRT) | Btu/kWh | number | -3332000.0 to 2593000.0; 3244 distinct | 9314: eGRID leaves the cell blank |
+| `gen_coal_mwh` | The plant's annual net generation from coal (the source's name: PLGENACL) | MWh | number | -7625.153 to 15767071.0; 268 distinct | 372: eGRID leaves the cell blank |
+| `gen_oil_mwh` | The plant's annual net generation from oil (the source's name: PLGENAOL) | MWh | number | -4977.0 to 2550227.0; 1194 distinct | 372: eGRID leaves the cell blank |
+| `gen_gas_mwh` | The plant's annual net generation from gas (the source's name: PLGENAGS) | MWh | number | -27603.0 to 19937352.0; 2218 distinct | 372: eGRID leaves the cell blank |
+| `gen_nuclear_mwh` | The plant's annual net generation from nuclear (the source's name: PLGENANC) | MWh | integer | 0 to 31522590; 55 distinct | 372: eGRID leaves the cell blank |
+| `gen_hydro_mwh` | The plant's annual net generation from hydro (the source's name: PLGENAHY) | MWh | number | -1034280.0 to 15749890.0; 1366 distinct | 372: eGRID leaves the cell blank |
+| `gen_biomass_mwh` | The plant's annual net generation from biomass (the source's name: PLGENABM) | MWh | number | -7400.806 to 506058.1; 615 distinct | 372: eGRID leaves the cell blank |
+| `gen_wind_mwh` | The plant's annual net generation from wind (the source's name: PLGENAWI) | MWh | number | -10328.0 to 3887512.0; 1297 distinct | 372: eGRID leaves the cell blank |
+| `gen_solar_mwh` | The plant's annual net generation from solar (the source's name: PLGENASO) | MWh | number | -3151.0 to 1036774.0; 4514 distinct | 372: eGRID leaves the cell blank |
+| `gen_geothermal_mwh` | The plant's annual net generation from geothermal (the source's name: PLGENAGT) | MWh | integer | 0 to 4499612; 64 distinct | 372: eGRID leaves the cell blank |
+| `gen_other_fossil_mwh` | The plant's annual net generation from other fossil fuels (the source's name: PLGENAOF) | MWh | number | -9045.315 to 1376971.9; 151 distinct | 372: eGRID leaves the cell blank |
+| `gen_other_purchased_mwh` | The plant's annual net generation from other, unknown or purchased fuel (the source's name: PLGENAOP) | MWh | number | -107414.0 to 481609.0; 344 distinct | 372: eGRID leaves the cell blank |
 
 ### `egrid_subregions_annual`
 
@@ -1379,43 +1389,47 @@ Variables (20):
 
 ### `eia411_capacity_margins_annual`
 
-What a row is: not yet written.
+One NERC assessment area's value of one supply and demand measure (peak load, net internal demand, capacity resources, capacity margin) for one summer or winter season, actual or projected.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 2924.
 
+- **Time:** ts_utc is the peak period's first day: summer 1 June; winter 1 October of the season's first year (EIA's winter runs October to May); freq P1Y.
+- **Revisions:** Rewritten whole as one snapshot of the program's last release (November 2016: actual to 2016, projected to 2027); vintage is not filled.
 - **Source:** eia:eia411 U.S. Energy Information Administration, Form EIA-411, Coordinated Bulk Power Supply and Demand Program Report (https://www.eia.gov/electricity/data/eia411/)
 - **Method note:** [`docs/methods/eia411.md`](../methods/eia411.md)
 - **Cite as:** U.S. Energy Information Administration (EIA). Form EIA-411, Coordinated Bulk Power Supply and Demand Program Report. Via the Energy Research Warehouse (ERW), table `eia411_capacity_margins_annual`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | eia411:balance_of_eastern_region, eia411:contiguous_u_s, eia411:ecar, eia411:frcc, eia411:maac, eia411:main, eia411:mapp, eia411:miso, eia411:mro, eia411:npcc, eia411:pjm, eia411:rfc, eia411:serc, eia411:spp, eia411:tre, eia411:wecc | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia411:<assessment area as EIA names it> | none | text | eia411:balance_of_eastern_region, eia411:contiguous_u_s, eia411:ecar, eia411:frcc, eia411:maac, eia411:main, eia411:mapp, eia411:miso, eia411:mro, eia411:npcc, eia411:pjm, eia411:rfc, eia411:serc, eia411:spp, eia411:tre, eia411:wecc | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 1990-06-01T00:00:00Z to 2027-10-01T00:00:00Z; 76 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 1.670876063958871 to 1051249.1665787257; 2639 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW, pct | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 2924 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Balance of Eastern Region (Eastern Interconnection), Contiguous U.S. (All Grids), Contiguous U.S. (All Interconnections), ECAR (Eastern Interconnection), FRCC (Eastern Interconnection), MAAC (Eastern Interconnection), MAIN (Eastern Interconnection), MAPP (Eastern Interconnection), MISO (Eastern Interconnection), MRO (Eastern Interconnection), NPCC (Eastern Interconnection), PJM (Eastern Interconnection), RFC (Eastern Interconnection), SERC (Eastern Interconnection), SPP (Eastern Interconnection), TRE (ERCOT), WECC (Western Interconnection) | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US on every row, whatever the area | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 2924 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The assessment area as EIA names it, with its interconnection, not a pricing node | none | text | Balance of Eastern Region (Eastern Interconnection), Contiguous U.S. (All Grids), Contiguous U.S. (All Interconnections), ECAR (Eastern Interconnection), FRCC (Eastern Interconnection), MAAC (Eastern Interconnection), MAIN (Eastern Interconnection), MAPP (Eastern Interconnection), MISO (Eastern Interconnection), MRO (Eastern Interconnection), NPCC (Eastern Interconnection), PJM (Eastern Interconnection), RFC (Eastern Interconnection), SERC (Eastern Interconnection), SPP (Eastern Interconnection), TRE (ERCOT), WECC (Western Interconnection) | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | eia:eia411 | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.eia.gov/electricity/data/eia411/xls/peak_load_2016.xls, https://www.eia.gov/electricity/data/eia411/xls/summer_capacity_2016.xls, https://www.eia.gov/electricity/data/eia411/xls/winter_capacity_2016.xls | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T06:13:11Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 2924 |
-| `x_projected` | not yet written |  | text | actual, projected | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 2924 |
+| `x_projected` | actual, or projected (EIA's E years) | none | text | actual, projected | 0 |
 
 Variables (8):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `summer_capacity_margin` |  | pct | 415 | 1990-06-01T00:00:00Z | 2027-06-01T00:00:00Z |
-| `summer_capacity_resources` |  | MW | 415 | 1990-06-01T00:00:00Z | 2027-06-01T00:00:00Z |
-| `summer_net_internal_demand` |  | MW | 415 | 1990-06-01T00:00:00Z | 2027-06-01T00:00:00Z |
-| `summer_peak_load` |  | MW | 415 | 1990-06-01T00:00:00Z | 2027-06-01T00:00:00Z |
-| `winter_capacity_margin` |  | pct | 283 | 2001-10-01T00:00:00Z | 2027-10-01T00:00:00Z |
-| `winter_capacity_resources` |  | MW | 283 | 2001-10-01T00:00:00Z | 2027-10-01T00:00:00Z |
-| `winter_net_internal_demand` |  | MW | 283 | 2001-10-01T00:00:00Z | 2027-10-01T00:00:00Z |
-| `winter_peak_load` |  | MW | 415 | 1990-10-01T00:00:00Z | 2027-10-01T00:00:00Z |
+| `summer_capacity_margin` | Summer capacity margin, percent of capacity resources (EIA's rough calculation before 2015, NERC's from 2015) | pct | 415 | 1990-06-01T00:00:00Z | 2027-06-01T00:00:00Z |
+| `summer_capacity_resources` | Summer capacity resources | MW | 415 | 1990-06-01T00:00:00Z | 2027-06-01T00:00:00Z |
+| `summer_net_internal_demand` | Summer net internal demand | MW | 415 | 1990-06-01T00:00:00Z | 2027-06-01T00:00:00Z |
+| `summer_peak_load` | Summer peak load | MW | 415 | 1990-06-01T00:00:00Z | 2027-06-01T00:00:00Z |
+| `winter_capacity_margin` | Winter capacity margin, percent of capacity resources (EIA's rough calculation before 2015, NERC's from 2015) | pct | 283 | 2001-10-01T00:00:00Z | 2027-10-01T00:00:00Z |
+| `winter_capacity_resources` | Winter capacity resources | MW | 283 | 2001-10-01T00:00:00Z | 2027-10-01T00:00:00Z |
+| `winter_net_internal_demand` | Winter net internal demand | MW | 283 | 2001-10-01T00:00:00Z | 2027-10-01T00:00:00Z |
+| `winter_peak_load` | Winter peak load | MW | 415 | 1990-10-01T00:00:00Z | 2027-10-01T00:00:00Z |
+
+Waiting for a second look: 110 capacity margins (frcc, miso, pjm, spp and tre, 2017 to 2027, both seasons) are resources less demand over demand, a reserve margin, kept as EIA gives them; the variable's label states the general rule only..
 
 ### `eia861m_utility_sales_monthly`
 
@@ -1804,35 +1818,37 @@ Variables (2):
 
 ### `frb_treasury_yields`
 
-What a row is: not yet written.
+One US Treasury maturity's market yield at constant maturity for one business day.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 5901.
 
+- **Time:** ts_utc is the business day at 00:00:00Z; freq P1D.
+- **Revisions:** Rewritten whole by each run (the whole history from 2019 is read each run, so revisions are picked up); vintage is not filled.
 - **Source:** frb:h15_treasury_yields Board of Governors of the Federal Reserve System, H.15 Selected Interest Rates: market yield on U.S. Treasury securities at constant maturity, the Data Download Program's package Treasury Constant Maturities (daily) (https://www.federalreserve.gov/releases/h15/)
 - **Method note:** [`docs/methods/frb_treasury_yields.md`](../methods/frb_treasury_yields.md)
 - **Cite as:** Board of Governors of the Federal Reserve System. H.15 Selected Interest Rates: market yield on U.S. Treasury securities at constant maturity, the Data Download Program's package Treasury Constant Maturities (daily). Via the Energy Research Warehouse (ERW), table `frb_treasury_yields`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | frb:tcm_10y, frb:tcm_2y, frb:tcm_30y | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: frb:tcm_<maturity>, 2, 10 or 30 years | none | text | frb:tcm_10y, frb:tcm_2y, frb:tcm_30y | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2019-01-02T00:00:00Z to 2026-11-12T00:00:00Z; 1967 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.09 to 5.67; 535 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | pct | 0 |
 | `freq` | How long the interval of the row is | none | text | P1D | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 5901 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | H15/H15/RIFLGFCY02_N.B, H15/H15/RIFLGFCY10_N.B, H15/H15/RIFLGFCY30_N.B | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 5901 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The Federal Reserve Board's series identifier (H15/H15/RIFLGFCY<years>_N.B), not a pricing node | none | text | H15/H15/RIFLGFCY02_N.B, H15/H15/RIFLGFCY10_N.B, H15/H15/RIFLGFCY30_N.B | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | frb:h15_treasury_yields | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.federalreserve.gov/datadownload/Output.aspx?rel=H15&series=bf17364827e38702b42a58cf8eaa3f78&lastobs=&from=01/01/2019&to=12/31/2099&filetype=csv&label=include&layout=seriescolumn | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-13T00:31:25Z, 2026-10-14T15:40:16Z, 2026-10-15T15:51:26Z, 2026-10-19T16:31:24Z, 2026-10-19T20:56:30Z, 2026-10-21T15:17:42Z, 2026-10-22T15:09:12Z, 2026-10-23T15:06:55Z, 2026-10-24T15:14:30Z, 2026-10-27T15:00:44Z, 2026-10-28T15:08:28Z, 2026-10-29T14:56:24Z, 2026-10-30T15:07:43Z, 2026-11-05T23:51:25Z, 2026-11-12T22:16:42Z, 2026-11-15T15:33:48Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 5901 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 5901 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `yield` |  | pct | 5901 | 2019-01-02T00:00:00Z | 2026-11-12T00:00:00Z |
+| `yield` | Market yield on US Treasury securities at constant maturity, quoted on an investment basis, percent a year | pct | 5901 | 2019-01-02T00:00:00Z | 2026-11-12T00:00:00Z |
 
 ### `frb_utility_output_monthly`
 
@@ -1971,43 +1987,47 @@ Variables (2):
 
 ### `hifld_transmission_lines`
 
-What a row is: not yet written.
+One electric transmission line of 230 kV and above in HIFLD's Electric Power Transmission Lines layer.
 
 Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 2026-11-20: 10692.
 
+- **Time:** No time column; vintage is HIFLD's SOURCEDATE of the line (a date); the table is a snapshot as read on its retrieved_at.
+- **Revisions:** One row a line, rewritten whole as one snapshot by each build; vintage holds HIFLD's source date.
 - **Source:** hifld:transmission_lines Homeland Infrastructure Foundation-Level Data (HIFLD), Electric Power Transmission Lines (ORNL, NGA HSIP), as served by Penn State's PASDA:  where VOLTAGE>=230, in batches (sha256 ba039a3a2b7259dc6b474d2ffcf408f3bd3f628dfd7cab5ef5e7cf513094de10, saved at warehouse/raw/hifld_lines/20261120T024611Z/transmission.geojson) (https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/178/query)
 - **Method note:** [`docs/methods/map_layers.md`](../methods/map_layers.md)
 - **Cite as:** Homeland Infrastructure Foundation-Level Data (HIFLD), served by Penn State PASDA. Electric Power Transmission Lines, HIFLD open data layer, PASDA map service HIFLD_FEMA layer 178. Via the Energy Research Warehouse (ERW), table `hifld_transmission_lines`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity_id` | The identifier of the thing, as namespace:native_id | none | text | for example hifld:transmission_line:100019, hifld:transmission_line:100024, hifld:transmission_line:100029; more than 5000 distinct | 0 |
-| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists) | none | text | transmission_line | 0 |
-| `name` | The thing's name, as the publisher writes it | none | text | for example 11TH AVENUE to STADIUM, 137TH AVENUE to NEWTON, 137TH AVENUE to UNKNOWN177419; more than 5000 distinct | 2355 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | empty | no cell holds a value | 10692 |
-| `lat` | Latitude, in decimal degrees (WGS84) | degree | number | 17.94672 to 61.43109; more than 5000 distinct | 0 |
-| `lon` | Longitude, in decimal degrees (WGS84) | degree | number | -150.54138 to -65.85667; more than 5000 distinct | 0 |
-| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it | MW | empty | no cell holds a value | 10692 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | text | operating, under_construction | 2382 |
-| `status_date` | The date the status took effect, or was reported where the effective date is unknown | none | empty | no cell holds a value | 10692 |
-| `operator` | The operator or owner, as the publisher writes it | none | text | for example AEP, AEP TEXAS CENTRAL, AEP TEXAS CENTRAL CO.; 294 distinct | 1846 |
+| `entity_id` | The identifier of the thing, as namespace:native_id. Here: hifld:transmission_line:<HIFLD ID> | none | text | for example hifld:transmission_line:100019, hifld:transmission_line:100024, hifld:transmission_line:100029; more than 5000 distinct | 0 |
+| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists). Here: transmission_line on every row | none | text | transmission_line | 0 |
+| `name` | The thing's name, as the publisher writes it. Here: <SUB_1> to <SUB_2> where HIFLD names both ends, else empty | none | text | for example 11TH AVENUE to STADIUM, 137TH AVENUE to NEWTON, 137TH AVENUE to UNKNOWN177419; more than 5000 distinct | 2355 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: Not filled: a line crosses states | none | empty | no cell holds a value | 10692 |
+| `lat` | Latitude, in decimal degrees (WGS84). Here: The line's midpoint | degree | number | 17.94672 to 61.43109; more than 5000 distinct | 0 |
+| `lon` | Longitude, in decimal degrees (WGS84). Here: The line's midpoint | degree | number | -150.54138 to -65.85667; more than 5000 distinct | 0 |
+| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it. Here: Not filled: HIFLD gives no capacity | MW | empty | no cell holds a value | 10692 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: operating for HIFLD's IN SERVICE, under_construction for UNDER CONSTRUCTION, else empty (HIFLD's word in x_status) | none | text | operating, under_construction | 2382 |
+| `status_date` | The date the status took effect, or was reported where the effective date is unknown. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 10692 |
+| `operator` | The operator or owner, as the publisher writes it. Here: HIFLD's OWNER as printed; empty where HIFLD prints NOT AVAILABLE | none | text | for example AEP, AEP TEXAS CENTRAL, AEP TEXAS CENTRAL CO.; 294 distinct | 1846 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | hifld:transmission_lines | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/178 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-20T02:48:53Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | date | 1996-01-01 to 2024-09-26; 752 distinct | 0 |
-| `x_hifld_id` | not yet written |  | integer | 100019 to 400541; more than 5000 distinct | 0 |
-| `x_voltage_kv` | not yet written |  | integer | 1000, 230, 232, 236, 238, 240, 245, 250, 273, 275, 287, 345, 348, 400, 450, 500, 765 | 0 |
-| `x_volt_class` | not yet written |  | text | 220-287, 345, 500, 735 AND ABOVE, DC | 0 |
-| `x_type` | not yet written |  | text | AC; OVERHEAD, AC; UNDERGROUND, DC; OVERHEAD, OVERHEAD | 2 |
-| `x_inferred` | not yet written |  | text | N, Y | 0 |
-| `x_status` | not yet written |  | text | IN SERVICE, INACTIVE, UNDER CONSTRUCTION | 2367 |
-| `x_sub_1` | not yet written |  | text | for example 11TH AVENUE, 137TH AVENUE, 230-KV WEST; 4622 distinct | 415 |
-| `x_sub_2` | not yet written |  | text | for example 11TH AVENUE, 3 MILE KNOLL, 40TH STREET; 3955 distinct | 2355 |
-| `x_length_km` | not yet written |  | number | 0.01 to 1359.74; more than 5000 distinct | 0 |
-| `x_source` | not yet written |  | text | for example Arizona Corporation Commission http://preview.tinyurl.com/nkregtd, California Energy Commission, California Energy Commission http://www.energy.ca.gov/maps/; 358 distinct | 0 |
-| `x_source_date` | not yet written |  | date | 1996-01-01 to 2024-09-26; 752 distinct | 0 |
-| `x_val_date` | not yet written |  | date | 2014-06-06 to 2024-08-02; 635 distinct | 0 |
-| `x_raw_sha256` | not yet written |  | text | ba039a3a2b7259dc6b474d2ffcf408f3bd3f628dfd7cab5ef5e7cf513094de10 | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: HIFLD's SOURCEDATE, a date (YYYY-MM-DD) | none | date | 1996-01-01 to 2024-09-26; 752 distinct | 0 |
+| `x_hifld_id` | HIFLD's ID of the line (the source's name: ID) | none | integer | 100019 to 400541; more than 5000 distinct | 0 |
+| `x_voltage_kv` | The line's voltage as HIFLD prints it (the source's name: VOLTAGE) | kV | integer | 1000, 230, 232, 236, 238, 240, 245, 250, 273, 275, 287, 345, 348, 400, 450, 500, 765 | 0 |
+| `x_volt_class` | HIFLD's voltage class: a kV range (220-287, 345, 500, 735 AND ABOVE) or DC (the source's name: VOLT_CLASS) | none | text | 220-287, 345, 500, 735 AND ABOVE, DC | 0 |
+| `x_type` | HIFLD's line type: AC or DC, overhead or underground, as printed (the source's name: TYPE) | none | text | AC; OVERHEAD, AC; UNDERGROUND, DC; OVERHEAD, OVERHEAD | 2: HIFLD prints NOT AVAILABLE or nothing |
+| `x_inferred` | not documented by the source (the source's name: INFERRED) | none | text | N, Y | 0 |
+| `x_status` | HIFLD's status word as printed (IN SERVICE, INACTIVE, UNDER CONSTRUCTION) (the source's name: STATUS) | none | text | IN SERVICE, INACTIVE, UNDER CONSTRUCTION | 2367: HIFLD prints NOT AVAILABLE or nothing |
+| `x_sub_1` | The substation HIFLD names at one end of the line (the source's name: SUB_1) | none | text | for example 11TH AVENUE, 137TH AVENUE, 230-KV WEST; 4622 distinct | 415: HIFLD prints NOT AVAILABLE or nothing |
+| `x_sub_2` | The substation HIFLD names at the other end of the line (the source's name: SUB_2) | none | text | for example 11TH AVENUE, 3 MILE KNOLL, 40TH STREET; 3955 distinct | 2355: HIFLD prints NOT AVAILABLE or nothing |
+| `x_length_km` | The drawn line's length on a sphere of radius 6,371.0088 km | km | number | 0.01 to 1359.74; more than 5000 distinct | 0 |
+| `x_source` | HIFLD's SOURCE: the source HIFLD names for the line, as printed (the source's name: SOURCE) | none | text | for example Arizona Corporation Commission http://preview.tinyurl.com/nkregtd, California Energy Commission, California Energy Commission http://www.energy.ca.gov/maps/; 358 distinct | 0 |
+| `x_source_date` | HIFLD's source date of the line (the source's name: SOURCEDATE) | none | date | 1996-01-01 to 2024-09-26; 752 distinct | 0 |
+| `x_val_date` | HIFLD's validation date of the line (the source's name: VAL_DATE) | none | date | 2014-06-06 to 2024-08-02; 635 distinct | 0 |
+| `x_raw_sha256` | The SHA-256 of the raw GeoJSON file the row was read from | none | text | ba039a3a2b7259dc6b474d2ffcf408f3bd3f628dfd7cab5ef5e7cf513094de10 | 0 |
+
+Waiting for a second look: x_inferred (HIFLD's INFERRED, Y or N): what it marks is not written in the connector, the method note or the header..
 
 ### `ieso_generation_fuel_hourly`
 
@@ -2129,81 +2149,87 @@ Variables (12):
 
 ### `imf_commodity_prices`
 
-What a row is: not yet written.
+One commodity's average price for one month, from the IMF's Primary Commodity Price System.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 752.
 
+- **Time:** ts_utc is the first day of the month at 00:00:00Z; freq P1M; monthly averages, not daily prices.
+- **Revisions:** Rewritten whole by each run (the whole history from 2019 is read each run, so revisions are picked up); vintage is not filled.
 - **Source:** imf:pcps International Monetary Fund, Primary Commodity Price System (PCPS), monthly prices (https://www.imf.org/en/Research/commodity-prices)
 - **Method note:** [`docs/methods/imf_commodity_prices.md`](../methods/imf_commodity_prices.md)
 - **Cite as:** International Monetary Fund (IMF). Primary Commodity Price System (PCPS), monthly prices. Via the Energy Research Warehouse (ERW), table `imf_commodity_prices`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | imf:PCPS:PCOALAU, imf:PCPS:PCOBA, imf:PCPS:PCOPP, imf:PCPS:PLITH, imf:PCPS:PNGASEU, imf:PCPS:PNGASJP, imf:PCPS:PNICK, imf:PCPS:PURAN | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: imf:PCPS:<IMF commodity code> | none | text | imf:PCPS:PCOALAU, imf:PCPS:PCOBA, imf:PCPS:PCOPP, imf:PCPS:PLITH, imf:PCPS:PNGASEU, imf:PCPS:PNGASJP, imf:PCPS:PNICK, imf:PCPS:PURAN | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2019-01-01T00:00:00Z to 2026-10-01T00:00:00Z; 94 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 1.46261232 to 490008.1789809524; 752 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | USD/MMBtu, USD/lb, USD/t | 0 |
 | `freq` | How long the interval of the row is | none | text | P1M | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | empty | no cell holds a value | 752 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 752 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Coal, Australia, Cobalt, Copper, LNG, Asia, Lithium, Natural gas, EU, Nickel, Uranium | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 752 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 752 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The commodity in words, not a pricing node | none | text | Coal, Australia, Cobalt, Copper, LNG, Asia, Lithium, Natural gas, EU, Nickel, Uranium | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | imf:pcps | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://api.imf.org/external/sdmx/3.0/data/dataflow/IMF.RES/PCPS/+/G001.PURAN+PLITH+PCOBA+PNICK+PCOPP+PCOALAU+PNGASEU+PNGASJP.USD.M?c[TIME_PERIOD]=ge:2019-01 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-14T10:45:40Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 752 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 752 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `price` |  | USD/MMBtu; USD/lb; USD/t | 752 | 2019-01-01T00:00:00Z | 2026-10-01T00:00:00Z |
+| `price` | The IMF's average price of the commodity in the month, in US dollars per the row's unit (a metric ton; uranium a pound; gas and LNG an MMBtu) | USD/MMBtu; USD/lb; USD/t | 752 | 2019-01-01T00:00:00Z | 2026-10-01T00:00:00Z |
+
+Waiting for a second look: The header's title names uranium, lithium, cobalt, nickel and copper, but the table also holds coal (Australia), natural gas (EU) and LNG (Asia), as its access line asks for..
 
 ### `impact_tax_rules`
 
-What a row is: not yet written.
+One tax rule the economic impact tool holds (a state's severance tax, fee or option on oil and gas, or a property tax rule for a generating project), or a record that no rule is held, each with its citation.
 
 Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 2026-11-20: 130.
 
+- **Time:** event_date is the effective date the citation gives where it gives one date, else the day the rule or statute was read or the repository searched (x_date_kind says which).
+- **Revisions:** Rewritten whole as one snapshot by each run from the two record files; no page is read again.
 - **Method note:** [`docs/methods/impact_tax_rules.md`](../methods/impact_tax_rules.md)
 - **Cite as:** Energy Research Warehouse (ERW); Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; Texas Comptroller of Public Accounts; US state legislatures and tax agencies, as the forecast tool's property rules cite them. Crude Oil Production Tax; La. R.S. 47:633, Severance tax; rates; administration; Natural Gas Production Tax; New Mexico Oil and Gas Production tax rates for 04/01/2026 through 08/31/2026 by county and appropriate suffix (spreadsheet, revised); Oil & Gas Production Taxes; Revenue Information Bulletin No. 26-013 (June 2, 2026): Natural Gas Severance Tax Rate Effective July 1, 2026, through June 30, 2027; Revenue Information Bulletin No. 26-014 (August 3, 2026): Prices Applicable to Oil and Gas for Horizontal Wells, July 1, 2026 to June 30, 2027; Tax Credit for Qualifying Low-Producing Gas Wells; Tax Credit for Qualifying Low-Producing Oil Leases; The ERW's record that it holds no property-tax rule (session 346); The forecast tool's property tax rules (site/data/forecast/property_rules.json). Via the Energy Research Warehouse (ERW), table `impact_tax_rules`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents | none | text | for example erw_tax:ak:ak_note, erw_tax:al:al_note, erw_tax:ar:ar_note; 130 distinct | 0 |
+| `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents. Here: erw_tax:<state>:<rule> | none | text | for example erw_tax:ak:ak_note, erw_tax:al:al_note, erw_tax:ar:ar_note; 130 distinct | 0 |
 | `event_date` | The date the event happened or was announced (each table's file says which) | none | date | 1951-09-01, 1953-08-27, 1969-10-01, 2026-09-30, 2026-10-20, 2026-11-13, 2026-11-14 | 0 |
-| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others) | none | text | property_tax_rule, severance_fee, severance_option, severance_tax | 0 |
-| `parties` | The parties to the event, as the publisher names them, separated by semicolons | none | text | for example Alabama, Alaska, Arizona; 55 distinct | 7 |
-| `entity_ids` | The entity_id values of the things involved, separated by semicolons | none | empty | no cell holds a value | 130 |
-| `mw` | The capacity involved, in megawatts | MW | empty | no cell holds a value | 130 |
-| `price` | The price, in the row's currency per MWh unless the table's file says otherwise | the row's currency per MWh, unless the table's file says otherwise | empty | no cell holds a value | 130 |
-| `currency` | The currency of the price, as an ISO 4217 code (USD) | none | empty | no cell holds a value | 130 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | text | held, no_rule_held | 0 |
+| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others). Here: severance_tax, severance_fee, severance_option or property_tax_rule | none | text | property_tax_rule, severance_fee, severance_option, severance_tax | 0 |
+| `parties` | The parties to the event, as the publisher names them, separated by semicolons. Here: The citation's publisher, or the state on the forecast's property rules; empty on the no-rule rows | none | text | for example Alabama, Alaska, Arizona; 55 distinct | 7 |
+| `entity_ids` | The entity_id values of the things involved, separated by semicolons. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 130 |
+| `mw` | The capacity involved, in megawatts. Here: Not filled: no cell holds a value | MW | empty | no cell holds a value | 130 |
+| `price` | The price, in the row's currency per MWh unless the table's file says otherwise. Here: Not filled: no cell holds a value | the row's currency per MWh, unless the table's file says otherwise | empty | no cell holds a value | 130 |
+| `currency` | The currency of the price, as an ISO 4217 code (USD). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 130 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: held, or no_rule_held where the ERW holds no statute | none | text | held, no_rule_held | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:impact_tax_rules, forecast:property_rules, la_ldr:la_rib_26_013, la_ldr:la_rib_26_014, la_legislature:la_rs_47_633, nm_trd:nm_trd_rates_2026, nm_trd:nm_trd_taxes, tx_cpa:tx_cpa_gas, tx_cpa:tx_cpa_lp_gas, tx_cpa:tx_cpa_lp_oil, tx_cpa:tx_cpa_oil | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://apps.legislature.ky.gov/LAW/STATUTES/statute.aspx?id=53523, https://comptroller.texas.gov/taxes/crude-oil/, https://comptroller.texas.gov/taxes/crude-oil/low-producing-leases.php; 72 distinct | 0 |
-| `x_state` | not yet written |  | text | for example AK, AL, AR; 51 distinct | 0 |
-| `x_tax` | not yet written |  | text | property, severance | 0 |
-| `x_product` | not yet written |  | text | condensate, gas, generating_project, geothermal, land_based_wind, land_based_wind;natural_gas, land_based_wind;natural_gas;geothermal, land_based_wind;utility_pv, land_based_wind;utility_pv;geothermal, land_based_wind;utility_pv;natural_gas;geothermal, natural_gas, natural_gas;geothermal, oil, utility_pv, utility_pv;geothermal, utility_pv;land_based_wind, utility_pv;land_based_wind;geothermal, utility_pv;natural_gas;geothermal | 0 |
-| `x_rule` | not yet written |  | text | for example ak_note, al_note, ar_note; 130 distinct | 0 |
-| `x_rule_name` | not yet written |  | text | for example Alabama Department of Revenue, Property Tax Assessment, Alaska Legislative Research Services, Report 21.028, Local Government in Alaska (11 December 2020), Arizona Revised Statutes 42-14155, Valuation of renewable energy and storage equipment; definitions; 105 distinct | 0 |
-| `x_kind` | not yet written |  | text | base, capacity, capacity_option, credit_tier, exempt_pct, exempt_years, fee, hcg_ratio, no_rule_held, note, own_exempt, per_unit, production, rate, rate_param, valuation, variant | 0 |
-| `x_basis` | not yet written |  | text | net acquisition cost, pct_value, per_unit | 113 |
-| `x_rate` | not yet written |  | text | 0, 0.0019, 0.0024, 0.013, 0.01565, 0.018925, 0.023, 0.03, 0.03125, 0.0315, 0.0375, 0.03785, 0.04, 0.046, 0.0625, 0.065, 0.075, 0.125, 0.1514, district, variant | 99 |
-| `x_per_unit` | not yet written |  | number | 0.000667, 0.00625 | 128 |
-| `x_unit` | not yet written |  | text | Mcf, bbl | 127 |
-| `x_effective_text` | not yet written |  | text | 1951-09-01, 1953-08-27, 1969-10-01, 2025-07-01 for the 6.5 percent rate (wells completed on or after that date), 2025-09-01 to 2026-08-31 (TRD table), 2026-04-01 to 2026-08-31 (TRD table), 2026-07-01 to 2027-06-30, report periods September 2015 and later | 116 |
-| `x_date_kind` | not yet written |  | text | the day the ERW recorded that it holds no rule (2026-10-20), the day the rule was read (2026-09-30), the day the rule was read (2026-09-30); the citation's own words are in x_effective_text, the day the statute or agency page was read, the effective date the citation gives | 0 |
-| `x_who` | not yet written |  | text | A gas well whose production for the prior three months averages no more than 90 Mcf per day (flared gas excluded); Form AP-217. Casinghead gas and condensate are not eligible, A horizontally drilled well or horizontal recompletion producing on or after July 1, 2015, A well designated a gas well, incapable of producing an average of 250,000 cubic feet per day during the entire month, A well designated an orphan well for longer than 60 months, certified, A well designated an orphan well for longer than 60 months, certified by the Department of Conservation and Energy, A well drilled to a true vertical depth of more than 15,000 feet, production commencing after July 31, 1994, A well inactive for two years or more, or with 30 days or less of production in the past two years, certified by the Department of Conservation and Energy (applications July 1, 2018 to June 30, 2028), producing from the same interval, An EOR project whose carbon dioxide is captured from an anthropogenic source in Texas, would otherwise be released, is measurable at capture, and is sequestered in Texas, An oil lease whose production over a 90-day period averages less than 15 barrels per well per day, or less than 5 percent recoverable oil per barrel of produced water; Form AP-216, An oil well certified as incapable of more than 10 barrels per producing day for the entire month, An oil well certified by the Department of Revenue as incapable of more than 25 barrels per producing day for the entire month, producing at least 50 percent salt water per day; every well on a multiple-well lease must be certified, As for oil: inactive two years or more, certified, same interval, Gas condensate from a well drilled to a true vertical depth of more than 15,000 feet, production commencing after July 31, 1994, Gas from a gas well certified by the Railroad Commission; the rate depends on how the well's drilling and completion costs compare with the median cost of high-cost gas wells of the previous state fiscal year, Gas from a qualifying well consumed within 1,000 feet of the well that would otherwise have been lawfully vented or flared, Gas from a restimulation well certified by the Railroad Commission, Gas from a well certified as a two-year inactive well, Gas from a well designated an oil well with wellhead (or casinghead) pressure of 50 psig or less for the entire month; gas lift wells are presumed to qualify, Gas from an oil well, lawfully vented or flared, certified by the Railroad Commission, Oil from a well certified by the Railroad Commission as a two-year inactive well, Oil from an enhanced recovery project certified by the Texas Railroad Commission; a valid project number must be reported, Oil from an orphan well under R.S. 30:88.2(A) enhanced under a Department of Conservation and Energy permit (re-entry, workover, plugback), certified | 106 |
-| `x_what` | not yet written |  | text | for example 0.0 percent of market value, 1.3 cents per Mcf, 1.565 percent of value (3.125 percent if production commences on or after October 1, 2028); 99 distinct | 25 |
-| `x_how_long` | not yet written |  | text | 10 years beginning the first day of the month after the Railroad Commission certifies a positive production response (or, for an expansion, incremental production), 24 months from commercial production or until payout of the well cost, whichever comes first, 24 months from commercial production or until payout, whichever comes first, 24 months or until payout for wells completed before July 1, 2025; 18 months or until payout for wells completed on or after July 1, 2025, 24 months or until payout of the well cost, whichever comes first, As certified; the operator keeps the first three months' amount, Each month the pressure test is met, Each month the test is met, Each report month, while the lease qualifies and by the certified price, Each report month, while the well qualifies and by the certified price, Five years, Ten years, The first 120 consecutive calendar months from first production, or until the cumulative reduction equals 50 percent of the drilling and completion costs, whichever occurs first (wells spudded or completed after August 31, 1996), Until the 30th anniversary of the date the Comptroller first approves the application; the reduction is prorated to the anthropogenic share of the carbon dioxide used, Until the earlier of the last day of the 36th consecutive month after the well first produces following the restimulation treatment, or the date the exempted taxes (chapters 201 and 202) reach the lesser of the restimulation costs or $750,000, Until the well averages more than 10 barrels per day for an entire calendar month, While certified (by the 25th day of the second month after production) | 108 |
-| `x_quote` | not yet written |  | text | for example (1) for a large scale wind energy conversion system, .12 cents per kilowatt-hour of electricity produced by the system; (2) for a medium scale wind energy conversion system, .036 cents per kilowatt-hour of electricity produced by the system; and (3) for a small scale wind energy conversion system of two megawatts or less, but greater than .25 megawatts capacity, .012 cents per kilowatt-hour of electricity produced by the system., (1)(a) The owner of a renewable energy generation facility annually shall pay a nameplate capacity tax equal to the total nameplate capacity of the commissioned renewable energy generation facility multiplied by a tax rate of three thousand five hundred eighteen dollars per megawatt., (2) Except as provided in subsections (3), (4), and (5), the amount of the solar energy facilities tax, in each year after the facility is placed in service, is equal to $7,000.00 per megawatt of nameplate capacity, alternating current as reported on the annual form prescribed under section 8(1). (3) The amount of the specific tax as prescribed in subsection (2) must be reduced to $2,000.00 per megawatt of nameplate capacity, alternating current [...], for a qualified facility located on 1 or more of the following: (a) Property owned by this state [...] (b) Property located in an opportunity zone [...] (c) Property that was used or is currently used for commercial or industrial purposes and that is a facility, historic resource, functionally obsolete, or blighted [...] (d) Improved real property used for another purpose if the qualified facility is attached to the improvement.; 91 distinct | 31 |
-| `x_quote2` | not yet written |  | text | for example "Nameplate capacity," the number of kilowatts a renewable facility can produce, as assigned to the power units in the renewable facility by the manufacturer and determined by the secretary; [...] "Wind farm," all real or personal property used or constructed for the purpose of producing electricity for commercial purposes utilizing the wind as an energy source and with a nameplate capacity of at least five thousand kilowatts., "large scale wind energy conversion system" means a wind energy conversion system of more than 12 megawatts, as measured by the nameplate capacity of the system, (a) Electrical Equipment 11% Includes the manufacture of electric household appliances, electronic equipment, batteries, ignition systems, and machinery used in the generation and utilization of electrical energy. [PT-300:] Schedule E: Leased Utility Real or personal property used by Water, Heat, Light, Solar, Power, Telephone, Cable Television, and Sewer Companies. [...] The SCDOR applies depreciation for all taxable properties in accordance with SC Code Section 12-37-930.; 31 distinct | 96 |
-| `x_code_section` | not yet written |  | text | for example Alabama Department of Revenue, Property Tax Assessment, Alaska Legislative Research Services, Report 21.028, Local Government in Alaska (11 December 2020), Arizona Revised Statutes 42-14155, Valuation of renewable energy and storage equipment; definitions; 75 distinct | 36 |
-| `x_code_quote` | not yet written |  | text | (f) "Qualified solar energy facility" or "qualified facility" means a facility, whether owned or leased, that when constructed and placed in service is located in a solar energy district and that uses or will use solar energy as the sole source for the generation of at least 2 megawatts of nameplate capacity, alternating current [...], Each month, the comptroller shall certify the average taxable price of gas, adjusted to 2005 dollars, during the previous three months, Each month, the comptroller shall certify the average taxable price of oil, adjusted to 2005 dollars, during the previous three months, Enclosed is a copy of the 2026 Trend and Percent Good Tables for Tax Year 2027, along with a detailed list of North American Industry Classification System (NAICS) codes. [...] 2211 Electric Power Generation, Transmission and Distribution 46 9 [...] PERCENT GOOD TABLE [...] pp09 [...] 30 YEARS: 2026 98.00, 2025 97.00, 2024 95.00 [...] 1995 20.00, 1994 20.00, F. Solar Energy Device 10-Year Age/Life Original Cost x Index Factor x %GD Schedule [...] Solar/Ind 10YR [...] 2025 92, 2024 84, 2023 76, 2022 67, 2021 58, 2020 49, 2019 39, 2018 30, 2017 24, 2016 21, 2015 20, Gas produced from a qualifying well that is consumed within 1,000 feet of the qualifying well and would otherwise have been lawfully vented or flared is not subject to the tax imposed by this chapter., Hydrocarbons produced from a well qualify for a five-year severance tax exemption if the commission designates the well as a two-year inactive well., TABLE 4: MACHINERY AND EQUIPMENT PERCENT GOOD FACTORS. Individual Properties - Average Service Life - 5.5% Rate of Return [...] 17: 96 91 87 82 77 72 68 63 58 53 48 43 38 34 30 26 23 19 16 14 12 10 9 7 5 3 1 [...] No minimum percent good factor is intended in this table., The amount of tax reduction shall be computed by subtracting from the tax rate imposed by Section 201.052 the product of that tax rate times the ratio of drilling and completion costs incurred for the well to twice the median drilling and completion costs for high-cost wells spudded or completed during the previous state fiscal year, except that the effective rate of tax may not be reduced below zero., The tax imposed by this chapter does not apply to gas: (1) injected into the earth in this state, unless sold for that purpose; (2) produced from oil wells with oil and lawfully vented or flared, The tax imposed by this chapter is at the rate of 4.6 percent of the market value of oil produced in this state or 4.6 cents for each barrel of 42 standard gallons of oil produced in this state, whichever rate results in the greater amount of tax., The tax imposed by this chapter is at the rate of 7.5 percent of the market value of gas produced and saved in this state by the producer., The tax imposed by this section is at the same rate as the rate of the tax imposed on oil by Section 202.052 of this code., the recovered oil tax rate applies to oil on which a tax is imposed by this chapter for the 10 years beginning the first day of the month following the date the commission certifies that, in the case of an enhanced recovery project including a co-production project, a positive production response has occurred, until the 30th anniversary of the date that the comptroller first approves an application for a tax rate reduction under this section, the producer of oil recovered through an enhanced oil recovery project that qualifies under Section 202.054 for the recovered oil tax rate provided by Section 202.052 (b) is entitled to an additional 50 percent reduction in that tax rate, until the earlier of: (1) the last day of the 36th consecutive month following the month in which the well first produces hydrocarbons after a restimulation treatment is completed; or (2) the date on which the cumulative amount of taxes exempted under Chapter 201 and this chapter and any credit under Subsection (l) equals the lesser of: (A) the restimulation costs described by Subsection (j); or (B) $750,000. | 113 |
-| `x_code_url` | not yet written |  | text | https://boe.ca.gov/proptaxes/pdf/lta17020.pdf https://boe.ca.gov/meetings/pdf/2025/ah58126.pdf, https://comptroller.texas.gov/taxes/property-tax/docs/96-1569.pdf https://hcad.org/assets/uploads/pdf/resources/2026/2026-PP-Calc-Guide.pdf, https://dam.assets.ohio.gov/image/upload/v1739290822/tax.ohio.gov/forms/public_utility_property/2025/pupp-instructions.pdf, https://docs.legis.wisconsin.gov/document/statutes/70.112, https://dor.georgia.gov/document/document/lgsd-2024-001-amended-and-adopted-regulationspdf/download, https://dor.wa.gov/sites/default/files/2025-12/2026ValuationGuidelines.docx, https://legislature.mi.gov/Laws/MCL?objectName=mcl-211-1157 https://legislature.mi.gov/Laws/MCL?objectName=mcl-211-1152, https://revenue.ky.gov/Forms/61A200(P)(1-25).pdf, https://revenuefiles.mt.gov/property/personal-property/2026-Personal-Property-Depreciation-Schedules-and-Trend-Tables-v2.pdf, https://sdlegislature.gov/api/Statutes/10-35-16.html, https://statutes.capitol.texas.gov/Docs/TX/htm/TX.201.htm, https://statutes.capitol.texas.gov/Docs/TX/htm/TX.202.htm, https://tax.wv.gov/Documents/LegislativeRules/LegislativeRule.Title-110.Series-1M.pdf https://cabellassessor.com/Forms/TrendandPercentGoodTablesforTaxYear2027.pdf, https://www.flsenate.gov/Laws/Statutes/2025/193.624, https://www.scstatehouse.gov/code/t12c037, https://www.tax.newmexico.gov/businesses/wp-content/uploads/sites/4/2021/02/210-240-Electric.pdf, https://www.tn.gov/content/dam/tn/attorneygeneral/documents/ops/2013/op13-028.pdf | 98 |
-| `x_detail` | not yet written |  | text | for example {"abates": "tax", "exempt_share": 0.55, "min_mw": 10, "requires": "option", "years": 20}, {"above_mw": 5, "below_mw": 150, "exempt_steps": [{"share": 0.8, "until": 5}, {"share": 0.7, "until": 10}, {"share": 0.6}]}, {"adds_to_property": true, "exempt_years": 3, "usd_per_mwh": 1.0}; 71 distinct | 43 |
-| `x_applies_to` | not yet written |  | text | every technology of the economic impact tool, geothermal, land_based_wind, land_based_wind;natural_gas, land_based_wind;natural_gas;geothermal, land_based_wind;utility_pv, land_based_wind;utility_pv;geothermal, land_based_wind;utility_pv;natural_gas;geothermal, natural_gas, natural_gas;geothermal, oil and gas production; none of the economic impact tool's technologies produces oil or gas, utility_pv, utility_pv;geothermal, utility_pv;land_based_wind, utility_pv;land_based_wind;geothermal, utility_pv;natural_gas;geothermal | 0 |
-| `x_note` | not yet written |  | text | for example As site/data/forecast/property_rules.json holds it (version 2026-11-13); read 2026-11-13, As site/data/forecast/property_rules.json holds it (version 2026-11-13); read 2026-11-13, request 102; not modeled by the forecast: Payments by the state from its public utility account to the plant's municipality and county, USD 2,000 per MW shared (two thirds to a city or village and one third to its county, or one third to a town and two thirds to its county) plus USD 1,500 per MW to each: USD 5,000 per MW in all, in place of the property tax the plant does not pay. Not modeled: the caps on the shared part at USD 300 a resident of the municipality and USD 100 a resident of the county (79.04(6)(d)); the extra USD 900 per MW each for a plant on the site of an existing plant or a brownfield (7)(a); whether a given owner is taxed under s. 76.28 (79.04(6)(a)'s list of owners). A gas plant receives the shared USD 2,000 per MW and, as a baseload plant of 50 MW or more, USD 600 each (7)(b); "baseload" is not read, so no gas rule is held., As site/data/forecast/property_rules.json holds it (version 2026-11-13); read 2026-11-13, request 105; not modeled by the forecast: The abatement needs the Director's approval (jobs on the construction, a capital investment of USD 3 or 10 million, wages of 110 and 175 percent of the state's average, NRS 701A.365) and the county may deny it within 30 days: off by default. No rate is in the statute: the abatement acts on the reader's own rate. The 20 fiscal years run from the approval, taken as the first construction year. The partial abatement of local sales and use taxes above 0.6 percent for 3 years (701A.370(1)(b)) is not modeled. Eligibility needs a generating capacity of at least 10 MW (701A.360, read by the re-check of session 4291): held as the rule's minimum size.; 55 distinct | 0 |
+| `x_state` | The state, two-letter code | none | text | for example AK, AL, AR; 51 distinct | 0 |
+| `x_tax` | The tax: severance or property | none | text | property, severance | 0 |
+| `x_product` | What the rule taxes: oil, gas or condensate (severance), a generating project (no-rule rows), or the technologies a property rule applies to, joined by ; | none | text | condensate, gas, generating_project, geothermal, land_based_wind, land_based_wind;natural_gas, land_based_wind;natural_gas;geothermal, land_based_wind;utility_pv, land_based_wind;utility_pv;geothermal, land_based_wind;utility_pv;natural_gas;geothermal, natural_gas, natural_gas;geothermal, oil, utility_pv, utility_pv;geothermal, utility_pv;land_based_wind, utility_pv;land_based_wind;geothermal, utility_pv;natural_gas;geothermal | 0 |
+| `x_rule` | The rule's id in its record file (the source's name: id) | none | text | for example ak_note, al_note, ar_note; 130 distinct | 0 |
+| `x_rule_name` | The rule's name (severance), or the title of the statute or page it cites (property) | none | text | for example Alabama Department of Revenue, Property Tax Assessment, Alaska Legislative Research Services, Report 21.028, Local Government in Alaska (11 December 2020), Arizona Revised Statutes 42-14155, Valuation of renewable energy and storage equipment; definitions; 105 distinct | 0 |
+| `x_kind` | The kind of rule as its record names it (severance: base, fee, variant and option kinds such as credit_tier and per_unit; property: capacity, exempt_pct, own_exempt, note and others; no_rule_held) (the source's name: kind) | none | text | base, capacity, capacity_option, credit_tier, exempt_pct, exempt_years, fee, hcg_ratio, no_rule_held, note, own_exempt, per_unit, production, rate, rate_param, valuation, variant | 0 |
+| `x_basis` | What the rate applies to: pct_value (a fraction of value), per_unit, or the basis a property rule names (the source's name: basis) | none | text | net acquisition cost, pct_value, per_unit | 113: The record gives no basis |
+| `x_rate` | The rate: a fraction of value (0.046 for Texas oil), or with x_basis per_unit an amount a unit; variant or district where the rate is given elsewhere (the source's name: rate) | ratio, or USD per x_unit where x_basis is per_unit | text | 0, 0.0019, 0.0024, 0.013, 0.01565, 0.018925, 0.023, 0.03, 0.03125, 0.0315, 0.0375, 0.03785, 0.04, 0.046, 0.0625, 0.065, 0.075, 0.125, 0.1514, district, variant | 99: The rule has no single rate (a property rule, a note, a no-rule row) |
+| `x_per_unit` | A fee per unit (Texas oil 0.00625 a bbl, gas 0.000667 a Mcf) (the source's name: per_unit) | USD per x_unit | number | 0.000667, 0.00625 | 128: The rule has no per-unit amount |
+| `x_unit` | The unit of the per-unit amount or rate (bbl, Mcf) | none | text | Mcf, bbl | 127: The rule has no per-unit amount |
+| `x_effective_text` | The citation's own words on when the rule is effective (the source's name: effective) | none | text | 1951-09-01, 1953-08-27, 1969-10-01, 2025-07-01 for the 6.5 percent rate (wells completed on or after that date), 2025-09-01 to 2026-08-31 (TRD table), 2026-04-01 to 2026-08-31 (TRD table), 2026-07-01 to 2027-06-30, report periods September 2015 and later | 116: The record gives no effective date |
+| `x_date_kind` | Which date event_date is: the effective date the citation gives, the day the rule or statute was read, or the day the ERW recorded that it holds no rule | none | text | the day the ERW recorded that it holds no rule (2026-10-20), the day the rule was read (2026-09-30), the day the rule was read (2026-09-30); the citation's own words are in x_effective_text, the day the statute or agency page was read, the effective date the citation gives | 0 |
+| `x_who` | Who or what the rule applies to, in words (the source's name: who) | none | text | A gas well whose production for the prior three months averages no more than 90 Mcf per day (flared gas excluded); Form AP-217. Casinghead gas and condensate are not eligible, A horizontally drilled well or horizontal recompletion producing on or after July 1, 2015, A well designated a gas well, incapable of producing an average of 250,000 cubic feet per day during the entire month, A well designated an orphan well for longer than 60 months, certified, A well designated an orphan well for longer than 60 months, certified by the Department of Conservation and Energy, A well drilled to a true vertical depth of more than 15,000 feet, production commencing after July 31, 1994, A well inactive for two years or more, or with 30 days or less of production in the past two years, certified by the Department of Conservation and Energy (applications July 1, 2018 to June 30, 2028), producing from the same interval, An EOR project whose carbon dioxide is captured from an anthropogenic source in Texas, would otherwise be released, is measurable at capture, and is sequestered in Texas, An oil lease whose production over a 90-day period averages less than 15 barrels per well per day, or less than 5 percent recoverable oil per barrel of produced water; Form AP-216, An oil well certified as incapable of more than 10 barrels per producing day for the entire month, An oil well certified by the Department of Revenue as incapable of more than 25 barrels per producing day for the entire month, producing at least 50 percent salt water per day; every well on a multiple-well lease must be certified, As for oil: inactive two years or more, certified, same interval, Gas condensate from a well drilled to a true vertical depth of more than 15,000 feet, production commencing after July 31, 1994, Gas from a gas well certified by the Railroad Commission; the rate depends on how the well's drilling and completion costs compare with the median cost of high-cost gas wells of the previous state fiscal year, Gas from a qualifying well consumed within 1,000 feet of the well that would otherwise have been lawfully vented or flared, Gas from a restimulation well certified by the Railroad Commission, Gas from a well certified as a two-year inactive well, Gas from a well designated an oil well with wellhead (or casinghead) pressure of 50 psig or less for the entire month; gas lift wells are presumed to qualify, Gas from an oil well, lawfully vented or flared, certified by the Railroad Commission, Oil from a well certified by the Railroad Commission as a two-year inactive well, Oil from an enhanced recovery project certified by the Texas Railroad Commission; a valid project number must be reported, Oil from an orphan well under R.S. 30:88.2(A) enhanced under a Department of Conservation and Energy permit (re-entry, workover, plugback), certified | 106: The record says nothing of it |
+| `x_what` | What the rule gives, in words (the rate, or a property rule's explanation) (the source's name: what (severance); tip (property)) | none | text | for example 0.0 percent of market value, 1.3 cents per Mcf, 1.565 percent of value (3.125 percent if production commences on or after October 1, 2028); 99 distinct | 25: The record says nothing of it |
+| `x_how_long` | How long the rule lasts, in words (the source's name: how_long) | none | text | 10 years beginning the first day of the month after the Railroad Commission certifies a positive production response (or, for an expansion, incremental production), 24 months from commercial production or until payout of the well cost, whichever comes first, 24 months from commercial production or until payout, whichever comes first, 24 months or until payout for wells completed before July 1, 2025; 18 months or until payout for wells completed on or after July 1, 2025, 24 months or until payout of the well cost, whichever comes first, As certified; the operator keeps the first three months' amount, Each month the pressure test is met, Each month the test is met, Each report month, while the lease qualifies and by the certified price, Each report month, while the well qualifies and by the certified price, Five years, Ten years, The first 120 consecutive calendar months from first production, or until the cumulative reduction equals 50 percent of the drilling and completion costs, whichever occurs first (wells spudded or completed after August 31, 1996), Until the 30th anniversary of the date the Comptroller first approves the application; the reduction is prorated to the anthropogenic share of the carbon dioxide used, Until the earlier of the last day of the 36th consecutive month after the well first produces following the restimulation treatment, or the date the exempted taxes (chapters 201 and 202) reach the lesser of the restimulation costs or $750,000, Until the well averages more than 10 barrels per day for an entire calendar month, While certified (by the 25th day of the second month after production) | 108: The record says nothing of it |
+| `x_quote` | The cited page's own words stating the rule (the source's name: quote) | none | text | for example (1) for a large scale wind energy conversion system, .12 cents per kilowatt-hour of electricity produced by the system; (2) for a medium scale wind energy conversion system, .036 cents per kilowatt-hour of electricity produced by the system; and (3) for a small scale wind energy conversion system of two megawatts or less, but greater than .25 megawatts capacity, .012 cents per kilowatt-hour of electricity produced by the system., (1)(a) The owner of a renewable energy generation facility annually shall pay a nameplate capacity tax equal to the total nameplate capacity of the commissioned renewable energy generation facility multiplied by a tax rate of three thousand five hundred eighteen dollars per megawatt., (2) Except as provided in subsections (3), (4), and (5), the amount of the solar energy facilities tax, in each year after the facility is placed in service, is equal to $7,000.00 per megawatt of nameplate capacity, alternating current as reported on the annual form prescribed under section 8(1). (3) The amount of the specific tax as prescribed in subsection (2) must be reduced to $2,000.00 per megawatt of nameplate capacity, alternating current [...], for a qualified facility located on 1 or more of the following: (a) Property owned by this state [...] (b) Property located in an opportunity zone [...] (c) Property that was used or is currently used for commercial or industrial purposes and that is a facility, historic resource, functionally obsolete, or blighted [...] (d) Improved real property used for another purpose if the qualified facility is attached to the improvement.; 91 distinct | 31: No quote recorded for the row |
+| `x_quote2` | A second quote from the cited page (the source's name: quote2) | none | text | for example "Nameplate capacity," the number of kilowatts a renewable facility can produce, as assigned to the power units in the renewable facility by the manufacturer and determined by the secretary; [...] "Wind farm," all real or personal property used or constructed for the purpose of producing electricity for commercial purposes utilizing the wind as an energy source and with a nameplate capacity of at least five thousand kilowatts., "large scale wind energy conversion system" means a wind energy conversion system of more than 12 megawatts, as measured by the nameplate capacity of the system, (a) Electrical Equipment 11% Includes the manufacture of electric household appliances, electronic equipment, batteries, ignition systems, and machinery used in the generation and utilization of electrical energy. [PT-300:] Schedule E: Leased Utility Real or personal property used by Water, Heat, Light, Solar, Power, Telephone, Cable Television, and Sewer Companies. [...] The SCDOR applies depreciation for all taxable properties in accordance with SC Code Section 12-37-930.; 31 distinct | 96: No second quote recorded |
+| `x_code_section` | The statute section cited (property rules: the cited statute's or page's title) | none | text | for example Alabama Department of Revenue, Property Tax Assessment, Alaska Legislative Research Services, Report 21.028, Local Government in Alaska (11 December 2020), Arizona Revised Statutes 42-14155, Valuation of renewable energy and storage equipment; definitions; 75 distinct | 36: No statute recorded for the row |
+| `x_code_quote` | The statute's own words | none | text | (f) "Qualified solar energy facility" or "qualified facility" means a facility, whether owned or leased, that when constructed and placed in service is located in a solar energy district and that uses or will use solar energy as the sole source for the generation of at least 2 megawatts of nameplate capacity, alternating current [...], Each month, the comptroller shall certify the average taxable price of gas, adjusted to 2005 dollars, during the previous three months, Each month, the comptroller shall certify the average taxable price of oil, adjusted to 2005 dollars, during the previous three months, Enclosed is a copy of the 2026 Trend and Percent Good Tables for Tax Year 2027, along with a detailed list of North American Industry Classification System (NAICS) codes. [...] 2211 Electric Power Generation, Transmission and Distribution 46 9 [...] PERCENT GOOD TABLE [...] pp09 [...] 30 YEARS: 2026 98.00, 2025 97.00, 2024 95.00 [...] 1995 20.00, 1994 20.00, F. Solar Energy Device 10-Year Age/Life Original Cost x Index Factor x %GD Schedule [...] Solar/Ind 10YR [...] 2025 92, 2024 84, 2023 76, 2022 67, 2021 58, 2020 49, 2019 39, 2018 30, 2017 24, 2016 21, 2015 20, Gas produced from a qualifying well that is consumed within 1,000 feet of the qualifying well and would otherwise have been lawfully vented or flared is not subject to the tax imposed by this chapter., Hydrocarbons produced from a well qualify for a five-year severance tax exemption if the commission designates the well as a two-year inactive well., TABLE 4: MACHINERY AND EQUIPMENT PERCENT GOOD FACTORS. Individual Properties - Average Service Life - 5.5% Rate of Return [...] 17: 96 91 87 82 77 72 68 63 58 53 48 43 38 34 30 26 23 19 16 14 12 10 9 7 5 3 1 [...] No minimum percent good factor is intended in this table., The amount of tax reduction shall be computed by subtracting from the tax rate imposed by Section 201.052 the product of that tax rate times the ratio of drilling and completion costs incurred for the well to twice the median drilling and completion costs for high-cost wells spudded or completed during the previous state fiscal year, except that the effective rate of tax may not be reduced below zero., The tax imposed by this chapter does not apply to gas: (1) injected into the earth in this state, unless sold for that purpose; (2) produced from oil wells with oil and lawfully vented or flared, The tax imposed by this chapter is at the rate of 4.6 percent of the market value of oil produced in this state or 4.6 cents for each barrel of 42 standard gallons of oil produced in this state, whichever rate results in the greater amount of tax., The tax imposed by this chapter is at the rate of 7.5 percent of the market value of gas produced and saved in this state by the producer., The tax imposed by this section is at the same rate as the rate of the tax imposed on oil by Section 202.052 of this code., the recovered oil tax rate applies to oil on which a tax is imposed by this chapter for the 10 years beginning the first day of the month following the date the commission certifies that, in the case of an enhanced recovery project including a co-production project, a positive production response has occurred, until the 30th anniversary of the date that the comptroller first approves an application for a tax rate reduction under this section, the producer of oil recovered through an enhanced oil recovery project that qualifies under Section 202.054 for the recovered oil tax rate provided by Section 202.052 (b) is entitled to an additional 50 percent reduction in that tax rate, until the earlier of: (1) the last day of the 36th consecutive month following the month in which the well first produces hydrocarbons after a restimulation treatment is completed; or (2) the date on which the cumulative amount of taxes exempted under Chapter 201 and this chapter and any credit under Subsection (l) equals the lesser of: (A) the restimulation costs described by Subsection (j); or (B) $750,000. | 113: No statute words recorded for the row |
+| `x_code_url` | The statute's address (property rules: the further addresses cited) | none | text | https://boe.ca.gov/proptaxes/pdf/lta17020.pdf https://boe.ca.gov/meetings/pdf/2025/ah58126.pdf, https://comptroller.texas.gov/taxes/property-tax/docs/96-1569.pdf https://hcad.org/assets/uploads/pdf/resources/2026/2026-PP-Calc-Guide.pdf, https://dam.assets.ohio.gov/image/upload/v1739290822/tax.ohio.gov/forms/public_utility_property/2025/pupp-instructions.pdf, https://docs.legis.wisconsin.gov/document/statutes/70.112, https://dor.georgia.gov/document/document/lgsd-2024-001-amended-and-adopted-regulationspdf/download, https://dor.wa.gov/sites/default/files/2025-12/2026ValuationGuidelines.docx, https://legislature.mi.gov/Laws/MCL?objectName=mcl-211-1157 https://legislature.mi.gov/Laws/MCL?objectName=mcl-211-1152, https://revenue.ky.gov/Forms/61A200(P)(1-25).pdf, https://revenuefiles.mt.gov/property/personal-property/2026-Personal-Property-Depreciation-Schedules-and-Trend-Tables-v2.pdf, https://sdlegislature.gov/api/Statutes/10-35-16.html, https://statutes.capitol.texas.gov/Docs/TX/htm/TX.201.htm, https://statutes.capitol.texas.gov/Docs/TX/htm/TX.202.htm, https://tax.wv.gov/Documents/LegislativeRules/LegislativeRule.Title-110.Series-1M.pdf https://cabellassessor.com/Forms/TrendandPercentGoodTablesforTaxYear2027.pdf, https://www.flsenate.gov/Laws/Statutes/2025/193.624, https://www.scstatehouse.gov/code/t12c037, https://www.tax.newmexico.gov/businesses/wp-content/uploads/sites/4/2021/02/210-240-Electric.pdf, https://www.tn.gov/content/dam/tn/attorneygeneral/documents/ops/2013/op13-028.pdf | 98: No statute address recorded for the row |
+| `x_detail` | Other fields of the rule's record, as JSON (tiers, bounds, district rates, exempt shares and others) | none | text | for example {"abates": "tax", "exempt_share": 0.55, "min_mw": 10, "requires": "option", "years": 20}, {"above_mw": 5, "below_mw": 150, "exempt_steps": [{"share": 0.8, "until": 5}, {"share": 0.7, "until": 10}, {"share": 0.6}]}, {"adds_to_property": true, "exempt_years": 3, "usd_per_mwh": 1.0}; 71 distinct | 43: The record holds no other field |
+| `x_applies_to` | Which of the economic impact tool's technologies the rule applies to (severance rows: oil and gas production, which none of them produces) | none | text | every technology of the economic impact tool, geothermal, land_based_wind, land_based_wind;natural_gas, land_based_wind;natural_gas;geothermal, land_based_wind;utility_pv, land_based_wind;utility_pv;geothermal, land_based_wind;utility_pv;natural_gas;geothermal, natural_gas, natural_gas;geothermal, oil and gas production; none of the economic impact tool's technologies produces oil or gas, utility_pv, utility_pv;geothermal, utility_pv;land_based_wind, utility_pv;land_based_wind;geothermal, utility_pv;natural_gas;geothermal | 0 |
+| `x_note` | Where the row was read from: the record file and its version, the day read, and what the forecast does not model | none | text | for example As site/data/forecast/property_rules.json holds it (version 2026-11-13); read 2026-11-13, As site/data/forecast/property_rules.json holds it (version 2026-11-13); read 2026-11-13, request 102; not modeled by the forecast: Payments by the state from its public utility account to the plant's municipality and county, USD 2,000 per MW shared (two thirds to a city or village and one third to its county, or one third to a town and two thirds to its county) plus USD 1,500 per MW to each: USD 5,000 per MW in all, in place of the property tax the plant does not pay. Not modeled: the caps on the shared part at USD 300 a resident of the municipality and USD 100 a resident of the county (79.04(6)(d)); the extra USD 900 per MW each for a plant on the site of an existing plant or a brownfield (7)(a); whether a given owner is taxed under s. 76.28 (79.04(6)(a)'s list of owners). A gas plant receives the shared USD 2,000 per MW and, as a baseload plant of 50 MW or more, USD 600 each (7)(b); "baseload" is not read, so no gas rule is held., As site/data/forecast/property_rules.json holds it (version 2026-11-13); read 2026-11-13, request 105; not modeled by the forecast: The abatement needs the Director's approval (jobs on the construction, a capital investment of USD 3 or 10 million, wages of 110 and 175 percent of the state's average, NRS 701A.365) and the county may deny it within 30 days: off by default. No rate is in the statute: the abatement acts on the reader's own rate. The 20 fiscal years run from the approval, taken as the first construction year. The partial abatement of local sales and use taxes above 0.6 percent for 3 years (701A.370(1)(b)) is not modeled. Eligibility needs a generating capacity of at least 10 MW (701A.360, read by the re-check of session 4291): held as the rule's minimum size.; 55 distinct | 0 |
 
 ### `ine_es_dwellings_electricity_2021`
 
@@ -2745,49 +2771,51 @@ Variables (25):
 
 ### `rrc_lease_production_monthly`
 
-What a row is: not yet written.
+One Texas Railroad Commission lease's reported production of oil, casinghead gas, gas or condensate in Martin County in one month.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 212252.
 
+- **Time:** ts_utc is the production month's first day at 00:00:00Z; freq P1M.
+- **Revisions:** Replaced whole by each run: a snapshot of the dump's latest 24 months, as the dump revises; vintage is the dump's oil extract date.
 - **Source:** rrc:pdq_dump RRC Production Data Query dump (PDQ_DSV.zip) (https://mft.rrc.texas.gov/link/1f5ddb8d-329a-4459-b7f8-177b4f5ee60d)
 - **Method note:** [`docs/methods/rrc_lease_production_monthly.md`](../methods/rrc_lease_production_monthly.md)
 - **Cite as:** Railroad Commission of Texas (RRC). Production Data Query dump (PDQ_DSV.zip). Via the Energy Research Warehouse (ERW), table `rrc_lease_production_monthly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example rrc:G-10-149593, rrc:G-10-295113, rrc:G-10-299615; 4828 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: rrc:<oil or gas code>-<district no>-<lease no>, the RRC's lease id (a gas lease is one gas well) | none | text | for example rrc:G-10-149593, rrc:G-10-295113, rrc:G-10-299615; 4828 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2024-08-01T00:00:00Z, 2024-09-01T00:00:00Z, 2024-10-01T00:00:00Z, 2024-11-01T00:00:00Z, 2024-12-01T00:00:00Z, 2025-01-01T00:00:00Z, 2025-02-01T00:00:00Z, 2025-03-01T00:00:00Z, 2025-04-01T00:00:00Z, 2025-05-01T00:00:00Z, 2025-06-01T00:00:00Z, 2025-07-01T00:00:00Z, 2025-08-01T00:00:00Z, 2025-09-01T00:00:00Z, 2025-10-01T00:00:00Z, 2025-11-01T00:00:00Z, 2025-12-01T00:00:00Z, 2026-01-01T00:00:00Z, 2026-02-01T00:00:00Z, 2026-03-01T00:00:00Z, 2026-04-01T00:00:00Z, 2026-05-01T00:00:00Z, 2026-06-01T00:00:00Z, 2026-07-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | integer | 0 to 872591; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | Mcf, bbl | 0 |
 | `freq` | How long the interval of the row is | none | text | P1M | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-TX | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 212252 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | empty | no cell holds a value | 212252 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 212252 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 212252 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | rrc:pdq_dump | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://mft.rrc.texas.gov/link/1f5ddb8d-329a-4459-b7f8-177b4f5ee60d | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-01T04:38:43Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-09-18T00:00:00Z | 0 |
-| `x_county` | not yet written |  | text | MARTIN | 0 |
-| `x_district` | not yet written |  | text | 08, 7C, 8A | 0 |
-| `x_oil_gas_code` | not yet written |  | text | G, O | 0 |
-| `x_lease_no` | not yet written |  | integer | 388 to 299975; 4822 distinct | 0 |
-| `x_lease_name` | not yet written |  | text | for example A LLOYD 48, ABRAXAS "20", ABRAXAS "27"; 4715 distinct | 0 |
-| `x_operator_no` | not yet written |  | integer | 27200 to 950523; 71 distinct | 0 |
-| `x_operator_name` | not yet written |  | text | for example ALAMAR VENTURES, INC., APACHE CORPORATION, ARYA RESOURCES, LLC; 71 distinct | 0 |
-| `x_field_no` | not yet written |  | integer | 448200 to 90557500; 51 distinct | 0 |
-| `x_field_name` | not yet written |  | text | for example ACKERLY (DEAN SAND), BETTY SUE (DEVONIAN), BLOCK 7 (DEVONIAN); 50 distinct | 0 |
-| `x_gas_well_no` | not yet written |  | text | 124, 1A, 1H, 2, 2H, 3H, 4H, 5, 6H | 211870 |
-| `x_wells` | not yet written |  | integer | 1 to 919; 46 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The dump's oil extract date (2026-09-18) | none | utc time | 2026-09-18T00:00:00Z | 0 |
+| `x_county` | The county (MARTIN) (the source's name: COUNTY_NAME) | none | text | MARTIN | 0 |
+| `x_district` | The RRC district's name (08, 7C, 8A); the entity carries the district number (the source's name: DISTRICT_NAME (from DISTRICT_NO)) | none | text | 08, 7C, 8A | 0 |
+| `x_oil_gas_code` | O for an oil lease, G for a gas lease (the source's name: OIL_GAS_CODE) | none | text | G, O | 0 |
+| `x_lease_no` | The lease's number (the source's name: LEASE_NO) | none | integer | 388 to 299975; 4822 distinct | 0 |
+| `x_lease_name` | The lease's name (the source's name: LEASE_NAME) | none | text | for example A LLOYD 48, ABRAXAS "20", ABRAXAS "27"; 4715 distinct | 0 |
+| `x_operator_no` | The number of the operator that reported the month (the source's name: OPERATOR_NO) | none | integer | 27200 to 950523; 71 distinct | 0 |
+| `x_operator_name` | The name of the operator that reported the month (the source's name: OPERATOR_NAME) | none | text | for example ALAMAR VENTURES, INC., APACHE CORPORATION, ARYA RESOURCES, LLC; 71 distinct | 0 |
+| `x_field_no` | The field's number (the source's name: FIELD_NO) | none | integer | 448200 to 90557500; 51 distinct | 0 |
+| `x_field_name` | The field's name (the source's name: FIELD_NAME) | none | text | for example ACKERLY (DEAN SAND), BETTY SUE (DEVONIAN), BLOCK 7 (DEVONIAN); 50 distinct | 0 |
+| `x_gas_well_no` | The gas well number, gas leases only (the source's name: GAS_WELL_NO) | none | text | 124, 1A, 1H, 2, 2H, 3H, 4H, 5, 6H | 211870: Empty on oil leases |
+| `x_wells` | The wells the RRC lists on the lease in OG_WELL_COMPLETION (any status, any county; 0 where it lists none) | count | integer | 1 to 919; 46 distinct | 0 |
 
 Variables (4):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `casinghead_gas_mcf` |  | Mcf | 105935 | 2024-08-01T00:00:00Z | 2026-07-01T00:00:00Z |
-| `condensate_bbl` |  | bbl | 191 | 2024-08-01T00:00:00Z | 2026-07-01T00:00:00Z |
-| `gas_mcf` |  | Mcf | 191 | 2024-08-01T00:00:00Z | 2026-07-01T00:00:00Z |
-| `oil_bbl` |  | bbl | 105935 | 2024-08-01T00:00:00Z | 2026-07-01T00:00:00Z |
+| `casinghead_gas_mcf` | Casinghead gas produced by an oil lease in the county in the month, as reported by the operator | Mcf | 105935 | 2024-08-01T00:00:00Z | 2026-07-01T00:00:00Z |
+| `condensate_bbl` | Condensate produced by a gas lease in the county in the month, as reported by the operator | bbl | 191 | 2024-08-01T00:00:00Z | 2026-07-01T00:00:00Z |
+| `gas_mcf` | Gas produced by a gas lease in the county in the month, as reported by the operator | Mcf | 191 | 2024-08-01T00:00:00Z | 2026-07-01T00:00:00Z |
+| `oil_bbl` | Oil produced by an oil lease in the county in the month, as reported by the operator | bbl | 105935 | 2024-08-01T00:00:00Z | 2026-07-01T00:00:00Z |
 
 ### `rte_eco2mix_france_halfhourly`
 
@@ -3847,36 +3875,38 @@ Variables (2):
 
 ### `weather_obs_hourly`
 
-What a row is: not yet written.
+One airport's mean observed temperature or wind speed in one hour, from the National Weather Service API.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 18587.
 
+- **Time:** ts_utc is the UTC hour's start; freq PT1H; an hour with no observation is absent.
+- **Revisions:** Merged by (entity, variable, ts_utc): each run asks the last 30 days, replaces the hours it reads again and keeps the older ones; vintage is not filled.
 - **Source:** nws:observations National Weather Service API (https://api.weather.gov/stations/<station>/observations)
 - **Method note:** [`docs/methods/weather_obs_hourly.md`](../methods/weather_obs_hourly.md)
 - **Cite as:** National Weather Service (NWS, NOAA). Station observations (api.weather.gov). Via the Energy Research Warehouse (ERW), table `weather_obs_hourly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | nws:KBOS, nws:KDFW, nws:KIND, nws:KLAX, nws:KLGA, nws:KOKC, nws:KPHL | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: nws:<station>, one airport per ISO load center | none | text | nws:KBOS, nws:KDFW, nws:KIND, nws:KLAX, nws:KLGA, nws:KOKC, nws:KPHL | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2026-09-21T09:00:00Z to 2026-11-16T13:00:00Z; 1338 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 100.4; 859 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | degF, mph | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-CA, US-IN, US-MA, US-NY, US-OK, US-PA, US-TX | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 18587 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 18587 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The ISO whose load center the airport stands for, not a pricing node | none | text | CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | nws:observations | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://api.weather.gov/stations/KBOS/observations?cursor=eyJzIjoiMjAyNi0wOS0yM1QwODo1NTowMCswMDowMCJ9, https://api.weather.gov/stations/KBOS/observations?cursor=eyJzIjoiMjAyNi0wOS0yMVQxNjoxNTowMCswMDowMCJ9, https://api.weather.gov/stations/KBOS/observations?cursor=eyJzIjoiMjAyNi0wOS0yMlQwNzozMDowMCswMDowMCJ9; 465 distinct | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-09-28T10:03:28Z to 2026-11-16T14:38:13Z; 362 distinct | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 18587 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 18587 |
 
 Variables (2):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `temperature_f` |  | degF | 9322 | 2026-09-21T09:00:00Z | 2026-11-16T13:00:00Z |
-| `wind_speed_mph` |  | mph | 9265 | 2026-09-21T09:00:00Z | 2026-11-16T13:00:00Z |
+| `temperature_f` | Mean of the station's temperature observations in the hour | degF | 9322 | 2026-09-21T09:00:00Z | 2026-11-16T13:00:00Z |
+| `wind_speed_mph` | Mean of the station's wind speed observations in the hour | mph | 9265 | 2026-09-21T09:00:00Z | 2026-11-16T13:00:00Z |
 
 ### `wfigs_wildfires`
 

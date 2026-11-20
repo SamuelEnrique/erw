@@ -1,0 +1,422 @@
+# The codebook's metadata of table large_load_statements (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: large_load_statements
+family: large
+shape: events
+row: null
+time: null
+vintage_rule: null
+keys:
+- event_id
+license: internal
+tier: model_extracted
+interval: event
+source:
+- name: 'erw:large_load_pilot: each row''s source_url is the utility''s or operator''s own document (or the copy a commission,
+    the SEC or an operator posts); document_title, document_type, page_or_slide and page say which and where'
+  url: ''
+cite: 'Energy Research Warehouse (ERW), collected from utilities'' and grid operators'' public documents by an AI research
+  agent, each sentence checked by code. Large load statements, 7 and 8 October 2026: eighty utilities and operators (the pilot''s
+  ten, session 139; thirty more, session 141; forty more and a hunt for statements of how long a load waits, session 151),
+  each statement with its sentence (docs/accelerator/large_load_pilot.md, docs/accelerator/large_load_forty.md, docs/accelerator/large_load_eighty.md).
+  The publishers'' own terms were not read one by one: held internal. Via the Energy Research Warehouse (ERW), table `large_load_statements`.'
+method: docs/methods/large_load_statements.md
+header_title: public statements of large load waiting for power, each with the exact sentence it was read from (session 139's
+  pilot of ten entities, extended to forty in session 141 and to eighty, with a hunt for statements of how long a load waits,
+  in session 151)
+header_shape: 'Shape: events (docs/datastandard.md v0), event_type large_load_statement; one row per figure as a document
+  states it. event_date: the document''s date (a document dated to a month or a year only: its first day; document_date_as_stated
+  holds what it states; a web page that prints no date: the day it was read, and event_date_basis says so). status: the stage
+  in the document''s own words.'
+read:
+  date: '2026-11-20'
+  rows: 798
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: date
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 798
+- name: mw
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 226
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 798
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 798
+- name: status
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 5
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: entity_group
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: parent_company
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 204
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: document_title
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: document_type
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: document_date_as_stated
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 20
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: page_or_slide
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 334
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: quantity_as_written
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: mw_low
+  label: null
+  unit: null
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 772
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: mw_high
+  label: null
+  unit: null
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 772
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: stage_as_worded
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 5
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: load_type_as_worded
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: place_as_worded
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 57
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: time_horizon_as_worded
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 492
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: wait_or_lead_time_as_worded
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 572
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: sentence
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: collected_in
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: notes
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 2
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: page
+  label: null
+  unit: null
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 184
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: row_kind
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: stage_class
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: stage_class_basis
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 102
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: event_date_basis
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: terms_url
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 787
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: entity_list
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: source_flag
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 725
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: wait_basis
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 598
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: load_scope
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 598
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: wait_counted
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 598
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: wait_figure
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 598
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: wait_figure_holder
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 627
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

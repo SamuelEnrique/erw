@@ -5,9 +5,10 @@
 table: eia_uranium_facilities
 family: eia
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One U.S. uranium mill or heap leach facility (Table 3) or in-situ recovery plant (Table 4) of EIA's Domestic Uranium
+  Production Report, with its owner, place, capacity and operating status by period.
+time: No time column. Each x_status_ column holds EIA's status for one period; vintage is the workbook's last-modified time.
+vintage_rule: Rewritten whole by each run (write_snapshot).
 keys:
 - entity_id
 license: public
@@ -60,6 +61,7 @@ columns:
       eia_uranium_facility:white_mesa_mill: 1
       eia_uranium_facility:willow_creek_project_ludeman_christensen_ranch_and_irigaray: 1
   missing_cells: 0
+  particular: eia_uranium_facility:<name>
 - name: entity_type
   shared: true
   type: text
@@ -67,6 +69,7 @@ columns:
     list:
       plant: 24
   missing_cells: 0
+  particular: plant on every row
 - name: name
   shared: true
   type: text
@@ -97,6 +100,7 @@ columns:
       White Mesa Mill: 1
       Willow Creek Project (Ludeman, Christensen Ranch And Irigaray): 1
   missing_cells: 0
+  particular: The facility's name as EIA writes it
 - name: geo
   shared: true
   type: text
@@ -108,6 +112,7 @@ columns:
       US-UT: 2
       US-WY: 12
   missing_cells: 0
+  particular: US-<state> of the facility
 - name: lat
   shared: true
   type: empty
@@ -126,12 +131,14 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 24
+  particular: 'Not filled: the capacity is in ore or pounds, in x_capacity'
 - name: status
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 24
+  particular: 'Not filled: EIA''s status of each period is in the x_status_ columns'
 - name: status_date
   shared: true
   type: empty
@@ -156,6 +163,7 @@ columns:
       Uranium Energy Corp.: 1
       Uranium Energy Corporation: 9
   missing_cells: 0
+  particular: The owner, as EIA writes it
 - name: source
   shared: true
   type: text
@@ -186,21 +194,22 @@ columns:
       '2026-08-19T13:52:39Z': 4
       '2026-08-19T13:54:03Z': 20
   missing_cells: 0
+  particular: The workbook's last-modified time from EIA's server
 - name: x_kind
-  label: null
-  unit: null
+  label: mill (a mill or heap leach facility) or isr (an in-situ recovery plant)
+  unit: none
   type: text
   values:
     list:
       isr: 20
       mill: 4
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_uranium_production.py; method eia_uranium_production.md
 - name: x_location
-  label: null
-  unit: null
+  label: The facility's county and state as EIA writes them
+  unit: none
   type: text
   values:
     list:
@@ -223,12 +232,12 @@ columns:
       San Juan, Utah: 1
       Sweetwater, Wyoming: 4
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector eia_uranium_production.py; method eia_uranium_production.md
 - name: x_capacity
-  label: null
-  unit: null
+  label: The facility's capacity as EIA gives it, in x_capacity_unit
+  unit: short tons of ore per day or pounds U3O8 per year
   type: integer
   values:
     list:
@@ -248,24 +257,24 @@ columns:
       '750': 1
       '800000': 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_uranium_production.py; method eia_uranium_production.md
 - name: x_capacity_unit
-  label: null
-  unit: null
+  label: 'The unit of x_capacity: short tons of ore a day for a mill, pounds of U3O8 a year for a plant'
+  unit: none
   type: text
   values:
     list:
       pounds U3O8 per year: 20
       short tons of ore per day: 4
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_uranium_production.py; method eia_uranium_production.md
 - name: x_status_2025
-  label: null
-  unit: null
+  label: EIA's operating status of the facility in 2025 (operating, standby, developing and the others)
+  unit: none
   type: text
   values:
     list:
@@ -278,12 +287,12 @@ columns:
       standby: 7
       undeveloped: 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: EIA writes - or nothing
   source_name: null
-  documented_by: null
+  documented_by: connector eia_uranium_production.py; method eia_uranium_production.md
 - name: x_status_first_quarter_2026
-  label: null
-  unit: null
+  label: EIA's operating status of the facility in the first quarter of 2026
+  unit: none
   type: text
   values:
     list:
@@ -298,12 +307,12 @@ columns:
       under construction: 1
       undeveloped: 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: EIA writes - or nothing
   source_name: null
-  documented_by: null
+  documented_by: connector eia_uranium_production.py; method eia_uranium_production.md
 - name: x_status_second_quarter_2026
-  label: null
-  unit: null
+  label: EIA's operating status of the facility in the second quarter of 2026
+  unit: none
   type: text
   values:
     list:
@@ -317,27 +326,27 @@ columns:
       standby: 5
       undeveloped: 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: EIA writes - or nothing
   source_name: null
-  documented_by: null
+  documented_by: connector eia_uranium_production.py; method eia_uranium_production.md
 - name: x_status_third_quarter_2026
-  label: null
-  unit: null
+  label: EIA's operating status of the facility in the third quarter of 2026
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 24
-  missing_meaning: null
+  missing_meaning: 'EIA writes - or nothing (the quarter not yet reported in this release: no cell holds a value)'
   source_name: null
-  documented_by: null
+  documented_by: connector eia_uranium_production.py; method eia_uranium_production.md
 - name: x_status_fourth_quarter_2026
-  label: null
-  unit: null
+  label: EIA's operating status of the facility in the fourth quarter of 2026
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 24
-  missing_meaning: null
+  missing_meaning: 'EIA writes - or nothing (the quarter not yet reported in this release: no cell holds a value)'
   source_name: null
-  documented_by: null
+  documented_by: connector eia_uranium_production.py; method eia_uranium_production.md
 second_look: null

@@ -5,9 +5,10 @@
 table: grid_stress_days
 family: grid
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One grid's stress day by one rule (the day's real-time price above the trailing 98th percentile, or an operator's emergency
+  notice), with the day's mean real-time price at its main hub.
+time: ts_utc is the grid's local day at 00:00:00Z (freq P1D).
+vintage_rule: A snapshot, replaced whole by each run of the builder; vintage is not filled.
 keys:
 - entity
 - variable
@@ -43,6 +44,7 @@ columns:
       nyiso:N.Y.C.: 10
       spp:SPPNORTH_HUB: 17
   missing_cells: 0
+  particular: <iso>:<main hub>
 - name: variable
   shared: true
   type: text
@@ -101,6 +103,7 @@ columns:
       nyiso_rtm: 10
       spp_rtm: 17
   missing_cells: 0
+  particular: '<iso>_rtm: the real-time price'
 - name: node
   shared: true
   type: text
@@ -152,8 +155,8 @@ columns:
     note: no cell holds a value
   missing_cells: 282
 - name: x_reason
-  label: null
-  unit: null
+  label: 'Why the day is a stress day: price, notice, or price and notice'
+  unit: none
   type: text
   values:
     list:
@@ -161,12 +164,13 @@ columns:
       price: 167
       price and notice: 25
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method stress_days.md
 - name: x_event
-  label: null
-  unit: null
+  label: 'The event: stress days at most three days apart, named <grid>_stress_<first day>, or a named event''s id when it
+    holds a day of that event''s window'
+  unit: none
   type: text
   values:
     distinct: 120
@@ -177,24 +181,24 @@ columns:
     - caiso_stress_20230828
     - caiso_stress_20240703
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method stress_days.md
 - name: x_trailing_p98
-  label: null
-  unit: null
+  label: 'The threshold: the 98th percentile of the daily mean prices of the 365 days before the day'
+  unit: USD/MWh
   type: number
   values:
     distinct: 178
     lowest: 41.0236
     highest: 442.1772
   missing_cells: 11
-  missing_meaning: null
+  missing_meaning: Fewer of the 365 days before were held than the rule needs (329), so no threshold was taken (a notice day)
   source_name: null
-  documented_by: null
+  documented_by: header; connector stress_days.py
 - name: x_trailing_days
-  label: null
-  unit: null
+  label: The days held among the 365 before, over which the threshold is taken
+  unit: count
   type: integer
   values:
     list:
@@ -223,12 +227,12 @@ columns:
       '54': 1
       '55': 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector stress_days.py
 - name: x_notices
-  label: null
-  unit: null
+  label: The kinds of CAISO's or ERCOT's notices issued that day, joined by semicolons
+  unit: none
   type: text
   values:
     list:
@@ -244,12 +248,12 @@ columns:
       voluntary_conservation: 4
       weather_watch: 36
   missing_cells: 167
-  missing_meaning: null
+  missing_meaning: No notice that day (a stress day by price only)
   source_name: null
-  documented_by: null
+  documented_by: header; method stress_days.md
 variables:
 - name: stress_day
-  label: null
+  label: The stress day's mean real-time price at the grid's main hub
   unit: USD/MWh
   rows: 282
   first: '2015-07-30T00:00:00Z'

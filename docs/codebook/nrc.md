@@ -2,13 +2,13 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 7 public tables (2 entities, 4 events, 1 series; tiers: 7 source); 0 documented in full.
+**What the family holds.** 7 public tables (2 entities, 4 events, 1 series; tiers: 7 source); 1 documented in full.
 
 - [`nrc_advanced_reactor_preapplicants`](#nrc_advanced_reactor_preapplicants): U.S. Nuclear Regulatory Commission, the applicants, vendors and research or test reactors in pre-application engagement for advanced reactors, by technology (session 2001)
 - [`nrc_event_notifications`](#nrc_event_notifications): U.S. Nuclear Regulatory Commission, Event Notification Reports, power reactors: each report and unit, with the unit's power before and after and the 10 CFR sections it was reported under (session 2043)
 - [`nrc_license_actions`](#nrc_license_actions): U.S. Nuclear Regulatory Commission, renewed reactor licenses and approved power uprates (session 2064)
 - [`nrc_new_reactor_applications`](#nrc_new_reactor_applications): U.S. Nuclear Regulatory Commission, the advanced reactor applications under review, one row an application with its applicant, kind, place, design, power and milestones (session 2001)
-- [`nrc_power_reactors`](#nrc_power_reactors): the NRC's power reactor units, operating (the NRC's list) and in decommissioning (the NRC's dataset), with the operating reactors dataset's licensing dates and capacity (session 925)
+- [`nrc_power_reactors`](#nrc_power_reactors): One US power reactor unit, operating (on the NRC's List of Power Reactor Units) or in decommissioning (the NRC's decommissioning dataset), with the NRC datasets' licensing dates and capacity.
 - [`nrc_reactor_status`](#nrc_reactor_status): NRC Power Reactor Status, each US reactor's power by day (session 133)
 - [`nrc_rop_findings`](#nrc_rop_findings): U.S. Nuclear Regulatory Commission, Reactor Oversight Process findings and violations, 18,240 findings at 66 sites, issued 1999-07-29 to 2025-05-12 (session 2178)
 
@@ -168,55 +168,57 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 
 ### `nrc_power_reactors`
 
-What a row is: not yet written.
+One US power reactor unit, operating (on the NRC's List of Power Reactor Units) or in decommissioning (the NRC's decommissioning dataset), with the NRC datasets' licensing dates and capacity.
 
 Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 2026-11-20: 130.
 
+- **Time:** No time column; status_date is the shutdown date for a retired unit. vintage is when the NRC's list or dataset was published or modified (UTC).
+- **Revisions:** A snapshot; each run replaces the table whole, asking for the list again and reusing the saved datasets.
 - **Source:** nrc:power_reactors U.S. Nuclear Regulatory Commission, List of Power Reactor Units and the operating and decommissioning reactors datasets (https://www.nrc.gov/reactors/operating/list-power-reactor-units.html)
 - **Method note:** [`docs/methods/nrc_power_reactors.md`](../methods/nrc_power_reactors.md)
 - **Cite as:** U.S. Nuclear Regulatory Commission (NRC). List of Power Reactor Units; operating and decommissioning reactors datasets. Via the Energy Research Warehouse (ERW), table `nrc_power_reactors`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity_id` | The identifier of the thing, as namespace:native_id | none | text | for example nrc_reactor:00500010, nrc_reactor:05000003, nrc_reactor:05000016; 130 distinct | 0 |
-| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists) | none | text | generator | 0 |
-| `name` | The thing's name, as the publisher writes it | none | text | for example Arkansas Nuclear 1, Arkansas Nuclear 2, Beaver Valley 1; 130 distinct | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US-AL, US-AR, US-AZ; 36 distinct | 2 |
+| `entity_id` | The identifier of the thing, as namespace:native_id. Here: nrc_reactor:<docket number> | none | text | for example nrc_reactor:00500010, nrc_reactor:05000003, nrc_reactor:05000016; 130 distinct | 0 |
+| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists). Here: Always generator (a reactor unit) | none | text | generator | 0 |
+| `name` | The thing's name, as the publisher writes it. Here: The list's name (the dataset's for a retired unit) | none | text | for example Arkansas Nuclear 1, Arkansas Nuclear 2, Beaver Valley 1; 130 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state> from the location's last two letters; empty where none is read | none | text | for example US-AL, US-AR, US-AZ; 36 distinct | 2 |
 | `lat` | Latitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 130 |
 | `lon` | Longitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 130 |
-| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it | MW | number | 519.0 to 1401.0; 84 distinct | 37 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | text | operating, retired | 0 |
-| `status_date` | The date the status took effect, or was reported where the effective date is unknown | none | date | 1963-12-19 to 2021-04-30; 33 distinct | 95 |
-| `operator` | The operator or owner, as the publisher writes it | none | text | for example Ameren UE, Arizona Public Service Co., Constellation Energy Generation, LLC; 29 distinct | 35 |
+| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it. Here: The operating dataset's Capacity MWe | MW | number | 519.0 to 1401.0; 84 distinct | 37 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: operating (on the list) or retired (in decommissioning) | none | text | operating, retired | 0 |
+| `status_date` | The date the status took effect, or was reported where the effective date is unknown. Here: A retired unit's shutdown date | none | date | 1963-12-19 to 2021-04-30; 33 distinct | 95 |
+| `operator` | The operator or owner, as the publisher writes it. Here: The list's owner and operator | none | text | for example Ameren UE, Arizona Public Service Co., Constellation Energy Generation, LLC; 29 distinct | 35 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | nrc:power_reactors | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.nrc.gov/reactors/operating/list-power-reactor-units.html, https://www.nrc.gov/sites/default/files/doc_library/cdn/legacy/reading-rm/doc-collections/datasets/reactors-decommissioning.xlsx | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T09:52:20Z, 2026-10-23T09:53:52Z | 0 |
 | `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2025-09-02T06:28:09Z, 2026-10-22T21:29:39Z | 0 |
-| `x_docket` | not yet written |  | integer | 500010 to 50000289; 130 distinct | 0 |
-| `x_license_number` | not yet written |  | text | for example DPR-18, DPR-19, DPR-20; 95 distinct | 35 |
-| `x_reactor_type` | not yet written |  | text | BWR, BWR-MARK 1, Experimental Superheat Reactor, HTG, PWR, PWR CE, SCF | 0 |
-| `x_location` | not yet written |  | text | for example 10 miles SE of Ft. Pierce, FL, 11 miles SE of Ottawa, IL, 12 miles WSW of San Luis Obispo, CA; 82 distinct | 0 |
-| `x_nrc_region` | not yet written |  | integer | 1, 2, 3, 4 | 35 |
-| `x_dataset_year` | not yet written |  | integer | 2022 | 2 |
-| `x_architect_engineer` | not yet written |  | text | AEP, B&R, BECH, DBDB, DUKE, EBSO, FLUR, G&H, GIL, NIAG, PG&E, PSEG, S&L, S&W, SBEC, SSI, TVA, UE&C, Westinghouse | 37 |
-| `x_closure_estimate` | not yet written |  | integer | 2019, 2020, 2025, 2030, 2031, 2032, 2034, 2036, 2053, 2056, 2073, 2074, 2076, 2078, 2079, 2080 | 107 |
-| `x_commercial_operation` | not yet written |  | date | 1969-12-01 to 2016-10-19; 91 distinct | 38 |
-| `x_construction_permit` | not yet written |  | date | 1965-04-12 to 1978-01-27; 63 distinct | 38 |
-| `x_constructor` | not yet written |  | text | AEP, B&R, B&W, BALD, BECH, BRRT, CWE, DANI, DUKE, EBSO, GPC, KAIS, NSP, PG&E, S&W, SNC, TVA, UE&C | 37 |
-| `x_containment_type` | not yet written |  | text | BWR-MARK 1, BWR-MARK 2, BWR-MARK 3, PWR - Freestanding steel vessel with shield building, PWR-DRYAMB, PWR-DRYSUB, PWR-ICECND | 37 |
-| `x_dataset_name` | not yet written |  | text | for example Arkansas Nuclear One, Unit 1, Arkansas Nuclear One, Unit 2, Beaver Valley Power Station, Unit 1; 128 distinct | 2 |
-| `x_decommissioning_alternative` | not yet written |  | text | DECON, SAFSTOR | 95 |
-| `x_license_expires` | not yet written |  | date | 2024-11-02 to 2062-08-03; 90 distinct | 37 |
-| `x_license_status` | not yet written |  | text | DECON Completed, DECON In Progress, SAFSTOR | 96 |
-| `x_license_terminated` | not yet written |  | date | 1995-04-11, 1997-08-05, 2005-05-23, 2005-09-30, 2005-11-07, 2007-01-08, 2007-07-27, 2007-08-10, 2007-11-26, 2009-09-25 | 120 |
-| `x_licensed_mwt` | not yet written |  | number | 12.5 to 4408.0; 79 distinct | 2 |
-| `x_licensee` | not yet written |  | text | for example Arizona Public Service Company, Calvert Cliffs Nuclear Power Plant, LLC – Owner<br> Constellation Energy Generation, LLC – Operator, Comanche Peak Power Company LLC – Owner<br>Vistra Operations Company LLC – Operator; 30 distinct | 37 |
-| `x_nsss` | not yet written |  | text | AC, B&W, B&W LLP, B&W RLP, CE, CE80-2L, COMB CE, GA, GE, GE 2, GE 3, GE 4, GE 5, GE 6, WEST 2LP, WEST 3LP, WEST 4LP, West, West 2LP, Westinghouse | 2 |
-| `x_operating_license` | not yet written |  | date | 1957-08-31 to 2022-08-03; 123 distinct | 2 |
-| `x_parent_company` | not yet written |  | text | AmerenUE, Arizona Public Service Company, Constellation Energy Corporation, DTE Electric Company (DTE), Dominion Generation, Duke Energy, Energy Harbor Corp., Energy Northwest, Entergy Nuclear Operations, Inc., Indiana Michigan Power Company, Nebraska Public Power District, NextEra Energy, Inc. with principal subsidiaries Florida Power & Light Co. and NextEra Energy Resources, LLC, Northern States Power Company Minnesota doing business as Xcel Energy, PSEG Nuclear, LLC, Pacific Gas & Electric Company, STP Nuclear Operating Company, Southern Nuclear Operating Company, Talen Energy Corporation, Tennessee Valley Authority, Vistra Energy Corp., Wolf Creek Nuclear Operating Corporation | 37 |
-| `x_renewed_license` | not yet written |  | text | for example 2000-03-23, 2000-05-23, 2001-06-20; 49 distinct | 44 |
-| `x_shut_down` | not yet written |  | date | 1963-12-19 to 2021-04-30; 33 distinct | 95 |
-| `x_subsequent_renewal` | not yet written |  | date | 2019-12-04, 2020-03-05, 2021-05-04 | 124 |
+| `x_docket` | The NRC docket number of the unit | none | integer | 500010 to 50000289; 130 distinct | 0 |
+| `x_license_number` | The unit's NRC license number, from the list (the source's name: License Number) | none | text | for example DPR-18, DPR-19, DPR-20; 95 distinct | 35: A unit in decommissioning (not on the list) |
+| `x_reactor_type` | The reactor type (PWR, BWR and others), from the list or the dataset (the source's name: Reactor Type) | none | text | BWR, BWR-MARK 1, Experimental Superheat Reactor, HTG, PWR, PWR CE, SCF | 0 |
+| `x_location` | The unit's location in the NRC's words (for example '11 miles SE of Ottawa, IL') (the source's name: Location) | none | text | for example 10 miles SE of Ft. Pierce, FL, 11 miles SE of Ottawa, IL, 12 miles WSW of San Luis Obispo, CA; 82 distinct | 0 |
+| `x_nrc_region` | The NRC region (1 to 4), from the list (the source's name: NRC Region) | none | integer | 1, 2, 3, 4 | 35: A unit in decommissioning |
+| `x_dataset_year` | The datasets' Year of Update (the source's name: Year of Update) | none | integer | 2022 | 2: On the list but not in the dataset (2 units) |
+| `x_architect_engineer` | The unit's architect-engineer, as the operating dataset abbreviates it (the source's name: Architect-Engineer) | none | text | AEP, B&R, BECH, DBDB, DUKE, EBSO, FLUR, G&H, GIL, NIAG, PG&E, PSEG, S&L, S&W, SBEC, SSI, TVA, UE&C, Westinghouse | 37: A unit in decommissioning, or not in the dataset |
+| `x_closure_estimate` | The estimated closure year of a unit in decommissioning (the source's name: Closure Date Est.) | none | integer | 2019, 2020, 2025, 2030, 2031, 2032, 2034, 2036, 2053, 2056, 2073, 2074, 2076, 2078, 2079, 2080 | 107: An operating unit, or no estimate given |
+| `x_commercial_operation` | The date the unit began commercial operation (the source's name: Commercial Operation) | none | date | 1969-12-01 to 2016-10-19; 91 distinct | 38: A unit in decommissioning, or not in the dataset |
+| `x_construction_permit` | The date the construction permit was issued (the source's name: Construction Permit Issued) | none | date | 1965-04-12 to 1978-01-27; 63 distinct | 38: A unit in decommissioning, or not in the dataset |
+| `x_constructor` | The unit's constructor, as the operating dataset abbreviates it (the source's name: Constructor Name) | none | text | AEP, B&R, B&W, BALD, BECH, BRRT, CWE, DANI, DUKE, EBSO, GPC, KAIS, NSP, PG&E, S&W, SNC, TVA, UE&C | 37: A unit in decommissioning, or not in the dataset |
+| `x_containment_type` | The reactor and containment type (the source's name: Reactor and Containment Type) | none | text | BWR-MARK 1, BWR-MARK 2, BWR-MARK 3, PWR - Freestanding steel vessel with shield building, PWR-DRYAMB, PWR-DRYSUB, PWR-ICECND | 37: A unit in decommissioning, or not in the dataset |
+| `x_dataset_name` | The unit's name in the NRC dataset (the source's name: Plant Name, Unit Number (operating); Unit (decommissioning)) | none | text | for example Arkansas Nuclear One, Unit 1, Arkansas Nuclear One, Unit 2, Beaver Valley Power Station, Unit 1; 128 distinct | 2: On the list but not in the dataset (2 units) |
+| `x_decommissioning_alternative` | The decommissioning alternative selected (DECON or SAFSTOR) (the source's name: Decommissioning Alternative Selected) | none | text | DECON, SAFSTOR | 95: An operating unit |
+| `x_license_expires` | The date the operating license expires (the source's name: Operating License Expires) | none | date | 2024-11-02 to 2062-08-03; 90 distinct | 37: A unit in decommissioning, or not in the dataset |
+| `x_license_status` | The current license status of a unit in decommissioning (DECON Completed, DECON In Progress, SAFSTOR) (the source's name: Current License Status) | none | text | DECON Completed, DECON In Progress, SAFSTOR | 96: An operating unit, or none given |
+| `x_license_terminated` | The date the operating license was terminated (a unit in decommissioning) (the source's name: Operating License (OL) Terminated) | none | date | 1995-04-11, 1997-08-05, 2005-05-23, 2005-09-30, 2005-11-07, 2007-01-08, 2007-07-27, 2007-08-10, 2007-11-26, 2009-09-25 | 120: An operating unit, or the license not terminated |
+| `x_licensed_mwt` | The licensed thermal power of the reactor (the source's name: Licensed MWt (operating); MWt (decommissioning)) | MWt | number | 12.5 to 4408.0; 79 distinct | 2: On the list but not in the dataset (2 units) |
+| `x_licensee` | The licensee (the source's name: Licensee) | none | text | for example Arizona Public Service Company, Calvert Cliffs Nuclear Power Plant, LLC – Owner<br> Constellation Energy Generation, LLC – Operator, Comanche Peak Power Company LLC – Owner<br>Vistra Operations Company LLC – Operator; 30 distinct | 37: A unit in decommissioning, or not in the dataset |
+| `x_nsss` | The nuclear steam system supplier and design type (the vendor, as the dataset abbreviates it) (the source's name: Nuclear Steam System Supplier and Design Type (operating); NSSS Vendor (decommissioning)) | none | text | AC, B&W, B&W LLP, B&W RLP, CE, CE80-2L, COMB CE, GA, GE, GE 2, GE 3, GE 4, GE 5, GE 6, WEST 2LP, WEST 3LP, WEST 4LP, West, West 2LP, Westinghouse | 2: On the list but not in the dataset (2 units) |
+| `x_operating_license` | The date the operating license was issued (the source's name: Operating License Issued) | none | date | 1957-08-31 to 2022-08-03; 123 distinct | 2: On the list but not in the dataset (2 units) |
+| `x_parent_company` | The parent company, as the dataset names it (its Parent Company Utility Name) (the source's name: Parent Company Utility Name) | none | text | AmerenUE, Arizona Public Service Company, Constellation Energy Corporation, DTE Electric Company (DTE), Dominion Generation, Duke Energy, Energy Harbor Corp., Energy Northwest, Entergy Nuclear Operations, Inc., Indiana Michigan Power Company, Nebraska Public Power District, NextEra Energy, Inc. with principal subsidiaries Florida Power & Light Co. and NextEra Energy Resources, LLC, Northern States Power Company Minnesota doing business as Xcel Energy, PSEG Nuclear, LLC, Pacific Gas & Electric Company, STP Nuclear Operating Company, Southern Nuclear Operating Company, Talen Energy Corporation, Tennessee Valley Authority, Vistra Energy Corp., Wolf Creek Nuclear Operating Corporation | 37: A unit in decommissioning, or not in the dataset |
+| `x_renewed_license` | The date the renewed operating license was issued, or words where the dataset holds words (Application Withdrawn) (the source's name: Renewed Operating License Issued) | none | text | for example 2000-03-23, 2000-05-23, 2001-06-20; 49 distinct | 44: A unit in decommissioning, not in the dataset, or no renewal |
+| `x_shut_down` | The date a unit in decommissioning shut down (the source's name: Shut Down) | none | date | 1963-12-19 to 2021-04-30; 33 distinct | 95: An operating unit |
+| `x_subsequent_renewal` | The date the subsequent renewed operating license was issued (the source's name: Subsequent Renewed Operating License Issued) | none | date | 2019-12-04, 2020-03-05, 2021-05-04 | 124: No subsequent renewal issued |
 
 ### `nrc_reactor_status`
 

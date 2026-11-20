@@ -5,9 +5,10 @@
 table: eia_refinery_weekly
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One week's refinery input of one product, operable capacity or utilization in the U.S. or a PADD, from EIA's Weekly Petroleum
+  Status Report.
+time: ts_utc is EIA's week-ending date at 00:00:00Z (freq P1W), as in eia_petroleum_supply_weekly.
+vintage_rule: Rewritten whole by each run (write_snapshot). vintage is not filled.
 keys:
 - entity
 - variable
@@ -43,6 +44,7 @@ columns:
     - eia_refinery:WBCRI_R30_2
     - eia_refinery:WBCRI_R40_2
   missing_cells: 0
+  particular: eia_refinery:<EIA series id>
 - name: variable
   shared: true
   type: text
@@ -87,12 +89,14 @@ columns:
     list:
       US: 50753
   missing_cells: 0
+  particular: US on every row, the PADDs included
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 50753
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -106,6 +110,7 @@ columns:
     - East Coast (PADD 1) Refiner and Blender Net Input of Conventional CBOB Gasoline Blending Components (Thousand Barrels
       per Day)
   missing_cells: 0
+  particular: EIA's series name
 - name: source
   shared: true
   type: text
@@ -134,27 +139,28 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 50753
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: net_input
-  label: null
+  label: Refinery and blender net input of the product (YIR), thousand barrels a day
   unit: kbbl/d
   rows: 30802
   first: '2010-01-01T00:00:00Z'
   last: '2026-10-16T00:00:00Z'
 - name: operable_capacity
-  label: null
+  label: Operable refinery capacity (YRL), thousand barrels a day
   unit: kbbl/d
   rows: 5152
   first: '2010-01-01T00:00:00Z'
   last: '2026-10-16T00:00:00Z'
 - name: refinery_net_input
-  label: null
+  label: Refinery net input of the product (YIY), thousand barrels a day
   unit: kbbl/d
   rows: 10524
   first: '2010-01-01T00:00:00Z'
   last: '2026-10-16T00:00:00Z'
 - name: utilization
-  label: null
+  label: Utilization of operable capacity (YUP), a ratio (EIA's percent divided by 100)
   unit: ratio
   rows: 4275
   first: '2010-06-04T00:00:00Z'

@@ -1,0 +1,218 @@
+# The codebook's metadata of table pse_poland_balance_15min (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: pse_poland_balance_15min
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: PT15M
+source:
+- name: pse:his-wlk-cal PSE S.A., Raporty OSP, report his-wlk-cal (basic quantities of the KSE)
+  url: https://raporty.pse.pl/report/his-wlk-cal
+cite: 'PSE S.A. (Polskie Sieci Elektroenergetyczne). Raporty OSP, his-wlk-cal: basic quantities of the KSE, a quarter hour.
+  Via the Energy Research Warehouse (ERW), table `pse_poland_balance_15min`.'
+method: docs/methods/pse_poland_balance_15min.md
+header_title: PSE (Polskie Sieci Elektroenergetyczne), Poland's power balance a quarter hour, report his-wlk-cal, 2024-06-13T21:45:00Z
+  to 2026-10-23T21:45:00Z (session 2252)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity pse:pl; variable demand, generation_scheduled_total (jg), generation_jgw1,
+  generation_jgw2, generation_jgm1, generation_jgm2, charging_jgm, generation_jgz2, generation_jnwrb, generation_jga, wind,
+  solar, exchange_parallel, exchange_non_parallel (PSE''s labels in the docstring); unit MW; freq PT15M; ts_utc the quarter
+  hour''s start (PSE''s UTC period); geo PL; x_field PSE''s field; x_business_date PSE''s business day (local).'
+read:
+  date: '2026-11-20'
+  rows: 909219
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 909219
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 909219
+- name: x_field
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: x_business_date
+  label: null
+  unit: null
+  type: date
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+variables:
+- name: charging_jgm
+  label: null
+  unit: MW
+  rows: 82753
+  first: '2024-06-13T21:45:00Z'
+  last: '2026-10-23T21:45:00Z'
+- name: demand
+  label: null
+  unit: MW
+  rows: 82753
+  first: '2024-06-13T21:45:00Z'
+  last: '2026-10-23T21:45:00Z'
+- name: exchange_non_parallel
+  label: null
+  unit: MW
+  rows: 82753
+  first: '2024-06-13T21:45:00Z'
+  last: '2026-10-23T21:45:00Z'
+- name: exchange_parallel
+  label: null
+  unit: MW
+  rows: 82753
+  first: '2024-06-13T21:45:00Z'
+  last: '2026-10-23T21:45:00Z'
+- name: generation_jga
+  label: null
+  unit: MW
+  rows: 1
+  first: '2024-06-13T21:45:00Z'
+  last: '2024-06-13T21:45:00Z'
+- name: generation_jgm1
+  label: null
+  unit: MW
+  rows: 82753
+  first: '2024-06-13T21:45:00Z'
+  last: '2026-10-23T21:45:00Z'
+- name: generation_jgm2
+  label: null
+  unit: MW
+  rows: 33980
+  first: '2025-11-03T23:00:00Z'
+  last: '2026-10-23T21:45:00Z'
+- name: generation_jgw1
+  label: null
+  unit: MW
+  rows: 82753
+  first: '2024-06-13T21:45:00Z'
+  last: '2026-10-23T21:45:00Z'
+- name: generation_jgw2
+  label: null
+  unit: MW
+  rows: 29852
+  first: '2025-12-16T23:00:00Z'
+  last: '2026-10-23T21:45:00Z'
+- name: generation_jgz2
+  label: null
+  unit: MW
+  rows: 17856
+  first: '2026-04-20T22:00:00Z'
+  last: '2026-10-23T21:45:00Z'
+- name: generation_jnwrb
+  label: null
+  unit: MW
+  rows: 82753
+  first: '2024-06-13T21:45:00Z'
+  last: '2026-10-23T21:45:00Z'
+- name: generation_scheduled_total
+  label: null
+  unit: MW
+  rows: 82753
+  first: '2024-06-13T21:45:00Z'
+  last: '2026-10-23T21:45:00Z'
+- name: solar
+  label: null
+  unit: MW
+  rows: 82753
+  first: '2024-06-13T21:45:00Z'
+  last: '2026-10-23T21:45:00Z'
+- name: wind
+  label: null
+  unit: MW
+  rows: 82753
+  first: '2024-06-13T21:45:00Z'
+  last: '2026-10-23T21:45:00Z'
+second_look: null

@@ -5,9 +5,11 @@
 table: eia860_plants_annual
 family: eia860
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One power plant in Form EIA-860's plant file for data year 2025, with its place, operator, balancing authority, NERC
+  region, grid voltage and transmission or distribution system owner.
+time: No time column; status_date is the data year's 1 January and vintage the data year.
+vintage_rule: A snapshot; each run replaces the table whole with the newest final year EIA's page links, so an earlier year
+  is not kept.
 keys:
 - entity_id
 license: public
@@ -41,6 +43,7 @@ columns:
     - eia860_plant:10003
     - eia860_plant:10004
   missing_cells: 0
+  particular: eia860_plant:<plant code>
 - name: entity_type
   shared: true
   type: text
@@ -48,6 +51,7 @@ columns:
     list:
       plant: 17349
   missing_cells: 0
+  particular: Always plant
 - name: name
   shared: true
   type: text
@@ -60,6 +64,7 @@ columns:
     - 1 Commercial
     - 10 Briggs Solar NG, LLC (East)
   missing_cells: 0
+  particular: The plant's name
 - name: geo
   shared: true
   type: text
@@ -72,6 +77,7 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
+  particular: US-<state>
 - name: lat
   shared: true
   type: number
@@ -100,6 +106,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 17349
+  particular: 'Not filled: the plant sheet gives no status'
 - name: status_date
   shared: true
   type: date
@@ -107,6 +114,7 @@ columns:
     list:
       '2025-01-01': 17349
   missing_cells: 0
+  particular: The data year's 1 January
 - name: operator
   shared: true
   type: text
@@ -119,6 +127,7 @@ columns:
     - 1008 Matthews Solar, LLC
     - 1009 Yadkin Solar, LLC
   missing_cells: 0
+  particular: The utility's name
 - name: source
   shared: true
   type: text
@@ -147,9 +156,10 @@ columns:
     list:
       '2025': 17349
   missing_cells: 0
+  particular: The data year
 - name: x_state
-  label: null
-  unit: null
+  label: The plant's state, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 51
@@ -160,24 +170,24 @@ columns:
     - AZ
     - CA
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_utility_id
-  label: null
-  unit: null
+  label: EIA's identifier of the operating utility
+  unit: none
   type: integer
   values:
     distinct: more than 5000
     lowest: 7
     highest: 68045
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_street_address
-  label: null
-  unit: null
+  label: The plant's street address as EIA gives it
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -188,12 +198,12 @@ columns:
     - '#1 Forest Hwy.'
     - '#1 Industrial Hwy.'
   missing_cells: 120
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_city
-  label: null
-  unit: null
+  label: The plant's city as EIA gives it
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -204,24 +214,24 @@ columns:
     - Aberdeen
     - Abernathy
   missing_cells: 35
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_zip
-  label: null
-  unit: null
+  label: The plant's ZIP code as EIA gives it
+  unit: none
   type: integer
   values:
     distinct: more than 5000
     lowest: 0
     highest: 99929
   missing_cells: 18
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_county
-  label: null
-  unit: null
+  label: The plant's county as EIA gives it
+  unit: none
   type: text
   values:
     distinct: 1542
@@ -232,12 +242,12 @@ columns:
     - Ada
     - Adair
   missing_cells: 23
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_nerc_region
-  label: null
-  unit: null
+  label: The NERC reliability region of the plant (WECC, SERC, NPCC, RFC, MRO, TRE and one REC)
+  unit: none
   type: text
   values:
     list:
@@ -249,12 +259,12 @@ columns:
       TRE: 1427
       WECC: 4230
   missing_cells: 253
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_balancing_authority_code
-  label: null
-  unit: null
+  label: The code of the balancing authority (the grid operator of the area) the plant is in
+  unit: none
   type: text
   values:
     distinct: 67
@@ -265,12 +275,12 @@ columns:
     - AZPS
     - BANC
   missing_cells: 289
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_balancing_authority_name
-  label: null
-  unit: null
+  label: The name of that balancing authority
+  unit: none
   type: text
   values:
     distinct: 69
@@ -281,12 +291,12 @@ columns:
     - Associated Electric Cooperative, Inc.
     - Avangrid Renewables LLC
   missing_cells: 268
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_name_of_water_source
-  label: null
-  unit: null
+  label: The name of the plant's water source as EIA gives it
+  unit: none
   type: text
   values:
     distinct: 1553
@@ -297,36 +307,36 @@ columns:
     - Air Liquide Large Industries
     - Alabama River
   missing_cells: 13018
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_primary_purpose_naics_code
-  label: null
-  unit: null
+  label: The NAICS code of the plant's primary purpose, as EIA gives it
+  unit: none
   type: integer
   values:
     distinct: 84
     lowest: 22
     highest: 562213
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_regulatory_status
-  label: null
-  unit: null
+  label: EIA's regulatory status code of the plant (RE or NR), as EIA gives it
+  unit: none
   type: text
   values:
     list:
       NR: 13134
       RE: 4215
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md; data
 - name: x_sector
-  label: null
-  unit: null
+  label: EIA's sector number of the plant (1 to 7; x_sector_name gives its words)
+  unit: none
   type: integer
   values:
     list:
@@ -338,12 +348,13 @@ columns:
       '6': 248
       '7': 441
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md; data
 - name: x_sector_name
-  label: null
-  unit: null
+  label: 'EIA''s sector of the plant: Electric Utility, IPP (independent power producer), Commercial or Industrial, each CHP
+    (combined heat and power) or Non-CHP'
+  unit: none
   type: text
   values:
     list:
@@ -355,24 +366,24 @@ columns:
       Industrial CHP: 441
       Industrial Non-CHP: 248
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md; data
 - name: x_ferc_cogeneration_status
-  label: null
-  unit: null
+  label: EIA's flag of FERC cogeneration status, Y or N
+  unit: none
   type: text
   values:
     list:
       N: 16903
       Y: 446
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_ferc_cogeneration_docket_number
-  label: null
-  unit: null
+  label: The FERC cogeneration docket number, as EIA gives it
+  unit: none
   type: text
   values:
     distinct: 440
@@ -383,24 +394,24 @@ columns:
     - 01-080-000
     - 01-112-000
   missing_cells: 16903
-  missing_meaning: null
+  missing_meaning: No FERC cogeneration status (N)
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md; data
 - name: x_ferc_small_power_producer_status
-  label: null
-  unit: null
+  label: EIA's flag of FERC small power producer status, Y or N
+  unit: none
   type: text
   values:
     list:
       N: 12093
       Y: 5256
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_ferc_small_power_producer_docket_number
-  label: null
-  unit: null
+  label: The FERC small power producer docket number, as EIA gives it
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -411,24 +422,24 @@ columns:
     - 00-054-000
     - 00-1-000
   missing_cells: 12093
-  missing_meaning: null
+  missing_meaning: No small power producer status (N)
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md; data
 - name: x_ferc_exempt_wholesale_generator_status
-  label: null
-  unit: null
+  label: EIA's flag of FERC exempt wholesale generator status, Y or N
+  unit: none
   type: text
   values:
     list:
       N: 15670
       Y: 1679
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_ferc_exempt_wholesale_generator_docket_number
-  label: null
-  unit: null
+  label: The FERC exempt wholesale generator docket number, as EIA gives it
+  unit: none
   type: text
   values:
     distinct: 1346
@@ -439,24 +450,24 @@ columns:
     - 00-002-000
     - 00-100-00
   missing_cells: 15670
-  missing_meaning: null
+  missing_meaning: No exempt wholesale generator status (N)
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md; data
 - name: x_ash_impoundment
-  label: null
-  unit: null
+  label: EIA's flag of whether the plant has an ash impoundment, Y or N
+  unit: none
   type: text
   values:
     list:
       N: 10115
       Y: 305
   missing_cells: 6929
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_ash_impoundment_lined
-  label: null
-  unit: null
+  label: 'EIA''s flag of whether the ash impoundment is lined: Y, N or X, as EIA gives it'
+  unit: none
   type: text
   values:
     list:
@@ -464,12 +475,12 @@ columns:
       X: 8401
       Y: 119
   missing_cells: 8643
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_ash_impoundment_status
-  label: null
-  unit: null
+  label: EIA's status code of the ash impoundment (OP, OS, OA, SB)
+  unit: none
   type: text
   values:
     list:
@@ -478,12 +489,12 @@ columns:
       OS: 93
       SB: 1
   missing_cells: 17044
-  missing_meaning: null
+  missing_meaning: No ash impoundment, or EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md; data
 - name: x_transmission_or_distribution_system_owner
-  label: null
-  unit: null
+  label: The owner of the transmission or distribution system the plant connects to (its wires owner)
+  unit: none
   type: text
   values:
     distinct: 1192
@@ -494,24 +505,24 @@ columns:
     - A & N Electric Coop
     - AEP Ohio Transmission Company, Inc.
   missing_cells: 111
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_transmission_or_distribution_system_owner_id
-  label: null
-  unit: null
+  label: EIA's identifier of that wires owner
+  unit: none
   type: integer
   values:
     distinct: 1102
     lowest: 34
     highest: 67840
   missing_cells: 121
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_transmission_or_distribution_system_owner_state
-  label: null
-  unit: null
+  label: The wires owner's state
+  unit: none
   type: text
   values:
     distinct: 51
@@ -522,60 +533,60 @@ columns:
     - AZ
     - CA
   missing_cells: 888
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_grid_voltage_kv
-  label: null
-  unit: null
+  label: The plant's (first) grid voltage
+  unit: kV
   type: number
   values:
     distinct: 356
     lowest: 0.0
     highest: 765.0
   missing_cells: 141
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_grid_voltage_2_kv
-  label: null
-  unit: null
+  label: The plant's second grid voltage
+  unit: kV
   type: number
   values:
     distinct: 79
     lowest: 0.28
     highest: 765.0
   missing_cells: 16824
-  missing_meaning: null
+  missing_meaning: EIA gives none (no second connection voltage)
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_grid_voltage_3_kv
-  label: null
-  unit: null
+  label: The plant's third grid voltage
+  unit: kV
   type: number
   values:
     distinct: 38
     lowest: 0.48
     highest: 500.0
   missing_cells: 17248
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_energy_storage
-  label: null
-  unit: null
+  label: EIA's flag of whether the plant has energy storage, Y or N
+  unit: none
   type: text
   values:
     list:
       N: 15572
       Y: 1583
   missing_cells: 194
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_natural_gas_ldc_name
-  label: null
-  unit: null
+  label: The natural gas local distribution company (LDC) named for the plant
+  unit: none
   type: text
   values:
     distinct: 182
@@ -586,12 +597,12 @@ columns:
     - ALPINE NATURAL GAS INC
     - AMEREN ILLINOIS
   missing_cells: 15802
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_natural_gas_pipeline_name_1
-  label: null
-  unit: null
+  label: The first natural gas pipeline named for the plant
+  unit: none
   type: text
   values:
     distinct: 146
@@ -602,12 +613,12 @@ columns:
     - ALGONQUIN GAS TRANSMISSION COMPANY
     - AMEREN ILLINOIS
   missing_cells: 15903
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_natural_gas_pipeline_name_2
-  label: null
-  unit: null
+  label: The second natural gas pipeline named for the plant
+  unit: none
   type: text
   values:
     distinct: 71
@@ -618,12 +629,12 @@ columns:
     - ANR PIPELINE COMPANY
     - BOARDWALK FIELD SERVICES LLC
   missing_cells: 17118
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_natural_gas_pipeline_name_3
-  label: null
-  unit: null
+  label: The third natural gas pipeline named for the plant
+  unit: none
   type: text
   values:
     distinct: 29
@@ -634,12 +645,12 @@ columns:
     - BRIDGELINE HOLDINGS LP
     - CENTERPOINT ENERGY INTRASTATE P LLC
   missing_cells: 17291
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_pipeline_notes
-  label: null
-  unit: null
+  label: EIA's pipeline notes for the plant
+  unit: none
   type: text
   values:
     distinct: 223
@@ -650,12 +661,12 @@ columns:
     - 16a.NA- It did not let me leave the field blanc.
     - '16a: CE Gas and DCP Midstream Gas 16b: CE Gas and DCP Midstream Gas'
   missing_cells: 17097
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_natural_gas_storage
-  label: null
-  unit: null
+  label: 'EIA''s natural gas storage flag: Y, N or X, as EIA gives it'
+  unit: none
   type: text
   values:
     list:
@@ -663,12 +674,12 @@ columns:
       X: 2989
       Y: 28
   missing_cells: 8433
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
+  documented_by: method eia860_plants_annual.md
 - name: x_liquefied_natural_gas_storage
-  label: null
-  unit: null
+  label: 'EIA''s liquefied natural gas storage flag: Y, N or X, as EIA gives it'
+  unit: none
   type: text
   values:
     list:
@@ -676,7 +687,10 @@ columns:
       X: 5965
       Y: 13
   missing_cells: 9593
-  missing_meaning: null
+  missing_meaning: EIA gives none
   source_name: null
-  documented_by: null
-second_look: null
+  documented_by: method eia860_plants_annual.md
+second_look:
+- 'x_regulatory_status (RE, NR): the method note keeps EIA''s codes as given and does not say what the two codes mean.'
+- 'x_ash_impoundment_lined, x_natural_gas_storage and x_liquefied_natural_gas_storage: the X flag is kept as EIA gives it,
+  and no note says what X means beside Y and N.'

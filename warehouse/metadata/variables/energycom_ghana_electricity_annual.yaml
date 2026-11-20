@@ -1,0 +1,172 @@
+# The codebook's metadata of table energycom_ghana_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: energycom_ghana_electricity_annual
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1Y
+source:
+- name: energycom:national_energy_statistics Energy Commission, Ghana, 2026 National Energy Statistical Bulletin, tables 3.7
+    Annual Electricity Generation, 3.8 Electricity Import and Export and 3.9 Ghana and System Peak Load (printed pages 12,
+    14 and 16; 3.4 to 3.6 in its list of tables)
+  url: https://www.energycom.gov.gh/index.php/planning/energy-statistics
+cite: Energy Commission, Ghana. National Energy Statistical Bulletin 2026, tables 3.7 (generation), 3.8 (imports and exports)
+  and 3.9 (peak load). Via the Energy Research Warehouse (ERW), table `energycom_ghana_electricity_annual`.
+method: docs/methods/energycom_ghana_electricity_annual.md
+header_title: Energy Commission, Ghana, National Energy Statistical Bulletin 2026, electricity generation by source, imports
+  and exports, and peak load, 2000 to 2025 (session 2373)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity energycom:GH; variable generation_hydro, generation_thermal,
+  generation_other_renewables, generation_total, imports, exports, net_exports (MWh, the bulletin''s GWh times 1,000), peak_ghana,
+  peak_system (MW); ts_utc the year''s 1 January; freq P1Y; geo GH. generation_total is hydro plus thermal plus other renewables
+  (footnote 8''s "and import" does not hold for table 3.7: the bulletin''s energy transmitted is that total plus imports);
+  the system peak is defined as Ghana''s peak, or Ghana''s load at peak, plus export load, so peak_system less peak_ghana
+  is not export load.'
+read:
+  date: '2026-11-20'
+  rows: 221
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 221
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 221
+variables:
+- name: exports
+  label: null
+  unit: MWh
+  rows: 26
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_hydro
+  label: null
+  unit: MWh
+  rows: 26
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_other_renewables
+  label: null
+  unit: MWh
+  rows: 13
+  first: '2013-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_thermal
+  label: null
+  unit: MWh
+  rows: 26
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation_total
+  label: null
+  unit: MWh
+  rows: 26
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: imports
+  label: null
+  unit: MWh
+  rows: 26
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: net_exports
+  label: null
+  unit: MWh
+  rows: 26
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: peak_ghana
+  label: null
+  unit: MW
+  rows: 26
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: peak_system
+  label: null
+  unit: MW
+  rows: 26
+  first: '2000-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

@@ -5,9 +5,10 @@
 table: census_bps_state_annual
 family: census
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's (or DC's) count or value of new housing authorized by building permits for one structure type in one year,
+  the Census Bureau's estimates.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: A snapshot, replaced whole by each run; vintage is each year's file's Last-Modified time.
 keys:
 - entity
 - variable
@@ -43,6 +44,7 @@ columns:
     - census_bps:az
     - census_bps:ca
   missing_cells: 0
+  particular: census_bps:<state postal code, lowercase>
 - name: variable
   shared: true
   type: text
@@ -119,6 +121,7 @@ columns:
     - Arkansas
     - California
   missing_cells: 0
+  particular: The state as the Bureau names it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -177,99 +180,100 @@ columns:
       '2025-09-18T15:15:30Z': 612
       '2026-05-14T13:30:25Z': 612
   missing_cells: 0
+  particular: The Last-Modified time of the year's file
 - name: x_fips
-  label: null
-  unit: null
+  label: The state's FIPS code
+  unit: none
   type: integer
   values:
     distinct: 51
     lowest: 1
     highest: 56
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector census_bps.py
 - name: x_code
-  label: null
-  unit: null
+  label: The code the year's file gives the state (areas are matched by it)
+  unit: none
   type: integer
   values:
     distinct: 51
     lowest: 1
     highest: 56
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector census_bps.py; method census_bps_state_annual.md
 variables:
 - name: buildings_1_unit
-  label: null
+  label: One-unit buildings authorized
   unit: count
   rows: 561
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: buildings_2_units
-  label: null
+  label: Two-unit buildings authorized
   unit: count
   rows: 561
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: buildings_3_4_units
-  label: null
+  label: Buildings of three or four units authorized
   unit: count
   rows: 561
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: buildings_5_plus_units
-  label: null
+  label: Buildings of five or more units authorized
   unit: count
   rows: 561
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: units_1_unit
-  label: null
+  label: Housing units authorized in one-unit buildings
   unit: count
   rows: 561
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: units_2_units
-  label: null
+  label: Housing units authorized in two-unit buildings
   unit: count
   rows: 561
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: units_3_4_units
-  label: null
+  label: Housing units authorized in buildings of three or four units
   unit: count
   rows: 561
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: units_5_plus_units
-  label: null
+  label: Housing units authorized in buildings of five or more units
   unit: count
   rows: 561
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: value_1_unit
-  label: null
+  label: Value of the one-unit buildings authorized, USD (the Bureau's thousands times 1,000)
   unit: USD
   rows: 561
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: value_2_units
-  label: null
+  label: Value of the two-unit buildings authorized, USD (the Bureau's thousands times 1,000)
   unit: USD
   rows: 561
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: value_3_4_units
-  label: null
+  label: Value of the buildings of three or four units authorized, USD (the Bureau's thousands times 1,000)
   unit: USD
   rows: 561
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: value_5_plus_units
-  label: null
+  label: Value of the buildings of five or more units authorized, USD (the Bureau's thousands times 1,000)
   unit: USD
   rows: 561
   first: '2015-01-01T00:00:00Z'

@@ -5,9 +5,11 @@
 table: eia_recs_households
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One category of homes (by a household or housing characteristic, or all homes) and one figure from EIA's 2020 Residential
+  Energy Consumption Survey tables CE4.1 and CE4.11.
+time: ts_utc is 1 January of the survey year (2020) at 00:00:00Z (freq P1Y).
+vintage_rule: Written whole each run (write_snapshot) from the saved workbooks; EIA's revision is taken only when the saved
+  copy is gone. vintage is each workbook's last-modified time.
 keys:
 - entity
 - variable
@@ -45,6 +47,7 @@ columns:
     - recs:2020_annual_household_income_20_000_to_39_999
     - recs:2020_annual_household_income_40_000_to_59_999
   missing_cells: 0
+  particular: recs:<heading>_<category>, slugged; recs:all for all homes
 - name: variable
   shared: true
   type: text
@@ -89,12 +92,14 @@ columns:
     list:
       US: 2802
   missing_cells: 0
+  particular: US on every row (census regions are categories)
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2802
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -107,6 +112,7 @@ columns:
     - $20,000 to $39,999
     - $40,000 to $59,999
   missing_cells: 0
+  particular: The category as EIA prints it
 - name: source
   shared: true
   type: text
@@ -138,9 +144,10 @@ columns:
       '2024-03-18T20:38:32Z': 1364
       '2024-03-26T12:42:35Z': 1438
   missing_cells: 0
+  particular: The workbook's last-modified time from EIA's server
 - name: x_heading
-  label: null
-  unit: null
+  label: The heading the category sits under (for example Housing unit type), as EIA prints it
+  unit: none
   type: text
   values:
     list:
@@ -156,12 +163,12 @@ columns:
       Total square footageh: 234
       Year of construction: 338
   missing_cells: 39
-  missing_meaning: null
+  missing_meaning: The all-homes row, which sits under no heading
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_buildings.py; method eia_buildings_surveys.md
 - name: x_level
-  label: null
-  unit: null
+  label: 'The category''s indent: 0 a category, 1 a part of the category above it, 2 a part of that (add level-0 rows only)'
+  unit: none
   type: integer
   values:
     list:
@@ -169,12 +176,12 @@ columns:
       '1': 606
       '2': 60
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_buildings.py; method eia_buildings_surveys.md
 - name: x_parent
-  label: null
-  unit: null
+  label: The category a level-1 or level-2 row is a part of
+  unit: none
   type: text
   values:
     list:
@@ -187,252 +194,252 @@ columns:
       Urban: 76
       West: 68
   missing_cells: 2136
-  missing_meaning: null
+  missing_meaning: A level-0 row (a part of no other category)
   source_name: null
-  documented_by: null
+  documented_by: connector eia_buildings.py; method eia_buildings_surveys.md
 - name: x_table
-  label: null
-  unit: null
+  label: The RECS table the figure is read from (CE4.1 consumption, CE4.11 expenditures)
+  unit: none
   type: text
   values:
     list:
       CE4.1: 1438
       CE4.11: 1364
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_buildings.py; method eia_buildings_surveys.md
 variables:
 - name: consumption_electricity_air_conditioning
-  label: null
+  label: Electricity consumption for air conditioning, trillion Btu (CE4.1)
   unit: TBtu
   rows: 76
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: consumption_electricity_other
-  label: null
+  label: Electricity consumption for other end uses, trillion Btu (CE4.1)
   unit: TBtu
   rows: 77
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: consumption_electricity_refrigerators
-  label: null
+  label: Electricity consumption by refrigerators, trillion Btu (CE4.1)
   unit: TBtu
   rows: 76
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: consumption_electricity_space_heating
-  label: null
+  label: Electricity consumption for space heating, trillion Btu (CE4.1)
   unit: TBtu
   rows: 75
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: consumption_electricity_total
-  label: null
+  label: Electricity consumption, all end uses, trillion Btu (CE4.1)
   unit: TBtu
   rows: 77
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: consumption_electricity_water_heating
-  label: null
+  label: Electricity consumption for water heating, trillion Btu (CE4.1)
   unit: TBtu
   rows: 76
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: consumption_fuel_oil_kerosene_other
-  label: null
+  label: Fuel oil and kerosene consumption for other end uses, trillion Btu (CE4.1)
   unit: TBtu
   rows: 44
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: consumption_fuel_oil_kerosene_space_heating
-  label: null
+  label: Fuel oil and kerosene consumption for space heating, trillion Btu (CE4.1)
   unit: TBtu
   rows: 65
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: consumption_fuel_oil_kerosene_total
-  label: null
+  label: Fuel oil and kerosene consumption, all end uses, trillion Btu (CE4.1)
   unit: TBtu
   rows: 66
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: consumption_fuel_oil_kerosene_water_heating
-  label: null
+  label: Fuel oil and kerosene consumption for water heating, trillion Btu (CE4.1)
   unit: TBtu
   rows: 56
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: consumption_natural_gas_other
-  label: null
+  label: Natural gas consumption for other end uses, trillion Btu (CE4.1)
   unit: TBtu
   rows: 76
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: consumption_natural_gas_space_heating
-  label: null
+  label: Natural gas consumption for space heating, trillion Btu (CE4.1)
   unit: TBtu
   rows: 73
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: consumption_natural_gas_total
-  label: null
+  label: Natural gas consumption, all end uses, trillion Btu (CE4.1)
   unit: TBtu
   rows: 77
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: consumption_natural_gas_water_heating
-  label: null
+  label: Natural gas consumption for water heating, trillion Btu (CE4.1)
   unit: TBtu
   rows: 76
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: consumption_propane_other
-  label: null
+  label: Propane consumption for other end uses, trillion Btu (CE4.1)
   unit: TBtu
   rows: 71
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: consumption_propane_space_heating
-  label: null
+  label: Propane consumption for space heating, trillion Btu (CE4.1)
   unit: TBtu
   rows: 74
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: consumption_propane_total
-  label: null
+  label: Propane consumption, all end uses, trillion Btu (CE4.1)
   unit: TBtu
   rows: 75
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: consumption_propane_water_heating
-  label: null
+  label: Propane consumption for water heating, trillion Btu (CE4.1)
   unit: TBtu
   rows: 74
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: consumption_total
-  label: null
+  label: Site energy consumption of all fuels, trillion Btu (CE4.1)
   unit: TBtu
   rows: 77
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_electricity_air_conditioning
-  label: null
+  label: Expenditure on electricity for air conditioning, USD (CE4.11)
   unit: USD
   rows: 77
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_electricity_other
-  label: null
+  label: Expenditure on electricity for other end uses, USD (CE4.11)
   unit: USD
   rows: 77
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_electricity_refrigerators
-  label: null
+  label: Expenditure on electricity for refrigerators, USD (CE4.11)
   unit: USD
   rows: 77
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_electricity_space_heating
-  label: null
+  label: Expenditure on electricity for space heating, USD (CE4.11)
   unit: USD
   rows: 76
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_electricity_total
-  label: null
+  label: Expenditure on electricity, all end uses, USD (CE4.11)
   unit: USD
   rows: 77
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_electricity_water_heating
-  label: null
+  label: Expenditure on electricity for water heating, USD (CE4.11)
   unit: USD
   rows: 76
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_fuel_oil_kerosene_other
-  label: null
+  label: Expenditure on fuel oil and kerosene for other end uses, USD (CE4.11)
   unit: USD
   rows: 44
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_fuel_oil_kerosene_space_heating
-  label: null
+  label: Expenditure on fuel oil and kerosene for space heating, USD (CE4.11)
   unit: USD
   rows: 65
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_fuel_oil_kerosene_total
-  label: null
+  label: Expenditure on fuel oil and kerosene, all end uses, USD (CE4.11)
   unit: USD
   rows: 65
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_fuel_oil_kerosene_water_heating
-  label: null
+  label: Expenditure on fuel oil and kerosene for water heating, USD (CE4.11)
   unit: USD
   rows: 56
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_natural_gas_other
-  label: null
+  label: Expenditure on natural gas for other end uses, USD (CE4.11)
   unit: USD
   rows: 76
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_natural_gas_space_heating
-  label: null
+  label: Expenditure on natural gas for space heating, USD (CE4.11)
   unit: USD
   rows: 74
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_natural_gas_total
-  label: null
+  label: Expenditure on natural gas, all end uses, USD (CE4.11)
   unit: USD
   rows: 77
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_natural_gas_water_heating
-  label: null
+  label: Expenditure on natural gas for water heating, USD (CE4.11)
   unit: USD
   rows: 76
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_propane_other
-  label: null
+  label: Expenditure on propane for other end uses, USD (CE4.11)
   unit: USD
   rows: 73
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_propane_space_heating
-  label: null
+  label: Expenditure on propane for space heating, USD (CE4.11)
   unit: USD
   rows: 73
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_propane_total
-  label: null
+  label: Expenditure on propane, all end uses, USD (CE4.11)
   unit: USD
   rows: 75
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_propane_water_heating
-  label: null
+  label: Expenditure on propane for water heating, USD (CE4.11)
   unit: USD
   rows: 73
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: expenditure_total
-  label: null
+  label: Expenditure on all fuels, USD (CE4.11, billion dollars times 1,000,000,000)
   unit: USD
   rows: 77
   first: '2020-01-01T00:00:00Z'
   last: '2020-01-01T00:00:00Z'
 - name: housing_units
-  label: null
+  label: Number of housing units (CE4.1, million housing units times 1,000,000)
   unit: count
   rows: 77
   first: '2020-01-01T00:00:00Z'

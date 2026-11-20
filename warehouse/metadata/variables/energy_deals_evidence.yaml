@@ -1,0 +1,163 @@
+# The codebook's metadata of table energy_deals_evidence (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: energy_deals_evidence
+family: energy
+shape: events
+row: null
+time: null
+vintage_rule: null
+keys:
+- event_id
+license: internal
+tier: model_extracted
+interval: event
+source: []
+cite: ANS Nuclear Newswire; Bloomberg; Bloomberg.com; Canary Media; DOE newsroom; Data Center Dynamics; Data Center Frontier;
+  Electrek; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; JPT Homepage; LNG Prime; Latitude Media; Natural
+  Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; World Nuclear News; hartenergy.com;
+  jpt.spe.org; pv magazine USA. news stories; news stories via feed 'Bloomberg energy (via Google News)'; news stories via
+  feed 'Canary Media'; news stories via feed 'DOE newsroom'; news stories via feed 'Data Center Frontier'; news stories via
+  feed 'Electrek'; news stories via feed 'Energy-Storage.news'; news stories via feed 'FT energy (via Google News)'; news
+  stories via feed 'Hart Energy'; news stories via feed 'JPT (SPE)'; news stories via feed 'LNG Prime'; news stories via feed
+  'Latitude Media'; news stories via feed 'Natural Gas Intelligence'; news stories via feed 'POWER Magazine'; news stories
+  via feed 'Reuters energy (via Google News)'; news stories via feed 'Rigzone'; news stories via feed 'Utility Dive'; news
+  stories via feed 'WSJ energy (via Google News)'; news stories via feed 'World Nuclear News'. Via the Energy Research Warehouse
+  (ERW), table `energy_deals_evidence`.
+method: docs/methods/energy_deals.md
+header_title: Evidence sentences for energy_deals, copied verbatim from the stories
+header_shape: 'Shape: events (docs/datastandard.md v0), event_type deal_evidence; one row per deal and story. event_date is
+  the story''s publish time.'
+read:
+  date: '2026-11-20'
+  rows: 652
+  key_duplicates: 0
+columns:
+- name: event_id
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_date
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: event_type
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: parties
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 652
+- name: entity_ids
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 652
+- name: mw
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 652
+- name: price
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 652
+- name: currency
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 652
+- name: status
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 652
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: deal_id
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: story_id
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: evidence
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: stage_text
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 607
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: confidence_basis
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 599
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+- name: spans
+  label: null
+  unit: null
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 623
+  missing_meaning: null
+  source_name: null
+  documented_by: null
+second_look: null

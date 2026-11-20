@@ -1,0 +1,205 @@
+# The codebook's metadata of table erc_mongolia_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: erc_mongolia_electricity_annual
+family: other_sources
+shape: series
+row: null
+time: null
+vintage_rule: null
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1Y
+source:
+- name: erc_mn:statistics_on_energy_performance Energy Regulatory Commission of Mongolia, Statistics on Energy Performance
+    (English), the electricity generation, installed capacity and electricity sales volume tables
+  url: https://erc.gov.mn/mn/statistic
+cite: Energy Regulatory Commission of Mongolia (ERC). Statistics on Energy Performance, English edition of 2020 (generation,
+  imports, installed capacity, sales by grid). Via the Energy Research Warehouse (ERW), table `erc_mongolia_electricity_annual`.
+method: docs/methods/erc_mongolia_electricity_annual.md
+header_title: 'Energy Regulatory Commission of Mongolia (ERC), Statistics on Energy Performance (English, 2020 edition): generation
+  by type and imports, installed capacity, and sales by grid and class, 2015 to 2020 (session 2422)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity erc_mn:MN (the country) or erc_mn:<grid> (cripg, wripg, eripg,
+  auipg, srpdg); variable generation_<chp|diesel|solar|hydro|wind|total> and imports (MWh, ERC''s GWh times 1,000), capacity_<chp|renewable|diesel|total>
+  (MW), sales_<entity_industry|apartment|ger_district|total> (MWh; ERC''s E&I, Ap and GD: entity and industry, apartment,
+  ger district); ts_utc the year''s 1 January; freq P1Y; geo MN.'
+read:
+  date: '2026-11-20'
+  rows: 210
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 210
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+variables:
+- name: capacity_chp
+  label: null
+  unit: MW
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: capacity_diesel
+  label: null
+  unit: MW
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: capacity_renewable
+  label: null
+  unit: MW
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: capacity_total
+  label: null
+  unit: MW
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: generation_chp
+  label: null
+  unit: MWh
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: generation_diesel
+  label: null
+  unit: MWh
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: generation_hydro
+  label: null
+  unit: MWh
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: generation_solar
+  label: null
+  unit: MWh
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: generation_total
+  label: null
+  unit: MWh
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: generation_wind
+  label: null
+  unit: MWh
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: imports
+  label: null
+  unit: MWh
+  rows: 6
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: sales_apartment
+  label: null
+  unit: MWh
+  rows: 36
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: sales_entity_industry
+  label: null
+  unit: MWh
+  rows: 36
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: sales_ger_district
+  label: null
+  unit: MWh
+  rows: 36
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+- name: sales_total
+  label: null
+  unit: MWh
+  rows: 36
+  first: '2015-01-01T00:00:00Z'
+  last: '2020-01-01T00:00:00Z'
+second_look: null

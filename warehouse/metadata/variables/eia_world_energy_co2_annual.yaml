@@ -5,9 +5,10 @@
 table: eia_world_energy_co2_annual
 family: eia
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One country's or region's yearly total primary energy production or consumption (in all or by source) or energy-related
+  CO2 emissions, from EIA's International Energy Statistics bulk file.
+time: ts_utc is 1 January of the year at 00:00:00Z (freq P1Y).
+vintage_rule: Rewritten whole by each run (write_snapshot); vintage is the bulk file's last-modified time.
 keys:
 - entity
 - variable
@@ -46,6 +47,7 @@ columns:
     - eia_intl:ABW:4006
     - eia_intl:ABW:4008
   missing_cells: 0
+  particular: eia_intl:<EIA country or region code>:<EIA product id>; a total holds its parts
 - name: variable
   shared: true
   type: text
@@ -89,12 +91,14 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 246988
+  particular: 'Not filled: no ISO code is guessed from EIA''s area codes'
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 246988
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -107,6 +111,7 @@ columns:
     - Afghanistan, CO2 emissions, consumed natural gas
     - Afghanistan, CO2 emissions, natural gas
   missing_cells: 0
+  particular: <area>, <product> in EIA's names
 - name: source
   shared: true
   type: text
@@ -135,9 +140,11 @@ columns:
     list:
       '2026-10-19T19:55:35Z': 246988
   missing_cells: 0
+  particular: The bulk file's last-modified time from EIA's server
 - name: x_area
-  label: null
-  unit: null
+  label: 'The kind of area: country, former (a country that no longer exists), part (EIA''s offshore and trade-zone parts)
+    or region (the world, continents, groups); a sum over countries takes country and former only'
+  unit: none
   type: text
   values:
     list:
@@ -146,24 +153,24 @@ columns:
       part: 1092
       region: 36413
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eia_intl_bulk.py; method eia_world_electricity_annual.md
 variables:
 - name: consumption
-  label: null
+  label: Primary energy consumption of the product, trillion Btu (EIA's quadrillion Btu times 1,000)
   unit: TBtu
   rows: 89405
   first: '1980-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: emissions
-  label: null
+  label: Energy-related carbon dioxide emissions of the fuel, tonnes of CO2 (EIA's million metric tonnes times 1,000,000)
   unit: tCO2
   rows: 79179
   first: '1949-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: production
-  label: null
+  label: Primary energy production of the product, trillion Btu (EIA's quadrillion Btu times 1,000)
   unit: TBtu
   rows: 78404
   first: '1980-01-01T00:00:00Z'
