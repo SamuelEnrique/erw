@@ -41,7 +41,8 @@ class NewStops(unittest.TestCase):
 
     def test_each_new_view_has_a_stop(self):
         hrefs = [s["href"] for s in self.t["NEW_STOPS"]]
-        for h in ("/grid", "/events/elliott-2022", "/demand", "/supply", "/map", "/industry", "/ai-energy"):
+        # session 8905 (chain 590): the resource map is the Resources tab of /map
+        for h in ("/grid", "/events/elliott-2022", "/demand", "/supply", "/map?tab=resources", "/industry", "/ai-energy"):
             self.assertIn(h, hrefs)
 
     def test_the_flag_agrees_with_main(self):

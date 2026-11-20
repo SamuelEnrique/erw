@@ -86,10 +86,12 @@ export const NEW_STOPS: Stop[] = [
     headings: ["The whole country", "Who trades with whom"],
   },
   {
-    href: "/map", title: "What is under the ground and in the wind", seconds: 35, landed: true,
+    // session 8905 (chain 590): the resource map is the Resources tab of /map; "/map" alone opened the Projects tab,
+    // where none of this stop's words or headings are
+    href: "/map?tab=resources", title: "What is under the ground and in the wind", seconds: 35, landed: true,
     line: "The resource map: where the coal, the gas, the sun and the wind are, each layer in its own unit, beside what is built or planned. A resource is not a power plant.",
     look: "Read \"What is built or planned\", then \"How the map is drawn\".",
-    headings: ["The project map", "What is built or planned", "How the map is drawn"],
+    headings: ["Where the resources are", "What is built or planned", "How the map is drawn"],
   },
   {
     href: "/industry", title: "Where energy goes", seconds: 35, landed: true,
