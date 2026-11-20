@@ -1,0 +1,50 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate wc_production, region wc_ind (India)
+# Computed 2026-11-19T12:37:10Z by warehouse/analysis/findings/deep/coal_uranium_metals.py (wc_production); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the country's coal production (million short tons), the observations it rests on, and whether the year is full
+# Tables: eia_world_coal_annual
+region,year,value,n_observations,full_year
+wc_ind,1980,121.50211975,1.0,1
+wc_ind,1981,132.82945731,1.0,1
+wc_ind,1982,141.60715184,1.0,1
+wc_ind,1983,149.47984985999997,1.0,1
+wc_ind,1984,161.2348837,1.0,1
+wc_ind,1985,168.07692187,1.0,1
+wc_ind,1986,185.1439876,1.0,1
+wc_ind,1987,200.36578638999998,1.0,1
+wc_ind,1988,218.79530728,1.0,1
+wc_ind,1989,224.92745781,1.0,1
+wc_ind,1990,241.89862257,1.0,1
+wc_ind,1991,263.37933754,1.0,1
+wc_ind,1992,274.36826593,1.0,1
+wc_ind,1993,282.43386820000006,1.0,1
+wc_ind,1994,293.32138406999997,1.0,1
+wc_ind,1995,313.5520795,1.0,1
+wc_ind,1996,331.49989092000004,1.0,1
+wc_ind,1997,343.45554518,1.0,1
+wc_ind,1998,346.73601974,1.0,1
+wc_ind,1999,350.01649430000003,1.0,1
+wc_ind,2000,362.80439261000004,1.0,1
+wc_ind,2001,379.74248807,1.0,1
+wc_ind,2002,395.71385766000003,1.0,1
+wc_ind,2003,420.62385904,1.0,1
+wc_ind,2004,446.68246744,1.0,1
+wc_ind,2005,473.2657754,1.0,1
+wc_ind,2006,500.118047,1.0,1
+wc_ind,2007,531.5206542799999,1.0,1
+wc_ind,2008,544.93080868,1.0,1
+wc_ind,2009,548.55906414,1.0,1
+wc_ind,2010,578.21560818,1.0,1
+wc_ind,2011,590.75300656,1.0,1
+wc_ind,2012,608.792034125,1.0,1
+wc_ind,2013,621.071767524996,1.0,1
+wc_ind,2014,659.542386524997,1.0,1
+wc_ind,2015,696.348517425,1.0,1
+wc_ind,2016,720.0399151,1.0,1
+wc_ind,2017,739.6693004250001,1.0,1
+wc_ind,2018,788.5815509,1.0,1
+wc_ind,2019,805.0528180749949,1.0,1
+wc_ind,2020,793.417936025002,1.0,1
+wc_ind,2021,844.9757305000027,1.0,1
+wc_ind,2022,951.525015100003,1.0,1
+wc_ind,2023,1067.9509972999947,1.0,1
+wc_ind,2024,1116.5816547048657,1.0,1

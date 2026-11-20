@@ -1,0 +1,38 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate s2s_in, region s2in_louisiana (Louisiana)
+# Computed 2026-11-19T12:48:33Z by warehouse/analysis/findings/deep/gas.py (s2s_in); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the summed capacity of the pipeline crossings into the state (bcf a day), the observations it rests on, and whether the year is full
+# Tables: eia_state_to_state_capacity
+region,year,value,n_observations,full_year
+s2in_louisiana,1990,21.9392,1.0,1
+s2in_louisiana,1994,21.9721,1.0,1
+s2in_louisiana,1995,21.9721,1.0,1
+s2in_louisiana,1996,22.9141,1.0,1
+s2in_louisiana,1997,24.1341,1.0,1
+s2in_louisiana,1998,24.839100000000002,1.0,1
+s2in_louisiana,1999,25.174100000000003,1.0,1
+s2in_louisiana,2000,25.1841,1.0,1
+s2in_louisiana,2001,25.1841,1.0,1
+s2in_louisiana,2002,25.1841,1.0,1
+s2in_louisiana,2003,25.1871,1.0,1
+s2in_louisiana,2004,25.1871,1.0,1
+s2in_louisiana,2005,25.4171,1.0,1
+s2in_louisiana,2006,25.5391,1.0,1
+s2in_louisiana,2007,27.4521,1.0,1
+s2in_louisiana,2008,29.6681,1.0,1
+s2in_louisiana,2009,31.8171,1.0,1
+s2in_louisiana,2010,33.9471,1.0,1
+s2in_louisiana,2011,36.447,1.0,1
+s2in_louisiana,2012,36.447,1.0,1
+s2in_louisiana,2013,36.987,1.0,1
+s2in_louisiana,2014,37.537,1.0,1
+s2in_louisiana,2015,39.096000000000004,1.0,1
+s2in_louisiana,2016,40.413000000000004,1.0,1
+s2in_louisiana,2017,44.981,1.0,1
+s2in_louisiana,2018,44.981,1.0,1
+s2in_louisiana,2019,45.737,1.0,1
+s2in_louisiana,2020,45.812,1.0,1
+s2in_louisiana,2021,46.108000000000004,1.0,1
+s2in_louisiana,2022,46.601,1.0,1
+s2in_louisiana,2023,46.766,1.0,1
+s2in_louisiana,2024,46.766,1.0,1
+s2in_louisiana,2025,48.230000000000004,1.0,1
