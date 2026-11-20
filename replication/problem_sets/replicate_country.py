@@ -223,6 +223,43 @@ def where(sh):
     sh.calc(S, "i7", "ratio", "ratio", "tx", "la")
 
 
+def authority(sh):
+    """Session 8905 (chain 590, part C): the fifth set, the Tennessee Valley Authority's own facts, with ERCOT and CAISO."""
+    S, A, E, C = "your-own-balancing-authority", "regions/authority/tva.json", "regions/authority/erco.json", "regions/authority/ciso.json"
+    a, e, c = load(A), load(E), load(C)
+
+    def first_max(rows, field):
+        return max(range(len(rows)), key=lambda i: (rows[i][field], -i))
+
+    def cap(q, name, g):
+        return sh.read(S, q, name, A, f"owns/capacity_mw/{g}", a["owns"]["capacity_mw"][g])
+
+    def total(q):
+        return sh.read(S, q, "total", A, "owns/total_mw", a["owns"]["total_mw"])
+
+    cap("bx", "nuclear", "nuclear"); total("bx"); sh.calc(S, "bx", "pct", "pct", "nuclear", "total")
+    sh.read(S, "b1", "plant", A, "owns/largest_plants/0/mw", a["owns"]["largest_plants"][0]["mw"]); total("b1"); sh.calc(S, "b1", "pct", "pct", "plant", "total")
+    cap("b2", "cap_nuclear", "nuclear"); cap("b2", "cap_gas", "natural_gas"); total("b2")
+    sh.calc(S, "b2", "cn", "pct", "cap_nuclear", "total"); sh.calc(S, "b2", "cg", "pct", "cap_gas", "total")
+    for name, g in (("gen_nuclear", "nuclear"), ("gen_gas", "natural_gas")):
+        sh.read(S, "b2", name, A, f"burns/share_pct/{g}", a["burns"]["share_pct"][g])
+    ri = first_max(a["coming"]["retirements"], "mw")
+    rr = a["coming"]["retirements"][ri]
+    sh.read(S, "b3", "retire", A, f"coming/retirements/{ri}/mw", rr["mw"]); cap("b3", "fleet", rr["technology_group"]); sh.calc(S, "b3", "pct", "pct", "retire", "fleet")
+    ai = first_max(a["coming"]["additions"], "mw")
+    ar = a["coming"]["additions"][ai]
+    sh.read(S, "b4", "add", A, f"coming/additions/{ai}/mw", ar["mw"]); cap("b4", "fleet", ar["technology_group"]); sh.calc(S, "b4", "pct", "pct", "add", "fleet")
+    pi = first_max(a["trades"]["partners"], "exchange_gross_mwh")
+    p = a["trades"]["partners"][pi]
+    sh.read(S, "b5", "net", A, f"trades/partners/{pi}/net_import_mwh", p["net_import_mwh"]); sh.read(S, "b5", "gross", A, f"trades/partners/{pi}/exchange_gross_mwh", p["exchange_gross_mwh"])
+    sh.calc(S, "b5", "pct", "pct", "net", "gross"); sh.read(S, "b5", "share", A, "trades/net_import_share_of_demand_pct", a["trades"]["net_import_share_of_demand_pct"])
+    sh.read(S, "b6", "ercot", E, "burns/co2/intensity_kg_per_mwh", e["burns"]["co2"]["intensity_kg_per_mwh"]); sh.read(S, "b6", "caiso", C, "burns/co2/intensity_kg_per_mwh", c["burns"]["co2"]["intensity_kg_per_mwh"])
+    sh.calc(S, "b6", "ratio", "ratio", "ercot", "caiso")
+    sh.read(S, "b7", "peak", A, "size/peak_mw", a["size"]["peak_mw"]); sh.read(S, "b7", "growth_tva", A, "size/growth_since_2019_pct", a["size"]["growth_since_2019_pct"])
+    sh.read(S, "b7", "growth_ercot", E, "size/growth_since_2019_pct", e["size"]["growth_since_2019_pct"]); sh.calc(S, "b7", "diff", "diff", "growth_ercot", "growth_tva")
+    sh.read(S, "b7", "ll_tva", A, "large_loads/count", a["large_loads"]["count"]); sh.read(S, "b7", "ll_ercot", E, "large_loads/count", e["large_loads"]["count"])
+
+
 def write(path, rows, cols, head):
     with open(path, "w", encoding="utf-8", newline="") as f:
         f.write(head)
@@ -238,7 +275,7 @@ def close(a, b):
 
 def main(argv):
     sh = Sheet()
-    trade(sh); storm(sh); ground(sh); where(sh)
+    trade(sh); storm(sh); ground(sh); where(sh); authority(sh)  # session 8905: the fifth set
     note = "# Energy Research Warehouse (ERW), session 8901: written by replication/problem_sets/replicate_country.py from the committed page files under site/data (each row names its file and path); no number typed.\n"
     write(os.path.join(OUT, "country_inputs.csv"), sh.inputs, ["set", "question", "name", "pos", "value", "file", "path"], note)
     write(os.path.join(OUT, "country_answers.csv"), sh.answers, ["set", "question", "figure", "kind", "op", "a", "b", "value"], note)

@@ -21,6 +21,8 @@ import * as TRADE from "@/lib/problemsets/who-trades-with-whom";
 import * as STORM from "@/lib/problemsets/storm-across-the-country";
 import * as GROUND from "@/lib/problemsets/under-the-ground-and-in-the-wind";
 import * as WHERE from "@/lib/problemsets/where-energy-goes";
+// session 8905 (chain 590, part C): the fifth set of the whole country, an authority's own facts
+import * as AUTH from "@/lib/problemsets/your-own-balancing-authority";
 
 export type V = { v: number; k: string; u?: string };
 export type Part = string | V;
@@ -635,11 +637,11 @@ export const SETS: Omit<ProblemSet, "questions" | "example">[] = [
     teacher: "About 45 minutes. Prerequisites: MW against MWh, a weighted price, a ratio. Students should open /network (pick ERCOT, slide to the last hour), /cost-of-power/seller (solar, then battery, at ERCOT) and the Uri event page. The network's hour moves as the hourly refresh runs; the money questions move when the seller's snapshot is rebuilt.",
     pages: [{ href: "/grid?view=network", label: "The network" }, { href: "/cost-of-power/seller", label: "What a generator earns" }, { href: "/events/uri-2021", label: "Uri" }] },
   // session 8901 (chain 507, part C): the four sets of the whole country, after the five
-  ...[TRADE, STORM, GROUND, WHERE].map((m) => m.META),
+  ...[TRADE, STORM, GROUND, WHERE, AUTH].map((m) => m.META),
 ];
 /** Session 8901: the sets kept in modules of their own (lib/problemsets/), by slug. */
-const COUNTRY: Record<string, { build: () => Promise<Built> }> = Object.fromEntries([TRADE, STORM, GROUND, WHERE].map((m) => [m.META.slug, m]));
-for (const m of [TRADE, STORM, GROUND, WHERE]) addGuide(m.META.slug, m.GUIDE_ENTRY);
+const COUNTRY: Record<string, { build: () => Promise<Built> }> = Object.fromEntries([TRADE, STORM, GROUND, WHERE, AUTH].map((m) => [m.META.slug, m]));
+for (const m of [TRADE, STORM, GROUND, WHERE, AUTH]) addGuide(m.META.slug, m.GUIDE_ENTRY);
 
 export async function problemSet(slug: string): Promise<ProblemSet | null> {
   const meta = SETS.find((s) => s.slug === slug);

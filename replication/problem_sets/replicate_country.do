@@ -1,4 +1,5 @@
 * Energy Research Warehouse (ERW), session 8901 (chain 507, part C): the four problem sets of the whole country in Stata.
+* Session 8905 (chain 590, part C): the fifth set, your own balancing authority, is read the same way; nothing below names a set.
 * Run from the repository's root, after the Python:  python replication/problem_sets/replicate_country.py
 * then:  do replication/problem_sets/replicate_country.do
 * Stata reads no JSON, so the figures are read as the page files give them through the CSV the Python writes:
