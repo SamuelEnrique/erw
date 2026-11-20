@@ -434,6 +434,18 @@ The old laptop's section (chain 503), read on production on 20 November between 
 
 Pictures: `docs/reviews/browser-read-2026-11-20/events-country/events-index-1280.png` (the list of events); `elliott-as-it-opens-1280.png` (Elliott's page as it opens); `elliott-the-whole-country-1280.png` (the section, Tennessee and the Carolinas); `elliott-each-region-1280.png` (the thirteen regions across the storm); `elliott-pairs-1280.png` (the pairs of regions); `uri-texas-beside-central-1280.png` (Uri, after choosing Texas beside Central).
 
+## 1, 2, 5 and 22 to 26: the pictures still wanting, and what was seen taking them (the desktop's second window)
+
+Taken on production on 20 November about 21:40 UTC (`runs/c620w2/pics.mjs`). Items 22 to 24 were read in full by chain 504 (`docs/reviews/grid-map-read-2026-11-19.md`) and opened again for quiet faults by the portable laptop (item 4 above); their figures were not read again here.
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| 1 | `/grid?region=ten`, the Mix tab, "The latest hour held" | "2026-11-17 05:00 UTC (Mon, Nov 16, 23:00 in Tennessee)", while the Lower 48 on the same tool reads 2026-11-19 23:00 UTC. The region page files were built on 19 November and not since; each page says the hour it holds | The same day of data across the tool, or the file's day said beside it | filed (data request 570) |
+| 2 | The same table | "Solar -5 MW, -0.0%": EIA's figure (solar plants draw power at night), its share printed as "-0.0%" | A share that rounds to zero; the sign says it was below zero. The old laptop's session 8490 reads such a figure "0.0" on `/supply`; the two pages would then differ in how they print it | noted |
+| 3 | The 3D network as it opens, its legend | "Carbon intensity ... latest hour 2026-11-17 23:00 UTC"; the network's week opens on 2026-11-19 04:00 UTC. The color is two days behind the links | Part of the live set's lag (data requests 565 and 569) | noted |
+
+Pictures, under `docs/reviews/browser-read-2026-11-20/more/`: `findings-as-it-opens-1280.png` (item 1, the sheet of forty first); `problem-sets-index-1280.png`, `set-storm-across-the-country-1280.png`, `set-your-own-balancing-authority-1280.png` (items 2 and 11); `resource-map-as-it-opens-1280.png` (items 5 and 23, the map itself); `region-tennessee-mix-1280.png` (item 22, the latest hour held, the solar share of -0.0%); `region-tennessee-network-map-1280.png` (item 21 and 22, the map of the authorities with Tennessee chosen); `region-southwest-clean-1280.png` (item 22, the Clean tab); `network-3d-as-it-opens-1280.png` (item 24, the 3D network and its legend); `method-ba-boundaries-1280.png` (item 26).
+
 ## Part C: the same number in two places
 
 Each pair read on production on 20 November between 11:40 and 11:50 UTC (`runs/c620/survey.mjs` into `runs/c620/c1/`, and the page files).
