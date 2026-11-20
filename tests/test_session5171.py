@@ -104,6 +104,9 @@ READS_THE_DISK = {
     "lib/problems.ts": 'path.join(process.cwd(), "data", "merchant_snapshot.json")',
     "lib/resourcesdata.ts": 'if (!/^[A-Za-z0-9._-]+$/.test(file) || file.includes("..")) return null;',
     "lib/rulesdata.ts": None,
+    # session 8014 (chain 581, parts B and C): every state's page file under data/states/, read by a two-letter code the
+    # index names (the index itself a fixed file); no visitor's words reach a path
+    "lib/states.ts": "if (!index || !CODE.test(c) || !index.states.some((r) => r.state.toLowerCase() === c)) return null;",
 }
 
 
