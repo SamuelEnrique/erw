@@ -524,9 +524,34 @@ async function heldAnswer(a: QueryArgs, grid: string): Promise<Json> {
   return out;
 }
 
+// Ruling alternative 3 of Ask (session 7707, branch wip/alt-site-ask-3; not a default on main): a month's average day-ahead
+// price at a hub is read from the whole-month table. The hourly table (iso_dam_hub_prices) keeps a moving window, so a mean
+// over a calendar month the window holds in part is the mean of the hours held (October 2026 at SP15 on 17 November: 471
+// hours, USD 41.94), while hub_price_comparison holds every hour of the month (744, USD 46.78). On main each answer says
+// which table it read; here a mean of the hourly table over one whole calendar month, of one hub and no grouping, is
+// answered from the monthly table's dam_avg_price, and says so.
+export const HOURLY_HUB_TABLE = "iso_dam_hub_prices", MONTH_HUB_TABLE = "hub_price_comparison";
+/** The calendar month a query asks for whole ("2026-10-01" to "2026-11-01", plain dates or midnight UTC), or null. */
+export function monthAsked(start?: string, end?: string): { start: string; end: string } | null {
+  const day = (v?: string) => (v && /^\d{4}-\d{2}-01(T00:00(:00)?Z?)?$/.test(v) ? v.slice(0, 10) : null);
+  const s = day(start), e = day(end);
+  if (!s || !e) return null;
+  const y = Number(s.slice(0, 4)), m = Number(s.slice(5, 7));
+  const next = `${m === 12 ? y + 1 : y}-${String(m === 12 ? 1 : m + 1).padStart(2, "0")}-01`;
+  return e === next ? { start: s, end: e } : null;
+}
+
 async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   if (!a || typeof a !== "object") throw new ToolError("query needs its arguments as an object (table, aggregation and the rest)");   // session 1486
   if (!AGGREGATIONS.includes(a.aggregation)) throw new ToolError(`aggregation must be one of ${AGGREGATIONS.join(", ")}`);
+  const month = a.table === HOURLY_HUB_TABLE && a.aggregation === "mean" && a.entity && !a.group_by && !a.threshold && (!a.variable || a.variable === "lmp_dam") && (!a.tz || a.tz === "UTC")
+    ? monthAsked(a.start, a.end) : null;
+  if (month) {   // wip/alt-site-ask-3
+    const m = await query({ table: MONTH_HUB_TABLE, aggregation: "mean", entity: a.entity, variable: "dam_avg_price", start: month.start, end: month.end, where: { freq: "P1M" } }, scope);
+    const v = (m as { result?: { value?: unknown }[] }).result?.[0]?.value;
+    if (typeof v === "number") return { ...(m as Record<string, Json>), asked_table: a.table, read_from: MONTH_HUB_TABLE,
+      note: `a month's average day-ahead price is read from the whole-month table ${MONTH_HUB_TABLE} (every hour of the month), not from the hours ${a.table} holds; say that the figure is ${MONTH_HUB_TABLE}'s` };
+  }
   if (misoOwn(a.table) || misoOwn(a.entity) || Object.values(a.where ?? {}).flat().some(misoOwn)) throw new ToolError(MISO_PAUSED);
   const { c, columns, shape } = await tableInfo(a.table, scope);
   const held = heldGridOf(a, scope);
