@@ -30,6 +30,11 @@ Chain: `queue/done/601-night-20-november-desktop-grid-conditions.md`. Progress: 
 - Gate 6 landed: `2ec0599de` (17:48 UTC); snapshots `c601-s9001-land3-before` and `c601-s9001-land3-after`, 0 differences. `/conditions`' glance lines read on production (CAISO in the September 2022 heat: highest peak 51,104 MW on 2022-09-06).
 - Row H4, found reading that landing at 390 px: two operators in a heat wave made the page 619 px wide (the 47 notices widened the grid column); each column now `min-w-0`, tried first on production's page in a browser (390 px of 390); gate 7 from 17:56 UTC.
 - Data request 569 (the live set has no hour of 16 November): the GitHub daily runs of 17 to 19 November stopped before pulling and the 20 November run asked only 17 to 19. A backfill (`runs/c601/backfill_930_9001.sh`, seven days of EIA-930 demand, generation, storage and interchange, then the stores and the load) waits for the data machine's run to free the lock. A manual GitHub run was not used: it would email the digest to subscribers again and call the model.
+- A second runner: at 19:33 UTC another session (erw-98, at the owner's prompt) took `603-resume-chain-601.md` inside this session's worktree and moved that worktree to origin/main, stranding ten local commits. Recovered by cherry-pick and pushed (`9634f83ba`, 0 differences); erw-98 stood down when told and handed over two branches: `wip/c601-eia930-window` (the daily run's EIA-930 pulls ask seven days, the cause behind request 569) and `wip/c601-desk8`. 604 is left in queue/next.
+- Data request 569 done: seven days of EIA-930 demand, generation, storage and interchange pulled again under the lock (21:04 to 21:08 UTC) and loaded; the live set holds every hour of 16 November.
+- The data machine's own page-file commit, refused for three days by a test and today by a rebase conflict, carried onto main by hand (board files from the newer build, the keyed metadata by key and date, `coverage.md` by table, `llms.txt` rebuilt) and put in the stack with the backfill's rows.
+- Gate 8 failed on two tests (test 314 did not yet know a paused grid can age out of a table's own live window; the old laptop's last commit rewrote its read but not its test), both fixed on the stack. Gate 9's suite passed and its build ran out of memory. Gate 10 from 22:16 UTC.
+- Rows H5 and H6: SPP's year zips hold repriced files (2021, 2016) and one identical copy of a day (2016) that the connector matched by date; only a day's own file is read now, and SPP's price parts reach back to 1 March 2014 (1,899,611 rows). The codebook's cutter came out one character over Redivis's limit on nine descriptions, which stopped request 566's apply on both drafts; fixed on `wip/c601-codebook-cut`.
 
 ## Decisions made without you
 
@@ -39,6 +44,11 @@ Chain: `queue/done/601-night-20-november-desktop-grid-conditions.md`. Progress: 
 - Landing row 3 needed codebook files for chain 601's seven public tables, or its own test would fail once both were on main: written from the tables (read fields) and from the method notes (units, labels, row, time and vintage rules), in `runs/c601/cb_hand.yaml`.
 - `/conditions` draws charts only, so for `check-values` to trace its page files a short line was added above each operator's strips: the day of each strip's highest figure in the window, each a checked figure.
 - The page files are rebuilt by the data machine's daily run, not by hand, so this session commits no page file that run also writes.
+
+- Window 2 found the old laptop's rows 51 to 53 marked landed though their heads never reached main; they are not marked requested, but their authors meant them to land, so they went into gate 8's stack and their rows are corrected when they land.
+- The data machine's refused page-file commit was carried onto main by this session, not left for tomorrow's run, because the stale report page it holds failed gate 7's check-values and would fail every gate.
+- Request 569's backfill ran here under the lock, not as a manual GitHub run: a manual run would email the digest to subscribers a second time and call the model.
+- Request 566's description and label fix is the codebook's own; the apply waits for it to land rather than running from a branch copy.
 
 ## For Samuel's ruling (the default taken)
 
