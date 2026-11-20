@@ -24,6 +24,9 @@ Energy Research Warehouse (ERW). 20 November 2026, from about 19:20 UTC. Folder 
 - **Part E, every page check-values knows** (180 addresses): 9,067 of 9,067 match. The one failure is `/policy`'s floor, a held page the landing gate passes on "license needed".
 - **Part E, the keyboard alone on the 22 other pages of the menu:** each reaches its foot with a focus mark at every stop. A finger on every chart: three charts give their figures only as the browser's tooltip (row S2).
 - **Part C:** three more pairs. C8 (two "last twelve months" a month apart) is noted, C9 (the regions' latest hour) is data request 570, and C10 (CAISO's curtailment by year) agrees. Under C10, `/curtailment/where-when`'s trend table named no fuel over solar alone. Mended on the stack (`4f3247287`, with `tests/test_session9203_where_when_trend.py`), built a third time (101 s), seen, and row 4 moved to it.
+- **Part E, the pages that draw from files:** set beside their files, with none differing: `/board` (4,150 figures over two widths), `/prices/compare` (102), `/companies` (400), `/contracts` (227 rows found in `ferc_eqr_contracts`) and `/severance`'s calculator. Pair C11 (WTI on `/severance` and the board) agrees.
+- **Part B at 390 px:** the demand, supply and events figures read again at a phone's width, none differs. `/events/covid-2020` was 392 px wide at 390 with a chart switched to its table. Mended (`923d4cb4f`, `tests/test_session9203_covid_phone.py`), built a fourth time (84 s) and seen, and row 4 moved to it. Noted, not mended: 146 held figures on the nine event pages read "license needed MW" or "license needed%".
+- **Decision:** the stray units after the event pages' held figures are not mended. They are 146 places of prose over nine pages, two of which the old laptop's pending branch changes, and the hold itself waits on Samuel's ruling.
 
 ## Decisions made without a human
 
@@ -37,4 +40,4 @@ Energy Research Warehouse (ERW). 20 November 2026, from about 19:20 UTC. Folder 
 
 ## To finish
 
-- The desk lands row 4 of `docs/state/landing_request_window2.md` (`wip/w2-c620-fixes` at `4f3247287`) through its gate. After the landing, data request 567 (a new dated edition of the resource set).
+- The desk lands row 4 of `docs/state/landing_request_window2.md` (`wip/w2-c620-fixes` at `923d4cb4f`) through its gate. After the landing, data request 567 (a new dated edition of the resource set).

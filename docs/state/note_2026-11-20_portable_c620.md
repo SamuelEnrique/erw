@@ -18,6 +18,8 @@ At Samuel's word the desktop's second window (`C:\Users\Shared\Documents\erw-w2`
   - The pages that draw from files were set beside them, with none differing: the board's 271 rows (4,150 figures over two widths), `/prices/compare`, `/contracts` (227 rows in `ferc_eqr_contracts`), `/companies` and `/severance`'s calculator.
   - The keyboard alone reaches the foot of all 27 menu pages, with a focus mark at every stop.
   - Part C has eleven pairs now. CAISO's curtailment by year agrees between its two pages, and WTI agrees between the severance tool and the board.
+  - A fourth fix: `/events/covid-2020` was 392 px wide at 390 px with a chart switched to its table. It is mended, seen in a build, and row 4 now names `923d4cb4f`.
+  - On the nine event pages, 146 held figures read "license needed MW" or "license needed%": the unit stays after the hold's words. Not mended here; it goes with your ruling on those pages' hold.
   - Rows 418 to 422: the old laptop's three branches, which never reached main, each do what their row asks on a build of today's main. Their landing is the desk's.
 - **Filed:** data request 570. The region page files have not been rebuilt since 19 November, so Tennessee's latest hour held is 17 November 05:00 UTC while the Lower 48 beside it reads 19 November.
 - **Pictures:** the tour's stops 8 to 16 and each page they open (`tour/`); the demand, supply and events reads (`demand-country/`, `supply-country/`, `events-country/`); the fixes as the build shows them (`fixes-seen-in-a-build/`); and ten pages that had none (`more/`). All are under `docs/reviews/browser-read-2026-11-20/`, also on GitHub at `https://github.com/SamuelEnrique/erw/tree/main/docs/reviews/browser-read-2026-11-20`.
