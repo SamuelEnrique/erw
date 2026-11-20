@@ -275,9 +275,10 @@ def _place_labels(fig, ax, labels, sans):
         else:
             pts = [p for p in lab["points"] if not math.isnan(p[1])]
             spots = []
-            for k, (px_, py_) in enumerate(reversed(pts)):
-                ha = "right" if k == 0 else "center"
-                spots += [(px_, py_, 9, ha, "bottom"), (px_, py_, -9, ha, "top")]
+            for off in (9, 20, 34):                      # nearest the line first, then a little further off it
+                for k, (px_, py_) in enumerate(reversed(pts)):
+                    for ha in (("right", "center") if k == 0 else ("center", "right", "left")):
+                        spots += [(px_, py_, off, ha, "bottom"), (px_, py_, -off, ha, "top")]
             best(lambda s, lab=lab, kw=kw: ax.annotate(lab["text"], xy=(s[0], s[1]), xytext=(0, s[2]), textcoords="offset points", ha=s[3], va=s[4], **kw), spots)
 
 
