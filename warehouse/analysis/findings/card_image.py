@@ -192,6 +192,7 @@ def _place_labels(fig, ax, labels, sans):
     figure on the line that comes down to it."""
     if not labels:
         return
+    from matplotlib.text import Text
     r = fig.canvas.get_renderer()
     box = ax.get_window_extent(r)
     allowed = (box.x0 - 2, box.y0 + 2, box.x1 + 20, box.y1 + 10)
@@ -220,11 +221,19 @@ def _place_labels(fig, ax, labels, sans):
         c += sum(5 for p in placed if not (rect[2] < p.x0 or rect[0] > p.x1 or rect[3] < p.y0 or rect[1] > p.y1))
         return c
 
-    def best(make, candidates, skip_y=None):
+    def best(make, candidates, skip_y=None, fallback=None):
+        """fallback: further places, tried only when none of the candidates is clear (the marked figure on a dense
+        line goes to the nearest clear place, a thin leader drawn back to its point)."""
         chosen, low = None, None
-        for cand in candidates:
+        for cand in list(candidates) + ["FALLBACK"] + list(fallback or []):
+            if cand == "FALLBACK":
+                if low == 0:
+                    break
+                continue
             t = make(cand)
-            bb = t.get_window_extent(r)
+            if hasattr(t, "update_positions"):
+                t.update_positions(r)
+            bb = Text.get_window_extent(t, r)              # the text alone, not a leader drawn to its point
             c = cost(bb, skip_y)
             if low is None or c < low:
                 if chosen is not None:
@@ -234,7 +243,9 @@ def _place_labels(fig, ax, labels, sans):
                 t.remove()
             if c == 0:
                 break
-        placed.append(chosen.get_window_extent(r))
+        if hasattr(chosen, "update_positions"):
+            chosen.update_positions(r)
+        placed.append(Text.get_window_extent(chosen, r))
         if low:
             WARNINGS.append(f"no clear place for the label {chosen.get_text()!r} (cost {low})")
         return chosen
@@ -248,8 +259,13 @@ def _place_labels(fig, ax, labels, sans):
                      (-12, -42, "right", "top"), (0, 42, "center", "bottom"), (0, -42, "center", "top"), (-60, 0, "right", "center"),
                      (-12, 60, "right", "bottom"), (-12, -60, "right", "top"), (0, -60, "center", "top"), (12, 12, "left", "bottom"),
                      (12, -12, "left", "top")]
+            far = sorted(((dx, dy, "center", "bottom" if dy > 0 else "top") for dx in range(-480, 81, 20) for dy in range(-120, 331, 15)
+                          if abs(dx) + abs(dy) > 40), key=lambda s: s[0] ** 2 + s[1] ** 2)
             best(lambda s, lab=lab, kw=kw: ax.annotate(lab["text"], xy=lab["xy"], xytext=(s[0], s[1]), textcoords="offset points", ha=s[2], va=s[3],
-                                                         bbox=dict(facecolor=style.PAPER, edgecolor="none", alpha=0.85, pad=1.5), **kw), spots)
+                                                         bbox=dict(facecolor=style.PAPER, edgecolor="none", alpha=0.85, pad=1.5),
+                                                         arrowprops=(dict(arrowstyle="-", color=style.ACCENT, lw=0.8, shrinkA=2, shrinkB=6)
+                                                                     if (s[0], s[1], s[2], s[3]) not in spots else None), **kw),
+                 spots, fallback=far)
         elif lab["kind"] == "ref":
             spots = [(f, side) for f in ((0.006, "left"), (0.994, "right"), (0.25, "center"), (0.5, "center"), (0.75, "center"), (0.12, "left"), (0.88, "right"))
                      for side in (1, -1)]
