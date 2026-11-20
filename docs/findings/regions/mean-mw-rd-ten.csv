@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate mean_mw, region rd_ten (Tennessee (EIA's region))
+# Computed 2026-11-19T11:17:50Z by warehouse/analysis/findings/deep/regions.py (mean_mw); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's mean hour of demand (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+rd_ten,2018,18734.39274253271,4051.0,0
+rd_ten,2019,18185.506621004566,8760.0,1
+rd_ten,2020,17455.07502276867,8784.0,1
+rd_ten,2021,18243.434246575343,8760.0,1
+rd_ten,2022,18915.186872146118,8760.0,1
+rd_ten,2023,18012.66575342466,8760.0,1
+rd_ten,2024,18820.572973588343,8784.0,1
+rd_ten,2025,19488.539726027397,8760.0,1
+rd_ten,2026,19942.726645849598,7686.0,0

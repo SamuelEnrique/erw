@@ -121,6 +121,11 @@ no input, so nothing is editable in place.
 | `network-hour` | E1 and E2's hour | the newest hour ERCOT's ties report | `site/lib/network.ts` |
 | `seller` | E3 to E5's plants | the seller's model at its defaults | `docs/methods/cost_of_power.md` |
 | `storm-days` | E5's normal days | as many days as the storm | ruling 6a |
+| `page-file` | The four sets of the whole country read committed page files | every figure a `pf\|` key; it moves when the data machine rebuilds the file | `site/lib/pagefile.ts`; session 8901 |
+| `trade-month` | Who trades with whom: the month and the years | the newest month ended when the file was built; years both sides reported in all twelve months | `site/data/regions/trade/ten.json`, `trade_matrix.json` |
+| `storm-hour` | A storm across the country: the hour | each region's highest hour of demand in the window, the first if two are equal | `site/data/regions/events/*.json` |
+| `layer-by-id` | Under the ground and in the wind: the layer | found by its id; the legend's range and the totals as the list of layers gives them | `site/data/resources/manifest.json` |
+| `industry-pick` | Where energy goes: the month, the industries, the year | the newest month with a total and the same month a year before; the first two ranked industries; the newest year both states hold | `site/data/industry.json` |
 
 ### What the sets do not hold
 
@@ -143,3 +148,64 @@ no input, so nothing is editable in place.
 - The cross-check: `docs/reviews/problem-sets-crosscheck-2026-11-16.md` (13 rows: the event figures against FERC's,
   CAISO's and ERCOT's own accounts, the bills against EIA's average retail prices, the tax rules against their quoted
   statutes, the debt service against Lazard's illustration).
+
+## The whole country (chain 507, session 8901)
+
+Four sets after the five, each in a module of its own (`site/lib/problemsets/<slug>.ts`, exporting `META`, `GUIDE_ENTRY`
+and `build()`), registered by `site/lib/problems.ts` in `SETS`, in `problemSet` and, through `addGuide`, in the guide of
+`site/lib/problemkit.ts`. Every figure is read from a committed page file the site already draws, never from the live set:
+
+| Set | Address | Page files | What it asks |
+|---|---|---|---|
+| Who trades with whom | `/learn/problems/who-trades-with-whom` | `site/data/regions/trade/ten.json`, `site/data/regions/trade_matrix.json` | Tennessee's net imports by neighbour in a month; two sides' reports of one flow, their ratio and the gap over the hours both reported; a year the Mid-Atlantic and Tennessee disagreed on the direction; a flow's growth by either side's report; the border with Mexico, reported from one side; a month reported over part of its hours |
+| A storm across the country | `/learn/problems/storm-across-the-country` | `site/data/regions/events/elliott_2022.json`, `uri_2021.json` | The highest hour of demand of Tennessee and the Carolinas in Elliott and of Texas in Uri against the baseline; what ran in that hour; what flowed into Tennessee; the two regions' imports; two reports of one flow in an hour |
+| What is under the ground and in the wind | `/learn/problems/under-the-ground-and-in-the-wind` | `site/data/resources/manifest.json` | Legends and units of the resource map's layers; a map cell as a mean of the source's cells; a modelled capacity factor; geothermal sites; MWh per MW as hours; biomass in tonnes |
+| Where energy goes | `/learn/problems/where-energy-goes` | `site/data/industry.json` | The industrial sector's total, end use and losses in the newest month, and a year before; the two largest manufacturing industries of 2022, a fuel's share, on-site generation and a region's share; Texas against Louisiana |
+
+The fifth set planned, a reader's own balancing authority, waits for its files (`site/data/regions/authority/`), which are
+not on main.
+
+### The pf| key
+
+`pf|<path under site/data>|<path into the JSON>` (`site/lib/pagefile.ts`). The JSON path is segments joined by `/`: an
+object key, an array index, or a selector `@field=value`, the one element of an array whose `field` equals `value` as
+text; a selector may name several fields joined by `+` (`region_pairs/@a=MIDA+b=TEN+year=2019/gap_mwh`) and matches only
+when exactly one element has them all. The characters `% / | ~ + = @ &` inside a segment are written as `%XX`. A path that
+does not lead to a finite number gives no figure, and the set throws, so the page says it could not be computed rather
+than print a number. `site/scripts/check-values.mjs` reads the file again with `fs` and resolves the path with the same
+pure resolver; a `calc|` of two `pf|` keys recomputes through its `calc|` case. In the hover and the CSV a `pf|` figure
+names its file and its path, and the source tables the file names in its own header (`tables`); the list of layers names
+none, so its figures name no table.
+
+### The decisions taken
+
+- Each set reads committed page files only, so its figures move when the data machine rebuilds a file, not each hour;
+  the pages still say the set is computed when the page is built (`page-file`).
+- The month, the years, the hour, the layer and the industries are chosen by rules from the files themselves, never
+  typed: the newest month of the trade file that had ended at the file's `built` stamp; a pair's years those both sides
+  reported in all twelve months, and of those the year of the largest gap for the Mid-Atlantic and Tennessee; a region's
+  highest hour of demand in an event's window, the first of equal hours, as the event page's table finds it; a layer by
+  its id; the newest month with an industrial total and the same month a year before; the first two industries of the
+  file's ranking; the newest year both states hold (`trade-month`, `storm-hour`, `layer-by-id`, `industry-pick`).
+- The words of an answer that compare two figures (both sides agree on the direction, the flow grew by about the same
+  factor, within 5 percent of each other) are written from the figures by a rule, so a rebuilt file cannot leave words
+  that its numbers contradict.
+- The five sets' figures, questions and order do not move: the four come after them in `SETS`, and the guide of
+  `site/lib/problemkit.ts` keeps the five as they were (the file still imports nothing; the four are added to it when
+  `site/lib/problems.ts` loads).
+- No dated edition holds the four: the edition of 15 October 2026 was built before them, and a new edition is built from
+  the live set by the data machine (`site/scripts/build-problem-edition.mjs`, which now writes a `pf|` figure as a row of
+  its own with the page file as its source). Until then the index and each set's page link no edition for them, and the
+  edition and teacher pages list no address for them; the live page carries every worked solution and why it matters.
+- The industry page (`/industry`) is another branch's work and not on main; the set names the file's fields and links the
+  method note only.
+
+### Their replication
+
+`replication/problem_sets/replicate_country.py` reads the page files with Python's `json` alone and recomputes every
+figure of every answer by the rules above, writing `country_inputs.csv` (every figure read, with its file and path) and
+`country_answers.csv` (every figure, read, derived or a series' highest). With `--compare` it checks them against the
+figures the site's code builds (`site/scripts/problem-sets-country-figures.mjs`): every answer's figure recomputed, every
+recomputed figure shown, each to a relative 1e-9. `replicate_country.do` reads the two CSVs (Stata reads no JSON) and
+recomputes each derived figure and each highest hour. Tests: `tests/test_session8901_problem_sets_country.py`,
+`site/scripts/test-problem-sets-country.mjs` and `site/scripts/test-pagefile.mjs`.

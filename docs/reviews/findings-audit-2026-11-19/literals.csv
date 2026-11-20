@@ -1,0 +1,550 @@
+slug,family,py_literals_not_in_do
+ba-co2-intensity-ba-erco,authorities,
+ba-co2-intensity-ba-isne,authorities,
+ba-co2-intensity-ba-miso,authorities,
+ba-coal-co2-share-ba-erco,authorities,median
+ba-gen-ratio-ba-bpat,authorities,
+ba-gen-ratio-ba-gcpd,authorities,
+ba-gen-ratio-ba-pacw,authorities,
+ba-gen-ratio-ba-srp,authorities,
+ba-gen-ratio-ba-tepc,authorities,
+ba-load-factor-ba-aeci,authorities,datetime64[D] | int64
+ba-load-factor-ba-ava,authorities,datetime64[D] | int64
+ba-load-factor-ba-erco,authorities,datetime64[D] | int64
+ba-load-factor-ba-nwmt,authorities,datetime64[D] | int64
+ba-load-factor-ba-tepc,authorities,datetime64[D] | int64
+ba-mean-mw-ba-azps,authorities,
+ba-mean-mw-ba-fpl,authorities,
+ba-mean-mw-ba-gcpd,authorities,
+ba-mean-mw-ba-sc,authorities,
+ba-mean-mw-ba-srp,authorities,
+ba-peak-mw-ba-azps,authorities,datetime64[D] | int64
+ba-peak-mw-ba-epe,authorities,datetime64[D] | int64
+ba-peak-mw-ba-gcpd,authorities,datetime64[D] | int64
+ba-peak-mw-ba-sc,authorities,datetime64[D] | int64
+ba-peak-mw-ba-srp,authorities,datetime64[D] | int64
+ba-top-winter-ba-nwmt,authorities,datetime64[D] | int64
+ba-top-winter-ba-psei,authorities,datetime64[D] | int64
+appalachia-share-app-coal,coal_uranium_metals,value_den
+coal-basin-share-cb-appalachia-central,coal_uranium_metals,first
+coal-basin-share-cb-illinois-basin,coal_uranium_metals,first
+coal-mode-share-cm-tramway-conveyor,coal_uranium_metals,first
+coal-mode-share-cm-truck,coal_uranium_metals,first
+coal-sulfur-cs-us,coal_uranium_metals,first
+power-coal-price-us-power-coal,coal_uranium_metals,
+tons-per-employee-us-tons-employee,coal_uranium_metals,value_den
+underground-share-us-underground,coal_uranium_metals,value_den
+uranium-price-us-uranium-price,coal_uranium_metals,
+us-enrichment-share-us-enrich-origin,coal_uranium_metals,value_den
+us-origin-uranium-us-uranium-origin,coal_uranium_metals,value_den
+wc-consumption-wc-chn,coal_uranium_metals,
+wc-consumption-wc-ind,coal_uranium_metals,
+wc-consumption-wc-usa,coal_uranium_metals,
+wc-consumption-wc-worl,coal_uranium_metals,
+wc-exports-wc-aus,coal_uranium_metals,
+wc-exports-wc-idn,coal_uranium_metals,
+wc-exports-wc-rus,coal_uranium_metals,
+wc-exports-wc-worl,coal_uranium_metals,
+wc-production-wc-chn,coal_uranium_metals,
+wc-production-wc-ind,coal_uranium_metals,
+wc-production-wc-usa,coal_uranium_metals,
+wc-production-wc-worl,coal_uranium_metals,
+wyoming-share-wy-coal,coal_uranium_metals,value_den
+battery-per-peak-caiso-bat-peak,cross_family,
+battery-per-peak-ercot-bat-peak,cross_family,
+battery-per-peak-us-bat-peak,cross_family,
+built-per-asked-us-battery-built-asked,cross_family,
+built-per-asked-us-solar-built-asked,cross_family,
+energy-vs-3y-xe3-ciso,cross_family,size
+energy-vs-3y-xe3-pjm,cross_family,size
+energy-vs-5y-xe5-pjm,cross_family,size
+peak-vs-3y-xp3-isne,cross_family,datetime64[D] | int64
+peak-vs-3y-xp3-miso,cross_family,datetime64[D] | int64
+peak-vs-3y-xp3-pjm,cross_family,datetime64[D] | int64
+peak-vs-5y-xp5-isne,cross_family,datetime64[D] | int64
+peak-vs-5y-xp5-nyis,cross_family,datetime64[D] | int64
+peak-vs-5y-xp5-pjm,cross_family,datetime64[D] | int64
+storage-per-solar-caiso-bat-solar,cross_family,
+storage-per-solar-ercot-bat-solar,cross_family,
+storage-per-solar-us-bat-solar,cross_family,
+util-vs-3y-xu3-12293,cross_family,size
+util-vs-3y-xu3-195,cross_family,size
+util-vs-3y-xu3-7140,cross_family,size
+util-vs-3y-xu3-9617,cross_family,size
+util-vs-5y-xu5-15500,cross_family,size
+util-vs-5y-xu5-6452,cross_family,size
+util-vs-5y-xu5-7140,cross_family,size
+util-vs-5y-xu5-803,cross_family,size
+mean-day-ercot-ba,demand,
+mean-day-us48,demand,
+seds-elec-comm-sd-ca,demand,
+seds-elec-comm-sd-fl,demand,
+seds-elec-comm-sd-ga,demand,
+seds-elec-comm-sd-va,demand,
+seds-elec-ind-sd-oh,demand,
+seds-elec-ind-sd-tx,demand,
+seds-elec-ind-sd-us,demand,
+seds-elec-ind-sd-wa,demand,
+seds-gas-power-sd-fl,demand,
+seds-gas-power-sd-pa,demand,
+seds-gas-power-sd-tx,demand,
+seds-gas-power-sd-us,demand,
+seds-renew-share-sd-sd,demand,first
+seds-renew-share-sd-us,demand,first
+seds-total-sd-fl,demand,
+seds-total-sd-ga,demand,
+seds-total-sd-tx,demand,
+seds-total-sd-us,demand,
+sub-mean-ercot-sub-fwes,demand,America/Chicago
+sub-mean-pjm-sub-dom,demand,America/New_York
+sub-night-share-pjm-sub-bc,demand,America/New_York
+sub-night-share-pjm-sub-ce,demand,America/New_York
+sub-p99-ercot-sub-fwes,demand,America/Chicago | averaged_inverted_cdf
+sub-p99-pjm-sub-dom,demand,America/New_York | averaged_inverted_cdf
+top-days-ercot-ba,demand,
+top-days-us48,demand,
+winter-vs-summer-ba-soco,demand,
+winter-vs-summer-ba-tva,demand,
+co2-coal-co2-chn,emissions_climate,
+co2-coal-co2-ind,emissions_climate,
+co2-coal-co2-usa,emissions_climate,
+co2-coal-co2-worl,emissions_climate,
+co2-gas-co2-chn,emissions_climate,
+co2-gas-co2-irn,emissions_climate,
+co2-gas-co2-usa,emissions_climate,
+co2-gas-co2-worl,emissions_climate,
+co2-total-co2-chn,emissions_climate,
+co2-total-co2-idn,emissions_climate,
+co2-total-co2-ind,emissions_climate,
+co2-total-co2-worl,emissions_climate,
+coal-co2-share-us-coal-co2-share,emissions_climate,
+conus-temperature-conus-temp,emissions_climate,norm
+ghg-onshore-basin-ghgon-345,emissions_climate,geo | x_sectors
+ghg-onshore-basin-ghgon-360,emissions_climate,geo | x_sectors
+ghg-onshore-basin-ghgon-430,emissions_climate,geo | x_sectors
+ghg-onshore-basin-ghgon-535,emissions_climate,geo | x_sectors
+ghg-power-state-ghgpp-al,emissions_climate,x_basin
+ghg-power-state-ghgpp-il,emissions_climate,x_basin
+ghg-power-state-ghgpp-in,emissions_climate,x_basin
+ghg-power-state-ghgpp-ky,emissions_climate,x_basin
+ghg-power-state-ghgpp-tx,emissions_climate,x_basin
+power-co2-per-mwh-co2mwh-ia,emissions_climate,size
+power-co2-per-mwh-co2mwh-us,emissions_climate,size
+power-co2-share-us-power-co2-share,emissions_climate,
+power-co2-us-power-co2,emissions_climate,
+transport-co2-share-us-transport-co2-share,emissions_climate,
+caiso-heat-2022-cal,events,n_ba | nunique
+caiso-heat-2022-fla,events,n_ba | nunique
+caiso-heat-2022-nw,events,n_ba | nunique
+cold-2025-car,events,n_ba | nunique
+cold-2025-fla,events,n_ba | nunique
+cold-2025-mida,events,n_ba | nunique
+cold-2025-ten,events,n_ba | nunique
+cold-2025-tex,events,n_ba | nunique
+cold-2026-cent,events,n_ba | nunique
+cold-2026-fla,events,n_ba | nunique
+cold-2026-se,events,n_ba | nunique
+cold-2026-ten,events,n_ba | nunique
+cold-2026-tex,events,n_ba | nunique
+covid-2020-car,events,n_ba | nunique
+covid-2020-fla,events,n_ba | nunique
+covid-2020-mida,events,n_ba | nunique
+covid-2020-se,events,n_ba | nunique
+covid-2020-ten,events,n_ba | nunique
+east-heat-2025-car,events,n_ba | nunique
+east-heat-2025-mida,events,n_ba | nunique
+east-heat-2025-midw,events,n_ba | nunique
+east-heat-2025-ne,events,n_ba | nunique
+east-heat-2025-ten,events,n_ba | nunique
+elliott-2022-car,events,n_ba | nunique
+elliott-2022-fla,events,n_ba | nunique
+elliott-2022-nw,events,n_ba | nunique
+elliott-2022-se,events,n_ba | nunique
+elliott-2022-ten,events,n_ba | nunique
+ercot-heat-2023-midw,events,n_ba | nunique
+uri-2021-se,events,n_ba | nunique
+energy-growth-pa-119,forecasts,
+energy-growth-pa-16,forecasts,
+energy-growth-pa-183,forecasts,
+energy-growth-pa-203,forecasts,
+energy-growth-pa-58,forecasts,
+energy-growth-pa-72,forecasts,
+energy-revision-pa-137,forecasts,
+energy-revision-pa-138,forecasts,
+energy-revision-pa-16,forecasts,
+energy-revision-pa-51,forecasts,
+energy-revision-pa-90,forecasts,
+energy-revision-pa-99,forecasts,
+summer-growth-pa-107,forecasts,
+summer-growth-pa-119,forecasts,
+summer-growth-pa-138,forecasts,
+summer-growth-pa-183,forecasts,
+summer-growth-pa-216,forecasts,
+summer-growth-pa-58,forecasts,
+summer-revision-pa-138,forecasts,
+summer-revision-pa-146,forecasts,
+summer-revision-pa-2,forecasts,
+summer-revision-pa-51,forecasts,
+summer-revision-pa-90,forecasts,
+summer-revision-pa-99,forecasts,
+winter-growth-pa-119,forecasts,
+winter-growth-pa-138,forecasts,
+winter-growth-pa-16,forecasts,
+winter-growth-pa-183,forecasts,
+winter-growth-pa-58,forecasts,
+winter-growth-pa-72,forecasts,
+flared-share-flare-la,gas,
+flared-share-flare-wy,gas,
+gas-net-receipts-gn-fl,gas,
+gas-net-receipts-gn-la,gas,
+gas-net-receipts-gn-nd,gas,
+gas-net-receipts-gn-oh,gas,
+gas-net-receipts-gn-pa,gas,
+gas-net-receipts-gn-wv,gas,
+lng-share-us-lng,gas,
+mexico-exports-us-mexico,gas,
+power-share-us-power-burn,gas,
+s2s-in-s2in-alabama,gas,
+s2s-in-s2in-louisiana,gas,
+s2s-in-s2in-mississippi,gas,
+s2s-in-s2in-tennessee,gas,
+s2s-in-s2in-texas,gas,
+s2s-out-s2out-alabama,gas,
+s2s-out-s2out-mississippi,gas,
+s2s-out-s2out-pennsylvania,gas,
+s2s-out-s2out-texas,gas,
+s2s-out-s2out-west-virginia,gas,
+shale-share-us-shale,gas,
+state-power-share-burn-nh,gas,
+state-power-share-burn-pa,gas,
+state-production-share-prod-pa,gas,
+state-production-share-prod-wv,gas,
+storage-outside-stor-salt,gas,
+wog-gas-exports-wog-aus,gas,
+wog-gas-exports-wog-qat,gas,
+wog-gas-exports-wog-usa,gas,
+wog-gas-exports-wog-worl,gas,
+wog-gas-wog-chn,gas,
+wog-gas-wog-irn,gas,
+wog-gas-wog-usa,gas,
+wog-gas-wog-worl,gas,
+added-mw-add-battery-us,generation_pipeline,
+added-mw-add-solar-us,generation_pipeline,
+battery-fleet-mw-caiso-fleet-battery-operating-mw,generation_pipeline,
+battery-fleet-mw-us-fleet-battery-operating-mw,generation_pipeline,
+battery-hours-us-battery-hours,generation_pipeline,
+coal-heat-rate-hr-coal-pa,generation_pipeline,ALL
+coal-heat-rate-hr-coal-us,generation_pipeline,ALL | geo
+coal-share-state-cow-nm,generation_pipeline,
+coal-share-state-cow-us,generation_pipeline,
+fleet-hours-ercot-fleet-battery-operating-mwh-per-mw,generation_pipeline,
+fleet-hours-us-fleet-battery-operating-mwh-per-mw,generation_pipeline,
+gas-evening-share-caiso-mix,generation_pipeline,
+gas-heat-rate-hr-gas-fl,generation_pipeline,ALL
+gas-heat-rate-hr-gas-us,generation_pipeline,ALL | geo
+gas-share-state-ng-de,generation_pipeline,
+gas-share-state-ng-us,generation_pipeline,
+hydro-share-state-hyc-id,generation_pipeline,
+hydro-share-state-hyc-vt,generation_pipeline,
+nuclear-share-state-nuc-us,generation_pipeline,
+nuclear-share-state-nuc-vt,generation_pipeline,
+reactor-outage-days-nuc-6038-1,generation_pipeline,
+reactor-outage-days-nuc-6152-2,generation_pipeline,
+res-pv-price-tts-res-ca,generation_pipeline,
+res-pv-price-tts-res-ma,generation_pipeline,
+small-solar-ratio-state-dpv-ma,generation_pipeline,
+small-solar-ratio-state-dpv-us,generation_pipeline,
+solar-midday-share-caiso-mix,generation_pipeline,
+solar-midday-share-ercot-mix,generation_pipeline,
+solar-share-state-sun-nv,generation_pipeline,
+solar-share-state-sun-us,generation_pipeline,
+turbine-kw-us-turbine-kw,generation_pipeline,
+turbine-rotor-us-turbine-rotor,generation_pipeline,
+us-nuclear-capacity-us-nuclear-cap,generation_pipeline,
+wind-share-state-wnd-sd,generation_pipeline,
+wind-share-state-wnd-us,generation_pipeline,
+tariff-min-bill-pct,large_load,
+tariff-min-contract-years,large_load,
+tariff-min-demand-mw,large_load,
+wait-alberta-electric-system-operat-in-stage-then-withdrawn,large_load,
+wait-alberta-electric-system-operat-in-stage,large_load,
+wait-alberta-electric-system-operat-request-to-energized,large_load,
+wait-alberta-electric-system-operat-request-to-withdrawal,large_load,
+wait-bonneville-power-administratio-in-stage-then-withdrawn,large_load,
+wait-bonneville-power-administratio-in-stage,large_load,
+wait-bonneville-power-administratio-request-to-agreement,large_load,
+wait-bonneville-power-administratio-request-to-energized,large_load,
+wait-bonneville-power-administratio-request-to-study,large_load,
+wait-bonneville-power-administratio-request-to-withdrawal,large_load,
+wait-new-york-iso-in-stage,large_load,
+wait-new-york-iso-request-to-study,large_load,
+waitsize-bonneville-power-administratio-request-to-withdrawal,large_load,
+calm-hours-caiso-calm-hours,markets_operations,
+calm-hours-ercot-calm-hours,markets_operations,
+calm-hours-pjm-calm-hours,markets_operations,
+coal-stocks-dec-cst-il,markets_operations,
+coal-stocks-dec-cst-mi,markets_operations,
+coal-stocks-dec-cst-oh,markets_operations,
+coal-stocks-dec-cst-tx,markets_operations,
+coal-stocks-dec-cst-us,markets_operations,
+nuc-out-peak-nuc-us,markets_operations,first
+nuc-out-share-nucf-2589,markets_operations,first
+nuc-out-share-nucf-3265,markets_operations,first
+nuc-out-share-nucf-6008,markets_operations,first
+nuc-out-share-nucf-6023,markets_operations,first
+reactor-power-rp-surry-1,markets_operations,
+reactor-power-rp-us,markets_operations,
+reactor-power-rp-watts-bar-1,markets_operations,
+tight-solar-ercot-tight-solar,markets_operations,
+tight-solar-pjm-tight-solar,markets_operations,
+tight-wind-ercot-tight-wind,markets_operations,
+wind-solar-cf-ercot-wind-solar-cf,markets_operations,
+api-gravity-us-api-gravity,oil_products_world,
+diesel-premium-us-diesel-premium,oil_products_world,
+exp-crude-dest-xc-nbr,oil_products_world,
+exp-crude-dest-xc-nfr,oil_products_world,
+exp-crude-dest-xc-nks,oil_products_world,
+exp-crude-dest-xc-nnl,oil_products_world,
+exp-crude-dest-xc-nsp,oil_products_world,
+exp-crude-dest-xc-ntw,oil_products_world,
+exp-product-xp-epc0,oil_products_world,
+exp-product-xp-epjk,oil_products_world,
+exp-product-xp-epllea,oil_products_world,
+exp-product-xp-epllpa,oil_products_world,
+exp-product-xp-epp0,oil_products_world,
+exp-product-xp-eppr,oil_products_world,
+gas-premium-gasprem-r30,oil_products_world,
+gas-premium-gasprem-sca,oil_products_world,
+gasoline-crack-crack-gasoline,oil_products_world,inner
+gulf-gas-gulf,oil_products_world,
+gulf-leases-gulf,oil_products_world,
+gulf-oil-gulf,oil_products_world,
+import-share-imp-ca,oil_products_world,
+import-share-imp-ni,oil_products_world,
+jet-crack-crack-jet,oil_products_world,inner
+net-imports-us-net-imports,oil_products_world,
+propane-to-crude-us-propane-crude,oil_products_world,inner
+pump-over-spot-us-pump-spot,oil_products_world,
+refining-capacity-us-refining-capacity,oil_products_world,
+state-crude-share-crude-ak,oil_products_world,
+state-crude-share-crude-tx,oil_products_world,
+sulfur-content-us-sulfur,oil_products_world,
+supplied-gasoline-us-supplied-gasoline,oil_products_world,
+us-liquids-share-us-world-liquids,oil_products_world,value_den
+us-ngpl-share-us-world-ngpl,oil_products_world,value_den
+wog-crude-wog-bra,oil_products_world,
+wog-crude-wog-can,oil_products_world,
+wog-crude-wog-usa,oil_products_world,
+wog-crude-wog-worl,oil_products_world,
+wog-oil-use-wog-chn,oil_products_world,
+wog-oil-use-wog-ind,oil_products_world,
+wog-oil-use-wog-usa,oil_products_world,
+wog-oil-use-wog-worl,oil_products_world,
+dcfast-ports-dcfast-ca,other_us,
+dcfast-ports-dcfast-us,other_us,
+ev-share-ev-ca,other_us,
+ev-share-ev-us,other_us,
+home-electric-spend-home-elec-dc,other_us,
+home-electric-spend-home-elec-us,other_us,
+quakes-m3-eq-new-mexico,other_us,
+quakes-m3-eq-texas,other_us,
+renewable-share-us-renewable-share,other_us,
+util-commercial-price-u861-13756-in,other_us,size
+util-commercial-price-u861-15500-wa,other_us,size
+util-commercial-price-u861-19547-hi,other_us,size
+util-commercial-u861-14063-ok,other_us,
+util-commercial-u861-14127-ne,other_us,
+util-commercial-u861-16572-az,other_us,
+util-commercial-u861-19876-va,other_us,
+util-commercial-u861-6452-fl,other_us,
+util-commercial-u861-803-az,other_us,
+util-industrial-u861-11241-la,other_us,
+util-industrial-u861-12341-ia,other_us,
+util-industrial-u861-15248-or,other_us,
+util-industrial-u861-814-ar,other_us,
+util-total-u861-12341-ia,other_us,
+util-total-u861-14063-ok,other_us,
+util-total-u861-19876-va,other_us,
+util-total-u861-6452-fl,other_us,
+brent-wti-spread-us-brent-wti,prices,
+carb-allowance-price-us-ca-allowance,prices,
+cheapest-hour-ercot-hb-north,prices,America/Chicago | first | max | min | pmax | pmin | size | spread
+cheapest-hour-ercot-hb-south,prices,America/Chicago | first | max | min | pmax | pmin | size | spread
+da-above-rt-share-ercot-lz-south,prices,America/Chicago
+da-above-rt-share-ercot-lz-west,prices,America/Chicago
+daily-spread-ercot-hb-south,prices,America/Chicago | size
+daily-spread-ercot-hb-west,prices,America/Chicago | size
+europe-gas-premium-us-europe-gas,prices,
+evening-premium-ercot-hb-south,prices,America/Chicago | first | max | min | pmax | pmin | size | spread
+evening-premium-ercot-lz-houston,prices,America/Chicago | first | max | min | pmax | pmin | size | spread
+henry-hub-volatility-us-henry-hub,prices,
+hour-to-hour-move-ercot-hb-houston,prices,America/Chicago | first | max | min | pmax | pmin | size | spread
+hour-to-hour-move-ercot-hb-south,prices,America/Chicago | first | max | min | pmax | pmin | size | spread
+industrial-vs-citygate-state-ind-ca,prices,
+industrial-vs-citygate-state-ind-mi,prices,
+japan-lng-premium-us-japan-lng,prices,
+lcfs-credit-price-us-ca-lcfs,prices,
+midday-discount-ercot-lz-south,prices,America/Chicago | first | max | min | pmax | pmin | size | spread
+midday-discount-ercot-lz-west,prices,America/Chicago | first | max | min | pmax | pmin | size | spread
+midday-minus-night-ercot-lz-west,prices,America/Chicago | first | max | min | pmax | pmin | size | spread
+power-vs-citygate-state-pow-ne,prices,
+power-vs-citygate-state-pow-wv,prices,
+residential-markup-state-res-ca,prices,
+residential-markup-state-res-vt,prices,
+spread-4h-ercot-hb-hubavg,prices,America/Chicago | max | min | pmax | pmin | size
+spread-4h-ercot-hb-west,prices,America/Chicago | max | min | pmax | pmin | size
+top-days-share-ercot-hb-houston,prices,America/Chicago | size
+top-days-share-ercot-hb-south,prices,America/Chicago | size
+wide-spread-days-ercot-lz-north,prices,America/Chicago | size | spread
+wide-spread-days-ercot-lz-west,prices,America/Chicago | size | spread
+winter-top-share-ercot-lz-north,prices,America/Chicago | first | max | min | pmax | pmin | size | spread
+winter-top-share-ercot-lz-west,prices,America/Chicago | first | max | min | pmax | pmin | size | spread
+dc-construction-us-dc-build,queues_deals_datacenters,
+dc-share-us-dc-share,queues_deals_datacenters,
+hosting-jobs-jobs518-ca,queues_deals_datacenters,
+hosting-jobs-jobs518-us,queues_deals_datacenters,
+hosting-pay-pay518-ny,queues_deals_datacenters,
+hosting-pay-pay518-us,queues_deals_datacenters,
+hosting-revenue-us-rev518,queues_deals_datacenters,
+hosting-sites-est518-ca,queues_deals_datacenters,
+hosting-sites-est518-us,queues_deals_datacenters,
+hybrid-share-southeast-lbnl-hybrid,queues_deals_datacenters,paired
+hybrid-share-us-lbnl-hybrid,queues_deals_datacenters,paired
+months-by-region-pjm-lbnl-months,queues_deals_datacenters,
+months-by-region-us-lbnl-months,queues_deals_datacenters,
+months-by-type-us-type-battery-months,queues_deals_datacenters,
+months-by-type-us-type-solar-months,queues_deals_datacenters,
+months-by-type-us-type-wind-months,queues_deals_datacenters,
+power-construction-us-power-build,queues_deals_datacenters,
+request-size-us-type-battery-size,queues_deals_datacenters,on_date | q_date | wd_date
+request-size-us-type-solar-size,queues_deals_datacenters,on_date | q_date | wd_date
+request-size-us-type-wind-size,queues_deals_datacenters,on_date | q_date | wd_date
+requested-by-type-us-req-battery,queues_deals_datacenters,
+requested-by-type-us-req-gas,queues_deals_datacenters,
+requested-by-type-us-req-solar,queues_deals_datacenters,
+storage-share-us-req-battery-share,queues_deals_datacenters,
+withdrawn-by-type-us-type-solar-wd,queues_deals_datacenters,
+withdrawn-share-pjm-lbnl-wd,queues_deals_datacenters,
+withdrawn-share-us-lbnl-wd,queues_deals_datacenters,
+coal-share-st-car-cow,regions,eia:generation:{s}:{f}
+coal-share-st-se-cow,regions,eia:generation:{s}:{f}
+coal-share-st-sw-cow,regions,eia:generation:{s}:{f}
+coal-share-st-ten-cow,regions,eia:generation:{s}:{f}
+gas-share-st-car-ng,regions,eia:generation:{s}:{f}
+gas-share-st-fla-ng,regions,eia:generation:{s}:{f}
+gas-share-st-se-ng,regions,eia:generation:{s}:{f}
+gas-share-st-sw-ng,regions,eia:generation:{s}:{f}
+gen-ratio-rg-se,regions,n_ba | nunique
+mean-mw-rd-fla,regions,month | n_ba | nunique
+mean-mw-rd-nw,regions,month | n_ba | nunique
+mean-mw-rd-sw,regions,month | n_ba | nunique
+mean-mw-rd-ten,regions,month | n_ba | nunique
+nuclear-share-st-fla-nuc,regions,eia:generation:{s}:{f}
+nuclear-share-st-se-nuc,regions,eia:generation:{s}:{f}
+nuclear-share-st-sw-nuc,regions,eia:generation:{s}:{f}
+nuclear-share-st-ten-nuc,regions,eia:generation:{s}:{f}
+peak-mw-rd-car,regions,month | n_ba | nunique
+peak-mw-rd-fla,regions,month | n_ba | nunique
+peak-mw-rd-nw,regions,month | n_ba | nunique
+peak-mw-rd-sw,regions,month | n_ba | nunique
+solar-share-st-fla-sun,regions,eia:generation:{s}:{f}
+solar-share-st-nw-sun,regions,eia:generation:{s}:{f}
+solar-share-st-sw-sun,regions,eia:generation:{s}:{f}
+top-winter-rd-car,regions,n_ba | nunique
+winter-summer-rd-se,regions,n_ba | nunique
+winter-summer-rd-ten,regions,n_ba | nunique
+ami-share-ami-il,tariffs_policy,
+ami-share-ami-us,tariffs_policy,
+commercial-sales-com-sales-tx,tariffs_policy,
+commercial-sales-com-sales-us,tariffs_policy,
+net-metered-nem-ca,tariffs_policy,
+net-metered-nem-us,tariffs_policy,
+res-over-ind-res-ind-gap-mi,tariffs_policy,
+res-over-ind-res-ind-gap-us,tariffs_policy,
+res-price-res-price-hi,tariffs_policy,
+res-price-res-price-us,tariffs_policy,
+saidi-saidi-mo,tariffs_policy,
+saidi-saidi-ne,tariffs_policy,
+seds-elec-spend-sd-ca,tariffs_policy,
+seds-elec-spend-sd-fl,tariffs_policy,
+seds-elec-spend-sd-tx,tariffs_policy,
+seds-elec-spend-sd-us,tariffs_policy,
+seds-price-comm-sd-ak,tariffs_policy,
+seds-price-comm-sd-ca,tariffs_policy,
+seds-price-comm-sd-hi,tariffs_policy,
+seds-price-comm-sd-us,tariffs_policy,
+seds-price-ind-sd-ak,tariffs_policy,
+seds-price-ind-sd-ca,tariffs_policy,
+seds-price-ind-sd-hi,tariffs_policy,
+seds-price-ind-sd-us,tariffs_policy,
+pair-against-rp-can-ne,trade,
+pair-against-rp-cent-nw,trade,
+pair-against-summer-rp-can-ny,trade,
+pair-against-summer-rp-se-car,trade,
+pair-flow-rp-can-midw,trade,
+pair-flow-rp-can-ne,trade,
+pair-flow-rp-can-ny,trade,
+pair-flow-rp-car-mida,trade,
+pair-flow-rp-cent-midw,trade,
+pair-flow-rp-cent-nw,trade,
+pair-flow-rp-midw-ten,trade,
+pair-flow-rp-se-car,trade,
+pair-side-gap-rg-cal-sw,trade,
+pair-side-gap-rg-cent-midw,trade,
+pair-side-gap-rg-midw-se,trade,
+region-against-rn-cal,trade,
+region-against-rn-ne,trade,
+region-net-rn-cal,trade,n_ba | nunique
+region-net-rn-cent,trade,n_ba | nunique
+region-net-rn-ne,trade,n_ba | nunique
+region-net-rn-ny,trade,n_ba | nunique
+region-net-rn-ten,trade,n_ba | nunique
+tie-flow-bt-bpat-ciso,trade,
+tie-flow-bt-hqt-nyis,trade,
+tie-flow-bt-ieso-miso,trade,
+tie-flow-bt-ldwp-ciso,trade,
+tie-flow-bt-mheb-miso,trade,
+tie-flow-bt-miso-tva,trade,
+tie-flow-bt-nevp-ciso,trade,
+tie-flow-bt-soco-sceg,trade,
+tie-side-gap-bg-azps-srp,trade,first
+tie-side-gap-bg-bpat-pge,trade,first
+tie-side-gap-bg-bpat-scl,trade,first
+tie-side-gap-bg-ciso-srp,trade,first
+cdd-wd-midw,weather,
+cdd-wd-tex,weather,
+cold-hours-wh-nw,weather,
+cold-mw-wx-cal,weather,n_ba | nunique
+cold-mw-wx-sw,weather,n_ba | nunique
+cold-mw-wx-tex,weather,n_ba | nunique
+cold-ratio-wx-cal,weather,n_ba | nunique
+hdd-wd-sw,weather,
+hot-hours-wh-nw,weather,
+hot-mw-wx-midw,weather,n_ba | nunique
+hot-mw-wx-nw,weather,n_ba | nunique
+hot-mw-wx-tex,weather,n_ba | nunique
+hot-ratio-wx-nw,weather,n_ba | nunique
+max-temp-wt-midw,weather,
+min-temp-wt-cal,weather,
+summer-temp-wt-fla,weather,
+winter-temp-wt-sw,weather,
+winter-temp-wt-ten,weather,
+eu-net-imports-eu-el,world_power,size
+eu-net-imports-eu-eu27-2020,world_power,size
+eu-net-imports-eu-pt,world_power,size
+eu-share-coal-eu-el,world_power,size
+eu-share-coal-eu-eu27-2020,world_power,size
+eu-share-coal-eu-pl,world_power,size
+eu-share-gas-eu-eu27-2020,world_power,size
+eu-share-gas-eu-pt,world_power,size
+eu-share-nuclear-eu-be,world_power,size
+eu-share-nuclear-eu-de,world_power,size
+eu-share-nuclear-eu-eu27-2020,world_power,size
+eu-share-solar-eu-eu27-2020,world_power,size
+eu-share-solar-eu-nl,world_power,size
+eu-share-wind-eu-eu27-2020,world_power,size
+eu-share-wind-eu-fi,world_power,size
+eu-share-wind-eu-nl,world_power,size
+fr-mean-gas-fr,world_power,
+fr-mean-solar-fr,world_power,
+fr-mean-wind-fr,world_power,

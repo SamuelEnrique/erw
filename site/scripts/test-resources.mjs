@@ -114,7 +114,20 @@ check(R.levelFor([], 10) === null && R.levelFor([{ file: "a", cell_deg: 0.1 }], 
     missing: [{ id: "solar_ghi", group: "solar", title: "Global horizontal irradiance", reason: "the download was refused" }, { id: "geothermal_x", group: "geothermal", title: "Heat flow", reason: "not published openly" }],
   };
   const groups = R.toggleGroups(m), by = Object.fromEntries(groups.map((x) => [x.id, x]));
-  check(groups.slice(0, 7).map((x) => x.id).join() === "wind,solar,geothermal,oil_gas,hydropower,biomass,offshore_wind" && groups[7].id === "tidal" && groups[7].items[0].held, "the groups are the owner's seven in order, then any other the manifest holds");
+  // session 8603: after the seven, the three kinds the owner's list also names (coal, uranium, critical minerals), then any other
+  check(groups.slice(0, 7).map((x) => x.id).join() === "wind,solar,geothermal,oil_gas,hydropower,biomass,offshore_wind" && groups.slice(7, 10).map((x) => x.id).join() === "coal,uranium,critical_minerals" && groups[10].id === "tidal" && groups[10].items[0].held,
+    "the groups are the owner's seven in order, then coal, uranium and critical minerals, then any other the manifest holds");
+  check(["coal", "uranium", "critical_minerals"].every((id) => by[id].items.length === 1 && !by[id].items[0].held && /No layer of .* is among the resource files of the site yet/.test(by[id].items[0].reason) && /nothing is drawn in its place/.test(by[id].items[0].reason)),
+    "coal, uranium and critical minerals, with no layer among the files, are each a greyed switch that says why (never a made-up layer)");
+  {
+    const more = R.toggleGroups({ layers: [{ id: "coal_fields", group: "Coal", title: "Coal fields", kind: "shapes", file: "coal_fields.json" }, { id: "usgs_uranium", group: "uranium", title: "Uranium occurrences", kind: "points", file: "u.json" }, { id: "critical_mineral_deposits", group: "critical minerals", title: "Critical mineral deposits", kind: "points", file: "c.json" }], missing: [] });
+    const at = Object.fromEntries(more.map((x) => [x.id, x]));
+    check(["coal", "uranium", "critical_minerals"].every((id) => at[id].items.length === 1 && at[id].items[0].held), "when a layer of coal, of uranium or of critical minerals is among the files, its switch is the layer's and the greyed one is gone");
+  }
+  check(R.measureLine({ id: "solar_ghi" }) === "The sunlight a flat, level surface receives in an average day." && R.measureLine({ id: "new_layer", measure: "What a new layer measures" }) === "What a new layer measures."
+    && R.measureLine({ id: "new_layer", value_label: "Thickness of the seam, feet" }) === "Thickness of the seam, feet." && R.measureLine({ id: "new_layer" }) === "",
+    "the line under a switch: the page's own plain words for a layer it knows, else the layer's own line, else the source's label of its value, else nothing");
+  check(Object.values(R.MEASURE).every((l) => l.length <= 120 && /\.$/.test(l) && !/[;(]\s*$/.test(l)), "every plain line is one short sentence");
   check(by.oil_gas.items[0].held && by.oil_gas.items[0].layer.id === "oil_gas_basins" && by.oil_gas.items.length === 2 && !by.oil_gas.items[1].held && by.oil_gas.items[1].label === "Tight oil and shale gas plays", "a layer held is a toggle; an expected layer not held is a placeholder");
   check(by.solar.items.length === 2 && by.solar.items[0].label === "Global horizontal irradiance" && by.solar.items[0].reason === "the download was refused" && /not among/.test(by.solar.items[1].reason), "a placeholder carries the manifest's own reason where it gives one");
   check(by.geothermal.items.length === 3 && by.geothermal.items[2].label === "Heat flow" && by.geothermal.items[2].reason === "not published openly", "a missing layer nobody expected is still named, with its reason");
