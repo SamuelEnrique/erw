@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate nuc_out_peak, region nuc_us (the US nuclear fleet)
+# Computed 2026-11-19T12:24:26Z by warehouse/analysis/findings/deep/markets_operations.py (nuc_out_peak); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's highest day of US nuclear capacity on outage (MW), the observations it rests on, and whether the year is full
+# Tables: eia_nuclear_outages_facility_daily
+region,year,value,n_observations,full_year
+nuc_us,2007,26209.114,365.0,1
+nuc_us,2008,25664.942,366.0,1
+nuc_us,2009,28307.739999999998,365.0,1
+nuc_us,2010,24987.949,365.0,1
+nuc_us,2011,32640.445,365.0,1
+nuc_us,2012,32719.784,366.0,1
+nuc_us,2013,26391.765,365.0,1
+nuc_us,2014,24963.999,365.0,1
+nuc_us,2015,24447.127,365.0,1
+nuc_us,2016,22838.670000000002,366.0,1
+nuc_us,2017,25213.046,365.0,1
+nuc_us,2018,23771.343,365.0,1
+nuc_us,2019,20984.09,365.0,1
+nuc_us,2020,22269.15,366.0,1
+nuc_us,2021,23465.431,365.0,1
+nuc_us,2022,23158.43,365.0,1
+nuc_us,2023,21352.019,365.0,1
+nuc_us,2024,22139.766,366.0,1
+nuc_us,2025,22764.39,365.0,1
+nuc_us,2026,22174.962,294.0,0
