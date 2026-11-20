@@ -61,11 +61,11 @@ export function BatteryForm({ x, internal = false }: { x: Inputs; internal?: boo
 
       {/* session 296 (item 10): one-line hovers on the duration and on each strategy; "perfect foresight" keeps its name */}
       <div>
-        <div className="mb-1 font-semibold" id="dur-label">Duration<Tip id="duration" label="the duration">How long the battery can discharge at its rated power: a 4-hour battery holds 4 MWh for each MW. The model is run at 2, 4 and 8 hours; a longer battery can back a reserve that must be held longer and sell more energy in a day.</Tip></div>
+        <div className="mb-1 font-semibold" id="dur-label">Duration<Tip id="duration" label="the duration">The energy the battery stores, in hours of its rated power: a 4-hour battery stores 4 MWh for each MW and, after the discharge's share of the 86 percent round trip, delivers 3.71 MWh of it from full, so it holds its rated power for 3.71 hours. The model is run at 2, 4 and 8 hours; a longer battery can back a reserve that must be held longer and sell more energy in a day.</Tip></div>
         <div className="grid grid-cols-3 border border-accent" role="group" aria-labelledby="dur-label">
           {DURATIONS.map((d) => (
             <Link key={d} href={`${hrefOf(bare, { dur: d })}${carry(search, d === x.dur)}`} scroll={false} aria-current={x.dur === d ? "true" : undefined} data-duration={d}
-              title={`${d} hours: the battery discharges at its rated power for ${d} hours, ${d} MWh for each MW`}
+              title={`${d} hours: ${d} MWh stored for each MW, ${(d * Math.sqrt(0.86)).toFixed(2)} MWh delivered from full`}
               style={x.dur === d ? { color: "#fff" } : undefined}
               className={`px-2 py-1.5 text-center no-underline ${d !== DURATIONS[0] ? "border-l border-accent" : ""} ${x.dur === d ? "bg-accent font-semibold" : "bg-white text-accent hover:bg-paper"}`}>
               {d} hours

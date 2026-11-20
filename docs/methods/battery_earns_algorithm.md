@@ -79,6 +79,7 @@ Maximize
 `p_t` the energy price, `a_k,t` the product's price. Subject to:
 
 - **State of charge.** `s_t = s_(t-1) + eta x c_t - d_t / eta`, with `s = 0` at the start of every local day, and `0 <= s_t <= D`.
+- **What D is.** `D` is the energy stored for each MW, in MWh (4 for a 4-hour battery). Discharge loses its share of the round trip on the way out, so a full battery delivers `D x eta` to the grid: 3.71 MWh per MW at 4 hours, 1.85 at 2, 7.42 at 8, and holds its rated power for `D x eta` hours (the audit of session 9840, `docs/reviews/battery-model-audit-2026-11-20.md`, finding 10; read at the grid, 4 MWh delivered, the default case's last twelve months would be USD 84.01 per kW, not 81.40).
 - **Power, upward.** `d_t + (upward awards in t) <= 1`.
 - **Power, downward.** `c_t + (Regulation Down in t) <= 1`.
 - **Energy behind upward awards.** `sum over upward k of r_k,t x h_k / eta <= s_(t-1)` and `<= s_t`: at the hour's start and at its end.
