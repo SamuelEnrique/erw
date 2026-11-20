@@ -5,9 +5,11 @@
 table: eia861_energy_efficiency
 family: eia861
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One utility's figure for its energy efficiency programs (savings, costs or average life) in one state, balancing authority
+  and customer sector, for one year, from Form EIA-861's energy efficiency file.
+time: ts_utc is the data year's 1 January at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: A run reads the years given with --years and writes the table whole; vintage is not filled. EIA's aggregates
+  88888 and 99999 left out; a '.' cell has no row.
 keys:
 - entity
 - variable
@@ -45,6 +47,7 @@ columns:
     - eia861_ee:1002:IA:MISO
     - eia861_ee:10040:MN:MISO
   missing_cells: 0
+  particular: eia861_ee:<utility number>:<state>:<balancing authority>; ends in a colon where EIA gives no balancing authority
 - name: variable
   shared: true
   type: text
@@ -105,12 +108,14 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
+  particular: US-<state>
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 187850
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -123,6 +128,7 @@ columns:
     - ALLETE, Inc.
     - Adrian Public Utilities Comm
   missing_cells: 0
+  particular: The utility's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -170,21 +176,22 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 187850
+  particular: 'Not filled: no cell holds a value'
 - name: x_utility_number
-  label: null
-  unit: null
+  label: EIA's utility identifier
+  unit: none
   type: integer
   values:
     distinct: 734
     lowest: 122
     highest: 66867
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_efficiency.md
 - name: x_state
-  label: null
-  unit: null
+  label: The state, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 52
@@ -195,12 +202,12 @@ columns:
     - AZ
     - CA
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_efficiency.md
 - name: x_ba_code
-  label: null
-  unit: null
+  label: The balancing authority (the grid operator of the area) code EIA gives for the row
+  unit: none
   type: text
   values:
     distinct: 51
@@ -211,12 +218,12 @@ columns:
     - AZPS
     - BANC
   missing_cells: 1580
-  missing_meaning: null
+  missing_meaning: EIA gives no balancing authority
   source_name: null
-  documented_by: null
+  documented_by: method eia861_efficiency.md
 - name: x_website
-  label: null
-  unit: null
+  label: The web address EIA gives for the utility's efficiency programs, as written
+  unit: none
   type: text
   values:
     distinct: 683
@@ -228,270 +235,272 @@ columns:
     - 2020 Annual report will be submitted on 6/4. Link not available at this time.
     - '22.47'
   missing_cells: 140514
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none, or the year's sheet has no Website column
+  source_name: Website
+  documented_by: method eia861_efficiency.md; connector eia861_efficiency.py
 variables:
 - name: annual_customer_incentives_commercial
-  label: null
+  label: Customer incentives in the reporting year (incremental), commercial sector, USD
   unit: USD
   rows: 5011
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_customer_incentives_industrial
-  label: null
+  label: Customer incentives in the reporting year (incremental), industrial sector, USD
   unit: USD
   rows: 3481
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_customer_incentives_residential
-  label: null
+  label: Customer incentives in the reporting year (incremental), residential sector, USD (EIA's thousand dollars times 1,000)
   unit: USD
   rows: 5605
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_customer_incentives_total
-  label: null
+  label: Customer incentives in the reporting year (incremental), all sectors, USD
   unit: USD
   rows: 5707
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_customer_incentives_transportation
-  label: null
+  label: Customer incentives in the reporting year (incremental), transportation sector, USD
   unit: USD
   rows: 2230
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_energy_savings_commercial
-  label: null
+  label: Energy savings in the reporting year (incremental), commercial sector, MWh
   unit: MWh
   rows: 5078
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_energy_savings_industrial
-  label: null
+  label: Energy savings in the reporting year (incremental), industrial sector, MWh
   unit: MWh
   rows: 3526
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_energy_savings_residential
-  label: null
+  label: Energy savings in the reporting year (incremental), residential sector, MWh
   unit: MWh
   rows: 5659
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_energy_savings_total
-  label: null
+  label: Energy savings in the reporting year (incremental), all sectors, MWh
   unit: MWh
   rows: 5761
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_energy_savings_transportation
-  label: null
+  label: Energy savings in the reporting year (incremental), transportation sector, MWh
   unit: MWh
   rows: 2271
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_other_costs_commercial
-  label: null
+  label: All other costs in the reporting year (incremental), commercial sector, USD
   unit: USD
   rows: 4659
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_other_costs_industrial
-  label: null
+  label: All other costs in the reporting year (incremental), industrial sector, USD
   unit: USD
   rows: 3311
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_other_costs_residential
-  label: null
+  label: All other costs in the reporting year (incremental), residential sector, USD (EIA's thousand dollars times 1,000)
   unit: USD
   rows: 5165
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_other_costs_total
-  label: null
+  label: All other costs in the reporting year (incremental), all sectors, USD
   unit: USD
   rows: 5250
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_other_costs_transportation
-  label: null
+  label: All other costs in the reporting year (incremental), transportation sector, USD
   unit: USD
   rows: 2197
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_peak_savings_commercial
-  label: null
+  label: Peak demand savings in the reporting year (incremental), commercial sector, MW
   unit: MW
   rows: 4767
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_peak_savings_industrial
-  label: null
+  label: Peak demand savings in the reporting year (incremental), industrial sector, MW
   unit: MW
   rows: 3367
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_peak_savings_residential
-  label: null
+  label: Peak demand savings in the reporting year (incremental), residential sector, MW
   unit: MW
   rows: 5249
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_peak_savings_total
-  label: null
+  label: Peak demand savings in the reporting year (incremental), all sectors, MW
   unit: MW
   rows: 5376
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: annual_peak_savings_transportation
-  label: null
+  label: Peak demand savings in the reporting year (incremental), transportation sector, MW
   unit: MW
   rows: 2223
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_customer_incentives_commercial
-  label: null
+  label: Customer incentives over the programs' life (incremental life cycle), commercial sector, USD
   unit: USD
   rows: 5002
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_customer_incentives_industrial
-  label: null
+  label: Customer incentives over the programs' life (incremental life cycle), industrial sector, USD
   unit: USD
   rows: 3474
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_customer_incentives_residential
-  label: null
+  label: Customer incentives over the programs' life (incremental life cycle), residential sector, USD (EIA's thousand dollars
+    times 1,000)
   unit: USD
   rows: 5597
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_customer_incentives_total
-  label: null
+  label: Customer incentives over the programs' life (incremental life cycle), all sectors, USD
   unit: USD
   rows: 5697
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_customer_incentives_transportation
-  label: null
+  label: Customer incentives over the programs' life (incremental life cycle), transportation sector, USD
   unit: USD
   rows: 2225
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_energy_savings_commercial
-  label: null
+  label: Energy savings of the year's programs over their life (incremental life cycle), commercial sector, MWh
   unit: MWh
   rows: 5066
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_energy_savings_industrial
-  label: null
+  label: Energy savings of the year's programs over their life (incremental life cycle), industrial sector, MWh
   unit: MWh
   rows: 3510
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_energy_savings_residential
-  label: null
+  label: Energy savings of the year's programs over their life (incremental life cycle), residential sector, MWh
   unit: MWh
   rows: 5657
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_energy_savings_total
-  label: null
+  label: Energy savings of the year's programs over their life (incremental life cycle), all sectors, MWh
   unit: MWh
   rows: 5759
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_energy_savings_transportation
-  label: null
+  label: Energy savings of the year's programs over their life (incremental life cycle), transportation sector, MWh
   unit: MWh
   rows: 2251
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_other_costs_commercial
-  label: null
+  label: All other costs over the programs' life (incremental life cycle), commercial sector, USD
   unit: USD
   rows: 4658
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_other_costs_industrial
-  label: null
+  label: All other costs over the programs' life (incremental life cycle), industrial sector, USD
   unit: USD
   rows: 3310
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_other_costs_residential
-  label: null
+  label: All other costs over the programs' life (incremental life cycle), residential sector, USD (EIA's thousand dollars
+    times 1,000)
   unit: USD
   rows: 5165
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_other_costs_total
-  label: null
+  label: All other costs over the programs' life (incremental life cycle), all sectors, USD
   unit: USD
   rows: 5245
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_other_costs_transportation
-  label: null
+  label: All other costs over the programs' life (incremental life cycle), transportation sector, USD
   unit: USD
   rows: 2196
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_peak_savings_commercial
-  label: null
+  label: Peak demand savings over the programs' life (incremental life cycle), commercial sector, MW
   unit: MW
   rows: 4755
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_peak_savings_industrial
-  label: null
+  label: Peak demand savings over the programs' life (incremental life cycle), industrial sector, MW
   unit: MW
   rows: 3356
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_peak_savings_residential
-  label: null
+  label: Peak demand savings over the programs' life (incremental life cycle), residential sector, MW
   unit: MW
   rows: 5247
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_peak_savings_total
-  label: null
+  label: Peak demand savings over the programs' life (incremental life cycle), all sectors, MW
   unit: MW
   rows: 5377
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: life_peak_savings_transportation
-  label: null
+  label: Peak demand savings over the programs' life (incremental life cycle), transportation sector, MW
   unit: MW
   rows: 2203
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: weighted_average_life_commercial
-  label: null
+  label: EIA's weighted average life of the programs, commercial sector, years
   unit: year
   rows: 5014
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: weighted_average_life_industrial
-  label: null
+  label: EIA's weighted average life of the programs, industrial sector, years
   unit: year
   rows: 3418
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: weighted_average_life_residential
-  label: null
+  label: EIA's weighted average life of the programs, residential sector, years
   unit: year
   rows: 5637
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: weighted_average_life_transportation
-  label: null
+  label: EIA's weighted average life of the programs, transportation sector, years
   unit: year
   rows: 2138
   first: '2015-01-01T00:00:00Z'

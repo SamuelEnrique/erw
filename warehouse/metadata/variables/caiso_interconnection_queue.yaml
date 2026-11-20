@@ -5,9 +5,10 @@
 table: caiso_interconnection_queue
 family: caiso
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One position in CAISO's Public Queue Report, a project asking to connect generation or storage to CAISO's grid.
+time: No time column. Dates are CAISO's, YYYY-MM-DD; vintage is the retrieval day. The table is a snapshot of the report as
+  read on its retrieved_at.
+vintage_rule: A snapshot rewritten whole by each run (Mondays); earlier snapshots stay in the raw files and the archive.
 keys:
 - entity_id
 license: public
@@ -40,6 +41,7 @@ columns:
     - caiso_queue:1001
     - caiso_queue:1002
   missing_cells: 0
+  particular: caiso_queue:<queue id>
 - name: entity_type
   shared: true
   type: text
@@ -47,6 +49,7 @@ columns:
     list:
       project: 2278
   missing_cells: 0
+  particular: project in every row
 - name: name
   shared: true
   type: text
@@ -71,18 +74,22 @@ columns:
       US-NV: 104
       US-WY: 1
   missing_cells: 22
+  particular: US-<state> for any two-letter state CAISO gives, so CAISO's MX (Mexico) gives US-MX on 18 rows; empty where
+    no state is given
 - name: lat
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2278
+  particular: Empty in every row
 - name: lon
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2278
+  particular: Empty in every row
 - name: capacity_mw
   shared: true
   type: number
@@ -91,6 +98,7 @@ columns:
     lowest: 0.0
     highest: 3200.0
   missing_cells: 0
+  particular: CAISO's requested capacity as gridstatus reads it
 - name: status
   shared: true
   type: text
@@ -100,6 +108,7 @@ columns:
       completed: 252
       withdrawn: 1765
   missing_cells: 0
+  particular: active, withdrawn or completed, mapped one to one from iso_status; no suspended status
 - name: status_date
   shared: true
   type: date
@@ -108,12 +117,15 @@ columns:
     earliest: '2005-09-30'
     latest: '2026-10-06'
   missing_cells: 313
+  particular: The withdrawn date of a withdrawn row, the in-service date of a completed row where given; empty on every active
+    row
 - name: operator
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2278
+  particular: Empty in every row
 - name: source
   shared: true
   type: text
@@ -142,9 +154,10 @@ columns:
     list:
       '2026-11-05': 2278
   missing_cells: 0
+  particular: The retrieval day (YYYY-MM-DD), not a date CAISO prints
 - name: queue_id
-  label: null
-  unit: null
+  label: CAISO's queue position number of the request
+  unit: none
   type: text
   values:
     distinct: 2278
@@ -155,12 +168,12 @@ columns:
     - '1001'
     - '1002'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Queue ID
+  documented_by: connector iso_queues.py; method caiso_interconnection_queue.md
 - name: county
-  label: null
-  unit: null
+  label: The county of the project as CAISO writes it
+  unit: none
   type: text
   values:
     distinct: 100
@@ -171,12 +184,12 @@ columns:
     - BAJA CALIFORNIA
     - BUTTE
   missing_cells: 5
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: CAISO gives no county
+  source_name: County
+  documented_by: connector iso_queues.py
 - name: state
-  label: null
-  unit: null
+  label: The state of the project as CAISO writes it (a two-letter code; MX for Mexico)
+  unit: none
   type: text
   values:
     list:
@@ -188,12 +201,12 @@ columns:
       NV: 104
       WY: 1
   missing_cells: 4
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: CAISO gives no state
+  source_name: State
+  documented_by: connector iso_queues.py; method caiso_interconnection_queue.md
 - name: poi
-  label: null
-  unit: null
+  label: 'The point of interconnection: the substation or line where the project would connect'
+  unit: none
   type: text
   values:
     distinct: 1661
@@ -204,22 +217,22 @@ columns:
     - 115 kV Tesla - Stockton Cogen Trans. Line.
     - 115kV Oleum Switchyard
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Interconnection Location
+  documented_by: connector iso_queues.py
 - name: zone
-  label: null
-  unit: null
+  label: The zone of the project
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2278
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'Empty in every row: CAISO''s report does not give it'
+  source_name: Zone
+  documented_by: connector iso_queues.py; method caiso_interconnection_queue.md
 - name: transmission_owner
-  label: null
-  unit: null
+  label: The transmission owner the project connects to, CAISO's code (PGAE, SCE, SDGE, GLW, VEA and others)
+  unit: none
   type: text
   values:
     list:
@@ -232,12 +245,13 @@ columns:
       SDGE: 320
       VEA: 22
   missing_cells: 2
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: CAISO gives none (2 rows)
+  source_name: Transmission Owner
+  documented_by: connector iso_queues.py; method caiso_interconnection_queue.md
 - name: fuel_technology
-  label: null
-  unit: null
+  label: The project's generation type in CAISO's words (Photovoltaic, Storage, Wind Turbine, Steam Turbine, combinations
+    and others)
+  unit: none
   type: text
   values:
     distinct: 41
@@ -248,12 +262,12 @@ columns:
     - Combined Cycle + Storage
     - Combustion Turbine
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Generation Type
+  documented_by: connector iso_queues.py; method caiso_interconnection_queue.md
 - name: iso_status
-  label: null
-  unit: null
+  label: CAISO's own status of the request (ACTIVE, WITHDRAWN, COMPLETED)
+  unit: none
   type: text
   values:
     list:
@@ -261,55 +275,55 @@ columns:
       COMPLETED: 252
       WITHDRAWN: 1765
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Status
+  documented_by: connector iso_queues.py; method caiso_interconnection_queue.md
 - name: queue_date
-  label: null
-  unit: null
+  label: The date the request entered the queue
+  unit: none
   type: date
   values:
     distinct: 411
     earliest: '1999-11-01'
     latest: '2023-03-02'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Queue Date
+  documented_by: connector iso_queues.py; method caiso_interconnection_queue.md
 - name: proposed_in_service_date
-  label: null
-  unit: null
+  label: The date the project proposes to begin operating
+  unit: none
   type: date
   values:
     distinct: 723
     earliest: '2005-12-08'
     latest: '2036-05-05'
   missing_cells: 257
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: CAISO gives no proposed date
+  source_name: Proposed Completion Date
+  documented_by: connector iso_queues.py
 - name: actual_in_service_date
-  label: null
-  unit: null
+  label: The date the project began operating
+  unit: none
   type: date
   values:
     distinct: 204
     earliest: '2005-09-30'
     latest: '2026-09-14'
   missing_cells: 2039
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not in service, or no date given
+  source_name: Actual Completion Date (gridstatus)
+  documented_by: connector iso_queues.py
 - name: withdrawn_date
-  label: null
-  unit: null
+  label: The date the request was withdrawn
+  unit: none
   type: date
   values:
     distinct: 888
     earliest: '2006-01-11'
     latest: '2026-10-06'
   missing_cells: 552
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not withdrawn, or withdrawn with no date given
+  source_name: Withdrawn Date
+  documented_by: connector iso_queues.py
 second_look: null

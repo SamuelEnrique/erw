@@ -4,11 +4,11 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 
 ## The counts
 
-- Public tables with a metadata file: 582; documented in full (what a row is, and every column's label and unit): 432.
-- Columns: 10453; documented: 9372 (a shared column is documented once, below).
-- Variables of the series tables (values of `variable`): 6924; labelled: 5765.
+- Public tables with a metadata file: 582; documented in full (what a row is, and every column's label and unit): 503.
+- Columns: 10453; documented: 9979 (a shared column is documented once, below).
+- Variables of the series tables (values of `variable`): 6924; labelled: 6574.
 - Entries that read "not documented by the source": 7.
-- Column names that two or more tables label differently (names that may mean two things): 216.
+- Column names that two or more tables label differently (names that may mean two things): 266.
 
 ## The families
 
@@ -18,7 +18,7 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 | [ba](ba.md) | 3 | 3 |
 | [battery](battery.md) | 4 | 4 |
 | [boem](boem.md) | 3 | 0 |
-| [caiso](caiso.md) | 15 | 9 |
+| [caiso](caiso.md) | 15 | 15 |
 | [carbon](carbon.md) | 3 | 3 |
 | [census](census.md) | 6 | 6 |
 | [cer](cer.md) | 3 | 3 |
@@ -26,41 +26,41 @@ What every public table of the Energy Research Warehouse holds: what a row is, a
 | [cost](cost.md) | 3 | 3 |
 | [datacenter](datacenter.md) | 4 | 3 |
 | [desnz](desnz.md) | 17 | 17 |
-| [doe](doe.md) | 5 | 0 |
+| [doe](doe.md) | 5 | 5 |
 | [eia](eia.md) | 112 | 112 |
-| [eia860](eia860.md) | 9 | 2 |
+| [eia860](eia860.md) | 9 | 5 |
 | [eia860m](eia860m.md) | 4 | 4 |
-| [eia861](eia861.md) | 13 | 3 |
-| [eia923](eia923.md) | 3 | 0 |
+| [eia861](eia861.md) | 13 | 13 |
+| [eia923](eia923.md) | 3 | 3 |
 | [eia930](eia930.md) | 37 | 37 |
 | [energy](energy.md) | 8 | 8 |
-| [epa](epa.md) | 8 | 0 |
+| [epa](epa.md) | 8 | 8 |
 | [ercot](ercot.md) | 38 | 38 |
 | [erw_derived](erw_derived.md) | 30 | 30 |
 | [eurostat](eurostat.md) | 27 | 27 |
 | [ferc714](ferc714.md) | 2 | 2 |
 | [grid](grid.md) | 5 | 5 |
 | [interchange](interchange.md) | 3 | 3 |
-| [interconnection](interconnection.md) | 5 | 3 |
-| [iso](iso.md) | 11 | 10 |
-| [isone](isone.md) | 4 | 3 |
+| [interconnection](interconnection.md) | 5 | 5 |
+| [iso](iso.md) | 11 | 11 |
+| [isone](isone.md) | 4 | 4 |
 | [large](large.md) | 4 | 3 |
 | [lbnl](lbnl.md) | 8 | 8 |
 | [news](news.md) | 1 | 1 |
 | [noaa](noaa.md) | 21 | 3 |
 | [nrc](nrc.md) | 7 | 7 |
-| [nyiso](nyiso.md) | 7 | 5 |
+| [nyiso](nyiso.md) | 7 | 7 |
 | [onrr](onrr.md) | 3 | 0 |
-| [ornl](ornl.md) | 5 | 0 |
-| [other_sources](other_sources.md) | 94 | 27 |
+| [ornl](ornl.md) | 5 | 5 |
+| [other_sources](other_sources.md) | 94 | 46 |
 | [policy](policy.md) | 3 | 3 |
 | [price](price.md) | 4 | 4 |
-| [spp](spp.md) | 5 | 2 |
+| [spp](spp.md) | 5 | 5 |
 | [statcan](statcan.md) | 8 | 8 |
 | [statec](statec.md) | 4 | 4 |
 | [storage](storage.md) | 4 | 4 |
 | [usbr](usbr.md) | 3 | 3 |
-| [usgs](usgs.md) | 3 | 0 |
+| [usgs](usgs.md) | 3 | 3 |
 | [utility](utility.md) | 5 | 4 |
 | [wb](wb.md) | 2 | 2 |
 

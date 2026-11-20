@@ -5,9 +5,11 @@
 table: caiso_outlook_demand
 family: caiso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: CAISO's demand, or one of its two demand forecasts, for one 5-minute interval of a Pacific day asked (the Flex Alert
+  days of 2018 to 2024), from Today's Outlook.
+time: ts_utc is the start of the 5-minute interval in UTC; days are Pacific days.
+vintage_rule: Merged by (entity, variable, ts_utc) into earlier runs; a day is written only when the three MW columns hold
+  every 5-minute interval of it. vintage is not filled.
 keys:
 - entity
 - variable
@@ -37,6 +39,7 @@ columns:
     list:
       caiso:ISO: 33927
   missing_cells: 0
+  particular: 'caiso:ISO in every row: CAISO''s whole system'
 - name: variable
   shared: true
   type: text
@@ -87,12 +90,14 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 33927
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 33927
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -126,27 +131,28 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 33927
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: demand_forecast_day_ahead_mw
-  label: null
+  label: CAISO's day-ahead forecast of demand for the interval, MW
   unit: MW
   rows: 11232
   first: '2018-07-24T07:00:00Z'
   last: '2024-07-25T06:55:00Z'
 - name: demand_forecast_hour_ahead_mw
-  label: null
+  label: CAISO's hour-ahead forecast of demand for the interval, MW
   unit: MW
   rows: 11232
   first: '2018-07-24T07:00:00Z'
   last: '2024-07-25T06:55:00Z'
 - name: demand_mw
-  label: null
+  label: CAISO's Current demand for the interval, MW
   unit: MW
   rows: 11232
   first: '2018-07-24T07:00:00Z'
   last: '2024-07-25T06:55:00Z'
 - name: demand_response_marked
-  label: null
+  label: 1 in an interval CAISO's Demand response column marks; no row where it is blank (count)
   unit: count
   rows: 231
   first: '2022-09-01T02:25:00Z'

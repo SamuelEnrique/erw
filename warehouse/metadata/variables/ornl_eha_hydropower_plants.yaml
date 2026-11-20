@@ -5,9 +5,10 @@
 table: ornl_eha_hydropower_plants
 family: ornl
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One U.S. hydropower or pumped storage plant in operation, from ORNL's Existing Hydropower Assets (EHA) Plant Database,
+  2026.
+time: No time column; the table is a snapshot of the 2026 edition; vintage is the workbook's last-modified time (UTC).
+vintage_rule: A snapshot of one yearly edition, replaced whole by each run; a new edition has a new address.
 keys:
 - entity_id
 license: public
@@ -46,6 +47,7 @@ columns:
     - ornl_eha:hc0004_p01
     - ornl_eha:hc0005_p01
   missing_cells: 0
+  particular: ornl_eha:<EHA_PtID>
 - name: entity_type
   shared: true
   type: text
@@ -53,6 +55,7 @@ columns:
     list:
       plant: 2257
   missing_cells: 0
+  particular: Always plant
 - name: name
   shared: true
   type: text
@@ -65,6 +68,7 @@ columns:
     - 99 Islands
     - A G Wishon
   missing_cells: 0
+  particular: ORNL's plant name (PtName)
 - name: geo
   shared: true
   type: text
@@ -77,6 +81,7 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
+  particular: US-<state>
 - name: lat
   shared: true
   type: number
@@ -85,6 +90,7 @@ columns:
     lowest: 18.017
     highest: 61.6
   missing_cells: 0
+  particular: NAD83 as ORNL gives it
 - name: lon
   shared: true
   type: number
@@ -93,6 +99,7 @@ columns:
     lowest: -174.197
     highest: -65.794
   missing_cells: 0
+  particular: NAD83 as ORNL gives it
 - name: capacity_mw
   shared: true
   type: number
@@ -101,12 +108,14 @@ columns:
     lowest: 5.0e-05
     highest: 6809.0
   missing_cells: 0
+  particular: 'hy_mw plus psh_mw: the plant''s conventional hydro and pumped storage capacity'
 - name: status
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2257
+  particular: 'Not filled: the database lists plants in operation'
 - name: status_date
   shared: true
   type: empty
@@ -119,6 +128,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 2257
+  particular: 'Not filled: the database names owners (plant_owner, dam_owner), not operators'
 - name: source
   shared: true
   type: text
@@ -147,9 +157,10 @@ columns:
     list:
       '2026-07-17T16:30:08Z': 2257
   missing_cells: 0
+  particular: The workbook's last-modified time, UTC
 - name: eha_plant_id
-  label: null
-  unit: null
+  label: ORNL's EHA identifier of the plant, which links it to EHA's other datasets
+  unit: none
   type: text
   values:
     distinct: 2257
@@ -160,24 +171,24 @@ columns:
     - hc0004_p01
     - hc0005_p01
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: EHA_PtID
+  documented_by: connector ornl_eha.py; source EHA Field Descriptions sheet
 - name: eia_plant_id
-  label: null
-  unit: null
+  label: EIA's plant identification code
+  unit: none
   type: integer
   values:
     distinct: 1624
     lowest: 2
     highest: 69673
   missing_cells: 608
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives no EIA plant id (608 plants, mostly small)
+  source_name: EIA_PtID
+  documented_by: header; source EHA Field Descriptions sheet
 - name: state
-  label: null
-  unit: null
+  label: The plant's state, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 49
@@ -188,12 +199,12 @@ columns:
     - AZ
     - CA
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: State
+  documented_by: connector ornl_eha.py; source EHA Field Descriptions sheet
 - name: county
-  label: null
-  unit: null
+  label: The plant's U.S. county as ORNL writes it
+  unit: none
   type: text
   values:
     distinct: 610
@@ -204,24 +215,24 @@ columns:
     - Adams
     - Addison
   missing_cells: 23
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives no county
+  source_name: County
+  documented_by: connector ornl_eha.py; source EHA Field Descriptions sheet
 - name: county_fips
-  label: null
-  unit: null
+  label: The county's FIPS (Federal Information Processing Standards) code
+  unit: none
   type: integer
   values:
     distinct: 639
     lowest: 1001
     highest: 56039
   missing_cells: 173
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives no code
+  source_name: FIPS_Census
+  documented_by: connector ornl_eha.py; source EHA Field Descriptions sheet
 - name: plant_owner
-  label: null
-  unit: null
+  label: The owner of the plant facility
+  unit: none
   type: text
   values:
     distinct: 1053
@@ -232,12 +243,13 @@ columns:
     - A & D Hydro, Inc.
     - A H Haley
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Pt_Own
+  documented_by: header; source EHA Field Descriptions sheet
 - name: owner_type
-  label: null
-  unit: null
+  label: The type of the plant's owner (Investor-Owned Utility, Publicly Owned Utility, Private Non-utility, USACE and the
+    others)
+  unit: none
   type: text
   values:
     list:
@@ -256,12 +268,12 @@ columns:
       Unknown: 6
       Wholesale Power Marketer: 179
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: OwType
+  documented_by: connector ornl_eha.py; source EHA Field Descriptions sheet; data
 - name: dam_owner
-  label: null
-  unit: null
+  label: The owner of the dam where the plant is located
+  unit: none
   type: text
   values:
     distinct: 946
@@ -272,12 +284,12 @@ columns:
     - A H Haley
     - AER NY Gen LLC
   missing_cells: 163
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL names no dam owner
+  source_name: Dam_Own
+  documented_by: header; source EHA Field Descriptions sheet
 - name: plant_type
-  label: null
-  unit: null
+  label: 'The type of facility: HY conventional hydro, PSH pumped storage, HY/PSH both'
+  unit: none
   type: text
   values:
     list:
@@ -285,12 +297,12 @@ columns:
       HY/PSH: 15
       PSH: 26
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Type
+  documented_by: header; method ornl_hydropower.md
 - name: ferc_docket
-  label: null
-  unit: null
+  label: The plant's FERC (Federal Energy Regulatory Commission) license docket number
+  unit: none
   type: text
   values:
     distinct: 1556
@@ -301,36 +313,36 @@ columns:
     - CD14-1
     - CD14-10
   missing_cells: 369
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives no FERC docket (federal plants need no FERC authorization)
+  source_name: FC_Dock
+  documented_by: connector ornl_eha.py; source EHA Field Descriptions sheet
 - name: ferc_issued
-  label: null
-  unit: null
+  label: The date FERC issued the plant's most recent authorization
+  unit: none
   type: date
   values:
     distinct: 1151
     earliest: '1952-07-21'
     latest: '2025-11-26'
   missing_cells: 391
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives no issue date
+  source_name: FcIssue
+  documented_by: header; source EHA Field Descriptions sheet
 - name: ferc_expires
-  label: null
-  unit: null
+  label: The date the plant's most recent FERC authorization expires
+  unit: none
   type: date
   values:
     distinct: 411
     earliest: '2003-04-26'
     latest: '2074-08-31'
   missing_cells: 1034
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'No expiry: exemptions and qualifying conduits do not expire, and federal plants need no FERC authorization'
+  source_name: FcExpire
+  documented_by: header; source EHA Field Descriptions sheet
 - name: mode
-  label: null
-  unit: null
+  label: The plant's mode of operation (Run-of-river, Peaking, Canal/Conduit and the others)
+  unit: none
   type: text
   values:
     list:
@@ -343,12 +355,12 @@ columns:
       Run-of-river/Upstream Peaking: 45
       Unknown: 1
   missing_cells: 764
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives no mode
+  source_name: Mode
+  documented_by: connector ornl_eha.py; source EHA Field Descriptions sheet; data
 - name: permitting
-  label: null
-  unit: null
+  label: The permitting agency or authorization (FERC License, FERC Exemption, Reclamation, USACE, TVA and the others)
+  unit: none
   type: text
   values:
     list:
@@ -366,12 +378,12 @@ columns:
       USACE: 75
       Unknown: 160
   missing_cells: 2
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives none (2 plants)
+  source_name: Pm_Type
+  documented_by: connector ornl_eha.py; source EHA Field Descriptions sheet; data
 - name: units
-  label: null
-  unit: null
+  label: The total number of generators in the plant
+  unit: count
   type: integer
   values:
     list:
@@ -399,96 +411,97 @@ columns:
       '8': 22
       '9': 5
   missing_cells: 2
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives no number (2 plants)
+  source_name: Number_of_Units
+  documented_by: connector ornl_eha.py; source EHA Field Descriptions sheet
 - name: hy_mw
-  label: null
-  unit: null
+  label: The plant's conventional hydro capacity (its pumped storage units excluded)
+  unit: MW
   type: number
   values:
     distinct: 761
     lowest: 5.0e-05
     highest: 6495.0
   missing_cells: 26
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: A pumped storage plant with no conventional units
+  source_name: HY_MW
+  documented_by: header; source EHA Field Descriptions sheet
 - name: hy_avg_mwh
-  label: null
-  unit: null
+  label: The plant's average annual net hydro generation since 2002, or the estimate stated in its FERC authorization
+  unit: MWh
   type: number
   values:
     distinct: 1808
     lowest: 0.012
     highest: 19194991.32
   missing_cells: 337
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives none
+  source_name: HY_MWh
+  documented_by: header; source EHA Field Descriptions sheet
 - name: hy_capacity_factor_pct
-  label: null
-  unit: null
+  label: 'The hydro capacity factor: net hydro generation over hydro capacity times the hours of a year, percent'
+  unit: pct
   type: number
   values:
     distinct: 1858
     lowest: 0.0273972602739726
     highest: 6019.85901826484
   missing_cells: 336
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives none (it blanks factors outside 0 to 120 percent)
+  source_name: HY_Pf
+  documented_by: header; source EHA Field Descriptions sheet
 - name: hy_first_year
-  label: null
-  unit: null
+  label: The year the plant's first conventional hydro generator came online
+  unit: none
   type: integer
   values:
     distinct: 131
     lowest: 1891
     highest: 2024
   missing_cells: 117
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives no year
+  source_name: HY_OpYear
+  documented_by: header; source EHA Field Descriptions sheet
 - name: psh_mw
-  label: null
-  unit: null
+  label: The plant's pumped storage capacity
+  unit: MW
   type: number
   values:
     distinct: 40
     lowest: 0.14
     highest: 2862.0
   missing_cells: 2216
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not a pumped storage plant
+  source_name: PSH_MW
+  documented_by: header; source EHA Field Descriptions sheet
 - name: psh_avg_mwh
-  label: null
-  unit: null
+  label: The plant's average annual gross pumped storage generation since 2002, or the estimate stated in its FERC authorization
+  unit: MWh
   type: number
   values:
     distinct: 39
     lowest: 13908.04
     highest: 3809539.67
   missing_cells: 2218
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not a pumped storage plant, or ORNL gives none
+  source_name: PSH_MWh
+  documented_by: header; source EHA Field Descriptions sheet
 - name: psh_capacity_factor_pct
-  label: null
-  unit: null
+  label: 'The pumped storage capacity factor: gross pumped storage generation over its capacity times the hours of a year,
+    percent'
+  unit: pct
   type: number
   values:
     distinct: 39
     lowest: 3.08618663039871
     highest: 34.2278807413376
   missing_cells: 2218
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not a pumped storage plant, or ORNL gives none
+  source_name: PSH_Pf
+  documented_by: header; source EHA Field Descriptions sheet
 - name: psh_first_year
-  label: null
-  unit: null
+  label: The year the plant's first pumped storage generator came online
+  unit: none
   type: integer
   values:
     list:
@@ -518,12 +531,12 @@ columns:
       '1995': 1
       '2002': 1
   missing_cells: 2218
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not a pumped storage plant, or ORNL gives no year
+  source_name: PSH_OpYear
+  documented_by: header; source EHA Field Descriptions sheet
 - name: waterway
-  label: null
-  unit: null
+  label: The waterway where the plant is located, as ORNL writes it
+  unit: none
   type: text
   values:
     distinct: 1149
@@ -534,24 +547,24 @@ columns:
     - Agua Fria River
     - Alabama River
   missing_cells: 35
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives none
+  source_name: Water
+  documented_by: connector ornl_eha.py; source EHA Field Descriptions sheet
 - name: huc
-  label: null
-  unit: null
+  label: The hydrologic unit code (the watershed) of the plant, as given
+  unit: none
   type: number
   values:
     distinct: 1621
     lowest: 10100040901.0
     highest: 210100050202.0
   missing_cells: 3
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives none (3 plants)
+  source_name: HUC12_All
+  documented_by: header; source EHA Field Descriptions sheet
 - name: nerc_region
-  label: null
-  unit: null
+  label: The plant's North American Electric Reliability Corporation region (WECC, NPCC, SERC and the others)
+  unit: none
   type: text
   values:
     list:
@@ -563,12 +576,12 @@ columns:
       TRE: 23
       WECC: 972
   missing_cells: 85
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives none
+  source_name: NERC
+  documented_by: connector ornl_eha.py; source EHA Field Descriptions sheet
 - name: balancing_authority
-  label: null
-  unit: null
+  label: The code of the plant's balancing authority (the grid operator of its area)
+  unit: none
   type: text
   values:
     distinct: 44
@@ -579,12 +592,12 @@ columns:
     - BPAT
     - CHPD
   missing_cells: 811
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives none
+  source_name: BACode
+  documented_by: connector ornl_eha.py; source EHA Field Descriptions sheet
 - name: eia_sector
-  label: null
-  unit: null
+  label: EIA's sector name of the plant (Electric Utility, IPP Non-CHP and the others)
+  unit: none
   type: text
   values:
     list:
@@ -598,12 +611,12 @@ columns:
       Industrial CHP: 9
       Industrial Non-CHP: 22
   missing_cells: 758
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives none
+  source_name: Sector
+  documented_by: connector ornl_eha.py; source EHA Field Descriptions sheet; data
 - name: transmission_owner
-  label: null
-  unit: null
+  label: The owner of the transmission or distribution system the plant connects to
+  unit: none
   type: text
   values:
     distinct: 232
@@ -614,7 +627,11 @@ columns:
     - Alaska Electric & Energy Coop
     - Alaska Electric Light&Power Co
   missing_cells: 769
-  missing_meaning: null
-  source_name: null
-  documented_by: null
-second_look: null
+  missing_meaning: ORNL gives none
+  source_name: Trans
+  documented_by: connector ornl_eha.py; source EHA Field Descriptions sheet
+second_look:
+- 'hy_capacity_factor_pct: ORNL''s field description says factors outside 0 to 120 percent are shown as null, yet 5 plants
+  hold values above 120 (the highest 6,019.9).'
+- 'huc: ORNL''s field description calls HUC12_All a 10-digit hydrologic unit code; the values are 11 or 12 digits, read as
+  numbers.'

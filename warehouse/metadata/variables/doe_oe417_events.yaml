@@ -5,9 +5,12 @@
 table: doe_oe417_events
 family: doe
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One report of an electric emergency incident or disturbance in DOE's yearly summaries of Form DOE-417 (formerly OE-417),
+  2016 to 2025; DOE's summaries can list one event under several reports.
+time: No time column; event_date is the day the event began. Days and times in the x_ columns are local as printed (the summaries
+  name no zone).
+vintage_rule: Built whole and replaced each run; a year's workbook already saved is reused, so a revision is not read until
+  the raw file is gone. vintage is the workbooks' Last-Modified.
 keys:
 - event_id
 license: public
@@ -45,6 +48,7 @@ columns:
     - doe417:2016-0004
     - doe417:2016-0005
   missing_cells: 0
+  particular: doe417:<year>-<row in the year's summary>
 - name: event_date
   shared: true
   type: date
@@ -65,6 +69,8 @@ columns:
     - cyber_attack
     - cyber_event
   missing_cells: 0
+  particular: The first event type the summary lists, lower case with underscores; not_given where only the comment box's
+    label is listed
 - name: parties
   shared: true
   type: empty
@@ -85,6 +91,7 @@ columns:
     lowest: 0.0
     highest: 160000.0
   missing_cells: 1441
+  particular: The demand lost, where the summary prints a plain number
 - name: price
   shared: true
   type: empty
@@ -104,6 +111,7 @@ columns:
     list:
       restored: 2619
   missing_cells: 694
+  particular: restored where a restoration day is printed, else empty
 - name: source
   shared: true
   type: text
@@ -128,8 +136,8 @@ columns:
       https://doe417.pnnl.gov/summaries/2025_Annual_Summary.xlsx: 426
   missing_cells: 0
 - name: x_year
-  label: null
-  unit: null
+  label: The year of the summary the row is in
+  unit: none
   type: integer
   values:
     list:
@@ -144,36 +152,36 @@ columns:
       '2024': 622
       '2025': 426
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method doe_oe417_events.md
 - name: x_row
-  label: null
-  unit: null
+  label: The row's number in the year's summary
+  unit: none
   type: integer
   values:
     distinct: 622
     lowest: 1
     highest: 622
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method doe_oe417_events.md
 - name: x_begin_date
-  label: null
-  unit: null
+  label: The day the event began, as printed, local time
+  unit: none
   type: date
   values:
     distinct: 1756
     earliest: '2016-01-04'
     latest: '2025-12-30'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method doe_oe417_events.md
 - name: x_begin_time
-  label: null
-  unit: null
+  label: The time the event began, as printed, local time (HH:MM)
+  unit: none
   type: text
   values:
     distinct: 1441
@@ -184,12 +192,12 @@ columns:
     - 00:03
     - 00:04
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method doe_oe417_events.md
 - name: x_restoration_date
-  label: null
-  unit: null
+  label: The day service was restored, or the words as printed (as Unknown)
+  unit: none
   type: text
   values:
     distinct: 1648
@@ -200,12 +208,12 @@ columns:
     - '2016-01-14'
     - '2016-01-17'
   missing_cells: 363
-  missing_meaning: null
+  missing_meaning: The summary's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: method doe_oe417_events.md
 - name: x_restoration_time
-  label: null
-  unit: null
+  label: The time service was restored, as printed, local time
+  unit: none
   type: text
   values:
     distinct: 1273
@@ -216,12 +224,12 @@ columns:
     - 00:02
     - 00:05
   missing_cells: 363
-  missing_meaning: null
+  missing_meaning: The summary's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: method doe_oe417_events.md
 - name: x_area_affected
-  label: null
-  unit: null
+  label: The area affected, as printed (counties, states or utilities' areas)
+  unit: none
   type: text
   values:
     distinct: 1366
@@ -232,12 +240,12 @@ columns:
     - Alabama, Georgia
     - 'Alabama:'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method doe_oe417_events.md; data
 - name: x_nerc_region
-  label: null
-  unit: null
+  label: 'The NERC reliability region, as printed (not merged: RF and RFC both kept)'
+  unit: none
   type: text
   values:
     distinct: 32
@@ -248,12 +256,12 @@ columns:
     - MRO / RF
     - MRO/RF
   missing_cells: 1058
-  missing_meaning: null
+  missing_meaning: 'The summary prints no region: every row of 2024 and 2025, 9 of 2023 and 1 of 2016'
   source_name: null
-  documented_by: null
+  documented_by: method doe_oe417_events.md
 - name: x_alert_criteria
-  label: null
-  unit: null
+  label: The form's alert criteria the report met, as printed
+  unit: none
   type: text
   values:
     distinct: 117
@@ -268,12 +276,12 @@ columns:
       Bulk Electric System control center for 30 continuous minutes or more. Complete loss of monitoring or control capability
       at its staffed Bulk Electric System control center for 30 continuous minutes or more.
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method doe_oe417_events.md
 - name: x_event_types
-  label: null
-  unit: null
+  label: Every event type the row lists, in order, lower case with underscores, joined by '; '
+  unit: none
   type: text
   values:
     distinct: 158
@@ -284,12 +292,12 @@ columns:
     - cyber_attack
     - cyber_event
   missing_cells: 36
-  missing_meaning: null
+  missing_meaning: The row lists no type but the form's comment box label (36 rows of 2024 and 2025)
   source_name: null
-  documented_by: null
+  documented_by: method doe_oe417_events.md
 - name: x_event_type_as_published
-  label: null
-  unit: null
+  label: The event type cell's words as printed
+  unit: none
   type: text
   values:
     distinct: 211
@@ -300,12 +308,12 @@ columns:
     - '- Failure at high voltage substation or switchyard - Weather or natural disaster'
     - '- Fuel supply emergency'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method doe_oe417_events.md
 - name: x_demand_loss_mw_as_published
-  label: null
-  unit: null
+  label: The demand lost in MW as printed (a number, Unknown or other words)
+  unit: none
   type: text
   values:
     distinct: 361
@@ -316,12 +324,12 @@ columns:
     - 1,000
     - 1,100
   missing_cells: 135
-  missing_meaning: null
+  missing_meaning: The summary's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: method doe_oe417_events.md
 - name: x_customers_affected_as_published
-  label: null
-  unit: null
+  label: The number of customers affected as printed
+  unit: none
   type: text
   values:
     distinct: 830
@@ -332,21 +340,21 @@ columns:
     - 1,300
     - 1,451
   missing_cells: 9
-  missing_meaning: null
+  missing_meaning: The summary's cell is empty
   source_name: null
-  documented_by: null
+  documented_by: method doe_oe417_events.md
 - name: x_customers_affected
-  label: null
-  unit: null
+  label: The number of customers affected, where printed as a plain number
+  unit: count
   type: integer
   values:
     distinct: 786
     lowest: 0
     highest: 50000000
   missing_cells: 853
-  missing_meaning: null
+  missing_meaning: Not printed as a plain number (Unknown, a range, words or empty)
   source_name: null
-  documented_by: null
+  documented_by: method doe_oe417_events.md
 - name: retrieved_at
   shared: true
   type: utc time
@@ -370,4 +378,5 @@ columns:
     list:
       '2026-10-08T14:56:58Z': 3313
   missing_cells: 0
+  particular: The workbooks' Last-Modified time, UTC
 second_look: null

@@ -5,9 +5,11 @@
 table: eia861_utility_reliability
 family: eia861
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One distribution utility's reliability index (SAIDI, SAIFI or CAIDI) or customers covered, under the IEEE 1366 standard
+  or its own other method, in one state, for one year, from Form EIA-861's reliability file.
+time: ts_utc is the data year's 1 January at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: 'A run merges the years it reads into the table on (entity, variable, ts_utc): a year read again replaces its
+  own rows, every other row is kept. vintage is not filled.'
 keys:
 - entity
 - variable
@@ -45,6 +47,7 @@ columns:
     - eia861_reliability:10009:TX
     - eia861_reliability:10019:KS
   missing_cells: 0
+  particular: eia861_reliability:<utility number>:<state>
 - name: variable
   shared: true
   type: text
@@ -105,12 +108,14 @@ columns:
     - US-AS
     - US-AZ
   missing_cells: 0
+  particular: US-<state>, territories included
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 90705
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -123,6 +128,7 @@ columns:
     - AEP Texas North Company
     - AES Indiana
   missing_cells: 0
+  particular: The utility's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -170,21 +176,22 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 90705
+  particular: 'Not filled: no cell holds a value'
 - name: x_utility_number
-  label: null
-  unit: null
+  label: EIA's utility identifier
+  unit: none
   type: integer
   values:
     distinct: 1215
     lowest: 84
     highest: 66101
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_utility_reliability.md
 - name: x_state
-  label: null
-  unit: null
+  label: The state or territory, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 55
@@ -195,12 +202,12 @@ columns:
     - AS
     - AZ
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_utility_reliability.md
 - name: x_ownership
-  label: null
-  unit: null
+  label: EIA's ownership class (Cooperative, Investor Owned, Municipal and others)
+  unit: none
   type: text
   values:
     list:
@@ -212,12 +219,12 @@ columns:
       Retail Power Marketer: 18
       State: 825
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Ownership
+  documented_by: method eia861_utility_reliability.md; connector eia861_reliability.py
 - name: x_ieee_auto_recorded
-  label: null
-  unit: null
+  label: Whether outages are recorded automatically for the IEEE figures, Y or N as EIA gives it (a few lower-case y)
+  unit: none
   type: text
   values:
     list:
@@ -225,24 +232,25 @@ columns:
       Y: 50570
       y: 27
   missing_cells: 18840
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA's cell is empty (no IEEE figures, mostly)
+  source_name: Outages Recorded Automatically
+  documented_by: method eia861_utility_reliability.md; connector eia861_reliability.py; data
 - name: x_ieee_highest_voltage_kv
-  label: null
-  unit: null
+  label: The highest distribution voltage the IEEE figures cover
+  unit: kV
   type: number
   values:
     distinct: 67
     lowest: 0.0
     highest: 138.0
   missing_cells: 19746
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA's cell is empty
+  source_name: Highest Dist. Voltage
+  documented_by: method eia861_utility_reliability.md; connector eia861_reliability.py
 - name: x_other_auto_recorded
-  label: null
-  unit: null
+  label: Whether outages are recorded automatically for the other-method figures, Y or N as EIA gives it (a few lower-case
+    y)
+  unit: none
   type: text
   values:
     list:
@@ -250,24 +258,24 @@ columns:
       Y: 8218
       y: 7
   missing_cells: 72322
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA's cell is empty (no other-method figures, mostly)
+  source_name: Outages Recorded Automatically
+  documented_by: method eia861_utility_reliability.md; connector eia861_reliability.py; data
 - name: x_other_highest_voltage_kv
-  label: null
-  unit: null
+  label: The highest distribution voltage the other-method figures cover
+  unit: kV
   type: number
   values:
     distinct: 51
     lowest: 0.1
     highest: 69.0
   missing_cells: 72552
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA's cell is empty
+  source_name: Highest Dist. Voltage
+  documented_by: method eia861_utility_reliability.md; connector eia861_reliability.py
 - name: x_other_inactive_included
-  label: null
-  unit: null
+  label: Whether inactive accounts are included under the other method, Y or N as EIA gives it
+  unit: none
   type: text
   values:
     list:
@@ -275,12 +283,13 @@ columns:
       Y: 2179
       y: 4
   missing_cells: 72307
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA's cell is empty
+  source_name: Inactive Accounts Included
+  documented_by: method eia861_utility_reliability.md; connector eia861_reliability.py
 - name: x_other_momentary
-  label: null
-  unit: null
+  label: EIA's code for whether momentary interruptions are counted under the other method (values 5, F, L, O, not explained
+    in the repository)
+  unit: none
   type: text
   values:
     list:
@@ -289,110 +298,114 @@ columns:
       L: 7974
       O: 2233
   missing_cells: 72171
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA's cell is empty
+  source_name: Momentary Interruptions
+  documented_by: method eia861_utility_reliability.md; connector eia861_reliability.py; data
 variables:
 - name: ieee_caidi_minus_los
-  label: null
+  label: CAIDI under IEEE 1366, major event days included, loss of supply removed, minutes per interruption (EIA's CAIDI Minus
+    MED of 2015 to 2020)
   unit: minute/interruption
   rows: 6187
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: ieee_caidi_with_med
-  label: null
+  label: 'CAIDI under IEEE 1366: minutes per interruption, all events (major event days included)'
   unit: minute/interruption
   rows: 7517
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: ieee_caidi_without_med
-  label: null
+  label: CAIDI under IEEE 1366, major event days left out, minutes per interruption
   unit: minute/interruption
   rows: 7131
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: ieee_customers
-  label: null
+  label: The customers the IEEE figures cover, count
   unit: count
   rows: 8062
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: ieee_saidi_minus_los
-  label: null
+  label: SAIDI under IEEE 1366, major event days included, interruptions from a loss of supply (upstream generation or transmission)
+    removed, minutes per customer
   unit: minute/customer
   rows: 6703
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: ieee_saidi_with_med
-  label: null
+  label: 'SAIDI under IEEE 1366: minutes of sustained interruption per customer in the year, all events (major event days
+    included)'
   unit: minute/customer
   rows: 7997
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: ieee_saidi_without_med
-  label: null
+  label: SAIDI under IEEE 1366, major event days left out, minutes per customer
   unit: minute/customer
   rows: 7659
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: ieee_saifi_minus_los
-  label: null
+  label: SAIFI under IEEE 1366, major event days included, loss of supply removed, interruptions per customer
   unit: interruption/customer
   rows: 6257
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: ieee_saifi_with_med
-  label: null
+  label: 'SAIFI under IEEE 1366: sustained interruptions per customer in the year, all events (major event days included)'
   unit: interruption/customer
   rows: 7522
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: ieee_saifi_without_med
-  label: null
+  label: SAIFI under IEEE 1366, major event days left out, interruptions per customer
   unit: interruption/customer
   rows: 7153
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_caidi_with_med
-  label: null
+  label: CAIDI by the utility's other method, all events, minutes per interruption
   unit: minute/interruption
   rows: 2760
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_caidi_without_med
-  label: null
+  label: CAIDI by the utility's other method, major event days left out, minutes per interruption
   unit: minute/interruption
   rows: 2080
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_customers
-  label: null
+  label: The customers the other-method figures cover, count
   unit: count
   rows: 3196
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_saidi_with_med
-  label: null
+  label: SAIDI by the utility's other method, all events, minutes per customer
   unit: minute/customer
   rows: 3119
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_saidi_without_med
-  label: null
+  label: SAIDI by the utility's other method, major event days left out, minutes per customer
   unit: minute/customer
   rows: 2442
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_saifi_with_med
-  label: null
+  label: SAIFI by the utility's other method, all events, interruptions per customer
   unit: interruption/customer
   rows: 2795
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_saifi_without_med
-  label: null
+  label: SAIFI by the utility's other method, major event days left out, interruptions per customer
   unit: interruption/customer
   rows: 2125
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
-second_look: null
+second_look:
+- 'x_other_momentary: the values 5, F, L and O are EIA''s codes; no document in the repository says what each means.'

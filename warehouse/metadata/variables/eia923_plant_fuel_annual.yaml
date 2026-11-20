@@ -5,9 +5,10 @@
 table: eia923_plant_fuel_annual
 family: eia923
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One power plant's net generation or fuel consumed for one fuel (or the plant's own total over fuels) in one year, 2001
+  to 2024, from Form EIA-923 through EIA's API.
+time: ts_utc is the year's 1 January at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run (write_snapshot) with the years it read; vintage is not filled.
 keys:
 - entity
 - variable
@@ -42,6 +43,8 @@ columns:
     - eia923:10002:PC:PC
     - eia923:10003:ALL:ALL
   missing_cells: 0
+  particular: eia923:<plantCode>:<fuel2002>:<fuelType>; eia923:<plantCode>:ALL:ALL is the plant's own total, to be left out
+    of a sum over fuels
 - name: variable
   shared: true
   type: text
@@ -113,12 +116,14 @@ columns:
     - US-AR
     - US-AZ
   missing_cells: 0
+  particular: US-<state>, or US where EIA gives no state
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 872492
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -131,6 +136,7 @@ columns:
     - ' DSM Pharmecueticals Inc: Natural Gas'
     - ' DSM Pharmecueticals Inc: Total'
   missing_cells: 0
+  particular: '<plant name>: <fuel type description>, not a pricing node'
 - name: source
   shared: true
   type: text
@@ -205,15 +211,17 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 872492
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: fuel_consumed
-  label: null
+  label: The fuel the plant consumed in the year, TBtu (EIA's total-consumption-btu in MMBtu times 0.000001)
   unit: TBtu
   rows: 436246
   first: '2001-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: net_generation
-  label: null
+  label: The plant's net generation from the fuel in the year, MWh (below zero where the plant used more than it made, as
+    pumped storage)
   unit: MWh
   rows: 436246
   first: '2001-01-01T00:00:00Z'

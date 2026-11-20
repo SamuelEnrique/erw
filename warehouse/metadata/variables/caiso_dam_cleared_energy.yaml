@@ -5,9 +5,11 @@
 table: caiso_dam_cleared_energy
 family: caiso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The ISO's total demand cleared in CAISO's day-ahead market for one hour.
+time: ts_utc is the hour's start in UTC.
+vintage_rule: Merged by (entity, variable, ts_utc); a half month of this month or the last is asked of CAISO again and replaces
+  the hours held, an earlier half is read from the raw file kept, and the table grows past the window CAISO keeps. vintage
+  is not filled.
 keys:
 - entity
 - variable
@@ -38,6 +40,7 @@ columns:
     list:
       caiso:system: 10640
   missing_cells: 0
+  particular: 'caiso:system in every row: the ISO''s total'
 - name: variable
   shared: true
   type: text
@@ -88,6 +91,7 @@ columns:
     list:
       caiso_dam: 10640
   missing_cells: 0
+  particular: 'caiso_dam in every row: CAISO''s day-ahead market'
 - name: node
   shared: true
   type: text
@@ -95,6 +99,7 @@ columns:
     list:
       ISO_TOT_LOAD_MW: 10640
   missing_cells: 0
+  particular: 'ISO_TOT_LOAD_MW in every row: the data item read, not a place'
 - name: source
   shared: true
   type: text
@@ -128,9 +133,11 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 10640
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: dam_cleared_energy
-  label: null
+  label: CAISO's ISO_TOT_LOAD_MW, the ISO's total MW cleared as demand in the day-ahead market for the hour, MW over the hour
+    (OASIS ENE_SLRS, Market Schedules)
   unit: MW
   rows: 10640
   first: '2025-09-01T00:00:00Z'

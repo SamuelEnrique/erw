@@ -5,9 +5,11 @@
 table: epa_ghg_inventory_annual
 family: epa
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One line of EPA's national greenhouse gas Inventory (1990 to 2022 edition) for one economic sector, or the nation, in
+  one year, from Chapter 2 Table 2-10, 2-11 or 2-12.
+time: ts_utc is 1 January of the year (UTC), naming the calendar year; freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot of one edition); vintage is the zip's Last-Modified time. No job runs
+  the connector.
 keys:
 - entity
 - variable
@@ -47,6 +49,8 @@ columns:
       epa_ghgi:u_s_territories: 132
       epa_ghgi:us: 99
   missing_cells: 0
+  particular: epa_ghgi:<sector> for the seven sectors of Table 2-10 (electric_power_industry, industry, transportation and
+    the others), or epa_ghgi:us for the three national lines
 - name: variable
   shared: true
   type: text
@@ -90,18 +94,21 @@ columns:
     list:
       US: 5016
   missing_cells: 0
+  particular: Always US
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5016
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 5016
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -130,9 +137,11 @@ columns:
     list:
       '2024-08-26T14:52:48Z': 5016
   missing_cells: 0
+  particular: The zip's Last-Modified time (2024-08-26)
 - name: x_table
-  label: null
-  unit: null
+  label: 'The Inventory''s Chapter 2 table the row comes from: 2-10 (by economic sector), 2-11 (electric power by gas) or
+    2-12 (sectors with electricity distributed)'
+  unit: none
   type: text
   values:
     list:
@@ -140,12 +149,12 @@ columns:
       2-11: 627
       2-12: 1782
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method epa_ghg_inventory_annual.md
 - name: x_sector
-  label: null
-  unit: null
+  label: The economic sector as EPA's table names it
+  unit: none
   type: text
   values:
     list:
@@ -157,12 +166,12 @@ columns:
       Transportation: 528
       U.S. Territories: 132
   missing_cells: 99
-  missing_meaning: null
+  missing_meaning: Empty on the three national lines (epa_ghgi:us)
   source_name: null
-  documented_by: null
+  documented_by: header; method epa_ghg_inventory_annual.md; data
 - name: x_group
-  label: null
-  unit: null
+  label: The gas (Table 2-11) or the basis, Direct Emissions or Electricity-Related (Table 2-12), the line sits under
+  unit: none
   type: text
   values:
     list:
@@ -174,12 +183,12 @@ columns:
       N2O: 99
       SF6: 66
   missing_cells: 2805
-  missing_meaning: null
+  missing_meaning: Empty in Table 2-10 and on the total lines of Tables 2-11 and 2-12
   source_name: null
-  documented_by: null
+  documented_by: method epa_ghg_inventory_annual.md; data
 - name: x_line
-  label: null
-  unit: null
+  label: The line's name as EPA prints it (a footnote letter sometimes kept, as Stationary Sourcesa)
+  unit: none
   type: text
   values:
     distinct: 75
@@ -190,518 +199,524 @@ columns:
     - Agriculture
     - Aluminum Production
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method epa_ghg_inventory_annual.md
 variables:
 - name: direct:abandoned_oil_and_gas_wells
-  label: null
+  label: The sector's direct emissions from abandoned oil and gas wells (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:abandoned_underground_coal_mines
-  label: null
+  label: The sector's direct emissions from abandoned underground coal mines (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:adipic_acid_production
-  label: null
+  label: The sector's direct emissions from adipic acid production (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:aluminum_production
-  label: null
+  label: The sector's direct emissions from aluminum production (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:ammonia_production
-  label: null
+  label: The sector's direct emissions from ammonia production (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:anaerobic_digestion_at_biogas_facilities
-  label: null
+  label: The sector's direct emissions from anaerobic digestion at biogas facilities (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:caprolactam_glyoxal_and_glyoxylic_acid_production
-  label: null
+  label: The sector's direct emissions from caprolactam, glyoxal and glyoxylic acid production (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:carbide_production_and_consumption
-  label: null
+  label: The sector's direct emissions from carbide production and consumption (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:carbon_dioxide_consumption
-  label: null
+  label: The sector's direct emissions from carbon dioxide consumption (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:cement_production
-  label: null
+  label: The sector's direct emissions from cement production (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:co2_from_fossil_fuel_combustion
-  label: null
+  label: The sector's CO2 from fossil fuel combustion (Table 2-10)
   unit: tCO2e
   rows: 231
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:coal_mining
-  label: null
+  label: The sector's direct emissions from coal mining (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:composting
-  label: null
+  label: The sector's direct emissions from composting (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:electrical_equipment
-  label: null
+  label: The sector's direct emissions from electrical equipment (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:electronics_industry
-  label: null
+  label: The sector's direct emissions from the electronics industry (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:enteric_fermentation
-  label: null
+  label: The sector's direct emissions from enteric fermentation (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:ferroalloy_production
-  label: null
+  label: The sector's direct emissions from ferroalloy production (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:field_burning_of_agricultural_residues
-  label: null
+  label: The sector's direct emissions from field burning of agricultural residues (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:fluorochemical_production
-  label: null
+  label: The sector's direct emissions from fluorochemical production (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:glass_production
-  label: null
+  label: The sector's direct emissions from glass production (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:incineration_of_waste
-  label: null
+  label: The sector's direct emissions from incineration of waste (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:iron_and_steel_production
-  label: null
+  label: The sector's direct emissions from iron and steel production (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:landfills_industrial
-  label: null
+  label: The sector's direct emissions from industrial landfills (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:landfills_municipal
-  label: null
+  label: The sector's direct emissions from municipal landfills (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:lead_production
-  label: null
+  label: The sector's direct emissions from lead production (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:lime_production
-  label: null
+  label: The sector's direct emissions from lime production (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:liming
-  label: null
+  label: The sector's direct emissions from liming (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:magnesium_production_and_processing
-  label: null
+  label: The sector's direct emissions from magnesium production and processing (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:manure_management
-  label: null
+  label: The sector's direct emissions from manure management (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:mobile_combustion
-  label: null
+  label: The sector's direct emissions from mobile combustion (Table 2-10)
   unit: tCO2e
   rows: 99
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:n2o_from_agricultural_soil_management
-  label: null
+  label: The sector's N2O from agricultural soil management (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:n2o_from_product_uses
-  label: null
+  label: The sector's N2O from product uses (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:natural_gas_systems
-  label: null
+  label: The sector's direct emissions from natural gas systems (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:nitric_acid_production
-  label: null
+  label: The sector's direct emissions from nitric acid production (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:non_energy_use_of_fuels
-  label: null
+  label: The sector's direct emissions from non-energy use of fuels (Table 2-10)
   unit: tCO2e
   rows: 99
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:other_process_uses_of_carbonates
-  label: null
+  label: The sector's direct emissions from other process uses of carbonates (Table 2-10)
   unit: tCO2e
   rows: 66
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:petrochemical_production
-  label: null
+  label: The sector's direct emissions from petrochemical production (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:petroleum_systems
-  label: null
+  label: The sector's direct emissions from petroleum systems (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:phosphoric_acid_production
-  label: null
+  label: The sector's direct emissions from phosphoric acid production (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:rice_cultivation
-  label: null
+  label: The sector's direct emissions from rice cultivation (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:sf6_and_pfcs_from_other_product_use
-  label: null
+  label: The sector's SF6 and PFCs from other product use (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:soda_ash_production
-  label: null
+  label: The sector's direct emissions from soda ash production (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:stationary_combustion
-  label: null
+  label: The sector's direct emissions from stationary combustion (Table 2-10)
   unit: tCO2e
   rows: 198
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:substitution_of_ozone_depleting_substances
-  label: null
+  label: The sector's direct emissions from substitution of ozone depleting substances (Table 2-10)
   unit: tCO2e
   rows: 132
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:titanium_dioxide_production
-  label: null
+  label: The sector's direct emissions from titanium dioxide production (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:total
-  label: null
+  label: The sector's total direct emissions (Table 2-10)
   unit: tCO2e
   rows: 231
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:urea_consumption_for_non_agricultural_purposes
-  label: null
+  label: The sector's direct emissions from urea consumption for non-agricultural purposes (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:urea_fertilization
-  label: null
+  label: The sector's direct emissions from urea fertilization (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:wastewater_treatment
-  label: null
+  label: The sector's direct emissions from wastewater treatment (Table 2-10)
   unit: tCO2e
   rows: 66
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: direct:zinc_production
-  label: null
+  label: The sector's direct emissions from zinc production (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: distributed:direct
-  label: null
+  label: The end-use sector's direct emissions (Table 2-12)
   unit: tCO2e
   rows: 165
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: distributed:direct:ch4
-  label: null
+  label: The end-use sector's direct CH4 (Table 2-12)
   unit: tCO2e
   rows: 165
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: distributed:direct:co2
-  label: null
+  label: The end-use sector's direct CO2 (Table 2-12)
   unit: tCO2e
   rows: 165
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: distributed:direct:hfcs
-  label: null
+  label: The end-use sector's direct HFCs (Table 2-12)
   unit: tCO2e
   rows: 66
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: distributed:direct:hfcs_pfcs_sf6_and_nf3
-  label: null
+  label: The end-use sector's direct HFCs, PFCs, SF6 and NF3 (Table 2-12)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: distributed:direct:n2o
-  label: null
+  label: The end-use sector's direct N2O (Table 2-12)
   unit: tCO2e
   rows: 165
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: distributed:direct:sf6
-  label: null
+  label: The end-use sector's direct line labelled SF6 (Table 2-12); on Residential it equals the substitution of ozone depleting
+    substances, as EPA labels it
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: distributed:electricity_related
-  label: null
+  label: The end-use sector's share of the electric power industry's emissions (Table 2-12)
   unit: tCO2e
   rows: 165
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: distributed:electricity_related:ch4
-  label: null
+  label: The end-use sector's electricity-related CH4 (Table 2-12)
   unit: tCO2e
   rows: 165
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: distributed:electricity_related:co2
-  label: null
+  label: The end-use sector's electricity-related CO2 (Table 2-12)
   unit: tCO2e
   rows: 165
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: distributed:electricity_related:n2o
-  label: null
+  label: The end-use sector's electricity-related N2O (Table 2-12)
   unit: tCO2e
   rows: 165
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: distributed:electricity_related:sf6
-  label: null
+  label: The end-use sector's electricity-related SF6 (Table 2-12)
   unit: tCO2e
   rows: 165
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: distributed:total
-  label: null
+  label: The end-use sector's total emissions with electricity-related emissions distributed to it (Table 2-12)
   unit: tCO2e
   rows: 165
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: lulucf_sector_net_total
-  label: null
+  label: The net total of land use, land-use change and forestry (LULUCF), negative as a net sink (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: net_emissions_sources_and_sinks
-  label: null
+  label: The nation's net emissions, sources less sinks (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:cf4
-  label: null
+  label: The electric power industry's CF4 (Table 2-11)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:cf4:electrical_equipment
-  label: null
+  label: The electric power industry's CF4 from electrical equipment (Table 2-11)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:ch4
-  label: null
+  label: The electric power industry's CH4 (methane) (Table 2-11)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:ch4:incineration_of_waste
-  label: null
+  label: The electric power industry's CH4 from incineration of waste (Table 2-11)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:ch4:stationary_sourcesa
-  label: null
+  label: The electric power industry's CH4 from stationary sources, only stationary combustion for electricity generation
+    (EPA's footnote a; the letter kept in the name)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:co2
-  label: null
+  label: The electric power industry's CO2 (Table 2-11)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:co2:coal
-  label: null
+  label: The electric power industry's CO2 from coal (Table 2-11)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:co2:fossil_fuel_combustion
-  label: null
+  label: The electric power industry's CO2 from fossil fuel combustion, a subtotal of the coal, natural gas, petroleum and
+    geothermal lines (Table 2-11)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:co2:geothermal
-  label: null
+  label: The electric power industry's CO2 from geothermal (Table 2-11)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:co2:incineration_of_waste
-  label: null
+  label: The electric power industry's CO2 from incineration of waste (Table 2-11)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:co2:natural_gas
-  label: null
+  label: The electric power industry's CO2 from natural gas (Table 2-11)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:co2:other_process_uses_of_carbonates
-  label: null
+  label: The electric power industry's CO2 from other process uses of carbonates (Table 2-11)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:co2:petroleum
-  label: null
+  label: The electric power industry's CO2 from petroleum (Table 2-11)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:n2o
-  label: null
+  label: The electric power industry's N2O (nitrous oxide) (Table 2-11)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:n2o:incineration_of_waste
-  label: null
+  label: The electric power industry's N2O from incineration of waste (Table 2-11)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:n2o:stationary_sourcesa
-  label: null
+  label: The electric power industry's N2O from stationary sources, only stationary combustion for electricity generation
+    (EPA's footnote a; the letter kept in the name)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:sf6
-  label: null
+  label: The electric power industry's SF6 (Table 2-11)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:sf6:electrical_equipment
-  label: null
+  label: The electric power industry's SF6 from electrical equipment (Table 2-11)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: power:total
-  label: null
+  label: The electric power industry's emissions, all gases (Table 2-11; equals its direct:total)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: total_gross_emissions_sources
-  label: null
+  label: The nation's gross emissions from all sources (Table 2-10)
   unit: tCO2e
   rows: 33
   first: '1990-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
-second_look: null
+second_look:
+- 'The global warming potentials behind tCO2e: the header says the Inventory''s tables do not name them, and nothing says
+  they match the GHGRP tables'' AR4 weights.'

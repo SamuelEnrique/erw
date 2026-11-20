@@ -5,9 +5,10 @@
 table: eia861m_utility_sales_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One sampled utility's retail sales, revenue or customers in one state and sector in one month, from Form EIA-861M.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; from 2017-01.
+vintage_rule: Rewritten whole as one snapshot by each run from EIA's yearly files; vintage is not filled; x_data_status marks
+  preliminary years.
 keys:
 - entity
 - variable
@@ -43,6 +44,7 @@ columns:
     - eia861m:10066:CO
     - eia861m:10071:HI
   missing_cells: 0
+  particular: eia861m:<EIA utility number>:<state>
 - name: variable
   shared: true
   type: text
@@ -93,12 +95,14 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
+  particular: US-<state>
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1051488
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -111,6 +115,7 @@ columns:
     - AGC Division of APG Inc
     - AGC Division of APGI Inc
   missing_cells: 0
+  particular: The utility's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -156,21 +161,22 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 1051488
+  particular: 'Not filled: no cell holds a value'
 - name: x_utility_number
-  label: null
-  unit: null
+  label: EIA's utility number
+  unit: none
   type: integer
   values:
     distinct: 369
     lowest: 84
     highest: 67121
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861m_utility_sales_monthly.md; connector eia861m_sales.py
 - name: x_state
-  label: null
-  unit: null
+  label: The state, two-letter code
+  unit: none
   type: text
   values:
     distinct: 52
@@ -181,12 +187,13 @@ columns:
     - AZ
     - CA
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861m_utility_sales_monthly.md; connector eia861m_sales.py
 - name: x_ownership
-  label: null
-  unit: null
+  label: EIA's ownership type of the utility (Investor Owned, Cooperative, Municipal, Federal, State, Political Subdivision,
+    Retail Power Marketer, Behind the Meter)
+  unit: none
   type: text
   values:
     list:
@@ -199,108 +206,108 @@ columns:
       Retail Power Marketer: 63
       State: 16421
   missing_cells: 2580
-  missing_meaning: null
+  missing_meaning: EIA leaves the ownership blank
   source_name: null
-  documented_by: null
+  documented_by: method eia861m_utility_sales_monthly.md; data
 - name: x_data_status
-  label: null
-  unit: null
+  label: 'EIA''s data status: Final or Preliminary'
+  unit: none
   type: text
   values:
     list:
       Final: 871327
       Preliminary: 180161
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861m_utility_sales_monthly.md
 variables:
 - name: commercial_customers
-  label: null
+  label: Commercial customers
   unit: count
   rows: 70152
   first: '2017-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: commercial_revenue
-  label: null
+  label: Revenue from commercial customers (EIA's thousand dollars times 1,000)
   unit: USD
   rows: 70147
   first: '2017-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: commercial_sales
-  label: null
+  label: Retail sales to commercial customers
   unit: MWh
   rows: 70148
   first: '2017-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: industrial_customers
-  label: null
+  label: Industrial customers
   unit: count
   rows: 70121
   first: '2017-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: industrial_revenue
-  label: null
+  label: Revenue from industrial customers (EIA's thousand dollars times 1,000)
   unit: USD
   rows: 70109
   first: '2017-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: industrial_sales
-  label: null
+  label: Retail sales to industrial customers
   unit: MWh
   rows: 70109
   first: '2017-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: residential_customers
-  label: null
+  label: Residential customers
   unit: count
   rows: 69916
   first: '2017-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: residential_revenue
-  label: null
+  label: Revenue from residential customers (EIA's thousand dollars times 1,000)
   unit: USD
   rows: 69905
   first: '2017-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: residential_sales
-  label: null
+  label: Retail sales to residential customers
   unit: MWh
   rows: 69908
   first: '2017-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: total_customers
-  label: null
+  label: Customers, all sectors
   unit: count
   rows: 70181
   first: '2017-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: total_revenue
-  label: null
+  label: Revenue, all sectors (EIA's thousand dollars times 1,000)
   unit: USD
   rows: 70181
   first: '2017-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: total_sales
-  label: null
+  label: Retail sales, all sectors
   unit: MWh
   rows: 70180
   first: '2017-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: transportation_customers
-  label: null
+  label: Transportation customers
   unit: count
   rows: 70143
   first: '2017-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: transportation_revenue
-  label: null
+  label: Revenue from transportation customers (EIA's thousand dollars times 1,000)
   unit: USD
   rows: 70145
   first: '2017-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: transportation_sales
-  label: null
+  label: Retail sales to transportation customers
   unit: MWh
   rows: 70143
   first: '2017-01-01T00:00:00Z'

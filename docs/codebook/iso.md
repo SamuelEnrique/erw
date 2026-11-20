@@ -2,12 +2,12 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 11 public tables (11 series; tiers: 5 derived, 6 source); 10 documented in full.
+**What the family holds.** 11 public tables (11 series; tiers: 5 derived, 6 source); 11 documented in full.
 
 - [`iso_curtailment_monthly`](#iso_curtailment_monthly): One month's wind or solar curtailment figure (in all, or by reason) or wind and solar output, or one part of the month's curtailment share, for CAISO or SPP.
 - [`iso_dam_hub_prices`](#iso_dam_hub_prices): The day-ahead price at one trading hub of CAISO, ERCOT, MISO or SPP for one hour.
 - [`iso_hub_prices_history`](#iso_hub_prices_history): The day-ahead or real-time price at the main hub of CAISO, MISO, NYISO, ISO-NE or SPP for one interval, a history from 2023-07-06 (CAISO) or 2024-09-01.
-- [`iso_hub_prices_history_2018`](#iso_hub_prices_history_2018): main-hub day-ahead and real-time prices from 2018-07-01 to 2023-07-05, before iso_hub_prices_history begins (session 7803, chain 401 part C, table 8), from hub_history.py's backfill; Energy Research Warehouse (ERW): main-hub day-ahead and real-time prices, history from 2018-07-01 (session 49 from 2025-09-01; session 64 the year before, from 2024-09-01): CAISO SP15 and NP15, MISO Indiana Hub, NYISO N.Y.C., ISO-NE .H.INTERNAL_HUB, SPP SPPNORTH_HUB
+- [`iso_hub_prices_history_2018`](#iso_hub_prices_history_2018): The day-ahead or real-time price at SPP's main hub (SPPNORTH_HUB) for one interval from 2018-07-01 to 2023-07-05, the years before iso_hub_prices_history begins.
 - [`iso_queue_snapshot_summary`](#iso_queue_snapshot_summary): One summary figure of CAISO's, ERCOT's or SPP's interconnection queue, either at the queue's snapshot by status and fuel group, or for one request year by grid.
 - [`iso_queue_statistics`](#iso_queue_statistics): One statistic of one ISO's interconnection queue for the positions that entered it in one year, all positions or one technology group.
 - [`iso_reserve_margin_reports`](#iso_reserve_margin_reports): One reserve margin figure printed in a grid operator's own resource adequacy assessment for a season or a year.
@@ -154,10 +154,12 @@ Variables (3):
 
 ### `iso_hub_prices_history_2018`
 
-What a row is: not yet written.
+The day-ahead or real-time price at SPP's main hub (SPPNORTH_HUB) for one interval from 2018-07-01 to 2023-07-05, the years before iso_hub_prices_history begins.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 219720.
 
+- **Time:** ts_utc is the start of the interval in UTC; day-ahead rows are hourly, real-time rows 15-minute means of 5-minute prices.
+- **Revisions:** Written once from hub_history.py's backfill under the data lock; the span is closed and the table is not in the daily run. A day is written only when every interval of every hub is there. vintage is not filled.
 - **Source:** spp:DA-LMP-SL Day-Ahead LMP by Settlement Location (https://portal.spp.org/pages/da-lmp-by-location)
 - **Source:** spp:RTBM-LMP-SL RTBM LMP by Settlement Location, 5-minute (https://portal.spp.org/pages/rtbm-lmp-by-location)
 - **Method note:** [`docs/methods/hub_prices_history_2018.md`](../methods/hub_prices_history_2018.md)
@@ -165,26 +167,26 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | spp:SPPNORTH_HUB | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: spp:SPPNORTH_HUB in every row: only SPP's hub is held | none | text | spp:SPPNORTH_HUB | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2018-07-01T05:00:00Z to 2023-07-06T04:45:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -215.3081 to 4556.3291; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | USD/MWh | 0 |
-| `freq` | How long the interval of the row is | none | text | PT15M, PT1H | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | spp_dam, spp_rtm | 0 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | SPPNORTH_HUB | 0 |
+| `freq` | How long the interval of the row is. Here: PT1H for the day-ahead rows, PT15M for the real-time rows | none | text | PT15M, PT1H | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: The same list of fourteen states in every row (SPP's footprint) | none | text | US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: spp_dam (day-ahead, hourly) or spp_rtm (real-time, 15-minute) | none | text | spp_dam, spp_rtm | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: SPPNORTH_HUB in every row | none | text | SPPNORTH_HUB | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | spp:DA-LMP-SL, spp:RTBM-LMP-SL | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2020/02/By_Day/RTBM-LMP-DAILY-SL-20200220.csv, https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2020/03/By_Day/RTBM-LMP-DAILY-SL-20200302.csv, https://portal.spp.org/pages/da-lmp-by-location, https://portal.spp.org/pages/rtbm-lmp-by-location | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-18T01:26:04Z to 2026-11-18T03:19:21Z; 2011 distinct | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 219720 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 219720 |
 
 Variables (2):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `lmp_dam` |  | USD/MWh | 43944 | 2018-07-01T05:00:00Z | 2023-07-06T04:00:00Z |
-| `lmp_rtm_15m_mean` |  | USD/MWh | 175776 | 2018-07-01T05:00:00Z | 2023-07-06T04:45:00Z |
+| `lmp_dam` | Day-ahead locational marginal price at the hub, hourly (SPP's Day-Ahead LMP by Settlement Location), USD/MWh | USD/MWh | 43944 | 2018-07-01T05:00:00Z | 2023-07-06T04:00:00Z |
+| `lmp_rtm_15m_mean` | Real-time locational marginal price at the hub, the mean of exactly three 5-minute prices of the quarter hour (SPP's RTBM LMP by Settlement Location), rounded to 4 decimals, USD/MWh | USD/MWh | 175776 | 2018-07-01T05:00:00Z | 2023-07-06T04:45:00Z |
 
 ### `iso_queue_snapshot_summary`
 

@@ -5,9 +5,10 @@
 table: ornl_npd_potential
 family: ornl
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One existing U.S. dam without power whose estimated hydropower potential is above 1 MW, from ORNL's 2012 national assessment
+  of non-powered dams.
+time: No time column; the data were created in April 2012; vintage is the workbook's last-modified time (UTC).
+vintage_rule: A snapshot of the one edition, replaced whole by each run.
 keys:
 - entity_id
 license: public
@@ -44,6 +45,7 @@ columns:
     - ornl_npd:AL01256
     - ornl_npd:AL01429
   missing_cells: 0
+  particular: ornl_npd:<National Inventory of Dams id>
 - name: entity_type
   shared: true
   type: text
@@ -51,6 +53,7 @@ columns:
     list:
       project: 597
   missing_cells: 0
+  particular: 'Always project: a potential site at a dam, not a plan'
 - name: name
   shared: true
   type: text
@@ -63,6 +66,7 @@ columns:
     - ADEL MILLDAM
     - ALAMO DAM
   missing_cells: 0
+  particular: The dam's name
 - name: geo
   shared: true
   type: text
@@ -75,6 +79,7 @@ columns:
     - US-CA
     - US-CO
   missing_cells: 36
+  particular: US-<state>; empty for a dam on a state border, whose pair (IL/KY) is in state
 - name: lat
   shared: true
   type: number
@@ -99,12 +104,14 @@ columns:
     lowest: 1.022157
     highest: 496.049783
   missing_cells: 0
+  particular: 'ORNL''s potential capacity: the potential annual energy over a regional capacity factor, an estimate'
 - name: status
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 597
+  particular: 'Not filled: a potential, not a plan'
 - name: status_date
   shared: true
   type: empty
@@ -123,6 +130,7 @@ columns:
     - Anderson Cottonwood Id
     - Arkansas College
   missing_cells: 22
+  particular: The dam's owner
 - name: source
   shared: true
   type: text
@@ -152,9 +160,10 @@ columns:
     list:
       '2024-08-29T14:41:15Z': 597
   missing_cells: 0
+  particular: The workbook's last-modified time, UTC
 - name: nid_id
-  label: null
-  unit: null
+  label: The dam's National Inventory of Dams identifier
+  unit: none
   type: text
   values:
     distinct: 597
@@ -165,12 +174,12 @@ columns:
     - AL01256
     - AL01429
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: nid_id1
+  documented_by: connector ornl_npd.py
 - name: state
-  label: null
-  unit: null
+  label: The dam's state, two-letter postal code, or a pair for a dam on a border (IL/KY)
+  unit: none
   type: text
   values:
     distinct: 56
@@ -181,12 +190,12 @@ columns:
     - AZ
     - AZ/CA
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: state
+  documented_by: header; connector ornl_npd.py
 - name: county
-  label: null
-  unit: null
+  label: The dam's county as ORNL writes it
+  unit: none
   type: text
   values:
     distinct: 376
@@ -197,12 +206,12 @@ columns:
     - ALLEGHENY
     - ANDERSON
   missing_cells: 4
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives no county
+  source_name: county
+  documented_by: connector ornl_npd.py
 - name: city
-  label: null
-  unit: null
+  label: The nearest city as ORNL writes it
+  unit: none
   type: text
   values:
     distinct: 462
@@ -213,12 +222,12 @@ columns:
     - AGUA CALIENTE
     - ALDER
   missing_cells: 45
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives no city
+  source_name: city
+  documented_by: connector ornl_npd.py
 - name: river
-  label: null
-  unit: null
+  label: The river the dam is on
+  unit: none
   type: text
   values:
     distinct: 402
@@ -229,36 +238,37 @@ columns:
     - APPLEGATE RIVER
     - ARKANSAS
   missing_cells: 5
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL gives no river
+  source_name: water
+  documented_by: connector ornl_npd.py
 - name: year_built
-  label: null
-  unit: null
+  label: The year the dam was built (0 for 21 dams, as ORNL writes it)
+  unit: none
   type: integer
   values:
     distinct: 120
     lowest: 0
     highest: 2006
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: btyear
+  documented_by: method ornl_hydropower.md; connector ornl_npd.py
 - name: storage_acre_ft
-  label: null
-  unit: null
+  label: The dam's storage, in acre-feet
+  unit: acre-ft
   type: integer
   values:
     distinct: 503
     lowest: 0
     highest: 11100000
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: stor
+  documented_by: header; connector ornl_npd.py
 - name: federal_regulator
-  label: null
-  unit: null
+  label: The dam's federal regulator as ORNL writes it (CE the Corps of Engineers, DOI BR the Bureau of Reclamation, FERC,
+    TVA and others)
+  unit: none
   type: text
   values:
     list:
@@ -274,24 +284,25 @@ columns:
       USDA FS,DOI BR: 1
       USDA FS; DOI BR: 3
   missing_cells: 321
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ORNL names no federal regulator
+  source_name: fedreg
+  documented_by: method ornl_hydropower.md; connector ornl_npd.py; data
 - name: head_ft
-  label: null
-  unit: null
+  label: The estimated head (the height the water would fall), in feet
+  unit: ft
   type: integer
   values:
     distinct: 142
     lowest: 4
     highest: 320
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: esth
+  documented_by: header; connector ornl_npd.py
 - name: head_source
-  label: null
-  unit: null
+  label: How the head was estimated (from the National Inventory of Dams, a lock's lift from USACE, pool elevations, Reclamation's
+    assessment)
+  unit: none
   type: text
   values:
     list:
@@ -300,12 +311,12 @@ columns:
       Head from Reclamation Resource Assessment: 3
       Lock/Dam lift from USACE: 87
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: esthfr
+  documented_by: connector ornl_npd.py; data
 - name: huc02
-  label: null
-  unit: null
+  label: The 2-digit hydrologic region of the dam
+  unit: none
   type: integer
   values:
     list:
@@ -328,36 +339,36 @@ columns:
       '8': 17
       '9': 7
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: huc02
+  documented_by: connector ornl_npd.py
 - name: flow_cfs
-  label: null
-  unit: null
+  label: The estimated annual mean flow, in cubic feet per second
+  unit: cfs
   type: number
   values:
     distinct: 595
     lowest: 38.445518
     highest: 276989.9288
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: qyr
+  documented_by: header; connector ornl_npd.py
 - name: potential_mwh_year
-  label: null
-  unit: null
+  label: The estimated potential annual energy
+  unit: MWh
   type: number
   values:
     distinct: 597
     lowest: 2200.334619
     highest: 2084906.651
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: mwhyr
+  documented_by: header; connector ornl_npd.py
 - name: capacity_factor_pct
-  label: null
-  unit: null
+  label: The regional capacity factor ORNL applies to turn the potential energy into capacity, percent
+  unit: pct
   type: number
   values:
     list:
@@ -380,19 +391,19 @@ columns:
       '55.990009': 61
       '66.299637': 22
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: cf
+  documented_by: header; connector ornl_npd.py
 - name: coordinates_from
-  label: null
-  unit: null
+  label: 'The source of the dam''s coordinates: NHD or NID (the National Inventory of Dams)'
+  unit: none
   type: text
   values:
     list:
       NHD: 518
       NID: 79
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: cordfrom
+  documented_by: connector ornl_npd.py; data
 second_look: null

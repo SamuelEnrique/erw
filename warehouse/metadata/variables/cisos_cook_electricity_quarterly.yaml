@@ -5,9 +5,10 @@
 table: cisos_cook_electricity_quarterly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One Cook Islands island's (or the whole country's) electricity generated, or renewable electricity generated, in one
+  quarter, from the Statistics Office's Energy Statistics tables.
+time: ts_utc is the quarter's first day at 00:00:00Z; freq P3M.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is not filled.
 keys:
 - entity
 - variable
@@ -38,6 +39,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: cisos:ck:<island>, or the country's total
 - name: variable
   shared: true
   type: text
@@ -74,18 +76,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's two-letter ISO 3166-1 code on every row, whatever the island
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 1049
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The island, not a pricing node
 - name: source
   shared: true
   type: text
@@ -110,25 +115,26 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 1049
+  particular: 'Not filled: no cell holds a value'
 - name: x_status
-  label: null
-  unit: null
+  label: p (provisional) or r (revised), as the quarter's label marks it
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 953
-  missing_meaning: null
+  missing_meaning: The quarter's label carries no mark
   source_name: null
-  documented_by: null
+  documented_by: header; connector cisos_cook_electricity.py
 variables:
 - name: generation
-  label: null
+  label: Electricity generated in the quarter (Table 1)
   unit: MWh
   rows: 556
   first: '2014-01-01T00:00:00Z'
   last: '2025-10-01T00:00:00Z'
 - name: renewable_generation
-  label: null
+  label: Renewable electricity generated in the quarter (Table 2), not to be added to generation
   unit: MWh
   rows: 493
   first: '2014-01-01T00:00:00Z'

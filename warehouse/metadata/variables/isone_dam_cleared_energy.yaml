@@ -5,9 +5,10 @@
 table: isone_dam_cleared_energy
 family: isone
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One hour's demand cleared in ISO-NE's day-ahead market, system-wide, as ISO-NE gives it (Day-Ahead Hourly Cleared Demand).
+time: ts_utc is the hour's start in UTC (ISO-NE gives Hour Ending, Eastern; 02X is the repeated autumn hour); freq PT1H.
+vintage_rule: Merged into the table held on (entity, variable, ts_utc), so it grows past the window the operator keeps; a
+  few recent days are asked each run. vintage is not filled.
 keys:
 - entity
 - variable
@@ -37,6 +38,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: isone:system, ISO-NE's system-wide figure
 - name: variable
   shared: true
   type: text
@@ -109,9 +111,10 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 1656
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: dam_cleared_energy
-  label: null
+  label: 'ISO-NE''s Day-Ahead Cleared Demand for the hour: the demand the day-ahead market cleared, MWh for the hour'
   unit: MWh
   rows: 1656
   first: '2026-09-01T04:00:00Z'

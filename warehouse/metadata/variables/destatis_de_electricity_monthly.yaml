@@ -5,9 +5,11 @@
 table: destatis_de_electricity_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's electricity or heat generation of Germany's general supply plants from one energy source (or in total), from
+  Destatis' monthly report.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; provisional figures.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s month replaces the same keys and older months are kept; vintage
+  is the page''s Last-Modified.'
 keys:
 - entity
 - variable
@@ -45,6 +47,7 @@ columns:
     - destatis:de:biogas
     - destatis:de:biomethan_bioerdgas
   missing_cells: 0
+  particular: destatis:de (Insgesamt, the total) or destatis:de:<energy source slug>
 - name: variable
   shared: true
   type: text
@@ -87,12 +90,14 @@ columns:
     list:
       DE: 123
   missing_cells: 0
+  particular: DE on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 123
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -105,6 +110,7 @@ columns:
     - Destatis general supply, Abfall (Hausmüll, Siedlungsabfälle), net heat generation
     - Destatis general supply, Abfall (Hausmüll, Siedlungsabfälle), net heat generation in CHP
   missing_cells: 0
+  particular: Destatis general supply, <label>, <measure>, not a pricing node
 - name: source
   shared: true
   type: text
@@ -134,9 +140,10 @@ columns:
     list:
       '2026-10-26T04:45:04Z': 123
   missing_cells: 0
+  particular: The page's Last-Modified (UTC)
 - name: x_label
-  label: null
-  unit: null
+  label: The page's label of the energy source, in German, as printed
+  unit: none
   type: text
   values:
     distinct: 27
@@ -147,12 +154,12 @@ columns:
     - Biomethan (Bioerdgas)
     - Braunkohlen insgesamt
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method destatis_de_electricity_monthly.md
 - name: x_cell
-  label: null
-  unit: null
+  label: The page's cell as printed ('-' is zero)
+  unit: none
   type: text
   values:
     distinct: 63
@@ -163,40 +170,40 @@ columns:
     - 1 241
     - 1 525 691
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method destatis_de_electricity_monthly.md
 variables:
 - name: gross_generation
-  label: null
+  label: Gross electricity generation of general supply plants in the month
   unit: MWh
   rows: 24
   first: '2026-07-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
   source_label: Abfall (Hausmüll, Siedlungsabfälle); Biogas; Insgesamt
 - name: net_generation
-  label: null
+  label: Net electricity generation of general supply plants in the month
   unit: MWh
   rows: 24
   first: '2026-07-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
   source_label: Abfall (Hausmüll, Siedlungsabfälle); Biogas; Insgesamt
 - name: net_generation_chp
-  label: null
+  label: Net electricity generation in combined heat and power in the month
   unit: MWh
   rows: 24
   first: '2026-07-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
   source_label: Abfall (Hausmüll, Siedlungsabfälle); Andere Mineralölprodukte; Insgesamt
 - name: net_heat_generation
-  label: null
+  label: Net heat generation in the month
   unit: MWh
   rows: 26
   first: '2026-07-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
   source_label: Abfall (Hausmüll, Siedlungsabfälle); Andere Mineralölprodukte; Insgesamt
 - name: net_heat_generation_chp
-  label: null
+  label: Net heat generation in combined heat and power in the month
   unit: MWh
   rows: 25
   first: '2026-07-01T00:00:00Z'

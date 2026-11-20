@@ -5,9 +5,11 @@
 table: iso_hub_prices_history_2018
 family: iso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The day-ahead or real-time price at SPP's main hub (SPPNORTH_HUB) for one interval from 2018-07-01 to 2023-07-05, the
+  years before iso_hub_prices_history begins.
+time: ts_utc is the start of the interval in UTC; day-ahead rows are hourly, real-time rows 15-minute means of 5-minute prices.
+vintage_rule: Written once from hub_history.py's backfill under the data lock; the span is closed and the table is not in
+  the daily run. A day is written only when every interval of every hub is there. vintage is not filled.
 keys:
 - entity
 - variable
@@ -42,6 +44,7 @@ columns:
     list:
       spp:SPPNORTH_HUB: 219720
   missing_cells: 0
+  particular: 'spp:SPPNORTH_HUB in every row: only SPP''s hub is held'
 - name: variable
   shared: true
   type: text
@@ -79,6 +82,7 @@ columns:
       PT15M: 175776
       PT1H: 43944
   missing_cells: 0
+  particular: PT1H for the day-ahead rows, PT15M for the real-time rows
 - name: geo
   shared: true
   type: text
@@ -86,6 +90,7 @@ columns:
     list:
       US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY: 219720
   missing_cells: 0
+  particular: The same list of fourteen states in every row (SPP's footprint)
 - name: market
   shared: true
   type: text
@@ -94,6 +99,7 @@ columns:
       spp_dam: 43944
       spp_rtm: 175776
   missing_cells: 0
+  particular: spp_dam (day-ahead, hourly) or spp_rtm (real-time, 15-minute)
 - name: node
   shared: true
   type: text
@@ -101,6 +107,7 @@ columns:
     list:
       SPPNORTH_HUB: 219720
   missing_cells: 0
+  particular: SPPNORTH_HUB in every row
 - name: source
   shared: true
   type: text
@@ -133,15 +140,17 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 219720
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: lmp_dam
-  label: null
+  label: Day-ahead locational marginal price at the hub, hourly (SPP's Day-Ahead LMP by Settlement Location), USD/MWh
   unit: USD/MWh
   rows: 43944
   first: '2018-07-01T05:00:00Z'
   last: '2023-07-06T04:00:00Z'
 - name: lmp_rtm_15m_mean
-  label: null
+  label: Real-time locational marginal price at the hub, the mean of exactly three 5-minute prices of the quarter hour (SPP's
+    RTBM LMP by Settlement Location), rounded to 4 decimals, USD/MWh
   unit: USD/MWh
   rows: 175776
   first: '2018-07-01T05:00:00Z'

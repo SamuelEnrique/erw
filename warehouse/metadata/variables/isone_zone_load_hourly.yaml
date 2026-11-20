@@ -5,9 +5,12 @@
 table: isone_zone_load_hourly
 family: isone
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One hour's real-time demand of one ISO-NE load zone, or of the control area as a whole, from ISO-NE's SMD Hourly Data
+  workbook (column RT_Demand).
+time: ts_utc is the hour's start in UTC (ISO-NE's Hr_End is the hour ending, Eastern; 02X is the repeated autumn hour); freq
+  PT1H.
+vintage_rule: Merged into the table held on (entity, variable, ts_utc); the current year's workbook is read again as ISO-NE
+  extends it. vintage is not filled.
 keys:
 - entity
 - variable
@@ -39,6 +42,8 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The load zone under the names of isone_dam_zone_prices and isone_rtm_zone_prices; isone:system is ISO-NE's own
+    control-area sheet, never a sum made here
 - name: variable
   shared: true
   type: text
@@ -87,6 +92,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The workbook sheet's name for the zone
 - name: source
   shared: true
   type: text
@@ -111,9 +117,10 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 137799
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: load
-  label: null
+  label: ISO-NE's real-time demand for the zone (or control area) and hour (RT_Demand), MW over the hour
   unit: MW
   rows: 137799
   first: '2025-01-01T05:00:00Z'

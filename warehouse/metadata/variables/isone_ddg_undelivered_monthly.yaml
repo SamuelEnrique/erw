@@ -5,9 +5,11 @@
 table: isone_ddg_undelivered_monthly
 family: isone
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's delivered or estimated undelivered energy (or a share of it) of the wind or solar plants ISO-NE dispatches
+  by a limit (DDG, Do Not Exceed Dispatchable Generators), the whole system.
+time: ts_utc is the first of the month at 00:00:00Z; freq P1M.
+vintage_rule: Rebuilt from the kept workbooks by each write and merged on (entity, variable, ts_utc); a workbook already kept
+  is not asked for again. vintage is not filled.
 keys:
 - entity
 - variable
@@ -40,6 +42,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: isone:system, the sheet "<YYYY> System" of ISO-NE's yearly workbook (its own aggregate of the DDG plants)
 - name: variable
   shared: true
   type: text
@@ -82,12 +85,14 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 840
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 840
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -112,87 +117,93 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 840
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: solar_delivered_mwh
-  label: null
+  label: 'Delivered energy of ISO-NE''s dispatchable solar plants: the energy generated (ISO-NE''s DE)'
   unit: MWh
   rows: 15
   first: '2025-07-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: solar_undelivered_binding_mwh
-  label: null
+  label: Estimated undelivered solar energy while the plant was sensitive to one or more binding transmission constraints
+    (UE-Bind)
   unit: MWh
   rows: 15
   first: '2025-07-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: solar_undelivered_binding_pct
-  label: null
+  label: 'ISO-NE''s percent UE-Bind for solar: binding undelivered over undelivered plus delivered, times 100'
   unit: pct
   rows: 15
   first: '2025-07-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: solar_undelivered_mwh
-  label: null
+  label: 'ISO-NE''s estimated undelivered energy of its dispatchable solar plants: the sum of the binding and non-binding
+    parts (UE)'
   unit: MWh
   rows: 15
   first: '2025-07-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: solar_undelivered_nonbinding_mwh
-  label: null
+  label: Estimated undelivered solar energy while the plant had no sensitivity to a binding transmission constraint, generally
+    caused by its own supply offer (UE-NonBind)
   unit: MWh
   rows: 15
   first: '2025-07-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: solar_undelivered_nonbinding_pct
-  label: null
+  label: 'ISO-NE''s percent UE-NonBind for solar: non-binding undelivered over undelivered plus delivered, times 100'
   unit: pct
   rows: 15
   first: '2025-07-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: solar_undelivered_pct
-  label: null
+  label: 'ISO-NE''s percent UE for solar: undelivered over undelivered plus delivered, times 100'
   unit: pct
   rows: 15
   first: '2025-07-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: wind_delivered_mwh
-  label: null
+  label: 'Delivered energy of ISO-NE''s dispatchable wind plants: the energy generated (ISO-NE''s DE)'
   unit: MWh
   rows: 105
   first: '2018-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: wind_undelivered_binding_mwh
-  label: null
+  label: Estimated undelivered wind energy while the plant was sensitive to one or more binding transmission constraints (UE-Bind)
   unit: MWh
   rows: 105
   first: '2018-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: wind_undelivered_binding_pct
-  label: null
+  label: 'ISO-NE''s percent UE-Bind for wind: binding undelivered over undelivered plus delivered, times 100'
   unit: pct
   rows: 105
   first: '2018-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: wind_undelivered_mwh
-  label: null
+  label: 'ISO-NE''s estimated undelivered energy of its dispatchable wind plants: the sum of the binding and non-binding parts
+    (UE)'
   unit: MWh
   rows: 105
   first: '2018-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: wind_undelivered_nonbinding_mwh
-  label: null
+  label: Estimated undelivered wind energy while the plant had no sensitivity to a binding transmission constraint, generally
+    caused by its own supply offer (UE-NonBind)
   unit: MWh
   rows: 105
   first: '2018-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: wind_undelivered_nonbinding_pct
-  label: null
+  label: 'ISO-NE''s percent UE-NonBind for wind: non-binding undelivered over undelivered plus delivered, times 100'
   unit: pct
   rows: 105
   first: '2018-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: wind_undelivered_pct
-  label: null
+  label: 'ISO-NE''s percent UE for wind: undelivered over undelivered plus delivered, times 100'
   unit: pct
   rows: 105
   first: '2018-01-01T00:00:00Z'

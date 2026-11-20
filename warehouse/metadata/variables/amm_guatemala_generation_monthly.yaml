@@ -5,9 +5,11 @@
 table: amm_guatemala_generation_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's value of one measure of Guatemala's national interconnected system (generation by resource, imports, exports,
+  net exports or demand), from AMM's executed dispatch workbooks.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M.
+vintage_rule: 'Merged by (entity, variable, ts_utc) (ip.write_csv): a run replaces the rows it reads again and keeps rows
+  from earlier runs; vintage is each workbook''s Last-Modified time.'
 keys:
 - entity
 - variable
@@ -41,6 +43,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: One entity, the country's whole system
 - name: variable
   shared: true
   type: text
@@ -77,18 +80,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 1739
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: AMM's label of the row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -113,105 +119,108 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The workbook's Last-Modified time as the server sent it
 variables:
 - name: demand_sni
-  label: null
+  label: 'Demand of the national interconnected system (AMM''s DEMANDA S.N.I.): generation plus imports less exports, so the
+    system''s losses are inside it'
   unit: MWh
   rows: 108
   first: '2017-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: exports
-  label: null
+  label: Electricity exported
   unit: MWh
   rows: 108
   first: '2017-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: generation_biogas
-  label: null
+  label: Generation from biogas
   unit: MWh
   rows: 108
   first: '2017-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: generation_biomass
-  label: null
+  label: Generation from biomass
   unit: MWh
   rows: 108
   first: '2017-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: generation_bunker
-  label: null
+  label: Generation from bunker fuel (AMM's resource type)
   unit: MWh
   rows: 108
   first: '2017-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: generation_coal
-  label: null
+  label: Generation from coal
   unit: MWh
   rows: 108
   first: '2017-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: generation_diesel
-  label: null
+  label: Generation from diesel
   unit: MWh
   rows: 108
   first: '2017-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: generation_geothermal
-  label: null
+  label: Generation from geothermal
   unit: MWh
   rows: 108
   first: '2017-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: generation_hydro
-  label: null
+  label: Generation from hydro
   unit: MWh
   rows: 108
   first: '2017-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: generation_natural_gas
-  label: null
+  label: Generation from natural gas
   unit: MWh
   rows: 78
   first: '2019-07-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: generation_petcoke
-  label: null
+  label: Generation from petroleum coke
   unit: MWh
   rows: 89
   first: '2018-08-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: generation_solar
-  label: null
+  label: Generation from solar
   unit: MWh
   rows: 108
   first: '2017-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: generation_syngas
-  label: null
+  label: Generation from syngas (synthesis gas)
   unit: MWh
   rows: 60
   first: '2021-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: generation_total
-  label: null
+  label: Total generation of the system (AMM's GENERACION TOTAL), distributed renewable generation included; the resources
+    add to it
   unit: MWh
   rows: 108
   first: '2017-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: generation_wind
-  label: null
+  label: Generation from wind
   unit: MWh
   rows: 108
   first: '2017-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Electricity imported
   unit: MWh
   rows: 108
   first: '2017-01-01T00:00:00Z'
   last: '2025-12-01T00:00:00Z'
 - name: net_exports
-  label: null
+  label: 'Net exports: exports less imports (AMM''s TRANSACCIONES INTERNACIONALES (NETO))'
   unit: MWh
   rows: 108
   first: '2017-01-01T00:00:00Z'

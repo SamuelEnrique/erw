@@ -5,9 +5,11 @@
 table: dbedt_hawaii_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: 'One year''s value of one measure of Hawaii''s electricity: generation by island and source (table 17.07), customers
+  and sales by island (17.10), or Hawaiian Electric''s figures on Oahu (17.13), from DBEDT''s State of Hawaii Data Book.'
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is the workbook's Last-Modified time.
+  Each year's Data Book has its own address.
 keys:
 - entity
 - variable
@@ -39,6 +41,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: dbedt:hi:<island>:<source> (17.07), dbedt:hi:<island> (17.10) or the Oahu utility's entity (17.13)
 - name: variable
   shared: true
   type: text
@@ -75,18 +78,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: Hawaii's ISO 3166-2 code on every row, whatever the island
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 268
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: DBEDT's label of the row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -111,67 +117,68 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The workbook's Last-Modified time as the server sent it
 - name: x_table
-  label: null
-  unit: null
+  label: The Data Book table the row is read from
+  unit: none
   type: number
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector dbedt_hawaii_electricity.py; method dbedt_hawaii_electricity_annual.md
 variables:
 - name: customers
-  label: null
+  label: Hawaiian Electric's customers on Oahu (table 17.13)
   unit: count
   rows: 32
   first: '1994-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: generating_capability
-  label: null
+  label: Hawaiian Electric's generating capability on Oahu (table 17.13)
   unit: MW
   rows: 32
   first: '1994-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: generation
-  label: null
+  label: Electricity generated on the island from the source (table 17.07, EIA-923 with DBEDT's calculations)
   unit: MWh
   rows: 80
   first: '2024-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: net_input
-  label: null
+  label: 'Hawaiian Electric''s net input on Oahu: net generation plus purchases (table 17.13)'
   unit: MWh
   rows: 32
   first: '1994-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_customers
-  label: null
+  label: Customers of other use than residential (table 17.10)
   unit: count
   rows: 7
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_sales
-  label: null
+  label: Electricity sales for other use than residential (table 17.10)
   unit: MWh
   rows: 7
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: residential_customers
-  label: null
+  label: Residential customers (17.10 by island; 17.13 Hawaiian Electric on Oahu)
   unit: count
   rows: 39
   first: '1994-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: residential_sales
-  label: null
+  label: Residential electricity sales (table 17.10)
   unit: MWh
   rows: 7
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: sales
-  label: null
+  label: Hawaiian Electric's electricity sales on Oahu (table 17.13)
   unit: MWh
   rows: 32
   first: '1994-01-01T00:00:00Z'

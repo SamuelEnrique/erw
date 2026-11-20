@@ -5,9 +5,11 @@
 table: epa_ghgrp_facility_emissions
 family: epa
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One reporting facility's (or, for transmission pipelines and gas distribution companies, one facility-state's) total
+  reported greenhouse gas emissions in one segment of EPA's GHGRP data summary in one year, 2015 to 2023.
+time: ts_utc is the reporting year's 1 January (UTC), naming the year; freq P1Y.
+vintage_rule: Merged by (entity, variable, ts_utc), keeping a run's rows; earlier rows a run does not restate are kept, so
+  a facility EPA drops stays. vintage is the zip's Last-Modified time.
 keys:
 - entity
 - variable
@@ -45,6 +47,8 @@ columns:
     - ghgrp:1000004
     - ghgrp:1000005
   missing_cells: 0
+  particular: ghgrp:<facility id>, or ghgrp:<facility id>:<state> for transmission pipelines and local distribution companies,
+    a row a state where the emissions occur
 - name: variable
   shared: true
   type: text
@@ -100,12 +104,14 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
+  particular: 'US-<state>: the state where the emissions occur where the sheet gives it, else the facility''s state'
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 70338
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -118,6 +124,7 @@ columns:
     - 121 REGIONAL DISPOSAL FACILITY
     - 15-18565/15-18662
   missing_cells: 0
+  particular: The facility's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -146,9 +153,11 @@ columns:
     list:
       '2024-10-15T14:42:16Z': 70338
   missing_cells: 0
+  particular: The summary zip's Last-Modified time (2024-10-15)
 - name: x_segment
-  label: null
-  unit: null
+  label: 'The sheet (segment) of EPA''s data summary the row comes from: Direct Point Emitters, Onshore Oil & Gas Prod., Gathering
+    & Boosting, Transmission Pipelines, LDC - Direct Emissions (local gas distribution companies), SF6 from Elec. Equip.'
+  unit: none
   type: text
   values:
     list:
@@ -159,36 +168,36 @@ columns:
       SF6 from Elec. Equip.: 806
       Transmission Pipelines: 1285
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector ghgrp_facilities.py; method epa_ghgrp_facility_emissions.md
 - name: x_frs_id
-  label: null
-  unit: null
+  label: The facility's id in EPA's Facility Registry Service (FRS), which joins it to other EPA tables
+  unit: none
   type: integer
   values:
     distinct: more than 5000
     lowest: 110000307864
     highest: 110071704324
   missing_cells: 6526
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA gives no FRS id
+  source_name: FRS Id
+  documented_by: connector ghgrp_facilities.py; connector epa_tri_energy.py; method epa_ghgrp_facility_emissions.md
 - name: x_naics
-  label: null
-  unit: null
+  label: The facility's primary NAICS (industry classification) code
+  unit: none
   type: integer
   values:
     distinct: 279
     lowest: 111419
     highest: 928110
   missing_cells: 18
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA gives no code
+  source_name: Primary NAICS Code
+  documented_by: connector ghgrp_facilities.py; method epa_ghgrp_facility_emissions.md
 - name: x_subparts
-  label: null
-  unit: null
+  label: The facility's latest reported industry type, as the GHGRP subpart letters it reports under
+  unit: none
   type: text
   values:
     distinct: 165
@@ -199,12 +208,12 @@ columns:
     - AA,C,PP
     - AA,C,PP,TT
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Latest Reported Industry Type (subparts)
+  documented_by: connector ghgrp_facilities.py
 - name: x_sectors
-  label: null
-  unit: null
+  label: The facility's latest reported industry type by sector (Power Plants, Chemicals and the others)
+  unit: none
   type: text
   values:
     distinct: 71
@@ -215,12 +224,12 @@ columns:
     - Chemicals,Industrial Gas Suppliers,Minerals
     - Chemicals,Industrial Gas Suppliers,Waste
   missing_cells: 10805
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The segment's sheet gives no sectors (every segment but direct emitters)
+  source_name: Latest Reported Industry Type (sectors)
+  documented_by: connector ghgrp_facilities.py; method epa_ghgrp_facility_emissions.md
 - name: x_basin
-  label: null
-  unit: null
+  label: The oil and gas basin, code and name as EPA writes it
+  unit: none
   type: text
   values:
     distinct: 44
@@ -231,12 +240,12 @@ columns:
     - 200 - Black Warrior Basin
     - 210 - Mid-Gulf Coast Basin
   missing_cells: 63123
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not an onshore production or gathering and boosting row
+  source_name: Basin
+  documented_by: connector ghgrp_facilities.py; method epa_ghgrp_facility_emissions.md
 - name: x_county
-  label: null
-  unit: null
+  label: The facility's county as EPA writes it
+  unit: none
   type: text
   values:
     distinct: 2106
@@ -247,12 +256,12 @@ columns:
     - ADA COUNTY
     - ADAMS
   missing_cells: 6800
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA gives no county
+  source_name: County (or Reported County)
+  documented_by: connector ghgrp_facilities.py; method epa_ghgrp_facility_emissions.md
 - name: x_emission_state
-  label: null
-  unit: null
+  label: The state where the emissions occur, two-letter code (pipelines and distribution companies, listed a row a state)
+  unit: none
   type: text
   values:
     distinct: 49
@@ -263,42 +272,42 @@ columns:
     - CA
     - CO
   missing_cells: 67555
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not a transmission pipeline or distribution company row, or EPA names no such state (one row)
+  source_name: State where Emissions Occur
+  documented_by: header; connector ghgrp_facilities.py; method epa_ghgrp_facility_emissions.md
 variables:
 - name: emissions_direct
-  label: null
+  label: Total reported direct emissions of a direct point emitter, in CO2 equivalent (AR4 weights)
   unit: tCO2e
   rows: 59533
   first: '2015-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: emissions_gathering_boosting
-  label: null
+  label: Total reported emissions of a gathering and boosting facility, in CO2 equivalent
   unit: tCO2e
   rows: 2786
   first: '2016-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: emissions_ldc
-  label: null
+  label: Total reported direct emissions of a local gas distribution company in one state, in CO2 equivalent
   unit: tCO2e
   rows: 1499
   first: '2015-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: emissions_onshore_production
-  label: null
+  label: Total reported emissions of an onshore oil and gas production facility, in CO2 equivalent
   unit: tCO2e
   rows: 4429
   first: '2015-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: emissions_sf6_equipment
-  label: null
+  label: Total reported SF6 emissions from electrical transmission equipment, in CO2 equivalent
   unit: tCO2e
   rows: 806
   first: '2015-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: emissions_transmission_pipelines
-  label: null
+  label: Total reported emissions of a natural gas transmission pipeline in one state, in CO2 equivalent
   unit: tCO2e
   rows: 1285
   first: '2016-01-01T00:00:00Z'

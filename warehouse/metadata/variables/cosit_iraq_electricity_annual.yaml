@@ -5,9 +5,10 @@
 table: cosit_iraq_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's value of one item of Iraq's electricity (production by plant type, purchases, the total supply, sales or losses),
+  from COSIT's electricity projects statistics.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is the workbook's Last-Modified time.
 keys:
 - entity
 - variable
@@ -38,6 +39,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: cosit:iq:<item>
 - name: variable
   shared: true
   type: text
@@ -74,18 +76,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 56
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The row's English label, not a pricing node
 - name: source
   shared: true
   type: text
@@ -110,33 +115,34 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The workbook's Last-Modified time as the server sent it
 variables:
 - name: generation
-  label: null
+  label: Electricity produced by the Ministry of Electricity's plants of the type
   unit: MWh
   rows: 20
   first: '2021-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: losses
-  label: null
+  label: Electricity lost
   unit: MWh
   rows: 16
   first: '2021-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: purchases
-  label: null
+  label: Electricity purchased (imports and investment, the Kurdistan Region)
   unit: MWh
   rows: 12
   first: '2021-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: sales
-  label: null
+  label: Electricity sold
   unit: MWh
   rows: 4
   first: '2021-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: supply
-  label: null
+  label: 'Total electricity available: generation plus purchases'
   unit: MWh
   rows: 4
   first: '2021-01-01T00:00:00Z'

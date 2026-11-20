@@ -5,9 +5,10 @@
 table: elexon_gb_demand_daily
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Great Britain's Initial National Demand Outturn summed over one settlement day, from Elexon's BMRS.
+time: ts_utc is the settlement day at 00:00:00Z (Decision 11), the day being Great Britain's own (Europe/London); freq P1D.
+vintage_rule: 'Merged by (entity, variable, ts_utc): each run''s days replace the same days and older ones are kept; vintage
+  is not filled (x_publish_time holds Elexon''s publication time).'
 keys:
 - entity
 - variable
@@ -38,6 +39,7 @@ columns:
     list:
       elexon:GB: 1932
   missing_cells: 0
+  particular: elexon:GB on every row
 - name: variable
   shared: true
   type: text
@@ -81,12 +83,14 @@ columns:
     list:
       GB: 1932
   missing_cells: 0
+  particular: GB on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1932
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -94,6 +98,7 @@ columns:
     list:
       Great Britain: 1932
   missing_cells: 0
+  particular: Great Britain on every row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -130,33 +135,35 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 1932
+  particular: 'Not filled: no cell holds a value'
 - name: x_settlement_date
-  label: null
-  unit: null
+  label: The settlement day as Elexon gives it
+  unit: none
   type: date
   values:
     distinct: 1932
     earliest: '2021-04-27'
     latest: '2026-10-23'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector elexon_demand.py; method elexon_gb_demand_daily.md
 - name: x_publish_time
-  label: null
-  unit: null
+  label: Elexon's publication time of the day's figure, UTC
+  unit: none
   type: utc time
   values:
     distinct: 1932
     earliest: '2021-04-27T23:15:00Z'
     latest: '2026-10-23T23:15:00Z'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: PublishTime
+  documented_by: connector elexon_demand.py; method elexon_gb_demand_daily.md
 variables:
 - name: indo_daily
-  label: null
+  label: Initial national demand outturn (INDO) summed over the day's half hours, excluding station transformer, pumping and
+    interconnector export demand
   unit: MWh
   rows: 1932
   first: '2021-04-27T00:00:00Z'

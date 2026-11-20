@@ -5,9 +5,11 @@
 table: epa_ghgrp_power_co2
 family: epa
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One power plant's (a GHGRP facility reporting under subpart D, electricity generation) reported CO2 of one kind in one
+  reporting year, 2010 to 2023.
+time: ts_utc is the reporting year's 1 January (UTC), naming the year; freq P1Y.
+vintage_rule: Rewritten whole by each run from the newest summary zip, so EPA's revisions replace earlier figures; vintage
+  is not filled.
 keys:
 - entity
 - variable
@@ -42,6 +44,7 @@ columns:
     - ghgrp:1000051
     - ghgrp:1000052
   missing_cells: 0
+  particular: ghgrp:<GHGRP facility id>
 - name: variable
   shared: true
   type: text
@@ -102,12 +105,14 @@ columns:
     - US-CA
     - US-CO
   missing_cells: 0
+  particular: US-<state> of the facility
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 17035
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -120,6 +125,7 @@ columns:
     - A B Paterson
     - AES Alamitos
   missing_cells: 0
+  particular: The facility's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -147,21 +153,22 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 17035
+  particular: 'Not filled: no cell holds a value'
 - name: x_frs_id
-  label: null
-  unit: null
+  label: The facility's id in EPA's Facility Registry Service (FRS)
+  unit: none
   type: integer
   values:
     distinct: 1790
     lowest: 110000308444
     highest: 110071542884
   missing_cells: 72
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA gives no FRS id
+  source_name: FRS Id
+  documented_by: connector ghgrp_power.py; method epa_ghgrp_power_co2.md
 - name: x_oris
-  label: null
-  unit: null
+  label: The plant's ORIS codes from EPA's GHGRP-to-ORIS power plant crosswalk, joined with ';'
+  unit: none
   type: text
   values:
     distinct: 1418
@@ -172,12 +179,12 @@ columns:
     - '10034'
     - '1004'
   missing_cells: 49
-  missing_meaning: null
+  missing_meaning: The facility has no ORIS code in EPA's crosswalk (21 facilities)
   source_name: null
-  documented_by: null
+  documented_by: header; connector ghgrp_power.py; method epa_ghgrp_power_co2.md
 - name: x_subparts
-  label: null
-  unit: null
+  label: The facility's industry type that year, as the GHGRP subpart letters it reported under (D is electricity generation)
+  unit: none
   type: text
   values:
     distinct: 35
@@ -188,24 +195,24 @@ columns:
     - C,D,DD,MM-REF,Y
     - C,D,DD,X
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Industry Type (subparts)
+  documented_by: connector ghgrp_power.py; method epa_ghgrp_power_co2.md
 - name: x_naics
-  label: null
-  unit: null
+  label: The facility's primary NAICS (industry classification) code
+  unit: none
   type: integer
   values:
     distinct: 33
     lowest: 211112
     highest: 926130
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Primary NAICS Code
+  documented_by: connector ghgrp_power.py; method epa_ghgrp_power_co2.md
 - name: x_reporting_year
-  label: null
-  unit: null
+  label: The reporting year of the workbook the row was read from
+  unit: none
   type: integer
   values:
     list:
@@ -224,18 +231,18 @@ columns:
       '2022': 1121
       '2023': 1115
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector ghgrp_power.py; method epa_ghgrp_power_co2.md
 variables:
 - name: co2_biogenic
-  label: null
+  label: The facility's reported biogenic CO2 emissions
   unit: tCO2
   rows: 500
   first: '2010-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 - name: co2_non_biogenic
-  label: null
+  label: The facility's reported CO2 emissions, non-biogenic (from fossil and other non-biological carbon)
   unit: tCO2
   rows: 16535
   first: '2010-01-01T00:00:00Z'

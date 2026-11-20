@@ -5,9 +5,11 @@
 table: isone_zone_prices_history
 family: isone
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One hour's day-ahead or real-time locational marginal price (the price of power at a place) at one of ISO-NE's eight
+  load zones, from 2019, from the SMD Hourly Data workbooks.
+time: ts_utc is the start of the hour in UTC (ISO-NE's Hr_End is the hour ending, Eastern prevailing time); freq PT1H.
+vintage_rule: 'Merged a market at a time on (entity, variable, ts_utc): a new row replaces the held one, every other held
+  row is kept. A zone hour given twice is written once when its rows agree, not at all when they differ. vintage is not filled.'
 keys:
 - entity
 - variable
@@ -81,12 +83,14 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: 'Partition column: the day-ahead or the real-time market of ISO-NE'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The load zone as ISO-NE names it
 - name: source
   shared: true
   type: text
@@ -111,15 +115,17 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 1086544
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: lmp_dam
-  label: null
+  label: Day-ahead locational marginal price of the zone for the hour (ISO-NE's DA_LMP)
   unit: USD/MWh
   rows: 543272
   first: '2019-01-01T05:00:00Z'
   last: '2026-10-01T03:00:00Z'
 - name: lmp_rtm
-  label: null
+  label: 'Real-time locational marginal price of the zone for the hour: ISO-NE''s own hourly average of its five-minute prices
+    (RT_LMP)'
   unit: USD/MWh
   rows: 543272
   first: '2019-01-01T05:00:00Z'

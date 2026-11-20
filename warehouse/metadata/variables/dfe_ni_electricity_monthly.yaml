@@ -5,9 +5,10 @@
 table: dfe_ni_electricity_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's value of Northern Ireland's renewable or non-renewable generation (by type or fuel) or its electricity trade,
+  from the Department for the Economy's report figures 6 to 9.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; from 2018-01.
+vintage_rule: Rewritten whole as one snapshot by each run from the report's CSV figures; vintage is the files' Last-Modified.
 keys:
 - entity
 - variable
@@ -48,6 +49,7 @@ columns:
       dfe_ni:gb-nir:total: 510
       dfe_ni:gb-nir:wind: 102
   missing_cells: 0
+  particular: 'dfe_ni:gb-nir:<item>: a type or fuel, or total'
 - name: variable
   shared: true
   type: text
@@ -91,12 +93,14 @@ columns:
     list:
       GB-NIR: 1326
   missing_cells: 0
+  particular: GB-NIR on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1326
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -116,6 +120,7 @@ columns:
       Solar PV(GWh): 102
       Wind (GWh): 102
   missing_cells: 0
+  particular: DfE's column header, not a pricing node
 - name: source
   shared: true
   type: text
@@ -144,9 +149,10 @@ columns:
     list:
       '2026-09-03T08:30:10Z': 1326
   missing_cells: 0
+  particular: The CSV files' Last-Modified (UTC)
 - name: x_figure
-  label: null
-  unit: null
+  label: The report figure's link text the row is read from (Figure 6 to Figure 9)
+  unit: none
   type: text
   values:
     list:
@@ -155,36 +161,36 @@ columns:
       Figure 8.CSV (4kB): 306
       Figure 9.CSV (5kB): 306
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector dfe_ni_electricity.py; method dfe_ni_electricity_monthly.md
 variables:
 - name: exports
-  label: null
+  label: Electricity exported in the month, written positive
   unit: MWh
   rows: 102
   first: '2018-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Electricity imported in the month
   unit: MWh
   rows: 102
   first: '2018-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: net_imports
-  label: null
+  label: Net imports in the month
   unit: MWh
   rows: 102
   first: '2018-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: non_renewable_generation
-  label: null
+  label: Non-renewable generation in the month, total or by fuel (gas, coal, distillate and other)
   unit: MWh
   rows: 408
   first: '2018-01-01T00:00:00Z'
   last: '2026-06-01T00:00:00Z'
 - name: renewable_generation
-  label: null
+  label: Renewable generation in the month, total or by type (wind, solar, bioenergy, landfill gas, hydro and tidal)
   unit: MWh
   rows: 612
   first: '2018-01-01T00:00:00Z'

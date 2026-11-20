@@ -5,9 +5,10 @@
 table: ens_denmark_electricity_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's value of one column of the Danish Energy Agency's monthly electricity supply statistics, for Denmark or its
+  west or east area.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; only the workbook's monthly block is taken.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is the workbook's Last-Modified time.
 keys:
 - entity
 - variable
@@ -38,6 +39,7 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: 'ens:<area>: the whole country, or its west or east area, one a sheet'
 - name: variable
   shared: true
   type: text
@@ -74,18 +76,21 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The country's two-letter ISO 3166-1 code on every row, whatever the area
 - name: market
   shared: true
   type: empty
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 27777
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The column's English label as the agency writes it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -110,235 +115,236 @@ columns:
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
+  particular: The workbook's Last-Modified time as the server sent it
 - name: x_sheet
-  label: null
-  unit: null
+  label: The workbook's sheet the row is read from (one an area)
+  unit: none
   type: text
   values:
     note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector ens_denmark_electricity.py; method ens_denmark_electricity_monthly.md
 variables:
 - name: central_power_stations
-  label: null
+  label: Production of central power stations
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: distribution_losses
-  label: null
+  label: Distribution losses
   unit: MWh
   rows: 204
   first: '2021-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: domestic_supply_excl_losses
-  label: null
+  label: Domestic supply, losses excluded
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: domestic_supply_incl_losses
-  label: null
+  label: Domestic supply, losses included
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: exports
-  label: null
+  label: Exports, in all
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: exports_england
-  label: null
+  label: Exports to England
   unit: MWh
   rows: 132
   first: '2023-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: exports_germany
-  label: null
+  label: Exports to Germany
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: exports_netherlands
-  label: null
+  label: Exports to the Netherlands
   unit: MWh
   rows: 276
   first: '2019-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: exports_norway
-  label: null
+  label: Exports to Norway
   unit: MWh
   rows: 959
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: exports_sweden
-  label: null
+  label: Exports to Sweden
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: flow_east_to_west
-  label: null
+  label: Flow from the east area to the west area (area sheets)
   unit: MWh
   rows: 640
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: flow_west_to_east
-  label: null
+  label: Flow from the west area to the east area (area sheets)
   unit: MWh
   rows: 640
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: gross_production
-  label: null
+  label: Gross electricity production
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: hydro
-  label: null
+  label: Production from hydro
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Imports, in all
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: imports_england
-  label: null
+  label: Imports from England
   unit: MWh
   rows: 132
   first: '2023-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: imports_germany
-  label: null
+  label: Imports from Germany
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: imports_netherlands
-  label: null
+  label: Imports from the Netherlands
   unit: MWh
   rows: 275
   first: '2019-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: imports_norway
-  label: null
+  label: Imports from Norway
   unit: MWh
   rows: 959
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: imports_sweden
-  label: null
+  label: Imports from Sweden
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: industrial_autoproducers
-  label: null
+  label: Production of industrial autoproducers
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_exchange
-  label: null
+  label: Net exchange (negative in months of net import, as the agency gives it)
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_exchange_east
-  label: null
+  label: Net exchange of the east area (national sheet)
   unit: MWh
   rows: 320
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_exchange_west
-  label: null
+  label: Net exchange of the west area (national sheet)
   unit: MWh
   rows: 320
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_exports
-  label: null
+  label: 'Net exports, in all: exports less imports (negative in months of net import)'
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_exports_england
-  label: null
+  label: 'Net exports with England: exports less imports'
   unit: MWh
   rows: 132
   first: '2023-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_exports_germany
-  label: null
+  label: 'Net exports with Germany: exports less imports'
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_exports_netherlands
-  label: null
+  label: 'Net exports with the Netherlands: exports less imports'
   unit: MWh
   rows: 324
   first: '2015-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_exports_norway
-  label: null
+  label: 'Net exports with Norway: exports less imports'
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_exports_sweden
-  label: null
+  label: 'Net exports with Sweden: exports less imports'
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: net_production
-  label: null
+  label: Net electricity production
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: own_use_in_generation
-  label: null
+  label: Own use in generation
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: primary_transmission_losses
-  label: null
+  label: Primary transmission losses
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: public_power_stations
-  label: null
+  label: Production of public power stations
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: solar
-  label: null
+  label: Production from solar
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: wind
-  label: null
+  label: Production from wind
   unit: MWh
   rows: 960
   first: '2000-01-01T00:00:00Z'
   last: '2026-08-01T00:00:00Z'
 - name: wind_offshore
-  label: null
+  label: Production from offshore wind
   unit: MWh
   rows: 384
   first: '2016-01-01T00:00:00Z'

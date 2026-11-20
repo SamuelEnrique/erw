@@ -2,55 +2,57 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 15 public tables (1 entities, 1 events, 13 series; tiers: 2 derived, 13 source); 9 documented in full.
+**What the family holds.** 15 public tables (1 entities, 1 events, 13 series; tiers: 2 derived, 13 source); 15 documented in full.
 
-- [`caiso_area_load_hourly`](#caiso_area_load_hourly): CAISO, hourly actual load by TAC area and the ISO's total (OASIS SLD_FCST, the actual run, data item SYS_FCST_ACT_MW) (session 138)
+- [`caiso_area_load_hourly`](#caiso_area_load_hourly): CAISO's actual load in one of its TAC areas (transmission access charge areas), or the ISO's own total, for one hour.
 - [`caiso_as_prices`](#caiso_as_prices): CAISO's day-ahead clearing price of one ancillary service (regulation or a reserve) in one of its two system regions for one trading hour.
 - [`caiso_battery_storage`](#caiso_battery_storage): The output of the batteries on CAISO's grid (all, standalone or hybrid) over one 5-minute interval, from CAISO's Today's Outlook.
 - [`caiso_curtailment_daily`](#caiso_curtailment_daily): CAISO's wind or solar curtailment (all, or by reason) or wind or solar output for one Pacific day.
 - [`caiso_curtailment_intervals`](#caiso_curtailment_intervals): CAISO's wind or solar curtailment at the finest interval CAISO publishes (5 minutes to 2025, an hour from 2026), by reason where published, or the day's total.
 - [`caiso_curtailment_profile`](#caiso_curtailment_profile): One figure of CAISO's wind and solar curtailment for one Pacific month (in all, by reason, by category, by local hour) or, where battery output is held, of curtailment against battery charging.
 - [`caiso_dam_alert_day_hub_prices`](#caiso_dam_alert_day_hub_prices): CAISO's day-ahead locational marginal price at the NP15 or SP15 trading hub for one hour of an alert or emergency day, or of a comparison day of the Flex Alert scorecard.
-- [`caiso_dam_cleared_energy`](#caiso_dam_cleared_energy): CAISO, demand cleared in the day-ahead market by hour, the ISO's total (OASIS ENE_SLRS, Market Schedules, data item ISO_TOT_LOAD_MW) (session 136)
+- [`caiso_dam_cleared_energy`](#caiso_dam_cleared_energy): The ISO's total demand cleared in CAISO's day-ahead market for one hour.
 - [`caiso_fuel_supply`](#caiso_fuel_supply): CAISO's supply from one fuel source (or imports) over one hour, from Today's Outlook.
-- [`caiso_fuel_supply_history`](#caiso_fuel_supply_history): CAISO supply by fuel source, hourly (Today's Outlook), June 2018 to May 2025 (session 133)
+- [`caiso_fuel_supply_history`](#caiso_fuel_supply_history): CAISO's supply from one fuel source (or imports) over one hour, from Today's Outlook history files, June 2018 to May 2025.
 - [`caiso_grid_emergencies`](#caiso_grid_emergencies): One CAISO grid emergency notice (Flex Alert, Restricted Maintenance Operations, Energy Emergency Alert, stage emergency, transmission emergency and others) for one region, time frame and local day it covered.
-- [`caiso_interconnection_queue`](#caiso_interconnection_queue): Rebuilt from the ERW archive by warehouse/archive/restore.py, as of run 20261106T003628Z-github (2026-11-06T00:36:28Z); that run's own header of the table follows
-- [`caiso_outlook_demand`](#caiso_outlook_demand): CAISO demand, 5-minute, on the days asked (Today's Outlook)
+- [`caiso_interconnection_queue`](#caiso_interconnection_queue): One position in CAISO's Public Queue Report, a project asking to connect generation or storage to CAISO's grid.
+- [`caiso_outlook_demand`](#caiso_outlook_demand): CAISO's demand, or one of its two demand forecasts, for one 5-minute interval of a Pacific day asked (the Flex Alert days of 2018 to 2024), from Today's Outlook.
 - [`caiso_reliability_daily`](#caiso_reliability_daily): One measure of how tight CAISO's grid was on one Pacific day (demand peak and evening ramp, battery output at the evening peak, notices issued).
-- [`caiso_wind_solar_forecast`](#caiso_wind_solar_forecast): CAISO wind and solar, the day-ahead forecast and the actual output, hourly, by trading hub (session 133)
+- [`caiso_wind_solar_forecast`](#caiso_wind_solar_forecast): CAISO's wind or solar output at one trading hub for one hour, the day-ahead forecast or the actual.
 
 ### `caiso_area_load_hourly`
 
-What a row is: not yet written.
+CAISO's actual load in one of its TAC areas (transmission access charge areas), or the ISO's own total, for one hour.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 271644.
 
+- **Time:** ts_utc is the hour's start in UTC; the interval's start and end are CAISO's, in GMT.
+- **Revisions:** Merged by (entity, variable, ts_utc); a 30-day window ending in the last 35 days is asked of CAISO again each run and replaces the hours held, an earlier window is read from the raw file kept, and hours no longer asked are kept. vintage is not filled.
 - **Source:** caiso:SLD_FCST California ISO (CAISO), OASIS SLD_FCST, CAISO Demand Forecast, the actual run (Total Actual Hourly Integrated Load), by TAC area (https://oasis.caiso.com/mrioasis/logon.do)
 - **Method note:** [`docs/methods/caiso_area_load_hourly.md`](../methods/caiso_area_load_hourly.md)
 - **Cite as:** California ISO (CAISO). OASIS SLD_FCST, CAISO Demand Forecast, the actual run (Total Actual Hourly Integrated Load), by TAC area [terms: materials "may be used by you provided that you keep intact all copyright, trademark and other proprietary notices and that you credit the California ISO when using such materials and/or information." (https://www.caiso.com/privacy-terms-of-use, read 6 October 2026)]. Via the Energy Research Warehouse (ERW), table `caiso_area_load_hourly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | caiso:MWD-TAC, caiso:PGE-TAC, caiso:SCE-TAC, caiso:SDGE-TAC, caiso:VEA-TAC, caiso:system | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: caiso:<TAC area> under CAISO's own names (PGE-TAC, SCE-TAC, SDGE-TAC, VEA-TAC, MWD-TAC), or caiso:system for the area CAISO names CA ISO-TAC, its own total | none | text | caiso:MWD-TAC, caiso:PGE-TAC, caiso:SCE-TAC, caiso:SDGE-TAC, caiso:VEA-TAC, caiso:system | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2021-09-17T00:00:00Z to 2026-11-16T10:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -80.0 to 51292.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-CA | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | caiso_load | 0 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | CA ISO-TAC, MWD-TAC, PGE-TAC, SCE-TAC, SDGE-TAC, VEA-TAC | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: caiso_load in every row | none | text | caiso_load | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The TAC area as CAISO names it (CA ISO-TAC for the total); a TAC area is not a trading hub (NP15, SP15, ZP26) | none | text | CA ISO-TAC, MWD-TAC, PGE-TAC, SCE-TAC, SDGE-TAC, VEA-TAC | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | caiso:SLD_FCST | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://oasis.caiso.com/oasisapi/SingleZip?queryname=SLD_FCST&market_run_id=ACTUAL&tac_area_name=CA%20ISO-TAC,PGE-TAC,SCE-TAC,SDGE-TAC,VEA-TAC,MWD-TAC&startdatetime=20210917T00:00-0000&enddatetime=20211017T00:00-0000&version=1&resultformat=6, https://oasis.caiso.com/oasisapi/SingleZip?queryname=SLD_FCST&market_run_id=ACTUAL&tac_area_name=CA%20ISO-TAC,PGE-TAC,SCE-TAC,SDGE-TAC,VEA-TAC,MWD-TAC&startdatetime=20211017T00:00-0000&enddatetime=20211116T00:00-0000&version=1&resultformat=6, https://oasis.caiso.com/oasisapi/SingleZip?queryname=SLD_FCST&market_run_id=ACTUAL&tac_area_name=CA%20ISO-TAC,PGE-TAC,SCE-TAC,SDGE-TAC,VEA-TAC,MWD-TAC&startdatetime=20211116T00:00-0000&enddatetime=20211216T00:00-0000&version=1&resultformat=6; 63 distinct | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-07T01:43:01Z to 2026-11-16T11:51:28Z; 63 distinct | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 271644 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 271644 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `load` |  | MW | 271644 | 2021-09-17T00:00:00Z | 2026-11-16T10:00:00Z |
+| `load` | CAISO's SYS_FCST_ACT_MW, Total Actual Hourly Integrated Load, for the area and hour, MW over the hour (OASIS SLD_FCST, the actual run) | MW | 271644 | 2021-09-17T00:00:00Z | 2026-11-16T10:00:00Z |
 
 ### `caiso_as_prices`
 
@@ -406,35 +408,37 @@ Variables (1):
 
 ### `caiso_dam_cleared_energy`
 
-What a row is: not yet written.
+The ISO's total demand cleared in CAISO's day-ahead market for one hour.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 10640.
 
+- **Time:** ts_utc is the hour's start in UTC.
+- **Revisions:** Merged by (entity, variable, ts_utc); a half month of this month or the last is asked of CAISO again and replaces the hours held, an earlier half is read from the raw file kept, and the table grows past the window CAISO keeps. vintage is not filled.
 - **Source:** caiso:ENE_SLRS California ISO (CAISO), OASIS ENE_SLRS, Market Schedules, day-ahead market, ISO totals (https://oasis.caiso.com/mrioasis/logon.do)
 - **Method note:** [`docs/methods/caiso_dam_cleared_energy.md`](../methods/caiso_dam_cleared_energy.md)
 - **Cite as:** California ISO (CAISO). OASIS ENE_SLRS, Market Schedules, day-ahead market, ISO totals. Via the Energy Research Warehouse (ERW), table `caiso_dam_cleared_energy`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | caiso:system | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: caiso:system in every row: the ISO's total | none | text | caiso:system | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2025-09-01T00:00:00Z to 2026-11-18T07:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 13048.03 to 44253.94; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-CA | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | caiso_dam | 0 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | ISO_TOT_LOAD_MW | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: caiso_dam in every row: CAISO's day-ahead market | none | text | caiso_dam | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: ISO_TOT_LOAD_MW in every row: the data item read, not a place | none | text | ISO_TOT_LOAD_MW | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | caiso:ENE_SLRS | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://oasis.caiso.com/oasisapi/SingleZip?queryname=ENE_SLRS&market_run_id=DAM&tac_zone_name=Caiso_Totals&schedule=ALL&startdatetime=20250901T00:00-0000&enddatetime=20250916T00:00-0000&version=1&resultformat=6, https://oasis.caiso.com/oasisapi/SingleZip?queryname=ENE_SLRS&market_run_id=DAM&tac_zone_name=Caiso_Totals&schedule=ALL&startdatetime=20250916T00:00-0000&enddatetime=20251001T00:00-0000&version=1&resultformat=6, https://oasis.caiso.com/oasisapi/SingleZip?queryname=ENE_SLRS&market_run_id=DAM&tac_zone_name=Caiso_Totals&schedule=ALL&startdatetime=20251001T00:00-0000&enddatetime=20251016T00:00-0000&version=1&resultformat=6; 30 distinct | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-06T20:24:14Z to 2026-11-17T08:39:40Z; 30 distinct | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 10640 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 10640 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `dam_cleared_energy` |  | MW | 10640 | 2025-09-01T00:00:00Z | 2026-11-18T07:00:00Z |
+| `dam_cleared_energy` | CAISO's ISO_TOT_LOAD_MW, the ISO's total MW cleared as demand in the day-ahead market for the hour, MW over the hour (OASIS ENE_SLRS, Market Schedules) | MW | 10640 | 2025-09-01T00:00:00Z | 2026-11-18T07:00:00Z |
 
 ### `caiso_fuel_supply`
 
@@ -484,47 +488,49 @@ Variables (13):
 
 ### `caiso_fuel_supply_history`
 
-What a row is: not yet written.
+CAISO's supply from one fuel source (or imports) over one hour, from Today's Outlook history files, June 2018 to May 2025.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 782808.
 
+- **Time:** ts_utc is the start of the hour in UTC; days are Pacific days. The value is the mean of the hour's twelve 5-minute values; a day short of any 5-minute interval is not written.
+- **Revisions:** Written once by one run (6 October 2026), merged by (entity, variable, ts_utc); no schedule asks the files again. caiso_fuel_supply holds 2025-06-01 on. vintage is not filled.
 - **Source:** caiso:todays_outlook_fuelsource_history California ISO, Today's Outlook, supply by fuel source history files ( (https://www.caiso.com/outlook/history/YYYYMMDD/fuelsource.csv)
 - **Method note:** [`docs/methods/caiso_fuel_supply_history.md`](../methods/caiso_fuel_supply_history.md)
 - **Cite as:** California ISO (CAISO). Today's Outlook: supply by fuel source (fuelsource.csv history), June 2018 to May 2025. Via the Energy Research Warehouse (ERW), table `caiso_fuel_supply_history`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | caiso:ISO | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: caiso:ISO in every row: CAISO's whole system | none | text | caiso:ISO | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2018-06-01T07:00:00Z to 2025-06-01T06:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -35159.6667 to 36178.6667; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-CA | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 782808 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | empty | no cell holds a value | 782808 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 782808 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 782808 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | caiso:todays_outlook_fuelsource_history | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://www.caiso.com/outlook/history/20180601/fuelsource.csv, https://www.caiso.com/outlook/history/20180602/fuelsource.csv, https://www.caiso.com/outlook/history/20180603/fuelsource.csv; 2509 distinct | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-06T09:17:10Z to 2026-10-06T09:22:05Z; 296 distinct | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 782808 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 782808 |
 
 Variables (13):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `batteries_mw` |  | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
-| `biogas_mw` |  | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
-| `biomass_mw` |  | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
-| `coal_mw` |  | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
-| `geothermal_mw` |  | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
-| `imports_mw` |  | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
-| `large_hydro_mw` |  | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
-| `natural_gas_mw` |  | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
-| `nuclear_mw` |  | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
-| `other_mw` |  | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
-| `small_hydro_mw` |  | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
-| `solar_mw` |  | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
-| `wind_mw` |  | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
+| `batteries_mw` | Supply from batteries (CAISO's column Batteries), the hour's mean MW, positive discharging | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
+| `biogas_mw` | Supply from biogas (CAISO's column Biogas), the hour's mean MW | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
+| `biomass_mw` | Supply from biomass (CAISO's column Biomass), the hour's mean MW | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
+| `coal_mw` | Supply from coal (CAISO's column Coal), the hour's mean MW | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
+| `geothermal_mw` | Supply from geothermal plants (CAISO's column Geothermal), the hour's mean MW | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
+| `imports_mw` | Imports (CAISO's column Imports), the hour's mean MW | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
+| `large_hydro_mw` | Supply from large hydro (CAISO's column Large Hydro), the hour's mean MW | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
+| `natural_gas_mw` | Supply from natural gas (CAISO's column Natural Gas), the hour's mean MW | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
+| `nuclear_mw` | Supply from nuclear (CAISO's column Nuclear), the hour's mean MW | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
+| `other_mw` | Supply from other sources (CAISO's column Other), the hour's mean MW | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
+| `small_hydro_mw` | Supply from small hydro (CAISO's column Small hydro), the hour's mean MW | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
+| `solar_mw` | Supply from solar (CAISO's column Solar), the hour's mean MW (also its MWh) | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
+| `wind_mw` | Supply from wind (CAISO's column Wind), the hour's mean MW | MW | 60216 | 2018-06-01T07:00:00Z | 2025-06-01T06:00:00Z |
 
 ### `caiso_grid_emergencies`
 
@@ -564,77 +570,81 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 
 ### `caiso_interconnection_queue`
 
-What a row is: not yet written.
+One position in CAISO's Public Queue Report, a project asking to connect generation or storage to CAISO's grid.
 
 Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 2026-11-20: 2278.
 
+- **Time:** No time column. Dates are CAISO's, YYYY-MM-DD; vintage is the retrieval day. The table is a snapshot of the report as read on its retrieved_at.
+- **Revisions:** A snapshot rewritten whole by each run (Mondays); earlier snapshots stay in the raw files and the archive.
 - **Source:** caiso:interconnection_queue CAISO Public Queue Report (https://www.caiso.com/documents/publicqueuereport.xlsx)
 - **Method note:** [`docs/methods/caiso_interconnection_queue.md`](../methods/caiso_interconnection_queue.md)
 - **Cite as:** California Independent System Operator (CAISO). Public Queue Report. Via the Energy Research Warehouse (ERW), table `caiso_interconnection_queue`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity_id` | The identifier of the thing, as namespace:native_id | none | text | for example caiso_queue:10, caiso_queue:100, caiso_queue:1000; 2278 distinct | 0 |
-| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists) | none | text | project | 0 |
+| `entity_id` | The identifier of the thing, as namespace:native_id. Here: caiso_queue:<queue id> | none | text | for example caiso_queue:10, caiso_queue:100, caiso_queue:1000; 2278 distinct | 0 |
+| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists). Here: project in every row | none | text | project | 0 |
 | `name` | The thing's name, as the publisher writes it | none | text | for example 20 MW SOLAR PROJECT #1, 819 HANFORD SOLAR I, ACACIA; 2270 distinct | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-AZ, US-CA, US-ID, US-NM, US-NV, US-WY | 22 |
-| `lat` | Latitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 2278 |
-| `lon` | Longitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 2278 |
-| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it | MW | number | 0.0 to 3200.0; 535 distinct | 0 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | text | active, completed, withdrawn | 0 |
-| `status_date` | The date the status took effect, or was reported where the effective date is unknown | none | date | 2005-09-30 to 2026-10-06; 1057 distinct | 313 |
-| `operator` | The operator or owner, as the publisher writes it | none | empty | no cell holds a value | 2278 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state> for any two-letter state CAISO gives, so CAISO's MX (Mexico) gives US-MX on 18 rows; empty where no state is given | none | text | US-AZ, US-CA, US-ID, US-NM, US-NV, US-WY | 22 |
+| `lat` | Latitude, in decimal degrees (WGS84). Here: Empty in every row | degree | empty | no cell holds a value | 2278 |
+| `lon` | Longitude, in decimal degrees (WGS84). Here: Empty in every row | degree | empty | no cell holds a value | 2278 |
+| `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it. Here: CAISO's requested capacity as gridstatus reads it | MW | number | 0.0 to 3200.0; 535 distinct | 0 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: active, withdrawn or completed, mapped one to one from iso_status; no suspended status | none | text | active, completed, withdrawn | 0 |
+| `status_date` | The date the status took effect, or was reported where the effective date is unknown. Here: The withdrawn date of a withdrawn row, the in-service date of a completed row where given; empty on every active row | none | date | 2005-09-30 to 2026-10-06; 1057 distinct | 313 |
+| `operator` | The operator or owner, as the publisher writes it. Here: Empty in every row | none | empty | no cell holds a value | 2278 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | caiso:interconnection_queue | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.caiso.com/documents/publicqueuereport.xlsx | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-05T23:21:54Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | date | 2026-11-05 | 0 |
-| `queue_id` | not yet written |  | text | for example 10, 100, 1000; 2278 distinct | 0 |
-| `county` | not yet written |  | text | for example ALAMEDA, ALAMEDA COUNTY, AMADOR; 100 distinct | 5 |
-| `state` | not yet written |  | text | AZ, CA, ID, MX, NM, NV, WY | 4 |
-| `poi` | not yet written |  | text | for example 0.2 miles from Monsrate Tap  on the Monsrate Tap-Pala 69 kV line, 0.2-mile from Moro hill tap on the Moro Hill Tap - Monserate 69 kV line, 115 KV Panoche Sub; 1661 distinct | 0 |
-| `zone` | not yet written |  | empty | no cell holds a value | 2278 |
-| `transmission_owner` | not yet written |  | text | DCRT, DSLK, GLW, IID, PGAE, SCE, SDGE, VEA | 2 |
-| `fuel_technology` | not yet written |  | text | for example Cogeneration, Combined Cycle, Combined Cycle + Combined Cycle; 41 distinct | 0 |
-| `iso_status` | not yet written |  | text | ACTIVE, COMPLETED, WITHDRAWN | 0 |
-| `queue_date` | not yet written |  | date | 1999-11-01 to 2023-03-02; 411 distinct | 0 |
-| `proposed_in_service_date` | not yet written |  | date | 2005-12-08 to 2036-05-05; 723 distinct | 257 |
-| `actual_in_service_date` | not yet written |  | date | 2005-09-30 to 2026-09-14; 204 distinct | 2039 |
-| `withdrawn_date` | not yet written |  | date | 2006-01-11 to 2026-10-06; 888 distinct | 552 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The retrieval day (YYYY-MM-DD), not a date CAISO prints | none | date | 2026-11-05 | 0 |
+| `queue_id` | CAISO's queue position number of the request (the source's name: Queue ID) | none | text | for example 10, 100, 1000; 2278 distinct | 0 |
+| `county` | The county of the project as CAISO writes it (the source's name: County) | none | text | for example ALAMEDA, ALAMEDA COUNTY, AMADOR; 100 distinct | 5: CAISO gives no county |
+| `state` | The state of the project as CAISO writes it (a two-letter code; MX for Mexico) (the source's name: State) | none | text | AZ, CA, ID, MX, NM, NV, WY | 4: CAISO gives no state |
+| `poi` | The point of interconnection: the substation or line where the project would connect (the source's name: Interconnection Location) | none | text | for example 0.2 miles from Monsrate Tap  on the Monsrate Tap-Pala 69 kV line, 0.2-mile from Moro hill tap on the Moro Hill Tap - Monserate 69 kV line, 115 KV Panoche Sub; 1661 distinct | 0 |
+| `zone` | The zone of the project (the source's name: Zone) | none | empty | no cell holds a value | 2278: Empty in every row: CAISO's report does not give it |
+| `transmission_owner` | The transmission owner the project connects to, CAISO's code (PGAE, SCE, SDGE, GLW, VEA and others) (the source's name: Transmission Owner) | none | text | DCRT, DSLK, GLW, IID, PGAE, SCE, SDGE, VEA | 2: CAISO gives none (2 rows) |
+| `fuel_technology` | The project's generation type in CAISO's words (Photovoltaic, Storage, Wind Turbine, Steam Turbine, combinations and others) (the source's name: Generation Type) | none | text | for example Cogeneration, Combined Cycle, Combined Cycle + Combined Cycle; 41 distinct | 0 |
+| `iso_status` | CAISO's own status of the request (ACTIVE, WITHDRAWN, COMPLETED) (the source's name: Status) | none | text | ACTIVE, COMPLETED, WITHDRAWN | 0 |
+| `queue_date` | The date the request entered the queue (the source's name: Queue Date) | none | date | 1999-11-01 to 2023-03-02; 411 distinct | 0 |
+| `proposed_in_service_date` | The date the project proposes to begin operating (the source's name: Proposed Completion Date) | none | date | 2005-12-08 to 2036-05-05; 723 distinct | 257: CAISO gives no proposed date |
+| `actual_in_service_date` | The date the project began operating (the source's name: Actual Completion Date (gridstatus)) | none | date | 2005-09-30 to 2026-09-14; 204 distinct | 2039: Not in service, or no date given |
+| `withdrawn_date` | The date the request was withdrawn (the source's name: Withdrawn Date) | none | date | 2006-01-11 to 2026-10-06; 888 distinct | 552: Not withdrawn, or withdrawn with no date given |
 
 ### `caiso_outlook_demand`
 
-What a row is: not yet written.
+CAISO's demand, or one of its two demand forecasts, for one 5-minute interval of a Pacific day asked (the Flex Alert days of 2018 to 2024), from Today's Outlook.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 33927.
 
+- **Time:** ts_utc is the start of the 5-minute interval in UTC; days are Pacific days.
+- **Revisions:** Merged by (entity, variable, ts_utc) into earlier runs; a day is written only when the three MW columns hold every 5-minute interval of it. vintage is not filled.
 - **Source:** caiso:todays_outlook_demand California ISO, Today's Outlook, demand history files ( (https://www.caiso.com/outlook/history/YYYYMMDD/demand.csv)
 - **Method note:** [`docs/methods/caiso_outlook_demand.md`](../methods/caiso_outlook_demand.md)
 - **Cite as:** California ISO (CAISO). Today's Outlook: demand trend (demand.csv history). Via the Energy Research Warehouse (ERW), table `caiso_outlook_demand`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | caiso:ISO | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: caiso:ISO in every row: CAISO's whole system | none | text | caiso:ISO | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2018-07-24T07:00:00Z to 2024-07-25T06:55:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 1.0 to 51929.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW, count | 0 |
 | `freq` | How long the interval of the row is | none | text | PT5M | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-CA | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 33927 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | empty | no cell holds a value | 33927 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 33927 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 33927 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | caiso:todays_outlook_demand | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://www.caiso.com/outlook/history/20180724/demand.csv, https://www.caiso.com/outlook/history/20180725/demand.csv, https://www.caiso.com/outlook/history/20190611/demand.csv; 39 distinct | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-17T09:23:17Z to 2026-11-17T09:24:39Z; 39 distinct | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 33927 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 33927 |
 
 Variables (4):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `demand_forecast_day_ahead_mw` |  | MW | 11232 | 2018-07-24T07:00:00Z | 2024-07-25T06:55:00Z |
-| `demand_forecast_hour_ahead_mw` |  | MW | 11232 | 2018-07-24T07:00:00Z | 2024-07-25T06:55:00Z |
-| `demand_mw` |  | MW | 11232 | 2018-07-24T07:00:00Z | 2024-07-25T06:55:00Z |
-| `demand_response_marked` |  | count | 231 | 2022-09-01T02:25:00Z | 2023-07-21T03:25:00Z |
+| `demand_forecast_day_ahead_mw` | CAISO's day-ahead forecast of demand for the interval, MW | MW | 11232 | 2018-07-24T07:00:00Z | 2024-07-25T06:55:00Z |
+| `demand_forecast_hour_ahead_mw` | CAISO's hour-ahead forecast of demand for the interval, MW | MW | 11232 | 2018-07-24T07:00:00Z | 2024-07-25T06:55:00Z |
+| `demand_mw` | CAISO's Current demand for the interval, MW | MW | 11232 | 2018-07-24T07:00:00Z | 2024-07-25T06:55:00Z |
+| `demand_response_marked` | 1 in an interval CAISO's Demand response column marks; no row where it is blank (count) | count | 231 | 2022-09-01T02:25:00Z | 2023-07-21T03:25:00Z |
 
 ### `caiso_reliability_daily`
 
@@ -693,36 +703,38 @@ Variables (22):
 
 ### `caiso_wind_solar_forecast`
 
-What a row is: not yet written.
+CAISO's wind or solar output at one trading hub for one hour, the day-ahead forecast or the actual.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 352393.
 
+- **Time:** ts_utc is the hour's start in UTC.
+- **Revisions:** Merged by (entity, variable, ts_utc); every span asked is asked of CAISO again, so a revised hour replaces the one held, and hours no longer asked are kept. vintage is not filled.
 - **Source:** caiso:SLD_REN_FCST California ISO, OASIS, Wind and Solar Forecast (SLD_REN_FCST) (https://oasis.caiso.com/mrioasis/logon.do)
 - **Method note:** [`docs/methods/caiso_wind_solar_forecast.md`](../methods/caiso_wind_solar_forecast.md)
 - **Cite as:** California ISO (CAISO). OASIS: Wind and Solar Forecast (SLD_REN_FCST), day-ahead forecast and actual generation. Via the Energy Research Warehouse (ERW), table `caiso_wind_solar_forecast`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | caiso:NP15, caiso:SP15, caiso:ZP26 | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: caiso:<trading hub>: NP15, SP15 or ZP26 | none | text | caiso:NP15, caiso:SP15, caiso:ZP26 | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2023-06-01T07:00:00Z to 2026-11-19T06:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -307.9097 to 14948.67; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-CA | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 352393 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | NP15, SP15, ZP26 | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 352393 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: CAISO's trading hub: NP15, SP15 or ZP26 | none | text | NP15, SP15, ZP26 | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | caiso:SLD_REN_FCST | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=SLD_REN_FCST&version=1&market_run_id=ACTUAL&startdatetime=20230531T07:00-0000&enddatetime=20230630T07:00-0000, https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=SLD_REN_FCST&version=1&market_run_id=ACTUAL&startdatetime=20230630T07:00-0000&enddatetime=20230730T07:00-0000, https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=SLD_REN_FCST&version=1&market_run_id=ACTUAL&startdatetime=20230730T07:00-0000&enddatetime=20230829T07:00-0000; 156 distinct | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-06T09:35:39Z to 2026-11-19T17:40:04Z; 156 distinct | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 352393 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 352393 |
 
 Variables (4):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `solar_actual_mw` |  | MW | 91021 | 2023-06-01T07:00:00Z | 2026-11-19T06:00:00Z |
-| `solar_forecast_dam_mw` |  | MW | 91224 | 2023-06-01T07:00:00Z | 2026-11-19T06:00:00Z |
-| `wind_actual_mw` |  | MW | 84973 | 2023-06-01T07:00:00Z | 2026-11-19T06:00:00Z |
-| `wind_forecast_dam_mw` |  | MW | 85175 | 2023-06-01T07:00:00Z | 2026-11-19T06:00:00Z |
+| `solar_actual_mw` | Actual solar generation (market run ACTUAL) for the hub and hour, MW | MW | 91021 | 2023-06-01T07:00:00Z | 2026-11-19T06:00:00Z |
+| `solar_forecast_dam_mw` | CAISO's day-ahead forecast of solar output (market run DAM) for the hub and hour, MW | MW | 91224 | 2023-06-01T07:00:00Z | 2026-11-19T06:00:00Z |
+| `wind_actual_mw` | Actual wind generation (market run ACTUAL) for the hub and hour, MW | MW | 84973 | 2023-06-01T07:00:00Z | 2026-11-19T06:00:00Z |
+| `wind_forecast_dam_mw` | CAISO's day-ahead forecast of wind output (market run DAM) for the hub and hour, MW (OASIS SLD_REN_FCST) | MW | 85175 | 2023-06-01T07:00:00Z | 2026-11-19T06:00:00Z |
 
