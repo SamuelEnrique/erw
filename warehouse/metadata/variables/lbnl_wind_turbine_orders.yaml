@@ -5,9 +5,10 @@
 table: lbnl_wind_turbine_orders
 family: lbnl
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One reported US wind turbine order and its price, from the 'Wind Turbine Prices' sheet of Berkeley Lab's Land-Based Wind
+  Energy Technology Data Update, 2026 Edition; LBNL names no buyer, maker or size.
+time: No time column; event_date is the order date.
+vintage_rule: Rewritten whole by each run from the data file lbnl_ppa_prices.py saves; one edition, no vintage column.
 keys:
 - event_id
 license: public
@@ -41,6 +42,7 @@ columns:
     - lbnl_turbine_order:0b4aa2e60ebe
     - lbnl_turbine_order:0edb465742d6
   missing_cells: 0
+  particular: lbnl_turbine_order:<12 hex of the date and price>
 - name: event_date
   shared: true
   type: date
@@ -56,6 +58,7 @@ columns:
     list:
       turbine_order: 122
   missing_cells: 0
+  particular: Always turbine_order
 - name: parties
   shared: true
   type: empty
@@ -82,6 +85,7 @@ columns:
     lowest: 843.3067
     highest: 2947.8718
   missing_cells: 0
+  particular: USD per kW (real 2025 dollars), not per MWh
 - name: currency
   shared: true
   type: text
@@ -95,6 +99,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 122
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -118,25 +123,25 @@ columns:
       '2026-10-23T08:30:19Z': 122
   missing_cells: 0
 - name: x_price_unit
-  label: null
-  unit: null
+  label: 'The price''s unit in words: USD/kW, real 2025 dollars'
+  unit: none
   type: text
   values:
     list:
       USD/kW, real 2025 dollars: 122
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector lbnl_wind_costs.py
 - name: x_dollar_year
-  label: null
-  unit: null
+  label: The year of the real dollars the price is in
+  unit: none
   type: integer
   values:
     list:
       '2025': 122
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector lbnl_wind_costs.py
 second_look: null

@@ -5,9 +5,11 @@
 table: statec_lu_supplier_mix_annual
 family: statec
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The share of one energy source (or group of sources) in the national mix of electricity supplied to Luxembourg's end
+  users in one year, 2009 to 2024, from LUSTAT table DF_A4209; the suppliers' disclosed mix, not generation in Luxembourg.
+time: ts_utc is the year's first day at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot of STATEC's file); STATEC adds a year each year and may revise earlier
+  ones. vintage is not filled.
 keys:
 - entity
 - variable
@@ -50,6 +52,8 @@ columns:
       statec_mix:lu:sl08: 16
       statec_mix:lu:sl09: 4
   missing_cells: 0
+  particular: 'statec_mix:lu:<STATEC''s code, lower-cased>: l01 fossil, l02 nuclear, l03 renewable, l04 other and unidentified,
+    sl.. their parts'
 - name: variable
   shared: true
   type: text
@@ -107,12 +111,14 @@ columns:
     list:
       LU: 196
   missing_cells: 0
+  particular: Always LU (Luxembourg)
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 196
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -132,6 +138,7 @@ columns:
       SL08 Solar energy: 16
       SL09 Other sources of renewable energy: 4
   missing_cells: 0
+  particular: STATEC's code and label (L03 Renewable energy), not a pricing node
 - name: source
   shared: true
   type: text
@@ -159,9 +166,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 196
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: supply_mix_share
-  label: null
+  label: The source's share of the electricity supplied to end users in the year, percent (l01 to l04 make 100)
   unit: pct
   rows: 196
   first: '2009-01-01T00:00:00Z'

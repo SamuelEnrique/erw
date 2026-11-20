@@ -5,9 +5,12 @@
 table: ercot_as_quantities
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The MW of one ancillary service ERCOT planned to procure in its day-ahead market for one delivery hour, from the plan
+  published the day before delivery.
+time: ts_utc is the start of the delivery hour in UTC (ERCOT gives the hour ending in Central time; DSTFlag Y marks the repeated
+  autumn hour).
+vintage_rule: Merged by (entity, variable, ts_utc); a run keeps of each daily file only the delivery day after its publish
+  day, a day read again replaces the one held, and days ERCOT's list has dropped are kept. vintage is the file's PublishDate.
 keys:
 - entity
 - variable
@@ -41,6 +44,7 @@ columns:
       ercot:REGUP: 960
       ercot:RRS: 960
   missing_cells: 0
+  particular: ercot:<service>, the ancillary service
 - name: variable
   shared: true
   type: text
@@ -91,6 +95,7 @@ columns:
     list:
       ercot_dam: 4800
   missing_cells: 0
+  particular: 'ercot_dam in every row: ERCOT''s day-ahead market'
 - name: node
   shared: true
   type: text
@@ -102,6 +107,8 @@ columns:
       REGUP: 960
       RRS: 960
   missing_cells: 0
+  particular: 'The ancillary service, not a place: REGUP Regulation Up, REGDN Regulation Down, RRS Responsive Reserve, NSPIN
+    Non-Spin, ECRS ERCOT Contingency Reserve Service'
 - name: source
   shared: true
   type: text
@@ -137,9 +144,10 @@ columns:
     earliest: '2026-09-02T10:00:00Z'
     latest: '2026-10-11T10:00:00Z'
   missing_cells: 0
+  particular: The PublishDate of ERCOT's daily file (10:00 UTC the day before delivery)
 variables:
 - name: quantity_mw_plan
-  label: null
+  label: The MW of the service ERCOT plans to procure in the day-ahead market for the hour (DAM Ancillary Service Plan, NP4-33-CD)
   unit: MW
   rows: 4800
   first: '2026-09-03T05:00:00Z'

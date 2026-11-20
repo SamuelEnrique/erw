@@ -5,9 +5,11 @@
 table: frb_utility_output_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's seasonally adjusted industrial production index or capacity utilization of one G.17 series (electric and
+  gas utilities and their parts, with total industry and energy for comparison), from the Federal Reserve's G.17 release.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M.
+vintage_rule: 'Rewritten whole as one snapshot by each run: each release revises earlier months, and the table is the release
+  read; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -61,6 +63,7 @@ columns:
       frb_g17:N2212R: 655
       frb_g17:N2212T: 655
   missing_cells: 0
+  particular: frb_g17:<G.17 series code>
 - name: variable
   shared: true
   type: text
@@ -105,12 +108,14 @@ columns:
     list:
       US: 15365
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 15365
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -136,6 +141,7 @@ columns:
       Residential gas sales NAICS=2212pt.: 655
       Total index: 2010
   missing_cells: 0
+  particular: The series' title with its NAICS code, not a pricing node
 - name: source
   shared: true
   type: text
@@ -164,15 +170,16 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 15365
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: production
-  label: null
+  label: Industrial production index, seasonally adjusted, 2017 = 100 (never summed)
   unit: index
   rows: 12497
   first: '1919-01-01T00:00:00Z'
   last: '2026-09-01T00:00:00Z'
 - name: utilization
-  label: null
+  label: Capacity utilization, seasonally adjusted, percent of capacity
   unit: pct
   rows: 2868
   first: '1967-01-01T00:00:00Z'

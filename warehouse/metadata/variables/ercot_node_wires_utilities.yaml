@@ -5,9 +5,11 @@
 table: ercot_node_wires_utilities
 family: ercot
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One placed ERCOT resource node with the wires utilities EIA-861 lists as serving its county, Texas's delivery-only companies
+  named apart.
+time: No time column; a snapshot computed from the tables held when the builder ran. vintage names the EIA-861 year.
+vintage_rule: Rewritten whole by each run of the builder from ercot_node_places, utility_service_territories, eia861_delivery_only
+  and eia861_utility_data; no request is made.
 keys:
 - entity_id
 license: public
@@ -43,6 +45,7 @@ columns:
     - ercot_node:ADL_RN
     - ercot_node:AEEC
   missing_cells: 0
+  particular: ercot_node:<settlement point>, the same ids as ercot_node_places
 - name: entity_type
   shared: true
   type: text
@@ -50,6 +53,7 @@ columns:
     list:
       generator: 569
   missing_cells: 0
+  particular: generator in every row
 - name: name
   shared: true
   type: text
@@ -62,6 +66,7 @@ columns:
     - ADL_RN
     - AEEC
   missing_cells: 0
+  particular: The settlement point
 - name: geo
   shared: true
   type: text
@@ -69,6 +74,7 @@ columns:
     list:
       US-TX: 569
   missing_cells: 0
+  particular: US-TX in every row
 - name: lat
   shared: true
   type: empty
@@ -93,6 +99,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 569
+  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -133,9 +140,10 @@ columns:
     list:
       EIA-861 2025: 569
   missing_cells: 0
+  particular: The text 'EIA-861 <year>' (EIA-861 2025 in every row), the data year read, not a publication time
 - name: x_county
-  label: null
-  unit: null
+  label: The node's county, as ercot_node_places gives it
+  unit: none
   type: text
   values:
     distinct: 148
@@ -146,12 +154,12 @@ columns:
     - ARMSTRONG
     - ATASCOSA
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_wires_utilities.md
 - name: x_zone
-  label: null
-  unit: null
+  label: The node's load zone, as ercot_node_places gives it (COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST)
+  unit: none
   type: text
   values:
     list:
@@ -162,12 +170,12 @@ columns:
       SOUTH: 138
       WEST: 155
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_wires_utilities.md
 - name: x_utilities_n
-  label: null
-  unit: null
+  label: The number of utilities EIA-861 lists as serving the node's county (state TX)
+  unit: count
   type: integer
   values:
     list:
@@ -180,12 +188,12 @@ columns:
       '7': 14
       '8': 2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector ercot_node_wires_utilities.py; method ercot_node_wires_utilities.md
 - name: x_utilities
-  label: null
-  unit: null
+  label: Those utilities, each '<name> (<EIA utility number>)', sorted, joined by '; '
+  unit: none
   type: text
   values:
     distinct: 139
@@ -202,12 +210,13 @@ columns:
       Coop, Inc (14626)
     - AEP Texas Central Company (3278); Brownsville Public Utilities Board (2409); Magic Valley Electric Coop Inc (11501)
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_wires_utilities.md
 - name: x_delivery_only_n
-  label: null
-  unit: null
+  label: The number of delivery-only companies (wires companies that sell no power, as eia861_delivery_only holds them for
+    Texas) among those utilities
+  unit: count
   type: integer
   values:
     list:
@@ -216,12 +225,12 @@ columns:
       '2': 191
       '3': 39
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector ercot_node_wires_utilities.py; method ercot_node_wires_utilities.md
 - name: x_delivery_only
-  label: null
-  unit: null
+  label: Those delivery-only companies, each '<name> (<EIA utility number>)', joined by '; '
+  unit: none
   type: text
   values:
     list:
@@ -240,12 +249,13 @@ columns:
       Oncor Electric Delivery Company LLC (44372); Texas-New Mexico Power Co (40051): 79
       Texas-New Mexico Power Co (40051): 6
   missing_cells: 52
-  missing_meaning: null
+  missing_meaning: No delivery-only company serves the county
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_wires_utilities.md; data
 - name: x_outside_tre_n
-  label: null
-  unit: null
+  label: The number of those utilities whose EIA-861 utility data names a NERC region but not Texas RE (so part of the county
+    is outside ERCOT's reliability region)
+  unit: count
   type: integer
   values:
     list:
@@ -255,12 +265,12 @@ columns:
       '3': 3
       '4': 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector ercot_node_wires_utilities.py; method ercot_node_wires_utilities.md
 - name: x_outside_tre
-  label: null
-  unit: null
+  label: Those utilities outside Texas RE, each '<name> (<EIA utility number>)', joined by '; '
+  unit: none
   type: text
   values:
     list:
@@ -282,12 +292,12 @@ columns:
       Southwestern Public Service Co (17718): 38
       Wood County Electric Coop, Inc (20927): 7
   missing_cells: 441
-  missing_meaning: null
+  missing_meaning: No utility of the county is outside Texas RE
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_wires_utilities.md; data
 - name: x_short_form_n
-  label: null
-  unit: null
+  label: The number of those utilities filing EIA's short form, whose utility data gives no region
+  unit: count
   type: integer
   values:
     list:
@@ -296,7 +306,7 @@ columns:
       '2': 17
       '3': 4
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_wires_utilities.md
 second_look: null

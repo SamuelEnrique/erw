@@ -5,9 +5,11 @@
 table: interchange_event_pairs
 family: interchange
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One pair of balancing authorities, or of EIA's regions, over the window of one of the nine events of /events in one year
+  (the event's own year or the same calendar dates in another year held), interchange summed over the window.
+time: ts_utc is the window's first hour (midnight of its first day in Eastern time), x_window_end the hour after its last
+  (midnight after its last day in Pacific time); freq PT1H, hourly data summed.
+vintage_rule: One build, rebuilt whole by each run of the builder; no vintage column.
 keys:
 - entity
 - variable
@@ -49,6 +51,7 @@ columns:
     - eia930:AECI-SIKE
     - eia930:AECI-SPA
   missing_cells: 0
+  particular: eia930:<A>-<B>, A before B by code
 - name: variable
   shared: true
   type: text
@@ -93,20 +96,20 @@ columns:
       erw:interchange_pairs: 13574
   missing_cells: 0
 - name: x_level
-  label: null
-  unit: null
+  label: 'The level of the pair: ba for two balancing authorities, region for two of EIA''s regions'
+  unit: none
   type: text
   values:
     list:
       ba: 11706
       region: 1868
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method interchange_pairs.md
 - name: x_a
-  label: null
-  unit: null
+  label: A, the first party of the pair (the code that sorts first), EIA-930 code
+  unit: none
   type: text
   values:
     distinct: 73
@@ -117,12 +120,12 @@ columns:
     - AVA
     - AVRN
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector interchange_pairs.py
 - name: x_b
-  label: null
-  unit: null
+  label: B, the second party of the pair, EIA-930 code
+  unit: none
   type: text
   values:
     distinct: 65
@@ -133,12 +136,12 @@ columns:
     - CISO
     - DOPD
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector interchange_pairs.py
 - name: x_event
-  label: null
-  unit: null
+  label: The event of /events whose dates set the window (its dates in event_window.py)
+  unit: none
   type: text
   values:
     list:
@@ -152,12 +155,12 @@ columns:
       ercot_heat_2023: 1632
       uri_2021: 1443
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector interchange_pairs.py; method interchange_pairs.md
 - name: x_year
-  label: null
-  unit: null
+  label: The year of the window
+  unit: none
   type: integer
   values:
     list:
@@ -171,36 +174,36 @@ columns:
       '2025': 1616
       '2026': 1443
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector interchange_pairs.py
 - name: x_role
-  label: null
-  unit: null
+  label: event for the event's own window, other_year for the same calendar dates in another year
+  unit: none
   type: text
   values:
     list:
       event: 1620
       other_year: 11954
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: x_window_end
-  label: null
-  unit: null
+  label: The hour after the window's last hour, UTC
+  unit: none
   type: utc time
   values:
     distinct: 75
     earliest: '2018-08-25T07:00:00Z'
     latest: '2026-09-11T07:00:00Z'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header
 - name: x_basis
-  label: null
-  unit: null
+  label: 'What value is: mean (the mean of the two reports over the hours both reported), a or b (only that side reported)'
+  unit: none
   type: text
   values:
     list:
@@ -208,84 +211,84 @@ columns:
       b: 1278
       mean: 12024
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method interchange_pairs.md
 - name: x_a_report_mwh
-  label: null
-  unit: null
+  label: The sum of A's reported hours, read as power from A to B
+  unit: MWh
   type: integer
   values:
     distinct: more than 5000
     lowest: -10739568
     highest: 190237466
   missing_cells: 1278
-  missing_meaning: null
+  missing_meaning: A reported no hour of the window (x_basis b)
   source_name: null
-  documented_by: null
+  documented_by: header; method interchange_pairs.md
 - name: x_b_report_mwh
-  label: null
-  unit: null
+  label: The sum of B's reported hours, turned to the direction from A to B
+  unit: MWh
   type: integer
   values:
     distinct: more than 5000
     lowest: -430973860
     highest: 11355054
   missing_cells: 272
-  missing_meaning: null
+  missing_meaning: B reported no hour of the window (x_basis a)
   source_name: null
-  documented_by: null
+  documented_by: header; method interchange_pairs.md
 - name: x_gap_mwh
-  label: null
-  unit: null
+  label: Over the hours both reported, A's report less B's
+  unit: MWh
   type: integer
   values:
     distinct: 3956
     lowest: -18173777
     highest: 429491315
   missing_cells: 1550
-  missing_meaning: null
+  missing_meaning: No hour of the window has both reports
   source_name: null
-  documented_by: null
+  documented_by: header; method interchange_pairs.md
 - name: x_hours_a
-  label: null
-  unit: null
+  label: The hours A reported
+  unit: hour count
   type: integer
   values:
     distinct: 107
     lowest: 0
     highest: 2210
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method interchange_pairs.md
 - name: x_hours_b
-  label: null
-  unit: null
+  label: The hours B reported
+  unit: hour count
   type: integer
   values:
     distinct: 126
     lowest: 0
     highest: 2210
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method interchange_pairs.md
 - name: x_hours_both
-  label: null
-  unit: null
+  label: The hours both reported
+  unit: hour count
   type: integer
   values:
     distinct: 163
     lowest: 0
     highest: 2210
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method interchange_pairs.md
 - name: x_direction
-  label: null
-  unit: null
+  label: a_to_b when value is above zero, b_to_a below, none at zero
+  unit: none
   type: text
   values:
     list:
@@ -293,12 +296,13 @@ columns:
       b_to_a: 7043
       none: 139
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method interchange_pairs.md
 variables:
 - name: interchange_mwh
-  label: null
+  label: 'Interchange from A to B summed over the window: the mean of the two sides'' reports over the hours both reported,
+    else the one side that reported (x_basis)'
   unit: MWh
   rows: 13574
   first: '2018-08-01T04:00:00Z'

@@ -2,11 +2,11 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 4 public tables (1 entities, 3 series; tiers: 4 source); 3 documented in full.
+**What the family holds.** 4 public tables (1 entities, 3 series; tiers: 4 source); 4 documented in full.
 
 - [`isone_dam_zone_prices`](#isone_dam_zone_prices): ISO-NE's day-ahead locational marginal price at one of its eight load zones or its Internal Hub for one hour.
 - [`isone_interconnection_queue`](#isone_interconnection_queue): One position (a request, or a unit or phase of one) in ISO-NE's interconnection queue of generation and other projects asking to connect to the grid.
-- [`isone_rtm_zone_prices`](#isone_rtm_zone_prices): Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261116T155131Z-github (2026-11-16T15:51:31Z); that run's own header of the table follows
+- [`isone_rtm_zone_prices`](#isone_rtm_zone_prices): ISO-NE's real-time locational marginal price at one of its eight load zones or its Internal Hub, as a 15-minute mean of its 5-minute prices.
 - [`isone_rtm_zone_prices_hourly`](#isone_rtm_zone_prices_hourly): ISO-NE's hourly real-time locational marginal price (final, or preliminary until the final is posted) at one of its eight load zones or its Internal Hub for one hour.
 
 ### `isone_dam_zone_prices`
@@ -86,35 +86,37 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 
 ### `isone_rtm_zone_prices`
 
-What a row is: not yet written.
+ISO-NE's real-time locational marginal price at one of its eight load zones or its Internal Hub, as a 15-minute mean of its 5-minute prices.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 57924.
 
+- **Time:** ts_utc is the start of the quarter hour in UTC; operating days are America/New_York days.
+- **Revisions:** Merged by (entity, variable, ts_utc); a run asks the three complete Eastern days before today, and a day whole at every node replaces its rows, while a day not whole is not written and earlier rows for it are kept. vintage is not filled.
 - **Source:** isone:rt_lmp_5min Real-Time Energy Market Five-Minute LMPs (https://www.iso-ne.com/isoexpress/web/reports/pricing/-/tree/lmps-rt-five-min-final)
 - **Method note:** [`docs/methods/isone_rtm_zone_prices.md`](../methods/isone_rtm_zone_prices.md)
 - **Cite as:** ISO New England (ISO-NE). Real-Time Energy Market Five-Minute LMPs. Via the Energy Research Warehouse (ERW), table `isone_rtm_zone_prices`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | isone:.H.INTERNAL_HUB, isone:.Z.CONNECTICUT, isone:.Z.MAINE, isone:.Z.NEMASSBOST, isone:.Z.NEWHAMPSHIRE, isone:.Z.RHODEISLAND, isone:.Z.SEMASS, isone:.Z.VERMONT, isone:.Z.WCMASS | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: isone:<node>, the node's ISO-NE name | none | text | isone:.H.INTERNAL_HUB, isone:.Z.CONNECTICUT, isone:.Z.MAINE, isone:.Z.NEMASSBOST, isone:.Z.NEWHAMPSHIRE, isone:.Z.RHODEISLAND, isone:.Z.SEMASS, isone:.Z.VERMONT, isone:.Z.WCMASS | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2026-08-27T04:00:00Z to 2026-11-16T04:45:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -72.3467 to 163.0033; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | USD/MWh | 0 |
 | `freq` | How long the interval of the row is | none | text | PT15M | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-CT,US-MA,US-ME,US-NH,US-RI,US-VT | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | isone_rtm | 0 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | .H.INTERNAL_HUB, .Z.CONNECTICUT, .Z.MAINE, .Z.NEMASSBOST, .Z.NEWHAMPSHIRE, .Z.RHODEISLAND, .Z.SEMASS, .Z.VERMONT, .Z.WCMASS | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: ISO-NE's six states in every row, also for a zone in one state | none | text | US-CT,US-MA,US-ME,US-NH,US-RI,US-VT | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: isone_rtm in every row: ISO-NE's real-time energy market | none | text | isone_rtm | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: ISO-NE's name of the location: .H.INTERNAL_HUB (the Internal Hub) or .Z.<zone> for the eight load zones (CONNECTICUT, MAINE, NEMASSBOST, NEWHAMPSHIRE, RHODEISLAND, SEMASS, VERMONT, WCMASS) | none | text | .H.INTERNAL_HUB, .Z.CONNECTICUT, .Z.MAINE, .Z.NEMASSBOST, .Z.NEWHAMPSHIRE, .Z.RHODEISLAND, .Z.SEMASS, .Z.VERMONT, .Z.WCMASS | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | isone:rt_lmp_5min | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.iso-ne.com/isoexpress/web/reports/pricing/-/tree/lmps-rt-five-min-final | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-09-26T23:33:09Z to 2026-11-16T14:33:51Z; 67 distinct | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 57924 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 57924 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `lmp_rtm_15m_mean` |  | USD/MWh | 57924 | 2026-08-27T04:00:00Z | 2026-11-16T04:45:00Z |
+| `lmp_rtm_15m_mean` | Real-time locational marginal price (the price of energy at the location in the real-time market), the arithmetic mean of exactly three 5-minute LMPs of the quarter hour, rounded to 4 decimals, USD/MWh | USD/MWh | 57924 | 2026-08-27T04:00:00Z | 2026-11-16T04:45:00Z |
 
 ### `isone_rtm_zone_prices_hourly`
 

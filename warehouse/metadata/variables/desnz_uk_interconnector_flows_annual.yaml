@@ -5,9 +5,11 @@
 table: desnz_uk_interconnector_flows_annual
 family: desnz
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The UK's electricity imports, exports, net imports or utilisation over one interconnector border in one year, or the
+  transfers between Scotland and England or Northern Ireland, 1998 to 2025 (DUKES table 5.13).
+time: ts_utc is the year's first day at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot of the DUKES edition read, here 2026); vintage is the workbook's last-modified
+  time.
 keys:
 - entity
 - variable
@@ -49,6 +51,8 @@ columns:
       desnz_ic:scotland_northern_ireland: 72
       desnz_ic:uk_total: 84
   missing_cells: 0
+  particular: 'desnz_ic:<pair>: seven interconnector borders, uk_total, and the transfers scotland_england and scotland_northern_ireland
+    (Moyle)'
 - name: variable
   shared: true
   type: text
@@ -93,12 +97,14 @@ columns:
     list:
       GB: 642
   missing_cells: 0
+  particular: Always GB, standing for the UK
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 642
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -111,6 +117,7 @@ columns:
     - Exports (UK to France)
     - Exports (UK to Netherlands)
   missing_cells: 0
+  particular: The sheet's heading, not a pricing node
 - name: source
   shared: true
   type: text
@@ -139,51 +146,52 @@ columns:
     list:
       '2026-07-29T17:20:53Z': 642
   missing_cells: 0
+  particular: The workbook's last-modified time
 variables:
 - name: exports
-  label: null
+  label: Electricity exported over the border in the year, MWh
   unit: MWh
   rows: 130
   first: '1998-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Electricity imported over the border in the year, MWh (the sheet's GWh times 1,000)
   unit: MWh
   rows: 130
   first: '1998-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: net_imports
-  label: null
+  label: Imports less exports, MWh (negative a net export)
   unit: MWh
   rows: 130
   first: '1998-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: net_transfers
-  label: null
+  label: Net transfer between the two parts of the UK in the year, MWh
   unit: MWh
   rows: 50
   first: '2000-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: transfers_to_england
-  label: null
+  label: Electricity sent from Scotland to England in the year, MWh
   unit: MWh
   rows: 26
   first: '2000-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: transfers_to_northern_ireland
-  label: null
+  label: Electricity sent from Scotland to Northern Ireland in the year, MWh
   unit: MWh
   rows: 24
   first: '2002-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: transfers_to_scotland
-  label: null
+  label: Electricity sent to Scotland (from England or Northern Ireland) in the year, MWh
   unit: MWh
   rows: 50
   first: '2000-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: utilisation
-  label: null
+  label: The year's imports and exports over the possible flow at the interconnector's capacity (table 5.13A), ratio
   unit: ratio
   rows: 102
   first: '1998-01-01T00:00:00Z'

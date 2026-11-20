@@ -5,9 +5,11 @@
 table: energy_charts_italy_power
 family: energy
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One interval's mean power of one of Italy's public net production types, its load or its cross-border trading, as Energy-Charts'
+  API gives it.
+time: ts_utc is the start of the interval, UTC; freq PT1H to the end of 2025, PT15M from 2025-12-31T23:00:00Z.
+vintage_rule: Merged by (entity, variable, ts_utc), a changed value replacing the old; an interval later given as null writes
+  no row, so the earlier value stays. vintage is blank.
 keys:
 - entity
 - variable
@@ -38,6 +40,7 @@ columns:
     list:
       energy_charts:IT: 1329375
   missing_cells: 0
+  particular: Always energy_charts:IT
 - name: variable
   shared: true
   type: text
@@ -82,12 +85,14 @@ columns:
     list:
       IT: 1329375
   missing_cells: 0
+  particular: Always IT (an ISO 3166-1 country code)
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1329375
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -95,6 +100,7 @@ columns:
     list:
       Italy: 1329375
   missing_cells: 0
+  particular: Always Italy, not a pricing node
 - name: source
   shared: true
   type: text
@@ -134,123 +140,124 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 1329375
+  particular: 'Not filled: the answers carry no Last-Modified'
 variables:
 - name: battery
-  label: null
+  label: Public net production from batteries (discharge), MW
   unit: MW
   rows: 20354
   first: '2024-12-31T23:00:00Z'
   last: '2026-10-22T21:15:00Z'
 - name: battery_consumption
-  label: null
+  label: Power drawn by batteries to charge, MW, 0 or negative
   unit: MW
   rows: 20353
   first: '2024-12-31T23:00:00Z'
   last: '2026-10-22T21:15:00Z'
 - name: biomass
-  label: null
+  label: Public net production from biomass, MW
   unit: MW
   rows: 80924
   first: '2019-12-31T23:00:00Z'
   last: '2026-10-22T21:45:00Z'
 - name: cross_border_electricity_trading
-  label: null
+  label: Net cross-border trading, MW; positive is a net import
   unit: MW
   rows: 80924
   first: '2019-12-31T23:00:00Z'
   last: '2026-10-22T21:45:00Z'
 - name: fossil_coal_derived_gas
-  label: null
+  label: Public net production from coal-derived gas, MW
   unit: MW
   rows: 78182
   first: '2019-12-31T23:00:00Z'
   last: '2026-09-25T07:30:00Z'
 - name: fossil_gas
-  label: null
+  label: Public net production from natural gas, MW
   unit: MW
   rows: 80924
   first: '2019-12-31T23:00:00Z'
   last: '2026-10-22T21:45:00Z'
 - name: fossil_hard_coal
-  label: null
+  label: Public net production from hard coal, MW
   unit: MW
   rows: 78575
   first: '2019-12-31T23:00:00Z'
   last: '2026-10-20T12:00:00Z'
 - name: fossil_oil
-  label: null
+  label: Public net production from oil, MW
   unit: MW
   rows: 79691
   first: '2019-12-31T23:00:00Z'
   last: '2026-10-22T21:45:00Z'
 - name: geothermal
-  label: null
+  label: Public net production from geothermal plants, MW
   unit: MW
   rows: 70185
   first: '2019-12-31T23:00:00Z'
   last: '2026-10-22T21:45:00Z'
 - name: hydro_pumped_storage
-  label: null
+  label: Public net production from pumped storage hydro plants, MW
   unit: MW
   rows: 62671
   first: '2019-12-31T23:00:00Z'
   last: '2026-10-22T19:00:00Z'
 - name: hydro_pumped_storage_consumption
-  label: null
+  label: Power drawn by pumped storage plants' pumps, MW, 0 or negative
   unit: MW
   rows: 62671
   first: '2019-12-31T23:00:00Z'
   last: '2026-10-22T19:00:00Z'
 - name: hydro_run_of_river
-  label: null
+  label: Public net production from run-of-river hydro, MW
   unit: MW
   rows: 80924
   first: '2019-12-31T23:00:00Z'
   last: '2026-10-22T21:45:00Z'
 - name: hydro_water_reservoir
-  label: null
+  label: Public net production from reservoir hydro, MW
   unit: MW
   rows: 80900
   first: '2019-12-31T23:00:00Z'
   last: '2026-10-22T21:45:00Z'
 - name: load
-  label: null
+  label: Load (electricity demand), MW
   unit: MW
   rows: 80924
   first: '2019-12-31T23:00:00Z'
   last: '2026-10-22T21:45:00Z'
 - name: other_renewables
-  label: null
+  label: Public net production from other renewables, MW
   unit: MW
   rows: 4060
   first: '2024-12-31T23:00:00Z'
   last: '2025-07-08T23:00:00Z'
 - name: others
-  label: null
+  label: Public net production from other sources (Energy-Charts' Others), MW
   unit: MW
   rows: 80924
   first: '2019-12-31T23:00:00Z'
   last: '2026-10-22T21:45:00Z'
 - name: solar
-  label: null
+  label: Public net production from solar, MW
   unit: MW
   rows: 80922
   first: '2019-12-31T23:00:00Z'
   last: '2026-10-22T21:45:00Z'
 - name: waste
-  label: null
+  label: Public net production from waste, MW
   unit: MW
   rows: 64597
   first: '2019-12-31T23:00:00Z'
   last: '2026-05-06T14:00:00Z'
 - name: wind_offshore
-  label: null
+  label: Public net production from offshore wind, MW
   unit: MW
   rows: 59757
   first: '2022-05-31T22:00:00Z'
   last: '2026-10-22T21:45:00Z'
 - name: wind_onshore
-  label: null
+  label: Public net production from onshore wind, MW
   unit: MW
   rows: 80913
   first: '2019-12-31T23:00:00Z'

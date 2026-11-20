@@ -5,9 +5,11 @@
 table: eia861_distribution_systems
 family: eia861
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One utility's distribution circuits (or those with voltage or VAR optimization) in one state, for one year, from Form
+  EIA-861's distribution systems file.
+time: ts_utc is the data year's 1 January at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: A run reads the years given with --years and writes the table whole; vintage is not filled. A '.' or blank cell
+  has no row.
 keys:
 - entity
 - variable
@@ -43,6 +45,7 @@ columns:
     - eia861_ds:10009:TX
     - eia861_ds:1000:AR
   missing_cells: 0
+  particular: eia861_ds:<utility number>:<state>, with no balancing authority (EIA's column is read past)
 - name: variable
   shared: true
   type: text
@@ -100,12 +103,14 @@ columns:
     - US-AS
     - US-AZ
   missing_cells: 0
+  particular: US-<state>, territories included
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 34947
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -118,6 +123,7 @@ columns:
     - AEP Texas North Company
     - AES Indiana
   missing_cells: 0
+  particular: The utility's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -165,21 +171,22 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 34947
+  particular: 'Not filled: no cell holds a value'
 - name: x_utility_number
-  label: null
-  unit: null
+  label: EIA's utility identifier
+  unit: none
   type: integer
   values:
     distinct: 2862
     lowest: 34
     highest: 66866
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_distribution.md
 - name: x_state
-  label: null
-  unit: null
+  label: The state or territory, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 56
@@ -190,18 +197,18 @@ columns:
     - AS
     - AZ
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_distribution.md
 variables:
 - name: circuits_voltage_optimization
-  label: null
+  label: The circuits with voltage or VAR (reactive power) optimization, count
   unit: count
   rows: 15914
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: distribution_circuits
-  label: null
+  label: The utility's distribution circuits in the state, count
   unit: count
   rows: 19033
   first: '2015-01-01T00:00:00Z'

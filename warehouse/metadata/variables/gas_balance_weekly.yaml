@@ -5,9 +5,9 @@
 table: gas_balance_weekly
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One EIA storage region's weekly working gas measure, or one monthly measure of the US natural gas balance.
+time: ts_utc is the storage report's week (freq P1W) or the first day of the month (freq P1M), at 00:00:00Z.
+vintage_rule: Rewritten whole as one snapshot by each run of the builder from the EIA source tables; vintage is not filled.
 keys:
 - entity
 - variable
@@ -47,6 +47,7 @@ columns:
       gas_storage:salt: 4823
       gas_storage:south_central: 4823
   missing_cells: 0
+  particular: gas_storage:<EIA region> for the weekly rows, gas_balance:US for the monthly rows
 - name: variable
   shared: true
   type: text
@@ -86,6 +87,7 @@ columns:
       P1M: 1923
       P1W: 38584
   missing_cells: 0
+  particular: P1W for storage rows, P1M for balance rows
 - name: geo
   shared: true
   type: text
@@ -93,18 +95,21 @@ columns:
     list:
       US: 40507
   missing_cells: 0
+  particular: US on every row, whatever the region
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 40507
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 40507
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -132,9 +137,11 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 40507
+  particular: 'Not filled: no cell holds a value'
 - name: x_region
-  label: null
-  unit: null
+  label: EIA's storage region (east, midwest, south_central, mountain, pacific, salt, nonsalt, lower48), or US on the monthly
+    balance rows
+  unit: none
   type: text
   values:
     list:
@@ -148,102 +155,103 @@ columns:
       salt: 4823
       south_central: 4823
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method gas_balance_weekly.md; connector gas_balance_weekly.py
 variables:
 - name: consumption
-  label: null
+  label: US total natural gas consumption in the month
   unit: MMcf
   rows: 307
   first: '2001-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: dry_production
-  label: null
+  label: US dry natural gas production in the month
   unit: MMcf
   rows: 307
   first: '2001-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: exports
-  label: null
+  label: US natural gas exports in the month (pipeline to Canada and Mexico, and LNG)
   unit: MMcf
   rows: 139
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: five_year_avg_bcf
-  label: null
+  label: The average working gas of the same ISO week in the five years before (written only when all five are held)
   unit: bcf
   rows: 4912
   first: '2015-01-02T00:00:00Z'
   last: '2026-10-16T00:00:00Z'
 - name: five_year_max_bcf
-  label: null
+  label: The highest working gas of the same ISO week in the five years before (written only when all five are held)
   unit: bcf
   rows: 4912
   first: '2015-01-02T00:00:00Z'
   last: '2026-10-16T00:00:00Z'
 - name: five_year_min_bcf
-  label: null
+  label: The lowest working gas of the same ISO week in the five years before (written only when all five are held)
   unit: bcf
   rows: 4912
   first: '2015-01-02T00:00:00Z'
   last: '2026-10-16T00:00:00Z'
 - name: five_year_position_pct
-  label: null
+  label: 'Working gas''s place in the five-year range: 0 at the five-year low, 100 at the high'
   unit: pct
   rows: 4912
   first: '2015-01-02T00:00:00Z'
   last: '2026-10-16T00:00:00Z'
 - name: implied_balance
-  label: null
+  label: 'Dry production plus imports less consumption less exports: what went to storage, the losses and EIA''s balancing
+    item (written only when all four are held)'
   unit: MMcf
   rows: 139
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: imports
-  label: null
+  label: US natural gas imports in the month (pipeline from Canada and Mexico, and LNG)
   unit: MMcf
   rows: 139
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: lng_exports
-  label: null
+  label: US LNG exports in the month
   unit: MMcf
   rows: 139
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: lng_share_pct
-  label: null
+  label: LNG exports as a percent of dry production
   unit: pct
   rows: 139
   first: '2015-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: net_change_bcf
-  label: null
+  label: Working gas less the week exactly 7 days before
   unit: bcf
   rows: 7008
   first: '2010-01-08T00:00:00Z'
   last: '2026-10-16T00:00:00Z'
 - name: power_burn
-  label: null
+  label: US natural gas consumed for electric power in the month
   unit: MMcf
   rows: 307
   first: '2001-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: power_share_pct
-  label: null
+  label: Power burn as a percent of consumption
   unit: pct
   rows: 307
   first: '2001-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: vs_five_year_avg_bcf
-  label: null
+  label: Working gas less the five-year average
   unit: bcf
   rows: 4912
   first: '2015-01-02T00:00:00Z'
   last: '2026-10-16T00:00:00Z'
 - name: working_gas_bcf
-  label: null
+  label: Working gas in underground storage in the region at the report's week
   unit: bcf
   rows: 7016
   first: '2010-01-01T00:00:00Z'

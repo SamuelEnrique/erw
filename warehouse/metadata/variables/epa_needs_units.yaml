@@ -5,9 +5,11 @@
 table: epa_needs_units
 family: epa
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One generating unit (a generator, or a boiler carrying the unit's capacity) of EPA's NEEDS inventory for the 2025 reference
+  case of its power sector model (IPM), from one of four sheets.
+time: No time column; status_date is empty. vintage is the workbook's Last-Modified time (2025-12-15).
+vintage_rule: A snapshot of one NEEDS version, rewritten whole by each run; a later reference case is a new address set in
+  the code.
 keys:
 - entity_id
 license: public
@@ -45,6 +47,7 @@ columns:
     - epa_needs:10003_B_BLR2
     - epa_needs:10003_B_BLR4
   missing_cells: 0
+  particular: epa_needs:<EPA's UniqueID_Final> (ORIS plant code, unit kind and unit id)
 - name: entity_type
   shared: true
   type: text
@@ -53,6 +56,7 @@ columns:
       equipment: 1111
       generator: 36919
   missing_cells: 0
+  particular: generator (EPA's G, and its one I, an import) or equipment (B, a boiler)
 - name: name
   shared: true
   type: text
@@ -65,6 +69,7 @@ columns:
     - 1 Commercial CM1BS
     - 1 Commercial CM1PV
   missing_cells: 0
+  particular: The plant name and the unit id
 - name: geo
   shared: true
   type: text
@@ -77,18 +82,21 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
+  particular: US-<state> from EPA's state name
 - name: lat
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 38030
+  particular: Not filled
 - name: lon
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 38030
+  particular: Not filled
 - name: capacity_mw
   shared: true
   type: number
@@ -97,6 +105,7 @@ columns:
     lowest: 0.0
     highest: 2561.2
   missing_cells: 7
+  particular: EPA's Capacity (MW); for units with boilers the capacity sits on the boiler row; blank on 7 dropped units
 - name: status
   shared: true
   type: text
@@ -104,18 +113,21 @@ columns:
     list:
       active: 22688
   missing_cells: 15342
+  particular: active for a unit of the NEEDS_Active sheet, else blank (x_needs_sheet says which)
 - name: status_date
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 38030
+  particular: Not filled
 - name: operator
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 38030
+  particular: Not filled; the owner is x_owner
 - name: source
   shared: true
   type: text
@@ -144,9 +156,11 @@ columns:
     list:
       '2025-12-15T18:55:14Z': 38030
   missing_cells: 0
+  particular: The workbook's Last-Modified time
 - name: x_needs_sheet
-  label: null
-  unit: null
+  label: 'EPA''s sheet the unit is on: active, retired_by_2028, hardwired_capacity (hard-wired into the model) or dropped_capacity
+    (dropped from the model)'
+  unit: none
   type: text
   values:
     list:
@@ -155,12 +169,12 @@ columns:
       hardwired_capacity: 2755
       retired_by_2028: 1094
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector epa_needs.py; method epa_needs_units.md
 - name: x_unique_id
-  label: null
-  unit: null
+  label: 'EPA''s unique unit id: ORIS plant code, unit kind and unit id'
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -171,24 +185,24 @@ columns:
     - 10003_B_BLR2
     - 10003_B_BLR4
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: UniqueID_Final
+  documented_by: connector epa_needs.py; method epa_needs_units.md
 - name: x_oris
-  label: null
-  unit: null
+  label: The plant's ORIS plant code
+  unit: none
   type: integer
   values:
     distinct: more than 5000
     lowest: 0
     highest: 68893
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: ORIS Plant Code
+  documented_by: connector epa_needs.py
 - name: x_unit_kind
-  label: null
-  unit: null
+  label: 'The unit kind: G a generator, B a boiler, I an import (C a committed unit, none here)'
+  unit: none
   type: text
   values:
     list:
@@ -196,12 +210,12 @@ columns:
       G: 36918
       I: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Boiler/Generator/Committed Unit
+  documented_by: connector epa_needs.py; method epa_needs_units.md
 - name: x_unit_id
-  label: null
-  unit: null
+  label: The unit's id within the plant
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -212,24 +226,24 @@ columns:
     - 0000B
     - 0000D
   missing_cells: 3
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: Unit ID
+  documented_by: connector epa_needs.py
 - name: x_camd_unit_id
-  label: null
-  unit: null
+  label: The unit's id in EPA's CAMD database
+  unit: none
   type: integer
   values:
     distinct: 3476
     lowest: 1
     highest: 91323
   missing_cells: 33977
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: CAMD Database UnitID
+  documented_by: connector epa_needs.py; method epa_needs_units.md
 - name: x_plant_type
-  label: null
-  unit: null
+  label: EPA's plant type of the unit (Combustion Turbine, Solar PV, Hydro and 19 others)
+  unit: none
   type: text
   values:
     list:
@@ -256,23 +270,23 @@ columns:
       Solar Thermal: 34
       Tires: 6
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: PlantType
+  documented_by: connector epa_needs.py; method epa_needs_units.md
 - name: x_ct_ic
-  label: null
-  unit: null
+  label: EPA's Combustion Turbine/IC Engine column (only 'IC Engine', an internal combustion engine, is written)
+  unit: none
   type: text
   values:
     list:
       IC Engine: 4315
   missing_cells: 33715
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: Combustion Turbine/IC Engine
+  documented_by: connector epa_needs.py; data
 - name: x_ipm_region
-  label: null
-  unit: null
+  label: The IPM model region of the unit
+  unit: none
   type: text
   values:
     distinct: 67
@@ -283,12 +297,12 @@ columns:
     - ERC_REST
     - ERC_WEST
   missing_cells: 10581
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Blank in 10,581 dropped units
+  source_name: Region Name
+  documented_by: connector epa_needs.py; method epa_needs_units.md
 - name: x_county
-  label: null
-  unit: null
+  label: The unit's county as EPA writes it
+  unit: none
   type: text
   values:
     distinct: 1617
@@ -299,60 +313,60 @@ columns:
     - Accomack
     - Ada
   missing_cells: 114
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: County
+  documented_by: connector epa_needs.py
 - name: x_fips5
-  label: null
-  unit: null
+  label: The county's five-digit FIPS code
+  unit: none
   type: integer
   values:
     distinct: 2253
     lowest: 1001
     highest: 56041
   missing_cells: 10581
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Blank in the same 10,581 dropped units
+  source_name: FIPS5
+  documented_by: connector epa_needs.py; method epa_needs_units.md
 - name: x_heat_rate_btu_kwh
-  label: null
-  unit: null
+  label: The unit's heat rate (fuel heat per kWh generated); EPA writes 0 for 14,852 units
+  unit: Btu/kWh
   type: integer
   values:
     distinct: 2440
     lowest: 0
     highest: 40000
   missing_cells: 11300
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA leaves it blank (11,300 units)
+  source_name: Heat Rate (Btu/kWh)
+  documented_by: connector epa_needs.py; method epa_needs_units.md
 - name: x_online_year
-  label: null
-  unit: null
+  label: The year the unit came on line
+  unit: none
   type: integer
   values:
     distinct: 137
     lowest: 1891
     highest: 2031
   missing_cells: 1407
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: On Line Year
+  documented_by: connector epa_needs.py; method epa_needs_units.md
 - name: x_retirement_year
-  label: null
-  unit: null
+  label: The unit's retirement year (two dropped units carry 0, as EPA gives it)
+  unit: none
   type: integer
   values:
     distinct: 67
     lowest: 0
     highest: 2103
   missing_cells: 30767
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'No retirement: EPA''s 9999 written blank, or blank'
+  source_name: Retirement Year
+  documented_by: connector epa_needs.py; method epa_needs_units.md
 - name: x_firing
-  label: null
-  unit: null
+  label: The boiler's firing type as EPA writes it (wall, tangential, cyclone, FBC and the others)
+  unit: none
   type: text
   values:
     list:
@@ -366,36 +380,36 @@ columns:
       vertical: 3
       wall: 359
   missing_cells: 37250
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: Firing
+  documented_by: connector epa_needs.py; data
 - name: x_bottom
-  label: null
-  unit: null
+  label: 'EPA''s Bottom column of the boiler: dry or wet'
+  unit: none
   type: text
   values:
     list:
       dry: 591
       wet: 56
   missing_cells: 37383
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: Bottom
+  documented_by: connector epa_needs.py; data
 - name: x_cogen
-  label: null
-  unit: null
+  label: 'Whether the unit is a cogeneration unit: Y or N'
+  unit: none
   type: text
   values:
     list:
       N: 26272
       Y: 1259
   missing_cells: 10499
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: Cogen?
+  documented_by: connector epa_needs.py; data
 - name: x_fuels
-  label: null
-  unit: null
+  label: The fuels EPA's model gives the unit
+  unit: none
   type: text
   values:
     distinct: 32
@@ -406,12 +420,12 @@ columns:
     - Bituminous, Petroleum Coke
     - Bituminous, Subbituminous
   missing_cells: 11300
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: Modeled Fuels
+  documented_by: connector epa_needs.py
 - name: x_scrubber
-  label: null
-  unit: null
+  label: 'The unit''s SO2 scrubber: Wet Scrubber, Dry Scrubber or Reagent Injection'
+  unit: none
   type: text
   values:
     list:
@@ -419,12 +433,12 @@ columns:
       Reagent Injection: 40
       Wet Scrubber: 208
   missing_cells: 37556
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank (no scrubber given)
+  source_name: Wet/DryScrubber
+  documented_by: connector epa_needs.py; data
 - name: x_nox_comb_control
-  label: null
-  unit: null
+  label: The unit's NOx combustion controls, as EPA's codes joined with '+'
+  unit: none
   type: text
   values:
     distinct: 105
@@ -435,12 +449,12 @@ columns:
     - AA + LNB + LNBO
     - AA + LNB + OFA
   missing_cells: 34426
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: NOx Comb Control
+  documented_by: connector epa_needs.py; data
 - name: x_nox_post_comb_control
-  label: null
-  unit: null
+  label: The unit's NOx post-combustion control, as EPA's code (SCR, SNCR, ReACT)
+  unit: none
   type: text
   values:
     list:
@@ -448,12 +462,12 @@ columns:
       SCR: 2081
       SNCR: 278
   missing_cells: 35670
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: NOx Post-Comb Control
+  documented_by: connector epa_needs.py; data
 - name: x_pm_control
-  label: null
-  unit: null
+  label: The unit's particulate matter controls, as EPA's codes joined with '+'
+  unit: none
   type: text
   values:
     list:
@@ -476,58 +490,58 @@ columns:
       WESP + B: 2
       WS: 4
   missing_cells: 37323
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: PM Control
+  documented_by: connector epa_needs.py; data
 - name: x_mercury_controls
-  label: null
-  unit: null
+  label: The unit's mercury controls, as EPA's code (ACI)
+  unit: none
   type: text
   values:
     list:
       ACI: 350
   missing_cells: 37680
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: Mercury_Controls
+  documented_by: connector epa_needs.py; data
 - name: x_so2_permit_rate
-  label: null
-  unit: null
+  label: The unit's SO2 permit rate
+  unit: lb/MMBtu
   type: number
   values:
     distinct: 265
     lowest: 0.00064
     highest: 10.0
   missing_cells: 33595
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: SO2 Permit Rate (lbs/mmBtu)
+  documented_by: connector epa_needs.py; method epa_needs_units.md
 - name: x_nox_rate_mode1
-  label: null
-  unit: null
+  label: The unit's mode 1 NOx rate
+  unit: lb/MMBtu
   type: number
   values:
     distinct: 3530
     lowest: 0.0
     highest: 4.79601
   missing_cells: 11300
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: Mode 1 NOx Rate (lbs/mmBtu)
+  documented_by: connector epa_needs.py; method epa_needs_units.md
 - name: x_ccs
-  label: null
-  unit: null
+  label: Y when EPA marks the unit with carbon capture and storage (CCS)
+  unit: none
   type: text
   values:
     list:
       Y: 2
   missing_cells: 38028
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: CCS
+  documented_by: connector epa_needs.py; data
 - name: x_c2g
-  label: null
-  unit: null
+  label: EPA's coal to gas mark of the unit (C2G, C2G (RFO), C2G/Retire)
+  unit: none
   type: text
   values:
     list:
@@ -535,23 +549,23 @@ columns:
       C2G (RFO): 3
       C2G/Retire: 5
   missing_cells: 38001
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: C2G
+  documented_by: connector epa_needs.py; data
 - name: x_bart
-  label: null
-  unit: null
+  label: Yes when EPA marks the unit a BART affected unit
+  unit: none
   type: text
   values:
     list:
       'Yes': 80
   missing_cells: 37950
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: BART Affected Unit
+  documented_by: connector epa_needs.py; data
 - name: x_owner
-  label: null
-  unit: null
+  label: The unit's owner as EPA writes it
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -562,24 +576,24 @@ columns:
     - 127 CVF, LLC
     - 13 Mile Solar, LLC
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank (one unit)
+  source_name: Owner Name
+  documented_by: connector epa_needs.py
 - name: x_owner_percent
-  label: null
-  unit: null
+  label: The owner's share of the unit
+  unit: pct
   type: number
   values:
     distinct: 152
     lowest: 20.0
     highest: 100.0
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank (one unit)
+  source_name: Owner Percent
+  documented_by: connector epa_needs.py
 - name: x_holding_company
-  label: null
-  unit: null
+  label: The owner's holding company as EPA writes it
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -590,36 +604,36 @@ columns:
     - 127 CVF, LLC
     - 13 Mile Solar, LLC
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank (one unit)
+  source_name: Holding Company
+  documented_by: connector epa_needs.py
 - name: x_holding_company_percent
-  label: null
-  unit: null
+  label: The holding company's share of the unit
+  unit: pct
   type: number
   values:
     distinct: 152
     lowest: 20.0
     highest: 100.0
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank (one unit)
+  source_name: Holding Company Percent
+  documented_by: connector epa_needs.py
 - name: x_regulatory_status
-  label: null
-  unit: null
+  label: Whether the unit is Regulated or Non-regulated
+  unit: none
   type: text
   values:
     list:
       Non-regulated: 23971
       Regulated: 13831
   missing_cells: 228
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EPA's cell is blank
+  source_name: Regulatory Status
+  documented_by: connector epa_needs.py; data
 - name: x_drop_reason
-  label: null
-  unit: null
+  label: EPA's reason for dropping the unit from NEEDS
+  unit: none
   type: text
   values:
     list:
@@ -631,7 +645,11 @@ columns:
       Dropped - Units whose status are "OS" or "RE" for the past 3 consecutive years: 174
       Dropped - in Alaska or in Hawaii or Puerto Rico: 1339
   missing_cells: 26537
-  missing_meaning: null
-  source_name: null
-  documented_by: null
-second_look: null
+  missing_meaning: Not on the dropped_capacity sheet
+  source_name: Reasons for Dropping the Unit from NEEDS
+  documented_by: connector epa_needs.py; method epa_needs_units.md
+second_look:
+- 'x_firing, x_bottom, x_scrubber, x_nox_comb_control, x_nox_post_comb_control, x_pm_control, x_mercury_controls: EPA''s codes
+  (LNB, SCR, ESPC, ACI and the others) are kept, and no note or connector in the repository expands them.'
+- 'x_bart: the connector names it BART only; the term is not expanded in the repository.'
+- 'x_ct_ic: only ''IC Engine'' appears; what an empty cell means beside it is not said.'

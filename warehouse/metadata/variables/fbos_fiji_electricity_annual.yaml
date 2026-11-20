@@ -5,9 +5,10 @@
 table: fbos_fiji_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Energy Fiji Limited's units produced or sold (in total or to one consumer class) in one year, from the Fiji Bureau of
+  Statistics.
+time: ts_utc is the year's 1 January at 00:00:00Z; freq P1Y; 2011 to 2024.
+vintage_rule: Rewritten whole as one snapshot by each run from the two saved PDFs; vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +45,7 @@ columns:
       fbos:fj:industrial: 14
       fbos:fj:others: 13
   missing_cells: 0
+  particular: fbos:fj:efl (units produced and sold) or fbos:fj:<consumer class> (units sold)
 - name: variable
   shared: true
   type: text
@@ -99,12 +101,14 @@ columns:
     list:
       FJ: 83
   missing_cells: 0
+  particular: FJ on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 83
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -117,6 +121,7 @@ columns:
       Units Produced (kwh): 14
       Units Sold (kwh): 14
   missing_cells: 0
+  particular: FBoS's row label, not a pricing node
 - name: source
   shared: true
   type: text
@@ -146,9 +151,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 83
+  particular: 'Not filled: no cell holds a value'
 - name: x_label
-  label: null
-  unit: null
+  label: FBoS's row label as printed (the same as node)
+  unit: none
   type: text
   values:
     list:
@@ -159,19 +165,19 @@ columns:
       Units Produced (kwh): 14
       Units Sold (kwh): 14
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector fbos_fiji_electricity.py; method fbos_fiji_electricity_annual.md
 variables:
 - name: generation
-  label: null
+  label: Units produced by Energy Fiji Limited in the year
   unit: MWh
   rows: 14
   first: '2011-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
   source_label: Units Produced (kwh)
 - name: sales
-  label: null
+  label: Units sold in the year, in total or to the consumer class (industrial, commercial, domestic, others)
   unit: MWh
   rows: 69
   first: '2011-01-01T00:00:00Z'

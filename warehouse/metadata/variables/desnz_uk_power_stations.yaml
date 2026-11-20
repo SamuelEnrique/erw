@@ -5,9 +5,11 @@
 table: desnz_uk_power_stations
 family: desnz
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One of the major power producers' power stations in the United Kingdom operational at the end of May 2026, as DUKES table
+  5.11 lists it.
+time: No time column; status_date is 2026-05-31, the end of the month the sheet's title names.
+vintage_rule: Rewritten whole by each run (a snapshot of the DUKES edition read, here 2026); vintage is the workbook's last-modified
+  time.
 keys:
 - entity_id
 license: public
@@ -43,6 +45,7 @@ columns:
     - dukes:BIO-000145
     - dukes:BIO-000175
   missing_cells: 0
+  particular: dukes:<DESNZ site code>
 - name: entity_type
   shared: true
   type: text
@@ -50,6 +53,7 @@ columns:
     list:
       plant: 1364
   missing_cells: 0
+  particular: Always plant
 - name: name
   shared: true
   type: text
@@ -62,6 +66,7 @@ columns:
     - Abbey Fields Solar Farm
     - Abbots Ripton
   missing_cells: 0
+  particular: The site name as DESNZ writes it
 - name: geo
   shared: true
   type: text
@@ -72,6 +77,7 @@ columns:
       GB-SCT: 336
       GB-WLS: 137
   missing_cells: 0
+  particular: GB-ENG, GB-SCT, GB-WLS or GB-NIR from the sheet's country
 - name: lat
   shared: true
   type: number
@@ -80,6 +86,7 @@ columns:
     lowest: 50.046506
     highest: 60.339325
   missing_cells: 0
+  particular: Converted from the sheet's British National Grid X and Y (EPSG:27700)
 - name: lon
   shared: true
   type: number
@@ -88,6 +95,7 @@ columns:
     lowest: -8.005005
     highest: 2.249319
   missing_cells: 0
+  particular: Converted from the sheet's British National Grid X and Y (EPSG:27700)
 - name: capacity_mw
   shared: true
   type: number
@@ -96,6 +104,7 @@ columns:
     lowest: 0.05
     highest: 2580.0
   missing_cells: 0
+  particular: The sheet's installed capacity, as stated
 - name: status
   shared: true
   type: text
@@ -103,6 +112,7 @@ columns:
     list:
       operating: 1364
   missing_cells: 0
+  particular: Always operating
 - name: status_date
   shared: true
   type: date
@@ -110,6 +120,7 @@ columns:
     list:
       '2026-05-31': 1364
   missing_cells: 0
+  particular: 2026-05-31, the day the list is as of
 - name: operator
   shared: true
   type: text
@@ -122,6 +133,7 @@ columns:
     - Bluefield Services
     - Calon Energy
   missing_cells: 0
+  particular: The company name as DESNZ writes it
 - name: source
   shared: true
   type: text
@@ -150,9 +162,10 @@ columns:
     list:
       '2026-07-29T17:20:27Z': 1364
   missing_cells: 0
+  particular: The workbook's last-modified time
 - name: technology
-  label: null
-  unit: null
+  label: DESNZ's technology of the station (Bioenergy, Fossil Fuel, Hydro, Nuclear, Pumped Hydro, Solar, Wind)
+  unit: none
   type: text
   values:
     list:
@@ -164,12 +177,13 @@ columns:
       Solar: 645
       Wind: 496
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Technology
+  documented_by: method desnz_uk_power_stations.md; connector desnz_dukes_power_stations.py; data
 - name: type
-  label: null
-  unit: null
+  label: DESNZ's type of the station within its technology, as printed (CCGT, Single cycle, Onshore, Offshore, PV, AGR, PWR
+    and the others)
+  unit: none
   type: text
   values:
     list:
@@ -186,24 +200,24 @@ columns:
       Single cycle: 34
       Small Hydro: 73
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Type
+  documented_by: method desnz_uk_power_stations.md; connector desnz_dukes_power_stations.py; data
 - name: chp
-  label: null
-  unit: null
+  label: 'Whether the station is combined heat and power (CHP): Yes or No'
+  unit: none
   type: text
   values:
     list:
       'No': 1353
       'Yes': 11
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: CHP
+  documented_by: connector desnz_dukes_power_stations.py; data
 - name: primary_fuel
-  label: null
-  unit: null
+  label: The station's main fuel as DESNZ writes it (Natural Gas, Wind, Solar, Nuclear, Biomass and the others)
+  unit: none
   type: text
   values:
     list:
@@ -217,36 +231,36 @@ columns:
       Solar: 645
       Wind: 496
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Primary Fuel
+  documented_by: method desnz_uk_power_stations.md; connector desnz_dukes_power_stations.py; data
 - name: secondary_fuel
-  label: null
-  unit: null
+  label: The station's second fuel as DESNZ writes it (Gas or Oil)
+  unit: none
   type: text
   values:
     list:
       Gas: 1
       Oil: 3
   missing_cells: 1360
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The sheet gives no secondary fuel (1,360 of 1,364 stations)
+  source_name: Secondary Fuel
+  documented_by: connector desnz_dukes_power_stations.py; data
 - name: grid_connection_type
-  label: null
-  unit: null
+  label: The sheet's grid connection type of the station, HV or LV as printed
+  unit: none
   type: text
   values:
     list:
       HV: 212
       LV: 1152
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Grid Connection Type
+  documented_by: connector desnz_dukes_power_stations.py; data
 - name: country
-  label: null
-  unit: null
+  label: The UK country the station is in, as the sheet writes it (England, Scotland, Wales, Northern Ireland)
+  unit: none
   type: text
   values:
     list:
@@ -255,12 +269,12 @@ columns:
       Scotland: 336
       Wales: 137
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Country
+  documented_by: method desnz_uk_power_stations.md; connector desnz_dukes_power_stations.py
 - name: region
-  label: null
-  unit: null
+  label: The region the station is in, as the sheet writes it (England's regions, Scotland, Wales, Northern Ireland)
+  unit: none
   type: text
   values:
     list:
@@ -278,12 +292,12 @@ columns:
       West Midlands: 39
       Yorkshire and the Humber: 61
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Region
+  documented_by: connector desnz_dukes_power_stations.py; data
 - name: postcode
-  label: null
-  unit: null
+  label: The station's postcode as the sheet prints it
+  unit: none
   type: text
   values:
     distinct: 977
@@ -294,12 +308,12 @@ columns:
     - AB416QR
     - AB423BZ
   missing_cells: 297
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The sheet gives no postcode
+  source_name: Postcode
+  documented_by: connector desnz_dukes_power_stations.py
 - name: os_reference
-  label: null
-  unit: null
+  label: The sheet's OS Reference of the station, as text as printed
+  unit: none
   type: text
   values:
     distinct: 654
@@ -310,48 +324,48 @@ columns:
     - H395815
     - HU4380061960
   missing_cells: 673
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The sheet gives none
+  source_name: OS Reference
+  documented_by: connector desnz_dukes_power_stations.py
 - name: x_coordinate
-  label: null
-  unit: null
+  label: The station's British National Grid easting (EPSG:27700), as the sheet gives it
+  unit: m
   type: number
   values:
     distinct: 1303
     lowest: 10820.0
     highest: 690118.0
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: X-Coordinate
+  documented_by: method desnz_uk_power_stations.md; connector desnz_dukes_power_stations.py
 - name: y_coordinate
-  label: null
-  unit: null
+  label: The station's British National Grid northing (EPSG:27700), as the sheet gives it
+  unit: m
   type: number
   values:
     distinct: 1302
     lowest: 21200.0
     highest: 1161960.0
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Y-Coordinate
+  documented_by: method desnz_uk_power_stations.md; connector desnz_dukes_power_stations.py
 - name: year_commissioned
-  label: null
-  unit: null
+  label: The year the station was commissioned, as the sheet gives it
+  unit: none
   type: integer
   values:
     distinct: 73
     lowest: 1906
     highest: 2026
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Year Commissioned
+  documented_by: connector desnz_dukes_power_stations.py
 - name: desnz_site_code
-  label: null
-  unit: null
+  label: DESNZ's site code of the station, unique on the sheet (SOL-000443, WON-001539 and the like)
+  unit: none
   type: text
   values:
     distinct: 1364
@@ -362,7 +376,11 @@ columns:
     - BIO-000145
     - BIO-000175
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
-second_look: null
+  missing_meaning: never empty
+  source_name: DESNZ site code
+  documented_by: connector desnz_dukes_power_stations.py
+second_look:
+- 'grid_connection_type: the meaning of HV and LV is not written in the connector, the method note or the header.'
+- 'os_reference: what the sheet''s OS Reference holds is not documented; its values mix grid references and postcode-like
+  strings.'
+- 'type: the codes AGR and PWR are printed by the sheet without a definition in the repository.'

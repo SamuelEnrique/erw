@@ -5,9 +5,10 @@
 table: statcan_petroleum_products_monthly
 family: statcan
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One area's value of one supply or disposition item for one petroleum product in one month, from Statistics Canada table
+  25-10-0081-01.
+time: ts_utc is the month's first day at 00:00:00Z (a month, not an instant); freq P1M.
+vintage_rule: A snapshot; each run asks the zip again and writes the whole table; vintage is the zip's Last-Modified time.
 keys:
 - entity
 - variable
@@ -47,6 +48,7 @@ columns:
     - statcan_pp:ab:distillate_fuel_oil
     - statcan_pp:ab:ethane
   missing_cells: 0
+  particular: statcan_pp:<area>:<product>, the area ca or a province's or territory's postal code in lower case
 - name: variable
   shared: true
   type: text
@@ -103,12 +105,14 @@ columns:
       CA-SK: 10555
       CA-YT: 3094
   missing_cells: 0
+  particular: CA for Canada, CA-<province> for a province or territory
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 112385
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -121,6 +125,7 @@ columns:
     - 'Alberta: Ending stocks: Finished aviation gasoline'
     - 'Alberta: Ending stocks: Finished motor gasoline'
   missing_cells: 0
+  particular: '<area>: <item>: <product> as StatCan names them, not a pricing node'
 - name: source
   shared: true
   type: text
@@ -149,9 +154,10 @@ columns:
     list:
       '2026-09-29T12:30:43Z': 112385
   missing_cells: 0
+  particular: The Last-Modified time of StatCan's zip
 - name: x_product
-  label: null
-  unit: null
+  label: The petroleum product, StatCan's name (31 products)
+  unit: none
   type: text
   values:
     distinct: 31
@@ -162,12 +168,12 @@ columns:
     - Distillate fuel oil
     - Ethane
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Products
+  documented_by: header; connector statcan_petroleum_products.py
 - name: x_parent
-  label: null
-  unit: null
+  label: The product this one is part of, StatCan's name
+  unit: none
   type: text
   values:
     list:
@@ -177,23 +183,23 @@ columns:
       Other liquids: 18703
       Renewable fuels: 10591
   missing_cells: 8570
-  missing_meaning: null
+  missing_meaning: One of the three top products (hydrocarbon gas liquids, other liquids, finished petroleum products)
   source_name: null
-  documented_by: null
+  documented_by: header; connector statcan_petroleum_products.py
 - name: x_total
-  label: null
-  unit: null
+  label: yes where the product has parts in the table, never to be summed with them
+  unit: none
   type: text
   values:
     list:
       'yes': 17329
   missing_cells: 95056
-  missing_meaning: null
+  missing_meaning: The product has no parts in the table
   source_name: null
-  documented_by: null
+  documented_by: header; connector statcan_petroleum_products.py
 - name: x_vector
-  label: null
-  unit: null
+  label: StatCan's vector identifier of the series
+  unit: none
   type: text
   values:
     distinct: 1331
@@ -204,76 +210,76 @@ columns:
     - v1251227411
     - v1251227412
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: VECTOR
+  documented_by: header; connector statcan_petroleum_products.py
 - name: x_revised
-  label: null
-  unit: null
+  label: r where StatCan marks the figure revised; no row holds one
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 112385
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: StatCan gives no symbol (every row now)
+  source_name: SYMBOL
+  documented_by: header; connector statcan_petroleum_products.py; method statcan_petroleum_products_monthly.md
 variables:
 - name: adjustments
-  label: null
+  label: Adjustments, m3 (Canada only)
   unit: m3
   rows: 668
   first: '2019-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: ending_stocks
-  label: null
+  label: Ending stocks, m3
   unit: m3
   rows: 16200
   first: '2019-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: exports
-  label: null
+  label: Exports, m3
   unit: m3
   rows: 20408
   first: '2019-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: field_production
-  label: null
+  label: Field production, m3
   unit: m3
   rows: 1183
   first: '2019-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Imports, m3
   unit: m3
   rows: 24206
   first: '2019-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: products_supplied
-  label: null
+  label: Products supplied, m3 (Canada only)
   unit: m3
   rows: 1238
   first: '2019-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: refinery_inputs
-  label: null
+  label: Refinery and blender net inputs, m3 (net, can be negative)
   unit: m3
   rows: 6381
   first: '2019-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: refinery_production
-  label: null
+  label: Refinery and blender net production, m3 (net, can be negative)
   unit: m3
   rows: 15430
   first: '2019-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: renewable_production
-  label: null
+  label: Renewable fuel plant net production, m3
   unit: m3
   rows: 463
   first: '2020-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: stock_change
-  label: null
+  label: Stock change, m3 (positive for a build)
   unit: m3
   rows: 26208
   first: '2019-01-01T00:00:00Z'

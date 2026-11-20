@@ -2,23 +2,25 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 8 public tables (2 entities, 3 events, 3 series; tiers: 8 source); 3 documented in full.
+**What the family holds.** 8 public tables (2 entities, 3 events, 3 series; tiers: 8 source); 8 documented in full.
 
-- [`lbnl_hybrid_ppa_prices`](#lbnl_hybrid_ppa_prices): Berkeley Lab, PV+battery hybrid PPA prices, one row a PPA, greenfield or retrofit (Utility-Scale Solar, 2025 Data Update) (session 940)
+- [`lbnl_hybrid_ppa_prices`](#lbnl_hybrid_ppa_prices): One PV plus battery hybrid power purchase agreement in Berkeley Lab's Utility-Scale Solar, 2025 Data Update, either greenfield (PV and battery contracted together) or a retrofit (a battery added to an operating PV plant).
 - [`lbnl_interconnection_queue`](#lbnl_interconnection_queue): One interconnection request (a project's request to connect to the grid) in Berkeley Lab and GridTracker's Queued Up data file, 2026 edition, requests through the end of 2025, across the seven ISOs and the West and Southeast outside them.
-- [`lbnl_ppa_prices`](#lbnl_ppa_prices): Berkeley Lab, wind and utility-scale solar PPA prices, one row a power purchase agreement (session 915)
+- [`lbnl_ppa_prices`](#lbnl_ppa_prices): One wind or PV-only solar power purchase agreement in Berkeley Lab's wind (2026 Edition) and solar (2025 Data Update) data files; LBNL names no project.
 - [`lbnl_solar_projects`](#lbnl_solar_projects): One utility-scale solar project (PV or concentrating solar) in Berkeley Lab's Utility-Scale Solar, 2025 Data Update, with its place, technology, size, design, storage, offtaker, value, cost, PPA price and yearly capacity factors.
-- [`lbnl_tracking_the_sun`](#lbnl_tracking_the_sun): Berkeley Lab, Tracking the Sun, installed distributed solar systems summarised by state, customer segment and year of installation, the 2024 public data file (session 2015)
+- [`lbnl_tracking_the_sun`](#lbnl_tracking_the_sun): One state's customer segment's installed distributed solar systems in one year of installation, one measure, summarised from Berkeley Lab's Tracking the Sun 2024 public data file (one record a system).
 - [`lbnl_wind_capacity_factors`](#lbnl_wind_capacity_factors): One land-based wind plant's capacity factor in calendar year 2025, from Berkeley Lab's Land-Based Wind Energy Technology Data Update, 2026 Edition.
-- [`lbnl_wind_costs`](#lbnl_wind_costs): Berkeley Lab, wind turbine prices, installed project costs and levelized costs by commercial operation year, real 2025 dollars (Land-Based Wind Energy Technology Data Update, 2026 Edition) (session 952)
-- [`lbnl_wind_turbine_orders`](#lbnl_wind_turbine_orders): Berkeley Lab, reported U.S. wind turbine orders and their prices, real 2025 dollars (Land-Based Wind Energy Technology Data Update, 2026 Edition, sheet 'Wind Turbine Prices') (session 952)
+- [`lbnl_wind_costs`](#lbnl_wind_costs): One wind cost measure for one year from Berkeley Lab's Land-Based Wind Energy Technology Data Update, 2026 Edition: a turbine maker's or LBNL's average turbine price, or the installed cost or levelized cost of the projects of a commercial operation year.
+- [`lbnl_wind_turbine_orders`](#lbnl_wind_turbine_orders): One reported US wind turbine order and its price, from the 'Wind Turbine Prices' sheet of Berkeley Lab's Land-Based Wind Energy Technology Data Update, 2026 Edition; LBNL names no buyer, maker or size.
 
 ### `lbnl_hybrid_ppa_prices`
 
-What a row is: not yet written.
+One PV plus battery hybrid power purchase agreement in Berkeley Lab's Utility-Scale Solar, 2025 Data Update, either greenfield (PV and battery contracted together) or a retrofit (a battery added to an operating PV plant).
 
 Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 2026-11-20: 113.
 
+- **Time:** No time column; event_date is the PPA's execution date (greenfield) or the retrofit's execution date (retrofit), a date.
+- **Revisions:** Rewritten whole by each run from the data file lbnl_ppa_prices.py saves; one edition, no vintage column.
 - **Source:** lbnl:hybrid_ppa_prices Lawrence Berkeley National Laboratory, Utility-Scale Solar, 2025 Data Update (October 2025), sheet 'PV+Battery Hybrid PPA Price' (https://eta-publications.lbl.gov/publications/us-utility-scale-solar-2025-data)
 - **Method note:** [`docs/methods/lbnl_ppa_prices.md`](../methods/lbnl_ppa_prices.md)
 - **Cite as:** Lawrence Berkeley National Laboratory (Berkeley Lab). Utility-Scale Solar Data Update (PV+Battery Hybrid PPA Price). Via the Energy Research Warehouse (ERW), table `lbnl_hybrid_ppa_prices`.
@@ -27,38 +29,40 @@ Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 202
 |---|---|---|---|---|---|
 | `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents | none | text | for example lbnl_hybrid:0:greenfield, lbnl_hybrid:0:greenfield-10, lbnl_hybrid:0:greenfield-11; 113 distinct | 0 |
 | `event_date` | The date the event happened or was announced (each table's file says which) | none | date | 2015-09-09 to 2025-06-13; 78 distinct | 0 |
-| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others) | none | text | ppa_hybrid | 0 |
+| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others). Here: Always ppa_hybrid | none | text | ppa_hybrid | 0 |
 | `parties` | The parties to the event, as the publisher names them, separated by semicolons | none | empty | no cell holds a value | 113 |
-| `entity_ids` | The entity_id values of the things involved, separated by semicolons | none | text | for example lbnl_solar:0, lbnl_solar:57242, lbnl_solar:58462; 82 distinct | 0 |
-| `mw` | The capacity involved, in megawatts | MW | number | 7.0 to 700.0; 61 distinct | 0 |
-| `price` | The price, in the row's currency per MWh unless the table's file says otherwise | the row's currency per MWh, unless the table's file says otherwise | number | 18.48697031937399 to 206.40673223651368; 113 distinct | 0 |
+| `entity_ids` | The entity_id values of the things involved, separated by semicolons. Here: lbnl_solar:<EIA ID> for each EIA id the row names; a retrofit names the PV plant and the battery | none | text | for example lbnl_solar:0, lbnl_solar:57242, lbnl_solar:58462; 82 distinct | 0 |
+| `mw` | The capacity involved, in megawatts. Here: The PV capacity, MW-AC | MW | number | 7.0 to 700.0; 61 distinct | 0 |
+| `price` | The price, in the row's currency per MWh unless the table's file says otherwise. Here: The PV plus battery price levelized over the term, real 2024 USD per MWh of PV output (the sheet's PV+BESS_$_per_MWh-PV_real) | the row's currency per MWh, unless the table's file says otherwise | number | 18.48697031937399 to 206.40673223651368; 113 distinct | 0 |
 | `currency` | The currency of the price, as an ISO 4217 code (USD) | none | text | USD | 0 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | empty | no cell holds a value | 113 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 113 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | lbnl:hybrid_ppa_prices | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://eta-publications.lbl.gov/sites/default/files/2025-10/2025_utility-scale_solar_data_update.xlsx | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T08:30:21Z | 0 |
-| `x_kind` | not yet written |  | text | greenfield, retrofit | 0 |
-| `x_state` | not yet written |  | text | AZ, CA, CO, FL, GA, HI, NM, NV, NY, OR | 0 |
-| `x_plant` | not yet written |  | text | for example AES Kekaha, AES Lawai, Arica PPA1; 113 distinct | 0 |
-| `x_eia_id` | not yet written |  | text | for example 0, 57242, 58462; 82 distinct | 0 |
-| `x_year_added` | not yet written |  | integer | 0, 2025 | 0 |
-| `x_pv_mwh_year` | not yet written |  | number | 22221.810000000045 to 2097970.296116577; 109 distinct | 0 |
-| `x_bess_mw` | not yet written |  | number | 1.0 to 700.0; 54 distinct | 0 |
-| `x_bess_mwh` | not yet written |  | number | 2.0 to 2800.0; 56 distinct | 0 |
-| `x_bess_duration_h` | not yet written |  | number | 2.0, 2.5, 3.0, 3.726315789473684, 4.0, 5.0, 8.0 | 0 |
-| `x_bess_pv_ratio` | not yet written |  | number | 0.042016806722689 to 1.0; 51 distinct | 0 |
-| `x_pv_equivalent_duration_h` | not yet written |  | number | 0.0909090909090909 to 8.0; 53 distinct | 0 |
-| `x_pv_usd_mwh` | not yet written |  | number | 12.397981981671771 to 148.40069722446546; 72 distinct | 39 |
-| `x_bess_adder_usd_mwh_pv` | not yet written |  | number | 2.338283787247718 to 58.58756991183108; 75 distinct | 38 |
-| `x_bess_adder_usd_mwh_stored` | not yet written |  | number | 38.14808048331824 to 115.23324026159628; 73 distinct | 38 |
-| `x_bess_adder_usd_mw_month` | not yet written |  | number | 4481.475301109149 to 14031.761477159243; 73 distinct | 38 |
-| `x_pv_ppa_execution` | not yet written |  | date | 2009-08-17 to 2025-06-13; 82 distinct | 0 |
-| `x_bess_ppa_execution` | not yet written |  | date | 2015-09-09 to 2025-06-13; 78 distinct | 0 |
-| `x_pv_cod` | not yet written |  | date | 2014-10-22 to 2029-07-01; 80 distinct | 0 |
-| `x_bess_cod` | not yet written |  | date | 2017-03-31 to 2029-07-01; 77 distinct | 0 |
-| `x_retrofit_execution` | not yet written |  | date | 2020-04-09, 2020-04-22, 2020-05-13, 2020-05-29, 2021-10-18, 2021-11-19, 2023-09-27 | 102 |
-| `x_retrofit_cod` | not yet written |  | date | 2021-03-31, 2021-05-31, 2021-07-31, 2021-09-01, 2021-10-01, 2022-03-31, 2022-08-28, 2022-10-01, 2026-02-01 | 102 |
-| `x_dollar_year` | not yet written |  | integer | 2024 | 0 |
+| `x_kind` | Whether the PPA is greenfield (PV and battery contracted together) or a retrofit (a battery added to an operating PV plant) | none | text | greenfield, retrofit | 0 |
+| `x_state` | The plant's state, two-letter postal code (the source's name: State) | none | text | AZ, CA, CO, FL, GA, HI, NM, NV, NY, OR | 0 |
+| `x_plant` | The plant's name as LBNL writes it, underscores turned to spaces (the source's name: Plant_Name) | none | text | for example AES Kekaha, AES Lawai, Arica PPA1; 113 distinct | 0 |
+| `x_eia_id` | The EIA id or ids LBNL gives for the plant (a retrofit gives the PV plant's and the battery's, as 58542/65857); 0 as the sheet gives it (the source's name: EIA ID) | none | text | for example 0, 57242, 58462; 82 distinct | 0 |
+| `x_year_added` | LBNL's 'Year added' field as the sheet gives it (2025 or 0) (the source's name: Year added) | none | integer | 0, 2025 | 0 |
+| `x_pv_mwh_year` | The PV plant's average annual output (the source's name: Avg Annual PV MWh) | MWh | number | 22221.810000000045 to 2097970.296116577; 109 distinct | 0 |
+| `x_bess_mw` | The battery's power capacity (the source's name: BESS MW) | MW | number | 1.0 to 700.0; 54 distinct | 0 |
+| `x_bess_mwh` | The battery's energy capacity (the source's name: BESS MWh) | MWh | number | 2.0 to 2800.0; 56 distinct | 0 |
+| `x_bess_duration_h` | The battery's duration: hours it can discharge at full power (the source's name: BESS Duration) | hour | number | 2.0, 2.5, 3.0, 3.726315789473684, 4.0, 5.0, 8.0 | 0 |
+| `x_bess_pv_ratio` | The ratio of battery power capacity to PV capacity (the source's name: BESS:PV Ratio) | ratio | number | 0.042016806722689 to 1.0; 51 distinct | 0 |
+| `x_pv_equivalent_duration_h` | The PV-equivalent duration: battery energy capacity over PV capacity (the source's name: PV-Equivalent Duration (Storage Energy / PV Capacity)) | hour | number | 0.0909090909090909 to 8.0; 53 distinct | 0 |
+| `x_pv_usd_mwh` | The PV part of the price, levelized, real 2024 USD per MWh (the source's name: PV_$_per_MWh_real) | USD/MWh | number | 12.397981981671771 to 148.40069722446546; 72 distinct | 39: LBNL's cell is blank |
+| `x_bess_adder_usd_mwh_pv` | The battery adder to the price, real 2024 USD per MWh of PV output (the source's name: BESS_$_per_MWh-PV_real) | USD/MWh | number | 2.338283787247718 to 58.58756991183108; 75 distinct | 38: LBNL's cell is blank |
+| `x_bess_adder_usd_mwh_stored` | The battery adder, real 2024 USD per MWh stored (the source's name: BESS_$_per_MWh-stored_real) | USD/MWh | number | 38.14808048331824 to 115.23324026159628; 73 distinct | 38: LBNL's cell is blank |
+| `x_bess_adder_usd_mw_month` | The battery adder, real 2024 USD per MW of battery a month (the source's name: BESS_$_per_MW-month_real) | USD/MW-month | number | 4481.475301109149 to 14031.761477159243; 73 distinct | 38: LBNL's cell is blank |
+| `x_pv_ppa_execution` | The date the PV PPA was executed (the source's name: PV PPA Execution) | none | date | 2009-08-17 to 2025-06-13; 82 distinct | 0 |
+| `x_bess_ppa_execution` | The date the battery PPA was executed (the source's name: BESS PPA Execution) | none | date | 2015-09-09 to 2025-06-13; 78 distinct | 0 |
+| `x_pv_cod` | The PV plant's commercial operation date (the source's name: PV COD) | none | date | 2014-10-22 to 2029-07-01; 80 distinct | 0 |
+| `x_bess_cod` | The battery's commercial operation date (the source's name: BESS COD) | none | date | 2017-03-31 to 2029-07-01; 77 distinct | 0 |
+| `x_retrofit_execution` | The date the retrofit's contract was executed (the source's name: Retrofit_Execution) | none | date | 2020-04-09, 2020-04-22, 2020-05-13, 2020-05-29, 2021-10-18, 2021-11-19, 2023-09-27 | 102: Not a retrofit |
+| `x_retrofit_cod` | The retrofit battery's commercial operation date (the source's name: Retrofit_COD) | none | date | 2021-03-31, 2021-05-31, 2021-07-31, 2021-09-01, 2021-10-01, 2022-03-31, 2022-08-28, 2022-10-01, 2026-02-01 | 102: Not a retrofit |
+| `x_dollar_year` | The year of the real dollars the prices are in | none | integer | 2024 | 0 |
+
+Waiting for a second look: x_year_added: LBNL's 'Year added' holds 2025 on 9 rows and 0 on 104; no note or connector says what 0 means (presumably earlier editions, not confirmed)..
 
 ### `lbnl_interconnection_queue`
 
@@ -119,34 +123,36 @@ Waiting for a second look: poi_name, service (ERIS, NRIS, NRIS/ERIS, Other) and 
 
 ### `lbnl_ppa_prices`
 
-What a row is: not yet written.
+One wind or PV-only solar power purchase agreement in Berkeley Lab's wind (2026 Edition) and solar (2025 Data Update) data files; LBNL names no project.
 
 Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 2026-11-20: 1133.
 
+- **Time:** No time column; event_date is the PPA's execution date.
+- **Revisions:** Rewritten whole by each run from the two data files; one edition each, no vintage column.
 - **Source:** lbnl:ppa_prices Lawrence Berkeley National Laboratory, Land-Based Wind Energy Technology Data Update (2026 Edition) and Utility-Scale Solar (2025 Data Update),  and (https://eta-publications.lbl.gov/publications/us-utility-scale-solar-2025-data)
 - **Method note:** [`docs/methods/lbnl_ppa_prices.md`](../methods/lbnl_ppa_prices.md)
 - **Cite as:** Lawrence Berkeley National Laboratory (Berkeley Lab). Land-Based Wind Energy Technology Data Update; Utility-Scale Solar Data Update (PPA prices). Via the Energy Research Warehouse (ERW), table `lbnl_ppa_prices`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents | none | text | for example lbnl_ppa:solar:001ddbf2dd21, lbnl_ppa:solar:004e49177129, lbnl_ppa:solar:0077932d1984; 1133 distinct | 0 |
+| `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents. Here: lbnl_ppa:<wind\|solar>:<12 hex of the row's date, MW, term, region and price>, -2 for a second identical row | none | text | for example lbnl_ppa:solar:001ddbf2dd21, lbnl_ppa:solar:004e49177129, lbnl_ppa:solar:0077932d1984; 1133 distinct | 0 |
 | `event_date` | The date the event happened or was announced (each table's file says which) | none | date | 1996-09-06 to 2025-06-13; 827 distinct | 0 |
-| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others) | none | text | ppa | 0 |
+| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others). Here: Always ppa | none | text | ppa | 0 |
 | `parties` | The parties to the event, as the publisher names them, separated by semicolons | none | empty | no cell holds a value | 1133 |
 | `entity_ids` | The entity_id values of the things involved, separated by semicolons | none | empty | no cell holds a value | 1133 |
-| `mw` | The capacity involved, in megawatts | MW | number | 1.98 to 700.0; 440 distinct | 0 |
-| `price` | The price, in the row's currency per MWh unless the table's file says otherwise | the row's currency per MWh, unless the table's file says otherwise | number | 9.6475 to 363.3955; 1076 distinct | 0 |
+| `mw` | The capacity involved, in megawatts. Here: The contract capacity | MW | number | 1.98 to 700.0; 440 distinct | 0 |
+| `price` | The price, in the row's currency per MWh unless the table's file says otherwise. Here: Levelized over the term after escalation and time-of-delivery factors, 4 percent real discount rate, in real USD of x_dollar_year per MWh | the row's currency per MWh, unless the table's file says otherwise | number | 9.6475 to 363.3955; 1076 distinct | 0 |
 | `currency` | The currency of the price, as an ISO 4217 code (USD) | none | text | USD | 0 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | empty | no cell holds a value | 1133 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1133 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | lbnl:ppa_prices | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://eta-publications.lbl.gov/sites/default/files/2025-10/2025_utility-scale_solar_data_update.xlsx, https://eta-publications.lbl.gov/sites/default/files/2026-08/data_file_land-based_wind_energy_technology_update_2026_edition_public_0.xlsx | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T08:30:19Z, 2026-10-23T08:30:21Z | 0 |
-| `x_technology` | not yet written |  | text | solar, wind | 0 |
-| `x_term_years` | not yet written |  | number | 3.0 to 35.0; 34 distinct | 0 |
-| `x_region` | not yet written |  | text | CAISO, ERCOT, Hawaii, ISO-NE, MISO, NYISO, PJM, SPP, Southeast (non-ISO), West (non-ISO) | 0 |
-| `x_macro_region` | not yet written |  | text | Central, East, Hawaii, Northeast, Southeast, West | 0 |
-| `x_price_unit` | not yet written |  | text | USD/MWh, levelized, real 2024 dollars, USD/MWh, levelized, real 2025 dollars | 0 |
-| `x_dollar_year` | not yet written |  | integer | 2024, 2025 | 0 |
+| `x_technology` | The technology: wind or solar (PV only) | none | text | solar, wind | 0 |
+| `x_term_years` | The contract's term (the source's name: Term (years)) | year | number | 3.0 to 35.0; 34 distinct | 0 |
+| `x_region` | LBNL's region: an ISO (CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP), West (non-ISO), Southeast (non-ISO) or Hawaii (the source's name: Region (wind); the region column holding the price (solar)) | none | text | CAISO, ERCOT, Hawaii, ISO-NE, MISO, NYISO, PJM, SPP, Southeast (non-ISO), West (non-ISO) | 0 |
+| `x_macro_region` | LBNL's consolidated region (wind: West, Central, East; solar: Hawaii, West, Central, Northeast, Southeast) (the source's name: Macro Region) | none | text | Central, East, Hawaii, Northeast, Southeast, West | 0 |
+| `x_price_unit` | The price's unit in words: USD/MWh, levelized, real dollars of the dollar year | none | text | USD/MWh, levelized, real 2024 dollars, USD/MWh, levelized, real 2025 dollars | 0 |
+| `x_dollar_year` | The year of the real dollars the price is in: 2025 for wind, 2024 for solar | none | integer | 2024, 2025 | 0 |
 
 ### `lbnl_solar_projects`
 
@@ -221,40 +227,42 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 
 ### `lbnl_tracking_the_sun`
 
-What a row is: not yet written.
+One state's customer segment's installed distributed solar systems in one year of installation, one measure, summarised from Berkeley Lab's Tracking the Sun 2024 public data file (one record a system).
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 8762.
 
+- **Time:** ts_utc is 1 January of the year of installation (a year, not an instant); freq P1Y. The edition holds systems installed to 2023; 2024 is a partial year.
+- **Revisions:** Rewritten whole by each run; vintage is the Last-Modified time of the state's file in the data lake (28 February 2025).
 - **Source:** lbnl:tracking_the_sun Lawrence Berkeley National Laboratory, Tracking the Sun, public data file, on the Open Energy Data Initiative (https://data.openei.org/submissions/3)
 - **Method note:** [`docs/methods/lbnl_tracking_the_sun.md`](../methods/lbnl_tracking_the_sun.md)
 - **Cite as:** Lawrence Berkeley National Laboratory (Berkeley Lab). Tracking the Sun: installed distributed solar systems, public data file. Via the Energy Research Warehouse (ERW), table `lbnl_tracking_the_sun`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example tts:ar_com, tts:ar_gov, tts:ar_non_profit; 135 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: tts:<state>_<segment>, lowercase | none | text | for example tts:ar_com, tts:ar_gov, tts:ar_non_profit; 135 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 1983-01-01T00:00:00Z to 2024-01-01T00:00:00Z; 41 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 280412.0; 3811 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW, USD/kW, count | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US-AR, US-AZ, US-CA; 27 distinct | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 8762 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | COM, GOV, NON-PROFIT, NON-RES, RES, SCHOOL, unknown | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state> | none | text | for example US-AR, US-AZ, US-CA; 27 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 8762 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The customer segment as the file writes it (RES, COM, NON-RES, GOV, NON-PROFIT, SCHOOL, or unknown for the file's -1), not a pricing node | none | text | COM, GOV, NON-PROFIT, NON-RES, RES, SCHOOL, unknown | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | lbnl:tracking_the_sun | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://oedi-data-lake.s3.amazonaws.com/tracking-the-sun/2024/state=AR/part-00006-975d0624-ef42-4442-a6b6-46e6cbd8f20b.c000.snappy.parquet, https://oedi-data-lake.s3.amazonaws.com/tracking-the-sun/2024/state=AZ/part-00000-975d0624-ef42-4442-a6b6-46e6cbd8f20b.c000.snappy.parquet, https://oedi-data-lake.s3.amazonaws.com/tracking-the-sun/2024/state=CA/part-00002-975d0624-ef42-4442-a6b6-46e6cbd8f20b.c000.snappy.parquet; 27 distinct | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T18:22:00Z to 2026-10-23T18:50:50Z; 27 distinct | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2025-02-28T17:44:25Z, 2025-02-28T17:44:26Z, 2025-02-28T17:44:29Z, 2025-02-28T17:44:30Z, 2025-02-28T17:44:32Z, 2025-02-28T17:44:33Z, 2025-02-28T17:44:34Z, 2025-02-28T17:44:36Z, 2025-02-28T17:44:38Z, 2025-02-28T17:44:41Z | 0 |
-| `x_segment` | not yet written |  | text | COM, GOV, NON-PROFIT, NON-RES, RES, SCHOOL, unknown | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The state's file's Last-Modified time, UTC | none | utc time | 2025-02-28T17:44:25Z, 2025-02-28T17:44:26Z, 2025-02-28T17:44:29Z, 2025-02-28T17:44:30Z, 2025-02-28T17:44:32Z, 2025-02-28T17:44:33Z, 2025-02-28T17:44:34Z, 2025-02-28T17:44:36Z, 2025-02-28T17:44:38Z, 2025-02-28T17:44:41Z | 0 |
+| `x_segment` | The customer segment as the file writes it: RES residential, COM commercial, NON-RES non-residential, GOV government, NON-PROFIT, SCHOOL, or unknown for the file's -1 (the source's name: customer_segment) | none | text | COM, GOV, NON-PROFIT, NON-RES, RES, SCHOOL, unknown | 0 |
 
 Variables (5):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `capacity_dc` |  | MW | 1872 | 1983-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `price_median` |  | USD/kW | 1217 | 1983-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `systems` |  | count | 1891 | 1983-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `systems_battery` |  | count | 1891 | 1983-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
-| `systems_priced` |  | count | 1891 | 1983-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `capacity_dc` | The sum of the systems' DC size, in MW DC (the file's kW over 1,000) | MW | 1872 | 1983-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `price_median` | The median of total installed price over DC size, priced systems only, unscreened, USD per kW (not Berkeley Lab's reported figure) | USD/kW | 1217 | 1983-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `systems` | The number of systems installed in the year (systems with an installation year) | count | 1891 | 1983-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `systems_battery` | The systems with a battery (battery_rated_capacity_kwh above zero) | count | 1891 | 1983-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
+| `systems_priced` | The systems whose installed price and DC size are both above zero | count | 1891 | 1983-01-01T00:00:00Z | 2024-01-01T00:00:00Z |
 
 ### `lbnl_wind_capacity_factors`
 
@@ -294,65 +302,69 @@ Variables (1):
 
 ### `lbnl_wind_costs`
 
-What a row is: not yet written.
+One wind cost measure for one year from Berkeley Lab's Land-Based Wind Energy Technology Data Update, 2026 Edition: a turbine maker's or LBNL's average turbine price, or the installed cost or levelized cost of the projects of a commercial operation year.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 119.
 
+- **Time:** ts_utc is 1 January of the year (a year, not an instant); freq P1Y. For capex and lcoe the year is the projects' commercial operation year; for maker turbine prices it is from LBNL's mid-year dates.
+- **Revisions:** Rewritten whole by each run from the data file lbnl_ppa_prices.py saves; one edition. vintage is the data file's time (UTC).
 - **Source:** lbnl:wind_costs Lawrence Berkeley National Laboratory, Land-Based Wind Energy Technology Data Update, 2026 Edition (August 2026) (https://eta-publications.lbl.gov/publications/land-based-wind-energy-technology-0)
 - **Method note:** [`docs/methods/lbnl_projects.md`](../methods/lbnl_projects.md)
 - **Cite as:** Lawrence Berkeley National Laboratory (Berkeley Lab). Land-Based Wind Energy Technology Data Update (turbine prices, CapEx, LCOE). Via the Energy Research Warehouse (ERW), table `lbnl_wind_costs`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | lbnl_wind_cost:capex:us, lbnl_wind_cost:lcoe:us, lbnl_wind_cost:turbine_price:lbnl, lbnl_wind_cost:turbine_price:nordex, lbnl_wind_cost:turbine_price:sgre, lbnl_wind_cost:turbine_price:vestas | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: lbnl_wind_cost:<turbine_price\|capex\|lcoe>:<vestas\|sgre\|nordex\|lbnl\|us> | none | text | lbnl_wind_cost:capex:us, lbnl_wind_cost:lcoe:us, lbnl_wind_cost:turbine_price:lbnl, lbnl_wind_cost:turbine_price:nordex, lbnl_wind_cost:turbine_price:sgre, lbnl_wind_cost:turbine_price:vestas | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 1983-01-01T00:00:00Z to 2025-06-30T00:00:00Z; 52 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 39.83157083728906 to 5618.100071623097; 119 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | USD/MWh, USD/kW | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 40 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 119 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Average Turbine Price, Nordex global average, SGRE global average; 35 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US; empty on the makers' global average turbine prices (40 rows) | none | text | US | 40 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 119 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Not a pricing node: the sheet's block heading for turbine prices (as 'Vestas global average', 'Average Turbine Price'), else 'projects of COD <year>' | none | text | for example Average Turbine Price, Nordex global average, SGRE global average; 35 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | lbnl:wind_costs | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://eta-publications.lbl.gov/sites/default/files/2026-08/data_file_land-based_wind_energy_technology_update_2026_edition_public_0.xlsx | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T08:30:19Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2026-08-31T00:14:36Z | 0 |
-| `x_sample` | not yet written |  | integer | 4 to 131; 31 distinct | 60 |
-| `x_sample_mw` | not yet written |  | number | 46.67 to 17184.1; 28 distinct | 91 |
-| `x_dollar_year` | not yet written |  | integer | 2025 | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The data file's time, UTC | none | utc time | 2026-08-31T00:14:36Z | 0 |
+| `x_sample` | The number of projects in the year's sample | count | integer | 4 to 131; 31 distinct | 60: Empty on turbine price rows |
+| `x_sample_mw` | The capacity of the LCOE sample's projects | MW | number | 46.67 to 17184.1; 28 distinct | 91: Empty on turbine price and capex rows (LCOE only) |
+| `x_dollar_year` | The year of the real dollars the values are in | none | integer | 2025 | 0 |
 
 Variables (3):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `capex` |  | USD/kW | 31 | 1983-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `lcoe` |  | USD/MWh | 28 | 1998-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `turbine_price` |  | USD/kW | 60 | 2005-06-30T00:00:00Z | 2025-06-30T00:00:00Z |
+| `capex` | The capacity-weighted installed project cost of the commercial operation year's projects, real 2025 USD per kW | USD/kW | 31 | 1983-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `lcoe` | The generation-weighted levelized cost of energy of the commercial operation year's projects, real 2025 USD per MWh | USD/MWh | 28 | 1998-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `turbine_price` | The wind turbine price in real 2025 USD per kW: a maker's global average (Vestas, SGRE, Nordex) at LBNL's mid-year dates, or LBNL's US average a year | USD/kW | 60 | 2005-06-30T00:00:00Z | 2025-06-30T00:00:00Z |
 
 ### `lbnl_wind_turbine_orders`
 
-What a row is: not yet written.
+One reported US wind turbine order and its price, from the 'Wind Turbine Prices' sheet of Berkeley Lab's Land-Based Wind Energy Technology Data Update, 2026 Edition; LBNL names no buyer, maker or size.
 
 Shape: events. Keys: `event_id`. License: public; tier: source. Rows read on 2026-11-20: 122.
 
+- **Time:** No time column; event_date is the order date.
+- **Revisions:** Rewritten whole by each run from the data file lbnl_ppa_prices.py saves; one edition, no vintage column.
 - **Source:** lbnl:wind_costs Lawrence Berkeley National Laboratory, Land-Based Wind Energy Technology Data Update, 2026 Edition (August 2026) (https://eta-publications.lbl.gov/publications/land-based-wind-energy-technology-0)
 - **Method note:** [`docs/methods/lbnl_projects.md`](../methods/lbnl_projects.md)
 - **Cite as:** Lawrence Berkeley National Laboratory (Berkeley Lab). Land-Based Wind Energy Technology Data Update (turbine prices, CapEx, LCOE). Via the Energy Research Warehouse (ERW), table `lbnl_wind_turbine_orders`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents | none | text | for example lbnl_turbine_order:0121b0cee60b, lbnl_turbine_order:062d49ea1b06, lbnl_turbine_order:070a511dac68; 122 distinct | 0 |
+| `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents. Here: lbnl_turbine_order:<12 hex of the date and price> | none | text | for example lbnl_turbine_order:0121b0cee60b, lbnl_turbine_order:062d49ea1b06, lbnl_turbine_order:070a511dac68; 122 distinct | 0 |
 | `event_date` | The date the event happened or was announced (each table's file says which) | none | date | 1997-02-01 to 2016-07-01; 93 distinct | 0 |
-| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others) | none | text | turbine_order | 0 |
+| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others). Here: Always turbine_order | none | text | turbine_order | 0 |
 | `parties` | The parties to the event, as the publisher names them, separated by semicolons | none | empty | no cell holds a value | 122 |
 | `entity_ids` | The entity_id values of the things involved, separated by semicolons | none | empty | no cell holds a value | 122 |
 | `mw` | The capacity involved, in megawatts | MW | empty | no cell holds a value | 122 |
-| `price` | The price, in the row's currency per MWh unless the table's file says otherwise | the row's currency per MWh, unless the table's file says otherwise | number | 843.3067 to 2947.8718; 121 distinct | 0 |
+| `price` | The price, in the row's currency per MWh unless the table's file says otherwise. Here: USD per kW (real 2025 dollars), not per MWh | the row's currency per MWh, unless the table's file says otherwise | number | 843.3067 to 2947.8718; 121 distinct | 0 |
 | `currency` | The currency of the price, as an ISO 4217 code (USD) | none | text | USD | 0 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | empty | no cell holds a value | 122 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 122 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | lbnl:wind_costs | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://eta-publications.lbl.gov/sites/default/files/2026-08/data_file_land-based_wind_energy_technology_update_2026_edition_public_0.xlsx | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-23T08:30:19Z | 0 |
-| `x_price_unit` | not yet written |  | text | USD/kW, real 2025 dollars | 0 |
-| `x_dollar_year` | not yet written |  | integer | 2025 | 0 |
+| `x_price_unit` | The price's unit in words: USD/kW, real 2025 dollars | none | text | USD/kW, real 2025 dollars | 0 |
+| `x_dollar_year` | The year of the real dollars the price is in | none | integer | 2025 | 0 |
 

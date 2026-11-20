@@ -5,9 +5,11 @@
 table: desnz_uk_capacity_by_connection_annual
 family: desnz
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One area's (Great Britain, Northern Ireland or the UK) installed generating capacity of one fuel, connected to the transmission
+  or the distribution network or both, at the end of one year, 2011 to 2025 (DUKES table 5.12).
+time: ts_utc is the year's first day at 00:00:00Z; the capacity is as at 31 December of that year; freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot of the DUKES edition read, here 2026); vintage is the workbook's last-modified
+  time.
 keys:
 - entity
 - variable
@@ -45,6 +47,7 @@ columns:
     - desnz_conn:gb:distribution:hydro_natural_flow
     - desnz_conn:gb:distribution:ocgt_and_conventional_thermal_gas
   missing_cells: 0
+  particular: desnz_conn:<gb|ni|uk>:<transmission|distribution|all>:<fuel>
 - name: variable
   shared: true
   type: text
@@ -102,12 +105,14 @@ columns:
       GB: 1050
       GB-NIR: 195
   missing_cells: 0
+  particular: GB on the Great Britain and the UK rows, GB-NIR on Northern Ireland's
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1245
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -120,6 +125,7 @@ columns:
     - 'All: Hydro (natural flow)'
     - 'All: Nuclear - AGR'
   missing_cells: 0
+  particular: The sheet's labels (connection and fuel), not a pricing node
 - name: source
   shared: true
   type: text
@@ -148,9 +154,10 @@ columns:
     list:
       '2026-07-29T17:20:40Z': 1245
   missing_cells: 0
+  particular: The workbook's last-modified time
 variables:
 - name: installed_capacity
-  label: null
+  label: Installed generating capacity at 31 December (not de-rated), MW
   unit: MW
   rows: 1245
   first: '2011-01-01T00:00:00Z'

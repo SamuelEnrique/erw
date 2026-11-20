@@ -1,0 +1,205 @@
+# The codebook's metadata of table ferc_eqr_buyer_names (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: ferc_eqr_buyer_names
+family: ferc
+shape: entities
+row: One buyer name as filed in the newest quarter's FERC Electric Quarterly Reports, with the name its group is counted under
+  after the ERW's naming rules.
+time: No time column; retrieved_at is the run's time. x_quarter names the quarter read.
+vintage_rule: Rebuilt whole from ferc_eqr_contracts by each run of the builder (the old file is removed first); vintage is
+  not filled.
+keys:
+- entity_id
+license: internal
+tier: source
+interval: snapshot
+source:
+- name: erw:eqr_buyers from ferc:eqr, Federal Energy Regulatory Commission, Electric Quarterly Reports, 2026_Q2
+  url: ''
+cite: Energy Research Warehouse (ERW), derived. FERC EQR buyer names by rule, the doubtful pairs, and the largest buyers and
+  sellers (docs/methods/eqr_buyers.md). Via the Energy Research Warehouse (ERW), table `ferc_eqr_buyer_names`.
+method: docs/methods/eqr_buyers.md
+header_title: the buyer names of FERC's Electric Quarterly Reports as filed, and the name each is counted under, by rule (session
+  99)
+header_shape: 'Shape: entities (docs/datastandard.md v0). One row per buyer name as filed (name). x_counted_as: the spelling
+  its group is shown under (the one filed on the most rows). x_key: the group''s key after the rules. x_rules: the rules that
+  changed this name, in order. x_names_in_group, x_rows (this name), x_group_rows. x_merged yes: the group holds more than
+  one name. The rules: docs/methods/eqr_buyers.md.'
+read:
+  date: '2026-11-20'
+  rows: 17955
+  key_duplicates: 0
+columns:
+- name: entity_id
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: ferc_eqr_buyer_name:<five-digit number>, the name's place in the builder's order (group key, then name)
+- name: entity_type
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: company on every row
+- name: name
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The buyer name exactly as filed
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: US on every row (set by the builder)
+- name: lat
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 17955
+- name: lon
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 17955
+- name: capacity_mw
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 17955
+- name: status
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: active on every row (set by the builder)
+- name: status_date
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 17955
+- name: operator
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 17955
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 17955
+  particular: 'Not filled: no cell holds a value'
+- name: x_merged
+  label: yes when the name's group holds more than one name as filed, else no
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector eqr_buyers.py
+- name: x_counted_as
+  label: 'The spelling the name''s group is shown under: the one filed on the most rows'
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method eqr_buyers.md
+- name: x_key
+  label: 'The group''s key: the name after every naming rule'
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; method eqr_buyers.md
+- name: x_rules
+  label: The naming rules that changed this name, in order, joined by semicolons
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1083
+  missing_meaning: No rule changed the name
+  source_name: null
+  documented_by: header; method eqr_buyers.md
+- name: x_names_in_group
+  label: How many names as filed share this name's group
+  unit: count
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector eqr_buyers.py
+- name: x_rows
+  label: The contract rows filed under this exact name
+  unit: count
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector eqr_buyers.py
+- name: x_group_rows
+  label: The contract rows filed under any name of the group
+  unit: count
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector eqr_buyers.py
+- name: x_quarter
+  label: The quarter of ferc_eqr_contracts read, written YYYY_Qn
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector eqr_buyers.py
+second_look: null

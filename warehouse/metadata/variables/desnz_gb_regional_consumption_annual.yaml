@@ -5,9 +5,11 @@
 table: desnz_gb_regional_consumption_annual
 family: desnz
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One Great Britain country's or region's electricity consumption or number of meters, for one kind of customer (domestic,
+  non-domestic, total and Economy 7 splits), in one year, 2005 to 2024.
+time: ts_utc is the year's first day at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot of DESNZ's latest workbook, which DESNZ republishes with each new year);
+  vintage is the workbook's last-modified time.
 keys:
 - entity
 - variable
@@ -44,6 +46,8 @@ columns:
     - desnz_sub:east_midlands:consumption_non_domestic
     - desnz_sub:east_midlands:consumption_total
   missing_cells: 0
+  particular: desnz_sub:<area>:<item>; from 2015 Great Britain, England and Wales and Scotland carry _inc_unallocated (their
+    rows include consumption not placed in a local authority)
 - name: variable
   shared: true
   type: text
@@ -110,12 +114,14 @@ columns:
       GB-SCT: 172
       GB-WLS: 172
   missing_cells: 0
+  particular: GB, GB-ENG (England and its regions), GB-WLS, GB-SCT, or GB-ENG,GB-WLS for England and Wales
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 2608
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -128,6 +134,7 @@ columns:
     - 'East Midlands: Number of meters (thousands): Domestic'
     - 'East Midlands: Number of meters (thousands): Domestic E7'
   missing_cells: 0
+  particular: The area and the workbook's column heading, not a pricing node
 - name: source
   shared: true
   type: text
@@ -157,15 +164,16 @@ columns:
     list:
       '2025-12-17T08:49:20Z': 2608
   missing_cells: 0
+  particular: The workbook's last-modified time
 variables:
 - name: consumption
-  label: null
+  label: Electricity consumption in the year, MWh (the workbook's GWh times 1,000)
   unit: MWh
   rows: 1304
   first: '2005-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: meters
-  label: null
+  label: Number of electricity meters, count (the workbook's thousands times 1,000)
   unit: count
   rows: 1304
   first: '2005-01-01T00:00:00Z'

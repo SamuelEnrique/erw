@@ -5,9 +5,11 @@
 table: resource_layer_features
 family: erw_derived
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One grid cell, site or area of one layer of the natural resource map (wind, solar, geothermal, hydropower, biomass, oil
+  and gas basins and plays, coal fields), with its value.
+time: No time column; vintage names the period or edition of the publisher's data; the table is a snapshot as built.
+vintage_rule: Rewritten whole as one snapshot by each run of the builder from the map's layer files and the saved USGS coal
+  fields file.
 keys:
 - entity_id
 license: public
@@ -72,6 +74,8 @@ columns:
     - resource:wind_speed_100m:r0c688
     - resource:wind_speed_100m:r0c689
   missing_cells: 0
+  particular: resource:<layer>:r<row>c<column> for a grid cell, resource:<layer>:<the feature's place in its layer> for a
+    site or area
 - name: entity_type
   shared: true
   type: text
@@ -79,6 +83,7 @@ columns:
     list:
       resource: 1371628
   missing_cells: 0
+  particular: resource on every row
 - name: name
   shared: true
   type: text
@@ -98,6 +103,7 @@ columns:
     list:
       US: 1371628
   missing_cells: 0
+  particular: US on every row
 - name: lat
   shared: true
   type: number
@@ -106,6 +112,7 @@ columns:
     lowest: 19.478
     highest: 69.30839
   missing_cells: 0
+  particular: The cell's center or the feature's centroid
 - name: lon
   shared: true
   type: number
@@ -114,6 +121,7 @@ columns:
     lowest: -176.616
     highest: -65.675
   missing_cells: 0
+  particular: The cell's center or the feature's centroid
 - name: capacity_mw
   shared: true
   type: empty
@@ -126,6 +134,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 1371628
+  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -224,9 +233,12 @@ columns:
         in the Permian Basin")'
       : 50
   missing_cells: 0
+  particular: The period or edition of the layer's data in words, from the publisher's file (for example 2007-2013 with the
+    publication date)
 - name: x_layer
-  label: null
-  unit: null
+  label: The map layer the row belongs to (wind_speed_100m, solar_ghi, solar_dni, wind_capacity_factor, geothermal, hydropower,
+    biomass, oil_gas_basins, oil_gas_plays, coal_fields)
+  unit: none
   type: text
   values:
     list:
@@ -244,12 +256,13 @@ columns:
       wind_capacity_factor: 56528
       wind_speed_100m: 433080
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method resource_layers_table.md
 - name: x_kind
-  label: null
-  unit: null
+  label: 'What the row is: grid cell, site, or the area''s kind (county, HUC10 watershed, sedimentary basin, play, favorability
+    class, coal field)'
+  unit: none
   type: text
   values:
     list:
@@ -263,24 +276,24 @@ columns:
       site: 59397
       tight oil and shale gas play: 50
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector resource_tables.py; data
 - name: x_value
-  label: null
-  unit: null
+  label: The layer's value for the cell, site or area, in x_unit (x_value_label says what it is)
+  unit: the row's x_unit
   type: number
   values:
     distinct: more than 5000
     lowest: 0.0
     highest: 2002700.0
   missing_cells: 602
-  missing_meaning: null
+  missing_meaning: Empty on the coal fields, which have no value (province, field, age and rank are in x_extra)
   source_name: null
-  documented_by: null
+  documented_by: header; method resource_layers_table.md
 - name: x_unit
-  label: null
-  unit: null
+  label: The unit of x_value (m/s, kWh/m2/day, ratio, MW, MWe, class, dry metric tons/year, square miles)
+  unit: none
   type: text
   values:
     list:
@@ -294,12 +307,12 @@ columns:
       ratio: 56528
       square miles: 82
   missing_cells: 602
-  missing_meaning: null
+  missing_meaning: Empty on the coal fields
   source_name: null
-  documented_by: null
+  documented_by: header; data
 - name: x_value_label
-  label: null
-  unit: null
+  label: What x_value is, in the publisher's words where it gives them
+  unit: none
   type: text
   values:
     list:
@@ -318,12 +331,12 @@ columns:
       relative favorability class (the source's GRIDCODE, with its Descript range): 10
       relative favorability of the deep enhanced geothermal resource (the source's CLASS): 1007
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector resource_tables.py
 - name: x_publisher
-  label: null
-  unit: null
+  label: The publisher of the layer's data
+  unit: none
   type: text
   values:
     list:
@@ -333,35 +346,35 @@ columns:
       U.S. Geological Survey: 602
       U.S. Geological Survey (USGS): 263
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector resource_tables.py
 - name: x_cell_deg
-  label: null
-  unit: null
+  label: The grid cell's size in degrees
+  unit: degree
   type: number
   values:
     list:
       '0.05': 1305362
   missing_cells: 66266
-  missing_meaning: null
+  missing_meaning: Empty on sites and areas
   source_name: null
-  documented_by: null
+  documented_by: header; connector resource_tables.py
 - name: x_area_km2
-  label: null
-  unit: null
+  label: The area's size on a sphere of radius 6,371.0088 km
+  unit: km2
   type: number
   values:
     distinct: more than 5000
     lowest: 0.0
     highest: 810228.9
   missing_cells: 1364759
-  missing_meaning: null
+  missing_meaning: Empty on grid cells and sites
   source_name: null
-  documented_by: null
+  documented_by: header; method resource_layers_table.md
 - name: x_extra
-  label: null
-  unit: null
+  label: The publisher's other fields for the site or area, as JSON
+  unit: none
   type: text
   values:
     distinct: more than 5000
@@ -377,12 +390,12 @@ columns:
     - '{"Basin":"Appalachian","Lithology":"Shale","Shale_play":"Marcellus","References":"EIA","Source":"EIA","Area_sq_mi":58326.3781947,"Area_sq_km":151064.626024,"ID":"MARP01","Age_shale":"Middle
       Devonian"}'
   missing_cells: 1305362
-  missing_meaning: null
+  missing_meaning: Empty on grid cells
   source_name: null
-  documented_by: null
+  documented_by: header; method resource_layers_table.md
 - name: x_source_sha256
-  label: null
-  unit: null
+  label: The SHA-256 of the publisher's file the row was read from
+  unit: none
   type: text
   values:
     list:
@@ -400,7 +413,7 @@ columns:
       f48ee40d6de1859d6f3cabc841b631a55287c4282bfe974719fd89555672f54d: 3141
       fdf8bcfb6dcc98252ae9a7d6389d27fa0c579d3a72021790b38bf3eb8b76c6af: 1007
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method resource_layers_table.md
 second_look: null

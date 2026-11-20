@@ -5,9 +5,10 @@
 table: subregion_demand_growth
 family: erw_derived
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One EIA-930 sub-region's value of one demand measure (peak, average, energy, hours, growth) for one UTC calendar year.
+time: ts_utc is the year's first hour (UTC); freq P1Y; years are UTC calendar years; x_at is the peak hour's start (UTC).
+vintage_rule: Rewritten whole as one snapshot by each run of the builder from the EIA-930 sub-region hourly tables; vintage
+  is not filled.
 keys:
 - entity
 - variable
@@ -43,6 +44,7 @@ columns:
     - eia930_subba:CISO:PGAE
     - eia930_subba:CISO:SCE
   missing_cells: 0
+  particular: eia930_subba:<parent>:<subba>, the source table's
 - name: variable
   shared: true
   type: text
@@ -95,12 +97,14 @@ columns:
     list:
       US: 3918
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3918
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -113,6 +117,7 @@ columns:
     - American Transmission Systems, Inc. zone (PJM Interconnection, LLC)
     - Atlantic Electric zone (PJM Interconnection, LLC)
   missing_cells: 0
+  particular: The sub-region's code and name with its parent, from the source table, not a pricing node
 - name: source
   shared: true
   type: text
@@ -140,21 +145,22 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 3918
+  particular: 'Not filled: no cell holds a value'
 - name: x_at
-  label: null
-  unit: null
+  label: The peak hour's start, UTC
+  unit: none
   type: utc time
   values:
     distinct: 360
     earliest: '2019-01-03T01:00:00Z'
     latest: '2025-12-30T22:00:00Z'
   missing_cells: 3366
-  missing_meaning: null
+  missing_meaning: Empty on every variable but peak_mw
   source_name: null
-  documented_by: null
+  documented_by: header; method subregion_demand_growth.md
 - name: x_parent
-  label: null
-  unit: null
+  label: The sub-region's parent balancing authority, EIA-930 code
+  unit: none
   type: text
   values:
     list:
@@ -169,12 +175,12 @@ columns:
       SWPP: 833
       SWPW: 6
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method subregion_demand_growth.md
 - name: x_subba
-  label: null
-  unit: null
+  label: The sub-region's EIA-930 code
+  unit: none
   type: text
   values:
     distinct: 90
@@ -185,48 +191,48 @@ columns:
     - '0027'
     - '0035'
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method subregion_demand_growth.md
 variables:
 - name: avg_growth_pct
-  label: null
+  label: Growth of avg_mw from the year before, percent
   unit: pct
   rows: 466
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: avg_mw
-  label: null
+  label: The mean demand over the hours used
   unit: MW
   rows: 552
   first: '2019-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: energy_mwh
-  label: null
+  label: The demand summed over the hours used
   unit: MWh
   rows: 552
   first: '2019-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: hours_in_year
-  label: null
+  label: Hours in the year
   unit: count
   rows: 665
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: hours_used
-  label: null
+  label: Hours used (held and passing the screen of impossible hours)
   unit: count
   rows: 665
   first: '2019-01-01T00:00:00Z'
   last: '2026-01-01T00:00:00Z'
 - name: peak_growth_pct
-  label: null
+  label: Growth of peak_mw from the year before, percent
   unit: pct
   rows: 466
   first: '2020-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: peak_mw
-  label: null
+  label: The year's highest used hour of demand
   unit: MW
   rows: 552
   first: '2019-01-01T00:00:00Z'

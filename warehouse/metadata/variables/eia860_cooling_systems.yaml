@@ -5,9 +5,12 @@
 table: eia860_cooling_systems
 family: eia860
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One cooling system at a power plant in Form EIA-860's environmental schedules for data year 2025, with its type, water
+  source and discharge, intake, ponds, towers and costs.
+time: No time column; vintage is the data year (2025). status_date is the first day of the month in service of an operating
+  system; a retired one has none (the sheet gives no retirement month).
+vintage_rule: A snapshot; each run replaces the table whole with the newest final year EIA's page links, so an earlier year
+  is not kept.
 keys:
 - entity_id
 license: public
@@ -42,6 +45,7 @@ columns:
     - eia860_cooling:1001:SUPP
     - eia860_cooling:1004:6
   missing_cells: 0
+  particular: eia860_cooling:<plant code>:<cooling id>
 - name: entity_type
   shared: true
   type: text
@@ -49,6 +53,7 @@ columns:
     list:
       equipment: 1797
   missing_cells: 0
+  particular: Always equipment (Decision 54)
 - name: name
   shared: true
   type: text
@@ -61,6 +66,7 @@ columns:
     - AES Alamitos LLC cooling 1
     - AES Alamitos LLC cooling 2
   missing_cells: 0
+  particular: The plant's name, the word cooling and the cooling id
 - name: geo
   shared: true
   type: text
@@ -73,24 +79,28 @@ columns:
     - US-CA
     - US-CO
   missing_cells: 0
+  particular: US-<plant state>
 - name: lat
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1797
+  particular: Not filled
 - name: lon
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1797
+  particular: Not filled
 - name: capacity_mw
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1797
+  particular: Not filled
 - name: status
   shared: true
   type: text
@@ -102,6 +112,8 @@ columns:
       under_construction: 4
       withdrawn: 6
   missing_cells: 0
+  particular: 'EIA''s cooling status code (x_eia_status) as the standard''s word: OP, SB, OS, SC operating; PL planned; CO
+    under_construction; RE retired; CN withdrawn'
 - name: status_date
   shared: true
   type: date
@@ -110,6 +122,8 @@ columns:
     earliest: '1932-06-01'
     latest: '2024-04-01'
   missing_cells: 539
+  particular: The first day of the month in service (operating); empty for a retired system, as the sheet gives no retirement
+    month
 - name: operator
   shared: true
   type: text
@@ -122,6 +136,7 @@ columns:
     - AES Huntington Beach LLC
     - AES Indiana
   missing_cells: 0
+  particular: EIA's Utility Name
 - name: source
   shared: true
   type: text
@@ -150,21 +165,22 @@ columns:
     list:
       '2025': 1797
   missing_cells: 0
+  particular: The data year, 2025
 - name: x_plant_code
-  label: null
-  unit: null
+  label: EIA's plant code
+  unit: none
   type: integer
   values:
     distinct: 923
     lowest: 3
     highest: 68635
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Plant Code
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
 - name: x_state
-  label: null
-  unit: null
+  label: The plant's state, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 48
@@ -175,12 +191,13 @@ columns:
     - CA
     - CO
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: State
+  documented_by: method eia860_environment.md
 - name: x_eia_status
-  label: null
-  unit: null
+  label: 'EIA''s status code of the cooling system, kept as given: OP operating, SB standby, OS out of service, SC cold standby,
+    PL planned, CO under construction, RE retired, CN canceled'
+  unit: none
   type: text
   values:
     list:
@@ -193,24 +210,24 @@ columns:
       SB: 4
       SC: 2
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Cooling Status
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
 - name: x_utility_id
-  label: null
-  unit: null
+  label: EIA's identifier of the utility that operates the plant
+  unit: none
   type: integer
   values:
     distinct: 452
     lowest: 25
     highest: 67826
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Utility ID
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
 - name: x_plant_name
-  label: null
-  unit: null
+  label: The plant's name
+  unit: none
   type: text
   values:
     distinct: 923
@@ -221,12 +238,12 @@ columns:
     - AES Huntington Beach Energy Project
     - AES Huntington Beach LLC
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Plant Name
+  documented_by: method eia860_environment.md
 - name: x_cooling_id
-  label: null
-  unit: null
+  label: EIA's cooling system identifier within the plant
+  unit: none
   type: text
   values:
     distinct: 488
@@ -237,12 +254,12 @@ columns:
     - '003'
     - '004'
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Cooling ID
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
 - name: x_cooling_status
-  label: null
-  unit: null
+  label: EIA's cooling system status code as EIA gives it (the same code as x_eia_status)
+  unit: none
   type: text
   values:
     list:
@@ -255,12 +272,12 @@ columns:
       SB: 4
       SC: 2
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Cooling Status
+  documented_by: source EIA-860 LayoutY2025.xlsx; data
 - name: x_inservice_month
-  label: null
-  unit: null
+  label: The actual or projected month the cooling system entered service
+  unit: none
   type: integer
   values:
     list:
@@ -277,24 +294,26 @@ columns:
       '8': 117
       '9': 97
   missing_cells: 7
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Inservice Month
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_inservice_year
-  label: null
-  unit: null
+  label: The actual or projected year the cooling system entered service
+  unit: none
   type: integer
   values:
     distinct: 94
     lowest: 1922
     highest: 2030
   missing_cells: 7
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Inservice Year
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_cooling_type_1
-  label: null
-  unit: null
+  label: The type of cooling system, EIA's code (ON once through without ponds, OC with ponds, RI, RF, RN recirculating with
+    induced, forced or natural draft towers, RC recirculating with ponds, DC dry air cooling, HR... hybrids, HT helper tower,
+    OT other)
+  unit: none
   type: text
   values:
     list:
@@ -308,12 +327,12 @@ columns:
       RI: 792
       RN: 83
   missing_cells: 3
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Cooling Type 1
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_cooling_type_2
-  label: null
-  unit: null
+  label: A second type of the cooling system, EIA's code (as x_cooling_type_1)
+  unit: none
   type: text
   values:
     list:
@@ -326,33 +345,33 @@ columns:
       RC: 6
       RI: 23
   missing_cells: 1718
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No second type
+  source_name: Cooling Type 2
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_cooling_type_3
-  label: null
-  unit: null
+  label: A third type of the cooling system, EIA's code (as x_cooling_type_1)
+  unit: none
   type: text
   values:
     list:
       HT: 2
   missing_cells: 1795
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No third type
+  source_name: Cooling Type 3
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_cooling_type_4
-  label: null
-  unit: null
+  label: A fourth type of the cooling system, EIA's code (as x_cooling_type_1)
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1797
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'Always empty: no system has a fourth type'
+  source_name: Cooling Type 4
+  documented_by: source EIA-860 LayoutY2025.xlsx; data
 - name: x_percent_dry_cooling
-  label: null
-  unit: null
+  label: The share of the cooling load served by dry cooling, as a fraction (1 is all)
+  unit: ratio
   type: number
   values:
     list:
@@ -365,12 +384,12 @@ columns:
       '0.6': 1
       '1': 8
   missing_cells: 1776
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Percent Dry Cooling
+  documented_by: source EIA-860 LayoutY2025.xlsx; data
 - name: x_cooling_water_source
-  label: null
-  unit: null
+  label: The name of the river, lake or other source of the cooling water
+  unit: none
   type: text
   values:
     distinct: 475
@@ -381,12 +400,12 @@ columns:
     - Alcoa Lake
     - Alcoa Lake Treatment System
   missing_cells: 102
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Cooling Water Source
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_cooling_water_discharge
-  label: null
-  unit: null
+  label: The name of the water body the cooling water is discharged into
+  unit: none
   type: text
   values:
     distinct: 453
@@ -397,12 +416,13 @@ columns:
     - Alabama River
     - Alcoa Lake
   missing_cells: 359
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Blank when the discharge goes to the same water body as the source (EIA's rule), or none given
+  source_name: Cooling Water Discharge
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_water_source_code
-  label: null
-  unit: null
+  label: 'The type of cooling water source: SW surface water, GW ground water, PD plant discharge water (such as treated wastewater),
+    OT other'
+  unit: none
   type: text
   values:
     list:
@@ -411,12 +431,12 @@ columns:
       PD: 104
       SW: 1286
   missing_cells: 124
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Water Source Code
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_water_type_code
-  label: null
-  unit: null
+  label: 'The type of cooling water: FR fresh, BR brackish, SA saline, BE reclaimed, OT other'
+  unit: none
   type: text
   values:
     list:
@@ -426,24 +446,24 @@ columns:
       OT: 40
       SA: 118
   missing_cells: 124
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Water Type Code
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_intake_rate_at_100_gallons_per_minute
-  label: null
-  unit: null
+  label: Design cooling water flow at the intake at 100 percent load
+  unit: gal/min
   type: number
   values:
     distinct: 897
     lowest: 49.0
     highest: 3000000.0
   missing_cells: 110
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Intake Rate at 100% (Gallons per Minute)
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_chlorine_inservice_month
-  label: null
-  unit: null
+  label: The actual or projected month the chlorine discharge control equipment entered service
+  unit: none
   type: integer
   values:
     list:
@@ -460,24 +480,24 @@ columns:
       '8': 40
       '9': 47
   missing_cells: 1144
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No chlorine discharge control reported
+  source_name: Chlorine Inservice Month
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_chlorine_inservice_year
-  label: null
-  unit: null
+  label: The actual or projected year the chlorine discharge control equipment entered service
+  unit: none
   type: integer
   values:
     distinct: 78
     lowest: 1938
     highest: 2026
   missing_cells: 1143
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No chlorine discharge control reported
+  source_name: Chlorine Inservice Year
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_pond_inservice_month
-  label: null
-  unit: null
+  label: The actual or projected month the cooling ponds entered service
+  unit: none
   type: integer
   values:
     list:
@@ -494,48 +514,48 @@ columns:
       '8': 13
       '9': 9
   missing_cells: 1620
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No cooling pond reported
+  source_name: Pond Inservice Month
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_pond_inservice_year
-  label: null
-  unit: null
+  label: The actual or projected year the cooling ponds entered service
+  unit: none
   type: integer
   values:
     distinct: 47
     lowest: 1921
     highest: 2026
   missing_cells: 1620
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No cooling pond reported
+  source_name: Pond Inservice Year
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_pond_surface_area_acres
-  label: null
-  unit: null
+  label: The total surface area of the cooling pond
+  unit: acre
   type: number
   values:
     distinct: 91
     lowest: 1.74
     highest: 26800.0
   missing_cells: 1623
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No cooling pond reported
+  source_name: Pond Surface Area (Acres)
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_pond_volume_acre_feet
-  label: null
-  unit: null
+  label: The total volume of water in the cooling pond
+  unit: acre-ft
   type: number
   values:
     distinct: 97
     lowest: 4.3
     highest: 490000.0
   missing_cells: 1625
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No cooling pond reported
+  source_name: Pond Volume (Acre Feet)
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_tower_inservice_month
-  label: null
-  unit: null
+  label: The actual or projected month the cooling towers entered service
+  unit: none
   type: integer
   values:
     list:
@@ -552,24 +572,25 @@ columns:
       '8': 62
       '9': 51
   missing_cells: 736
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No cooling tower reported
+  source_name: Tower Inservice Month
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_tower_inservice_year
-  label: null
-  unit: null
+  label: The actual or projected year the cooling towers entered service
+  unit: none
   type: integer
   values:
     distinct: 81
     lowest: 1943
     highest: 2030
   missing_cells: 736
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No cooling tower reported
+  source_name: Tower Inservice Year
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_tower_type_1
-  label: null
-  unit: null
+  label: 'The type of cooling tower: MW mechanical draft wet, MD mechanical draft dry, NW natural draft wet, ND natural draft
+    dry, WD wet and dry, OT other'
+  unit: none
   type: text
   values:
     list:
@@ -578,164 +599,166 @@ columns:
       NW: 83
       WD: 8
   missing_cells: 730
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No cooling tower reported
+  source_name: Tower Type 1
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_tower_type_2
-  label: null
-  unit: null
+  label: A second type of cooling tower, EIA's code (as x_tower_type_1)
+  unit: none
   type: text
   values:
     list:
       MW: 1
       NW: 1
   missing_cells: 1795
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No second tower type
+  source_name: Tower Type 2
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_tower_type_3
-  label: null
-  unit: null
+  label: A third type of cooling tower, EIA's code (as x_tower_type_1)
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1797
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'Always empty: no system has a third tower type'
+  source_name: Tower Type 3
+  documented_by: source EIA-860 LayoutY2025.xlsx; data
 - name: x_tower_type_4
-  label: null
-  unit: null
+  label: A fourth type of cooling tower, EIA's code (as x_tower_type_1)
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1797
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'Always empty: no system has a fourth tower type'
+  source_name: Tower Type 4
+  documented_by: source EIA-860 LayoutY2025.xlsx; data
 - name: x_tower_water_rate_gallons_per_minute
-  label: null
-  unit: null
+  label: The maximum design water flow through the cooling towers at 100 percent load
+  unit: gal/min
   type: number
   values:
     distinct: 564
     lowest: 578.99
     highest: 2480241.04
   missing_cells: 832
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No cooling tower reported, or none given
+  source_name: Tower Water Rate (Gallons per Minute)
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_power_requirement_mw
-  label: null
-  unit: null
+  label: The maximum power the cooling towers need at 100 percent load
+  unit: MW
   type: number
   values:
     distinct: 218
     lowest: 0.002
     highest: 95.0
   missing_cells: 763
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No cooling tower reported, or none given
+  source_name: Power Requirement (MW)
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_cost_total_thousand_dollars
-  label: null
-  unit: null
+  label: The installed cost of the existing cooling system, or the expected cost to bring a planned one into service
+  unit: thousand USD
   type: integer
   values:
     distinct: 1040
     lowest: 10
     highest: 340000
   missing_cells: 187
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Cost Total (Thousand Dollars)
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
 - name: x_cost_ponds_thousand_dollars
-  label: null
-  unit: null
+  label: The installed (or expected) cost of the cooling ponds
+  unit: thousand USD
   type: integer
   values:
     distinct: 106
     lowest: 10
     highest: 167000
   missing_cells: 1643
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No pond cost given
+  source_name: Cost Ponds (Thousand Dollars)
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_cost_towers_thousand_dollars
-  label: null
-  unit: null
+  label: The installed (or expected) cost of the cooling towers
+  unit: thousand USD
   type: integer
   values:
     distinct: 563
     lowest: 2
     highest: 278173
   missing_cells: 905
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No tower cost given
+  source_name: Cost Towers (Thousand Dollars)
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_cost_chlorine_equipment_thousand_dollars
-  label: null
-  unit: null
+  label: The installed (or expected) cost of the chlorine discharge control system
+  unit: thousand USD
   type: integer
   values:
     distinct: 107
     lowest: 2
     highest: 18776
   missing_cells: 1530
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No chlorine equipment cost given
+  source_name: Cost Chlorine Equipment (Thousand Dollars)
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_intake_distance_shore_feet
-  label: null
-  unit: null
+  label: The maximum distance from shore to the water intake
+  unit: ft
   type: number
   values:
     distinct: 162
     lowest: 0.0
     highest: 10000.0
   missing_cells: 684
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Intake Distance Shore (Feet)
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_outlet_distance_shore_feet
-  label: null
-  unit: null
+  label: The maximum distance from shore to the water outlet
+  unit: ft
   type: number
   values:
     distinct: 143
     lowest: 0.0
     highest: 10000.0
   missing_cells: 935
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Outlet Distance Shore (Feet)
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_intake_distance_surface_feet
-  label: null
-  unit: null
+  label: The average depth of the water intake below the surface
+  unit: ft
   type: number
   values:
     distinct: 77
     lowest: 0.0
     highest: 350.0
   missing_cells: 578
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Intake Distance Surface (Feet)
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_outlet_distance_surface_feet
-  label: null
-  unit: null
+  label: The average depth of the water outlet below the surface
+  unit: ft
   type: number
   values:
     distinct: 62
     lowest: 0.0
     highest: 300.0
   missing_cells: 895
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives none
+  source_name: Outlet Distance Surface (Feet)
+  documented_by: source EIA-860 LayoutY2025.xlsx
 - name: x_steam_plant_type
-  label: null
-  unit: null
+  label: 'EIA''s steam plant type of the plant: 1 combustible-fueled steam capacity of 100 MW or more, 2 of 10 to 100 MW,
+    3 nuclear, combined cycle without duct firing or solar thermal steam of 100 MW or more, 4 the others (wind, PV, turbines,
+    engines)'
+  unit: none
   type: integer
   values:
     list:
@@ -744,7 +767,7 @@ columns:
       '3': 248
       '4': 344
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Steam Plant Type
+  documented_by: method eia860_environment.md; source EIA-860 LayoutY2025.xlsx
 second_look: null

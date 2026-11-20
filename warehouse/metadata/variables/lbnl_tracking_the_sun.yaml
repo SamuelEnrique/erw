@@ -5,9 +5,12 @@
 table: lbnl_tracking_the_sun
 family: lbnl
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One state's customer segment's installed distributed solar systems in one year of installation, one measure, summarised
+  from Berkeley Lab's Tracking the Sun 2024 public data file (one record a system).
+time: ts_utc is 1 January of the year of installation (a year, not an instant); freq P1Y. The edition holds systems installed
+  to 2023; 2024 is a partial year.
+vintage_rule: Rewritten whole by each run; vintage is the Last-Modified time of the state's file in the data lake (28 February
+  2025).
 keys:
 - entity
 - variable
@@ -45,6 +48,7 @@ columns:
     - tts:ar_res
     - tts:az_com
   missing_cells: 0
+  particular: tts:<state>_<segment>, lowercase
 - name: variable
   shared: true
   type: text
@@ -95,12 +99,14 @@ columns:
     - US-CO
     - US-CT
   missing_cells: 0
+  particular: US-<state>
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 8762
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -114,6 +120,8 @@ columns:
       SCHOOL: 915
       unknown: 930
   missing_cells: 0
+  particular: The customer segment as the file writes it (RES, COM, NON-RES, GOV, NON-PROFIT, SCHOOL, or unknown for the file's
+    -1), not a pricing node
 - name: source
   shared: true
   type: text
@@ -157,9 +165,11 @@ columns:
       '2025-02-28T17:44:38Z': 409
       '2025-02-28T17:44:41Z': 453
   missing_cells: 0
+  particular: The state's file's Last-Modified time, UTC
 - name: x_segment
-  label: null
-  unit: null
+  label: 'The customer segment as the file writes it: RES residential, COM commercial, NON-RES non-residential, GOV government,
+    NON-PROFIT, SCHOOL, or unknown for the file''s -1'
+  unit: none
   type: text
   values:
     list:
@@ -171,36 +181,37 @@ columns:
       SCHOOL: 915
       unknown: 930
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: customer_segment
+  documented_by: header; method lbnl_tracking_the_sun.md; data
 variables:
 - name: capacity_dc
-  label: null
+  label: The sum of the systems' DC size, in MW DC (the file's kW over 1,000)
   unit: MW
   rows: 1872
   first: '1983-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: price_median
-  label: null
+  label: The median of total installed price over DC size, priced systems only, unscreened, USD per kW (not Berkeley Lab's
+    reported figure)
   unit: USD/kW
   rows: 1217
   first: '1983-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: systems
-  label: null
+  label: The number of systems installed in the year (systems with an installation year)
   unit: count
   rows: 1891
   first: '1983-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: systems_battery
-  label: null
+  label: The systems with a battery (battery_rated_capacity_kwh above zero)
   unit: count
   rows: 1891
   first: '1983-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: systems_priced
-  label: null
+  label: The systems whose installed price and DC size are both above zero
   unit: count
   rows: 1891
   first: '1983-01-01T00:00:00Z'

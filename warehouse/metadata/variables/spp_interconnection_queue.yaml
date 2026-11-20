@@ -5,9 +5,11 @@
 table: spp_interconnection_queue
 family: spp
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One position in SPP's Generation Interconnection Queue summary, a project asking to connect generation or storage to
+  SPP's grid.
+time: No time column. Dates are SPP's, YYYY-MM-DD; vintage is the retrieval day. The table is a snapshot of the queue as read
+  on its retrieved_at.
+vintage_rule: A snapshot rewritten whole by each run (Mondays); earlier snapshots stay in the raw files and the archive.
 keys:
 - entity_id
 license: public
@@ -40,6 +42,7 @@ columns:
     - spp_queue:2019-G2
     - spp_queue:2019-G3
   missing_cells: 0
+  particular: spp_queue:<GEN number>
 - name: entity_type
   shared: true
   type: text
@@ -47,12 +50,14 @@ columns:
     list:
       project: 3079
   missing_cells: 0
+  particular: project in every row
 - name: name
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3079
+  particular: Empty in every row
 - name: geo
   shared: true
   type: text
@@ -75,6 +80,7 @@ columns:
       US-TX: 443
       US-WY: 16
   missing_cells: 27
+  particular: US-<state> from SPP's state; empty where no single two-letter state is given (one row has TX/OK)
 - name: lat
   shared: true
   type: empty
@@ -95,6 +101,7 @@ columns:
     lowest: 0.0
     highest: 4000.0
   missing_cells: 0
+  particular: SPP's requested capacity as gridstatus reads it
 - name: status
   shared: true
   type: text
@@ -105,6 +112,8 @@ columns:
       suspended: 22
       withdrawn: 2058
   missing_cells: 34
+  particular: active, withdrawn, completed or suspended, mapped from SPP's status (IA FULLY EXECUTED/ON SUSPENSION is suspended);
+    empty on 34 rows with no status in SPP's file
 - name: status_date
   shared: true
   type: date
@@ -113,12 +122,14 @@ columns:
     earliest: '2002-01-01'
     latest: '2026-10-19'
   missing_cells: 1264
+  particular: The withdrawn date of a withdrawn row, the commercial operation date of a completed row where given
 - name: operator
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3079
+  particular: Empty in every row
 - name: source
   shared: true
   type: text
@@ -147,9 +158,10 @@ columns:
     list:
       '2026-11-05': 3079
   missing_cells: 0
+  particular: The retrieval day (YYYY-MM-DD), not a date SPP prints
 - name: queue_id
-  label: null
-  unit: null
+  label: SPP's GEN number of the request (2019-G1, GEN-2023-172 and others)
+  unit: none
   type: text
   values:
     distinct: 3079
@@ -160,12 +172,12 @@ columns:
     - 2019-G2
     - 2019-G3
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Queue ID
+  documented_by: connector iso_queues.py; method spp_interconnection_queue.md
 - name: county
-  label: null
-  unit: null
+  label: The county or place of the project as SPP writes it
+  unit: none
   type: text
   values:
     distinct: 949
@@ -176,12 +188,12 @@ columns:
     - Abernathy County
     - Ada
   missing_cells: 28
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: SPP gives no county
+  source_name: County
+  documented_by: connector iso_queues.py; data
 - name: state
-  label: null
-  unit: null
+  label: The state of the project as SPP writes it (a two-letter code, or a pair such as TX/OK)
+  unit: none
   type: text
   values:
     list:
@@ -203,12 +215,12 @@ columns:
       TX/OK: 1
       WY: 16
   missing_cells: 26
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: SPP gives no state
+  source_name: State
+  documented_by: connector iso_queues.py; method spp_interconnection_queue.md
 - name: poi
-  label: null
-  unit: null
+  label: 'The point of interconnection: the substation or line where the project would connect'
+  unit: none
   type: text
   values:
     distinct: 1885
@@ -219,22 +231,22 @@ columns:
     - 115kV Strandahl sub
     - 115kv West Fort Morgan Susbtation
   missing_cells: 424
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: SPP gives no location
+  source_name: Interconnection Location
+  documented_by: connector iso_queues.py
 - name: zone
-  label: null
-  unit: null
+  label: The zone of the project
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 3079
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: 'Empty in every row: SPP''s file does not give it'
+  source_name: Zone
+  documented_by: connector iso_queues.py; data
 - name: transmission_owner
-  label: null
-  unit: null
+  label: The transmission owner the project connects to, SPP's code (SPS, OGE, AEP, NPPD, WERE and others)
+  unit: none
   type: text
   values:
     distinct: 74
@@ -245,12 +257,13 @@ columns:
     - AEP/OGE
     - BEPC
   missing_cells: 99
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: SPP gives none
+  source_name: Transmission Owner
+  documented_by: connector iso_queues.py; method spp_interconnection_queue.md
 - name: fuel_technology
-  label: null
-  unit: null
+  label: The project's generation type in SPP's words (Wind, Solar, Battery/Storage, Hybrid - Solar/Storage, Thermal - Gas
+    and others, some under two spellings)
+  unit: none
   type: text
   values:
     distinct: 44
@@ -261,12 +274,13 @@ columns:
     - Hybrid - Gas/Storage
     - Hybrid - Solar
   missing_cells: 11
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: SPP gives no type
+  source_name: Generation Type
+  documented_by: connector iso_queues.py; method spp_interconnection_queue.md
 - name: iso_status
-  label: null
-  unit: null
+  label: SPP's own status of the request, its Status (Original) text (DISIS STAGE, IA PENDING, IA FULLY EXECUTED/COMMERCIAL
+    OPERATION, WITHDRAWN and others)
+  unit: none
   type: text
   values:
     list:
@@ -281,55 +295,56 @@ columns:
       TERMINATED: 51
       WITHDRAWN: 2007
   missing_cells: 34
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: No status in SPP's file (affected-system requests)
+  source_name: Status (Original)
+  documented_by: connector iso_queues.py; method spp_interconnection_queue.md
 - name: queue_date
-  label: null
-  unit: null
+  label: The date the request entered the queue
+  unit: none
   type: date
   values:
     distinct: 916
     earliest: '1999-09-20'
     latest: '2026-09-09'
   missing_cells: 47
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: SPP gives no queue date
+  source_name: Queue Date
+  documented_by: connector iso_queues.py; method spp_interconnection_queue.md
 - name: proposed_in_service_date
-  label: null
-  unit: null
+  label: The date the project proposes to begin operating
+  unit: none
   type: date
   values:
     distinct: 582
     earliest: '2002-01-01'
     latest: '2035-02-01'
   missing_cells: 1110
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: SPP gives no date
+  source_name: Proposed Completion Date
+  documented_by: connector iso_queues.py; method spp_interconnection_queue.md
 - name: actual_in_service_date
-  label: null
-  unit: null
+  label: SPP's Commercial Operation Date, which equals proposed_in_service_date on every row (not a completed project's date;
+    some lie in the future)
+  unit: none
   type: date
   values:
     distinct: 582
     earliest: '2002-01-01'
     latest: '2035-02-01'
   missing_cells: 1110
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: SPP gives no date
+  source_name: Commercial Operation Date
+  documented_by: method spp_interconnection_queue.md
 - name: withdrawn_date
-  label: null
-  unit: null
+  label: The date the request was withdrawn
+  unit: none
   type: date
   values:
     distinct: 534
     earliest: '2002-03-04'
     latest: '2026-10-19'
   missing_cells: 1562
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: Not withdrawn, or withdrawn with no date given
+  source_name: Withdrawn Date
+  documented_by: connector iso_queues.py
 second_look: null

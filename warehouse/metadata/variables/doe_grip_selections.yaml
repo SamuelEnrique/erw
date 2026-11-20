@@ -5,9 +5,10 @@
 table: doe_grip_selections
 family: doe
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One project selected in the first two rounds of DOE's Grid Resilience and Innovation Partnerships (GRIP) program, as
+  the Office of Electricity's GRIP Program Projects page lists it.
+time: No time column; event_date is the round's announcement date for the program, as the program's page prints it.
+vintage_rule: A snapshot, written whole each run, all four pages asked fresh; no vintage column.
 keys:
 - event_id
 license: public
@@ -41,6 +42,7 @@ columns:
     - doe_grip:first:14d939c1195c
     - doe_grip:first:175192a11973
   missing_cells: 0
+  particular: doe_grip:<round>:<12 hex of the SHA-1 of program|applicant|project>, the ERW's own (DOE gives none)
 - name: event_date
   shared: true
   type: date
@@ -57,6 +59,7 @@ columns:
     list:
       grip_selection: 105
   missing_cells: 0
+  particular: Always grip_selection
 - name: parties
   shared: true
   type: text
@@ -69,6 +72,7 @@ columns:
     - Ameresco, Inc.
     - American Electric Power Service Corporation
   missing_cells: 0
+  particular: The applicant or selectee
 - name: entity_ids
   shared: true
   type: empty
@@ -102,6 +106,7 @@ columns:
       selected: 44
       withdrawn: 1
   missing_cells: 0
+  particular: 'DOE''s status, lower-cased: awarded, selected or withdrawn'
 - name: source
   shared: true
   type: text
@@ -124,8 +129,8 @@ columns:
       '2026-10-23T19:08:05Z': 105
   missing_cells: 0
 - name: x_project
-  label: null
-  unit: null
+  label: The project's title as DOE lists it
+  unit: none
   type: text
   values:
     distinct: 105
@@ -136,12 +141,12 @@ columns:
     - Accelerating Clean Energy Resiliency for the Grid and California Water Utilities
     - Accelerating and Deploying Grid-Edge Computing
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Project
+  documented_by: connector doe_grip.py
 - name: x_program
-  label: null
-  unit: null
+  label: 'The GRIP program: Grid Resilience Utility and Industry Grants, Smart Grid Grants or Grid Innovation Program'
+  unit: none
   type: text
   values:
     list:
@@ -149,48 +154,48 @@ columns:
       Grid Resilience Utility and Industry Grants: 31
       Smart Grid Grants: 58
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: program
+  documented_by: connector doe_grip.py; data
 - name: x_round
-  label: null
-  unit: null
+  label: 'The selection round: first or second'
+  unit: none
   type: text
   values:
     list:
       first: 58
       second: 47
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Round
+  documented_by: connector doe_grip.py; data
 - name: x_federal_usd
-  label: null
-  unit: null
+  label: The federal cost share
+  unit: USD
   type: integer
   values:
     distinct: 90
     lowest: 1116174
     highest: 700000000
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Federal Cost Share
+  documented_by: header; connector doe_grip.py
 - name: x_recipient_usd
-  label: null
-  unit: null
+  label: The recipient's cost share
+  unit: USD
   type: integer
   values:
     distinct: 104
     lowest: 1116174
     highest: 3209440351
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Recipient Cost Share
+  documented_by: header; connector doe_grip.py
 - name: x_states
-  label: null
-  unit: null
+  label: The postal codes of the project's states, joined by ';'
+  unit: none
   type: text
   values:
     distinct: 65
@@ -201,12 +206,12 @@ columns:
     - AR
     - AR;IN;LA;OH;OK;TN;VA;WV
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Locations
+  documented_by: method doe_grip_selections.md; connector doe_grip.py
 - name: x_state_names
-  label: null
-  unit: null
+  label: DOE's names of the project's states, as listed
+  unit: none
   type: text
   values:
     distinct: 65
@@ -218,12 +223,12 @@ columns:
     - Arizona, California, Colorado, Idaho, Kansas, Minnesota, Montana, North Dakota, Nebraska, New Mexico, Oklahoma, Oregon,
       South Dakota, Utah, Washington, Wyoming
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: StateFull
+  documented_by: method doe_grip_selections.md; connector doe_grip.py
 - name: x_announced_on
-  label: null
-  unit: null
+  label: The round's announcement date for the program (the same as event_date)
+  unit: none
   type: date
   values:
     list:
@@ -231,12 +236,12 @@ columns:
       '2024-08-06': 8
       '2024-10-18': 39
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method doe_grip_selections.md
 - name: x_dates_from
-  label: null
-  unit: null
+  label: The program page the announcement date was read from
+  unit: none
   type: text
   values:
     list:
@@ -244,7 +249,7 @@ columns:
       https://www.energy.gov/oe/grid-resilience-utility-and-industry-grants: 31
       https://www.energy.gov/oe/smart-grid-grants: 58
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method doe_grip_selections.md; connector doe_grip.py
 second_look: null

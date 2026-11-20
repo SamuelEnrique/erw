@@ -1,0 +1,142 @@
+# The codebook's metadata of table isone_as_prices (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: isone_as_prices
+family: isone
+shape: series
+row: One hour's day-ahead clearing price of one ancillary service (a reserve product) for New England as a whole, from ISO-NE's
+  day-ahead reserve report.
+time: ts_utc is the start of the hour in UTC (the file's Local Date and Hour Ending, Eastern); freq PT1H.
+vintage_rule: 'Merged into the table held on (entity, variable, ts_utc): a new row replaces the held one, the month in progress
+  is fetched again each run. vintage is not filled.'
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: PT1H
+source:
+- name: isone:daasreservedata ISO-NE, Day-Ahead Hourly Reserve Requirements Prices Designations and Forecast
+  url: https://www.iso-ne.com/isoexpress/web/reports/pricing/-/tree/ancillary-daas-hourly-rr
+cite: ISO New England (ISO-NE). Day-Ahead Hourly Reserve Requirements Prices Designations and Forecast. Via the Energy Research
+  Warehouse (ERW), table `isone_as_prices`.
+method: docs/methods/isone_as_prices.md
+header_title: ISO-NE day-ahead ancillary service clearing prices, hourly, the system
+header_shape: 'Shape: series (docs/datastandard.md v0). Unit USD/MW-hour: US dollars per MW for one hour (the file''s unit
+  row reads "$"). ts_utc is the start of the hour, UTC.'
+read:
+  date: '2026-11-20'
+  rows: 55964
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: isone:<the report's one Location ID>, New England as a whole
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: ISO-NE's day-ahead market
+- name: node
+  shared: true
+  type: integer
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The report's Location ID
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 55964
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: as_price_dam_fer
+  label: 'Day-ahead FER price: the price of the forecast energy requirement, US dollars per MW for the hour'
+  unit: USD/MW-hour
+  rows: 13991
+  first: '2025-03-01T05:00:00Z'
+  last: '2026-10-05T03:00:00Z'
+- name: as_price_dam_tmr10
+  label: Day-ahead Ten Minute Reserve clearing price (total ten-minute reserve), US dollars per MW for the hour
+  unit: USD/MW-hour
+  rows: 13991
+  first: '2025-03-01T05:00:00Z'
+  last: '2026-10-05T03:00:00Z'
+- name: as_price_dam_tmr30
+  label: Day-ahead Total Thirty Reserve clearing price (total thirty-minute reserve), US dollars per MW for the hour
+  unit: USD/MW-hour
+  rows: 13991
+  first: '2025-03-01T05:00:00Z'
+  last: '2026-10-05T03:00:00Z'
+- name: as_price_dam_tmsr
+  label: 'Day-ahead Ten Minute Spinning Reserve clearing price: the price of reserve from running units that can deliver within
+    ten minutes, US dollars per MW for the hour'
+  unit: USD/MW-hour
+  rows: 13991
+  first: '2025-03-01T05:00:00Z'
+  last: '2026-10-05T03:00:00Z'
+second_look: null

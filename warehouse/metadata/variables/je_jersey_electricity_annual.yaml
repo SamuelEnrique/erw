@@ -1,0 +1,146 @@
+# The codebook's metadata of table je_jersey_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: je_jersey_electricity_annual
+family: other_sources
+shape: series
+row: One year's figure of one line of Jersey's energy balance, the electricity column only (production, net imports, supply,
+  transformation, own use and losses, final consumption by sector), from the Government of Jersey's Energy Trends.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is the report's Last-Modified time.
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1Y
+source:
+- name: 'je_gov:energy_trends_2025_balances Government of Jersey, Energy Trends 2025, Table 5 and Appendix Tables A3 and A5:
+    energy balances for Jersey, the electricity column'
+  url: ''
+cite: Government of Jersey. Energy Trends 2025, Table 5 and Appendix Tables A3 and A5 (energy balances), the electricity column.
+  Via the Energy Research Warehouse (ERW), table `je_jersey_electricity_annual`.
+method: docs/methods/je_jersey_electricity_annual.md
+header_title: Government of Jersey, Energy Trends 2025, the electricity column of its energy balances for 2023, 2024 and 2025
+  (session 2594)
+header_shape: 'Shape: series (docs/datastandard.md v0). entity je:jersey:<item>; variable electricity; unit MWh (the balance''s
+  toe times 11.63, the report''s own factor; x_toe the toe as printed); ts_utc the year''s first day; freq P1Y; geo JE; node
+  the label.'
+read:
+  date: '2026-11-20'
+  rows: 45
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: je:jersey:<item>, one a line of the balance
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: Jersey's two-letter ISO 3166-1 code on every row
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 45
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The balance's label of the line, not a pricing node
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The report's Last-Modified time as the server sent it
+- name: x_table
+  label: The report's table the row is read from
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: connector je_jersey_electricity.py; method je_jersey_electricity_annual.md
+- name: x_toe
+  label: The figure as printed, in tonnes of oil equivalent (value is it converted by the report's own factor)
+  unit: toe
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector je_jersey_electricity.py; method je_jersey_electricity_annual.md
+variables:
+- name: electricity
+  label: The electricity column's figure for the balance line, converted from tonnes of oil equivalent
+  unit: MWh
+  rows: 45
+  first: '2023-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

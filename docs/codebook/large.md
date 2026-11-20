@@ -2,11 +2,11 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 4 public tables (4 events; tiers: 3 model_extracted, 1 source); 3 documented in full.
+**What the family holds.** 4 public tables (4 events; tiers: 3 model_extracted, 1 source); 4 documented in full.
 
 - [`large_load_connection_rules`](#large_load_connection_rules): One step that a grid operator's, regulator's or utility's document states for connecting a large load (who acts, what the step is, and any time or size the step prints).
 - [`large_load_public`](#large_load_public): One figure (megawatts or a duration) that a public document (a regulatory filing, an SEC filing, or an ERCOT or CAISO document) states about large loads for one entity, as a fact with a link and no quoted text.
-- [`large_load_rule_reads`](#large_load_rule_reads): Rebuilt from the ERW archive by warehouse/archive/restore.py, as of run 20261008T050942Z-local (2026-10-08T05:09:42Z); that run's own header of the table follows
+- [`large_load_rule_reads`](#large_load_rule_reads): One line a model wrote on what a large-load proceeding, order or federal action would change for a large load seeking power, kept only when code finds every number in it in the document's text; a model's read, not the regulator's words and not legal advice.
 - [`large_load_rules`](#large_load_rules): One proceeding (a docket) or one order in it on large-load interconnection, large-load tariffs, transmission cost allocation or interconnection reform, at a state commission whose terms allow its text to be shown, with the exact sentence that states what it does.
 
 ### `large_load_connection_rules`
@@ -102,38 +102,40 @@ Waiting for a second look: stage_class: the values 'none' (124 rows) and 'not cl
 
 ### `large_load_rule_reads`
 
-What a row is: not yet written.
+One line a model wrote on what a large-load proceeding, order or federal action would change for a large load seeking power, kept only when code finds every number in it in the document's text; a model's read, not the regulator's words and not legal advice.
 
 Shape: events. Keys: `event_id`. License: public; tier: model_extracted. Rows read on 2026-11-20: 87.
 
+- **Time:** No time column; event_date is the date of the row read (the large_load_rules row's date, or the federal action's publication date). read_at is when the model wrote the line, UTC.
+- **Revisions:** Built whole and replaced by each run (write_snapshot); the table on the machine was rebuilt from the ERW archive as of run 20261008T050942Z-local. No vintage column.
 - **Source:** erw:large_load_rule_reads. License: public. The lines are the ERW's own (a model's). A line about a row of large_load_rules_internal (a regulator whose terms restrict copying, or whose terms were not read) is kept only if it holds no run of more than 5 consecutive words of the document: it states facts and quotes nothing.
 - **Method note:** [`docs/methods/datacenter_cost.md`](../methods/datacenter_cost.md)
 - **Cite as:** Energy Research Warehouse (ERW). One-line reads of the rules in motion for large loads, by a model (warehouse/policy/rule_reads.py). Via the Energy Research Warehouse (ERW), table `large_load_rule_reads`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents | none | text | for example ruleread:azcc:E-00000A-25-0069:proceeding:17d0cca75a, ruleread:azcc:E-01345A-25-0105:proceeding:30b7e6d4af, ruleread:azcc:E-01773A-26-0123:order:cd2921dec2; 87 distinct | 0 |
+| `event_id` | The identifier of the event, as namespace:native_id or a stable hash the connector documents. Here: ruleread:<rule_event_id> | none | text | for example ruleread:azcc:E-00000A-25-0069:proceeding:17d0cca75a, ruleread:azcc:E-01345A-25-0105:proceeding:30b7e6d4af, ruleread:azcc:E-01773A-26-0123:order:cd2921dec2; 87 distinct | 0 |
 | `event_date` | The date the event happened or was announced (each table's file says which) | none | date | 2024-01-25 to 2026-10-07; 63 distinct | 0 |
-| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others) | none | text | rule_read | 0 |
-| `parties` | The parties to the event, as the publisher names them, separated by semicolons | none | text | Arizona Corporation Commission, California Public Utilities Commission, Department of Energy, Federal Energy Regulatory Commission, Georgia Public Service Commission, Illinois Commerce Commission, Indiana Utility Regulatory Commission, Oregon Public Utility Commission, Pennsylvania Public Utility Commission, Public Utilities Commission of Ohio, Public Utility Commission of Texas, Virginia State Corporation Commission | 0 |
+| `event_type` | What kind of event the row is (ppa, interconnection_request, filing, announcement, acquisition, financing and others). Here: Always rule_read | none | text | rule_read | 0 |
+| `parties` | The parties to the event, as the publisher names them, separated by semicolons. Here: The regulator | none | text | Arizona Corporation Commission, California Public Utilities Commission, Department of Energy, Federal Energy Regulatory Commission, Georgia Public Service Commission, Illinois Commerce Commission, Indiana Utility Regulatory Commission, Oregon Public Utility Commission, Pennsylvania Public Utility Commission, Public Utilities Commission of Ohio, Public Utility Commission of Texas, Virginia State Corporation Commission | 0 |
 | `entity_ids` | The entity_id values of the things involved, separated by semicolons | none | empty | no cell holds a value | 87 |
 | `mw` | The capacity involved, in megawatts | MW | empty | no cell holds a value | 87 |
 | `price` | The price, in the row's currency per MWh unless the table's file says otherwise | the row's currency per MWh, unless the table's file says otherwise | empty | no cell holds a value | 87 |
 | `currency` | The currency of the price, as an ISO 4217 code (USD) | none | empty | no cell holds a value | 87 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | empty | no cell holds a value | 87 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 87 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:large_load_rule_reads | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://apps.cpuc.ca.gov/apex/f?p=401:56::::RP,57,RIR:P5_PROCEEDING_SELECT:A2411007, https://apps.cpuc.ca.gov/apex/f?p=401:56::::RP,57,RIR:P5_PROCEEDING_SELECT:R2401018, https://apps.puc.state.or.us/orders/2025ords/25-516.pdf; 79 distinct | 0 |
-| `rule_event_id` | not yet written |  | text | for example azcc:E-00000A-25-0069:proceeding:17d0cca75a, azcc:E-01345A-25-0105:proceeding:30b7e6d4af, azcc:E-01773A-26-0123:order:cd2921dec2; 87 distinct | 0 |
-| `regulator` | not yet written |  | text | Arizona Corporation Commission, California Public Utilities Commission, Department of Energy, Federal Energy Regulatory Commission, Georgia Public Service Commission, Illinois Commerce Commission, Indiana Utility Regulatory Commission, Oregon Public Utility Commission, Pennsylvania Public Utility Commission, Public Utilities Commission of Ohio, Public Utility Commission of Texas, Virginia State Corporation Commission | 0 |
-| `docket_number` | not yet written |  | text | for example 24-0508-EL-ATA, 25-0677/25-0679 (Consol.), 25-0680; 57 distinct | 0 |
-| `row_kind` | not yet written |  | text | federal action, order, proceeding | 0 |
-| `read` | not yet written |  | text | for example A draft CPUC resolution would approve, with changes, PG&E's agreement to connect Google's new 250 megawatt (MW) data center, capping annual refunds of its upfront payments at net revenues received from the customer., A hearing is set on a NIPSCO and GenCo petition asking the Commission to approve amendments to NIPSCO's special contract with Amazon Data Services and to a related power purchase agreement, plus accounting authority., A large load customer must sign an intermediate agreement, make disclosures and post financial security of $50,000 per megawatt (MW) before ERCOT can include it in an interconnection study, then sign a standard agreement and pay CIAC.; 87 distinct | 0 |
-| `read_from` | not yet written |  | text | for example the action's title and abstract as the Federal Register prints them, nothing else, the document's own sentence and the saved text around it (1,069 characters of the document), nothing else, the document's own sentence and the saved text around it (1,459 characters of the document), nothing else; 82 distinct | 0 |
-| `text_chars` | not yet written |  | integer | 657 to 7850; 82 distinct | 0 |
-| `text_sha256` | not yet written |  | text | for example 01302c44c97626c4553e49d66d369445ba3ca68b996459dd2f352907691d5072, 0718ffae2822ddd0e6d5ee2a403703a7e49c44a490c164d14b5bf5e0ef010554, 0d603bfbd5de4d47cb4a103d9ed555459765d9c0218df4e03435e693afe46a76; 87 distinct | 0 |
-| `answer_file` | not yet written |  | text | for example answers/azcc_E-00000A-25-0069_proceeding_17d0cca75a.json, answers/azcc_E-01345A-25-0105_proceeding_30b7e6d4af.json, answers/azcc_E-01773A-26-0123_order_cd2921dec2.json; 87 distinct | 0 |
-| `model_id` | not yet written |  | text | claude-sonnet-5-5 | 0 |
-| `read_at` | not yet written |  | utc time | 2026-10-08T04:27:35Z to 2026-10-08T04:46:52Z; 87 distinct | 0 |
+| `rule_event_id` | The event_id of the row read: a large_load_rules (or large_load_rules_internal) event_id, or a policy_actions event_id | none | text | for example azcc:E-00000A-25-0069:proceeding:17d0cca75a, azcc:E-01345A-25-0105:proceeding:30b7e6d4af, azcc:E-01773A-26-0123:order:cd2921dec2; 87 distinct | 0 |
+| `regulator` | The regulator or agency of the row read | none | text | Arizona Corporation Commission, California Public Utilities Commission, Department of Energy, Federal Energy Regulatory Commission, Georgia Public Service Commission, Illinois Commerce Commission, Indiana Utility Regulatory Commission, Oregon Public Utility Commission, Pennsylvania Public Utility Commission, Public Utilities Commission of Ohio, Public Utility Commission of Texas, Virginia State Corporation Commission | 0 |
+| `docket_number` | The docket number of the row read, as the row gives it | none | text | for example 24-0508-EL-ATA, 25-0677/25-0679 (Consol.), 25-0680; 57 distinct | 0 |
+| `row_kind` | The kind of row read: proceeding, order or federal action | none | text | federal action, order, proceeding | 0 |
+| `read` | The model's one line on what the action would change for a large load seeking power | none | text | for example A draft CPUC resolution would approve, with changes, PG&E's agreement to connect Google's new 250 megawatt (MW) data center, capping annual refunds of its upfront payments at net revenues received from the customer., A hearing is set on a NIPSCO and GenCo petition asking the Commission to approve amendments to NIPSCO's special contract with Amazon Data Services and to a related power purchase agreement, plus accounting authority., A large load customer must sign an intermediate agreement, make disclosures and post financial security of $50,000 per megawatt (MW) before ERCOT can include it in an interconnection study, then sign a standard agreement and pay CIAC.; 87 distinct | 0 |
+| `read_from` | What the model was given: the document's own sentence and the saved text around it, or a federal action's title and abstract | none | text | for example the action's title and abstract as the Federal Register prints them, nothing else, the document's own sentence and the saved text around it (1,069 characters of the document), nothing else, the document's own sentence and the saved text around it (1,459 characters of the document), nothing else; 82 distinct | 0 |
+| `text_chars` | The length of the text given to the model | count | integer | 657 to 7850; 82 distinct | 0 |
+| `text_sha256` | The SHA-256 of the text given to the model | none | text | for example 01302c44c97626c4553e49d66d369445ba3ca68b996459dd2f352907691d5072, 0718ffae2822ddd0e6d5ee2a403703a7e49c44a490c164d14b5bf5e0ef010554, 0d603bfbd5de4d47cb4a103d9ed555459765d9c0218df4e03435e693afe46a76; 87 distinct | 0 |
+| `answer_file` | The saved answer file, under warehouse/raw/large_load_rule_reads/ (not in git) | none | text | for example answers/azcc_E-00000A-25-0069_proceeding_17d0cca75a.json, answers/azcc_E-01345A-25-0105_proceeding_30b7e6d4af.json, answers/azcc_E-01773A-26-0123_order_cd2921dec2.json; 87 distinct | 0 |
+| `model_id` | The model that wrote the line | none | text | claude-sonnet-5-5 | 0 |
+| `read_at` | When the model wrote the line, UTC | none | utc time | 2026-10-08T04:27:35Z to 2026-10-08T04:46:52Z; 87 distinct | 0 |
 
 ### `large_load_rules`
 

@@ -5,9 +5,10 @@
 table: interconnection_durations_summary
 family: interconnection
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One grid's (or the whole US's) measure of how long the interconnection requests that began operating in one year took
+  from request to operation, from Berkeley Lab and GridTracker's Queued Up, 2026 edition (through 2025).
+time: ts_utc is 1 January of the year the projects began operating (a year, not an instant); freq P1Y.
+vintage_rule: Rebuilt whole from lbnl_interconnection_queue by each run of the builder; one edition; vintage is not filled.
 keys:
 - entity
 - variable
@@ -46,6 +47,7 @@ columns:
       lbnl_durations:us: 189
       lbnl_durations:west: 154
   missing_cells: 0
+  particular: 'lbnl_durations:<grid>: the seven ISOs'' codes as held, west, southeast, or us for every counted project'
 - name: variable
   shared: true
   type: text
@@ -91,12 +93,14 @@ columns:
     list:
       US: 1365
   missing_cells: 0
+  particular: Always US, also for a single grid's rows
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1365
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -112,6 +116,7 @@ columns:
       US: 189
       West: 154
   missing_cells: 0
+  particular: Berkeley Lab's region name (CAISO, West, Southeast and the others) or US, not a pricing node
 - name: source
   shared: true
   type: text
@@ -139,45 +144,46 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 1365
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: median_months
-  label: null
+  label: The median time from request to operation of the year's projects, months of 30.4375 days
   unit: month
   rows: 195
   first: '1999-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: median_months_5y
-  label: null
+  label: The median time from request to operation over the five years ending in the row's year, months
   unit: month
   rows: 195
   first: '1999-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: mw
-  label: null
+  label: The capacity of the projects that began operating in the year, MW
   unit: MW
   rows: 195
   first: '1999-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: p25_months
-  label: null
+  label: The 25th percentile of the year's projects' time from request to operation, months
   unit: month
   rows: 195
   first: '1999-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: p75_months
-  label: null
+  label: The 75th percentile of the year's projects' time from request to operation, months
   unit: month
   rows: 195
   first: '1999-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: projects
-  label: null
+  label: The number of projects that began operating in the year
   unit: count
   rows: 195
   first: '1999-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: projects_5y
-  label: null
+  label: The number of projects that began operating in the five years ending in the row's year
   unit: count
   rows: 195
   first: '1999-01-01T00:00:00Z'

@@ -5,9 +5,11 @@
 table: desnz_uk_mpp_capacity_countries_annual
 family: desnz
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The major power producers' de-rated capacity of one fuel or thermal plant type in England and Wales, Scotland or Northern
+  Ireland, or the country's share of their capacity, in one year, 1999 to 2025 (DUKES table 5.8).
+time: ts_utc is the year's first day at 00:00:00Z (a year, not an instant); freq P1Y.
+vintage_rule: Rewritten whole by each run (a snapshot of the DUKES edition read, here 2026); vintage is the workbook's last-modified
+  time.
 keys:
 - entity
 - variable
@@ -45,6 +47,7 @@ columns:
     - desnz_mppr:england_wales:conventional_steam_stations
     - desnz_mppr:england_wales:gas_fired
   missing_cells: 0
+  particular: desnz_mppr:<country>:<item> (england_wales, scotland, northern_ireland)
 - name: variable
   shared: true
   type: text
@@ -91,12 +94,14 @@ columns:
       GB-NIR: 513
       GB-SCT: 513
   missing_cells: 0
+  particular: GB-ENG,GB-WLS for England and Wales, GB-SCT or GB-NIR
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1539
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -109,6 +114,7 @@ columns:
     - 'England and Wales: Conventional steam stations'
     - 'England and Wales: Gas fired'
   missing_cells: 0
+  particular: The sheet's labels, not a pricing node
 - name: source
   shared: true
   type: text
@@ -137,21 +143,23 @@ columns:
     list:
       '2026-07-29T17:19:45Z': 1539
   missing_cells: 0
+  particular: The workbook's last-modified time
 variables:
 - name: capacity_share
-  label: null
+  label: The country's share of the major power producers' capacity (table 5.8.B), ratio (the sheet's heading says per cent,
+    its cells hold fractions)
   unit: ratio
   rows: 81
   first: '1999-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: derated_capacity
-  label: null
+  label: The major power producers' de-rated capacity by fuel (table 5.8.A), MW
   unit: MW
   rows: 972
   first: '1999-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: thermal_capacity
-  label: null
+  label: The major power producers' capacity by thermal plant type (table 5.8.C), MW
   unit: MW
   rows: 486
   first: '1999-01-01T00:00:00Z'

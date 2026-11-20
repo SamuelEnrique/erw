@@ -5,9 +5,12 @@
 table: usbr_crsp_reservoirs_daily
 family: usbr
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One daily reading (pool elevation, storage, power release or total release) of one of the Colorado River Storage Project's
+  power reservoirs above Lake Powell (Flaming Gorge, Blue Mesa, Morrow Point, Crystal), from Reclamation's Upper Colorado
+  hydrodata.
+time: ts_utc is the day at 00:00:00Z; freq P1D. Reclamation calls all data provisional and subject to revision.
+vintage_rule: A later run merges by (entity, variable, ts_utc), a revised value replacing the old one; a day Reclamation later
+  blanks writes no row, so the earlier value stays. vintage is each file's Last-Modified time.
 keys:
 - entity
 - variable
@@ -43,6 +46,7 @@ columns:
       usbr_hydrodata:915: 72482
       usbr_hydrodata:917: 90881
   missing_cells: 0
+  particular: usbr_hydrodata:<Reclamation's site number> (917 Flaming Gorge, 913 Blue Mesa, 914 Morrow Point, 915 Crystal)
 - name: variable
   shared: true
   type: text
@@ -89,12 +93,14 @@ columns:
       US-CO: 239412
       US-UT: 90881
   missing_cells: 0
+  particular: US-UT (Flaming Gorge) or US-CO
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 330293
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -105,6 +111,7 @@ columns:
       Flaming Gorge Reservoir: 90881
       Morrow Point Reservoir: 81540
   missing_cells: 0
+  particular: The reservoir's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -164,27 +171,28 @@ columns:
       '2026-10-23T22:11:26Z': 18121
       '2026-10-23T22:11:29Z': 21145
   missing_cells: 0
+  particular: Each data file's Last-Modified time
 variables:
 - name: pool_elevation
-  label: null
+  label: The reservoir's water surface elevation, ft (feet above mean sea level)
   unit: ft
   rows: 81571
   first: '1965-11-30T00:00:00Z'
   last: '2026-10-22T00:00:00Z'
 - name: power_release
-  label: null
+  label: Water released through the power plant's turbines, ft3/s (cubic feet per second)
   unit: ft3/s
   rows: 82624
   first: '1963-10-01T00:00:00Z'
   last: '2026-10-22T00:00:00Z'
 - name: storage
-  label: null
+  label: The water held in the reservoir, acre-ft
   unit: acre-ft
   rows: 83052
   first: '1962-12-02T00:00:00Z'
   last: '2026-10-22T00:00:00Z'
 - name: total_release
-  label: null
+  label: All water released from the dam, ft3/s (cubic feet per second)
   unit: ft3/s
   rows: 83046
   first: '1962-11-01T00:00:00Z'

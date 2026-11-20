@@ -2,15 +2,15 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 7 public tables (2 entities, 5 series; tiers: 7 source); 5 documented in full.
+**What the family holds.** 7 public tables (2 entities, 5 series; tiers: 7 source); 7 documented in full.
 
 - [`nyiso_as_prices`](#nyiso_as_prices): NYISO's day-ahead price of one ancillary service (a reserve product or regulation) in one reserve region for one hour.
-- [`nyiso_dam_cleared_energy`](#nyiso_dam_cleared_energy): NYISO, load scheduled in the day-ahead market by hour, system-wide (P-30, Day-Ahead Market Daily Energy Report, Total Load Scheduled) (session 136)
+- [`nyiso_dam_cleared_energy`](#nyiso_dam_cleared_energy): The load scheduled in NYISO's day-ahead market for one hour, system-wide.
 - [`nyiso_dam_zone_prices`](#nyiso_dam_zone_prices): NYISO's day-ahead zonal energy price (LBMP, the marginal price of energy at a location) of one of its eleven load zones for one hour.
 - [`nyiso_interconnection_queue`](#nyiso_interconnection_queue): One position (a request, or a unit or phase of one) in NYISO's interconnection queue of generation, storage and transmission projects asking to connect to the grid.
 - [`nyiso_load_queue`](#nyiso_load_queue): One request by a large electricity user (a data center, a factory and others) to connect its load to NYISO's grid, a row of the queue workbook's sheet Load Projects.
 - [`nyiso_rtm_zone_prices`](#nyiso_rtm_zone_prices): NYISO's real-time zonal energy price (LBMP, the marginal price of energy at a location) of one of its eleven load zones, as a 15-minute time-weighted mean of its 5-minute (RTD) prices.
-- [`nyiso_zone_load_hourly`](#nyiso_zone_load_hourly): NYISO, hourly load by zone, the integrated real-time actual load of its eleven load zones (P-58C, palIntegrated) (session 138)
+- [`nyiso_zone_load_hourly`](#nyiso_zone_load_hourly): NYISO's integrated real-time actual load in one of its eleven load zones for one hour.
 
 ### `nyiso_as_prices`
 
@@ -51,35 +51,37 @@ Variables (4):
 
 ### `nyiso_dam_cleared_energy`
 
-What a row is: not yet written.
+The load scheduled in NYISO's day-ahead market for one hour, system-wide.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 10441.
 
+- **Time:** ts_utc is the hour's start in UTC; operating days are America/New_York days.
+- **Revisions:** Merged by (entity, variable, ts_utc); an hour read again replaces the one held, and the table keeps months NYISO's window no longer covers. vintage is not filled.
 - **Source:** nyiso:damenergy New York ISO (NYISO), P-30, Day-Ahead Market Daily Energy Report (http://mis.nyiso.com/public/P-30list.htm)
 - **Method note:** [`docs/methods/nyiso_dam_cleared_energy.md`](../methods/nyiso_dam_cleared_energy.md)
 - **Cite as:** New York ISO (NYISO). P-30, Day-Ahead Market Daily Energy Report. Via the Energy Research Warehouse (ERW), table `nyiso_dam_cleared_energy`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | nyiso:system | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: nyiso:system in every row: NYISO's whole system | none | text | nyiso:system | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2025-09-01T04:00:00Z to 2026-11-17T04:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 31245.5; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-NY | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | nyiso_dam | 0 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | Total Load Scheduled | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: nyiso_dam in every row: NYISO's day-ahead market | none | text | nyiso_dam | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Total Load Scheduled in every row: NYISO's column read, not a place | none | text | Total Load Scheduled | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | nyiso:damenergy | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | http://mis.nyiso.com/public/csv/damenergy/20250901DAM_energy_rep_csv.zip, http://mis.nyiso.com/public/csv/damenergy/20251001DAM_energy_rep_csv.zip, http://mis.nyiso.com/public/csv/damenergy/20251101DAM_energy_rep_csv.zip, http://mis.nyiso.com/public/csv/damenergy/20251201DAM_energy_rep_csv.zip, http://mis.nyiso.com/public/csv/damenergy/20260101DAM_energy_rep_csv.zip, http://mis.nyiso.com/public/csv/damenergy/20260201DAM_energy_rep_csv.zip, http://mis.nyiso.com/public/csv/damenergy/20260301DAM_energy_rep_csv.zip, http://mis.nyiso.com/public/csv/damenergy/20260401DAM_energy_rep_csv.zip, http://mis.nyiso.com/public/csv/damenergy/20260501DAM_energy_rep_csv.zip, http://mis.nyiso.com/public/csv/damenergy/20260601DAM_energy_rep_csv.zip, http://mis.nyiso.com/public/csv/damenergy/20260701DAM_energy_rep_csv.zip, http://mis.nyiso.com/public/csv/damenergy/20260801DAM_energy_rep_csv.zip, http://mis.nyiso.com/public/csv/damenergy/20260901DAM_energy_rep_csv.zip, http://mis.nyiso.com/public/csv/damenergy/20261001DAM_energy_rep_csv.zip, http://mis.nyiso.com/public/csv/damenergy/20261101DAM_energy_rep_csv.zip | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-06T20:22:03Z, 2026-10-06T20:22:06Z, 2026-10-06T20:22:09Z, 2026-10-06T20:22:12Z, 2026-10-06T20:22:14Z, 2026-10-06T20:22:17Z, 2026-10-06T20:22:20Z, 2026-10-06T20:22:23Z, 2026-10-06T20:22:25Z, 2026-10-06T20:22:28Z, 2026-10-06T20:22:31Z, 2026-10-06T20:22:34Z, 2026-10-06T20:38:25Z, 2026-10-06T20:38:28Z, 2026-10-09T07:22:05Z, 2026-10-10T15:00:05Z, 2026-10-24T15:04:13Z, 2026-11-16T11:49:30Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 10441 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 10441 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `dam_cleared_energy` |  | MW | 10441 | 2025-09-01T04:00:00Z | 2026-11-17T04:00:00Z |
+| `dam_cleared_energy` | NYISO's column Total Load Scheduled for the hour, MW over the hour (P-30, Day-Ahead Market Daily Energy Report); the file's daily Total line is not written | MW | 10441 | 2025-09-01T04:00:00Z | 2026-11-17T04:00:00Z |
 
 ### `nyiso_dam_zone_prices`
 
@@ -253,33 +255,35 @@ Variables (1):
 
 ### `nyiso_zone_load_hourly`
 
-What a row is: not yet written.
+NYISO's integrated real-time actual load in one of its eleven load zones for one hour.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 757328.
 
+- **Time:** ts_utc is the hour's start in UTC; NYISO's Time Stamp is the hour's start, Eastern, its Time Zone column (EDT, EST) placing every hour, the repeated autumn hour included.
+- **Revisions:** Merged by (entity, variable, ts_utc); this month's file is asked every run (last month's too in a month's first seven days), an earlier month once, so NYISO's later revisions of an older month are not taken. vintage is the monthly file's Last-Modified.
 - **Source:** nyiso:palIntegrated New York ISO (NYISO), P-58C, Integrated Real-Time Actual Load (palIntegrated) (http://mis.nyiso.com/public/P-58Clist.htm)
 - **Method note:** [`docs/methods/nyiso_zone_load_hourly.md`](../methods/nyiso_zone_load_hourly.md)
 - **Cite as:** New York ISO (NYISO). P-58C, Integrated Real-Time Actual Load (palIntegrated), by zone [terms: "Access to this Web site does not confer any license or ownership interest in either the form or content of the Web site"; the notice forbids republishing "any image or video on this website as a stand-alone file", not data (https://www.nyiso.com/legal-notice, read 6 October 2026)]. Via the Energy Research Warehouse (ERW), table `nyiso_zone_load_hourly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | nyiso:CAPITL, nyiso:CENTRL, nyiso:DUNWOD, nyiso:GENESE, nyiso:HUD VL, nyiso:LONGIL, nyiso:MHK VL, nyiso:MILLWD, nyiso:N.Y.C., nyiso:NORTH, nyiso:WEST | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: nyiso:<zone>, the zone's NYISO name | none | text | nyiso:CAPITL, nyiso:CENTRL, nyiso:DUNWOD, nyiso:GENESE, nyiso:HUD VL, nyiso:LONGIL, nyiso:MHK VL, nyiso:MILLWD, nyiso:N.Y.C., nyiso:NORTH, nyiso:WEST | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2019-01-01T05:00:00Z to 2026-11-16T10:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 140.9046 to 10830.2864; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
 | `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-NY | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | text | nyiso_load | 0 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | CAPITL, CENTRL, DUNWOD, GENESE, HUD VL, LONGIL, MHK VL, MILLWD, N.Y.C., NORTH, WEST | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: nyiso_load in every row | none | text | nyiso_load | 0 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: NYISO's name of the load zone, one of eleven: CAPITL, CENTRL, DUNWOD, GENESE, HUD VL, LONGIL, MHK VL, MILLWD, N.Y.C., NORTH, WEST | none | text | CAPITL, CENTRL, DUNWOD, GENESE, HUD VL, LONGIL, MHK VL, MILLWD, N.Y.C., NORTH, WEST | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | nyiso:palIntegrated | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example http://mis.nyiso.com/public/csv/palIntegrated/20190101palIntegrated_csv.zip, http://mis.nyiso.com/public/csv/palIntegrated/20190201palIntegrated_csv.zip, http://mis.nyiso.com/public/csv/palIntegrated/20190301palIntegrated_csv.zip; 95 distinct | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-07T01:42:03Z to 2026-11-16T11:50:50Z; 95 distinct | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | utc time | 2019-02-01T05:04:05Z to 2026-11-16T11:30:08Z; 95 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The Last-Modified of the monthly file (report P-58C) | none | utc time | 2019-02-01T05:04:05Z to 2026-11-16T11:30:08Z; 95 distinct | 0 |
 
 Variables (1):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `load` |  | MW | 757328 | 2019-01-01T05:00:00Z | 2026-11-16T10:00:00Z |
+| `load` | NYISO's Integrated Load for the zone and hour, MW over the hour (P-58C, palIntegrated); no state total is written | MW | 757328 | 2019-01-01T05:00:00Z | 2026-11-16T10:00:00Z |
 

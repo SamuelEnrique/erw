@@ -1,0 +1,150 @@
+# The codebook's metadata of table enercal_nc_electricity_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: enercal_nc_electricity_annual
+family: other_sources
+shape: series
+row: One year's value for one item of New Caledonia's electricity (net production by Enercal's plants, the public grid's purchases
+  by source, or the transmission network's sales), from Enercal's activity report key figures.
+time: ts_utc is the year's first day, 1 July, at 00:00:00Z (the report's July to June year); freq P1Y; x_period keeps the
+  report's year.
+vintage_rule: Rewritten whole as one snapshot by each run (ip.write_snapshot); vintage is the report's Last-Modified time.
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1Y
+source:
+- name: enercal_nc:rapport_activite_2024_2025_chiffres_cles Enercal, Rapport d'activite 2024-2025, Chiffres cles 2024-2025
+    (Enercal Producteur and Enercal Transport)
+  url: ''
+cite: Enercal. Rapport d'activite 2024-2025, Chiffres cles 2024-2025 (Enercal Producteur and Enercal Transport). Via the Energy
+  Research Warehouse (ERW), table `enercal_nc_electricity_annual`.
+method: docs/methods/enercal_nc_electricity_annual.md
+header_title: 'Enercal, Rapport d''activite 2024-2025, Chiffres cles: New Caledonia''s net production by Enercal''s plants,
+  the public grid''s purchases by source and the transmission network''s sales, July 2022 to June 2025 (session 2608)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity enercal:nc:<block>:<item> (blocks thermal, renewable, een,
+  public_purchases, transport_sales; item total each block''s TOTAL); variable net_generation, purchases or sales; unit MWh
+  (the report''s GWh times 1,000); ts_utc the year''s first day, 1 July; freq P1Y; geo NC; node the report''s label; x_period
+  the report''s year.'
+read:
+  date: '2026-11-20'
+  rows: 83
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: enercal:nc:<block>:<item>, each block with its total
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The territory's two-letter ISO 3166-1 code on every row
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 83
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The report's label of the row, not a pricing node
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The report's Last-Modified time as the server sent it
+- name: x_period
+  label: The report's year (July to June) as it labels it
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector enercal_nc_electricity.py; method enercal_nc_electricity_annual.md
+variables:
+- name: net_generation
+  label: Net production of Enercal's plants (thermal, renewable or the block's other plants)
+  unit: MWh
+  rows: 52
+  first: '2022-07-01T00:00:00Z'
+  last: '2024-07-01T00:00:00Z'
+- name: purchases
+  label: The public grid's purchases by source
+  unit: MWh
+  rows: 19
+  first: '2022-07-01T00:00:00Z'
+  last: '2024-07-01T00:00:00Z'
+- name: sales
+  label: The transmission network's sales
+  unit: MWh
+  rows: 12
+  first: '2022-07-01T00:00:00Z'
+  last: '2024-07-01T00:00:00Z'
+second_look: null

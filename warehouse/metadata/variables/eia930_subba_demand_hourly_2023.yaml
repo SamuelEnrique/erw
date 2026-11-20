@@ -5,9 +5,10 @@
 table: eia930_subba_demand_hourly_2023
 family: eia930
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One sub-region's (sub-balancing-authority's) demand in one hour of 2023, from EIA's API.
+time: ts_utc is the hour's start (EIA's hour-ending period less one hour), UTC; the table holds the hours of 2023.
+vintage_rule: A snapshot, the whole table replaced by each run of its window, so a figure EIA revises is replaced at the next
+  run; vintage is empty.
 keys:
 - entity
 - variable
@@ -43,6 +44,7 @@ columns:
     - eia930_subba:CISO:VEA
     - eia930_subba:ERCO:COAS
   missing_cells: 0
+  particular: eia930_subba:<parent BA>:<sub-region>
 - name: variable
   shared: true
   type: text
@@ -86,6 +88,7 @@ columns:
     list:
       US: 717332
   missing_cells: 0
+  particular: US on every row
 - name: market
   shared: true
   type: empty
@@ -104,6 +107,7 @@ columns:
     - American Transmission Systems, Inc. zone (PJM Interconnection, LLC)
     - Atlantic Electric zone (PJM Interconnection, LLC)
   missing_cells: 0
+  particular: The sub-region's name and its parent's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -156,7 +160,7 @@ columns:
   missing_cells: 717332
 variables:
 - name: demand_mw
-  label: null
+  label: Hourly demand of the sub-region, the hour's mean MW
   unit: MW
   rows: 717332
   first: '2023-01-01T00:00:00Z'

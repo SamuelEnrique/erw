@@ -1,0 +1,133 @@
+# The codebook's metadata of table isone_zone_prices_history (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: isone_zone_prices_history
+family: isone
+shape: series
+row: One hour's day-ahead or real-time locational marginal price (the price of power at a place) at one of ISO-NE's eight
+  load zones, from 2019, from the SMD Hourly Data workbooks.
+time: ts_utc is the start of the hour in UTC (ISO-NE's Hr_End is the hour ending, Eastern prevailing time); freq PT1H.
+vintage_rule: 'Merged a market at a time on (entity, variable, ts_utc): a new row replaces the held one, every other held
+  row is kept. A zone hour given twice is written once when its rows agree, not at all when they differ. vintage is not filled.'
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: PT1H
+source:
+- name: isone:smd_hourly_lmp Zonal Information, SMD Hourly Data (yearly workbook), day-ahead and real-time LMP by load zone
+  url: https://www.iso-ne.com/isoexpress/web/reports/load-and-demand/-/tree/zone-info
+cite: 'ISO New England (ISO-NE). Zonal Information, SMD Hourly Data (yearly workbook), day-ahead and real-time LMP by load
+  zone [terms: "Any duplication of the Content or non-personal use may violate copyright, trademark, and other laws." (https://www.iso-ne.com/legal-privacy,
+  read 6 October 2026); held internal]. Via the Energy Research Warehouse (ERW), table `isone_zone_prices_history`.'
+method: docs/methods/isone_zone_prices_history.md
+header_title: 'ISO-NE load zone prices, history from 2019 (session 140): the eight load zones, day-ahead and real-time hourly
+  LMP (SMD Hourly Data). INTERNAL. The other grids'' zones and hubs (NYISO, CAISO ZP26, SPP South) are in iso_zone_prices_history:
+  the same columns, public'
+header_shape: 'Shape: series (docs/datastandard.md v0), partition column market. Units: USD/MWh. ts_utc is interval start,
+  UTC. lmp_dam hourly (DA_LMP); lmp_rtm hourly (RT_LMP, ISO-NE''s own hourly average of its five-minute prices). Hr_End is
+  the hour ending, Eastern prevailing time.'
+read:
+  date: '2026-11-20'
+  rows: 1086544
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: 'Partition column: the day-ahead or the real-time market of ISO-NE'
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The load zone as ISO-NE names it
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1086544
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: lmp_dam
+  label: Day-ahead locational marginal price of the zone for the hour (ISO-NE's DA_LMP)
+  unit: USD/MWh
+  rows: 543272
+  first: '2019-01-01T05:00:00Z'
+  last: '2026-10-01T03:00:00Z'
+- name: lmp_rtm
+  label: 'Real-time locational marginal price of the zone for the hour: ISO-NE''s own hourly average of its five-minute prices
+    (RT_LMP)'
+  unit: USD/MWh
+  rows: 543272
+  first: '2019-01-01T05:00:00Z'
+  last: '2026-10-01T03:00:00Z'
+second_look: null

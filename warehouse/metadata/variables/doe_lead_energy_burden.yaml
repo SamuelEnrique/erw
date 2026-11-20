@@ -5,9 +5,11 @@
 table: doe_lead_energy_burden
 family: doe
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One county's or state's value of one measure of households, income or energy cost for one income bracket (a share of
+  area median income), from DOE's LEAD Tool 2022 update, summed by the ERW from LEAD's cells.
+time: ts_utc is 2022-01-01, the year the files name (a year, not an instant); freq P1Y.
+vintage_rule: Each write replaces the table whole from the saved zips; a zip already saved is never asked again. vintage is
+  the state zip's retrieval time, not its Last-Modified.
 keys:
 - entity
 - variable
@@ -46,6 +48,7 @@ columns:
     - doe_lead:1001
     - doe_lead:1003
   missing_cells: 0
+  particular: doe_lead:<county FIPS> or doe_lead:<state postal code>
 - name: variable
   shared: true
   type: text
@@ -95,12 +98,14 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
+  particular: US-<state> (a county's row names its state)
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 160419
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -113,6 +118,7 @@ columns:
     - AZ
     - Abbeville County
   missing_cells: 0
+  particular: The county's name as LEAD writes it, or the state's postal code; not a pricing node
 - name: source
   shared: true
   type: text
@@ -148,21 +154,23 @@ columns:
     earliest: '2026-10-23T23:59:10Z'
     latest: '2026-10-24T00:10:31Z'
   missing_cells: 0
+  particular: The state zip's retrieval time (UTC), the same as retrieved_at, not the publisher's Last-Modified
 - name: x_level
-  label: null
-  unit: null
+  label: Whether the row is a county or a state
+  unit: none
   type: text
   values:
     list:
       county: 157871
       state: 2548
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method doe_lead_energy_burden.md
 - name: x_bracket
-  label: null
-  unit: null
+  label: 'The income bracket as LEAD writes it: household income as a percent of area median income (0-30%, 30-60%, 60-80%,
+    80-100%, 100-150%, 150%+), or all'
+  unit: none
   type: text
   values:
     list:
@@ -174,24 +182,24 @@ columns:
       80-100%: 22918
       all: 22918
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: AMI150
+  documented_by: header; method doe_lead_energy_burden.md; connector doe_lead.py
 - name: x_fips
-  label: null
-  unit: null
+  label: The county's FIPS code (LEAD's FIP), or on a state row the state's FIPS code (LEAD's STATE), leading zeros dropped
+  unit: none
   type: integer
   values:
     distinct: 3274
     lowest: 1
     highest: 72153
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: FIP; STATE
+  documented_by: connector doe_lead.py; data
 - name: x_file
-  label: null
-  unit: null
+  label: The name of the LEAD CSV file the row was summed from
+  unit: none
   type: text
   values:
     distinct: 52
@@ -202,300 +210,312 @@ columns:
     - AZ AMI Counties 2022.csv
     - CA AMI Counties 2022.csv
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method doe_lead_energy_burden.md
 variables:
 - name: electricity_cost_avg:ami_0_30
-  label: null
+  label: Average household electricity cost a year, households at 0 to 30 percent of area median income, USD
   unit: USD
   rows: 3273
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: electricity_cost_avg:ami_100_150
-  label: null
+  label: Average household electricity cost a year, households at 100 to 150 percent of area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: electricity_cost_avg:ami_150_up
-  label: null
+  label: Average household electricity cost a year, households at 150 percent of area median income or more, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: electricity_cost_avg:ami_30_60
-  label: null
+  label: Average household electricity cost a year, households at 30 to 60 percent of area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: electricity_cost_avg:ami_60_80
-  label: null
+  label: Average household electricity cost a year, households at 60 to 80 percent of area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: electricity_cost_avg:ami_80_100
-  label: null
+  label: Average household electricity cost a year, households at 80 to 100 percent of area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: electricity_cost_avg:ami_all
-  label: null
+  label: Average household electricity cost a year, all households, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: energy_burden:ami_0_30
-  label: null
+  label: 'Energy burden: average energy cost as a percent of average income, households at 0 to 30 percent of area median
+    income (computed by the ERW)'
   unit: pct
   rows: 3273
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: energy_burden:ami_100_150
-  label: null
+  label: 'Energy burden: average energy cost as a percent of average income, households at 100 to 150 percent of area median
+    income (computed by the ERW)'
   unit: pct
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: energy_burden:ami_150_up
-  label: null
+  label: 'Energy burden: average energy cost as a percent of average income, households at 150 percent of area median income
+    or more (computed by the ERW)'
   unit: pct
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: energy_burden:ami_30_60
-  label: null
+  label: 'Energy burden: average energy cost as a percent of average income, households at 30 to 60 percent of area median
+    income (computed by the ERW)'
   unit: pct
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: energy_burden:ami_60_80
-  label: null
+  label: 'Energy burden: average energy cost as a percent of average income, households at 60 to 80 percent of area median
+    income (computed by the ERW)'
   unit: pct
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: energy_burden:ami_80_100
-  label: null
+  label: 'Energy burden: average energy cost as a percent of average income, households at 80 to 100 percent of area median
+    income (computed by the ERW)'
   unit: pct
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: energy_burden:ami_all
-  label: null
+  label: 'Energy burden: average energy cost as a percent of average income, all households (computed by the ERW)'
   unit: pct
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: energy_cost_avg:ami_0_30
-  label: null
+  label: Average household energy cost a year (electricity, gas and other fuels added), households at 0 to 30 percent of area
+    median income, USD
   unit: USD
   rows: 3273
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: energy_cost_avg:ami_100_150
-  label: null
+  label: Average household energy cost a year (electricity, gas and other fuels added), households at 100 to 150 percent of
+    area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: energy_cost_avg:ami_150_up
-  label: null
+  label: Average household energy cost a year (electricity, gas and other fuels added), households at 150 percent of area
+    median income or more, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: energy_cost_avg:ami_30_60
-  label: null
+  label: Average household energy cost a year (electricity, gas and other fuels added), households at 30 to 60 percent of
+    area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: energy_cost_avg:ami_60_80
-  label: null
+  label: Average household energy cost a year (electricity, gas and other fuels added), households at 60 to 80 percent of
+    area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: energy_cost_avg:ami_80_100
-  label: null
+  label: Average household energy cost a year (electricity, gas and other fuels added), households at 80 to 100 percent of
+    area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: energy_cost_avg:ami_all
-  label: null
+  label: Average household energy cost a year (electricity, gas and other fuels added), all households, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: gas_cost_avg:ami_0_30
-  label: null
+  label: Average household gas cost a year, households at 0 to 30 percent of area median income, USD
   unit: USD
   rows: 3273
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: gas_cost_avg:ami_100_150
-  label: null
+  label: Average household gas cost a year, households at 100 to 150 percent of area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: gas_cost_avg:ami_150_up
-  label: null
+  label: Average household gas cost a year, households at 150 percent of area median income or more, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: gas_cost_avg:ami_30_60
-  label: null
+  label: Average household gas cost a year, households at 30 to 60 percent of area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: gas_cost_avg:ami_60_80
-  label: null
+  label: Average household gas cost a year, households at 60 to 80 percent of area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: gas_cost_avg:ami_80_100
-  label: null
+  label: Average household gas cost a year, households at 80 to 100 percent of area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: gas_cost_avg:ami_all
-  label: null
+  label: Average household gas cost a year, all households, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: households:ami_0_30
-  label: null
+  label: Households with income 0 to 30 percent of area median income (the sum of LEAD's weighted UNITS)
   unit: count
   rows: 3273
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: households:ami_100_150
-  label: null
+  label: Households with income 100 to 150 percent of area median income (the sum of LEAD's weighted UNITS)
   unit: count
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: households:ami_150_up
-  label: null
+  label: Households with income 150 percent of area median income or more (the sum of LEAD's weighted UNITS)
   unit: count
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: households:ami_30_60
-  label: null
+  label: Households with income 30 to 60 percent of area median income (the sum of LEAD's weighted UNITS)
   unit: count
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: households:ami_60_80
-  label: null
+  label: Households with income 60 to 80 percent of area median income (the sum of LEAD's weighted UNITS)
   unit: count
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: households:ami_80_100
-  label: null
+  label: Households with income 80 to 100 percent of area median income (the sum of LEAD's weighted UNITS)
   unit: count
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: households:ami_all
-  label: null
+  label: All households (the sum of LEAD's weighted UNITS)
   unit: count
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: income_avg:ami_0_30
-  label: null
+  label: Average household income a year, households at 0 to 30 percent of area median income, USD
   unit: USD
   rows: 3273
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: income_avg:ami_100_150
-  label: null
+  label: Average household income a year, households at 100 to 150 percent of area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: income_avg:ami_150_up
-  label: null
+  label: Average household income a year, households at 150 percent of area median income or more, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: income_avg:ami_30_60
-  label: null
+  label: Average household income a year, households at 30 to 60 percent of area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: income_avg:ami_60_80
-  label: null
+  label: Average household income a year, households at 60 to 80 percent of area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: income_avg:ami_80_100
-  label: null
+  label: Average household income a year, households at 80 to 100 percent of area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: income_avg:ami_all
-  label: null
+  label: Average household income a year, all households, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: other_fuel_cost_avg:ami_0_30
-  label: null
+  label: Average household cost of other fuels a year, households at 0 to 30 percent of area median income, USD
   unit: USD
   rows: 3273
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: other_fuel_cost_avg:ami_100_150
-  label: null
+  label: Average household cost of other fuels a year, households at 100 to 150 percent of area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: other_fuel_cost_avg:ami_150_up
-  label: null
+  label: Average household cost of other fuels a year, households at 150 percent of area median income or more, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: other_fuel_cost_avg:ami_30_60
-  label: null
+  label: Average household cost of other fuels a year, households at 30 to 60 percent of area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: other_fuel_cost_avg:ami_60_80
-  label: null
+  label: Average household cost of other fuels a year, households at 60 to 80 percent of area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: other_fuel_cost_avg:ami_80_100
-  label: null
+  label: Average household cost of other fuels a year, households at 80 to 100 percent of area median income, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: other_fuel_cost_avg:ami_all
-  label: null
+  label: Average household cost of other fuels a year, all households, USD
   unit: USD
   rows: 3274
   first: '2022-01-01T00:00:00Z'

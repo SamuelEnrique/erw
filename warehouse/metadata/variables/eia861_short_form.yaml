@@ -5,9 +5,12 @@
 table: eia861_short_form
 family: eia861
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One small utility's total revenue, sales or customers in one state and balancing authority, for one year, as it reported
+  them on Form EIA-861S (the short form).
+time: ts_utc is the data year's 1 January at 00:00:00Z (a year, not an instant); freq P1Y. EIA gives no short-form file for
+  2019.
+vintage_rule: A run reads the years given with --years and writes the table whole; vintage is not filled. EIA's aggregates
+  88888 and 99999 left out; a '.' cell has no row.
 keys:
 - entity
 - variable
@@ -44,6 +47,7 @@ columns:
     - eia861_sf:10037:MN:MISO
     - eia861_sf:10040:MN:MISO
   missing_cells: 0
+  particular: eia861_sf:<utility number>:<state>:<balancing authority>; ends in a colon where EIA gives no balancing authority
 - name: variable
   shared: true
   type: text
@@ -102,12 +106,14 @@ columns:
     - US-AZ
     - US-CA
   missing_cells: 0
+  particular: US-<state>
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 44170
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -120,6 +126,7 @@ columns:
     - Adrian Public Utilities Comm
     - Aguila Irrigation District
   missing_cells: 0
+  particular: The utility's name, not a pricing node
 - name: source
   shared: true
   type: text
@@ -165,21 +172,22 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 44170
+  particular: 'Not filled: no cell holds a value'
 - name: x_utility_number
-  label: null
-  unit: null
+  label: EIA's utility identifier
+  unit: none
   type: integer
   values:
     distinct: 1721
     lowest: 34
     highest: 66062
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_short_form.md
 - name: x_state
-  label: null
-  unit: null
+  label: The state, two-letter postal code
+  unit: none
   type: text
   values:
     distinct: 47
@@ -190,12 +198,12 @@ columns:
     - AZ
     - CA
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_short_form.md
 - name: x_ownership
-  label: null
-  unit: null
+  label: EIA's ownership class (Municipal, Cooperative, Political Subdivision, Investor Owned, Federal, State)
+  unit: none
   type: text
   values:
     list:
@@ -206,12 +214,12 @@ columns:
       Political Subdivision: 1197
       State: 9
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eia861_short_form.md
 - name: x_ba_code
-  label: null
-  unit: null
+  label: The balancing authority (the grid operator of the area) code EIA gives for the row
+  unit: none
   type: text
   values:
     distinct: 41
@@ -222,71 +230,71 @@ columns:
     - AVA
     - AZPS
   missing_cells: 1476
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA gives no balancing authority
+  source_name: BA_Code or BA Code
+  documented_by: method eia861_short_form.md
 - name: x_water_heater
-  label: null
-  unit: null
+  label: EIA's Water Heater program mark; holds no Y or N, only EIA's '.'
+  unit: none
   type: text
   values:
     list:
       .: 40831
   missing_cells: 3339
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: EIA's cell is empty
+  source_name: Water Heater or W_Heater
+  documented_by: method eia861_short_form.md
 - name: x_net_metering
-  label: null
-  unit: null
+  label: Whether the utility marks a net metering program, Y or N
+  unit: none
   type: text
   values:
     list:
       N: 29590
       Y: 14580
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Net Metering
+  documented_by: method eia861_short_form.md; connector eia861_short_form.py
 - name: x_demand_side_management
-  label: null
-  unit: null
+  label: Whether the utility marks a demand side management program, Y or N
+  unit: none
   type: text
   values:
     list:
       N: 38659
       Y: 5511
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Demand Side Management
+  documented_by: method eia861_short_form.md; connector eia861_short_form.py
 - name: x_time_based_programs
-  label: null
-  unit: null
+  label: Whether the utility marks time based programs, Y or N
+  unit: none
   type: text
   values:
     list:
       N: 41695
       Y: 2475
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Time Based Programs
+  documented_by: method eia861_short_form.md; connector eia861_short_form.py
 variables:
 - name: total_customers
-  label: null
+  label: The utility's total customers, count
   unit: count
   rows: 14725
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_revenue
-  label: null
+  label: The utility's total revenue in the year, USD (EIA's thousand dollars times 1,000)
   unit: USD
   rows: 14723
   first: '2015-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_sales
-  label: null
+  label: The utility's total retail sales in the year, MWh
   unit: MWh
   rows: 14722
   first: '2015-01-01T00:00:00Z'

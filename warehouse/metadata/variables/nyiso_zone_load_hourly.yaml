@@ -5,9 +5,12 @@
 table: nyiso_zone_load_hourly
 family: nyiso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: NYISO's integrated real-time actual load in one of its eleven load zones for one hour.
+time: ts_utc is the hour's start in UTC; NYISO's Time Stamp is the hour's start, Eastern, its Time Zone column (EDT, EST)
+  placing every hour, the repeated autumn hour included.
+vintage_rule: Merged by (entity, variable, ts_utc); this month's file is asked every run (last month's too in a month's first
+  seven days), an earlier month once, so NYISO's later revisions of an older month are not taken. vintage is the monthly file's
+  Last-Modified.
 keys:
 - entity
 - variable
@@ -50,6 +53,7 @@ columns:
       nyiso:NORTH: 68848
       nyiso:WEST: 68848
   missing_cells: 0
+  particular: nyiso:<zone>, the zone's NYISO name
 - name: variable
   shared: true
   type: text
@@ -100,6 +104,7 @@ columns:
     list:
       nyiso_load: 757328
   missing_cells: 0
+  particular: nyiso_load in every row
 - name: node
   shared: true
   type: text
@@ -117,6 +122,8 @@ columns:
       NORTH: 68848
       WEST: 68848
   missing_cells: 0
+  particular: 'NYISO''s name of the load zone, one of eleven: CAPITL, CENTRL, DUNWOD, GENESE, HUD VL, LONGIL, MHK VL, MILLWD,
+    N.Y.C., NORTH, WEST'
 - name: source
   shared: true
   type: text
@@ -152,9 +159,10 @@ columns:
     earliest: '2019-02-01T05:04:05Z'
     latest: '2026-11-16T11:30:08Z'
   missing_cells: 0
+  particular: The Last-Modified of the monthly file (report P-58C)
 variables:
 - name: load
-  label: null
+  label: NYISO's Integrated Load for the zone and hour, MW over the hour (P-58C, palIntegrated); no state total is written
   unit: MW
   rows: 757328
   first: '2019-01-01T05:00:00Z'

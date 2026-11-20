@@ -5,9 +5,9 @@
 table: eurostat_crude_imports_monthly
 family: eurostat
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One European country's (or EU aggregate's) crude oil imports from one partner in one month.
+time: ts_utc is the month's first day at 00:00:00Z (freq P1M).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised figure replaces the old; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -44,6 +44,7 @@ columns:
     - eurostat_crude_imp:AL:AL
     - eurostat_crude_imp:AL:AM
   missing_cells: 0
+  particular: eurostat_crude_imp:<Eurostat geo code>:<partner code>
 - name: variable
   shared: true
   type: text
@@ -92,6 +93,8 @@ columns:
     - BG
     - CY
   missing_cells: 23183
+  particular: The importing country's ISO alpha-2 code (Eurostat's EL written GR), not ISO 3166-2; empty for EU27_2020 and
+    EA21
 - name: market
   shared: true
   type: empty
@@ -110,6 +113,7 @@ columns:
     - Crude oil imports from Angola
     - Crude oil imports from Argentina
   missing_cells: 0
+  particular: Crude oil imports from <partner>, not a pricing node
 - name: source
   shared: true
   type: text
@@ -139,8 +143,8 @@ columns:
     note: no cell holds a value
   missing_cells: 565941
 - name: x_geo_code
-  label: null
-  unit: null
+  label: Eurostat's geo code of the importing country or aggregate (EL for Greece; EU27_2020, EA21)
+  unit: none
   type: text
   values:
     distinct: 37
@@ -151,12 +155,13 @@ columns:
     - BG
     - CY
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eurostat_crude_imports.py
 - name: x_partner
-  label: null
-  unit: null
+  label: 'Eurostat''s partner code (a country, or an aggregate: TOTAL every partner, NSP not specified, _OTH groups; NA is
+    Namibia)'
+  unit: none
   type: text
   values:
     distinct: 173
@@ -167,12 +172,12 @@ columns:
     - AL
     - AM
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eurostat_crude_imports.py
 - name: x_partner_name
-  label: null
-  unit: null
+  label: Eurostat's name of the partner
+  unit: none
   type: text
   values:
     distinct: 173
@@ -183,23 +188,23 @@ columns:
     - Angola
     - Argentina
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector eurostat_crude_imports.py
 - name: x_flag
-  label: null
-  unit: null
+  label: 'Eurostat''s status of the observation: p provisional'
+  unit: none
   type: text
   values:
     list:
       p: 1133
   missing_cells: 564808
-  missing_meaning: null
+  missing_meaning: No flag on the observation
   source_name: null
-  documented_by: null
+  documented_by: header; method eurostat_gas_balance_monthly.md
 variables:
 - name: imports
-  label: null
+  label: Crude oil imported from the partner, tonnes (Eurostat's thousand tonnes times 1,000)
   unit: t
   rows: 565941
   first: '2016-01-01T00:00:00Z'

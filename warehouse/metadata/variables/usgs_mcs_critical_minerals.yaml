@@ -5,9 +5,13 @@
 table: usgs_mcs_critical_minerals
 family: usgs
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One statistic of one energy-transition mineral (U.S. salient statistics, world production, reserves or capacity by country,
+  or a U.S. import source's share) for one year, or for 2021 to 2024, from the USGS Mineral Commodity Summaries 2026 data
+  release.
+time: ts_utc is the year's 1 January at 00:00:00Z (freq P1Y); the import shares cover 2021 to 2024 (ts_utc 2021-01-01, freq
+  P4Y). 2025 is USGS's estimate.
+vintage_rule: A snapshot of one edition; each run replaces the table whole. A new edition is a new ScienceBase item. vintage
+  is the file's time (one value).
 keys:
 - entity
 - variable
@@ -49,6 +53,7 @@ columns:
     - usgs_mcs:aluminum:bahrain:smelter_production
     - usgs_mcs:aluminum:bahrain:yearend_capacity
   missing_cells: 0
+  particular: usgs_mcs:<chapter>:<country>:<the statistic's detail>, slugs of USGS's words
 - name: variable
   shared: true
   type: text
@@ -94,6 +99,7 @@ columns:
       P1Y: 1454
       P4Y: 146
   missing_cells: 0
+  particular: P1Y, or P4Y for the import shares of 2021 to 2024
 - name: geo
   shared: true
   type: text
@@ -101,12 +107,14 @@ columns:
     list:
       US: 937
   missing_cells: 663
+  particular: US for the United States, empty for every other country and the world
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1600
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -119,6 +127,7 @@ columns:
     - 'Aluminum, Bahrain: Smelter production'
     - 'Aluminum, Bahrain: Yearend capacity'
   missing_cells: 0
+  particular: 'Commodity, country: detail, in USGS''s words (what is weighed is here), not a pricing node'
 - name: source
   shared: true
   type: text
@@ -148,9 +157,10 @@ columns:
     list:
       '2026-10-23T12:33:39Z': 1600
   missing_cells: 0
+  particular: One value, the data file's time
 - name: x_chapter
-  label: null
-  unit: null
+  label: The chapter of the Mineral Commodity Summaries (ALUMINUM, COBALT and the others)
+  unit: none
   type: text
   values:
     list:
@@ -171,12 +181,13 @@ columns:
       TELLURIUM: 52
       VANADIUM: 136
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: MCS chapter
+  documented_by: method usgs_mcs_critical_minerals.md; connector usgs_mcs.py
 - name: x_section
-  label: null
-  unit: null
+  label: 'The chapter''s section the figure is printed in (Salient Statistics: United States, World Mine Production and Reserves,
+    Import Sources and the others)'
+  unit: none
   type: text
   values:
     list:
@@ -190,12 +201,12 @@ columns:
       World Refinery Production and Capacity: 53
       World Smelter Production and Capacity: 56
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Section
+  documented_by: method usgs_mcs_critical_minerals.md; connector usgs_mcs.py
 - name: x_commodity
-  label: null
-  unit: null
+  label: The commodity, as USGS names it
+  unit: none
   type: text
   values:
     distinct: 35
@@ -206,12 +217,12 @@ columns:
     - Copper
     - Dysprosium
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Commodity
+  documented_by: method usgs_mcs_critical_minerals.md; connector usgs_mcs.py
 - name: x_country
-  label: null
-  unit: null
+  label: The country (or United States, or the world), as USGS names it
+  unit: none
   type: text
   values:
     distinct: 64
@@ -222,12 +233,12 @@ columns:
     - Bahrain
     - Belgium
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method usgs_mcs_critical_minerals.md; connector usgs_mcs.py
 - name: x_statistic
-  label: null
-  unit: null
+  label: USGS's statistic (Production, Reserves, Price, Import and the others)
+  unit: none
   type: text
   values:
     list:
@@ -245,12 +256,12 @@ columns:
       Stock: 63
       Supply: 5
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Statistics
+  documented_by: method usgs_mcs_critical_minerals.md; connector usgs_mcs.py
 - name: x_detail
-  label: null
-  unit: null
+  label: USGS's detail of the statistic (what is measured or weighed)
+  unit: none
   type: text
   values:
     distinct: 226
@@ -261,12 +272,12 @@ columns:
     - 'Consumption (includes secondary): Estimated'
     - Consumption, apparent
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method usgs_mcs_critical_minerals.md; connector usgs_mcs.py
 - name: x_usgs_unit
-  label: null
-  unit: null
+  label: The unit as USGS prints it, before the ERW's conversion
+  unit: none
   type: text
   values:
     list:
@@ -281,12 +292,12 @@ columns:
       percent: 208
       thousand metric tons: 427
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Unit
+  documented_by: method usgs_mcs_critical_minerals.md; connector usgs_mcs.py
 - name: x_notes
-  label: null
-  unit: null
+  label: USGS's note on the figure
+  unit: none
   type: text
   values:
     distinct: 151
@@ -301,96 +312,96 @@ columns:
     - Compounds and metals imported from Estonia, Japan, and Malaysia were derived from mineral concentrates and chemical
       intermediates produced in Australia, China, and elsewhere
   missing_cells: 471
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: USGS gives no note
+  source_name: Notes
+  documented_by: method usgs_mcs_critical_minerals.md; connector usgs_mcs.py
 - name: x_critical_2025
-  label: null
-  unit: null
+  label: Whether the commodity is on the 2025 critical minerals list, Yes or No
+  unit: none
   type: text
   values:
     list:
       'No': 4
       'Yes': 1596
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Is critical mineral 2025
+  documented_by: method usgs_mcs_critical_minerals.md; connector usgs_mcs.py
 variables:
 - name: capacity
-  label: null
+  label: Smelter and refinery capacity, t (metric tons)
   unit: t
   rows: 50
   first: '2024-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: consumption
-  label: null
+  label: U.S. consumption, t (metric tons)
   unit: t
   rows: 106
   first: '2021-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: employment
-  label: null
+  label: U.S. employment, count
   unit: count
   rows: 25
   first: '2021-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: export
-  label: null
+  label: U.S. exports, t (metric tons)
   unit: t
   rows: 165
   first: '2021-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: import
-  label: null
+  label: U.S. imports, t (metric tons)
   unit: t
   rows: 196
   first: '2021-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: import_share
-  label: null
+  label: A source country's share of U.S. imports, 2021 to 2024, percent
   unit: pct
   rows: 146
   first: '2021-01-01T00:00:00Z'
   last: '2021-01-01T00:00:00Z'
 - name: net_import_reliance
-  label: null
+  label: U.S. net import reliance, percent
   unit: pct
   rows: 62
   first: '2021-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: price
-  label: null
+  label: The chapter's price series, USD/t, USD/kg or USD/lb as the row's unit says
   unit: USD/kg; USD/lb; USD/t
   rows: 216
   first: '2021-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: production
-  label: null
+  label: U.S. production, or a country's mine (and refinery or smelter) production, t (metric tons)
   unit: t
   rows: 465
   first: '2021-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: reserves
-  label: null
+  label: A country's reserves, t (metric tons)
   unit: t
   rows: 98
   first: '2025-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: shipment
-  label: null
+  label: Shipments, t (metric tons)
   unit: t
   rows: 3
   first: '2021-01-01T00:00:00Z'
   last: '2022-01-01T00:00:00Z'
 - name: stock
-  label: null
+  label: U.S. stocks, t (metric tons)
   unit: t
   rows: 63
   first: '2021-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: supply
-  label: null
+  label: Supply, t (metric tons)
   unit: t
   rows: 5
   first: '2021-01-01T00:00:00Z'

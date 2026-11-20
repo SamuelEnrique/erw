@@ -5,9 +5,11 @@
 table: ilr_luxembourg_electricity
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One month's or year's value of one Luxembourg electricity measure (withdrawals by customer class, generation, capacity,
+  injection, trade, customers, self-consumption), from the regulator ILR's statistics workbook.
+time: ts_utc is the month's or the year's first day at 00:00:00Z (customers at 31 December of the year); freq P1M or P1Y.
+vintage_rule: Rewritten whole as one snapshot by each run from ILR's workbook; vintage is the workbook's last-modified time;
+  the current year's months carry x_status provisional.
 keys:
 - entity
 - variable
@@ -53,6 +55,7 @@ columns:
       ilr:lu:total: 37
       ilr:lu:usine_d_incineration: 28
   missing_cells: 0
+  particular: ilr:lu:<customer class, energy source or neighbour country>
 - name: variable
   shared: true
   type: text
@@ -92,6 +95,7 @@ columns:
       P1M: 342
       P1Y: 326
   missing_cells: 0
+  particular: P1M for monthly withdrawals, P1Y for the annual blocks
 - name: geo
   shared: true
   type: text
@@ -99,12 +103,14 @@ columns:
     list:
       LU: 668
   missing_cells: 0
+  particular: LU on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 668
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -126,6 +132,7 @@ columns:
       Total: 37
       Usine d'incinération: 28
   missing_cells: 0
+  particular: ILR's label of the class, source or neighbour, in French, not a pricing node
 - name: source
   shared: true
   type: text
@@ -155,9 +162,10 @@ columns:
     list:
       '2026-09-01T13:53:32Z': 668
   missing_cells: 0
+  particular: The workbook's last-modified time (UTC)
 - name: x_block
-  label: null
-  unit: null
+  label: The sheet's number and the block's title, in French
+  unit: none
   type: text
   values:
     list:
@@ -173,89 +181,89 @@ columns:
       3. Volume injecté des autoconsommateurs et partageurs en KWh: 26
       '7. Données annuelles: Import - Export en kWh': 54
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ilr_luxembourg_electricity.md
 - name: x_status
-  label: null
-  unit: null
+  label: provisional for the current year's months
+  unit: none
   type: text
   values:
     list:
       provisional: 18
   missing_cells: 650
-  missing_meaning: null
+  missing_meaning: Not provisional
   source_name: null
-  documented_by: null
+  documented_by: header; connector ilr_luxembourg_electricity.py
 variables:
 - name: capacity
-  label: null
+  label: Installed capacity of the energy source (kW / 1,000)
   unit: MW
   rows: 32
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: connections
-  label: null
+  label: Production installations connected, by type
   unit: count
   rows: 28
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: customers
-  label: null
+  label: Customers of the class at 31 December
   unit: count
   rows: 36
   first: '2017-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: export
-  label: null
+  label: Electricity exported to the neighbour country in the year
   unit: MWh
   rows: 27
   first: '2017-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: generation
-  label: null
+  label: National production from the energy source
   unit: MWh
   rows: 32
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: import
-  label: null
+  label: Electricity imported from the neighbour country in the year
   unit: MWh
   rows: 27
   first: '2017-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: injection
-  label: null
+  label: Volume injected into the grid from the energy source
   unit: MWh
   rows: 32
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: self_consumer_injection
-  label: null
+  label: Electricity self-consumers injected into the grid
   unit: MWh
   rows: 26
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: self_consumers
-  label: null
+  label: Self-consumers
   unit: count
   rows: 30
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: self_consumption
-  label: null
+  label: Electricity self-consumed
   unit: MWh
   rows: 26
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: self_consumption_capacity
-  label: null
+  label: Capacity of self-consumers' installations
   unit: MW
   rows: 30
   first: '2022-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: withdrawal
-  label: null
+  label: Electricity withdrawn from the grid by the customer class (kWh / 1,000)
   unit: MWh
   rows: 342
   first: '2017-01-01T00:00:00Z'

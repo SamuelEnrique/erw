@@ -5,9 +5,11 @@
 table: ercot_cdr_units
 family: ercot
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One generating or storage unit (or one planned group of small generators) listed on the Unit Details sheet of ERCOT's
+  Capacity, Demand and Reserves report (CDR).
+time: No time column. vintage is the report's posting date; the table is a snapshot of the newest report as read on its retrieved_at.
+vintage_rule: A snapshot replaced whole by each run with the newest CDR workbook ERCOT's resource adequacy page links; earlier
+  editions are not kept.
 keys:
 - entity_id
 license: public
@@ -42,6 +44,7 @@ columns:
     - ercot_cdr_unit:19599_GOLD_SPIKE:SOLAR_O
     - ercot_cdr_unit:19INR0022:WIND_C
   missing_cells: 0
+  particular: ercot_cdr_unit:<unit code, else INR, else the unit's name>:<fuel>
 - name: entity_type
   shared: true
   type: text
@@ -49,6 +52,7 @@ columns:
     list:
       generator: 1772
   missing_cells: 0
+  particular: generator in every row
 - name: name
   shared: true
   type: text
@@ -61,6 +65,7 @@ columns:
     - A4 PEARSALL DGR U1 (LIFE CYCLE POWER, LCP)
     - A4 PEARSALL DGR U2 (LIFE CYCLE POWER, LCP)
   missing_cells: 0
+  particular: ERCOT's unit name
 - name: geo
   shared: true
   type: text
@@ -68,18 +73,21 @@ columns:
     list:
       US-TX: 1772
   missing_cells: 0
+  particular: US-TX in every row
 - name: lat
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1772
+  particular: 'Empty in every row: the sheet gives no coordinates'
 - name: lon
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1772
+  particular: 'Empty in every row: the sheet gives no coordinates'
 - name: capacity_mw
   shared: true
   type: number
@@ -88,6 +96,7 @@ columns:
     lowest: -400.0
     highest: 1390.0
   missing_cells: 0
+  particular: ERCOT's installed capacity of the unit
 - name: status
   shared: true
   type: text
@@ -97,6 +106,8 @@ columns:
       planned: 313
       suspended: 17
   missing_cells: 0
+  particular: 'Mapped from the first part of ERCOT''s CDR status (x_cdr_status): OPER and RMR to operating, PLAN to planned,
+    MOTH and EXT to suspended'
 - name: status_date
   shared: true
   type: date
@@ -105,12 +116,14 @@ columns:
     earliest: '1928-01-01'
     latest: '2029-07-01'
   missing_cells: 5
+  particular: The in-service date as ERCOT gives it; empty for the four DC ties and the planned group row
 - name: operator
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1772
+  particular: 'Empty in every row: the sheet names no operator'
 - name: source
   shared: true
   type: text
@@ -139,9 +152,10 @@ columns:
     list:
       '2025-12-19T00:00:00Z': 1772
   missing_cells: 0
+  particular: The report's posting date (from the workbook's address)
 - name: x_unit_code
-  label: null
-  unit: null
+  label: ERCOT's unit code
+  unit: none
   type: text
   values:
     distinct: 1458
@@ -152,12 +166,12 @@ columns:
     - 78252_4UNITS
     - 7RNCHSLR_UNIT1
   missing_cells: 312
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives no unit code (312 planned units, keyed by their INR)
+  source_name: Unit Code
+  documented_by: connector ercot_cdr_units.py; method ercot_cdr_units.md
 - name: x_inr
-  label: null
-  unit: null
+  label: The interconnection request number (INR) of the unit
+  unit: none
   type: text
   values:
     distinct: 431
@@ -168,12 +182,12 @@ columns:
     - 16INR0081
     - 16INR0085
   missing_cells: 1269
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: ERCOT gives no INR
+  source_name: Interconnection Request Number (INR)
+  documented_by: connector ercot_cdr_units.py; method ercot_cdr_units.md
 - name: x_technology
-  label: null
-  unit: null
+  label: ERCOT's technology code of the unit, as printed (PV, BA, WT, CC, GT, ST, IC, HY, MWH)
+  unit: none
   type: text
   values:
     list:
@@ -187,12 +201,12 @@ columns:
       ST: 74
       WT: 403
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Technology
+  documented_by: connector ercot_cdr_units.py; method ercot_cdr_units.md
 - name: x_fuel
-  label: null
-  unit: null
+  label: ERCOT's fuel code of the unit, as printed (GAS, STORAGE, SOLAR-O, WIND-O, COAL, NUCLEAR and others)
+  unit: none
   type: text
   values:
     list:
@@ -211,12 +225,12 @@ columns:
       WIND-O: 316
       WIND-P: 41
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: Fuel
+  documented_by: connector ercot_cdr_units.py; method ercot_cdr_units.md
 - name: x_cdr_status
-  label: null
-  unit: null
+  label: ERCOT's own CDR status code (OPER, PLAN, OPER-SYN, MOTH-IND, EXT-OUT and others), from which status is mapped
+  unit: none
   type: text
   values:
     list:
@@ -234,12 +248,12 @@ columns:
       PLAN-SLF: 17
       RMR: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: CDR Status
+  documented_by: connector ercot_cdr_units.py; method ercot_cdr_units.md
 - name: x_attribute
-  label: null
-  unit: null
+  label: ERCOT's CDR resource attribute code, as printed (CONV, CONV-DGR, DC-TIE, SWGR-AVA and others)
+  unit: none
   type: text
   values:
     list:
@@ -252,12 +266,12 @@ columns:
       SWGR-AVA: 20
       SWGR-UNA: 14
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: CDR Resource Attribute
+  documented_by: connector ercot_cdr_units.py; method ercot_cdr_units.md
 - name: x_county
-  label: null
-  unit: null
+  label: The county of the unit, as ERCOT prints it
+  unit: none
   type: text
   values:
     distinct: 184
@@ -268,12 +282,12 @@ columns:
     - ARCHER
     - ARMSTRONG
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The planned group row of small generators, which has no county
+  source_name: County
+  documented_by: connector ercot_cdr_units.py; method ercot_cdr_units.md
 - name: x_zone
-  label: null
-  unit: null
+  label: ERCOT's zone of the unit (COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST)
+  unit: none
   type: text
   values:
     list:
@@ -284,247 +298,253 @@ columns:
       SOUTH: 408
       WEST: 495
   missing_cells: 1
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: The planned group row of small generators, which has no zone
+  source_name: Zone
+  documented_by: connector ercot_cdr_units.py; method ercot_cdr_units.md
 - name: x_summer_2026
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of summer 2026
+  unit: MW
   type: number
   values:
     distinct: 679
     lowest: -400.0
     highest: 1293.2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_summer_2027
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of summer 2027
+  unit: MW
   type: number
   values:
     distinct: 747
     lowest: -400.0
     highest: 1293.2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_summer_2028
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of summer 2028
+  unit: MW
   type: number
   values:
     distinct: 803
     lowest: -400.0
     highest: 1293.2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_summer_2029
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of summer 2029
+  unit: MW
   type: number
   values:
     distinct: 818
     lowest: -400.0
     highest: 1300.0
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_summer_2030
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of summer 2030
+  unit: MW
   type: number
   values:
     distinct: 817
     lowest: -400.0
     highest: 1300.0
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_winter_2026_2027
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of winter 2026-2027
+  unit: MW
   type: number
   values:
     distinct: 700
     lowest: -389.0
     highest: 1353.2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_winter_2027_2028
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of winter 2027-2028
+  unit: MW
   type: number
   values:
     distinct: 772
     lowest: -389.0
     highest: 1353.2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_winter_2028_2029
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of winter 2028-2029
+  unit: MW
   type: number
   values:
     distinct: 806
     lowest: -389.0
     highest: 1353.2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_winter_2029_2030
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of winter 2029-2030
+  unit: MW
   type: number
   values:
     distinct: 812
     lowest: -389.0
     highest: 1353.2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_winter_2030_2031
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of winter 2030-2031
+  unit: MW
   type: number
   values:
     distinct: 810
     lowest: -389.0
     highest: 1353.2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_spring_2026
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of spring 2026
+  unit: MW
   type: number
   values:
     distinct: 653
     lowest: -179.0
     highest: 1323.2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_spring_2027
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of spring 2027
+  unit: MW
   type: number
   values:
     distinct: 722
     lowest: -389.0
     highest: 1323.2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_spring_2028
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of spring 2028
+  unit: MW
   type: number
   values:
     distinct: 793
     lowest: -389.0
     highest: 1323.2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_spring_2029
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of spring 2029
+  unit: MW
   type: number
   values:
     distinct: 815
     lowest: -389.0
     highest: 1350.0
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_spring_2030
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of spring 2030
+  unit: MW
   type: number
   values:
     distinct: 818
     lowest: -389.0
     highest: 1350.0
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_fall_2026
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of fall 2026
+  unit: MW
   type: number
   values:
     distinct: 696
     lowest: -195.0
     highest: 1323.2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_fall_2027
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of fall 2027
+  unit: MW
   type: number
   values:
     distinct: 769
     lowest: -195.0
     highest: 1323.2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_fall_2028
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of fall 2028
+  unit: MW
   type: number
   values:
     distinct: 808
     lowest: -195.0
     highest: 1323.2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_fall_2029
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of fall 2029
+  unit: MW
   type: number
   values:
     distinct: 815
     lowest: -195.0
     highest: 1350.0
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_cdr_units.md
 - name: x_fall_2030
-  label: null
-  unit: null
+  label: The capability ERCOT lists for the unit at the start of fall 2030
+  unit: MW
   type: number
   values:
     distinct: 815
     lowest: -195.0
     highest: 1350.0
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
-second_look: null
+  documented_by: header; method ercot_cdr_units.md
+second_look:
+- 'x_technology: ERCOT''s codes (PV, BA, WT, CC, GT, ST, IC, HY, MWH) are kept as printed; their meanings are not spelled
+  out in the method note or the connector.'
+- 'x_attribute: ERCOT''s CDR resource attribute codes (CONV, CONV-DGR, CONV-SLF, CONV-SODG, CONV-TGR, DC-TIE, SWGR-AVA, SWGR-UNA)
+  are not spelled out in the repository''s documents.'
+- 'x_fuel: the suffixes of ERCOT''s fuel codes (SOLAR-FW, SOLAR-W, SOLAR-O, WIND-C, WIND-P, WIND-O) are not spelled out in
+  the method note or the connector.'

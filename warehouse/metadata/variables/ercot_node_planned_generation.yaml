@@ -5,9 +5,11 @@
 table: ercot_node_planned_generation
 family: ercot
 shape: entities
-row: null
-time: null
-vintage_rule: null
+row: One placed ERCOT resource node with the planned generation in its county, from ERCOT's active interconnection queue and
+  EIA-860M's planned generators.
+time: No time column; a snapshot computed from the tables held when the builder ran.
+vintage_rule: Rewritten whole by each run of the builder from ercot_node_places, ercot_interconnection_queue and eia860m_planned_generators;
+  no request is made. vintage is not filled.
 keys:
 - entity_id
 license: public
@@ -43,6 +45,7 @@ columns:
     - ercot_node:ADL_RN
     - ercot_node:AEEC
   missing_cells: 0
+  particular: ercot_node:<settlement point>, the same ids as ercot_node_places
 - name: entity_type
   shared: true
   type: text
@@ -50,6 +53,7 @@ columns:
     list:
       generator: 569
   missing_cells: 0
+  particular: generator in every row
 - name: name
   shared: true
   type: text
@@ -62,6 +66,7 @@ columns:
     - ADL_RN
     - AEEC
   missing_cells: 0
+  particular: The settlement point
 - name: geo
   shared: true
   type: text
@@ -69,6 +74,7 @@ columns:
     list:
       US-TX: 569
   missing_cells: 0
+  particular: US-TX in every row
 - name: lat
   shared: true
   type: empty
@@ -93,6 +99,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 569
+  particular: 'Not filled: no cell holds a value'
 - name: status_date
   shared: true
   type: empty
@@ -132,9 +139,10 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 569
+  particular: 'Not filled: no cell holds a value'
 - name: x_county
-  label: null
-  unit: null
+  label: The node's county, as ercot_node_places gives it
+  unit: none
   type: text
   values:
     distinct: 148
@@ -145,12 +153,12 @@ columns:
     - ARMSTRONG
     - ATASCOSA
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_planned_generation.md
 - name: x_zone
-  label: null
-  unit: null
+  label: The node's load zone, as ercot_node_places gives it (COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST)
+  unit: none
   type: text
   values:
     list:
@@ -161,12 +169,12 @@ columns:
       SOUTH: 138
       WEST: 155
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_planned_generation.md
 - name: x_queue_projects
-  label: null
-  unit: null
+  label: The number of ERCOT's active interconnection queue projects in the node's county (not at the node)
+  unit: count
   type: integer
   values:
     list:
@@ -195,72 +203,72 @@ columns:
       '8': 26
       '9': 36
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_planned_generation.md
 - name: x_queue_mw
-  label: null
-  unit: null
+  label: The capacity of those active queue projects, summed
+  unit: MW
   type: number
   values:
     distinct: 139
     lowest: 0.0
     highest: 16312.91
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_planned_generation.md
 - name: x_queue_solar_mw
-  label: null
-  unit: null
+  label: Of that capacity, the solar projects' (the queue's fuel and technology beginning Solar), as the queue gives it
+  unit: MW
   type: number
   values:
     distinct: 103
     lowest: -53.3
     highest: 6534.3
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_node_planned_generation.md
 - name: x_queue_wind_mw
-  label: null
-  unit: null
+  label: Of that capacity, the wind projects' (fuel and technology beginning Wind)
+  unit: MW
   type: number
   values:
     distinct: 41
     lowest: 0.0
     highest: 2287.88
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_node_planned_generation.md
 - name: x_queue_storage_mw
-  label: null
-  unit: null
+  label: Of that capacity, the storage projects' (Other - Battery Energy Storage)
+  unit: MW
   type: number
   values:
     distinct: 126
     lowest: 0.0
     highest: 5280.63
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_node_planned_generation.md
 - name: x_queue_gas_mw
-  label: null
-  unit: null
+  label: Of that capacity, the gas projects' (fuel and technology beginning Gas)
+  unit: MW
   type: number
   values:
     distinct: 44
     lowest: 0.0
     highest: 5886.29
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_node_planned_generation.md
 - name: x_queue_other_mw
-  label: null
-  unit: null
+  label: Of that capacity, every other kind's
+  unit: MW
   type: number
   values:
     list:
@@ -272,24 +280,24 @@ columns:
       '50.0': 50
       '79.63': 5
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_node_planned_generation.md
 - name: x_queue_next_in_service
-  label: null
-  unit: null
+  label: The earliest proposed in-service date among those projects (the developers' dates; some fall before the table's day)
+  unit: none
   type: date
   values:
     distinct: 100
     earliest: '2025-08-26'
     latest: '2030-03-01'
   missing_cells: 18
-  missing_meaning: null
+  missing_meaning: No active queue project in the county
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_planned_generation.md; data
 - name: x_eia_planned_generators
-  label: null
-  unit: null
+  label: The number of EIA-860M's planned generators in the node's county (state TX)
+  unit: count
   type: integer
   values:
     list:
@@ -309,36 +317,36 @@ columns:
       '8': 19
       '9': 12
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_planned_generation.md
 - name: x_eia_planned_mw
-  label: null
-  unit: null
+  label: The nameplate capacity of those planned generators, summed
+  unit: MW
   type: number
   values:
     distinct: 95
     lowest: 0.0
     highest: 16147.3
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ercot_node_planned_generation.md
 - name: x_eia_solar_mw
-  label: null
-  unit: null
+  label: Of that capacity, EIA-860M's technology group solar
+  unit: MW
   type: number
   values:
     distinct: 66
     lowest: 0.0
     highest: 1609.6
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_node_planned_generation.md
 - name: x_eia_wind_mw
-  label: null
-  unit: null
+  label: Of that capacity, EIA-860M's technology group wind
+  unit: MW
   type: number
   values:
     list:
@@ -356,24 +364,24 @@ columns:
       '500.0': 1
       '670.5': 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_node_planned_generation.md
 - name: x_eia_storage_mw
-  label: null
-  unit: null
+  label: Of that capacity, EIA-860M's technology group storage
+  unit: MW
   type: number
   values:
     distinct: 55
     lowest: 0.0
     highest: 1385.9
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_node_planned_generation.md
 - name: x_eia_natural_gas_mw
-  label: null
-  unit: null
+  label: Of that capacity, EIA-860M's technology group natural gas
+  unit: MW
   type: number
   values:
     list:
@@ -388,69 +396,69 @@ columns:
       '5.0': 1
       '721.0': 3
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_node_planned_generation.md
 - name: x_eia_nuclear_mw
-  label: null
-  unit: null
+  label: Of that capacity, EIA-860M's technology group nuclear
+  unit: MW
   type: number
   values:
     list:
       '0.0': 566
       '4468.0': 3
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_node_planned_generation.md
 - name: x_eia_petroleum_mw
-  label: null
-  unit: null
+  label: Of that capacity, EIA-860M's technology group petroleum
+  unit: MW
   type: number
   values:
     list:
       '0.0': 561
       '9.9': 8
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_node_planned_generation.md
 - name: x_eia_hydro_mw
-  label: null
-  unit: null
+  label: Of that capacity, EIA-860M's technology group hydro
+  unit: MW
   type: number
   values:
     list:
       '0.0': 569
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_node_planned_generation.md
 - name: x_eia_biomass_mw
-  label: null
-  unit: null
+  label: Of that capacity, EIA-860M's technology group biomass
+  unit: MW
   type: number
   values:
     list:
       '0.0': 569
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_node_planned_generation.md
 - name: x_eia_geothermal_mw
-  label: null
-  unit: null
+  label: Of that capacity, EIA-860M's technology group geothermal
+  unit: MW
   type: number
   values:
     list:
       '0.0': 569
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_node_planned_generation.md
 - name: x_eia_other_mw
-  label: null
-  unit: null
+  label: Of that capacity, EIA-860M's technology group other
+  unit: MW
   type: number
   values:
     list:
@@ -458,7 +466,7 @@ columns:
       '28.6': 7
       '9.9': 8
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method ercot_node_planned_generation.md
 second_look: null

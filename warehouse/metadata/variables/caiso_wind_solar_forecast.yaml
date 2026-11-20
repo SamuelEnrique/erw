@@ -5,9 +5,10 @@
 table: caiso_wind_solar_forecast
 family: caiso
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: CAISO's wind or solar output at one trading hub for one hour, the day-ahead forecast or the actual.
+time: ts_utc is the hour's start in UTC.
+vintage_rule: Merged by (entity, variable, ts_utc); every span asked is asked of CAISO again, so a revised hour replaces the
+  one held, and hours no longer asked are kept. vintage is not filled.
 keys:
 - entity
 - variable
@@ -39,6 +40,7 @@ columns:
       caiso:SP15: 121496
       caiso:ZP26: 109402
   missing_cells: 0
+  particular: 'caiso:<trading hub>: NP15, SP15 or ZP26'
 - name: variable
   shared: true
   type: text
@@ -88,6 +90,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 352393
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -97,6 +100,7 @@ columns:
       SP15: 121496
       ZP26: 109402
   missing_cells: 0
+  particular: 'CAISO''s trading hub: NP15, SP15 or ZP26'
 - name: source
   shared: true
   type: text
@@ -130,27 +134,28 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 352393
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: solar_actual_mw
-  label: null
+  label: Actual solar generation (market run ACTUAL) for the hub and hour, MW
   unit: MW
   rows: 91021
   first: '2023-06-01T07:00:00Z'
   last: '2026-11-19T06:00:00Z'
 - name: solar_forecast_dam_mw
-  label: null
+  label: CAISO's day-ahead forecast of solar output (market run DAM) for the hub and hour, MW
   unit: MW
   rows: 91224
   first: '2023-06-01T07:00:00Z'
   last: '2026-11-19T06:00:00Z'
 - name: wind_actual_mw
-  label: null
+  label: Actual wind generation (market run ACTUAL) for the hub and hour, MW
   unit: MW
   rows: 84973
   first: '2023-06-01T07:00:00Z'
   last: '2026-11-19T06:00:00Z'
 - name: wind_forecast_dam_mw
-  label: null
+  label: CAISO's day-ahead forecast of wind output (market run DAM) for the hub and hour, MW (OASIS SLD_REN_FCST)
   unit: MW
   rows: 85175
   first: '2023-06-01T07:00:00Z'

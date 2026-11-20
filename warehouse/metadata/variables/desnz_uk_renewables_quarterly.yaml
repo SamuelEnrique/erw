@@ -5,9 +5,11 @@
 table: desnz_uk_renewables_quarterly
 family: desnz
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: The UK's cumulative installed renewable capacity or renewable electricity generated for one technology in one quarter,
+  2010 to 2026 (Energy Trends table 6.1).
+time: ts_utc is the quarter's first day at 00:00:00Z; capacity is cumulative at the quarter's end; freq P3M.
+vintage_rule: Merged by (entity, variable, ts_utc), a later issue replacing the rows it revises and keeping the rest; vintage
+  is the workbook's last-modified time.
 keys:
 - entity
 - variable
@@ -60,6 +62,7 @@ columns:
       desnz_et61:solar_photovoltaics: 132
       desnz_et61:total: 132
   missing_cells: 0
+  particular: desnz_et61:<technology>; capacity and generation name offshore wind, hydro and co-firing differently
 - name: variable
   shared: true
   type: text
@@ -104,12 +107,14 @@ columns:
     list:
       GB: 1982
   missing_cells: 0
+  particular: Always GB, standing for the UK
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1982
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -136,6 +141,7 @@ columns:
       Solar photovoltaics: 132
       TOTAL: 132
   missing_cells: 0
+  particular: The technology in DESNZ's words, not a pricing node
 - name: source
   shared: true
   type: text
@@ -164,9 +170,11 @@ columns:
     list:
       '2026-09-28T13:57:33Z': 1982
   missing_cells: 0
+  particular: The workbook's last-modified time
 - name: x_technology
-  label: null
-  unit: null
+  label: The renewable technology in DESNZ's words (Onshore wind, Offshore wind, Anaerobic digestion, Landfill gas and the
+    others, totals included)
+  unit: none
   type: text
   values:
     list:
@@ -191,29 +199,29 @@ columns:
       Solar photovoltaics: 132
       TOTAL: 132
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method desnz_uk_renewables_quarterly.md; connector desnz_renewables.py
 - name: x_provisional
-  label: null
-  unit: null
+  label: yes for a quarter DESNZ marks provisional, else no (no in every row of this issue)
+  unit: none
   type: text
   values:
     list:
       'no': 1982
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method desnz_uk_renewables_quarterly.md; connector desnz_renewables.py
 variables:
 - name: capacity
-  label: null
+  label: Cumulative installed renewable capacity at the quarter's end, MW
   unit: MW
   rows: 1024
   first: '2010-01-01T00:00:00Z'
   last: '2026-04-01T00:00:00Z'
 - name: generated
-  label: null
+  label: Renewable electricity generated in the quarter, MWh (DESNZ's GWh times 1,000; estimated where no actual figure exists)
   unit: MWh
   rows: 958
   first: '2010-01-01T00:00:00Z'

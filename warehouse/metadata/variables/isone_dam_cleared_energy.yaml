@@ -1,0 +1,122 @@
+# The codebook's metadata of table isone_dam_cleared_energy (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: isone_dam_cleared_energy
+family: isone
+shape: series
+row: One hour's demand cleared in ISO-NE's day-ahead market, system-wide, as ISO-NE gives it (Day-Ahead Hourly Cleared Demand).
+time: ts_utc is the hour's start in UTC (ISO-NE gives Hour Ending, Eastern; 02X is the repeated autumn hour); freq PT1H.
+vintage_rule: Merged into the table held on (entity, variable, ts_utc), so it grows past the window the operator keeps; a
+  few recent days are asked each run. vintage is not filled.
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: PT1H
+source:
+- name: isone:hourlydayaheaddemand ISO New England (ISO-NE), ISO Express, Day-Ahead Hourly Cleared Demand
+  url: https://www.iso-ne.com/isoexpress/web/reports/load-and-demand/-/tree/dmnd-da-hourly-cleared
+cite: ISO New England (ISO-NE). ISO Express, Day-Ahead Hourly Cleared Demand. Via the Energy Research Warehouse (ERW), table
+  `isone_dam_cleared_energy`.
+method: docs/methods/isone_dam_cleared_energy.md
+header_title: ISO-NE, demand cleared in the day-ahead market by hour, system-wide (ISO Express, Day-Ahead Hourly Cleared Demand).
+  INTERNAL (session 136)
+header_shape: 'Shape: series (docs/datastandard.md v0). variable dam_cleared_energy: the operator''s own figure for the hour,
+  in the unit it gives; freq PT1H, ts_utc the hour''s start. An hour the operator does not give is not written; nothing is
+  filled or estimated. The table is merged into the one held, so it grows past the window the operator keeps.'
+read:
+  date: '2026-11-20'
+  rows: 1656
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: isone:system, ISO-NE's system-wide figure
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: market
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 1656
+  particular: 'Not filled: no cell holds a value'
+variables:
+- name: dam_cleared_energy
+  label: 'ISO-NE''s Day-Ahead Cleared Demand for the hour: the demand the day-ahead market cleared, MWh for the hour'
+  unit: MWh
+  rows: 1656
+  first: '2026-09-01T04:00:00Z'
+  last: '2026-11-17T04:00:00Z'
+second_look: null

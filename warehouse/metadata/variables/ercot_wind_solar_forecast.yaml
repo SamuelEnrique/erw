@@ -5,9 +5,11 @@
 table: ercot_wind_solar_forecast
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: ERCOT's system-wide wind or solar output for one hour, actual or as forecast a day ahead.
+time: ts_utc is the hour's start in UTC.
+vintage_rule: Merged by (entity, variable, ts_utc); a run replaces an hour's actual with a newer posting's and its forecast
+  with one from a newer posting still at least 24 hours ahead, and the table keeps hours ERCOT's list has dropped. vintage
+  is not filled.
 keys:
 - entity
 - variable
@@ -40,6 +42,7 @@ columns:
     list:
       ercot:SYSTEM: 5322
   missing_cells: 0
+  particular: 'ercot:SYSTEM in every row: ERCOT''s whole system'
 - name: variable
   shared: true
   type: text
@@ -89,6 +92,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 5322
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -96,6 +100,7 @@ columns:
     list:
       SYSTEM: 5322
   missing_cells: 0
+  particular: SYSTEM in every row, not a price node
 - name: source
   shared: true
   type: text
@@ -126,27 +131,30 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 5322
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: solar_actual_mw
-  label: null
+  label: Actual solar output, ERCOT's SYSTEM_WIDE_GEN from the newest posting that holds the hour (NP4-745-CD), MW
   unit: MW
   rows: 1283
   first: '2026-09-27T05:00:00Z'
   last: '2026-11-19T15:00:00Z'
 - name: solar_forecast_24h_mw
-  label: null
+  label: ERCOT's short-term solar power forecast (STPPF) for the hour, from the newest posting published at least 24 hours
+    before the hour began, MW
   unit: MW
   rows: 1378
   first: '2026-09-30T06:00:00Z'
   last: '2026-11-26T15:00:00Z'
 - name: wind_actual_mw
-  label: null
+  label: Actual wind output, ERCOT's SYSTEM_WIDE_GEN from the newest posting that holds the hour (NP4-732-CD), MW
   unit: MW
   rows: 1283
   first: '2026-09-27T05:00:00Z'
   last: '2026-11-19T15:00:00Z'
 - name: wind_forecast_24h_mw
-  label: null
+  label: ERCOT's short-term wind power forecast (STWPF) for the hour, from the newest posting published at least 24 hours
+    before the hour began, MW
   unit: MW
   rows: 1378
   first: '2026-09-30T06:00:00Z'

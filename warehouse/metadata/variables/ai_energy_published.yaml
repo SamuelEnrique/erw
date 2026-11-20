@@ -5,9 +5,11 @@
 table: ai_energy_published
 family: other_sources
 shape: events
-row: null
-time: null
-vintage_rule: null
+row: One energy figure for AI (per query, per token, of a training run or of a fleet) as a model maker, a cloud operator or
+  a peer-reviewed paper printed it.
+time: event_date is the publication's date; x_retrieved_at is when its copy was saved.
+vintage_rule: Rewritten whole as one snapshot by each build from the session-read rows file; nothing converted, summed or
+  averaged.
 keys:
 - event_id
 license: public
@@ -60,6 +62,7 @@ columns:
       ai_energy:strubell_2019_1: 1
       ai_energy:strubell_2019_2: 1
   missing_cells: 0
+  particular: ai_energy:<publication>_<n>
 - name: event_date
   shared: true
   type: date
@@ -75,6 +78,7 @@ columns:
       '2025-09-12': 1
       '2026-07-09': 1
   missing_cells: 0
+  particular: The publication's date
 - name: event_type
   shared: true
   type: text
@@ -82,6 +86,7 @@ columns:
     list:
       publication: 23
   missing_cells: 0
+  particular: publication on every row
 - name: parties
   shared: true
   type: text
@@ -96,30 +101,35 @@ columns:
       OpenAI (Sam Altman's blog): 1
       University of Massachusetts Amherst: 2
   missing_cells: 0
+  particular: The publisher (the company, or the authors' institution)
 - name: entity_ids
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 23
+  particular: 'Not filled: no cell holds a value'
 - name: mw
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 23
+  particular: 'Not filled: no cell holds a value'
 - name: price
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 23
+  particular: 'Not filled: no cell holds a value'
 - name: currency
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 23
+  particular: 'Not filled: no cell holds a value'
 - name: status
   shared: true
   type: text
@@ -127,6 +137,7 @@ columns:
     list:
       published: 23
   missing_cells: 0
+  particular: published on every row
 - name: source
   shared: true
   type: text
@@ -151,8 +162,8 @@ columns:
       https://sustainability.atmeta.com/asset/2025-environmental-data-index: 1
   missing_cells: 0
 - name: x_publisher_kind
-  label: null
-  unit: null
+  label: 'Who printed the figure: model maker, cloud operator, data center operator (or several), or peer-reviewed paper'
+  unit: none
   type: text
   values:
     list:
@@ -161,12 +172,13 @@ columns:
       model maker and data center operator: 1
       peer-reviewed paper: 5
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: publisher_kind
+  documented_by: method ai_energy_published.md; connector ai_energy_published.py
 - name: x_peer_reviewed
-  label: null
-  unit: null
+  label: yes, with the venue, only where the page read names it; otherwise no, with the kind of publication (preprint, company
+    report, blog post)
+  unit: none
   type: text
   values:
     list:
@@ -178,12 +190,12 @@ columns:
       yes (ACL 2019): 2
       yes (ACM FAccT '24): 3
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: peer_reviewed
+  documented_by: method ai_energy_published.md; data
 - name: x_title
-  label: null
-  unit: null
+  label: The publication's title
+  unit: none
   type: text
   values:
     list:
@@ -197,12 +209,12 @@ columns:
       The Carbon Footprint of Machine Learning Training Will Plateau, Then Shrink: 3
       The Gentle Singularity: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: title
+  documented_by: connector ai_energy_published.py
 - name: x_authors
-  label: null
-  unit: null
+  label: The publication's authors
+  unit: none
   type: text
   values:
     list:
@@ -222,12 +234,12 @@ columns:
       Microsoft: 1
       Sam Altman: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: authors
+  documented_by: connector ai_energy_published.py
 - name: x_page
-  label: null
-  unit: null
+  label: The page of the publication the figure is printed on
+  unit: none
   type: text
   values:
     list:
@@ -242,12 +254,12 @@ columns:
       '8': 1
       the post (one page): 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: page
+  documented_by: header; connector ai_energy_published.py
 - name: x_printed
-  label: null
-  unit: null
+  label: The publication's own words holding the figure, cut from its saved copy
+  unit: none
   type: text
   values:
     list:
@@ -275,12 +287,12 @@ columns:
       we find the median Gemini Apps text prompt consumes 0.24 Wh of energy: 1
       which represents an electrical consumption of 1,163,032 kWh: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: printed
+  documented_by: header; method ai_energy_published.md
 - name: x_value
-  label: null
-  unit: null
+  label: The number in the printed words, in x_unit
+  unit: the row's x_unit
   type: number
   values:
     list:
@@ -308,12 +320,12 @@ columns:
       '86.0': 1
       '914.0': 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; method ai_energy_published.md
 - name: x_unit
-  label: null
-  unit: null
+  label: The unit of x_value, the publication's own (Wh, kWh, MWh, TWh)
+  unit: none
   type: text
   values:
     list:
@@ -322,12 +334,13 @@ columns:
       Wh: 4
       kWh: 8
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: unit
+  documented_by: header; method ai_energy_published.md
 - name: x_measures
-  label: null
-  unit: null
+  label: What the figure measures, in words (energy per prompt, per query, per 1,000 inferences, of a training run, of a fleet
+    in a year)
+  unit: none
   type: text
   values:
     list:
@@ -345,12 +358,12 @@ columns:
       energy per prompt (one part of it): 1
       energy per query: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: measures
+  documented_by: header; method ai_energy_published.md
 - name: x_subject
-  label: null
-  unit: null
+  label: What the figure is of (a model, a fleet, a company)
+  unit: none
   type: text
   values:
     list:
@@ -376,12 +389,12 @@ columns:
       the median Gemini Apps text prompt: 3
       the neural architecture search that produced Evolved Transformer: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: subject
+  documented_by: header; method ai_energy_published.md
 - name: x_period
-  label: null
-  unit: null
+  label: The period the figure covers, as the publication states it, or not stated
+  unit: none
   type: text
   values:
     list:
@@ -397,12 +410,12 @@ columns:
       the study's experiments: 3
       the training, 118 days: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: period
+  documented_by: method ai_energy_published.md
 - name: x_basis
-  label: null
-  unit: null
+  label: The boundary the publication states for the figure, or not stated
+  unit: none
   type: text
   values:
     list:
@@ -432,12 +445,12 @@ columns:
       the paper's measurement: 1
       the study's measurement: 1
   missing_cells: 0
-  missing_meaning: null
-  source_name: null
-  documented_by: null
+  missing_meaning: never empty
+  source_name: basis
+  documented_by: method ai_energy_published.md
 - name: x_saved_as
-  label: null
-  unit: null
+  label: The path of the publication's saved copy in the warehouse's raw files
+  unit: none
   type: text
   values:
     list:
@@ -451,12 +464,12 @@ columns:
       warehouse/raw/ai_energy_published/20261119T1230Z/patterson_2022.pdf: 3
       warehouse/raw/ai_energy_published/20261119T1230Z/strubell_2019.pdf: 2
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector ai_energy_published.py
 - name: x_sha256
-  label: null
-  unit: null
+  label: The SHA-256 of the saved copy
+  unit: none
   type: text
   values:
     list:
@@ -470,12 +483,12 @@ columns:
       cd8c3732e179f9a71a8dd42efabf7ffe7ee2bfc6c4ce4d63cfe799609b58dd12: 3
       d7527cd23308869105b404b486117603bb3f5ee10e30499367f8698110afb66d: 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector ai_energy_published.py
 - name: x_retrieved_at
-  label: null
-  unit: null
+  label: When the publication's copy was saved, UTC
+  unit: none
   type: utc time
   values:
     list:
@@ -489,7 +502,7 @@ columns:
       '2026-11-19T13:19:34Z': 1
       '2026-11-19T13:53:18Z': 1
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: connector ai_energy_published.py
 second_look: null

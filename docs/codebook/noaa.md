@@ -2,15 +2,15 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 21 public tables (2 events, 19 series; tiers: 1 derived, 20 source); 0 documented in full.
+**What the family holds.** 21 public tables (2 events, 19 series; tiers: 1 derived, 20 source); 3 documented in full.
 
 - [`noaa_climdiv_state_monthly`](#noaa_climdiv_state_monthly): NOAA NCEI nClimDiv, statewide monthly average temperature and precipitation, the 48 contiguous states and the nation, 2000 to 2026-09, with the 1901-2000 mean (session 2045)
 - [`noaa_cpc_degree_days_daily`](#noaa_cpc_degree_days_daily): NOAA, National Weather Service, Climate Prediction Center, population-weighted heating and cooling degree days, a day, for the 48 contiguous states and for CPC's population regions (session 2006)
 - [`noaa_cpc_oni_monthly`](#noaa_cpc_oni_monthly): NOAA National Weather Service, Climate Prediction Center, Oceanic Nino Index (ONI): the three-month running mean of the Nino 3.4 sea surface temperature and its anomaly, a month from 1950 (session 2092)
 - [`noaa_grid_weather_daily`](#noaa_grid_weather_daily): each grid's weighted daily temperature, dew point, heating and cooling degree days, from five NOAA airport stations a grid, 2019 to now (session 126)
-- [`noaa_grid_weather_hourly`](#noaa_grid_weather_hourly): each grid's weighted hourly temperature, dew point, heating and cooling degrees, from five NOAA airport stations a grid, 2019 to now (session 126)
-- [`noaa_grid_weather_stations`](#noaa_grid_weather_stations): the 35 NOAA stations behind each grid's weighted weather, five a grid, with each one's weight and its hours measured, interpolated and missing (session 126)
-- [`noaa_isd_hourly`](#noaa_isd_hourly): hourly station temperature and dew point, NOAA NCEI Integrated Surface Database, for the event windows of event_window_daily and their baseline days (session 49)
+- [`noaa_grid_weather_hourly`](#noaa_grid_weather_hourly): One grid's weighted temperature, dew point, heating degrees or cooling degrees for one hour, from five NOAA airport stations a grid weighted by their metropolitan populations, 2019 to now.
+- [`noaa_grid_weather_stations`](#noaa_grid_weather_stations): One of the 35 NOAA airport stations behind the grids' weighted weather (five a grid), with one figure about it (its weight, its metropolitan population, or its hours measured, interpolated and missing) over the span counted.
+- [`noaa_isd_hourly`](#noaa_isd_hourly): One temperature or dew point observation at one airport station from NOAA's Integrated Surface Database, for the event windows of event_window_daily and their baseline days and for the California alert seasons.
 - [`noaa_ncei_billion_disasters`](#noaa_ncei_billion_disasters): NOAA NCEI, U.S. Billion-Dollar Weather and Climate Disasters, 1980 to 2024 (the product retired in 2025) (session 2073)
 - [`noaa_ncei_storm_events`](#noaa_ncei_storm_events): NOAA NCEI Storm Events Database, the event types that take power lines down or strain the grid, 2015 to 2026 (session 2042)
 - [`noaa_region_station_hourly_2018`](#noaa_region_station_hourly_2018): hourly temperature at the stations of EIA's regions, the hours of 2018 (UTC) (session 7803)
@@ -170,10 +170,12 @@ Variables (6):
 
 ### `noaa_grid_weather_hourly`
 
-What a row is: not yet written.
+One grid's weighted temperature, dew point, heating degrees or cooling degrees for one hour, from five NOAA airport stations a grid weighted by their metropolitan populations, 2019 to now.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 1921373.
 
+- **Time:** ts_utc is the hour in UTC; the reading is the one taken in the ten minutes up to it (Local Climatological Data's local standard times moved to UTC). freq PT1H.
+- **Revisions:** Each run deletes the table and writes it whole; with --refresh the later answer's hours replace the held ones from its first hour on. vintage is not filled.
 - **Source:** noaa:isd_lite NOAA National Centers for Environmental Information, Integrated Surface Database, ISD-Lite (https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database)
 - **Source:** noaa:lcd_v2 NOAA National Centers for Environmental Information, Local Climatological Data version 2 (https://www.ncei.noaa.gov/products/land-based-station/local-climatological-data)
 - **Method note:** [`docs/methods/noaa_grid_weather_hourly.md`](../methods/noaa_grid_weather_hourly.md)
@@ -181,37 +183,39 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | iso:caiso, iso:ercot, iso:isone, iso:miso, iso:nyiso, iso:pjm, iso:spp | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: iso:<grid> | none | text | iso:caiso, iso:ercot, iso:isone, iso:miso, iso:nyiso, iso:pjm, iso:spp | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2019-01-01T00:00:00Z to 2026-11-07T14:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -29.38 to 106.35; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | degF | 0 |
 | `freq` | How long the interval of the row is | none | text | PT1H | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY, US-AR,US-IL,US-IN,US-IA,US-KY,US-LA,US-MI,US-MN,US-MS,US-MO,US-MT,US-ND,US-SD,US-TX,US-WI, US-CA, US-CT,US-MA,US-ME,US-NH,US-RI,US-VT, US-DE,US-DC,US-IL,US-IN,US-KY,US-MD,US-MI,US-NJ,US-NC,US-OH,US-PA,US-TN,US-VA,US-WV, US-NY, US-TX | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 1921373 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: The states of the grid, comma-separated | none | text | US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,US-OK,US-SD,US-TX,US-WY, US-AR,US-IL,US-IN,US-IA,US-KY,US-LA,US-MI,US-MN,US-MS,US-MO,US-MT,US-ND,US-SD,US-TX,US-WI, US-CA, US-CT,US-MA,US-ME,US-NH,US-RI,US-VT, US-DE,US-DC,US-IL,US-IN,US-KY,US-MD,US-MI,US-NJ,US-NC,US-OH,US-PA,US-TN,US-VA,US-WV, US-NY, US-TX | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1921373 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The grid's name (CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP), not a pricing node | none | text | CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | noaa:isd_lite, noaa:lcd_v2 | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2019/, https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2020/, https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2021/, https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2022/, https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2023/, https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2024/, https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/2025/, https://www.ncei.noaa.gov/access/services/data/v1?dataset=local-climatological-data-v2 | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-16T18:05:35Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 1921373 |
-| `ba` | The balancing authority (the grid operator of an area) in EIA's code, lowercase (ciso, erco, us48) | none | text | ciso, erco, isne, miso, nyis, pjm, swpp | 0 |
-| `x_interpolated` | not yet written |  | integer | 0, 1, 2, 3, 4, 5 | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1921373 |
+| `ba` | The balancing authority (the grid operator of an area) in EIA's code, lowercase (ciso, erco, us48). Here: The grid's EIA-930 code, to join eia930 tables | none | text | ciso, erco, isne, miso, nyis, pjm, swpp | 0 |
+| `x_interpolated` | How many of the five stations' temperatures in the hour are interpolated (across at most 3 hours) | count | integer | 0, 1, 2, 3, 4, 5 | 0 |
 
 Variables (4):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `cooling_degrees_f` |  | degF | 480361 | 2019-01-01T00:00:00Z | 2026-11-07T14:00:00Z |
-| `dew_point_f` |  | degF | 480290 | 2019-01-01T00:00:00Z | 2026-11-07T14:00:00Z |
-| `heating_degrees_f` |  | degF | 480361 | 2019-01-01T00:00:00Z | 2026-11-07T14:00:00Z |
-| `temperature_f` |  | degF | 480361 | 2019-01-01T00:00:00Z | 2026-11-07T14:00:00Z |
+| `cooling_degrees_f` | The weighted mean over the stations of max(T - 65, 0), degrees F | degF | 480361 | 2019-01-01T00:00:00Z | 2026-11-07T14:00:00Z |
+| `dew_point_f` | The weighted mean of the stations' dew points, degrees F | degF | 480290 | 2019-01-01T00:00:00Z | 2026-11-07T14:00:00Z |
+| `heating_degrees_f` | The weighted mean over the stations of max(65 - T, 0), degrees F | degF | 480361 | 2019-01-01T00:00:00Z | 2026-11-07T14:00:00Z |
+| `temperature_f` | The weighted mean of the stations' temperatures, degrees F (NOAA's tenths of a degree C times 9/5 plus 32) | degF | 480361 | 2019-01-01T00:00:00Z | 2026-11-07T14:00:00Z |
 
 ### `noaa_grid_weather_stations`
 
-What a row is: not yet written.
+One of the 35 NOAA airport stations behind the grids' weighted weather (five a grid), with one figure about it (its weight, its metropolitan population, or its hours measured, interpolated and missing) over the span counted.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 245.
 
+- **Time:** ts_utc is 2019-01-01T00:00:00Z, the start of the span counted; the span runs x_hours hours to x_through. freq is blank.
+- **Revisions:** Each run deletes the table and writes it whole, recounting over the whole span and taking the weights again from census_metro_population. vintage is not filled.
 - **Source:** noaa:isd_lite NOAA National Centers for Environmental Information, Integrated Surface Database, ISD-Lite (https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database)
 - **Source:** noaa:lcd_v2 NOAA National Centers for Environmental Information, Local Climatological Data version 2 (https://www.ncei.noaa.gov/products/land-based-station/local-climatological-data)
 - **Method note:** [`docs/methods/noaa_grid_weather_stations.md`](../methods/noaa_grid_weather_stations.md)
@@ -219,76 +223,78 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example noaa:USW00003102, noaa:USW00003927, noaa:USW00003928; 35 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: noaa:<GHCN identifier> (USW000 and the WBAN) | none | text | for example noaa:USW00003102, noaa:USW00003927, noaa:USW00003928; 35 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2019-01-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.039034 to 13204693.0; 155 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | count, ratio | 0 |
-| `freq` | How long the interval of the row is | none | empty | no cell holds a value | 245 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US-CA, US-CT, US-IL, US-IN, US-KS, US-MA, US-MD, US-MI, US-MN, US-MO, US-NE, US-NY, US-OK, US-PA, US-RI, US-TX, US-VA, US-WI | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 245 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP | 0 |
+| `freq` | How long the interval of the row is. Here: Not filled: the counts run over the span from ts_utc to x_through | none | empty | no cell holds a value | 245 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state> of the station | none | text | US-CA, US-CT, US-IL, US-IN, US-KS, US-MA, US-MD, US-MI, US-MN, US-MO, US-NE, US-NY, US-OK, US-PA, US-RI, US-TX, US-VA, US-WI | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 245 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The grid the station stands for, not a pricing node | none | text | CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | noaa:isd_lite | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data/ | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-16T18:05:35Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 245 |
-| `ba` | The balancing authority (the grid operator of an area) in EIA's code, lowercase (ciso, erco, us48) | none | text | ciso, erco, isne, miso, nyis, pjm, swpp | 0 |
-| `x_airport` | not yet written |  | text | for example ALB, AUS, BDL; 35 distinct | 0 |
-| `x_station` | not yet written |  | text | for example 722430-12960, 722506-12959, 722530-12921; 35 distinct | 0 |
-| `x_name` | not yet written |  | text | for example ALBANY INTERNATIONAL AIRPORT, AUSTIN-BERGSTROM INTL AIRPORT, BALTIMORE-WASHINGTON INTL AIRPORT; 35 distinct | 0 |
-| `x_lat` | not yet written |  | number | 26.179 to 44.885; 35 distinct | 0 |
-| `x_lon` | not yet written |  | number | -122.366 to -71.01; 35 distinct | 0 |
-| `x_metro` | not yet written |  | text | for example Albany-Schenectady-Troy, Austin-Round Rock-Georgetown, Baltimore-Columbia-Towson; 35 distinct | 0 |
-| `x_hours` | not yet written |  | integer | 68823 | 0 |
-| `x_through` | not yet written |  | utc time | 2026-11-07T14:00:00Z | 0 |
-| `x_cbsa` | not yet written |  | text | for example 10580, 12420, 12580; 35 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 245 |
+| `ba` | The balancing authority (the grid operator of an area) in EIA's code, lowercase (ciso, erco, us48). Here: The grid's EIA-930 code | none | text | ciso, erco, isne, miso, nyis, pjm, swpp | 0 |
+| `x_airport` | The station's airport code (DFW, LAX and the others) | none | text | for example ALB, AUS, BDL; 35 distinct | 0 |
+| `x_station` | NOAA's station identifier, USAF-WBAN | none | text | for example 722430-12960, 722506-12959, 722530-12921; 35 distinct | 0 |
+| `x_name` | The station's name as NOAA gives it (isd-history.csv) | none | text | for example ALBANY INTERNATIONAL AIRPORT, AUSTIN-BERGSTROM INTL AIRPORT, BALTIMORE-WASHINGTON INTL AIRPORT; 35 distinct | 0 |
+| `x_lat` | The station's latitude as NOAA gives it (isd-history.csv) | degree | number | 26.179 to 44.885; 35 distinct | 0 |
+| `x_lon` | The station's longitude as NOAA gives it (isd-history.csv) | degree | number | -122.366 to -71.01; 35 distinct | 0 |
+| `x_metro` | The metropolitan area the station stands for | none | text | for example Albany-Schenectady-Troy, Austin-Round Rock-Georgetown, Baltimore-Columbia-Towson; 35 distinct | 0 |
+| `x_hours` | The hours of the span the counts run over | hour | integer | 68823 | 0 |
+| `x_through` | The last hour of the span, UTC: the last hour every station reaches | none | utc time | 2026-11-07T14:00:00Z | 0 |
+| `x_cbsa` | The Census Bureau's code of the metropolitan area, with a state after a colon where only a part is counted | none | text | for example 10580, 12420, 12580; 35 distinct | 0 |
 
 Variables (7):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `dew_point_hours_missing` |  | count | 35 | 2019-01-01T00:00:00Z | 2019-01-01T00:00:00Z |
-| `hours_interpolated` |  | count | 35 | 2019-01-01T00:00:00Z | 2019-01-01T00:00:00Z |
-| `hours_measured` |  | count | 35 | 2019-01-01T00:00:00Z | 2019-01-01T00:00:00Z |
-| `hours_missing` |  | count | 35 | 2019-01-01T00:00:00Z | 2019-01-01T00:00:00Z |
-| `longest_gap_hours` |  | count | 35 | 2019-01-01T00:00:00Z | 2019-01-01T00:00:00Z |
-| `population_base_2020` |  | count | 35 | 2019-01-01T00:00:00Z | 2019-01-01T00:00:00Z |
-| `weight` |  | ratio | 35 | 2019-01-01T00:00:00Z | 2019-01-01T00:00:00Z |
+| `dew_point_hours_missing` | Hours of the span with no dew point, count | count | 35 | 2019-01-01T00:00:00Z | 2019-01-01T00:00:00Z |
+| `hours_interpolated` | Hours of the span with a temperature interpolated across at most 3 hours, count | count | 35 | 2019-01-01T00:00:00Z | 2019-01-01T00:00:00Z |
+| `hours_measured` | Hours of the span with a measured temperature, count | count | 35 | 2019-01-01T00:00:00Z | 2019-01-01T00:00:00Z |
+| `hours_missing` | Hours of the span with no temperature, count | count | 35 | 2019-01-01T00:00:00Z | 2019-01-01T00:00:00Z |
+| `longest_gap_hours` | The longest run of missing hours, count | count | 35 | 2019-01-01T00:00:00Z | 2019-01-01T00:00:00Z |
+| `population_base_2020` | The Census Bureau's estimates base of 1 April 2020 for the station's metropolitan area (x_cbsa), count | count | 35 | 2019-01-01T00:00:00Z | 2019-01-01T00:00:00Z |
+| `weight` | The station's share of its grid: its metropolitan population over the sum of its grid's five (ratio) | ratio | 35 | 2019-01-01T00:00:00Z | 2019-01-01T00:00:00Z |
 
 ### `noaa_isd_hourly`
 
-What a row is: not yet written.
+One temperature or dew point observation at one airport station from NOAA's Integrated Surface Database, for the event windows of event_window_daily and their baseline days and for the California alert seasons.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: source. Rows read on 2026-11-20: 412435.
 
+- **Time:** ts_utc is the observation's time in UTC (irregular times; freq left blank).
+- **Revisions:** Merged by key across runs (entity, variable, ts_utc), a later run's rows replacing the held ones; restored from the Redivis draft by scripts/sync.py. vintage is not filled.
 - **Source:** noaa:isd_global_hourly NOAA NCEI Integrated Surface Database (global-hourly) (https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database)
 - **Method note:** [`docs/methods/noaa_isd_hourly.md`](../methods/noaa_isd_hourly.md)
 - **Cite as:** NOAA National Centers for Environmental Information (NCEI). Integrated Surface Database (global-hourly). Via the Energy Research Warehouse (ERW), table `noaa_isd_hourly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | noaa:BOS, noaa:DFW, noaa:FAT, noaa:IAH, noaa:JFK, noaa:LAX, noaa:MSP, noaa:OKC, noaa:ORD, noaa:PHL, noaa:SAC | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: noaa:<airport code> | none | text | noaa:BOS, noaa:DFW, noaa:FAT, noaa:IAH, noaa:JFK, noaa:LAX, noaa:MSP, noaa:OKC, noaa:ORD, noaa:PHL, noaa:SAC | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2018-03-04T05:51:00Z to 2025-08-27T06:53:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -20.02 to 114.08; 201 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | degF | 0 |
-| `freq` | How long the interval of the row is | none | empty | no cell holds a value | 412435 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | empty | no cell holds a value | 412435 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 412435 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | FM-12, FM-15, FM-16, SY-MT | 0 |
+| `freq` | How long the interval of the row is. Here: Not filled: observation times are irregular | none | empty | no cell holds a value | 412435 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 412435 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 412435 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: ISD's report type (FM-15 the routine hourly report, FM-12 synoptic, FM-16 special, SY-MT); where two reports share an instant, FM-15 is kept | none | text | FM-12, FM-15, FM-16, SY-MT | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | noaa:isd_global_hourly | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://www.ncei.noaa.gov/access/services/data/v1?dataset=global-hourly&stations=72243012960&startDate=2019-02-07T06%3A00%3A00&endDate=2019-02-25T05%3A59%3A59&dataTypes=TMP%2CDEW&format=csv&includeStationName=true, https://www.ncei.noaa.gov/access/services/data/v1?dataset=global-hourly&stations=72243012960&startDate=2020-02-07T06%3A00%3A00&endDate=2020-02-25T05%3A59%3A59&dataTypes=TMP%2CDEW&format=csv&includeStationName=true, https://www.ncei.noaa.gov/access/services/data/v1?dataset=global-hourly&stations=72243012960&startDate=2020-12-21T06%3A00%3A00&endDate=2021-01-01T05%3A59%3A59&dataTypes=TMP%2CDEW&format=csv&includeStationName=true; 78 distinct | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-01T03:55:28Z, 2026-10-02T04:48:18Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 412435 |
-| `ba` | The balancing authority (the grid operator of an area) in EIA's code, lowercase (ciso, erco, us48) | none | text | ciso, erco, isne, miso, nyis, pjm, swpp | 0 |
-| `x_station_id` | not yet written |  | integer | 72243012960, 72259003927, 72295023174, 72353013967, 72389093193, 72408013739, 72483023232, 72509014739, 72530094846, 72658014922, 74486094789 | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 412435 |
+| `ba` | The balancing authority (the grid operator of an area) in EIA's code, lowercase (ciso, erco, us48). Here: The grid the station stands for | none | text | ciso, erco, isne, miso, nyis, pjm, swpp | 0 |
+| `x_station_id` | NCEI's station identifier | none | integer | 72243012960, 72259003927, 72295023174, 72353013967, 72389093193, 72408013739, 72483023232, 72509014739, 72530094846, 72658014922, 74486094789 | 0 |
 
 Variables (2):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `dew_point_f` |  | degF | 206155 | 2018-03-04T05:51:00Z | 2025-08-27T06:53:00Z |
-| `temperature_f` |  | degF | 206280 | 2018-03-04T05:51:00Z | 2025-08-27T06:53:00Z |
+| `dew_point_f` | The observed dew point, degrees F (ISD's tenths of a degree C times 9/5 plus 32, to 2 decimals) | degF | 206155 | 2018-03-04T05:51:00Z | 2025-08-27T06:53:00Z |
+| `temperature_f` | The observed temperature, degrees F (ISD's tenths of a degree C times 9/5 plus 32, to 2 decimals); missing and quality codes 2, 3, 6, 7 not written | degF | 206280 | 2018-03-04T05:51:00Z | 2025-08-27T06:53:00Z |
 
 ### `noaa_ncei_billion_disasters`
 

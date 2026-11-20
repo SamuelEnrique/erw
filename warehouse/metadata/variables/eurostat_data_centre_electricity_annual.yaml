@@ -5,9 +5,9 @@
 table: eurostat_data_centre_electricity_annual
 family: eurostat
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One European country's data centres' electricity consumption in one year.
+time: ts_utc is the year's 1 January at 00:00:00Z, a label for the calendar year (freq P1Y).
+vintage_rule: 'Merged by key (entity, variable, ts_utc): a revised figure replaces the old; vintage is not filled.'
 keys:
 - entity
 - variable
@@ -42,6 +42,7 @@ columns:
     - eurostat_data_centres:BG
     - eurostat_data_centres:CY
   missing_cells: 0
+  particular: eurostat_data_centres:<geo>
 - name: variable
   shared: true
   type: text
@@ -93,6 +94,7 @@ columns:
     - BG
     - CY
   missing_cells: 0
+  particular: ISO alpha-2 country code (Eurostat's EL written GR), not ISO 3166-2
 - name: market
   shared: true
   type: empty
@@ -111,6 +113,7 @@ columns:
     - BG data centres' electricity consumption
     - CY data centres' electricity consumption
   missing_cells: 0
+  particular: <geo> data centres' electricity consumption, not a pricing node
 - name: source
   shared: true
   type: text
@@ -139,8 +142,8 @@ columns:
     note: no cell holds a value
   missing_cells: 85
 - name: x_geo_code
-  label: null
-  unit: null
+  label: Eurostat's geo code of the country
+  unit: none
   type: text
   values:
     distinct: 32
@@ -151,33 +154,33 @@ columns:
     - BG
     - CY
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: method eurostat_data_centre_electricity_annual.md
 - name: x_flag
-  label: null
-  unit: null
+  label: 'Eurostat''s flag of the observation: e estimated'
+  unit: none
   type: text
   values:
     list:
       e: 5
   missing_cells: 80
-  missing_meaning: null
+  missing_meaning: No flag on the observation
   source_name: null
-  documented_by: null
+  documented_by: method eurostat_data_centre_electricity_annual.md; method eurostat_electricity_monthly.md
 - name: x_conf_status
-  label: null
-  unit: null
+  label: Eurostat's confidentiality status of the observation
+  unit: none
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 85
-  missing_meaning: null
+  missing_meaning: 'Not filled: no cell holds a value (confidential observations have no row)'
   source_name: null
-  documented_by: null
+  documented_by: header; connector eurostat_data_centres.py
 variables:
 - name: electricity_consumption
-  label: null
+  label: Electricity consumed by data centres (NACE DATAC), MWh (Eurostat's GWh times 1,000); zeros kept as printed
   unit: MWh
   rows: 85
   first: '2020-01-01T00:00:00Z'

@@ -5,9 +5,9 @@
 table: cso_ireland_electricity_monthly
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Ireland's gross or net electricity output in one month, from the Central Statistics Office's table MSM01.
+time: ts_utc is the month's first day at 00:00:00Z; freq P1M; from 1975-01.
+vintage_rule: Rewritten whole as one snapshot by each run from CSO's JSON-stat answer; vintage is the answer's updated time.
 keys:
 - entity
 - variable
@@ -38,6 +38,7 @@ columns:
     list:
       cso:ie: 644
   missing_cells: 0
+  particular: cso:ie on every row
 - name: variable
   shared: true
   type: text
@@ -81,12 +82,14 @@ columns:
     list:
       IE: 644
   missing_cells: 0
+  particular: IE on every row
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 644
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -95,6 +98,7 @@ columns:
       Gross Electricity Output: 408
       Net Electricity Output: 236
   missing_cells: 0
+  particular: The statistic as CSO names it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -123,27 +127,28 @@ columns:
     list:
       '2026-10-09T11:00:00Z': 644
   missing_cells: 0
+  particular: The JSON-stat answer's updated time (UTC)
 - name: x_code
-  label: null
-  unit: null
+  label: 'CSO''s code of the statistic: MSM01C1 gross output, MSM01C2 net output'
+  unit: none
   type: text
   values:
     list:
       MSM01C1: 408
       MSM01C2: 236
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector cso_ireland_electricity.py; method cso_ireland_electricity_monthly.md
 variables:
 - name: gross_electricity_output
-  label: null
+  label: Gross electricity output in the month (to 2008-12, discontinued by CSO)
   unit: MWh
   rows: 408
   first: '1975-01-01T00:00:00Z'
   last: '2008-12-01T00:00:00Z'
 - name: net_electricity_output
-  label: null
+  label: Net electricity output in the month
   unit: MWh
   rows: 236
   first: '2007-01-01T00:00:00Z'

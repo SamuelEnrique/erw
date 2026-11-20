@@ -5,9 +5,10 @@
 table: edf_sei_islands_electricity_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One French island grid's net electricity production from one source, its net imports or its total supply, in one year,
+  from EDF SEI.
+time: ts_utc is the year's first day at 00:00:00Z; freq P1Y; 2018 to 2024.
+vintage_rule: Rewritten whole as one snapshot by each run from EDF's open data answer; vintage is not filled.
 keys:
 - entity
 - variable
@@ -44,6 +45,7 @@ columns:
     - edf_sei:corsica:links
     - edf_sei:corsica:oil_turbines
   missing_cells: 0
+  particular: edf_sei:<territory>:<source>
 - name: variable
   shared: true
   type: text
@@ -100,12 +102,14 @@ columns:
       PM: 14
       RE: 56
   missing_cells: 0
+  particular: The territory's code (FR-20R Corsica, GF, GP, MQ, RE, BL, MF, PM; FR for the Iles du Ponant)
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 326
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -121,6 +125,7 @@ columns:
       St Martin: 21
       St Pierre et Miquelon: 14
   missing_cells: 0
+  particular: The territory as EDF names it, not a pricing node
 - name: source
   shared: true
   type: text
@@ -148,21 +153,22 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 326
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: generation
-  label: null
+  label: Net energy injected into the territory's grid from the source in the year
   unit: MWh
   rows: 261
   first: '2018-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: net_imports
-  label: null
+  label: Net imports over Corsica's links in the year
   unit: MWh
   rows: 7
   first: '2018-01-01T00:00:00Z'
   last: '2024-01-01T00:00:00Z'
 - name: supply
-  label: null
+  label: The territory's total in the year
   unit: MWh
   rows: 58
   first: '2018-01-01T00:00:00Z'

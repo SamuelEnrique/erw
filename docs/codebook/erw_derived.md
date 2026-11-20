@@ -2,38 +2,38 @@
 
 Drawn from `warehouse/metadata/variables/` by `warehouse/codebook/build_docs.py`; never written by hand. The column names many tables share (`ts_utc`, `value`, `entity` and the others) are defined once in [`_shared.yaml`](../../warehouse/metadata/variables/_shared.yaml) and in the [index](README.md).
 
-**What the family holds.** 30 public tables (2 entities, 3 events, 25 series; tiers: 25 derived, 5 model_extracted); 24 documented in full.
+**What the family holds.** 30 public tables (2 entities, 3 events, 25 series; tiers: 25 derived, 5 model_extracted); 30 documented in full.
 
 - [`ai_power_regions`](#ai_power_regions): One ISO region's value of one measure of where the next gigawatts for AI can come from: cost, carbon, price stress, connection queues or reliance on imports.
 - [`attention_index_weekly`](#attention_index_weekly): One sector and place's value of one Attention Index measure in one week, or one of the week's denominators (entity attention:corpus:all).
 - [`attention_story_links`](#attention_story_links): One classified news story behind the Attention and Friction indices: its week, sector, place, opposition, kind, tone and link.
 - [`clean_energy_hourly`](#clean_energy_hourly): One ISO grid's carbon-free share of its own generation in one held hour, with the hour's two sums.
 - [`clean_energy_summary`](#clean_energy_summary): One ISO grid's value of one clean-energy measure for one local month (freq P1M) or one local year (freq P1Y).
-- [`deal_counterparties`](#deal_counterparties): Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261113T155514Z-github (2026-11-13T15:55:14Z); that run's own header of the table follows
+- [`deal_counterparties`](#deal_counterparties): One counterparty of the deal tracker: a name a deal in energy_deals gives as its buyer or seller, once its spellings are joined, with its deal counts.
 - [`event_study_estimates`](#event_study_estimates): One estimate of an event's effect on one grid's daily demand served or on a hub's daily mean real-time price: for one event day, pooled over the window, as the counterfactual mean, or for one local hour.
 - [`event_window_daily`](#event_window_daily): One event's daily (or, for COVID-19, weekly) value of one figure for one grid, hub or weather station, on a day of the event window or a baseline day of earlier years.
 - [`flex_alert_effects`](#flex_alert_effects): One value of the Flex Alert scorecard for CAISO's balancing authority: for one alert day (freq P1D), one hour of an alert day (PT1H) or one year (P1Y).
 - [`flex_alert_model`](#flex_alert_model): One figure of the Flex Alert scorecard's demand model for CAISO: a pooled estimate, an out-of-sample check, a specification compared, a model setting, an hourly coefficient, or one held-out hot day's error.
 - [`forecast_tool_parameters`](#forecast_tool_parameters): One parameter the forecast tool reads, for one technology and place: EIA's capital cost and case figures, JEDI's construction cost and taxable share, or the gas plant's fuel defaults.
 - [`friction_index_weekly`](#friction_index_weekly): One sector and place's value of one Friction Index measure (opposition in the news) in one week.
-- [`gas_balance_weekly`](#gas_balance_weekly): working gas in storage by region each week, its change and its place in the five years before; and the monthly U.S. gas balance with LNG's and power's shares (derived, session 2956)
+- [`gas_balance_weekly`](#gas_balance_weekly): One EIA storage region's weekly working gas measure, or one monthly measure of the US natural gas balance.
 - [`generation_mix_hourly_profile`](#generation_mix_hourly_profile): One ISO grid's value of one energy-mix measure for one local month: an hour of the month's average day, a source's MWh or share, or a count of days.
 - [`generation_mix_records`](#generation_mix_records): One ISO grid's record of the energy mix (highest solar or wind share of an hour, cleanest or dirtiest hour) over the whole history or one local year.
-- [`generator_pipeline_by_grid`](#generator_pipeline_by_grid): EIA-860M's planned generators by balancing authority, state, fuel, status and planned year, each snapshot month, and the moves between two months (derived, session 2951)
+- [`generator_pipeline_by_grid`](#generator_pipeline_by_grid): One cell of EIA-860M's planned generators (balancing authority, state, energy source, status, planned year) in one snapshot month, or one balancing authority's (or the US's) move of planned generators between two months.
 - [`hub_price_comparison`](#hub_price_comparison): One public hub or zone's value of one price measure, day-ahead or real time, over the last twelve months (freq P1Y) or the last whole month (P1M), or its grid's carbon intensity over the same window.
 - [`known_data_faults`](#known_data_faults): One known fault in a source's data, as the ERW's register of faults records it.
 - [`merchant_revenue_monthly`](#merchant_revenue_monthly): One ISO main hub's value of one merchant revenue measure for one asset type (solar, wind, a 2-hour or 4-hour battery, a gas peaker) and one month, or the month's flat price and hours.
 - [`nlr_jedi_multipliers`](#nlr_jedi_multipliers): One JEDI figure per MW for one technology, location, phase and effect: jobs, earnings or output, or the default project's MW, or the phase's local spending share.
 - [`node_basis_daily`](#node_basis_daily): One ERCOT settlement point's value of one price measure (mean, four-hour spread, or basis against the hub average) for one operating day, day-ahead or real time.
 - [`node_basis_summary`](#node_basis_summary): One month's statistic of the distribution of ERCOT's settlement points against the hub average, for one market and one class of points.
-- [`nuclear_fleet_status`](#nuclear_fleet_status): the U.S. reactor fleet by reactor and year, and by grid and year: capacity, outages, long outages, available energy, uprates, restarts and retirements (derived, session 2955)
+- [`nuclear_fleet_status`](#nuclear_fleet_status): One US reactor's, one grid's reactor fleet's or the whole US fleet's value of one measure (capacity, outages, available energy, uprates) for one year.
 - [`region_weather_hourly`](#region_weather_hourly): One EIA region's population-weighted mean temperature in one hour, written only for an hour every one of its stations holds.
-- [`resource_layer_features`](#resource_layer_features): the natural resource map's layers, every cell, site and area, with the USGS coal fields (session 8006, chain 501)
+- [`resource_layer_features`](#resource_layer_features): One grid cell, site or area of one layer of the natural resource map (wind, solar, geothermal, hydropower, biomass, oil and gas basins and plays, coal fields), with its value.
 - [`scarcity_hours_by_grid`](#scarcity_hours_by_grid): One grid's (ERCOT's or CAISO's) value of one scarcity measure in one hour: the USD 1,000 price counts and the grid's own scarcity signal.
 - [`shoulder_hours_monthly`](#shoulder_hours_monthly): One grid's (ERCOT's or CAISO's) value of one shoulder-hours measure: for a local month's average day (P1M), one of a year's ten worst days (P1D), or a year (P1Y).
 - [`state_generation_mix_monthly`](#state_generation_mix_monthly): One state's (or the nation's) net generation from one group of energy sources in one month.
 - [`state_large_load_laws`](#state_large_load_laws): One US state law or bill of the 2025 and 2026 sessions that sets terms for large loads (data centers and others) or tells the utilities or the commission to set them.
-- [`subregion_demand_growth`](#subregion_demand_growth): every EIA-930 sub-region's peak hour and average demand by year, and the growth of each (derived, session 2877)
+- [`subregion_demand_growth`](#subregion_demand_growth): One EIA-930 sub-region's value of one demand measure (peak, average, energy, hours, growth) for one UTC calendar year.
 
 ### `ai_power_regions`
 
@@ -339,42 +339,44 @@ Variables (84):
 
 ### `deal_counterparties`
 
-What a row is: not yet written.
+One counterparty of the deal tracker: a name a deal in energy_deals gives as its buyer or seller, once its spellings are joined, with its deal counts.
 
 Shape: entities. Keys: `entity_id`. License: public; tier: model_extracted. Rows read on 2026-11-20: 532.
 
+- **Time:** No time column; first_deal and last_deal are the dates of its earliest and latest deal; vintage is the build's run id.
+- **Revisions:** Rewritten whole as one snapshot by each daily build from energy_deals; folded duplicates counted once.
 - **Method note:** [`docs/methods/deal_counterparties.md`](../methods/deal_counterparties.md)
 - **Cite as:** Energy Research Warehouse (ERW). Deal tracker counterparties (energy_deals, warehouse/deals/extract.py). Via the Energy Research Warehouse (ERW), table `deal_counterparties`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity_id` | The identifier of the thing, as namespace:native_id | none | text | for example counterparty:1komma5grad, counterparty:247_solar, counterparty:a_leading_frontier_ai_lab; 532 distinct | 0 |
-| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists) | none | text | company | 0 |
-| `name` | The thing's name, as the publisher writes it | none | text | for example 1Komma5Grad, 247 Solar, ACME Solar; 532 distinct | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | empty | no cell holds a value | 532 |
+| `entity_id` | The identifier of the thing, as namespace:native_id. Here: counterparty:<the name's words> | none | text | for example counterparty:1komma5grad, counterparty:247_solar, counterparty:a_leading_frontier_ai_lab; 532 distinct | 0 |
+| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists). Here: company on every row | none | text | company | 0 |
+| `name` | The thing's name, as the publisher writes it. Here: The canonical name: the spelling the deals use most | none | text | for example 1Komma5Grad, 247 Solar, ACME Solar; 532 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 532 |
 | `lat` | Latitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 532 |
 | `lon` | Longitude, in decimal degrees (WGS84) | degree | empty | no cell holds a value | 532 |
 | `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it | MW | empty | no cell holds a value | 532 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | empty | no cell holds a value | 532 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 532 |
 | `status_date` | The date the status took effect, or was reported where the effective date is unknown | none | empty | no cell holds a value | 532 |
 | `operator` | The operator or owner, as the publisher writes it | none | empty | no cell holds a value | 532 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:energy_deals | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | for example https://electrek.co/2026/09/27/nio-power-geely-30-stake-battery-swap-rmb16-billion/, https://heatmap.news/climate-tech/coreshell-series-b, https://lngprime.com/americas/argent-lng-awards-feed-contract/197559/; 383 distinct | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-13T15:10:45Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | text | 20261113T151045Z | 0 |
-| `kind` | not yet written |  | text | ai_buyer, company, government | 0 |
-| `parent` | not yet written |  | text | Aditya Birla, Adnoc, Amazon, BlackRock, Blackstone, Chevron, Constellation Energy, EIG, ExxonMobil, Geely Holding, General Motors, MAIRE, OGE Energy | 518 |
-| `eia861_utility_number` | not yet written |  | empty | no cell holds a value | 532 |
-| `spellings` | not yet written |  | text | for example 1Komma5Grad, 247 Solar, ACME Solar; 532 distinct | 0 |
-| `deals` | not yet written |  | integer | 1, 10, 11, 12, 14, 18, 2, 22, 3, 4, 5, 6, 7, 8, 9 | 0 |
-| `as_buyer` | not yet written |  | integer | 0, 1, 12, 13, 14, 15, 18, 2, 3, 4, 5, 6, 8, 9 | 0 |
-| `as_seller` | not yet written |  | integer | 0, 1, 2, 3, 4, 5, 6, 7, 8 | 0 |
-| `mw_stated` | not yet written |  | number | 20.0 to 5400.0; 31 distinct | 478 |
-| `deals_with_mw` | not yet written |  | integer | 0, 1, 2, 3, 4 | 0 |
-| `ai_power_deals` | not yet written |  | integer | 0, 1, 12, 13, 18, 2, 3, 4, 5, 6, 7, 9 | 0 |
-| `first_deal` | not yet written |  | date | 2025-01-05 to 2026-11-13; 164 distinct | 0 |
-| `last_deal` | not yet written |  | date | 2025-01-05 to 2026-11-13; 145 distinct | 0 |
-| `event_ids` | not yet written |  | text | for example deal:0046c6c22995488c, deal:0046c6c22995488c;deal:665d71e3ff9f1de4;deal:7e901b6ad732c6ca;deal:d64297631c27daa2, deal:006dc20ac6ffe6f3; 438 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The build's run id (a UTC timestamp), not a data date | none | text | 20261113T151045Z | 0 |
+| `kind` | The kind of counterparty: utility (an exact EIA-861 utility name), ai_buyer (a name on the AI-power rule's party list), government, or company | none | text | ai_buyer, company, government | 0 |
+| `parent` | The parent company, given only where the name's own words show it (a possessive, a unit or arm) or the alias list does | none | text | Aditya Birla, Adnoc, Amazon, BlackRock, Blackstone, Chevron, Constellation Energy, EIG, ExxonMobil, Geely Holding, General Motors, MAIRE, OGE Energy | 518: No parent shown by the name or the alias list |
+| `eia861_utility_number` | The EIA-861 utility number, where the name is exactly one utility's name in EIA-861 | none | empty | no cell holds a value | 532: No counterparty matches one EIA-861 utility (no cell holds a value) |
+| `spellings` | The spellings of the name the deals use, joined | none | text | for example 1Komma5Grad, 247 Solar, ACME Solar; 532 distinct | 0 |
+| `deals` | The deals that name the counterparty, as buyer or seller | count | integer | 1, 10, 11, 12, 14, 18, 2, 22, 3, 4, 5, 6, 7, 8, 9 | 0 |
+| `as_buyer` | The deals that name it as buyer | count | integer | 0, 1, 12, 13, 14, 15, 18, 2, 3, 4, 5, 6, 8, 9 | 0 |
+| `as_seller` | The deals that name it as seller | count | integer | 0, 1, 2, 3, 4, 5, 6, 7, 8 | 0 |
+| `mw_stated` | The sum of the MW its deals state | MW | number | 20.0 to 5400.0; 31 distinct | 478: None of its deals states a MW figure |
+| `deals_with_mw` | How many of its deals state a MW figure | count | integer | 0, 1, 2, 3, 4 | 0 |
+| `ai_power_deals` | How many of its deals are AI-power deals | count | integer | 0, 1, 12, 13, 18, 2, 3, 4, 5, 6, 7, 9 | 0 |
+| `first_deal` | The date of its earliest deal | none | date | 2025-01-05 to 2026-11-13; 164 distinct | 0 |
+| `last_deal` | The date of its latest deal | none | date | 2025-01-05 to 2026-11-13; 145 distinct | 0 |
+| `event_ids` | The event_ids of its deals in energy_deals, joined by ; | none | text | for example deal:0046c6c22995488c, deal:0046c6c22995488c;deal:665d71e3ff9f1de4;deal:7e901b6ad732c6ca;deal:d64297631c27daa2, deal:006dc20ac6ffe6f3; 438 distinct | 0 |
 
 ### `event_study_estimates`
 
@@ -1017,51 +1019,53 @@ Variables (10):
 
 ### `gas_balance_weekly`
 
-What a row is: not yet written.
+One EIA storage region's weekly working gas measure, or one monthly measure of the US natural gas balance.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: derived. Rows read on 2026-11-20: 40507.
 
+- **Time:** ts_utc is the storage report's week (freq P1W) or the first day of the month (freq P1M), at 00:00:00Z.
+- **Revisions:** Rewritten whole as one snapshot by each run of the builder from the EIA source tables; vintage is not filled.
 - **Source:** eia:natural-gas U.S. Energy Information Administration, Weekly Natural Gas Storage Report and Natural Gas Monthly
 - **Method note:** [`docs/methods/gas_balance_weekly.md`](../methods/gas_balance_weekly.md)
 - **Cite as:** Energy Research Warehouse (ERW), derived. The weekly gas storage balance and the monthly U.S. gas balance (docs/methods/gas_balance_weekly.md). Via the Energy Research Warehouse (ERW), table `gas_balance_weekly`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | gas_balance:US, gas_storage:east, gas_storage:lower48, gas_storage:midwest, gas_storage:mountain, gas_storage:nonsalt, gas_storage:pacific, gas_storage:salt, gas_storage:south_central | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: gas_storage:<EIA region> for the weekly rows, gas_balance:US for the monthly rows | none | text | gas_balance:US, gas_storage:east, gas_storage:lower48, gas_storage:midwest, gas_storage:mountain, gas_storage:nonsalt, gas_storage:pacific, gas_storage:salt, gas_storage:south_central | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2001-01-01T00:00:00Z to 2026-10-16T00:00:00Z; 1154 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -1047507.0 to 3921586.0; more than 5000 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MMcf, bcf, pct | 0 |
-| `freq` | How long the interval of the row is | none | text | P1M, P1W | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 40507 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | empty | no cell holds a value | 40507 |
+| `freq` | How long the interval of the row is. Here: P1W for storage rows, P1M for balance rows | none | text | P1M, P1W | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US on every row, whatever the region | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 40507 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 40507 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:gas_balance_weekly | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://github.com/SamuelEnrique/erw/blob/main/docs/methods/gas_balance_weekly.md | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-06T08:28:34Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 40507 |
-| `x_region` | not yet written |  | text | US, east, lower48, midwest, mountain, nonsalt, pacific, salt, south_central | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 40507 |
+| `x_region` | EIA's storage region (east, midwest, south_central, mountain, pacific, salt, nonsalt, lower48), or US on the monthly balance rows | none | text | US, east, lower48, midwest, mountain, nonsalt, pacific, salt, south_central | 0 |
 
 Variables (16):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `consumption` |  | MMcf | 307 | 2001-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
-| `dry_production` |  | MMcf | 307 | 2001-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
-| `exports` |  | MMcf | 139 | 2015-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
-| `five_year_avg_bcf` |  | bcf | 4912 | 2015-01-02T00:00:00Z | 2026-10-16T00:00:00Z |
-| `five_year_max_bcf` |  | bcf | 4912 | 2015-01-02T00:00:00Z | 2026-10-16T00:00:00Z |
-| `five_year_min_bcf` |  | bcf | 4912 | 2015-01-02T00:00:00Z | 2026-10-16T00:00:00Z |
-| `five_year_position_pct` |  | pct | 4912 | 2015-01-02T00:00:00Z | 2026-10-16T00:00:00Z |
-| `implied_balance` |  | MMcf | 139 | 2015-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
-| `imports` |  | MMcf | 139 | 2015-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
-| `lng_exports` |  | MMcf | 139 | 2015-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
-| `lng_share_pct` |  | pct | 139 | 2015-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
-| `net_change_bcf` |  | bcf | 7008 | 2010-01-08T00:00:00Z | 2026-10-16T00:00:00Z |
-| `power_burn` |  | MMcf | 307 | 2001-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
-| `power_share_pct` |  | pct | 307 | 2001-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
-| `vs_five_year_avg_bcf` |  | bcf | 4912 | 2015-01-02T00:00:00Z | 2026-10-16T00:00:00Z |
-| `working_gas_bcf` |  | bcf | 7016 | 2010-01-01T00:00:00Z | 2026-10-16T00:00:00Z |
+| `consumption` | US total natural gas consumption in the month | MMcf | 307 | 2001-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
+| `dry_production` | US dry natural gas production in the month | MMcf | 307 | 2001-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
+| `exports` | US natural gas exports in the month (pipeline to Canada and Mexico, and LNG) | MMcf | 139 | 2015-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
+| `five_year_avg_bcf` | The average working gas of the same ISO week in the five years before (written only when all five are held) | bcf | 4912 | 2015-01-02T00:00:00Z | 2026-10-16T00:00:00Z |
+| `five_year_max_bcf` | The highest working gas of the same ISO week in the five years before (written only when all five are held) | bcf | 4912 | 2015-01-02T00:00:00Z | 2026-10-16T00:00:00Z |
+| `five_year_min_bcf` | The lowest working gas of the same ISO week in the five years before (written only when all five are held) | bcf | 4912 | 2015-01-02T00:00:00Z | 2026-10-16T00:00:00Z |
+| `five_year_position_pct` | Working gas's place in the five-year range: 0 at the five-year low, 100 at the high | pct | 4912 | 2015-01-02T00:00:00Z | 2026-10-16T00:00:00Z |
+| `implied_balance` | Dry production plus imports less consumption less exports: what went to storage, the losses and EIA's balancing item (written only when all four are held) | MMcf | 139 | 2015-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
+| `imports` | US natural gas imports in the month (pipeline from Canada and Mexico, and LNG) | MMcf | 139 | 2015-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
+| `lng_exports` | US LNG exports in the month | MMcf | 139 | 2015-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
+| `lng_share_pct` | LNG exports as a percent of dry production | pct | 139 | 2015-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
+| `net_change_bcf` | Working gas less the week exactly 7 days before | bcf | 7008 | 2010-01-08T00:00:00Z | 2026-10-16T00:00:00Z |
+| `power_burn` | US natural gas consumed for electric power in the month | MMcf | 307 | 2001-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
+| `power_share_pct` | Power burn as a percent of consumption | pct | 307 | 2001-01-01T00:00:00Z | 2026-07-01T00:00:00Z |
+| `vs_five_year_avg_bcf` | Working gas less the five-year average | bcf | 4912 | 2015-01-02T00:00:00Z | 2026-10-16T00:00:00Z |
+| `working_gas_bcf` | Working gas in underground storage in the region at the report's week | bcf | 7016 | 2010-01-01T00:00:00Z | 2026-10-16T00:00:00Z |
 
 ### `generation_mix_hourly_profile`
 
@@ -1402,53 +1406,55 @@ Variables (10):
 
 ### `generator_pipeline_by_grid`
 
-What a row is: not yet written.
+One cell of EIA-860M's planned generators (balancing authority, state, energy source, status, planned year) in one snapshot month, or one balancing authority's (or the US's) move of planned generators between two months.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: derived. Rows read on 2026-11-20: 5147.
 
+- **Time:** ts_utc is the first day of the snapshot month (for a move, the later month) at 00:00:00Z; freq P1M.
+- **Revisions:** Rewritten whole as one snapshot by each run of the builder; it holds the snapshot months the machine keeps; vintage is the snapshot month (YYYY-MM).
 - **Source:** eia:860m U.S. Energy Information Administration, EIA-860M Monthly Update to the Annual Electric Generator Report
 - **Method note:** [`docs/methods/generator_pipeline_by_grid.md`](../methods/generator_pipeline_by_grid.md)
 - **Cite as:** Energy Research Warehouse (ERW), derived. EIA-860M's generator pipeline by grid and its monthly moves (docs/methods/generator_pipeline_by_grid.md). Via the Energy Research Warehouse (ERW), table `generator_pipeline_by_grid`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia860m_pipeline:AECI:MO:NG:U:2027, eia860m_pipeline:AECI:MO:WND:P:2029, eia860m_pipeline:AECI:OK:NG:V:2027; 924 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia860m_pipeline:<BA>:<state>:<energy source>:<status>:<planned year> for a cell; eia860m_pipeline:<BA> or eia860m_pipeline:US for a move | none | text | for example eia860m_pipeline:AECI:MO:NG:U:2027, eia860m_pipeline:AECI:MO:WND:P:2029, eia860m_pipeline:AECI:OK:NG:V:2027; 924 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2026-08-01T00:00:00Z, 2026-09-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 8832.0; 598 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW, count | 0 |
 | `freq` | How long the interval of the row is | none | text | P1M | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | for example US, US-AK, US-AL; 53 distinct | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 5147 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | empty | no cell holds a value | 5147 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US-<state> on a cell, US on a move row or where the state is not a two-letter code | none | text | for example US, US-AK, US-AL; 53 distinct | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 5147 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 5147 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:generator_pipeline_by_grid | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://www.eia.gov/electricity/data/eia860m/ | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-06T08:20:13Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | text | 2026-08, 2026-09 | 0 |
-| `x_ba` | not yet written |  | text | for example AECI, AVA, AVRN; 50 distinct | 0 |
-| `x_state` | not yet written |  | text | for example AK, AL, AR; 52 distinct | 134 |
-| `x_energy_source` | not yet written |  | text | AB, DFO, GEO, H2, LFG, MSW, MWH, NG, NUC, OBG, OBL, OBS, OTH, SUN, WAT, WH, WND | 134 |
-| `x_status` | not yet written |  | text | L, P, T, TS, U, V | 134 |
-| `x_planned_year` | not yet written |  | integer | 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2039 | 134 |
-| `x_from_vintage` | not yet written |  | text | 2026-08 | 5013 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The EIA-860M snapshot month (YYYY-MM) | none | text | 2026-08, 2026-09 | 0 |
+| `x_ba` | The balancing authority of the generators' plants, EIA code (none where EIA gives none); US on the national move rows (the source's name: Balancing Authority Code) | none | text | for example AECI, AVA, AVRN; 50 distinct | 0 |
+| `x_state` | The plants' state, two-letter code (the source's name: Plant State) | none | text | for example AK, AL, AR; 52 distinct | 134: Empty on the move rows |
+| `x_energy_source` | EIA's energy source code of the generators (NG natural gas, SUN solar, WND wind, MWH battery storage, NUC nuclear and others) (the source's name: Energy Source Code) | none | text | AB, DFO, GEO, H2, LFG, MSW, MWH, NG, NUC, OBG, OBL, OBS, OTH, SUN, WAT, WH, WND | 134: Empty on the move rows |
+| `x_status` | EIA's planned status code: P planned, regulatory approvals not started; L approvals pending; T approvals received, not under construction; U under construction, half or less complete; V under construction, more than half complete; TS construction complete, not yet operating (the source's name: Status) | none | text | L, P, T, TS, U, V | 134: Empty on the move rows |
+| `x_planned_year` | The generators' planned operation year (the source's name: Planned Operation Year) | none | integer | 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2039 | 134: Empty on the move rows |
+| `x_from_vintage` | The earlier snapshot month a move is measured from (YYYY-MM) | none | text | 2026-08 | 5013: Empty on the cell rows |
 
 Variables (13):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `datacenter_mw` |  | MW | 1671 | 2026-08-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `entered_count` |  | count | 14 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `entered_mw` |  | MW | 14 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `left_count` |  | count | 5 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `left_mw` |  | MW | 5 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `online_count` |  | count | 18 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `online_mw` |  | MW | 18 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `planned_count` |  | count | 1671 | 2026-08-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `planned_mw` |  | MW | 1671 | 2026-08-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `slipped_count` |  | count | 12 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `slipped_mw` |  | MW | 12 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `status_moved_count` |  | count | 18 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
-| `status_moved_mw` |  | MW | 18 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `datacenter_mw` | The MW of the cell's generators whose plant or owner name names a datacenter or a lab | MW | 1671 | 2026-08-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `entered_count` | Generators planned now and in neither list the month before | count | 14 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `entered_mw` | MW of generators planned now and in neither list the month before | MW | 14 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `left_count` | Generators planned the month before and in neither list now | count | 5 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `left_mw` | MW (the earlier month's) of generators planned the month before and in neither list now (cancelled, postponed or withdrawn, not told apart) | MW | 5 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `online_count` | Generators planned the month before and operating now | count | 18 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `online_mw` | MW (the earlier month's) of generators planned the month before and operating now | MW | 18 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `planned_count` | The cell's generators | count | 1671 | 2026-08-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `planned_mw` | The cell's nameplate capacity as EIA gives it | MW | 1671 | 2026-08-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `slipped_count` | Generators planned in both months whose planned year is later now | count | 12 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `slipped_mw` | MW of generators planned in both months whose planned year is later now | MW | 12 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `status_moved_count` | Generators planned in both months whose EIA status code changed | count | 18 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
+| `status_moved_mw` | MW of generators planned in both months whose EIA status code changed | MW | 18 | 2026-09-01T00:00:00Z | 2026-09-01T00:00:00Z |
 
 ### `hub_price_comparison`
 
@@ -1914,47 +1920,49 @@ Variables (168):
 
 ### `nuclear_fleet_status`
 
-What a row is: not yet written.
+One US reactor's, one grid's reactor fleet's or the whole US fleet's value of one measure (capacity, outages, available energy, uprates) for one year.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: derived. Rows read on 2026-11-20: 15048.
 
+- **Time:** ts_utc is the year's first day at 00:00:00Z; freq P1Y; the newest year runs to the newest day held.
+- **Revisions:** Rewritten whole as one snapshot by each run of the builder from EIA's daily outage table and EIA-860M; vintage is not filled.
 - **Source:** eia:nuclear-outages U.S. Energy Information Administration, Status of U.S. Nuclear Outages (from the NRC's power reactor status reports); EIA-860M
 - **Method note:** [`docs/methods/nuclear_fleet_status.md`](../methods/nuclear_fleet_status.md)
 - **Cite as:** Energy Research Warehouse (ERW), derived. The U.S. reactor fleet by reactor and year, and by grid (docs/methods/nuclear_fleet_status.md). Via the Energy Research Warehouse (ERW), table `nuclear_fleet_status`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example nuclear_fleet:1060:1, nuclear_fleet:1590:1, nuclear_fleet:1715:1; 124 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: nuclear_fleet:<facility>:<generator> for a reactor, nuclear_fleet:grid:<BA> for a grid's fleet, nuclear_fleet:US | none | text | for example nuclear_fleet:1060:1, nuclear_fleet:1590:1, nuclear_fleet:1715:1; 124 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2007-01-01T00:00:00Z, 2008-01-01T00:00:00Z, 2009-01-01T00:00:00Z, 2010-01-01T00:00:00Z, 2011-01-01T00:00:00Z, 2012-01-01T00:00:00Z, 2013-01-01T00:00:00Z, 2014-01-01T00:00:00Z, 2015-01-01T00:00:00Z, 2016-01-01T00:00:00Z, 2017-01-01T00:00:00Z, 2018-01-01T00:00:00Z, 2019-01-01T00:00:00Z, 2020-01-01T00:00:00Z, 2021-01-01T00:00:00Z, 2022-01-01T00:00:00Z, 2023-01-01T00:00:00Z, 2024-01-01T00:00:00Z, 2025-01-01T00:00:00Z, 2026-01-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -88.9 to 804217344.384; 4533 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW, MWh, count, ratio | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 15048 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example Arkansas Nuclear One, reactor 1, Arkansas Nuclear One, reactor 2, Beaver Valley, reactor 1; 107 distinct | 1340 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US on every row | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 15048 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The reactor's name (plant, reactor number) from EIA's outage table, not a pricing node; empty on the grid and US rows | none | text | for example Arkansas Nuclear One, reactor 1, Arkansas Nuclear One, reactor 2, Beaver Valley, reactor 1; 107 distinct | 1340 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:nuclear_fleet_status | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://github.com/SamuelEnrique/erw/blob/main/docs/methods/nuclear_fleet_status.md | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-19T17:53:25Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 15048 |
-| `x_facility` | not yet written |  | integer | 46 to 8907; 66 distinct | 1340 |
-| `x_generator` | not yet written |  | integer | 1, 2, 3, 4 | 1340 |
-| `x_ba` | not yet written |  | text | BPAT, CISO, CPLE, DUK, ERCO, FPL, ISNE, MISO, NYIS, PJM, SCEG, SOCO, SRP, SWPP, TVA, none | 80 |
-| `x_first` | not yet written |  | date | 2007-01-01, 2015-10-27, 2022-10-13, 2023-08-21 | 1340 |
-| `x_last` | not yet written |  | date | 2012-12-31, 2014-11-30, 2016-09-30, 2018-08-31, 2019-04-30, 2019-08-31, 2020-03-31, 2020-10-31, 2021-03-31, 2026-11-19 | 1340 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 15048 |
+| `x_facility` | EIA's plant id of the reactor | none | integer | 46 to 8907; 66 distinct | 1340: Empty on the grid and US rows |
+| `x_generator` | EIA's reactor (generator) id within the plant | none | integer | 1, 2, 3, 4 | 1340: Empty on the grid and US rows |
+| `x_ba` | The balancing authority of the reactor's plant in EIA-860M (none where EIA-860M lists no operating nuclear generator at the plant); on a grid row, the grid | none | text | BPAT, CISO, CPLE, DUK, ERCO, FPL, ISNE, MISO, NYIS, PJM, SCEG, SOCO, SRP, SWPP, TVA, none | 80: Empty on the US rows |
+| `x_first` | The reactor's first day held (a day after 1 January 2007 is a restart) | none | date | 2007-01-01, 2015-10-27, 2022-10-13, 2023-08-21 | 1340: Empty on the grid and US rows |
+| `x_last` | The reactor's last day held (a day before the newest day is a retirement) | none | date | 2012-12-31, 2014-11-30, 2016-09-30, 2018-08-31, 2019-04-30, 2019-08-31, 2020-03-31, 2020-10-31, 2021-03-31, 2026-11-19 | 1340: Empty on the grid and US rows |
 
 Variables (8):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `available_mwh` |  | MWh | 2308 | 2007-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
-| `capacity_change_mw` |  | MW | 1861 | 2008-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
-| `capacity_mw` |  | MW | 2308 | 2007-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
-| `days_held` |  | count | 1982 | 2007-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
-| `full_outage_days` |  | count | 1973 | 2007-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
-| `long_outages` |  | count | 1973 | 2007-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
-| `outage_share` |  | ratio | 2308 | 2007-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
-| `reactors` |  | count | 335 | 2007-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
+| `available_mwh` | Capacity less outage, times 24, summed over the year's days (summed over reactors on a grid or US row) | MWh | 2308 | 2007-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
+| `capacity_change_mw` | capacity_mw less the year before's: an uprate or a derate | MW | 1861 | 2008-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
+| `capacity_mw` | The year's highest daily capacity (summed over the reactors on a grid or US row) | MW | 2308 | 2007-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
+| `days_held` | Days of the year held | count | 1982 | 2007-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
+| `full_outage_days` | Days in the year the reactor was 99 percent out or more | count | 1973 | 2007-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
+| `long_outages` | Runs of 14 or more full-outage days in a row (refuelings and long outages) | count | 1973 | 2007-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
+| `outage_share` | Outage MW-days over capacity MW-days in the year | ratio | 2308 | 2007-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
+| `reactors` | Reactors counted in the grid's or the US fleet in the year | count | 335 | 2007-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
 
 ### `region_weather_hourly`
 
@@ -1987,40 +1995,42 @@ Variables (1):
 
 ### `resource_layer_features`
 
-What a row is: not yet written.
+One grid cell, site or area of one layer of the natural resource map (wind, solar, geothermal, hydropower, biomass, oil and gas basins and plays, coal fields), with its value.
 
 Shape: entities. Keys: `entity_id`. License: public; tier: derived. Rows read on 2026-11-20: 1371628.
 
+- **Time:** No time column; vintage names the period or edition of the publisher's data; the table is a snapshot as built.
+- **Revisions:** Rewritten whole as one snapshot by each run of the builder from the map's layer files and the saved USGS coal fields file.
 - **Source:** erw:resource_layer_features the ERW's reduction of each publisher's file (warehouse/connectors/resource_layers.py): wind_speed_100m: National Laboratory of the Rockies (NLR), until 2025 the National Renewable Energy Laboratory (NREL),  (sha256 3c9f29dedc92e6ef8107ba0272575d255d91fee6d96a7c455c8365bbeae6d109); solar_ghi: National Laboratory of the Rockies (NLR), until 2025 the National Renewable Energy Laboratory (NREL),  (sha256 55531ec07a5f4c47c0c8fe74407f71ca4733fa221c843063b13c9c1f93bca4fc); solar_dni: National Laboratory of the Rockies (NLR), until 2025 the National Renewable Energy Laboratory (NREL),  (sha256 97f0e7e621f6fef9d9b15f70a0163f46aa7a0837b66c1fe7d984fad0ff4c2dc0); wind_capacity_factor: National Laboratory of the Rockies (NLR), until 2025 the National Renewable Energy Laboratory (NREL),  (sha256 ef13116bd66f31157b2f7db6369831d63f3098877e91c6163766dbe6da47eb7d); geothermal_hydrothermal_sites: U.S. Geological Survey (USGS),  (sha256 7724cb19112c68c21e50883d7fb73bbe6b98a872f6e319753b5c8c2f7df2bfc7); hydropower_npd: Oak Ridge National Laboratory (HydroSource), for the U.S. Department of Energy,  (sha256 84635b4faecc332c31ab53fbbd7c42be7469d75bb2c1ca3c6827d2ac296aaf2f); geothermal_hydrothermal_favorability: U.S. Geological Survey (USGS),  (sha256 d9eb255587626875580aab4c1705031d63717d79080b530ffe0ce30f206eff78); geothermal_egs_favorability: National Laboratory of the Rockies (NLR), until 2025 the National Renewable Energy Laboratory (NREL),  (sha256 fdf8bcfb6dcc98252ae9a7d6389d27fa0c579d3a72021790b38bf3eb8b76c6af); oil_gas_basins: U.S. Energy Information Administration (EIA),  (sha256 02a017ccb84bdcc15726838098e3cfa73450b9655cf06e28d2eca6f3c04edcff); oil_gas_plays: U.S. Energy Information Administration (EIA),  (sha256 c09b3bd2982754cfb63d12bbbfde6c6c5e8c02eee73e54d231a7c7de73f0541e); hydropower_nsd: Oak Ridge National Laboratory (HydroSource), for the U.S. Department of Energy,  (sha256 a8ab06e4dfea4a31f1dd293d6358af932bd839f4a41d59a181600a3877fb28f9); biomass: National Laboratory of the Rockies (NLR), until 2025 the National Renewable Energy Laboratory (NREL),  (sha256 f48ee40d6de1859d6f3cabc841b631a55287c4282bfe974719fd89555672f54d); coal_fields: usgs:of2012_1205_coal_fields  (sha256 e491215d0a937cae48cc5e9a2763ea43c85a4d11c183ec7c5b1ac559d2a585a5) (https://pubs.usgs.gov/of/2012/1205/Downloads/GIS.zip)
 - **Method note:** [`docs/methods/resource_layers_table.md`](../methods/resource_layers_table.md)
 - **Cite as:** Energy Research Warehouse (ERW), derived; National Laboratory of the Rockies (NLR, formerly NREL); Oak Ridge National Laboratory (HydroSource), for the U.S. Department of Energy; U.S. Energy Information Administration (EIA); U.S. Geological Survey (USGS). Favorability of deep enhanced geothermal systems, lower 48, shapefile (2009); Geothermal Favorability Map Derived From Logistic Regression Models (2008 assessment; ScienceBase, doi:10.5066/P137NMXE); Hydropower Potential from New Stream-Reach Development for the Conterminous United States, aggregated summary of HUC10 watersheds (2014, version 1); NSRDB Physical Solar Model version 3 Direct Normal Irradiance, multi-year (1998-2016) annual and monthly averages, GeoTIFF; NSRDB Physical Solar Model version 3 Global Horizontal Irradiance, multi-year (1998-2016) annual and monthly averages, GeoTIFF; Open-File Report 2012-1205: Coal fields of the conterminous United States, National Coal Resource Assessment updated version (East, 2013); Solid biomass resources by county, shapefile (data for 2012, published 2014); Technical Potential for Hydropower Capacity at Non-powered Dams (2024, revised 25 June 2025; doi:10.21951/HydroCapacity_NPD/2570407); The natural resource map's layers as a table (docs/methods/resource_layers_table.md); Tight Oil and Shale Gas Plays in the U.S., Lower 48, shapefile, updated December 2021; U.S. Sedimentary Basins, shapefile (EIA maps, layer information for interactive state maps); WIND Toolkit, Multi-year (2007-2013) Annual Average Wind Speed at all heights, GeoTIFF, 2 km. Via the Energy Research Warehouse (ERW), table `resource_layer_features`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity_id` | The identifier of the thing, as namespace:native_id | none | text | for example resource:wind_speed_100m:r0c685, resource:wind_speed_100m:r0c686, resource:wind_speed_100m:r0c687; more than 5000 distinct | 0 |
-| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists) | none | text | resource | 0 |
+| `entity_id` | The identifier of the thing, as namespace:native_id. Here: resource:<layer>:r<row>c<column> for a grid cell, resource:<layer>:<the feature's place in its layer> for a site or area | none | text | for example resource:wind_speed_100m:r0c685, resource:wind_speed_100m:r0c686, resource:wind_speed_100m:r0c687; more than 5000 distinct | 0 |
+| `entity_type` | What kind of thing the row is (plant, generator, project, datacenter, utility, company and the others the standard lists). Here: resource on every row | none | text | resource | 0 |
 | `name` | The thing's name, as the publisher writes it | none | text | for example wind_speed_100m cell r0 c685, wind_speed_100m cell r0 c686, wind_speed_100m cell r0 c687; more than 5000 distinct | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
-| `lat` | Latitude, in decimal degrees (WGS84) | degree | number | 19.478 to 69.30839; more than 5000 distinct | 0 |
-| `lon` | Longitude, in decimal degrees (WGS84) | degree | number | -176.616 to -65.675; more than 5000 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US on every row | none | text | US | 0 |
+| `lat` | Latitude, in decimal degrees (WGS84). Here: The cell's center or the feature's centroid | degree | number | 19.478 to 69.30839; more than 5000 distinct | 0 |
+| `lon` | Longitude, in decimal degrees (WGS84). Here: The cell's center or the feature's centroid | degree | number | -176.616 to -65.675; more than 5000 distinct | 0 |
 | `capacity_mw` | Nameplate capacity, in megawatts, as the publisher states it | MW | empty | no cell holds a value | 1371628 |
-| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended) | none | empty | no cell holds a value | 1371628 |
+| `status` | The thing's state in the ERW's own words (operating, planned, under_construction, retired, withdrawn, active, completed, suspended). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 1371628 |
 | `status_date` | The date the status took effect, or was reported where the effective date is unknown | none | empty | no cell holds a value | 1371628 |
 | `operator` | The operator or owner, as the publisher writes it | none | empty | no cell holds a value | 1371628 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:resource_layer_features, usgs:of2012_1205_coal_fields | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://data.openei.org/files/8314/lbw_open_access_2035_moderate_115hh_170rd_supply_curve.csv, https://hydrosource.s3.us-east-2.amazonaws.com/files/data/datasets/hydropower-capacity-us-npd/TechPotentialNPDs.csv, https://hydrosource.s3.us-east-2.amazonaws.com/files/data/datasets/hydropower-potential-new-stream-reach-development-conterminous-united-states/ORNL_NHAAP_NSD_SR_All_v1.zip, https://pubs.usgs.gov/of/2012/1205/Downloads/GIS.zip, https://www.eia.gov/maps/map_data/SedimentaryBasins_US_EIA.zip, https://www.eia.gov/maps/map_data/TightOil_ShaleGas_Plays_Lower48_EIA.zip, https://www.nlr.gov/docs/libraries/gis/egs.zip, https://www.nlr.gov/docs/libraries/gis/nsrdbv3_dni.zip, https://www.nlr.gov/docs/libraries/gis/nsrdbv3_ghi.zip, https://www.nlr.gov/docs/libraries/gis/solid-biomass.zip, https://www.nlr.gov/docs/libraries/gis/us-wind-data.zip, https://www.sciencebase.gov/catalog/file/get/6606ed51d34e4df16bd58251?f=__disk__79%2Fb1%2Fce%2F79b1ce18796d6fc4ae5b9292c58bd8aaee4846e5, https://www.sciencebase.gov/catalog/file/get/6606f534d34e4df16bd58277?f=__disk__ae%2Fbd%2F32%2Faebd32c1cf3b64ce4f19dc6e2535e5a5bc3382da | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-10-07T21:26:20Z, 2026-10-07T21:33:22Z, 2026-10-07T21:33:58Z, 2026-10-07T21:34:33Z, 2026-10-07T21:39:30Z, 2026-10-07T21:39:32Z, 2026-10-07T21:39:34Z, 2026-10-07T21:39:39Z, 2026-10-07T21:39:41Z, 2026-10-08T08:45:07Z, 2026-10-08T08:47:16Z, 2026-11-19T12:39:54Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | text | 1998-2016 (the file's metadata: "The data are averaged from hourly model output over 19 years (1998-2016)"); publication date 2018, 2007-2013 (the file's metadata: "Multi-year (2007-2013) Annual Average Wind Speed, meters per second, at 100 meters above surface level"); publication date 2015, 2009 (the file's metadata: analyses "performed by NREL (2009)" on temperature at depth from Southern Methodist University Geothermal Laboratory, Blackwell and Richards, 2009); metadata dated 23 February 2012, 2013, as of 5-6-2011 (the file's metadata: "Sedimentary basins associated with the EIA shale plays as of 5-6-2011"); file modified 10 March 2016, data for 2012 (the file's metadata: "Data for 2012, in dry metric tons/year"); published 30 October 2014, published 3 October 2024, revised 25 June 2025 (HydroSource's page; the file on its server is dated 25 June 2025); the file's readme: "These estimates represent the conditions over the historical period of 1980-2015", published 31 December 2014 (HydroSource's page); the file's own metadata is dated 10 January 2014 and its workbook was created on 2013-03-15, version 1; the years of flow behind the estimate are not stated in the files, the 2008 assessment (USGS Fact Sheet 2008-3082); the data file is dated 2010 and was released again on ScienceBase on 29 March 2024 (metadata date 20240329), the 2008 assessment; the data file is dated 2010 and was released again on ScienceBase on 29 March 2024 (metadata date 20240329), the 2024 edition, published 2025-01-01 on the Open Energy Data Initiative; the file models a 2035 turbine ("2035 moderate", 115 m hub height, 170 m rotor diameter); the weather years behind the mean are not stated in the files, updated December 2021 (the file's metadata: "Updated December 2021 with addition of Spraberry and Wolfcamp Plays in the Permian Basin") | 0 |
-| `x_layer` | not yet written |  | text | biomass, coal_fields, geothermal_egs_favorability, geothermal_hydrothermal_favorability, geothermal_hydrothermal_sites, hydropower_npd, hydropower_nsd, oil_gas_basins, oil_gas_plays, solar_dni, solar_ghi, wind_capacity_factor, wind_speed_100m | 0 |
-| `x_kind` | not yet written |  | text | HUC10 watershed, coal field, county, deep enhanced geothermal favorability class, grid cell, relative favorability class, sedimentary basin, site, tight oil and shale gas play | 0 |
-| `x_value` | not yet written |  | number | 0.0 to 2002700.0; more than 5000 distinct | 602 |
-| `x_unit` | not yet written |  | text | MW, MWe, class (1 most favorable, 5 least favorable, 999 not assessed), class (the source's GRIDCODE, 1 to 10), dry metric tons/year, kWh/m2/day, m/s, ratio, square miles | 602 |
-| `x_value_label` | not yet written |  | text | Mean Megawatts electric (MWe), the source's MWe_Mean, Mean capacity factor across 11.5km grid-cell (the source's capacity_factor_ac), Nominal capacity (the source's cap_mw), The HUC10-level Total Potential capacity from identified stream-reaches with capacity greater than 1MW (the source's P_MW_Sum, a HUC10 total), all solid biomass resources of the county (the source's Total), annual average daily total solar resource, annual mean wind speed, area of the basin (the source's Area_sq_mi), area of the play (the source's Area_sq_mi), coal field (province, age and rank as USGS gives them), relative favorability class (the source's GRIDCODE, with its Descript range), relative favorability of the deep enhanced geothermal resource (the source's CLASS) | 0 |
-| `x_publisher` | not yet written |  | text | National Laboratory of the Rockies (NLR), until 2025 the National Renewable Energy Laboratory (NREL), Oak Ridge National Laboratory (HydroSource), for the U.S. Department of Energy, U.S. Energy Information Administration (EIA), U.S. Geological Survey, U.S. Geological Survey (USGS) | 0 |
-| `x_cell_deg` | not yet written |  | number | 0.05 | 66266 |
-| `x_area_km2` | not yet written |  | number | 0.0 to 810228.9; more than 5000 distinct | 1364759 |
-| `x_extra` | not yet written |  | text | for example {"Basin":"Anadarko","Lithology":"Shale","Shale_play":"Woodford","References":"Hand-drawn boundary around wells from OK Geol Surv","Source":"EIA","Area_sq_mi":3351.7712898,"Area_sq_km":8681.04778802,"ID":"WOO001","Age_shale":"Devonian"}, {"Basin":"Appalachian","Lithology":"Mixed Shale & Limestone","Shale_play":"Utica","References":"Appalachian Oil and Natural Gas Research Consortium, and USGS","Source":"EIA","Area_sq_mi":59054.2252868,"Area_sq_km":152949.741338,"ID":"UTI001","Age_shale":"Ordovician"}, {"Basin":"Appalachian","Lithology":"Shale","Shale_play":"Chattanooga","References":"5 TN counties with wells operated by CNX and Magellan","Source":"EIA","Area_sq_mi":1448.13143073,"Area_sq_km":3750.6431873,"ID":"CHA001","Age_shale":"Devonian"}; more than 5000 distinct | 1305362 |
-| `x_source_sha256` | not yet written |  | text | 02a017ccb84bdcc15726838098e3cfa73450b9655cf06e28d2eca6f3c04edcff, 3c9f29dedc92e6ef8107ba0272575d255d91fee6d96a7c455c8365bbeae6d109, 55531ec07a5f4c47c0c8fe74407f71ca4733fa221c843063b13c9c1f93bca4fc, 7724cb19112c68c21e50883d7fb73bbe6b98a872f6e319753b5c8c2f7df2bfc7, 84635b4faecc332c31ab53fbbd7c42be7469d75bb2c1ca3c6827d2ac296aaf2f, 97f0e7e621f6fef9d9b15f70a0163f46aa7a0837b66c1fe7d984fad0ff4c2dc0, a8ab06e4dfea4a31f1dd293d6358af932bd839f4a41d59a181600a3877fb28f9, c09b3bd2982754cfb63d12bbbfde6c6c5e8c02eee73e54d231a7c7de73f0541e, d9eb255587626875580aab4c1705031d63717d79080b530ffe0ce30f206eff78, e491215d0a937cae48cc5e9a2763ea43c85a4d11c183ec7c5b1ac559d2a585a5, ef13116bd66f31157b2f7db6369831d63f3098877e91c6163766dbe6da47eb7d, f48ee40d6de1859d6f3cabc841b631a55287c4282bfe974719fd89555672f54d, fdf8bcfb6dcc98252ae9a7d6389d27fa0c579d3a72021790b38bf3eb8b76c6af | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: The period or edition of the layer's data in words, from the publisher's file (for example 2007-2013 with the publication date) | none | text | 1998-2016 (the file's metadata: "The data are averaged from hourly model output over 19 years (1998-2016)"); publication date 2018, 2007-2013 (the file's metadata: "Multi-year (2007-2013) Annual Average Wind Speed, meters per second, at 100 meters above surface level"); publication date 2015, 2009 (the file's metadata: analyses "performed by NREL (2009)" on temperature at depth from Southern Methodist University Geothermal Laboratory, Blackwell and Richards, 2009); metadata dated 23 February 2012, 2013, as of 5-6-2011 (the file's metadata: "Sedimentary basins associated with the EIA shale plays as of 5-6-2011"); file modified 10 March 2016, data for 2012 (the file's metadata: "Data for 2012, in dry metric tons/year"); published 30 October 2014, published 3 October 2024, revised 25 June 2025 (HydroSource's page; the file on its server is dated 25 June 2025); the file's readme: "These estimates represent the conditions over the historical period of 1980-2015", published 31 December 2014 (HydroSource's page); the file's own metadata is dated 10 January 2014 and its workbook was created on 2013-03-15, version 1; the years of flow behind the estimate are not stated in the files, the 2008 assessment (USGS Fact Sheet 2008-3082); the data file is dated 2010 and was released again on ScienceBase on 29 March 2024 (metadata date 20240329), the 2008 assessment; the data file is dated 2010 and was released again on ScienceBase on 29 March 2024 (metadata date 20240329), the 2024 edition, published 2025-01-01 on the Open Energy Data Initiative; the file models a 2035 turbine ("2035 moderate", 115 m hub height, 170 m rotor diameter); the weather years behind the mean are not stated in the files, updated December 2021 (the file's metadata: "Updated December 2021 with addition of Spraberry and Wolfcamp Plays in the Permian Basin") | 0 |
+| `x_layer` | The map layer the row belongs to (wind_speed_100m, solar_ghi, solar_dni, wind_capacity_factor, geothermal, hydropower, biomass, oil_gas_basins, oil_gas_plays, coal_fields) | none | text | biomass, coal_fields, geothermal_egs_favorability, geothermal_hydrothermal_favorability, geothermal_hydrothermal_sites, hydropower_npd, hydropower_nsd, oil_gas_basins, oil_gas_plays, solar_dni, solar_ghi, wind_capacity_factor, wind_speed_100m | 0 |
+| `x_kind` | What the row is: grid cell, site, or the area's kind (county, HUC10 watershed, sedimentary basin, play, favorability class, coal field) | none | text | HUC10 watershed, coal field, county, deep enhanced geothermal favorability class, grid cell, relative favorability class, sedimentary basin, site, tight oil and shale gas play | 0 |
+| `x_value` | The layer's value for the cell, site or area, in x_unit (x_value_label says what it is) | the row's x_unit | number | 0.0 to 2002700.0; more than 5000 distinct | 602: Empty on the coal fields, which have no value (province, field, age and rank are in x_extra) |
+| `x_unit` | The unit of x_value (m/s, kWh/m2/day, ratio, MW, MWe, class, dry metric tons/year, square miles) | none | text | MW, MWe, class (1 most favorable, 5 least favorable, 999 not assessed), class (the source's GRIDCODE, 1 to 10), dry metric tons/year, kWh/m2/day, m/s, ratio, square miles | 602: Empty on the coal fields |
+| `x_value_label` | What x_value is, in the publisher's words where it gives them | none | text | Mean Megawatts electric (MWe), the source's MWe_Mean, Mean capacity factor across 11.5km grid-cell (the source's capacity_factor_ac), Nominal capacity (the source's cap_mw), The HUC10-level Total Potential capacity from identified stream-reaches with capacity greater than 1MW (the source's P_MW_Sum, a HUC10 total), all solid biomass resources of the county (the source's Total), annual average daily total solar resource, annual mean wind speed, area of the basin (the source's Area_sq_mi), area of the play (the source's Area_sq_mi), coal field (province, age and rank as USGS gives them), relative favorability class (the source's GRIDCODE, with its Descript range), relative favorability of the deep enhanced geothermal resource (the source's CLASS) | 0 |
+| `x_publisher` | The publisher of the layer's data | none | text | National Laboratory of the Rockies (NLR), until 2025 the National Renewable Energy Laboratory (NREL), Oak Ridge National Laboratory (HydroSource), for the U.S. Department of Energy, U.S. Energy Information Administration (EIA), U.S. Geological Survey, U.S. Geological Survey (USGS) | 0 |
+| `x_cell_deg` | The grid cell's size in degrees | degree | number | 0.05 | 66266: Empty on sites and areas |
+| `x_area_km2` | The area's size on a sphere of radius 6,371.0088 km | km2 | number | 0.0 to 810228.9; more than 5000 distinct | 1364759: Empty on grid cells and sites |
+| `x_extra` | The publisher's other fields for the site or area, as JSON | none | text | for example {"Basin":"Anadarko","Lithology":"Shale","Shale_play":"Woodford","References":"Hand-drawn boundary around wells from OK Geol Surv","Source":"EIA","Area_sq_mi":3351.7712898,"Area_sq_km":8681.04778802,"ID":"WOO001","Age_shale":"Devonian"}, {"Basin":"Appalachian","Lithology":"Mixed Shale & Limestone","Shale_play":"Utica","References":"Appalachian Oil and Natural Gas Research Consortium, and USGS","Source":"EIA","Area_sq_mi":59054.2252868,"Area_sq_km":152949.741338,"ID":"UTI001","Age_shale":"Ordovician"}, {"Basin":"Appalachian","Lithology":"Shale","Shale_play":"Chattanooga","References":"5 TN counties with wells operated by CNX and Magellan","Source":"EIA","Area_sq_mi":1448.13143073,"Area_sq_km":3750.6431873,"ID":"CHA001","Age_shale":"Devonian"}; more than 5000 distinct | 1305362: Empty on grid cells |
+| `x_source_sha256` | The SHA-256 of the publisher's file the row was read from | none | text | 02a017ccb84bdcc15726838098e3cfa73450b9655cf06e28d2eca6f3c04edcff, 3c9f29dedc92e6ef8107ba0272575d255d91fee6d96a7c455c8365bbeae6d109, 55531ec07a5f4c47c0c8fe74407f71ca4733fa221c843063b13c9c1f93bca4fc, 7724cb19112c68c21e50883d7fb73bbe6b98a872f6e319753b5c8c2f7df2bfc7, 84635b4faecc332c31ab53fbbd7c42be7469d75bb2c1ca3c6827d2ac296aaf2f, 97f0e7e621f6fef9d9b15f70a0163f46aa7a0837b66c1fe7d984fad0ff4c2dc0, a8ab06e4dfea4a31f1dd293d6358af932bd839f4a41d59a181600a3877fb28f9, c09b3bd2982754cfb63d12bbbfde6c6c5e8c02eee73e54d231a7c7de73f0541e, d9eb255587626875580aab4c1705031d63717d79080b530ffe0ce30f206eff78, e491215d0a937cae48cc5e9a2763ea43c85a4d11c183ec7c5b1ac559d2a585a5, ef13116bd66f31157b2f7db6369831d63f3098877e91c6163766dbe6da47eb7d, f48ee40d6de1859d6f3cabc841b631a55287c4282bfe974719fd89555672f54d, fdf8bcfb6dcc98252ae9a7d6389d27fa0c579d3a72021790b38bf3eb8b76c6af | 0 |
 
 ### `scarcity_hours_by_grid`
 
@@ -2371,42 +2381,44 @@ Shape: events. Keys: `event_id`. License: public; tier: model_extracted. Rows re
 
 ### `subregion_demand_growth`
 
-What a row is: not yet written.
+One EIA-930 sub-region's value of one demand measure (peak, average, energy, hours, growth) for one UTC calendar year.
 
 Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: derived. Rows read on 2026-11-20: 3918.
 
+- **Time:** ts_utc is the year's first hour (UTC); freq P1Y; years are UTC calendar years; x_at is the peak hour's start (UTC).
+- **Revisions:** Rewritten whole as one snapshot by each run of the builder from the EIA-930 sub-region hourly tables; vintage is not filled.
 - **Source:** eia:electricity/rto/region-sub-ba-data U.S. Energy Information Administration, Hourly Electric Grid Monitor, demand by subregion
 - **Method note:** [`docs/methods/subregion_demand_growth.md`](../methods/subregion_demand_growth.md)
 - **Cite as:** Energy Research Warehouse (ERW), derived. Every EIA-930 sub-region's peak and average demand by year (docs/methods/subregion_demand_growth.md). Via the Energy Research Warehouse (ERW), table `subregion_demand_growth`.
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station) | none | text | for example eia930_subba:BHBA:BASI, eia930_subba:BHBA:SDE, eia930_subba:BHBA:WYE; 90 distinct | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: eia930_subba:<parent>:<subba>, the source table's | none | text | for example eia930_subba:BHBA:BASI, eia930_subba:BHBA:SDE, eia930_subba:BHBA:WYE; 90 distinct | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2019-01-01T00:00:00Z, 2020-01-01T00:00:00Z, 2021-01-01T00:00:00Z, 2022-01-01T00:00:00Z, 2023-01-01T00:00:00Z, 2024-01-01T00:00:00Z, 2025-01-01T00:00:00Z, 2026-01-01T00:00:00Z | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | -41.0359 to 178311777.0; 2655 distinct | 0 |
 | `unit` | The unit of the row's value | none | text | MW, MWh, count, pct | 0 |
 | `freq` | How long the interval of the row is | none | text | P1Y | 0 |
-| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX) | none | text | US | 0 |
-| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm) | none | empty | no cell holds a value | 3918 |
-| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH) | none | text | for example AEPW American Electric Power West (Southwest Power Pool), Allegheny Power zone (PJM Interconnection, LLC), American Electric Power zone (PJM Interconnection, LLC); 90 distinct | 0 |
+| `geo` | Where the thing is, as an ISO 3166-2 code (US-TX). Here: US on every row | none | text | US | 0 |
+| `market` | The market the value belongs to, lowercase (ercot_dam, ercot_rtm). Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 3918 |
+| `node` | The pricing node, hub or zone, written exactly as the publisher writes it (HB_NORTH). Here: The sub-region's code and name with its parent, from the source table, not a pricing node | none | text | for example AEPW American Electric Power West (Southwest Power Pool), Allegheny Power zone (PJM Interconnection, LLC), American Electric Power zone (PJM Interconnection, LLC); 90 distinct | 0 |
 | `source` | The publisher and its report or product, as organization:report_id (ercot:NP4-190-CD) | none | text | erw:subregion_demand_growth | 0 |
 | `source_url` | The address of the exact document the row was read from | none | text | https://github.com/SamuelEnrique/erw/blob/main/docs/methods/subregion_demand_growth.md | 0 |
 | `retrieved_at` | When the ERW fetched the document, in UTC | none | utc time | 2026-11-05T22:06:29Z | 0 |
-| `vintage` | When the publisher published the document the value came from, in UTC | none | empty | no cell holds a value | 3918 |
-| `x_at` | not yet written |  | utc time | 2019-01-03T01:00:00Z to 2025-12-30T22:00:00Z; 360 distinct | 3366 |
-| `x_parent` | not yet written |  | text | BHBA, CISO, ERCO, ISNE, MISO, NYIS, PJM, PNM, SWPP, SWPW | 0 |
-| `x_subba` | not yet written |  | text | for example 0001, 0004, 0006; 90 distinct | 0 |
+| `vintage` | When the publisher published the document the value came from, in UTC. Here: Not filled: no cell holds a value | none | empty | no cell holds a value | 3918 |
+| `x_at` | The peak hour's start, UTC | none | utc time | 2019-01-03T01:00:00Z to 2025-12-30T22:00:00Z; 360 distinct | 3366: Empty on every variable but peak_mw |
+| `x_parent` | The sub-region's parent balancing authority, EIA-930 code | none | text | BHBA, CISO, ERCO, ISNE, MISO, NYIS, PJM, PNM, SWPP, SWPW | 0 |
+| `x_subba` | The sub-region's EIA-930 code | none | text | for example 0001, 0004, 0006; 90 distinct | 0 |
 
 Variables (7):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `avg_growth_pct` |  | pct | 466 | 2020-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `avg_mw` |  | MW | 552 | 2019-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `energy_mwh` |  | MWh | 552 | 2019-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `hours_in_year` |  | count | 665 | 2019-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
-| `hours_used` |  | count | 665 | 2019-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
-| `peak_growth_pct` |  | pct | 466 | 2020-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
-| `peak_mw` |  | MW | 552 | 2019-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `avg_growth_pct` | Growth of avg_mw from the year before, percent | pct | 466 | 2020-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `avg_mw` | The mean demand over the hours used | MW | 552 | 2019-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `energy_mwh` | The demand summed over the hours used | MWh | 552 | 2019-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `hours_in_year` | Hours in the year | count | 665 | 2019-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
+| `hours_used` | Hours used (held and passing the screen of impossible hours) | count | 665 | 2019-01-01T00:00:00Z | 2026-01-01T00:00:00Z |
+| `peak_growth_pct` | Growth of peak_mw from the year before, percent | pct | 466 | 2020-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
+| `peak_mw` | The year's highest used hour of demand | MW | 552 | 2019-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 

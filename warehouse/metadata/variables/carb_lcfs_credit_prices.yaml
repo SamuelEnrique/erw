@@ -5,9 +5,10 @@
 table: carb_lcfs_credit_prices
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One week's value of one Low Carbon Fuel Standard credit measure, as the California Air Resources Board publishes it.
+time: ts_utc is the Monday of the week (Monday to Sunday) at 00:00:00Z; freq P1W.
+vintage_rule: Rewritten whole by each run (the whole history from 2019 is read each run, so revisions are picked up); vintage
+  is not filled.
 keys:
 - entity
 - variable
@@ -40,6 +41,7 @@ columns:
     list:
       carb:lcfs_credit: 1145
   missing_cells: 0
+  particular: carb:lcfs_credit on every row
 - name: variable
   shared: true
   type: text
@@ -90,6 +92,7 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 1145
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -97,6 +100,7 @@ columns:
     list:
       LCFS credit: 1145
   missing_cells: 0
+  particular: LCFS credit on every row, not a pricing node
 - name: source
   shared: true
   type: text
@@ -124,21 +128,24 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 1145
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: credit_price_type1_weekly_avg
-  label: null
+  label: Volume-weighted average price of the week's non-zero Type 1 credit transfers (executed within 10 days of the agreement),
+    USD per credit (one metric ton of CO2 equivalent)
   unit: USD/tCO2
   rows: 368
   first: '2019-10-21T00:00:00Z'
   last: '2026-11-02T00:00:00Z'
 - name: credit_price_weekly_avg
-  label: null
+  label: Volume-weighted average price of all the week's non-zero credit transfers, USD per credit (one metric ton of CO2
+    equivalent)
   unit: USD/tCO2
   rows: 409
   first: '2019-01-07T00:00:00Z'
   last: '2026-11-02T00:00:00Z'
 - name: credit_volume
-  label: null
+  label: Credits transferred in the week
   unit: tCO2
   rows: 368
   first: '2019-10-21T00:00:00Z'

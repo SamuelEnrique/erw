@@ -5,9 +5,11 @@
 table: ercot_wind_solar_output_hourly
 family: ercot
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: ERCOT's system-wide wind or solar output for one hour, from ERCOT's yearly Hourly Aggregated Wind and Solar Output workbooks
+  (2023 to 2025).
+time: ts_utc is the hour's start in UTC (the workbook's Time (Hour-Ending) is Central clock time).
+vintage_rule: Merged by (entity, variable, ts_utc); where two saved workbooks hold the same hour the later published is kept,
+  and a new year's workbook is added when ERCOT posts it. vintage is not filled.
 keys:
 - entity
 - variable
@@ -40,6 +42,7 @@ columns:
     list:
       ercot:system: 52608
   missing_cells: 0
+  particular: 'ercot:system in every row: ERCOT''s whole system'
 - name: variable
   shared: true
   type: text
@@ -89,12 +92,14 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 52608
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 52608
+  particular: 'Not filled: no cell holds a value'
 - name: source
   shared: true
   type: text
@@ -126,15 +131,16 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 52608
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: solar_generation_mw
-  label: null
+  label: Hourly aggregated solar output, the workbook's ERCOT.PVGR.GEN (sheet Solar Data), MW
   unit: MW
   rows: 26304
   first: '2023-01-01T06:00:00Z'
   last: '2026-01-01T05:00:00Z'
 - name: wind_generation_mw
-  label: null
+  label: Hourly aggregated wind output, the workbook's ERCOT.WIND.GEN (sheet Wind Data), MW
   unit: MW
   rows: 26304
   first: '2023-01-01T06:00:00Z'

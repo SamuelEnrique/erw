@@ -1,0 +1,213 @@
+# The codebook's metadata of table hops_croatia_annual (warehouse/codebook/build_variables.py; chain 630).
+# Read fields are rewritten from the table by the script; written fields (row, time, vintage_rule,
+# label, unit, missing_meaning, source_name, documented_by, particular) are kept. Shared column names
+# are defined in _shared.yaml.
+table: hops_croatia_annual
+family: other_sources
+shape: series
+row: One year's value of one measure of Croatia's transmission network (production by source, cross-border exchange, the energy
+  carried, peak and minimum load, consumption, losses, deliveries to direct customers), from HOPS's Elektroenergetski podaci
+  page.
+time: ts_utc is the year's 1 January at 00:00:00Z; freq P1Y.
+vintage_rule: 'Merged by (entity, variable, ts_utc) (ip.write_csv): a run replaces the rows it reads again and keeps rows
+  from earlier runs; vintage is the page''s Last-Modified time.'
+keys:
+- entity
+- variable
+- ts_utc
+license: internal
+tier: source
+interval: P1Y
+source:
+- name: hops:elektroenergetski_podaci HOPS (Hrvatski operator prijenosnog sustava), Elektroenergetski podaci
+  url: https://www.hops.hr/elektroenergetski-podaci
+cite: HOPS (the Croatian transmission system operator). Elektroenergetski podaci (the transmission network's yearly energy
+  data). Via the Energy Research Warehouse (ERW), table `hops_croatia_annual`.
+method: docs/methods/hops_croatia_annual.md
+header_title: 'HOPS, Elektroenergetski podaci: Croatia''s transmission network a year, production by source, cross-border
+  exchange, the energy carried, peak and minimum load, consumption, losses and deliveries, 2017 to 2025 (session 2823)'
+header_shape: 'Shape: series (docs/datastandard.md v0). entity hops:hr or hops:hr:<source> (hydro, thermal, wind, solar);
+  variable generation, imports (half of Krsko''s output included), exports, net_imports, energy_carried, peak_load, minimum_load,
+  consumption (losses not included), losses, direct_customer_delivery; unit MWh (the page''s GWh times 1,000), or MW for the
+  two loads (the page''s MWh/h); ts_utc the year''s 1 January; freq P1Y; geo HR; x_label the page''s row, x_day and x_hour
+  the loads'' day and hour as printed.'
+read:
+  date: '2026-11-20'
+  rows: 126
+  key_duplicates: 0
+columns:
+- name: entity
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: hops:<country>, or hops:<country>:<source> for production by source
+- name: variable
+  shared: true
+  type: text
+  values:
+    see: variables
+  missing_cells: 0
+- name: ts_utc
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: value
+  shared: true
+  type: number
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: unit
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: freq
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: geo
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The country's two-letter ISO 3166-1 code on every row (a country, not a subdivision)
+- name: market
+  shared: true
+  type: empty
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 126
+  particular: 'Not filled: no cell holds a value'
+- name: node
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: HOPS's label of the row, not a pricing node
+- name: source
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: source_url
+  shared: true
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: retrieved_at
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+- name: vintage
+  shared: true
+  type: utc time
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  particular: The page's Last-Modified time as the server sent it
+- name: x_label
+  label: The page's row label, in Croatian
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 0
+  missing_meaning: never empty
+  source_name: null
+  documented_by: header; connector hops_croatia.py; method hops_croatia_annual.md
+- name: x_day
+  label: The day of the peak or minimum load, as printed
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 108
+  missing_meaning: Empty on every row but the two loads
+  source_name: Datum
+  documented_by: header; connector hops_croatia.py
+- name: x_hour
+  label: The hour of the peak or minimum load, as printed
+  unit: none
+  type: text
+  values:
+    note: 'not written: the table is internal (licensed for internal use only), so its values stay in the warehouse'
+  missing_cells: 108
+  missing_meaning: Empty on every row but the two loads
+  source_name: null
+  documented_by: header; connector hops_croatia.py
+variables:
+- name: consumption
+  label: Consumption, losses not included
+  unit: MWh
+  rows: 9
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: direct_customer_delivery
+  label: Deliveries to customers connected directly to the transmission network
+  unit: MWh
+  rows: 9
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: energy_carried
+  label: The energy carried by the transmission network
+  unit: MWh
+  rows: 9
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: exports
+  label: Electricity exported
+  unit: MWh
+  rows: 9
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: generation
+  label: Production, in total or by source
+  unit: MWh
+  rows: 45
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: imports
+  label: Electricity imported (half of Krsko's output included)
+  unit: MWh
+  rows: 9
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: losses
+  label: Transmission losses
+  unit: MWh
+  rows: 9
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: minimum_load
+  label: Minimum load (the page's MWh/h)
+  unit: MW
+  rows: 9
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: net_imports
+  label: Net imports
+  unit: MWh
+  rows: 9
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+- name: peak_load
+  label: Peak load (the page's MWh/h)
+  unit: MW
+  rows: 9
+  first: '2017-01-01T00:00:00Z'
+  last: '2025-01-01T00:00:00Z'
+second_look: null

@@ -5,9 +5,10 @@
 table: cer_electricity_trade
 family: cer
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: Canada's electricity exports to or imports from the United States in one month, or one province's exports to one U.S.
+  state in one year, from the Canada Energy Regulator's Electricity Trade Summary.
+time: ts_utc is the month's or the year's first day at 00:00:00Z (freq P1M for Canada's rows, P1Y for a province's rows).
+vintage_rule: A snapshot; each run replaces the table whole. vintage is not filled.
 keys:
 - entity
 - variable
@@ -43,6 +44,7 @@ columns:
     - cer_trade:AB:CO
     - cer_trade:AB:ID
   missing_cells: 0
+  particular: cer_trade:CA (Canada with the U.S., monthly) or cer_trade:<province>:<U.S. state> (yearly)
 - name: variable
   shared: true
   type: text
@@ -80,6 +82,7 @@ columns:
       P1M: 398
       P1Y: 738
   missing_cells: 0
+  particular: P1M on Canada's rows, P1Y on a province's rows
 - name: geo
   shared: true
   type: text
@@ -97,12 +100,14 @@ columns:
       CA-QC: 72
       CA-SK: 27
   missing_cells: 0
+  particular: CA on Canada's rows, CA-<province> on a province's rows
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 1136
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -115,6 +120,7 @@ columns:
     - Alberta to Colorado
     - Alberta to Idaho
   missing_cells: 0
+  particular: The flow in words (Alberta to Arizona), not a pricing node
 - name: source
   shared: true
   type: text
@@ -143,15 +149,16 @@ columns:
   values:
     note: no cell holds a value
   missing_cells: 1136
+  particular: 'Not filled: no cell holds a value'
 variables:
 - name: exports
-  label: null
+  label: Electricity exported from Canada (or the province) to the United States (or the state) in the period, MWh
   unit: MWh
   rows: 937
   first: '2010-01-01T00:00:00Z'
   last: '2026-07-01T00:00:00Z'
 - name: imports
-  label: null
+  label: Electricity imported into Canada from the United States in the month, MWh (Canada's rows only)
   unit: MWh
   rows: 199
   first: '2010-01-01T00:00:00Z'

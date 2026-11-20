@@ -5,9 +5,10 @@
 table: cec_total_system_generation_annual
 family: other_sources
 shape: series
-row: null
-time: null
-vintage_rule: null
+row: One year's California in-state generation, or imports from the Northwest or Southwest, from one fuel, or the total system
+  power by fuel, from the California Energy Commission.
+time: ts_utc is 1 January of the year at 00:00:00Z; freq P1Y; 2009 to 2025.
+vintage_rule: Rewritten whole as one snapshot by each run from the Commission's workbook; vintage is the workbook's Last-Modified.
 keys:
 - entity
 - variable
@@ -44,6 +45,7 @@ columns:
     - cec_tsp:california:large_hydro
     - cec_tsp:california:natural_gas
   missing_cells: 0
+  particular: cec_tsp:<california, northwest, southwest or total>:<fuel>
 - name: variable
   shared: true
   type: text
@@ -102,12 +104,14 @@ columns:
     list:
       US-CA: 795
   missing_cells: 0
+  particular: US-CA on every row, imports included
 - name: market
   shared: true
   type: empty
   values:
     note: no cell holds a value
   missing_cells: 795
+  particular: 'Not filled: no cell holds a value'
 - name: node
   shared: true
   type: text
@@ -120,6 +124,7 @@ columns:
     - 'California: Large Hydro'
     - 'California: Natural Gas'
   missing_cells: 0
+  particular: The region and fuel as the workbook names them, not a pricing node
 - name: source
   shared: true
   type: text
@@ -148,9 +153,10 @@ columns:
     list:
       '2026-10-07T22:24:36Z': 795
   missing_cells: 0
+  particular: The workbook's Last-Modified (UTC)
 - name: x_region
-  label: null
-  unit: null
+  label: 'The region of the block: california (in-state), northwest or southwest (imports), total (total system power)'
+  unit: none
   type: text
   values:
     list:
@@ -159,12 +165,12 @@ columns:
       southwest: 202
       total: 187
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector cec_total_system.py; method cec_total_system_generation_annual.md
 - name: x_fuel
-  label: null
-  unit: null
+  label: The fuel as a slug; in the total block oil is combined with other (oil_other) and unspecified imports are unspecified
+  unit: none
   type: text
   values:
     list:
@@ -183,24 +189,25 @@ columns:
       unspecified_imports: 17
       wind: 68
   missing_cells: 0
-  missing_meaning: null
+  missing_meaning: never empty
   source_name: null
-  documented_by: null
+  documented_by: header; connector cec_total_system.py
 variables:
 - name: imports
-  label: null
+  label: 'The Commission''s estimate of the energy delivered to California from the region, by the generator''s fuel (unspecified:
+    source not traced)'
   unit: MWh
   rows: 404
   first: '2009-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: in_state_generation
-  label: null
+  label: California's in-state generation from the fuel in the year
   unit: MWh
   rows: 204
   first: '2009-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_system_power
-  label: null
+  label: 'California''s total system power from the fuel: in-state generation plus imports'
   unit: MWh
   rows: 187
   first: '2009-01-01T00:00:00Z'
