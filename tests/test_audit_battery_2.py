@@ -64,6 +64,24 @@ class MidnightReset(unittest.TestCase):
         # session 9840 measured 86.6324 - 81.4022 = 5.23 per kW, 6.4 percent
         self.assertGreater(gain, 4 * bound, f"carrying the charge across midnight adds {gain:.2f} per kW; the note bounds it at {bound:.2f}")
 
+    def test_real_batteries_carry_charge_across_midnight(self):
+        """ERCOT's storage telemetry (ercot_sced_esr_hourly, where it is on the machine): the energy stored at local
+        midnight against each resource's highest state of charge in the sample. Session 9840 measured 23 percent,
+        fleet-weighted (February to August 2026), with a quarter of resource-midnights under 5 percent; the model holds 0."""
+        path = os.path.join(ROOT, "warehouse", "output", "ercot_sced_esr_hourly.csv")
+        if not os.path.exists(path):
+            self.skipTest("ercot_sced_esr_hourly is not on this machine")
+        import pandas as pd
+        import iso_prices as ip
+        x = pd.read_csv(path, skiprows=ip.header_rows(path), usecols=["entity", "ts_utc", "x_soc_start_mwh", "x_soc_max_mwh"])
+        for c in ("x_soc_start_mwh", "x_soc_max_mwh"):
+            x[c] = pd.to_numeric(x[c], errors="coerce")
+        x["cap"] = x["entity"].map(x.groupby("entity")["x_soc_max_mwh"].max())
+        x = x[x["cap"] > 1]
+        mid = x[pd.to_datetime(x["ts_utc"], utc=True).dt.tz_convert("America/Chicago").dt.hour == 0]
+        share = mid["x_soc_start_mwh"].sum() / mid["cap"].sum()
+        self.assertGreater(share, 0.10, f"fleet-weighted charge at midnight {100 * share:.1f} percent of the highest")
+
 
 if __name__ == "__main__":
     unittest.main()
