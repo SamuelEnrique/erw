@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ba_load_factor, region ba_tepc (Tucson Electric Power (TEPC, EIA-930 balancing authority))
+# Computed 2026-11-19T12:57:37Z by warehouse/analysis/findings/deep/authorities.py (ba_load_factor); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's mean hour of demand as a percent of its highest (percent), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+ba_tepc,2018,38.42726022869417,4109.0,0
+ba_tepc,2019,40.82927444629572,8658.0,1
+ba_tepc,2020,38.27981034503416,8755.0,1
+ba_tepc,2021,37.86303160173363,7995.0,1
+ba_tepc,2022,50.22621690463217,8756.0,1
+ba_tepc,2023,47.35226837647055,8711.0,1
+ba_tepc,2024,49.710194281779216,8782.0,1
+ba_tepc,2025,47.927373687611905,8760.0,1
+ba_tepc,2026,51.00118163856322,7676.0,0
