@@ -2,7 +2,7 @@
 
 Draft `scan-deep-e38ab51241fa` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The public DC fast charging ports in California was 17,344 ports in 2025, against 381 ports in 2014, the first year the ERW's table holds.
+**The finding.** The count of public DC fast charging ports in California was 17,344 ports in 2025, against 381 ports in 2014, the first year the ERW's table holds.
 
 ![Fast chargers, California](dcfast-ports-dcfast-ca.png)
 

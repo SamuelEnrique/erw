@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate util_commercial_price, region u861_15500_wa (Puget Sound Energy Inc in WA)
+# Computed 2026-11-19T12:15:34Z by warehouse/analysis/findings/deep/other_us.py (util_commercial_price); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's commercial revenue over commercial sales (USD per MWh), the observations it rests on, and whether the year is full
+# Tables: eia861m_utility_sales_monthly
+region,year,value,n_observations,full_year
+u861_15500_wa,2017,99.43543529706314,12.0,1
+u861_15500_wa,2018,100.53843405340406,12.0,1
+u861_15500_wa,2019,97.91978495741621,12.0,1
+u861_15500_wa,2020,101.10387751926277,12.0,1
+u861_15500_wa,2021,108.63477465679297,12.0,1
+u861_15500_wa,2022,114.28417515387169,12.0,1
+u861_15500_wa,2023,125.45550566390305,12.0,1
+u861_15500_wa,2024,148.3552451539194,12.0,1
+u861_15500_wa,2025,156.61910557718923,12.0,1
+u861_15500_wa,2026,189.94936375336175,7.0,0

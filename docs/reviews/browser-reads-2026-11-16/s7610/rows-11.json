@@ -1,0 +1,3 @@
+[
+ {"row":11,"path":"/shoulder?grid=caiso-own","shot":"fixed-shoulder-caiso-own-b","expect":["By month since June 2025"],"steps":[{"eval":"(document.body.innerText.match(/[^.\\n]*(rated power|not held)[^.\\n]*/g) || []).slice(0, 12)"},{"scroll":"By month since June 2025"},{"shot":"chart"}]}
+]

@@ -91,3 +91,12 @@ Session 7602, chain 305 (part A again), 17 November 2026, the portable laptop. 1
 ## For the old laptop's next rows
 
 A row is readable here when its branch can be fetched: nothing has to land first. The four branches were merged for one build; a branch that does not merge with the others is built alone.
+
+## Session 7610: the 16 rows marked fault that were site faults, read again
+
+Session 7610, 17 November 2026, the portable laptop. The prompt of that night asked that every row of `docs/state/browser_reads_wanted.md` marked `fault` that is a site fault be fixed at its cause with a test, seen in a browser at 1280 and 390 px, and marked `fixed` with the commit. 17 rows were marked `fault`: 16 site faults, each already fixed with a test by sessions 7600 to 7602 (10 landed on main, 6 on `wip/7602-landed-reads`, landing row 38), and one data fault (row 55, data request 261, left `fault`).
+
+- **The build:** `wip/7610-fault-rows`, which is `wip/7602-landed-reads` merged with main of 17 November (`026b040b9`), no conflict; built in the foreground (2,191 MB free) and served here with no model key.
+- **The read:** `site/scripts/read-rows-c305.mjs` with `s7610/rows-faults.json` and `s7610/rows-11.json`; its output `s7610/out-faults.json` and `s7610/out-11.json`; 42 pictures `s7610/row-*-fixed-*`.
+- **What was seen:** every box of the shared mark inside the window at both widths, opened by a hover and by a focus (at 390 px some do not open on a hover in the touch emulation; each opens on a focus); no page scrolls sideways at 390 px with its folds open; the one long box of the demand growth explorer still scrolls inside itself on a phone (row 62's ruling, left so). Each row's measures are written in its row.
+- **The tests of the fixes, on the branch:** 9 pytest files, 69 passed; `node --import ./scripts/tsx-register.mjs scripts/test-large-load-read.mjs`, 54 of 54.

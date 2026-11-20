@@ -1,0 +1,50 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate wog_gas, region wog_worl (the world)
+# Computed 2026-11-19T13:25:06Z by warehouse/analysis/findings/deep/gas.py (wog_gas); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the country's dry natural gas production (billion cubic feet), the observations it rests on, and whether the year is full
+# Tables: eia_world_oil_gas_annual
+region,year,value,n_observations,full_year
+wog_worl,1980,53360.742307,1.0,1
+wog_worl,1981,54740.061,1.0,1
+wog_worl,1982,54563.957,1.0,1
+wog_worl,1983,55146.063,1.0,1
+wog_worl,1984,60028.777,1.0,1
+wog_worl,1985,62304.44316261,1.0,1
+wog_worl,1986,63588.3623,1.0,1
+wog_worl,1987,66582.381,1.0,1
+wog_worl,1988,69840.421,1.0,1
+wog_worl,1989,72169.6529225,1.0,1
+wog_worl,1990,73379.44702,1.0,1
+wog_worl,1991,74634.62694736337,1.0,1
+wog_worl,1992,74880.58653541739,1.0,1
+wog_worl,1993,76205.921611,1.0,1
+wog_worl,1994,76842.04706,1.0,1
+wog_worl,1995,77966.43192696657,1.0,1
+wog_worl,1996,80175.84430441834,1.0,1
+wog_worl,1997,80299.42314,1.0,1
+wog_worl,1998,81734.669949,1.0,1
+wog_worl,1999,83641.931903,1.0,1
+wog_worl,2000,86770.33116234097,1.0,1
+wog_worl,2001,88406.83066115186,1.0,1
+wog_worl,2002,90343.79150223618,1.0,1
+wog_worl,2003,93140.60004526928,1.0,1
+wog_worl,2004,95444.40383368664,1.0,1
+wog_worl,2005,98597.53985191938,1.0,1
+wog_worl,2006,102382.72554387944,1.0,1
+wog_worl,2007,104846.15421672763,1.0,1
+wog_worl,2008,108191.732587208,1.0,1
+wog_worl,2009,106089.956325982,1.0,1
+wog_worl,2010,113822.961725146,1.0,1
+wog_worl,2011,117950.853385966,1.0,1
+wog_worl,2012,120430.07764260394,1.0,1
+wog_worl,2013,121866.677393834,1.0,1
+wog_worl,2014,123709.353012655,1.0,1
+wog_worl,2015,125939.08421246982,1.0,1
+wog_worl,2016,127447.7505286068,1.0,1
+wog_worl,2017,132288.29846737286,1.0,1
+wog_worl,2018,138725.013295767,1.0,1
+wog_worl,2019,142861.566791929,1.0,1
+wog_worl,2020,139906.836656227,1.0,1
+wog_worl,2021,145615.128820096,1.0,1
+wog_worl,2022,146438.34325975,1.0,1
+wog_worl,2023,146748.903038632,1.0,1
+wog_worl,2024,148969.595737064,1.0,1
