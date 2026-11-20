@@ -1,4 +1,4 @@
-Written 20 November 2026, last updated at 20:41 UTC by session 9801 on Samuel's own laptop; in progress, pushed as rows come in. Ask Claude in chat for anything on this page.
+Written 20 November 2026, last updated at 20:42 UTC by session 9801 on Samuel's own laptop; every entry read. Ask Claude in chat for anything on this page.
 
 # The rulings read a second time (20 November 2026)
 
