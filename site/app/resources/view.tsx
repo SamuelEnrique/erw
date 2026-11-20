@@ -111,7 +111,7 @@ export function ResourcesView() {
             <section data-method-doc="1">
               <h3 className="mb-1 font-serif text-base text-accent">The method document</h3>
               <p className="mb-2 text-xs text-muted"><code className="font-mono">docs/methods/resources.md</code>, as committed.</p>
-              <article className="prose-erw" dangerouslySetInnerHTML={{ __html: render(doc, "docs/methods/resources.md") }} />
+              <article className="prose-erw" dangerouslySetInnerHTML={{ __html: render(doc, "docs/methods/resources.md", { under: true }) }} />
             </section>
           ) : (
             <p className="text-xs text-muted" data-method-doc="0">The method document <code className="font-mono">docs/methods/resources.md</code> was not in the repository when this page was built.</p>
