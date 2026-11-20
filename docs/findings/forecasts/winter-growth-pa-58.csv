@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate winter_growth, region pa_58 (ERCOT (FERC 714 planning area 58))
+# Computed 2026-11-19T12:04:18Z by warehouse/analysis/findings/deep/forecasts.py (winter_growth); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the yearly growth a filing forecasts for the area's winter peak, from its first forecast year to its tenth (percent a year), the observations it rests on, and whether the year is full
+# Tables: ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+pa_58,2006,2.2019845832984775,1.0,1
+pa_58,2007,1.7594026864313994,1.0,1
+pa_58,2008,2.1005576097969048,1.0,1
+pa_58,2009,1.714911032880062,1.0,1
+pa_58,2010,1.4698500672189807,1.0,1
+pa_58,2011,2.245315335828768,1.0,1
+pa_58,2012,1.6229037467516916,1.0,1
+pa_58,2013,1.5124459774903842,1.0,1
+pa_58,2014,1.5124459774903842,1.0,1
+pa_58,2015,1.3720273071230915,1.0,1
+pa_58,2016,1.2319854366998229,1.0,1
+pa_58,2017,1.4221032598586758,1.0,1
+pa_58,2018,2.3539200692052287,1.0,1
+pa_58,2019,2.1256145801269666,1.0,1
+pa_58,2020,2.160967207310116,1.0,1
+pa_58,2021,2.0231043537616733,1.0,1
+pa_58,2022,1.5648499454235187,1.0,1
+pa_58,2023,2.3504893498742074,1.0,1
+pa_58,2024,7.566305096214276,1.0,1
+pa_58,2025,6.626002718839574,1.0,1

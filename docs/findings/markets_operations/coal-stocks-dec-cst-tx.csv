@@ -1,0 +1,23 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate coal_stocks_dec, region cst_tx (the power plants of Texas)
+# Computed 2026-11-19T12:24:25Z by warehouse/analysis/findings/deep/markets_operations.py (coal_stocks_dec); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the coal stocks of the electric power sector at the end of December (million short tons), the observations it rests on, and whether the year is full
+# Tables: eia_power_fuel_stocks_monthly
+region,year,value,n_observations,full_year
+cst_tx,2008,16.546076,1.0,1
+cst_tx,2009,16.896794,1.0,1
+cst_tx,2010,17.00949,1.0,1
+cst_tx,2011,13.116953,1.0,1
+cst_tx,2012,16.544711,1.0,1
+cst_tx,2013,13.260511,1.0,1
+cst_tx,2014,13.095123,1.0,1
+cst_tx,2015,19.208056,1.0,1
+cst_tx,2016,13.810657,1.0,1
+cst_tx,2017,9.981368,1.0,1
+cst_tx,2018,5.994296,1.0,1
+cst_tx,2019,9.47109,1.0,1
+cst_tx,2020,9.648127,1.0,1
+cst_tx,2021,7.603226,1.0,1
+cst_tx,2022,7.911669,1.0,1
+cst_tx,2023,13.444086,1.0,1
+cst_tx,2024,12.394547,1.0,1
+cst_tx,2025,10.483567,1.0,1

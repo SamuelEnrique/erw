@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate util_industrial, region u861_15248_or (Portland General Electric Co in OR)
+# Computed 2026-11-19T12:15:34Z by warehouse/analysis/findings/deep/other_us.py (util_industrial); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's retail sales to industrial customers (TWh), the observations it rests on, and whether the year is full
+# Tables: eia861m_utility_sales_monthly
+region,year,value,n_observations,full_year
+u861_15248_or,2017,3.000251816,12.0,1
+u861_15248_or,2018,3.041900164,12.0,1
+u861_15248_or,2019,3.246094502,12.0,1
+u861_15248_or,2020,3.505703207,12.0,1
+u861_15248_or,2021,3.79622415,12.0,1
+u861_15248_or,2022,4.286183528,12.0,1
+u861_15248_or,2023,4.656356465,12.0,1
+u861_15248_or,2024,5.097435229,12.0,1
+u861_15248_or,2025,5.9759915139999995,12.0,1
+u861_15248_or,2026,3.580035206,7.0,0

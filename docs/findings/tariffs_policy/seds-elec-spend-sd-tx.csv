@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate seds_elec_spend, region sd_tx (Texas)
+# Computed 2026-11-19T12:30:33Z by warehouse/analysis/findings/deep/tariffs_policy.py (seds_elec_spend); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the state's total expenditure on electricity (billion USD), the observations it rests on, and whether the year is full
+# Tables: eia_seds_state_energy
+region,year,value,n_observations,full_year
+sd_tx,1990,13.4307,1.0,1
+sd_tx,1991,14.2712,1.0,1
+sd_tx,1992,14.4574,1.0,1
+sd_tx,1993,15.6442,1.0,1
+sd_tx,1994,16.1499,1.0,1
+sd_tx,1995,15.6751,1.0,1
+sd_tx,1996,16.871900000000004,1.0,1
+sd_tx,1997,17.3856,1.0,1
+sd_tx,1998,18.2113,1.0,1
+sd_tx,1999,17.9757,1.0,1
+sd_tx,2000,20.3278,1.0,1
+sd_tx,2001,23.0645,1.0,1
+sd_tx,2002,20.8695,1.0,1
+sd_tx,2003,23.7867,1.0,1
+sd_tx,2004,24.9879,1.0,1
+sd_tx,2005,29.9875,1.0,1
+sd_tx,2006,34.7189,1.0,1
+sd_tx,2007,33.9642,1.0,1
+sd_tx,2008,37.3108,1.0,1
+sd_tx,2009,33.318,1.0,1
+sd_tx,2010,32.6983,1.0,1
+sd_tx,2011,33.064800000000005,1.0,1
+sd_tx,2012,30.6044,1.0,1
+sd_tx,2013,32.0347,1.0,1
+sd_tx,2014,33.9913,1.0,1
+sd_tx,2015,33.3706,1.0,1
+sd_tx,2016,32.8635,1.0,1
+sd_tx,2017,32.9285,1.0,1
+sd_tx,2018,35.2401,1.0,1
+sd_tx,2019,36.1383,1.0,1
+sd_tx,2020,35.0553,1.0,1
+sd_tx,2021,39.1328,1.0,1
+sd_tx,2022,47.454,1.0,1
+sd_tx,2023,48.7154,1.0,1
+sd_tx,2024,48.7635,1.0,1

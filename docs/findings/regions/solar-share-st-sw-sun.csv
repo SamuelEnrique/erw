@@ -1,0 +1,30 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate solar_share, region st_sw_sun (Arizona and New Mexico (the core of EIA's Southwest region))
+# Computed 2026-11-19T11:17:51Z by warehouse/analysis/findings/deep/regions.py (solar_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: utility-scale solar's share of the states' net generation (percent), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+st_sw_sun,2001,0.00039587796321030795,12.0,1
+st_sw_sun,2002,0.00036780800428586876,12.0,1
+st_sw_sun,2003,0.0003107010067577862,12.0,1
+st_sw_sun,2004,0.0031017238616971986,12.0,1
+st_sw_sun,2005,0.009941126487381713,12.0,1
+st_sw_sun,2006,0.009271623084648432,12.0,1
+st_sw_sun,2007,0.005792013744697064,12.0,1
+st_sw_sun,2008,0.009410176534668547,12.0,1
+st_sw_sun,2009,0.00932767652450254,12.0,1
+st_sw_sun,2010,0.016678035884556634,12.0,1
+st_sw_sun,2011,0.14432086438765787,12.0,1
+st_sw_sun,2012,0.8738189094928288,12.0,1
+st_sw_sun,2013,1.6752888300020319,12.0,1
+st_sw_sun,2014,2.529383050814791,12.0,1
+st_sw_sun,2015,2.7916818766605176,12.0,1
+st_sw_sun,2016,3.1887383889397407,12.0,1
+st_sw_sun,2017,4.3991950053929365,12.0,1
+st_sw_sun,2018,4.487555480807476,12.0,1
+st_sw_sun,2019,4.467206034649333,12.0,1
+st_sw_sun,2020,5.290843434681648,12.0,1
+st_sw_sun,2021,5.883772680914838,12.0,1
+st_sw_sun,2022,6.216100361605217,12.0,1
+st_sw_sun,2023,6.651624301833106,12.0,1
+st_sw_sun,2024,9.70134646114135,12.0,1
+st_sw_sun,2025,13.962587785421851,12.0,1

@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate seds_elec_spend, region sd_fl (Florida)
+# Computed 2026-11-19T12:30:33Z by warehouse/analysis/findings/deep/tariffs_policy.py (seds_elec_spend); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the state's total expenditure on electricity (billion USD), the observations it rests on, and whether the year is full
+# Tables: eia_seds_state_energy
+region,year,value,n_observations,full_year
+sd_fl,1990,10.0974,1.0,1
+sd_fl,1991,10.4789,1.0,1
+sd_fl,1992,10.2807,1.0,1
+sd_fl,1993,10.9936,1.0,1
+sd_fl,1994,11.1024,1.0,1
+sd_fl,1995,11.745,1.0,1
+sd_fl,1996,12.3431,1.0,1
+sd_fl,1997,12.5877,1.0,1
+sd_fl,1998,13.1263,1.0,1
+sd_fl,1999,12.819,1.0,1
+sd_fl,2000,13.5255,1.0,1
+sd_fl,2001,15.4028,1.0,1
+sd_fl,2002,15.3932,1.0,1
+sd_fl,2003,16.7742,1.0,1
+sd_fl,2004,17.8345,1.0,1
+sd_fl,2005,19.7134,1.0,1
+sd_fl,2006,23.845,1.0,1
+sd_fl,2007,23.8784,1.0,1
+sd_fl,2008,24.2959,1.0,1
+sd_fl,2009,25.8248,1.0,1
+sd_fl,2010,24.4598,1.0,1
+sd_fl,2011,23.8802,1.0,1
+sd_fl,2012,23.0286,1.0,1
+sd_fl,2013,22.6783,1.0,1
+sd_fl,2014,24.3393,1.0,1
+sd_fl,2015,24.7194,1.0,1
+sd_fl,2016,23.3484,1.0,1
+sd_fl,2017,24.2861,1.0,1
+sd_fl,2018,24.6136,1.0,1
+sd_fl,2019,25.1034,1.0,1
+sd_fl,2020,24.3942,1.0,1
+sd_fl,2021,25.7643,1.0,1
+sd_fl,2022,31.1291,1.0,1
+sd_fl,2023,33.9534,1.0,1
+sd_fl,2024,31.9554,1.0,1
