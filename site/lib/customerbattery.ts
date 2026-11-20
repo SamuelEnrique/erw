@@ -68,6 +68,8 @@ export type Result = {
   demandBefore: number;        // USD a month, the demand charge without the battery
   hours: number;               // the battery's duration
   breakEvenRate: number;       // the peak rate at which shifting just pays, USD per kWh
+  capped: boolean;             // ruling alternative 4: the energy moved was capped at the peak kW times the peak hours
+  capKwh: number;              // that cap, kWh a day
 };
 
 /** The saving. A pure function of what was typed. */
@@ -78,8 +80,11 @@ export function saving(x: Inputs): Result {
   const limit: Result["limit"] = shavedKw === x.peakKw ? "peak" : shavedKw === x.batteryKw ? "power" : "energy";
   const demandSaved = shavedKw * x.demandCharge;
   // one cycle a day: the whole battery out in the peak hours, and that much over the round trip back in off-peak
-  const dischargedKwh = x.batteryKwh;
-  const chargedKwh = x.batteryKwh / eta;
+  // ruling alternative 4 (wip/alt-battery-customer-4, not a default on main): the energy moved each day is capped at the
+  // peak kW times the peak hours, the most a building that never draws over its peak can take in those hours; main: not capped
+  const capKwh = x.peakKw * x.peakHours, capped = x.batteryKwh > capKwh;
+  const dischargedKwh = Math.min(x.batteryKwh, capKwh);
+  const chargedKwh = dischargedKwh / eta;
   const shiftPerDay = dischargedKwh * x.peakRate - chargedKwh * x.offPeakRate;
   const shifts = shiftPerDay > 0;
   // when shifting does not pay, the battery still cycles for the peak: the energy it loses on the round trip is a cost
@@ -90,7 +95,7 @@ export function saving(x: Inputs): Result {
   return {
     shavedKw, limit, demandSaved, dischargedKwh: shifts ? dischargedKwh : cyclesForPeak, chargedKwh: shifts ? chargedKwh : cyclesForPeak / eta,
     shiftPerDay, shifts, energySaved, cyclesForPeak, monthSaved, yearSaved: monthSaved * 12,
-    demandBefore: x.peakKw * x.demandCharge, hours: x.batteryKwh / x.batteryKw, breakEvenRate: x.offPeakRate / eta,
+    demandBefore: x.peakKw * x.demandCharge, hours: x.batteryKwh / x.batteryKw, breakEvenRate: x.offPeakRate / eta, capped, capKwh,
   };
 }
 

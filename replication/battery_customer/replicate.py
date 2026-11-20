@@ -71,7 +71,8 @@ def saving(x):
     # a tie is named in this order: the peak itself, then the power, then the energy
     limit = "your peak itself" if shaved == by_peak else "the battery's power" if shaved == by_power else "the battery's energy"
     demand = shaved * x["demandCharge"]
-    out_full, in_full = x["batteryKwh"], x["batteryKwh"] / eta
+    out_full = min(x["batteryKwh"], x["peakKw"] * x["peakHours"])   # ruling alternative 4 (wip/alt-battery-customer-4): capped by the peak; main: the whole battery
+    in_full = out_full / eta
     per_day = out_full * x["peakRate"] - in_full * x["offPeakRate"]
     shifts = per_day > 0
     for_peak = shaved * x["peakHours"]
