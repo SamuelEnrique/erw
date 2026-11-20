@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import os
+import re  # session 8905: the edition counts are read with a pattern
 import shutil
 import subprocess
 import sys
@@ -35,7 +36,16 @@ class TheReplication(unittest.TestCase):
         r = subprocess.run([sys.executable, os.path.join(REP, "replicate.py")], capture_output=True, text=True, cwd=ROOT, timeout=300)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         self.assertIn("146 checks (figures by check key, and answers in words): 146 pass, 0 named, 0 differ", r.stdout)
-        self.assertIn("92 figures: 89 pass, 3 named, 0 differ", r.stdout)
+        # session 8905 (chain 590, data request 561): every edition held is compared, so the counts grow with each new
+        # edition: none may differ, and the only figures named are the network hour's three of set E in each edition
+        m = re.search(r"the dated edition: (\d+) figures: (\d+) pass, (\d+) named, (\d+) differ", r.stdout)
+        self.assertIsNotNone(m, r.stdout)
+        n_ed = len(json.loads(src("site", "data", "problem_editions", "index.json"))["editions"])
+        figures, passed, named, differ = (int(x) for x in m.groups())
+        self.assertEqual(differ, 0, r.stdout)
+        self.assertEqual(named, 3 * n_ed, r.stdout)
+        self.assertEqual(passed + named, figures)
+        self.assertGreaterEqual(passed, 89)
 
     def test_no_held_row_is_kept(self):
         text = src("replication", "problem_sets", "live_rows.csv")
