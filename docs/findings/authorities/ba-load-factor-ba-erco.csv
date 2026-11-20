@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ba_load_factor, region ba_erco (ERCOT (ERCO, EIA-930 balancing authority))
+# Computed 2026-11-19T12:57:36Z by warehouse/analysis/findings/deep/authorities.py (ba_load_factor); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's mean hour of demand as a percent of its highest (percent), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+ba_erco,2018,60.6942693645171,4363.0,0
+ba_erco,2019,58.761983062021436,8760.0,1
+ba_erco,2020,58.478623520014935,8784.0,1
+ba_erco,2021,60.98789207969253,8760.0,1
+ba_erco,2022,61.57907371085932,8760.0,1
+ba_erco,2023,59.70161654375655,8760.0,1
+ba_erco,2024,61.69702522201423,8784.0,1
+ba_erco,2025,66.6476673026325,8736.0,1
+ba_erco,2026,65.06390127634553,7686.0,0

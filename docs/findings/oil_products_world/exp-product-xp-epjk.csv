@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate exp_product, region xp_epjk (kerosene-type jet fuel)
+# Computed 2026-11-19T12:51:16Z by warehouse/analysis/findings/deep/oil_products_world.py (exp_product); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: US exports of the product to the world (thousand barrels a day), the observations it rests on, and whether the year is full
+# Tables: eia_petroleum_exports_by_destination
+region,year,value,n_observations,full_year
+xp_epjk,2015,168.0082191780822,12.0,1
+xp_epjk,2016,175.2704918032787,12.0,1
+xp_epjk,2017,184.0027397260274,12.0,1
+xp_epjk,2018,222.85479452054796,12.0,1
+xp_epjk,2019,220.27397260273972,12.0,1
+xp_epjk,2020,96.43989071038251,12.0,1
+xp_epjk,2021,107.3945205479452,12.0,1
+xp_epjk,2022,177.63013698630138,12.0,1
+xp_epjk,2023,172.83561643835617,12.0,1
+xp_epjk,2024,210.12568306010928,12.0,1
+xp_epjk,2025,215.85205479452054,12.0,1
+xp_epjk,2026,191.3945205479452,7.0,0

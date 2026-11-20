@@ -1,0 +1,24 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), tariff_min_demand_mw
+# Computed 2026-11-19T11:54:24Z by warehouse/analysis/findings/deep/large_load.py
+# Tables: utility_large_load_tariffs
+filing,value
+"New York State Electric & Gas, New York (adopted, 2026-06-01)",0.5
+"Consolidated Edison, New York (adopted, 2026-02-01)",1.5
+"Niagara Mohawk Power, New York (adopted, 2026-04-01)",2.0
+"Rappahannock Electric Cooperative, Virginia (adopted, 2024-10-01)",5.0
+"Public Utility District No. 2 of Grant County, Washington (adopted, 2026-04-01)",10.0
+"Portland General Electric, Oregon (adopted, 2026-07-08)",20.0
+"Nevada Power, Nevada (adopted, 2018-02-15)",22.0
+"Ohio Power, Ohio (adopted, 2025-07-09)",25.0
+"Virginia Electric and Power, Virginia (ordered, 2027-01-01)",25.0
+"Northern Virginia Electric Cooperative, Virginia (adopted, 2023-04-01)",45.0
+"Duke Energy Carolinas, North Carolina (proposed, 2027-01-01)",50.0
+"PPL Electric Utilities, Pennsylvania (adopted, 2026-07-01)",50.0
+"Public Service, Colorado (proposed, 2026-05-03)",50.0
+"South Carolina Public Service Authority, South Carolina (adopted, 2025-04-25)",50.0
+"Evergy Metro, Missouri (adopted, 2026-03-09)",75.0
+"Evergy Missouri West, Missouri (adopted, 2026-03-09)",75.0
+"Union Electric, Missouri (adopted, 2026-01-04)",75.0
+"Georgia Power, Georgia (adopted, 2025-02-01)",100.0
+"PacifiCorp, Utah (framework, 2025-05-07)",100.0
+"Alabama Power, Alabama (framework, 2026-10-01)",150.0
