@@ -470,6 +470,13 @@ for _t in ("interchange_pair_daily", "interchange_pair_monthly", "ba_trade_partn
                         "not on Redivis: in v1 when the owner adds it to the package's list")
 
 
+# Session 8012 (chain 505, part D1): the day-ahead demand forecast beside the demand that came, two derived tables, public
+# (about 490 MB hourly): held the same way
+for _t in ("eia930_forecast_error_hourly", "eia930_forecast_error_daily"):
+    STORAGE_HELD[_t] = ("held: first written on 19 November 2026 (chain 505, session 8012), after the v1 package was prepared; "
+                        "not on Redivis: in v1 when the owner adds it to the package's list")
+
+
 UNSETTLED_WHY = "its ERW verdict is unsettled (docs/licenses.md: a publisher's terms not read or not settled); out of v1 until it is settled (chain 229, session 4109)"
 
 

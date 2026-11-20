@@ -272,6 +272,39 @@ The day-ahead demand forecast each authority files on Form EIA-930, beside the d
 
 Signs: a miss is the forecast less the demand; above zero the forecast was high.
 
+## 12. `site/data/regions/renewables_forecast.json` (chain 505, part D2)
+
+The operator's own day-ahead forecast of wind and solar output beside the output that came, for each grid that publishes both under a license `docs/licenses.md` lets a page show: CAISO (by trading hub, and the three hubs summed) and ERCOT (system-wide). Built from the warehouse's tables `caiso_wind_solar_forecast` and `ercot_wind_solar_forecast` (both public); no table of its own. Method: `docs/methods/renewable_forecast_error.md`. Builder: `warehouse/derived/renewable_forecast_error.py`, in the data machine's daily run.
+
+| Key | Unit or form | Meaning |
+|---|---|---|
+| `built`, `tables`, `method`, `license` | | as in the other files |
+| `grids[]` | list | one object a grid: `grid`, `region` (EIA's region it sits in), `code` (its EIA-930 code), `tz`, `table`, `forecast` (words: which of the operator's forecasts), `actual` (words), `entities` |
+| `grids[].series.<wind or solar>` | object | the measures below for the grid as a whole (CAISO: an hour only when all three hubs hold both the forecast and the output) |
+| `grids[].hubs.<hub>.<wind or solar>` | object | CAISO only: `overall` for each hub |
+| `...overall` | object | `{ hours, mae_mw, bias_mw, wape_pct, bias_pct, forecast_mean_mw, actual_mean_mw }` over every hour holding both |
+| `...first_hour`, `...last_hour` | UTC | the first and last hour holding both |
+| `...by_hour` | arrays of 24 | `wape_pct`, `bias_mw`, `mae_mw`, `hours`, by the local hour of day |
+| `...by_month.<YYYY-MM>` | object | the overall measures over each local month |
+| `...daily` | arrays | every whole local day: `days`, `forecast_mwh`, `actual_mwh`, `miss_mwh`, `wape_pct` |
+| `...events[]` | list of 9 | `{ event, title, start, end, hours, mae_mw, bias_mw, wape_pct }`; `hours` 0 and the measures `null` where the table does not reach the event |
+| `not_held[]` | list | `{ grid, why }` for each other grid of the seven: why its forecast is not drawn |
+
+Signs: a miss is the forecast less the output; above zero the forecast was high. `wape_pct` is the absolute misses summed over the output summed, in percent.
+
+## 13. `site/data/regions/prices_map.json` (chain 505, part E2)
+
+What power costs across the map: every hub and load zone whose day-ahead price a page may show, with the authority and region it sits in, for the "Price" switch of the Grid tool's map. Computed from the public price tables `warehouse/derived/price_compare.py` reads, with its reader, hourly rule and license and pause handling; no table of its own. Method: `docs/methods/prices_map.md`. Builder: `warehouse/derived/prices_map.py`, in the data machine's daily run.
+
+| Key | Unit or form | Meaning |
+|---|---|---|
+| `built`, `tables`, `method`, `license`, `measures`, `rules` | | as in the other files; `measures` gives each measure's unit |
+| `grids[]` | list | `{ grid, iso, ba, region, tz, state }`: `state` is `shown`, `held` (license needed) or `paused`, with `why` for the last two; `hubs` counts a shown grid's hubs and zones |
+| `hubs[]` | list | one object a shown hub or zone: `entity`, `node`, `grid`, `ba`, `region`, `table`, `day` (the newest whole local day before the build's day), `day_avg`, `day_on_peak`, `day_off_peak`, `day_spread_top4_bottom4` (USD/MWh), `avg_30d`, `negative_share_30d_pct`, `avg_12m`, `negative_share_12m_pct`; a window short of 95 percent of its hours is `null` with `window_30d_why` or `window_12m_why` |
+| `bas.<code>` | object | what the map colors an authority's area by: the grid's main hub (`hub`, the board's choice) and its measures, or `state` and `why` |
+
+A held grid carries its key with no figure and the words "license needed".
+
 ## Changes
 
 - 19 November 2026, session 8000: first version.
@@ -289,3 +322,5 @@ Signs: a miss is the forecast less the demand; above zero the forecast was high.
 - 19 November 2026, session 8011 (data request 553, section 8; on `wip/c501-desk-g`): a new file, `site/data/resources/hover_fields_added.json`: `{ built_at_utc, note, layers: { <layer id>: { hover_fields: [[column, words]], name_column: { column, source_column, words, unit }, source_file, source_sha256, how } } }`, for `wind_capacity_factor` and `geothermal_hydrothermal_sites`, the two point layers `manifest.json` gives no `hover_fields`; a page uses a layer's list here when `manifest.json` gives none.
 - 19 November 2026, session 8012 (chain 505, part C): section 10, every balancing authority's own facts (`authority/<code>.json`, `authority/region-<code>.json`); no key of another section moves.
 - 19 November 2026, session 8012 (chain 505, part D1): section 11, the day-ahead demand forecast beside the demand that came (`forecast/<region>.json`, `forecast/ba/<code>.json`); no key of another section moves.
+- 19 November 2026, session 8013 (chain 505, part D2): section 12, the operators' wind and solar forecasts beside the output (`renewables_forecast.json`); no key of another section moves.
+- 19 November 2026, session 8013 (chain 505, part E2): section 13, what power costs across the map (`prices_map.json`); section 12's file is `renewables_forecast.json`, beside the folder `forecast/`, which keeps the region files alone. No key of another section moves.

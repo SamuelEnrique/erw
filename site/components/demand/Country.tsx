@@ -5,6 +5,7 @@ import { ChangeBars, DOWN, Heat, UP, YearsChart } from "@/components/demand/Grow
 import { Hint } from "@/components/demand/Hint";
 import { Hover } from "@/components/demand/Hover";
 import { Explained } from "@/components/demand/Weather";
+import { CountryForecast } from "@/components/demand/CountryForecast";
 import { SiteLink } from "@/components/SiteLink";
 import { TimeChart } from "@/components/TimeChart";
 import { ChartFrame, Fold, ToolHeader, ToolSection, ToolTable } from "@/components/tool/ToolPage";
@@ -136,7 +137,7 @@ function Blank({ s, what }: { s: Slot; what: string }) {
 }
 
 /** The view as drawn from an index and the files of the places the address names (or from none). */
-export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; fileOf: (p: Place) => DemandPlaceFile | null }) {
+export function Country({ q, index, fileOf, forecast = false }: { q: Q; index: IndexFile | null; fileOf: (p: Place) => DemandPlaceFile | null; /** session 8013: draw the section "Forecast against actual" (the page's mount turns it on) */ forecast?: boolean }) {
   const a = placeOf(q.a, index) ?? FIRST_A;
   const bAsked = q.b === undefined ? FIRST_B : placeOf(q.b, index);
   const b = bAsked && !samePlace(bAsked, a) ? bAsked : null;
@@ -481,6 +482,9 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
         </>
       ) : null}
 
+      {/* session 8013 (chain 505, part D3): the forecast against what happened, a section of its own (components/demand/CountryForecast.tsx); the sections above are not touched */}
+      {forecast && withFile.length ? <CountryForecast slots={withFile.map((s) => ({ mark: s.mark, place: s.place, name: s.name }))} two={cols} /> : null}
+
       <ToolSection title="Every region and balancing authority" id="places"
         note={<Hint words="How to choose" why="A name in either table puts that place in place A and keeps place B. The two lists at the top of the view hold the same places." />}>
         <ToolTable minWidth={index ? 860 : 420} words caption="EIA's thirteen regions of the lower 48"
@@ -539,5 +543,5 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
 
 /** What the page mounts: the index and the files read from site/data/regions/, the view drawn. */
 export function CountryView({ q }: { q: Q }) {
-  return <Country q={q} index={regionsIndex()} fileOf={demandPlaceFile} />;
+  return <Country q={q} index={regionsIndex()} fileOf={demandPlaceFile} forecast />;
 }
