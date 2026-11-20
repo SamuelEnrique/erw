@@ -25,6 +25,7 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 | 1 | Regulation is never called; ERCOT's storage shows 17 percent of an award moving each hour | -6.44 (-7.9 percent) | -41.4 | `wip/audit-battery-1` |
 | 2 | Each day starts empty: the reset costs USD 5.23 per kW, four times the note's bound of 1.29 | +5.23 (+6.4 percent) | +33.6 | `wip/audit-battery-2` |
 | 3 | Energy is paid the hourly mean; ERCOT settles real-time energy every 15 minutes | +2.23 (+2.7 percent) | +14.4 | `wip/audit-battery-3` |
+| 4 | Degradation cuts the whole revenue 2.6 percent a year; the model's own runs lose 1.1 percent a year at that fade | none (year 1) | +44.76 | `wip/audit-battery-4` |
 
 ## 1. Regulation is never called
 
@@ -53,3 +54,12 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 - **How much.** The same program with the four quarter prices of each hour, reserves hourly, every other rule the model's (the midnight reset included): USD 83.64 per kW, +2.23 (+2.7 percent). Energy rises from 54.60 to 57.57 (+5.5 percent); reserves give a little back.
 - **The test.** `tests/test_audit_battery_3.py` on `wip/audit-battery-3`. A day whose hours all have the same mean but whose quarters move: `solve_day` earns nothing from energy, the quarter-priced program earns from the spread. On a machine with ERCOT's 15-minute tables it also recomputes the last twelve months (the quarters' means checked equal to the public file in every hour).
 - **Not fixed.** A 15-minute energy program moves every figure: the owner's ruling. The day-ahead schedule is hourly by ERCOT's own design and is not affected.
+
+## 4. Degradation cuts the whole revenue by a capacity fade rate
+
+- **Where.** `site/lib/battery/finance.ts` lines 213 to 221 (`revenueInYear`: `R x (1 - deg)^(t - 1)`, and under the fade method `R x (1 - fade)^k`). The note, section 11.1 line 385 (the default, 2.6) and line 417 ("Revenue in year t"), line 451 (the fade method: "revenue is taken proportional to the capacity"). Decision 15 (`site/lib/decisions.ts` line 140).
+- **Why it is wrong.** Lazard's 2.6 percent is the battery's loss of energy capacity a year. Power does not fade, a third of the revenue is reserves paid on power, and energy arbitrage is not proportional to the hours held. The note itself says "revenue is not proportional to duration" (section 11), then applies the fade one for one, under both methods.
+- **What the model says instead.** Re-solved by `solve_day` on every day of the last twelve months, keeping 1 MW and fading the energy by 2.6 percent a year: year 2 earns 98.91 percent of year 1, year 10 90.26, year 20 79.34. The page's cut gives 97.40, 78.89 and 60.62.
+- **How much.** The headline (year 1) does not move. NPV at the defaults: USD -653.04 per kW on the model's own fade path against -697.80, +44.76 per kW (USD 4.48 million for 100 MW). Twenty years of revenue: 1,459 per kW against 1,282 (+14 percent).
+- **The test.** `tests/test_audit_battery_4.py` on `wip/audit-battery-4`: the faded battery keeps more than 98.5 percent of its revenue after one year and more than 75 percent after nineteen, while `finance.ts` (run by Node) gives `R x 0.974^(t - 1)` under both methods.
+- **Not fixed.** The fix is a fade path from the model (a table of revenue by faded duration, or a ratio the page reads) and moves NPV, IRR and payback: the owner's ruling. The same path would make the augmentation option's revenue right.
