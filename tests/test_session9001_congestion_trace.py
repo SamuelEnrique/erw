@@ -29,7 +29,7 @@ class TheCongestionPageIsTraced(unittest.TestCase):
         cv = src("site", "scripts", "check-values.mjs")
         self.assertIn('"/congestion", "/congestion?op=caiso&year=all",', cv)
         self.assertIn("const condOk = /^pf\\|conditions\\//.test(check)", cv)
-        self.assertIn("const textOk = condOk ||", cv)
+        self.assertIn("|| dcOne || forecastOk || condOk;", cv)
         page = src("site", "app", "congestion", "page.tsx")
         self.assertIn('const usd = (v: number) => `${v.toFixed(2)} USD/MWh`;', page)
         self.assertIn('const pct = (v: number) => `${v.toFixed(1)}%`;', page)
