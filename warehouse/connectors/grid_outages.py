@@ -66,7 +66,9 @@ SPP_FUELS = {"Outaged MW": "outage_mw_total", "Coal MW": "outage_mw_coal", "Dies
              "Hydro MW": "outage_mw_hydro", "Natural Gas MW": "outage_mw_gas", "Nuclear MW": "outage_mw_nuclear",
              "Solar MW": "outage_mw_solar", "Waste Disposal MW": "outage_mw_waste_disposal", "Wind MW": "outage_mw_wind",
              "Waste Heat MW": "outage_mw_waste_heat", "Other MW": "outage_mw_other"}
-CAISO_PAGE = "https://www.caiso.com/library/curtailed-and-non-operational-generators"
+# one trade date's report, read 20 November 2026; no list page was found (/library/curtailed-and-non-operational-generators
+# answered 404), so the registry names a document of the series
+CAISO_PAGE = "https://www.caiso.com/documents/curtailed-non-operational-generator-prior-trade-date-report-20261118.xlsx"
 CAISO_SOURCE = "caiso:CURTAILED-NONOP-GEN"
 CAISO_REPORT = "Curtailed and Non-Operational Generator Prior Trade Date Report"
 CAISO_FIRST = "2021-06-17"
@@ -341,7 +343,9 @@ def main(argv=None):
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/{CONNECTOR}.py",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git; each run's manifest.csv lists each file and URL)",
-            "Source: " + "; ".join(sources),
+            # both operators always: a run of one keeps the other's rows, so the header names both
+            "Source: " + "; ".join([f"{SPP_SOURCE} {ip.ISO_PUBLISHERS['spp']}, {SPP_REPORT}, {SPP_PAGE}",
+                                    f"{CAISO_SOURCE} {ip.ISO_PUBLISHERS['caiso']}, {CAISO_REPORT}, {CAISO_PAGE}"]),
             gc.LICENSE_LINE,
             "Method: docs/methods/grid_outages.md",
         ]
