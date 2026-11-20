@@ -1,0 +1,80 @@
+{
+ "built_at_utc": "2026-11-19T18:34:37Z",
+ "note": "hover_fields, in manifest.json's pair form, for the point layers of manifest.json that name none, each pair's words the publisher's own column description; manifest.json is not changed (chain 501). A page uses a layer's list here when manifest.json gives none. Built by warehouse/derived/resource_hover_fields.py (data request 553).",
+ "layers": {
+  "wind_capacity_factor": {
+   "hover_fields": [
+    [
+     "resource",
+     "Annual average wind speed at the modeled turbine hub-height, meters/second"
+    ],
+    [
+     "capacity_ac_mw",
+     "Capacity of the wind power plant, MW"
+    ],
+    [
+     "area_developable_sq_km",
+     "Developable area after spatial exclusions applied, km2"
+    ]
+   ],
+   "name_column": {
+    "column": "name",
+    "source_column": "sc_point_gid",
+    "words": "Unique ID that can be match to other reV supply curve tables",
+    "unit": "N/A"
+   },
+   "source_file": "warehouse/raw/resources/openei/lbw_column_lookup.csv",
+   "source_sha256": "5b9c505ac393f4f76689d0c3db29bb41ac45536f5e445224ac3e2ac0f64360bf",
+   "how": "each pair's words are the Description column of the laboratory's lookup for the layer's column, its Units after a comma (none for N/A)"
+  },
+  "geothermal_hydrothermal_sites": {
+   "hover_fields": [
+    [
+     "State",
+     "Name of the state that the system is in"
+    ],
+    [
+     "Temp_C_Li",
+     "Most likely temperature (°C) of reservoir"
+    ],
+    [
+     "Temp_C_Mn",
+     "Minimum temperature (°C) of reservoir"
+    ],
+    [
+     "Temp_C_Mx",
+     "Maximum temperature (°C) of reservoir"
+    ],
+    [
+     "Vol_km3_Li",
+     "Most likely volume of reservoir (km³)"
+    ],
+    [
+     "Vol_km3_Mn",
+     "Minimum volume of reservoir (km³)"
+    ],
+    [
+     "Vol_km3_Mx",
+     "Maximum volume of reservoir (km³)"
+    ],
+    [
+     "MWe_P95",
+     "95% likelyhood Megawatts electric (MWe)"
+    ],
+    [
+     "MWe_P5",
+     "5% likelyhood Megawatts electric (MWe)"
+    ]
+   ],
+   "name_column": {
+    "column": "name",
+    "source_column": "Name",
+    "words": "Name of the geothermal system",
+    "unit": ""
+   },
+   "source_file": "warehouse/raw/resources/usgs/IdentifiedGeothermalSystems/IdentifiedGeothermalSystems.xml",
+   "source_sha256": "5a8f2a00e6499e07c313bdad29fba1b02f4cf9ede55f7ea7a21d5ebfea36503a",
+   "how": "each pair's words are the attrdef USGS's metadata gives the column (its unit is inside the words)"
+  }
+ }
+}
