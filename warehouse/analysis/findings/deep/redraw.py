@@ -149,6 +149,12 @@ def check(key, card, sentence):
         num = card.get("numbers") or {}
         m = ch.get("mark") or {}
         day = [v for v in ch["series"][0]["values"] if v is not None]
+        if m.get("value") is None and len(ev) == 1 and near(num.get("event"), ev[0]["value"]):
+            # a chart that marks no day (covid-2020-fla: its day line has gaps); only the sentence's figures to check
+            for v in (num.get("event"), num.get("mean_other")):
+                if v is not None and fmt(v, nd) not in sentence:
+                    faults.append(f"the sentence does not carry {fmt(v, nd)}")
+            return faults
         if len(ev) == 1 and near(num.get("event"), ev[0]["value"]) and day and (near(min(day), m.get("value")) or near(max(day), m.get("value"))) \
                 and not near(m.get("value"), ev[0]["value"]):
             # a mean-hour event (the COVID-19 spring): the CSV holds the window's mean; the chart marks the lowest (or
