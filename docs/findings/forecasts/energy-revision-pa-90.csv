@@ -1,0 +1,24 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate energy_revision, region pa_90 (Memphis Light, Gas and Water (FERC 714 planning area 90))
+# Computed 2026-11-19T12:53:46Z by warehouse/analysis/findings/deep/forecasts.py (energy_revision); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: how much a filing changed its forecast of the year 5 ahead against the filing a year before (percent), the observations it rests on, and whether the year is full
+# Tables: ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+pa_90,2007,-0.11398369987437595,1.0,1
+pa_90,2008,-5.422702498923904,1.0,1
+pa_90,2009,-5.157084586006244,1.0,1
+pa_90,2010,6.136488717666477,1.0,1
+pa_90,2011,-5.736868944416118,1.0,1
+pa_90,2012,0.14713080868538064,1.0,1
+pa_90,2013,-0.7083919621151735,1.0,1
+pa_90,2014,-3.889665727950331,1.0,1
+pa_90,2015,1.3004003633449779,1.0,1
+pa_90,2016,-0.07751733391172522,1.0,1
+pa_90,2017,-6.929031380903316,1.0,1
+pa_90,2018,-1.9168243293048892,1.0,1
+pa_90,2019,-1.79053041600864,1.0,1
+pa_90,2020,-1.7220582278869911,1.0,1
+pa_90,2021,3.6370316242889222,1.0,1
+pa_90,2022,4.781363056258359,1.0,1
+pa_90,2023,0.32429245283018826,1.0,1
+pa_90,2024,1.5803336259877065,1.0,1
+pa_90,2025,11.114302125215403,1.0,1

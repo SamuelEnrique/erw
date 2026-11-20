@@ -68,7 +68,8 @@ class WideFrameOneChart(unittest.TestCase):
         self.assertNotIn("max-aspect-ratio", s)
 
     def test_the_card_draws_the_same_svg(self):
-        self.assertIn("<CardChart spec={card.chart} label={card.title} height={420} />", read(os.path.join(SITE, "components", "analysis", "FindingCard.tsx")))
+        # session 7605 (chain 305): the same chart, a held grid's small-multiple panels taken out first (heldMultiples)
+        self.assertIn("<CardChart spec={heldMultiples(card.chart)} label={card.title} height={420} />", read(os.path.join(SITE, "components", "analysis", "FindingCard.tsx")))
 
 
 class AreaInsideThePanel(unittest.TestCase):
