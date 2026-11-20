@@ -30,6 +30,7 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
 | 6 | "Each figure is an upper bound" is false: findings 2 and 3 together give 88.81; with finding 1 as well, 83.02 | the bound: +7.41 (+9.1 percent) | +47.6 | `wip/audit-battery-6` (fix in words) |
 | 7 | The size runs to 5,000 MW and scales linearly; past about 500 MW the battery is paid for reserves ERCOT never buys | none at 100 MW; -27.0 percent of revenue at 5,000 MW (September 2026) | none at 100 MW | `wip/audit-battery-7` |
 | 8 | The NPV holds no tax, no depreciation, and by default no credit, yet is discounted at a cost of equity | none | +118.95 after federal tax; +426.14 with the 30 percent credit as well | `wip/audit-battery-8` |
+| 9 | Flat real revenue, a fixed money debt payment and a money discount rate in one sum | none | +39.67 to +60.95 (inflation 2 to 2.5 percent) | `wip/audit-battery-9` |
 
 ## 1. Regulation is never called
 
@@ -108,6 +109,17 @@ Session 9840, 20 November 2026, the desktop's fifth window. Read as a storage de
   - The headline revenue and coverage do not move.
 - **The test.** `tests/test_audit_battery_8.py` on `wip/audit-battery-8`: through `finance.ts` (run by Node) the default credit is 0 and a 30 percent credit moves NPV by exactly 30 percent of the capital cost (no tax term); the same case after tax gives -578.85 and -271.66.
 - **Not fixed.** Tax, depreciation and the credit's default are the owner's ruling. Eligibility for the credit (wages, sourcing rules) is the project's; the figures above only show what the choice is worth.
+
+## 9. Two kinds of dollars in one sum
+
+- **Where.** `site/lib/battery/finance.ts` lines 206 (`debtService`, a level payment at the interest rate), 213 to 221 (revenue flat apart from degradation) and 243 to 255 (`flows` and `npv` at the hurdle rate). The note, section 11.1 line 418 ("revenue and costs are flat in today's dollars apart from degradation").
+- **Why it is wrong.** Revenue and fixed O&M are flat in today's dollars: a real convention. The debt payment is a level payment on an 8 percent loan: fixed in money, so in real terms it shrinks each year. The 12 percent hurdle is a money rate. A real flow wants a real rate; a money payment wants money flows. Mixing them counts inflation against the owner twice.
+- **How much.** Either consistent reading raises the default NPV (USD -697.80 per kW):
+  - money flows (revenue and O&M rising with inflation, the debt fixed) at 12 percent: -658.13 at 2 percent inflation (+39.67), -647.10 at 2.5 (+50.70);
+  - real flows (the debt deflated) at the real rate (9.80 and 9.27 percent): -650.15 (+47.65) and -636.85 (+60.95).
+  - The inflation rate is this audit's assumption, not a source's: 2 and 2.5 percent bracket the usual planning figures. The headline revenue and coverage do not move.
+- **The test.** `tests/test_audit_battery_9.py` on `wip/audit-battery-9`: through `finance.ts` (run by Node) the debt payment is one number every year while income falls by the degradation alone; both consistent readings give the four figures above.
+- **Not fixed.** An inflation rate is a new assumption: the owner's ruling. The smallest fix in words is to say in the note which dollars the 12 percent is in.
 
 ## The deploys of this file (rule 8)
 
