@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate eu_share_wind, region eu_fi (Finland)
+# Computed 2026-11-19T13:14:45Z by warehouse/analysis/findings/deep/world_power.py (eu_share_wind); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: wind's share of the country's net production (percent), the observations it rests on, and whether the year is full
+# Tables: eurostat_electricity_monthly
+region,year,value,n_observations,full_year
+eu_fi,2016,4.6213968705978585,12.0,1
+eu_fi,2017,7.3470959790479125,12.0,1
+eu_fi,2018,8.692792386247003,12.0,1
+eu_fi,2019,9.061042814752014,12.0,1
+eu_fi,2020,11.719157739635236,12.0,1
+eu_fi,2021,11.621488429042007,12.0,1
+eu_fi,2022,16.713405996125935,12.0,1
+eu_fi,2023,18.530478350568306,12.0,1
+eu_fi,2024,25.025837513548936,12.0,1
+eu_fi,2025,27.916418967632588,12.0,1

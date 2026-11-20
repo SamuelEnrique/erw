@@ -53,10 +53,61 @@ def expected_of(text):
     return None
 
 
+FIGURES = re.compile(r"^# Expected figures: (.+?)(?:; tolerance.*)?$")
+
+
+def figures_of(text):
+    """Session 8206 (chain 502): a claim with no years (a figure across filings) names its figures by name:
+    "# Expected figures: median 10.0; lowest 1.0; highest 15.0", and its script prints "median 10.0" and so on."""
+    for line in text.split("\n")[:3]:
+        m = FIGURES.match(line)
+        if m:
+            out = {}
+            for part in m.group(1).split(";"):
+                k, _, v = part.strip().rpartition(" ")
+                if k:
+                    out[k] = float(v)
+            return out or None
+    return None
+
+
+def check_figures(path, text, figs, names, tables, python, timeout):
+    out = {"draft": os.path.relpath(path, DOCS).replace("\\", "/"), "ok": False}
+    files = [os.path.join(tables, n) for n in names]
+    missing = [n for n in names if not os.path.exists(os.path.join(tables, n))]
+    if missing:
+        out["why"] = f"tables not on this machine: {', '.join(missing)}"
+        return out
+    with tempfile.TemporaryDirectory() as d:
+        script = os.path.join(d, "reproduce.py")
+        shutil.copy(path, script)
+        r = subprocess.run([python, "-I", script] + files, capture_output=True, text=True, cwd=d, timeout=timeout)
+    if r.returncode != 0:
+        out["why"] = f"exit {r.returncode}: {r.stderr.strip()[-300:]}"
+        return out
+    got = {}
+    for line in r.stdout.strip().splitlines():
+        k, _, v = line.strip().rpartition(" ")
+        try:
+            got[k] = float(v)
+        except ValueError:
+            continue
+    bad = [k for k, v in figs.items() if k not in got or abs(got[k] - v) > max(abs(v) * 0.005, 1e-6)]
+    out.update(expected=figs, printed={k: got.get(k) for k in figs})
+    if bad:
+        out["why"] = "printed " + ", ".join(f"{k} {got.get(k)}" for k in bad) + ", expected " + ", ".join(f"{k} {figs[k]}" for k in bad)
+    else:
+        out["ok"] = True
+    return out
+
+
 def check_one(path, tables, python=sys.executable, timeout=900):
     text = open(path, encoding="utf-8").read()
     exp, names = expected_of(text), args_of(text)
     out = {"draft": os.path.relpath(path, DOCS).replace("\\", "/"), "ok": False}
+    figs = figures_of(text) if exp is None else None
+    if figs and names:
+        return check_figures(path, text, figs, names, tables, python, timeout)
     if exp is None or not names:
         out["why"] = "no expected line or no usage line"
         return out

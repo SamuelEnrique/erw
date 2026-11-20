@@ -101,6 +101,7 @@ PAGE_PATHS=(site/data/datacenter site/data/seller/capture.json site/data/curtail
             site/data/map.json site/data/map_v2.json)   # session 349: the map's copy (dm_project_map)
 PAGE_PATHS+=(site/data/storage_owners.json   # session 7050: the owners tab's copy, written by dm_storage_owners --snapshot
             site/data/demand_weather.json)   # session 7051: demand with the weather taken out (dm_demand_weather --snapshot)
+PAGE_PATHS+=(site/data/regions site/data/industry.json)   # session 8008 (chain 501 step B8): the whole country's page files and industry.json
 PAGE_PATHS+=(replication/datacenter/page_figures.json replication/datacenter/page_figures.csv   # session 3779: dm_datacenter_figures
             docs/methods/automated_analysis_findings.md   # session 3779: dm_cross_check_rows
             replication/analysis/page_figures.json replication/analysis/page_figures.csv)   # session 3803: dm_analysis_figures
@@ -263,6 +264,55 @@ table_stores dm_rt_adders_stores "$ADDERS" "$was"
 # saved, who owns the batteries, the shoulder hours), each table's stores when it moved, and the live-set load of the
 # tables only this machine builds. bash warehouse/run_data_machine_tables.sh --list names every step and its command.
 . warehouse/run_data_machine_tables.sh
+
+# ---- 1f. the whole country (session 8008, chain 501 step B8) ----------------------------------------------------------
+# EIA's six-month files of this half-year and the one before it, asked again (four requests to www.eia.gov), then the
+# region and balancing authority tables rebuilt whole from the saved files (eia930_region_hourly.py and
+# eia930_ba_interchange_hourly.py, chain 401), net generation by source merged for the two files
+# (eia930_region_fuel_hourly.py), and each table that moved through its stores without the Redivis draft (these tables
+# are held out of release v1 and are not on Redivis). Then the page files of the whole country (region_files.py: the
+# index, demand, mix, trade and event files, each demand file keeping the weather object it had; interchange_pairs.py:
+# the four pair tables and trade_matrix.json; industry_page.py: industry.json) and their tests as a group. Each a soft
+# step: a failure is recorded and the run goes on, and a group whose tests fail is put back whole.
+y="$(date -u +%Y)"; m="$(date -u +%m)"
+if [ "$((10#$m))" -le 6 ]; then half_now="${y}_Jan_Jun"; half_before="$((y - 1))_Jul_Dec"; else half_now="${y}_Jul_Dec"; half_before="${y}_Jan_Jun"; fi
+echo "== the whole country: EIA-930's six-month files $half_before and $half_now asked again, the region tables rebuilt"
+soft_step dm_regions_download "$PYTHON" warehouse/connectors/eia930_region_hourly.py --download-only --files "EIA930_BALANCE_${half_before}.csv" "EIA930_BALANCE_${half_now}.csv"
+soft_step dm_interchange_download "$PYTHON" warehouse/connectors/eia930_ba_interchange_hourly.py --download-only --files "EIA930_INTERCHANGE_${half_before}.csv" "EIA930_INTERCHANGE_${half_now}.csv"
+REGION_TABLES="eia930_region_hourly eia930_ba_demand_hourly eia930_ba_supply_hourly"
+PAIR_SOURCE_TABLES="eia930_region_pair_hourly eia930_ba_interchange_hourly_$((y - 1)) eia930_ba_interchange_hourly_${y}"
+PAIR_TABLES="interchange_pair_daily interchange_pair_monthly ba_trade_partners interchange_event_pairs"
+declare -A was_t
+for t in $REGION_TABLES $PAIR_SOURCE_TABLES eia930_region_fuel_hourly $PAIR_TABLES; do was_t[$t]="$(sha_of "$t")"; done
+if grep -q "^dm_regions_download ok" "$status"; then
+  soft_step dm_regions_tables "$PYTHON" warehouse/connectors/eia930_region_hourly.py --from-raw
+  soft_step dm_regions_fuel "$PYTHON" warehouse/connectors/eia930_region_fuel_hourly.py --files "EIA930_BALANCE_${half_before}.csv" "EIA930_BALANCE_${half_now}.csv"
+fi
+if grep -q "^dm_interchange_download ok" "$status"; then
+  soft_step dm_interchange_tables "$PYTHON" warehouse/connectors/eia930_ba_interchange_hourly.py --from-raw
+fi
+for t in $REGION_TABLES $PAIR_SOURCE_TABLES eia930_region_fuel_hourly; do
+  if [ "$(sha_of "$t")" != "${was_t[$t]}" ]; then soft_step "dm_stores_$t" "$PYTHON" warehouse/table_stores.py "$t" --no-redivis; fi
+done
+soft_step dm_region_files "$PYTHON" warehouse/derived/region_files.py
+soft_step dm_interchange_pairs "$PYTHON" warehouse/derived/interchange_pairs.py
+for t in $PAIR_TABLES; do
+  if [ "$(sha_of "$t")" != "${was_t[$t]}" ]; then soft_step "dm_stores_$t" "$PYTHON" warehouse/table_stores.py "$t" --no-redivis; fi
+done
+soft_step dm_industry_page "$PYTHON" warehouse/derived/industry_page.py
+# Session 8012 (chain 505, part C): every balancing authority's own facts (site/data/regions/authority/), from the
+# region files just written, EIA-860M, the saved six-month files and the trade and large-load tables
+soft_step dm_authority_facts "$PYTHON" warehouse/derived/authority_facts.py
+# Session 8012 (chain 505, part D1): the day-ahead demand forecast beside the demand that came (two tables and
+# site/data/regions/forecast/), from the six-month files saved above and eia930_ba_demand_hourly
+soft_step dm_forecast_error "$PYTHON" warehouse/derived/forecast_error.py
+# Session 8013 (chain 505, part D2): the operators' wind and solar forecasts beside the output (site/data/regions/
+# renewables_forecast.json), from caiso_wind_solar_forecast and ercot_wind_solar_forecast; no table of its own
+soft_step dm_renewable_forecast_error "$PYTHON" warehouse/derived/renewable_forecast_error.py
+# Session 8013 (chain 505, part E2): what power costs across the map (site/data/regions/prices_map.json), from the public
+# price tables price_compare.py reads; no table of its own
+soft_step dm_prices_map "$PYTHON" warehouse/derived/prices_map.py
+for t in eia930_forecast_error_hourly eia930_forecast_error_daily; do soft_step "dm_stores_$t" "$PYTHON" warehouse/table_stores.py "$t" --no-redivis; done
 
 # ---- 2. ERCOT's load zones --------------------------------------------------------------------------------------------
 echo "== ERCOT's load zone prices: the daily refresh (the count against the ceiling is in runs/daily_dm_ercot_zone_prices.out)"
@@ -484,6 +534,9 @@ group dm_test_replication "dm_datacenter_page dm_datacenter_export dm_datacenter
 if grep -qE "^(dm_mix_profile|dm_curtailment_profile) ok" "$status"; then
   group dm_monthly_profiles "dm_mix_profile dm_curtailment_profile"     "tests.test_session94 tests.test_session98 tests.test_session133 tests.test_session144_page" --     site/data/curtailment_profile.json site/data/mix
 fi
+# Session 8008 (chain 501 step B8): the whole country's page files and industry.json, with the tests that hold them to
+# their contract (docs/state/page_files_regions.md); a refused build is put back whole.
+group dm_test_regions "dm_region_files dm_interchange_pairs dm_industry_page dm_authority_facts dm_forecast_error dm_renewable_forecast_error dm_prices_map" "tests.test_session8001_regions_pages tests.test_session8002_interchange_pairs tests.test_session8012_authority_facts tests.test_session8012_forecast_error tests.test_session8013_renewable_forecast tests.test_session8013_prices_map" --   site/data/regions site/data/industry.json
 
 # ---- 4. the commit ----------------------------------------------------------------------------------------------------
 echo "== status"
