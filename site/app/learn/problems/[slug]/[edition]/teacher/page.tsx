@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Section } from "@/components/Section";
-import { edition, editionPath, editions, longDate } from "@/lib/problemEditions";
+import { edition, editionHolds, editionPath, editions, longDate } from "@/lib/problemEditions";
 import { SETS } from "@/lib/problems";
 import { FrozenParts } from "../../../Frozen";
 import { PrintButton } from "../../../PrintButton";
@@ -12,7 +12,8 @@ import { PrintButton } from "../../../PrintButton";
 // answer and worked solution open, why it matters, and the rows it needs, ready to print. The figures are the edition's,
 // frozen with its date.
 export function generateStaticParams() {
-  return SETS.flatMap((s) => editions().map((e) => ({ slug: s.slug, edition: e })));
+  // session 8901: only the editions that hold the set (a set added after an edition has no copy in it)
+  return SETS.flatMap((s) => editions().filter((e) => editionHolds(s.slug, e)).map((e) => ({ slug: s.slug, edition: e })));
 }
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; edition: string }> }): Promise<Metadata> {
   const { slug, edition: d } = await params;
