@@ -1,0 +1,444 @@
+# ERW, the Grid tool's map: every figure the map draws computed again from the snapshot and the boundary file (replication/grid/replicate_map.py)
+# Source: the network's snapshot (Form EIA-930 interchange, public domain; replication/grid/map_snapshot.json, built 2026-11-19T13:05:42Z) and site/data/regions/ba_boundaries.json (HIFLD Control Areas (ORNL, LANL, INL, NGA HSIP), served by Penn State PASDA)
+# Source URL: https://www.eia.gov/electricity/gridmonitor/ ; the boundaries: https://mapservices.pasda.psu.edu/server/rest/services/pasda/HIFLD_FEMA/MapServer/26
+# Retrieved: the page read 2026-11-19T14:47:49Z; the boundaries 2026-11-19T10:37:55Z
+figure,page,computed,met
+the hour the week opens on,2026-11-17T04:00:00Z,2026-11-17T04:00:00Z,yes
+"the line under the controls: reporting pairs, the newest hour, how many it holds","[159, '2026-11-18 04:00', 148, 159]","[159, '2026-11-18 04:00', 148, 159]",yes
+regions on the map,60,60,yes
+"the regions drawn, by code","['AECI', 'AVA', 'AVRN', 'AZPS', 'BANC', 'BPAT', 'CHPD', 'CISO', 'CPLE', 'CPLW', 'DEAA', 'DOPD', 'DUK', 'EPE', 'ERCO', 'FMPP', 'FPC', 'FPL', 'GCPD', 'GRID', 'GVL', 'GWA', 'HST', 'IID', 'IPCO', 'ISNE', 'JEA', 'LDWP', 'LGEE', 'MISO', 'NBSO', 'NEVP', 'NWMT', 'NYIS', 'PACE', 'PACW', 'PGE', 'PJM', 'PNM', 'PSCO', 'PSEI', 'SC', 'SCEG', 'SCL', 'SEC', 'SEPA', 'SOCO', 'SPA', 'SRP', 'SWPP', 'TAL', 'TEC', 'TEPC', 'TIDC', 'TPWR', 'TVA', 'WALC', 'WAUW', 'WWA', 'YAD']","['AECI', 'AVA', 'AVRN', 'AZPS', 'BANC', 'BPAT', 'CHPD', 'CISO', 'CPLE', 'CPLW', 'DEAA', 'DOPD', 'DUK', 'EPE', 'ERCO', 'FMPP', 'FPC', 'FPL', 'GCPD', 'GRID', 'GVL', 'GWA', 'HST', 'IID', 'IPCO', 'ISNE', 'JEA', 'LDWP', 'LGEE', 'MISO', 'NBSO', 'NEVP', 'NWMT', 'NYIS', 'PACE', 'PACW', 'PGE', 'PJM', 'PNM', 'PSCO', 'PSEI', 'SC', 'SCEG', 'SCL', 'SEC', 'SEPA', 'SOCO', 'SPA', 'SRP', 'SWPP', 'TAL', 'TEC', 'TEPC', 'TIDC', 'TPWR', 'TVA', 'WALC', 'WAUW', 'WWA', 'YAD']",yes
+boundaries in the file,67,67,yes
+authorities listed under the map: no boundary in the file,"['AESO', 'BCHA', 'BHBA', 'CEN', 'HQT', 'IESO', 'MHEB', 'SIKE', 'SPC', 'SWPW']","['AESO', 'BCHA', 'BHBA', 'CEN', 'HQT', 'IESO', 'MHEB', 'SIKE', 'SPC', 'SWPW']",yes
+their count,10,10,yes
+ties of the hour,148,148,yes
+ties drawn on the map (both ends have a boundary),127,127,yes
+"the ties drawn, each from its exporter to its importer","['AECI>MISO', 'AECI>SPA', 'AECI>TVA', 'AVA>PACW', 'AVRN>BPAT', 'AVRN>PACW', 'AZPS>CISO', 'AZPS>IID', 'AZPS>LDWP', 'AZPS>PACE', 'AZPS>WALC', 'BANC>CISO', 'BPAT>AVA', 'BPAT>BANC', 'BPAT>CISO', 'BPAT>PACW', 'BPAT>PGE', 'BPAT>PSEI', 'BPAT>SCL', 'BPAT>TPWR', 'CHPD>AVA', 'CHPD>BPAT', 'CHPD>DOPD', 'CHPD>PSEI', 'CISO>LDWP', 'CISO>TIDC', 'CPLE>PJM', 'CPLE>SC', 'DEAA>SRP', 'DOPD>BPAT', 'DUK>CPLE', 'DUK>CPLW', 'DUK>PJM', 'DUK>SEPA', 'DUK>SOCO', 'FMPP>FPC', 'FPC>GVL', 'FPC>SOCO', 'FPC>TEC', 'FPL>FMPP', 'FPL>FPC', 'FPL>HST', 'FPL>JEA', 'GCPD>AVA', 'GCPD>BPAT', 'GCPD>PACW', 'GRID>BPAT', 'GRID>PNM', 'GRID>SRP', 'GRID>WALC', 'GVL>FPL', 'GWA>NWMT', 'IID>CISO', 'IID>WALC', 'IPCO>BPAT', 'IPCO>NEVP', 'IPCO>PACW', 'JEA>FMPP', 'LDWP>BPAT', 'LDWP>NEVP', 'LDWP>PACE', 'LGEE>PJM', 'MISO>LGEE', 'MISO>SWPP', 'MISO>TVA', 'NBSO>ISNE', 'NEVP>CISO', 'NEVP>PACE', 'NWMT>AVA', 'NWMT>BPAT', 'NWMT>IPCO', 'NYIS>ISNE', 'PACE>IPCO', 'PACE>NWMT', 'PACW>CISO', 'PACW>PGE', 'PJM>CPLW', 'PJM>MISO', 'PJM>NYIS', 'PNM>AZPS', 'PNM>EPE', 'PSCO>PNM', 'PSEI>GCPD', 'PSEI>SCL', 'SC>DUK', 'SC>SEPA', 'SCEG>CPLE', 'SCEG>DUK', 'SCEG>SC', 'SCEG>SEPA', 'SEC>FPC', 'SEC>FPL', 'SEC>JEA', 'SEPA>SOCO', 'SOCO>FPL', 'SOCO>MISO', 'SOCO>SC', 'SOCO>SCEG', 'SOCO>TAL', 'SPA>MISO', 'SPA>SWPP', 'SRP>AZPS', 'SRP>CISO', 'SRP>PACE', 'SRP>WALC', 'SWPP>AECI', 'SWPP>ERCO', 'TAL>FPC', 'TEC>FMPP', 'TEC>FPL', 'TEC>SEC', 'TEPC>AZPS', 'TEPC>EPE', 'TEPC>PNM', 'TEPC>SRP', 'TIDC>BANC', 'TPWR>PSEI', 'TVA>CPLW', 'TVA>DUK', 'TVA>LGEE', 'TVA>PJM', 'TVA>SOCO', 'WALC>CISO', 'WALC>LDWP', 'WALC>NEVP', 'WALC>TEPC', 'WAUW>SWPP']","['AECI>MISO', 'AECI>SPA', 'AECI>TVA', 'AVA>PACW', 'AVRN>BPAT', 'AVRN>PACW', 'AZPS>CISO', 'AZPS>IID', 'AZPS>LDWP', 'AZPS>PACE', 'AZPS>WALC', 'BANC>CISO', 'BPAT>AVA', 'BPAT>BANC', 'BPAT>CISO', 'BPAT>PACW', 'BPAT>PGE', 'BPAT>PSEI', 'BPAT>SCL', 'BPAT>TPWR', 'CHPD>AVA', 'CHPD>BPAT', 'CHPD>DOPD', 'CHPD>PSEI', 'CISO>LDWP', 'CISO>TIDC', 'CPLE>PJM', 'CPLE>SC', 'DEAA>SRP', 'DOPD>BPAT', 'DUK>CPLE', 'DUK>CPLW', 'DUK>PJM', 'DUK>SEPA', 'DUK>SOCO', 'FMPP>FPC', 'FPC>GVL', 'FPC>SOCO', 'FPC>TEC', 'FPL>FMPP', 'FPL>FPC', 'FPL>HST', 'FPL>JEA', 'GCPD>AVA', 'GCPD>BPAT', 'GCPD>PACW', 'GRID>BPAT', 'GRID>PNM', 'GRID>SRP', 'GRID>WALC', 'GVL>FPL', 'GWA>NWMT', 'IID>CISO', 'IID>WALC', 'IPCO>BPAT', 'IPCO>NEVP', 'IPCO>PACW', 'JEA>FMPP', 'LDWP>BPAT', 'LDWP>NEVP', 'LDWP>PACE', 'LGEE>PJM', 'MISO>LGEE', 'MISO>SWPP', 'MISO>TVA', 'NBSO>ISNE', 'NEVP>CISO', 'NEVP>PACE', 'NWMT>AVA', 'NWMT>BPAT', 'NWMT>IPCO', 'NYIS>ISNE', 'PACE>IPCO', 'PACE>NWMT', 'PACW>CISO', 'PACW>PGE', 'PJM>CPLW', 'PJM>MISO', 'PJM>NYIS', 'PNM>AZPS', 'PNM>EPE', 'PSCO>PNM', 'PSEI>GCPD', 'PSEI>SCL', 'SC>DUK', 'SC>SEPA', 'SCEG>CPLE', 'SCEG>DUK', 'SCEG>SC', 'SCEG>SEPA', 'SEC>FPC', 'SEC>FPL', 'SEC>JEA', 'SEPA>SOCO', 'SOCO>FPL', 'SOCO>MISO', 'SOCO>SC', 'SOCO>SCEG', 'SOCO>TAL', 'SPA>MISO', 'SPA>SWPP', 'SRP>AZPS', 'SRP>CISO', 'SRP>PACE', 'SRP>WALC', 'SWPP>AECI', 'SWPP>ERCO', 'TAL>FPC', 'TEC>FMPP', 'TEC>FPL', 'TEC>SEC', 'TEPC>AZPS', 'TEPC>EPE', 'TEPC>PNM', 'TEPC>SRP', 'TIDC>BANC', 'TPWR>PSEI', 'TVA>CPLW', 'TVA>DUK', 'TVA>LGEE', 'TVA>PJM', 'TVA>SOCO', 'WALC>CISO', 'WALC>LDWP', 'WALC>NEVP', 'WALC>TEPC', 'WAUW>SWPP']",yes
+"tie AECI>MISO, MW",622.0,622.0,yes
+"tie AECI>SPA, MW",325.0,325.0,yes
+"tie AECI>TVA, MW",371.0,371.0,yes
+"tie AVA>PACW, MW",94.0,94.0,yes
+"tie AVRN>BPAT, MW",210.0,210.0,yes
+"tie AVRN>PACW, MW",263.0,263.0,yes
+"tie AZPS>CISO, MW",1337.0,1337.0,yes
+"tie AZPS>IID, MW",35.0,35.0,yes
+"tie AZPS>LDWP, MW",457.0,457.0,yes
+"tie AZPS>PACE, MW",20.0,20.0,yes
+"tie AZPS>WALC, MW",1106.0,1106.0,yes
+"tie BANC>CISO, MW",289.0,289.0,yes
+"tie BPAT>AVA, MW",512.0,512.0,yes
+"tie BPAT>BANC, MW",228.0,228.0,yes
+"tie BPAT>CISO, MW",415.0,415.0,yes
+"tie BPAT>PACW, MW",914.0,914.0,yes
+"tie BPAT>PGE, MW",1293.0,1293.0,yes
+"tie BPAT>PSEI, MW",1547.0,1547.0,yes
+"tie BPAT>SCL, MW",771.0,771.0,yes
+"tie BPAT>TPWR, MW",435.0,435.0,yes
+"tie CHPD>AVA, MW",22.0,22.0,yes
+"tie CHPD>BPAT, MW",695.0,695.0,yes
+"tie CHPD>DOPD, MW",183.0,183.0,yes
+"tie CHPD>PSEI, MW",224.0,224.0,yes
+"tie CISO>LDWP, MW",255.0,255.0,yes
+"tie CISO>TIDC, MW",344.0,344.0,yes
+"tie CPLE>PJM, MW",1459.0,1459.0,yes
+"tie CPLE>SC, MW",70.0,70.0,yes
+"tie DEAA>SRP, MW",585.0,585.0,yes
+"tie DOPD>BPAT, MW",496.0,496.0,yes
+"tie DUK>CPLE, MW",912.0,912.0,yes
+"tie DUK>CPLW, MW",20.0,20.0,yes
+"tie DUK>PJM, MW",47.0,47.0,yes
+"tie DUK>SEPA, MW",90.0,90.0,yes
+"tie DUK>SOCO, MW",147.0,147.0,yes
+"tie FMPP>FPC, MW",67.0,67.0,yes
+"tie FPC>GVL, MW",54.0,54.0,yes
+"tie FPC>SOCO, MW",86.0,86.0,yes
+"tie FPC>TEC, MW",302.0,302.0,yes
+"tie FPL>FMPP, MW",309.0,309.0,yes
+"tie FPL>FPC, MW",346.0,346.0,yes
+"tie FPL>HST, MW",65.0,65.0,yes
+"tie FPL>JEA, MW",483.0,483.0,yes
+"tie GCPD>AVA, MW",89.0,89.0,yes
+"tie GCPD>BPAT, MW",662.0,662.0,yes
+"tie GCPD>PACW, MW",100.0,100.0,yes
+"tie GRID>BPAT, MW",293.0,293.0,yes
+"tie GRID>PNM, MW",492.0,492.0,yes
+"tie GRID>SRP, MW",594.0,594.0,yes
+"tie GRID>WALC, MW",259.0,259.0,yes
+"tie GVL>FPL, MW",39.0,39.0,yes
+"tie GWA>NWMT, MW",20.0,20.0,yes
+"tie IID>CISO, MW",308.0,308.0,yes
+"tie IID>WALC, MW",11.0,11.0,yes
+"tie IPCO>BPAT, MW",75.0,75.0,yes
+"tie IPCO>NEVP, MW",66.0,66.0,yes
+"tie IPCO>PACW, MW",391.0,391.0,yes
+"tie JEA>FMPP, MW",11.0,11.0,yes
+"tie LDWP>BPAT, MW",312.0,312.0,yes
+"tie LDWP>NEVP, MW",872.0,872.0,yes
+"tie LDWP>PACE, MW",463.0,463.0,yes
+"tie LGEE>PJM, MW",457.0,457.0,yes
+"tie MISO>LGEE, MW",841.0,841.0,yes
+"tie MISO>SWPP, MW",441.0,441.0,yes
+"tie MISO>TVA, MW",2099.0,2099.0,yes
+"tie NBSO>ISNE, MW",197.0,197.0,yes
+"tie NEVP>CISO, MW",879.0,879.0,yes
+"tie NEVP>PACE, MW",57.0,57.0,yes
+"tie NWMT>AVA, MW",78.0,78.0,yes
+"tie NWMT>BPAT, MW",590.0,590.0,yes
+"tie NWMT>IPCO, MW",11.0,11.0,yes
+"tie NYIS>ISNE, MW",1638.0,1638.0,yes
+"tie PACE>IPCO, MW",839.0,839.0,yes
+"tie PACE>NWMT, MW",151.0,151.0,yes
+"tie PACW>CISO, MW",9.0,9.0,yes
+"tie PACW>PGE, MW",8.0,8.0,yes
+"tie PJM>CPLW, MW",50.0,50.0,yes
+"tie PJM>MISO, MW",1150.0,1150.0,yes
+"tie PJM>NYIS, MW",2022.0,2022.0,yes
+"tie PNM>AZPS, MW",75.0,75.0,yes
+"tie PNM>EPE, MW",111.0,111.0,yes
+"tie PSCO>PNM, MW",97.0,97.0,yes
+"tie PSEI>GCPD, MW",10.0,10.0,yes
+"tie PSEI>SCL, MW",34.0,34.0,yes
+"tie SC>DUK, MW",670.0,670.0,yes
+"tie SC>SEPA, MW",207.0,207.0,yes
+"tie SCEG>CPLE, MW",129.0,129.0,yes
+"tie SCEG>DUK, MW",229.0,229.0,yes
+"tie SCEG>SC, MW",1109.0,1109.0,yes
+"tie SCEG>SEPA, MW",11.0,11.0,yes
+"tie SEC>FPC, MW",30.0,30.0,yes
+"tie SEC>FPL, MW",539.0,539.0,yes
+"tie SEC>JEA, MW",49.0,49.0,yes
+"tie SEPA>SOCO, MW",307.0,307.0,yes
+"tie SOCO>FPL, MW",330.0,330.0,yes
+"tie SOCO>MISO, MW",413.0,413.0,yes
+"tie SOCO>SC, MW",782.0,782.0,yes
+"tie SOCO>SCEG, MW",1357.0,1357.0,yes
+"tie SOCO>TAL, MW",45.0,45.0,yes
+"tie SPA>MISO, MW",253.0,253.0,yes
+"tie SPA>SWPP, MW",140.0,140.0,yes
+"tie SRP>AZPS, MW",3532.0,3532.0,yes
+"tie SRP>CISO, MW",1337.0,1337.0,yes
+"tie SRP>PACE, MW",24.0,24.0,yes
+"tie SRP>WALC, MW",283.0,283.0,yes
+"tie SWPP>AECI, MW",342.0,342.0,yes
+"tie SWPP>ERCO, MW",463.0,463.0,yes
+"tie TAL>FPC, MW",45.0,45.0,yes
+"tie TEC>FMPP, MW",105.0,105.0,yes
+"tie TEC>FPL, MW",241.0,241.0,yes
+"tie TEC>SEC, MW",103.0,103.0,yes
+"tie TEPC>AZPS, MW",67.0,67.0,yes
+"tie TEPC>EPE, MW",139.0,139.0,yes
+"tie TEPC>PNM, MW",239.0,239.0,yes
+"tie TEPC>SRP, MW",233.0,233.0,yes
+"tie TIDC>BANC, MW",166.0,166.0,yes
+"tie TPWR>PSEI, MW",46.0,46.0,yes
+"tie TVA>CPLW, MW",2.0,2.0,yes
+"tie TVA>DUK, MW",103.0,103.0,yes
+"tie TVA>LGEE, MW",126.0,126.0,yes
+"tie TVA>PJM, MW",448.0,448.0,yes
+"tie TVA>SOCO, MW",209.0,209.0,yes
+"tie WALC>CISO, MW",133.0,133.0,yes
+"tie WALC>LDWP, MW",1266.0,1266.0,yes
+"tie WALC>NEVP, MW",476.0,476.0,yes
+"tie WALC>TEPC, MW",369.0,369.0,yes
+"tie WAUW>SWPP, MW",100.0,100.0,yes
+AECI: a net exchange is drawn,True,True,yes
+AECI: net importer or exporter,exports,exports,yes
+"AECI: net exchange, MW",927.0,927.0,yes
+AECI: ties,5,5,yes
+"AECI: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+AVA: a net exchange is drawn,True,True,yes
+AVA: net importer or exporter,imports,imports,yes
+"AVA: net exchange, MW",607.0,607.0,yes
+AVA: ties,6,6,yes
+"AVA: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+AVRN: a net exchange is drawn,True,True,yes
+AVRN: net importer or exporter,exports,exports,yes
+"AVRN: net exchange, MW",473.0,473.0,yes
+AVRN: ties,2,2,yes
+"AVRN: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+AZPS: a net exchange is drawn,True,True,yes
+AZPS: net importer or exporter,imports,imports,yes
+"AZPS: net exchange, MW",765.0,765.0,yes
+AZPS: ties,9,9,yes
+"AZPS: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+BANC: a net exchange is drawn,True,True,yes
+BANC: net importer or exporter,imports,imports,yes
+"BANC: net exchange, MW",105.0,105.0,yes
+BANC: ties,3,3,yes
+"BANC: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+BPAT: a net exchange is drawn,True,True,yes
+BPAT: net importer or exporter,exports,exports,yes
+"BPAT: net exchange, MW",2967.0,2967.0,yes
+BPAT: ties,18,18,yes
+"BPAT: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+CHPD: a net exchange is drawn,True,True,yes
+CHPD: net importer or exporter,exports,exports,yes
+"CHPD: net exchange, MW",1124.0,1124.0,yes
+CHPD: ties,4,4,yes
+"CHPD: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+CISO: a net exchange is drawn,True,True,yes
+CISO: net importer or exporter,imports,imports,yes
+"CISO: net exchange, MW",4119.0,4119.0,yes
+CISO: ties,11,11,yes
+"CISO: carbon intensity of generation, kg CO2 per MWh",150.75,150.7531,yes
+CPLE: a net exchange is drawn,True,True,yes
+CPLE: net importer or exporter,exports,exports,yes
+"CPLE: net exchange, MW",488.0,488.0,yes
+CPLE: ties,5,5,yes
+"CPLE: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+CPLW: a net exchange is drawn,True,True,yes
+CPLW: net importer or exporter,imports,imports,yes
+"CPLW: net exchange, MW",72.0,72.0,yes
+CPLW: ties,3,3,yes
+"CPLW: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+DEAA: a net exchange is drawn,True,True,yes
+DEAA: net importer or exporter,exports,exports,yes
+"DEAA: net exchange, MW",585.0,585.0,yes
+DEAA: ties,1,1,yes
+"DEAA: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+DOPD: a net exchange is drawn,True,True,yes
+DOPD: net importer or exporter,exports,exports,yes
+"DOPD: net exchange, MW",313.0,313.0,yes
+DOPD: ties,2,2,yes
+"DOPD: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+DUK: a net exchange is drawn,True,True,yes
+DUK: net importer or exporter,exports,exports,yes
+"DUK: net exchange, MW",214.0,214.0,yes
+DUK: ties,9,9,yes
+"DUK: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+EPE: a net exchange is drawn,True,True,yes
+EPE: net importer or exporter,imports,imports,yes
+"EPE: net exchange, MW",250.0,250.0,yes
+EPE: ties,3,3,yes
+"EPE: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+ERCO: a net exchange is drawn,True,True,yes
+ERCO: net importer or exporter,imports,imports,yes
+"ERCO: net exchange, MW",464.0,464.0,yes
+ERCO: ties,2,2,yes
+"ERCO: carbon intensity of generation, kg CO2 per MWh",405.71,405.705,yes
+FMPP: a net exchange is drawn,True,True,yes
+FMPP: net importer or exporter,imports,imports,yes
+"FMPP: net exchange, MW",358.0,358.0,yes
+FMPP: ties,4,4,yes
+"FMPP: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+FPC: a net exchange is drawn,True,True,yes
+FPC: net importer or exporter,imports,imports,yes
+"FPC: net exchange, MW",46.0,46.0,yes
+FPC: ties,7,7,yes
+"FPC: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+FPL: a net exchange is drawn,True,True,yes
+FPL: net importer or exporter,exports,exports,yes
+"FPL: net exchange, MW",54.0,54.0,yes
+FPL: ties,8,8,yes
+"FPL: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+GCPD: a net exchange is drawn,True,True,yes
+GCPD: net importer or exporter,exports,exports,yes
+"GCPD: net exchange, MW",841.0,841.0,yes
+GCPD: ties,4,4,yes
+"GCPD: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+GRID: a net exchange is drawn,True,True,yes
+GRID: net importer or exporter,exports,exports,yes
+"GRID: net exchange, MW",1638.0,1638.0,yes
+GRID: ties,4,4,yes
+"GRID: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+GVL: a net exchange is drawn,True,True,yes
+GVL: net importer or exporter,imports,imports,yes
+"GVL: net exchange, MW",15.0,15.0,yes
+GVL: ties,2,2,yes
+"GVL: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+GWA: a net exchange is drawn,True,True,yes
+GWA: net importer or exporter,exports,exports,yes
+"GWA: net exchange, MW",20.0,20.0,yes
+GWA: ties,1,1,yes
+"GWA: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+HST: a net exchange is drawn,True,True,yes
+HST: net importer or exporter,imports,imports,yes
+"HST: net exchange, MW",65.0,65.0,yes
+HST: ties,1,1,yes
+"HST: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+IID: a net exchange is drawn,True,True,yes
+IID: net importer or exporter,exports,exports,yes
+"IID: net exchange, MW",284.0,284.0,yes
+IID: ties,3,3,yes
+"IID: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+IPCO: a net exchange is drawn,True,True,yes
+IPCO: net importer or exporter,imports,imports,yes
+"IPCO: net exchange, MW",318.0,318.0,yes
+IPCO: ties,6,6,yes
+"IPCO: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+ISNE: a net exchange is drawn,True,True,yes
+ISNE: net importer or exporter,imports,imports,yes
+"ISNE: net exchange, MW",911.0,911.0,yes
+ISNE: ties,3,3,yes
+"ISNE: carbon intensity of generation, kg CO2 per MWh",241.19,241.1873,yes
+JEA: a net exchange is drawn,True,True,yes
+JEA: net importer or exporter,imports,imports,yes
+"JEA: net exchange, MW",521.0,521.0,yes
+JEA: ties,3,3,yes
+"JEA: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+LDWP: a net exchange is drawn,True,True,yes
+LDWP: net importer or exporter,imports,imports,yes
+"LDWP: net exchange, MW",331.0,331.0,yes
+LDWP: ties,6,6,yes
+"LDWP: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+LGEE: a net exchange is drawn,True,True,yes
+LGEE: net importer or exporter,imports,imports,yes
+"LGEE: net exchange, MW",510.0,510.0,yes
+LGEE: ties,3,3,yes
+"LGEE: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+MISO: a net exchange is drawn,True,True,yes
+MISO: net importer or exporter,exports,exports,yes
+"MISO: net exchange, MW",213.0,213.0,yes
+MISO: ties,10,10,yes
+"MISO: carbon intensity of generation, kg CO2 per MWh",437.98,437.9753,yes
+NBSO: a net exchange is drawn,True,True,yes
+NBSO: net importer or exporter,exports,exports,yes
+"NBSO: net exchange, MW",197.0,197.0,yes
+NBSO: ties,1,1,yes
+"NBSO: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+NEVP: a net exchange is drawn,True,True,yes
+NEVP: net importer or exporter,imports,imports,yes
+"NEVP: net exchange, MW",478.0,478.0,yes
+NEVP: ties,6,6,yes
+"NEVP: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+NWMT: a net exchange is drawn,True,True,yes
+NWMT: net importer or exporter,exports,exports,yes
+"NWMT: net exchange, MW",370.0,370.0,yes
+NWMT: ties,9,9,yes
+"NWMT: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+NYIS: a net exchange is drawn,True,True,yes
+NYIS: net importer or exporter,imports,imports,yes
+"NYIS: net exchange, MW",1081.0,1081.0,yes
+NYIS: ties,4,4,yes
+"NYIS: carbon intensity of generation, kg CO2 per MWh",235.75,235.7457,yes
+PACE: a net exchange is drawn,True,True,yes
+PACE: net importer or exporter,imports,imports,yes
+"PACE: net exchange, MW",470.0,470.0,yes
+PACE: ties,8,8,yes
+"PACE: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+PACW: a net exchange is drawn,True,True,yes
+PACW: net importer or exporter,imports,imports,yes
+"PACW: net exchange, MW",1745.0,1745.0,yes
+PACW: ties,7,7,yes
+"PACW: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+PGE: a net exchange is drawn,True,True,yes
+PGE: net importer or exporter,imports,imports,yes
+"PGE: net exchange, MW",1301.0,1301.0,yes
+PGE: ties,2,2,yes
+"PGE: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+PJM: a net exchange is drawn,True,True,yes
+PJM: net importer or exporter,exports,exports,yes
+"PJM: net exchange, MW",811.0,811.0,yes
+PJM: ties,7,7,yes
+"PJM: carbon intensity of generation, kg CO2 per MWh",324.2,324.2017,yes
+PNM: a net exchange is drawn,True,True,yes
+PNM: net importer or exporter,imports,imports,yes
+"PNM: net exchange, MW",365.0,365.0,yes
+PNM: ties,7,7,yes
+"PNM: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+PSCO: a net exchange is drawn,True,True,yes
+PSCO: net importer or exporter,exports,exports,yes
+"PSCO: net exchange, MW",284.0,284.0,yes
+PSCO: ties,3,3,yes
+"PSCO: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+PSEI: a net exchange is drawn,True,True,yes
+PSEI: net importer or exporter,imports,imports,yes
+"PSEI: net exchange, MW",1773.0,1773.0,yes
+PSEI: ties,5,5,yes
+"PSEI: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+SC: a net exchange is drawn,True,True,yes
+SC: net importer or exporter,imports,imports,yes
+"SC: net exchange, MW",1084.0,1084.0,yes
+SC: ties,5,5,yes
+"SC: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+SCEG: a net exchange is drawn,True,True,yes
+SCEG: net importer or exporter,exports,exports,yes
+"SCEG: net exchange, MW",121.0,121.0,yes
+SCEG: ties,5,5,yes
+"SCEG: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+SCL: a net exchange is drawn,True,True,yes
+SCL: net importer or exporter,imports,imports,yes
+"SCL: net exchange, MW",805.0,805.0,yes
+SCL: ties,2,2,yes
+"SCL: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+SEC: a net exchange is drawn,True,True,yes
+SEC: net importer or exporter,exports,exports,yes
+"SEC: net exchange, MW",515.0,515.0,yes
+SEC: ties,4,4,yes
+"SEC: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+SEPA: a net exchange is drawn,True,True,yes
+SEPA: net importer or exporter,imports,imports,yes
+"SEPA: net exchange, MW",1.0,1.0,yes
+SEPA: ties,4,4,yes
+"SEPA: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+SOCO: a net exchange is drawn,True,True,yes
+SOCO: net importer or exporter,exports,exports,yes
+"SOCO: net exchange, MW",2178.0,2178.0,yes
+SOCO: ties,9,9,yes
+"SOCO: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+SPA: a net exchange is drawn,True,True,yes
+SPA: net importer or exporter,imports,imports,yes
+"SPA: net exchange, MW",18.0,18.0,yes
+SPA: ties,4,4,yes
+"SPA: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+SRP: a net exchange is drawn,True,True,yes
+SRP: net importer or exporter,exports,exports,yes
+"SRP: net exchange, MW",3764.0,3764.0,yes
+SRP: ties,7,7,yes
+"SRP: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+SWPP: a net exchange is drawn,True,True,yes
+SWPP: net importer or exporter,exports,exports,yes
+"SWPP: net exchange, MW",168.0,168.0,yes
+SWPP: ties,11,11,yes
+"SWPP: carbon intensity of generation, kg CO2 per MWh",539.74,539.7443,yes
+TAL: a net exchange is drawn,True,True,yes
+TAL: net importer or exporter,imports,imports,yes
+"TAL: net exchange, MW",0.0,0.0,yes
+TAL: ties,2,2,yes
+"TAL: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+TEC: a net exchange is drawn,True,True,yes
+TEC: net importer or exporter,exports,exports,yes
+"TEC: net exchange, MW",147.0,147.0,yes
+TEC: ties,4,4,yes
+"TEC: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+TEPC: a net exchange is drawn,True,True,yes
+TEPC: net importer or exporter,exports,exports,yes
+"TEPC: net exchange, MW",309.0,309.0,yes
+TEPC: ties,5,5,yes
+"TEPC: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+TIDC: a net exchange is drawn,True,True,yes
+TIDC: net importer or exporter,imports,imports,yes
+"TIDC: net exchange, MW",178.0,178.0,yes
+TIDC: ties,2,2,yes
+"TIDC: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+TPWR: a net exchange is drawn,True,True,yes
+TPWR: net importer or exporter,imports,imports,yes
+"TPWR: net exchange, MW",389.0,389.0,yes
+TPWR: ties,2,2,yes
+"TPWR: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+TVA: a net exchange is drawn,True,True,yes
+TVA: net importer or exporter,imports,imports,yes
+"TVA: net exchange, MW",1582.0,1582.0,yes
+TVA: ties,7,7,yes
+"TVA: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+WALC: a net exchange is drawn,True,True,yes
+WALC: net importer or exporter,exports,exports,yes
+"WALC: net exchange, MW",490.0,490.0,yes
+WALC: ties,9,9,yes
+"WALC: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+WAUW: a net exchange is drawn,True,True,yes
+WAUW: net importer or exporter,exports,exports,yes
+"WAUW: net exchange, MW",100.0,100.0,yes
+WAUW: ties,2,2,yes
+"WAUW: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+WWA: a net exchange is drawn,True,True,yes
+WWA: net importer or exporter,imports,imports,yes
+"WWA: net exchange, MW",0.0,0.0,yes
+WWA: ties,1,1,yes
+"WWA: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+YAD: a net exchange is drawn,True,True,yes
+YAD: net importer or exporter,imports,imports,yes
+"YAD: net exchange, MW",0.0,0.0,yes
+YAD: ties,2,2,yes
+"YAD: carbon intensity of generation, kg CO2 per MWh",not held,not held,yes
+"the width key: the largest flow of the week, MW",4761.0,4761,yes
+"the width key's three steps: the largest, its quarter, its sixteenth","[4761.0, 1190.0, 298.0]","[4761.0, 1190.0, 298.0]",yes
