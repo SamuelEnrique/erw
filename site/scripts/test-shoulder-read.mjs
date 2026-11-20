@@ -149,5 +149,10 @@ for (const [name, html] of [["ERCOT, August 2025", e25], ["ERCOT, August 2023", 
 // ruling alternative 1 (wip/alt-shoulder-1): the hover says the low is looked for while the sun is up, in every month; a table of main's rule with a night low adds a sentence
 ok(e23.includes('data-sun-up="2023-08"') && e25.includes('data-sun-up="2025-08"') && words(e23).includes("lowest hour of the whole day falls before 08:00") && !words(e25).includes("lowest hour of the whole day falls before 08:00"), "case 4 under alternative 1: both months say the sun-up rule on hover; August 2023, lowest before dawn in main's table, says so");
 
+// ruling alternative 4 (wip/alt-shoulder-4, not a default on main): the worst days are ranked by the evening's highest net load, and the page says so
+ok(e25.includes('data-worst-by="evening-peak"') && e25.includes('id="tip-shoulder-worst-by"')
+  && words(e25).includes("ERCOT: the ten days of 2025 with the highest evening net load") && words(e25).includes("The ten with the highest evening net load (from the shoulder's start to midnight) in each local year are ranked"),
+  "alternative 4: the section's hover, the table's caption and the definition name the ranking by the evening's highest net load");
+
 console.log(`${n - failed} of ${n} passed`);
 if (failed) process.exitCode = 1;
