@@ -58,15 +58,15 @@ Rows here are counted once; a page's section points at them.
 
 ## The fixes, and what has been seen of them
 
-Nine branches, each cut from origin/main with its test, pushed. **None has been seen in a build:** this laptop had 1.0 to 1.8 GB of memory free from 11:37 UTC on (Samuel's own Chrome and the Claude programs hold the rest), under the 2 GB the chain asks for a build, and the whole suite was not run for the same cause. So no landing is requested yet (`docs/state/landing_request_portable.md`, rows 44 to 52, state "ready, not requested"). What was seen without a build is said on each line.
+Ten branches, each cut from origin/main with its test, pushed. **None has been seen in a build:** this laptop had 1.0 to 1.8 GB of memory free from 11:37 UTC on (Samuel's own Chrome and the Claude programs hold the rest), under the 2 GB the chain asks for a build, and the whole suite was not run for the same cause. So no landing is requested yet (`docs/state/landing_request_portable.md`, rows 44 to 53, state "ready, not requested"). What was seen without a build is said on each line.
 
 | Branch | Head | What it mends | Its test | Seen so far |
 |---|---|---|---|---|
-| `wip/9601-back-button-lists` | `dc046acff` | Row S1: the shared list after the back button | `tests/test_session9601_back_button.py` (7), with the two older tests that name the list: 32 pass; `site/scripts/check-back-button.mjs` | The check fails on production (4 of 16). In a real browser on a plain page of two lists (`runs/c620/backtest.mjs`): without the mend the list reads the later choice on the page shown again; with the same logic it reads the page's value. The browser puts the state back after the page's load and before its showing |
+| `wip/9601-back-button-lists` | `dc046acff` | Row S1: the shared list after the back button | `tests/test_session9601_back_button.py` (7), with the two older tests that name the list: 32 pass; `site/scripts/check-back-button.mjs` | The check fails on production (4 of 16). In a real browser on a plain page of two lists (`runs/c620/backtest.mjs`): without the mend the list reads the later choice on the page shown again; with the same logic it reads the page's value. The browser puts the state back after the page's load and before its showing. On production's own pages with the mend's logic put into each page as it loads (`runs/c620/back_button_emulated.mjs`): 6 of 6 pages keep their lists true after back and forward (`/queues/places`, `/storage/places`, `/curtailment/where-when`, `/ai-energy`, `/states`, `/industry`); as production is, 0 of 6 |
 | `wip/9601-findings-phone` | `4971346fa` | `/internal/findings` at 390 px | `tests/test_session9601_findings_phone.py` (3), with session 233's: 36 pass | The branch's one style applied to production's page in the browser: 390 px wide (was 470) |
 | `wip/9601-resource-set-legend` | `9632634e5` | The resource set's legend | `tests/test_session9601_resource_set_legend.py` (9); the replication 0 of 142 differ | Not seen in a browser. One older test fails on this branch and on main alike (`test_session8901_problem_sets_country.py`, "FAIL 16": it expects no dated edition, and the edition of 20 November exists) |
 | `wip/9601-authority-facts-words` | `225e96ed8` | "Net imports met -592 percent of its demand" | `tests/test_session9601_authority_facts_words.py` (5), with the panel's: 10 pass | Not seen in a browser |
-| `wip/9601-tour-headings` | `bff5d765a` | The tour's stops 1, 4, 11 and 12 | `tests/test_session9601_tour_headings.py` (7), with the tour's four older tests: 27 pass; the tour's render test passes | Not seen in a browser; `check-tour.mjs` on a build is the proof |
+| `wip/9601-tour-headings` | `bff5d765a` | The tour's stops 1, 4, 11 and 12 | `tests/test_session9601_tour_headings.py` (7), with the tour's four older tests: 27 pass; the tour's render test passes | The branch's stops and check run against production's pages: 94 of 97 pass (89 of 96 before). The three left: the Digest stop's two headings (for a ruling) and the tour's own fourth page, which still links `/grid` until the branch lands |
 | `wip/9601-policy-held-page` | `e029f90aa` | `/policy` when its list is held | `tests/test_session9601_policy_held_page.py` (6), with the seven older tests that name the page: 90 pass | Not seen in a browser |
 | `wip/9601-price-map-window` | `58d119d6d` | The Grid map's price over a window names its days | `tests/test_session9601_price_map_window.py` (6), with the map's: 13 pass | Not seen in a browser |
 | `wip/9601-line-ends-unnamed` | `5416bba3e` | A transmission line's end that HIFLD marks "UNKNOWN<number>" | `tests/test_session9601_line_ends_unnamed.py` (4), with the layers': 11 pass | Not seen in a browser |
@@ -368,4 +368,88 @@ Read with `runs/c620/d_first_minute.mjs`, `d_menu_phone.mjs`, `d_ways_in.mjs`, `
 | D9 | The menu at 390 px, one group open | The open list covers the names of the groups on the rows under it (Economics open: Infrastructure, Analysis, Games and About are under it) | A reader closes the first group (a second press) to reach the next. The menu's own behaviour, older than this week | noted |
 
 Pictures: `docs/reviews/browser-read-2026-11-20/first-minute/a-stranger-at-the-home-page-1280.png`; `the-home-page-internal-view-1280.png`; `the-menu-open-390.png` (the last group open under a finger).
+
+## Part E: the pages built before 17 November, at 390 px with a finger
+
+A first pass, the five tools Samuel calls sellable first (`runs/c620/e_phone.mjs`, 12:32 to 12:54 UTC). For each page at 390 px: the time to load; sideways scroll, "undefined", "NaN", "null", an empty chart, an error; every "i" mark that is on the screen tapped (its box inside the screen); every switch tapped; every list changed; every chart tapped at four places; after each step the page's width and its errors. The figures in the page's text at 390 px were set beside the same page at 1280 px.
+
+| Page | Load | "i" marks on the screen | Switches | Lists | Charts under a finger | Width after every step |
+|---|---:|---|---|---|---|---|
+| `/cost-of-power/battery` (what a battery earns) | 0.3 s | 6 of 6 open inside the screen (3 more are in closed folds) | 30 tapped, no error | 7 changed, each changes the page | a card at 4 of 4 places | 390 px |
+| `/cost-of-power/seller` (what a generator earns) | 0.4 s | 2 of 2 | 15 tapped | 6 changed | 2 charts, 4 of 4 each | 390 px |
+| `/cost-of-power` (what a datacenter pays) | 2.4 s | none drawn as marks | 17 tapped | 5 changed | 4 of 4 | 390 px |
+| `/research` (Automated Analysis) | 0.2 s | none | 30 of 221 tapped | 6 changed | 10 charts, 4 of 4 each | 390 px |
+| `/grid` (the Grid tool, the Lower 48) | 1.1 s | none | 6 tapped | 2 changed | 3 charts, 4 of 4 each | 390 px |
+
+- **Then 22 more pages of the menu, the same pass:** `/board`, `/prices`, `/prices/compare`, `/supply`, `/contracts`, `/severance`, `/impact`, `/battery/customer`, `/shoulder`, `/demand`, `/curtailment`, `/storage`, `/datacenters`, `/deals`, `/companies`, `/deals/capital`, `/events`, `/thesis`, `/play/battery`, `/learn/bill`, `/data`, `/about`. On none does the page scroll sideways at any step, show "undefined", draw an empty chart or raise an error; every "i" mark on the screen opens its box under a finger from a fresh page (checked one by one on `/impact`, 29 marks, and `/cost-of-power/battery`).
+- **The figures at 390 px are the figures at 1280 px** on `/cost-of-power/seller` (501 figures in the text) and `/cost-of-power` (497), in the same order. On the battery page, `/research` and `/grid` the text differs only by a chart's own axis labels, which a narrower chart draws fewer of.
+- **The keyboard alone at 1280 px on the five tools** (`runs/c620/e_keys.mjs`): the Tab key walks 70, 78, 72, 361 and 66 stops in the page and reaches the foot; every stop is seen and carries a focus mark; Enter presses a switch. On the battery and the generator tools a choice rewrites the address in place, so the browser's back button leaves the tool rather than undoing the choice: the tools' own behaviour since they were built (the address always holds the choices), noted.
+- **The standing rulings on the Grid tool, as seen on production:** the color that opens is carbon intensity; the 3D network opens first; the "Watch" stories (Live now, California's evening, Texas during Uri, The June 2025 heat), the Batteries switch and the side panel on a press are there at 1280 and 390 px.
+- **A reader's sum on the battery page at 390 px** (`runs/c620/e_battery_sums.py`): ERCOT, 4 hours: "the last three full years, averaged: 255.08" is the mean of 2023 to 2025 as listed (530.14, 147.67, 87.44), and "the last seven full years: 739.80" the mean of 2019 to 2025; CAISO, 2 hours, holds two full years and offers neither average.
+- **Figures at 390 px against the page files, for the older pages that draw from one** (`runs/c620/figures_older.ps1`, a screen: a figure is found when a number of the file rounds to it at the decimals shown): `/prices/compare` 144 found, `/board` 98, `/demand` 111, `/demand?view=country` 404, `/supply` with two regions 1,029, Elliott's page with two regions 317. The figures not found were read one by one: years written with a comma after them, figures of another table on the same page (the futures positions on `/supply`, the hub price on the event page) and the pages' own sums. None is a wrong figure.
+- **Not done in this pass:** the five cases for each of these pages and their figures against the tables. The five tools' figures were replicated for their done line on 14 November (`docs/reviews/five-tools-signature-pack-2026-11-14.md`) and are not replicated again here.
+- **Found in part D and belonging here:** the menu's Policy page (row D1) and six method pages at 390 px (item 4, row 1), both mended on branches.
+
+Pictures at 390 px: `docs/reviews/browser-read-2026-11-20/phone/cost-of-power_battery-390.png`, `cost-of-power_seller-390.png`, `cost-of-power-390.png`, `research-390.png`, `grid-390.png`.
+
+### Every page with a fixed address, at both widths
+
+`runs/c620/e_all_routes.mjs`: the 80 pages of `site/app/` whose address has no variable part, each opened at 390 and at 1280 px (13:40 UTC).
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| E1 | `/data/faults` at 390 px | 417 px wide: one long unbroken word in a list of terms | 390 px | fixed on `wip/9602-faults-page-phone` (`b7a9c6676`); with the style put on production's page, 390 px wide |
+| E2 | `/internal/waits` | 7.2 s to load at 390 px, 5.9 s at 1280 px | Under five seconds. An internal page | noted |
+| E3 | `/data/licenses`, the record of reads | "answered at https://lustat.statec.lu/undefined" in four rows | The publisher's own answer: its server sends a robots request to an address ending "undefined", and the record says so. Not a fault | noted |
+
+The other 77 show nothing wrong at either width; `/policy` and `/internal/findings` are the two already mended on branches.
+
+## Landed during the night: `/congestion` and `/conditions` (the data machine's chain 601, on main at 13:43 UTC)
+
+Read on production at about 13:50 UTC, once the deploy answered. Both are in review and in no menu; the tour gained a sixteenth stop for `/conditions`, and the tour's own check passes 95 of 102 (the same seven as before; the new stop passes). Neither page's code is edited here.
+
+### `/congestion`
+
+Read with `runs/c620/n_congestion.mjs`.
+
+**Five cases.**
+1. *A power trader.* Which SPP constraint cost most this year? Two tables as the page opens, by hours bound and by cost, 25 rows each, each constraint with its hours, mean and highest shadow price and cost. Answered. The names are SPP's own ("TMP128_29363 (contingency 333)").
+2. *A transmission planner.* When does a constraint bind? A press on its name draws its hours by month and hour of the day, and by month. Answered at 1280 px by resting the mouse on a cell; at 390 px the grid's figures are tooltips (row S2).
+3. *A battery developer in California.* Where does congestion add to the price? Chooses CAISO: the hubs and zones by mean congestion part, share of the price, hours it added and took off. Answered.
+4. *A datacenter's siting analyst.* Two places side by side over a year. Answered.
+5. *A student.* What about the other grids? "Not drawn: ERCOT (source needed), PJM, NYISO and ISO-NE (license needed), MISO (paused)". Answered.
+
+**Figures.** Every marked figure and every cell of the chosen constraint's grid, beside `site/data/conditions/congestion.json`, as the page opens and after six choices (CAISO; 2024; every year held; a second place; another place and year): 3,752 of 3,752 at 1280 px, 538 of 538 at 390 px. Each of the two ranked tables is in the file's own order.
+
+**What answers to the hand.** Six lists; a constraint's name (opens its grid); three charts under mouse and finger; three Chart and Table switches; an address naming nothing held opens on the defaults; the keyboard walks 75 stops with a focus mark each. The back button: row S1. 0.4 s to load; 390 px wide at 390.
+
+No fault of its own.
+
+Pictures: `docs/reviews/browser-read-2026-11-20/congestion/as-it-opens-1280.png` (SPP, 2026); `after-choices-1280.png` (CAISO, a constraint's grid over every year held).
+
+### `/conditions`
+
+Read with `runs/c620/n_conditions.mjs` and `runs/c620/n_conditions_file.py`.
+
+**Five cases.**
+1. *A trader on a tight day.* Is ERCOT running above its forecast? As the page opens: demand against the day-ahead forecast, hour by hour over the newest 35 days, then day by day. Answered; the chart runs to today.
+2. *A reliability analyst.* How much was out of service in CAISO, and how many constraints bound? Chooses CAISO: six charts, each with a line. Answered.
+3. *An event analyst.* ERCOT in Winter Storm Uri: the adder is drawn for February 2021. Answered.
+4. *A planner comparing two operators.* ERCOT beside CAISO on one time axis. Answered, with two empty charts on ERCOT's side (row 1).
+5. *A student.* What is not held? Each blank strip says why in a word (source needed, license needed, paused, not published, not read), and a table at the foot gives every operator's six strips. Answered.
+
+**Figures.** The demand chart's own table (500 rows, two figures a row) is the file's demand and forecast, every figure. The other strips were read as charts: which hold a line, which are said blank.
+
+**What answers to the hand.** Three lists and a day; the charts under mouse and finger (a card at four of four places on each of CAISO's six); the keyboard, 17 stops; 390 px wide at 390 for three views; 0.8 s to load. The back button: row S1.
+
+| # | What was done | What was seen | What should be seen | State |
+|---:|---|---|---|---|
+| 1 | The page as it opens (ERCOT, the newest 35 days) | Two charts with axes and nothing on them, their seven ticks all reading "01-01 00:00": "Online reserve price adder" and "Hours the adder was above zero". The file's note says ERCOT's adder ended on 4 December 2025; the window holds no value. The same for "megawatts out of service" with CAISO in the September 2022 heat and with SPP and CAISO in Elliott | A strip with no value in the window drawn blank with its reason | filed (data request 568) |
+| 2 | "Table" on the demand chart | 500 rows of the window's 841 hours, the oldest first: the newest fourteen days are not in the table | The newest hours | filed (data request 568) |
+
+Pictures: `docs/reviews/browser-read-2026-11-20/conditions/as-it-opens-1280.png` (ERCOT, demand against the forecast); `ercot-beside-caiso-1280.png`.
+
+### `/states`, the answer to data request 563
+
+On production after the landing, Texas's last section reads "Not held for this place: S.B. 6 was found but is withheld: its text was not read on a host that allows this reader ...". The page no longer reads as "Texas has no law".
 

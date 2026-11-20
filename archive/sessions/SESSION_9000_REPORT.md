@@ -47,3 +47,10 @@ Chain: `queue/done/601-night-20-november-desktop-grid-conditions.md`. Progress: 
 ## Needs the key
 
 - Nothing: no step of this session needs a model.
+
+## Later in the session
+
+- History deepened: `constraints_binding_hourly` to the archives' start (SPP 1 March 2014, CAISO 2015): 1,808,231 rows; `price_congestion_hourly` CAISO from 10 August 2023 (OASIS's window), SPP from 2024 (its year zips read, 294 MB a year): 1,209,755 rows; `generation_outages_hourly` SPP from 7 October 2016 (its archive's start), CAISO from 2025 and pulling back to 17 June 2021: 1,080,729 rows before CAISO's history.
+- More faults fixed at their cause while deepening: SPP's 2023 file prints one element twice (its ends in each order; kept once); SPP's files before 2022 have no contingency name; a bare-date midnight (2022); empty padding rows (2015); local-time-only files (2014; a repeated or skipped hour would be a named gap; none was); a column spelled CONSTRAINTTYPE (2014).
+- Page files built from the warehouse; replication 12,999 of 12,999; the seven tables registered, archived (4,055,094 rows) and 171 key tests passed.
+- Gate 1 (`42a8d2faa`, 12:25 UTC): the suite failed on two tests: the tour stop's flag (it must be on when the page is in the commit; turned on) and test 78, which chain 630's codebook files on main trip (YAML descriptions naming the CAISO join date; the test now scans code, not the codebook, which builds nothing). Gate 2 from 12:44 UTC.
