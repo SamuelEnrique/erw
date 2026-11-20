@@ -432,4 +432,6 @@ columns:
   documented_by: header; method lbnl_ppa_prices.md
 second_look:
 - 'x_year_added: LBNL''s ''Year added'' holds 2025 on 9 rows and 0 on 104; no note or connector says what 0 means (presumably
-  earlier editions, not confirmed).'
+  earlier editions, not confirmed). Read again on 20 November 2026 in the saved 2025_utility-scale_solar_data_update.xlsx
+  under warehouse/raw/lbnl_ppa_prices (sheets Introduction and PV+Battery Hybrid PPA Price, and every sheet for ''Year added''):
+  not found.'

@@ -280,7 +280,8 @@ columns:
   documented_by: header; method large_load_public.md
 - name: stage_class
   label: The stage as one of the ERW's five classes (request or inquiry, study or engineering, financial commitment, signed
-    service agreement, under construction or energized), 'none' or 'not classed'; not the document's words
+    service agreement, under construction or energized); 'none' for a figure that is not a stage (a total across stages or
+    a forecast), 'not classed' for a row whose stage words no pass placed; not the document's words
   unit: none
   type: text
   values:
@@ -295,7 +296,8 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: null
-  documented_by: method large_load_public.md; data
+  documented_by: method large_load_public.md; connector large_load_statements.py (its docstring on stage_class, which this
+    table copies); data
 - name: document_title
   label: The document's title
   unit: none
@@ -486,6 +488,4 @@ columns:
     list:
       '2026-10-14T09:42:52Z': 341
   missing_cells: 0
-second_look:
-- 'stage_class: the values ''none'' (124 rows) and ''not classed'' (53 rows) are told apart in the table, but the method note
-  names only ''not classed''; what ''none'' means beside it is not documented.'
+second_look: null

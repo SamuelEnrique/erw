@@ -240,5 +240,5 @@ Variables (35):
 | `total_suspended_requests` | Requests whose status is suspended (not in the active figures), count | count | 76 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 | `years_to_operation_n` | Of those, the requests with both a request and an operation date in order, count | count | 76 | 2025-01-01T00:00:00Z | 2025-01-01T00:00:00Z |
 
-Waiting for a second look: active_mw_parts_battery, _solar, _wind, _gas and _other_storage carry unit count in the table, while the method note (session 7051) and the builder say they are MW: the unit column looks wrong..
+Waiting for a second look: active_mw_parts_battery, _solar, _wind, _gas and _other_storage carry unit count in the table, while the method note (session 7051) and the builder say they are MW: the unit column looks wrong. Read again on 20 November 2026 in docs/methods/interconnection_queue_summary.md: not found..
 

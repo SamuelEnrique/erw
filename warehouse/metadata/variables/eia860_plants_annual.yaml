@@ -323,7 +323,7 @@ columns:
   source_name: null
   documented_by: method eia860_plants_annual.md
 - name: x_regulatory_status
-  label: EIA's regulatory status code of the plant (RE or NR), as EIA gives it
+  label: Whether the plant is regulated (RE) or non-regulated (NR), EIA's code
   unit: none
   type: text
   values:
@@ -332,8 +332,9 @@ columns:
       RE: 4215
   missing_cells: 0
   missing_meaning: never empty
-  source_name: null
-  documented_by: method eia860_plants_annual.md; data
+  source_name: Regulatory Status
+  documented_by: source EIA, eia8602025.zip, LayoutY2025.xlsx sheet Field Directory (RE = Regulated, NR = Non-regulated),
+    read 2026-11-20
 - name: x_sector
   label: EIA's sector number of the plant (1 to 7; x_sector_name gives its words)
   unit: none
@@ -691,6 +692,6 @@ columns:
   source_name: null
   documented_by: method eia860_plants_annual.md
 second_look:
-- 'x_regulatory_status (RE, NR): the method note keeps EIA''s codes as given and does not say what the two codes mean.'
 - 'x_ash_impoundment_lined, x_natural_gas_storage and x_liquefied_natural_gas_storage: the X flag is kept as EIA gives it,
-  and no note says what X means beside Y and N.'
+  and no note says what X means beside Y and N. Read again on 20 November 2026 in the 2025 zip''s LayoutY2025.xlsx (Field
+  Directory: Yes / No), EIA-860 Form.xlsx and EIA-860 instructions.pdf: not found.'

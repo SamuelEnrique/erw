@@ -249,4 +249,6 @@ variables:
   first: '2019-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 second_look:
-- 'x_flag: the meaning of Eurostat''s flag i is not written in the repository (the method note says to see Eurostat''s metadata)'
+- 'x_flag: the meaning of Eurostat''s flag i is not written in the repository (the method note says to see Eurostat''s metadata).
+  Read again on 20 November 2026 in the saved SDMX-CSV and codes TSV under warehouse/raw/eurostat_ev_recharging and the flag
+  labels of five saved Eurostat JSON-stat files (they label b, C, e, m and p only): not found.'

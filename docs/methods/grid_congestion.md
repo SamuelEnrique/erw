@@ -1,0 +1,39 @@
+# Congestion as the operators publish it: binding constraints and the congestion part of price
+
+Chain 601, part C (session 9000, 20 November 2026). Connector: `warehouse/connectors/grid_congestion.py`. Tables: `constraints_binding_hourly`, `price_congestion_hourly`. The ground for the choice of operators: `docs/reviews/grid-conditions-sources-2026-11-20.md`.
+
+## What a reader gets
+
+- **Which constraints bound, when, and at what shadow price**, in the day-ahead market of SPP (from 2025, deepening a year at a time toward 2014) and CAISO (from 2025, deepening toward 2015). A constraint is a transmission element (a line, a transformer, a flowgate, a nomogram) that the market's dispatch held at its limit; its shadow price is what one more megawatt of room on it would have been worth in that hour, in USD per MWh, as the operator prints it.
+- **The parts of the day-ahead price** at the hubs and zones each operator splits: energy, congestion, loss (and greenhouse gas at CAISO). The congestion part says how much of a place's price came from the wires being full.
+
+## Sources
+
+| Table | Operator | Report | Address |
+|---|---|---|---|
+| `constraints_binding_hourly` | SPP | Day-Ahead Binding Constraints (`spp:DA-BC`) | `https://portal.spp.org/file-browser-api/download/da-binding-constraints?path=/YYYY/MM/By_Day/DA-BC-YYYYMMDD0100.csv`; archived years `/<year>/<year>.zip` |
+| `constraints_binding_hourly` | CAISO | OASIS Nomogram/Branch Shadow Prices, DAM (`caiso:PRC_NOMOGRAM`) | `https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_NOMOGRAM&version=1&market_run_id=DAM&startdatetime=...&enddatetime=...` |
+| `price_congestion_hourly` | SPP | Day-Ahead LMP by Settlement Location (`spp:DA-LMP-SL`) | `https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/YYYY/MM/By_Day/DA-LMP-SL-YYYYMMDD0100.csv` |
+| `price_congestion_hourly` | CAISO | OASIS Locational Marginal Prices, DAM (`caiso:PRC_LMP`) | `https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=...` |
+
+Every row carries the exact document it was read from (`source_url`) and when (`retrieved_at`). Raw files are kept under `warehouse/raw/grid_congestion/`.
+
+## Decisions
+
+1. **Operators.** SPP and CAISO only. ERCOT publishes its shadow prices only on the paths its robots file disallows (`/misapp`, `/misdownload`) or through an API whose key the owner has not made, and the owner's ruling 2 of 6 November 2026 forbids new requests there. PJM (paid license), NYISO and ISO-NE (written permission) are held, and MISO is paused. A page draws each of them blank with the reason on hover.
+2. **The key.** `entity` is the operator's own constraint name, unchanged. CAISO lists one branch under more than one contingency in the same hour (found on 2019-01-15: the Lugo to Victorville 500 kV branch under two contingencies), so a CAISO entity is `caiso:<NOMOGRAM_ID_XML>|<CONSTRAINT_CAUSE>`. SPP's files of 2025 and 2026 hold each constraint name once an hour, but its 2023 file lists TMP831_29014 twice in the hour of 2023-11-08T06:00Z under two contingencies, so an SPP entity is `spp:<Constraint Name>|<Contingency Name>` too (the table was rebuilt whole on 20 November 2026 when this was found). SPP's files before 2022 print no contingency name, so there the key is the name alone and `x_contingency` is empty. Where SPP prints one element twice (its two ends in each order, same contingency and price: 18 rows of 2023), one row is kept naming both spellings. `x_constraint` holds the name alone, and the cross-check and any roll-up by name read it.
+3. **Signs as printed.** SPP prints shadow prices as negative numbers, CAISO as positive. Neither is changed in the table. A roll-up that ranks constraints by cost uses the absolute value and says so.
+4. **Absence is not zero.** A constraint has a row only in an hour it bound. A month with no row for it is a month it did not bind in the day-ahead market (or a day the operator's file was missing, which the header's gap list names).
+5. **Places.** SPP: its two hubs (SPPNORTH_HUB, SPPSOUTH_HUB). CAISO: the three trading hubs and the four default load aggregation points (PG&E, SCE, SDG&E, VEA). Both are the places the warehouse's own price tables hold, so the LMP of this table can be checked against them: on the trial (10 to 19 November 2026) the LMP matched `iso_hub_prices_history`, `iso_zone_prices_history` and `iso_dam_hub_prices` in every matched hour (difference 0.0), and `lmp_dam` equals the sum of its parts within 0.00001 in every hour.
+6. **Depth.** CAISO's OASIS keeps PRC_LMP for a rolling window (about 39 months: 2022-06-15 and 2019-01-15 answered "No data found"), so CAISO's price parts start in 2023. SPP's price files for archived years come as one zip of every settlement location a year; they are not read until a later session chooses to, and the header says so.
+7. **Never filled.** A price (place, part, day) is written only when every hour of the operating day is there exactly once.
+8. **Real time.** The real-time constraint files (SPP five-minute, CAISO five-minute) are larger and are not in this first table; a later session may add them as their own variables.
+
+## Replication
+
+`runs/c601/check_parts.py <path to price_congestion_hourly.csv>` recomputes the parts' sum and the cross-check against the held price tables.
+
+## Cross-check against the market monitors (`replication/congestion/crosscheck.py`, `crosscheck.csv`)
+
+- **CAISO.** The Department of Market Monitoring's "2025 Annual Report on Market Issues and Performance" (June 2026, https://www.caiso.com/documents/2025-annual-report-on-market-issues-and-performance.pdf), Table 5.3, prints for its top 25 day-ahead congestion constraints the share of 2025's hours each bound. Against the hours this table holds each binding (any contingency) over 8,760: 23 of 25 within one percentage point, 13 equal to the tenth; none below the monitor's figure. The two furthest: Los Banos to Panoche 230 kV (monitor 17.1 percent, here 20.1) and El Cajon to Los Coches 69 kV (32.1, here 33.8). Rows with a zero shadow price do not explain them (36 in all of 2025, none on these two). The monitor's table counts "primary" constraints and does not say how it counts a constraint that binds under several contingencies; the cause is not known.
+- **SPP.** The Market Monitoring Unit's "2025 Annual State of the Market Report" (https://www.spp.org/documents/76798/2025_annual_state_of_the_market_report.pdf) and its stakeholder presentation name the most congested flowgates in order: OSAWEBCLESOO, TMP128_29363, TMP563_26603, TMP266_27514. By summed shadow price in this table they rank 1, 2, 7 and 12. The monitor ranks by congestion rent, which weighs the flow on the element as well, and no flow is published with the day-ahead shadow prices, so equal ranks are not expected.

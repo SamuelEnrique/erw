@@ -385,6 +385,10 @@ variables:
   first: '2025-12-06T06:00:00Z'
   last: '2026-09-01T04:00:00Z'
 second_look:
-- 'x_dme: the meaning of ERCOT''s DME column is not written in the header, the connector or the method note.'
+- 'x_dme: the meaning of ERCOT''s DME column is not written in the header, the connector or the method note. Read again on
+  20 November 2026: no file of the repository spells it out; ERCOT''s own report definitions were not found at a stable address
+  in one try, and no address was guessed further. Read again on 20 November 2026 in the members of a saved 60-day DAM disclosure
+  zip under warehouse/raw/ercot_60d_dam (CSV files only, no readme) and docs/methods/ercot_disclosure_scoping.md: not found.'
 - 'x_resource_status: ERCOT''s codes ON, OUT, ONTEST and ONOS are kept as printed and not spelled out in the repository''s
-  documents.'
+  documents. Read again on 20 November 2026 in the members of a saved 60-day DAM disclosure zip (CSV files only, no readme),
+  docs/methods/ercot_disclosure_scoping.md and docs/methods/ercot_dam_esr_awards.md: not found.'

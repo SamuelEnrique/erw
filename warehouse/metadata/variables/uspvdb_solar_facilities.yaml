@@ -515,5 +515,8 @@ columns:
   source_name: p_img_date
   documented_by: header; method uspvdb_solar_facilities.md
 second_look:
-- 'zscore (USGS''s p_zscore): what the z-score measures is not written in the connector, the method note or the header.'
-- 'site_type: the codes AML, PCSC and RCRA are not defined in the repository.'
+- 'zscore (USGS''s p_zscore): what the z-score measures is not written in the connector, the method note or the header. Read
+  again on 20 November 2026 in the saved USPVDB API response under warehouse/raw/uspvdb (records only, no field descriptions):
+  not found.'
+- 'site_type: the codes AML, PCSC and RCRA are not defined in the repository. Read again on 20 November 2026 in the saved
+  USPVDB API response under warehouse/raw/uspvdb (records only, no field descriptions): not found.'

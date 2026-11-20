@@ -392,4 +392,7 @@ columns:
   source_name: InTime
   documented_by: connector blm_renewable.py; data
 second_look:
-- 'x_in_time (BLM''s InTime, 1st on every row): what it marks is not written in the connector, the method note or the header.'
+- 'x_in_time (BLM''s InTime, 1st on every row): what it marks is not written in the connector, the method note or the header.
+  Read again on 20 November 2026 in the connector (it copies the field as served) and the method note: still not documented
+  by the source. Read again on 20 November 2026 in the saved layer JSON under warehouse/raw/blm_renewable (its fields list
+  gives InTime only its own name as alias, a string of length 5): not found.'

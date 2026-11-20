@@ -239,7 +239,8 @@ variables:
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: battery_capacity_direct_connected
-  label: Battery capacity (EIA's Storage to 2022, Battery from 2023), EIA's Direct Connected sector, MW
+  label: 'Battery capacity (EIA''s Storage to 2022, Battery from 2023), EIA''s Direct Connected sector (installations not
+    at a customer''s site: in front of the meter or connected directly to a distribution system), MW'
   unit: MW
   rows: 1595
   first: '2016-01-01T00:00:00Z'
@@ -275,7 +276,8 @@ variables:
   first: '2023-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: battery_energy_direct_connected
-  label: Battery energy capacity, EIA's Direct Connected sector, MWh (2023 on)
+  label: 'Battery energy capacity, EIA''s Direct Connected sector (installations not at a customer''s site: in front of the
+    meter or connected directly to a distribution system), MWh (2023 on)'
   unit: MWh
   rows: 65
   first: '2023-01-01T00:00:00Z'
@@ -323,7 +325,8 @@ variables:
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: combustion_turbine_capacity_direct_connected
-  label: Combustion turbine capacity, EIA's Direct Connected sector, MW
+  label: 'Combustion turbine capacity, EIA''s Direct Connected sector (installations not at a customer''s site: in front of
+    the meter or connected directly to a distribution system), MW'
   unit: MW
   rows: 1860
   first: '2016-01-01T00:00:00Z'
@@ -359,7 +362,8 @@ variables:
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: fuel_cell_capacity_direct_connected
-  label: Fuel cell capacity, EIA's Direct Connected sector, MW
+  label: 'Fuel cell capacity, EIA''s Direct Connected sector (installations not at a customer''s site: in front of the meter
+    or connected directly to a distribution system), MW'
   unit: MW
   rows: 1845
   first: '2016-01-01T00:00:00Z'
@@ -395,7 +399,8 @@ variables:
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: hydro_capacity_direct_connected
-  label: Hydroelectric capacity, EIA's Direct Connected sector, MW
+  label: 'Hydroelectric capacity, EIA''s Direct Connected sector (installations not at a customer''s site: in front of the
+    meter or connected directly to a distribution system), MW'
   unit: MW
   rows: 2085
   first: '2016-01-01T00:00:00Z'
@@ -431,7 +436,8 @@ variables:
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: internal_combustion_capacity_direct_connected
-  label: Internal combustion engine capacity, EIA's Direct Connected sector, MW
+  label: 'Internal combustion engine capacity, EIA''s Direct Connected sector (installations not at a customer''s site: in
+    front of the meter or connected directly to a distribution system), MW'
   unit: MW
   rows: 2040
   first: '2016-01-01T00:00:00Z'
@@ -473,7 +479,8 @@ variables:
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: other_capacity_direct_connected
-  label: Other technologies' capacity, EIA's Direct Connected sector, MW
+  label: 'Other technologies'' capacity, EIA''s Direct Connected sector (installations not at a customer''s site: in front
+    of the meter or connected directly to a distribution system), MW'
   unit: MW
   rows: 1871
   first: '2016-01-01T00:00:00Z'
@@ -509,7 +516,8 @@ variables:
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: pv_capacity_direct_connected
-  label: Solar photovoltaic capacity, EIA's Direct Connected sector, MW
+  label: 'Solar photovoltaic capacity, EIA''s Direct Connected sector (installations not at a customer''s site: in front of
+    the meter or connected directly to a distribution system), MW'
   unit: MW
   rows: 2333
   first: '2016-01-01T00:00:00Z'
@@ -545,7 +553,8 @@ variables:
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: steam_capacity_direct_connected
-  label: Steam capacity, EIA's Direct Connected sector, MW
+  label: 'Steam capacity, EIA''s Direct Connected sector (installations not at a customer''s site: in front of the meter or
+    connected directly to a distribution system), MW'
   unit: MW
   rows: 1880
   first: '2016-01-01T00:00:00Z'
@@ -587,7 +596,8 @@ variables:
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: total_capacity_direct_connected
-  label: All technologies' capacity, EIA's Direct Connected sector, MW
+  label: 'All technologies'' capacity, EIA''s Direct Connected sector (installations not at a customer''s site: in front of
+    the meter or connected directly to a distribution system), MW'
   unit: MW
   rows: 4769
   first: '2016-01-01T00:00:00Z'
@@ -623,7 +633,8 @@ variables:
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
 - name: wind_capacity_direct_connected
-  label: Wind capacity, EIA's Direct Connected sector, MW
+  label: 'Wind capacity, EIA''s Direct Connected sector (installations not at a customer''s site: in front of the meter or
+    connected directly to a distribution system), MW'
   unit: MW
   rows: 1928
   first: '2016-01-01T00:00:00Z'
@@ -652,5 +663,4 @@ variables:
   rows: 1854
   first: '2016-01-01T00:00:00Z'
   last: '2025-01-01T00:00:00Z'
-second_look:
-- The sector direct_connected is EIA's heading Direct Connected; the method note and connector do not say what it covers.
+second_look: null

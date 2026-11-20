@@ -24,7 +24,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: spp:SPP (every file) or spp:SWPW (files from 2026-04-01), the reserve region the file names | none | text | spp:SPP, spp:SWPW | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: spp:SPP (every file) or spp:SWPW (files from 2026-04-01), the reserve region the file names; SPP's file does not spell out SWPW, which EIA's 930 reference tables name the Southwest Power Pool West Balancing Authority Area, active from 1 April 2026 (EIA930_Reference_Tables.xlsx sheet BAs, saved under warehouse/raw/eia930_reference, read 2026-11-20) | none | text | spp:SPP, spp:SWPW | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2024-09-01T05:00:00Z to 2026-10-04T04:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 0.0 to 447.0; more than 5000 distinct | 0 |
@@ -50,8 +50,6 @@ Variables (7):
 | `as_price_dam_supp` | Day-ahead clearing price of supplemental reserve (SPP's Supp), USD per MW held for one hour | USD/MW-hour | 22776 | 2024-09-01T05:00:00Z | 2026-10-04T04:00:00Z |
 | `as_price_dam_uncup` | Day-ahead clearing price of uncertainty reserve up (SPP's UncUP), USD per MW held for one hour | USD/MW-hour | 22776 | 2024-09-01T05:00:00Z | 2026-10-04T04:00:00Z |
 
-Waiting for a second look: What SPP's region SWPW stands for is not stated in SPP's file and not documented..
-
 ### `spp_as_quantities`
 
 The MW of one operating reserve product cleared in SPP's day-ahead market for one hour, for one of the regions the file's BAA column names.
@@ -66,7 +64,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: spp:SPP (every file) or spp:SWPW (files from 2026-04-01), the file's BAA column | none | text | spp:SPP, spp:SWPW | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: spp:SPP (every file) or spp:SWPW (files from 2026-04-01), the file's BAA column; SPP's file does not spell out SWPW, which EIA's 930 reference tables name the Southwest Power Pool West Balancing Authority Area, active from 1 April 2026 (EIA930_Reference_Tables.xlsx sheet BAs, saved under warehouse/raw/eia930_reference, read 2026-11-20) | none | text | spp:SPP, spp:SWPW | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2024-09-01T05:00:00Z to 2026-10-05T04:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | integer | 0 to 4970; 3008 distinct | 0 |
@@ -84,15 +82,13 @@ Variables (7):
 
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
-| `quantity_mw_dam_rampdn` | MW of the product RampDN (SPP's column RampDN) cleared in the day-ahead market for the hour | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
-| `quantity_mw_dam_rampup` | MW of the product RampUP (SPP's column RampUP) cleared in the day-ahead market for the hour | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
-| `quantity_mw_dam_regdn` | MW of the product RegDN (SPP's column RegDN) cleared in the day-ahead market for the hour | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
-| `quantity_mw_dam_regup` | MW of the product RegUP (SPP's column RegUP) cleared in the day-ahead market for the hour | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
-| `quantity_mw_dam_spin` | MW of the product Spin (SPP's column Spin) cleared in the day-ahead market for the hour | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
-| `quantity_mw_dam_supp` | MW of the product Supp (SPP's column Supp) cleared in the day-ahead market for the hour | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
-| `quantity_mw_dam_uncup` | MW of the product UncUP (SPP's column UncUP) cleared in the day-ahead market for the hour | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
-
-Waiting for a second look: What SPP's region SWPW stands for is not stated in SPP's file and not documented.; The products' names (RegUP, RegDN, Spin, Supp, RampUP, RampDN, UncUP) are kept as SPP's column names; the method note does not spell them out..
+| `quantity_mw_dam_rampdn` | MW of the ramp capability product RampDN (SPP's column RampDN) cleared in the day-ahead market for the hour | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
+| `quantity_mw_dam_rampup` | MW of the ramp capability product RampUP (SPP's column RampUP) cleared in the day-ahead market for the hour | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
+| `quantity_mw_dam_regdn` | MW of Regulation Down (SPP's column RegDN) cleared in the day-ahead market for the hour | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
+| `quantity_mw_dam_regup` | MW of Regulation Up (SPP's column RegUP) cleared in the day-ahead market for the hour | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
+| `quantity_mw_dam_spin` | MW of Spinning Reserve (SPP's column Spin) cleared in the day-ahead market for the hour | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
+| `quantity_mw_dam_supp` | MW of Supplemental Reserve (SPP's column Supp) cleared in the day-ahead market for the hour | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
+| `quantity_mw_dam_uncup` | MW of the uncertainty product UncUP (SPP's column UncUP) cleared in the day-ahead market for the hour | MW | 22824 | 2024-09-01T05:00:00Z | 2026-10-05T04:00:00Z |
 
 ### `spp_curtailment_daily`
 
@@ -149,7 +145,7 @@ Shape: series. Keys: `entity`, `variable`, `ts_utc`. License: public; tier: sour
 
 | Column | Label | Unit | Type | Values | Empty cells |
 |---|---|---|---|---|---|
-| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: spp:SPP, or spp:SWPW from 1 April 2026 when the file names two areas; before it one row an hour, written as spp:SPP | none | text | spp:SPP, spp:SWPW | 0 |
+| `entity` | The thing observed (a price node, a balancing authority, a plant, a country, a station). Here: spp:SPP, or spp:SWPW from 1 April 2026 when the file names two areas; before it one row an hour, written as spp:SPP. SPP's file does not spell out SWPW, which EIA's 930 reference tables name the Southwest Power Pool West Balancing Authority Area, active from 1 April 2026 (EIA930_Reference_Tables.xlsx sheet BAs, saved under warehouse/raw/eia930_reference, read 2026-11-20) | none | text | spp:SPP, spp:SWPW | 0 |
 | `variable` | What was measured (a price, a load, a count), in snake_case | none | text | see the variables below | 0 |
 | `ts_utc` | The time of the observation, in UTC | none | utc time | 2025-09-01T05:00:00Z to 2026-11-18T05:00:00Z; more than 5000 distinct | 0 |
 | `value` | The number observed, in the row's unit | the row's unit column | number | 1934.3 to 61332.1; more than 5000 distinct | 0 |
@@ -168,8 +164,6 @@ Variables (1):
 | Variable | Label | Unit | Rows | First | Last |
 |---|---|---|---|---|---|
 | `dam_cleared_energy` | SPP's column Total Demand for the hour and the balancing authority area, MW over the hour (Market Clearing, DA-MC files) | MW | 16178 | 2025-09-01T05:00:00Z | 2026-11-18T05:00:00Z |
-
-Waiting for a second look: What SPP's area SWPW stands for is not stated in SPP's file and not documented..
 
 ### `spp_interconnection_queue`
 

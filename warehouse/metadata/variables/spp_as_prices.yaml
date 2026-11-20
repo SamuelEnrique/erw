@@ -34,7 +34,9 @@ read:
 columns:
 - name: entity
   shared: true
-  particular: spp:SPP (every file) or spp:SWPW (files from 2026-04-01), the reserve region the file names
+  particular: spp:SPP (every file) or spp:SWPW (files from 2026-04-01), the reserve region the file names; SPP's file does
+    not spell out SWPW, which EIA's 930 reference tables name the Southwest Power Pool West Balancing Authority Area, active
+    from 1 April 2026 (EIA930_Reference_Tables.xlsx sheet BAs, saved under warehouse/raw/eia930_reference, read 2026-11-20)
   type: text
   values:
     list:
@@ -180,5 +182,4 @@ variables:
   rows: 22776
   first: '2024-09-01T05:00:00Z'
   last: '2026-10-04T04:00:00Z'
-second_look:
-- What SPP's region SWPW stands for is not stated in SPP's file and not documented.
+second_look: null

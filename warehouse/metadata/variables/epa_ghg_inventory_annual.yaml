@@ -719,4 +719,6 @@ variables:
   last: '2022-01-01T00:00:00Z'
 second_look:
 - 'The global warming potentials behind tCO2e: the header says the Inventory''s tables do not name them, and nothing says
-  they match the GHGRP tables'' AR4 weights.'
+  they match the GHGRP tables'' AR4 weights. Read again on 20 November 2026 in the notes and source lines of the 15 CSV tables
+  of the saved Trends zip under warehouse/raw/epa_ghg_inventory (Table 2-14 says only gross total GWP-weighted values): not
+  found.'

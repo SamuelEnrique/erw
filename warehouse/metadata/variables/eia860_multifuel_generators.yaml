@@ -881,5 +881,8 @@ columns:
   source_name: Retirement Year
   documented_by: method eia860_schedules.md; source EIA-860 LayoutY2025.xlsx
 second_look:
-- 'x_switch_between_oil_and_natural_gas: one row holds U, a code EIA''s layout does not list (it gives Yes or No).'
-- 'x_operating_month: 6 rows hold 0, not a month; no document explains it.'
+- 'x_switch_between_oil_and_natural_gas: one row holds U, a code EIA''s layout does not list (it gives Yes or No). Read again
+  on 20 November 2026 in the 2025 zip''s LayoutY2025.xlsx, EIA-860 Form.xlsx (Schedule 3 Part C, for proposed generators such
+  as this row, offers Yes, No or Undetermined) and EIA-860 instructions.pdf: no document writes the code U, not found.'
+- 'x_operating_month: 6 rows hold 0, not a month; no document explains it. Read again on 20 November 2026 in the 2025 zip''s
+  LayoutY2025.xlsx and EIA-860 instructions.pdf: not found.'

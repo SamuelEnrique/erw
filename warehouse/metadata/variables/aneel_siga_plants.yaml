@@ -406,4 +406,5 @@ columns:
   documented_by: connector aneel_siga.py; method aneel_siga_plants.md
 second_look:
 - 'x_qualified_generation (ANEEL''s IdcGeracaoQualificada, Sim or Nao): what makes generation qualified is not written in
-  the connector, the method note or the header.'
+  the connector, the method note or the header. Read again on 20 November 2026 in the connector, the method note and the saved
+  SIGA CSV under warehouse/raw/aneel_siga (data rows only, no dictionary): not found.'

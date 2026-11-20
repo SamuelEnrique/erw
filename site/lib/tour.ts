@@ -111,6 +111,12 @@ export const NEW_STOPS: Stop[] = [
     look: "Read \"What it runs on\", then \"What its homes, businesses and industry buy and pay\".",
     headings: ["What it runs on", "What its homes, businesses and industry buy and pay"],
   },
+  {
+    href: "/conditions", title: "Grid conditions", seconds: 35, landed: true,
+    line: "Is a grid tight, and is it congested: demand against the forecast, the megawatts out of service, the constraints binding and the alerts in force, on one time axis, for any day or for one of the nine events.",
+    look: "Read \"The strips\" for ERCOT, then choose Winter Storm Uri under Event; then read \"What is held for each grid\".",
+    headings: ["The strips", "What is held for each grid"],
+  },
 ];
 
 /** The guided path: the ruled seven, then the new stops whose pages have landed. */

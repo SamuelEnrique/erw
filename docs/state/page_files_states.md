@@ -45,7 +45,7 @@ Puerto Rico is in the generation table and in no other table the page reads, so 
 | `serving.by_authority` | count, percent | each primary balancing authority of the place's counties: `code`, `name`, `region`, `grid` (one of the seven, or null), `counties`, `population`, `share_pct`, `shared_counties`, `reason` (for counties with no authority) |
 | `serving.shares_reason`, `.counties_without_population`, `.counties_without_population_reason` | | where the counties of EIA-861 and of the Census Bureau do not match (Connecticut), the shares and populations are null and `shares_reason` says why; the unmatched county codes are listed |
 | `serving.by_grid_pct` | percent | the population's share by grid of the seven, the rest under `none of the seven` |
-| `large_load_laws.laws` | | each law: `law_id`, `bill`, `session`, `title`, `status`, `date`, `date_kind`, `effective`, `threshold`, `requirements`, `url`, `read`; an empty list with a `reason` where none is held |
+| `large_load_laws.laws` | | each law: `law_id`, `bill`, `session`, `title`, `status`, `date`, `date_kind`, `effective`, `threshold`, `requirements`, `url`, `read`; an empty list with a `reason` where none is held, and (from 20 November 2026) `research_status`: `withheld`, `not read`, `none found` or `not yet read`, from the research's own files |
 | `severance` | | `in_tool`, and `address` and `products` where the severance tool holds the state, else `reason` |
 
 ## `index.json`
@@ -71,3 +71,5 @@ Puerto Rico is in the generation table and in no other table the page reads, so 
 ```
 
 Index row: `{"state": "VT", "name": "Vermont", "file": "vt.json", "bytes": 95342, "generation_last12_mwh": 1859457.7, "largest_source_last12": "hydro", "largest_source_share_pct": 46.49, "price_all_last12_usd_per_mwh": 201.82, "capacity_mw": 899.1, "grids": ["ISO-NE"], "laws": 1}`
+
+20 November 2026 (session 9000, data request 563): `large_load_laws` gains `research_status`, and its `reason` says what the research did for the state (a law withheld, the legislature not readable, none found, or not yet read) instead of one sentence for all.

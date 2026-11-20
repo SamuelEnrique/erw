@@ -368,7 +368,9 @@ columns:
   source_name: t_ttlh
   documented_by: method uswtdb_wind_turbines.md
 - name: confidence_attributes
-  label: USGS's confidence flag for the turbine's attributes (1 to 3), as published
+  label: 'USGS''s confidence in the turbine''s attributes: 1 none (no attribute data beyond total height and year), 2 partial
+    (incomplete information or substantial conflict between sources), 3 full (complete information, consistent across several
+    sources)'
   unit: none
   type: integer
   values:
@@ -379,9 +381,11 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: t_conf_atr
-  documented_by: connector uswtdb.py; method uswtdb_wind_turbines.md
+  documented_by: source USGS, U.S. Wind Turbine Database API documentation (energy.usgs.gov/uswtdb/api-doc), read 2026-11-20
 - name: confidence_location
-  label: USGS's confidence flag for the turbine's location (1 to 3), as published
+  label: 'USGS''s confidence in the turbine''s location: 1 no turbine shown in the image (or clouds, or imagery older than
+    the turbine), 2 partial (a developed pad with a concrete base or turbine parts on the ground), 3 full (an installed turbine
+    shown)'
   unit: none
   type: integer
   values:
@@ -392,7 +396,7 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: t_conf_loc
-  documented_by: connector uswtdb.py; method uswtdb_wind_turbines.md
+  documented_by: source USGS, U.S. Wind Turbine Database API documentation (energy.usgs.gov/uswtdb/api-doc), read 2026-11-20
 - name: image_date
   label: The date of the image the turbine was located on (rewritten from M/D/YYYY to YYYY-MM-DD)
   unit: none
@@ -465,7 +469,7 @@ columns:
   source_name: t_offshore
   documented_by: header; connector uswtdb.py
 - name: faa_ors
-  label: not documented by the source
+  label: The turbine's identifier in the Federal Aviation Administration's digital obstacle files (for cross-reference)
   unit: none
   type: text
   values:
@@ -479,9 +483,9 @@ columns:
   missing_cells: 3349
   missing_meaning: USGS leaves it blank
   source_name: faa_ors
-  documented_by: connector uswtdb.py; data
+  documented_by: source USGS, U.S. Wind Turbine Database API documentation (energy.usgs.gov/uswtdb/api-doc), read 2026-11-20
 - name: faa_asn
-  label: not documented by the source
+  label: The turbine's identifier in the FAA's obstruction evaluation and airport airspace analysis dataset (for cross-reference)
   unit: none
   type: text
   values:
@@ -495,7 +499,7 @@ columns:
   missing_cells: 3556
   missing_meaning: USGS leaves it blank
   source_name: faa_asn
-  documented_by: connector uswtdb.py; data
+  documented_by: source USGS, U.S. Wind Turbine Database API documentation (energy.usgs.gov/uswtdb/api-doc), read 2026-11-20
 - name: usgs_project_id
   label: USGS's project id, as published
   unit: none
@@ -508,7 +512,4 @@ columns:
   missing_meaning: USGS leaves it blank
   source_name: usgs_pr_id
   documented_by: connector uswtdb.py
-second_look:
-- 'confidence_attributes and confidence_location (1 to 3): the meaning of each level is not written in the connector, the
-  method note or the header.'
-- 'faa_ors and faa_asn: what the two FAA identifiers are is not written in the connector, the method note or the header.'
+second_look: null

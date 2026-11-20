@@ -369,10 +369,10 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `vintage` | When the publisher published the document the value came from, in UTC. Here: The report's posting date (from the workbook's address) | none | utc time | 2025-12-19T00:00:00Z | 0 |
 | `x_unit_code` | ERCOT's unit code (the source's name: Unit Code) | none | text | for example 19599_1_GOLD_SPIKE, 19599_2_GOLD_SPIKE, 19599_GOLD_SPIKE; 1458 distinct | 312: ERCOT gives no unit code (312 planned units, keyed by their INR) |
 | `x_inr` | The interconnection request number (INR) of the unit (the source's name: Interconnection Request Number (INR)) | none | text | for example 12INR0059b, 15INR0064b, 16INR0049; 431 distinct | 1269: ERCOT gives no INR |
-| `x_technology` | ERCOT's technology code of the unit, as printed (PV, BA, WT, CC, GT, ST, IC, HY, MWH) (the source's name: Technology) | none | text | BA, CC, GT, HY, IC, MWH, PV, ST, WT | 0 |
-| `x_fuel` | ERCOT's fuel code of the unit, as printed (GAS, STORAGE, SOLAR-O, WIND-O, COAL, NUCLEAR and others) (the source's name: Fuel) | none | text | BIOMASS, COAL, DIESEL, GAS, HYDRO, MWH, NUCLEAR, SOLAR-FW, SOLAR-O, SOLAR-W, STORAGE, WIND-C, WIND-O, WIND-P | 0 |
+| `x_technology` | ERCOT's technology type of the unit: PV photovoltaic solar, BA battery energy storage, WT wind turbine, CC combined-cycle, GT combustion (gas) turbine not part of a combined cycle, ST steam turbine other than combined-cycle, IC internal combustion engine, HY hydroelectric turbine, MWH direct current asynchronous tie (the source's name: Technology) | none | text | BA, CC, GT, HY, IC, MWH, PV, ST, WT | 0 |
+| `x_fuel` | ERCOT's fuel type of the unit (GAS natural gas, STORAGE, COAL, NUCLEAR, DIESEL diesel or fuel oil, BIOMASS, HYDRO water, MWH direct current asynchronous tie); SOLAR-FW, SOLAR-W and SOLAR-O solar of the Far West, West and Other CDR solar regions; WIND-C, WIND-P and WIND-O wind of the Coastal, Panhandle and Other wind regions (the source's name: Fuel) | none | text | BIOMASS, COAL, DIESEL, GAS, HYDRO, MWH, NUCLEAR, SOLAR-FW, SOLAR-O, SOLAR-W, STORAGE, WIND-C, WIND-O, WIND-P | 0 |
 | `x_cdr_status` | ERCOT's own CDR status code (OPER, PLAN, OPER-SYN, MOTH-IND, EXT-OUT and others), from which status is mapped (the source's name: CDR Status) | none | text | EXT-OUT, MOTH-IND, MOTH-SEA, OPER, OPER-SLF, OPER-SYN, OPER-SYN-SLF, OPER-UNFC, OPER-UNR, PLAN, PLAN-RPR, PLAN-SLF, RMR | 0 |
-| `x_attribute` | ERCOT's CDR resource attribute code, as printed (CONV, CONV-DGR, DC-TIE, SWGR-AVA and others) (the source's name: CDR Resource Attribute) | none | text | CONV, CONV-DGR, CONV-SLF, CONV-SODG, CONV-TGR, DC-TIE, SWGR-AVA, SWGR-UNA | 0 |
+| `x_attribute` | ERCOT's CDR resource attribute: CONV conventional generation resource, CONV-DGR distributed generation resource, CONV-SLF self-limiting facility, CONV-SODG settlement only distribution generator, CONV-TGR transmission generation resource, DC-TIE direct current asynchronous tie, SWGR-AVA and SWGR-UNA switchable generation resource, available and unavailable (the source's name: CDR Resource Attribute) | none | text | CONV, CONV-DGR, CONV-SLF, CONV-SODG, CONV-TGR, DC-TIE, SWGR-AVA, SWGR-UNA | 0 |
 | `x_county` | The county of the unit, as ERCOT prints it (the source's name: County) | none | text | for example ANDERSON, ANDREWS, ANGELINA; 184 distinct | 1: The planned group row of small generators, which has no county |
 | `x_zone` | ERCOT's zone of the unit (COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST) (the source's name: Zone) | none | text | COASTAL, HOUSTON, NORTH, PANHANDLE, SOUTH, WEST | 1: The planned group row of small generators, which has no zone |
 | `x_summer_2026` | The capability ERCOT lists for the unit at the start of summer 2026 | MW | number | -400.0 to 1293.2; 679 distinct | 0 |
@@ -395,8 +395,6 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `x_fall_2028` | The capability ERCOT lists for the unit at the start of fall 2028 | MW | number | -195.0 to 1323.2; 808 distinct | 0 |
 | `x_fall_2029` | The capability ERCOT lists for the unit at the start of fall 2029 | MW | number | -195.0 to 1350.0; 815 distinct | 0 |
 | `x_fall_2030` | The capability ERCOT lists for the unit at the start of fall 2030 | MW | number | -195.0 to 1350.0; 815 distinct | 0 |
-
-Waiting for a second look: x_technology: ERCOT's codes (PV, BA, WT, CC, GT, ST, IC, HY, MWH) are kept as printed; their meanings are not spelled out in the method note or the connector.; x_attribute: ERCOT's CDR resource attribute codes (CONV, CONV-DGR, CONV-SLF, CONV-SODG, CONV-TGR, DC-TIE, SWGR-AVA, SWGR-UNA) are not spelled out in the repository's documents.; x_fuel: the suffixes of ERCOT's fuel codes (SOLAR-FW, SOLAR-W, SOLAR-O, WIND-C, WIND-P, WIND-O) are not spelled out in the method note or the connector..
 
 ### `ercot_dam_cleared_energy`
 
@@ -484,7 +482,7 @@ Variables (1):
 |---|---|---|---|---|---|
 | `hsl_mw` | The resource's High Sustained Limit (HSL) for the hour, the most it can sustain, MW, as ERCOT prints it | MW | 2042277 | 2025-12-06T06:00:00Z | 2026-09-01T04:00:00Z |
 
-Waiting for a second look: x_dme: the meaning of ERCOT's DME column is not written in the header, the connector or the method note.; x_resource_status: ERCOT's codes ON, OUT, ONTEST and ONOS are kept as printed and not spelled out in the repository's documents..
+Waiting for a second look: x_dme: the meaning of ERCOT's DME column is not written in the header, the connector or the method note. Read again on 20 November 2026: no file of the repository spells it out; ERCOT's own report definitions were not found at a stable address in one try, and no address was guessed further. Read again on 20 November 2026 in the members of a saved 60-day DAM disclosure zip under warehouse/raw/ercot_60d_dam (CSV files only, no readme) and docs/methods/ercot_disclosure_scoping.md: not found.; x_resource_status: ERCOT's codes ON, OUT, ONTEST and ONOS are kept as printed and not spelled out in the repository's documents. Read again on 20 November 2026 in the members of a saved 60-day DAM disclosure zip (CSV files only, no readme), docs/methods/ercot_disclosure_scoping.md and docs/methods/ercot_dam_esr_awards.md: not found..
 
 ### `ercot_grid_notices`
 

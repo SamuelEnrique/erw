@@ -430,4 +430,6 @@ variables:
   first: '2015-01-01T00:00:00Z'
   last: '2023-01-01T00:00:00Z'
 second_look:
-- 'x_pbt: the connector says only whether the chemical is ''a PBT''; the term is not expanded in the repository.'
+- 'x_pbt: the connector says only whether the chemical is ''a PBT''; the term is not expanded in the repository. Read again
+  on 20 November 2026 in the headings and values of the saved TRI basic data CSV under warehouse/raw/epa_tri_energy (column
+  47. PBT, YES or NO; column 43. CLASSIFICATION, TRI, PBT or Dioxin): not found.'

@@ -186,7 +186,9 @@ columns:
   source_name: Interconnection Request Number (INR)
   documented_by: connector ercot_cdr_units.py; method ercot_cdr_units.md
 - name: x_technology
-  label: ERCOT's technology code of the unit, as printed (PV, BA, WT, CC, GT, ST, IC, HY, MWH)
+  label: 'ERCOT''s technology type of the unit: PV photovoltaic solar, BA battery energy storage, WT wind turbine, CC combined-cycle,
+    GT combustion (gas) turbine not part of a combined cycle, ST steam turbine other than combined-cycle, IC internal combustion
+    engine, HY hydroelectric turbine, MWH direct current asynchronous tie'
   unit: none
   type: text
   values:
@@ -203,9 +205,12 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: Technology
-  documented_by: connector ercot_cdr_units.py; method ercot_cdr_units.md
+  documented_by: source ERCOT, CapacityDemandandReservesReport_December2025.xlsx as saved under warehouse/raw/ercot_cdr, sheet
+    Acronyms, read 2026-11-20; connector ercot_cdr_units.py
 - name: x_fuel
-  label: ERCOT's fuel code of the unit, as printed (GAS, STORAGE, SOLAR-O, WIND-O, COAL, NUCLEAR and others)
+  label: ERCOT's fuel type of the unit (GAS natural gas, STORAGE, COAL, NUCLEAR, DIESEL diesel or fuel oil, BIOMASS, HYDRO
+    water, MWH direct current asynchronous tie); SOLAR-FW, SOLAR-W and SOLAR-O solar of the Far West, West and Other CDR solar
+    regions; WIND-C, WIND-P and WIND-O wind of the Coastal, Panhandle and Other wind regions
   unit: none
   type: text
   values:
@@ -227,7 +232,8 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: Fuel
-  documented_by: connector ercot_cdr_units.py; method ercot_cdr_units.md
+  documented_by: source ERCOT, CapacityDemandandReservesReport_December2025.xlsx as saved under warehouse/raw/ercot_cdr, sheets
+    Acronyms and Definitions, read 2026-11-20; connector ercot_cdr_units.py
 - name: x_cdr_status
   label: ERCOT's own CDR status code (OPER, PLAN, OPER-SYN, MOTH-IND, EXT-OUT and others), from which status is mapped
   unit: none
@@ -252,7 +258,9 @@ columns:
   source_name: CDR Status
   documented_by: connector ercot_cdr_units.py; method ercot_cdr_units.md
 - name: x_attribute
-  label: ERCOT's CDR resource attribute code, as printed (CONV, CONV-DGR, DC-TIE, SWGR-AVA and others)
+  label: 'ERCOT''s CDR resource attribute: CONV conventional generation resource, CONV-DGR distributed generation resource,
+    CONV-SLF self-limiting facility, CONV-SODG settlement only distribution generator, CONV-TGR transmission generation resource,
+    DC-TIE direct current asynchronous tie, SWGR-AVA and SWGR-UNA switchable generation resource, available and unavailable'
   unit: none
   type: text
   values:
@@ -268,7 +276,8 @@ columns:
   missing_cells: 0
   missing_meaning: never empty
   source_name: CDR Resource Attribute
-  documented_by: connector ercot_cdr_units.py; method ercot_cdr_units.md
+  documented_by: source ERCOT, CapacityDemandandReservesReport_December2025.xlsx as saved under warehouse/raw/ercot_cdr, sheets
+    Acronyms and Definitions, read 2026-11-20; connector ercot_cdr_units.py
 - name: x_county
   label: The county of the unit, as ERCOT prints it
   unit: none
@@ -541,10 +550,4 @@ columns:
   missing_meaning: never empty
   source_name: null
   documented_by: header; method ercot_cdr_units.md
-second_look:
-- 'x_technology: ERCOT''s codes (PV, BA, WT, CC, GT, ST, IC, HY, MWH) are kept as printed; their meanings are not spelled
-  out in the method note or the connector.'
-- 'x_attribute: ERCOT''s CDR resource attribute codes (CONV, CONV-DGR, CONV-SLF, CONV-SODG, CONV-TGR, DC-TIE, SWGR-AVA, SWGR-UNA)
-  are not spelled out in the repository''s documents.'
-- 'x_fuel: the suffixes of ERCOT''s fuel codes (SOLAR-FW, SOLAR-W, SOLAR-O, WIND-C, WIND-P, WIND-O) are not spelled out in
-  the method note or the connector.'
+second_look: null

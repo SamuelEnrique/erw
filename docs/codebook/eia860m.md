@@ -210,5 +210,5 @@ Shape: entities. Keys: `entity_id`. License: public; tier: source. Rows read on 
 | `operating_year` | The year the generator began commercial operation, as EIA gives it (the source's name: Operating Year) | none | integer | 1898 to 2024; 124 distinct | 0 |
 | `operating_month` | The month (1 to 12) the generator began commercial operation, as EIA gives it; 0 in 44 rows (the source's name: Operating Month) | none | integer | 0, 1, 10, 11, 12, 2, 3, 4, 5, 6, 7, 8, 88, 9, 99 | 0 |
 
-Waiting for a second look: operating_month: 44 rows hold 0, which no document read here explains (not a month 1 to 12)..
+Waiting for a second look: operating_month: 44 rows hold 0, which no document read here explains (not a month 1 to 12). Read again on 20 November 2026 in the saved august_generator2026.xlsx (every sheet's title and NOTES rows): not found..
 
